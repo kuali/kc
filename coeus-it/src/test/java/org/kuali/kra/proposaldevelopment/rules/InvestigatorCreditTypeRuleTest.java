@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.propdev.impl.person.creditsplit.InvestigatorCreditTypeRule;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -27,7 +28,7 @@ import static org.junit.Assert.*;
 /**
  * Contains tests for <code>{@link InvestigatorCreditTypeRule}</code>
  * 
- * @see org.kuali.kra.proposaldevelopment.rules.InvestigatorCreditTypeRule
+ * @see org.kuali.coeus.propdev.impl.person.creditsplit.InvestigatorCreditTypeRule
  */
 public class InvestigatorCreditTypeRuleTest extends MaintenanceRuleTestBase {
     private static final InvestigatorCreditTypeFixture SPACE = InvestigatorCreditTypeFixture.SPACE;
@@ -52,7 +53,7 @@ public class InvestigatorCreditTypeRuleTest extends MaintenanceRuleTestBase {
     public void processCustomRouteDocumentBusinessRules_ExistingField() throws Exception {
         InvestigatorCreditType creditType = SPACE.getInstance();
         MaintenanceDocument creditTypeDocument = newMaintDoc(creditType);
-        InvestigatorCreditTypeRule rule = (InvestigatorCreditTypeRule) setupMaintDocRule(creditTypeDocument, InvestigatorCreditTypeRule.class);         
+        InvestigatorCreditTypeRule rule = (InvestigatorCreditTypeRule) setupMaintDocRule(creditTypeDocument, InvestigatorCreditTypeRule.class);
         
         assertTrue(rule.processCustomRouteDocumentBusinessRules(creditTypeDocument));
     }

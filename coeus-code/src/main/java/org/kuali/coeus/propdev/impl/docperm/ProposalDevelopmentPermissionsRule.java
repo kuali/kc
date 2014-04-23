@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.coeus.propdev.impl.docperm;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -21,16 +21,11 @@ import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.docperm.ProposalRoleState;
-import org.kuali.coeus.propdev.impl.docperm.ProposalUser;
-import org.kuali.coeus.propdev.impl.docperm.ProposalUserEditRoles;
-import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.*;
-import org.kuali.coeus.propdev.impl.docperm.PermissionsRule;
 
 import java.util.List;
 
@@ -44,12 +39,12 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
     
 
     private transient KcPersonService kcPersonService;
+    private transient KcWorkflowService kcWorkflowService;
+    private transient SystemAuthorizationService systemAuthorizationService;
     
     @Override
     public boolean processAddProposalUserBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUser proposalUser) {
         boolean isValid = true;
-        
-        KcWorkflowService kraWorkflowService = KcServiceLocator.getService(KcWorkflowService.class);
         
         //KRACOEUS-5530 Check if user name is Null or Empty
         
@@ -78,7 +73,7 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
         }
         
         // Once workflowed, only Viewers can be added.
-        else if (kraWorkflowService.isInWorkflow(document)) {
+        else if (getKcWorkflowService().isInWorkflow(document)) {
             if (!isAddingViewerOnly(proposalUser)) {
                 isValid = false;
                 this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".roleName", KeyConstants.ERROR_PERMISSION_VIEWER_ONLY_KEY);
@@ -91,7 +86,7 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
     @Override
     public boolean processDeleteProposalUserBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, int index) {
         boolean isValid = true;
-        KcWorkflowService kraWorkflowService = KcServiceLocator.getService(KcWorkflowService.class);
+        KcWorkflowService kraWorkflowService = getKcWorkflowService();
         ProposalUserRoles proposalUserRole = proposalUserRolesList.get(index);
         String username = proposalUserRole.getUsername();
 
@@ -125,7 +120,7 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
     @Override
     public boolean processEditProposalUserRolesBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUserEditRoles editRoles) {
         boolean isValid = true;
-        KcWorkflowService kraWorkflowService = KcServiceLocator.getService(KcWorkflowService.class);
+        KcWorkflowService kraWorkflowService = getKcWorkflowService();
         String username = editRoles.getUsername();
         if (isRemovingModifyNarrativePermission(proposalUserRolesList, editRoles)) {
             isValid &= !testForLastModifier(username, document.getDevelopmentProposal().getNarratives(), Constants.EDIT_ROLES_PROPERTY_KEY, "Proposal Attachment");
@@ -192,6 +187,16 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
         return this.kcPersonService;
     }
 
+    protected KcWorkflowService getKcWorkflowService (){
+        if (kcWorkflowService == null)
+            kcWorkflowService = KcServiceLocator.getService(KcWorkflowService.class);
+        return kcWorkflowService;
+    }
+    protected SystemAuthorizationService getSystemAuthorizationService (){
+        if (systemAuthorizationService == null)
+            systemAuthorizationService =KcServiceLocator.getService(SystemAuthorizationService.class);
+        return systemAuthorizationService;
+    }
     /**
      * This method tests if the user is having modify narrative permissions removed.  It does this by seeing if the user in the 
      * ProposalUserEditRoles has modify narrative permissions in ProposalUserEditRoles but not in the list of ProposalUserRoles.
@@ -201,7 +206,7 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
      */
     private boolean isRemovingModifyNarrativePermission(List<ProposalUserRoles> proposalUserRolesList, ProposalUserEditRoles editRoles) {
         boolean newListContainsModifyNarrative = false;
-        SystemAuthorizationService systemAuthorizationService = KcServiceLocator.getService(SystemAuthorizationService.class);
+        SystemAuthorizationService systemAuthorizationService = getSystemAuthorizationService();
         List<String> matchingRoleNames = systemAuthorizationService.getRoleNamesForPermission(PermissionConstants.MODIFY_NARRATIVE, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
 
         for (ProposalRoleState roleState : editRoles.getRoleStates()) {
@@ -223,7 +228,7 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
      * @return true if the user has Modify Narrative permissions in the list of ProposalUserRoles
      */
     private boolean hasModifyNarrativePermission(String username, List<ProposalUserRoles> proposalUserRolesList) {
-        SystemAuthorizationService systemAuthorizationService = KcServiceLocator.getService(SystemAuthorizationService.class);
+        SystemAuthorizationService systemAuthorizationService =getSystemAuthorizationService();
         List<String> matchingRoleNames = systemAuthorizationService.getRoleNamesForPermission(PermissionConstants.MODIFY_NARRATIVE, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
         for (ProposalUserRoles proposalUserRoles : proposalUserRolesList) {
             if (proposalUserRoles.getUsername().equals(username)) {

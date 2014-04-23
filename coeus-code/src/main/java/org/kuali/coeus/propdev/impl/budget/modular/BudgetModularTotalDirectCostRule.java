@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.coeus.propdev.impl.budget.modular;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -237,7 +237,6 @@ public final class BudgetModularTotalDirectCostRule {
      *
      * @return the budget document
      * @throws RuntimeException if a problem occurs getting the BudgetDocument
-     * FIXME: this throws type should change
      * once an exception hierarchy has been created
      */
     private BudgetDocument getBudgetDocument(final String docNumber) {

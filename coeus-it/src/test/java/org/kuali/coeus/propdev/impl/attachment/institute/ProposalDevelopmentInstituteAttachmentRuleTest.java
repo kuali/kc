@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.coeus.propdev.impl.attachment.institute;
 
 import org.junit.After;
 import org.junit.Before;
@@ -25,7 +25,8 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeStatus;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
-import org.kuali.coeus.propdev.impl.attachment.institute.AddInstituteAttachmentEvent;
+//import org.kuali.coeus.propdev.impl.attachment.institute.AddInstituteAttachmentEvent;
+import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRuleTestBase;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ErrorMessage;
