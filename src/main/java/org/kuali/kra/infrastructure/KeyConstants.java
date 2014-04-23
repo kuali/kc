@@ -1088,6 +1088,8 @@ public final class KeyConstants {
     public static final String ERROR_SEARCH_INVALID_DATE = "error.search.invalid.date";
     public static final String S2S_DUPLICATE_USER_ATTACHED_FORM = "error.s2s.userattachedform.namespace.duplicate";
     public static final String S2S_USER_ATTACHED_FORM_EMPTY = "error.s2s.userattachedform.file.empty";
+    public static final String S2S_USER_ATTACHED_FORM_WRONG_FILE_TYPE = "error.s2s.userattachedform.wrong.filetype";
+    public static final String S2S_USER_ATTACHED_FORM_NOT_VALID = "error.s2s.userattachedform.invalid";
 
     /**
      * private utility class ctor.
