@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.coeus.propdev.impl.person;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -24,8 +24,6 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
@@ -53,6 +51,12 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
     private static final String BEFORE_SUBMIT = "BS";
     
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentProposalAttachmentsAuditRule.class);
+    private QuestionnaireAnswerService questionnaireAnswerService;
+    protected QuestionnaireAnswerService getQuestionnaireAnswerService(){
+        if (questionnaireAnswerService == null)
+            questionnaireAnswerService = KcServiceLocator.getService(QuestionnaireAnswerService.class);
+        return questionnaireAnswerService;
+    }
     
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
@@ -60,7 +64,6 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
         if(getKeyPersonCertDeferralParm().equals(BEFORE_SUBMIT)) {
             valid &= this.validateAllCertificationsComplete((ProposalDevelopmentDocument) document);
         } else if(getKeyPersonCertDeferralParm().equals(BEFORE_APPROVE)) {
-            //valid &= this.validateSpecificKeyPersonCertification((ProposalDevelopmentDocument) document);
         } else {
             LOG.warn("System parameter 'KEY_PERSON_CERTIFICATION_DEFERRAL' should be one of 'BA' or 'BS'.");
             return false;
@@ -164,7 +167,7 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
         boolean retval = true;
         
         ProposalPersonModuleQuestionnaireBean bean = new ProposalPersonModuleQuestionnaireBean(investigator.getDevelopmentProposal(), investigator);
-        List<AnswerHeader> headers = KcServiceLocator.getService(QuestionnaireAnswerService.class).getQuestionnaireAnswer(bean);
+        List<AnswerHeader> headers = getQuestionnaireAnswerService().getQuestionnaireAnswer(bean);
         
         for (AnswerHeader head : headers) {
             retval &= head.getCompleted();

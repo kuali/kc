@@ -20,6 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitValidator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
@@ -31,7 +32,7 @@ import static org.kuali.kra.test.fixtures.ProposalDevelopmentDocumentFixture.NOR
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.*;
 import static org.junit.Assert.*;
 /**
- * Class to test use cases of <code>{@link CreditSplitValidator}</code>
+ * Class to test use cases of <code>{@link org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitValidator}</code>
  *
  * @author $Author: gmcgrego $
  * @version $Revision: 1.10 $
@@ -59,7 +60,7 @@ public class CreditSplitValidatorTest extends KcIntegrationTestBase {
      * This tests whether exactly one Principle Investigator will work. This test should yield a passed rule.
      * 
      * @see org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument
-     * @see org.kuali.kra.proposaldevelopment.rules.KeyPersonnelAuditRule
+     * @see org.kuali.coeus.propdev.impl.person.KeyPersonnelAuditRule
      */
     @Test
     public void validProposalInvestigatorNormal() throws Exception {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.coeus.propdev.impl.s2s;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -34,7 +34,9 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import java.util.ArrayList;
 import java.util.List;
 public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule{
-	private static final Log LOG = LogFactory.getLog(ProposalDevelopmentGrantsGovAuditRule.class);
+
+    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentGrantsGovAuditRule.class);
+
     private ParameterService parameterService;
     /**
      * Looks up and returns the ParameterService.

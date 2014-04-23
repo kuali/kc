@@ -6,7 +6,7 @@
     <property name="useWorkflowPessimisticLocking" value="true"/>
     <property name="documentTypeName" value="ProposalDevelopmentDocument"/>
     <property name="documentClass" value="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentDocumentRule"/>
+    <property name="businessRulesClass" value="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.coeus.propdev.impl.auth.ProposalDevelopmentDocumentAuthorizer"/>
     <property name="displayTopicFieldInNotes" value="true"/>
     <property name="allowsCopy" value="true"/>
