@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
@@ -23,9 +25,9 @@ import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
+import org.kuali.coeus.common.api.question.QuestionAnswerService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
-import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
@@ -38,11 +40,16 @@ import java.util.List;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
+
+    private static final Log LOG = LogFactory
+            .getLog(RRSF424BaseGenerator.class);
+
     protected S2SUtilService s2sUtilService;
     protected ParameterService parameterService;
     protected SponsorHierarchyService sponsorHierarchyService;
     protected ProposalBudgetService proposalBudgetService;
     protected ProposalDevelopmentService proposalDevelopmentService;
+    protected QuestionAnswerService questionAnswerService;
 
     private static final String PROPOSAL_CONTACT_TYPE = "PROPOSAL_CONTACT_TYPE";
     protected static final String PRINCIPAL_INVESTIGATOR = "PI";
@@ -74,6 +81,54 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
         sponsorHierarchyService = KcServiceLocator.getService(SponsorHierarchyService.class);
         proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
         proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
+        questionAnswerService = KcServiceLocator.getService(QuestionAnswerService.class);
+    }
+
+    /**
+     *
+     * This method is used to get the answerId for a particular Questionnaire question
+     * question based on the question id.
+     *
+     * @param questionId
+     *            the question id to be passed.
+     * @return returns the answer for a particular
+     *         question based on the question id passed.
+     */
+    protected Long getAnswerId(String questionId) {
+        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
+        answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
+        if (answerHeaders != null && !answerHeaders.isEmpty()) {
+            for (AnswerHeader answerHeader : answerHeaders) {
+                List<Answer> answerDetails = answerHeader.getAnswers();
+                for (Answer answers : answerDetails) {
+                    if (answers.getAnswer() != null && questionId.equals(answers.getQuestion().getQuestionId())) {
+                        return answers.getId();
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    protected String getOtherAgencySubmissionExplanation() {
+        Long answerId = getAnswerId(ANSWER_111);
+        String submissionExplanation = null;
+        if (questionAnswerService.isAnswerDescriptionRetrievalSupported(answerId)) {
+            submissionExplanation = questionAnswerService.getAnswerDescription(answerId);
+            submissionExplanation  = submissionExplanation != null ? submissionExplanation.substring(5) : null;
+        } else {
+            LOG.warn("answer description retrieval not supported for answer id: " + answerId);
+        }
+
+        if (submissionExplanation == null) {
+            submissionExplanation = "Unknown";
+        }
+
+        if (submissionExplanation.length() > ANSWER_EXPLANATION_MAX_LENGTH) {
+            return submissionExplanation.substring(0, ANSWER_EXPLANATION_MAX_LENGTH);
+        } else {
+            return submissionExplanation;
+        }
     }
 
     /**
@@ -89,19 +144,17 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     protected String getAnswer(String questionId) {
         List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
         answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
-        String answer = null;
         if (answerHeaders != null && !answerHeaders.isEmpty()) {
             for (AnswerHeader answerHeader : answerHeaders) {
                 List<Answer> answerDetails = answerHeader.getAnswers();
                 for (Answer answers : answerDetails) {
                     if (answers.getAnswer() != null && questionId.equals(answers.getQuestion().getQuestionId())) {
-                        answer = answers.getAnswer();
-                        return answer;
+                        return answers.getAnswer();
                     }
                 }
             }
         }
-        return answer;
+        return null;
     }
 
     /**

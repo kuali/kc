@@ -30,7 +30,6 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
@@ -41,7 +40,6 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -51,7 +49,6 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
-import org.kuali.kra.s2s.depend.ArgValueLookupService;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -439,23 +436,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
         }
 
         if (answer != null && answer.equals(YesNoDataType.Y_YES)) {
-            String answerExplanation = getAnswer(ANSWER_111);
-            if (answerExplanation != null) {
-                Collection<ArgValueLookup> argDescription = KcServiceLocator.getService(ArgValueLookupService.class).findAllArgValueLookups();
-                if (argDescription != null) {
-                    for (ArgValueLookup argValue : argDescription) {
-                        if (argValue.getValue().equals(answerExplanation)) {
-                            String description = argValue.getDescription();
-                            String submissionExplanation = description.substring(5);
-                            if (submissionExplanation.length() > ANSWER_EXPLANATION_MAX_LENGTH) {
-                                applicationType.setOtherAgencySubmissionExplanation(submissionExplanation.substring(0, ANSWER_EXPLANATION_MAX_LENGTH));
-                            } else {
-                                applicationType.setOtherAgencySubmissionExplanation(submissionExplanation);  
-                            }
-                        }
-                    }
-                }
-            }
+            applicationType.setOtherAgencySubmissionExplanation(getOtherAgencySubmissionExplanation());
         }
 		return applicationType;
 	}
