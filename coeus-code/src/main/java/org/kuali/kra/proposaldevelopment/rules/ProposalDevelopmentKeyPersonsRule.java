@@ -66,7 +66,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
     private KcPersonService kcPersonService;
     
     @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+    public boolean processCustomSaveDocumentBusinessRules(Document document) {
         return processSaveKeyPersonBusinessRules((ProposalDevelopmentDocument) document);
     }
 

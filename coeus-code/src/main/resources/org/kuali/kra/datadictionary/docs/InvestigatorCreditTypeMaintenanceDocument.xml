@@ -23,7 +23,7 @@
     
     
     <property name="documentTypeName" value="InvestigatorCreditTypeMaintenanceDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kra.proposaldevelopment.rules.InvestigatorCreditTypeRule"/>
+    <property name="businessRulesClass" value="org.kuali.coeus.propdev.impl.person.creditsplit.InvestigatorCreditTypeRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     
     

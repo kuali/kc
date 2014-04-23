@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.rules;
+package org.kuali.coeus.propdev.impl.editable;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.attr.PersonEditableField;
@@ -48,7 +48,7 @@ public class PersonEditableFieldRule extends MaintenanceDocumentRuleBase {
          * 
          * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
          */ 
-        protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+        public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
             boolean retval = true;
             if (document.isNew()) {
                 PersonEditableField newField = (PersonEditableField) getNewBo();

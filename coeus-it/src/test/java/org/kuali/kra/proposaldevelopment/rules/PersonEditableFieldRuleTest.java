@@ -21,6 +21,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.person.attr.PersonEditableField;
+import org.kuali.coeus.propdev.impl.editable.PersonEditableFieldRule;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.UserSession;
@@ -29,7 +30,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import static org.junit.Assert.*;
 
 /**
- * Contains tests for <code>{@link PersonEditableFieldRule}</code>
+ * Contains tests for <code>{@link org.kuali.coeus.propdev.impl.editable.PersonEditableFieldRule}</code>
  */
 public class PersonEditableFieldRuleTest extends MaintenanceRuleTestBase {
 

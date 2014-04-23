@@ -30,8 +30,10 @@ import org.kuali.coeus.propdev.impl.basic.ProposalDevelopmentProposalRequiredFie
 import org.kuali.coeus.propdev.impl.basic.ProposalDevelopmentSponsorProgramInformationAuditRule;
 import org.kuali.coeus.propdev.impl.budget.editable.BudgetDataOverrideEvent;
 import org.kuali.coeus.propdev.impl.budget.editable.BudgetDataOverrideRule;
+import org.kuali.coeus.propdev.impl.budget.editable.ProposalBudgetDataOverrideRule;
 import org.kuali.coeus.propdev.impl.copy.CopyProposalRule;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
+import org.kuali.coeus.propdev.impl.copy.ProposalDevelopmentCopyRule;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
@@ -41,6 +43,7 @@ import org.kuali.coeus.propdev.impl.editable.ProposalDataOverrideRule;
 import org.kuali.coeus.propdev.impl.editable.ProposalDevelopmentDataOverrideRule;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.location.*;
+import org.kuali.coeus.propdev.impl.person.KeyPersonnelAuditRule;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.attachment.*;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CalculateCreditSplitRule;
@@ -51,6 +54,7 @@ import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentQuestionnaireAud
 import org.kuali.coeus.propdev.impl.resubmit.ProposalDevelopmentResubmissionPromptRule;
 import org.kuali.coeus.propdev.impl.resubmit.ResubmissionPromptRule;
 import org.kuali.coeus.propdev.impl.resubmit.ResubmissionRuleEvent;
+import org.kuali.coeus.propdev.impl.s2s.ProposalDevelopmentGrantsGovAuditRule;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireAuditRule;
 import org.kuali.coeus.propdev.impl.ynq.ProposalDevelopmentYnqAuditRule;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
