@@ -18,7 +18,6 @@ package org.kuali.kra.s2s.service;
 import org.apache.xmlbeans.XmlOptions;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.S2SFormGenerator;
-import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 
 /**
  * 
@@ -36,8 +35,7 @@ public interface S2SFormGeneratorService {
      * @param nameSpace {@link String}
      * @return S2SFormGenerator form generator instances corresponding to the name space.
      * @throws S2SException
-     * @throws S2SGeneratorNotFoundException 
-     * 
+     *
      */
     public S2SFormGenerator getS2SGenerator(String proposalNumber,String nameSpace) throws S2SException;
     /**

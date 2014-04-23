@@ -151,8 +151,6 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 			nasaSeniorKPDataSheet
 					.setSeniorKeyPersonAttachment(seniorKeyPersonAttachment);
 		}
-//		nasaSeniorKPDoc
-//				.setNASASeniorKeyPersonSupplementalDataSheet(nasaSeniorKPDataSheet);
 		return nasaSeniorKPDoc;
 	}
 

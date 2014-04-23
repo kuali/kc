@@ -1045,7 +1045,6 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
 
     private boolean isPostDocParentQuestionFromPeriodExists(QuestionnaireQuestion questionnaireQuestion, BudgetPeriod budgetPeriod,
             int termIndex) {
-//        Integer parentQuestionId = getParentQuestionId(questionnaireQuestion.getParentQuestionNumber());
         return getPostDocParentQuestionsForPeriod(budgetPeriod, termIndex).equals(questionnaireQuestion.getParentQuestionNumber());
     }
 

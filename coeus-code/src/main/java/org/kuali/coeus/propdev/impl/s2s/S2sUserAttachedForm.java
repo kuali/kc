@@ -255,14 +255,6 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase {
     public void setS2sUserAttachedFormAtts(List<S2sUserAttachedFormAtt> s2sUserAttachedFormAtts) {
         this.s2sUserAttachedFormAtts = s2sUserAttachedFormAtts;
     }
-//    @Override
-//    protected void postPersist() {
-//        super.postPersist();
-//        setFormFileDataExists(getFormFile()!=null);
-//        setFormFile(null);
-//        setXmlDataExists(getXmlFile()!=null);
-//        setXmlFile(null);
-//    }
 
 	public DevelopmentProposal getDevelopmentProposal() {
 		return developmentProposal;

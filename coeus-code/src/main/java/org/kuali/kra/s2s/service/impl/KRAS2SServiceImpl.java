@@ -47,7 +47,6 @@ import org.kuali.coeus.propdev.api.attachment.NarrativeService;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
-import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.service.*;
 import org.kuali.kra.s2s.util.AuditError;
@@ -651,7 +650,7 @@ public class KRAS2SServiceImpl implements S2SService {
 			    s2sFormGenerator.setAuditErrors(auditErrors);
 			    s2sFormGenerator.setAttachments(formAttList);
 			    s2sFormGenerator.setNamespace(info.getNameSpace());
-			} catch (S2SGeneratorNotFoundException e) {
+			} catch (S2SException e) {
 				continue;
 			}
 			try {
