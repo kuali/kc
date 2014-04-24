@@ -40,7 +40,6 @@ import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
-import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncServiceImpl;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.DocumentNextvalue;
@@ -93,7 +92,7 @@ import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 @Component("proposalDevelopmentService")
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
 
-    protected final Log LOG = LogFactory.getLog(AwardSyncServiceImpl.class);
+    protected final Log LOG = LogFactory.getLog(ProposalDevelopmentServiceImpl.class);
     public static final String VALUE_UNKNOWN = "Unknown";
     private static final String FEDERAL_ID_COMES_FROM_CURRENT_AWARD = "FEDERAL_ID_COMES_FROM_CURRENT_AWARD";
 
@@ -799,24 +798,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return result;
     }
     
-    public void updateNIHDescriptions(DevelopmentProposal proposal) {
-        SponsorHierarchyService sponsorHierarchyService = getSponsorHierarchyService();
-        // Update the NIH related properties since this information is not persisted with the document
-        // (isSponsorNih sets the nih property as a side effect)
-        if (sponsorHierarchyService.isSponsorNihMultiplePi(proposal.getSponsorCode())) {
-            proposal.setNihDescription(getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(true));
-        }
-        boolean multiPIFlag = getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class,
-                ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
-        if (multiPIFlag) {
-            proposal.setSponsorNihMultiplePi(true);
-            proposal.setSponsorNihOsc(true);
-        } else {
-            proposal.setSponsorNihMultiplePi(sponsorHierarchyService.isSponsorNihMultiplePi(proposal.getSponsorCode()));
-            proposal.setSponsorNihOsc(sponsorHierarchyService.isSponsorNihOsc(proposal.getSponsorCode()));
-        }
-    }
-    
     /**
      * 
      * This method attempts to deal with the multiple pessimistic locks that can be on the proposal development document
@@ -947,7 +928,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     @Override
     public void loadDocument(ProposalDevelopmentDocument document) {
         getKeyPersonnelService().populateDocument(document);
-        updateNIHDescriptions(document.getDevelopmentProposal());
         getBudgetService().setBudgetStatuses(document);
     }
     
