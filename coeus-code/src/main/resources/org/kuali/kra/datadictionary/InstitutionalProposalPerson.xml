@@ -24,7 +24,6 @@
         <ref bean="InstitutionalProposalPerson-totalEffort" />
         <ref bean="InstitutionalProposalPerson-contactRoleCode" />
         <ref bean="InstitutionalProposalPerson-keyPersonRole" />
-        <ref bean="InstitutionalProposalPerson-multiplePi" />
         <ref bean="InstitutionalProposalPerson-units.unit.unitName" />
         <ref bean="InstitutionalProposalPerson-units.unitNumber" />
       </list>
@@ -224,14 +223,6 @@
 		<property name="description" value="Project Role" />
 	</bean>	
 
-  <bean id="InstitutionalProposalPerson-multiplePi" parent="InstitutionalProposalPerson-multiplePi-parentBean"/>
-  <bean id="InstitutionalProposalPerson-multiplePi-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
-    <property name="name" value="multiplePi" />
-    <property name="label" value="Multiple PI" />
-    <property name="shortLabel" value="MultiPI" />
-    <property name="summary" value="Multiple PI" />
-    <property name="description" value="Multiple PI" />
-  </bean>  	
 	<bean id="InstitutionalProposalPerson-units.unit.unitName" parent="InstitutionalProposalPerson-units.unit.unitName-parentBean" />
 	<bean id="InstitutionalProposalPerson-units.unit.unitName-parentBean" abstract="true" parent="InstitutionalProposalPersonUnit-unitName">
 		<property name="name" value="units.unit.unitName" />
