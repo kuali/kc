@@ -15,70 +15,15 @@
  */
 package org.kuali.kra.award.contacts;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
-import org.kuali.coeus.common.framework.sponsor.Sponsorable;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.home.ContactRole;
-import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRoleValuesFinder;
+import org.kuali.kra.award.AwardForm;
+import org.kuali.rice.krad.uif.view.ViewModel;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+public class AwardPersonProjectRolesValuesFinder extends PropAwardPersonRoleValuesFinder {
 
-/**
- * This class finds Award Unit Contact Project Roles
- */
-public class AwardPersonProjectRolesValuesFinder extends AwardContactsProjectRoleValuesFinder {
-    private static final Log LOG = LogFactory.getLog(AwardPersonProjectRolesValuesFinder.class);
-
-    private KeyPersonnelService keyPersonnelService;
-
-    @Override
-    public List<KeyValue> getKeyValues() {
-        final Collection<PropAwardPersonRole> roles = getKeyValuesService().findAll(PropAwardPersonRole.class);
-        final AwardDocument awardDocument = (AwardDocument) getDocument();
-
-        Sponsorable sponsorable = awardDocument.getAward();
-        Map<String, String> roleDescriptions = getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(sponsorable.isSponsorNihMultiplePi());
-
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
-        for (PropAwardPersonRole role : roles) {
-            boolean showRole = true;
-
-            LOG.info("showRole = " + showRole);
-
-            if (showRole) {
-                String roleDescription =  roleDescriptions.get(role.getRoleCode());
-                keyValues.add(new ConcreteKeyValue(role.getCode(), roleDescription));
-                LOG.info("Added role " + role.getCode());
-                LOG.info("With description " + roleDescription);
-            }
-
-            LOG.info("Returning " + keyValues);
-        }
-        return keyValues;
-    }
-
-    protected KeyPersonnelService getKeyPersonnelService() {
-        if(keyPersonnelService == null) {
-            keyPersonnelService = KcServiceLocator.getService(KeyPersonnelService.class);
-        }
-        return keyPersonnelService; 
-    }
-
-    @Override
-    protected Class<? extends ContactRole> getRoleType() {
-        return PropAwardPersonRole.class;
-    }
-
-    protected void setKeyPersonnelService(KeyPersonnelService keyPersonnelService) {
-        this.keyPersonnelService = keyPersonnelService;
-    }
+	@Override
+	protected String getSponsorCodeFromModel(ViewModel model) {
+		return ((AwardForm) model).getAwardDocument().getAward().getSponsorCode();
+	}
+	
 }

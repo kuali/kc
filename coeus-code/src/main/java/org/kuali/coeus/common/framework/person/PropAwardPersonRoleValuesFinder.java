@@ -13,13 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.person;
+package org.kuali.coeus.common.framework.person;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
-import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -39,46 +37,47 @@ import java.util.List;
 
 import static org.kuali.kra.infrastructure.Constants.*;
 
-public class ProposalPersonRoleValuesFinder extends UifKeyValuesFinderBase {
+public abstract class PropAwardPersonRoleValuesFinder extends UifKeyValuesFinderBase {
 
-    private static final Log LOG = LogFactory.getLog(ProposalPersonRoleValuesFinder.class);
+    private static final Log LOG = LogFactory.getLog(PropAwardPersonRoleValuesFinder.class);
     private PropAwardPersonRoleService propAwardPersonRoleService;
     
-    public ProposalPersonRoleValuesFinder() {
+    public PropAwardPersonRoleValuesFinder() {
     	super();
     	setAddBlankOption(false);
     }
     
+    protected abstract String getSponsorCodeFromModel(ViewModel model);
+    
     @Override
     public List<KeyValue> getKeyValues(ViewModel model, InputField field){
-        return getKeyValues(((ProposalDevelopmentDocumentForm) model).getProposalDevelopmentDocument());
+        return getKeyValues(getSponsorCodeFromModel(model));
     }
     
-    public List<KeyValue> getKeyValues(ProposalDevelopmentDocument document) {
+    public List<KeyValue> getKeyValues(String sponsorCode) {
         Collection<PropAwardPersonRole> roles = new ArrayList<PropAwardPersonRole>();
-        roles.addAll(getPropAwardPersonRoleDao().getRolesByHierarchy(document.getDevelopmentProposal().getSponsorCode()));
-        final DevelopmentProposal developmentProposal = document.getDevelopmentProposal();
+        roles.addAll(getPropAwardPersonRoleService().getRolesByHierarchy(sponsorCode));
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        addKeyValue(keyValues, roles, PropAwardPersonRole.PRINCIPAL_INVESTIGATOR, developmentProposal);
-        addKeyValue(keyValues, roles, PropAwardPersonRole.MULTI_PI, developmentProposal);
-        addKeyValue(keyValues, roles, PropAwardPersonRole.CO_INVESTIGATOR, developmentProposal);
-        addKeyValue(keyValues, roles, PropAwardPersonRole.KEY_PERSON, developmentProposal);
+        addKeyValue(keyValues, roles, PropAwardPersonRole.PRINCIPAL_INVESTIGATOR);
+        addKeyValue(keyValues, roles, PropAwardPersonRole.MULTI_PI);
+        addKeyValue(keyValues, roles, PropAwardPersonRole.CO_INVESTIGATOR);
+        addKeyValue(keyValues, roles, PropAwardPersonRole.KEY_PERSON);
         for (PropAwardPersonRole role : roles) {
-            addKeyValue(keyValues, role, developmentProposal);
+            addKeyValue(keyValues, role);
         }
         return keyValues;
     }
     
-    protected void addKeyValue(List<KeyValue> keyValues, Collection<PropAwardPersonRole> roles, String roleId, DevelopmentProposal developmentProposal) {
+    protected void addKeyValue(List<KeyValue> keyValues, Collection<PropAwardPersonRole> roles, String roleId) {
         PropAwardPersonRole curRole = getRoleById(roles, roleId);
         if (curRole != null) {
-            addKeyValue(keyValues, curRole, developmentProposal);
+            addKeyValue(keyValues, curRole);
             roles.remove(curRole);
         }
     }
     
-    protected void addKeyValue(List<KeyValue> keyValues, PropAwardPersonRole role, DevelopmentProposal developmentProposal) {
+    protected void addKeyValue(List<KeyValue> keyValues, PropAwardPersonRole role) {
         if (role != null) {
             keyValues.add(new ConcreteKeyValue(role.getCode(), role.getDescription()));
         }
@@ -93,14 +92,14 @@ public class ProposalPersonRoleValuesFinder extends UifKeyValuesFinderBase {
         return null;
     }
 	
-	protected PropAwardPersonRoleService getPropAwardPersonRoleDao() {
+	protected PropAwardPersonRoleService getPropAwardPersonRoleService() {
 		if (propAwardPersonRoleService == null) {
 			propAwardPersonRoleService = KcServiceLocator.getService(PropAwardPersonRoleService.class);
 		}
 		return propAwardPersonRoleService;
 	}
 
-	public void setPropAwardPersonRoleDao(
+	public void setPropAwardPersonRoleService(
 			PropAwardPersonRoleService propAwardPersonRoleService) {
 		this.propAwardPersonRoleService = propAwardPersonRoleService;
 	}
