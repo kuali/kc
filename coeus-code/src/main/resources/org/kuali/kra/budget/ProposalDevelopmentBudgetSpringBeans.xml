@@ -59,28 +59,28 @@
         <property name="groupName" value="proposalBudget" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ModifyProposalBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                <bean class="org.kuali.coeus.propdev.impl.budget.auth.ModifyProposalBudgetAuthorizer" parent="parentBudgetAuthorizer">
                     <property name="taskName" value="modifyBudget" />
                     <property name="requiresWritableDoc" value="true" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ViewProposalBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                <bean class="org.kuali.coeus.propdev.impl.budget.auth.ViewProposalBudgetAuthorizer" parent="parentBudgetAuthorizer">
                     <property name="taskName" value="viewBudget" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.RejectProposalBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                <bean class="org.kuali.coeus.propdev.impl.budget.auth.RejectProposalBudgetAuthorizer" parent="parentBudgetAuthorizer">
                     <property name="taskName" value="rejectBudget" />
                     <property name="requiresWritableDoc" value="true" />
                 </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ModifyProposalBudgetRatesAuthorizer" parent="parentBudgetAuthorizer">
+                <bean class="org.kuali.coeus.propdev.impl.budget.auth.ModifyProposalBudgetRatesAuthorizer" parent="parentBudgetAuthorizer">
                     <property name="taskName" value="modifyProposalBudgetRates" />
                     <property name="requiresWritableDoc" value="true" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ProposalHierarchyBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                <bean class="org.kuali.coeus.propdev.impl.budget.auth.ProposalHierarchyBudgetAuthorizer" parent="parentBudgetAuthorizer">
                     <property name="taskName" value="maintainProposalHierarchy" />
                 </bean>                                
-                 <bean class="org.kuali.kra.proposaldevelopment.budget.document.authorizer.ViewProposalBudgetPersonSalaryAuthorizer" parent="parentBudgetAuthorizer">
+                 <bean class="org.kuali.coeus.propdev.impl.budget.auth.ViewProposalBudgetPersonSalaryAuthorizer" parent="parentBudgetAuthorizer">
                     <property name="taskName" value="viewPropPersonInstSalaries" />
                     <property name="requiresWritableDoc" value="true" />
                 </bean>
