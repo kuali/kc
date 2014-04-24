@@ -557,7 +557,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     @Override
     public String checkProposalCoiRule(DevelopmentProposal developmentProposal, String principalId) {
         for (ProposalPerson person : developmentProposal.getInvestigators()) {
-            if (person.isInvestigator() && !person.getRole().isPrincipalInvestigatorRole()
+            if (person.isInvestigator() && person.isPrincipalInvestigator()
                     && StringUtils.equals(principalId, person.getPersonId())) {
                 return TRUE;
             }
@@ -568,7 +568,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     @Override
     public String checkProposalPiRule(DevelopmentProposal developmentProposal, String principalId) {
         for (ProposalPerson person : developmentProposal.getInvestigators()) {
-            if (person.isInvestigator() && person.getRole().isPrincipalInvestigatorRole()
+            if (person.isInvestigator() && person.isPrincipalInvestigator()
                     && StringUtils.equals(principalId, person.getPersonId())) {
                 return TRUE;
             }
@@ -1013,7 +1013,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         List<ProposalPerson> people = developmentProposal.getProposalPersons();
         List<AppointmentType> appointmentTypes = (List<AppointmentType>)getBusinessObjectService().findAll(AppointmentType.class);
         for (ProposalPerson person : people) {
-            if ((person.isInvestigator() && person.getRole().isPrincipalInvestigatorRole()) || (person.isMultiplePi())
+            if ((person.isInvestigator() && person.isPrincipalInvestigator()) || (person.isMultiplePi())
             		&& person.getPerson() != null && person.getPerson().getExtendedAttributes() != null) {
                 List<PersonAppointment> appointments = person.getPerson().getExtendedAttributes().getPersonAppointments();
                 for(PersonAppointment personAppointment : appointments) {

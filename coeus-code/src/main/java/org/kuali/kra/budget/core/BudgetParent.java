@@ -38,7 +38,6 @@ public interface BudgetParent {
     public PersonRolodex getProposalEmployee(String personId);
     public PersonRolodex getProposalNonEmployee(Integer rolodexId);
     public ContactRole getProposalEmployeeRole(String personId);
-    public boolean isSponsorNihMultiplePi();
     public String getHierarchyStatus();
     public String getDefaultBudgetStatusParameter();
     public boolean isParentInHierarchyComplete();

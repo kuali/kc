@@ -113,9 +113,7 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
             pp.setProposalPersonNumber(new Integer(0));
             pp.setDevelopmentProposal(document.getDevelopmentProposal());
 
-            PropAwardPersonRole role = (PropAwardPersonRole)this.dataObjectService.findMatching(PropAwardPersonRole.class, org.kuali.rice.core.api.criteria.QueryByCriteria.Builder.create().build()).getResults().iterator().next();
-            pp.setRole(role);
-            pp.setProposalPersonRoleId(role.getRoleCode());
+            pp.setProposalPersonRoleId(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR);
             pp.setOptInUnitStatus(true);
             pp.setOptInCertificationStatus(true);
             pp.setUserName(person.getUserName());
