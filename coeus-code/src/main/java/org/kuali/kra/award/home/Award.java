@@ -623,7 +623,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     public List<AwardPerson> getCoInvestigators() {
         List<AwardPerson> coInvestigators = new ArrayList<AwardPerson>();
         for (AwardPerson person : projectPersons) {
-            if (person.isCoInvestigator() && !(isSponsorNihMultiplePi() && person.isMultiplePi())) {
+            if (person.isCoInvestigator()) {
                 coInvestigators.add(person);
             }
         }
@@ -639,7 +639,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         List<AwardPerson> multiplePis = new ArrayList<AwardPerson>();
         if (isSponsorNihMultiplePi()) {
             for (AwardPerson person : projectPersons) {
-                if (person.isCoInvestigator() && person.isMultiplePi()) {
+                if (person.isMultiplePi()) {
                     multiplePis.add(person);
                 }
             }

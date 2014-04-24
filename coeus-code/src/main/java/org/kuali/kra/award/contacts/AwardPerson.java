@@ -19,14 +19,13 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
 import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.budget.personnel.PersonRolodex;
-import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.util.ArrayList;
@@ -64,11 +63,10 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     private List<AwardPersonUnit> units;
 
     private List<AwardPersonCreditSplit> creditSplits;
-
-    @AwardSyncableProperty
-    private boolean multiplePi;
     
     private transient boolean roleChanged;
+    
+    private transient PropAwardPersonRoleService propAwardPersonRoleService;
 
     public AwardPerson() {
         super();
@@ -208,6 +206,10 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     public boolean isPrincipalInvestigator() {
         return getContactRole() != null && getContactRole().getRoleCode().equals(ContactRole.PI_CODE);
     }
+    
+    public boolean isMultiplePi() {
+    	return getContactRole() != null && StringUtils.equals(getContactRole().getRoleCode(), PropAwardPersonRole.MULTI_PI);
+    }
 
     /**
      * Sets the academicYearEffort attribute value.
@@ -312,20 +314,12 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         }
     }
 
-    public boolean isMultiplePi() {
-        return multiplePi;
-    }
-
-    public void setMultiplePi(boolean multiplePi) {
-        this.multiplePi = multiplePi;
-    }
-
     public Sponsorable getParent() {
         return getAward();
     }
 
     public String getInvestigatorRoleDescription() {
-        return KcServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
+    	return getContactRole().getRoleDescription();
     }
 
     public boolean isOptInUnitStatus() {
@@ -388,5 +382,18 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     public void setRoleChanged(boolean roleChanged) {
         this.roleChanged = roleChanged;
     }
+    
+    protected ContactRole refreshContactRole() {
+    	return getPropAwardPersonRoleService().getRole(getRoleCode(), getParent().getSponsorCode());
+    }
+
+	public PropAwardPersonRoleService getPropAwardPersonRoleService() {
+		return propAwardPersonRoleService;
+	}
+
+	public void setPropAwardPersonRoleService(
+			PropAwardPersonRoleService propAwardPersonRoleService) {
+		this.propAwardPersonRoleService = propAwardPersonRoleService;
+	}
     
 }
