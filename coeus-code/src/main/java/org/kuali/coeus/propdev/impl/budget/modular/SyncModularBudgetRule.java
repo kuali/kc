@@ -13,17 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.budget.modular;
+package org.kuali.coeus.propdev.impl.budget.modular;
 
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public interface BudgetModularService {
+public interface SyncModularBudgetRule extends BusinessRule {
     
-    public void generateModularPeriod(BudgetPeriod budgetPeriod);
-    
-    public BudgetModularSummary generateModularSummary(Budget budget);
-    
-    public void synchModularBudget(Budget budget);
+    public boolean processSyncModularBusinessRules(Document document);
 
 }
