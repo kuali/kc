@@ -22,6 +22,7 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.summary.IacucProtocolSummary;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 import org.kuali.kra.service.OrganizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.core.api.membership.MemberType;
@@ -44,6 +45,8 @@ public class IacucCorrespondentDerivedRoleTypeServiceImpl extends DerivedRoleTyp
 
     private final String ROLE_NAME_ORGANIZATION_CORRESPONDENT = "IACUC Organization Correspondent";
     private final String ROLE_NAME_UNIT_CORRESPONDENT = "IACUC Unit Correspondent";
+    private final String PERFORMING_ORG_TYPE_CODE = "1";
+    
     protected List<String> requiredAttributes = new ArrayList<String>();
     {
         requiredAttributes.add(KcKimAttributes.PROTOCOL);
@@ -65,13 +68,16 @@ public class IacucCorrespondentDerivedRoleTypeServiceImpl extends DerivedRoleTyp
 
         String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
         IacucProtocol protocol = getProtocolByNumber(protocolNumber);
-        String organizationId = protocol.getPerformingOrganizationId();
-        if (StringUtils.isNotBlank(organizationId)) {
-            List<IacucOrganizationCorrespondent> organizationCorrespondents = 
-                    getOrganizationService().retrieveIacucOrganizationCorrespondentsByOrganizationId(organizationId);
-            for (IacucOrganizationCorrespondent organizationCorrespondent : organizationCorrespondents) {
-                if (organizationCorrespondent.getPersonId().equals(principalId)) {
-                    return true;
+        if (protocol != null) {
+            for (ProtocolLocationBase location : protocol.getProtocolLocations()) {
+                if (StringUtils.equals(location.getProtocolOrganizationTypeCode(), PERFORMING_ORG_TYPE_CODE)) {
+                    List<IacucOrganizationCorrespondent> organizationCorrespondents = 
+                            getOrganizationService().retrieveIacucOrganizationCorrespondentsByOrganizationId(location.getOrganizationId());
+                    for (IacucOrganizationCorrespondent organizationCorrespondent : organizationCorrespondents) {
+                        if (organizationCorrespondent.getPersonId().equals(principalId)) {
+                            return true;
+                        }
+                    }
                 }
             }
         }
@@ -164,7 +170,11 @@ public class IacucCorrespondentDerivedRoleTypeServiceImpl extends DerivedRoleTyp
     private IacucProtocol getProtocolByNumber(String protocolNumber) {
         Map<String,Object> keymap = new HashMap<String,Object>();
         keymap.put( "protocolNumber", protocolNumber);
-        return (IacucProtocol)getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, keymap );    
+        keymap.put("active", "Y");
+        for(IacucProtocol protocol : getBusinessObjectService().findMatching(IacucProtocol.class, keymap)) {
+            return protocol;
+        }
+        return null;    
     }
 
     /*
