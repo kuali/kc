@@ -4,7 +4,7 @@
 
   <bean id="BudgetColumnsToAlterMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.budget.editable.BudgetColumnsToAlter"/>
-    <property name="maintainableClass" value="org.kuali.kra.proposaldevelopment.budget.document.BudgetColumnsToAlterMaintainableImpl"/>
+    <property name="maintainableClass" value="org.kuali.coeus.propdev.impl.budget.editable.BudgetColumnsToAlterMaintainableImpl"/>
     <property name="allowsRecordDeletion" value="true"/>
     <property name="maintainableSections">
       <list>
