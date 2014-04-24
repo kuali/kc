@@ -12,4 +12,6 @@ public interface PropAwardPersonRoleService {
 	
 	Collection<PropAwardPersonRole> getRolesByHierarchy(String sponsorCode);
 	
+	boolean isNihOtherSignificantContributerEnabledForSponsor(String sponsorCode);
+	
 }
