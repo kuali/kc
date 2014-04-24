@@ -425,7 +425,8 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         List<ProposalPerson> investigators = new ArrayList<ProposalPerson>();
         if (pdDoc != null) {
             for (ProposalPerson person : pdDoc.getDevelopmentProposal().getProposalPersons()) {
-                if (ContactRole.COI_CODE.equals(person.getProposalPersonRoleId())) {
+            	//multi-pis are still considered co-i within S2S.
+                if (person.isCoInvestigator() || person.isMultiplePi()) {
                     investigators.add(person);
                 }
             }

@@ -79,7 +79,7 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
         for (ProposalPerson person : pd.getDevelopmentProposal().getProposalPersons()) {
             retval &= validateInvestigator(person);
             if (getSponsorHierarchyService().isSponsorNihMultiplePi(pd.getDevelopmentProposal().getSponsorCode())) {
-                if (person.isMultiplePi() || person.getRole().getCode().equalsIgnoreCase(Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
+                if (person.isMultiplePi() || person.isPrincipalInvestigator()) {
                     retval &= validateEraCommonUserName(person, personCount);
                 }
                 

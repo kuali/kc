@@ -1,6 +1,7 @@
-package org.kuali.coeus.propdev.impl.core;
+package org.kuali.coeus.propdev.impl.person;
 
 import org.kuali.coeus.common.framework.person.PropAwardPersonRoleValuesFinder;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.rice.krad.uif.view.ViewModel;
 
 public class ProposalPersonRoleValuesFinder extends PropAwardPersonRoleValuesFinder {

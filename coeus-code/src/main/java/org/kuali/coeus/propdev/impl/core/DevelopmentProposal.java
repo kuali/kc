@@ -315,15 +315,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @Column(name = "CREATION_STATUS_CODE")
     private String creationStatusCode;
 
-    @Transient
-    private Map<String, String> nihDescription;
-
-    @Transient
-    private boolean sponsorNihMultiplePi;
-
-    @Transient
-    private boolean sponsorNihOsc;
-
     @OneToMany(targetEntity = ProposalChangedData.class, fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     @OrderBy("columnName DESC, changeNumber DESC")
@@ -608,9 +599,9 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     private void evaluateMoveOptions() {
         for (int i = 0; i < proposalPersons.size(); i++) {
             ProposalPerson person = proposalPersons.get(i);
-            person.setMoveUpAllowed(i > 0 && !getKeyPersonnelService().isPrincipalInvestigator(person) && !getKeyPersonnelService().isPrincipalInvestigator(proposalPersons.get(i - 1)) && !(isSponsorNihMultiplePi() && proposalPersons.get(i - 1).isMultiplePi()));
+            person.setMoveUpAllowed(i > 0 && !getKeyPersonnelService().isPrincipalInvestigator(person) && !getKeyPersonnelService().isPrincipalInvestigator(proposalPersons.get(i - 1)) && !(proposalPersons.get(i - 1).isMultiplePi()));
             person.setMoveDownAllowed(i < (proposalPersons.size() - 1) && !getKeyPersonnelService().isPrincipalInvestigator(person));
-            if (isSponsorNihMultiplePi() && getKeyPersonnelService().isCoInvestigator(person) && person.isMultiplePi()) {
+            if (person.isMultiplePi()) {
                 person.setMoveUpAllowed(i > 0 && person.isMultiplePi() == proposalPersons.get(i - 1).isMultiplePi());
                 person.setMoveDownAllowed(person.isMoveDownAllowed() && person.isMultiplePi() == proposalPersons.get(i + 1).isMultiplePi());
             }
@@ -1964,41 +1955,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
             }
         }
         return retval;
-    }
-
-    //    public int getNumberOfVersions() {   
-    //        return this.getBudgetDocumentVersions().size();   
-    //    }   
-    public Map<String, String> getNihDescription() {
-        return nihDescription;
-    }
-
-    public void setNihDescription(Map<String, String> nihDescription) {
-        this.nihDescription = nihDescription;
-    }
-
-    /**
-     * This method returns true if the sponsor is in the NIH Multiple PI hierarchy.
-     * @return
-     */
-    public boolean isSponsorNihMultiplePi() {
-        return sponsorNihMultiplePi;
-    }
-
-    public void setSponsorNihMultiplePi(boolean sponsorNihMultiplePi) {
-        this.sponsorNihMultiplePi = sponsorNihMultiplePi;
-    }
-
-    /**
-     * This method returns true if the sponsor is in the NIH Other Significant Contributor hierarchy.
-     * @return
-     */
-    public boolean isSponsorNihOsc() {
-        return sponsorNihOsc;
-    }
-
-    public void setSponsorNihOsc(boolean sponsorNihOsc) {
-        this.sponsorNihOsc = sponsorNihOsc;
     }
 
     public List<S2sAppSubmission> getS2sAppSubmission() {

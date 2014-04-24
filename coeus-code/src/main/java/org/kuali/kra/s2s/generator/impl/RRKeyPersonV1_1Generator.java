@@ -269,7 +269,7 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
                         }
                     }
                 }
-                if (keyPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR)) {
+                if (keyPerson.isMultiplePi() || keyPerson.isCoInvestigator()) {
                 	if(KcServiceLocator.getService(SponsorHierarchyService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsorCode())){
                 	    if (keyPerson.isMultiplePi()) {
                 	        profileKeyPerson.setProjectRole(ProjectRoleDataType.PD_PI);
