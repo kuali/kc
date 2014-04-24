@@ -106,13 +106,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     private ProposalInvestigatorCertification certification;
 
     @Transient
-    private PropAwardPersonRole role;
-
-    @Transient
     private boolean delete;
-
-    @Transient
-    private boolean isInvestigator;
 
     @Transient
     private boolean roleChanged;
@@ -152,10 +146,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
     @Column(name = "ORDINAL_POSITION")
     private Integer ordinalPosition;
-
-    @Column(name = "MULTIPLE_PI")
-    @Convert(converter = BooleanYNConverter.class)
-    private Boolean multiplePi = Boolean.FALSE;
 
     @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
@@ -413,7 +403,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         setCreditSplits(new ArrayList<ProposalPersonCreditSplit>());
         setProposalPersonYnqs(new ArrayList<ProposalPersonYnq>());
         roleChanged = false;
-        isInvestigator = false;
         delete = false;
         setFullName(new String());
         questionnaireHelper = new ProposalPersonQuestionnaireHelper(this);
@@ -435,35 +424,31 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         return this.fullName;
     }
 
-    /**
-     * Stateful variable set by the Action to determine whether this <code>{@link ProposalPerson}</code> 
-     * is an investigator or not.
-     *
-     * @return boolean;
-     */
     public boolean isInvestigator() {
         return getInvestigatorFlag();
     }
 
-    /**
-     * Stateful variable set by the Action to determine whether this <code>{@link ProposalPerson}</code> 
-     * is an investigator or not.
-     *
-     * @return boolean;
-     */
     public boolean getInvestigatorFlag() {
-        return isInvestigator;
+        return isPrincipalInvestigator() || isMultiplePi() || isCoInvestigator()
+        		|| (isKeyPerson() && getOptInUnitStatus());
     }
-
-    /**
-     * Stateful variable set by the Action to determine whether this <code>{@link ProposalPerson}</code> 
-     * is an investigator or not.
-     *
-     * @param b;
-     */
-    public void setInvestigatorFlag(boolean b) {
-        isInvestigator = b;
+    
+    public boolean isPrincipalInvestigator() {
+    	return StringUtils.equals(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR, getProposalPersonRoleId());
     }
+    
+    public boolean isCoInvestigator() {
+    	return StringUtils.equals(PropAwardPersonRole.CO_INVESTIGATOR, getProposalPersonRoleId());
+    }
+    
+    public boolean isKeyPerson() {
+    	return StringUtils.equals(PropAwardPersonRole.KEY_PERSON, getProposalPersonRoleId());
+    }
+    
+    public boolean isMultiplePi() {
+    	return StringUtils.equals(PropAwardPersonRole.MULTI_PI, getProposalPersonRoleId());
+    }
+    
 
     /**
      * Set a <code>{@link List}</code> of credit splits
@@ -694,15 +679,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     	} else {
     		return null;
     	}
-    }
-
-    /** 
-     * Sets the value of propPersonRole
-     *
-     * @param argPropPersonRole Value to assign to this.propPersonRole
-     */
-    public void setRole(PropAwardPersonRole argPropPersonRole) {
-        this.role = argPropPersonRole;
     }
 
     /**
@@ -2170,15 +2146,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
     public ContactRole getContactRole() {
         return getRole();
-    }
-
-    //Return value here is boolean instead of Boolean due to PersonRolodex definition affecting numerous classes
-    public boolean isMultiplePi() {
-        return multiplePi == null ? false : multiplePi.booleanValue();
-    }
-
-    public void setMultiplePi(Boolean multiplePi) {
-        this.multiplePi = multiplePi;
     }
 
     public DevelopmentProposal getDevelopmentProposal() {

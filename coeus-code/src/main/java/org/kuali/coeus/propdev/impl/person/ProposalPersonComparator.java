@@ -56,15 +56,6 @@ public class ProposalPersonComparator implements Comparator<ProposalPerson> {
                if (getKeyPersonnelService().isPrincipalInvestigator(person2)) {
                    retval++;
                }
-            } else if (proposal.isSponsorNihMultiplePi()
-                    && (getKeyPersonnelService().isCoInvestigator(person1)
-                    || getKeyPersonnelService().isCoInvestigator(person2))) {
-                if (person1.isMultiplePi()) {
-                    retval--;
-                }
-                if (person2.isMultiplePi()) {
-                    retval++;
-                }
             }
         }
         else if (person1.isInvestigator()) {
