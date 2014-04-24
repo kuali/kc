@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.budget.bo;
+package org.kuali.coeus.propdev.impl.budget.subaward;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardPeriodDetailContract;

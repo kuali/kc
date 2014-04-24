@@ -13,38 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.budget;
+package org.kuali.coeus.propdev.impl.budget.docperm;
 
-import org.kuali.coeus.propdev.impl.auth.task.ProposalAuthorizer;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.authorization.BudgetTask;
+import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 
 
 /**
- * The Budget Add Authorizer checks to see if the user has 
- * the necessary permission to add a budget.
+ * The Budget Modify Authorizer checks to see if the user has 
+ * the necessary permission to modify a specific budget.
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class BudgetAddAuthorizer extends ProposalAuthorizer {
+public class ModifyProposalBudgetAuthorizer extends BudgetAuthorizer {
 
     private KcWorkflowService kraWorkflowService;
-    private KcDocumentRejectionService kcDocumentRejectionService;
 
-    public boolean isAuthorized(String userId, ProposalTask task) {
-        boolean hasPermission = false;
-        ProposalDevelopmentDocument doc = task.getDocument();
-        KcDocumentRejectionService documentRejectionService = getKcDocumentRejectionService();
-
+    public boolean isAuthorized(String userId, BudgetTask task) {
+        KcDocumentRejectionService documentRejectionService = KcServiceLocator.getService(KcDocumentRejectionService.class);
+        BudgetDocument budgetDocument = task.getBudgetDocument();
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)budgetDocument.getParentDocument();
         boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(doc.getDocumentNumber());
-
-        if ((!kraWorkflowService.isInWorkflow(doc) || rejectedDocument) && !doc.isViewOnly() && !doc.getDevelopmentProposal().getSubmitFlag() && !doc.getDevelopmentProposal().isParent()) {
-            hasPermission = hasProposalPermission(userId, doc, PermissionConstants.MODIFY_BUDGET);
-        }
-        return hasPermission;
+        
+        return (!kraWorkflowService.isInWorkflow(doc) || rejectedDocument) &&
+                hasParentPermission(userId, doc, PermissionConstants.MODIFY_BUDGET) &&!doc.getDevelopmentProposal().getSubmitFlag(); 
     }
 
     public KcWorkflowService getKraWorkflowService() {
@@ -53,12 +51,5 @@ public class BudgetAddAuthorizer extends ProposalAuthorizer {
 
     public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
         this.kraWorkflowService = kraWorkflowService;
-    }
-
-    public void setKcDocumentRejectionService (KcDocumentRejectionService kcDocumentRejectionService){
-        this.kcDocumentRejectionService = kcDocumentRejectionService;
-    }
-    protected KcDocumentRejectionService getKcDocumentRejectionService(){
-        return kcDocumentRejectionService;
     }
 }

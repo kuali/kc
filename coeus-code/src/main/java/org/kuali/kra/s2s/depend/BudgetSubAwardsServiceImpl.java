@@ -4,11 +4,10 @@ import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsService;
-import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
+import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;

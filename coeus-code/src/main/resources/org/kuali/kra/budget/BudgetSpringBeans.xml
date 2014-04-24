@@ -334,7 +334,7 @@
 	</bean>
 	<!-- Budget Service Configuration End -->
   	
-    <bean id="budgetSubAwardService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.BudgetSubAwardServiceImpl">
+    <bean id="budgetSubAwardService" class="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardServiceImpl">
     	<property name="parameterService" ref="parameterService"/>
     	<property name="budgetService" ref="budgetService" />
     	<property name="businessObjectService" ref="businessObjectService"/>
