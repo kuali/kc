@@ -39,6 +39,7 @@ public abstract class AwardSyncHelperTestBase extends KcIntegrationTestBase {
         awardSyncHelpersService = KcServiceLocator.getService(AwardSyncHelpersService.class);
         awardSyncHelper = awardSyncHelpersService.getSyncHelper(className);
         award = new Award();
+        award.setSponsorCode("000340");
     }
 
     @After
