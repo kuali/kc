@@ -27,6 +27,7 @@ import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -101,6 +102,19 @@ implements Copyable, SessionDocument,Permissionable,BudgetDocumentTypeChecker, K
             DocumentNextvalue documentNextvalue = (DocumentNextvalue)element;
             if(documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
                 propNextValue = documentNextvalue.getNextValue();
+                BusinessObjectService bos = getService(BusinessObjectService.class);
+                Map<String, Object> budgetIdMap = new HashMap<String,Object>();
+                budgetIdMap.put("budgetId", getBudget().getBudgetId());
+                if(budgetIdMap != null) {
+                   List<BudgetLineItem> lineItemNumber = (List<BudgetLineItem>)bos.findMatchingOrderBy(BudgetLineItem.class, budgetIdMap, "lineItemNumber", true);
+                    if(lineItemNumber != null) {
+                        for(BudgetLineItem budgetLineItem : lineItemNumber) {
+                           if(propNextValue.intValue() == budgetLineItem.getLineItemNumber().intValue()) {
+                           propNextValue++;   
+                           }
+                        }
+                    }
+                }
                 documentNextvalue.setNextValue(propNextValue + 1);
             }
         }
