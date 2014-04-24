@@ -806,7 +806,10 @@ public class AwardAction extends BudgetParentActionBase {
                 AwardAmountTransaction aat = new AwardAmountTransaction();
                 aat.setAwardNumber("000000-00000");//need to initialize one element in this collection because the doc is saved on creation.
                 aat.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
-                aat.setTransactionTypeCode(NINE);
+                String defaultTxnTypeStr = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_TIME_AND_MONEY, ParameterConstants.DOCUMENT_COMPONENT, Constants.DEFAULT_TXN_TYPE_COPIED_AWARD);
+                if(StringUtils.isNotEmpty(defaultTxnTypeStr)) {
+                    aat.setTransactionTypeCode(Integer.parseInt(defaultTxnTypeStr));
+                }                
                 aat.setAwardNumber(rootAward.getAwardNumber());
                 //any code for initial transaction and history.
                 transactionDetail  = addTransactionDetails(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT, rootAward.getAwardNumber(), rootAward.getSequenceNumber(),
