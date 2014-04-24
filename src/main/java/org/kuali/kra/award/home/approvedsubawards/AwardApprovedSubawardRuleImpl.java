@@ -32,7 +32,7 @@ public class AwardApprovedSubawardRuleImpl extends ResearchDocumentRuleBase
                                             implements AwardApprovedSubawardRule {
     
     private static final String NEW_AWARD_APPROVED_SUBAWARD = "approvedSubawardFormHelper.newAwardApprovedSubaward";
-    private static final String ORGANIZATION_NAME = ".organizationName";
+    private static final String ORGANIZATION_ID = ".organizationId";
     
     List<AwardApprovedSubaward> awardApprovedSubawards;
     AwardApprovedSubaward awardApprovedSubaward;
@@ -119,30 +119,30 @@ public class AwardApprovedSubawardRuleImpl extends ResearchDocumentRuleBase
      */
     public boolean validateApprovedSubawardOrganization(){
         boolean valid = true;
-        String organizationName = awardApprovedSubaward.getOrganizationName();
-        if(organizationName == null) {
+        String organizationId = awardApprovedSubaward.getOrganizationId();
+        if(organizationId == null) {
             valid = false;
-            reportError(NEW_AWARD_APPROVED_SUBAWARD+ORGANIZATION_NAME, 
-                    KeyConstants.ERROR_ORGANIZATION_NAME_IS_NULL);
+            reportError(NEW_AWARD_APPROVED_SUBAWARD+ORGANIZATION_ID, 
+                    KeyConstants.ERROR_ORGANIZATION_ID_IS_NULL);
         }else {
-            valid = validateOrganizationExists(organizationName);
+            valid = validateOrganizationExists(organizationId);
         }
         return valid;
     }
     
     /**
-     * This method tests whether a Organization BO with a given organization name exists.
-     * @param organizationName
+     * This method tests whether a Organization BO with a given organization ID exists.
+     * @param organizationId
      * @return
      */
-    private boolean validateOrganizationExists(String organizationName) {
+    private boolean validateOrganizationExists(String organizationId) {
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String,String> fieldValues = new HashMap<String,String>();
-        fieldValues.put("organizationName", organizationName);
+        fieldValues.put("organizationId", organizationId);
         
         boolean isValid = true;
         if (businessObjectService.countMatching(Organization.class, fieldValues) != 1) {
-            this.reportError(NEW_AWARD_APPROVED_SUBAWARD+ORGANIZATION_NAME, KeyConstants.ERROR_ORGANIZATION_NAME_IS_INVALID, new String[] { organizationName });
+            this.reportError(NEW_AWARD_APPROVED_SUBAWARD+ORGANIZATION_ID, KeyConstants.ERROR_ORGANIZATION_ID_IS_INVALID, new String[] { organizationId });
             return false;
         }
         return isValid;
