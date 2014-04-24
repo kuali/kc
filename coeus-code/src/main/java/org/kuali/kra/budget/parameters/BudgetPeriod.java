@@ -22,7 +22,7 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
+import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetNumberOfMonthsService;
 
 import java.io.Serializable;

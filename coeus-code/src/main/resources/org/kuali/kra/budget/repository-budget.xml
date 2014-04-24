@@ -347,7 +347,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="budgetModular" class-ref="org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<reference-descriptor name="budgetModular" class-ref="org.kuali.coeus.propdev.impl.budget.modular.BudgetModular" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<foreignkey field-ref="budgetPeriodId"/>  
 		</reference-descriptor>
 		<collection-descriptor name="budgetLineItems" proxy="true" element-class-ref="org.kuali.kra.budget.nonpersonnel.BudgetLineItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
@@ -936,7 +936,7 @@
     	<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR"/>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular" table="BUDGET_MODULAR">
+	<class-descriptor class="org.kuali.coeus.propdev.impl.budget.modular.BudgetModular" table="BUDGET_MODULAR">
 		<field-descriptor name="budgetPeriodId" column="BUDGET_PERIOD_NUMBER" jdbc-type="BIGINT" primarykey="true"/>
 
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" access="anonymous"/> 	
@@ -950,7 +950,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     	
-    	<collection-descriptor name="budgetModularIdcs" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+    	<collection-descriptor name="budgetModularIdcs" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
     		<inverse-foreignkey field-ref="budgetPeriodId"/>
 		</collection-descriptor><!--
 		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -959,7 +959,7 @@
 
 	--></class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc" table="BUDGET_MODULAR_IDC">
+	<class-descriptor class="org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc" table="BUDGET_MODULAR_IDC">
 		<field-descriptor name="budgetPeriodId" column="BUDGET_PERIOD_NUMBER" jdbc-type="BIGINT" primarykey="true"/>
 		<field-descriptor name="rateNumber" column="RATE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		

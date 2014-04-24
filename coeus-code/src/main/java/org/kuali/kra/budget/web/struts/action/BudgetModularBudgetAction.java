@@ -26,10 +26,10 @@ import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
-import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
-import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularService;
-import org.kuali.kra.proposaldevelopment.budget.modular.SyncModularBudgetEvent;
+import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
+import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
+import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularService;
+import org.kuali.coeus.propdev.impl.budget.modular.SyncModularBudgetEvent;
 import org.kuali.rice.krad.service.KualiRuleService;
 
 import javax.servlet.http.HttpServletRequest;
