@@ -2,9 +2,9 @@ package org.kuali.kra.service.impl.adapters;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 
@@ -67,7 +67,7 @@ public class KeyPersonnelServiceAdapter implements KeyPersonnelService {
     }
 
     @Override
-    public boolean isRoleReadOnly(ProposalPersonRole role) {
+    public boolean isRoleReadOnly(PropAwardPersonRole role) {
         return false;  
     }
     @Override

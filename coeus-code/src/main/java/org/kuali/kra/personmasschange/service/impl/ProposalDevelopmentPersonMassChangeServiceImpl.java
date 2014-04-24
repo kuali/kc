@@ -17,13 +17,13 @@ package org.kuali.kra.personmasschange.service.impl;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.coeus.common.framework.editable.PersonEditableService;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.ProposalDevelopmentPersonMassChangeService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 import java.util.ArrayList;
@@ -76,8 +76,8 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl extends MassPersonCh
         List<ProposalPerson> persons = developmentProposal.getProposalPersons();
         Integer mailingInformationId = developmentProposal.getMailingAddressId();
         
-        String[] investigatorRoles = { ProposalPersonRole.PRINCIPAL_INVESTIGATOR, ProposalPersonRole.CO_INVESTIGATOR };
-        String[] keyStudyPersonRoles = { ProposalPersonRole.KEY_PERSON };
+        String[] investigatorRoles = { PropAwardPersonRole.PRINCIPAL_INVESTIGATOR, PropAwardPersonRole.CO_INVESTIGATOR };
+        String[] keyStudyPersonRoles = { PropAwardPersonRole.KEY_PERSON };
         
         if (personMassChange.getProposalDevelopmentPersonMassChange().isInvestigator()) {
             isProposalDevelopmentChangeCandidate |= isPersonChangeCandidate(personMassChange, persons, investigatorRoles);
@@ -114,7 +114,7 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl extends MassPersonCh
     
     private void performProposalInvestigatorPersonMassChange(PersonMassChange personMassChange, DevelopmentProposal developmentProposal) {
         if (personMassChange.getProposalDevelopmentPersonMassChange().isInvestigator()) {
-            String[] personRoles = { ProposalPersonRole.PRINCIPAL_INVESTIGATOR, ProposalPersonRole.CO_INVESTIGATOR };
+            String[] personRoles = { PropAwardPersonRole.PRINCIPAL_INVESTIGATOR, PropAwardPersonRole.CO_INVESTIGATOR };
             performPersonPersonMassChange(personMassChange, developmentProposal, personRoles);
         }
     }
@@ -129,7 +129,7 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl extends MassPersonCh
     
     private void performProposalKeyStudyPersonPersonMassChange(PersonMassChange personMassChange, DevelopmentProposal developmentProposal) {
         if (personMassChange.getProtocolPersonMassChange().isKeyStudyPerson()) {
-            String[] personRoles = { ProposalPersonRole.KEY_PERSON };
+            String[] personRoles = { PropAwardPersonRole.KEY_PERSON };
             performPersonPersonMassChange(personMassChange, developmentProposal, personRoles);
         }
     }

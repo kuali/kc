@@ -239,17 +239,11 @@
 							class="org.kuali.coeus.propdev.impl.person.ProposalPersonRoleValuesFinder" />
 					</property>
 				</bean>
-				<bean parent="Uif-InputField" p:propertyName="multiplePi"
-					p:progressiveRender="@{#fp.personRole == 'T(org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole).COI_CODE'}" p:order="20">
-					<property name="control">
-						<bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes, this proposal has mutliple PI's." />
-					</property>
-				</bean>
 				<bean parent="Uif-InputField"
 					p:propertyName="keyPersonProjectRole"
 					p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.person.ProposalPerson"
 					p:dictionaryAttributeName="projectRole" p:required="true"
-					p:label="Key Person's role will be" p:progressiveRender="@{#fp.personRole == 'T(org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole).KEY_PERSON_CODE'}"
+					p:label="Key Person's role will be" p:progressiveRender="@{#fp.personRole == '#{T(org.kuali.coeus.common.framework.person.PropAwardPersonRole).KEY_PERSON_CODE}'}"
 					p:order="30" />
 			</list>
 		</property>
@@ -345,6 +339,18 @@
 					p:order="50" />
 				<bean parent="Uif-InputField" p:propertyName="middleName"
 					p:order="60" />
+				<bean parent="Uif-InputField" p:propertyName="multiplePi"
+					p:progressiveRender="@{#lp.proposalPersonRoleId == '#{T(org.kuali.coeus.common.framework.person.PropAwardPersonRole).COI_CODE}'}" p:order="70">
+					<property name="control">
+						<bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes, this proposal has mutliple PI's." />
+					</property>
+				</bean>
+				<bean parent="Uif-InputField"
+					p:propertyName="projectRole"
+					p:dictionaryObjectEntry="org.kuali.kra.proposaldevelopment.bo.ProposalPerson"
+					p:dictionaryAttributeName="projectRole" p:required="true"
+					p:label="Key Person's role will be" p:progressiveRender="@{#lp.proposalPersonRoleId == '#{T(org.kuali.coeus.common.framework.person.PropAwardPersonRole).KEY_PERSON_CODE}'}"
+					p:order="80" />					
 			</list>
 		</property>
 	</bean>

@@ -115,7 +115,6 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
            }
        }
        newProposalPerson.setProposalPersonRoleId(form.getAddKeyPersonHelper().getPersonRole());
-       newProposalPerson.setMultiplePi(form.getAddKeyPersonHelper().getMultiplePi());
        newProposalPerson.setProjectRole(form.getAddKeyPersonHelper().getKeyPersonProjectRole());
        getKeyPersonnelService().addProposalPerson(newProposalPerson, form.getProposalDevelopmentDocument());
        form.getAddKeyPersonHelper().reset();

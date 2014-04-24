@@ -22,6 +22,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.editable.PersonEditableService;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.person.attr.PersonBiosketch;
 import org.kuali.coeus.common.framework.person.attr.PersonDegree;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
@@ -189,7 +190,6 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
         for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
             LOG.debug(person.getFullName() + " is " + isInvestigator(person));
-            person.setInvestigatorFlag(isInvestigator(person));
 
             if (person.isInvestigator()) {
                 LOG.info("Adding investigator " + person.getFullName());
@@ -250,20 +250,13 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         /* populate certification questions for new person */
         person = getYnqService().getPersonYNQ(person, document);
 
-        person.setInvestigatorFlag(isInvestigator(person));
-
         if (person.isInvestigator()) {
             if (!document.getDevelopmentProposal().getInvestigators().contains(person)) {
                 document.getDevelopmentProposal().getInvestigators().add(person);
             }
             populateCreditTypes(person);
-
-            if (!this.isCoInvestigator(person)) {
-                person.setMultiplePi(false);
-            }
         }
 
-        person.refreshReferenceObject("role");
 
         if (person.getRole() != null) {
             person.getRole().setReadOnly(isRoleReadOnly(person.getRole()));
@@ -573,7 +566,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * @param roleId to check
      * @return true if the <code>roleId</code> is a value in the <code>personrole.readonly.roles</code> system parameter, and false
      *         if the <coderoleId</code> is null
-     * @see #isRoleReadOnly(org.kuali.coeus.propdev.impl.person.ProposalPersonRole)
+     * @see #isRoleReadOnly(org.kuali.coeus.common.framework.person.PropAwardPersonRole)
      */
     protected boolean isRoleReadOnly(String roleId) {
         if (roleId == null) {
@@ -606,11 +599,11 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     protected ParameterService getParameterService (){return parameterService;}
 
     @Override
-    public boolean isRoleReadOnly(ProposalPersonRole role) {
+    public boolean isRoleReadOnly(PropAwardPersonRole role) {
         if (role == null) {
             return false;
         }
-        return isRoleReadOnly(role.getProposalPersonRoleId());
+        return isRoleReadOnly(role.getCode());
     }
 
     @Override
@@ -633,10 +626,10 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * @return
      */
     public Map<String, String> loadKeyPersonnelRoleDescriptions(boolean sponsorIsNih) {
-        @SuppressWarnings("unchecked") final Collection<ProposalPersonRole> roles = getBusinessObjectService().findAll(ProposalPersonRole.class);
+        @SuppressWarnings("unchecked") final Collection<PropAwardPersonRole> roles = businessObjectService.findAll(PropAwardPersonRole.class);
         Map<String, String> roleDescriptions = new HashMap<String, String>();
-        for (ProposalPersonRole role : roles) {
-            roleDescriptions.put(role.getProposalPersonRoleId(), findRoleDescription(role, sponsorIsNih));
+        for (PropAwardPersonRole role : roles) {
+            roleDescriptions.put(role.getCode(), findRoleDescription(role, sponsorIsNih));
         }
         return roleDescriptions;
     }
@@ -664,16 +657,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
     
     public String getPersonnelRoleDesc(PersonRolodex person) {
-        if (getSponsorHierarchyService().isSponsorNihMultiplePi(person.getParent().getSponsorCode())) {
-            String parmName = createRoleDescriptionParameterName(person.getContactRole(), NIH_PARM_KEY);
-            if (StringUtils.equals(person.getContactRole().getRoleCode(), ContactRole.COI_CODE)
-                    && person.isMultiplePi()) {
-                parmName += ".mpi";
-            }
-            return getRoleDescriptionParameterValue(parmName);
-        } else {
-            return person.getContactRole().getRoleDescription();
-        }
+        return person.getContactRole().getRoleDescription();
     }
     
     public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {

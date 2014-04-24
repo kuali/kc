@@ -159,15 +159,6 @@
     										           attributeEntry="${awardPersonAttributes.keyPersonRole}"/>
     						</div>				           
     					    </span>
-    					    <c:if test="${KualiForm.document.awardList[0].sponsorNihMultiplePi}">
-    					    <span class="coionly">
-    					    <div class="ignoreMeFromWarningOnAddRow">
-    					    <kul:htmlAttributeLabel attributeEntry="${awardPersonAttributes.multiplePi}" noColon="false" />
-    				         <kul:htmlControlAttribute property="projectPersonnelBean.newAwardContact.multiplePi" 
-    										           attributeEntry="${awardPersonAttributes.multiplePi}"/>
-    						</div>				               					    
-    					    </span>
-    					    </c:if>
                         <script type="text/javascript">
                           function proposalRoleChange(formItem, speed) {
                               if ($jq(formItem).val() == '${keyPersonRoleConstant}') {
@@ -175,16 +166,10 @@
                               } else {
                             	  $jq(formItem).siblings('.keypersononly').slideUp(speed);
                               }
-                              if ($jq(formItem).val() == '${coiRoleConstant}') {
-                            	  $jq(formItem).siblings('.coionly').slideDown(speed);
-                              } else {
-                            	  $jq(formItem).siblings('.coionly').slideUp(speed);
-                              }
                           }
                           $jq(document).ready(function() {
                         	  $jq('.noscriptonly').hide();
                               $jq('.keypersononly').hide();
-                              $jq('.coionly').hide();
                               $jq(document).find("[id$='contactRoleCode']").each(function() {
                               	proposalRoleChange(this, 0);
                               });
