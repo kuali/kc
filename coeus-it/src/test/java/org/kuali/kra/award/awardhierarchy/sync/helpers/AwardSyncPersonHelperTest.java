@@ -42,6 +42,7 @@ public class AwardSyncPersonHelperTest extends AwardSyncHelperTestBase {
     public void setUp() throws Exception {
         super.setUp();
         person = new AwardPerson();
+        person.setAward(award);
         person.setAcademicYearEffort(new ScaleTwoDecimal(100.00));
         person.setCalendarYearEffort(new ScaleTwoDecimal(100.00));
         person.setRoleCode("PI");
