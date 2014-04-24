@@ -38,7 +38,7 @@
 	</c:otherwise>
 </c:choose>
 
-<c:set var="budgetExpensePanelReadOnly" value="${budgetExpensePanelReadOnly || budgetLineItem.subAwardLineItem}" />
+<c:set var="budgetExpensePanelReadOnly" value="${budgetExpensePanelReadOnly}" />
 
 <c:set var="budgetExpensePanelReadOnlyIfBudgetVersionIsFinal" value="${budgetExpensePanelReadOnly}" />
 <c:if test="${budgetCategoryTypeCode == 'P' and fn:length(budgetLineItem.budgetPersonnelDetailsList) > 0}" >
