@@ -57,7 +57,7 @@ public abstract class AwardContact extends AwardAssociate {
 
     private Long awardContactId;
 
-    private ContactRole contactRole;
+    protected ContactRole contactRole;
 
     @AwardSyncableProperty
     private String fullName;

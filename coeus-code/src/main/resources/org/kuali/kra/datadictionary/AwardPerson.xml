@@ -24,7 +24,6 @@
         <ref bean="AwardPerson-totalEffort" />
         <ref bean="AwardPerson-contactRoleCode" />
         <ref bean="AwardPerson-keyPersonRole" />
-        <ref bean="AwardPerson-multiplePi" />
       </list>
     </property>
   </bean>
@@ -216,15 +215,6 @@
 		<property name="summary" value="Project Role" />
 		<property name="description" value="Project Role" />
 	</bean>	
-
-  <bean id="AwardPerson-multiplePi" parent="AwardPerson-multiplePi-parentBean"/>
-    <bean id="AwardPerson-multiplePi-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
-      <property name="name" value="multiplePi" />
-      <property name="label" value="Multiple PI" />
-      <property name="shortLabel" value="MultiPI" />
-      <property name="summary" value="Multiple PI" />
-      <property name="description" value="Multiple PI" />
-    </bean>  	
 
 	<bean id="AwardPerson-lookupDefinition" parent="AwardPerson-lookupDefinition-parentBean" />
   <bean id="AwardPerson-LookupView" parent="AwardPerson-LookupView-parentBean"/>

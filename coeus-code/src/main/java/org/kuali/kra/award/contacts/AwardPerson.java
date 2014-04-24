@@ -19,15 +19,16 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
 import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.budget.personnel.PersonRolodex;
-import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,11 +65,10 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     private List<AwardPersonUnit> units;
 
     private List<AwardPersonCreditSplit> creditSplits;
-
-    @AwardSyncableProperty
-    private boolean multiplePi;
     
     private transient boolean roleChanged;
+    
+    private transient PropAwardPersonRoleService propAwardPersonRoleService;
 
     public AwardPerson() {
         super();
@@ -185,7 +185,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
      * @return
      */
     public boolean isCoInvestigator() {
-        return getContactRole() != null && getContactRole().getRoleCode().equals(ContactRole.COI_CODE);
+        return StringUtils.equals(getContactRoleCode(), ContactRole.COI_CODE);
     }
 
     /**
@@ -201,12 +201,16 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
      * @return
      */
     public boolean isKeyPerson() {
-        return getContactRole() != null && getContactRole().getRoleCode().equals(ContactRole.KEY_PERSON_CODE);
+        return StringUtils.equals(getContactRoleCode(), ContactRole.KEY_PERSON_CODE);
     }
 
 
     public boolean isPrincipalInvestigator() {
-        return getContactRole() != null && getContactRole().getRoleCode().equals(ContactRole.PI_CODE);
+        return StringUtils.equals(getContactRoleCode(), ContactRole.PI_CODE);
+    }
+    
+    public boolean isMultiplePi() {
+    	return StringUtils.equals(getContactRoleCode(), PropAwardPersonRole.MULTI_PI);
     }
 
     /**
@@ -312,20 +316,12 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         }
     }
 
-    public boolean isMultiplePi() {
-        return multiplePi;
-    }
-
-    public void setMultiplePi(boolean multiplePi) {
-        this.multiplePi = multiplePi;
-    }
-
     public Sponsorable getParent() {
         return getAward();
     }
 
     public String getInvestigatorRoleDescription() {
-        return KcServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
+    	return getContactRole().getRoleDescription();
     }
 
     public boolean isOptInUnitStatus() {
@@ -388,5 +384,25 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     public void setRoleChanged(boolean roleChanged) {
         this.roleChanged = roleChanged;
     }
-    
+
+    protected ContactRole refreshContactRole() {
+    	if (StringUtils.isNotBlank(getRoleCode()) && getParent() != null && StringUtils.isNotBlank(getParent().getSponsorCode())) {
+    		contactRole = getPropAwardPersonRoleService().getRole(getRoleCode(), getParent().getSponsorCode());
+    	} else {
+    		contactRole = null;
+    	}
+    	return contactRole;
+    }
+
+	public PropAwardPersonRoleService getPropAwardPersonRoleService() {
+		if (propAwardPersonRoleService == null) {
+			propAwardPersonRoleService = KcServiceLocator.getService(PropAwardPersonRoleService.class);
+		}
+		return propAwardPersonRoleService;
+	}
+
+	public void setPropAwardPersonRoleService(
+			PropAwardPersonRoleService propAwardPersonRoleService) {
+		this.propAwardPersonRoleService = propAwardPersonRoleService;
+	}
 }
