@@ -139,8 +139,6 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
 
         if (proposalDevelopmentDocument.getDevelopmentProposal().getInvestigators().size() > 0)
             sort(proposalDevelopmentDocument.getDevelopmentProposal().getInvestigators(), new ProposalPersonComparator());
-           
-        getProposalDevelopmentService().updateNIHDescriptions(proposalDevelopmentDocument.getDevelopmentProposal());
         
         return actionForward;
     }
