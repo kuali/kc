@@ -1,0 +1,5 @@
+update EPS_PROP_PERSON set CONTACT_ROLE_CODE = 'MPI' where CONTACT_ROLE_CODE = 'COI' and MULTIPLE_PI = 'Y'
+/
+
+alter table EPS_PROP_PERSON drop column MULTIPLE_PI
+/

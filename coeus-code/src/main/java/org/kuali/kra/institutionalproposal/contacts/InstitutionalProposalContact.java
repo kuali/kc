@@ -50,7 +50,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     private Long institutionalProposalContactId;
 
-    private ContactRole contactRole;
+    protected ContactRole contactRole;
 
     private String fullName;
 
