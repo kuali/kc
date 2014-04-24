@@ -395,7 +395,6 @@
         <field-descriptor name="optInCertificationStatus" column="OPT_IN_CERTIFICATION_STATUS" jdbc-type="CHAR" />
         <field-descriptor name="projectRole" column="PROJECT_ROLE" jdbc-type="VARCHAR" />
         <field-descriptor name="ordinalPosition" column="ORDINAL_POSITION" jdbc-type="INTEGER" />
-        <field-descriptor name="multiplePi" column="MULTIPLE_PI" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />

@@ -190,7 +190,6 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
         for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
             LOG.debug(person.getFullName() + " is " + isInvestigator(person));
-            person.setInvestigatorFlag(isInvestigator(person));
 
             if (person.isInvestigator()) {
                 LOG.info("Adding investigator " + person.getFullName());
@@ -251,17 +250,11 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         /* populate certification questions for new person */
         person = getYnqService().getPersonYNQ(person, document);
 
-        person.setInvestigatorFlag(isInvestigator(person));
-
         if (person.isInvestigator()) {
             if (!document.getDevelopmentProposal().getInvestigators().contains(person)) {
                 document.getDevelopmentProposal().getInvestigators().add(person);
             }
             populateCreditTypes(person);
-
-            if (!this.isCoInvestigator(person)) {
-                person.setMultiplePi(false);
-            }
         }
 
 
@@ -664,16 +657,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
     
     public String getPersonnelRoleDesc(PersonRolodex person) {
-        if (getSponsorHierarchyService().isSponsorNihMultiplePi(person.getParent().getSponsorCode())) {
-            String parmName = createRoleDescriptionParameterName(person.getContactRole(), NIH_PARM_KEY);
-            if (StringUtils.equals(person.getContactRole().getRoleCode(), ContactRole.COI_CODE)
-                    && person.isMultiplePi()) {
-                parmName += ".mpi";
-            }
-            return getRoleDescriptionParameterValue(parmName);
-        } else {
-            return person.getContactRole().getRoleDescription();
-        }
+        return person.getContactRole().getRoleDescription();
     }
     
     public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {

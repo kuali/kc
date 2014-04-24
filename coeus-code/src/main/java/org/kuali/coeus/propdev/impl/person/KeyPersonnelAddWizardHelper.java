@@ -28,7 +28,6 @@ public class KeyPersonnelAddWizardHelper {
     private Map<String, String> lookupFieldValues;
     private List<ProposalPerson> results;
     private String personRole;
-    private boolean multiplePi;
     private String keyPersonProjectRole;
     
     public KeyPersonnelAddWizardHelper() {
@@ -74,14 +73,6 @@ public class KeyPersonnelAddWizardHelper {
     public void setPersonRole(String personRole) {
         this.personRole = personRole;
     }
-
-	public boolean getMultiplePi() {
-		return multiplePi;
-	}
-
-	public void setMultiplePi(boolean multiplePi) {
-		this.multiplePi = multiplePi;
-	}
 
 	public String getKeyPersonProjectRole() {
 		return keyPersonProjectRole;

@@ -26,7 +26,6 @@ public interface PersonRolodex {
     public boolean isOtherSignificantContributorFlag();
     public String getProjectRole();
     public ContactRole getContactRole();
-    public boolean isMultiplePi();
     public Sponsorable getParent();
     public String getInvestigatorRoleDescription();
 }
