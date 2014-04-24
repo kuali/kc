@@ -40,7 +40,7 @@ import org.kuali.kra.costshare.CostShareFunctions;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
+import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularSummary;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;

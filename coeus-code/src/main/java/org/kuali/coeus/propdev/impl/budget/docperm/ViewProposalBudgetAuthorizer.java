@@ -13,36 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.budget.auth;
+package org.kuali.coeus.propdev.impl.budget.docperm;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
-
 /**
- * The Budget Modify Authorizer checks to see if the user has 
- * the necessary permission to modify a specific budget.
+ * The Budget View Authorizer checks to see if the user has 
+ * the necessary permission to view a specific budget.
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ModifyProposalBudgetAuthorizer extends BudgetAuthorizer {
+public class ViewProposalBudgetAuthorizer extends BudgetAuthorizer {
 
     private KcWorkflowService kraWorkflowService;
 
+    @Override
     public boolean isAuthorized(String userId, BudgetTask task) {
-        KcDocumentRejectionService documentRejectionService = KcServiceLocator.getService(KcDocumentRejectionService.class);
-        BudgetDocument budgetDocument = task.getBudgetDocument();
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)budgetDocument.getParentDocument();
-        boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(doc.getDocumentNumber());
         
-        return (!kraWorkflowService.isInWorkflow(doc) || rejectedDocument) &&
-                hasParentPermission(userId, doc, PermissionConstants.MODIFY_BUDGET) &&!doc.getDevelopmentProposal().getSubmitFlag(); 
+        BudgetDocument budgetDocument = task.getBudgetDocument();
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) budgetDocument.getParentDocument();
+        
+        return hasParentPermission(userId, doc, PermissionConstants.VIEW_BUDGET) 
+            || kraWorkflowService.hasWorkflowPermission(userId, doc);
+            
     }
 
     public KcWorkflowService getKraWorkflowService() {

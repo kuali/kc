@@ -27,7 +27,7 @@
 				</start>
 	            <requests name="PeopleFlows">
                     <activationType>R</activationType>
-                    <rulesEngine executorClass="org.kuali.kra.proposaldevelopment.budget.service.impl.PropDevBudgetRulesEngineExecutorImpl"/>
+                    <rulesEngine executorClass="org.kuali.coeus.propdev.impl.budget.PropDevBudgetRulesEngineExecutorImpl"/>
                 </requests>
 			</routeNodes>
 </documentType>

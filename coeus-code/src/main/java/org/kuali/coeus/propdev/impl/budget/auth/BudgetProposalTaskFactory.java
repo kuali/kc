@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.budget;
+package org.kuali.coeus.propdev.impl.budget.auth;
 
 import org.apache.struts.action.ActionForm;
 import org.kuali.coeus.sys.framework.auth.task.Task;
