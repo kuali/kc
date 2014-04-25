@@ -53,7 +53,8 @@ public class S2sOppForms extends KcPersistableBusinessObjectBase {
     @Transient
     private Boolean selectToPrint;
     
-    @Transient
+    @Column(name = "USER_ATTACHED_FORM")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean userAttachedForm;
 
     public S2sOppFormsId getS2sOppFormsId() {

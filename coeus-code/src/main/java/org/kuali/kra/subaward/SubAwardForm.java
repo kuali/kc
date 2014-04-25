@@ -43,12 +43,15 @@ import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 /**
  * This class represents the SubAward Form Struts class....
  */
@@ -472,6 +475,20 @@ implements PermissionsForm, AuditableForm, CustomDataDocumentForm {
         }
         
         return displayEditButton;
+    }
+    /**
+     * This method disables the caching of drop down lists.  
+     * Subaward Print has a drop down list whose value depends on another drop down list.  With caching enabled the
+     * drop down list will always be empty.  Disabling caching will reload the drop down list whenever the page is posted.
+     * 
+     * @see org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm#populate(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public void populate(HttpServletRequest request) {
+        super.populate(request);
+        if (getActionFormUtilMap() != null && getActionFormUtilMap() instanceof ActionFormUtilMap) {
+            ((ActionFormUtilMap) getActionFormUtilMap()).setCacheValueFinderResults(false);
+        } 
     }
     
     protected VersionHistoryService getVersionHistoryService() {
