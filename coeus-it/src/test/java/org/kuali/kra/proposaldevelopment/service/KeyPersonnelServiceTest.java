@@ -133,38 +133,6 @@ public class KeyPersonnelServiceTest extends KcIntegrationTestBase {
             LOG.info("Key = " + key);
         }
     }
-    
-    @Test
-    public void testPersonnelRoleDescCoi() {
-        document.getDevelopmentProposal().setSponsorCode(NON_NIH_SPONSOR_CODE);
-        ProposalPerson person = new ProposalPerson();
-        person.setProposalPersonRoleId(COI_ROLE_ID);
-        person.setDevelopmentProposal(document.getDevelopmentProposal());
-        assertEquals(KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(PropAwardPersonRole.class, COI_ROLE_ID).getRoleDescription(),
-                getKeyPersonnelService().getPersonnelRoleDesc(person));        
-    }
-    
-    
-    @Test
-    public void testPersonnelRoleDescCoiNih() {
-        document.getDevelopmentProposal().setSponsorCode(NIH_SPONSOR_CODE);
-        ProposalPerson person = new ProposalPerson();
-        person.setProposalPersonRoleId(COI_ROLE_ID);
-        person.setDevelopmentProposal(document.getDevelopmentProposal());
-        assertEquals(parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, NIH_COI_PARAM), 
-                getKeyPersonnelService().getPersonnelRoleDesc(person));        
-    }
-    
-    @Test
-    public void testPersonnelRoleDescMpi() {
-        document.getDevelopmentProposal().setSponsorCode(NIH_SPONSOR_CODE);
-        ProposalPerson person = new ProposalPerson();
-        person.setProposalPersonRoleId(COI_ROLE_ID);
-        person.setDevelopmentProposal(document.getDevelopmentProposal());
-        assertEquals(parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, NIH_MPI_PARAM), 
-                getKeyPersonnelService().getPersonnelRoleDesc(person));        
-    }
-    
 
     private KeyPersonnelServiceImpl getKeyPersonnelService() {
         return (KeyPersonnelServiceImpl) KcServiceLocator.getService(KeyPersonnelService.class);

@@ -599,8 +599,8 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     private void evaluateMoveOptions() {
         for (int i = 0; i < proposalPersons.size(); i++) {
             ProposalPerson person = proposalPersons.get(i);
-            person.setMoveUpAllowed(i > 0 && !getKeyPersonnelService().isPrincipalInvestigator(person) && !getKeyPersonnelService().isPrincipalInvestigator(proposalPersons.get(i - 1)) && !(proposalPersons.get(i - 1).isMultiplePi()));
-            person.setMoveDownAllowed(i < (proposalPersons.size() - 1) && !getKeyPersonnelService().isPrincipalInvestigator(person));
+            person.setMoveUpAllowed(i > 0 && !person.isPrincipalInvestigator() && !proposalPersons.get(i - 1).isPrincipalInvestigator() && !(proposalPersons.get(i - 1).isMultiplePi()));
+            person.setMoveDownAllowed(i < (proposalPersons.size() - 1) && !person.isPrincipalInvestigator());
             if (person.isMultiplePi()) {
                 person.setMoveUpAllowed(i > 0 && person.isMultiplePi() == proposalPersons.get(i - 1).isMultiplePi());
                 person.setMoveDownAllowed(person.isMoveDownAllowed() && person.isMultiplePi() == proposalPersons.get(i + 1).isMultiplePi());
