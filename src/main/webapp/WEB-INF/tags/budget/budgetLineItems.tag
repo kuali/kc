@@ -38,6 +38,7 @@
 	</c:otherwise>
 </c:choose>
 
+<c:set var="applyRateFlagReadOnly" value="${budgetExpensePanelReadOnly}" />
 <c:set var="budgetExpensePanelReadOnly" value="${budgetExpensePanelReadOnly || budgetLineItem.subAwardLineItem}" />
 
 <c:set var="budgetExpensePanelReadOnlyIfBudgetVersionIsFinal" value="${budgetExpensePanelReadOnly}" />
@@ -145,7 +146,8 @@
 			        	<kra-b:budgetLineItemFullView budgetPeriod = "${budgetPeriod}" budgetPeriodBO="${budgetPeriodBO}" budgetCategoryTypeCode = "${budgetCategoryTypeCode}" 
 			        		budgetLineItemNumber="${budgetLineItemNumber}" budgetLineItem="${budgetLineItem}" 
 			        		innerTabParent="${innerTabParent}" budgetExpensePanelReadOnly="${budgetExpensePanelReadOnly}" 
-			        		budgetExpensePanelReadOnlyIfBudgetVersionIsFinal="${budgetExpensePanelReadOnlyIfBudgetVersionIsFinal}"/>
+			        		budgetExpensePanelReadOnlyIfBudgetVersionIsFinal="${budgetExpensePanelReadOnlyIfBudgetVersionIsFinal}"
+			        		applyRateFlagReadOnly="${applyRateFlagReadOnly}"/>
 		        	</c:otherwise>
 	        	</c:choose>
 			</td>
