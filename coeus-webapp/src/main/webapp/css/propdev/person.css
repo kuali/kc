@@ -38,3 +38,8 @@
 .kc-personnel-table .uif-verticalRadioFieldset > span {
     margin: 0;
 }
+
+.kc-unit-disable-true {
+    opacity: .5;
+    pointer-events: none;
+}
