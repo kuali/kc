@@ -34,7 +34,7 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase {
     @PortableSequenceGenerator(name = "SEQ_S2S_USER_ATTD_FORM_ID")
     @GeneratedValue(generator = "SEQ_S2S_USER_ATTD_FORM_ID")
     @Id
-    @Column(name = "S2S_USER_ATTCHED_FORM_ID")
+    @Column(name = "S2S_USER_ATTACHED_FORM_ID")
     private Long s2sUserAttachedFormId; 
     
     @Column(name = "PROPOSAL_NUMBER")
@@ -56,10 +56,14 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase {
     @Column(name = "FORM_FILE_NAME")
     private String formFileName; 
     
-    @Column(name = "FILE_FILE")
+    @Column(name = "FORM_FILE")
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
     private byte[] formFile; 
     
     @Column(name = "XML_FILE")
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
     private String xmlFile; 
     
     @Column(name = "DESCRIPTION")
