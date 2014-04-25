@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.osedu.org/licenses/ECL-2.0
+ * http://www.opensource.org/licenses/ecl1.php
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,27 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.budget.docperm;
+package org.kuali.coeus.propdev.impl.budget.auth.task;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
-
-/**
- * The Budget Modify Authorizer checks to see if the user has 
- * the necessary permission to modify a specific budget.
- *
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
- */
-public class ProposalHierarchyBudgetAuthorizer extends BudgetAuthorizer {
+public class ViewProposalBudgetPersonSalaryAuthorizer extends BudgetAuthorizer{
 
     public boolean isAuthorized(String userId, BudgetTask task) {
-        BudgetDocument budgetDocument = task.getBudgetDocument();
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)budgetDocument.getParentDocument();
 
-        return !doc.isViewOnly() && hasParentPermission(userId, doc, PermissionConstants.MAINTAIN_PROPOSAL_HIERARCHY);
+        BudgetDocument budgetDocument = task.getBudgetDocument();
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) budgetDocument.getParentDocument();
+        
+        return hasParentPermission(userId, doc, Constants.MODULE_NAMESPACE_BUDGET, PermissionConstants.VIEW_SALARIES);
     }
 }
+

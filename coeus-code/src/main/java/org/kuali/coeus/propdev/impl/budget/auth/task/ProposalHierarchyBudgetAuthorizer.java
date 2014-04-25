@@ -13,41 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.budget.docperm;
+package org.kuali.coeus.propdev.impl.budget.auth.task;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
+
 /**
- * The Budget View Authorizer checks to see if the user has 
- * the necessary permission to view a specific budget.
+ * The Budget Modify Authorizer checks to see if the user has 
+ * the necessary permission to modify a specific budget.
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ViewProposalBudgetAuthorizer extends BudgetAuthorizer {
+public class ProposalHierarchyBudgetAuthorizer extends BudgetAuthorizer {
 
-    private KcWorkflowService kraWorkflowService;
-
-    @Override
     public boolean isAuthorized(String userId, BudgetTask task) {
-        
         BudgetDocument budgetDocument = task.getBudgetDocument();
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) budgetDocument.getParentDocument();
-        
-        return hasParentPermission(userId, doc, PermissionConstants.VIEW_BUDGET) 
-            || kraWorkflowService.hasWorkflowPermission(userId, doc);
-            
-    }
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)budgetDocument.getParentDocument();
 
-    public KcWorkflowService getKraWorkflowService() {
-        return kraWorkflowService;
-    }
-
-    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
-        this.kraWorkflowService = kraWorkflowService;
+        return !doc.isViewOnly() && hasParentPermission(userId, doc, PermissionConstants.MAINTAIN_PROPOSAL_HIERARCHY);
     }
 }
