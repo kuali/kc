@@ -17,8 +17,6 @@ package org.kuali.coeus.propdev.impl.person;
 
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.budget.personnel.PersonRolodex;
-import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
@@ -81,72 +79,7 @@ public interface KeyPersonnelService {
      * @param unitId
      * @return ProposalPersonUnit
      */
-    public ProposalPersonUnit createProposalPersonUnit(String unitId, ProposalPerson person);
-
-    /**
-     * Uses a <code>personId</code> obtained from the <code>{@link KcPerson}</code> lookup
-     * to create a <code>{@link ProposalPerson}</code> instance.
-     *
-     * @param personId
-     * @return ProposalPerson
-     */
-    //public ProposalPerson createProposalPersonFromPersonId(String personId);
-
-    /**
-     * Uses a <code>rolodexId</code> obtained from the <code>{@link KcPerson}</code> or <code>{@link Rolodex}</code> lookup
-     * to create a <code>{@link ProposalPerson}</code> instance.
-     *
-     * @param rolodexId
-     * @return ProposalPerson
-     */
-   // public ProposalPerson createProposalPersonFromRolodexId(String rolodexId);
-
-    /**
-     * Determines if a given {@link ProposalPerson} instance is considered a PI. This is done by comparing the {@link PropAwardPersonRole} of the
-     *  {@link ProposalPerson} as a PI role.
-     * 
-     * @param person {@link ProposalPerson} instance to compare
-     * @return true if the {@link ProposalPerson} is a PI
-     */
-    public boolean isPrincipalInvestigator(ProposalPerson person);
-
-    /**
-     * Determines if a given {@link ProposalPerson} instance is considered a COI. This is done by comparing the {@link PropAwardPersonRole} of the
-     *  {@link ProposalPerson} as a COI role.
-     * 
-     * @param person {@link ProposalPerson} instance to compare
-     * @return true if the {@link ProposalPerson} is a COI
-     */
-    public boolean isCoInvestigator(ProposalPerson person);
-    
-    
-    /**
-     * Determines if a given {@link ProposalPerson} instance is considered a KP. This is done by comparing the {@link PropAwardPersonRole} of the
-     *  {@link ProposalPerson} as a COI role.
-     * 
-     * @param person {@link ProposalPerson} instance to compare
-     * @return true if the {@link ProposalPerson} is a COI
-     */
-    public boolean isKeyPerson(ProposalPerson person);
-    
-
-    /**
-     * Determines if a given {@link ProposalPerson} instance is considered a PI or COI. This is done by comparing the {@link PropAwardPersonRole} of the
-     *  {@link ProposalPerson} as a PI or COI role.
-     * 
-     * @param person {@link ProposalPerson} instance to compare
-     * @return true if the {@link ProposalPerson} is a PI or COI
-     */
-    public boolean isInvestigator(ProposalPerson person);
-        
-    
-    /**
-     * Determines if a {@link ProposalDevelopmentDocument has a PI composited in it anywhere
-     * 
-     * @param document
-     * @return true if the {@link ProposalDevelopmentDocument} has a PI
-     */
-    public boolean hasPrincipalInvestigator(ProposalDevelopmentDocument document);
+    public ProposalPersonUnit createProposalPersonUnit(String unitId, ProposalPerson person);        
 
     /**
      * Checks if the application-level configuration parameter for credit splits is enabled. This allows credit splits to be used within the application
@@ -158,23 +91,6 @@ public interface KeyPersonnelService {
     public boolean isCreditSplitEnabled();
     
     /**
-     * Compares the <code>roleId</code> of the given {@link PropAwardPersonRole} against the <code>personrole.readonly.roles</code> to see if it is 
-     * read only or not.
-     * 
-     * @param role to check
-     * @return true if the <code>role</code> is a value in the <code>personrole.readonly.roles</code> system parameter, and false
-     *         if the <code>role</code> is null
-     */
-    public boolean isRoleReadOnly(PropAwardPersonRole role);
-
-    /**
-     * 
-     * @param document to get Sponsor status
-     * @return Principal Investigator Role Description from the System Parameters
-     */
-    public String getPrincipalInvestigatorRoleDescription(ProposalDevelopmentDocument document);
-    
-    /**
      * Assigns the lead unit of the proposal to the given principal investigator
      *
      * @param document
@@ -182,15 +98,6 @@ public interface KeyPersonnelService {
      */
     
     public void assignLeadUnit(ProposalPerson person, String unitNumber);
-    
-    /**
-     * Load role descriptions based on whether sponsor is NIH-related
-     * @param sponsorIsNih
-     * @return
-     */
-    public Map<String, String> loadKeyPersonnelRoleDescriptions(boolean sponsorIsNih);
-
-    public String getPersonnelRoleDesc(PersonRolodex person);
     
     public void addProposalPerson(ProposalPerson proposalPerson, ProposalDevelopmentDocument document);
     
