@@ -363,6 +363,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 i++;
             }
             answerHeader.setCompleted(isQuestionnaireAnswerComplete(answerHeader.getAnswers()));
+            setupChildAnswerIndicator(answerHeader);
         }
     }
 
