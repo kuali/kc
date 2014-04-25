@@ -32,6 +32,8 @@ import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.subaward.bo.SubAwardTemplateInfo;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -55,6 +57,7 @@ import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContrac
 import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContractData.SubcontractDetail;
 import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContractData.SubcontractTemplateInfo;
 
+
 public class SubAwardFDPPrintXmlStream implements XmlStream  {
     private static final String SUB_AWARD_FDP_TEMPLATE  = "fdpAgreement";
     private BusinessObjectService businessObjectService;
@@ -65,6 +68,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
     private String cfdaNumber;
     private String unitName;
     private ParameterService parameterService;
+    
     
     
     public void setParameterService(ParameterService parameterService) {
@@ -174,6 +178,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
     @Override
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> reportParameters) {
+        
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
         SubContractDataDocument subContractDataDoc = SubContractDataDocument.Factory.newInstance();
         SubContractData subContractData = SubContractData.Factory.newInstance();
@@ -322,12 +327,18 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         }
         public void setPrintRequirement(SubContractData subContractData, SubAward subaward) {
             PrintRequirement printrequirement =PrintRequirement.Factory.newInstance();
+            ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
+            String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+            String path=configurationService.getPropertyValueAsString(externalImageURL);
             printrequirement.setAttachment5Required("N");
             parameterService = KcServiceLocator.getService(ParameterService.class);
             String subawardattachment5 = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, "Subaward_FDP_Attachment_5_Form_ID");
             if(subawardattachment5.equals("1")){
               printrequirement.setAttachment5Required("Y");
             }
+            printrequirement.setImageCheckedPath(path);
+            printrequirement.setImageUncheckedPath(path);
            subContractData.setPrintRequirement(printrequirement);
         }
+        
 }

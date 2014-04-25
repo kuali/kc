@@ -63,6 +63,7 @@ import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
+import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -744,12 +745,24 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         }
         List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
         if(s2sOpportunity.getSchemaUrl()!=null){
-            s2sOppForms = getS2SService().parseOpportunityForms(s2sOpportunity);
+            try{
+            	s2sOppForms = getS2SService().parseOpportunityForms(s2sOpportunity);
+            }catch(S2SException ex){
+            	if(ex.getErrorKey().equals(KeyConstants.ERROR_GRANTSGOV_NO_FORM_ELEMENT)) {
+            		ex.setMessage(s2sOpportunity.getOpportunityId());
+            	}
+            	if(ex.getTabErrorKey()!=null){
+            		GlobalVariables.getMessageMap().putError(ex.getTabErrorKey(), ex.getErrorKey(),ex.getMessageWithParams());
+            	}else{
+            		GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
+            	}
+            }
+            List<String> mandatoryForms = new ArrayList<String>();
             if(s2sOppForms!=null){
                 for(S2sOppForms s2sOppForm:s2sOppForms){
                     if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
                         mandatoryFormNotAvailable = true;
-                        break;
+                        mandatoryForms.add(s2sOppForm.getFormName());
                     }
                 }
             }
@@ -759,8 +772,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
                 proposal.setS2sOpportunity(s2sOpportunity);
                 result = null;
             }else{
-                GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,
-                        proposal.getS2sOpportunity().getOpportunityId());
+            	GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,s2sOpportunity.getOpportunityId(),mandatoryForms.toString());
                 proposal.setS2sOpportunity(new S2sOpportunity());
             }
         }

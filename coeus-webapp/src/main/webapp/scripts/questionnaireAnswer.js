@@ -123,7 +123,7 @@ var ruleReferenced;
      */
 	function isConditionMatchAnswers(answer, conditionObj, ruleId) {
 		// if condition is not set (ie, condition is empty and isNaN) , then it is a required question if its parents is displayed
-		var isMatched = (conditionObj.conditionFlag == 'false') || (isRuleValid(ruleId) & isConditionMatched(answer, conditionObj));
+		var isMatched = (isRuleValid(ruleId) && isConditionMatched(answer, conditionObj));
 		if (!isMatched && $j(answer).parent().siblings('div.answer').size() > 0) {
 			$j(answer).parent().siblings('div.answer').each (function() {
 					if (!isMatched) {
@@ -189,7 +189,7 @@ var ruleReferenced;
             	isMatched = (condition == 5 && (Number(answerValue) < Number(conditionValue))) ||
             	            (condition == 6 && (Number(answerValue) <= Number(conditionValue))) ||
             	            (condition == 7 && (Number(answerValue) == Number(conditionValue))) ||
-            	            (condition == 8 && (Number(answerValue) != Number(conditionValue))) ||
+            	            (condition == 8 && (answerValue.length > 0) && (Number(answerValue) != Number(conditionValue))) ||
             	            (condition == 9 && (Number(answerValue) >= Number(conditionValue))) ||
             	            (condition == 10 && (Number(answerValue) > Number(conditionValue)));
             }    
