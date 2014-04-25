@@ -26,8 +26,8 @@ import org.kuali.kra.budget.printing.BudgetPrintType;
 import org.kuali.kra.budget.printing.print.*;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
-import org.kuali.kra.proposaldevelopment.budget.bo.BudgetPrintForm;
-import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
+import org.kuali.coeus.propdev.impl.budget.print.BudgetPrintForm;
+import org.kuali.coeus.propdev.impl.budget.print.BudgetPrintService;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

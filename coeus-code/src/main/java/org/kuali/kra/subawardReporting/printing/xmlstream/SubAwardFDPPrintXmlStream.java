@@ -16,14 +16,11 @@
 package org.kuali.kra.subawardReporting.printing.xmlstream;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.common.framework.unit.UnitService;
@@ -32,7 +29,6 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactType;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
-import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.bo.SubAwardTemplateInfo;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
@@ -40,9 +36,9 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.uif.UifConstants.ConfigProperties;
 
 import org.kuali.kra.infrastructure.Constants;
+
 import org.kuali.kra.award.printing.schema.AwardHeaderType;
 import org.kuali.kra.award.printing.schema.AwardType;
 import org.kuali.kra.award.printing.schema.AwardType.AwardDetails;
