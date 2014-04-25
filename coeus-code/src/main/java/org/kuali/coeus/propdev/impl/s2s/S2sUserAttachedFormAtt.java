@@ -48,6 +48,8 @@ public class S2sUserAttachedFormAtt extends KcPersistableBusinessObjectBase {
     private String contentId;
     
     @Column(name = "ATTACHMENT")
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
     private byte[] attachment; 
     
     @ManyToOne(cascade = { CascadeType.REFRESH })
