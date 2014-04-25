@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.s2s.service.impl;
+package org.kuali.coeus.propdev.impl.s2s;
 
 
 import java.io.ByteArrayInputStream;
@@ -37,19 +37,17 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xpath.XPathAPI;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
-import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
-import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
-import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormAtt;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
-import org.kuali.kra.s2s.service.S2SUserAttachedFormService;
 import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.data.DataObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -66,15 +64,21 @@ import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.XfaForm;
 
+@Component("s2SUserAttachedFormService")
 public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormService {
     private static final String DUPLICATE_FILE_NAMES = "Attachments contain duplicate file names";
     private static final String XFA_NS = "http://www.xfa.org/schema/xfa-data/1.0/";
+
+    @Autowired
+    @Qualifier("s2SValidatorService")
     private S2SValidatorService s2SValidatorService;
-    private BusinessObjectService businessObjectService;
+
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
     
     @Override
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    public List<S2sUserAttachedForm> extractNSaveUserAttachedForms(DevelopmentProposal developmentProposal, 
+    public List<S2sUserAttachedForm> extractNSaveUserAttachedForms(DevelopmentProposal developmentProposal,
                                                                         S2sUserAttachedForm s2sUserAttachedForm) throws Exception{
         PdfReader reader = null;
         List<S2sUserAttachedForm> formBeans = new ArrayList<S2sUserAttachedForm>();
@@ -88,7 +92,7 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
                 Map attachments = extractAttachments(reader);
                 formBeans = extractAndPopulateXml(reader,s2sUserAttachedForm,attachments);
             }
-            savedFormBeans = (List<S2sUserAttachedForm>) businessObjectService.save(formBeans);
+            savedFormBeans = dataObjectService.save(formBeans);
             resetFormsAvailability(developmentProposal,savedFormBeans);
         }finally{
             if(reader!=null) reader.close();
@@ -113,7 +117,7 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
     }
 
     private Map extractAttachments(PdfReader reader)throws IOException{
-        Map fileMap = new HashMap();
+        Map<Object, Object> fileMap = new HashMap<>();
         
         PdfDictionary catalog = reader.getCatalog();
         PdfDictionary names = (PdfDictionary) PdfReader.getPdfObject(catalog.get(PdfName.NAMES));
@@ -122,9 +126,9 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
             if (embFiles != null) {
                 HashMap embMap = PdfNameTree.readTree(embFiles);
                 
-                for (Iterator i = embMap.values().iterator(); i.hasNext();) {
-                    PdfDictionary filespec = (PdfDictionary) PdfReader.getPdfObject((PdfObject) i.next());
-                    Object[] fileInfo = unpackFile(reader, filespec);
+                for (Map.Entry<Object, Object> entry : fileMap.entrySet()) {
+                    PdfDictionary filespec = (PdfDictionary) PdfReader.getPdfObject((PdfObject) entry.getValue());
+                    Object[] fileInfo = unpackFile(filespec);
                     if(!fileMap.containsKey(fileInfo[0])) {
                         fileMap.put(fileInfo[0], fileInfo[1]);
                     }
@@ -141,7 +145,7 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
                 if (!PdfName.FILEATTACHMENT.equals(subType))
                     continue;
                 PdfDictionary filespec = (PdfDictionary) PdfReader.getPdfObject(annot.get(PdfName.FS));
-                Object[] fileInfo = unpackFile(reader, filespec);
+                Object[] fileInfo = unpackFile(filespec);
                 if(fileMap.containsKey(fileInfo[0])) {
                     throw new RuntimeException(DUPLICATE_FILE_NAMES);
                 }
@@ -154,15 +158,12 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
     /**
      * Unpacks a file attachment.
      *
-     * @param reader
-     *            The object that reads the PDF document
      * @param filespec
      *            The dictonary containing the file specifications
      * @throws IOException
      */
-    private Object[] unpackFile(PdfReader reader, PdfDictionary filespec)throws IOException  {
-        S2sUserAttachedFormAtt userAttachedS2SFormAttachmentBean = new S2sUserAttachedFormAtt();
-        
+    private Object[] unpackFile(PdfDictionary filespec)throws IOException  {
+
         if (filespec == null)
             return null;
         
@@ -194,8 +195,8 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
         return fileInfo;
     }
     
-    private List extractAndPopulateXml(PdfReader reader, S2sUserAttachedForm userAttachedFormBean, Map attachments) throws Exception {
-        List formBeans = new ArrayList();
+    private List<S2sUserAttachedForm> extractAndPopulateXml(PdfReader reader, S2sUserAttachedForm userAttachedFormBean, Map attachments) throws Exception {
+        List<S2sUserAttachedForm> formBeans = new ArrayList<>();
         XfaForm xfaForm = reader.getAcroFields().getXfa();
         Node domDocument = xfaForm.getDomDocument();
         if(domDocument==null){
@@ -221,7 +222,7 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
             if(byteArrayInputStream!=null) byteArrayInputStream.close();
         }
         if (document != null) {
-            Element form = null;
+            Element form;
             NodeList elements = document.getElementsByTagNameNS("http://apply.grants.gov/system/MetaGrantApplication", "Forms");
             Element element = (Element)elements.item(0);
             if(element!=null){
@@ -242,7 +243,7 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
                                 seletctedForms.add(formName);
 
                             }
-                            List exceptions = new ArrayList();
+                            List<String> exceptions = new ArrayList<>();
                             for (int i = 0; i < formsCount; i++) {
                                 form = (Element) formChildren.item(i);
                                 String formNodeName = form.getLocalName();
@@ -270,7 +271,7 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
         }
         return formBeans;
     }
-    private void addForm(List formBeans, Element form,
+    private void addForm(List<S2sUserAttachedForm> formBeans, Element form,
             S2sUserAttachedForm userAttachedFormBean, Map attachments) throws Exception {
         S2sUserAttachedForm userAttachedForm = processForm(form,userAttachedFormBean,attachments);
         if(userAttachedForm!=null){
@@ -282,9 +283,9 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
     private S2sUserAttachedForm processForm(Element form,S2sUserAttachedForm userAttachedForm, Map attachments) throws Exception {
         
         
-        String formname = null;
-        String namespaceUri = null;
-        String formXML = null;
+        String formname;
+        String namespaceUri;
+        String formXML;
         namespaceUri = form.getNamespaceURI();
         formname = form.getLocalName();
         FormMappingInfo bindingInfoBean = new FormMappingLoader().getFormInfo(namespaceUri);
@@ -302,7 +303,7 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
             Node hashValue = hashValueNodes.item(i);
             ((Element)hashValue).setAttribute("xmlns:glob", "http://apply.grants.gov/system/Global-V1.0");
         }
-        validateForm(doc,namespaceUri);
+        validateForm(doc);
         
         S2sUserAttachedForm newUserAttachedFormBean = cloneUserAttachedForm(userAttachedForm);
         newUserAttachedFormBean.setNamespace(namespaceUri);
@@ -335,35 +336,10 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
             removeAllEmptyNodes(document,xpath,parentLevel);
         }
     }   
-    private void validateForm(Document userAttachedFormDocument, String namespace) throws Exception{
+    private void validateForm(Document userAttachedFormDocument) throws Exception{
         XmlObject xmlObject = XmlObject.Factory.parse(userAttachedFormDocument);
         List<AuditError> errors = new ArrayList<AuditError>();
         s2SValidatorService.validate(xmlObject, errors) ;
-    }
-    public String createPackageName(String namespace) {
-        String namespaceLowercase = namespace.toLowerCase();
-        StringBuffer packageName = new StringBuffer();
-        int beginIndex = namespaceLowercase.indexOf("://")+3;
-        int endIndex = namespaceLowercase.length();
-        String packageSubString = namespaceLowercase.subSequence(beginIndex, endIndex).toString();
-        String[] tokens = packageSubString.split("/");
-        for (int i = 0; i < tokens.length; i++) {
-            String packageToken = tokens[i];
-            String[] subTokens = packageToken.split("\\.");
-            if(subTokens.length>1){
-                int subTokensLength = (i==(tokens.length-1))?subTokens.length-2:subTokens.length-1;
-                for (int j = subTokensLength; j >=0 ; j--) {
-                    String subToken = subTokens[j];
-                    packageName.append(subToken);
-                    packageName.append(".");
-                }
-            }else{
-                packageName.append(packageToken);
-                packageName.append(".");
-            }
-        }
-        String finalPackageName = packageName.charAt(packageName.length()-1)=='.'?packageName.substring(0, packageName.length()-1):packageName.toString();
-        return finalPackageName.toString().replaceAll("-", "_");
     }
 
     /**
@@ -413,22 +389,6 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
         return newUserAttachedFormBean;
     }
 
-    /**
-     * Gets the s2SValidatorService attribute. 
-     * @return Returns the s2SValidatorService.
-     */
-    public S2SValidatorService getS2SValidatorService() {
-        return s2SValidatorService;
-    }
-
-    /**
-     * Sets the s2SValidatorService attribute value.
-     * @param s2sValidatorService The s2SValidatorService to set.
-     */
-    public void setS2SValidatorService(S2SValidatorService s2sValidatorService) {
-        s2SValidatorService = s2sValidatorService;
-    }
-
     private void updateAttachmentNodes(Document document, S2sUserAttachedForm userAttachedFormBean, Map attachments) throws Exception{
         NodeList lstFileName = document.getElementsByTagNameNS("http://apply.grants.gov/system/Attachments-V1.0", "FileName");
         NodeList lstFileLocation = document.getElementsByTagNameNS("http://apply.grants.gov/system/Attachments-V1.0", "FileLocation");
@@ -447,7 +407,7 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
         byte fileBytes[];
         String hashValue;
         String contentId;
-        List<S2sUserAttachedFormAtt> attachmentList = new ArrayList<S2sUserAttachedFormAtt>();
+        List<S2sUserAttachedFormAtt> attachmentList = new ArrayList<>();
         for (int index = 0; index < lstFileName.getLength(); index++) {
             fileNode = lstFileName.item(index);
             if (fileNode.getFirstChild() == null) {
@@ -489,22 +449,6 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
         userAttachedFormBean.setS2sUserAttachedFormAtts(attachmentList);
     }
 
-    /**
-     * Gets the businessObjectService attribute. 
-     * @return Returns the businessObjectService.
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    /**
-     * Sets the businessObjectService attribute value.
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
     @Override
     public void resetFormAvailability(DevelopmentProposal developmentProposal, String namespace) {
         S2sOpportunity opportunity = developmentProposal.getS2sOpportunity(); 
@@ -519,4 +463,19 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
         }
     }
 
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
+
+    public S2SValidatorService getS2SValidatorService() {
+        return s2SValidatorService;
+    }
+
+    public void setS2SValidatorService(S2SValidatorService s2SValidatorService) {
+        this.s2SValidatorService = s2SValidatorService;
+    }
 }
