@@ -47,13 +47,13 @@ public class ProposalPersonComparator implements Comparator<ProposalPerson> {
         DevelopmentProposal proposal = person1.getDevelopmentProposal();
                
         if (person1.isInvestigator() || person2.isInvestigator()) {
-            if (getKeyPersonnelService().isPrincipalInvestigator(person1) 
-                    || getKeyPersonnelService().isPrincipalInvestigator(person2)) {
-               if (getKeyPersonnelService().isPrincipalInvestigator(person1)) {
+            if (person1.isPrincipalInvestigator() 
+                    || person2.isPrincipalInvestigator()) {
+               if (person1.isPrincipalInvestigator()) {
                    retval--;
                }
                
-               if (getKeyPersonnelService().isPrincipalInvestigator(person2)) {
+               if (person2.isPrincipalInvestigator()) {
                    retval++;
                }
             }

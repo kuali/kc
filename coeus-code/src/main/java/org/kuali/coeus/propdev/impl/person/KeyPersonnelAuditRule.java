@@ -201,11 +201,11 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
      * @see KeyPersonnelService#isPrincipalInvestigator(ProposalPerson)
      */
     private boolean isInvestigator(ProposalPerson person) {
-        return getKeyPersonnelService().isInvestigator(person);
+        return person.isInvestigator();
     }
         
     private boolean hasPrincipalInvestigator(ProposalDevelopmentDocument document) {
-        return getKeyPersonnelService().hasPrincipalInvestigator(document);
+        return document.getDevelopmentProposal().getPrincipalInvestigator() != null;
     }
 
     /**

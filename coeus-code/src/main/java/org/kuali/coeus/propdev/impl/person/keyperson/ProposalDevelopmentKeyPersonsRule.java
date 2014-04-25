@@ -84,7 +84,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
        
                
         for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
-            if (isPrincipalInvestigator(person)) {
+            if (person.isPrincipalInvestigator()) {
                 pi_cnt++;
                  
             }
@@ -104,22 +104,22 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
 
         if (pi_cnt > 1) {
             retval = false;
-            reportError("newProposalPerson", ERROR_INVESTIGATOR_UPBOUND, getKeyPersonnelService().getPrincipalInvestigatorRoleDescription(document));            
+            reportError("newProposalPerson", ERROR_INVESTIGATOR_UPBOUND, document.getDevelopmentProposal().getPrincipalInvestigator().getRole().getDescription());            
         }        
         personIndex=0;
         for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
 
-            if(isCoInvestigator(person) && (person.getUnits() != null) && (person.getUnits().size()==0)){
+            if(person.isCoInvestigator() && (person.getUnits() != null) && (person.getUnits().size()==0)){
                 reportError("newProposalPersonUnit[" + personIndex + "].unitNumber",
                             ERROR_ONE_UNIT, person.getFullName());            
                 retval = false;
             }
-            if(isKeyPerson(person) && person.getOptInUnitStatus() && (person.getUnits()!= null) && (person.getUnits().size() ==0)){
+            if(person.isKeyPerson() && person.getOptInUnitStatus() && (person.getUnits()!= null) && (person.getUnits().size() ==0)){
                 reportError("newProposalPersonUnit[" + personIndex + "].unitNumber",
                             ERROR_ONE_UNIT, person.getFullName());  
                 retval = false;
             }
-            if(isKeyPerson(person) && StringUtils.isBlank(person.getProjectRole())){
+            if(person.isKeyPerson() && StringUtils.isBlank(person.getProjectRole())){
                 reportError("document.developmentProposalList[0].proposalPersons[" + personIndex + "].projectRole",
                             RiceKeyConstants.ERROR_REQUIRED,"Key Person Role");
                 //retval = false;
@@ -190,9 +190,9 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
         LOG.debug("validating " + person);
         LOG.info("Person role is " + person.getRole());
 
-        if (isPrincipalInvestigator(person) && hasPrincipalInvestigator(document)) {
+        if (person.isPrincipalInvestigator() && document.getDevelopmentProposal().getPrincipalInvestigator() != null) {
             LOG.debug("error.principalInvestigator.limit");
-            reportError("newProposalPerson", ERROR_INVESTIGATOR_UPBOUND, getKeyPersonnelService().getPrincipalInvestigatorRoleDescription(document));
+            reportError("newProposalPerson", ERROR_INVESTIGATOR_UPBOUND, document.getDevelopmentProposal().getPrincipalInvestigator().getRole().getDescription());
             retval = false;
         }
         LOG.info("roleid is " + person.getProposalPersonRoleId());
@@ -209,11 +209,11 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
         int lastIndex = document.getDevelopmentProposal().getProposalPersons().lastIndexOf(person);
         if (firstIndex != -1) {
             if (firstIndex == lastIndex) {
-                if (isKeyPerson(person) && isKeyPerson(document.getDevelopmentProposal().getProposalPersons().get(firstIndex))) {
+                if (person.isKeyPerson() && document.getDevelopmentProposal().getProposalPersons().get(firstIndex).isKeyPerson()) {
                     reportError("newProposalPerson", ERROR_PROPOSAL_PERSON_EXISTS_WITH_ROLE, person.getFullName(), "Key Person");
                     retval = false;
                 }
-                else if (isInvestigator(person) && isInvestigator(document.getDevelopmentProposal().getProposalPersons().get(firstIndex))) {
+                else if (person.isInvestigator() && document.getDevelopmentProposal().getProposalPersons().get(firstIndex).isInvestigator()) {
                     reportError("newProposalPerson", ERROR_PROPOSAL_PERSON_EXISTS_WITH_ROLE, person.getFullName(), "Investigator");
                     retval = false;                    
                 }      
@@ -236,7 +236,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
             }
         }
         
-        if(isKeyPerson(person) && isBlank(person.getProjectRole())) {
+        if(person.isKeyPerson() && isBlank(person.getProjectRole())) {
             reportError("newProposalPerson", RiceKeyConstants.ERROR_REQUIRED,"Key Person Role");
             retval = false;
         }
@@ -249,25 +249,6 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
         return retval;
     }
 
-    private boolean isPrincipalInvestigator(ProposalPerson person) {
-        return getKeyPersonnelService().isPrincipalInvestigator(person);
-    }
-
-    private boolean hasPrincipalInvestigator(ProposalDevelopmentDocument document) {
-        return getKeyPersonnelService().hasPrincipalInvestigator(document);
-    }
-
-    private boolean isCoInvestigator(ProposalPerson person){
-        return getKeyPersonnelService().isCoInvestigator(person);
-    }
-    
-    private boolean isInvestigator(ProposalPerson person) {
-        return isCoInvestigator(person) || isPrincipalInvestigator(person);
-    }
-    
-    private boolean isKeyPerson(ProposalPerson person){
-        return getKeyPersonnelService().isKeyPerson(person);
-    }
     /**
      * Locate in Spring <code>{@link KeyPersonnelService}</code> singleton  
      * 
@@ -384,7 +365,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
         
         LOG.info("Person " + person.getProposalPersonNumber() + " has unit " + unit.getUnitNumber());
         
-        return retval && unit.isDelete() && unit.isLeadUnit() && getKeyPersonnelService().isPrincipalInvestigator(person);
+        return retval && unit.isDelete() && unit.isLeadUnit() && person.isPrincipalInvestigator();
     }
 
     /**

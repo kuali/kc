@@ -132,11 +132,11 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
     @Column(name = "OPT_IN_UNIT_STATUS")
     @Convert(converter = BooleanYNConverter.class)
-    private Boolean optInUnitStatus = Boolean.TRUE;
+    private Boolean optInUnitStatus = Boolean.FALSE;
 
     @Column(name = "OPT_IN_CERTIFICATION_STATUS")
     @Convert(converter = BooleanYNConverter.class)
-    private Boolean optInCertificationStatus = Boolean.TRUE;
+    private Boolean optInCertificationStatus = Boolean.FALSE;
 
     @Transient
     private boolean unitdelete;
@@ -2161,7 +2161,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     }
 
     public String getInvestigatorRoleDescription() {
-        return KcServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
+        return getRole().getDescription();
     }
 
     /**

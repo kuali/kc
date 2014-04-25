@@ -169,13 +169,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     public void prepare(ActionForm form, HttpServletRequest request) {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document=pdform.getProposalDevelopmentDocument();
-        List<ProposalPerson> proposalpersons=document.getDevelopmentProposal().getProposalPersons();
-        for (Iterator<ProposalPerson> iter = proposalpersons.iterator(); iter.hasNext();) {
-            ProposalPerson person=(ProposalPerson) iter.next();
-            if (person.getRole() != null) {
-                person.getRole().setReadOnly(getKeyPersonnelService().isRoleReadOnly(person.getRole()));
-            }
-        }
         for (ProposalPersonQuestionnaireHelper helper : pdform.getProposalPersonQuestionnaireHelpers()) {
             helper.prepareView();
             for (int i = 0; i < helper.getAnswerHeaders().size(); i++) {
