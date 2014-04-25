@@ -38,7 +38,7 @@
 	<div class="tab-container" align="center">
    		<h3>
             <span class="subhead-left">Modular Budget Overview (${periodLabel})</span>
-            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular" altText="help"/></span>
+            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.coeus.propdev.impl.budget.modular.BudgetModular" altText="help"/></span>
         </h3>
         <table cellpadding="0" cellspacing="0" summary="Overview Breakdown">
             <tr>
@@ -146,7 +146,7 @@
 	<div class="tab-container" align="center">
    		<h3>
             <span class="subhead-left">F&A</span>
-            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc" altText="help"/></span>
+            <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc" altText="help"/></span>
         </h3>
 		<table align="center" border="0" cellpadding="2" cellspacing="0" width="98%">
         	<tbody>

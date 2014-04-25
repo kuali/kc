@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="BudgetSubAwardFiles" parent="BudgetSubAwardFiles-parentBean" />
   <bean id="BudgetSubAwardFiles-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles" />
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardFiles" />
 		<property name="objectLabel" value="Budget Sub Award Files" />
     <property name="inquiryDefinition" >
       <ref bean="BudgetSubAwardFiles-inquiryDefinition" />
@@ -106,7 +106,7 @@
 
   <bean id="BudgetSubAwardFiles-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Budget Sub Award Files"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardFiles"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -147,7 +147,7 @@
   </bean>
 
   <bean id="BudgetSubAwardFiles-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardFiles"/>
     <property name="headerText" value="Budget Sub Awards"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">
