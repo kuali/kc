@@ -31,7 +31,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.service.S2SService;
-import org.kuali.kra.s2s.service.S2SUserAttachedFormService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -48,7 +47,6 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
     private static final String CONFIRM_REMOVE_OPPRTUNITY_KEY = "confirmRemoveOpportunity";
     private static final String EMPTY_STRING = "";
     private static final String CONTENT_TYPE_XML = "text/xml";
-    private static final String XML_FILE_EXTENSION = "xml";
     private static final String CONTENT_TYPE_PDF = "application/pdf";
 
 

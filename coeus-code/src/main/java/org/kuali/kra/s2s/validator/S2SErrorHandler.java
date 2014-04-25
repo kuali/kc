@@ -35,13 +35,10 @@ public class S2SErrorHandler {
 
     private static Map<String, AuditError> auditErrorMap;
     private static final String ERROR_MAP_FILE = "/org/kuali/kra/s2s/s2sform/S2SErrorMessages.xml";
-    private static final String ERROR_MAP_FILE_V2="/org/kuali/kra/s2s/s2sform/S2SErrorMessagesV2.xml";
     public static AuditError getError(String key) {
         if (auditErrorMap == null) {
         	auditErrorMap = new HashMap<String, AuditError>();
             loadErrors(ERROR_MAP_FILE);
-            if((S2SErrorHandler.class.getResourceAsStream(ERROR_MAP_FILE_V2))!=null)
-            loadErrors(ERROR_MAP_FILE_V2);
         }
         AuditError error = auditErrorMap.get(key);
         AuditError defaultError = new AuditError(Constants.NO_FIELD, key + " is not valid", Constants.GRANTS_GOV_PAGE + "."

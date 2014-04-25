@@ -36,8 +36,7 @@ import java.util.*;
 
 
 /**
- * This class is used to bind the S2SFormBinding.xml and get the information about the namespace , mainclass , stylesheet and
- * package name.
+ * This class is used to bind the S2SFormBinding.xml and get the information about the namespace, mainclass, and stylesheet.
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
@@ -47,7 +46,6 @@ public class FormMappingLoader {
     private static Map<String, FormMappingInfo> bindings;
     private static Map<Integer, List<String>> sortedNameSpaces;
     private static final String BINDING_FILE_NAME = "/org/kuali/kra/s2s/s2sform/S2SFormBinding.xml";
-    private static final String BINDING_FILE_NAME_V2="/org/kuali/kra/s2s/s2sform/S2SFormBinding-V2.xml";
     private static final String NAMESPACE = "namespace";
     private static final String MAIN_CLASS = "mainClass";
     private static final String STYLE_SHEET = "stylesheet";
@@ -93,7 +91,7 @@ public class FormMappingLoader {
             S2sUserAttachedForm userAttachedForm=formList.get(0);
             FormMappingInfo mappingInfo = new FormMappingInfo();
             mappingInfo.setFormName(userAttachedForm.getFormName());
-            mappingInfo.setMainClass("org.kuali.kra.s2s.generator.impl.UserAttachedFormGenerator");
+            mappingInfo.setMainClass(org.kuali.kra.s2s.generator.impl.UserAttachedFormGenerator.class.getName());
             mappingInfo.setNameSpace(namespace);
             mappingInfo.setSortIndex(999);
             mappingInfo.setStyleSheet(createStylesheetName(namespace));
@@ -123,8 +121,6 @@ public class FormMappingLoader {
             	bindings = new Hashtable<String, FormMappingInfo>();
                 sortedNameSpaces = new TreeMap<Integer, List<String>>();
                 loadBindings(BINDING_FILE_NAME);
-                if((FormMappingLoader.class.getResourceAsStream(BINDING_FILE_NAME_V2))!=null)
-                loadBindings(BINDING_FILE_NAME_V2);
             }
         }
         return bindings;
@@ -146,18 +142,11 @@ public class FormMappingLoader {
             builder = factory.newDocumentBuilder();
             document = builder.parse(FormMappingLoader.class.getResourceAsStream(BindingFile));
         }
-        catch (ParserConfigurationException e) {
+        catch (ParserConfigurationException|SAXException|IOException e) {
             LOG.error(S2SConstants.ERROR_MESSAGE, e);
             return;
         }
-        catch (SAXException e) {
-            LOG.error(S2SConstants.ERROR_MESSAGE, e);
-            return;
-        }
-        catch (IOException e) {
-            LOG.error(S2SConstants.ERROR_MESSAGE, e);
-            return;
-        }
+
         Integer sortedIndex;
         List<String> nameSpaceList;
         NodeList formList = document.getElementsByTagName(TAG_FORM);
