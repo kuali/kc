@@ -585,17 +585,17 @@
 
 				<!-- Budget -->
 				
-				<bean class="org.kuali.coeus.propdev.impl.budget.docperm.BudgetAddAuthorizer" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.budget.auth.task.BudgetAddAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="addBudget" />
 					<property name="requiresWritableDoc" value="true" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
                     <property name="kcDocumentRejectionService" ref="kcDocumentRejectionService" />
 				</bean>
-				<bean class="org.kuali.coeus.propdev.impl.budget.docperm.BudgetOpenAuthorizer" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.budget.auth.task.BudgetOpenAuthorizer" parent="parentProposalAuthorizer">
 					<property name="taskName" value="openBudgets" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
 				</bean>
-				<bean class="org.kuali.coeus.propdev.impl.budget.docperm.ModifyBudgetPermission" parent="parentProposalAuthorizer">
+				<bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ModifyBudgetPermission" parent="parentProposalAuthorizer">
 					<property name="taskName" value="modifyBudget" />
 					<property name="requiresWritableDoc" value="true" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />

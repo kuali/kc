@@ -13,31 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.budget.docperm;
+package org.kuali.coeus.propdev.impl.budget.auth.task;
 
-import org.kuali.coeus.propdev.impl.auth.task.ProposalAuthorizer;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.authorization.BudgetTask;
+import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 
 /**
- * The Budget Open Authorizer checks to see if the user has 
- * the necessary permission to open budgets.
+ * The Budget View Authorizer checks to see if the user has 
+ * the necessary permission to view a specific budget.
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class BudgetOpenAuthorizer extends ProposalAuthorizer {
+public class ViewProposalBudgetAuthorizer extends BudgetAuthorizer {
 
     private KcWorkflowService kraWorkflowService;
 
     @Override
-    public boolean isAuthorized(String userId, ProposalTask task) {
-        ProposalDevelopmentDocument doc = task.getDocument();
+    public boolean isAuthorized(String userId, BudgetTask task) {
         
-        return hasProposalPermission(userId, doc, PermissionConstants.VIEW_BUDGET) 
+        BudgetDocument budgetDocument = task.getBudgetDocument();
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) budgetDocument.getParentDocument();
+        
+        return hasParentPermission(userId, doc, PermissionConstants.VIEW_BUDGET) 
             || kraWorkflowService.hasWorkflowPermission(userId, doc);
-               
+            
     }
 
     public KcWorkflowService getKraWorkflowService() {
