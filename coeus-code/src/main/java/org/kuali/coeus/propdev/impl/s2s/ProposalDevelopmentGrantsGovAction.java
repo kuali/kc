@@ -109,13 +109,15 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         S2sOpportunity s2sOpportunity = developmentProposal.getS2sOpportunity();
         s2sOpportunity.setProposalNumber(developmentProposal.getProposalNumber());
         try {
+            List<String> mandatoryForms = new ArrayList<String>();
             if (s2sOpportunity != null && s2sOpportunity.getSchemaUrl() != null) {
                 s2sOppForms = getS2SService().parseOpportunityForms(s2sOpportunity);
                 if(s2sOppForms!=null){
                     for(S2sOppForms s2sOppForm:s2sOppForms){
                         if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
                             mandatoryFormNotAvailable = true;
-                            break;
+                            mandatoryForms.add(s2sOppForm.getFormName());
+//                            break;
                         }
                     }
                 }
@@ -124,7 +126,8 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
                     s2sOpportunity.setVersionNumber(proposalDevelopmentForm.getVersionNumberForS2sOpportunity());
                     proposalDevelopmentForm.setVersionNumberForS2sOpportunity(null);                
                 }else{
-                    GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,developmentProposal.getS2sOpportunity().getOpportunityId());
+                    GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,
+                                        developmentProposal.getS2sOpportunity().getOpportunityId(),mandatoryForms.toString());
                     developmentProposal.setS2sOpportunity(new S2sOpportunity());
                 }            
             }
@@ -132,7 +135,11 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
             if(ex.getErrorKey().equals(KeyConstants.ERROR_GRANTSGOV_NO_FORM_ELEMENT)) {
                 ex.setMessage(s2sOpportunity.getOpportunityId());
             }
-            GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
+            if(ex.getTabErrorKey()!=null){
+                GlobalVariables.getMessageMap().putError(ex.getTabErrorKey(), ex.getErrorKey(),ex.getMessageWithParams());
+            }else{
+                GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
+            }
             developmentProposal.setS2sOpportunity(new S2sOpportunity());
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
@@ -302,10 +309,21 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         s2sUserAttachedForm.setFormFile(userAttachedFormFile.getFileData());
         s2sUserAttachedForm.setFormFileName(userAttachedFormFile.getFileName());
         s2sUserAttachedForm.setProposalNumber(developmentProposal.getProposalNumber());
-        List<S2sUserAttachedForm> userAttachedForms = KcServiceLocator.getService(S2SUserAttachedFormService.class).
-                    extractNSaveUserAttachedForms(developmentProposal,s2sUserAttachedForm);
-        developmentProposal.getS2sUserAttachedForms().addAll(userAttachedForms);
-        proposalDevelopmentForm.setNewS2sUserAttachedForm(new S2sUserAttachedForm());
+        List<S2sUserAttachedForm> userAttachedForms = new ArrayList<S2sUserAttachedForm>();
+        try{
+            userAttachedForms = KcServiceLocator.getService(S2SUserAttachedFormService.class).
+                                                extractNSaveUserAttachedForms(developmentProposal,s2sUserAttachedForm);
+            developmentProposal.getS2sUserAttachedForms().addAll(userAttachedForms);
+            proposalDevelopmentForm.setNewS2sUserAttachedForm(new S2sUserAttachedForm());
+        }catch(S2SException ex){
+            if(ex.getTabErrorKey()!=null){
+                if(GlobalVariables.getMessageMap().getErrorMessagesForProperty(ex.getTabErrorKey())==null){
+                    GlobalVariables.getMessageMap().putError(ex.getTabErrorKey(), ex.getErrorKey(),ex.getParams());
+                }
+            }else{
+                GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
+            }
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -325,9 +343,11 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
         List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
-        S2sUserAttachedForm refreshedelectedForm = KcServiceLocator.getService(BusinessObjectService.class).
+        if(selectedForm.getXmlFile()==null){
+            selectedForm = KcServiceLocator.getService(BusinessObjectService.class).
                         findBySinglePrimaryKey(S2sUserAttachedForm.class, selectedForm.getS2sUserAttachedFormId());
-        streamToResponse(refreshedelectedForm.getXmlFile().getBytes(), refreshedelectedForm.getFormName()+".xml", CONTENT_TYPE_XML, response);
+        }
+        streamToResponse(selectedForm.getXmlFile().getBytes(), selectedForm.getFormName()+".xml", CONTENT_TYPE_XML, response);
         return null;
     }
     /**
@@ -346,9 +366,11 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
         List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
-        S2sUserAttachedForm refreshedelectedForm = KcServiceLocator.getService(BusinessObjectService.class).
+        if(selectedForm.getFormFile()==null || selectedForm.getFormFile().length==0){
+            selectedForm = KcServiceLocator.getService(BusinessObjectService.class).
                         findBySinglePrimaryKey(S2sUserAttachedForm.class, selectedForm.getS2sUserAttachedFormId());
-        streamToResponse(refreshedelectedForm.getFormFile(), refreshedelectedForm.getFormFileName(), CONTENT_TYPE_PDF, response);
+        }
+        streamToResponse(selectedForm.getFormFile(), selectedForm.getFormFileName(), CONTENT_TYPE_PDF, response);
         return null;
     }
     /**
@@ -368,9 +390,11 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
         S2sUserAttachedFormAtt attachment = selectedForm.getS2sUserAttachedFormAtts().get(getParameterForToken(request, "attIndex"));
-        S2sUserAttachedFormAtt refreshedSelectedFormAtt = KcServiceLocator.getService(BusinessObjectService.class).
+        if(attachment.getAttachment()==null || attachment.getAttachment().length==0){
+            attachment = KcServiceLocator.getService(BusinessObjectService.class).
                         findBySinglePrimaryKey(S2sUserAttachedFormAtt.class, attachment.getS2sUserAttachedFormAttId());
-        streamToResponse(refreshedSelectedFormAtt.getAttachment(), refreshedSelectedFormAtt.getFileName(), refreshedSelectedFormAtt.getContentType(), response);
+        }
+        streamToResponse(attachment.getAttachment(), attachment.getFileName(), attachment.getContentType(), response);
         return null;
     }
     protected int getParameterForToken(HttpServletRequest request,String token) {

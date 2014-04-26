@@ -839,6 +839,7 @@
 		<field-descriptor name="formName" column="FORM_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="include" column="INCLUDE" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" jdbc-type="VARCHAR"/>
 		<field-descriptor name="mandatory" column="MANDATORY" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" jdbc-type="VARCHAR"/>
+		<field-descriptor name="userAttachedForm" column="USER_ATTACHED_FORM" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />

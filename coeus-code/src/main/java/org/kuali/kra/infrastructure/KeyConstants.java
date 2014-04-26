@@ -416,8 +416,8 @@ public final class KeyConstants {
     //Award Approved Subaward
     public static final String ERROR_AMOUNT_IS_ZERO = "error.awardApprovedSubaward.Amount.equals.zero";
     public static final String ERROR_DUPLICATE_ORGANIZATION_NAME = "error.awardApprovedSubaward.duplicate.organization.name";
-    public static final String ERROR_ORGANIZATION_NAME_IS_NULL = "error.awardApprovedSubaward.organization.is.null";
-    public static final String ERROR_ORGANIZATION_NAME_IS_INVALID = "error.awardApprovedSubaward.invalid.organization.name";
+    public static final String ERROR_ORGANIZATION_ID_IS_NULL = "error.awardApprovedSubaward.organization.is.null";
+    public static final String ERROR_ORGANIZATION_ID_IS_INVALID = "error.awardApprovedSubaward.invalid.organization.name";
     //Award Cost Share Confirmation Questions
     public static final String QUESTION_DELETE_COST_SHARE = "document.question.deleteCostShare.text";
     
@@ -1086,6 +1086,11 @@ public final class KeyConstants {
     public static final String REPORT_INPUT_PARAMETER_MISSING = "error.missing.report.inputparameters";
 
     public static final String ERROR_SEARCH_INVALID_DATE = "error.search.invalid.date";
+    public static final String S2S_DUPLICATE_USER_ATTACHED_FORM = "error.s2s.userattachedform.namespace.duplicate";
+    public static final String S2S_USER_ATTACHED_FORM_EMPTY = "error.s2s.userattachedform.file.empty";
+    public static final String S2S_USER_ATTACHED_FORM_WRONG_FILE_TYPE = "error.s2s.userattachedform.wrong.filetype";
+    public static final String S2S_USER_ATTACHED_FORM_NOT_VALID = "error.s2s.userattachedform.invalid";
+    public static final String S2S_USER_ATTACHED_FORM_NOT_PDF = "error.s2s.userattachedform.not.pdf";
 
     /**
      * private utility class ctor.

@@ -26,6 +26,7 @@ public class S2SException extends RuntimeException {
 
     private String errorMessage;
     private String errorKey = KeyConstants.ERROR_S2S_UNKNOWN;
+    private String tabErrorKey;
     private int messageType;
     private String[] params;
 
@@ -79,7 +80,6 @@ public class S2SException extends RuntimeException {
         this.errorKey = errorKey;
         this.params = params;
     }
-    
     public S2SException(String msg, int messageType) {
         super();
         this.errorMessage = msg;
@@ -175,6 +175,22 @@ public class S2SException extends RuntimeException {
      */
     public void setParams(String[] params) {
         this.params = params;
+    }
+
+    /**
+     * Gets the tabErrorKey attribute. 
+     * @return Returns the tabErrorKey.
+     */
+    public String getTabErrorKey() {
+        return tabErrorKey;
+    }
+
+    /**
+     * Sets the tabErrorKey attribute value.
+     * @param tabErrorKey The tabErrorKey to set.
+     */
+    public void setTabErrorKey(String tabErrorKey) {
+        this.tabErrorKey = tabErrorKey;
     }
 
 }

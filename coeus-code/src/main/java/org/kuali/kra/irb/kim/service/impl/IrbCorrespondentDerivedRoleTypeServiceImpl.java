@@ -24,6 +24,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
@@ -44,6 +45,8 @@ public class IrbCorrespondentDerivedRoleTypeServiceImpl extends DerivedRoleTypeS
 
     private final String ROLE_NAME_ORGANIZATION_CORRESPONDENT = "Organization Correspondent";
     private final String ROLE_NAME_UNIT_CORRESPONDENT = "Unit Correspondent";
+    private final String PERFORMING_ORG_TYPE_CODE = "1";
+    
     protected List<String> requiredAttributes = new ArrayList<String>();
     {
         requiredAttributes.add(KcKimAttributes.PROTOCOL);
@@ -65,12 +68,15 @@ public class IrbCorrespondentDerivedRoleTypeServiceImpl extends DerivedRoleTypeS
 
         String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
         Protocol protocol = getProtocolByNumber(protocolNumber);
-        String organizationId = protocol.getPerformingOrganizationId();
-        if (StringUtils.isNotBlank(organizationId)) {
-            List<OrganizationCorrespondent> organizationCorrespondents = getOrganizationService().retrieveOrganizationCorrespondentsByOrganizationId(organizationId);
-            for (OrganizationCorrespondent organizationCorrespondent : organizationCorrespondents) {
-                if (organizationCorrespondent.getPersonId().equals(principalId)) {
-                    return true;
+        if (protocol != null) {
+            for (ProtocolLocationBase location : protocol.getProtocolLocations()) {
+                if (PERFORMING_ORG_TYPE_CODE.equals(location.getProtocolOrganizationTypeCode())) {
+                    List<OrganizationCorrespondent> organizationCorrespondents = getOrganizationService().retrieveOrganizationCorrespondentsByOrganizationId(location.getOrganizationId());
+                    for (OrganizationCorrespondent organizationCorrespondent : organizationCorrespondents) {
+                        if (organizationCorrespondent.getPersonId().equals(principalId)) {
+                            return true;
+                        }
+                    }
                 }
             }
         }
@@ -163,6 +169,7 @@ public class IrbCorrespondentDerivedRoleTypeServiceImpl extends DerivedRoleTypeS
     private Protocol getProtocolByNumber(String protocolNumber) {
         Map<String,Object> keymap = new HashMap<String,Object>();
         keymap.put( "protocolNumber", protocolNumber);
+        keymap.put("active", "Y");
         return (Protocol)getBusinessObjectService().findByPrimaryKey(Protocol.class, keymap );    
     }
 
