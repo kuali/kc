@@ -269,17 +269,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
         DataDictionaryService dataDictionaryService = getDataDictionaryService();
-        
-        /*
-        proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("sponsor");
-        if (proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode() != null
-                && proposalDevelopmentDocument.getDevelopmentProposal().getSponsor() == null) {
-            valid = false;
-            errorMap.putError("sponsorCode", KeyConstants.ERROR_MISSING, dataDictionaryService.getAttributeErrorLabel(
-                    DevelopmentProposal.class, "sponsorCode"));
-        }
-        */
-        
+
         //if either is missing, it should be caught on the DD validation.
         if (proposalDevelopmentDocument.getDevelopmentProposal().getRequestedStartDateInitial() != null
                 && proposalDevelopmentDocument.getDevelopmentProposal().getRequestedEndDateInitial() != null) {
@@ -364,14 +354,14 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
     /**
      * Validate Sponsor/program Information rule. Regex validation for CFDA number(7 digits with a period in the 3rd character and an optional alpha character in the 7th field).
      * @param proposalDevelopmentDocument
-     * @return
+     * @return boolean
     */
     private boolean processSponsorProgramBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         
         boolean valid = true;
         String regExpr = "(\\d{2})(\\.)(\\d{3})[a-zA-z]?";
         MessageMap errorMap = GlobalVariables.getMessageMap();
-        DataDictionaryService dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
+        DataDictionaryService dataDictionaryService = getDataDictionaryService();
         if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber())
                 && !(proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber().matches(regExpr))
                 && GlobalVariables.getMessageMap().getMessages("document.developmentProposalList[0].cfdaNumber") == null) {
@@ -547,8 +537,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
     
     /**
      * Delegate to {@link org.kuali.coeus.propdev.impl.person.keyperson.ProposalDevelopmentKeyPersonsRule#processSaveKeyPersonBusinessRules(ProposalDevelopmentDocument)
-     * 
-     * @see org.kuali.coeus.propdev.impl.person.keyperson.SaveKeyPersonRule#processSaveKeyPersonBusinessRules(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
+     *
      */
     public boolean processSaveKeyPersonBusinessRules(ProposalDevelopmentDocument document) {
         LOG.info("In processSaveKeyPersonBusinessRules()");
