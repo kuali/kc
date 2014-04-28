@@ -1,18 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+ xmlns:p="http://www.springframework.org/schema/p" 
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
   <bean id="SubAwardPrintAgreement" parent="SubAwardPrintAgreement-parentBean" />
 
   <bean id="SubAwardPrintAgreement-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.subaward.bo.SubAwardPrintAgreement" />
     <property name="objectLabel" value="Subaward Print Agreement"/>
+    <property name="inquiryDefinition">
+			<ref bean="SubAwardPrintAgreement-inquiryDefinition"/>
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="SubAwardPrintAgreement-lookupDefinition"/>
+		</property>
     <property name="titleAttribute" value="subAwardPrintAgreement" />
     <property name="attributes" >
       <list>
     	<ref bean="SubAwardPrintAgreement-fundingSource"/>
+    	<ref bean="SubAwardPrintAgreement-attachment3A"/>
+    	<ref bean="SubAwardPrintAgreement-attachment3BPage2"/>
+    	<ref bean="SubAwardPrintAgreement-attachment3B"/>
+    	<ref bean="SubAwardPrintAgreement-attachment4A"/>
       </list>
     </property>
   </bean>
@@ -36,5 +46,82 @@
     </property>
     <property name="summary" value="Funding Source" />
     <property name="description" value="Funding Source" />
+  </bean>
+  
+  <bean id="SubAwardPrintAgreement-attachment3A" parent="SubAwardPrintAgreement-attachment3A-parentBean" />
+  <bean id="SubAwardPrintAgreement-attachment3A-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="attachment3A" />
+    <property name="label" value="FDP Attachment 3A" />
+    <property name="shortLabel" value="FDP Attachment 3A" />
+    <property name="summary" value="FDP Attachment 3A" />
+    <property name="description" value="FDP Attachment 3A" />
+  </bean>
+  
+  <bean id="SubAwardPrintAgreement-attachment3BPage2" parent="SubAwardPrintAgreement-attachment3BPage2-parentBean" />
+  <bean id="SubAwardPrintAgreement-attachment3BPage2-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="attachment3BPage2" />
+    <property name="label" value="FDP Attachment 3B Page 2" />
+    <property name="shortLabel" value="FDP Attachment 3B Page 2" />
+    <property name="summary" value="FDP Attachment 3B Page 2" />
+    <property name="description" value="FDP Attachment 3B Page 2" />
+  </bean>
+  
+  <bean id="SubAwardPrintAgreement-attachment3B" parent="SubAwardPrintAgreement-attachment3B-parentBean" />
+  <bean id="SubAwardPrintAgreement-attachment3B-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="attachment3B" />
+    <property name="label" value="FDP Attachment 3B" />
+    <property name="shortLabel" value="FDP Attachment 3B" />
+    <property name="summary" value="FDP Attachment 3B" />
+    <property name="description" value="FDP Attachment 3B" />
+  </bean>
+  
+  <bean id="SubAwardPrintAgreement-attachment4A" parent="SubAwardPrintAgreement-attachment4A-parentBean" />
+  <bean id="SubAwardPrintAgreement-attachment4A-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="attachment4A" />
+    <property name="label" value="FDP Attachment 4" />
+    <property name="shortLabel" value="FDP Attachment 4" />
+    <property name="summary" value="FDP Attachment 4" />
+    <property name="description" value="FDP Attachment 4" />
+  </bean>
+  
+  <!-- Business Object Inquiry Definition -->
+	<bean id="SubAwardPrintAgreement-inquiryDefinition" parent="SubAwardPrintAgreement-inquiryDefinition-parentBean"/>
+	<bean abstract="true" id="SubAwardPrintAgreement-inquiryDefinition-parentBean" parent="InquiryDefinition">
+		<property name="title" value="Subaward Print Agreement"/>
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Subaward Print Agreement"/>
+					<property name="numberOfColumns" value="1"/>
+					<property name="inquiryFields">
+						<list>
+							<bean p:attributeName="fundingSource" parent="FieldDefinition"/>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	 </bean>
+	   <!-- Business Object Lookup Definition -->
+
+  <bean id="SubAwardPrintAgreement-lookupDefinition" parent="SubAwardPrintAgreement-lookupDefinition-parentBean" />
+
+  <bean id="SubAwardPrintAgreement-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Subaward Print Agreement Lookup" />
+    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+            <bean p:attributeName="fundingSource"  parent="FieldDefinition"/>
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>      
+            <bean p:attributeName="fundingSource"  parent="FieldDefinition"/>
+      </list>
+    </property>
   </bean>
   </beans>

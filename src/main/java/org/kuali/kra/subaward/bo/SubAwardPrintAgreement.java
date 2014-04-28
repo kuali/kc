@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.subaward.bo;
 
-import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.bo.BusinessObjectBase;
 
 
@@ -27,6 +26,75 @@ public class SubAwardPrintAgreement extends BusinessObjectBase{
     private String fundingSource;
     private String subawardTemplateAttachment;
     private Boolean selectToPrint;
+    private Boolean attachment3A;
+    private Boolean attachment3BPage2;
+    private Boolean attachment3B;
+    private Boolean attachment4A;
+    
+    /**
+     * Gets the attachment3A attribute. 
+     * @return Returns the attachment3A.
+     */
+    public Boolean getAttachment3A() {
+        return attachment3A;
+    }
+
+    /**
+     * Sets the attachment3A attribute value.
+     * @param attachment3a The attachment3A to set.
+     */
+    public void setAttachment3A(Boolean attachment3a) {
+        attachment3A = attachment3a;
+    }
+
+    /**
+     * Gets the attachment3BPage2 attribute. 
+     * @return Returns the attachment3BPage2.
+     */
+    public Boolean getAttachment3BPage2() {
+        return attachment3BPage2;
+    }
+
+    /**
+     * Sets the attachment3BPage2 attribute value.
+     * @param attachment3bPage2 The attachment3BPage2 to set.
+     */
+    public void setAttachment3BPage2(Boolean attachment3bPage2) {
+        attachment3BPage2 = attachment3bPage2;
+    }
+
+    /**
+     * Gets the attachment3B attribute. 
+     * @return Returns the attachment3B.
+     */
+    public Boolean getAttachment3B() {
+        return attachment3B;
+    }
+
+    /**
+     * Sets the attachment3B attribute value.
+     * @param attachment3b The attachment3B to set.
+     */
+    public void setAttachment3B(Boolean attachment3b) {
+        attachment3B = attachment3b;
+    }
+
+    /**
+     * Gets the attachment4A attribute. 
+     * @return Returns the attachment4A.
+     */
+    public Boolean getAttachment4A() {
+        return attachment4A;
+    }
+
+    /**
+     * Sets the attachment4A attribute value.
+     * @param attachment4a The attachment4A to set.
+     */
+    public void setAttachment4A(Boolean attachment4a) {
+        attachment4A = attachment4a;
+    }
+
     private String oppNameSpace;
     private String awardNo;
     private String fdpType;
@@ -183,6 +251,29 @@ public class SubAwardPrintAgreement extends BusinessObjectBase{
      */
     public void setOppNameSpace(String oppNameSpace) {
         this.oppNameSpace = oppNameSpace;
+    }
+    
+    /**
+     * Sets all items the select all/none button
+     */
+    private void setAllItems(Boolean value) {
+        attachment3A = true;
+        attachment3BPage2 = true;
+        attachment3B = true;
+    }
+    /**
+     * Selects all items 
+     */
+    
+    public void selectAllItems() {
+        setAllItems(true);
+    }
+
+    /**
+     * Deselects all items
+     */
+    public void deselectAllItems() {
+        setAllItems(false);
     }
 
     @Override
