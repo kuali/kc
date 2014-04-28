@@ -23,10 +23,13 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
-import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,13 +37,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service("proposalDevelopmentViewHelperService")
+@Scope("prototype")
 public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceImpl {
 
     private static final long serialVersionUID = -5122498699317873886L;
 
-    private transient LegacyNarrativeService narrativeService;
-    private transient LegacyDataAdapter legacyDataAdapter;
-    private transient LookupService lookupService;
+    @Autowired
+    @Qualifier("legacyNarrativeService")
+    private LegacyNarrativeService narrativeService;
+    
+    @Autowired
+    @Qualifier("lookupService")
+    private LookupService lookupService;
 
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, String collectionPath) {
@@ -93,32 +102,21 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         return result;
     }
 
-    public LegacyNarrativeService getNarrativeService() {
-        if (narrativeService == null) {
-            narrativeService = KcServiceLocator.getService(LegacyNarrativeService.class);
-        }
+    protected LegacyNarrativeService getNarrativeService() {
+    	if (narrativeService == null) {
+    		narrativeService = KcServiceLocator.getService(LegacyNarrativeService.class);
+    	}
         return narrativeService;
     }
 
     public void setNarrativeService(LegacyNarrativeService narrativeService) {
         this.narrativeService = narrativeService;
     }
-
-    public LegacyDataAdapter getLegacyDataAdapter() {
-        if (legacyDataAdapter == null) {
-            legacyDataAdapter = KcServiceLocator.getService(LegacyDataAdapter.class);
-        }
-        return legacyDataAdapter;
-    }
-
-    public void setLegacyDataAdapter(LegacyDataAdapter legacyDataAdapter) {
-        this.legacyDataAdapter = legacyDataAdapter;
-    }
-
-    public LookupService getLookupService() {
-        if (lookupService == null) {
-            lookupService = KcServiceLocator.getService(LookupService.class);
-        }
+    
+    protected LookupService getLookupService() {
+    	if (lookupService == null) {
+    		lookupService = KcServiceLocator.getService(LookupService.class);
+    	}
         return lookupService;
     }
 
