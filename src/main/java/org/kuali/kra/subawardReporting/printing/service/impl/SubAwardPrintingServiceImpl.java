@@ -19,18 +19,29 @@ package org.kuali.kra.subawardReporting.printing.service.impl;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.printing.service.AwardPrintingService;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.SponsorFormTemplate;
+import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.subaward.bo.SubAwardForms;
+import org.kuali.kra.subaward.bo.SubAwardPrintAgreement;
+import org.kuali.kra.subaward.bo.SubawardTemplateType;
 import org.kuali.kra.subawardReporting.printing.SubAwardPrintType;
 import org.kuali.kra.subawardReporting.printing.print.SubAwardFDPAgreement;
 import org.kuali.kra.subawardReporting.printing.print.SubAwardFDPModification;
 import org.kuali.kra.subawardReporting.printing.print.SubAwardSF294Print;
 import org.kuali.kra.subawardReporting.printing.print.SubAwardSF295Print;
 import org.kuali.kra.subawardReporting.printing.service.SubAwardPrintingService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 
@@ -54,8 +65,26 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
     private PrintingService printingService;     
     private SubAwardFDPModification subAwardFDPModification;
     private SubAwardFDPAgreement subAwardFDPAgreement;
-
+    private BusinessObjectService businessObjectService;
     
+
+
+    /**
+     * Gets the businessObjectService attribute. 
+     * @return Returns the businessObjectService.
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 
 
     /**
@@ -173,5 +202,32 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
             source.setFileName(SUB_AWARD_FDP_MODIFICATION);
         }
         return source;   
+    }
+    /**
+     * This method gets the  form template from the given sponsor form table
+     * 
+     * 
+     * @param sponsorFormTemplateLists -
+     *            list of sponsor form template list
+     * @return list of sponsor form template
+     */
+    public List<SubAwardForms> getSponsorFormTemplates(SubAwardPrintAgreement subAwardPrint) {
+        List<SubAwardForms> printFormTemplates = new ArrayList<SubAwardForms>();
+        if(subAwardPrint.getFdpType().equals(SUB_AWARD_FDP_TEMPLATE)){
+            printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP Template"));
+        }else if(subAwardPrint.getFdpType().equals(SUB_AWARD_FDP_MODIFICATION))
+        {
+            printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP Modification"));
+        }
+        if(subAwardPrint.getAttachment3A()){
+            printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ATT_3A"));
+        }
+        if(subAwardPrint.getAttachment3B()){
+            printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ATT_3B"));
+        }
+        if(subAwardPrint.getAttachment3BPage2()){
+            printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ATT_3B_2"));
+        }
+        return printFormTemplates;
     }
 }

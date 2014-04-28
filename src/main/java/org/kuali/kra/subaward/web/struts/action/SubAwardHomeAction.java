@@ -18,6 +18,7 @@ package org.kuali.kra.subaward.web.struts.action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
@@ -443,5 +444,17 @@ public ActionForward deleteCloseout(ActionMapping mapping,
 //        this.getBusinessObjectService().delete(subAwardCloseout); // let save() do this
         return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
     }
+
+public ActionForward selectAllSubAwardPrintNoticeItems(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    SubAwardForm subAwardForm = (SubAwardForm)form;
+    subAwardForm.getSubAwardPrintAgreement().selectAllItems();
+    return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
+}
+
+public ActionForward deselectAllSubAwardPrintNoticeItems(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    SubAwardForm subAwardForm = (SubAwardForm)form;
+    subAwardForm.getSubAwardPrintAgreement().deselectAllItems();
+    return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
+}
 
 }
