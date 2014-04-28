@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.person.keyperson;
+package org.kuali.coeus.propdev.impl.person;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -22,17 +22,12 @@ import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonComparator;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CalculateCreditSplitRule;
-import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -122,20 +117,18 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
             if(isKeyPerson(person) && StringUtils.isBlank(person.getProjectRole())){
                 reportError("document.developmentProposalList[0].proposalPersons[" + personIndex + "].projectRole",
                             RiceKeyConstants.ERROR_REQUIRED,"Key Person Role");
-                //retval = false;
+
             }
             
             if(person.getPercentageEffort()!= null && (person.getPercentageEffort().isLessThan(new ScaleTwoDecimal(0))
                     || person.getPercentageEffort().isGreaterThan(new ScaleTwoDecimal(100)))){
                 GlobalVariables.getMessageMap().putError("document.developmentProposalList[0].proposalPersons[" + personIndex + "].percentageEffort", ERROR_PERCENTAGE,
                         new String[] {"Percentage Effort" });
-                //retval = false;
             }
             
             if(StringUtils.isNotBlank(person.getEraCommonsUserName()) && person.getEraCommonsUserName().length() < FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH){
                 GlobalVariables.getMessageMap().putError("document.developmentProposalList[0].proposalPersons[" + personIndex + "].eraCommonsUserName", KeyConstants.ERROR_MINLENGTH,
                         new String[] {"eRA Commons User Name" , ""+ FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH});
-                //retval = false;
             }
             
             personIndex++;
@@ -182,7 +175,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
      *   <li>0 or more Key Persons or Co-Investigators are allowed</li>
      *   <li>A person cannot have multiple roles, ie. a person can only be added as a key person once.</li>
      * </ul>
-     * @see org.kuali.coeus.propdev.impl.person.keyperson.AddKeyPersonRule#processAddKeyPersonBusinessRules(ProposalDevelopmentDocument,ProposalPerson)
+     * @see org.kuali.coeus.propdev.impl.person.AddKeyPersonRule#processAddKeyPersonBusinessRules(ProposalDevelopmentDocument,ProposalPerson)
      */
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
         boolean retval = true;
@@ -226,7 +219,6 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
         
         if (isNotBlank(person.getProposalPersonRoleId())) {
             if ((StringUtils.isNotBlank(person.getPersonId())
-                    //FIXME should be calling a count method rather than returning the entire BO
                     && this.getKcPersonService().getKcPersonByPersonId(person.getPersonId()) == null)
                     ||(person.getRolodexId() != null
                             && isInvalid(Rolodex.class, keyValue("rolodexId", person.getRolodexId())))
