@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.s2s.service.impl;
+package org.kuali.coeus.propdev.impl.s2s;
 
 
 import java.io.ByteArrayInputStream;
@@ -37,23 +37,19 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xpath.XPathAPI;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
-import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
-import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
-import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormAtt;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
-import org.kuali.kra.s2s.service.S2SUserAttachedFormService;
 import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -70,10 +66,17 @@ import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.XfaForm;
 
+@Component("s2SUserAttachedFormService")
 public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormService {
     private static final String DUPLICATE_FILE_NAMES = "Attachments contain duplicate file names";
     private static final String XFA_NS = "http://www.xfa.org/schema/xfa-data/1.0/";
+
+    @Autowired
+    @Qualifier("s2SValidatorService")
     private S2SValidatorService s2SValidatorService;
+
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
     
     @Override
