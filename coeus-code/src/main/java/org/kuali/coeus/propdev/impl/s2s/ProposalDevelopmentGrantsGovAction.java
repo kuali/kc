@@ -31,7 +31,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.service.S2SService;
-import org.kuali.kra.s2s.service.S2SUserAttachedFormService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
