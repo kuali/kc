@@ -228,6 +228,9 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
         if(subAwardPrint.getAttachment3BPage2()){
             printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ATT_3B_2"));
         }
+        if(subAwardPrint.getAttachment4()){
+            printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ATT_4"));
+        }
         return printFormTemplates;
     }
 }
