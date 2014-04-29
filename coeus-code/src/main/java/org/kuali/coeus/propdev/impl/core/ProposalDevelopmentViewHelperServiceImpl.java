@@ -17,17 +17,24 @@ package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
+import org.kuali.coeus.propdev.impl.abstrct.ProposalDevelopmentAbstractsRule;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.util.GlobalVariables;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -55,6 +62,35 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             document.getDevelopmentProposal().addProposalPersonBiography((ProposalPersonBiography) addLine);
         }
     }
+
+    @Override
+    public void processAfterAddLine(ViewModel model, Object lineObject, String collectionId, String collectionPath,
+                                    boolean isValidLine) {
+        ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
+        ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
+        if (lineObject instanceof ProposalAbstract) {
+            ProposalAbstract proposalAbstract = (ProposalAbstract) lineObject;
+            proposalAbstract.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+            proposalAbstract.refreshReferenceObject("abstractType");
+        }
+    }
+
+    /*@Override
+    protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId,
+                                               String collectionPath) {
+        boolean isValid = super.performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
+        ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) viewModel;
+        ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
+        if (newLine instanceof ProposalAbstract) {
+            ProposalAbstract proposalAbstract = (ProposalAbstract) newLine;
+            if (StringUtils.isEmpty(proposalAbstract.getAbstractTypeCode())) {
+                GlobalVariables.getMessageMap().putError("newCollectionLines['document.developmentProposal.proposalAbstracts'].abstractTypeCode", KeyConstants.ERROR_ABSTRACT_TYPE_NOT_SELECTED);
+                isValid = false;
+            }
+        }
+        return isValid;
+    }*/
+
     
     public static class SponsorSuggestResult {
         private Sponsor sponsor;
