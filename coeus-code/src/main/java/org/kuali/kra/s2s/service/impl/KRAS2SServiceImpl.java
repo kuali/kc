@@ -85,7 +85,6 @@ public class KRAS2SServiceImpl implements S2SService {
 	private S2SValidatorService s2SValidatorService;
 	private ConfigurationService configurationService;
     private NarrativeService narrativeService;
-	private S2SUserAttachedFormService s2SUserAttachedFormService;
 	private static final String GRANTS_GOV_STATUS_ERROR = "ERROR";
 	private static final String KEY_PROPOSAL_NUMBER = "proposalNumber";
 
@@ -935,22 +934,5 @@ public class KRAS2SServiceImpl implements S2SService {
 
     public void setNarrativeService(NarrativeService narrativeService) {
         this.narrativeService = narrativeService;
-    }
-
-
-    /**
-     * Gets the s2SUserAttachedFormService attribute. 
-     * @return Returns the s2SUserAttachedFormService.
-     */
-    public S2SUserAttachedFormService getS2SUserAttachedFormService() {
-        return s2SUserAttachedFormService;
-    }
-
-    /**
-     * Sets the s2SUserAttachedFormService attribute value.
-     * @param s2sUserAttachedFormService The s2SUserAttachedFormService to set.
-     */
-    public void setS2SUserAttachedFormService(S2SUserAttachedFormService s2sUserAttachedFormService) {
-        s2SUserAttachedFormService = s2sUserAttachedFormService;
     }
 }
