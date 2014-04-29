@@ -38,7 +38,7 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.budget.api.category.BudgetCategoryMapContract;
 import org.kuali.coeus.budget.api.category.BudgetCategoryMapService;
 import org.kuali.coeus.budget.api.category.BudgetCategoryMappingContract;
-import org.kuali.kra.s2s.depend.BudgetPersonSalaryService;
+import org.kuali.coeus.budget.api.person.BudgetPersonSalaryService;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
@@ -2019,14 +2019,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 
     @Override
     public ScaleTwoDecimal getBaseSalaryByPeriod(Long budgetId, int budgetPeriod, KeyPersonInfo person ) {
-        final Integer listIndex = 0;
-        ScaleTwoDecimal baseSalaryByPeriod = null;
-        Collection<BudgetPersonSalaryDetails> personSalaryDetails = budgetPersonSalaryService.findSalaryDetailsByBudgetIdAndPersonIdAndBudgetPeriod(budgetId, person.getPersonId() != null ? person.getPersonId() : person.getRolodexId().toString(), budgetPeriod);
-        List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails = (List<BudgetPersonSalaryDetails>) personSalaryDetails;
-        if (budgetPersonSalaryDetails != null && budgetPersonSalaryDetails.size() > 0) {
-            baseSalaryByPeriod = budgetPersonSalaryDetails.get(listIndex).getBaseSalary();
-        }
-        return baseSalaryByPeriod;
+        return budgetPersonSalaryService.findBaseSalaryForFirstPeriod(budgetId, person.getPersonId() != null ? person.getPersonId() : person.getRolodexId().toString(), budgetPeriod);
     }
 
 
