@@ -19,7 +19,7 @@
 	<bean id="PropDev-ProposalAttachmentsPage-parentBean" parent="Uif-DocumentPage">
 		<property name="items">
 			<list>
-				<ref bean="PropDev-ProposalAttachmentsPage-Section" />
+				<ref bean="PropDev-ProposalAttachmentsPage-TabGroup"/>
 			</list>
 		</property>
 		<property name="footer">
@@ -27,31 +27,45 @@
 		</property>		
 	</bean>
 
-	<bean id="PropDev-ProposalAttachmentsPage-Section" parent="PropDev-ProposalAttachmentsPage-Section-parentBean" />
-	<bean id="PropDev-ProposalAttachmentsPage-Section-parentBean" abstract="true"
-		parent="Uif-VerticalBoxSection" p:header.headerText="Proposal Attachments"
+    <bean id="PropDev-ProposalAttachmentsPage-TabGroup" parent="PropDev-ProposalAttachmentsPage-TabGroup-parentBean"/>
+    <bean id="PropDev-ProposalAttachmentsPage-TabGroup-parentBean" abstract="true"
+          parent="Uif-TabGroup">
+            <property name="items">
+                <list>
+                    <bean parent="PropDev-ProposalAttachmentsPage-ProposalSection" />
+                    <bean parent="PropDev-ProposalAttachmentsPage-PersonnelSection"/>
+                    <bean parent="PropDev-ProposalAttachmentsPage-AbstractsSection"/>
+                    <bean parent="PropDev-ProposalAttachmentsPage-InternalSection"/>
+                    <bean parent="PropDev-ProposalAttachmentsPage-NotesSection"/>
+                </list>
+            </property>
+    </bean>
+
+	<bean id="PropDev-ProposalAttachmentsPage-ProposalSection" parent="PropDev-ProposalAttachmentsPage-ProposalSection-parentBean" />
+	<bean id="PropDev-ProposalAttachmentsPage-ProposalSection-parentBean" abstract="true"
+		parent="Uif-VerticalBoxSection" p:header.headerText="Proposal"
 		p:instructionalText="Add attachments to this proposal"
 		p:fieldBindingObjectPath="document.developmentProposal">
 		<property name="items">
 			<list>
-				<ref bean="PropDev-ProposalAttachmentsPage-Collection" />
+				<ref bean="PropDev-ProposalAttachmentsPage-ProposalCollection" />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="PropDev-ProposalAttachmentsPage-Collection" parent="PropDev-ProposalAttachmentsPage-Collection-parentBean" />
-	<bean id="PropDev-ProposalAttachmentsPage-Collection-parentBean" abstract="true"
+	<bean id="PropDev-ProposalAttachmentsPage-ProposalCollection" parent="PropDev-ProposalAttachmentsPage-ProposalCollection-parentBean" />
+	<bean id="PropDev-ProposalAttachmentsPage-ProposalCollection-parentBean" abstract="true"
 		parent="PropDev-Attachment-Collection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.attachment.Narrative"
 		p:layoutManager.summaryTitle="@{#lp.narrativeType.description + (#lp.narrativeType?.allowMultiple == 'Y' ? ' (' + #lp.moduleTitle + ')' : '')}"
 		p:propertyName="narratives">
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="kradFile"
+<!--				<bean parent="Uif-InputField" p:propertyName="kradFile"
 					p:render="@{#isAddLine}" p:required="true" p:order="10" />
 				<bean parent="Uif-ActionLinkField" p:action.methodToCall="downloadNarrative"
 					p:fieldLabel.labelText="File" p:actionLabel="@{#lp.fileName}"
 					p:render="@{!#isAddLine}" p:additionalSubmitData="moduleNumber:@{#lp.moduleNumber}"
-					p:order="20" />
+					p:order="20" />-->
 				<bean parent="Uif-InputField" p:propertyName="narrativeTypeCode"
 					p:readOnlyDisplayReplacementPropertyName="narrativeType.description"
 					p:order="30" />
@@ -77,4 +91,200 @@
 		</property>
 	</bean>
 
+    <bean id="PropDev-ProposalAttachmentsPage-PersonnelSection" parent="PropDev-ProposalAttachmentsPage-PersonnelSection-parentBean" />
+    <bean id="PropDev-ProposalAttachmentsPage-PersonnelSection-parentBean"
+          abstract="true" parent="Uif-VerticalBoxSection" p:header.headerText="Personnel"
+          p:instructionalText="Add attachments to this proposal"
+          p:fieldBindingObjectPath="document.developmentProposal">
+        <property name="items">
+            <list>
+               <bean parent="PropDev-ProposalAttachmentsPage-PersonnelCollection"
+                      p:order="10" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-ProposalAttachmentsPage-PersonnelCollection" parent="PropDev-ProposalAttachmentsPage-PersonnelCollection-parentBean" />
+    <bean id="PropDev-ProposalAttachmentsPage-PersonnelCollection-parentBean"
+          abstract="true" parent="PropDev-Attachment-Collection"
+          p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography"
+          p:propertyName="propPersonBios"
+          >
+        <property name="items">
+            <list>
+  <!--              <bean parent="Uif-InputField" p:propertyName="kradFile"
+                      p:readOnlyDisplayReplacementPropertyName="name" p:required="true"
+                      p:order="10" />-->
+                <bean parent="Uif-InputField" p:propertyName="proposalPersonNumber"
+                      p:order="20" />
+                <bean parent="Uif-InputField" p:propertyName="documentTypeCode"
+                      p:order="30" />
+                <bean parent="Uif-InputField" p:propertyName="description"
+                      p:order="40" />
+                <bean parent="Uif-InputField" p:propertyName="updateUser"
+                      p:render="@{!#isAddLine}" p:order="50" />
+                <bean parent="Uif-InputField" p:propertyName="updateTimestamp"
+                      p:render="@{!#isAddLine}" p:order="60" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-ProposalAttachmentsPage-AbstractsSection" parent="PropDev-ProposalAttachmentsPage-AbstractsSection-parentBean" />
+    <bean id="PropDev-ProposalAttachmentsPage-AbstractsSection-parentBean"
+          abstract="true" parent="Uif-VerticalBoxSection">
+        <property name="header.headerText" value="Abstracts" />
+        <property name="instructionalText" value="Add attachments to this proposal" />
+        <property name="items">
+            <list>
+                <ref bean="PropDev-ProposalAttachmentsPage-AbstractsCollection" />
+            </list>
+        </property>
+        <property name="fieldBindingObjectPath" value="document.developmentProposal" />
+    </bean>
+
+    <bean id="PropDev-ProposalAttachmentsPage-AbstractsAddButton" parent="PropDev-ProposalAttachmentsPage-AbstractsAddButton-parentBean" />
+    <bean id="PropDev-ProposalAttachmentsPage-AbstractsAddButton-parentBean" abstract="true"
+          parent="Uif-PrimaryActionButton" p:actionLabel="Add Abstract"
+          p:actionScript="showLightboxComponent('PropDev-ProposalAttachmentsPage-AbstractsLightTable');"
+          p:iconClass="icon-paper-clip" />
+
+    <bean id="PropDev-ProposalAttachmentsPage-AbstractsLightTable" parent="PropDev-ProposalAttachmentsPage-AbstractsLightTable-parentBean"/>
+    <bean id="PropDev-ProposalAttachmentsPage-AbstractsLightTable-parentBean" abstract="true"
+          parent="Uif-CollectionGridItem" p:fieldBindingObjectPath="proposalAbstracts" p:resetDataOnRefresh="true"
+          p:retrieveViaAjax="true">
+        <property name="header">
+            <bean parent="Uif-HeaderOne" p:headerText="Add Abstract" />
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="abstractDetails"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-ProposalAttachmentsPage-AbstractsCollection" parent="PropDev-ProposalAttachmentsPage-AbstractsCollection-parentBean" />
+    <bean id="PropDev-ProposalAttachmentsPage-AbstractsCollection-parentBean" abstract="true"
+          parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract"
+          p:propertyName="proposalAbstracts"
+          p:layoutManager.summaryTitle="@{#lp.abstractType.description}"
+          p:addViaLightBox="true">
+        <property name="addLineItems">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="abstractTypeCode" p:readOnly="false" >
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:render="false"/>
+                    </property>
+                    <property name="control" >
+                        <bean parent="Uif-DropdownControl" p:additionalCssClasses="ignoreValid"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="abstractDetails" p:readOnly="false"/>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:label="Added By" p:messageText="@{#lp.updateUser + ' (' + #lp.updateTimestamp + ')'}"/>
+                <bean parent="Uif-InputField" p:propertyName="abstractTypeCode"
+                      p:readOnlyDisplayReplacementPropertyName="abstractType.description" p:readOnly="true" >
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:render="false"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="abstractDetails"
+                        p:readOnly="true"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="" p:actionLabel="Edit"/>
+                <bean parent="Uif-ActionLink" p:actionScript="jQuery(this).closest(&quot;div[data-role='disclosureContent']&quot;).toggle();jQuery(&quot;span[id$='toggle_col']&quot;).toggle();jQuery(&quot;span[id$='toggle_exp']&quot;).toggle();" p:actionLabel="cancel"/>
+        </list>
+        </property>
+        <property name="layoutManager.lineGroupPrototype">
+            <bean parent="Uif-CollectionHorizontalBoxItem"
+                  p:disclosure.render="true">
+                <property name="layoutManager">
+                    <bean parent="Uif-SimpleLayout" />
+                </property>
+                <property name="header">
+                    <bean parent="Uif-HeaderFour">
+                        <property name="rightGroup">
+                            <bean parent="Uif-VerticalBoxGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-DeleteLineAction" p:actionLabel=""
+                                              p:iconClass="icon-close" p:order="10" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="PropDev-ProposalAttachmentsPage-InternalSection" parent="PropDev-ProposalAttachmentsPage-InternalSection-parentBean" />
+    <bean id="PropDev-ProposalAttachmentsPage-InternalSection-parentBean"
+          abstract="true" parent="Uif-VerticalBoxSection" p:header.headerText="Internal"
+          p:instructionalText="Add attachments to this proposal"
+          p:fieldBindingObjectPath="document.developmentProposal">
+        <property name="items">
+            <list>
+                <bean parent="PropDev-ProposalAttachmentsPage-InternalCollection"
+                    p:order="10" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-ProposalAttachmentsPage-InternalCollection" parent="PropDev-ProposalAttachmentsPage-InternalCollection-parentBean" />
+    <bean id="PropDev-ProposalAttachmentsPage-InternalCollection-parentBean"
+          abstract="true" parent="PropDev-Attachment-Collection"
+          p:collectionObjectClass="org.kuali.coeus.propdev.impl.attachment.Narrative"
+          p:propertyName="instituteAttachments">
+        <property name="items">
+            <list>
+<!--                <bean parent="Uif-InputField" p:propertyName="kradFile"
+                      p:readOnlyDisplayReplacementPropertyName="name" p:required="true"
+                      p:order="10" />-->
+                <bean parent="PropDev-ProposalAttachmentsPage-Internal-NarrativeTypeCodeField"
+                      p:order="20" />
+                <bean parent="Uif-InputField" p:propertyName="moduleTitle"
+                      p:order="30" />
+                <bean parent="Uif-InputField" p:propertyName="updateUser"
+                      p:render="@{!#isAddLine}" p:order="40" />
+                <bean parent="Uif-InputField" p:propertyName="updateTimestamp"
+                      p:render="@{!#isAddLine}" p:order="50" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-ProposalAttachmentsPage-Internal-NarrativeTypeCodeField"
+          parent="PropDev-ProposalAttachmentsPage-Internal-NarrativeTypeCodeField-parentBean" />
+    <bean
+            id="PropDev-ProposalAttachmentsPage-Internal-NarrativeTypeCodeField-parentBean"
+            abstract="true" parent="Uif-InputField" p:propertyName="narrativeTypeCode"
+            p:readOnlyDisplayReplacementPropertyName="narrativeType.description">
+        <property name="optionsFinder">
+            <bean
+                    class="org.kuali.coeus.propdev.impl.attachment.institute.InstituteAttachmentTypeValuesFinder" />
+        </property>
+    </bean>
+
+
+
+    <bean id="PropDev-ProposalAttachmentsPage-NotesSection" parent="PropDev-ProposalAttachmentsPage-NotesSection-parentBean" />
+    <bean id="PropDev-ProposalAttachmentsPage-NotesSection-parentBean" abstract="true"
+          parent="Uif-VerticalBoxSection" p:header.headerText="Notes"
+          p:instructionalText="Add notes to this proposal"
+          p:fieldBindingObjectPath="document.developmentProposal">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DocumentNotesSection" p:order="10">
+                    <property name="disclosure.defaultOpen"
+                              value="true"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
 </beans>

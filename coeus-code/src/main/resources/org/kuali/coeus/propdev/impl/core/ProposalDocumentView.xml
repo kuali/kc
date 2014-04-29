@@ -157,22 +157,8 @@
 		p:actionLabel="Compliance" p:iconClass="icon-ok" />
 	<bean id="PropDev-NavigationMenu-Attachments" parent="PropDev-NavigationMenu-Attachments-parentBean" />
 	<bean id="PropDev-NavigationMenu-Attachments-parentBean" abstract="true"
-		parent="Uif-SidebarToggleMenu" p:toggleText="Attachments" p:iconClass="icon-paper-clip">
-		<property name="menuItems">
-			<list>
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-ProposalAttachmentsPage"
-					p:actionLabel="Proposal Attachments" p:order="10" />
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-PersonnelAttachmentsPage"
-					p:actionLabel="Personnel Attachments" p:order="20" />
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-InternalAttachmentsPage"
-					p:actionLabel="Internal Attachments" p:order="30" />
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-AbstractsPage"
-					p:actionLabel="Abstracts" p:order="40" />
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-NotesPage"
-					p:actionLabel="Notes" p:order="50" />
-			</list>
-		</property>
-	</bean>
+		parent="Uif-MenuAction" p:navigateToPageId="PropDev-ProposalAttachmentsPage"
+        p:actionLabel="Attachments" p:iconClass="icon-paper-clip"/>
 	<bean id="PropDev-NavigationMenu-Questionnaire" parent="PropDev-NavigationMenu-Questionnaire-parentBean" />
 	<bean id="PropDev-NavigationMenu-Questionnaire-parentBean"
 		abstract="true" parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-QuestionnairePage"
