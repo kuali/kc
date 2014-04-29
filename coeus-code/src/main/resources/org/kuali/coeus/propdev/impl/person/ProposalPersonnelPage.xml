@@ -471,10 +471,10 @@
 		p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPersonUnit"
 		p:renderAddLine="false" 
 		p:layoutManager.renderSequenceField="false"	>
- 		<property name="layoutManager.actionFieldPrototype">
-			<bean parent="Uif-HorizontalFieldGroup" p:align="center" 
-					p:label="Actions" p:shortLabel="Actions"
-					p:additionalCssClasses="kc-unit-disable-@{#lp.leadUnit}"/>
+		<property name="lineActions">
+			<list>
+				<bean parent="Uif-DeleteLineAction" p:disabled="@{#lp.leadUnit}"/>
+			</list>  
 		</property>
 		<property name="layoutManager.pagerWidget">
 			<null />
