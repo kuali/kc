@@ -119,5 +119,5 @@ END;
 CALL copy_protocol_doc_role_viewers ()
 /
 
-DELIMTER ;
+DELIMITER ;
 
