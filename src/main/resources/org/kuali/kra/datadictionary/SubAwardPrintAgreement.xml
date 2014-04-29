@@ -22,7 +22,7 @@
     	<ref bean="SubAwardPrintAgreement-attachment3A"/>
     	<ref bean="SubAwardPrintAgreement-attachment3BPage2"/>
     	<ref bean="SubAwardPrintAgreement-attachment3B"/>
-    	<ref bean="SubAwardPrintAgreement-attachment4A"/>
+    	<ref bean="SubAwardPrintAgreement-attachment4"/>
       </list>
     </property>
   </bean>
@@ -75,9 +75,9 @@
     <property name="description" value="FDP Attachment 3B" />
   </bean>
   
-  <bean id="SubAwardPrintAgreement-attachment4A" parent="SubAwardPrintAgreement-attachment4A-parentBean" />
-  <bean id="SubAwardPrintAgreement-attachment4A-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
-    <property name="name" value="attachment4A" />
+  <bean id="SubAwardPrintAgreement-attachment4" parent="SubAwardPrintAgreement-attachment4-parentBean" />
+  <bean id="SubAwardPrintAgreement-attachment4-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="attachment4" />
     <property name="label" value="FDP Attachment 4" />
     <property name="shortLabel" value="FDP Attachment 4" />
     <property name="summary" value="FDP Attachment 4" />

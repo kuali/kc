@@ -109,9 +109,9 @@
 		      							attributeEntry="${subAwardPrintAgreementAttributes.attachment3BPage2}" readOnly="false"/>
 		      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.attachment3BPage2}" useShortLabel="true" noColon="true" />
 		      				  </li><li>
-		      		    <kul:htmlControlAttribute property="subAwardPrintAgreement.attachment4A" 
-		      							attributeEntry="${subAwardPrintAgreementAttributes.attachment4A}" readOnly="false"/>
-		      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.attachment4A}" useShortLabel="true" noColon="true" />
+		      		    <kul:htmlControlAttribute property="subAwardPrintAgreement.attachment4" 
+		      							attributeEntry="${subAwardPrintAgreementAttributes.attachment4}" readOnly="false"/>
+		      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.attachment4}" useShortLabel="true" noColon="true" />
 						</li>
 						</ul></dd></dl>
 						</div>

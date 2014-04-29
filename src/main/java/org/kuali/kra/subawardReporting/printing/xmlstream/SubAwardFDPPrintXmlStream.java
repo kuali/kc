@@ -44,6 +44,7 @@ import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.subaward.bo.SubAwardContact;
 import org.kuali.kra.subaward.bo.SubAwardForms;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
+import org.kuali.kra.subaward.bo.SubAwardReportType;
 import org.kuali.kra.subaward.bo.SubAwardReports;
 import org.kuali.kra.subaward.bo.SubAwardTemplateInfo;
 import org.kuali.kra.subaward.config.SubAwardConfigurer;
@@ -244,6 +245,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         setAdministrativeContact(subContractData,subaward);
         setFinancialContact(subContractData,subaward);
         setAuthorizedOfficial(subContractData,subaward);
+        setSubcontractReports(subContractData,subaward);
         subContractDataDoc.setSubContractData(subContractData);
         xmlObjectList.put(SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE.getSubAwardPrintType(), subContractDataDoc);
         return xmlObjectList;
@@ -276,12 +278,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                }
             }
                    subContractTemplateInfo.setSowOrSubProposalBudget(subawardTemplate.getSowOrSubProposalBudget());
-               if(subawardTemplate.getExemptFromRprtgExecComp() != null){
                    subContractTemplateInfo.setExemptFromRprtgExecComp(subawardTemplate.getExemptFromRprtgExecComp());
-               }
-               if(subawardTemplate.getExemptFromRprtgExecComp() != null){
-                   subContractTemplateInfo.setExemptFromRprtgExecComp(subawardTemplate.getExemptFromRprtgExecComp());
-               }
+                   subContractTemplateInfo.setSubRegisteredInCcr(subawardTemplate.getSubRegisteredInCcr());
                if(subawardTemplate.getPerfSiteDiffFromOrgAddr() != null){
                    subContractTemplateInfo.setPerfSiteDiffFromOrgAddr(subawardTemplate.getPerfSiteDiffFromOrgAddr());
                }
@@ -291,8 +289,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                if(subawardTemplate.getSubProposalDate() != null){
                    subContractTemplateInfo.setSubProposalDate(getDateTimeService().getCalendar(subawardTemplate.getSubProposalDate()));
                }
-                   subContractTemplateInfo.setSubRegisteredInCcr(subawardTemplate.getSubRegisteredInCcr());
-                   subContractTemplateInfo.setExemptFromRprtgExecComp(subawardTemplate.getExemptFromRprtgExecComp());
+                   
                if(subawardTemplate.getParentDunsNumber() != null){
                    subContractTemplateInfo.setParentDunsNumber(subawardTemplate.getParentDunsNumber());
                }
@@ -316,6 +313,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         public void setSubcontractDetail(SubContractData subContractData, SubAward subaward) {
             SubcontractDetail subcontractDetail = SubcontractDetail.Factory.newInstance();
             RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
+            RolodexDetailsType rolodexDetailsType = RolodexDetailsType.Factory.newInstance();
             OrganizationType organisation =OrganizationType.Factory.newInstance();
             if(subaward.getRolodex() != null ){
                 subcontractDetail.setSiteInvestigator(subaward.getRolodex().getFullName());
@@ -332,7 +330,11 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 subcontractDetail.setPONumber(subaward.getPurchaseOrderNum());
             if(subaward.getOrganization() != null){
                 subcontractDetail.setSubcontractorName(subaward.getOrganization().getOrganizationName());
-                rolodexDetails.setAddress1(subaward.getOrganization().getAddress());
+                rolodexDetailsType.setAddress1(subaward.getOrganization().getAddress());
+                rolodexDetailsType.setAddress2(subaward.getOrganization().getRolodex().getAddressLine2());
+                rolodexDetailsType.setCity(subaward.getOrganization().getRolodex().getCity());
+                rolodexDetailsType.setStateDescription(subaward.getOrganization().getRolodex().getState());
+                rolodexDetailsType.setPincode(subaward.getOrganization().getRolodex().getPostalCode());
                 organisation.setFedralEmployerId(subaward.getOrganization().getFederalEmployerId());
                 organisation.setDunsNumber(subaward.getOrganization().getDunsNumber());
                 organisation.setCongressionalDistrict(subaward.getOrganization().getCongressionalDistrict());
@@ -344,7 +346,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 subcontractDetail.setEndDate(getDateTimeService().getCalendar(subaward.getEndDate()));
             }
             
-            subcontractDetail.setSubcontractorOrgRolodexDetails(rolodexDetails);
+            subcontractDetail.setSubcontractorOrgRolodexDetails(rolodexDetailsType);
             subcontractDetail.setSiteInvestigatorDetails(rolodexDetails);
             subcontractDetail.setSubcontractorDetails(organisation);
             subContractData.setSubcontractDetail(subcontractDetail);
@@ -405,7 +407,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 this.unitName = unitService.getUnitName(subaward.getRequisitionerUnit());
                 organisation.setOrganizationName(unitName);
                 }
-            if(subaward.getOrganization().getRolodex() != null ){
+            if(subaward.getOrganization().getRolodex() != null && unitName!=null ){
                 rolodexDetails.setAddress1(subaward.getOrganization().getRolodex().getAddressLine1());
                 rolodexDetails.setAddress2(subaward.getOrganization().getRolodex().getAddressLine2());
                 rolodexDetails.setCity(subaward.getOrganization().getRolodex().getCity());
@@ -647,6 +649,20 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 authorizedOfficialList.add(authorizedOfficial);
                 subContractData.setAuthorizedOfficialArray((AuthorizedOfficial[])authorizedOfficialList.toArray(new AuthorizedOfficial [0]));
             }
+            public void setSubcontractReports(SubContractData subContractData, SubAward subaward) {
+                List<SubcontractReports> subContractReportsList = new ArrayList<SubcontractReports>();
+                Map<String, String> reportTypeCode = new HashMap<String, String>();
+                SubAwardReportType subAwardReportsType = null;
+                if(subaward.getSubAwardReportList() != null && !subaward.getSubAwardReportList().isEmpty()){
+                for(SubAwardReports subAwardReports : subaward.getSubAwardReportList()){
+                    SubcontractReports subContractReports = SubcontractReports.Factory.newInstance();
+                    reportTypeCode.put("subAwardReportTypeCode", subAwardReports.getSubAwardReportTypeCode());
+                    subAwardReportsType = businessObjectService.findByPrimaryKey(SubAwardReportType.class, reportTypeCode);
+                subContractReports.setReportTypeDescription(subAwardReportsType.getDescription());
+                subContractReportsList.add(subContractReports);
+                }
+               }
+                subContractData.setSubcontractReportsArray((SubcontractReports[])subContractReportsList.toArray(new SubcontractReports [0]));
+            }
             
-           
 }

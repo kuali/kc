@@ -29,8 +29,28 @@ public class SubAwardPrintAgreement extends BusinessObjectBase{
     private Boolean attachment3A;
     private Boolean attachment3BPage2;
     private Boolean attachment3B;
-    private Boolean attachment4A;
+    private Boolean attachment4;
+    private String awardNo;
+    private String fdpType;
     
+    
+    
+    /**
+     * Gets the attachment4 attribute. 
+     * @return Returns the attachment4.
+     */
+    public Boolean getAttachment4() {
+        return attachment4;
+    }
+
+    /**
+     * Sets the attachment4 attribute value.
+     * @param attachment4 The attachment4 to set.
+     */
+    public void setAttachment4(Boolean attachment4) {
+        this.attachment4 = attachment4;
+    }
+
     /**
      * Gets the attachment3A attribute. 
      * @return Returns the attachment3A.
@@ -79,26 +99,6 @@ public class SubAwardPrintAgreement extends BusinessObjectBase{
         attachment3B = attachment3b;
     }
 
-    /**
-     * Gets the attachment4A attribute. 
-     * @return Returns the attachment4A.
-     */
-    public Boolean getAttachment4A() {
-        return attachment4A;
-    }
-
-    /**
-     * Sets the attachment4A attribute value.
-     * @param attachment4a The attachment4A to set.
-     */
-    public void setAttachment4A(Boolean attachment4a) {
-        attachment4A = attachment4a;
-    }
-
-    private String oppNameSpace;
-    private String awardNo;
-    private String fdpType;
-    
     
     public SubAwardPrintAgreement() {
         initialize();
@@ -233,24 +233,6 @@ public class SubAwardPrintAgreement extends BusinessObjectBase{
      */
     public void setSelectToPrint(Boolean selectToPrint) {
         this.selectToPrint = selectToPrint;
-    }
-
-
-    /**
-     * Gets the oppNameSpace attribute. 
-     * @return Returns the oppNameSpace.
-     */
-    public String getOppNameSpace() {
-        return oppNameSpace;
-    }
-
-
-    /**
-     * Sets the oppNameSpace attribute value.
-     * @param oppNameSpace The oppNameSpace to set.
-     */
-    public void setOppNameSpace(String oppNameSpace) {
-        this.oppNameSpace = oppNameSpace;
     }
     
     /**
