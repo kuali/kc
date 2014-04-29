@@ -127,7 +127,6 @@ public abstract class ProposalDevelopmentControllerBase {
          ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
          ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
          DevelopmentProposal proposal = proposalDevelopmentDocument.getDevelopmentProposal();
-         // must set FKs since there is apparently a problem with JPA
 		 for (ProposalPerson person: proposal.getProposalPersons()) {
   			 for (ProposalPersonUnit pUnit: person.getUnits()) {
 				 pUnit.setProposalNumber(proposal.getProposalNumber());
