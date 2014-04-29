@@ -28,7 +28,9 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Collections.sort;
 
@@ -45,6 +47,7 @@ public abstract class CommitteeIdValuesFinderBase extends UifKeyValuesFinderBase
     
     private List<ProtocolCorrespondenceTemplateBase> correspondenceTemplates;
     private BusinessObjectService businessObjectService;
+    private static final String COMMITTEE_TYPE_CODE = "committeeTypeCode";
     
     
     public BusinessObjectService getBusinessObjectService() {
@@ -63,9 +66,11 @@ public abstract class CommitteeIdValuesFinderBase extends UifKeyValuesFinderBase
      * Will always return non-null (but possibly empty) collection.
      */
     public List<CommitteeBase> getActiveCommittees() {
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put(COMMITTEE_TYPE_CODE, getCommitteeTypeCodeHook());
         ArrayList<CommitteeBase> returnCommitteeList = new ArrayList<CommitteeBase>();
 
-        Collection<? extends CommitteeBase> committees = this.getBusinessObjectService().findAll(getCommitteeBOClassHook());
+        Collection<? extends CommitteeBase> committees = this.getBusinessObjectService().findMatching(getCommitteeBOClassHook(), criteria);
         // sort and iterate through to get only the latest instances
         if (CollectionUtils.isNotEmpty(committees)) {
             List<String> committeeIds = new ArrayList<String>();
@@ -83,6 +88,7 @@ public abstract class CommitteeIdValuesFinderBase extends UifKeyValuesFinderBase
     }
     
     protected abstract Class<? extends CommitteeBase> getCommitteeBOClassHook();
+    protected abstract String getCommitteeTypeCodeHook(); 
 
     /**
      * @return the list of &lt;key, value&gt; pairs of committees. The first entry is always &lt;"", "select:"&gt;.
