@@ -231,6 +231,36 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
         if(subAwardPrint.getAttachment4()){
             printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ATT_4"));
         }
+        if(subAwardPrint.getAfosrSponsor()){
+            printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_AFOSR"));
+         }
+         if(subAwardPrint.getAmrmcSponsor()){
+             printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_AMRMC"));
+         }
+          if(subAwardPrint.getAroSponsor()){
+              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ARO"));
+          }
+          if(subAwardPrint.getDoeSponsor()){
+              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_DOE"));
+          }
+          if(subAwardPrint.getEpaSponsor()){
+              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_EPA"));
+          }
+          if(subAwardPrint.getNasaSponsor()){
+              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_NASA"));
+          }
+          if(subAwardPrint.getNihSponsor()){
+              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_NIH"));
+          }
+          if(subAwardPrint.getNsfSponsor()){
+              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_NSF"));
+          }
+          if(subAwardPrint.getOnrSponsor()){
+              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ONR"));
+          }
+          if(subAwardPrint.getUsdaSponsor()){
+              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_USDA"));
+          }
         return printFormTemplates;
     }
 }
