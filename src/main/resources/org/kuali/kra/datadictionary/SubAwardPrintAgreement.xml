@@ -23,6 +23,16 @@
     	<ref bean="SubAwardPrintAgreement-attachment3BPage2"/>
     	<ref bean="SubAwardPrintAgreement-attachment3B"/>
     	<ref bean="SubAwardPrintAgreement-attachment4"/>
+    	<ref bean="SubAwardPrintAgreement-afosrSponsor"/>
+    	<ref bean="SubAwardPrintAgreement-amrmcSponsor"/>
+    	<ref bean="SubAwardPrintAgreement-aroSponsor"/>
+    	<ref bean="SubAwardPrintAgreement-doeSponsor"/>
+    	<ref bean="SubAwardPrintAgreement-epaSponsor"/>
+    	<ref bean="SubAwardPrintAgreement-nasaSponsor"/>
+    	<ref bean="SubAwardPrintAgreement-nihSponsor"/>
+    	<ref bean="SubAwardPrintAgreement-nsfSponsor"/>
+    	<ref bean="SubAwardPrintAgreement-onrSponsor"/>
+    	<ref bean="SubAwardPrintAgreement-usdaSponsor"/>
       </list>
     </property>
   </bean>
@@ -82,6 +92,96 @@
     <property name="shortLabel" value="FDP Attachment 4" />
     <property name="summary" value="FDP Attachment 4" />
     <property name="description" value="FDP Attachment 4" />
+  </bean>
+  
+  <bean id="SubAwardPrintAgreement-afosrSponsor" parent="SubAwardPrintAgreement-afosrSponsor-parentBean" />
+  <bean id="SubAwardPrintAgreement-afosrSponsor-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="afosrSponsor" />
+    <property name="label" value="AFOSR Sponsor Attachment" />
+    <property name="shortLabel" value="AFOSR Sponsor Attachment" />
+    <property name="summary" value="AFOSR Sponsor Attachment" />
+    <property name="description" value="AFOSR Sponsor Attachment" />
+  </bean>
+  
+  <bean id="SubAwardPrintAgreement-amrmcSponsor" parent="SubAwardPrintAgreement-amrmcSponsor-parentBean" />
+  <bean id="SubAwardPrintAgreement-amrmcSponsor-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="amrmcSponsor" />
+    <property name="label" value="AMRMC Sponsor Attachment" />
+    <property name="shortLabel" value="AMRMC Sponsor Attachment" />
+    <property name="summary" value="AMRMC Sponsor Attachment" />
+    <property name="description" value="AMRMC Sponsor Attachment" />
+  </bean>
+  
+  <bean id="SubAwardPrintAgreement-aroSponsor" parent="SubAwardPrintAgreement-aroSponsor-parentBean" />
+  <bean id="SubAwardPrintAgreement-aroSponsor-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="aroSponsor" />
+    <property name="label" value="ARO Sponsor Attachment" />
+    <property name="shortLabel" value="ARO Sponsor Attachment" />
+    <property name="summary" value="ARO Sponsor Attachment" />
+    <property name="description" value="ARO Sponsor Attachment" />
+  </bean>
+  
+  <bean id="SubAwardPrintAgreement-doeSponsor" parent="SubAwardPrintAgreement-doeSponsor-parentBean" />
+  <bean id="SubAwardPrintAgreement-doeSponsor-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="doeSponsor" />
+    <property name="label" value="DOE Sponsor Attachment" />
+    <property name="shortLabel" value="DOE Sponsor Attachment" />
+    <property name="summary" value="DOE Sponsor Attachment" />
+    <property name="description" value="DOE Sponsor Attachment" />
+  </bean>
+  
+  <bean id="SubAwardPrintAgreement-epaSponsor" parent="SubAwardPrintAgreement-epaSponsor-parentBean" />
+  <bean id="SubAwardPrintAgreement-epaSponsor-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="epaSponsor" />
+    <property name="label" value="EPA Sponsor Attachment" />
+    <property name="shortLabel" value="EPA Sponsor Attachment" />
+    <property name="summary" value="EPA Sponsor Attachment" />
+    <property name="description" value="EPA Sponsor Attachment" />
+  </bean>
+  
+  <bean id="SubAwardPrintAgreement-nasaSponsor" parent="SubAwardPrintAgreement-nasaSponsor-parentBean" />
+  <bean id="SubAwardPrintAgreement-nasaSponsor-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="nasaSponsor" />
+    <property name="label" value="NASA Sponsor Attachment" />
+    <property name="shortLabel" value="NASA Sponsor Attachment" />
+    <property name="summary" value="NASA Sponsor Attachment" />
+    <property name="description" value="NASA Sponsor Attachment" />
+  </bean>
+  
+  <bean id="SubAwardPrintAgreement-nihSponsor" parent="SubAwardPrintAgreement-nihSponsor-parentBean" />
+  <bean id="SubAwardPrintAgreement-nihSponsor-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="nihSponsor" />
+    <property name="label" value="NIH Sponsor Attachment" />
+    <property name="shortLabel" value="NIH Sponsor Attachment" />
+    <property name="summary" value="NIH Sponsor Attachment" />
+    <property name="description" value="NIH Sponsor Attachment" />
+  </bean>
+  
+  <bean id="SubAwardPrintAgreement-nsfSponsor" parent="SubAwardPrintAgreement-nsfSponsor-parentBean" />
+  <bean id="SubAwardPrintAgreement-nsfSponsor-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="nsfSponsor" />
+    <property name="label" value="NSH Sponsor Attachment" />
+    <property name="shortLabel" value="NSH Sponsor Attachment" />
+    <property name="summary" value="NSH Sponsor Attachment" />
+    <property name="description" value="NSH Sponsor Attachment" />
+  </bean>
+  
+  <bean id="SubAwardPrintAgreement-onrSponsor" parent="SubAwardPrintAgreement-onrSponsor-parentBean" />
+  <bean id="SubAwardPrintAgreement-onrSponsor-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="onrSponsor" />
+    <property name="label" value="ONR Sponsor Attachment" />
+    <property name="shortLabel" value="ONR Sponsor Attachment" />
+    <property name="summary" value="ONR Sponsor Attachment" />
+    <property name="description" value="ONR Sponsor Attachment" />
+  </bean>
+  
+  <bean id="SubAwardPrintAgreement-usdaSponsor" parent="SubAwardPrintAgreement-usdaSponsor-parentBean" />
+  <bean id="SubAwardPrintAgreement-usdaSponsor-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+    <property name="name" value="usdaSponsor" />
+    <property name="label" value="USDA Sponsor Attachment" />
+    <property name="shortLabel" value="USDA Sponsor Attachment" />
+    <property name="summary" value="USDA Sponsor Attachment" />
+    <property name="description" value="USDA Sponsor Attachment" />
   </bean>
   
   <!-- Business Object Inquiry Definition -->

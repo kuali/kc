@@ -296,6 +296,27 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                if(subawardTemplate.getParentCongressionalDistrict() != null){
                    subContractTemplateInfo.setParentCongressionalDistrict(subawardTemplate.getParentCongressionalDistrict());
                }
+               if(subawardTemplate.getCopyRightType() != null) {
+                   subContractTemplateInfo.setCopyRights(subawardTemplate.getCopyRightType().toString());
+               }
+               if(subawardTemplate.getAutomaticCarryForward() != null) {
+                   subContractTemplateInfo.setAutomaticCarryForward(subawardTemplate.getAutomaticCarryForward());
+               }
+               if(subawardTemplate.getTreatmentPrgmIncomeAdditive() != null) {
+                   subContractTemplateInfo.setTreatmentPrgmIncomeAdditive(subawardTemplate.getTreatmentPrgmIncomeAdditive());
+               }
+               if(subawardTemplate.getApplicableProgramRegulations() != null) {
+                   subContractTemplateInfo.setApplicableProgramRegulations(subawardTemplate.getApplicableProgramRegulations());
+               }
+               if(subawardTemplate.getApplicableProgramRegsDate() != null) {
+                   subContractTemplateInfo.setApplicableProgramRegsDate(getDateTimeService().getCalendar(subawardTemplate.getApplicableProgramRegsDate()));
+               }
+               if(subawardTemplate.getCarryForwardRequestsSentTo() != null) {
+                   ContactType contactTypeCode = (ContactType) KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(ContactType.class,subawardTemplate.getCarryForwardRequestsSentTo());
+                   if(contactTypeCode.getDescription() != null) {
+                       subContractTemplateInfo.setCarryForwardRequestsSentToDescription(contactTypeCode.getDescription());
+                   }
+               }
                    
            templateDataList.add(subContractTemplateInfo);
        }
