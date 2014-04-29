@@ -16,6 +16,7 @@
 package org.kuali.kra.iacuc.committee.lookup.keyvalue;
 
 import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeType;
 import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdValuesFinderBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 
@@ -29,6 +30,11 @@ public class IacucCommitteeIdValuesFinder extends CommitteeIdValuesFinderBase {
     @Override
     protected Class<? extends CommitteeBase> getCommitteeBOClassHook() {
         return IacucCommittee.class;
+    }
+
+    @Override
+    protected String getCommitteeTypeCodeHook() {
+        return CommitteeType.IACUC_TYPE_CODE;
     }
 
 }
