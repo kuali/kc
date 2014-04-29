@@ -126,13 +126,6 @@ public abstract class ProposalDevelopmentControllerBase {
              HttpServletRequest request, HttpServletResponse response) throws Exception {
          ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
          ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
-         DevelopmentProposal proposal = proposalDevelopmentDocument.getDevelopmentProposal();
-		 for (ProposalPerson person: proposal.getProposalPersons()) {
-  			 for (ProposalPersonUnit pUnit: person.getUnits()) {
-				 pUnit.setProposalNumber(proposal.getProposalNumber());
-				 pUnit.setProposalPersonNumber(person.getProposalPersonNumber());
-  			 }
-		 }
 
          proposalDevelopmentService.initializeUnitOrganizationLocation(
                  proposalDevelopmentDocument);

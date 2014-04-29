@@ -15,24 +15,26 @@
  */
 package org.kuali.coeus.propdev.impl.core;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.propdev.impl.attachment.Narrative;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
+import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
-import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.service.LegacyNarrativeService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.View;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.kuali.rice.krad.uif.view.ViewModel;
 
 public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceImpl {
 
@@ -42,20 +44,24 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     private transient LegacyDataAdapter legacyDataAdapter;
     private transient LookupService lookupService;
 
-    public void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
+    @Override
+    public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, String collectionPath) {
+    	super.processBeforeAddLine(model, addLine, collectionId, collectionPath);
+    	ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
         ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
-        if (addLine instanceof Narrative) {
-            Narrative narrative = (Narrative) addLine;
-            getNarrativeService().prepareNarrative(document, narrative);
-            if (StringUtils.equals(narrative.getNarrativeType().getNarrativeTypeGroup(), Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE)) {
-                narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
-            }
-        } else if (addLine instanceof ProposalPersonBiography) {
-            document.getDevelopmentProposal().addProposalPersonBiography((ProposalPersonBiography) addLine);
-        }
-    }
-    
+		if (addLine instanceof Narrative) {
+			Narrative narrative = (Narrative) addLine;
+			getNarrativeService().prepareNarrative(document, narrative);
+			if (StringUtils.equals(narrative.getNarrativeType().getNarrativeTypeGroup(), Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE)) {
+				narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
+			}
+		} else if (addLine instanceof ProposalPersonBiography) {
+			document.getDevelopmentProposal().addProposalPersonBiography((ProposalPersonBiography) addLine);
+		} else if (addLine instanceof ProposalPersonUnit) {
+			((ProposalPersonUnit)addLine).setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+		}
+    }    	
+    	
     public static class SponsorSuggestResult {
         private Sponsor sponsor;
         public SponsorSuggestResult(Sponsor sponsor) {
