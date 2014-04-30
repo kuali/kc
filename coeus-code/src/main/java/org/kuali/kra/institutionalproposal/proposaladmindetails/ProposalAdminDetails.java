@@ -48,10 +48,6 @@ public class ProposalAdminDetails extends KcPersistableBusinessObjectBase {
 
     private boolean submissionType;
 
-    private DevelopmentProposal developmentProposal;
-
-    private InstitutionalProposal institutionalProposal;
-
     public ProposalAdminDetails() {
     }
 
@@ -149,38 +145,6 @@ public class ProposalAdminDetails extends KcPersistableBusinessObjectBase {
      */
     public void setInstProposalId(Long instProposalId) {
         this.instProposalId = instProposalId;
-    }
-
-    /**
-     * Gets the developmentProposal attribute. 
-     * @return Returns the developmentProposal.
-     */
-    public DevelopmentProposal getDevelopmentProposal() {
-        return developmentProposal;
-    }
-
-    /**
-     * Sets the developmentProposal attribute value.
-     * @param developmentProposal The developmentProposal to set.
-     */
-    public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
-        this.developmentProposal = developmentProposal;
-    }
-
-    /**
-     * Gets the institutionalProposal attribute. 
-     * @return Returns the institutionalProposal.
-     */
-    public InstitutionalProposal getInstitutionalProposal() {
-        return institutionalProposal;
-    }
-
-    /**
-     * Sets the institutionalProposal attribute value.
-     * @param institutionalProposal The institutionalProposal to set.
-     */
-    public void setInstitutionalProposal(InstitutionalProposal institutionalProposal) {
-        this.institutionalProposal = institutionalProposal;
     }
 
     /**

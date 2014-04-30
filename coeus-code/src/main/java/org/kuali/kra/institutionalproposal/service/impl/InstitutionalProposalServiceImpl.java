@@ -312,7 +312,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             List<ProposalAdminDetails> details = new ArrayList<ProposalAdminDetails>(businessObjectService.findMatching(ProposalAdminDetails.class,
                     Collections.singletonMap("instProposalId", curProposal.getProposalId())));
             for (ProposalAdminDetails detail : details) {
-                result.add(detail.getDevelopmentProposal());
+                result.add(businessObjectService.findBySinglePrimaryKey(DevelopmentProposal.class, detail.getDevProposalNumber()));
             }
         }
         return result;

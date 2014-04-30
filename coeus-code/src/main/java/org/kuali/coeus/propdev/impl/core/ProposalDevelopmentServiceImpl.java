@@ -662,8 +662,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
         for (Iterator iter = proposalAdminDetails.iterator(); iter.hasNext();) {
             ProposalAdminDetails pad = (ProposalAdminDetails) iter.next();
-            pad.refreshReferenceObject("institutionalProposal");
-            return pad.getInstitutionalProposal();
+            return getBusinessObjectService().findBySinglePrimaryKey(InstitutionalProposal.class, pad.getInstProposalId());
         }
         return null;
     }
@@ -1217,20 +1216,22 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         if (listDetailSize > 1) {
             curDetail = details.get(listDetailSize - 2);
             Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("proposalNumber", curDetail.getDevelopmentProposal().getProposalNumber());
+            DevelopmentProposal proposal = businessObjectService.findBySinglePrimaryKey(DevelopmentProposal.class, curDetail.getDevProposalNumber());
+            fieldValues.put("proposalNumber", proposal.getProposalNumber());
             List<S2sAppSubmission> s2sSubmissionDetails = (List<S2sAppSubmission>) getBusinessObjectService().findMatchingOrderBy(S2sAppSubmission.class,
                     fieldValues, "proposalNumber", true);
-            curDetail.getDevelopmentProposal().setS2sAppSubmission(s2sSubmissionDetails);
-            return curDetail.getDevelopmentProposal();
+            proposal.setS2sAppSubmission(s2sSubmissionDetails);
+            return proposal;
         }
         if (listDetailSize == 1) {
             curDetail = details.get(0);
             Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("proposalNumber", curDetail.getDevelopmentProposal().getProposalNumber());
+            fieldValues.put("proposalNumber", curDetail.getDevProposalNumber());
+            DevelopmentProposal proposal = businessObjectService.findBySinglePrimaryKey(DevelopmentProposal.class, curDetail.getDevProposalNumber());
             List<S2sAppSubmission> s2sSubmissionDetails = (List<S2sAppSubmission>) getBusinessObjectService().findMatchingOrderBy(S2sAppSubmission.class,
                     fieldValues, "proposalNumber", true);
-            curDetail.getDevelopmentProposal().setS2sAppSubmission(s2sSubmissionDetails);
-            return curDetail.getDevelopmentProposal();
+            proposal.setS2sAppSubmission(s2sSubmissionDetails);
+            return proposal;
 
         }
         return null;

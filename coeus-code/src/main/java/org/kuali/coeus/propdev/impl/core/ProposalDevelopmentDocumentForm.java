@@ -20,10 +20,14 @@ import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentQuestionnaireHel
 import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelAddWizardHelper;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.medusa.MedusaNode;
+import org.kuali.kra.medusa.service.MedusaService;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.ToggleMenu;
 import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
+import org.kuali.rice.core.api.util.tree.Tree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +40,9 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private ProposalDevelopmentQuestionnaireHelper questionnaireHelper;
     private KeyPersonnelAddWizardHelper addKeyPersonHelper;
     private S2sOpportunity newS2sOpportunity;
+    
+    private transient MedusaService medusaService;
+    
     
     public ProposalDevelopmentDocumentForm() {
         super();
@@ -135,5 +142,25 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     public void setNewS2sOpportunity(S2sOpportunity newOpportunity) {
         this.newS2sOpportunity = newOpportunity;
     }
+    
+    public Tree<Object, String> getMedusaTreeView() {
+    	Tree<Object, String> tree = new Tree<Object, String>();
+    	MedusaNode rootNode = new MedusaNode();
+    	rootNode.setNodeLabel("Medusa Tree");
+    	tree.setRootElement(rootNode);
+    	rootNode.setChildNodes(getMedusaService().getMedusaByProposal("DP", Long.valueOf(getDevelopmentProposal().getProposalNumber())));
+    	return tree;
+    }
+
+	protected MedusaService getMedusaService() {
+		if (medusaService == null) {
+			medusaService = KcServiceLocator.getService(MedusaService.class);
+		}
+		return medusaService;
+	}
+
+	public void setMedusaService(MedusaService medusaService) {
+		this.medusaService = medusaService;
+	}
 
 }

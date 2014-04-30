@@ -1938,7 +1938,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private void populateDisclosedAwardsAndProposals(List<MedusaNode> medusaNodes, String userId, CoiDisclosedProjectBean projectDisclosureHelper) {
         for(MedusaNode medusaNode : medusaNodes) {
             addAwardAndProposalNodes(medusaNode, userId, projectDisclosureHelper);
-            populateDisclosedAwardsAndProposals(medusaNode.getChildNodes(), userId, projectDisclosureHelper);
+            populateDisclosedAwardsAndProposals((List<MedusaNode>) medusaNode.getChildNodes(), userId, projectDisclosureHelper);
         }
     }
 
