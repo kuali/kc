@@ -126,8 +126,11 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
     }
 
     @PostPersist
-    protected void postPersist() {
+    protected void postPersist() {}
 
+    @Override
+    public void postProcessSave(DocumentEvent event) {
+        super.postProcessSave(event);
     }
     
     @LegacyDataFramework
@@ -413,10 +416,7 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
     }
 
 	@Override
-	public void afterDelete(PersistenceBroker arg0)
-			throws PersistenceBrokerException {
-		postPersist();
-	}
+	public void afterDelete(PersistenceBroker arg0) throws PersistenceBrokerException {}
 
 	@Override
 	public void afterLookup(PersistenceBroker arg0)

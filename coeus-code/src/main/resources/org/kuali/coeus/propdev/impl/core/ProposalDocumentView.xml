@@ -191,9 +191,9 @@
                             </property>
                         </bean>
 						<bean parent="Uif-ActionLink" p:methodToCall="noop"
-							p:actionLabel="Print" p:iconClass="icon-print" p:order="20" />
-						<bean parent="Uif-ActionLink" p:actionLabel="Copy"
-							p:iconClass="icon-copy" p:order="30" />
+            			p:actionLabel="Print" p:iconClass="icon-print" p:order="20" />
+                        <bean parent="Uif-ActionLink" p:actionLabel="Copy"
+                              p:iconClass="icon-eye" p:order="20" p:actionScript="showDialog('PropDev-CopySection');" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Medusa"
 							p:iconClass="icon-tasks" p:order="40" p:actionScript="showLightboxComponent('PropDev-MedusaSection');" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Hierachy"
@@ -205,6 +205,7 @@
 			</bean>
 		</property>
 	</bean>
+
 
 	<bean id="PropDev-DocumentHeader-MoreInfo" parent="PropDev-DocumentHeader-MoreInfo-parentBean" />
 	<bean id="PropDev-DocumentHeader-MoreInfo-parentBean" abstract="true"

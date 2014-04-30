@@ -24,6 +24,7 @@ import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
+import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelAddWizardHelper;
@@ -60,6 +61,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private boolean auditActivated;
     private List<ProposalCreditSplitListDto> creditSplitListItems;
     private AddBudgetDto addBudgetDto;
+    private ProposalCopyCriteria proposalCopyCriteria;
     private ProposalDevelopmentAttachmentHelper proposalDevelopmentAttachmentHelper;
 
     public ProposalDevelopmentDocumentForm() {
@@ -73,7 +75,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         questionnaireHelper = new ProposalDevelopmentQuestionnaireHelper(getProposalDevelopmentDocument());
 
         s2sQuestionnaireHelper = new ProposalDevelopmentS2sQuestionnaireHelper(this);
-        
+
         addKeyPersonHelper = new KeyPersonnelAddWizardHelper();
         
         newS2sOpportunity = new S2sOpportunity();
@@ -87,6 +89,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         creditSplitListItems = new ArrayList<ProposalCreditSplitListDto>();
 
         proposalDevelopmentAttachmentHelper = new ProposalDevelopmentAttachmentHelper();
+
+        ProposalCopyCriteria proposalCopyCriteria1= new ProposalCopyCriteria(getProposalDevelopmentDocument());
     }
 
     public int findIndexOfPageId(List<Action> actions) {
@@ -234,6 +238,11 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 		this.addBudgetDto = addBudgetDto;
 	}
 
+    public ProposalCopyCriteria getProposalCopyCriteria (){return proposalCopyCriteria;}
+
+    public void setProposalCopyCriteria(ProposalCopyCriteria proposalCopyCriteria) {
+        this.proposalCopyCriteria = proposalCopyCriteria;
+    }
     public ProposalDevelopmentAttachmentHelper getProposalDevelopmentAttachmentHelper() {
         return proposalDevelopmentAttachmentHelper;
     }
@@ -259,4 +268,5 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
     }
+
 }

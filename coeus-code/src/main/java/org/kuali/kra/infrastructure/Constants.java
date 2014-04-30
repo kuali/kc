@@ -283,8 +283,8 @@ public interface Constants {
     public static final String GRANTS_GOV_GENERIC_ERROR_KEY= "error.grantsgov.schemavalidation.generic.errorkey";
 
     // custom attribute
-    public static final String CUSTOM_ATTRIBUTE_ID = "customAttributeId";
-    public static final String DOCUMENT_NEWMAINTAINABLEOBJECT_CUSTOM_ATTRIBUTE_ID = "document.newMaintainableObject.customAttributeId";
+    public static final String CUSTOM_ATTRIBUTE_ID = "id";
+    public static final String DOCUMENT_NEWMAINTAINABLEOBJECT_CUSTOM_ATTRIBUTE_ID = "document.newMaintainableObject.id";
     public static final String DOCUMENT_NEWMAINTAINABLEOBJECT_LOOKUPRETURN = "document.newMaintainableObject.lookupReturn";
     public static final String LOOKUP_RETURN_FIELDS = "lookupReturnFields";
     public static final String LOOKUP_CLASS_NAME = "lookupClassName";
