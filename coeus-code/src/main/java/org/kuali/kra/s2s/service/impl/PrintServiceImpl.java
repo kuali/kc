@@ -39,9 +39,9 @@ import org.kuali.coeus.propdev.impl.s2s.S2sAppAttachments;
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 import org.kuali.coeus.propdev.impl.s2s.S2sApplication;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
-import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.propdev.api.attachment.NarrativeService;
+import org.kuali.coeus.propdev.api.s2s.UserAttachedFormService;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -62,11 +62,7 @@ import org.w3c.dom.Element;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -579,15 +575,7 @@ public class PrintServiceImpl implements PrintService {
 	}
 
     private List<String> findUserAttachedNamespaces(String proposalNumber) {
-        List<String> namespaces = new ArrayList<String>();
-        Map<String, Object> fieldMap = new HashMap<String, Object>();
-        fieldMap.put("proposalNumber", proposalNumber);
-        List<S2sUserAttachedForm> formList = (List<S2sUserAttachedForm>) KcServiceLocator.getService(BusinessObjectService.class).
-                                                    findMatching(S2sUserAttachedForm.class,fieldMap);
-        for (S2sUserAttachedForm s2sUserAttachedForm : formList) {
-            namespaces.add(s2sUserAttachedForm.getNamespace());
-        }
-        return namespaces;
+        return KcServiceLocator.getService(UserAttachedFormService.class).findAttachedFormNamespaces(proposalNumber);
     }
 
     /**
