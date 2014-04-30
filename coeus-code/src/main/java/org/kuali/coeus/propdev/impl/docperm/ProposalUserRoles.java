@@ -149,6 +149,24 @@ public class ProposalUserRoles implements Serializable {
         return roleNames;
     }
 
+    /**
+     * Get the user's role labels in the proposal as a single string.
+     * 
+     * @return the user's role labels in the proposal.
+     */
+    public String getRoleLabelString() {
+        StringBuffer labels = new StringBuffer();
+        boolean addBreak = false;
+        for (String label:getRoleLabels()) {
+        	if (addBreak) {
+        		labels.append("\n");
+        	}
+        	labels.append(label);
+        	addBreak = true;
+        }
+        return labels.toString();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

@@ -35,6 +35,7 @@ import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeStatus;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
+import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
@@ -396,6 +397,9 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     
     @Column(name = "PREV_GG_TRACKID")
     private String prevGrantsGovTrackingID;
+
+    private transient List<ProposalUserRoles>userRoles;
+    
     /**
      * Gets the proposalNumberForGG attribute. 
      * @return Returns the proposalNumberForGG.
@@ -2499,4 +2503,34 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
     public void setS2sUserAttachedForms(List<S2sUserAttachedForm> s2sUserAttachedForms) {
         this.s2sUserAttachedForms = s2sUserAttachedForms;
     }
+
+	public List<ProposalUserRoles> getUserRoles() {
+		if (userRoles == null || userRoles.isEmpty()) {
+			userRoles = new ArrayList<ProposalUserRoles>();
+			ProposalUserRoles role = new ProposalUserRoles();
+			role.setFullname("Abraham Lincoln");
+			role.setUnitNumber("000001");
+			role.setUnitName("University");
+			role.addRoleName("Commander In Chief");
+			userRoles.add(role);
+			role = new ProposalUserRoles();
+			role.setFullname("Ulysses S. Grant");
+			role.setUnitNumber("IN-IN");
+			role.setUnitName("AOP");
+			role.addRoleName("Commander, US Army");
+			userRoles.add(role);
+			role = new ProposalUserRoles();
+			role.setFullname("Philip Sheridan");
+			role.setUnitNumber("IN-IN");
+			role.setUnitName("AOT");
+			role.addRoleName("Commander, Army of the Tennessee");
+			userRoles.add(role);
+		}
+		return userRoles;
+	}
+
+	public void setUserRoles(List<ProposalUserRoles> userRoles) {
+		this.userRoles = userRoles;
+	}
+    
 }

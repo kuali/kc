@@ -18,6 +18,7 @@ package org.kuali.coeus.propdev.impl.core;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
+import org.kuali.coeus.propdev.impl.permissions.ProposalDevelopmentPermissionsHelper;
 import org.kuali.coeus.propdev.impl.person.keyperson.KeyPersonnelAddWizardHelper;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.rice.krad.uif.component.Component;
@@ -35,6 +36,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private SpecialReviewHelper specialReviewHelper;
     private ProposalDevelopmentQuestionnaireHelper questionnaireHelper;
     private KeyPersonnelAddWizardHelper addKeyPersonHelper;
+    private ProposalDevelopmentPermissionsHelper addPermissionsHelper;
     private S2sOpportunity newS2sOpportunity;
     
     public ProposalDevelopmentDocumentForm() {
@@ -135,5 +137,13 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     public void setNewS2sOpportunity(S2sOpportunity newOpportunity) {
         this.newS2sOpportunity = newOpportunity;
     }
+
+	public ProposalDevelopmentPermissionsHelper getAddPermissionsHelper() {
+		return addPermissionsHelper;
+	}
+
+	public void setAddPermissionsHelper(ProposalDevelopmentPermissionsHelper permissionsHelper) {
+		this.addPermissionsHelper = permissionsHelper;
+	}
 
 }

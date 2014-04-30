@@ -260,8 +260,11 @@
 							p:iconClass="icon-tasks" p:order="30" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Hierachy"
 							p:iconClass="icon-list-ol" p:order="40" />
-						<bean parent="Uif-ActionLink" p:actionLabel="Access"
-							p:iconClass="icon-lock" p:order="50" />
+						<bean parent="Uif-ActionLink" p:actionLabel="Access" 
+							p:iconClass="icon-lock" p:order="50" 
+							p:refreshId="PropDev-Permissions-Wizard" p:methodToCall="refresh"
+							p:successCallback="showLightboxComponent('PropDev-Permissions-Wizard');"
+							p:actionParameters="PropDev-Permissions-Wizard.step:0" />
 					</list>
 				</property>
 			</bean>

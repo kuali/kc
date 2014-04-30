@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="PropDev-Permissions-Wizard" parent="PropDev-Permissions-Wizard-parentBean" />
+	<bean id="PropDev-Permissions-Wizard-parentBean" abstract="true"
+		parent="Uif-VerticalBoxGroup" class="org.kuali.rice.contrib.uif.element.WizardGroup"
+		p:fieldBindingObjectPath="document.addPermissionsHelper" p:resetDataOnRefresh="true"
+		p:retrieveViaAjax="true">
+		<property name="header">
+			<bean parent="Uif-HeaderOne" p:headerText="Access" />
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="PropDev-Permissions-WizardPage1" p:order="10" />
+<!-- 				<bean parent="PropDev-Permissions-WizardPage2" p:order="20" />
+				<bean parent="PropDev-Permissions-WizardPage3" p:order="30" />
+-->			</list>
+		</property>
+	</bean>
+
+	<bean id="PropDev-Permissions-WizardButton" parent="PropDev-Permissions-WizardButton-parentBean" />
+	<bean id="PropDev-Permissions-WizardButton-parentBean" abstract="true"
+		parent="Uif-PrimaryActionButton" p:refreshId="PropDev-Permissions-Wizard"
+		p:methodToCall="refresh" p:actionParameters="PropDev-Permissions-Wizard.step:1" />
+
+	<bean id="PropDev-Permissions-WizardButton-AddUser" parent="PropDev-Permissions-WizardButton-AddUser-parentBean"/>
+	<bean id="PropDev-Permissions-WizardButton-AddUser-parentBean"
+		abstract="true" parent="PropDev-Permissions-WizardButton"
+		p:actionLabel="Add User" p:preSubmitCall="return Kc.PropDev.Personnel.validateWizard('PropDev-Permissions-Wizard');"/>
+
+	<bean id="PropDev-Permissions-WizardButton-Continue" parent="PropDev-Permissions-WizardButton-Continue-parentBean" />
+	<bean id="PropDev-Permissions-WizardButton-Continue-parentBean"
+		abstract="true" parent="PropDev-Permissions-WizardButton"
+		p:actionLabel="Continue..." p:preSubmitCall="return Kc.PropDev.Personnel.validateWizard('PropDev-Permissions-Wizard');"/>
+
+	<bean id="PropDev-Permissions-WizardButton-Back" parent="PropDev-Permissions-WizardButton-Back-parentBean" />
+	<bean id="PropDev-Permissions-WizardButton-Back-parentBean"
+		abstract="true" parent="PropDev-Permissions-WizardButton"
+		p:actionLabel="Go back" />
+
+	<bean id="PropDev-Permissions-WizardPage1" parent="PropDev-Permissions-WizardPage1-parentBean" />
+	<bean id="PropDev-Permissions-WizardPage1-parentBean" abstract="true"
+		parent="Uif-CssGridSection-1FieldLabelColumn">
+		<property name="header">
+			<bean parent="Uif-HeaderBase">
+				<property name="items">
+					<list>
+						<bean parent="PropDev-Permissions-WizardButton-AddUser"
+							p:actionParameters="PropDev-Permissions-Wizard.step:1" p:order="10" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="items">
+			<list>
+ 				<bean parent="PropDev-Permissions-WizardUserTable"
+					p:order="10" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropDev-Permissions-WizardInputField" parent="PropDev-Permissions-WizardInputField-parentBean" />
+	<bean id="PropDev-Permissions-WizardInputField-parentBean"
+		abstract="true" parent="Uif-InputField" p:fieldLabel.renderColon="false"
+		p:dictionaryObjectEntry="org.kuali.coeus.common.framework.person.KcPerson" />
+
+<!-- 
+	<bean id="PropDev-Permissions-WizardPage2" parent="PropDev-Permissions-WizardPage2-parentBean" />
+	<bean id="PropDev-Permissions-WizardPage2-parentBean" abstract="true"
+		parent="Uif-CssGridGroup">
+		<property name="items">
+			<list>
+				<bean parent="PropDev-Permissions-WizardPage2-Results"
+					p:order="10" />
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="PropDev-Permissions-WizardButton-Back"
+							p:actionParameters="PropDev-Permissions-Wizard.step:0" p:order="10" />
+						<bean parent="PropDev-Permissions-WizardButton-Continue"
+							p:preSubmitCall="return Kc.PropDev.Personnel.verifyCollectionRadioButtons('PropDev-Permissions-Wizard', 'input[type=&quot;radio&quot;]')"
+							p:actionParameters="PropDev-Permissions-Wizard.step:2" p:order="20" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="PropDev-Permissions-WizardPage2-Results" parent="PropDev-Permissions-WizardPage2-Results-parentBean" />
+	<bean id="PropDev-Permissions-WizardPage2-Results-parentBean"
+		abstract="true" parent="Uif-TableCollectionSection" p:headerText="Search Results"
+		p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
+		p:propertyName="results" p:additionalCssClasses="kc-personnel-table"
+		p:renderAddLine="false" p:renderLineActions="false"
+		p:layoutManager.renderSequenceField="false">
+		<property name="layoutManager.richTable.templateOptions">
+			<map>
+				<entry key="bAutoWidth" value="false" />
+				<entry key="sDom" value="tip" />
+				<entry key="bRetrieve" value="true" />
+				<entry key="sPaginationType" value="full_numbers" />
+				<entry key="aaSorting" value="[[1,'asc']]" />
+				<entry key="aoColumnDefs"
+					value="[{'sWidth' : '20px', 'bSortable':false, 'aTargets' : [0]}]" />
+			</map>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="selected"
+					p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
+					<property name="control">
+						<bean parent="Uif-VerticalRadioControl">
+							<property name="options">
+								<list>
+									<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="" />
+								</list>
+							</property>
+						</bean>
+					</property>
+					<property name="onClickScript"
+						value="Kc.PropDev.Personnel.unselectCollectionRadioButtons(this, &quot;input[name$='selected']&quot;);" />
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="fullname"
+					p:label="Name" p:readOnly="true" p:order="20" />
+				<bean parent="Uif-InputField" p:propertyName="userName"
+					p:label="User ID" p:readOnly="true" p:order="30" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropDev-Permissions-WizardPage3" parent="PropDev-Permissions-WizardPage3-parentBean" />
+	<bean id="PropDev-Permissions-WizardPage3-parentBean" abstract="true"
+		parent="Uif-CssGridSection" p:header.headerText="Assign a role">
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:required="true"
+					p:propertyName="personRole" p:label="Assign a role"
+					p:order="10">
+					<property name="control">
+						<bean parent="Uif-VerticalRadioControl" />
+					</property>
+					<property name="optionsFinder">
+						<bean
+							class="org.kuali.coeus.propdev.impl.person.ProposalPersonRoleValuesFinder" />
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="multiplePi"
+					p:progressiveRender="@{#fp.personRole == 'T(org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole).COI_CODE'}" p:order="20">
+					<property name="control">
+						<bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes, this proposal has mutliple PI's." />
+					</property>
+				</bean>
+				<bean parent="Uif-InputField"
+					p:propertyName="keyPersonProjectRole"
+					p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.person.ProposalPerson"
+					p:dictionaryAttributeName="projectRole" p:required="true"
+					p:label="Key Person's role will be" p:progressiveRender="@{#fp.personRole == 'T(org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole).KEY_PERSON_CODE'}"
+					p:order="30" />
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="PropDev-Permissions-WizardButton-Back"
+							p:actionParameters="PropDev-Permissions-Wizard.step:1" p:order="10" />
+						<bean parent="PropDev-Permissions-WizardButton-Continue"
+							p:actionParameters="PropDev-Permissions-Wizard.step:2"
+							p:actionLabel="Add Person" p:refreshId="PropDev-Permissions-Section"
+							p:methodToCall="addPerson" p:successCallback="closeLightbox();"
+							p:order="20" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+-->
+
+	<!--  wrap table in field element -->
+	<bean id="PropDev-Permissions-WizardUserTable" parent="Uif-FieldGroupBase">
+		<property name="group">
+			<bean parent="PropDev-Permissions-WizardUserTable-parentBean" />
+		</property>
+	</bean>
+
+	<bean id="PropDev-Permissions-WizardUserTable-parentBean" abstract="true"
+		parent="Uif-TableCollectionSection" p:propertyName="document.developmentProposal.userRoles"
+		p:collectionObjectClass="org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles"
+		p:renderAddLine="false" p:layoutManager.richTable.render="true"
+		p:layoutManager.renderSequenceField="false">
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="fullname" p:order="10" />
+				<bean parent="Uif-InputField" p:propertyName="roleLabelString" p:order="20" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

@@ -935,6 +935,22 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         return proposalUserRolesList;
     }
     
+    public synchronized List<ProposalUser>getProposalUserRolesSingle() {
+    	List<ProposalUser>users = new ArrayList<ProposalUser>();
+    	for (ProposalUserRoles roles:getProposalUserRoles()){
+    		for (String str:roles.getRoleLabels()) {
+    			ProposalUser user = new ProposalUser();
+    			user.setFullname(roles.getFullname());
+    			user.setUnitName(roles.getUnitName());
+    			user.setUnitNumber(roles.getUnitNumber());
+    			user.setUsername(roles.getUsername());
+    			user.setRoleName(str);
+    			users.add(user);
+    		}    		
+    	}
+    	return users;
+    }
+    
     public List<ProposalUserRoles> getCurrentProposalUserRoles() {
         List<ProposalUserRoles> current = new ArrayList<ProposalUserRoles>();
         
