@@ -13,25 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.person.keyperson;
+package org.kuali.coeus.propdev.impl.person;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.rice.krad.rules.rule.BusinessRule;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
 
 /**
- * Interface for saving key persons
+ * Event triggered when a Key Person state is modified on a 
+ * <code>{@link ProposalDevelopmentDocument}</code>
  *
  * @author $Author: gmcgrego $
  * @version $Revision: 1.2 $
  */
-public interface SaveKeyPersonRule extends BusinessRule {
+public interface KeyPersonEvent extends KualiDocumentEvent {
     
     /**
-     * Rule invoked upon saving persons to a 
-     * <code>{@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}</code>
-     *
-     * @return boolean
+     * @return <code>{@link ProposalPerson}</code> that triggered this event.
      */
-    public boolean processSaveKeyPersonBusinessRules(ProposalDevelopmentDocument document);
+    public ProposalPerson getProposalPerson();
 }
