@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/util
+                    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+    <bean id="PropDev-HierarechySection" parent="PropDev-HierarechySection-parentBean"/>
+    <bean id="PropDev-HierarechySection-parentBean" parent="Uif-VerticalBoxSection" p:headerText="Hierarechy">
+        <property name="items">
+            <list>
+                <bean parent="PropDev-HierarechySection-Group" p:order="10"/>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="Uif-PageHeader" />
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Link to Hierarechy"/>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Create Hierarchy"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Close"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="PropDev-HierarechySection-Group" parent="PropDev-HierarechySection-Group-parentBean"/>
+    <bean id="PropDev-HierarechySection-Group-parentBean" abstract="true" parent="Uif-VerticalBoxGroup"
+          p:fieldBindingObjectPath="document.developmentProposal">
+        <property name="items">
+        <list>
+            <bean parent="Uif-MessageField" p:messageText="@{'You are currently viewing Proposal #' + document.developmentProposal.proposalNumber + ' (Document #' + document.documentNumber + '), which is currently unlinked to a proposal hierarchy.'}"/>
+            <bean parent="Uif-InputField" p:label="Link Child Proposal" p:propertyName="hierarchyOriginatingChildProposalNumber"/>
+            <bean parent="Uif-InputField" p:label="Link Budget Type" p:propertyName="hierarchyBudgetType"/>
+        </list>
+        </property>
+    </bean>
+</beans>

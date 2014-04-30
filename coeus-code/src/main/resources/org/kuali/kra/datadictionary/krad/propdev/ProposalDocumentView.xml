@@ -259,9 +259,11 @@
 						<bean parent="Uif-ActionLink" p:actionLabel="Medusa"
 							p:iconClass="icon-tasks" p:order="30" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Hierachy"
-							p:iconClass="icon-list-ol" p:order="40" />
+							p:iconClass="icon-list-ol" p:order="40" p:actionScript="showLightboxComponent('PropDev-HierarechySection');"/>
 						<bean parent="Uif-ActionLink" p:actionLabel="Access"
-							p:iconClass="icon-lock" p:order="50" />
+							p:iconClass="icon-lock" p:order="50" p:actionScript="showLightboxComponent('PropDev-AccessSection');"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Summary"
+                              p:iconClass="icon-eye" p:order="60" p:actionScript="showLightboxComponent('PropDev-SummarySection');" />
 					</list>
 				</property>
 			</bean>
