@@ -256,12 +256,16 @@
 							p:actionLabel="Print" p:iconClass="icon-print" p:order="10" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Copy"
 							p:iconClass="icon-copy" p:order="20" />
-						<bean parent="Uif-ActionLink" p:actionLabel="Medusa"
+						<bean parent="Uif-ActionLink" p:actionLabel="Medusa" 
 							p:iconClass="icon-tasks" p:order="30" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Hierachy"
 							p:iconClass="icon-list-ol" p:order="40" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Access"
 							p:iconClass="icon-lock" p:order="50" />
+						<bean parent="Uif-ActionLink" p:actionLabel="Summary" p:methodToCall="refresh"
+							p:iconClass="icon-eye-open" p:order="60"
+							p:successCallback="showLightboxComponent('PropDev-SummaryPage-TabSection');"
+							/>
 					</list>
 				</property>
 			</bean>

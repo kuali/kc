@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- Proposal Summary Page -->
+	<bean id="PropDev-SummaryPage" parent="PropDev-SummaryPage-parentBean" />
+	<bean id="PropDev-SummaryPage-parentBean" parent="Uif-DocumentPage">
+		<property name="items">
+			<list>
+				<bean parent="PropDev-SummaryPage-TabSection" p:order="10" />
+			</list>
+		</property>
+		<property name="header.headerText" value="Document Summary" />
+		<property name="footer">
+			<null />
+		</property>
+	</bean>
+
+	<bean id="PropDev-SummaryPage-TabSection" parent="PropDev-SummaryPage-TabSection-parentBean" />
+	<bean id="PropDev-SummaryPage-TabSection-parentBean" abstract="true"
+		parent="Uif-TabSection">
+		<property name="header">
+			<bean parent="Uif-HeaderOne" p:headerText="Document Summary" />
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="PropDev-SummaryPage-Proposal" p:order="10" />
+				<bean parent="PropDev-SummaryPage-Personnel" p:order="20" />
+				<bean parent="PropDev-SummaryPage-CreditAllocation" p:order="30" />
+				<bean parent="PropDev-SummaryPage-Questionnaire" p:order="40" />
+				<bean parent="PropDev-SummaryPage-SupplementalInfo" p:order="50" />
+			</list>
+		</property>
+	</bean>
+
+
+
+	<!-- Proposal Summary Section -->
+	<bean id="PropDev-SummaryPage-Proposal" parent="PropDev-SummaryPage-Proposal-parentBean" />
+	<bean id="PropDev-SummaryPage-Proposal-parentBean" abstract="true"
+		parent="Uif-GridCondensedSubSection" p:headerText="Proposal Summary"
+		p:fieldBindingObjectPath="document.developmentProposal">
+		<property name="items">
+			<list merge="true">
+				<bean parent="Uif-DataField-condensedTable" p:propertyName="title"
+					p:label="Title" p:readOnly="true" p:order="10" />
+				<bean parent="Uif-DataField-condensedTable" p:propertyName="principalInvestigatorName"
+					p:label="Principal Investigator" p:readOnly="true" p:order="20" />
+				<bean parent="Uif-DataField-condensedTable" p:propertyName="ownedByUnit.unitName"
+					p:label="Lead Unit" p:readOnly="true" p:order="30" />
+				<bean parent="Uif-DataField-condensedTable" p:propertyName="activityType.description"
+					p:label="Activity Type" p:readOnly="true" p:order="40" />
+				<bean parent="Uif-DataField-condensedTable" p:propertyName="proposalNumber"
+					p:label="Proposal Number" p:readOnly="true" p:order="50" />
+				<bean parent="Uif-DataField-condensedTable" p:propertyName="requestedStartDateInitial"
+					p:label="Project Start Date" p:readOnly="true" p:order="60" />
+				<bean parent="Uif-DataField-condensedTable" p:propertyName="requestedEndDateInitial"
+					p:label="Project End Date" p:readOnly="true" p:order="70" />
+				<bean parent="Uif-DataField-condensedTable" p:propertyName="includeSubAwards"
+					p:label="Include Subaward(s)?" p:readOnly="true" p:order="80" />
+				<bean parent="Uif-DataField-condensedTable" p:propertyName="sponsor.sponsorName"
+					p:label="Sponsor" p:readOnly="true" p:order="90" />
+				<bean parent="Uif-DataField-condensedTable" p:propertyName="deadlineDate"
+					p:label="Sponsor Deadline Date" p:readOnly="true" p:order="100" />
+				<bean parent="Uif-DataField-condensedTable" p:propertyName="deadlineType"
+					p:label="Sponsor Deadline Type" p:readOnly="true" p:order="110" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropDev-SummaryPage-Personnel" parent="PropDev-SummaryPage-Personnel-parentBean" />
+	<bean id="PropDev-SummaryPage-Personnel-parentBean" abstract="true"
+		parent="Uif-GridCondensedSubSection" p:headerText="Personnel"
+		p:fieldBindingObjectPath="document.developmentProposal">
+		<property name="items">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropDev-SummaryPage-CreditAllocation" parent="PropDev-SummaryPage-CreditAllocation-parentBean" />
+	<bean id="PropDev-SummaryPage-CreditAllocation-parentBean" abstract="true"
+		parent="Uif-GridCondensedSubSection" p:headerText="Credit Allocation"
+		p:fieldBindingObjectPath="document.developmentProposal">
+		<property name="items">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropDev-SummaryPage-Questionnaire" parent="PropDev-SummaryPage-Questionnaire-parentBean" />
+	<bean id="PropDev-SummaryPage-Questionnaire-parentBean" abstract="true"
+		parent="Uif-GridCondensedSubSection" p:headerText="Questionnaire"
+		p:fieldBindingObjectPath="document.developmentProposal">
+		<property name="items">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropDev-SummaryPage-SupplementalInfo" parent="PropDev-SummaryPage-SupplementalInfo-parentBean" />
+	<bean id="PropDev-SummaryPage-SupplementalInfo-parentBean" abstract="true"
+		parent="Uif-GridCondensedSubSection" p:headerText="Supplemental Information"
+		p:fieldBindingObjectPath="document.developmentProposal">
+		<property name="items">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+</beans>
