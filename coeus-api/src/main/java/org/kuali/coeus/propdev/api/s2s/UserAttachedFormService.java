@@ -14,7 +14,7 @@ public interface UserAttachedFormService {
      * @return a S2S User Attached Form or null.
      * @throws java.lang.IllegalArgumentException if either proposalNumber or namespace is blank.
      */
-    S2sUserAttachedFormContract findUserAttachedFormByProposalNumberAndNamespace(String proposalNumber, String namespace);
+    S2sUserAttachedFormContract findFormByProposalNumberAndNamespace(String proposalNumber, String namespace);
 
     /**
      * This method find a S2S User Attached Form name by a proposal number and namespace.  There is supposed to be only one
@@ -26,7 +26,7 @@ public interface UserAttachedFormService {
      * @return a S2S User Attached Form name or null.
      * @throws java.lang.IllegalArgumentException if either proposalNumber or namespace is blank.
      */
-    String findUserAttachedFormNameByProposalNumberAndNamespace(String proposalNumber, String namespace);
+    String findFormNameByProposalNumberAndNamespace(String proposalNumber, String namespace);
 
     /**
      * This method find all the user attached form namespaces for a given proposal number.  This list should not contain
@@ -36,5 +36,5 @@ public interface UserAttachedFormService {
      * @return a list of namespaces or an empty list.
      * @throws java.lang.IllegalArgumentException if either proposalNumber.
      */
-    List<String> findAttachedFormNamespaces(String proposalNumber);
+    List<String> findFormNamespaces(String proposalNumber);
 }

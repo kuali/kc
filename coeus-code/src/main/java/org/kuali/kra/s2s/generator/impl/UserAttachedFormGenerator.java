@@ -78,7 +78,7 @@ public class UserAttachedFormGenerator extends S2SBaseFormGenerator {
 
     private S2sUserAttachedFormContract findUserAttachedForm() {
         return  KcServiceLocator.getService(UserAttachedFormService.class).
-                                                                findUserAttachedFormByProposalNumberAndNamespace(pdDoc.getDevelopmentProposal().getProposalNumber(), getNamespace());
+                findFormByProposalNumberAndNamespace(pdDoc.getDevelopmentProposal().getProposalNumber(), getNamespace());
     }
 
     /**

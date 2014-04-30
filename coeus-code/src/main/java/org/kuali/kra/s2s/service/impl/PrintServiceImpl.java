@@ -575,7 +575,7 @@ public class PrintServiceImpl implements PrintService {
 	}
 
     private List<String> findUserAttachedNamespaces(String proposalNumber) {
-        return KcServiceLocator.getService(UserAttachedFormService.class).findAttachedFormNamespaces(proposalNumber);
+        return KcServiceLocator.getService(UserAttachedFormService.class).findFormNamespaces(proposalNumber);
     }
 
     /**
