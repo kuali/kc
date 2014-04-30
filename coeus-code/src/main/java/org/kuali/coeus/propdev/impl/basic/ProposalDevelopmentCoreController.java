@@ -153,13 +153,6 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 		return getTransactionalDocumentControllerService().performFieldQuery(form, result, request, response);
 	}
 
-	@MethodAccessible
-	@RequestMapping(value = "/proposalDevelopment", params="methodToCall=returnFromLightbox")
-	public ModelAndView returnFromLightbox(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
-			HttpServletResponse response) {
-		return getTransactionalDocumentControllerService().returnFromLightbox(form, result, request, response);
-	}
-
 	@RequestMapping(value = "/proposalDevelopment", params="methodToCall=tableCsvRetrieval", produces = {"text/csv"})
 	@ResponseBody
 	public String tableCsvRetrieval(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
