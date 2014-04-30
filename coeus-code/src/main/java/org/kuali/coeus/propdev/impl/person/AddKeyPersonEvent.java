@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.person.keyperson;
+package org.kuali.coeus.propdev.impl.person;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
@@ -32,7 +31,7 @@ public class AddKeyPersonEvent extends KeyPersonEventBase implements KeyPersonEv
      * Constructs an AddKeyPersonEvent with the given errorPathPrefix, document, and proposalPerson.
      * 
      * @param document
-     * @param proposalPerson
+     * @param person
      */
     public AddKeyPersonEvent(ProposalDevelopmentDocument document, ProposalPerson person) {
         super("adding key person to document " + getDocumentId(document), document, person);
@@ -42,7 +41,7 @@ public class AddKeyPersonEvent extends KeyPersonEventBase implements KeyPersonEv
      * Constructs an AddKeyPersonEvent with the given errorPathPrefix, document, and proposalPerson.
      * 
      * @param document
-     * @param proposalPerson
+     * @param person
      */
     public AddKeyPersonEvent(Document document, ProposalPerson person) {
         this((ProposalDevelopmentDocument) document, person);

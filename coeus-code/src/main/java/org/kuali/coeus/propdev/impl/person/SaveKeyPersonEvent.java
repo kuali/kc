@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.person.keyperson;
+package org.kuali.coeus.propdev.impl.person;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
@@ -71,7 +70,7 @@ public class SaveKeyPersonEvent extends KcDocumentEventBase {
      * 
      * @param errorPathPrefix
      * @param document
-     * @param proposalPerson
+     * @param person
      */
     public SaveKeyPersonEvent(String errorPathPrefix, Document document) {
         this(errorPathPrefix, (ProposalDevelopmentDocument) document);
