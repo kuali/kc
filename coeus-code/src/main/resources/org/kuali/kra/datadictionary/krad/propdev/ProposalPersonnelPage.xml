@@ -330,7 +330,7 @@
 
 	<bean id="PropDev-PersonnelPage-Details" parent="PropDev-PersonnelPage-Details-parentBean" />
 	<bean id="PropDev-PersonnelPage-Details-parentBean" abstract="true"
-		parent="Uif-CssGridSection-2FieldLabelColumn" p:headerText="Details">
+	parent="Uif-CssGridSection-2FieldLabelColumn" p:headerText="Details">
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="proposalPersonRoleId"
