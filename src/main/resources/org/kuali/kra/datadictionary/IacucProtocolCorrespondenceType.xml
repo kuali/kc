@@ -47,8 +47,8 @@
     <bean id="IacucProtocolCorrespondenceType-protoCorrespTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="protoCorrespTypeCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Protocol Correspodence Type Code" />
-        <property name="shortLabel" value="Protocol Correspodence Type Code" />
+        <property name="label" value="Protocol Correspondence Type Code" />
+        <property name="shortLabel" value="Protocol Correspondence Type Code" />
         <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />

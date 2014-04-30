@@ -91,8 +91,8 @@
     <bean id="ValidIacucProtoActionCoresp-protoCorrespTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="protoCorrespTypeCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Iacuc Protocol Correspodence Type" />
-        <property name="shortLabel" value="Iacuc Protocol Correspodence Type Code" />
+        <property name="label" value="Iacuc Protocol Correspondence Type" />
+        <property name="shortLabel" value="Iacuc Protocol Correspondence Type Code" />
         <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
@@ -106,8 +106,8 @@
                 p:keyAttribute="protoCorrespTypeCode"
                 p:labelAttribute="description" />
         </property>
-        <property name="summary" value="Iacuc Protocol Correspodence Type" />
-        <property name="description" value="Iacuc Protocol Correspodence Type" />
+        <property name="summary" value="Iacuc Protocol Correspondence Type" />
+        <property name="description" value="Iacuc Protocol Correspondence Type" />
     </bean>
 
     <bean id="ValidIacucProtoActionCoresp-finalFlag" parent="ValidIacucProtoActionCoresp-finalFlag-parentBean" />
