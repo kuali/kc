@@ -344,7 +344,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
         if(selectedForm.getXmlFile()==null){
             selectedForm = KcServiceLocator.getService(BusinessObjectService.class).
-                        findBySinglePrimaryKey(S2sUserAttachedForm.class, selectedForm.getS2sUserAttachedFormId());
+                        findBySinglePrimaryKey(S2sUserAttachedForm.class, selectedForm.getId());
         }
         streamToResponse(selectedForm.getXmlFile().getBytes(), selectedForm.getFormName()+".xml", CONTENT_TYPE_XML, response);
         return null;
@@ -367,7 +367,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
         if(selectedForm.getFormFile()==null || selectedForm.getFormFile().length==0){
             selectedForm = KcServiceLocator.getService(BusinessObjectService.class).
-                        findBySinglePrimaryKey(S2sUserAttachedForm.class, selectedForm.getS2sUserAttachedFormId());
+                        findBySinglePrimaryKey(S2sUserAttachedForm.class, selectedForm.getId());
         }
         streamToResponse(selectedForm.getFormFile(), selectedForm.getFormFileName(), CONTENT_TYPE_PDF, response);
         return null;
@@ -389,11 +389,11 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
         S2sUserAttachedFormAtt attachment = selectedForm.getS2sUserAttachedFormAtts().get(getParameterForToken(request, "attIndex"));
-        if(attachment.getAttachment()==null || attachment.getAttachment().length==0){
+        if(attachment.getData()==null || attachment.getData().length==0){
             attachment = KcServiceLocator.getService(BusinessObjectService.class).
-                        findBySinglePrimaryKey(S2sUserAttachedFormAtt.class, attachment.getS2sUserAttachedFormAttId());
+                        findBySinglePrimaryKey(S2sUserAttachedFormAtt.class, attachment.getId());
         }
-        streamToResponse(attachment.getAttachment(), attachment.getFileName(), attachment.getContentType(), response);
+        streamToResponse(attachment.getData(), attachment.getName(), attachment.getType(), response);
         return null;
     }
     protected int getParameterForToken(HttpServletRequest request,String token) {

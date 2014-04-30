@@ -29,10 +29,10 @@
         <property name="lookupDefinition" >
             <ref bean="S2sUserAttachedForm-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="s2sUserAttachedFormId" />
+        <property name="titleAttribute" value="id" />
         <property name="attributes" >
             <list>
-                <ref bean="S2sUserAttachedForm-s2sUserAttachedFormId" />
+                <ref bean="S2sUserAttachedForm-id" />
                 <ref bean="S2sUserAttachedForm-proposalNumber" />
                 <ref bean="S2sUserAttachedForm-namespace" />
                 <ref bean="S2sUserAttachedForm-formName" />
@@ -47,9 +47,9 @@
 
     <!-- Attribute Definitions -->
     
-    <bean id="S2sUserAttachedForm-s2sUserAttachedFormId" parent="S2sUserAttachedForm-s2sUserAttachedFormId-parentBean" />
-    <bean id="S2sUserAttachedForm-s2sUserAttachedFormId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="s2sUserAttachedFormId" />
+    <bean id="S2sUserAttachedForm-id" parent="S2sUserAttachedForm-id-parentBean" />
+    <bean id="S2sUserAttachedForm-id-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="id" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="S2s User Attached Form Id" />
         <property name="shortLabel" value="S2s User Attached Form Id" />
@@ -203,7 +203,7 @@
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition"
-                                p:attributeName="s2sUserAttachedFormId" 
+                                p:attributeName="id"
                                 p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="proposalNumber" />
@@ -238,7 +238,7 @@
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="s2sUserAttachedFormId" 
+                    p:attributeName="id"
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="proposalNumber" />
@@ -259,7 +259,7 @@
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="s2sUserAttachedFormId" 
+                    p:attributeName="id"
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="proposalNumber" />

@@ -18,6 +18,7 @@ package org.kuali.coeus.propdev.impl.s2s;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormContract;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "S2S_USER_ATTACHED_FORM")
-public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase { 
+public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase implements S2sUserAttachedFormContract {
     
     private static final long serialVersionUID = 1L;
 
@@ -35,17 +36,10 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase {
     @GeneratedValue(generator = "SEQ_S2S_USER_ATTD_FORM_ID")
     @Id
     @Column(name = "S2S_USER_ATTACHED_FORM_ID")
-    private Long s2sUserAttachedFormId; 
+    private Long id;
     
     @Column(name = "PROPOSAL_NUMBER")
-    private String proposalNumber; 
-    
-    @ManyToOne(cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "PROPOSAL_NUMBER", insertable = false, updatable = false)
-    private DevelopmentProposal developmentProposal;
-    
-    @Transient
-    private Integer userAttachedFormNumber;
+    private String proposalNumber;
     
     @Column(name = "NAMESPACE")
     private String namespace; 
@@ -54,12 +48,12 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase {
     private String formName; 
     
     @Column(name = "FORM_FILE_NAME")
-    private String formFileName; 
+    private String formFileName;
     
     @Column(name = "FORM_FILE")
     @Basic(fetch = FetchType.LAZY)
     @Lob
-    private byte[] formFile; 
+    private byte[] formFile;
     
     @Column(name = "XML_FILE")
     @Basic(fetch = FetchType.LAZY)
@@ -72,7 +66,14 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase {
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "S2S_USER_ATTACHED_FORM_ID", referencedColumnName = "S2S_USER_ATTACHED_FORM_ID")
     private List<S2sUserAttachedFormAtt> s2sUserAttachedFormAtts;
-    
+
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    private DevelopmentProposal developmentProposal;
+
+    @Transient
+    private Integer userAttachedFormNumber;
+
     @Transient
     private transient boolean edit = false;
     
@@ -90,16 +91,18 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase {
         
     public S2sUserAttachedForm() { 
         s2sUserAttachedFormAtts = new ArrayList<S2sUserAttachedFormAtt>();
-    } 
-    
-    public Long getS2sUserAttachedFormId() {
-        return s2sUserAttachedFormId;
     }
 
-    public void setS2sUserAttachedFormId(Long s2sUserAttachedFormId) {
-        this.s2sUserAttachedFormId = s2sUserAttachedFormId;
+    @Override
+    public Long getId() {
+        return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -116,6 +119,7 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase {
         this.userAttachedFormNumber = userAttachedFormNumber;
     }
 
+    @Override
     public String getNamespace() {
         return namespace;
     }
@@ -124,6 +128,7 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase {
         this.namespace = namespace;
     }
 
+    @Override
     public String getFormName() {
         return formName;
     }
@@ -132,6 +137,7 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase {
         this.formName = formName;
     }
 
+    @Override
     public String getFormFileName() {
         return formFileName;
     }
@@ -140,6 +146,7 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase {
         this.formFileName = formFileName;
     }
 
+    @Override
     public byte[] getFormFile() {
         return formFile;
     }
@@ -148,6 +155,7 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase {
         this.formFile = formFile;
     }
 
+    @Override
     public String getXmlFile() {
         return xmlFile;
     }
@@ -156,6 +164,7 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase {
         this.xmlFile = xmlFile;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -248,6 +257,7 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase {
      * Gets the s2sUserAttachedFormAtts attribute. 
      * @return Returns the s2sUserAttachedFormAtts.
      */
+    @Override
     public List<S2sUserAttachedFormAtt> getS2sUserAttachedFormAtts() {
         return s2sUserAttachedFormAtts;
     }

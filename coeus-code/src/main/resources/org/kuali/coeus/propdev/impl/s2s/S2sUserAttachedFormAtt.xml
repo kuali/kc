@@ -30,16 +30,16 @@
         <property name="lookupDefinition" >
             <ref bean="S2sUserAttachedFormAtt-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="s2sUserAttachedFormAttId" />
+        <property name="titleAttribute" value="id" />
         <property name="attributes" >
             <list>
-                <ref bean="S2sUserAttachedFormAtt-s2sUserAttachedFormAttId" />
-                <ref bean="S2sUserAttachedFormAtt-s2sUserAttachedFormId" />
+                <ref bean="S2sUserAttachedFormAtt-id" />
+                <ref bean="S2sUserAttachedFormAtt-id" />
                 <ref bean="S2sUserAttachedFormAtt-proposalNumber" />
-                <ref bean="S2sUserAttachedFormAtt-contentType" />
-                <ref bean="S2sUserAttachedFormAtt-fileName" />
+                <ref bean="S2sUserAttachedFormAtt-type" />
+                <ref bean="S2sUserAttachedFormAtt-name" />
                 <ref bean="S2sUserAttachedFormAtt-contentId" />
-                <ref bean="S2sUserAttachedFormAtt-attachment" />
+                <ref bean="S2sUserAttachedFormAtt-data" />
                 <ref bean="S2sUserAttachedFormAtt-versionNumber" />
             </list>
         </property>
@@ -47,9 +47,9 @@
 
     <!-- Attribute Definitions -->
     
-    <bean id="S2sUserAttachedFormAtt-s2sUserAttachedFormAttId" parent="S2sUserAttachedFormAtt-s2sUserAttachedFormAttId-parentBean" />
-    <bean id="S2sUserAttachedFormAtt-s2sUserAttachedFormAttId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="s2sUserAttachedFormAttId" />
+    <bean id="S2sUserAttachedFormAtt-id" parent="S2sUserAttachedFormAtt-id-parentBean" />
+    <bean id="S2sUserAttachedFormAtt-id-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="id" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="S2s User Attached Form Att Id" />
         <property name="shortLabel" value="S2s User Attached Form Att Id" />
@@ -65,9 +65,9 @@
         <property name="description" value="S2s User Attached Form Att Id" />
     </bean>
 
-    <bean id="S2sUserAttachedFormAtt-s2sUserAttachedFormId" parent="S2sUserAttachedFormAtt-s2sUserAttachedFormId-parentBean" />
-    <bean id="S2sUserAttachedFormAtt-s2sUserAttachedFormId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="s2sUserAttachedFormId" />
+    <bean id="S2sUserAttachedFormAtt-id" parent="S2sUserAttachedFormAtt-id-parentBean" />
+    <bean id="S2sUserAttachedFormAtt-id-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="id" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="S2s User Attached Form Id" />
         <property name="shortLabel" value="S2s User Attached Form Id" />
@@ -101,9 +101,9 @@
         <property name="description" value="Proposal Number" />
     </bean>
 
-    <bean id="S2sUserAttachedFormAtt-contentType" parent="S2sUserAttachedFormAtt-contentType-parentBean" />
-    <bean id="S2sUserAttachedFormAtt-contentType-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="contentType" />
+    <bean id="S2sUserAttachedFormAtt-type" parent="S2sUserAttachedFormAtt-type-parentBean" />
+    <bean id="S2sUserAttachedFormAtt-type-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="type" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Content Type" />
         <property name="shortLabel" value="Content Type" />
@@ -119,9 +119,9 @@
         <property name="description" value="Content Type" />
     </bean>
 
-    <bean id="S2sUserAttachedFormAtt-fileName" parent="S2sUserAttachedFormAtt-fileName-parentBean" />
-    <bean id="S2sUserAttachedFormAtt-fileName-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="fileName" />
+    <bean id="S2sUserAttachedFormAtt-name" parent="S2sUserAttachedFormAtt-name-parentBean" />
+    <bean id="S2sUserAttachedFormAtt-name-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="name" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="File Name" />
         <property name="shortLabel" value="File Name" />
@@ -155,9 +155,9 @@
         <property name="description" value="Content Id" />
     </bean>
 
-    <bean id="S2sUserAttachedFormAtt-attachment" parent="S2sUserAttachedFormAtt-attachment-parentBean" />
-    <bean id="S2sUserAttachedFormAtt-attachment-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="attachment" />
+    <bean id="S2sUserAttachedFormAtt-data" parent="S2sUserAttachedFormAtt-data-parentBean" />
+    <bean id="S2sUserAttachedFormAtt-data-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="data" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Attachment" />
         <property name="shortLabel" value="Attachment" />
@@ -185,20 +185,20 @@
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition"
-                                p:attributeName="s2sUserAttachedFormAttId" 
+                                p:attributeName="id"
                                 p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="s2sUserAttachedFormId" />
+                                p:attributeName="id" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="proposalNumber" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="contentType" />
+                                p:attributeName="type" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="fileName" />
+                                p:attributeName="name" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="contentId" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="attachment" />
+                                p:attributeName="data" />
                         </list>
                     </property>
                 </bean>
@@ -218,39 +218,39 @@
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="s2sUserAttachedFormAttId" 
+                    p:attributeName="id"
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="s2sUserAttachedFormId" />
+                    p:attributeName="id" />
                 <bean parent="FieldDefinition"
                     p:attributeName="proposalNumber" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="contentType" />
+                    p:attributeName="type" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="fileName" />
+                    p:attributeName="name" />
                 <bean parent="FieldDefinition"
                     p:attributeName="contentId" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="attachment" />
+                    p:attributeName="data" />
             </list>
         </property>
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="s2sUserAttachedFormAttId" 
+                    p:attributeName="id"
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="s2sUserAttachedFormId" />
+                    p:attributeName="id" />
                 <bean parent="FieldDefinition"
                     p:attributeName="proposalNumber" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="contentType" />
+                    p:attributeName="type" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="fileName" />
+                    p:attributeName="name" />
                 <bean parent="FieldDefinition"
                     p:attributeName="contentId" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="attachment" />
+                    p:attributeName="data" />
             </list>
         </property>
     </bean>

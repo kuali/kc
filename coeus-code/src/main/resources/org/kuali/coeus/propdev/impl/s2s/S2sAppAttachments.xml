@@ -14,7 +14,7 @@
       <list>
         <ref bean="S2sAppAttachments-proposalNumber" />
         <ref bean="S2sAppAttachments-contentId" />
-        <ref bean="S2sAppAttachments-contentType" />
+        <ref bean="S2sAppAttachments-type" />
         <ref bean="S2sAppAttachments-hashCode" />
       </list>
     </property>
@@ -70,9 +70,9 @@
     <property name="description" value="Attachments" />
   </bean>
 
-  <bean id="S2sAppAttachments-contentType" parent="S2sAppAttachments-contentType-parentBean"/>
-  <bean id="S2sAppAttachments-contentType-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="contentType" />
+  <bean id="S2sAppAttachments-type" parent="S2sAppAttachments-type-parentBean"/>
+  <bean id="S2sAppAttachments-type-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="type" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Content Type" />
     <property name="shortLabel" value="Content Type" />
@@ -130,7 +130,7 @@
             <list>
               <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="contentId"/>
-              <bean parent="FieldDefinition" p:attributeName="contentType"/>
+              <bean parent="FieldDefinition" p:attributeName="type"/>
               <bean parent="FieldDefinition" p:attributeName="hashCode"/>
             </list>
           </property>
@@ -151,7 +151,7 @@
             <list>
               <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
               <bean p:propertyName="contentId" parent="Uif-DataField"/>
-              <bean p:propertyName="contentType" parent="Uif-DataField"/>
+              <bean p:propertyName="type" parent="Uif-DataField"/>
               <bean p:propertyName="hashCode" parent="Uif-DataField"/>
             </list>
           </property>
@@ -173,7 +173,7 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
         <bean parent="FieldDefinition" p:attributeName="contentId"/>
-        <bean parent="FieldDefinition" p:attributeName="contentType"/>
+        <bean parent="FieldDefinition" p:attributeName="type"/>
         <bean parent="FieldDefinition" p:attributeName="hashCode"/>
       </list>
     </property>
@@ -181,7 +181,7 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
         <bean parent="FieldDefinition" p:attributeName="contentId"/>
-        <bean parent="FieldDefinition" p:attributeName="contentType"/>
+        <bean parent="FieldDefinition" p:attributeName="type"/>
         <bean parent="FieldDefinition" p:attributeName="hashCode"/>
       </list>
     </property>
@@ -205,7 +205,7 @@
       <list>
         <bean p:propertyName="proposalNumber" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="contentId" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="contentType" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="type" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="hashCode" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
@@ -213,7 +213,7 @@
       <list>
         <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
         <bean p:propertyName="contentId" parent="Uif-DataField"/>
-        <bean p:propertyName="contentType" parent="Uif-DataField"/>
+        <bean p:propertyName="type" parent="Uif-DataField"/>
         <bean p:propertyName="hashCode" parent="Uif-DataField"/>
       </list>
     </property>
