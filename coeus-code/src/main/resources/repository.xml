@@ -1214,13 +1214,6 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 
-   	<reference-descriptor name="developmentProposal" class-ref="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="devProposalNumber" />
-	</reference-descriptor>
-	
-	<reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-		<foreignkey field-ref="instProposalId"/> 
-	</reference-descriptor>
 </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.bo.MessageOfTheDay" table="MSG_OF_THE_DAY">

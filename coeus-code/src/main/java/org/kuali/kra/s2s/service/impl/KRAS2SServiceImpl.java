@@ -39,6 +39,7 @@ import org.kuali.coeus.propdev.impl.s2s.S2sProvider;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.s2s.S2SException;
@@ -345,10 +346,10 @@ public class KRAS2SServiceImpl implements S2SService {
 	        
 	        for(Iterator<ProposalAdminDetails> iter = proposalAdminDetails.iterator(); iter.hasNext();){
 	            ProposalAdminDetails pad = iter.next();
-	            pad.refreshReferenceObject("institutionalProposal");
-	            if (StringUtils.isBlank(pad.getInstitutionalProposal().getSponsorProposalNumber())) {
-	                pad.getInstitutionalProposal().setSponsorProposalNumber(appSubmission.getAgencyTrackingId());
-	                getBusinessObjectService().save(pad.getInstitutionalProposal());
+	            InstitutionalProposal instProp = businessObjectService.findBySinglePrimaryKey(InstitutionalProposal.class, pad.getInstProposalId());
+	            if (StringUtils.isBlank(instProp.getSponsorProposalNumber())) {
+	                instProp.setSponsorProposalNumber(appSubmission.getAgencyTrackingId());
+	                getBusinessObjectService().save(instProp);
 	            }
 	        }
 	        

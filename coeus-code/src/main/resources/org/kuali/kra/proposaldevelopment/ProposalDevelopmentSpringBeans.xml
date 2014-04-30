@@ -74,6 +74,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalQuestionnairePage.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/propdev/S2sOpportunityLookup.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalSponsorProgramInfoPage.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/propdev/ProposalMedusa.xml</value>
             </list>
        </property>     
     </bean>

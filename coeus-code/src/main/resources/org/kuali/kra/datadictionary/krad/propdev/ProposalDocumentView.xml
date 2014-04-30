@@ -79,6 +79,7 @@
 		<property name="dialogs">
 			<list>
 				<ref bean="PropDev-PersonnelPage-Wizard" />
+				<ref bean="PropDev-MedusaSection" />
 			</list>
 		</property>
 	</bean>
@@ -257,11 +258,12 @@
 						<bean parent="Uif-ActionLink" p:actionLabel="Copy"
 							p:iconClass="icon-copy" p:order="20" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Medusa"
+							p:actionScript="showLightboxComponent('PropDev-MedusaSection');"
 							p:iconClass="icon-tasks" p:order="30" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Hierachy"
 							p:iconClass="icon-list-ol" p:order="40" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Access"
-							p:iconClass="icon-lock" p:order="50" />
+							p:iconClass="icon-lock" p:order="50" />						
 					</list>
 				</property>
 			</bean>
