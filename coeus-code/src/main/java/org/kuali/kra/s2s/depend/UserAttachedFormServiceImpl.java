@@ -21,7 +21,7 @@ public class UserAttachedFormServiceImpl implements UserAttachedFormService {
     private DataObjectService dataObjectService;
 
     @Override
-    public S2sUserAttachedFormContract findUserAttachedFormByProposalNumberAndNamespace(String proposalNumber, String namespace) {
+    public S2sUserAttachedFormContract findFormByProposalNumberAndNamespace(String proposalNumber, String namespace) {
         if (StringUtils.isBlank(proposalNumber)) {
             throw new IllegalArgumentException("proposalNumber is blank");
         }
@@ -40,13 +40,13 @@ public class UserAttachedFormServiceImpl implements UserAttachedFormService {
     }
 
     @Override
-    public String findUserAttachedFormNameByProposalNumberAndNamespace(String proposalNumber, String namespace) {
-        final S2sUserAttachedFormContract form = findUserAttachedFormByProposalNumberAndNamespace(proposalNumber, namespace);
+    public String findFormNameByProposalNumberAndNamespace(String proposalNumber, String namespace) {
+        final S2sUserAttachedFormContract form = findFormByProposalNumberAndNamespace(proposalNumber, namespace);
         return form != null ? form.getNamespace() : null;
     }
 
     @Override
-    public List<String> findAttachedFormNamespaces(String proposalNumber) {
+    public List<String> findFormNamespaces(String proposalNumber) {
         if (StringUtils.isBlank(proposalNumber)) {
             throw new IllegalArgumentException("proposalNumber is blank");
         }

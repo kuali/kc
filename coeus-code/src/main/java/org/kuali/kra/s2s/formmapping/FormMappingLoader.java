@@ -85,7 +85,7 @@ public class FormMappingLoader {
 
     private FormMappingInfo getUserAttachedForm(String proposalNumber,String namespace) {
         String formName = KcServiceLocator.getService(UserAttachedFormService.class).
-                findUserAttachedFormNameByProposalNumberAndNamespace(proposalNumber, namespace);
+                findFormNameByProposalNumberAndNamespace(proposalNumber, namespace);
 
         if (formName != null) {
             FormMappingInfo mappingInfo = new FormMappingInfo();
