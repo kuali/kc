@@ -91,8 +91,8 @@
     <bean id="ValidProtoActionCoresp-protoCorrespTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="protoCorrespTypeCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Protocol Correspodence Type" />
-        <property name="shortLabel" value="Protocol Correspodence Type Code" />
+        <property name="label" value="Protocol Correspondence Type" />
+        <property name="shortLabel" value="Protocol Correspondence Type Code" />
         <property name="maxLength" value="3" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
@@ -106,8 +106,8 @@
                 p:keyAttribute="protoCorrespTypeCode"
                 p:labelAttribute="description" />
         </property>
-        <property name="summary" value="Protocol Correspodence Type" />
-        <property name="description" value="Protocol Correspodence Type" />
+        <property name="summary" value="Protocol Correspondence Type" />
+        <property name="description" value="Protocol Correspondence Type" />
     </bean>
 
     <bean id="ValidProtoActionCoresp-finalFlag" parent="ValidProtoActionCoresp-finalFlag-parentBean" />
