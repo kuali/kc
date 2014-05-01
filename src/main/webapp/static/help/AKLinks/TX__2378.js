@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__2378", [["Documents/submittedprotocolstatussubmittedtoiacuc.htm", "right", "Submitted Protocol – Status:  Submitted to IACUC"],["Documents/submittedprotocolstatussubmittedtoirb.htm", "right", "Submitted Protocol – Status:  Submitted to IRB"]]);

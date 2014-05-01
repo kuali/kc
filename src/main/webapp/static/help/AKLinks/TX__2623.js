@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__2623", [["Documents/organizationtype.htm", "right", "Organization Type"],["Documents/gloss_organizationtype1.htm", "d2hWnd_SecondaryPopup", "Organization Type"]]);

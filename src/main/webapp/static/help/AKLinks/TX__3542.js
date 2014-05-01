@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3542", [["Documents/instituterate.htm", "right", "Institute Rate"],["Documents/gloss_instituterate1.htm", "d2hWnd_SecondaryPopup", "Institute Rate"]]);
