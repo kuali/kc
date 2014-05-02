@@ -23,6 +23,7 @@
     <properties>
         <build.rice.kr.additionalSpringFiles />
         <build.rice.krad.dev.mode>false</build.rice.krad.dev.mode>
+        <build.rice.krad.script.cleanup>true</build.rice.krad.script.cleanup>
 
         <!-- jetty & tomcat properties -->
         <kc.context.path>/kc-${build.environment}</kc.context.path>
@@ -441,6 +442,7 @@
             <properties>
                 <build.rice.kr.additionalSpringFiles>classpath:org/kuali/rice/krad/devtools/datadictionary/ReloadingDataDictionarySpringBeans.xml</build.rice.kr.additionalSpringFiles>
                 <build.rice.krad.dev.mode>true</build.rice.krad.dev.mode>
+                <build.rice.krad.script.cleanup>false</build.rice.krad.script.cleanup>
             </properties>
             <dependencies>
                 <dependency>
