@@ -35,6 +35,7 @@ spool KC-RELEASE-5_2_1-Upgrade-ORACLE-Install.log
 @../../current/5.2.1/dml/KC_DML_01_KRACOEUS-7072_B000.sql
 @../../current/5.2.1/dml/KC_DML_01_KRACOEUS-7158_B000.sql
 @../../current/5.2.1/dml/KC_DML_01_KRACOEUS-7172_B000.sql
+@../../current/5.2.1/dml/KC_DML_01_KRACOEUS-7206_B000.sql
 @../../current/5.2.1/dml/KC_DML_02_KRACOEUS-7042_B000.sql
 @../../current/5.2.1/constraints/KC_FK_CONTACT_USAGE.sql
 @../../current/5.2.1/constraints/KC_FK_SUBAWARD_FORMS.sql
