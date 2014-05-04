@@ -82,7 +82,7 @@
             <list>
                 <!--<value>classpath:org/kuali/kra/datadictionary</value>-->
                 <!--<value>classpath:org/kuali/kra/datadictionary/docs</value>-->
-                <value>classpath:org/kuali/kra/datadictionary/AbstractType.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/abstrct/AbstractType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/AccountType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ActivityType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/AffiliationType.xml</value>
@@ -163,7 +163,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/BudgetCategoryMapping.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/BudgetCategoryType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/BudgetChangedData.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetColumnsToAlter.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/budget/editable/BudgetColumnsToAlter.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/BudgetCostShare.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/BudgetDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/BudgetFormulatedCostDetail.xml</value>
@@ -259,7 +259,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/DateRangeFilter.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/DeadlineType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/DegreeType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/DevelopmentProposal.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/core/DevelopmentProposal.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/DisclosurePerson.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/DisclosurePersonUnit.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/Distribution.xml</value>
@@ -427,7 +427,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/MessageOfTheDay.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/MinuteEntryType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/Narrative.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/NarrativeAttachment.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/attachment/NarrativeAttachment.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/NarrativeStatus.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/NarrativeType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/NarrativeUserRights.xml</value>
@@ -484,11 +484,11 @@
                 <value>classpath:org/kuali/kra/datadictionary/ProposalDevelopmentDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalDevelopmentPersonMassChange.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalDevelopmentRejectionBean.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/ProposalInvestigatorCertification.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/ProposalLocationType.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/person/ProposalInvestigatorCertification.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/location/ProposalLocationType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalLogPersonMassChange.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/ProposalPerson.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/ProposalPersonBiography.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/person/ProposalPerson.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/person/attachment/ProposalPersonBiography.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalPersonBiographyAttachment.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalPersonCreditSplit.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalPersonDegree.xml</value>
@@ -508,7 +508,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/ProposalUserEditRoles.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalYnq.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/PropPerDocType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/PropScienceKeyword.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/keyword/PropScienceKeyword.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/Protocol.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProtocolAction.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProtocolActionType.xml</value>
@@ -604,8 +604,8 @@
                 <value>classpath:org/kuali/kra/datadictionary/S2sOppFormQuestionnaire.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/S2sOppForms.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/S2sOpportunity.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/S2sProvider.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/S2sRevisionType.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sProvider.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sRevisionType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/S2sSubmissionType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ScheduleActItemType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ScheduleAgenda.xml</value>
