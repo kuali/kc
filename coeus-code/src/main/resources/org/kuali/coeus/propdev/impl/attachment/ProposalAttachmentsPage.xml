@@ -22,10 +22,13 @@
 				<ref bean="PropDev-ProposalAttachmentsPage-TabGroup"/>
 			</list>
 		</property>
+        <property name="header">
+            <bean parent="Uif-PageHeader" p:headerText="Attachments" />
+        </property>
 		<property name="footer">
 			<null />
-		</property>		
-	</bean>
+		</property>
+    </bean>
 
     <bean id="PropDev-ProposalAttachmentsPage-TabGroup" parent="PropDev-ProposalAttachmentsPage-TabGroup-parentBean"/>
     <bean id="PropDev-ProposalAttachmentsPage-TabGroup-parentBean" abstract="true"
@@ -133,7 +136,7 @@
     <bean id="PropDev-ProposalAttachmentsPage-AbstractsSection-parentBean"
           abstract="true" parent="Uif-VerticalBoxSection">
         <property name="header.headerText" value="Abstracts" />
-        <property name="instructionalText" value="Add attachments to this proposal" />
+        <property name="instructionalText" value="Add all abstracts that will be submitted to the sponsor." />
         <property name="items">
             <list>
                 <ref bean="PropDev-ProposalAttachmentsPage-AbstractsCollection" />
@@ -142,37 +145,21 @@
         <property name="fieldBindingObjectPath" value="document.developmentProposal" />
     </bean>
 
-    <bean id="PropDev-ProposalAttachmentsPage-AbstractsAddButton" parent="PropDev-ProposalAttachmentsPage-AbstractsAddButton-parentBean" />
-    <bean id="PropDev-ProposalAttachmentsPage-AbstractsAddButton-parentBean" abstract="true"
-          parent="Uif-PrimaryActionButton" p:actionLabel="Add Abstract"
-          p:actionScript="showLightboxComponent('PropDev-ProposalAttachmentsPage-AbstractsLightTable');"
-          p:iconClass="icon-paper-clip" />
-
-    <bean id="PropDev-ProposalAttachmentsPage-AbstractsLightTable" parent="PropDev-ProposalAttachmentsPage-AbstractsLightTable-parentBean"/>
-    <bean id="PropDev-ProposalAttachmentsPage-AbstractsLightTable-parentBean" abstract="true"
-          parent="Uif-CollectionGridItem" p:fieldBindingObjectPath="proposalAbstracts" p:resetDataOnRefresh="true"
-          p:retrieveViaAjax="true">
-        <property name="header">
-            <bean parent="Uif-HeaderOne" p:headerText="Add Abstract" />
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-InputField" p:propertyName="abstractDetails"/>
-            </list>
-        </property>
-    </bean>
-
     <bean id="PropDev-ProposalAttachmentsPage-AbstractsCollection" parent="PropDev-ProposalAttachmentsPage-AbstractsCollection-parentBean" />
     <bean id="PropDev-ProposalAttachmentsPage-AbstractsCollection-parentBean" abstract="true"
           parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract"
           p:propertyName="proposalAbstracts"
           p:layoutManager.summaryTitle="@{#lp.abstractType.description}"
           p:addViaLightBox="true">
+        <property name="layoutManager.addLineGroup.header.headerText" value="Add Abstracts Attachments"/>
         <property name="addLineItems">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="abstractTypeCode" p:readOnly="false" >
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:render="false"/>
+                    </property>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:render="false"/>
                     </property>
                     <property name="control" >
                         <bean parent="Uif-DropdownControl" p:additionalCssClasses="ignoreValid"/>
@@ -196,9 +183,9 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="" p:actionLabel="Edit"/>
-                <bean parent="Uif-ActionLink" p:actionScript="jQuery(this).closest(&quot;div[data-role='disclosureContent']&quot;).toggle();jQuery(&quot;span[id$='toggle_col']&quot;).toggle();jQuery(&quot;span[id$='toggle_exp']&quot;).toggle();" p:actionLabel="cancel"/>
-        </list>
+                <bean parent="Uif-ActionLink" p:actionScript="Kc.PropDev.Attachments.cancelAttachment();" p:actionLabel="cancel" p:style="float:right"/>
+                <bean parent="Uif-PrimaryActionButton-Small" p:actionScript="Kc.PropDev.Attachments.editAttachment();" p:actionLabel="Edit" p:style="float:right"/>
+            </list>
         </property>
         <property name="layoutManager.lineGroupPrototype">
             <bean parent="Uif-CollectionHorizontalBoxItem"

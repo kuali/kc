@@ -30,6 +30,7 @@
 				<value>scripts/common/questionnaire.js</value>
 				<value>scripts/propdev/core.js</value>
 				<value>scripts/propdev/person.js</value>
+                <value>scripts/propdev/attachments.js</value>
 			</list>
 		</property>
 		<property name="additionalCssFiles">
