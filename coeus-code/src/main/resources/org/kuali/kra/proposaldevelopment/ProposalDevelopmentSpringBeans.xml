@@ -58,10 +58,10 @@
             <list>
                 <value>classpath:org/kuali/coeus/propdev/impl/abstrct/ProposalAbstractsPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/attachment/institute/ProposalInternalAttachmentsPage.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/attachment/note/ProposalNotesPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/note/ProposalNotesPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/person/attachment/ProposalPersonnelAttachmentsPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/attachment/ProposalAttachmentsPage.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/attachment/ProposalCommon.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalCommon.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/specialreview/ProposalCompliancePage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalDetailsPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalDocumentView.xml</value>
@@ -73,7 +73,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/person/ProposalPersonnelPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/question/ProposalQuestionnairePage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sOpportunityLookup.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/basic/ProposalSponsorProgramInfoPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/sponsor/ProposalSponsorProgramInfoPage.xml</value>
             </list>
        </property>     
     </bean>
