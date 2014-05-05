@@ -57,7 +57,7 @@ public class TrainingStipendRateServiceImplTest {
         criteria.put("experienceLevel", experienceLevel);
 
         context.checking(new Expectations() {{
-            one(boService).findMatchingOrderBy(TrainingStipendRate.class, criteria, "effectiveDate", false);
+            oneOf(boService).findMatchingOrderBy(TrainingStipendRate.class, criteria, "effectiveDate", false);
             will(returnValue(null));
         }});
         rateService.setBusinessObjectService(boService);
@@ -86,7 +86,7 @@ public class TrainingStipendRateServiceImplTest {
             rate.setCareerLevel(careerLevel);
             rate.setExperienceLevel(experienceLevel);
             rate.setEffectiveDate(new java.sql.Date(effectiveDate.getTime()));
-            one(boService).findMatchingOrderBy(TrainingStipendRate.class, criteria, "effectiveDate", false);
+            oneOf(boService).findMatchingOrderBy(TrainingStipendRate.class, criteria, "effectiveDate", false);
             will(returnValue(new ArrayList<TrainingStipendRate>(){{
                 add(rate);
             }}));
@@ -119,7 +119,7 @@ public class TrainingStipendRateServiceImplTest {
             java.sql.Date date = new java.sql.Date(effectiveDate.getTime());
             date.setYear(date.getYear() - 1);
             rate.setEffectiveDate(date);
-            one(boService).findMatchingOrderBy(TrainingStipendRate.class, criteria, "effectiveDate", false);
+            oneOf(boService).findMatchingOrderBy(TrainingStipendRate.class, criteria, "effectiveDate", false);
             will(returnValue(new ArrayList<TrainingStipendRate>(){{
                 add(rate);
             }}));
@@ -152,7 +152,7 @@ public class TrainingStipendRateServiceImplTest {
             java.sql.Date date = new java.sql.Date(effectiveDate.getTime());
             date.setYear(date.getYear() + 1);
             rate.setEffectiveDate(date);
-            one(boService).findMatchingOrderBy(TrainingStipendRate.class, criteria, "effectiveDate", false);
+            oneOf(boService).findMatchingOrderBy(TrainingStipendRate.class, criteria, "effectiveDate", false);
             will(returnValue(new ArrayList<TrainingStipendRate>(){{
                 add(rate);
             }}));
@@ -198,7 +198,7 @@ public class TrainingStipendRateServiceImplTest {
             date2.setYear(date2.getYear() - 2);
             rate1.setEffectiveDate(date2);
 
-            one(boService).findMatchingOrderBy(TrainingStipendRate.class, criteria, "effectiveDate", false);
+            oneOf(boService).findMatchingOrderBy(TrainingStipendRate.class, criteria, "effectiveDate", false);
             will(returnValue(new ArrayList<TrainingStipendRate>(){{
                 add(rate1);
                 add(rate2);
@@ -230,7 +230,7 @@ public class TrainingStipendRateServiceImplTest {
             rate.setCareerLevel(careerLevel);
             rate.setExperienceLevel(experienceLevel);
             rate.setEffectiveDate(null);
-            one(boService).findMatchingOrderBy(TrainingStipendRate.class, criteria, "effectiveDate", false);
+            oneOf(boService).findMatchingOrderBy(TrainingStipendRate.class, criteria, "effectiveDate", false);
             will(returnValue(new ArrayList<TrainingStipendRate>(){{
                 add(rate);
             }}));

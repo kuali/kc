@@ -73,20 +73,4 @@ public class EDGEPA427V1_1Generator extends EDGEPA427BaseGenerator {
         this.pdDoc = proposalDevelopmentDocument;
         return getGEPA427Attachments();
     }
-
-    /**
-     * This method typecasts the given {@link XmlObject} to the required generator type and returns back the document of that
-     * generator type.
-     * 
-     * @param xmlObject which needs to be converted to the document type of the required generator
-     * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-     */
-    public XmlObject getFormObject(XmlObject xmlObject) {
-
-        GEPA427AttachmentsDocument gepa427Document = GEPA427AttachmentsDocument.Factory.newInstance();
-        GEPA427Attachments gepAttachments = (GEPA427Attachments) xmlObject;
-        gepa427Document.setGEPA427Attachments(gepAttachments);
-        return gepa427Document;
-    }
 }

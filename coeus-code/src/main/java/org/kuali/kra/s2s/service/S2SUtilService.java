@@ -18,7 +18,7 @@ package org.kuali.kra.s2s.service;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.infrastructure.CitizenshipTypes;
+import org.kuali.kra.s2s.CitizenshipTypes;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.questionnaire.answer.Answer;

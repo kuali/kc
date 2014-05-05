@@ -330,22 +330,4 @@ public class PHS398ResearchPlanV1_3Generator extends
 		this.pdDoc = proposalDevelopmentDocument;
 		return getPHS398ResearchPlan();
 	}
-
-	/**
-	 * This method typecasts the given {@link XmlObject} to the required
-	 * generator type and returns back the document of that generator type.
-	 * 
-	 * @param xmlObject
-	 *            which needs to be converted to the document type of the
-	 *            required generator
-	 * @return {@link XmlObject} document of the required generator type
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-	 */
-	public XmlObject getFormObject(XmlObject xmlObject) {
-		PHS398ResearchPlan13 phsResearchPlan = (PHS398ResearchPlan13) xmlObject;
-		PHS398ResearchPlan13Document phsResearchPlanDocument = PHS398ResearchPlan13Document.Factory
-				.newInstance();
-		phsResearchPlanDocument.setPHS398ResearchPlan13(phsResearchPlan);
-		return phsResearchPlanDocument;
-	}
 }

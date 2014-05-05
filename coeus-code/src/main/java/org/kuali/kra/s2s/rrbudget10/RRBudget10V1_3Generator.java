@@ -877,22 +877,4 @@ public class RRBudget10V1_3Generator extends RRBudgetBaseGenerator {
         this.pdDoc = proposalDevelopmentDocument;
         return getRRBudget1013();
     }
-
-    /**
-     * This method typecasts the given {@link XmlObject} to the required
-     * generator type and returns back the document of that generator type.
-     * 
-     * @param xmlObject
-     *            which needs to be converted to the document type of the
-     *            required generator
-     * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-     */
-    public XmlObject getFormObject(XmlObject xmlObject) {
-        RRBudget1013 rrBudget = (RRBudget1013) xmlObject;
-        RRBudget1013Document rrBudgetDocument = RRBudget1013Document.Factory
-                .newInstance();
-        rrBudgetDocument.setRRBudget1013(rrBudget);
-        return rrBudgetDocument;
-    }
 }

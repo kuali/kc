@@ -49,7 +49,7 @@ import java.util.List;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.infrastructure.CitizenshipTypes;
+import org.kuali.kra.s2s.CitizenshipTypes;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.impl.PHS398CareerDevelopmentAwardSupBaseGenerator;
@@ -375,26 +375,6 @@ public class PHS398CareerDevelopmentAwardSupV2_0Generator extends
 			ProposalDevelopmentDocument proposalDevelopmentDocument) {
 		this.pdDoc = proposalDevelopmentDocument;
 		return getPHS398CareerDevelopmentAwardSup();
-	}
-
-	/**
-	 * This method typecasts the given {@link XmlObject} to the required
-	 * generator type and returns back the document of that generator type.
-	 * 
-	 * @param xmlObject
-	 *            which needs to be converted to the document type of the
-	 *            required generator
-	 * @return {@link XmlObject} document of the required generator type
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-	 */
-	public XmlObject getFormObject(XmlObject xmlObject) {
-		PHS398CareerDevelopmentAwardSup20 phs398CareerDevelopmentAwardSup12 = PHS398CareerDevelopmentAwardSup20.Factory
-				.newInstance();
-		PHS398CareerDevelopmentAwardSup20Document phs398CareerDevelopmentAwardSupDocument = PHS398CareerDevelopmentAwardSup20Document.Factory
-				.newInstance();
-		phs398CareerDevelopmentAwardSupDocument
-				.setPHS398CareerDevelopmentAwardSup20(phs398CareerDevelopmentAwardSup12);
-		return phs398CareerDevelopmentAwardSupDocument;
 	}
 
 }

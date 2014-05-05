@@ -271,21 +271,4 @@ public class NSFCoverPageV1_2Generator extends NSFCoverPageBaseGenerator {
 		this.pdDoc = proposalDevelopmentDocument;
 		return getNSFCoverPage12();
 	}
-
-	/**
-	 * This method typecasts the given {@link XmlObject} to the required
-	 * generator type and returns back the document of that generator type.
-	 * 
-	 * @param xmlObject
-	 *            which needs to be converted to the document type of the
-	 *            required generator
-	 * @return {@link XmlObject} document of the required generator type
-	 */
-	public XmlObject getFormObject(XmlObject xmlObject) {
-		NSFCoverPage12 nsfCoverPage12 = (NSFCoverPage12) xmlObject;
-		NSFCoverPage12Document nsfCoverPage12Document = NSFCoverPage12Document.Factory
-				.newInstance();
-		nsfCoverPage12Document.setNSFCoverPage12(nsfCoverPage12);
-		return nsfCoverPage12Document;
-	}
 }

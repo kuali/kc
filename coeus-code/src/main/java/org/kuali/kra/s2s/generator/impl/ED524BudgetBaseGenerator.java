@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -26,10 +26,10 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.budget.api.category.BudgetCategoryMapContract;
 import org.kuali.coeus.budget.api.category.BudgetCategoryMappingContract;
+import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ import java.util.List;
 public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     protected S2SUtilService s2sUtilService;
     protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
-    protected ParameterService parameterService;
+    protected S2SConfigurationService s2SConfigurationService;
     protected ProposalBudgetService proposalBudgetService;
     protected static final String INDIRECT_COST_RATE_AGREEMENT_NONE = "NONE";
     protected static final String APPROVING_FEDERAL_AGENCY_OTHER = "Other";
@@ -85,7 +85,6 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     protected ScaleTwoDecimal personnelCost = ScaleTwoDecimal.ZERO;
     protected ScaleTwoDecimal personnelCostCS = ScaleTwoDecimal.ZERO;
 
-    protected static final String DHHS_AGREEMENT = "DHHS_AGREEMENT";
     protected static final String AGENCY_VALUE = "DHHS";
     protected static final String RESTIRCTED_QUESTION = " ";
     protected static final String DEFAULT_LEGAL_NAME = "NONE";
@@ -96,7 +95,7 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     public ED524BudgetBaseGenerator() {
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
         s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
-        parameterService = KcServiceLocator.getService(ParameterService.class);
+        s2SConfigurationService = KcServiceLocator.getService(S2SConfigurationService.class);
         budgetCategoryMapListWithoutFilter = s2sBudgetCalculatorService.getBudgetCategoryMapList(new ArrayList<String>(),
                 new ArrayList<String>());
         proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
@@ -291,7 +290,7 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
 
     protected String getAgencyName() {
         String agencyName = "";
-        String dhhs = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, DHHS_AGREEMENT);
+        String dhhs = s2SConfigurationService.getValueAsString(ConfigurationConstants.DHHS_AGREEMENT);
         if (dhhs != null) {
             if (dhhs.length() > 0) {
                 agencyName = AGENCY_VALUE;
