@@ -49,7 +49,8 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     private transient LegacyDataAdapter legacyDataAdapter;
     private transient LookupService lookupService;
 
-    public void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    @Override
+    public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, String collectionPath) {
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
         ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
         if (addLine instanceof Narrative) {
@@ -60,38 +61,13 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             }
         } else if (addLine instanceof ProposalPersonBiography) {
             document.getDevelopmentProposal().addProposalPersonBiography((ProposalPersonBiography) addLine);
-        }
-    }
-
-    @Override
-    public void processAfterAddLine(ViewModel model, Object lineObject, String collectionId, String collectionPath,
-                                    boolean isValidLine) {
-        ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
-        ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
-        if (lineObject instanceof ProposalAbstract) {
-            ProposalAbstract proposalAbstract = (ProposalAbstract) lineObject;
+        } else if (addLine instanceof ProposalAbstract) {
+            ProposalAbstract proposalAbstract = (ProposalAbstract) addLine;
             proposalAbstract.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
             proposalAbstract.refreshReferenceObject("abstractType");
         }
     }
 
-    /*@Override
-    protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId,
-                                               String collectionPath) {
-        boolean isValid = super.performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
-        ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) viewModel;
-        ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
-        if (newLine instanceof ProposalAbstract) {
-            ProposalAbstract proposalAbstract = (ProposalAbstract) newLine;
-            if (StringUtils.isEmpty(proposalAbstract.getAbstractTypeCode())) {
-                GlobalVariables.getMessageMap().putError("newCollectionLines['document.developmentProposal.proposalAbstracts'].abstractTypeCode", KeyConstants.ERROR_ABSTRACT_TYPE_NOT_SELECTED);
-                isValid = false;
-            }
-        }
-        return isValid;
-    }*/
-
-    
     public static class SponsorSuggestResult {
         private Sponsor sponsor;
         public SponsorSuggestResult(Sponsor sponsor) {

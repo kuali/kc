@@ -15,11 +15,11 @@
                     http://www.springframework.org/schema/util
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-	<bean id="PropDev-ProposalAttachmentsPage" parent="PropDev-ProposalAttachmentsPage-parentBean" />
-	<bean id="PropDev-ProposalAttachmentsPage-parentBean" parent="Uif-DocumentPage">
+	<bean id="PropDev-AttachmentsPage" parent="PropDev-AttachmentsPage-parentBean" />
+	<bean id="PropDev-AttachmentsPage-parentBean" parent="Uif-DocumentPage">
 		<property name="items">
 			<list>
-				<ref bean="PropDev-ProposalAttachmentsPage-TabGroup"/>
+				<ref bean="PropDev-AttachmentsPage-TabGroup"/>
 			</list>
 		</property>
         <property name="header">
@@ -30,34 +30,34 @@
 		</property>
     </bean>
 
-    <bean id="PropDev-ProposalAttachmentsPage-TabGroup" parent="PropDev-ProposalAttachmentsPage-TabGroup-parentBean"/>
-    <bean id="PropDev-ProposalAttachmentsPage-TabGroup-parentBean" abstract="true"
+    <bean id="PropDev-AttachmentsPage-TabGroup" parent="PropDev-AttachmentsPage-TabGroup-parentBean"/>
+    <bean id="PropDev-AttachmentsPage-TabGroup-parentBean" abstract="true"
           parent="Uif-TabGroup">
             <property name="items">
                 <list>
-                    <bean parent="PropDev-ProposalAttachmentsPage-ProposalSection" />
-                    <bean parent="PropDev-ProposalAttachmentsPage-PersonnelSection"/>
-                    <bean parent="PropDev-ProposalAttachmentsPage-AbstractsSection"/>
-                    <bean parent="PropDev-ProposalAttachmentsPage-InternalSection"/>
-                    <bean parent="PropDev-ProposalAttachmentsPage-NotesSection"/>
+                    <bean parent="PropDev-AttachmentsPage-ProposalSection" />
+                    <bean parent="PropDev-AttachmentsPage-PersonnelSection"/>
+                    <bean parent="PropDev-AttachmentsPage-AbstractsSection"/>
+                    <bean parent="PropDev-AttachmentsPage-InternalSection"/>
+                    <bean parent="PropDev-AttachmentsPage-NotesSection"/>
                 </list>
             </property>
     </bean>
 
-	<bean id="PropDev-ProposalAttachmentsPage-ProposalSection" parent="PropDev-ProposalAttachmentsPage-ProposalSection-parentBean" />
-	<bean id="PropDev-ProposalAttachmentsPage-ProposalSection-parentBean" abstract="true"
+	<bean id="PropDev-AttachmentsPage-ProposalSection" parent="PropDev-AttachmentsPage-ProposalSection-parentBean" />
+	<bean id="PropDev-AttachmentsPage-ProposalSection-parentBean" abstract="true"
 		parent="Uif-VerticalBoxSection" p:header.headerText="Proposal"
 		p:instructionalText="Add attachments to this proposal"
 		p:fieldBindingObjectPath="document.developmentProposal">
 		<property name="items">
 			<list>
-				<ref bean="PropDev-ProposalAttachmentsPage-ProposalCollection" />
+				<ref bean="PropDev-AttachmentsPage-ProposalCollection" />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="PropDev-ProposalAttachmentsPage-ProposalCollection" parent="PropDev-ProposalAttachmentsPage-ProposalCollection-parentBean" />
-	<bean id="PropDev-ProposalAttachmentsPage-ProposalCollection-parentBean" abstract="true"
+	<bean id="PropDev-AttachmentsPage-ProposalCollection" parent="PropDev-AttachmentsPage-ProposalCollection-parentBean" />
+	<bean id="PropDev-AttachmentsPage-ProposalCollection-parentBean" abstract="true"
 		parent="PropDev-Attachment-Collection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.attachment.Narrative"
 		p:layoutManager.summaryTitle="@{#lp.narrativeType.description + (#lp.narrativeType?.allowMultiple == 'Y' ? ' (' + #lp.moduleTitle + ')' : '')}"
 		p:propertyName="narratives">
@@ -94,21 +94,21 @@
 		</property>
 	</bean>
 
-    <bean id="PropDev-ProposalAttachmentsPage-PersonnelSection" parent="PropDev-ProposalAttachmentsPage-PersonnelSection-parentBean" />
-    <bean id="PropDev-ProposalAttachmentsPage-PersonnelSection-parentBean"
+    <bean id="PropDev-AttachmentsPage-PersonnelSection" parent="PropDev-AttachmentsPage-PersonnelSection-parentBean" />
+    <bean id="PropDev-AttachmentsPage-PersonnelSection-parentBean"
           abstract="true" parent="Uif-VerticalBoxSection" p:header.headerText="Personnel"
           p:instructionalText="Add attachments to this proposal"
           p:fieldBindingObjectPath="document.developmentProposal">
         <property name="items">
             <list>
-               <bean parent="PropDev-ProposalAttachmentsPage-PersonnelCollection"
+               <bean parent="PropDev-AttachmentsPage-PersonnelCollection"
                       p:order="10" />
             </list>
         </property>
     </bean>
 
-    <bean id="PropDev-ProposalAttachmentsPage-PersonnelCollection" parent="PropDev-ProposalAttachmentsPage-PersonnelCollection-parentBean" />
-    <bean id="PropDev-ProposalAttachmentsPage-PersonnelCollection-parentBean"
+    <bean id="PropDev-AttachmentsPage-PersonnelCollection" parent="PropDev-AttachmentsPage-PersonnelCollection-parentBean" />
+    <bean id="PropDev-AttachmentsPage-PersonnelCollection-parentBean"
           abstract="true" parent="PropDev-Attachment-Collection"
           p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography"
           p:propertyName="propPersonBios"
@@ -132,21 +132,21 @@
         </property>
     </bean>
 
-    <bean id="PropDev-ProposalAttachmentsPage-AbstractsSection" parent="PropDev-ProposalAttachmentsPage-AbstractsSection-parentBean" />
-    <bean id="PropDev-ProposalAttachmentsPage-AbstractsSection-parentBean"
+    <bean id="PropDev-AttachmentsPage-AbstractsSection" parent="PropDev-AttachmentsPage-AbstractsSection-parentBean" />
+    <bean id="PropDev-AttachmentsPage-AbstractsSection-parentBean"
           abstract="true" parent="Uif-VerticalBoxSection">
         <property name="header.headerText" value="Abstracts" />
         <property name="instructionalText" value="Add all abstracts that will be submitted to the sponsor." />
         <property name="items">
             <list>
-                <ref bean="PropDev-ProposalAttachmentsPage-AbstractsCollection" />
+                <ref bean="PropDev-AttachmentsPage-AbstractsCollection" />
             </list>
         </property>
         <property name="fieldBindingObjectPath" value="document.developmentProposal" />
     </bean>
 
-    <bean id="PropDev-ProposalAttachmentsPage-AbstractsCollection" parent="PropDev-ProposalAttachmentsPage-AbstractsCollection-parentBean" />
-    <bean id="PropDev-ProposalAttachmentsPage-AbstractsCollection-parentBean" abstract="true"
+    <bean id="PropDev-AttachmentsPage-AbstractsCollection" parent="PropDev-AttachmentsPage-AbstractsCollection-parentBean" />
+    <bean id="PropDev-AttachmentsPage-AbstractsCollection-parentBean" abstract="true"
           parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract"
           p:propertyName="proposalAbstracts"
           p:layoutManager.summaryTitle="@{#lp.abstractType.description}"
@@ -211,21 +211,21 @@
         </property>
     </bean>
 
-    <bean id="PropDev-ProposalAttachmentsPage-InternalSection" parent="PropDev-ProposalAttachmentsPage-InternalSection-parentBean" />
-    <bean id="PropDev-ProposalAttachmentsPage-InternalSection-parentBean"
+    <bean id="PropDev-AttachmentsPage-InternalSection" parent="PropDev-AttachmentsPage-InternalSection-parentBean" />
+    <bean id="PropDev-AttachmentsPage-InternalSection-parentBean"
           abstract="true" parent="Uif-VerticalBoxSection" p:header.headerText="Internal"
           p:instructionalText="Add attachments to this proposal"
           p:fieldBindingObjectPath="document.developmentProposal">
         <property name="items">
             <list>
-                <bean parent="PropDev-ProposalAttachmentsPage-InternalCollection"
+                <bean parent="PropDev-AttachmentsPage-InternalCollection"
                     p:order="10" />
             </list>
         </property>
     </bean>
 
-    <bean id="PropDev-ProposalAttachmentsPage-InternalCollection" parent="PropDev-ProposalAttachmentsPage-InternalCollection-parentBean" />
-    <bean id="PropDev-ProposalAttachmentsPage-InternalCollection-parentBean"
+    <bean id="PropDev-AttachmentsPage-InternalCollection" parent="PropDev-AttachmentsPage-InternalCollection-parentBean" />
+    <bean id="PropDev-AttachmentsPage-InternalCollection-parentBean"
           abstract="true" parent="PropDev-Attachment-Collection"
           p:collectionObjectClass="org.kuali.coeus.propdev.impl.attachment.Narrative"
           p:propertyName="instituteAttachments">
@@ -234,7 +234,7 @@
 <!--                <bean parent="Uif-InputField" p:propertyName="kradFile"
                       p:readOnlyDisplayReplacementPropertyName="name" p:required="true"
                       p:order="10" />-->
-                <bean parent="PropDev-ProposalAttachmentsPage-Internal-NarrativeTypeCodeField"
+                <bean parent="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField"
                       p:order="20" />
                 <bean parent="Uif-InputField" p:propertyName="moduleTitle"
                       p:order="30" />
@@ -246,10 +246,10 @@
         </property>
     </bean>
 
-    <bean id="PropDev-ProposalAttachmentsPage-Internal-NarrativeTypeCodeField"
-          parent="PropDev-ProposalAttachmentsPage-Internal-NarrativeTypeCodeField-parentBean" />
+    <bean id="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField"
+          parent="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField-parentBean" />
     <bean
-            id="PropDev-ProposalAttachmentsPage-Internal-NarrativeTypeCodeField-parentBean"
+            id="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField-parentBean"
             abstract="true" parent="Uif-InputField" p:propertyName="narrativeTypeCode"
             p:readOnlyDisplayReplacementPropertyName="narrativeType.description">
         <property name="optionsFinder">
@@ -260,8 +260,8 @@
 
 
 
-    <bean id="PropDev-ProposalAttachmentsPage-NotesSection" parent="PropDev-ProposalAttachmentsPage-NotesSection-parentBean" />
-    <bean id="PropDev-ProposalAttachmentsPage-NotesSection-parentBean" abstract="true"
+    <bean id="PropDev-AttachmentsPage-NotesSection" parent="PropDev-AttachmentsPage-NotesSection-parentBean" />
+    <bean id="PropDev-AttachmentsPage-NotesSection-parentBean" abstract="true"
           parent="Uif-VerticalBoxSection" p:header.headerText="Notes"
           p:instructionalText="Add notes to this proposal"
           p:fieldBindingObjectPath="document.developmentProposal">
