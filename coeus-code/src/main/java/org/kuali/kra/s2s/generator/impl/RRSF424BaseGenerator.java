@@ -18,6 +18,7 @@ package org.kuali.kra.s2s.generator.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
+import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -26,10 +27,10 @@ import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.api.question.QuestionAnswerService;
+import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SUtilService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,13 +46,12 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
             .getLog(RRSF424BaseGenerator.class);
 
     protected S2SUtilService s2sUtilService;
-    protected ParameterService parameterService;
+    protected S2SConfigurationService s2SConfigurationService;
     protected SponsorHierarchyService sponsorHierarchyService;
     protected ProposalBudgetService proposalBudgetService;
     protected ProposalDevelopmentService proposalDevelopmentService;
     protected QuestionAnswerService questionAnswerService;
 
-    private static final String PROPOSAL_CONTACT_TYPE = "PROPOSAL_CONTACT_TYPE";
     protected static final String PRINCIPAL_INVESTIGATOR = "PI";
     protected static final int PRE_APPLICATION = 6;
     protected static final int ADDITIONAL_CONGRESSIONAL_DESTRICT = 59;
@@ -77,7 +77,7 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
 
     public RRSF424BaseGenerator() {
         s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
-        parameterService = KcServiceLocator.getService(ParameterService.class);
+        s2SConfigurationService = KcServiceLocator.getService(S2SConfigurationService.class);
         sponsorHierarchyService = KcServiceLocator.getService(SponsorHierarchyService.class);
         proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
         proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
@@ -164,7 +164,7 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
      * @return String contact type for the proposal
      */
     protected String getContactType() {
-        String contactType = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, PROPOSAL_CONTACT_TYPE);
+        String contactType = s2SConfigurationService.getValueAsString(ConfigurationConstants.PROPOSAL_CONTACT_TYPE);
         if (contactType == null || contactType.length() == 0) {
             contactType = CONTACT_TYPE_O;
         }

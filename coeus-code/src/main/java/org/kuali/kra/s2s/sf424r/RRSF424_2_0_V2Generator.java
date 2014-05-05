@@ -879,27 +879,9 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 	 */
 	public XmlObject getFormObject(
 			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		this.pdDoc = proposalDevelopmentDocument;
-		departmentalPerson = s2sUtilService
-				.getDepartmentalPerson(proposalDevelopmentDocument);
-		return getRRSF424();
-	}
-
-	/**
-	 * This method typecasts the given {@link XmlObject} to the required
-	 * generator type and returns back the document of that generator type.
-	 * 
-	 * @param xmlObject
-	 *            which needs to be converted to the document type of the
-	 *            required generator
-	 * @return {@link XmlObject} document of the required generator type
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-	 */
-	public XmlObject getFormObject(XmlObject xmlObject) {
-	    RRSF42420 rrsf42420 = (RRSF42420) xmlObject;
-		RRSF42420Document rrSF424Document = RRSF42420Document.Factory
-				.newInstance();
-		rrSF424Document.setRRSF42420(rrsf42420);
-		return rrSF424Document;
-	}
+        this.pdDoc = proposalDevelopmentDocument;
+        departmentalPerson = s2sUtilService
+                .getDepartmentalPerson(proposalDevelopmentDocument);
+        return getRRSF424();
+    }
 }

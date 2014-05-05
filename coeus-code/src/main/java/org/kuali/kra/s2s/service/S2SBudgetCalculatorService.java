@@ -22,7 +22,6 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.budget.api.category.BudgetCategoryMapContract;
 import org.kuali.kra.s2s.generator.bo.BudgetPeriodInfo;

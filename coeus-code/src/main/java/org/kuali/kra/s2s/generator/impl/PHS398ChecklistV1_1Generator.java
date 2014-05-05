@@ -281,23 +281,4 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
 		this.pdDoc = proposalDevelopmentDocument;
 		return getPHS398Checklist();
 	}
-
-	/**
-	 * This method typecasts the given {@link XmlObject} to the required
-	 * generator type and returns back the document of that generator type.
-	 * 
-	 * @param xmlObject
-	 *            which needs to be converted to the document type of the
-	 *            required generator
-	 * @return {@link XmlObject} document of the required generator type
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject
-	 */
-	public XmlObject getFormObject(XmlObject xmlObject) {
-		PHS398Checklist phsChecklist = (PHS398Checklist) xmlObject;
-		PHS398ChecklistDocument phsChecklistDocument = PHS398ChecklistDocument.Factory
-				.newInstance();
-		phsChecklistDocument.setPHS398Checklist(phsChecklist);
-		return phsChecklistDocument;
-	}
-
 }

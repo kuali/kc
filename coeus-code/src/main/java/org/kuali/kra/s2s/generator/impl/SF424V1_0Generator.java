@@ -36,16 +36,16 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.math.BigDecimal;
@@ -65,10 +65,10 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 	private DepartmentalPerson aorInfo;
 	private String stateReviewDate = null;
 
-    protected ParameterService parameterService;
+    protected S2SConfigurationService s2SConfigurationService;
 
     public SF424V1_0Generator() {
-        parameterService = KcServiceLocator.getService(ParameterService.class);
+        s2SConfigurationService = KcServiceLocator.getService(S2SConfigurationService.class);
     }
 
 	/**
@@ -116,8 +116,8 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 		if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null) {
 			int proposalTypeCode = Integer.parseInt(pdDoc
 					.getDevelopmentProposal().getProposalTypeCode());
-			if (proposalTypeCode < Integer.parseInt(parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
-                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RESUBMISSION_PARM))) {
+			if (proposalTypeCode < Integer.parseInt(s2SConfigurationService.getValueAsString(
+                    ConfigurationConstants.PROPOSAL_TYPE_CODE_RESUBMISSION))) {
 				applicationTypeCodeDataType = ApplicationTypeCodeType.Enum
 						.forInt(proposalTypeCode);
 			}
@@ -632,8 +632,8 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 		String submissionType = null;
 		String suffix;
 
-		if (parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
-                ProposalDevelopmentUtils.ACTIVITY_TYPE_CODE_CONSTRUCTION_PARM).equals(pdDoc
+		if (s2SConfigurationService.getValueAsString(
+                ConfigurationConstants.ACTIVITY_TYPE_CODE_CONSTRUCTION).equals(pdDoc
 				.getDevelopmentProposal().getActivityTypeCode())) {
 			suffix = ACTIVITY_TYPE_CODE_LS_SUFFIX_CONSTRUCTION;
 		} else {
@@ -644,8 +644,8 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 						.getS2sSubmissionTypeCode() != null) {
 			pdDoc.getDevelopmentProposal().getS2sOpportunity()
 					.refreshNonUpdateableReferences();
-			if (parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
-			        ProposalDevelopmentUtils.S2S_SUBMISSION_TYPE_CODE_NOTSELECTED_PARM).equals(
+			if (s2SConfigurationService.getValueAsString(
+                    ConfigurationConstants.S2S_SUBMISSION_TYPE_CODE_PREAPPLICATION).equals(
 			                pdDoc.getDevelopmentProposal().getS2sOpportunity()
 					.getS2sSubmissionType().getCode())) {
 				submissionType = ACTIVITY_TYPE_CODE_LS_SUFFIX_PREAPPLICATION
@@ -674,23 +674,5 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 		this.pdDoc = proposalDevelopmentDocument;
 		aorInfo = s2sUtilService.getDepartmentalPerson(pdDoc);
 		return getGrantApplication();
-	}
-
-	/**
-	 * This method typecasts the given {@link XmlObject} to the required
-	 * generator type and returns back the document of that generator type.
-	 * 
-	 * @param xmlObject
-	 *ProposalDevelopmentResubmissionAction            which needs to be converted to the document type of the
-	 *            required generator
-	 * @return {@link XmlObject} document of the required generator type
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-	 */
-	public XmlObject getFormObject(XmlObject xmlObject) {
-		GrantApplicationType grantApplicationType = (GrantApplicationType) xmlObject;
-		GrantApplicationDocument grantDocument = GrantApplicationDocument.Factory
-				.newInstance();
-		grantDocument.setGrantApplication(grantApplicationType);
-		return grantDocument;
 	}
 }

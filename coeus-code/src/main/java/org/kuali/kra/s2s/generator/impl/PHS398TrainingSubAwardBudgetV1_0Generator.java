@@ -179,20 +179,4 @@ public class PHS398TrainingSubAwardBudgetV1_0Generator extends S2SAdobeFormAttac
         pdDoc=proposalDevelopmentDocument;
         return getPHS398TrainingSubawardBudget();
     }
-
-    /**
-     * This method typecasts the given {@link XmlObject} to the required generator type and returns back the document of that
-     * generator type.
-     * 
-     * @param xmlObject which needs to be converted to the document type of the required generator
-     * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-     */
-    public XmlObject getFormObject(XmlObject xmlObject) {
-        PHS398TrainingSubawardBudget phs398TrainingSubawardBudget = (PHS398TrainingSubawardBudget) xmlObject;
-        PHS398TrainingSubawardBudgetDocument phs398TrainingSubawardBudgetDocument = PHS398TrainingSubawardBudgetDocument.Factory.newInstance();
-        phs398TrainingSubawardBudgetDocument.setPHS398TrainingSubawardBudget(phs398TrainingSubawardBudget);
-        return phs398TrainingSubawardBudgetDocument;
-    }
-
 }

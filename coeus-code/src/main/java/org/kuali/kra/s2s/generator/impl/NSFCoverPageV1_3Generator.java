@@ -311,23 +311,6 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 		return getNSFCoverPage13();
 	}
 
-	/**
-	 * This method typecasts the given {@link XmlObject} to the required
-	 * generator type and returns back the document of that generator type.
-	 * 
-	 * @param xmlObject
-	 *            which needs to be converted to the document type of the
-	 *            required generator
-	 * @return {@link XmlObject} document of the required generator type
-	 */
-	public XmlObject getFormObject(XmlObject xmlObject) {
-		NSFCoverPage13 nsfCoverPage13 = (NSFCoverPage13) xmlObject;
-		NSFCoverPage13Document nsfCoverPage13Document = NSFCoverPage13Document.Factory
-				.newInstance();
-		nsfCoverPage13Document.setNSFCoverPage13(nsfCoverPage13);
-		return nsfCoverPage13Document;
-	}
-
     public String getFormName() {
         return "NSF_CoverPage_1_3-V1.3";
     }

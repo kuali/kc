@@ -96,21 +96,4 @@ public class CD511V1_1Generator extends S2SBaseFormGenerator {
         aorInfo = s2sUtilService.getDepartmentalPerson(pdDoc);
         return getcd511Document();
     }
-
-
-    /**
-     * This method typecasts the given {@link XmlObject} to the required generator type and returns back the document of that
-     * generator type.
-     * 
-     * @param xmlObject which needs to be converted to the document type of the required generator
-     * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-     */
-    public XmlObject getFormObject(XmlObject xmlObject) {
-        CD511Document cd511Document = CD511Document.Factory.newInstance();
-        CD511 cd511 = (CD511) xmlObject;
-        cd511Document.setCD511(cd511);
-        return cd511Document;
-    }
-
 }

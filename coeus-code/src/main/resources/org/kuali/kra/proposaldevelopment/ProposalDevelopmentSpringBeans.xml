@@ -74,7 +74,7 @@
             </list>
        </property>     
     </bean>
- 
+
 	<context:annotation-config />
         <context:component-scan base-package="org.kuali.coeus.propdev.impl"/>
     
@@ -380,18 +380,18 @@
     </bean>
 
     <bean id="proposalHierarchyDao" parent="platformAwareDao" class="org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyDaoOjb" />
-    
-    <bean id="proposalRoleService" class="org.kuali.coeus.propdev.impl.docperm.ProposalRoleServiceImpl">
+
+    <bean id="proposalRoleService" class="org.kuali.kra.kim.service.impl.ProposalRoleServiceImpl">
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
     </bean>
-    
+
     <bean id="proposalRoleTemplateService" class="org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateServiceImpl">
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
         <property name="roleManagementService" ref="roleService" />
         <property name="proposalRoleService" ref="proposalRoleService" />
     </bean>
 
-	<bean id="proposalRoleTypeService" class="org.kuali.coeus.propdev.impl.person.ProposalPersonDerivedRoleTypeServiceImpl">
+	<bean id="proposalRoleTypeService" class="org.kuali.kra.workflow.ProposalPersonDerivedRoleTypeServiceImpl">
 		<property name="proposalPersonService" ref="proposalPersonService" />
 	</bean>
 	
@@ -454,12 +454,12 @@
         <property name="parameterService" ref="parameterService" />
         <property name="proposalDevelopmentService" ref="proposalDevelopmentService" />
     </bean>
-    
-    <bean id="proposalDevelopmentXmlStream" class="org.kuali.coeus.propdev.impl.print.ProposalDevelopmentXmlStream" 
+
+    <bean id="proposalDevelopmentXmlStream" class="org.kuali.coeus.propdev.impl.print.ProposalDevelopmentXmlStream"
           parent="proposalBaseStream" />
 
     <!-- Current and Pending Report Services -->
-    
+
     <bean id="currentAndPendingReportService" class="org.kuali.coeus.common.proposal.impl.report.CurrentAndPendingReportServiceImpl" scope="prototype">
         <property name="currentReportDao" ref="currentReportDao" />
         <property name="pendingReportDao" ref="pendingReportDao" />
@@ -471,11 +471,11 @@
     <bean id="currentReportDao" parent="platformAwareDao" class="org.kuali.coeus.common.proposal.impl.report.CurrentReportDaoOjb" />
     
     <bean id="pendingReportDao" parent="platformAwareDao" class="org.kuali.coeus.common.proposal.impl.report.PendingReportDaoOjb" />
-    
+
     <bean id="currentProposalPrint" class="org.kuali.coeus.common.proposal.impl.report.CurrentProposalPrint" scope="prototype">
         <property name="xmlStream" ref="currentProposalXmlStream" />
     </bean>
-    
+
     <bean id="pendingProposalPrint" class="org.kuali.coeus.common.proposal.impl.report.PendingProposalPrint" scope="prototype">
         <property name="xmlStream" ref="pendingProposalXmlStream" />
     </bean>
@@ -880,9 +880,16 @@
   </bean>
 
     <bean id="proposalTypeValuesFinder" class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.type.ProposalType"/>
-        <property name="includeKeyInDescription" value="false"/>
-        <property name="keyAttributeName" value="proposalTypeCode"/>
-        <property name="labelAttributeName" value="description"/>
+           <property name="businessObjectClass" value="org.kuali.coeus.common.framework.type.ProposalType"/>
+           <property name="includeKeyInDescription" value="false"/>
+           <property name="keyAttributeName" value="proposalTypeCode"/>
+           <property name="labelAttributeName" value="description"/>
+   </bean>
+
+
+    <bean id="s2sOpportunityLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="s2sOpportunityLookupableHelperService"/>
     </bean>
+
+
 </beans>

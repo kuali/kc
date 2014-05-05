@@ -89,20 +89,4 @@ public class OtherV1_1Generator extends OtherBaseGenerator {
         this.pdDoc = proposalDevelopmentDocument;
         return getOtherNarrativeAttachments();
     }
-
-    /**
-     * This method typecasts the given {@link XmlObject} to the required generator type and returns back the document of that
-     * generator type.
-     * 
-     * @param xmlObject which needs to be converted to the document type of the required generator
-     * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-     */
-    public XmlObject getFormObject(XmlObject xmlObject) {
-        OtherNarrativeAttachments othNarrativeAttachments = (OtherNarrativeAttachments) xmlObject;
-        OtherNarrativeAttachmentsDocument othNarrativeAttachmentsDocument = OtherNarrativeAttachmentsDocument.Factory.newInstance();
-        othNarrativeAttachmentsDocument.setOtherNarrativeAttachments(othNarrativeAttachments);
-        return othNarrativeAttachmentsDocument;
-    }
-
 }

@@ -149,22 +149,4 @@ public class PerformanceSiteV1_3Generator extends S2SBaseFormGenerator {
 		this.pdDoc = proposalDevelopmentDocument;
 		return getPerformanceSite();
 	}
-
-	/**
-	 * This method typecasts the given {@link XmlObject} to the required
-	 * generator type and returns back the document of that generator type.
-	 * 
-	 * @param xmlObject
-	 *            which needs to be converted to the document type of the
-	 *            required generator
-	 * @return {@link XmlObject} document of the required generator type
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-	 */
-	public XmlObject getFormObject(XmlObject xmlObject) {
-		PerformanceSite13Document performanceSite13Document = PerformanceSite13Document.Factory
-				.newInstance();
-		PerformanceSite13 performanceSite13 = (PerformanceSite13) xmlObject;
-		performanceSite13Document.setPerformanceSite13(performanceSite13);
-		return performanceSite13Document;
-	}
 }
