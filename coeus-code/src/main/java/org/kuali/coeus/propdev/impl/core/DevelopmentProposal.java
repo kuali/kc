@@ -380,8 +380,8 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     @Transient
     private transient KeyPersonnelService keyPersonnelService;
-
-    @ManyToOne(targetEntity = Sponsor.class, cascade = { CascadeType.REFRESH })
+    
+	@ManyToOne(targetEntity = Sponsor.class, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "PRIME_SPONSOR_CODE", referencedColumnName = "SPONSOR_CODE", insertable = false, updatable = false)
     private Sponsor primeSponsor;
 
@@ -2499,4 +2499,9 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
     public void setS2sUserAttachedForms(List<S2sUserAttachedForm> s2sUserAttachedForms) {
         this.s2sUserAttachedForms = s2sUserAttachedForms;
     }
+
+    public String getIncludeSubAwards() {
+        return null;
+    }
+
 }
