@@ -71,6 +71,7 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="Uif-Message" p:messageText="@{#ConfigProperties['version']} @{#ConfigProperties['datasource.ojb.platform']}" p:wrapperCssClasses="pull-right"/>
 			</list>
 		</property>
 	</bean>
