@@ -6,25 +6,25 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
-  <bean id="SubcontractForms" parent="SubcontractForms-parentBean" />
-  <bean id="SubcontractForms-parentBean" abstract="true" parent="BusinessObjectEntry">
+  <bean id="SubawardForms" parent="SubawardForms-parentBean" />
+  <bean id="SubawardForms-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.subaward.bo.SubAwardForms" />
-		<property name="objectLabel" value="SubcontractForms" />
+		<property name="objectLabel" value="SubawardForms" />
 		    <property name="inquiryDefinition" >
-		      <ref bean="SubcontractForms-inquiryDefinition" />
+		      <ref bean="SubawardForms-inquiryDefinition" />
 		    </property>
 		    <property name="lookupDefinition" >
-		      <ref bean="SubcontractForms-lookupDefinition" />
+		      <ref bean="SubawardForms-lookupDefinition" />
 		    </property>
        		<property name="attributes" >
 		      <list>
-		      	<ref bean="SubcontractForms-formId" />
-		        <ref bean="SubcontractForms-description" />
-		        <ref bean="SubcontractForms-templateFile" />
-		        <ref bean="SubcontractForms-fileName" />
-		        <ref bean="SubcontractForms-contentType" />
-		        <ref bean="SubcontractForms-templateTypeCode" />
-		        <ref bean="SubcontractForms-subAwardTemplateType.templateTypeCode" />
+		      	<ref bean="SubawardForms-formId" />
+		        <ref bean="SubawardForms-description" />
+		        <ref bean="SubawardForms-templateFile" />
+		        <ref bean="SubawardForms-fileName" />
+		        <ref bean="SubawardForms-contentType" />
+		        <ref bean="SubawardForms-templateTypeCode" />
+		        <ref bean="SubawardForms-subAwardTemplateType.description" />
 		      </list>
 		    </property>
 		   
@@ -32,43 +32,43 @@
 
 <!-- Attribute Definitions -->
     
-  <bean id="SubcontractForms-formId" parent="SubcontractForms-formId-parentBean" />
-  <bean id="SubcontractForms-formId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubawardForms-formId" parent="SubawardForms-formId-parentBean" />
+  <bean id="SubawardForms-formId-parentBean" abstract="true" parent="AttributeDefinition">
        <property name="name" value="formId" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Form Id" />
-    <property name="shortLabel" value="Form Id" />
-    <property name="maxLength" value="22" />
+    <property name="label" value="Form ID" />
+    <property name="shortLabel" value="Form ID" />
+    <property name="maxLength" value="30" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="Form Id" />
-    <property name="description" value="Form Id" />    
+    <property name="summary" value="Form ID" />
+    <property name="description" value="Form ID" />    
   </bean>
   
-  <bean id="SubcontractForms-description" parent="SubcontractForms-description-parentBean" />
-  <bean id="SubcontractForms-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description"/>       
+  <bean id="SubawardForms-description" parent="SubawardForms-description-parentBean" />
+  <bean id="SubawardForms-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description"/>       
 
-   <bean id="SubcontractForms-versionNumber" parent="SubcontractForms-versionNumber-parentBean" />
-   <bean id="SubcontractForms-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+   <bean id="SubawardForms-versionNumber" parent="SubawardForms-versionNumber-parentBean" />
+   <bean id="SubawardForms-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     
    <bean id="FileControlDefinition"
         class="org.kuali.rice.kns.datadictionary.control.FileControlDefinition"
         abstract="true" />  
   
-  <bean id="SubcontractForms-templateFile" parent="SubcontractForms-templateFile-parentBean" />
-  <bean id="SubcontractForms-templateFile-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubawardForms-templateFile" parent="SubawardForms-templateFile-parentBean" />
+  <bean id="SubawardForms-templateFile-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="templateFile" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Attachment" />
     <property name="shortLabel" value="Attachment" />
     <property name="maxLength" value="150" />
-    <property name="required" value="false" />
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="FileControlDefinition"
             p:size="100" />
@@ -78,8 +78,8 @@
   </bean>
   
    
-  <bean id="SubcontractForms-fileName" parent="SubcontractForms-fileName-parentBean" />
-  <bean id="SubcontractForms-fileName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubawardForms-fileName" parent="SubawardForms-fileName-parentBean" />
+  <bean id="SubawardForms-fileName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="fileName" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="fileName" />
@@ -94,8 +94,8 @@
     <property name="description" value="File Name" />
   </bean>
  
-  <bean id="SubcontractForms-contentType" parent="SubcontractForms-contentType-parentBean" />
-  <bean id="SubcontractForms-contentType-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubawardForms-contentType" parent="SubawardForms-contentType-parentBean" />
+  <bean id="SubawardForms-contentType-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="contentType" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="contentType" />
@@ -110,8 +110,8 @@
     <property name="description" value="Content Type" />
   </bean>
 
- <bean id="SubcontractForms-templateTypeCode" parent="SubcontractForms-templateTypeCode-parentBean" />
-  <bean id="SubcontractForms-templateTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+ <bean id="SubawardForms-templateTypeCode" parent="SubawardForms-templateTypeCode-parentBean" />
+  <bean id="SubawardForms-templateTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
        <property name="name" value="templateTypeCode" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="TemplateTypeCode" />
@@ -120,61 +120,45 @@
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
-    <property name="required" value="false" />
+    <property name="required" value="true" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+    <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.subaward.bo.SubawardTemplateType"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="templateTypeCode"
+            p:labelAttribute="description" />
     </property>
     <property name="summary" value="templateTypeCode" />
     <property name="description" value="templateTypeCode" />    
   </bean>
-	<!-- <bean id="SubcontractForms-templateTypeCode" parent="SubcontractForms-templateTypeCode-parentBean" />
-  	<bean id="SubcontractForms-templateTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="templateTypeCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="TemplateType" />
-    <property name="shortLabel" value="TemplateType" />
-    <property name="maxLength" value="4000" />
-    <property name="validationPattern" >
-    	<bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
-    <property name="summary" value="TemplateTypeCode" />
-    <property name="description" value="TemplateTypeCode" />    
-  </bean> -->
-  
-  
-	
-	<bean id="SubcontractForms-subAwardTemplateType.templateTypeCode" parent="SubcontractForms-subAwardTemplateType.templateTypeCode-parentBean" />
-	<bean id="SubcontractForms-subAwardTemplateType.templateTypeCode-parentBean" abstract="true" 
-	parent="SubawardTemplateType-templateTypeCode">
-		<property name="name" value="subAwardTemplateType.templateTypeCode" />
-		<property name="label" value="TemplateTypeCode" />
+
+	<bean id="SubawardForms-subAwardTemplateType.description" parent="SubawardForms-subAwardTemplateType.description-parentBean" />
+	<bean id="SubawardForms-subAwardTemplateType.description-parentBean" abstract="true" 
+	parent="SubawardTemplateType-description">
+		<property name="name" value="subAwardTemplateType.description" />
+		<property name="label" value="Template Type" />
 
 	</bean>
   
   
       <!-- Business Object Inquiry Definition -->
- <bean id="SubcontractForms-inquiryDefinition" parent="SubcontractForms-inquiryDefinition-parentBean" />
+ <bean id="SubawardForms-inquiryDefinition" parent="SubawardForms-inquiryDefinition-parentBean" />
 
-  <bean id="SubcontractForms-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Subcontract Form" />
+  <bean id="SubawardForms-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Subaward Form" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Subcontract Form" />
-         <!--  <property name="numberOfColumns" value="1" /> -->
+          <property name="title" value="Subaward Form" />
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
                     p:attributeName="formId"
                     p:forceInquiry="true" />     
               <bean parent="FieldDefinition"
-                    p:attributeName="subAwardTemplateType.templateTypeCode"/> 
+                    p:attributeName="subAwardTemplateType.description"/> 
               <bean parent="FieldDefinition"
                     p:attributeName="templateTypeCode"/>       
             </list>
@@ -186,9 +170,9 @@
   
   <!-- Business Object Lookup Definition -->
 
-  <bean id="SubcontractForms-lookupDefinition" parent="SubcontractForms-lookupDefinition-parentBean" />
-  <bean id="SubcontractForms-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Subcontract Forms Lookup" />
+  <bean id="SubawardForms-lookupDefinition" parent="SubawardForms-lookupDefinition-parentBean" />
+  <bean id="SubawardForms-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Subaward Forms Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
     <property name="defaultSort" >
@@ -210,18 +194,15 @@
                     p:attributeName="description"
                     p:forceInquiry="true" />
          <bean parent="FieldDefinition"
-                    p:attributeName="templateTypeCode"
-                    p:forceInquiry="true" />      
+                    p:attributeName="templateTypeCode"/>      
                
       </list>
     </property>
     <property name="resultFields" >
       <list>       
                 <bean parent="FieldDefinition" p:attributeName="formId" p:forceInquiry="true" />   
-                <bean p:attributeName="description"   parent="FieldDefinition"/>
-                <bean parent="FieldDefinition"
-                    p:attributeName="templateTypeCode"
-                    p:forceInquiry="true" /> 
+                <bean parent="FieldDefinition" p:attributeName="description" />
+                <bean parent="FieldDefinition" p:attributeName="subAwardTemplateType.description"/> 
       </list>              
     </property>
   </bean>
