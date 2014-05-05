@@ -61,13 +61,13 @@
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="Award Template" />
+          <property name="title" value="Subaward Template" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
               <bean parent="FieldDefinition"
-                    p:attributeName="templateTypeCode"
-                    p:forceInquiry="true" />             
+                    p:attributeName="description"
+                    p:forceInquiry="true" />
             </list>
           </property>
         </bean>
