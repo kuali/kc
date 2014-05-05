@@ -52,10 +52,7 @@
 				<bean parent="Uif-InputField" p:propertyName="abstractTypeCode"
 					p:readOnlyDisplayReplacementPropertyName="abstractType.description" />
 				<bean parent="Uif-InputField" p:propertyName="abstractDetails" />
-				<bean parent="Uif-InputField" p:propertyName="updateUser"
-					p:render="@{!#isAddLine}" />
-				<bean parent="Uif-InputField" p:propertyName="updateTimestamp"
-					p:render="@{!#isAddLine}" />
+				
 			</list>
 		</property>
 	</bean>

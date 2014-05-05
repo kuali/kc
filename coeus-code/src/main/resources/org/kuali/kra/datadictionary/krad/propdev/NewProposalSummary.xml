@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+ 
+ 
+ <bean id="PropDev-NewProposalSummarySection" parent="PropDev-NewProposalSummarySection-parentBean" />
+	<bean id="PropDev-NewProposalSummarySection-parentBean" parent="Uif-VerticalBoxSection" p:headerText="DocumentSummary">
+		<property name="items">
+			<list>
+				 <bean parent="PropDev-SummaryPage-TabGroup" p:order="10"/>
+			</list>
+		</property>
+		<property name="header">
+			<bean parent="Uif-PageHeader" />
+		</property>
+		<property name="footer">
+			<null />
+		</property> 
+	</bean>
+	<bean id="PropDev-SummaryPage-TabGroup" parent="PropDev-SummaryPage-TabGroup-parentBean" />
+	<bean id="PropDev-SummaryPage-TabGroup-parentBean" abstract="true"
+		parent="Uif-TabGroup">
+		<property name="items">
+			<list>
+				<bean parent="PropDev-NewProposalSummary-ProposalSummary" p:order="10" />
+				<bean parent="PropDev-SummaryPage-Personnel" p:order="20" />
+                <bean parent="PropDev-NewProposalSummary-CreditAllocation" p:order="30" />
+                <bean parent="PropDev-NewProposalSummary-Questionnaire" p:order="40" />
+                <bean parent="PropDev-NewProposalSummary-SupplementalInfo" p:order="50" />             
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PropDev-NewProposalSummary-ProposalSummary" parent="PropDev-NewProposalSummary-ProposalSummary-parentBean" />
+	<bean id="PropDev-NewProposalSummary-ProposalSummary-parentBean" abstract="true"
+		parent="Uif-CssGridSection"  p:headerText="Proposal Summary"  p:fieldBindingObjectPath="document.developmentProposal" >
+		 <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="title"
+                      p:order="10" />
+                <bean parent="Uif-DataField" p:propertyName="principalInvestigatorName"
+                      p:order="20" />
+                <bean parent="Uif-DataField" p:propertyName="ownedByUnitNumber"
+                      p:order="30" />
+                <bean parent="Uif-DataField" p:propertyName="activityType.description"
+                      p:order="40" />
+                <bean parent="Uif-DataField" p:propertyName="proposalNumber"
+                      p:order="50" />
+                <bean parent="Uif-DataField" p:propertyName="requestedStartDateInitial"
+                      p:order="60" />
+                <bean parent="Uif-DataField" p:propertyName="requestedEndDateInitial"
+                      p:order="70" />
+                <bean parent="Uif-DataField" p:propertyName="subcontracts"
+                      p:order="80" />
+                <bean parent="Uif-DataField" p:propertyName="sponsor.sponsorName"
+                      p:order="90"  />
+                <bean parent="Uif-DataField" p:propertyName="deadlineDate"
+                      p:order="100" />
+                <bean parent="Uif-DataField" p:propertyName="deadlineType"
+                      p:order="100" />
+            </list>
+        </property>
+	</bean>
+	 <bean id="PropDev-SummaryPage-Personnel" parent="PropDev-SummaryPage-Personnel-parentBean" />
+    <bean id="PropDev-SummaryPage-Personnel-parentBean" abstract="true"
+          parent="Uif-CssGridSection" p:headerText="Personnel">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+    <bean id="PropDev-NewProposalSummary-CreditAllocation" parent="PropDev-NewProposalSummary-CreditAllocation-parentBean" />
+    <bean id="PropDev-NewProposalSummary-CreditAllocation-parentBean" abstract="true"
+          parent="Uif-CssGridSection" p:headerText="Credit Allocation">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+	
+    <bean id="PropDev-NewProposalSummary-Questionnaire" parent="PropDev-NewProposalSummary-Questionnaire-parentBean" />
+    <bean id="PropDev-NewProposalSummary-Questionnaire-parentBean" abstract="true"
+          parent="Uif-CssGridSection" p:headerText="Questionnaire">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="PropDev-NewProposalSummary-SupplementalInfo" parent="PropDev-NewProposalSummary-SupplementalInfo-parentBean" />
+    <bean id="PropDev-NewProposalSummary-SupplementalInfo-parentBean" abstract="true"
+          parent="Uif-CssGridSection" p:headerText="Supplemental Info">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+</beans>
