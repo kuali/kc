@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelAddWizardHelper;
@@ -36,7 +37,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private ProposalDevelopmentQuestionnaireHelper questionnaireHelper;
     private KeyPersonnelAddWizardHelper addKeyPersonHelper;
     private S2sOpportunity newS2sOpportunity;
-    
+    private List<ProposalUserRoles> proposalUserRolesList = null;
+
     public ProposalDevelopmentDocumentForm() {
         super();
     }
