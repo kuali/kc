@@ -75,7 +75,7 @@
         <property name="namespaceCode" value="KC-CORE" />
         <property name="packagePrefixes">
             <list>
-                <value>org.kuali.kra</value>
+                <value>org.kuali</value>
             </list>
         </property>
         <property name="dataDictionaryPackages">
@@ -241,8 +241,8 @@
                 <value>classpath:org/kuali/kra/datadictionary/CommonCommitteeDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CommScheduleActItem.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CommScheduleMinuteDoc.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/CongressionalDistrict.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/CongressionalDistrictHelper.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/location/CongressionalDistrict.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/location/CongressionalDistrictHelper.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ContactType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/Correspondent.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CorrespondentType.xml</value>
@@ -426,11 +426,11 @@
                 <value>classpath:org/kuali/kra/datadictionary/MembershipRole.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/MessageOfTheDay.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/MinuteEntryType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/Narrative.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/attachment/Narrative.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/attachment/NarrativeAttachment.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/NarrativeStatus.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/NarrativeType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/NarrativeUserRights.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/attachment/NarrativeStatus.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/attachment/NarrativeType.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/attachment/NarrativeUserRights.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/Negotiation.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/NegotiationActivity.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/NegotiationActivityAttachment.xml</value>
@@ -479,11 +479,11 @@
                 <value>classpath:org/kuali/kra/datadictionary/ProposalAbstract.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalBudgetStatus.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalChangedData.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/ProposalColumnsToAlter.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/ProposalCopyCriteria.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/editable/ProposalColumnsToAlter.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/copy/ProposalCopyCriteria.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalDevelopmentDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalDevelopmentPersonMassChange.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/ProposalDevelopmentRejectionBean.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/action/ProposalDevelopmentRejectionBean.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/person/ProposalInvestigatorCertification.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/location/ProposalLocationType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalLogPersonMassChange.xml</value>
@@ -493,17 +493,17 @@
                 <value>classpath:org/kuali/kra/datadictionary/ProposalPersonCreditSplit.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalPersonDegree.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalPersonRole.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/ProposalPersonUnit.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/person/ProposalPersonUnit.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalPersonYnq.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalRoleState.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalRoleTemplate.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalSite.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalSpecialReview.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalSpecialReviewExemption.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/ProposalState.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/state/ProposalState.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalStatus.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/ProposalUnitCreditSplit.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/person/creditsplit/ProposalUnitCreditSplit.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalUser.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalUserEditRoles.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalYnq.xml</value>
@@ -598,15 +598,15 @@
                 <value>classpath:org/kuali/kra/datadictionary/ResearchArea.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/RiskLevel.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/Rolodex.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/S2sAppAttachments.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/S2sApplication.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/S2sAppSubmission.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/S2sOppFormQuestionnaire.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/S2sOppForms.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/S2sOpportunity.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sAppAttachments.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sApplication.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sAppSubmission.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/question/S2sOppFormQuestionnaire.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sOppForms.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sOpportunity.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sProvider.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sRevisionType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/S2sSubmissionType.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sSubmissionType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ScheduleActItemType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ScheduleAgenda.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ScheduleStatus.xml</value>
@@ -662,7 +662,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/ValidClassReportFrequency.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ValidFrequencyBase.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ValidIacucProtoActionCoresp.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/ValidNarrForms.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/attachment/ValidNarrForms.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ValidProtoActionCoresp.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ValidProtocolActionAction.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ValidProtoSubRevType.xml</value>
@@ -701,7 +701,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/BudgetCategoryMapMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/BudgetCategoryMappingMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/BudgetCategoryTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/BudgetColumnsToAlterMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/budget/editable/BudgetColumnsToAlterMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/BudgetPeriodTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/BudgetStatusMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/CFDAMaintenanceDocument.xml</value>
@@ -814,7 +814,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/MessageOfTheDayMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/MinuteEntryTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/NarrativeStatusMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/NarrativeTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/attachment/NarrativeTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/NegotiationActivityTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/NegotiationAgreementTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/NegotiationAssociationTypeMaintenanceDocument.xml</value>
@@ -887,9 +887,9 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/ResearchAreasMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/RiskLevelMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/RolodexMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/S2sOppFormQuestionnaireMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/S2sProviderMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/S2sRevisionTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/question/S2sOppFormQuestionnaireMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sProviderMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sRevisionTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/S2sSubmissionTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ScheduleActItemTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ScheduleStatusMaintenanceDocument.xml</value>
@@ -930,7 +930,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidClassReportFrequencyMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidFrequencyBaseMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidIacucProtoActionCorespMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/ValidNarrFormsMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/attachment/ValidNarrFormsMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidProtoActionCorespMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidProtocolActionActionMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidProtoSubRevTypeMaintenanceDocument.xml</value>

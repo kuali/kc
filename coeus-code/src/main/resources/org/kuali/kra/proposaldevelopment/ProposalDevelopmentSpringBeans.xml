@@ -46,7 +46,7 @@
         <property name="namespaceCode" value="KC-PD" />
         <property name="packagePrefixes">
             <list>
-                <value>org.kuali.kra.proposaldevelopment</value>
+                <value>org.kuali.coeus.propdev.impl</value>
             </list>
         </property>
         <property name="databaseRepositoryFilePaths">
