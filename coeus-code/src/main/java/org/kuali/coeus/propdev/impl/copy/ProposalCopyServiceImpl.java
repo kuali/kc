@@ -561,10 +561,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         List<S2sUserAttachedForm> userAttachedForms = developmentProposal.getS2sUserAttachedForms();
         for (S2sUserAttachedForm s2sUserAttachedForm : userAttachedForms) {
             s2sUserAttachedForm.refresh();
-            s2sUserAttachedForm.setS2sUserAttachedFormId(null);
+            s2sUserAttachedForm.setId(null);
             List<S2sUserAttachedFormAtt> attachments = s2sUserAttachedForm.getS2sUserAttachedFormAtts();
             for (S2sUserAttachedFormAtt s2sUserAttachedFormAtt : attachments) {
-                s2sUserAttachedFormAtt.setS2sUserAttachedFormAttId(null);
+                s2sUserAttachedFormAtt.setId(null);
             }
         }
         

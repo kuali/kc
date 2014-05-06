@@ -62,7 +62,7 @@ public class PrintFormTest extends KcIntegrationTestBase {
         ProposalSite performSite = new ProposalSite();
         performSite.setOrganization(performOrganization);
         document.getDevelopmentProposal().setPerformingOrganization(performSite);
-
+        document.getDevelopmentProposal().setProposalNumber("123456");
         List<ProposalSite> proList = new ArrayList<ProposalSite>();
         ProposalSite proposalSite = new ProposalSite();
         proposalSite.setRolodex(rolodex);
