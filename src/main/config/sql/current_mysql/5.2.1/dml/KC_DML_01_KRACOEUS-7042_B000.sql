@@ -681,13 +681,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -695,7 +695,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -2150,13 +2150,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -2164,7 +2164,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -2586,7 +2586,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																	</xsl:when>
 																</xsl:choose>
 																<fo:inline>
-																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime RecipientÂ’s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -2603,7 +2603,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime RecipientÂ’s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -2630,7 +2630,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																		</fo:inline>
 																		<fo:block/>
 																		<fo:inline>
-																			<xsl:text>Carry Forward requests must be sent to Prime Recipient’s - </xsl:text>
+																			<xsl:text>Carry Forward requests must be sent to Prime RecipientÂ’s - </xsl:text>
 																		</fo:inline>
 																		<xsl:for-each select="subcontract:SubContractData">
 																			<xsl:for-each select="subcontract:SubcontractTemplateInfo">
@@ -2690,13 +2690,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -2704,7 +2704,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -3088,7 +3088,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																	</xsl:when>
 																</xsl:choose>
 																<fo:inline>
-																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime RecipientÂ’s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -3105,11 +3105,11 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime RecipientÂ’s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipient’s right to practice a Subrecipients’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
+																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient Â’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime RecipientÂ’s right to practice a SubrecipientsÂ’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -3136,7 +3136,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																		</fo:inline>
 																		<fo:block/>
 																		<fo:inline>
-																			<xsl:text>Carry Forward requests must be sent to Prime Recipient’s - </xsl:text>
+																			<xsl:text>Carry Forward requests must be sent to Prime RecipientÂ’s - </xsl:text>
 																		</fo:inline>
 																		<xsl:for-each select="subcontract:SubContractData">
 																			<xsl:for-each select="subcontract:SubcontractTemplateInfo">
@@ -3196,13 +3196,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -3210,7 +3210,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -3632,7 +3632,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																	</xsl:when>
 																</xsl:choose>
 																<fo:inline>
-																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime RecipientÂ’s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -3649,11 +3649,11 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime RecipientÂ’s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipient’s right to practice a Subrecipients’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
+																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient Â’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime RecipientÂ’s right to practice a SubrecipientsÂ’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -3680,7 +3680,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																		</fo:inline>
 																		<fo:block/>
 																		<fo:inline>
-																			<xsl:text>Carry Forward requests must be sent to Prime Recipient’s - </xsl:text>
+																			<xsl:text>Carry Forward requests must be sent to Prime RecipientÂ’s - </xsl:text>
 																		</fo:inline>
 																		<xsl:for-each select="subcontract:SubContractData">
 																			<xsl:for-each select="subcontract:SubcontractTemplateInfo">
@@ -3740,13 +3740,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -3754,7 +3754,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -5858,13 +5858,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -5872,7 +5872,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -7976,13 +7976,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -7990,7 +7990,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -8552,13 +8552,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -8566,7 +8566,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -8760,13 +8760,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -8774,7 +8774,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -9236,7 +9236,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																	</xsl:when>
 																</xsl:choose>
 																<fo:inline>
-																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime RecipientÂ’s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -9253,11 +9253,11 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime RecipientÂ’s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipient’s right to practice a Subrecipients’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
+																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient Â’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime RecipientÂ’s right to practice a SubrecipientsÂ’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -9284,7 +9284,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																		</fo:inline>
 																		<fo:block/>
 																		<fo:inline>
-																			<xsl:text>Carry Forward requests must be sent to Prime Recipient’s - </xsl:text>
+																			<xsl:text>Carry Forward requests must be sent to Prime RecipientÂ’s - </xsl:text>
 																		</fo:inline>
 																		<xsl:for-each select="subcontract:SubContractData">
 																			<xsl:for-each select="subcontract:SubcontractTemplateInfo">
@@ -9344,13 +9344,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -9358,7 +9358,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -9767,7 +9767,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																	</xsl:when>
 																</xsl:choose>
 																<fo:inline>
-																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime RecipientÂ’s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -9784,11 +9784,11 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime RecipientÂ’s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipient’s right to practice a Subrecipients’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
+																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient Â’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime RecipientÂ’s right to practice a SubrecipientsÂ’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -9815,7 +9815,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																		</fo:inline>
 																		<fo:block/>
 																		<fo:inline>
-																			<xsl:text>Carry Forward requests must be sent to Prime Recipient’s - </xsl:text>
+																			<xsl:text>Carry Forward requests must be sent to Prime RecipientÂ’s - </xsl:text>
 																		</fo:inline>
 																		<xsl:for-each select="subcontract:SubContractData">
 																			<xsl:for-each select="subcontract:SubcontractTemplateInfo">
@@ -9875,13 +9875,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -9889,7 +9889,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -9897,7 +9897,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-</xsl:stylesheet>',EMPTY_CLOB(),'EPA Attachment.xsl','application/octet-stream',1,UUID(),2)
+</xsl:stylesheet>','EPA Attachment.xsl','application/octet-stream',1,UUID(),2)
 /
 INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM,FILE_NAME,CONTENT_TYPE,VER_NBR,OBJ_ID,TEMPLATE_TYPE_CODE) values ('FDP_NASA','NASA Attachment',NOW(),'admin',
 '<?xml version="1.0" encoding="UTF-8"?>
@@ -10298,7 +10298,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																	</xsl:when>
 																</xsl:choose>
 																<fo:inline>
-																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (includingany computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (includingany computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime RecipientÂ’s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -10315,11 +10315,11 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime RecipientÂ’s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipient’s right to practice a Subrecipients’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
+																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient Â’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime RecipientÂ’s right to practice a SubrecipientsÂ’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -10346,7 +10346,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																		</fo:inline>
 																		<fo:block/>
 																		<fo:inline>
-																			<xsl:text>Carry Forward requests must be sent to Prime Recipient’s - </xsl:text>
+																			<xsl:text>Carry Forward requests must be sent to Prime RecipientÂ’s - </xsl:text>
 																		</fo:inline>
 																		<xsl:for-each select="subcontract:SubContractData">
 																			<xsl:for-each select="subcontract:SubcontractTemplateInfo">
@@ -10406,13 +10406,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -10420,7 +10420,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -10654,7 +10654,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 														<fo:list-item-body start-indent="body-start()">
 															<fo:block font-family="time" font-size="10pt" font-weight="normal">
 																<fo:inline>
-																	<xsl:text>Subrecipient assures, by signing this Subaward Agreement, that all Subrecipient’s personnel who are responsible for the design and conduct of projects involving human research participants have successfully completed their institutional training in accordance with the NIH Guide, Notice OD-00-039.</xsl:text>
+																	<xsl:text>Subrecipient assures, by signing this Subaward Agreement, that all SubrecipientÂ’s personnel who are responsible for the design and conduct of projects involving human research participants have successfully completed their institutional training in accordance with the NIH Guide, Notice OD-00-039.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -10906,7 +10906,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																	</xsl:when>
 																</xsl:choose>
 																<fo:inline>
-																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime RecipientÂ’s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -10923,7 +10923,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime RecipientÂ’s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -10950,7 +10950,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																		</fo:inline>
 																		<fo:block/>
 																		<fo:inline>
-																			<xsl:text>Carry Forward requests must be sent to Prime Recipient’s - </xsl:text>
+																			<xsl:text>Carry Forward requests must be sent to Prime RecipientÂ’s - </xsl:text>
 																		</fo:inline>
 																		<xsl:for-each select="subcontract:SubContractData">
 																			<xsl:for-each select="subcontract:SubcontractTemplateInfo">
@@ -11010,13 +11010,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -11024,7 +11024,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -11454,7 +11454,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																	</xsl:when>
 																</xsl:choose>
 																<fo:inline>
-																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime RecipientÂ’s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -11471,11 +11471,11 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime RecipientÂ’s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipient’s right to practice a Subrecipients’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
+																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient Â’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime RecipientÂ’s right to practice a SubrecipientsÂ’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -11502,7 +11502,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																		</fo:inline>
 																		<fo:block/>
 																		<fo:inline>
-																			<xsl:text>Carry Forward requests must be sent to Prime Recipient’s - </xsl:text>
+																			<xsl:text>Carry Forward requests must be sent to Prime RecipientÂ’s - </xsl:text>
 																		</fo:inline>
 																		<xsl:for-each select="subcontract:SubContractData">
 																			<xsl:for-each select="subcontract:SubcontractTemplateInfo">
@@ -11562,13 +11562,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -11576,7 +11576,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -12011,7 +12011,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																	</xsl:when>
 																</xsl:choose>
 																<fo:inline>
-																	<xsl:text>to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime RecipientÂ’s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -12028,11 +12028,11 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime RecipientÂ’s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipient’s right to practice a Subrecipients’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
+																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient Â’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime RecipientÂ’s right to practice a SubrecipientsÂ’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -12059,7 +12059,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																		</fo:inline>
 																		<fo:block/>
 																		<fo:inline>
-																			<xsl:text>Carry Forward requests must be sent to Prime Recipient’s - </xsl:text>
+																			<xsl:text>Carry Forward requests must be sent to Prime RecipientÂ’s - </xsl:text>
 																		</fo:inline>
 																		<xsl:for-each select="subcontract:SubContractData">
 																			<xsl:for-each select="subcontract:SubcontractTemplateInfo">
@@ -12119,13 +12119,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -12133,7 +12133,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -12542,7 +12542,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																	</xsl:when>
 																</xsl:choose>
 																<fo:inline>
-																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime RecipientÂ’s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -12559,11 +12559,11 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime RecipientÂ’s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipient’s right to practice a Subrecipients’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
+																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient Â’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime RecipientÂ’s right to practice a SubrecipientsÂ’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -12590,7 +12590,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																		</fo:inline>
 																		<fo:block/>
 																		<fo:inline>
-																			<xsl:text>Carry Forward requests must be sent to Prime Recipient’s - </xsl:text>
+																			<xsl:text>Carry Forward requests must be sent to Prime RecipientÂ’s - </xsl:text>
 																		</fo:inline>
 																		<xsl:for-each select="subcontract:SubContractData">
 																			<xsl:for-each select="subcontract:SubcontractTemplateInfo">
@@ -12650,13 +12650,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -12664,7 +12664,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -12672,7 +12672,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-</xsl:stylesheet>',EMPTY_CLOB(),'USDA Attachment.xsl','application/octet-stream',1,UUID(),2)
+</xsl:stylesheet>','USDA Attachment.xsl','application/octet-stream',1,UUID(),2)
 /
 commit
 /
