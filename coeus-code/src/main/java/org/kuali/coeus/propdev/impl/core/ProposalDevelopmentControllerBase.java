@@ -18,9 +18,12 @@ package org.kuali.coeus.propdev.impl.core;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.specialreview.impl.rule.event.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.TransactionalDocumentControllerService;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -123,6 +126,15 @@ public abstract class ProposalDevelopmentControllerBase {
              HttpServletRequest request, HttpServletResponse response) throws Exception {
          ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
          ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
+         DevelopmentProposal proposal = proposalDevelopmentDocument.getDevelopmentProposal();
+         // must set FKs since there is apparently a problem with JPA
+		 for (ProposalPerson person: proposal.getProposalPersons()) {
+  			 for (ProposalPersonUnit pUnit: person.getUnits()) {
+				 pUnit.setProposalNumber(proposal.getProposalNumber());
+				 pUnit.setProposalPersonNumber(person.getProposalPersonNumber());
+  			 }
+		 }
+
          proposalDevelopmentService.initializeUnitOrganizationLocation(
                  proposalDevelopmentDocument);
          proposalDevelopmentService.initializeProposalSiteNumbers(
