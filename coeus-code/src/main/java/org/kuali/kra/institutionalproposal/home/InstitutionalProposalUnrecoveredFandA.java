@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.institutionalproposal.home;
 
-import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
-import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
+import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
+import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.kra.award.home.ValuableItem;
 import org.kuali.kra.institutionalproposal.IndirectcostRateType;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;

@@ -20,7 +20,7 @@ import org.kuali.coeus.common.framework.keyword.KeywordsManager;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
+import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.type.ActivityType;

@@ -16,7 +16,7 @@
 package org.kuali.kra.institutionalproposal.contacts;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
+import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;

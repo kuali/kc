@@ -19,7 +19,7 @@ import org.kuali.coeus.common.framework.contact.Contactable;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;
-import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
+import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;

@@ -17,7 +17,7 @@ package org.kuali.kra.award.home.keywords;
 
 import org.kuali.coeus.common.framework.keyword.AbstractScienceKeyword;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
-import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
+import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.kra.award.home.Award;
 
 /**

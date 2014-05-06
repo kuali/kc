@@ -7,4 +7,4 @@
  * @author Kuali Coeus Development Team
  *
  */
-package org.kuali.coeus.common.framework.editable;
+package org.kuali.coeus.common.framework.person.editable;

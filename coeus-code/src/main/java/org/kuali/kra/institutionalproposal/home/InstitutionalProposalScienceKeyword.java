@@ -17,8 +17,8 @@ package org.kuali.kra.institutionalproposal.home;
 
 import org.kuali.coeus.common.framework.keyword.AbstractScienceKeyword;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
-import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
-import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
+import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
+import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 
 public class InstitutionalProposalScienceKeyword extends AbstractScienceKeyword implements SequenceAssociate {
 

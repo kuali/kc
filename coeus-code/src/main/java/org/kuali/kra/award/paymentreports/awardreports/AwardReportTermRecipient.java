@@ -16,7 +16,7 @@
 package org.kuali.kra.award.paymentreports.awardreports;
 
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
+import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.AwardTemplateSyncScope;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;

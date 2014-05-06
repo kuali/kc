@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.framework.sequence.owner;
+package org.kuali.coeus.common.framework.version.sequence.owner;
 
-import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
+import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 
 /**
  * This interface applies to classes that own a sequence number.

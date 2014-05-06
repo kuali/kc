@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.service.impl.versioningartifacts;
 
-import org.kuali.coeus.common.framework.sequence.associate.SeparatelySequenceableAssociate;
+import org.kuali.coeus.common.framework.version.sequence.associate.SeparatelySequenceableAssociate;
 
 import java.util.Random;
 

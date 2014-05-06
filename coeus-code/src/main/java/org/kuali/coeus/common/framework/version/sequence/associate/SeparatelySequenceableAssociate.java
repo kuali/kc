@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.framework.sequence.associate;
+package org.kuali.coeus.common.framework.version.sequence.associate;
 
-import org.kuali.coeus.common.framework.sequence.Sequenceable;
+import org.kuali.coeus.common.framework.version.sequence.Sequenceable;
 
 
 
