@@ -305,21 +305,9 @@
     <property name="description" value="Modification Effective Date " />    
   </bean>
   
-   <bean id="SubAwardAmountInfo-modificationID" parent="SubAwardAmountInfo-modificationID-parentBean" />
-  
-  <bean id="SubAwardAmountInfo-modificationID-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="modificationID" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Modification ID" />
-    <property name="shortLabel" value="Modification ID" />
-    <property name="maxLength" value="4000" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
-    <property name="summary" value="Modification ID" />
-    <property name="description" value="Modification ID" />    
+  <bean id="SubAwardAmountInfo-modificationID" parent="SubAwardAmountInfo-modificationID-parentBean" />
+  <bean id="SubAwardAmountInfo-modificationID-parentBean" abstract="true" parent="SubAward-modificationId">
+      <property name="name" value="modificationID" />
   </bean> 
   
   <bean id="SubAwardAmountInfo-periodofPerformanceStartDate" parent="SubAwardAmountInfo-periodofPerformanceStartDate-parentBean" />
