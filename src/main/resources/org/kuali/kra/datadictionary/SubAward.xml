@@ -673,15 +673,17 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Modification ID" />
     <property name="shortLabel" value="Modification ID" />
-    <property name="maxLength" value="10" />
+    <property name="maxLength" value="50" />
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
+      <bean parent="TextareaControlDefinition"
+            p:rows="2"
+            p:cols="30" />
     </property>
     <property name="summary" value="Modification ID" />
     <property name="description" value="Modification ID" />    
-  </bean>
+  </bean> 
+  
   <bean id="SubAward-performanceStartDate" parent="SubAward-performanceStartDate-parentBean" />
   
   <bean id="SubAward-performanceStartDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
