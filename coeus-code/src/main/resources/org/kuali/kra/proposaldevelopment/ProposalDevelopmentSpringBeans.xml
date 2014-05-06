@@ -56,10 +56,6 @@
         </property>
         <property name="dataDictionaryPackages">
             <list>
-                <value>classpath:org/kuali/coeus/propdev/impl/abstrct/ProposalAbstractsPage.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/attachment/institute/ProposalInternalAttachmentsPage.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/note/ProposalNotesPage.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/person/attachment/ProposalPersonnelAttachmentsPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/attachment/ProposalAttachmentsPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalCommon.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/specialreview/ProposalCompliancePage.xml</value>

@@ -30,6 +30,7 @@
 				<value>scripts/common/questionnaire.js</value>
 				<value>scripts/propdev/core.js</value>
 				<value>scripts/propdev/person.js</value>
+                <value>scripts/propdev/attachments.js</value>
 			</list>
 		</property>
 		<property name="additionalCssFiles">
@@ -53,11 +54,7 @@
 				<ref bean="PropDev-PersonnelPage" />
 				<ref bean="PropDev-CompliancePage" />
 				<ref bean="PropDev-OrganizationLocationsPage" />
-				<ref bean="PropDev-ProposalAttachmentsPage" />
-				<ref bean="PropDev-InternalAttachmentsPage" />
-				<ref bean="PropDev-PersonnelAttachmentsPage" />
-				<ref bean="PropDev-AbstractsPage" />
-				<ref bean="PropDev-NotesPage" />
+				<ref bean="PropDev-AttachmentsPage" />
 				<ref bean="PropDev-QuestionnairePage" />
 				<ref bean="PropDev-SponsorProgramInfoPage" />
 				<ref bean="PropDev-DeliveryInfoPage" />
@@ -157,22 +154,8 @@
 		p:actionLabel="Compliance" p:iconClass="icon-ok" />
 	<bean id="PropDev-NavigationMenu-Attachments" parent="PropDev-NavigationMenu-Attachments-parentBean" />
 	<bean id="PropDev-NavigationMenu-Attachments-parentBean" abstract="true"
-		parent="Uif-SidebarToggleMenu" p:toggleText="Attachments" p:iconClass="icon-paper-clip">
-		<property name="menuItems">
-			<list>
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-ProposalAttachmentsPage"
-					p:actionLabel="Proposal Attachments" p:order="10" />
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-PersonnelAttachmentsPage"
-					p:actionLabel="Personnel Attachments" p:order="20" />
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-InternalAttachmentsPage"
-					p:actionLabel="Internal Attachments" p:order="30" />
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-AbstractsPage"
-					p:actionLabel="Abstracts" p:order="40" />
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-NotesPage"
-					p:actionLabel="Notes" p:order="50" />
-			</list>
-		</property>
-	</bean>
+		parent="Uif-MenuAction" p:navigateToPageId="PropDev-AttachmentsPage"
+        p:actionLabel="Attachments" p:iconClass="icon-paper-clip"/>
 	<bean id="PropDev-NavigationMenu-Questionnaire" parent="PropDev-NavigationMenu-Questionnaire-parentBean" />
 	<bean id="PropDev-NavigationMenu-Questionnaire-parentBean"
 		abstract="true" parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-QuestionnairePage"
