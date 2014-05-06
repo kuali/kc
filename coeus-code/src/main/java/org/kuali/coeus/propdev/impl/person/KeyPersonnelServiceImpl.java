@@ -20,7 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
-import org.kuali.coeus.common.framework.editable.PersonEditableService;
+import org.kuali.coeus.common.framework.person.editable.PersonEditableService;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.attr.PersonBiosketch;
 import org.kuali.coeus.common.framework.person.attr.PersonDegree;

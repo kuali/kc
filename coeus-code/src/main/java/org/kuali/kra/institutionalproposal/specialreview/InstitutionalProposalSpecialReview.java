@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.specialreview;
 
-import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
+import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 

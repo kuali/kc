@@ -17,7 +17,7 @@ package org.kuali.coeus.common.framework.attachment;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.sys.api.model.KcFile;
-import org.kuali.coeus.common.framework.sequence.associate.SeparateAssociate;
+import org.kuali.coeus.common.framework.version.sequence.associate.SeparateAssociate;
 
 import java.io.IOException;
 import java.util.Arrays;

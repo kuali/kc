@@ -17,9 +17,9 @@ package org.kuali.coeus.common.impl.version;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.common.framework.sequence.Sequenceable;
-import org.kuali.coeus.common.framework.sequence.associate.SeparatelySequenceableAssociate;
-import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
+import org.kuali.coeus.common.framework.version.sequence.Sequenceable;
+import org.kuali.coeus.common.framework.version.sequence.associate.SeparatelySequenceableAssociate;
+import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.springframework.stereotype.Component;

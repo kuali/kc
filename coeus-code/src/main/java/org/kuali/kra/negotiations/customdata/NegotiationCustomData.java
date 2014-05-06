@@ -17,7 +17,7 @@ package org.kuali.kra.negotiations.customdata;
 
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
-import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
+import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.kra.negotiations.NegotiationAssociate;
 import org.kuali.kra.negotiations.bo.Negotiation;
 

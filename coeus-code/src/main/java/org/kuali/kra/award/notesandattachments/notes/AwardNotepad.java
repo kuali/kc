@@ -142,7 +142,7 @@ public class AwardNotepad extends AwardAssociate implements KraNotepadInterface 
     }
 
 
-     * @see org.kuali.coeus.common.framework.sequence.Sequenceable#resetPersistenceState()
+     * @see org.kuali.coeus.common.framework.version.sequence.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.awardNotepadId = null;

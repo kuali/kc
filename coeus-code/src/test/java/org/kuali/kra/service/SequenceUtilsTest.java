@@ -18,7 +18,7 @@ package org.kuali.kra.service;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
+import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.coeus.common.impl.version.SequenceUtils;
 import org.kuali.kra.SkipVersioning;
