@@ -25,7 +25,7 @@ import org.kuali.coeus.propdev.impl.attachment.institute.*;
 import org.kuali.coeus.propdev.impl.abstrct.AbstractsRule;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.basic.ProposalDevelopmentProposalRequiredFieldsAuditRule;
-import org.kuali.coeus.propdev.impl.basic.ProposalDevelopmentSponsorProgramInformationAuditRule;
+import org.kuali.coeus.propdev.impl.sponsor.ProposalDevelopmentSponsorProgramInformationAuditRule;
 import org.kuali.coeus.propdev.impl.budget.editable.BudgetDataOverrideEvent;
 import org.kuali.coeus.propdev.impl.budget.editable.BudgetDataOverrideRule;
 import org.kuali.coeus.propdev.impl.budget.editable.ProposalBudgetDataOverrideRule;
