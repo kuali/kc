@@ -79,6 +79,7 @@ import edu.mit.coeus.utils.xml.bean.subcontractFdpReports.subcontract.SubContrac
 import edu.mit.coeus.utils.xml.bean.subcontractFdpReports.subcontract.SubContractDataDocument.SubContractData.PrimeRecipientContacts;
 import edu.mit.coeus.utils.xml.bean.subcontractFdpReports.subcontract.SubContractDataDocument.SubContractData.PrintRequirement;
 import edu.mit.coeus.utils.xml.bean.subcontractFdpReports.subcontract.SubContractDataDocument.SubContractData.SubcontractAmountInfo;
+import edu.mit.coeus.utils.xml.bean.subcontractFdpReports.subcontract.SubContractDataDocument.SubContractData.SubcontractAttachments;
 import edu.mit.coeus.utils.xml.bean.subcontractFdpReports.subcontract.SubContractDataDocument.SubContractData.SubcontractContacts.RolodexDetails;
 import edu.mit.coeus.utils.xml.bean.subcontractFdpReports.subcontract.SubContractDataDocument.SubContractData.SubcontractDetail;
 import edu.mit.coeus.utils.xml.bean.subcontractFdpReports.subcontract.SubContractDataDocument.SubContractData.SubcontractReports;
@@ -449,7 +450,6 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             printrequirement.setAttachment5Required("N");
             printrequirement.setAttachment3BRequired("N");
             printrequirement.setAttachment4Required("N");
-            String subawardAttachment5 = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_SUBAWARD_ATTACHMENT_5);
             String subawardAttachment4 = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_SUBAWARD_ATTACHMENT_4);
             String subawardAttachment3B = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_SUBAWARD_ATTACHMENT_3B);
             
@@ -460,9 +460,6 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 if(subAwardForms.getFormId().equals(subawardAttachment3B)){
                     printrequirement.setAttachment3BRequired("Y");
                 }
-            }
-            if(subawardAttachment5.equals("1")){
-              printrequirement.setAttachment5Required("Y");
             }
             printrequirement.setImageCheckedPath(imagePath);
             printrequirement.setImageUncheckedPath(imagePath);
@@ -685,5 +682,6 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                }
                 subContractData.setSubcontractReportsArray((SubcontractReports[])subContractReportsList.toArray(new SubcontractReports [0]));
             }
+            
             
 }
