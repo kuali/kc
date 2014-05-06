@@ -18,11 +18,12 @@ package org.kuali.coeus.propdev.impl.s2s;
 import javax.persistence.*;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormAttContract;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
 @Entity
 @Table(name = "S2S_USER_ATTACHED_FORM_ATT")
-public class S2sUserAttachedFormAtt extends KcPersistableBusinessObjectBase { 
+public class S2sUserAttachedFormAtt extends KcPersistableBusinessObjectBase implements S2sUserAttachedFormAttContract {
     
     private static final long serialVersionUID = 1L;
 
@@ -30,7 +31,7 @@ public class S2sUserAttachedFormAtt extends KcPersistableBusinessObjectBase {
     @GeneratedValue(generator = "SEQ_S2S_USER_ATTD_FORM_ATT_ID")
     @Id
     @Column(name = "S2S_USER_ATTACHED_FORM_ATT_ID")
-    private Long s2sUserAttachedFormAttId; 
+    private Long id;
     
     @Column(name = "S2S_USER_ATTACHED_FORM_ID")
     private Long s2sUserAttachedFormId;
@@ -39,10 +40,10 @@ public class S2sUserAttachedFormAtt extends KcPersistableBusinessObjectBase {
     private String proposalNumber;
     
     @Column(name = "CONTENT_TYPE")
-    private String contentType;
+    private String type;
     
     @Column(name = "FILE_NAME")
-    private String fileName;
+    private String name;
     
     @Column(name = "CONTENT_ID")
     private String contentId;
@@ -50,24 +51,22 @@ public class S2sUserAttachedFormAtt extends KcPersistableBusinessObjectBase {
     @Column(name = "ATTACHMENT")
     @Basic(fetch = FetchType.LAZY)
     @Lob
-    private byte[] attachment; 
+    private byte[] data;
     
     @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "S2S_USER_ATTACHED_FORM_ID", insertable = false, updatable = false)
-    private S2sUserAttachedForm s2sUserAttachedForm; 
-    
-    public S2sUserAttachedFormAtt() { 
+    private S2sUserAttachedForm s2sUserAttachedForm;
 
-    } 
-    
-    public Long getS2sUserAttachedFormAttId() {
-        return s2sUserAttachedFormAttId;
+    @Override
+    public Long getId() {
+        return id;
     }
 
-    public void setS2sUserAttachedFormAttId(Long s2sUserAttachedFormAttId) {
-        this.s2sUserAttachedFormAttId = s2sUserAttachedFormAttId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
+    @Override
     public Long getS2sUserAttachedFormId() {
         return s2sUserAttachedFormId;
     }
@@ -76,6 +75,7 @@ public class S2sUserAttachedFormAtt extends KcPersistableBusinessObjectBase {
         this.s2sUserAttachedFormId = s2sUserAttachedFormId;
     }
 
+    @Override
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -84,22 +84,25 @@ public class S2sUserAttachedFormAtt extends KcPersistableBusinessObjectBase {
         this.proposalNumber = proposalNumber;
     }
 
-    public String getContentType() {
-        return contentType;
+    @Override
+    public String getType() {
+        return type;
     }
 
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getFileName() {
-        return fileName;
+    @Override
+    public String getName() {
+        return name;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setName(String name) {
+        this.name = name;
     }
 
+    @Override
     public String getContentId() {
         return contentId;
     }
@@ -108,12 +111,13 @@ public class S2sUserAttachedFormAtt extends KcPersistableBusinessObjectBase {
         this.contentId = contentId;
     }
 
-    public byte[] getAttachment() {
-        return attachment;
+    @Override
+    public byte[] getData() {
+        return data;
     }
 
-    public void setAttachment(byte[] attachment) {
-        this.attachment = attachment;
+    public void setData(byte[] data) {
+        this.data = data;
     }
 
     public S2sUserAttachedForm getS2sUserAttachedForm() {

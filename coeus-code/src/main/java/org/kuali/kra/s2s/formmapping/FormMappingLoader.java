@@ -17,10 +17,10 @@ package org.kuali.kra.s2s.formmapping;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.propdev.api.s2s.UserAttachedFormService;
+import org.kuali.kra.s2s.generator.impl.UserAttachedFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -84,16 +84,13 @@ public class FormMappingLoader {
     }
 
     private FormMappingInfo getUserAttachedForm(String proposalNumber,String namespace) {
-        Map<String, Object> fieldMap = new HashMap<String, Object>();
-        fieldMap.put("proposalNumber", proposalNumber);
-        fieldMap.put("namespace", namespace);
-        List<S2sUserAttachedForm> formList = (List<S2sUserAttachedForm>) KcServiceLocator.getService(BusinessObjectService.class).
-                                                    findMatching(S2sUserAttachedForm.class,fieldMap);
-        if(!formList.isEmpty()){
-            S2sUserAttachedForm userAttachedForm=formList.get(0);
+        String formName = KcServiceLocator.getService(UserAttachedFormService.class).
+                findFormNameByProposalNumberAndNamespace(proposalNumber, namespace);
+
+        if (formName != null) {
             FormMappingInfo mappingInfo = new FormMappingInfo();
-            mappingInfo.setFormName(userAttachedForm.getFormName());
-            mappingInfo.setMainClass("org.kuali.kra.s2s.generator.impl.UserAttachedFormGenerator");
+            mappingInfo.setFormName(formName);
+            mappingInfo.setMainClass(UserAttachedFormGenerator.class.getName());
             mappingInfo.setNameSpace(namespace);
             mappingInfo.setSortIndex(999);
             mappingInfo.setStyleSheet(createStylesheetName(namespace));

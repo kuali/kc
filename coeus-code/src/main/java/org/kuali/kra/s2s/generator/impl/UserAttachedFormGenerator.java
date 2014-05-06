@@ -17,27 +17,18 @@ package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.budgetV11.BudgetNarrativeAttachmentsDocument;
 import gov.grants.apply.forms.budgetV11.BudgetNarrativeAttachmentsDocument.BudgetNarrativeAttachments;
-import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
-import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin1Max100DataType;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
-import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormAtt;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormAttContract;
+import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormContract;
+import org.kuali.coeus.propdev.api.s2s.UserAttachedFormService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
-import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 
@@ -60,7 +51,7 @@ public class UserAttachedFormGenerator extends S2SBaseFormGenerator {
      */
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
-        S2sUserAttachedForm userAttachedForm = findUserAttachedForm();
+        S2sUserAttachedFormContract userAttachedForm = findUserAttachedForm();
         String formXml = userAttachedForm.getXmlFile();
         XmlObject xmlObject;
         try {
@@ -68,31 +59,26 @@ public class UserAttachedFormGenerator extends S2SBaseFormGenerator {
         }catch (XmlException e) {
             throw new RuntimeException("XmlObject not ready");
         }
-        userAttachedForm.refreshReferenceObject("s2sUserAttachedFormAtts");
-        List<S2sUserAttachedFormAtt> attachments = userAttachedForm.getS2sUserAttachedFormAtts();
+        List<? extends S2sUserAttachedFormAttContract> attachments = userAttachedForm.getS2sUserAttachedFormAtts();
         for (Iterator iterator = attachments.iterator(); iterator.hasNext();) {
-            S2sUserAttachedFormAtt s2sUserAttachedFormAtt = (S2sUserAttachedFormAtt) iterator.next();
+            S2sUserAttachedFormAttContract s2sUserAttachedFormAtt = (S2sUserAttachedFormAttContract) iterator.next();
             addAttachment(s2sUserAttachedFormAtt);
         }
         return xmlObject;
     }
 
-    private void addAttachment(S2sUserAttachedFormAtt s2sUserAttachedFormAtt) {
+    private void addAttachment(S2sUserAttachedFormAttContract s2sUserAttachedFormAtt) {
         AttachmentData attachmentData = new AttachmentData();
-        attachmentData.setContent(s2sUserAttachedFormAtt.getAttachment());
+        attachmentData.setContent(s2sUserAttachedFormAtt.getData());
         attachmentData.setContentId(s2sUserAttachedFormAtt.getContentId());
-        attachmentData.setContentType(s2sUserAttachedFormAtt.getContentType());
+        attachmentData.setContentType(s2sUserAttachedFormAtt.getType());
         attachmentData.setFileName(s2sUserAttachedFormAtt.getContentId());
         addAttachment(attachmentData);
     }
 
-    private S2sUserAttachedForm findUserAttachedForm() {
-        Map<String,Object> fieldValues = new HashMap<String,Object>();
-        fieldValues.put("proposalNumber", pdDoc.getDevelopmentProposal().getProposalNumber());
-        fieldValues.put("namespace", getNamespace());
-        List<S2sUserAttachedForm> userAttachedForms = (List<S2sUserAttachedForm>) KcServiceLocator.getService(BusinessObjectService.class).
-                                                                findMatching(S2sUserAttachedForm.class, fieldValues);
-        return userAttachedForms.isEmpty()?null:userAttachedForms.get(0);
+    private S2sUserAttachedFormContract findUserAttachedForm() {
+        return  KcServiceLocator.getService(UserAttachedFormService.class).
+                findFormByProposalNumberAndNamespace(pdDoc.getDevelopmentProposal().getProposalNumber(), getNamespace());
     }
 
     /**

@@ -519,16 +519,16 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
             fileNode = fileNodeMap.getNamedItemNS("http://apply.grants.gov/system/Attachments-V1.0", "href");
             contentId = fileNode.getNodeValue();
             S2sUserAttachedFormAtt userAttachedFormAttachmentBean = new S2sUserAttachedFormAtt();
-            userAttachedFormAttachmentBean.setAttachment(fileBytes);
+            userAttachedFormAttachmentBean.setData(fileBytes);
             userAttachedFormAttachmentBean.setContentId(contentId);
-            userAttachedFormAttachmentBean.setFileName(fileName);
+            userAttachedFormAttachmentBean.setName(fileName);
             
             mimeTypeNode = lstMimeType.item(0);
             String contentType = mimeTypeNode.getFirstChild().getNodeValue();
-            userAttachedFormAttachmentBean.setContentType(contentType);
+            userAttachedFormAttachmentBean.setType(contentType);
 
             userAttachedFormAttachmentBean.setProposalNumber(userAttachedFormBean.getProposalNumber());
-            userAttachedFormAttachmentBean.setS2sUserAttachedFormId(userAttachedFormBean.getS2sUserAttachedFormId());
+            userAttachedFormAttachmentBean.setS2sUserAttachedFormId(userAttachedFormBean.getId());
             attachmentList.add(userAttachedFormAttachmentBean);
         }
         userAttachedFormBean.setS2sUserAttachedFormAtts(attachmentList);
