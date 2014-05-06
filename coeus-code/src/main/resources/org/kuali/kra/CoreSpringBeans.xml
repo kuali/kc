@@ -75,7 +75,8 @@
         <property name="namespaceCode" value="KC-CORE" />
         <property name="packagePrefixes">
             <list>
-                <value>org.kuali</value>
+                <value>org.kuali.kra</value>
+                <value>org.kuali.coeus</value>
             </list>
         </property>
         <property name="dataDictionaryPackages">
