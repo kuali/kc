@@ -31,7 +31,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.service.S2SService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -52,6 +51,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
 
 
     private S2SService s2SService;
+    private S2SUserAttachedFormService s2SUserAttachedFormService;
     
 	/**
      *  
@@ -282,12 +282,6 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         return super.printForms(mapping, proposalDevelopmentForm, request, response);
        
     }
-    
-    protected S2SService getS2SService() {
-    	if (s2SService == null)
-    		s2SService = KcServiceLocator.getService(S2SService.class);
-		return s2SService;
-	}
 
     /**
      * 
@@ -310,7 +304,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         s2sUserAttachedForm.setProposalNumber(developmentProposal.getProposalNumber());
         List<S2sUserAttachedForm> userAttachedForms = new ArrayList<S2sUserAttachedForm>();
         try{
-            userAttachedForms = KcServiceLocator.getService(S2SUserAttachedFormService.class).
+            userAttachedForms = getS2SUserAttachedFormService().
                                                 extractNSaveUserAttachedForms(developmentProposal,s2sUserAttachedForm);
             developmentProposal.getS2sUserAttachedForms().addAll(userAttachedForms);
             proposalDevelopmentForm.setNewS2sUserAttachedForm(new S2sUserAttachedForm());
@@ -343,7 +337,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
         if(selectedForm.getXmlFile()==null){
-            selectedForm = KcServiceLocator.getService(BusinessObjectService.class).
+            selectedForm = getBusinessObjectService().
                         findBySinglePrimaryKey(S2sUserAttachedForm.class, selectedForm.getId());
         }
         streamToResponse(selectedForm.getXmlFile().getBytes(), selectedForm.getFormName()+".xml", CONTENT_TYPE_XML, response);
@@ -366,7 +360,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
         if(selectedForm.getFormFile()==null || selectedForm.getFormFile().length==0){
-            selectedForm = KcServiceLocator.getService(BusinessObjectService.class).
+            selectedForm = getBusinessObjectService().
                         findBySinglePrimaryKey(S2sUserAttachedForm.class, selectedForm.getId());
         }
         streamToResponse(selectedForm.getFormFile(), selectedForm.getFormFileName(), CONTENT_TYPE_PDF, response);
@@ -390,7 +384,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
         S2sUserAttachedFormAtt attachment = selectedForm.getS2sUserAttachedFormAtts().get(getParameterForToken(request, "attIndex"));
         if(attachment.getData()==null || attachment.getData().length==0){
-            attachment = KcServiceLocator.getService(BusinessObjectService.class).
+            attachment = getBusinessObjectService().
                         findBySinglePrimaryKey(S2sUserAttachedFormAtt.class, attachment.getId());
         }
         streamToResponse(attachment.getData(), attachment.getName(), attachment.getType(), response);
@@ -425,9 +419,20 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
         S2sUserAttachedForm deleteForm = developmentProposal.getS2sUserAttachedForms().remove(getSelectedLine(request));
-        KcServiceLocator.getService(S2SUserAttachedFormService.class).
-                                                                resetFormAvailability(developmentProposal,deleteForm.getNamespace());
+        getS2SUserAttachedFormService().resetFormAvailability(developmentProposal,deleteForm.getNamespace());
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    protected S2SUserAttachedFormService getS2SUserAttachedFormService() {
+        if (s2SUserAttachedFormService == null)
+            s2SUserAttachedFormService = KcServiceLocator.getService(S2SUserAttachedFormService.class);
+        return s2SUserAttachedFormService;
+    }
+
+    protected S2SService getS2SService() {
+        if (s2SService == null)
+            s2SService = KcServiceLocator.getService(S2SService.class);
+        return s2SService;
     }
 
 }
