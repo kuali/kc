@@ -17,6 +17,7 @@ package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
@@ -24,9 +25,8 @@ import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.service.LookupService;
-import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
-import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,7 +42,8 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     private transient LegacyDataAdapter legacyDataAdapter;
     private transient LookupService lookupService;
 
-    public void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    @Override
+    public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, String collectionPath) {
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
         ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
         if (addLine instanceof Narrative) {
@@ -53,9 +54,13 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             }
         } else if (addLine instanceof ProposalPersonBiography) {
             document.getDevelopmentProposal().addProposalPersonBiography((ProposalPersonBiography) addLine);
+        } else if (addLine instanceof ProposalAbstract) {
+            ProposalAbstract proposalAbstract = (ProposalAbstract) addLine;
+            proposalAbstract.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+            proposalAbstract.refreshReferenceObject("abstractType");
         }
     }
-    
+
     public static class SponsorSuggestResult {
         private Sponsor sponsor;
         public SponsorSuggestResult(Sponsor sponsor) {
