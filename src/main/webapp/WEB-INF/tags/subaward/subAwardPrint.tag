@@ -25,8 +25,6 @@
 	width: 32%;
 	float: left;
 	padding-left: 65px;
-	margin: 0;
-	margin-bottom: 1em;
 	padding-right: .2em;
 }
 .multi-col-list dl dd ul { 
@@ -47,7 +45,7 @@
 		</h3>
 		<table id="print-table" cellpadding="0" cellspacing="0" summary="Print Options">
 			<tr>
-				<th rowspan="7" scope="row" style="width:150px; text-align:center;">Agreement/Modification</th>
+				<th rowspan="8" scope="row" style="width:150px; text-align:center;">Agreement/Modification</th>
 				</tr>
 				<tr>
 				<td scope="row" style="width:160px; text-align:center;" nowrap="nowrap">
@@ -62,7 +60,7 @@
 						</ul></dd></dl>
 					</div>
 						</td>
-						<td rowspan="4" class="infoline" style="text-align:center;"><html:image property="methodToCall.printForms"
+						<td rowspan="5" class="infoline" style="text-align:center;"><html:image property="methodToCall.printForms"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
 						alt="Print Award Notice" styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/></td>
 				</tr>
@@ -176,6 +174,41 @@
 				</td>
 				
 			   </tr>
+			   <tr>
+				<td scope="row" style="width:160px; text-align:center;">SubAward Attachments:</td>
+				
+				<td>
+				
+				
+				<div class="multi-col-list" id="awardPrintNoticeItems">
+				 <dl>
+				<c:forEach var="attachment" items="${KualiForm.document.subAwardList[0].subAwardAttachments}" varStatus="status">
+				<c:if test="${KualiForm.document.subAwardList[0].subAwardAttachments[status.index].fileNameSplit!=null}" >
+				<c:choose>
+				<c:when test="${status.index % 2 == 0}" >
+				 <dd><ul>
+				  <li>
+				  <html:checkbox property="document.subAwardList[0].subAwardAttachments[${status.index}].selectToPrint"/>
+				  <c:out value="${KualiForm.document.subAwardList[0].subAwardAttachments[status.index].fileNameSplit}"/>
+				  </li>
+				</ul></dd>
+      			   </c:when>
+      			  <c:otherwise >
+      			 <dd><ul>
+      			  <li>
+				  <html:checkbox property="document.subAwardList[0].subAwardAttachments[${status.index}].selectToPrint"/>
+				  <c:out value="${KualiForm.document.subAwardList[0].subAwardAttachments[status.index].fileNameSplit}"/>
+				  </li>
+      			  </ul></dd>
+      			  </c:otherwise>
+      			  </c:choose>
+      			  </c:if>
+      			  </c:forEach>
+      			  </dl>
+      			 </div>
+      			  </td>
+      			  </tr>
+			   
 				<tr>
 				  <td colspan="3" style="text-align: center;">
 					  <html:image property="methodToCall.selectAllSubAwardPrintNoticeItems.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="setAllItemsIn('awardPrintNoticeItems', true);return false;" />
