@@ -15,12 +15,19 @@
  */
 package org.kuali.coeus.propdev.impl.core;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.rice.krad.service.LookupService;
@@ -30,12 +37,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service("proposalDevelopmentViewHelperService")
 @Scope("prototype")
@@ -63,6 +64,8 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             }
         } else if (addLine instanceof ProposalPersonBiography) {
             document.getDevelopmentProposal().addProposalPersonBiography((ProposalPersonBiography) addLine);
+		} else if (addLine instanceof ProposalPersonUnit) {
+			((ProposalPersonUnit)addLine).setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         } else if (addLine instanceof ProposalAbstract) {
             ProposalAbstract proposalAbstract = (ProposalAbstract) addLine;
             proposalAbstract.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());

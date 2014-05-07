@@ -18,6 +18,8 @@ package org.kuali.coeus.propdev.impl.core;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.specialreview.impl.rule.event.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.TransactionalDocumentControllerService;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -123,6 +125,7 @@ public abstract class ProposalDevelopmentControllerBase {
              HttpServletRequest request, HttpServletResponse response) throws Exception {
          ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
          ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
+
          proposalDevelopmentService.initializeUnitOrganizationLocation(
                  proposalDevelopmentDocument);
          proposalDevelopmentService.initializeProposalSiteNumbers(
