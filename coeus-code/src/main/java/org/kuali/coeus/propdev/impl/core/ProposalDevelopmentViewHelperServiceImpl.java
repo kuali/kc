@@ -23,41 +23,20 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
-<<<<<<< HEAD
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-=======
->>>>>>> KRACOEUS-7011: Update Add Unit panel for PropDev
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
-<<<<<<< HEAD
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
-=======
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.service.LegacyNarrativeService;
-import org.kuali.rice.krad.service.LegacyDataAdapter;
->>>>>>> KRACOEUS-7011: Update Add Unit panel for PropDev
 import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
-<<<<<<< HEAD
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-=======
-import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.uif.view.ViewModel;
->>>>>>> KRACOEUS-7011: Update Add Unit panel for PropDev
 
 @Service("proposalDevelopmentViewHelperService")
 @Scope("prototype")
@@ -75,7 +54,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, String collectionPath) {
-<<<<<<< HEAD
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
         ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
         if (addLine instanceof Narrative) {
@@ -86,6 +64,8 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             }
         } else if (addLine instanceof ProposalPersonBiography) {
             document.getDevelopmentProposal().addProposalPersonBiography((ProposalPersonBiography) addLine);
+		} else if (addLine instanceof ProposalPersonUnit) {
+			((ProposalPersonUnit)addLine).setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         } else if (addLine instanceof ProposalAbstract) {
             ProposalAbstract proposalAbstract = (ProposalAbstract) addLine;
             proposalAbstract.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
@@ -93,24 +73,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         }
     }
 
-=======
-    	super.processBeforeAddLine(model, addLine, collectionId, collectionPath);
-    	ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
-        ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
-		if (addLine instanceof Narrative) {
-			Narrative narrative = (Narrative) addLine;
-			getNarrativeService().prepareNarrative(document, narrative);
-			if (StringUtils.equals(narrative.getNarrativeType().getNarrativeTypeGroup(), Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE)) {
-				narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
-			}
-		} else if (addLine instanceof ProposalPersonBiography) {
-			document.getDevelopmentProposal().addProposalPersonBiography((ProposalPersonBiography) addLine);
-		} else if (addLine instanceof ProposalPersonUnit) {
-			((ProposalPersonUnit)addLine).setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
-		}
-    }    	
-    	
->>>>>>> KRACOEUS-7011: Update Add Unit panel for PropDev
     public static class SponsorSuggestResult {
         private Sponsor sponsor;
         public SponsorSuggestResult(Sponsor sponsor) {
