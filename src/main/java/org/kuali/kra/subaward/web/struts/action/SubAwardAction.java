@@ -51,11 +51,13 @@ import org.kuali.kra.web.struts.action.AuditActionHelper.ValidationState;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -74,6 +76,8 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
     private transient SubAwardService subAwardService;
     private static final Log LOG = LogFactory.getLog(SubAwardAction.class);
     private static final String SUBAWARD_AGREEMENT = "fdpAgreement";
+    private static final String DOCUMENT_ROUTE_QUESTION="DocRoute";
+
     /**
      * @see org.kuali.kra.web.struts.action.
      * KraTransactionalDocumentActionBase#execute(
@@ -418,20 +422,32 @@ public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRe
     SubAwardForm subAwardForm = (SubAwardForm) form;
     subAwardForm.setAuditActivated(false);
     ValidationState status = new AuditActionHelper().isValidSubmission(subAwardForm, true);
-    if ((status == ValidationState.OK) || (status == ValidationState.WARNING)) {
+    Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+    Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+    String methodToCall = ((KualiForm) form).getMethodToCall();
+    
+    if (status == ValidationState.OK) {
         super.route(mapping, form, request, response);
         return sendNotification(mapping, subAwardForm, SubAward.NOTIFICATION_TYPE_SUBMIT, "Submit SubAward");
     } else {
-        GlobalVariables.getMessageMap().clearErrorMessages();
-        GlobalVariables.getMessageMap().
-        putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION, new String[] {});
-        subAwardForm.setAuditActivated(true);   
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        if (status == ValidationState.WARNING) {
+            if(question == null){
+                return this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_ROUTE_QUESTION, "Validation Warning Exists. Are you sure want to submit to workflow routing.", KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");
+            } else if(DOCUMENT_ROUTE_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                super.route(mapping, form, request, response);
+                return sendNotification(mapping, subAwardForm, SubAward.NOTIFICATION_TYPE_SUBMIT, "Submit SubAward");
+            } else {
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            }    
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().
+            putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION, new String[] {});
+            subAwardForm.setAuditActivated(true);   
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
     }
-
 }
-
-
 
 @Override
 public ActionForward blanketApprove(ActionMapping mapping,
