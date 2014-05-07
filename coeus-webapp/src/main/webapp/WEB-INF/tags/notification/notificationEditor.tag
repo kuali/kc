@@ -60,7 +60,7 @@
                                     Non-Employee Search
                                 </td>
                                 <td style="border: medium none;">
-                                    <kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex" 
+                                    <kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex"
                                                 fieldConversions="rolodexId:notificationHelper.newRolodexId" />
                                 </td>
                             </tr>

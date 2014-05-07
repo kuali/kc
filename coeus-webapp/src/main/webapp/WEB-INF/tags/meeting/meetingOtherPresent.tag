@@ -20,7 +20,7 @@
                                     </label>
                                     <label>Non-employee Search</label> 
                                     <label>
-                                        <kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex" 
+                                        <kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex"
                                             fieldConversions="rolodexId:meetingHelper.newOtherPresentBean.attendance.personId,fullName:meetingHelper.newOtherPresentBean.attendance.personName" />
                                     </label>
                                     <c:if test="${!empty KualiForm.meetingHelper.newOtherPresentBean }" >

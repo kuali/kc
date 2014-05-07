@@ -58,7 +58,7 @@
                                 anchor="${tabKey}" /> Employee Lookup
                         </div>
                         <div align="left">
-                            <kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex"
+                            <kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex"
                                 fieldConversions="rolodexId:approvedForeignTravelBean.newApprovedForeignTravel.rolodexId,fullName:approvedForeignTravelBean.newApprovedForeignTravel.travelerName"
                                 lookupParameters="approvedForeignTravelBean.newApprovedForeignTravel.rolodexId:contactId"
                                 anchor="${tabKey}" /> Non-employee Lookup
@@ -113,7 +113,7 @@
         	  	 				    lookupParameters="${docAward}.approvedForeignTravelTrips[${status.index}].travelerId:personId" />
                         </c:if>
                         <c:if test="${formAward.approvedForeignTravelTrips[status.index].nonemployee}">
-                		    <kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex"
+                		    <kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex"
                 			    	fieldConversions="rolodexId:${docAward}.approvedForeignTravelTrips[${status.index}].rolodexId" anchor="${tabKey}"
         	  	 				    lookupParameters="${docAward}.approvedForeignTravelTrips[${status.index}].rolodexId:rolodexId" />
                         </c:if>
