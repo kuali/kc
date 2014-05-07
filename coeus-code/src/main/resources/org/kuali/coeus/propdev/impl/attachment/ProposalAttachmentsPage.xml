@@ -140,7 +140,19 @@
           p:propertyName="proposalAbstracts"
           p:layoutManager.summaryTitle="@{#lp.abstractType.description}"
           p:addViaLightBox="true">
-        <property name="layoutManager.addLineGroup.header.headerText" value="Add Abstracts Attachments"/>
+        <property name="addViaLightBoxAction">
+            <bean parent="Uif-AddViaLightBoxAction" p:actionLabel="Add entry" p:iconClass="icon-plus"/>
+		</property>
+        <property name="addLineLabel">
+            <bean parent="Uif-Message" p:messageText="Add Abstracts Attachments"/>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean parent="Uif-ActionLink" p:actionScript="closeLightbox();"
+                      p:actionLabel="cancel" p:style="float:right" p:order="10"/>
+                <bean parent="Uif-AddLineAction" p:style="float:right" p:order="20" p:actionLabel="Add Entry"/>
+            </list>
+        </property>
         <property name="addLineItems">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="abstractTypeCode" p:readOnly="false"
@@ -157,28 +169,37 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:label="Added By"
+                <bean parent="Uif-MessageField" p:label="Added By" p:render="@{#lp.updateUser ne null}"
                       p:messageText="@{#lp.updateUser} [color=grey]( @{#lp.updateTimestamp} )[/color]" p:order="10"/>
-                <bean parent="Uif-InputField" p:propertyName="abstractTypeCode"
-                      p:readOnlyDisplayReplacementPropertyName="abstractType.description" p:readOnly="true" p:order="20">
+                <bean parent="Uif-DataField" p:propertyName="abstractTypeCode"
+                      p:readOnlyDisplayReplacementPropertyName="abstractType.description" p:order="20">
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:render="false"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="abstractDetails" p:readOnly="true" p:order="30"/>
+                <bean parent="Uif-InputField" p:propertyName="abstractDetails" p:order="30"
+                      p:readOnly="@{editableAttachmentsMap.get('abstracts') eq null ? true : !editableAttachmentsMap.get('abstracts').contains(#line.abstractTypeCode)}"/>
             </list>
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:actionScript="Kc.PropDev.Attachments.cancelAttachment();"
+                <bean parent="Uif-ActionLink" p:methodToCall="cancelAttachment"
+                      p:actionParameters="attachmentType:abstracts,attachmentKey:@{#line.abstractTypeCode}"
+                      p:hidden="@{editableAttachmentsMap.get('abstracts') eq null ? true : !editableAttachmentsMap.get('abstracts').contains(#line.abstractTypeCode)}"
                       p:actionLabel="cancel" p:style="float:right" p:order="10"/>
-                <bean parent="Uif-PrimaryActionButton-Small" p:actionScript="Kc.PropDev.Attachments.editAttachment();"
+                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="editAttachment"
+                      p:hidden="@{editableAttachmentsMap.get('abstracts') eq null ? false : editableAttachmentsMap.get('abstracts').contains(#line.abstractTypeCode)}"
+                      p:actionParameters="attachmentType:abstracts,attachmentKey:@{#line.abstractTypeCode}"
                       p:actionLabel="Edit" p:style="float:right" p:order="20"/>
+                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="saveAttachment"
+                      p:actionParameters="attachmentType:abstracts,attachmentKey:@{#line.abstractTypeCode}"
+                      p:hidden="@{editableAttachmentsMap.get('abstracts') eq null ? true : !editableAttachmentsMap.get('abstracts').contains(#line.abstractTypeCode)}"
+                      p:actionLabel="Save" p:style="float:right" p:order="30"/>
             </list>
         </property>
         <property name="layoutManager.lineGroupPrototype">
             <bean parent="Uif-CollectionHorizontalBoxItem"
-                  p:disclosure.render="true">
+                  p:disclosure.render="true" p:disclosure.defaultOpen="false">
                 <property name="layoutManager">
                     <bean parent="Uif-SimpleLayout" />
                 </property>

@@ -26,7 +26,9 @@ import org.kuali.rice.krad.uif.element.ToggleMenu;
 import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBase {
 
@@ -36,7 +38,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private ProposalDevelopmentQuestionnaireHelper questionnaireHelper;
     private KeyPersonnelAddWizardHelper addKeyPersonHelper;
     private S2sOpportunity newS2sOpportunity;
-    
+    private Map<String,List<String>> editableAttachmentsMap;
+
     public ProposalDevelopmentDocumentForm() {
         super();
     }
@@ -50,6 +53,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         addKeyPersonHelper = new KeyPersonnelAddWizardHelper();
         
         newS2sOpportunity = new S2sOpportunity();
+
+        editableAttachmentsMap = new HashMap<String,List<String>>();
     }
     
     public int findIndexOfPageId(List<Action> actions) {
@@ -136,4 +141,11 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         this.newS2sOpportunity = newOpportunity;
     }
 
+    public Map<String, List<String>> getEditableAttachmentsMap() {
+        return editableAttachmentsMap;
+    }
+
+    public void setEditableAttachmentsMap(Map<String, List<String>> editableAttachmentsMap) {
+        this.editableAttachmentsMap = editableAttachmentsMap;
+    }
 }
