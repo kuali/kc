@@ -15,9 +15,20 @@
  */
 package org.kuali.kra.protocol.actions.submit;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.kuali.kra.drools.util.DroolsRuleHandler;
+import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDao;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
@@ -29,10 +40,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.google.common.collect.Lists;
 
 
 /**
@@ -63,8 +71,19 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
     
     protected List<String> actions = new ArrayList<String>();
     protected List<DroolsRuleHandler> rulesList;
+    protected static final Map<String, String> ACTION_SUBMISSION_MAPPINGS;
+       
+    static {
+            Map<String, String> actionSubmissionMappings = new HashMap<String, String>();
+            actionSubmissionMappings.put(ProtocolActionType.DATA_ANALYSIS_ONLY, ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY);
+            actionSubmissionMappings.put(ProtocolActionType.CLOSED_FOR_ENROLLMENT, ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT);
+            actionSubmissionMappings.put(ProtocolActionType.SUSPENDED, ProtocolSubmissionType.REQUEST_FOR_SUSPENSION);
+            actionSubmissionMappings.put(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, ProtocolSubmissionType.REQUEST_TO_CLOSE);
+            actionSubmissionMappings.put(ProtocolActionType.REOPEN_ENROLLMENT, ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT);
 
-
+            ACTION_SUBMISSION_MAPPINGS = Collections.unmodifiableMap(actionSubmissionMappings);
+    }
+     
     public ProtocolActionServiceImplBase(){
         this.actions = Arrays.asList(getActionCodesArrayHook());
     }
@@ -194,12 +213,25 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
         
         protocol.refreshReferenceObject("protocolSubmission");
         protocolAction.setProtocol(protocol);
-        protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
+        protocolAction.setProtocolSubmission(getSubmissionForAction(protocolAction.getActionTypeCode(), protocol));
+        protocolAction.setSubmissionTypeCode(protocolAction.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode());
         protocolAction.setProtocolAction(protocolActionBo);
         rulesList.get(getUpdateRuleIndexHook()).executeRules(protocolAction);
         businessObjectService.save(protocol);
     }
     
+    protected ProtocolSubmissionBase getSubmissionForAction(String actionTypeCode, ProtocolBase protocol) {
+        if (ACTION_SUBMISSION_MAPPINGS.containsKey(actionTypeCode) && protocol.getProtocolSubmissions() != null) {
+            for (ProtocolSubmissionBase submission : Lists.reverse(protocol.getProtocolSubmissions())) {
+                if (submission.getSubmissionStatusCode().equals(ProtocolSubmissionStatus.PENDING) 
+                        && ACTION_SUBMISSION_MAPPINGS.get(actionTypeCode).equals(submission.getSubmissionTypeCode())) {
+                    return submission;
+                }
+            }
+        }
+        return protocol.getProtocolSubmission();
+    }
+        
     protected abstract ProtocolActionUpdateMapping getNewProtocolActionUpdateMappingHook(String protocolActionTypeCode,
             String submissionTypeCode, String protocolStatusCode, String specialCondition);
     
