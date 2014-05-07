@@ -147,7 +147,7 @@
 		p:additionalCssClasses="transparentField">
 		<property name="quickfinder">
 			<bean parent="Uif-QuickFinder" p:returnByScript="true"
-				p:hideCriteriaOnSearch="true" p:viewName="popup" />
+				p:hideCriteriaOnSearch="true" />
 		</property>
 		<property name="suggest">
 			<bean parent="Uif-Suggest" p:render="true"
@@ -187,7 +187,7 @@
 			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kra.award.home.Award"
 				p:fieldConversions="awardNumber:currentAwardNumber"
 				p:lookupParameters="currentAwardNumber:awardNumber"
-				p:returnByScript="true" p:hideCriteriaOnSearch="true" p:viewName="popup" />
+				p:returnByScript="true" p:hideCriteriaOnSearch="true" />
 		</property>
 	</bean>
 
@@ -212,7 +212,7 @@
 				p:dataObjectClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal"
 				p:fieldConversions="proposalNumber:continuedFrom"
 				p:lookupParameters="continuedFrom:proposalNumber" p:returnByScript="true"
-				p:hideCriteriaOnSearch="true" p:viewName="popup" />
+				p:hideCriteriaOnSearch="true" />
 		</property>
 	</bean>
 
