@@ -18,8 +18,7 @@ package org.kuali.coeus.common.impl.rolodex;
 import org.apache.ojb.broker.query.Criteria;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex;
-import org.kuali.coeus.common.impl.rolodex.RolodexDaoOjb;
+import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.util.HashMap;
