@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.ipreview;
 
-import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
+import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import java.sql.Date;

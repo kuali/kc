@@ -16,8 +16,8 @@
 package org.kuali.kra.institutionalproposal.home;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
-import org.kuali.coeus.common.framework.sequence.owner.SequenceOwner;
+import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
+import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 import org.kuali.rice.kim.api.identity.Person;
@@ -26,7 +26,6 @@ import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 
 import java.sql.Date;
 import java.util.ArrayList;

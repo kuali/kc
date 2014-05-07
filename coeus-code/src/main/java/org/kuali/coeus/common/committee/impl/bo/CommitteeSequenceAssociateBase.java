@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.committee.impl.bo;
 
-import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
+import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 public abstract class CommitteeSequenceAssociateBase extends KcPersistableBusinessObjectBase implements SequenceAssociate<CommitteeBase<?, ?, ?>> {

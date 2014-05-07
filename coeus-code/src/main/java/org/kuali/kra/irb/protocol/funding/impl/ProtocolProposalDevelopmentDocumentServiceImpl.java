@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.protocol.funding.impl;
 
-import org.kuali.coeus.common.framework.editable.PersonEditableService;
+import org.kuali.coeus.common.framework.person.editable.PersonEditableService;
 import org.kuali.coeus.common.specialreview.impl.service.impl.SpecialReviewServiceImpl;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;

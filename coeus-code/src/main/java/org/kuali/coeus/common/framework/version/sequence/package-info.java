@@ -7,4 +7,4 @@
  * @author Kuali Coeus Development Team
  *
  */
-package org.kuali.coeus.common.framework.sequence;
+package org.kuali.coeus.common.framework.version.sequence;

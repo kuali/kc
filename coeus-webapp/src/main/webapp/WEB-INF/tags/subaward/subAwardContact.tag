@@ -136,7 +136,7 @@
 	                	           ${subAwardContacts.rolodex.fullName}&nbsp;
 	                		    </c:otherwise>
 	                		</c:choose>	                		
-						<kul:directInquiry boClassName="org.kuali.coeus.common.framework.rolodex.nonorg.NonOrganizationalRolodex" inquiryParameters="subAward_contact.identifier_${status.index}:rolodexId" anchor="${tabKey}" />
+						<kul:directInquiry boClassName="org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex" inquiryParameters="subAward_contact.identifier_${status.index}:rolodexId" anchor="${tabKey}" />
 						</div>
 						</td>
 		                <td width="9%" valign="middle">
