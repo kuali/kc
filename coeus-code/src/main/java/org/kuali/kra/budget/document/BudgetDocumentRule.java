@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.document;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.audit.KcDocumentBaseAuditRule;
+import org.kuali.coeus.common.framework.custom.KcDocumentBaseAuditRule;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.budget.AwardBudgeCostTotalAuditRule;
 import org.kuali.kra.award.budget.AwardBudgetBudgetTypeAuditRule;

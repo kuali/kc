@@ -16,7 +16,7 @@
 package org.kuali.kra.personmasschange.service.impl;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.kuali.coeus.common.framework.editable.PersonEditableService;
+import org.kuali.coeus.common.framework.person.editable.PersonEditableService;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.kra.iacuc.IacucProtocol;

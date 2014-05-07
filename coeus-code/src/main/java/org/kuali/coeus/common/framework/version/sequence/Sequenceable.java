@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.framework.sequence;
+package org.kuali.coeus.common.framework.version.sequence;
 
 import java.io.Serializable;
 

@@ -17,7 +17,7 @@ package org.kuali.kra.protocol.personnel;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.editable.PersonEditable;
+import org.kuali.coeus.common.framework.person.editable.PersonEditable;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;

@@ -16,7 +16,7 @@
 package org.kuali.kra.questionnaire.question;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.kuali.coeus.common.framework.sequence.associate.SequenceAssociate;
+import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 public class QuestionExplanation extends KcPersistableBusinessObjectBase implements SequenceAssociate<Question> {
