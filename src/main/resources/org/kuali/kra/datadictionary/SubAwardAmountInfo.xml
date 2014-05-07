@@ -271,7 +271,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Mime Type" />
     <property name="shortLabel" value="Mime Type" />
-    <property name="maxLength" value="100" />
+    <property name="maxLength" value="4000" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
                 p:allowWhitespace="true" />
