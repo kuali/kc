@@ -43,6 +43,33 @@ public class SubAwardAttachments extends SubAwardAssociate implements Comparable
      private byte[] document;
      private String contentType;
      private String mimeType;
+     private Boolean selectToPrint = false;
+     private String fileNameSplit;
+     /**
+     * Gets the fileNameSplit attribute. 
+     * @return Returns the fileNameSplit.
+     */
+    public String getFileNameSplit() {
+        return fileNameSplit;
+    }
+
+    /**
+     * Sets the fileNameSplit attribute value.
+     * @param fileNameSplit The fileNameSplit to set.
+     */
+    public void setFileNameSplit(String fileNameSplit) {
+        this.fileNameSplit = fileNameSplit;
+    }
+
+    public final Boolean getSelectToPrint() {
+         return selectToPrint;
+     }
+
+     public final void setSelectToPrint(Boolean selectToPrint) {
+         this.selectToPrint = selectToPrint;
+     }
+     
+
      
 
      @Override
