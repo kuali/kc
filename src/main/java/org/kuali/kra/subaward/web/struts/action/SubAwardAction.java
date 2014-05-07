@@ -36,6 +36,8 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.subaward.bo.SubAwardAttachmentType;
+import org.kuali.kra.subaward.bo.SubAwardAttachments;
 import org.kuali.kra.subaward.bo.SubAwardForms;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.customdata.SubAwardCustomData;
@@ -101,6 +103,25 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
         execute(mapping, form, request, response);
         if (KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
             new AuditActionHelper().auditConditionally((SubAwardForm) form);
+        }
+        
+        if(subAwardForm.getSubAwardDocument().getSubAwardList() != null) {
+            for(SubAward subAwardList:subAwardForm.getSubAwardDocument().getSubAwardList()) {
+                List<SubAwardAttachments> subAwardAttachmentsList = subAwardList.getSubAwardAttachments();//new ArrayList<SubAwardAttachments>();
+                if(subAwardAttachmentsList != null && !subAwardAttachmentsList.isEmpty()) {
+                     for(SubAwardAttachments subAwardAttachments:subAwardAttachmentsList) {
+                            if(subAwardAttachments.getFileName() != null) {
+                               String[] fileNameSplit=subAwardAttachments.getFileName().toString().split("\\.pdf");
+                               SubAwardPrintingService printService = KraServiceLocator.getService(SubAwardPrintingService.class);
+                                   if(printService.isPdf(subAwardAttachments.getAttachmentContent())) {
+                                   subAwardAttachments.setFileNameSplit(fileNameSplit[0]);
+                                   }
+                            }
+                            SubAwardAttachmentType subAwardAttachmentTypeValue =  KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(SubAwardAttachmentType.class, subAwardAttachments.getSubAwardAttachmentTypeCode());
+                            subAwardAttachments.setTypeAttachment(subAwardAttachmentTypeValue);
+                     }
+                }
+            }
         }
 
         return actionForward;

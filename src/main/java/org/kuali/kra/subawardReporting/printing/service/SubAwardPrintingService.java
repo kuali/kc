@@ -60,4 +60,6 @@ public interface SubAwardPrintingService {
             Map<String, Object> reportParameters) throws PrintingException;
 	
 	List<SubAwardForms> getSponsorFormTemplates( SubAwardPrintAgreement subAwardPrintAgreement);
+	public boolean isPdf(byte[] data);
+
 }
