@@ -25,8 +25,15 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krms.api.engine.Facts;
 import org.kuali.rice.krms.api.engine.Facts.Builder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
+@Component("propDevBudgetFactBuilderService")
 public class PropDevBudgetFactBuilderServiceImpl extends KcKrmsFactBuilderServiceHelper {
+
+    @Autowired
+    @Qualifier("documentService")
     private DocumentService documentService;
     
     public void addFacts(Facts.Builder factsBuilder, String docContent) {

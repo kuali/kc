@@ -25,15 +25,21 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+@Component("proposalAllUnitAdministratorDerivedRoleTypeService")
 public class ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl extends AbstractUnitAdministratorDerivedRoleTypeService
         implements RoleTypeService {
 
+    @Autowired
+    @Qualifier("unitService")
     private UnitService unitService;
 
     public void setUnitService(UnitService unitService) {

@@ -21,21 +21,19 @@ import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.AwardAmountInfo;
-import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Date;
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * This class will contain all common methods that can be used across Proposal
@@ -47,10 +45,14 @@ public abstract class ProposalBaseStream implements XmlStream {
 
 	private final static Log LOG = LogFactory
 			.getLog(ProposalBaseStream.class);
-	private DateTimeService dateTimeService;
-	private BusinessObjectService businessObjectService;
-	private AwardService awardService;
 
+    @Autowired
+    @Qualifier("dateTimeService")
+    private DateTimeService dateTimeService;
+
+    @Autowired
+    @Qualifier("businessObjectService")
+	private BusinessObjectService businessObjectService;
 
 	/**
 	 * This method fetches the final/latest Budget associated with the given
@@ -76,30 +78,8 @@ public abstract class ProposalBaseStream implements XmlStream {
 		}
 		return budget;
 	}
-	
-	protected Award getAward(String currentAwardNumber) {
-	    List<Award> awards = getAwardService().findAwardsForAwardNumber(currentAwardNumber);
-	    return awards.isEmpty()?null:awards.get(awards.size()-1);
-	}
 
-	protected AwardAmountInfo getMaxAwardAmountInfo(Award award) {
-		Integer highestSequenceNumber = 0;
-		Long highestAwardAmountInfoId = 0L;
-		AwardAmountInfo higeshSequenceAwarAmountInfo = null;
-			for(AwardAmountInfo amountInfo: award.getAwardAmountInfos()){
-				if(highestSequenceNumber < amountInfo.getSequenceNumber()){
-					higeshSequenceAwarAmountInfo = amountInfo;
-					highestSequenceNumber = amountInfo.getSequenceNumber();
-					highestAwardAmountInfoId = amountInfo.getAwardAmountInfoId();
-				}else if(highestSequenceNumber == amountInfo.getSequenceNumber() 
-							&& highestAwardAmountInfoId < amountInfo.getAwardAmountInfoId()){
-					higeshSequenceAwarAmountInfo = amountInfo;
-					highestSequenceNumber = amountInfo.getSequenceNumber();
-					highestAwardAmountInfoId = amountInfo.getAwardAmountInfoId();
-				}
-			}
-		return higeshSequenceAwarAmountInfo;
-	}
+
 
     /**
      *
@@ -184,20 +164,4 @@ public abstract class ProposalBaseStream implements XmlStream {
 			BusinessObjectService businessObjectService) {
 		this.businessObjectService = businessObjectService;
 	}
-
-    /**
-     * Sets the awardService attribute value.
-     * @param awardService The awardService to set.
-     */
-    public void setAwardService(AwardService awardService) {
-        this.awardService = awardService;
-    }
-
-    /**
-     * Gets the awardService attribute. 
-     * @return Returns the awardService.
-     */
-    public AwardService getAwardService() {
-        return awardService;
-    }
 }

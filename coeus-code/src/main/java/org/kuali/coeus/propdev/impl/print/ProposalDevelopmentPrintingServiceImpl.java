@@ -38,6 +38,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 
@@ -52,6 +53,7 @@ import java.util.*;
  */
 
 @Component("proposalDevelopmentPrintingService")
+@Lazy
 public class ProposalDevelopmentPrintingServiceImpl implements
 		ProposalDevelopmentPrintingService {
 	

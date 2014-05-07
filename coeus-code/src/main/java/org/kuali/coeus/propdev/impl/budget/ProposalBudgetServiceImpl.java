@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.propdev.impl.budget;
 
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.core.Budget;
@@ -31,12 +30,13 @@ import org.kuali.kra.budget.versions.BudgetVersionRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
-import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardService;
-import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
+import org.kuali.coeus.propdev.impl.budget.subaward.PropDevBudgetSubAwardService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,13 +44,28 @@ import java.util.List;
 /**
  * This class process requests for ProposalBudget
  */
+@Component("proposalBudgetService")
 public class ProposalBudgetServiceImpl implements ProposalBudgetService {
 
+    @Autowired
+    @Qualifier("documentService")
     private DocumentService documentService;
+
+    @Autowired
+    @Qualifier("parameterService")
     private ParameterService parameterService;
+
+    @Autowired
+    @Qualifier("budgetService")
     private BudgetService<DevelopmentProposal> budgetService;
+
+    @Autowired
+    @Qualifier("budgetCalculationService")
     private BudgetCalculationService budgetCalculationService;
-    private BudgetSubAwardService budgetSubAwardService;
+
+    @Autowired
+    @Qualifier("propDevBudgetSubAwardService")
+    private PropDevBudgetSubAwardService propDevBudgetSubAwardService;
     
 
     public BudgetDocument<DevelopmentProposal> getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,
@@ -84,7 +99,6 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
         budget.setRateClassTypesReloaded(true);
 
         budgetDocument = saveBudgetDocument(budgetDocument);
-        KcServiceLocator.getService(DataObjectService.class).flush(BudgetDocumentVersion.class);
         parentDocument.refreshBudgetDocumentVersions();
         return budgetDocument;
     }
@@ -194,7 +208,7 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
     }
     public void calculateBudgetOnSave(Budget budget) {
         for (BudgetSubAwards subAward : budget.getBudgetSubAwards()) {
-            getBudgetSubAwardService().generateSubAwardLineItems(subAward, budget);
+            getPropDevBudgetSubAwardService().generateSubAwardLineItems(subAward, budget);
         }
         budgetCalculationService.calculateBudget(budget);
     }
@@ -216,11 +230,11 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
     public void recalculateBudgetPeriod(Budget budget, BudgetPeriod budgetPeriod) {
         budgetCalculationService.calculateBudget(budget);
     }
-    protected BudgetSubAwardService getBudgetSubAwardService() {
-        return budgetSubAwardService;
+    protected PropDevBudgetSubAwardService getPropDevBudgetSubAwardService() {
+        return propDevBudgetSubAwardService;
     }
-    public void setBudgetSubAwardService(BudgetSubAwardService budgetSubAwardService) {
-        this.budgetSubAwardService = budgetSubAwardService;
+    public void setPropDevBudgetSubAwardService(PropDevBudgetSubAwardService propDevBudgetSubAwardService) {
+        this.propDevBudgetSubAwardService = propDevBudgetSubAwardService;
     }
 
 }

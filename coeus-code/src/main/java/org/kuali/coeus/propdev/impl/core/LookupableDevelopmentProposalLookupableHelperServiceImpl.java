@@ -28,26 +28,110 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonDao;
 import org.kuali.coeus.propdev.impl.auth.ProposalDevelopmentDocumentAuthorizer;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.encryption.EncryptionService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.LookupResultsService;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.BusinessObjectMetaDataService;
+import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-@SuppressWarnings("deprecation")
+@Component("lookupableDevelopmentProposalLookupableHelperService")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class LookupableDevelopmentProposalLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl{
 
-    private ProposalPersonDao proposalPersonDao;
-    private BusinessObjectService businessObjectService;
-    private DocumentService documentService;
-    private List <String> validLookupFields = Arrays.asList(new String[] {"proposalNumber","title","sponsorCode","ownedByUnitNumber","ownedByUnitName","proposalTypeCode"});
-    
+    private static final List <String> VALID_LOOKUP_FIELDS = Arrays.asList("proposalNumber","title","sponsorCode","ownedByUnitNumber","ownedByUnitName","proposalTypeCode");
+
     private static final Log LOG = LogFactory.getLog(LookupableDevelopmentProposalLookupableHelperServiceImpl.class);
 
-    private static final long serialVersionUID = -2819167587268360381L;
-    
+    @Autowired
+    @Qualifier("proposalPersonDao")
+    private ProposalPersonDao proposalPersonDao;
+
+    @Autowired
+    @Qualifier("documentService")
+    private DocumentService documentService;
+
+    @Autowired
+    @Qualifier("businessObjectService")
+    @Override
+    public void setBusinessObjectDictionaryService(BusinessObjectDictionaryService businessObjectDictionaryService) {
+        super.setBusinessObjectDictionaryService(businessObjectDictionaryService);
+    }
+
+    @Autowired
+    @Qualifier("businessObjectMetaDataService")
+    @Override
+    public void setBusinessObjectMetaDataService(BusinessObjectMetaDataService businessObjectMetaDataService) {
+        super.setBusinessObjectMetaDataService(businessObjectMetaDataService);
+    }
+
+    @Autowired
+    @Qualifier("dataDictionaryService")
+    @Override
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        super.setDataDictionaryService(dataDictionaryService);
+    }
+
+    @Autowired
+    @Qualifier("encryptionService")
+    @Override
+    public void setEncryptionService(EncryptionService encryptionService) {
+        super.setEncryptionService(encryptionService);
+    }
+
+    @Autowired
+    @Qualifier("lookupResultsService")
+    @Override
+    public void setLookupResultsService(LookupResultsService lookupResultsService) {
+        super.setLookupResultsService(lookupResultsService);
+    }
+
+    @Autowired
+    @Qualifier("lookupService")
+    @Override
+    public void setLookupService(LookupService lookupService) {
+        super.setLookupService(lookupService);
+    }
+
+    @Autowired
+    @Qualifier("parameterService")
+    @Override
+    public void setParameterService(ConfigurationService configurationService) {
+        super.setParameterService(configurationService);
+    }
+
+    @Autowired
+    @Qualifier("maintenanceDocumentDictionaryService")
+    @Override
+    public void setMaintenanceDocumentDictionaryService(MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService) {
+        super.setMaintenanceDocumentDictionaryService(maintenanceDocumentDictionaryService);
+    }
+
+    @Autowired
+    @Qualifier("persistenceStructureService")
+    @Override
+    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
+        super.setPersistenceStructureService(persistenceStructureService);
+    }
+
+    @Autowired
+    @Qualifier("sequenceAccessorService")
+    @Override
+    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+        super.setSequenceAccessorService(sequenceAccessorService);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -63,7 +147,7 @@ public class LookupableDevelopmentProposalLookupableHelperServiceImpl extends Ku
                         matchingProposals.add(potentialPerson.getProposalNumber());
                     }
                     proposalFields.put("proposalNumber",matchingProposals);
-                } else if (validLookupFields.contains(key)){
+                } else if (VALID_LOOKUP_FIELDS.contains(key)){
                     proposalFields.put(key, fieldValues.get(key));
                 }
             }
@@ -136,10 +220,6 @@ public class LookupableDevelopmentProposalLookupableHelperServiceImpl extends Ku
     
     public void setProposalPersonDao(ProposalPersonDao proposalPersonDao) {
         this.proposalPersonDao = proposalPersonDao;
-    }  
-    
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 
     public void setDocumentService(DocumentService documentService) {
