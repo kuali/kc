@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/util
+                    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+    <bean id="PropDev-SummarySection" parent="PropDev-SummarySection-parentBean"/>
+    <bean id="PropDev-SummarySection-parentBean" parent="Uif-VerticalBoxSection" p:headerText="Document Summary">
+        <property name="items">
+            <list>
+                <bean parent="PropDev-SummaryPage-TabGroup" p:order="10"/>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="Uif-PageHeader" />
+        </property>
+        <property name="footer">
+            <null />
+        </property>
+    </bean>
+
+    <bean id="PropDev-SummaryPage-TabGroup" parent="PropDev-SummaryPage-TabGroup-parentBean" />
+    <bean id="PropDev-SummaryPage-TabGroup-parentBean" abstract="true"
+          parent="Uif-TabGroup">
+        <property name="items">
+            <list>
+                <bean parent="PropDev-SummaryPage-ProposalSummary" p:order="10" />
+                <bean parent="PropDev-SummaryPage-Personnel" p:order="20" />
+                <bean parent="PropDev-SummaryPage-CreditAllocation" p:order="30" />
+                <bean parent="PropDev-SummaryPage-Questionnaire" p:order="40" />
+                <bean parent="PropDev-SummaryPage-SupplementalInfo" p:order="50" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-SummaryPage-ProposalSummary" parent="PropDev-SummaryPage-ProposalSummary-parentBean" />
+    <bean id="PropDev-SummaryPage-ProposalSummary-parentBean" abstract="true"
+          parent="Uif-GridCondensedSection" p:headerText="Proposal Summary" p:fieldBindingObjectPath="document.developmentProposal">
+        <property name="items">
+            <list>
+                <bean parent="PropDev-DataField-NoColon" p:propertyName="title" p:fieldLabel.labelText="Title"
+                      p:order="10" />
+                <bean parent="PropDev-DataField-NoColon" p:propertyName="principalInvestigatorName" 
+                      p:order="20" />
+                <bean parent="Uif-MessageField" p:messageText="@{document.developmentProposal.ownedByUnitNumber} - @{document.developmentProposal.ownedByUnit.unitName}"
+                      p:fieldLabel.labelText="Lead Unit" p:fieldLabel.renderColon="false"
+                      p:order="30" />
+                <bean parent="PropDev-DataField-NoColon" p:propertyName="activityType.description" 
+                      p:order="40" />
+                <bean parent="PropDev-DataField-NoColon" p:propertyName="proposalNumber" 
+                      p:order="50" />
+                <bean parent="PropDev-DataField-NoColon" p:propertyName="requestedStartDateInitial" 
+                      p:order="60" />
+                <bean parent="PropDev-DataField-NoColon" p:propertyName="requestedEndDateInitial" 
+                      p:order="70" />
+                <bean parent="PropDev-DataField-NoColon"  p:propertyName="subcontracts" 
+                      p:fieldLabel.labelText="Include Subaward(s)?"
+                      p:order="80" />
+                <bean parent="PropDev-DataField-NoColon" p:propertyName="sponsor.sponsorName" 
+                      p:order="90"  />
+                <bean parent="PropDev-DataField-NoColon" p:propertyName="deadlineDate" 
+                      p:order="100" />
+                <bean parent="PropDev-DataField-NoColon" p:propertyName="deadlineType" 
+                      p:order="110" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-SummaryPage-Personnel" parent="PropDev-SummaryPage-Personnel-parentBean" />
+    <bean id="PropDev-SummaryPage-Personnel-parentBean" abstract="true"
+          parent="Uif-GridCondensedSection" p:headerText="Personnel">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-SummaryPage-CreditAllocation" parent="PropDev-SummaryPage-CreditAllocation-parentBean" />
+    <bean id="PropDev-SummaryPage-CreditAllocation-parentBean" abstract="true"
+          parent="Uif-GridCondensedSection" p:headerText="Credit Allocation">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-SummaryPage-Questionnaire" parent="PropDev-SummaryPage-Questionnaire-parentBean" />
+    <bean id="PropDev-SummaryPage-Questionnaire-parentBean" abstract="true"
+          parent="Uif-GridCondensedSection" p:headerText="Questionnaire">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-SummaryPage-SupplementalInfo" parent="PropDev-SummaryPage-SupplementalInfo-parentBean" />
+    <bean id="PropDev-SummaryPage-SupplementalInfo-parentBean" abstract="true"
+          parent="Uif-GridCondensedSection" p:headerText="Supplemental Info">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+</beans>
+
