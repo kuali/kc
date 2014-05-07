@@ -18,12 +18,13 @@ package org.kuali.coeus.propdev.impl.s2s;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.service.S2SService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.encryption.EncryptionService;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.core.web.format.TimestampAMPMFormatter;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -31,16 +32,26 @@ import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.BusinessObjectMetaDataService;
+import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.krad.service.LookupService;
+import org.kuali.rice.krad.service.PersistenceStructureService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -58,9 +69,84 @@ import java.util.*;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
+    @Autowired
+    @Qualifier("s2SService")
     private S2SService s2SService;
+
+    @Autowired
+    @Qualifier("s2SService")
     private DateTimeService dateTimeService;
     private static final Log LOG = LogFactory.getLog(S2sOpportunityLookupableHelperServiceImpl.class);
+
+    @Autowired
+    @Qualifier("businessObjectService")
+    @Override
+    public void setBusinessObjectDictionaryService(BusinessObjectDictionaryService businessObjectDictionaryService) {
+        super.setBusinessObjectDictionaryService(businessObjectDictionaryService);
+    }
+
+    @Autowired
+    @Qualifier("businessObjectMetaDataService")
+    @Override
+    public void setBusinessObjectMetaDataService(BusinessObjectMetaDataService businessObjectMetaDataService) {
+        super.setBusinessObjectMetaDataService(businessObjectMetaDataService);
+    }
+
+    @Autowired
+    @Qualifier("dataDictionaryService")
+    @Override
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        super.setDataDictionaryService(dataDictionaryService);
+    }
+
+    @Autowired
+    @Qualifier("encryptionService")
+    @Override
+    public void setEncryptionService(EncryptionService encryptionService) {
+        super.setEncryptionService(encryptionService);
+    }
+
+    @Autowired
+    @Qualifier("lookupResultsService")
+    @Override
+    public void setLookupResultsService(LookupResultsService lookupResultsService) {
+        super.setLookupResultsService(lookupResultsService);
+    }
+
+    @Autowired
+    @Qualifier("lookupService")
+    @Override
+    public void setLookupService(LookupService lookupService) {
+        super.setLookupService(lookupService);
+    }
+
+    @Autowired
+    @Qualifier("parameterService")
+    @Override
+    public void setParameterService(ConfigurationService configurationService) {
+        super.setParameterService(configurationService);
+    }
+
+    @Autowired
+    @Qualifier("maintenanceDocumentDictionaryService")
+    @Override
+    public void setMaintenanceDocumentDictionaryService(MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService) {
+        super.setMaintenanceDocumentDictionaryService(maintenanceDocumentDictionaryService);
+    }
+
+    @Autowired
+    @Qualifier("persistenceStructureService")
+    @Override
+    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
+        super.setPersistenceStructureService(persistenceStructureService);
+    }
+
+    @Autowired
+    @Qualifier("sequenceAccessorService")
+    @Override
+    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+        super.setSequenceAccessorService(sequenceAccessorService);
+    }
 
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         LookupUtils.removeHiddenCriteriaFields(getBusinessObjectClass(), fieldValues);
@@ -124,7 +210,6 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
     }   
 
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        boolean showReturnLink = lookupForm.getBackLocation().contains("proposalDevelopmentGrantsGov");
         Collection displayList = super.performLookup(lookupForm, resultTable, bounded);
         for (Iterator iter = resultTable.iterator(); iter.hasNext();) {
             ResultRow row = (ResultRow) iter.next();
@@ -196,9 +281,6 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
     }
 
     protected DateTimeService getDateTimeService() {
-        if (dateTimeService == null) {
-            dateTimeService = KcServiceLocator.getService(DateTimeService.class);
-        }
         return dateTimeService;
     }
 
