@@ -16,7 +16,7 @@
 package org.kuali.kra.award;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.custom.audit.KcDocumentBaseAuditRule;
+import org.kuali.coeus.common.framework.custom.KcDocumentBaseAuditRule;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.permissions.impl.bo.PermissionsUser;

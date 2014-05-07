@@ -26,7 +26,7 @@ import org.kuali.coeus.common.committee.impl.rule.AddCommitteeMembershipRoleRule
 import org.kuali.coeus.common.committee.impl.rule.AddCommitteeMembershipRule;
 import org.kuali.coeus.common.committee.impl.rule.event.*;
 import org.kuali.coeus.common.committee.impl.rule.event.CommitteeScheduleEventBase.ErrorType;
-import org.kuali.coeus.common.framework.custom.audit.KcDocumentBaseAuditRule;
+import org.kuali.coeus.common.framework.custom.KcDocumentBaseAuditRule;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;

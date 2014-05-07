@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.coi;
 
-import org.kuali.coeus.common.framework.custom.audit.KcDocumentBaseAuditRule;
+import org.kuali.coeus.common.framework.custom.KcDocumentBaseAuditRule;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
