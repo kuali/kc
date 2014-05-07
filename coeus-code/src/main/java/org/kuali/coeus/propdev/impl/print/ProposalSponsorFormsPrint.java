@@ -21,6 +21,11 @@ import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplate;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -38,10 +43,22 @@ import java.util.Map;
  * streaming etc.
  * 
  */
+
+@Component("proposalSponsorFormsPrint")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ProposalSponsorFormsPrint extends AbstractPrint {
 	private static final String LOCAL_PRINT_FORM_SPONSOR_CODE ="LOCAL_PRINT_FORM_SPONSOR_CODE";
+
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+
+    @Autowired
+    @Qualifier("nihResearchAndRelatedXmlStream")
     private NIHResearchAndRelatedXmlStream nihResearchAndRelatedXmlStream;
+
+    @Autowired
+    @Qualifier("proposalDevelopmentXmlStream")
 	private ProposalDevelopmentXmlStream proposalDevelopmentXmlStream;
 	/**
 	 * This method fetches the XSL style-sheets required for transforming the

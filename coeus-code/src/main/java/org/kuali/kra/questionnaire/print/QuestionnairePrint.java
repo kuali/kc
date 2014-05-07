@@ -16,7 +16,11 @@
 package org.kuali.kra.questionnaire.print;
 
 import org.kuali.coeus.common.framework.print.AbstractPrint;
+import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -28,10 +32,18 @@ import java.util.List;
  * 
  * This class is the printable of Questionnaire
  */
+@Component("questionnairePrint")
 public class QuestionnairePrint extends AbstractPrint {
 
     private static final long serialVersionUID = -5905174316529503137L;
     private static final String XSL_CONTEXT_DIR = "/org/kuali/kra/printing/stylesheet/";
+
+    @Autowired
+    @Qualifier("questionnaireXmlStream")
+    @Override
+    public void setXmlStream(XmlStream xmlStream) {
+        super.setXmlStream(xmlStream);
+    }
 
     /**
      * This method fetches the XSL style-sheets required for transforming the

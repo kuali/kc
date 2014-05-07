@@ -44,10 +44,19 @@
 	</bean>	
 
 	<bean id="s2sOpportunityLookupableHelperService" class="org.kuali.kra.s2s.lookup.S2sOpportunityLookupableHelperServiceImpl"
- 		scope="prototype" parent="parentLookupableHelperService"> 
+ 		scope="prototype">
  		<property name="s2SService" >
   			<ref bean="s2SService"/>
   		</property>
+        <property name="persistenceStructureService" ref="persistenceStructureService" />
+        <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="encryptionService" ref="encryptionService" />
+        <property name="lookupService" ref="lookupService" />
+        <property name="businessObjectMetaDataService" ref="businessObjectMetaDataService" />
+        <property name="sequenceAccessorService" ref="sequenceAccessorService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="lookupResultsService" ref="lookupResultsService" />
   	</bean>		
 	 
 	

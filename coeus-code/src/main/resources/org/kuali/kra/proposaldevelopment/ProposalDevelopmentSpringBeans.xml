@@ -876,16 +876,12 @@
   </bean>
 	<bean id="iacucProtocolSpecialReviewService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
   	<property name="serviceName" value="iacucProtocolSpecialReviewService" />
-  </bean>  
-	
-	<bean id="proposalDevelopmentPermissionsService" class="org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsServiceImpl">
-		<property name="kraAuthorizationService" ref="kcAuthorizationService" />
-	</bean>
+  </bean>
+
     <bean id="proposalTypeValuesFinder" class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-           <property name="businessObjectClass" value="org.kuali.coeus.common.framework.type.ProposalType"/>
-           <property name="includeKeyInDescription" value="false"/>
-           <property name="keyAttributeName" value="proposalTypeCode"/>
-           <property name="labelAttributeName" value="description"/>
-   </bean>
-	
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.type.ProposalType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="keyAttributeName" value="proposalTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+    </bean>
 </beans>

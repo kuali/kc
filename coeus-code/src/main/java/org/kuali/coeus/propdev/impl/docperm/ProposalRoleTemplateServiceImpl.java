@@ -20,21 +20,33 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.kim.service.ProposalRoleService;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 /**
  * The Proposal Role Template Service Implementation.
  */
+@Component("proposalRoleTemplateService")
 public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateService {
+
+    @Autowired
+    @Qualifier("kcAuthorizationService")
     private KcAuthorizationService kraAuthorizationService;
+
+    @Autowired
+    @Qualifier("roleService")
     private RoleService roleManagementService;
+
+    @Autowired
+    @Qualifier("proposalRoleService")
     private ProposalRoleService proposalRoleService;
     
     /**

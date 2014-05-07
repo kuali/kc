@@ -65,6 +65,9 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -79,6 +82,8 @@ import java.util.*;
  * 
  * 
  */
+@Component("proposalDevelopmentXmlStream")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 
     private static final String HIPHEN = " - ";

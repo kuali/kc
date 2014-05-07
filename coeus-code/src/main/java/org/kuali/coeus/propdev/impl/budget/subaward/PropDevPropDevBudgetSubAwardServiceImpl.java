@@ -33,10 +33,13 @@ import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.*;
 
 import javax.xml.transform.TransformerException;
@@ -48,15 +51,27 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-
-public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
+@Component("propDevBudgetSubAwardService")
+public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSubAwardService {
     private static final String DUPLICATE_FILE_NAMES =  "Duplicate PDF Attachment File Names"; 
     private static final String XFA_NS = "http://www.xfa.org/schema/xfa-data/1.0/";
-    private static final Log LOG = LogFactory.getLog(BudgetSubAwardServiceImpl.class);
-    
+    private static final Log LOG = LogFactory.getLog(PropDevPropDevBudgetSubAwardServiceImpl.class);
+
+    @Autowired
+    @Qualifier("parameterService")
     private ParameterService parameterService;
+
+    @Autowired
+    @Qualifier("budgetService")
     private BudgetService budgetService;
+
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+
+    @Autowired
+    @Qualifier("dateTimeService")
+    private DateTimeService dateTimeService;
 
 
     public void populateBudgetSubAwardFiles(Budget budget, BudgetSubAwards subAward, String newFileName, byte[] newFileData) {
@@ -93,9 +108,9 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         newSubAwardFile.setSubAwardNumber(subAward.getSubAwardNumber());
         subAward.setSubAwardXfdFileName(newFileName);
         subAward.setXfdUpdateUser(getLoggedInUserNetworkId());
-        subAward.setXfdUpdateTimestamp(CoreApiServiceLocator.getDateTimeService().getCurrentTimestamp());
+        subAward.setXfdUpdateTimestamp(dateTimeService.getCurrentTimestamp());
         subAward.setXmlUpdateUser(getLoggedInUserNetworkId());
-        subAward.setXmlUpdateTimestamp(CoreApiServiceLocator.getDateTimeService().getCurrentTimestamp());
+        subAward.setXmlUpdateTimestamp(dateTimeService.getCurrentTimestamp());
     }
     
     public void removeSubAwardAttachment(BudgetSubAwards subAward) {
@@ -108,9 +123,9 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         subAward.getBudgetSubAwardAttachments().clear();
         subAward.getBudgetSubAwardFiles().clear();
         subAward.setXfdUpdateUser(getLoggedInUserNetworkId());
-        subAward.setXfdUpdateTimestamp(CoreApiServiceLocator.getDateTimeService().getCurrentTimestamp());
+        subAward.setXfdUpdateTimestamp(dateTimeService.getCurrentTimestamp());
         subAward.setXmlUpdateUser(getLoggedInUserNetworkId());
-        subAward.setXmlUpdateTimestamp(CoreApiServiceLocator.getDateTimeService().getCurrentTimestamp());        
+        subAward.setXmlUpdateTimestamp(dateTimeService.getCurrentTimestamp());
     }
     
     public void prepareBudgetSubAwards(Budget budget) {
@@ -730,4 +745,11 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         this.businessObjectService = businessObjectService;
     }
 
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
 }
