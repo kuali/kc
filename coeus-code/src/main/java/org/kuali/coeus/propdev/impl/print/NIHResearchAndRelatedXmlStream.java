@@ -116,12 +116,8 @@ import java.util.*;
 public class NIHResearchAndRelatedXmlStream extends
         AbstractResearchAndRelatedStream {
 
-    @Autowired
-    @Qualifier("awardService")
-    private AwardService awardService;
-
     private static final Log LOG = LogFactory
-    .getLog(NIHResearchAndRelatedXmlStream.class);
+            .getLog(NIHResearchAndRelatedXmlStream.class);
 
     private static final String ORGANIZATION_QUESTION_ID_H5 = "H5";
     private static final String ORGANIZATION_QUESTION_ID_I8 = "I8";
@@ -156,6 +152,10 @@ public class NIHResearchAndRelatedXmlStream extends
 
     private static final String BUDGET_PERIOD_TYPE_3 = "3";
     private static final BigDecimal POINT_ZERO_ONE = new ScaleTwoDecimal(0.01).bigDecimalValue();
+
+    @Autowired
+    @Qualifier("awardService")
+    private AwardService awardService;
 
     @Autowired
     @Qualifier("parameterService")
