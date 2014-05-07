@@ -63,7 +63,7 @@ public class LookupableDevelopmentProposalLookupableHelperServiceImpl extends Ku
     private DocumentService documentService;
 
     @Autowired
-    @Qualifier("businessObjectService")
+    @Qualifier("businessObjectDictionaryService")
     @Override
     public void setBusinessObjectDictionaryService(BusinessObjectDictionaryService businessObjectDictionaryService) {
         super.setBusinessObjectDictionaryService(businessObjectDictionaryService);
