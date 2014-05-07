@@ -469,7 +469,13 @@
 		parent="Uif-TableCollectionSection" p:headerText="Unit Details"
 		p:propertyName="units"
 		p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPersonUnit"
-		p:renderAddLine="false" p:layoutManager.renderSequenceField="false">
+		p:renderAddLine="false" 
+		p:layoutManager.renderSequenceField="false"	>
+		<property name="lineActions">
+			<list>
+				<bean parent="Uif-DeleteLineAction" p:disabled="@{#lp.leadUnit}"/>
+			</list>  
+		</property>
 		<property name="layoutManager.pagerWidget">
 			<null />
 		</property>
@@ -479,11 +485,13 @@
 		</property>
 		<property name="items">
 			<list>
-				<!-- <bean parent="Uif-InputField" p:propertyName="leadUnit"/> -->
-				<bean parent="Uif-InputField" p:propertyName="unit.unitName"
+				<bean parent="Uif-DataField" p:propertyName="unit.unitName"
 					p:readOnly="true" p:order="10" />
-				<bean parent="Uif-InputField" p:propertyName="unitNumber"
+				<bean parent="Uif-DataField" p:propertyName="unitNumber"
 					p:readOnly="true" p:order="20" />
+ 				<bean parent="Uif-MessageField" p:messageText="@{#lp.leadUnit ? 'Lead Unit - Cannot delete' : ' '}"
+					p:readOnly="true" p:order="30"
+					p:label="Lead Unit?" />
 			</list>
 		</property>
 	</bean>
