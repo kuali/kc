@@ -6,4 +6,4 @@
  * @author Kuali Coeus Development Team
  *
  */
-package org.kuali.coeus.common.framework.audit;
+package org.kuali.coeus.common.framework.custom.audit;
