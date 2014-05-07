@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.framework.custom.audit;
+package org.kuali.coeus.common.framework.custom;
 
 import org.kuali.coeus.common.impl.custom.CustomDataRule;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
