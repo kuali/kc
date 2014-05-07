@@ -376,7 +376,7 @@
         <property name="businessObjectClass" value="org.kuali.coeus.common.framework.sponsor.SponsorType"/>
         <property name="includeKeyInDescription" value="false"/>
         <property name="includeBlankRow" value="false"/>
-        <property name="keyAttributeName" value="sponsorTypeCode"/>
+        <property name="keyAttributeName" value="code"/>
         <property name="labelAttributeName" value="description"/>
       </bean>
     </property>
