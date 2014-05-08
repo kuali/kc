@@ -351,7 +351,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 rolodexDetails.setAddress1(subaward.getRolodex().getAddressLine1());
                 rolodexDetails.setAddress2(subaward.getRolodex().getAddressLine2());
                 rolodexDetails.setCity(subaward.getRolodex().getCity());
-                rolodexDetails.setStateDescription(subaward.getRolodex().getState());
+                State state = KraServiceLocator.getService(PrintingUtils.class).getStateFromName(subaward.getOrganization().getRolodex().getCountryCode(), subaward.getOrganization().getRolodex().getState());
+                rolodexDetails.setStateDescription(state.getName());
                 rolodexDetails.setPincode(subaward.getRolodex().getPostalCode());
                 rolodexDetails.setPhoneNumber(subaward.getRolodex().getPhoneNumber());
                 rolodexDetails.setFax(subaward.getRolodex().getFaxNumber());
@@ -364,7 +365,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 rolodexDetailsType.setAddress2(subaward.getOrganization().getRolodex().getAddressLine2());
                 rolodexDetailsType.setAddress3(subaward.getOrganization().getRolodex().getAddressLine3());
                 rolodexDetailsType.setCity(subaward.getOrganization().getRolodex().getCity());
-                rolodexDetailsType.setStateDescription(subaward.getOrganization().getRolodex().getState());
+                State state = KraServiceLocator.getService(PrintingUtils.class).getStateFromName(subaward.getOrganization().getRolodex().getCountryCode(), subaward.getOrganization().getRolodex().getState());
+                rolodexDetails.setStateDescription(state.getName());
                 rolodexDetailsType.setPincode(subaward.getOrganization().getRolodex().getPostalCode());
                 organisation.setFedralEmployerId(subaward.getOrganization().getFederalEmployerId());
                 organisation.setDunsNumber(subaward.getOrganization().getDunsNumber());
