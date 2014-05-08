@@ -22,10 +22,10 @@ import org.kuali.kra.infrastructure.CitizenshipTypes;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.coeus.common.api.country.CountryContract;
+import org.kuali.coeus.common.api.state.StateContract;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
-import org.kuali.rice.location.api.country.Country;
-import org.kuali.rice.location.api.state.State;
 
 import java.sql.Date;
 import java.util.Calendar;
@@ -143,7 +143,7 @@ public interface S2SUtilService {
 	 *            Country name
 	 * @return Country object matching the code
 	 */
-	public Country getCountryFromCode(String countryCode);
+	public CountryContract getCountryFromCode(String countryCode);
 	/**
 	 * Finds a State object from the state name
 	 * @param countryAlternateCode country 3-character code
@@ -151,7 +151,7 @@ public interface S2SUtilService {
 	 *            Name of the state (two-letter state code)
 	 * @return State object matching the name.
 	 */
-	public State getStateFromName(String countryAlternateCode, String stateName);
+	public StateContract getStateFromName(String countryAlternateCode, String stateName);
 
 	/**
 	 * 
