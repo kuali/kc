@@ -34,9 +34,6 @@
         <property name="header">
             <bean parent="Uif-PageHeader" />
         </property>
-        <property name="footer">
-            <null />
-        </property>
     </bean>
 
     <bean id="PropDev-SummaryPage-TabGroup" parent="PropDev-SummaryPage-TabGroup-parentBean" />
