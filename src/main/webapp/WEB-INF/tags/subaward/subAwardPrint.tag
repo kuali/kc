@@ -36,6 +36,7 @@
 }
 </style>
 <c:set var="subAwardPrintAgreementAttributes" value="${DataDictionary.SubAwardPrintAgreement.attributes}" />
+<c:set var="subAwardForms" value="${DataDictionary.SubAwardForms.attributes}" />
 <c:set var="action" value="SubAwardHomeAction" />
 
 <kul:tab tabTitle="Print" tabItemCount="" defaultOpen="false" tabErrorKey="" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
@@ -60,7 +61,7 @@
 						</ul></dd></dl>
 					</div>
 						</td>
-						<td rowspan="5" class="infoline" style="text-align:center;"><html:image property="methodToCall.printForms"
+						<td rowspan="5" class="infoline" style="text-align:center;width:74px;"><html:image property="methodToCall.printForms"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
 						alt="Print Award Notice" styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/></td>
 				</tr>
@@ -117,58 +118,31 @@
 				</tr> 
 				<tr>
 				<td scope="row" style="width:160px; text-align:center;">Sponsor Attachments:</td>
-				
 				<td>
-				
-				
 				<div class="multi-col-list" id="awardPrintNoticeItems">
-				 <dl><dd><ul>
-				  <li><kul:htmlControlAttribute property="subAwardPrintAgreement.afosrSponsor" 
-      							attributeEntry="${subAwardPrintAgreementAttributes.afosrSponsor}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.afosrSponsor}" useShortLabel="true" noColon="true" />
+				<dl>
+				<c:forEach var="form" items="${KualiForm.document.subAwardList[0].subAwardForms}" varStatus="status">
+				
+				<c:choose>
+				<c:when test="${status.index % 2 == 0}" >
+				 <dd><ul>
+				  <li>
+				  <html:checkbox property="document.subAwardList[0].subAwardForms[${status.index}].selectToPrint"/>
+				  <c:out value="${KualiForm.document.subAwardList[0].subAwardForms[status.index].description}"/>
+				</li>
+				</ul></dd>
+      			   </c:when>
+      			  <c:otherwise >
+      			 <dd><ul>
+      			  <li>
+      			  <html:checkbox property="document.subAwardList[0].subAwardForms[${status.index}].selectToPrint"/>
+      			  <c:out value="${KualiForm.document.subAwardList[0].subAwardForms[status.index].description}"/>
       			  </li>
-				  <li><kul:htmlControlAttribute property="subAwardPrintAgreement.amrmcSponsor" 
-      							attributeEntry="${subAwardPrintAgreementAttributes.amrmcSponsor}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.amrmcSponsor}" useShortLabel="true" noColon="true" />
-      			  </li>
-      			  <li><kul:htmlControlAttribute property="subAwardPrintAgreement.aroSponsor" 
-      							attributeEntry="${subAwardPrintAgreementAttributes.aroSponsor}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.aroSponsor}" useShortLabel="true" noColon="true" />
-      			  </li>
-				<li><kul:htmlControlAttribute property="subAwardPrintAgreement.doeSponsor" 
-      							attributeEntry="${subAwardPrintAgreementAttributes.doeSponsor}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.doeSponsor}" useShortLabel="true" noColon="true" />
-      			  </li>
-      			  <kul:htmlControlAttribute property="subAwardPrintAgreement.epaSponsor" 
-      							attributeEntry="${subAwardPrintAgreementAttributes.epaSponsor}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.epaSponsor}" useShortLabel="true" noColon="true" />
-      			  
-      			  </ul></dd><!-- </dl>
-      			  </div> 
-      			  </td><td style="border-left: 0px;border-bottom: 0px;">
-      			  <div class="multi-col-list" id="awardPrintNoticeItems">
-      			   <dl> --><dd><ul>
-      			  <li><kul:htmlControlAttribute property="subAwardPrintAgreement.nasaSponsor" 
-      							attributeEntry="${subAwardPrintAgreementAttributes.nasaSponsor}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.nasaSponsor}" useShortLabel="true" noColon="true" />
-      			  </li>
-      			 
-      			  <li><kul:htmlControlAttribute property="subAwardPrintAgreement.nihSponsor" 
-      							attributeEntry="${subAwardPrintAgreementAttributes.nihSponsor}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.nihSponsor}" useShortLabel="true" noColon="true" />
-      			  </li>
-      			  <li><kul:htmlControlAttribute property="subAwardPrintAgreement.nsfSponsor" 
-      							attributeEntry="${subAwardPrintAgreementAttributes.nsfSponsor}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.nsfSponsor}" useShortLabel="true" noColon="true" />
-      			  </li>
-      			  <li><kul:htmlControlAttribute property="subAwardPrintAgreement.onrSponsor" 
-      							attributeEntry="${subAwardPrintAgreementAttributes.onrSponsor}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.onrSponsor}" useShortLabel="true" noColon="true" />
-      			  </li>
-				 <kul:htmlControlAttribute property="subAwardPrintAgreement.usdaSponsor" 
-      							attributeEntry="${subAwardPrintAgreementAttributes.usdaSponsor}" readOnly="false"/>
-      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.usdaSponsor}" useShortLabel="true" noColon="true" />
-      			  </ul></dd></dl>
+      			  </ul></dd>
+      			  </c:otherwise>
+      			  </c:choose>
+      			  </c:forEach>
+      			  </dl>
 				  </div>
 				
 				</td>

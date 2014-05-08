@@ -15,8 +15,12 @@
  */
 package org.kuali.kra.subaward.bo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.rice.krad.bo.PersistableAttachment;
 
 public class SubAwardForms extends KraPersistableBusinessObjectBase implements PersistableAttachment{ 
@@ -31,16 +35,24 @@ public class SubAwardForms extends KraPersistableBusinessObjectBase implements P
     private transient FormFile templateFile;   
     private Integer templateTypeCode;
     private SubawardTemplateType subAwardTemplateType;
+    private Boolean selectToPrint = false;
 
+    public final Boolean getSelectToPrint() {
+        return selectToPrint;
+    }
+
+    public final void setSelectToPrint(Boolean selectToPrint) {
+        this.selectToPrint = selectToPrint;
+    }
     
     /**
      * Constructs a SubAwardForms.java.
      */
     public SubAwardForms() {
-
+        super();
     }
+   
     
-
     /**.
      * This is the Getter Method for SubAwardTemplateType
      * @return Returns the SubAwardTemplateType.

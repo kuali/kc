@@ -585,8 +585,9 @@ public ActionForward blanketApprove(ActionMapping mapping,
          Map<String, Object> reportParameters = new HashMap<String, Object>();          
          SubAwardForm subAwardForm = (SubAwardForm) form;
          List<SubAwardForms> printFormTemplates = new ArrayList<SubAwardForms>();
+         List<SubAwardForms> subAwardFormList = subAwardForm.getSubAwardDocument().getSubAwardList().get(0).getSubAwardForms();
          SubAwardPrintingService printService = KraServiceLocator.getService(SubAwardPrintingService.class);
-         printFormTemplates = printService.getSponsorFormTemplates(subAwardForm.getSubAwardPrintAgreement());
+         printFormTemplates = printService.getSponsorFormTemplates(subAwardForm.getSubAwardPrintAgreement(),subAwardFormList);
           if(new SubAwardDocumentRule().processsSubawardPrintRule(subAwardForm)){
               Collection<SubAwardFundingSource> fundingSource = (Collection<SubAwardFundingSource>) KraServiceLocator
                       .getService(BusinessObjectService.class).findAll(SubAwardFundingSource.class);
