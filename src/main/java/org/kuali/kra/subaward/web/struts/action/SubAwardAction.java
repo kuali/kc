@@ -602,6 +602,8 @@ public ActionForward blanketApprove(ActionMapping mapping,
               for (SubAwardFundingSource subAwardFunding : fundingSource) {
               if(subAwardForm.getSubAwardPrintAgreement().getFundingSource().equals(subAwardFunding.getSubAwardFundingSourceId().toString())){
                   reportParameters.put("awardNumber",subAwardFunding.getAward().getAwardNumber());
+                  reportParameters.put("awardTitle",subAwardFunding.getAward().getParentTitle());
+                  reportParameters.put("sponsorAwardNumber",subAwardFunding.getAward().getSponsorAwardNumber());
                   reportParameters.put("sponsorName",subAwardFunding.getAward().getSponsor().getSponsorName());
                   reportParameters.put("cfdaNumber",subAwardFunding.getAward().getCfdaNumber());
               }
