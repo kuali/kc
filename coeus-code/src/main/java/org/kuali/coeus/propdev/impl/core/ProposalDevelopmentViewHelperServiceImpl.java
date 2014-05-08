@@ -76,9 +76,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
     @Override
     public void processAfterSaveLine(ViewModel model, Object lineObject, String collectionId, String collectionPath) {
-        if (lineObject instanceof ProposalAbstract) {
-            getLegacyDataAdapter().save(lineObject);
-        }
+           getDataObjectService().save(lineObject);
     }
 
     public static class SponsorSuggestResult {
