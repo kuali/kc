@@ -380,7 +380,7 @@
 
     <bean id="proposalHierarchyDao" parent="platformAwareDao" class="org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyDaoOjb" />
     
-    <bean id="proposalRoleService" class="org.kuali.kra.kim.service.impl.ProposalRoleServiceImpl">
+    <bean id="proposalRoleService" class="org.kuali.coeus.propdev.impl.docperm.ProposalRoleServiceImpl">
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
     </bean>
     
@@ -390,7 +390,7 @@
         <property name="proposalRoleService" ref="proposalRoleService" />
     </bean>
 
-	<bean id="proposalRoleTypeService" class="org.kuali.kra.workflow.ProposalPersonDerivedRoleTypeServiceImpl">
+	<bean id="proposalRoleTypeService" class="org.kuali.coeus.propdev.impl.person.ProposalPersonDerivedRoleTypeServiceImpl">
 		<property name="proposalPersonService" ref="proposalPersonService" />
 	</bean>
 	
