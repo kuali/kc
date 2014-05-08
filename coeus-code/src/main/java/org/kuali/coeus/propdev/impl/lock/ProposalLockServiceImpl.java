@@ -21,22 +21,42 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
+import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.impl.PessimisticLockServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+@Component("proposalLockService")
 public class ProposalLockServiceImpl extends PessimisticLockServiceImpl implements ProposalLockService {
 
     private static final String FALSE = "FALSE";
     private static final String ADD_BUDGET = "addBudget";
-    
+
+    @Autowired
+    @Qualifier("dataDictionaryService")
+    @Override
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        super.setDataDictionaryService(dataDictionaryService);
+    }
+
+    @Autowired
+    @Qualifier("dataObjectService")
+    @Override
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        super.setDataObjectService(dataObjectService);
+    }
+
     /**
      * This method is used to check if the given parameters warrant a new lock to be created for the given user. This method
      * utilizes the {@link #isEntryEditMode(java.util.Map.Entry)} method.

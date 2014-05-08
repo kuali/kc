@@ -54,7 +54,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.budget.print.BudgetPrintService;
-import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardService;
+import org.kuali.coeus.propdev.impl.budget.subaward.PropDevBudgetSubAwardService;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -87,7 +87,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     private static final String SUBAWARD_BUDGET_EDIT_LINE_ENDER = "]";
     private static final String UPDATE_COST_LIMITS_QUESTION = "UpdateCostLimitsQuestion";
     private BudgetJustificationService budgetJustificationService;
-    private BudgetSubAwardService budgetSubAwardService;
+    private PropDevBudgetSubAwardService propDevBudgetSubAwardService;
     private static final Log LOG = LogFactory.getLog(BudgetActionsAction.class);
     private BudgetAdjustmentClient budgetAdjustmentClient = null;
 
@@ -185,7 +185,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         ActionForward forward = super.reload(mapping, form, request, response);
         BudgetForm budgetForm = (BudgetForm)form;
         Budget budget = budgetForm.getBudgetDocument().getBudget();
-        getBudgetSubAwardService().populateBudgetSubAwardAttachments(budget);
+        getPropDevBudgetSubAwardService().populateBudgetSubAwardAttachments(budget);
         return forward;
     }
 
@@ -263,7 +263,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         int selectedLineNumber = getSelectedLine(request);
         BudgetSubAwards subAward = budgetDocument.getBudget().getBudgetSubAwards().get(selectedLineNumber);
-        getBudgetSubAwardService().removeSubAwardAttachment(subAward);
+        getPropDevBudgetSubAwardService().removeSubAwardAttachment(subAward);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -299,7 +299,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             success = false;
             }
         if (rule.processXFDAttachment()) {
-            success = getBudgetSubAwardService().updateSubAwardBudgetDetails(budget, subAward, errorMessages);
+            success = getPropDevBudgetSubAwardService().updateSubAwardBudgetDetails(budget, subAward, errorMessages);
         }
         if (!errorMessages.isEmpty()) {
             for (String[] message : errorMessages) {
@@ -327,7 +327,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         subAward.setFormName(null);
         subAward.setNamespace(null);
         if (subAward.getNewSubAwardFile().getContentType().equalsIgnoreCase(Constants.PDF_REPORT_CONTENT_TYPE)) {
-            getBudgetSubAwardService().populateBudgetSubAwardFiles(budget, subAward, fileName, fileData);
+            getPropDevBudgetSubAwardService().populateBudgetSubAwardFiles(budget, subAward, fileName, fileData);
         }
         boolean success = updateSubAwardBudgetDetails(budget, subAward);
         BudgetSubAwardsRule rule = new BudgetSubAwardsRule(subAward);
@@ -743,15 +743,15 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    public BudgetSubAwardService getBudgetSubAwardService() {
-        if (budgetSubAwardService == null) {
-            budgetSubAwardService = KcServiceLocator.getService(BudgetSubAwardService.class);
+    public PropDevBudgetSubAwardService getPropDevBudgetSubAwardService() {
+        if (propDevBudgetSubAwardService == null) {
+            propDevBudgetSubAwardService = KcServiceLocator.getService(PropDevBudgetSubAwardService.class);
         }
-        return budgetSubAwardService;
+        return propDevBudgetSubAwardService;
     }
 
-    public void setBudgetSubAwardService(BudgetSubAwardService budgetSubAwardService) {
-        this.budgetSubAwardService = budgetSubAwardService;
+    public void setPropDevBudgetSubAwardService(PropDevBudgetSubAwardService propDevBudgetSubAwardService) {
+        this.propDevBudgetSubAwardService = propDevBudgetSubAwardService;
     }  
     
     public ActionForward budgetVersions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {

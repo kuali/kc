@@ -28,24 +28,9 @@
     <bean id="budgetCalculationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="budgetCalculationService" />
     </bean>
-    
-    <bean id="budgetSubAwardService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="budgetSubAwardService" />
-    </bean>    
                      
     <bean id="kcWorkflowService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kcWorkflowService" />
-    </bean>
-
-    <bean id="proposalBudgetService" class="org.kuali.coeus.propdev.impl.budget.ProposalBudgetServiceImpl" >
-        <property name="budgetService" ref="budgetService" />
-        <property name="documentService" ref="documentService" />
-        <property name="parameterService" ref="parameterService" />
-        <property name="budgetCalculationService" ref="budgetCalculationService" />
-        <property name="budgetSubAwardService" ref="budgetSubAwardService" />
-    </bean>
-    
-    <bean id="proposalBudgetNumberOfMonthsService" class="org.kuali.coeus.propdev.impl.budget.ProposalBudgetNumberOfMonthsServiceImpl" >
     </bean>
     
     <!-- Proposal Development Budget Task Authorizers -->
@@ -142,9 +127,5 @@
             </map>
         </property>
     </bean>
-
-	<bean id="propDevBudgetFactBuilderService" class="org.kuali.coeus.propdev.impl.budget.PropDevBudgetFactBuilderServiceImpl">
-		  <property name="documentService" ref="documentService" />
-	</bean>
 
 </beans>

@@ -24,7 +24,7 @@ import java.util.List;
  * 
  * This class is for handling Budget Sub awards
  */
-public interface BudgetSubAwardService {
+public interface PropDevBudgetSubAwardService {
     /**
      * 
      * This method is to populate the subaward files

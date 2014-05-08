@@ -13,19 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.workflow;
+package org.kuali.coeus.propdev.impl.person;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonService;
+import org.kuali.kra.workflow.AbstractProjectPersonDerivedRoleTypeServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Component("proposalRoleTypeService")
 public class ProposalPersonDerivedRoleTypeServiceImpl extends AbstractProjectPersonDerivedRoleTypeServiceImpl {
-    
+
+    @Autowired
+    @Qualifier("proposalPersonService")
 	private ProposalPersonService proposalPersonService;
 	
 	protected List<String> requiredAttributes = new ArrayList<String>();

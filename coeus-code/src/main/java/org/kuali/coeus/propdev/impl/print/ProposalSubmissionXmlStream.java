@@ -39,10 +39,15 @@ import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.util.*;
 
+@Component("proposalSubmissionXmlStream")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 
 	private static final String DOES_REQUIRE = "does require";

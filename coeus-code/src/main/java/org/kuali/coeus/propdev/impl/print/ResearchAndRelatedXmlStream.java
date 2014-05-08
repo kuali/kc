@@ -46,6 +46,9 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -61,6 +64,8 @@ import java.util.Map;
  * 
  * 
  */
+@Component("researchAndRelatedXmlStream")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStream {
 
 	private static final Log LOG = LogFactory

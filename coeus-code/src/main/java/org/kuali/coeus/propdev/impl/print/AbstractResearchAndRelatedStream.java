@@ -35,6 +35,9 @@ import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -90,9 +93,21 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private static final String APPOINTMENT_TYPE_SUM_EMPLOYEE = "SUM EMPLOYEE";
     private static final String APPOINTMENT_TYPE_TMP_EMPLOYEE = "TMP EMPLOYEE";
     public static final String VALUE_UNKNOWN = "Unknown";
+
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+
+    @Autowired
+    @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
+
+    @Autowired
+    @Qualifier("budgetPersonService")
     private BudgetPersonService budgetPersonService;
+
+    @Autowired
+    @Qualifier("sponsorHierarchyService")
     private SponsorHierarchyService sponsorHierarchyService;
 
     /*

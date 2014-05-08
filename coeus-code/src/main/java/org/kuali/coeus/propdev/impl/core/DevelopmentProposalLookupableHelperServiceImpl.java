@@ -16,7 +16,6 @@
 package org.kuali.coeus.propdev.impl.core;
 
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.rice.kim.api.identity.Person;
@@ -27,18 +26,31 @@ import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
+@Component("proposalDevelopmentLookupableHelperService")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
     private static final long serialVersionUID = 8611232870631352662L;
 
+    @Autowired
+    @Qualifier("kcAuthorizationService")
     private KcAuthorizationService kraAuthorizationService;
-    
+
+
+    @Autowired
+    @Qualifier("documentHelperService")
+    private DocumentHelperService documentHelperService;
+
     @Override
     @SuppressWarnings("unchecked")
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -121,8 +133,16 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
     public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
-    
-    private DocumentHelperService getDocumentHelperService() {
-        return KcServiceLocator.getService(DocumentHelperService.class);
+
+    public KcAuthorizationService getKraAuthorizationService() {
+        return kraAuthorizationService;
+    }
+
+    public DocumentHelperService getDocumentHelperService() {
+        return documentHelperService;
+    }
+
+    public void setDocumentHelperService(DocumentHelperService documentHelperService) {
+        this.documentHelperService = documentHelperService;
     }
 }

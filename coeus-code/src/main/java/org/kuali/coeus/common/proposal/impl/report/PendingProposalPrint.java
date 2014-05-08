@@ -17,7 +17,13 @@ package org.kuali.coeus.common.proposal.impl.report;
 
 import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.PrintConstants;
+import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import javax.xml.transform.Source;
 import java.util.ArrayList;
@@ -32,9 +38,18 @@ import java.util.List;
  * 
  * 
  */
+@Component("currentProposalPrint")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class PendingProposalPrint extends AbstractPrint {
 
-	/**
+    @Autowired
+    @Qualifier("pendingProposalXmlStream")
+    @Override
+    public void setXmlStream(XmlStream xmlStream) {
+        super.setXmlStream(xmlStream);
+    }
+
+    /**
 	 * This method fetches the XSL style-sheets required for transforming the
 	 * generated XML into PDF.
 	 * 

@@ -24,7 +24,7 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardServiceImpl;
+import org.kuali.coeus.propdev.impl.budget.subaward.PropDevPropDevBudgetSubAwardServiceImpl;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetServiceImpl;
@@ -38,14 +38,14 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.util.*;
 
-public class BudgetSubAwardServiceTest {
+public class PropDevBudgetSubAwardServiceTest {
 
     protected static String directLt = "4";
     protected static String directGt = "3";
     protected static String indirectLt = "2";
     protected static String indirectGt = "1";
     
-    protected BudgetSubAwardServiceImpl service;
+    protected PropDevPropDevBudgetSubAwardServiceImpl service;
     protected BudgetSubAwards subAward;
     protected Budget budget;
 
@@ -54,7 +54,7 @@ public class BudgetSubAwardServiceTest {
     @Before
     public void setUp() throws Exception {
         context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
-        service = new BudgetSubAwardServiceImpl();
+        service = new PropDevPropDevBudgetSubAwardServiceImpl();
         budget = new Budget();
         budget.setBudgetId(1L+12);
         subAward = new BudgetSubAwards();

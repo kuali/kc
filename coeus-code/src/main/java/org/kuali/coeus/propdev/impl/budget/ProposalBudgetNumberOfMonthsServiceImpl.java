@@ -15,12 +15,14 @@
  */
 package org.kuali.coeus.propdev.impl.budget;
 
-import org.kuali.coeus.propdev.impl.budget.ProposalBudgetNumberOfMonthsService;
+
+import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+@Component("proposalBudgetNumberOfMonthsService")
 public class ProposalBudgetNumberOfMonthsServiceImpl implements ProposalBudgetNumberOfMonthsService {
     
     protected static final double[] THIRTY_ONE_DAY_COUNT = {0.03, 0.06, 0.10, 0.13, 0.16, 0.19, 0.23, 0.26, 0.29, 0.32, 0.35, 0.39, 0.42, 
