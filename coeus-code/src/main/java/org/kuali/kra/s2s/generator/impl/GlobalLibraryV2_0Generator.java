@@ -25,11 +25,11 @@ import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.common.api.country.CountryContract;
+import org.kuali.coeus.common.api.state.StateContract;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SUtilService;
-import org.kuali.rice.location.api.country.Country;
-import org.kuali.rice.location.api.state.State;
 
 public class GlobalLibraryV2_0Generator {
 
@@ -50,7 +50,7 @@ public class GlobalLibraryV2_0Generator {
 	 */
 	public CountryCodeDataType.Enum getCountryCodeDataType(String countryCode) {
 		CountryCodeDataType.Enum countryCodeDataType = null;
-		Country country = s2sUtilService.getCountryFromCode(countryCode);
+		CountryContract country = s2sUtilService.getCountryFromCode(countryCode);
 		if (country != null) {
 			StringBuilder countryDetail = new StringBuilder();
 			countryDetail.append(country.getAlternateCode());
@@ -72,7 +72,7 @@ public class GlobalLibraryV2_0Generator {
 	 */
 	public StateCodeDataType.Enum getStateCodeDataType(String countryAlternateCode, String stateName) {
 		StateCodeDataType.Enum stateCodeDataType = null;
-		State state = s2sUtilService.getStateFromName(countryAlternateCode, stateName);
+		StateContract state = s2sUtilService.getStateFromName(countryAlternateCode, stateName);
 		if (state != null) {
 			StringBuilder stateDetail = new StringBuilder();
 			stateDetail.append(state.getCode());
