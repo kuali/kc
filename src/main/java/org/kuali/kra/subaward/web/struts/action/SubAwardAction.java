@@ -51,6 +51,8 @@ import org.kuali.kra.subawardReporting.printing.service.SubAwardPrintingService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.AuditActionHelper.ValidationState;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -111,12 +113,18 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
                 if(subAwardAttachmentsList != null && !subAwardAttachmentsList.isEmpty()) {
                      for(SubAwardAttachments subAwardAttachments:subAwardAttachmentsList) {
                             if(subAwardAttachments.getFileName() != null) {
-                               String[] fileNameSplit=subAwardAttachments.getFileName().toString().split("\\.pdf");
-                               SubAwardPrintingService printService = KraServiceLocator.getService(SubAwardPrintingService.class);
-                                   if(printService.isPdf(subAwardAttachments.getAttachmentContent())) {
-                                   subAwardAttachments.setFileNameSplit(fileNameSplit[0]);
-                                   }
-                            }
+                                String printAttachmentTypeInclusion=KraServiceLocator.getService(ParameterService.class).getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_PRINT_ATTACHMENT_TYPE_INCLUSION);
+                                String[] attachmentTypeCode=printAttachmentTypeInclusion.split("\\,");
+                                for(int typeCode=0;typeCode<attachmentTypeCode.length;typeCode++) {
+                                    if(subAwardAttachments.getSubAwardAttachmentTypeCode().equals(attachmentTypeCode[typeCode])) {
+                                        String[] fileNameSplit=subAwardAttachments.getFileName().toString().split("\\.pdf");
+                                        SubAwardPrintingService printService = KraServiceLocator.getService(SubAwardPrintingService.class);
+                                            if(printService.isPdf(subAwardAttachments.getAttachmentContent())) {
+                                            subAwardAttachments.setFileNameSplit(fileNameSplit[0]);
+                                            }
+                                     }
+                                 }
+                             }
                             SubAwardAttachmentType subAwardAttachmentTypeValue =  KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(SubAwardAttachmentType.class, subAwardAttachments.getSubAwardAttachmentTypeCode());
                             subAwardAttachments.setTypeAttachment(subAwardAttachmentTypeValue);
                      }
