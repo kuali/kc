@@ -36,8 +36,10 @@ import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.OrganizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
@@ -59,6 +61,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.uif.UifConstants.ConfigProperties;
+import org.kuali.rice.location.api.state.State;
 
 import edu.mit.coeus.utils.xml.bean.subcontractFdpReports.award.AwardHeaderType;
 import edu.mit.coeus.utils.xml.bean.subcontractFdpReports.award.AwardType;
@@ -91,6 +94,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
     protected SubAward subaward = null;
     protected SubAwardDocument subawarddoc = null;
     private String awardNumber;
+    private String awardTitle;
+    private String sponsorAwardNumber;
     private String sponsorName;
     private String cfdaNumber;
     private String unitName;
@@ -229,6 +234,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         SubContractData subContractData = SubContractData.Factory.newInstance();
         SubAward subaward=(SubAward) printableBusinessObject;
         this.awardNumber=(String) reportParameters.get("awardNumber");
+        this.awardTitle=(String) reportParameters.get("awardTitle");
+        this.sponsorAwardNumber=(String) reportParameters.get("sponsorAwardNumber");
         this.sponsorName=(String) reportParameters.get("sponsorName");
         this.cfdaNumber=(String) reportParameters.get("cfdaNumber");
         this.sponsorTemplates = (List<SubAwardForms>) reportParameters.get(SubAwardPrintingService.SELECTED_TEMPLATES);
@@ -317,6 +324,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                    if(contactTypeCode.getDescription() != null) {
                        subContractTemplateInfo.setCarryForwardRequestsSentToDescription(contactTypeCode.getDescription());
                    }
+                   
                }
                    
            templateDataList.add(subContractTemplateInfo);
@@ -352,8 +360,9 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 subcontractDetail.setPONumber(subaward.getPurchaseOrderNum());
             if(subaward.getOrganization() != null){
                 subcontractDetail.setSubcontractorName(subaward.getOrganization().getOrganizationName());
-                rolodexDetailsType.setAddress1(subaward.getOrganization().getAddress());
+                rolodexDetailsType.setAddress1(subaward.getOrganization().getRolodex().getAddressLine1());
                 rolodexDetailsType.setAddress2(subaward.getOrganization().getRolodex().getAddressLine2());
+                rolodexDetailsType.setAddress3(subaward.getOrganization().getRolodex().getAddressLine3());
                 rolodexDetailsType.setCity(subaward.getOrganization().getRolodex().getCity());
                 rolodexDetailsType.setStateDescription(subaward.getOrganization().getRolodex().getState());
                 rolodexDetailsType.setPincode(subaward.getOrganization().getRolodex().getPostalCode());
@@ -377,11 +386,9 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
            
             SubcontractAmountInfo subContractAmountInfo = SubcontractAmountInfo.Factory.newInstance();
             List<SubcontractAmountInfo> amountinfoList = new ArrayList<SubcontractAmountInfo>();
-            SubAwardAmountInfo subawardAmount=null;
             if(subaward.getSubAwardAmountInfoList() != null && !subaward.getSubAwardAmountInfoList().isEmpty()){
-                subawardAmount = subaward.getSubAwardAmountInfoList().get(0);
-                subContractAmountInfo.setObligatedAmount(subawardAmount.getObligatedAmount().bigDecimalValue());
-                subContractAmountInfo.setAnticipatedAmount(subawardAmount.getAnticipatedAmount().bigDecimalValue());
+                subContractAmountInfo.setObligatedAmount(subaward.getTotalObligatedAmount().bigDecimalValue());
+                subContractAmountInfo.setAnticipatedAmount(subaward.getTotalAnticipatedAmount().bigDecimalValue());
             }
             if(subaward.getPerformanceStartDate() != null){
                 subContractAmountInfo.setPerformanceStartDate(getDateTimeService().getCalendar(subaward.getPerformanceStartDate()));
@@ -404,10 +411,10 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             AwardDetails awardDetails= AwardDetails.Factory.newInstance();
             OtherHeaderDetails otherDetails = OtherHeaderDetails.Factory.newInstance();
             List<AwardType> awardTypeList = new ArrayList<AwardType>();
-            awardHeaderType.setSponsorAwardNumber(awardNumber);
+            awardHeaderType.setSponsorAwardNumber(sponsorAwardNumber);
             awardHeaderType.setSponsorDescription(sponsorName);
             if(subaward.getTitle() != null){
-                awardHeaderType.setTitle(subaward.getTitle());
+                awardHeaderType.setTitle(awardTitle);
             }
             if(cfdaNumber != null){
                 otherDetails.setCFDANumber(cfdaNumber);
@@ -422,20 +429,25 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             PrimeRecipientContacts primeReceipient = PrimeRecipientContacts.Factory.newInstance();
             OrganizationType organisation= OrganizationType.Factory.newInstance();
             RolodexDetailsType rolodexDetails =RolodexDetailsType.Factory.newInstance();
-            UnitService unitService = KraServiceLocator.
-                    getService(UnitService.class);
-            if(subaward.getRequisitionerUnit() != null)
-                {
-                this.unitName = unitService.getUnitName(subaward.getRequisitionerUnit());
-                organisation.setOrganizationName(unitName);
-                }
-            if(subaward.getOrganization().getRolodex() != null && unitName!=null ){
-                rolodexDetails.setAddress1(subaward.getOrganization().getRolodex().getAddressLine1());
-                rolodexDetails.setAddress2(subaward.getOrganization().getRolodex().getAddressLine2());
-                rolodexDetails.setCity(subaward.getOrganization().getRolodex().getCity());
-                rolodexDetails.setStateDescription(subaward.getOrganization().getRolodex().getState());
-                rolodexDetails.setPincode(subaward.getOrganization().getRolodex().getPostalCode());
+            Map<String, String> primeUniversityMap = new HashMap<String, String>();
+            primeUniversityMap.put("organizationId", "000001");
+            UnitService unitService = KraServiceLocator.getService(UnitService.class);
+            Organization primeOrganisation=businessObjectService.findByPrimaryKey(Organization.class, primeUniversityMap); 
+            if(primeOrganisation.getRolodex()!=null)
+            {
+             
+            organisation.setOrganizationName(primeOrganisation.getOrganizationName());
+            rolodexDetails.setAddress1(primeOrganisation.getRolodex().getAddressLine1());
+            rolodexDetails.setAddress2(primeOrganisation.getRolodex().getAddressLine2());
+            rolodexDetails.setAddress3(primeOrganisation.getRolodex().getAddressLine3());
+            rolodexDetails.setCity(primeOrganisation.getRolodex().getCity());
+            State state = KraServiceLocator.getService(PrintingUtils.class).getStateFromName(primeOrganisation.getRolodex().getCountryCode(), primeOrganisation.getRolodex().getState());
+            rolodexDetails.setStateDescription(state.getName());
+            rolodexDetails.setPincode(primeOrganisation.getRolodex().getPostalCode());
+            
             }
+            
+  
             primeReceipient.setOrgRolodexDetails(rolodexDetails);
             primeReceipient.setRequisitionerOrgDetails(organisation);
             subContractData.setPrimeRecipientContacts(primeReceipient);
