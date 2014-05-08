@@ -38,7 +38,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private ProposalDevelopmentQuestionnaireHelper questionnaireHelper;
     private KeyPersonnelAddWizardHelper addKeyPersonHelper;
     private S2sOpportunity newS2sOpportunity;
-    private Map<String,List<String>> editableAttachmentsMap;
+    private Map<String,List<String>> editableAttachments;
 
     public ProposalDevelopmentDocumentForm() {
         super();
@@ -54,7 +54,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         
         newS2sOpportunity = new S2sOpportunity();
 
-        editableAttachmentsMap = new HashMap<String,List<String>>();
+        editableAttachments = new HashMap<String,List<String>>();
     }
     
     public int findIndexOfPageId(List<Action> actions) {
@@ -141,11 +141,11 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         this.newS2sOpportunity = newOpportunity;
     }
 
-    public Map<String, List<String>> getEditableAttachmentsMap() {
-        return editableAttachmentsMap;
+    public Map<String, List<String>> getEditableAttachments() {
+        return editableAttachments;
     }
 
-    public void setEditableAttachmentsMap(Map<String, List<String>> editableAttachmentsMap) {
-        this.editableAttachmentsMap = editableAttachmentsMap;
+    public void setEditableAttachments(Map<String, List<String>> editableAttachments) {
+        this.editableAttachments = editableAttachments;
     }
 }

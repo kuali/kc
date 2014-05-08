@@ -113,6 +113,16 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         return result;
     }
 
+    public boolean isAttachmentEditable(String lineClass, String index, HashMap<String,List<String>> editableAttachments) {
+        boolean retVal = false;
+        if (editableAttachments.containsKey(lineClass)) {
+            if (editableAttachments.get(lineClass).contains(index)) {
+                retVal = true;
+            }
+        }
+        return retVal;
+    }
+
     protected LegacyNarrativeService getNarrativeService() {
     	if (narrativeService == null) {
     		narrativeService = KcServiceLocator.getService(LegacyNarrativeService.class);

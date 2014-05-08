@@ -178,22 +178,22 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="abstractDetails" p:order="30"
-                      p:readOnly="@{editableAttachmentsMap.get('abstracts') eq null ? true : !editableAttachmentsMap.get('abstracts').contains(#line.abstractTypeCode)}"/>
+                      p:readOnly="@{!#ViewHelper.isAttachmentEditable(#getName(#line.getClass()),#index,editableAttachments)}"/>
             </list>
         </property>
         <property name="lineActions">
             <list>
                 <bean parent="Uif-ActionLink" p:methodToCall="cancelAttachment"
-                      p:actionParameters="attachmentType:abstracts,attachmentKey:@{#line.abstractTypeCode}"
-                      p:hidden="@{editableAttachmentsMap.get('abstracts') eq null ? true : !editableAttachmentsMap.get('abstracts').contains(#line.abstractTypeCode)}"
+                      p:actionParameters="lineClass:@{#getName(#line.getClass())}"
+                      p:hidden="@{!#ViewHelper.isAttachmentEditable(#getName(#line.getClass()),#index,editableAttachments)}"
                       p:actionLabel="cancel" p:style="float:right" p:order="10"/>
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="editAttachment"
-                      p:hidden="@{editableAttachmentsMap.get('abstracts') eq null ? false : editableAttachmentsMap.get('abstracts').contains(#line.abstractTypeCode)}"
-                      p:actionParameters="attachmentType:abstracts,attachmentKey:@{#line.abstractTypeCode}"
+                      p:actionParameters="lineClass:@{#getName(#line.getClass())}"
+                      p:hidden="@{#ViewHelper.isAttachmentEditable(#getName(#line.getClass()),#index,editableAttachments)}"
                       p:actionLabel="Edit" p:style="float:right" p:order="20"/>
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="saveAttachment"
-                      p:actionParameters="attachmentType:abstracts,attachmentKey:@{#line.abstractTypeCode}"
-                      p:hidden="@{editableAttachmentsMap.get('abstracts') eq null ? true : !editableAttachmentsMap.get('abstracts').contains(#line.abstractTypeCode)}"
+                      p:actionParameters="lineClass:@{#getName(#line.getClass())}"
+                      p:hidden="@{!#ViewHelper.isAttachmentEditable(#getName(#line.getClass()),#index,editableAttachments)}"
                       p:actionLabel="Save" p:style="float:right" p:order="30"/>
             </list>
         </property>
