@@ -46,16 +46,16 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
+import org.kuali.coeus.common.api.country.CountryContract;
+import org.kuali.coeus.common.api.country.KcCountryService;
+import org.kuali.coeus.common.api.state.KcStateService;
+import org.kuali.coeus.common.api.state.StateContract;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.location.api.country.Country;
-import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.state.State;
-import org.kuali.rice.location.api.state.StateService;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -455,17 +455,17 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * @return Country object matching the code
      * @see org.kuali.kra.s2s.service.S2SUtilService#getCountryFromCode(java.lang.String)
      */
-    public Country getCountryFromCode(String countryCode) {
+    public CountryContract getCountryFromCode(String countryCode) {
         if(countryCode==null) return null;
-        Country country = getCountryService().getCountryByAlternateCode(countryCode);
+        CountryContract country = getCountryService().getCountryByAlternateCode(countryCode);
         if(country==null){
             country = getCountryService().getCountry(countryCode);
         }
         return country;
     }
 
-    protected static CountryService getCountryService() {
-        return KcServiceLocator.getService(CountryService.class);
+    protected static KcCountryService getCountryService() {
+        return KcServiceLocator.getService(KcCountryService.class);
     }
 
     /**
@@ -475,15 +475,15 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * @return State object matching the name.
      * @see org.kuali.kra.s2s.service.S2SUtilService#getStateFromName(java.lang.String, java.lang.String)
      */
-    public State getStateFromName(String countryAlternateCode, String stateName) {
-        Country country = getCountryFromCode(countryAlternateCode);
+    public StateContract getStateFromName(String countryAlternateCode, String stateName) {
+        CountryContract country = getCountryFromCode(countryAlternateCode);
 
-        State state = getStateService().getState(country.getCode(), stateName);
+        StateContract state = getStateService().getState(country.getCode(), stateName);
         return state;
     }
 
-    protected static StateService getStateService() {
-        return KcServiceLocator.getService(StateService.class);
+    protected static KcStateService getStateService() {
+        return KcServiceLocator.getService(KcStateService.class);
     }
 
 
