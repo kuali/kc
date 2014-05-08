@@ -13,20 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.kim.service.impl;
+package org.kuali.coeus.propdev.impl.docperm;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.kim.service.ProposalRoleService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.type.KimType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+
+@Component("proposalRoleService")
 public class ProposalRoleServiceImpl implements ProposalRoleService {
+
+    @Autowired
+    @Qualifier("systemAuthorizationService")
     private SystemAuthorizationService systemAuthorizationService;
     
     public void setSystemAuthorizationService(SystemAuthorizationService systemAuthorizationService) {

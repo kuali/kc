@@ -32,6 +32,9 @@ import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.PrintCertificationDocument.PrintCertification;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -43,6 +46,8 @@ import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE
  * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and {@link Map} of details passed to the class.
  * 
  */
+@Component("printCertificationXmlStream")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class PrintCertificationXmlStream extends ProposalBaseStream {
 
 	private static final String NSF_SPONSOR_CODE = "000100";

@@ -9,6 +9,11 @@ import org.kuali.kra.common.printing.CurrentReportBean;
 import org.kuali.kra.common.printing.PendingReportBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -18,11 +23,28 @@ import java.util.Map;
  *
  */
 @Transactional
+@Component("currentAndPendingReportService")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class CurrentAndPendingReportServiceImpl implements CurrentAndPendingReportService {
+
+    @Autowired
+    @Qualifier("currentReportDao")
     private CurrentReportDao currentReportDao;
+
+    @Autowired
+    @Qualifier("pendingReportDao")
     private PendingReportDao pendingReportDao;
+
+    @Autowired
+    @Qualifier("printingService")
     private PrintingService printingService;
+
+    @Autowired
+    @Qualifier("currentProposalPrint")
     private CurrentProposalPrint currentProposalPrint;
+
+    @Autowired
+    @Qualifier("pendingProposalPrint")
     private PendingProposalPrint pendingProposalPrint;
 
     // setters for dependency injection

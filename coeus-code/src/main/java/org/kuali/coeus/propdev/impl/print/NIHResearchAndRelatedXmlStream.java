@@ -72,6 +72,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
@@ -91,6 +92,11 @@ import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -105,11 +111,13 @@ import java.util.*;
  * 
  * 
  */
+@Component("nihResearchAndRelatedXmlStream")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class NIHResearchAndRelatedXmlStream extends
         AbstractResearchAndRelatedStream {
 
     private static final Log LOG = LogFactory
-    .getLog(NIHResearchAndRelatedXmlStream.class);
+            .getLog(NIHResearchAndRelatedXmlStream.class);
 
     private static final String ORGANIZATION_QUESTION_ID_H5 = "H5";
     private static final String ORGANIZATION_QUESTION_ID_I8 = "I8";
@@ -145,8 +153,18 @@ public class NIHResearchAndRelatedXmlStream extends
     private static final String BUDGET_PERIOD_TYPE_3 = "3";
     private static final BigDecimal POINT_ZERO_ONE = new ScaleTwoDecimal(0.01).bigDecimalValue();
 
+    @Autowired
+    @Qualifier("awardService")
+    private AwardService awardService;
+
+    @Autowired
+    @Qualifier("parameterService")
     protected ParameterService parameterService;
+
+    @Autowired
+    @Qualifier("proposalDevelopmentService")
     private ProposalDevelopmentService proposalDevelopmentService;
+
     private ScaleTwoDecimal cumulativeCalendarMonthsFunded = ScaleTwoDecimal.ZERO;
 
     /**
@@ -173,6 +191,30 @@ public class NIHResearchAndRelatedXmlStream extends
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
         xmlObjectList.put(REPORT_NAME, researchAndRelatedProjectDocument);
         return xmlObjectList;
+    }
+
+    protected Award getAward(String currentAwardNumber) {
+        List<Award> awards = getAwardService().findAwardsForAwardNumber(currentAwardNumber);
+        return awards.isEmpty()?null:awards.get(awards.size()-1);
+    }
+
+    protected AwardAmountInfo getMaxAwardAmountInfo(Award award) {
+        Integer highestSequenceNumber = 0;
+        Long highestAwardAmountInfoId = 0L;
+        AwardAmountInfo higeshSequenceAwarAmountInfo = null;
+        for(AwardAmountInfo amountInfo: award.getAwardAmountInfos()){
+            if(highestSequenceNumber < amountInfo.getSequenceNumber()){
+                higeshSequenceAwarAmountInfo = amountInfo;
+                highestSequenceNumber = amountInfo.getSequenceNumber();
+                highestAwardAmountInfoId = amountInfo.getAwardAmountInfoId();
+            }else if(highestSequenceNumber == amountInfo.getSequenceNumber()
+                    && highestAwardAmountInfoId < amountInfo.getAwardAmountInfoId()){
+                higeshSequenceAwarAmountInfo = amountInfo;
+                highestSequenceNumber = amountInfo.getSequenceNumber();
+                highestAwardAmountInfoId = amountInfo.getAwardAmountInfoId();
+            }
+        }
+        return higeshSequenceAwarAmountInfo;
     }
 
     /*
@@ -1788,5 +1830,21 @@ public class NIHResearchAndRelatedXmlStream extends
 
     public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
         this.proposalDevelopmentService = proposalDevelopmentService;
+    }
+
+    /**
+     * Sets the awardService attribute value.
+     * @param awardService The awardService to set.
+     */
+    public void setAwardService(AwardService awardService) {
+        this.awardService = awardService;
+    }
+
+    /**
+     * Gets the awardService attribute.
+     * @return Returns the awardService.
+     */
+    public AwardService getAwardService() {
+        return awardService;
     }
 }

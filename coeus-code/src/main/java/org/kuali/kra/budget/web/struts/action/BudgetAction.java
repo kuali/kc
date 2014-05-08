@@ -54,7 +54,7 @@ import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularService;
 import org.kuali.coeus.propdev.impl.budget.print.BudgetPrintService;
-import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardService;
+import org.kuali.coeus.propdev.impl.budget.subaward.PropDevBudgetSubAwardService;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -517,7 +517,7 @@ public class BudgetAction extends BudgetActionBase {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
         populateBudgetPrintForms(budget);
-        KcServiceLocator.getService(BudgetSubAwardService.class).prepareBudgetSubAwards(budget);
+        KcServiceLocator.getService(PropDevBudgetSubAwardService.class).prepareBudgetSubAwards(budget);
         return mapping.findForward(Constants.BUDGET_ACTIONS_PAGE);
     }
 

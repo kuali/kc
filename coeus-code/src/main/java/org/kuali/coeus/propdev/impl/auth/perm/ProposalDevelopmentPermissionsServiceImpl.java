@@ -18,16 +18,25 @@ package org.kuali.coeus.propdev.impl.auth.perm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component("ProposalDevelopmentPermissionsService")
 public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelopmentPermissionsService {
 
+    @Autowired
+    @Qualifier("kcAuthorizationService")
     private KcAuthorizationService kraAuthorizationService;
+
+    @Autowired
+    @Qualifier("personService")
+    private PersonService personService;
     
     @Override
     public void savePermissions(ProposalDevelopmentDocument document, List<ProposalUserRoles> persistedUsers,
@@ -47,7 +56,6 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
     }
     
     public void deleteProposalUser(ProposalUserRoles proposalUser, ProposalDevelopmentDocument doc) {
-        KcAuthorizationService kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
         List<String> roleNames = proposalUser.getRoleNames();
         for (String roleName :roleNames) {
             kraAuthorizationService.removeRole(getPersonId(proposalUser.getUsername()), roleName, doc); 
@@ -55,13 +63,11 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
     }
     
     protected String getPersonId(String username) {
-        PersonService personService = KcServiceLocator.getService(PersonService.class);
         Person person = personService.getPersonByPrincipalName(username);
         return person.getPrincipalId();
     }
     
     public void saveProposalUser(ProposalUserRoles proposalUser, ProposalDevelopmentDocument doc) {
-        KcAuthorizationService kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
         // Assign the user to the new roles for the proposal.
         
         List<String> roleNames = proposalUser.getRoleNames();
@@ -78,4 +84,11 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
         this.kraAuthorizationService = kraAuthorizationService;
     }
 
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
 }

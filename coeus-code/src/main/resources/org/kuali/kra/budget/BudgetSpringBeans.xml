@@ -44,7 +44,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
     <bean id="awardBudgetService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="awardBudgetService" />
     </bean>
@@ -333,12 +333,6 @@
 		<property name="printingService" ref="printingService" />
 	</bean>
 	<!-- Budget Service Configuration End -->
-  	
-    <bean id="budgetSubAwardService" class="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardServiceImpl">
-    	<property name="parameterService" ref="parameterService"/>
-    	<property name="budgetService" ref="budgetService" />
-    	<property name="businessObjectService" ref="businessObjectService"/>
-    </bean>
     
     <bean id="budgetPeriodLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" lazy-init="true">
   		<property name="lookupableHelperService">

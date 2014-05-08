@@ -51,6 +51,11 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -60,15 +65,39 @@ import java.util.*;
  * {@link Map} of details passed to the class.
  * 
  */
+@Component("questionnaireXmlStream")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class QuestionnaireXmlStream implements XmlStream {
 
+    @Autowired
+    @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
+
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+
+    @Autowired
+    @Qualifier("documentService")
     private DocumentService documentService;
+
+    @Autowired
+    @Qualifier("questionnaireService")
     private QuestionnaireService questionnaireService;
+
+    @Autowired
+    @Qualifier("questionService")
     private QuestionService questionService;
+
+    @Autowired
+    @Qualifier("questionnaireAnswerService")
     private QuestionnaireAnswerService questionnaireAnswerService;
+
+    @Autowired
+    @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
+
+
     private static final Log LOG = LogFactory.getLog(QuestionnaireXmlStream.class);
     List<QuestionnaireQuestion> sortedQuestionnaireQuestions;
 

@@ -16,7 +16,6 @@
 package org.kuali.coeus.propdev.impl.docperm;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.kim.service.ProposalRoleService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.role.Role;
