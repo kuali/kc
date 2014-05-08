@@ -222,6 +222,21 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
         }
         return source;   
     }
+    
+    /**
+     * 
+     * This method is to reset the selected form list.
+     * 
+     * @param subAwardFormList
+     *            list of subAwardFormList.
+     */
+    protected void resetsubAwardFormList(
+            List<SubAwardForms> subAwardFormList) {
+        for (SubAwardForms subAwardFormValues : subAwardFormList) {
+            subAwardFormValues.setSelectToPrint(false);
+        }
+    }
+    
     /**
      * This method gets the  form template from the given sponsor form table
      * 
@@ -230,7 +245,7 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
      *            list of sponsor form template list
      * @return list of sponsor form template
      */
-    public List<SubAwardForms> getSponsorFormTemplates(SubAwardPrintAgreement subAwardPrint) {
+    public List<SubAwardForms> getSponsorFormTemplates(SubAwardPrintAgreement subAwardPrint, List<SubAwardForms> subAwardFormList) {
         List<SubAwardForms> printFormTemplates = new ArrayList<SubAwardForms>();
         if(subAwardPrint.getFdpType().equals(SUB_AWARD_FDP_TEMPLATE)){
             printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP Template"));
@@ -250,36 +265,15 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
         if(subAwardPrint.getAttachment4()){
             printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ATT_4"));
         }
-        if(subAwardPrint.getAfosrSponsor()){
-            printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_AFOSR"));
-         }
-         if(subAwardPrint.getAmrmcSponsor()){
-             printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_AMRMC"));
-         }
-          if(subAwardPrint.getAroSponsor()){
-              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ARO"));
-          }
-          if(subAwardPrint.getDoeSponsor()){
-              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_DOE"));
-          }
-          if(subAwardPrint.getEpaSponsor()){
-              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_EPA"));
-          }
-          if(subAwardPrint.getNasaSponsor()){
-              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_NASA"));
-          }
-          if(subAwardPrint.getNihSponsor()){
-              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_NIH"));
-          }
-          if(subAwardPrint.getNsfSponsor()){
-              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_NSF"));
-          }
-          if(subAwardPrint.getOnrSponsor()){
-              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ONR"));
-          }
-          if(subAwardPrint.getUsdaSponsor()){
-              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_USDA"));
-          }
+        for(SubAwardForms subAwardFormValues : subAwardFormList){
+            if(subAwardFormValues.getSelectToPrint()){
+                String description = subAwardFormValues.getDescription();
+                String[] token = description.split("\\s");
+                printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_"+token[0]));
+            }
+        }
+        
+        resetsubAwardFormList(subAwardFormList);
         return printFormTemplates;
     }
     
