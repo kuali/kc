@@ -28,7 +28,15 @@
     <bean id="citizenshipTypeService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="citizenshipTypeService" />
     </bean>
-    
+
+    <bean id="stateService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="stateService" />
+    </bean>
+
+    <bean id="countryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="countryService" />
+    </bean>
+
     <bean id="rolodexService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="rolodexService" />
     </bean>
@@ -400,5 +408,5 @@
 	</bean>
 	
 	<!--  S2S Scheduler configuration end -->
-	
+
 </beans>
