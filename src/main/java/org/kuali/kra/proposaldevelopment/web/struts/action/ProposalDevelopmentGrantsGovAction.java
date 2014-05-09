@@ -32,6 +32,8 @@ import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.bo.S2sUserAttachedForm;
 import org.kuali.kra.s2s.bo.S2sUserAttachedFormAtt;
+import org.kuali.kra.s2s.bo.S2sUserAttachedFormAttFile;
+import org.kuali.kra.s2s.bo.S2sUserAttachedFormFile;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.s2s.service.S2SUserAttachedFormService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -42,7 +44,9 @@ import org.kuali.rice.krad.util.KRADConstants;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_OPPORTUNITY_CONFIRMATION;
 import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
@@ -346,15 +350,15 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
-        S2sUserAttachedForm s2sUserAttachedForm = proposalDevelopmentForm.getNewS2sUserAttachedForm();
-        FormFile userAttachedFormFile = s2sUserAttachedForm.getNewFormFile();
-        s2sUserAttachedForm.setFormFile(userAttachedFormFile.getFileData());
-        s2sUserAttachedForm.setFormFileName(userAttachedFormFile.getFileName());
-        s2sUserAttachedForm.setProposalNumber(developmentProposal.getProposalNumber());
+        S2sUserAttachedForm newS2sUserAttachedForm = proposalDevelopmentForm.getNewS2sUserAttachedForm();
+        FormFile userAttachedFormFile = newS2sUserAttachedForm.getNewFormFile();
+        newS2sUserAttachedForm.setNewFormFileBytes(userAttachedFormFile.getFileData());
+        newS2sUserAttachedForm.setFormFileName(userAttachedFormFile.getFileName());
+        newS2sUserAttachedForm.setProposalNumber(developmentProposal.getProposalNumber());
         List<S2sUserAttachedForm> userAttachedForms = new ArrayList<S2sUserAttachedForm>();
         try{
             userAttachedForms = KraServiceLocator.getService(S2SUserAttachedFormService.class).
-                                                extractNSaveUserAttachedForms(developmentProposal,s2sUserAttachedForm);
+                                                extractNSaveUserAttachedForms(developmentProposal,newS2sUserAttachedForm);
             developmentProposal.getS2sUserAttachedForms().addAll(userAttachedForms);
             proposalDevelopmentForm.setNewS2sUserAttachedForm(new S2sUserAttachedForm());
         }catch(S2SException ex){
@@ -385,13 +389,16 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
         List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
-        if(selectedForm.getXmlFile()==null){
-            selectedForm = KraServiceLocator.getService(BusinessObjectService.class).
-                        findBySinglePrimaryKey(S2sUserAttachedForm.class, selectedForm.getS2sUserAttachedFormId());
+        S2SUserAttachedFormService userAttachedFormService = KraServiceLocator.getService(S2SUserAttachedFormService.class);
+        S2sUserAttachedFormFile userAttachedFormFile = userAttachedFormService.findUserAttachedFormFile(selectedForm);
+        if(userAttachedFormFile!=null){
+            streamToResponse(userAttachedFormFile.getXmlFile().getBytes(), selectedForm.getFormName()+".xml", CONTENT_TYPE_XML, response);
+        }else{
+            return mapping.findForward(Constants.MAPPING_BASIC);
         }
-        streamToResponse(selectedForm.getXmlFile().getBytes(), selectedForm.getFormName()+".xml", CONTENT_TYPE_XML, response);
         return null;
     }
+
     /**
      * 
      * This method enable the ability to save the generated system to system XML
@@ -408,11 +415,13 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
         List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
-        if(selectedForm.getFormFile()==null || selectedForm.getFormFile().length==0){
-            selectedForm = KraServiceLocator.getService(BusinessObjectService.class).
-                        findBySinglePrimaryKey(S2sUserAttachedForm.class, selectedForm.getS2sUserAttachedFormId());
+        S2SUserAttachedFormService userAttachedFormService = KraServiceLocator.getService(S2SUserAttachedFormService.class);
+        S2sUserAttachedFormFile userAttachedFormFile = userAttachedFormService.findUserAttachedFormFile(selectedForm);
+        if(userAttachedFormFile!=null){
+            streamToResponse(userAttachedFormFile.getFormFile(), selectedForm.getFormFileName(), CONTENT_TYPE_PDF, response);
+        }else{
+            return mapping.findForward(Constants.MAPPING_BASIC);
         }
-        streamToResponse(selectedForm.getFormFile(), selectedForm.getFormFileName(), CONTENT_TYPE_PDF, response);
         return null;
     }
     /**
@@ -432,11 +441,14 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
         S2sUserAttachedFormAtt attachment = selectedForm.getS2sUserAttachedFormAtts().get(getParameterForToken(request, "attIndex"));
-        if(attachment.getAttachment()==null || attachment.getAttachment().length==0){
-            attachment = KraServiceLocator.getService(BusinessObjectService.class).
-                        findBySinglePrimaryKey(S2sUserAttachedFormAtt.class, attachment.getS2sUserAttachedFormAttId());
+        S2SUserAttachedFormService userAttachedFormService = KraServiceLocator.getService(S2SUserAttachedFormService.class);
+        S2sUserAttachedFormAttFile userAttachedFormFile = userAttachedFormService.findUserAttachedFormAttFile(attachment);
+        if(userAttachedFormFile!=null){
+            streamToResponse(userAttachedFormFile.getAttachment(), attachment.getFileName(), attachment.getContentType(), response);
+        }else{
+            return mapping.findForward(Constants.MAPPING_BASIC);
         }
-        streamToResponse(attachment.getAttachment(), attachment.getFileName(), attachment.getContentType(), response);
+        
         return null;
     }
     protected int getParameterForToken(HttpServletRequest request,String token) {

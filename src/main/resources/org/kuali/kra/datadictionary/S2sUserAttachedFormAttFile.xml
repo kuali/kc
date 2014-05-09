@@ -1,0 +1,94 @@
+<!--
+ Copyright 2005-2010 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="S2sUserAttachedFormAttFile" parent="S2sUserAttachedFormAttFile-parentBean" />
+    <bean id="S2sUserAttachedFormAttFile-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sUserAttachedFormAttFile" />
+        <property name="objectLabel" value="S2s User Attached Form Attachment File" />
+        
+        <property name="titleAttribute" value="s2sUserAttachedFormAttFileId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="S2sUserAttachedFormAttFile-s2sUserAttachedFormAttFileId" />
+                <ref bean="S2sUserAttachedFormAttFile-s2sUserAttachedFormAttId" />
+                <ref bean="S2sUserAttachedFormAttFile-attachment" />
+                <ref bean="S2sUserAttachedFormAttFile-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="S2sUserAttachedFormAttFile-s2sUserAttachedFormAttFileId" parent="S2sUserAttachedFormAttFile-s2sUserAttachedFormAttFileId-parentBean" />
+    <bean id="S2sUserAttachedFormAttFile-s2sUserAttachedFormAttFileId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="s2sUserAttachedFormAttFileId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="S2s User Attached Form Att File Id" />
+        <property name="shortLabel" value="S2s User Attached Form Att File Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="S2s User Attached Form Att File Id" />
+        <property name="description" value="S2s User Attached Form Att File Id" />
+    </bean>
+
+    <bean id="S2sUserAttachedFormAttFile-s2sUserAttachedFormAttId" parent="S2sUserAttachedFormAttFile-s2sUserAttachedFormAttId-parentBean" />
+    <bean id="S2sUserAttachedFormAttFile-s2sUserAttachedFormAttId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="s2sUserAttachedFormAttId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="S2s User Attached Form Att Id" />
+        <property name="shortLabel" value="S2s User Attached Form Att Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="S2s User Attached Form Att Id" />
+        <property name="description" value="S2s User Attached Form Att Id" />
+    </bean>
+
+    <bean id="S2sUserAttachedFormAttFile-attachment" parent="S2sUserAttachedFormAttFile-attachment-parentBean" />
+    <bean id="S2sUserAttachedFormAttFile-attachment-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="attachment" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Attachment" />
+        <property name="shortLabel" value="Attachment" />
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Attachment" />
+        <property name="description" value="Attachment" />
+    </bean>
+
+    <bean id="S2sUserAttachedFormAttFile-versionNumber" parent="S2sUserAttachedFormAttFile-versionNumber-parentBean" />
+    <bean id="S2sUserAttachedFormAttFile-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+   </bean>
+
+</beans>

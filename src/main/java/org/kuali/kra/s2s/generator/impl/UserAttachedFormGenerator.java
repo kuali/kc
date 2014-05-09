@@ -28,8 +28,11 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.bo.S2sUserAttachedForm;
 import org.kuali.kra.s2s.bo.S2sUserAttachedFormAtt;
+import org.kuali.kra.s2s.bo.S2sUserAttachedFormAttFile;
+import org.kuali.kra.s2s.bo.S2sUserAttachedFormFile;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
+import org.kuali.kra.s2s.service.S2SUserAttachedFormService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -62,14 +65,15 @@ public class UserAttachedFormGenerator extends S2SBaseFormGenerator {
      */
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
-        S2sUserAttachedForm userAttachedForm = findUserAttachedForm();
-        String formXml = userAttachedForm.getXmlFile();
+        S2sUserAttachedFormFile userAttachedFormFile = findUserAttachedFormFile();
+        String formXml = userAttachedFormFile.getXmlFile();
         XmlObject xmlObject;
         try {
             xmlObject = XmlObject.Factory.parse(formXml);
         }catch (XmlException e) {
             throw new RuntimeException("XmlObject not ready");
         }
+        S2sUserAttachedForm userAttachedForm = findUserAttachedForm();
         userAttachedForm.refreshReferenceObject("s2sUserAttachedFormAtts");
         List<S2sUserAttachedFormAtt> attachments = userAttachedForm.getS2sUserAttachedFormAtts();
         for (Iterator iterator = attachments.iterator(); iterator.hasNext();) {
@@ -80,12 +84,33 @@ public class UserAttachedFormGenerator extends S2SBaseFormGenerator {
     }
 
     private void addAttachment(S2sUserAttachedFormAtt s2sUserAttachedFormAtt) {
+        S2sUserAttachedFormAttFile s2sUserAttachedFormAttFile = findS2sUserAttachedFormAttFile(s2sUserAttachedFormAtt);
         AttachmentData attachmentData = new AttachmentData();
-        attachmentData.setContent(s2sUserAttachedFormAtt.getAttachment());
+        attachmentData.setContent(s2sUserAttachedFormAttFile.getAttachment());
         attachmentData.setContentId(s2sUserAttachedFormAtt.getContentId());
         attachmentData.setContentType(s2sUserAttachedFormAtt.getContentType());
         attachmentData.setFileName(s2sUserAttachedFormAtt.getContentId());
         addAttachment(attachmentData);
+    }
+
+    private S2sUserAttachedFormAttFile findS2sUserAttachedFormAttFile(S2sUserAttachedFormAtt s2sUserAttachedFormAtt) {
+        if(s2sUserAttachedFormAtt!=null){
+            S2sUserAttachedFormAttFile attachedFile = KraServiceLocator.getService(S2SUserAttachedFormService.class).
+                                            findUserAttachedFormAttFile(s2sUserAttachedFormAtt);
+            return attachedFile;
+        }else{
+            return null;
+        }
+    }
+
+    private S2sUserAttachedFormFile findUserAttachedFormFile() {
+        S2sUserAttachedForm userAttachedForm = findUserAttachedForm();
+        if(userAttachedForm!=null){
+            S2sUserAttachedFormFile attachedFile = KraServiceLocator.getService(S2SUserAttachedFormService.class).
+                                            findUserAttachedFormFile(userAttachedForm);
+            return attachedFile;
+        }
+        return null;
     }
 
     private S2sUserAttachedForm findUserAttachedForm() {
@@ -94,7 +119,7 @@ public class UserAttachedFormGenerator extends S2SBaseFormGenerator {
         fieldValues.put("namespace", getNamespace());
         List<S2sUserAttachedForm> userAttachedForms = (List<S2sUserAttachedForm>) KraServiceLocator.getService(BusinessObjectService.class).
                                                                 findMatching(S2sUserAttachedForm.class, fieldValues);
-        return userAttachedForms.isEmpty()?null:userAttachedForms.get(0);
+        return userAttachedForms.isEmpty()?userAttachedForms.get(0):null;
     }
 
     /**
