@@ -46,7 +46,7 @@ public class SubAwardFundingSourceValuesFinder extends FormViewAwareUifKeyValues
             }
         }
         if(fundingValues.length() == 0){
-            keyValues.add(0, new ConcreteKeyValue("", "Please add a funding source before printing"));
+            keyValues.add(0, new ConcreteKeyValue("", "No Funding Source has been added to this Subaward"));
         }
         return keyValues;
     }

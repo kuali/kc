@@ -596,18 +596,19 @@ public ActionForward blanketApprove(ActionMapping mapping,
          List<SubAwardForms> subAwardFormList = subAwardForm.getSubAwardDocument().getSubAwardList().get(0).getSubAwardForms();
          SubAwardPrintingService printService = KraServiceLocator.getService(SubAwardPrintingService.class);
          printFormTemplates = printService.getSponsorFormTemplates(subAwardForm.getSubAwardPrintAgreement(),subAwardFormList);
-          if(new SubAwardDocumentRule().processsSubawardPrintRule(subAwardForm)){
               Collection<SubAwardFundingSource> fundingSource = (Collection<SubAwardFundingSource>) KraServiceLocator
                       .getService(BusinessObjectService.class).findAll(SubAwardFundingSource.class);
-              for (SubAwardFundingSource subAwardFunding : fundingSource) {
-              if(subAwardForm.getSubAwardPrintAgreement().getFundingSource().equals(subAwardFunding.getSubAwardFundingSourceId().toString())){
-                  reportParameters.put("awardNumber",subAwardFunding.getAward().getAwardNumber());
-                  reportParameters.put("awardTitle",subAwardFunding.getAward().getParentTitle());
-                  reportParameters.put("sponsorAwardNumber",subAwardFunding.getAward().getSponsorAwardNumber());
-                  reportParameters.put("sponsorName",subAwardFunding.getAward().getSponsor().getSponsorName());
-                  reportParameters.put("cfdaNumber",subAwardFunding.getAward().getCfdaNumber());
+              if(subAwardForm.getSubAwardPrintAgreement().getFundingSource() != null){
+                  for (SubAwardFundingSource subAwardFunding : fundingSource) {
+                      if(subAwardForm.getSubAwardPrintAgreement().getFundingSource().equals(subAwardFunding.getSubAwardFundingSourceId().toString())){
+                          reportParameters.put("awardNumber",subAwardFunding.getAward().getAwardNumber());
+                          reportParameters.put("awardTitle",subAwardFunding.getAward().getParentTitle());
+                          reportParameters.put("sponsorAwardNumber",subAwardFunding.getAward().getSponsorAwardNumber());
+                          reportParameters.put("sponsorName",subAwardFunding.getAward().getSponsor().getSponsorName());
+                          reportParameters.put("cfdaNumber",subAwardFunding.getAward().getCfdaNumber());
+                      }
+                  }
               }
-           }
               SubAwardPrintingService subAwardPrintingService = KraServiceLocator.getService(SubAwardPrintingService.class);
               AttachmentDataSource dataStream ;
               reportParameters.put(SubAwardPrintingService.SELECTED_TEMPLATES, printFormTemplates);
@@ -619,7 +620,6 @@ public ActionForward blanketApprove(ActionMapping mapping,
               }                                           
               streamToResponse(dataStream,response);
       
-      }
       return  mapping.findForward(Constants.MAPPING_BASIC);
   }
 }
