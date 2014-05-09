@@ -990,7 +990,6 @@ public final class KeyConstants {
     public static final String ERROR_CONTACT_TYPE_NOT_EXISTS = "error.contact.type.not.exists";
     public static final String ERROR_MODULE_NOT_EXISTS = "error.module.not.exists";
     public static final String ERROR_CONTACT_TYPE_MODULE_EXISTS = "error.contacttypemodule.exists";
-    public static final String ERROR_REQUIRED_SUBAWARD_PRINT_FUNDING = "error.required.subaward.print.funding";
     public static final String SUBAWARD_ERROR_INVALID_FILE_TYPE = "error.subaward.invalid.file.type";
 
     
