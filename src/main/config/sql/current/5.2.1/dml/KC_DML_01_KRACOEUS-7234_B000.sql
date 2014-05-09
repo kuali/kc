@@ -334,6 +334,30 @@ buffer := '														<xsl:variable name="value-of-template">
 																								</xsl:for-each>
 																							</xsl:for-each>
 																						</xsl:for-each>
+																						<fo:block/>
+																						<xsl:for-each select="subcontract:SubContractData">
+																							<xsl:for-each select="subcontract:PrimeRecipientContacts">
+																								<xsl:for-each select="subcontract:OrgRolodexDetails">
+																									<xsl:for-each select="subcontract:Address3">
+																										<xsl:variable name="value-of-template">
+																											<xsl:apply-templates/>
+																										</xsl:variable>
+																										<xsl:choose>
+																											<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
+																												<fo:block>
+																													<xsl:copy-of select="$value-of-template"/>
+																												</fo:block>
+																											</xsl:when>
+																											<xsl:otherwise>
+																												<fo:inline>
+																													<xsl:copy-of select="$value-of-template"/>
+																												</fo:inline>
+																											</xsl:otherwise>
+																										</xsl:choose>
+																									</xsl:for-each>
+																								</xsl:for-each>
+																							</xsl:for-each>
+																						</xsl:for-each>
 																					</fo:block>
 																				</fo:table-cell>
 																			</fo:table-row>
@@ -347,7 +371,16 @@ buffer := '														<xsl:variable name="value-of-template">
 																<fo:block>
 																	<fo:inline-container>
 																		<fo:block>
-																			<xsl:text>&#x2029;</xsl:text>
+																			<xsl:text>&#x2029;</xsl:te';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := 'xt>
 																		</fo:block>
 																	</fo:inline-container>
 																	<fo:table font-family="Arial" font-size="9pt" table-layout="fixed" width="100%" border-spacing=".25">
@@ -370,16 +403,7 @@ buffer := '														<xsl:variable name="value-of-template">
 																					<fo:block>
 																						<xsl:for-each select="subcontract:SubContractData">
 																							<xsl:for-each select="subcontract:PrimeRecipientContacts">
-																						';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := '		<xsl:for-each select="subcontract:OrgRolodexDetails">
+																								<xsl:for-each select="subcontract:OrgRolodexDetails">
 																									<xsl:for-each select="subcontract:City">
 																										<xsl:variable name="value-of-template">
 																											<xsl:apply-templates/>
@@ -430,7 +454,16 @@ buffer := '		<xsl:for-each select="subcontract:OrgRolodexDetails">
 																												</fo:inline>
 																											</xsl:otherwise>
 																										</xsl:choose>
-																									</xsl:for-each>
+																									</xsl:for-e';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := 'ach>
 																								</xsl:for-each>
 																							</xsl:for-each>
 																						</xsl:for-each>
@@ -455,16 +488,7 @@ buffer := '		<xsl:for-each select="subcontract:OrgRolodexDetails">
 																												</fo:block>
 																											</xsl:when>
 																											<xsl:otherwise>
-								';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := '																				<fo:inline>
+																												<fo:inline>
 																													<xsl:copy-of select="$value-of-template"/>
 																												</fo:inline>
 																											</xsl:otherwise>
@@ -522,7 +546,16 @@ buffer := '																				<fo:inline>
 																						<xsl:for-each select="subcontract:SubContractData">
 																							<xsl:for-each select="subcontract:PrimeAdministrativeContact">
 																								<xsl:for-each select="subcontract:RolodexDetails">
-																									<xsl:for-each select="subcontract:RolodexName">
+																									<xsl:for-each select="subcontract:';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := 'RolodexName">
 																										<xsl:variable name="value-of-template">
 																											<xsl:apply-templates/>
 																										</xsl:variable>
@@ -551,16 +584,7 @@ buffer := '																				<fo:inline>
 															</fo:table-cell>
 														</fo:table-row>
 														<fo:table-row>
-															<fo:table-cell p';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := 'adding="2pt" display-align="center">
+															<fo:table-cell padding="2pt" display-align="center">
 																<fo:block>
 																	<fo:inline-container>
 																		<fo:block>
@@ -611,7 +635,16 @@ buffer := 'adding="2pt" display-align="center">
 																									<xsl:for-each select="subcontract:Address2">
 																										<xsl:variable name="value-of-template">
 																											<xsl:apply-templates/>
-																										</xsl:variable>
+																	';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := '									</xsl:variable>
 																										<xsl:choose>
 																											<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 																												<fo:block>
@@ -635,16 +668,7 @@ buffer := 'adding="2pt" display-align="center">
 																									<xsl:for-each select="subcontract:Address3">
 																										<xsl:variable name="value-of-template">
 																											<xsl:apply-templates/>
-																';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := '										</xsl:variable>
+																										</xsl:variable>
 																										<xsl:choose>
 																											<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 																												<fo:block>
@@ -698,7 +722,16 @@ buffer := '										</xsl:variable>
 																						<xsl:for-each select="subcontract:SubContractData">
 																							<xsl:for-each select="subcontract:PrimeAdministrativeContact">
 																								<xsl:for-each select="subcontract:RolodexDetails">
-																									<xsl:for-each select="subcontract:City">
+																									<xsl:for-each select="subcontract:City"';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := '>
 																										<xsl:variable name="value-of-template">
 																											<xsl:apply-templates/>
 																										</xsl:variable>
@@ -726,16 +759,7 @@ buffer := '										</xsl:variable>
 																							<xsl:text>State:</xsl:text>
 																						</fo:inline>
 																					</fo:block>
-				';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := '																</fo:table-cell>
+																				</fo:table-cell>
 																				<fo:table-cell number-columns-spanned="2" padding="2pt" text-align="left" display-align="center">
 																					<fo:block>
 																						<xsl:for-each select="subcontract:SubContractData">
@@ -784,7 +808,16 @@ buffer := '																</fo:table-cell>
 																											<xsl:otherwise>
 																												<fo:inline>
 																													<xsl:copy-of select="$value-of-template"/>
-																												</fo:inline>
+													';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := '															</fo:inline>
 																											</xsl:otherwise>
 																										</xsl:choose>
 																									</xsl:for-each>
@@ -812,16 +845,7 @@ buffer := '																</fo:table-cell>
 																		<fo:table-column column-width="25%"/>
 																		<fo:table-column column-width="5%"/>
 																		<fo:table-column column-width="30%"/>
-																		<fo:table-column column-width="proportional-column-wid';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := 'th(1)"/>
+																		<fo:table-column column-width="proportional-column-width(1)"/>
 																		<fo:table-column column-width="proportional-column-width(1)"/>
 																		<fo:table-body start-indent="0pt">
 																			<fo:table-row>
@@ -873,7 +897,16 @@ buffer := 'th(1)"/>
 																					<fo:block>
 																						<xsl:for-each select="subcontract:SubContractData">
 																							<xsl:for-each select="subcontract:PrimeAdministrativeContact">
-																								<xsl:for-each select="subcontract:RolodexDetails">
+																								<';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := 'xsl:for-each select="subcontract:RolodexDetails">
 																									<xsl:for-each select="subcontract:Fax">
 																										<xsl:variable name="value-of-template">
 																											<xsl:apply-templates/>
@@ -899,16 +932,7 @@ buffer := 'th(1)"/>
 																				<fo:table-cell padding="2pt" display-align="center">
 																					<fo:block/>
 																				</fo:table-cell>
-								';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := '												<fo:table-cell padding="2pt" display-align="center">
+																				<fo:table-cell padding="2pt" display-align="center">
 																					<fo:block/>
 																				</fo:table-cell>
 																			</fo:table-row>
@@ -967,7 +991,16 @@ buffer := '												<fo:table-cell padding="2pt" display-align="center">
 														</fo:table-row>
 													</fo:table-body>
 												</fo:table>
-												<fo:block text-align="center">
+	';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := '											<fo:block text-align="center">
 													<fo:leader leader-pattern="rule" rule-thickness="1" leader-length="100%" color="black"/>
 												</fo:block>
 												<fo:inline>
@@ -993,16 +1026,7 @@ buffer := '												<fo:table-cell padding="2pt" display-align="center">
 																		<fo:table-column column-width="8%"/>
 																		<fo:table-column column-width="80%"/>
 																		<fo:table-body start-indent="0pt">
-																			<fo:t';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := 'able-row>
+																			<fo:table-row>
 																				<fo:table-cell padding="2pt" display-align="center">
 																					<fo:block>
 																						<fo:inline>
@@ -1060,7 +1084,16 @@ buffer := 'able-row>
 																							<xsl:text>Address:</xsl:text>
 																						</fo:inline>
 																					</fo:block>
-																				</fo:table-cell>
+											';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := '									</fo:table-cell>
 																				<fo:table-cell padding="2pt" display-align="center">
 																					<fo:block>
 																						<xsl:for-each select="subcontract:SubContractData">
@@ -1084,16 +1117,7 @@ buffer := 'able-row>
 																								</xsl:for-each>
 																							</xsl:for-each>
 																						</xsl:for-each>
-																						<fo:bloc';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := 'k/>
+																						<fo:block/>
 																						<xsl:for-each select="subcontract:SubContractData">
 																							<xsl:for-each select="subcontract:PrimePrincipalInvestigator">
 																								<xsl:for-each select="subcontract:AddressLine2">
@@ -1149,7 +1173,16 @@ buffer := 'k/>
 															<fo:table-cell padding="2pt" display-align="center">
 																<fo:block>
 																	<fo:inline-container>
-																		<fo:block>
+								';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := '										<fo:block>
 																			<xsl:text>&#x2029;</xsl:text>
 																		</fo:block>
 																	</fo:inline-container>
@@ -1172,16 +1205,7 @@ buffer := 'k/>
 																				<fo:table-cell padding="2pt" text-align="left" display-align="center">
 																					<fo:block>
 																						<xsl:for-each select="subcontract:SubContractData">
-																							<xsl:for-each s';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := 'elect="subcontract:PrimePrincipalInvestigator">
+																							<xsl:for-each select="subcontract:PrimePrincipalInvestigator">
 																								<xsl:for-each select="subcontract:City">
 																									<xsl:variable name="value-of-template">
 																										<xsl:apply-templates/>
@@ -1235,7 +1259,16 @@ buffer := 'elect="subcontract:PrimePrincipalInvestigator">
 																						</xsl:for-each>
 																					</fo:block>
 																				</fo:table-cell>
-																				<fo:table-cell padding="2pt" display-align="center">
+												';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := '								<fo:table-cell padding="2pt" display-align="center">
 																					<fo:block>
 																						<fo:inline>
 																							<xsl:text>Zip Code: </xsl:text>
@@ -1259,16 +1292,7 @@ buffer := 'elect="subcontract:PrimePrincipalInvestigator">
 																										</xsl:otherwise>
 																									</xsl:choose>
 																								</xsl:for-each>
-																							';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := '</xsl:for-each>
+																							</xsl:for-each>
 																						</xsl:for-each>
 																					</fo:block>
 																				</fo:table-cell>
@@ -1322,7 +1346,16 @@ buffer := '</xsl:for-each>
 																										<xsl:otherwise>
 																											<fo:inline>
 																												<xsl:copy-of select="$value-of-template"/>
-																											</fo:inline>
+																	';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := '										</fo:inline>
 																										</xsl:otherwise>
 																									</xsl:choose>
 																								</xsl:for-each>
@@ -1347,16 +1380,7 @@ buffer := '</xsl:for-each>
 																									</xsl:variable>
 																									<xsl:choose>
 																										<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
-														';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := '													<fo:block>
+																											<fo:block>
 																												<xsl:copy-of select="$value-of-template"/>
 																											</fo:block>
 																										</xsl:when>
@@ -1413,7 +1437,16 @@ buffer := '													<fo:block>
 																											</fo:block>
 																										</xsl:when>
 																										<xsl:otherwise>
-																											<fo:inline>
+						';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := '																					<fo:inline>
 																												<xsl:copy-of select="$value-of-template"/>
 																											</fo:inline>
 																										</xsl:otherwise>
@@ -1444,16 +1477,7 @@ buffer := '													<fo:block>
 												</fo:inline-container>
 												<fo:table table-layout="fixed" width="100%" border-spacing="2pt">
 													<fo:table-column column-width="proportional-column-width(1)"/>
-									';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := '				<fo:table-body start-indent="0pt">
+													<fo:table-body start-indent="0pt">
 														<fo:table-row>
 															<fo:table-cell padding="2pt" display-align="center">
 																<fo:block>
@@ -1509,7 +1533,16 @@ buffer := '				<fo:table-body start-indent="0pt">
 														</fo:table-row>
 														<fo:table-row>
 															<fo:table-cell padding="2pt" display-align="center">
-																<fo:block>
+																<';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := 'fo:block>
 																	<fo:inline-container>
 																		<fo:block>
 																			<xsl:text>&#x2029;</xsl:text>
@@ -1533,16 +1566,7 @@ buffer := '				<fo:table-body start-indent="0pt">
 																							<xsl:for-each select="subcontract:PrimeFinancialContact">
 																								<xsl:for-each select="subcontract:RolodexDetails">
 																									<xsl:for-each select="subcontract:Address1">
-																										<xsl:variable na';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := 'me="value-of-template">
+																										<xsl:variable name="value-of-template">
 																											<xsl:apply-templates/>
 																										</xsl:variable>
 																										<xsl:choose>
@@ -1594,7 +1618,16 @@ buffer := 'me="value-of-template">
 																											<xsl:apply-templates/>
 																										</xsl:variable>
 																										<xsl:choose>
-																											<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
+			';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := '																								<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 																												<fo:block>
 																													<xsl:copy-of select="$value-of-template"/>
 																												</fo:block>
@@ -1624,16 +1657,7 @@ buffer := 'me="value-of-template">
 																		<fo:block>
 																			<xsl:text>&#x2029;</xsl:text>
 																		</fo:block>
-		';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := '															</fo:inline-container>
+																	</fo:inline-container>
 																	<fo:table font-family="Arial" font-size="9pt" table-layout="fixed" width="100%" border-spacing=".25">
 																		<fo:table-column column-width="8%"/>
 																		<fo:table-column column-width="27%"/>
@@ -1684,7 +1708,16 @@ buffer := '															</fo:inline-container>
 																						</fo:inline>
 																					</fo:block>
 																				</fo:table-cell>
-																				<fo:table-cell number-columns-spanned="2" padding="2pt" text-align="left" display-align="center">
+																				<fo:table-cell number';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := '-columns-spanned="2" padding="2pt" text-align="left" display-align="center">
 																					<fo:block>
 																						<xsl:for-each select="subcontract:SubContractData">
 																							<xsl:for-each select="subcontract:PrimeFinancialContact">
@@ -1707,16 +1740,6 @@ buffer := '															</fo:inline-container>
 																										</xsl:choose>
 																									</xsl:for-each>
 																								</xsl:for-each>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := '
 																							</xsl:for-each>
 																						</xsl:for-each>
 																					</fo:block>
@@ -1771,7 +1794,16 @@ buffer := '
 																		<fo:table-column column-width="5%"/>
 																		<fo:table-column column-width="30%"/>
 																		<fo:table-column column-width="proportional-column-width(1)"/>
-																		<fo:table-column column-width="proportional-column-width(1)"/>
+																		<fo:table-column column-width="proportional-column-width(';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := '1)"/>
 																		<fo:table-body start-indent="0pt">
 																			<fo:table-row>
 																				<fo:table-cell padding="2pt" text-align="left" display-align="center">
@@ -1794,16 +1826,7 @@ buffer := '
 																											<xsl:apply-templates/>
 																										</xsl:variable>
 																										<xsl:choose>
-																											<xsl:when test="contains(string($value-of-template),''&#x2029;'')">';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := '
+																											<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 																												<fo:block>
 																													<xsl:copy-of select="$value-of-template"/>
 																												</fo:block>
@@ -1858,7 +1881,16 @@ buffer := '
 																					<fo:block/>
 																				</fo:table-cell>
 																				<fo:table-cell padding="2pt" display-align="center">
-																					<fo:block/>
+																					<fo:bloc';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := 'k/>
 																				</fo:table-cell>
 																			</fo:table-row>
 																		</fo:table-body>
@@ -1885,16 +1917,7 @@ buffer := '
 																						</fo:inline>
 																						<xsl:for-each select="subcontract:SubContractData">
 																							<xsl:for-each select="subcontract:PrimeFinancialContact">
-																								<xsl:for-each select="subcontract:RolodexDetail';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := 's">
+																								<xsl:for-each select="subcontract:RolodexDetails">
 																									<xsl:for-each select="subcontract:Email">
 																										<xsl:variable name="value-of-template">
 																											<xsl:apply-templates/>
@@ -1953,7 +1976,16 @@ buffer := 's">
 																		<fo:table-body start-indent="0pt">
 																			<fo:table-row>
 																				<fo:table-cell padding="2pt" display-align="center">
-																					<fo:block>
+																		';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := '			<fo:block>
 																						<fo:inline>
 																							<xsl:text>Name:</xsl:text>
 																						</fo:inline>
@@ -1977,16 +2009,7 @@ buffer := 's">
 																											<xsl:otherwise>
 																												<fo:inline>
 																													<xsl:copy-of select="$value-of-template"/>
-								';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := '																				</fo:inline>
+																												</fo:inline>
 																											</xsl:otherwise>
 																										</xsl:choose>
 																									</xsl:for-each>
@@ -2042,7 +2065,16 @@ buffer := '																				</fo:inline>
 																												</fo:inline>
 																											</xsl:otherwise>
 																										</xsl:choose>
-																									</xsl:for-each>
+																									</xsl:for';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := '-each>
 																								</xsl:for-each>
 																							</xsl:for-each>
 																						</xsl:for-each>
@@ -2066,16 +2098,7 @@ buffer := '																				</fo:inline>
 																												</fo:inline>
 																											</xsl:otherwise>
 																										</xsl:choose>
-																									</xsl:for-e';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := 'ach>
+																									</xsl:for-each>
 																								</xsl:for-each>
 																							</xsl:for-each>
 																						</xsl:for-each>
@@ -2130,7 +2153,16 @@ buffer := 'ach>
 																			<fo:table-row>
 																				<fo:table-cell padding="2pt" display-align="center">
 																					<fo:block>
-																						<fo:inline>
+																				';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := '		<fo:inline>
 																							<xsl:text>City:</xsl:text>
 																						</fo:inline>
 																					</fo:block>
@@ -2153,16 +2185,7 @@ buffer := 'ach>
 																											<xsl:otherwise>
 																												<fo:inline>
 																													<xsl:copy-of select="$value-of-template"/>
-																												</fo';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := ':inline>
+																												</fo:inline>
 																											</xsl:otherwise>
 																										</xsl:choose>
 																									</xsl:for-each>
@@ -2215,7 +2238,16 @@ buffer := ':inline>
 																								<xsl:for-each select="subcontract:RolodexDetails">
 																									<xsl:for-each select="subcontract:Pincode">
 																										<xsl:variable name="value-of-template">
-																											<xsl:apply-templates/>
+			';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := '																								<xsl:apply-templates/>
 																										</xsl:variable>
 																										<xsl:choose>
 																											<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
@@ -2244,16 +2276,7 @@ buffer := ':inline>
 														<fo:table-row>
 															<fo:table-cell padding="2pt" display-align="center">
 																<fo:block>
-																	<f';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := 'o:inline-container>
+																	<fo:inline-container>
 																		<fo:block>
 																			<xsl:text>&#x2029;</xsl:text>
 																		</fo:block>
@@ -2304,7 +2327,16 @@ buffer := 'o:inline-container>
 																						</xsl:for-each>
 																					</fo:block>
 																				</fo:table-cell>
-																				<fo:table-cell padding="2pt" text-align="left" display-align="center">
+																				<fo:table-cell paddin';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := 'g="2pt" text-align="left" display-align="center">
 																					<fo:block>
 																						<fo:inline>
 																							<xsl:text>Fax:</xsl:text>
@@ -2328,16 +2360,7 @@ buffer := 'o:inline-container>
 																											</xsl:when>
 																											<xsl:otherwise>
 																												<fo:inline>
-			';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := '																										<xsl:copy-of select="$value-of-template"/>
+																													<xsl:copy-of select="$value-of-template"/>
 																												</fo:inline>
 																											</xsl:otherwise>
 																										</xsl:choose>
@@ -2392,7 +2415,16 @@ buffer := '																										<xsl:copy-of select="$value-of-template"/>
 																											<xsl:otherwise>
 																												<fo:inline>
 																													<xsl:copy-of select="$value-of-template"/>
-																												</fo:inline>
+																												</f';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT FORM INTO data FROM SUBAWARD_FORMS
+WHERE
+TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
+buffer := 'o:inline>
 																											</xsl:otherwise>
 																										</xsl:choose>
 																									</xsl:for-each>
@@ -2431,16 +2463,7 @@ buffer := '																										<xsl:copy-of select="$value-of-template"/>
 	</xsl:template>
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
-		<xsl:param name="text-length"/>';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR2(30000);
-BEGIN
-SELECT FORM INTO data FROM SUBAWARD_FORMS
-WHERE
-TEMPLATE_TYPE_CODE=3 AND  FORM_ID = 'FDP_ATT_3A' FOR UPDATE;
-buffer := '
+		<xsl:param name="text-length"/>
 		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
@@ -2467,5 +2490,5 @@ buffer := '
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-commit
+commit;
 /
