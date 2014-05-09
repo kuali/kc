@@ -2239,6 +2239,6 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	</xsl:template>
 </xsl:stylesheet>','FDP Attachment 3A.xsl','application/octet-stream',1,UUID(),3)
 /
-commit;
+commit
 /
 DELIMITER ;
