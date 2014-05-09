@@ -19,9 +19,16 @@ import java.util.List;
 
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.s2s.bo.S2sUserAttachedForm;
+import org.kuali.kra.s2s.bo.S2sUserAttachedFormAtt;
+import org.kuali.kra.s2s.bo.S2sUserAttachedFormAttFile;
+import org.kuali.kra.s2s.bo.S2sUserAttachedFormFile;
 
 public interface S2SUserAttachedFormService {
     public List<S2sUserAttachedForm> extractNSaveUserAttachedForms(DevelopmentProposal developmentProposal, S2sUserAttachedForm s2sUserAttachedForm) throws Exception;
 
     public void resetFormAvailability(DevelopmentProposal developmentProposal, String namespace);
+    
+    public S2sUserAttachedFormFile findUserAttachedFormFile(S2sUserAttachedForm selectedForm);
+    
+    public S2sUserAttachedFormAttFile findUserAttachedFormAttFile(S2sUserAttachedFormAtt selectedFormAtt);
 }
