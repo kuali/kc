@@ -37,6 +37,7 @@
 </style>
 <c:set var="subAwardPrintAgreementAttributes" value="${DataDictionary.SubAwardPrintAgreement.attributes}" />
 <c:set var="subAwardForms" value="${DataDictionary.SubAwardForms.attributes}" />
+<c:set var="subAwardAttachments" value="${DataDictionary.SubAwardAttachments.attributes}" />
 <c:set var="action" value="SubAwardHomeAction" />
 
 <kul:tab tabTitle="Print" tabItemCount="" defaultOpen="false" tabErrorKey="" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
@@ -163,15 +164,17 @@
 				 <dd><ul>
 				  <li>
 				  <html:checkbox property="document.subAwardList[0].subAwardAttachments[${status.index}].selectToPrint"/>
-				  <c:out value="${KualiForm.document.subAwardList[0].subAwardAttachments[status.index].fileNameSplit}"/>
+				  <kra:truncateComment textAreaFieldName="document.subAwardList[0].subAwardAttachments[${status.index}].description" action="subAwardActions" textAreaLabel="Descripton" 
+				  textValue="${KualiForm.document.subAwardList[0].subAwardAttachments[status.index].description}" displaySize="30"/>
 				  </li>
-				</ul></dd>
-      			   </c:when>
+				  </ul></dd>
+      			  </c:when>
       			  <c:otherwise >
-      			 <dd><ul>
+      			  <dd><ul>
       			  <li>
 				  <html:checkbox property="document.subAwardList[0].subAwardAttachments[${status.index}].selectToPrint"/>
-				  <c:out value="${KualiForm.document.subAwardList[0].subAwardAttachments[status.index].fileNameSplit}"/>
+				  <kra:truncateComment textAreaFieldName="document.subAwardList[0].subAwardAttachments[${status.index}].description" action="subAwardActions" textAreaLabel="Descripton" 
+				  textValue="${KualiForm.document.subAwardList[0].subAwardAttachments[status.index].description}" displaySize="30"/>
 				  </li>
       			  </ul></dd>
       			  </c:otherwise>
