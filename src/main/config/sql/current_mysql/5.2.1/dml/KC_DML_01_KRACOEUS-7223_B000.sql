@@ -3201,7 +3201,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																	</xsl:when>
 																</xsl:choose>
 																<fo:inline>
-																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient?s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient''s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
