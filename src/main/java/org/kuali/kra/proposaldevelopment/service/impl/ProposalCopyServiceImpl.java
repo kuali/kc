@@ -48,6 +48,8 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.bo.S2sUserAttachedForm;
 import org.kuali.kra.s2s.bo.S2sUserAttachedFormAtt;
+import org.kuali.kra.s2s.bo.S2sUserAttachedFormAttFile;
+import org.kuali.kra.s2s.bo.S2sUserAttachedFormFile;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -557,6 +559,14 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             List<S2sUserAttachedFormAtt> attachments = s2sUserAttachedForm.getS2sUserAttachedFormAtts();
             for (S2sUserAttachedFormAtt s2sUserAttachedFormAtt : attachments) {
                 s2sUserAttachedFormAtt.setS2sUserAttachedFormAttId(null);
+                List<S2sUserAttachedFormAttFile> userAttachedFormAttFiles = s2sUserAttachedFormAtt.getS2sUserAttachedFormAttFileList();
+                for (S2sUserAttachedFormAttFile s2sUserAttachedFormFile : userAttachedFormAttFiles) {
+                    s2sUserAttachedFormFile.setS2sUserAttachedFormAttFileId(null);
+                }
+            }
+            List<S2sUserAttachedFormFile> userAttachedFormFiles = s2sUserAttachedForm.getS2sUserAttachedFormFileList();
+            for (S2sUserAttachedFormFile s2sUserAttachedFormFile : userAttachedFormFiles) {
+                s2sUserAttachedFormFile.setS2sUserAttachedFormFileId(null);
             }
         }
         

@@ -1,0 +1,93 @@
+<!--
+ Copyright 2005-2010 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="S2sUserAttachedFormFile" parent="S2sUserAttachedFormFile-parentBean" />
+    <bean id="S2sUserAttachedFormFile-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sUserAttachedFormFile" />
+        <property name="objectLabel" value="S2s User Attached Form File" />
+        <property name="titleAttribute" value="s2sUserAttachedFormFileId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="S2sUserAttachedFormFile-s2sUserAttachedFormFileId" />
+                <ref bean="S2sUserAttachedFormFile-formFile" />
+                <ref bean="S2sUserAttachedFormFile-xmlFile" />
+                <ref bean="S2sUserAttachedFormFile-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="S2sUserAttachedFormFile-s2sUserAttachedFormFileId" parent="S2sUserAttachedFormFile-s2sUserAttachedFormFileId-parentBean" />
+    <bean id="S2sUserAttachedFormFile-s2sUserAttachedFormFileId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="s2sUserAttachedFormFileId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="S2s User Attached Form File Id" />
+        <property name="shortLabel" value="S2s User Attached Form File Id" />
+        <property name="maxLength" value="22" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="S2s User Attached Form Id" />
+        <property name="description" value="S2s User Attached Form Id" />
+    </bean>
+
+    <bean id="S2sUserAttachedFormFile-formFile" parent="S2sUserAttachedFormFile-formFile-parentBean" />
+    <bean id="S2sUserAttachedFormFile-formFile-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="formFile" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Form File" />
+        <property name="shortLabel" value="Form File" />
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="10" />
+        </property>
+        <property name="summary" value="Form File" />
+        <property name="description" value="Form File" />
+    </bean>
+
+    <bean id="S2sUserAttachedFormFile-xmlFile" parent="S2sUserAttachedFormFile-xmlFile-parentBean" />
+    <bean id="S2sUserAttachedFormFile-xmlFile-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="xmlFile" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Xml File" />
+        <property name="shortLabel" value="Xml File" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="3"
+                p:cols="20" />
+        </property>
+        <property name="summary" value="Xml File" />
+        <property name="description" value="Xml File" />
+    </bean>
+
+    <bean id="S2sUserAttachedFormFile-versionNumber" parent="S2sUserAttachedFormFile-versionNumber-parentBean" />
+    <bean id="S2sUserAttachedFormFile-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
+    </bean>
+
+</beans>

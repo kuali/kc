@@ -16,24 +16,27 @@
 package org.kuali.kra.s2s.bo;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class S2sUserAttachedFormAtt extends KraPersistableBusinessObjectBase { 
     
-    private static final long serialVersionUID = 1L;
-
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 5561511868250800552L;
     private Long s2sUserAttachedFormAttId; 
     private Long s2sUserAttachedFormId; 
     private String proposalNumber; 
     private String contentType; 
     private String fileName; 
     private String contentId; 
-    private byte[] attachment; 
-    
-    private S2sUserAttachedForm s2sUserAttachedForm; 
+    private List<S2sUserAttachedFormAttFile> s2sUserAttachedFormAttFileList;
     
     public S2sUserAttachedFormAtt() { 
-
+        s2sUserAttachedFormAttFileList = new ArrayList<S2sUserAttachedFormAttFile>();
     } 
     
     public Long getS2sUserAttachedFormAttId() {
@@ -84,25 +87,20 @@ public class S2sUserAttachedFormAtt extends KraPersistableBusinessObjectBase {
         this.contentId = contentId;
     }
 
-    public byte[] getAttachment() {
-        return attachment;
+    /**
+     * Gets the s2sUserAttachedFormAttFileList attribute. 
+     * @return Returns the s2sUserAttachedFormAttFileList.
+     */
+    public List<S2sUserAttachedFormAttFile> getS2sUserAttachedFormAttFileList() {
+        return s2sUserAttachedFormAttFileList;
     }
 
-    public void setAttachment(byte[] attachment) {
-        this.attachment = attachment;
+    /**
+     * Sets the s2sUserAttachedFormAttFileList attribute value.
+     * @param s2sUserAttachedFormAttFileList The s2sUserAttachedFormAttFileList to set.
+     */
+    public void setS2sUserAttachedFormAttFileList(List<S2sUserAttachedFormAttFile> s2sUserAttachedFormAttFileList) {
+        this.s2sUserAttachedFormAttFileList = s2sUserAttachedFormAttFileList;
     }
 
-    public S2sUserAttachedForm getS2sUserAttachedForm() {
-        return s2sUserAttachedForm;
-    }
-
-    public void setS2sUserAttachedForm(S2sUserAttachedForm s2sUserAttachedForm) {
-        this.s2sUserAttachedForm = s2sUserAttachedForm;
-    }
-//    @Override
-//    protected void postPersist() {
-//        super.postPersist();
-//        setAttachment(null);
-//    }
-    
 }
