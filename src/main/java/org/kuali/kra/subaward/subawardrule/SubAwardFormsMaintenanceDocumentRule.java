@@ -67,7 +67,16 @@ public class SubAwardFormsMaintenanceDocumentRule extends KraMaintenanceDocument
     public boolean isDocumentValidForSave(MaintenanceDocument document) {
         boolean result = super.isDocumentValidForSave(document);
         final SubAwardForms subAwardForms = (SubAwardForms) document.getNewMaintainableObject().getDataObject();
-        String fileName = subAwardForms.getFileName() == null ? subAwardForms.getTemplateFile().getFileName() : subAwardForms.getFileName();
+       
+        String fileName = "";
+        if (subAwardForms.getFileName() == null) {  
+            if (subAwardForms.getTemplateFile() != null) {
+                fileName = subAwardForms.getTemplateFile().getFileName();
+            }
+        } else {
+            fileName = subAwardForms.getFileName();
+        }
+        
         if (!fileName.endsWith(".xsl")) {
             result = false;
             putFieldError(TEMPLATE_FILE_FIELD_NAME, KeyConstants.SUBAWARD_ERROR_INVALID_FILE_TYPE);
