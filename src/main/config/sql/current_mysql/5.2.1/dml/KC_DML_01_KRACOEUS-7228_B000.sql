@@ -908,6 +908,6 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	</xsl:template>
 </xsl:stylesheet>','Template for FDP Modification.xsl','application/octet-stream',1,UUID(),4)
 /
-commit;
+commit
 /
 DELIMITER ;
