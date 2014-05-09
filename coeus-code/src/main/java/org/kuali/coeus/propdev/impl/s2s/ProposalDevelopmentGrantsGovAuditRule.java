@@ -23,6 +23,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
+import org.kuali.kra.s2s.service.FormActionResult;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -72,9 +73,14 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
         	auditErrors.add(new AuditError("document.developmentProposalList[0].s2sOpportunity.competetionId", KeyConstants.ERROR_IF_COMPETITION_ID_IS_INVALID, Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
         	valid= false;
         }
-        
+
         if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null){
-            valid &= getS2sValidatorService().validateApplication(proposalDevelopmentDocument,auditErrors);
+            FormActionResult result =  getS2sValidatorService().validateApplication(proposalDevelopmentDocument);
+            valid &= result.isValid();
+
+            if (result.getErrors() != null) {
+                auditErrors.addAll(result.getErrors());
+            }
         }
 
         if (auditErrors.size() > 0) {
@@ -88,6 +94,18 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
             KNSGlobalVariables.getAuditErrorMap().put("grantsGovAuditWarnings", new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, knsAuditErrors, Constants.AUDIT_ERRORS));
         }
         return valid;
+    }
+
+    protected void setValidationErrorMessage(List<org.kuali.kra.s2s.util.AuditError> s2sErrors, List<org.kuali.rice.kns.util.AuditError> auditErrors) {
+        if (s2sErrors != null) {
+            LOG.info("Error list size:" + s2sErrors.size() + s2sErrors.toString());
+
+            for (org.kuali.kra.s2s.util.AuditError error : s2sErrors) {
+                auditErrors.add(new org.kuali.rice.kns.util.AuditError(error.getErrorKey(),
+                        Constants.GRANTS_GOV_GENERIC_ERROR_KEY, error.getLink(),
+                        new String[]{error.getMessageKey()}));
+            }
+        }
     }
     private SponsorHierarchyService getSponsorHierarchyService() {
         return KcServiceLocator.getService(SponsorHierarchyService.class);

@@ -70,6 +70,7 @@ import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionType;
+import org.kuali.kra.s2s.service.FormActionResult;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -823,15 +824,16 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             if (!KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
                 auditPassed = false;
             }
-            boolean s2sPassed = true;
+            FormActionResult result = null;
             if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null) {
                 S2SService s2sService = (S2SService) KcServiceLocator.getService(S2SService.class);
                 try {
-                    s2sPassed = s2sService.validateApplication(proposalDevelopmentDocument);
+                    result = s2sService.validateApplication(proposalDevelopmentDocument);
+                    setValidationErrorMessage(result.getErrors());
                 }
                 catch (S2SException e) {
                     log.error(e.getMessage(),e);
-                    s2sPassed=false;
+
                 }
             }
             
@@ -839,7 +841,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
              * If either reported an error, then we have to check to see if we only have warnings or
              * if we also have some errors.
              */
-            if (!auditPassed || !s2sPassed) {
+            if (!auditPassed || (result != null && result.isValid()) ) {
                 state = putErrorInGlobalMessageMap();
             }
         }
