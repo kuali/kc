@@ -102,25 +102,22 @@ public class KRAS2SServiceImpl implements S2SService {
 	 */
 	public String getStatusDetails(String ggTrackingId, String proposalNumber)
 			throws S2SException {
-	    if(isAuthorizedToAccess(proposalNumber)){
-	        if (StringUtils.isNotBlank(proposalNumber) && proposalNumber.contains(Constants.COLON)) {
-	            proposalNumber = StringUtils.split(proposalNumber, Constants.COLON)[0];
-	        }
-	        Map<String, String> opportunityMap = new HashMap<String, String>();
-	        opportunityMap.put(KEY_PROPOSAL_NUMBER, proposalNumber);
-	        S2sOpportunity s2sOpportunity = (S2sOpportunity) businessObjectService
-	                .findByPrimaryKey(S2sOpportunity.class, opportunityMap);
-	        
-	        Object statusDetail = null;
-	        GetApplicationStatusDetailResponse applicationStatusDetailResponse;
-	        applicationStatusDetailResponse = getS2sConnectorService(s2sOpportunity)
-	        .getApplicationStatusDetail(ggTrackingId, proposalNumber);
-	        if (applicationStatusDetailResponse != null) {
-	            statusDetail = applicationStatusDetailResponse.getDetailedStatus();
-	        }
-	        return statusDetail.toString();
-	    }
-	    return StringUtils.EMPTY;
+        if (StringUtils.isNotBlank(proposalNumber) && proposalNumber.contains(Constants.COLON)) {
+            proposalNumber = StringUtils.split(proposalNumber, Constants.COLON)[0];
+        }
+        Map<String, String> opportunityMap = new HashMap<String, String>();
+        opportunityMap.put(KEY_PROPOSAL_NUMBER, proposalNumber);
+        S2sOpportunity s2sOpportunity = businessObjectService
+                .findByPrimaryKey(S2sOpportunity.class, opportunityMap);
+
+        Object statusDetail = null;
+        GetApplicationStatusDetailResponse applicationStatusDetailResponse;
+        applicationStatusDetailResponse = getS2sConnectorService(s2sOpportunity)
+        .getApplicationStatusDetail(ggTrackingId, proposalNumber);
+        if (applicationStatusDetailResponse != null) {
+            statusDetail = applicationStatusDetailResponse.getDetailedStatus();
+        }
+        return statusDetail != null ? statusDetail.toString() : StringUtils.EMPTY;
 	}
 
 	/**
@@ -880,41 +877,6 @@ public class KRAS2SServiceImpl implements S2SService {
 	public void setS2SValidatorService(S2SValidatorService validatorService) {
 		s2SValidatorService = validatorService;
 	}
-
-    /*
-     * a utility method to check if dwr/ajax call really has authorization
-     * 'updateProtocolFundingSource' also accessed by non ajax call
-     */
-    
-    private boolean isAuthorizedToAccess(String proposalNumber) {
-        boolean isAuthorized = true;
-        if(proposalNumber.contains(Constants.COLON)){
-            if (GlobalVariables.getUserSession() != null) {
-                // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be replaced by
-                // jquery/ajax in rice 2.0
-                String[] invalues = StringUtils.split(proposalNumber, Constants.COLON);
-                String docFormKey = invalues[1];
-                if (StringUtils.isBlank(docFormKey)) {
-                    isAuthorized = false;
-                } else {
-                    Object formObj = GlobalVariables.getUserSession().retrieveObject(docFormKey);
-                    if (formObj == null || !(formObj instanceof ProposalDevelopmentForm)) {
-                        isAuthorized = false;
-                    } else {
-                        Map<String, String> editModes = ((ProposalDevelopmentForm)formObj).getEditingMode();
-                        isAuthorized = (BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.FULL_ENTRY))
-                        || BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.VIEW_ONLY))
-                        || BooleanUtils.toBoolean(editModes.get("modifyProposal")))
-                        && BooleanUtils.toBoolean(editModes.get("submitToSponsor"));
-                    }
-                }
-            } else {
-                // TODO : it seemed that tomcat has this issue intermittently ?
-                LOG.info("dwr/ajax does not have session ");
-            }
-        }
-        return isAuthorized;
-    }
 
     protected S2SConnectorService getS2sConnectorService(S2sOpportunity s2sOpportunity) {
         return KcServiceLocator.getService(s2sOpportunity.getS2sProvider().getConnectorServiceName());
