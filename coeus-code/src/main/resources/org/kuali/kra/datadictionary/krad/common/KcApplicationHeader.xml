@@ -60,6 +60,11 @@
 		parent="Uif-ListGroup" p:layoutManager.additionalCssClasses="nav,pull-right">
 		<property name="items">
 			<list>
+				<bean parent="Uif-Link" p:href="@{#ConfigProperties['app.feedback.link']}"
+					p:wrapperCssClasses="pull-right" p:target="_new"
+					p:hidden="@{#ConfigProperties['app.feedback.link'] == ''}"
+					p:linkText="@{#ConfigProperties['app.feedback.linkText']}" />
+					
 				<bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-ActionListView"
 					p:wrapperCssClasses="pull-right" p:actionLabel="Action List" />
 				<bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-DocSearchView"
@@ -75,6 +80,8 @@
 			</list>
 		</property>
 	</bean>
+	
+	
 
 	<bean id="Kc-Header-IframeMenuAction" parent="Kc-Header-IframeMenuAction-parentBean" />
 	<bean id="Kc-Header-IframeMenuAction-parentBean" abstract="true"
