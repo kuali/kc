@@ -3572,7 +3572,7 @@ BEGIN
 SELECT FORM INTO data FROM SUBAWARD_FORMS
 WHERE
 TEMPLATE_TYPE_CODE=2 AND  FORM_ID = 'FDP_NASA' FOR UPDATE;
-buffer := 'any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient?s obligations to the Federal Government under its Prime Award.</xsl:text>
+buffer := 'any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient''s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
