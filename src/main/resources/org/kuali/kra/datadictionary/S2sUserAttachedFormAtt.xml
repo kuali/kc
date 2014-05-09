@@ -39,7 +39,6 @@
                 <ref bean="S2sUserAttachedFormAtt-contentType" />
                 <ref bean="S2sUserAttachedFormAtt-fileName" />
                 <ref bean="S2sUserAttachedFormAtt-contentId" />
-                <ref bean="S2sUserAttachedFormAtt-attachment" />
                 <ref bean="S2sUserAttachedFormAtt-versionNumber" />
             </list>
         </property>
@@ -155,20 +154,6 @@
         <property name="description" value="Content Id" />
     </bean>
 
-    <bean id="S2sUserAttachedFormAtt-attachment" parent="S2sUserAttachedFormAtt-attachment-parentBean" />
-    <bean id="S2sUserAttachedFormAtt-attachment-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="attachment" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Attachment" />
-        <property name="shortLabel" value="Attachment" />
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Attachment" />
-        <property name="description" value="Attachment" />
-    </bean>
-
     <bean id="S2sUserAttachedFormAtt-versionNumber" parent="S2sUserAttachedFormAtt-versionNumber-parentBean" />
     <bean id="S2sUserAttachedFormAtt-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
@@ -197,8 +182,6 @@
                                 p:attributeName="fileName" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="contentId" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="attachment" />
                         </list>
                     </property>
                 </bean>
@@ -230,8 +213,6 @@
                     p:attributeName="fileName" />
                 <bean parent="FieldDefinition"
                     p:attributeName="contentId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="attachment" />
             </list>
         </property>
         <property name="resultFields" >
@@ -249,8 +230,6 @@
                     p:attributeName="fileName" />
                 <bean parent="FieldDefinition"
                     p:attributeName="contentId" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="attachment" />
             </list>
         </property>
     </bean>
