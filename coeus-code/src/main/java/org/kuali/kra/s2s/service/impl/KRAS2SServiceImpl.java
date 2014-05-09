@@ -52,8 +52,6 @@ import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.OpportunitySchemaParser;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import javax.activation.DataHandler;
@@ -402,12 +400,13 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @throws S2SException
 	 * @see org.kuali.kra.s2s.service.S2SService#submitApplication(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
 	 */
-	public boolean submitApplication(ProposalDevelopmentDocument pdDoc)
+	public FormActionResult submitApplication(ProposalDevelopmentDocument pdDoc)
 			throws S2SException {
-		boolean submissionStatus = false;
 		Forms forms = Forms.Factory.newInstance();
 		List<AttachmentData> attList = new ArrayList<AttachmentData>();
-		if (generateAndValidateForms(forms, attList, pdDoc)) {
+
+        final FormActionResult result = generateAndValidateForms(forms, attList, pdDoc);
+        if (result.isValid()) {
 
 			Map<String, DataHandler> attachments = new HashMap<String, DataHandler>();
 			List<S2sAppAttachments> s2sAppAttachmentList = new ArrayList<S2sAppAttachments>();
@@ -439,9 +438,9 @@ public class KRAS2SServiceImpl implements S2SService {
             appSubmission.setStatus(S2SConstants.GRANTS_GOV_SUBMISSION_MESSAGE);
 			saveSubmissionDetails(pdDoc, appSubmission, response,
 					applicationXml, s2sAppAttachmentList);
-			submissionStatus = true;
+            result.setValid(true);
 		}
-		return submissionStatus;
+		return result;
 	}
 
 	/**
@@ -583,25 +582,11 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @throws S2SException
 	 * @see org.kuali.kra.s2s.service.S2SService#validateApplication(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
 	 */
-	public boolean validateApplication(
+	public FormActionResult validateApplication(
 			ProposalDevelopmentDocument proposalDevelopmentDocument)
 			throws S2SException {
 		return generateAndValidateForms(null, null,
-				proposalDevelopmentDocument, new ArrayList<AuditError>());
-	}
-
-	public boolean validateApplication(
-			ProposalDevelopmentDocument proposalDevelpmentDocument,
-			List<AuditError> auditErrors) throws S2SException {
-		return generateAndValidateForms(null, null, proposalDevelpmentDocument,
-				auditErrors);
-	}
-
-	protected boolean generateAndValidateForms(Forms forms,
-			List<AttachmentData> attList, ProposalDevelopmentDocument pdDoc)
-			throws S2SException {
-		return generateAndValidateForms(forms, attList, pdDoc,
-				new ArrayList<AuditError>());
+				proposalDevelopmentDocument);
 	}
 
 	/**
@@ -617,9 +602,8 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @return validation result true if valid false otherwise.
 	 * @throws S2SException
 	 */
-	protected boolean generateAndValidateForms(Forms forms,
-			List<AttachmentData> attList, ProposalDevelopmentDocument pdDoc,
-			List<AuditError> auditErrors) throws S2SException {
+	protected FormActionResult generateAndValidateForms(Forms forms,
+			List<AttachmentData> attList, ProposalDevelopmentDocument pdDoc) throws S2SException {
 		boolean validationSucceeded = true;
 		DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
 		List<S2sOppForms> opportunityForms = developmentProposal.getS2sOppForms();
@@ -629,7 +613,9 @@ public class KRAS2SServiceImpl implements S2SService {
 		if (attList == null) {
 		    attList = new ArrayList<AttachmentData>();
 		}
-	    getNarrativeService().deleteSystemGeneratedNarratives(pdDoc.getDevelopmentProposal().getNarratives());
+
+        List<AuditError> auditErrors = new ArrayList<AuditError>();
+        getNarrativeService().deleteSystemGeneratedNarratives(pdDoc.getDevelopmentProposal().getNarratives());
 		for (S2sOppForms opportunityForm : opportunityForms) {
 			if (!opportunityForm.getInclude()) {
 				continue;
@@ -663,10 +649,10 @@ public class KRAS2SServiceImpl implements S2SService {
 						+ opportunityForm.getFormName(), ex);
 			}
 		}
-		if (!validationSucceeded || !auditErrors.isEmpty()) {
-			setValidationErrorMessage(auditErrors);
-		}
-		return validationSucceeded;
+        FormActionResult result = new FormActionResult();
+        result.setValid(validationSucceeded);
+        result.setErrors(auditErrors);
+		return result;
 	}
 
     /**
@@ -694,30 +680,6 @@ public class KRAS2SServiceImpl implements S2SService {
 
 		// Add the form to the Forms object.
 		formCursor.moveXml(metaGrantCursor);
-	}
-
-	/**
-	 * 
-	 * This method is to put validation errors on UI
-	 * 
-	 * @param errors
-	 *            List of validation errors which has to be displayed on UI.
-	 */
-
-	protected void setValidationErrorMessage(List<AuditError> errors) {
-		LOG.info("Error list size:" + errors.size() + errors.toString());
-		List<org.kuali.rice.kns.util.AuditError> auditErrors = new ArrayList<>();
-		for (AuditError error : errors) {
-			auditErrors.add(new org.kuali.rice.kns.util.AuditError(error.getErrorKey(),
-					Constants.GRANTS_GOV_GENERIC_ERROR_KEY, error.getLink(),
-					new String[] { error.getMessageKey() }));
-		}
-		if (!auditErrors.isEmpty()) {
-			KNSGlobalVariables.getAuditErrorMap().put(
-					"grantsGovAuditErrors",
-					new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL,
-							auditErrors, Constants.GRANTSGOV_ERRORS));
-		}
 	}
 
 	/**
