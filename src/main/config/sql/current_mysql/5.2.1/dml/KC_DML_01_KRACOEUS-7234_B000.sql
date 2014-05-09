@@ -1,3 +1,4 @@
+DELIMITER /
 delete from SUBAWARD_FORMS where FORM_ID = 'FDP_ATT_3A'
 /
 commit
@@ -177,7 +178,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 												</fo:inline-container>
 												<fo:table table-layout="fixed" width="100%" border-spacing=".5">
 													<fo:table-column column-width="proportional-column-width(1)"/>
-														<fo:table-body start-indent="0pt">
+													<fo:table-body start-indent="0pt">
 														<fo:table-row>
 															<fo:table-cell padding="2pt" display-align="center">
 																<fo:block>
@@ -257,7 +258,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																							<xsl:for-each select="subcontract:PrimeRecipientContacts">
 																								<xsl:for-each select="subcontract:OrgRolodexDetails">
 																									<xsl:for-each select="subcontract:Address1">
-																								<xsl:variable name="value-of-template">
+																									<xsl:variable name="value-of-template">
 																											<xsl:apply-templates/>
 																										</xsl:variable>
 																										<xsl:choose>
@@ -281,6 +282,30 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																							<xsl:for-each select="subcontract:PrimeRecipientContacts">
 																								<xsl:for-each select="subcontract:OrgRolodexDetails">
 																									<xsl:for-each select="subcontract:Address2">
+																										<xsl:variable name="value-of-template">
+																											<xsl:apply-templates/>
+																										</xsl:variable>
+																										<xsl:choose>
+																											<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
+																												<fo:block>
+																													<xsl:copy-of select="$value-of-template"/>
+																												</fo:block>
+																											</xsl:when>
+																											<xsl:otherwise>
+																												<fo:inline>
+																													<xsl:copy-of select="$value-of-template"/>
+																												</fo:inline>
+																											</xsl:otherwise>
+																										</xsl:choose>
+																									</xsl:for-each>
+																								</xsl:for-each>
+																							</xsl:for-each>
+																						</xsl:for-each>
+																						<fo:block/>
+																						<xsl:for-each select="subcontract:SubContractData">
+																							<xsl:for-each select="subcontract:PrimeRecipientContacts">
+																								<xsl:for-each select="subcontract:OrgRolodexDetails">
+																									<xsl:for-each select="subcontract:Address3">
 																										<xsl:variable name="value-of-template">
 																											<xsl:apply-templates/>
 																										</xsl:variable>
@@ -336,7 +361,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																					<fo:block>
 																						<xsl:for-each select="subcontract:SubContractData">
 																							<xsl:for-each select="subcontract:PrimeRecipientContacts">
-																						<xsl:for-each select="subcontract:OrgRolodexDetails">
+																								<xsl:for-each select="subcontract:OrgRolodexDetails">
 																									<xsl:for-each select="subcontract:City">
 																										<xsl:variable name="value-of-template">
 																											<xsl:apply-templates/>
@@ -412,7 +437,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																												</fo:block>
 																											</xsl:when>
 																											<xsl:otherwise>
-																										<fo:inline>
+																												<fo:inline>
 																													<xsl:copy-of select="$value-of-template"/>
 																												</fo:inline>
 																											</xsl:otherwise>
@@ -550,7 +575,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																									<xsl:for-each select="subcontract:Address2">
 																										<xsl:variable name="value-of-template">
 																											<xsl:apply-templates/>
-																										</xsl:variable>
+																											</xsl:variable>
 																										<xsl:choose>
 																											<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 																												<fo:block>
@@ -811,7 +836,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																				<fo:table-cell padding="2pt" display-align="center">
 																					<fo:block/>
 																				</fo:table-cell>
-																<fo:table-cell padding="2pt" display-align="center">
+																				<fo:table-cell padding="2pt" display-align="center">
 																					<fo:block/>
 																				</fo:table-cell>
 																			</fo:table-row>
@@ -870,7 +895,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 														</fo:table-row>
 													</fo:table-body>
 												</fo:table>
-												<fo:block text-align="center">
+											<fo:block text-align="center">
 													<fo:leader leader-pattern="rule" rule-thickness="1" leader-length="100%" color="black"/>
 												</fo:block>
 												<fo:inline>
@@ -954,7 +979,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																							<xsl:text>Address:</xsl:text>
 																						</fo:inline>
 																					</fo:block>
-																				</fo:table-cell>
+																			</fo:table-cell>
 																				<fo:table-cell padding="2pt" display-align="center">
 																					<fo:block>
 																						<xsl:for-each select="subcontract:SubContractData">
@@ -1034,7 +1059,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 															<fo:table-cell padding="2pt" display-align="center">
 																<fo:block>
 																	<fo:inline-container>
-																		<fo:block>
+																	<fo:block>
 																			<xsl:text>&#x2029;</xsl:text>
 																		</fo:block>
 																	</fo:inline-container>
@@ -1111,7 +1136,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																						</xsl:for-each>
 																					</fo:block>
 																				</fo:table-cell>
-																				<fo:table-cell padding="2pt" display-align="center">
+																		<fo:table-cell padding="2pt" display-align="center">
 																					<fo:block>
 																						<fo:inline>
 																							<xsl:text>Zip Code: </xsl:text>
@@ -1214,7 +1239,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																									</xsl:variable>
 																									<xsl:choose>
 																										<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
-																										<fo:block>
+																											<fo:block>
 																												<xsl:copy-of select="$value-of-template"/>
 																											</fo:block>
 																										</xsl:when>
@@ -1271,7 +1296,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																											</fo:block>
 																										</xsl:when>
 																										<xsl:otherwise>
-																											<fo:inline>
+																										<fo:inline>
 																												<xsl:copy-of select="$value-of-template"/>
 																											</fo:inline>
 																										</xsl:otherwise>
@@ -1434,7 +1459,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																											<xsl:apply-templates/>
 																										</xsl:variable>
 																										<xsl:choose>
-																											<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
+																								<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
 																												<fo:block>
 																													<xsl:copy-of select="$value-of-template"/>
 																												</fo:block>
@@ -1756,7 +1781,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																		<fo:table-body start-indent="0pt">
 																			<fo:table-row>
 																				<fo:table-cell padding="2pt" display-align="center">
-																					<fo:block>
+																			<fo:block>
 																						<fo:inline>
 																							<xsl:text>Name:</xsl:text>
 																						</fo:inline>
@@ -1780,7 +1805,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																											<xsl:otherwise>
 																												<fo:inline>
 																													<xsl:copy-of select="$value-of-template"/>
-																											</fo:inline>
+																												</fo:inline>
 																											</xsl:otherwise>
 																										</xsl:choose>
 																									</xsl:for-each>
@@ -1915,7 +1940,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																			<fo:table-row>
 																				<fo:table-cell padding="2pt" display-align="center">
 																					<fo:block>
-																						<fo:inline>
+																				<fo:inline>
 																							<xsl:text>City:</xsl:text>
 																						</fo:inline>
 																					</fo:block>
@@ -1991,7 +2016,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																								<xsl:for-each select="subcontract:RolodexDetails">
 																									<xsl:for-each select="subcontract:Pincode">
 																										<xsl:variable name="value-of-template">
-																											<xsl:apply-templates/>
+																								<xsl:apply-templates/>
 																										</xsl:variable>
 																										<xsl:choose>
 																											<xsl:when test="contains(string($value-of-template),''&#x2029;'')">
@@ -2095,7 +2120,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 																											</xsl:when>
 																											<xsl:otherwise>
 																												<fo:inline>
-																										<xsl:copy-of select="$value-of-template"/>
+																													<xsl:copy-of select="$value-of-template"/>
 																												</fo:inline>
 																											</xsl:otherwise>
 																										</xsl:choose>
@@ -2212,8 +2237,8 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-</xsl:stylesheet>',EMPTY_CLOB(),'FDP Attachment 3A.xsl','application/octet-stream',1,UUID(),3)
+</xsl:stylesheet>','FDP Attachment 3A.xsl','application/octet-stream',1,UUID(),3)
 /
-commit
+commit;
 /
 DELIMITER ;
