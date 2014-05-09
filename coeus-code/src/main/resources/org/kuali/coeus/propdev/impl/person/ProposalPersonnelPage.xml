@@ -313,7 +313,6 @@
 			<list>
 				<bean parent="PropDev-PersonnelPage-Details" p:order="10" />
 				<bean parent="PropDev-PersonnelPage-Organization" p:order="20" />
-				<bean parent="PropDev-PersonnelPage-Education" p:order="30" />
 				<bean parent="PropDev-PersonnelPage-ExtendedDetails" p:order="40" />
 				<bean parent="PropDev-PersonnelPage-Degrees" p:order="50" />
 				<bean parent="PropDev-PersonnelPage-UnitDetails" p:order="60" />
@@ -394,22 +393,6 @@
 					p:order="210" />
 				<bean parent="Uif-InputField" p:propertyName="facultyFlag"
 					p:order="220" />
-			</list>
-		</property>
-	</bean>
-
-	<bean id="PropDev-PersonnelPage-Education" parent="PropDev-PersonnelPage-Education-parentBean" />
-	<bean id="PropDev-PersonnelPage-Education-parentBean" abstract="true"
-		parent="Uif-CssGridSection-2FieldLabelColumn" p:headerText="Education">
-		<property name="items">
-			<list>
-				<bean parent="Uif-InputField" p:propertyName="educationLevel"
-					p:order="10" />
-				<bean parent="Uif-InputField" p:propertyName="yearGraduated"
-					p:order="20" />
-				<bean parent="Uif-InputField" p:propertyName="major" p:order="30" />
-				<bean parent="Uif-InputField" p:propertyName="degree" p:order="40" />
-				<bean parent="Uif-InputField" p:propertyName="school" p:order="50" />
 			</list>
 		</property>
 	</bean>
@@ -499,15 +482,19 @@
 		parent="Uif-TableCollectionSection" p:headerText="Degrees"
 		p:propertyName="proposalPersonDegrees"
 		p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPersonDegree"
-		p:renderAddBlankLineButton="true" p:layoutManager.richTable.render="true"
-		p:layoutManager.renderSequenceField="false" p:addLinePlacement="BOTTOM">
+		p:renderAddBlankLineButton="false" 
+		p:layoutManager.richTable.render="true"
+		p:layoutManager.renderSequenceField="false" 
+		p:addViaLightBox="true"
+		p:addLinePlacement="BOTTOM">
+		<property name="addViaLightBoxAction">
+   			<bean parent="Uif-AddViaLightBoxAction" p:actionLabel="Degree" p:iconClass="icon-plus"/>
+		</property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="degreeCode"
-					p:order="10" />
+  				<bean parent="Uif-InputField" p:propertyName="degreeCode" p:enableAutoQuickfinder="false" p:order="10" />
 				<bean parent="Uif-InputField" p:propertyName="degree" p:order="20" />
-				<bean parent="Uif-InputField" p:propertyName="graduationYear"
-					p:order="30" />
+				<bean parent="Uif-InputField" p:propertyName="graduationYear" p:order="30" />
 				<bean parent="Uif-InputField" p:propertyName="school" p:order="40" />
 			</list>
 		</property>
