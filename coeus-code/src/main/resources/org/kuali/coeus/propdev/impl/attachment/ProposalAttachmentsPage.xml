@@ -167,7 +167,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="abstractDetails" p:order="30"
-                      p:readOnly="@{!#ViewHelper.isAttachmentEditable(#getName(#line.getClass()),#index,editableAttachments)}"/>
+                      p:readOnly="@{!#ViewHelper.isAttachmentEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableAttachments)}"/>
             </list>
         </property>
     </bean>

@@ -15,24 +15,9 @@
  */
 package org.kuali.coeus.propdev.impl.attachment;
 
-import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.rice.kns.lookup.LookupableHelperService;
-import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.uif.component.BindingInfo;
-import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.uif.view.TransactionalDocumentView;
-import org.kuali.rice.krad.web.form.DocumentFormBase;
-import org.kuali.rice.krad.web.form.UifFormBase;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -50,15 +35,15 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     public ModelAndView editAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-        final String lineClass = pdForm.getActionParamaterValue("lineClass");
+        final String selectedCollectionPath = pdForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         String selectedLine = pdForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
 
-        if(pdForm.getEditableAttachments().containsKey(lineClass)) {
-            pdForm.getEditableAttachments().get(lineClass).add(selectedLine);
+        if(pdForm.getEditableAttachments().containsKey(selectedCollectionPath)) {
+            pdForm.getEditableAttachments().get(selectedCollectionPath).add(selectedLine);
         } else {
             List<String> newKeyList = new ArrayList<String>();
             newKeyList.add(selectedLine);
-            pdForm.getEditableAttachments().put(lineClass,newKeyList);
+            pdForm.getEditableAttachments().put(selectedCollectionPath,newKeyList);
         }
 
         return getTransactionalDocumentControllerService().refresh(form, result, request, response);
@@ -69,11 +54,11 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     public ModelAndView cancelAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-        final String lineClass = pdForm.getActionParamaterValue("lineClass");
+        final String selectedCollectionPath = pdForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         String selectedLine = pdForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
 
-        if(pdForm.getEditableAttachments().containsKey(lineClass)){
-            pdForm.getEditableAttachments().get(lineClass).remove(selectedLine);
+        if(pdForm.getEditableAttachments().containsKey(selectedCollectionPath)){
+            pdForm.getEditableAttachments().get(selectedCollectionPath).remove(selectedLine);
         }
 
         return getTransactionalDocumentControllerService().refresh(form, result, request, response);
@@ -83,11 +68,11 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     public ModelAndView saveAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-        final String lineClass = pdForm.getActionParamaterValue("lineClass");
+        final String selectedCollectionPath = pdForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         String selectedLine = pdForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
 
-        if(pdForm.getEditableAttachments().containsKey(lineClass)){
-            pdForm.getEditableAttachments().get(lineClass).remove(selectedLine);
+        if(pdForm.getEditableAttachments().containsKey(selectedCollectionPath)){
+            pdForm.getEditableAttachments().get(selectedCollectionPath).remove(selectedLine);
         }
 
         return getTransactionalDocumentControllerService().saveLine(form, result, request, response);
