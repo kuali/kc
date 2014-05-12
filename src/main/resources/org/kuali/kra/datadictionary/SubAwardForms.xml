@@ -40,7 +40,8 @@
     <property name="shortLabel" value="Form ID" />
     <property name="maxLength" value="30" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern"              
+                        p:allowWhitespace="true" />
     </property>
     <property name="required" value="false" />
     <property name="control" >
@@ -65,15 +66,15 @@
   <bean id="SubawardForms-templateFile-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="templateFile" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Attachment" />
-    <property name="shortLabel" value="Attachment" />
+    <property name="label" value="Template" />
+    <property name="shortLabel" value="Template" />
     <property name="maxLength" value="150" />
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="control" >
       <bean parent="FileControlDefinition"
             p:size="100" />
     </property>
-    <property name="summary" value="Attachment" />
+    <property name="summary" value="Template" />
     <property name="description" value="Sponsor Form Template" />
   </bean>
   
