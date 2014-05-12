@@ -34,16 +34,15 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=editAttachment")
     public ModelAndView editAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-        final String selectedCollectionPath = pdForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
-        String selectedLine = pdForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
 
-        if(pdForm.getEditableAttachments().containsKey(selectedCollectionPath)) {
-            pdForm.getEditableAttachments().get(selectedCollectionPath).add(selectedLine);
+        if(form.getEditableAttachments().containsKey(selectedCollectionPath)) {
+            form.getEditableAttachments().get(selectedCollectionPath).add(selectedLine);
         } else {
             List<String> newKeyList = new ArrayList<String>();
             newKeyList.add(selectedLine);
-            pdForm.getEditableAttachments().put(selectedCollectionPath,newKeyList);
+            form.getEditableAttachments().put(selectedCollectionPath,newKeyList);
         }
 
         return getTransactionalDocumentControllerService().refresh(form, result, request, response);
@@ -53,12 +52,11 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=cancelAttachment")
     public ModelAndView cancelAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-        final String selectedCollectionPath = pdForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
-        String selectedLine = pdForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
 
-        if(pdForm.getEditableAttachments().containsKey(selectedCollectionPath)){
-            pdForm.getEditableAttachments().get(selectedCollectionPath).remove(selectedLine);
+        if(form.getEditableAttachments().containsKey(selectedCollectionPath)){
+            form.getEditableAttachments().get(selectedCollectionPath).remove(selectedLine);
         }
 
         return getTransactionalDocumentControllerService().refresh(form, result, request, response);
@@ -67,12 +65,11 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveAttachment")
     public ModelAndView saveAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-        final String selectedCollectionPath = pdForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
-        String selectedLine = pdForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
 
-        if(pdForm.getEditableAttachments().containsKey(selectedCollectionPath)){
-            pdForm.getEditableAttachments().get(selectedCollectionPath).remove(selectedLine);
+        if(form.getEditableAttachments().containsKey(selectedCollectionPath)){
+            form.getEditableAttachments().get(selectedCollectionPath).remove(selectedLine);
         }
 
         return getTransactionalDocumentControllerService().saveLine(form, result, request, response);
