@@ -30,6 +30,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.s2s.S2SException;
+import org.kuali.kra.s2s.depend.S2sOppFormsContract;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -51,7 +52,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
 
 
     private S2SService s2SService;
-    private S2SUserAttachedFormService s2SUserAttachedFormService;
+    private S2sUserAttachedFormService s2SUserAttachedFormService;
     
 	/**
      *  
@@ -96,7 +97,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         Boolean mandatoryFormNotAvailable = false;
-        List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
+        List<S2sOppForms> s2sOppForms = new ArrayList<>();
         
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
         if(proposalDevelopmentForm.getNewS2sOpportunity() != null 
@@ -112,7 +113,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
             if (s2sOpportunity != null && s2sOpportunity.getSchemaUrl() != null) {
                 s2sOppForms = getS2SService().parseOpportunityForms(s2sOpportunity);
                 if(s2sOppForms!=null){
-                    for(S2sOppForms s2sOppForm:s2sOppForms){
+                    for(S2sOppFormsContract s2sOppForm:s2sOppForms){
                         if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
                             mandatoryFormNotAvailable = true;
                             mandatoryForms.add(s2sOppForm.getFormName());
@@ -423,9 +424,9 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    protected S2SUserAttachedFormService getS2SUserAttachedFormService() {
+    protected S2sUserAttachedFormService getS2SUserAttachedFormService() {
         if (s2SUserAttachedFormService == null)
-            s2SUserAttachedFormService = KcServiceLocator.getService(S2SUserAttachedFormService.class);
+            s2SUserAttachedFormService = KcServiceLocator.getService(S2sUserAttachedFormService.class);
         return s2SUserAttachedFormService;
     }
 

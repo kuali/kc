@@ -32,16 +32,15 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.s2s.S2sApplication;
-import org.kuali.coeus.propdev.impl.s2s.S2sProvider;
+import org.kuali.coeus.propdev.impl.s2s.*;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.coeus.propdev.impl.s2s.*;
 import org.kuali.coeus.propdev.api.attachment.NarrativeService;
+import org.kuali.kra.s2s.depend.*;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -74,6 +73,8 @@ import java.util.*;
 public class KRAS2SServiceImpl implements S2SService {
 	private static final Log LOG = LogFactory.getLog(KRAS2SServiceImpl.class);
 	private BusinessObjectService businessObjectService;
+    private S2sOpportunityService s2sOpportunityService;
+    private S2sProviderService s2sProviderService;
 	private S2SFormGeneratorService s2SFormGeneratorService;
 	private S2SUtilService s2SUtilService;
 	private S2SValidatorService s2SValidatorService;
@@ -99,10 +100,8 @@ public class KRAS2SServiceImpl implements S2SService {
         if (StringUtils.isNotBlank(proposalNumber) && proposalNumber.contains(Constants.COLON)) {
             proposalNumber = StringUtils.split(proposalNumber, Constants.COLON)[0];
         }
-        Map<String, String> opportunityMap = new HashMap<String, String>();
-        opportunityMap.put(KEY_PROPOSAL_NUMBER, proposalNumber);
-        S2sOpportunity s2sOpportunity = businessObjectService
-                .findByPrimaryKey(S2sOpportunity.class, opportunityMap);
+
+        S2sOpportunityContract s2sOpportunity = s2sOpportunityService.findS2SOpportunityByProposalNumber(proposalNumber);
 
         Object statusDetail = null;
         GetApplicationStatusDetailResponse applicationStatusDetailResponse;
@@ -183,15 +182,14 @@ public class KRAS2SServiceImpl implements S2SService {
 	 */
 	public GetApplicationListResponse fetchApplicationListResponse(
 			ProposalDevelopmentDocument pdDoc) throws S2SException {
-		Map<String, String> opportunityMap = new HashMap<String, String>();
-		opportunityMap.put(KEY_PROPOSAL_NUMBER, pdDoc.getDevelopmentProposal()
-				.getProposalNumber());
-		S2sOpportunity s2sOpportunity = (S2sOpportunity) businessObjectService
-				.findByPrimaryKey(S2sOpportunity.class, opportunityMap);
+		S2sOpportunityContract s2sOpportunity =
+                s2sOpportunityService.findS2SOpportunityByProposalNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
+
 		GetApplicationListResponse applicationListResponse = getS2sConnectorService(s2sOpportunity)
 				.getApplicationList(s2sOpportunity.getOpportunityId(),
-						s2sOpportunity.getCfdaNumber(), s2sOpportunity
-								.getProposalNumber());
+                        s2sOpportunity.getCfdaNumber(), s2sOpportunity
+                                .getProposalNumber()
+                );
 		return applicationListResponse;
 	}
 
@@ -376,7 +374,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	    competitionId = StringUtils.upperCase(competitionId);
 	    competitionId = StringUtils.isBlank(competitionId) ? null : competitionId;
 	    
-	    S2sProvider provider = businessObjectService.findBySinglePrimaryKey(S2sProvider.class, providerCode);
+	    S2sProviderContract provider = s2sProviderService.findS2SProviderByCode(providerCode);
 	    if (provider == null) {
 	        throw new S2SException("An invalid provider code was provided when attempting to search for opportunities.");
 	    }
@@ -384,7 +382,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	    if (connectorService == null) {
 	        throw new S2SException("The connector service '" + provider.getConnectorServiceName() + "' required by '" + provider.getDescription() + "' S2S provider is not configured.");
 	    }
-		List<S2sOpportunity> s2sOpportunityList = convertToArrayList(provider.getCode(), 
+		List<S2sOpportunity> s2sOpportunityList = convertToArrayList(provider.getCode(),
                 connectorService.getOpportunityList(cfdaNumber, opportunityId, competitionId));
 		return s2sOpportunityList;
 	}
@@ -467,8 +465,7 @@ public class KRAS2SServiceImpl implements S2SService {
 		if(pdDoc.getDevelopmentProposal().getCfdaNumber()!=null){
 		    grantSubmissionHeader.setCFDANumber(pdDoc.getDevelopmentProposal().getCfdaNumber());
 		}
-		S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
-		s2sOpportunity.refreshNonUpdateableReferences();
+		S2sOpportunityContract s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
 		if (s2sOpportunity.getCompetetionId() != null) {
 			grantSubmissionHeader.setCompetitionID(s2sOpportunity.getCompetetionId());
 		}
@@ -607,23 +604,21 @@ public class KRAS2SServiceImpl implements S2SService {
 		boolean validationSucceeded = true;
 		DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
 		List<S2sOppForms> opportunityForms = developmentProposal.getS2sOppForms();
-		if (opportunityForms.isEmpty()) {
-			developmentProposal.refreshReferenceObject("s2sOppForms");
-		}
+
 		if (attList == null) {
 		    attList = new ArrayList<AttachmentData>();
 		}
 
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         getNarrativeService().deleteSystemGeneratedNarratives(pdDoc.getDevelopmentProposal().getNarratives());
-		for (S2sOppForms opportunityForm : opportunityForms) {
+		for (S2sOppFormsContract opportunityForm : opportunityForms) {
 			if (!opportunityForm.getInclude()) {
 				continue;
 			}
 			List<AttachmentData> formAttList = new ArrayList<AttachmentData>();
 			S2SBaseFormGenerator s2sFormGenerator = null;
 			try {
-				FormMappingInfo info = new FormMappingLoader().getFormInfo(opportunityForm.getS2sOppFormsId().getOppNameSpace());
+				FormMappingInfo info = new FormMappingLoader().getFormInfo(opportunityForm.getOppNameSpace());
 				s2sFormGenerator = (S2SBaseFormGenerator)s2SFormGeneratorService.getS2SGenerator(developmentProposal.getProposalNumber(),info.getNameSpace());
 			    s2sFormGenerator.setAuditErrors(auditErrors);
 			    s2sFormGenerator.setAttachments(formAttList);
@@ -836,7 +831,7 @@ public class KRAS2SServiceImpl implements S2SService {
 		s2SValidatorService = validatorService;
 	}
 
-    protected S2SConnectorService getS2sConnectorService(S2sOpportunity s2sOpportunity) {
+    protected S2SConnectorService getS2sConnectorService(S2sOpportunityContract s2sOpportunity) {
         return KcServiceLocator.getService(s2sOpportunity.getS2sProvider().getConnectorServiceName());
     }
 
@@ -854,5 +849,25 @@ public class KRAS2SServiceImpl implements S2SService {
 
     public void setNarrativeService(NarrativeService narrativeService) {
         this.narrativeService = narrativeService;
+    }
+
+    public S2sOpportunityService getS2sOpportunityService() {
+        return s2sOpportunityService;
+    }
+
+    public void setS2sOpportunityService(S2sOpportunityService s2sOpportunityService) {
+        this.s2sOpportunityService = s2sOpportunityService;
+    }
+
+    public S2sProviderService getS2sProviderService() {
+        return s2sProviderService;
+    }
+
+    public void setS2sProviderService(S2sProviderService s2sProviderService) {
+        this.s2sProviderService = s2sProviderService;
+    }
+
+    public S2SUtilService getS2SUtilService() {
+        return s2SUtilService;
     }
 }
