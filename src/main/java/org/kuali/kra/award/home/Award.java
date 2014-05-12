@@ -3598,6 +3598,18 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public void setProjectPersons(List<AwardPerson> projectPersons) {
         this.projectPersons = projectPersons;
     }
+    
+    /*
+     * This method is used by the tag file to display the F&A rate totals.
+     * Needed to convert to KualiDecimal to avoid rounding issues.
+     */
+    public KualiDecimal getFandATotals() {
+       KualiDecimal total = new KualiDecimal(0);
+        for (AwardFandaRate currentRate : getAwardFandaRate()) {
+            total = total.add(currentRate.getUnderrecoveryOfIndirectCost());
+        }
+        return total;
+    }
 
     
 }
