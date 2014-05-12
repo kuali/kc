@@ -161,7 +161,7 @@ li.truncateAlign table {
 				
 			   </tr>
 			   <tr>
-				<td scope="row" style="width:160px; text-align:center;">SubAward Attachments:</td>
+				<td scope="row" style="width:160px; text-align:center;">Subaward Attachments:</td>
 				
 				<td>
 				
