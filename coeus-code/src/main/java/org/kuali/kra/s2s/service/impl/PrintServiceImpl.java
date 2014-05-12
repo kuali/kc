@@ -47,15 +47,10 @@ import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.printing.print.S2SFormPrint;
-import org.kuali.kra.s2s.service.PrintService;
-import org.kuali.kra.s2s.service.S2SFormGeneratorService;
-import org.kuali.kra.s2s.service.S2SUtilService;
-import org.kuali.kra.s2s.service.S2SValidatorService;
+import org.kuali.kra.s2s.service.*;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.XPathExecutor;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.w3c.dom.Element;
 
@@ -93,27 +88,31 @@ public class PrintServiceImpl implements PrintService {
 	 * @throws
 	 * @throws S2SException
 	 * 
-	 * @see org.kuali.kra.s2s.service.PrintService#printForm(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
 	 */
-	public KcFile printForm(
+    @Override
+	public PrintResult printForm(
 			ProposalDevelopmentDocument pdDoc) throws S2SException,
 			PrintingException {
-		List<Printable> printableList = null;
+		PrintableResult pResult;
 		S2sAppSubmission s2sAppSubmission = getLatestS2SAppSubmission(pdDoc);
 		if (s2sAppSubmission != null
 				&& s2sAppSubmission.getGgTrackingId() != null) {
-			printableList = getSubmittedPDFStream(pdDoc);
+            pResult = getSubmittedPDFStream(pdDoc);
 		} else {
-			printableList = getPDFStream(pdDoc);
+            pResult = getPDFStream(pdDoc);
 		}
 	    if(pdDoc.getDevelopmentProposal().getGrantsGovSelectFlag()){
 		
 		return null;
 	    }
 	    AttachmentDataSource attachmentDataSource = printingService
-        	.print(printableList);
+        	.print(pResult.printables);
 		attachmentDataSource.setName(getFileNameForFormPrinting(pdDoc));
-		return attachmentDataSource;
+
+        PrintResult result = new PrintResult();
+        result.setFile(attachmentDataSource);
+        result.setErrors(pResult.errors);
+        return result;
 	}
 
 	protected void saveGrantsGovXml(ProposalDevelopmentDocument pdDoc, boolean formEntryFlag,XmlObject formObject,List<AttachmentData> attachmentList,List<S2sAppAttachments> attachmentLists) throws Exception{
@@ -221,7 +220,7 @@ public class PrintServiceImpl implements PrintService {
 	 * @return ByteArrayOutputStream[] of the submitted application data.
 	 * @throws S2SException
 	 */
-	protected List<Printable> getSubmittedPDFStream(
+	protected PrintableResult getSubmittedPDFStream(
 			ProposalDevelopmentDocument pdDoc) throws S2SException {
 		GrantApplicationDocument submittedDocument;
 		String frmXpath = null;        
@@ -314,15 +313,18 @@ public class PrintServiceImpl implements PrintService {
           }
 				formPrintable.setAttachments(formAttachments);
 				formPrintables.add(formPrintable);
-//			}
 		}
-		return formPrintables;
+        PrintableResult result = new PrintableResult();
+        result.printables = formPrintables;
+		return result;
 	}
 
 	protected String findSubmittedXml(S2sAppSubmission appSubmission) {
 	    S2sApplication s2sApplication = getBusinessObjectService().findBySinglePrimaryKey(S2sApplication.class, appSubmission.getProposalNumber());
 	    return s2sApplication.getApplication();
     }
+
+
 
     /**
 	 * This method is used to generate byte stream of forms
@@ -332,7 +334,7 @@ public class PrintServiceImpl implements PrintService {
 	 * @return ByteArrayOutputStream[] PDF byte Array
 	 * @throws S2SException
 	 */
-	protected List<Printable> getPDFStream(ProposalDevelopmentDocument pdDoc)
+	protected PrintableResult getPDFStream(ProposalDevelopmentDocument pdDoc)
 			throws S2SException {
 		FormMappingInfo info = null;
 		S2SBaseFormGenerator s2sFormGenerator = null;
@@ -402,35 +404,10 @@ public class PrintServiceImpl implements PrintService {
 				formPrintables.add(formPrintable);
 			}
 		}
-		if (!errors.isEmpty()) {
-			setValidationErrorMessage(errors);
-		}
-		return formPrintables;
-	}
-
-
-    /**
-	 * 
-	 * This method is to put validation errors on UI
-	 * 
-	 * @param errors
-	 *            List of validation errors which has to be displayed on UI.
-	 */
-
-	protected void setValidationErrorMessage(List<AuditError> errors) {
-		LOG.info("Error list size:" + errors.size() + errors.toString());
-		List<org.kuali.rice.kns.util.AuditError> auditErrors = new ArrayList<>();
-		for (AuditError error : errors) {
-			auditErrors.add(new org.kuali.rice.kns.util.AuditError(error.getErrorKey(),
-					Constants.GRANTS_GOV_GENERIC_ERROR_KEY, error.getLink(),
-					new String[] { error.getMessageKey() }));
-		}
-		if (!auditErrors.isEmpty()) {
-			KNSGlobalVariables.getAuditErrorMap().put(
-					"grantsGovAuditErrors",
-					new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL,
-							auditErrors, Constants.GRANTSGOV_ERRORS));
-		}
+        final PrintableResult result = new PrintableResult();
+        result.errors = errors;
+        result.printables = formPrintables;
+        return result;
 	}
 
 	/**
@@ -703,5 +680,10 @@ public class PrintServiceImpl implements PrintService {
 
         // Add the form to the Forms object.
         formCursor.moveXml(metaGrantCursor);
+    }
+
+    protected static class PrintableResult {
+        private List<Printable> printables;
+        private List<AuditError> errors;
     }
 }

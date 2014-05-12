@@ -26,14 +26,12 @@ import gov.grants.apply.system.headerV10.GrantSubmissionHeaderDocument.GrantSubm
 import gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument;
 import gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument.GrantApplication;
 import gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument.GrantApplication.Forms;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.propdev.impl.s2s.S2sApplication;
 import org.kuali.coeus.propdev.impl.s2s.S2sProvider;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -54,11 +52,7 @@ import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.OpportunitySchemaParser;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 import javax.activation.DataHandler;
 import javax.mail.util.ByteArrayDataSource;
@@ -102,25 +96,22 @@ public class KRAS2SServiceImpl implements S2SService {
 	 */
 	public String getStatusDetails(String ggTrackingId, String proposalNumber)
 			throws S2SException {
-	    if(isAuthorizedToAccess(proposalNumber)){
-	        if (StringUtils.isNotBlank(proposalNumber) && proposalNumber.contains(Constants.COLON)) {
-	            proposalNumber = StringUtils.split(proposalNumber, Constants.COLON)[0];
-	        }
-	        Map<String, String> opportunityMap = new HashMap<String, String>();
-	        opportunityMap.put(KEY_PROPOSAL_NUMBER, proposalNumber);
-	        S2sOpportunity s2sOpportunity = (S2sOpportunity) businessObjectService
-	                .findByPrimaryKey(S2sOpportunity.class, opportunityMap);
-	        
-	        Object statusDetail = null;
-	        GetApplicationStatusDetailResponse applicationStatusDetailResponse;
-	        applicationStatusDetailResponse = getS2sConnectorService(s2sOpportunity)
-	        .getApplicationStatusDetail(ggTrackingId, proposalNumber);
-	        if (applicationStatusDetailResponse != null) {
-	            statusDetail = applicationStatusDetailResponse.getDetailedStatus();
-	        }
-	        return statusDetail.toString();
-	    }
-	    return StringUtils.EMPTY;
+        if (StringUtils.isNotBlank(proposalNumber) && proposalNumber.contains(Constants.COLON)) {
+            proposalNumber = StringUtils.split(proposalNumber, Constants.COLON)[0];
+        }
+        Map<String, String> opportunityMap = new HashMap<String, String>();
+        opportunityMap.put(KEY_PROPOSAL_NUMBER, proposalNumber);
+        S2sOpportunity s2sOpportunity = businessObjectService
+                .findByPrimaryKey(S2sOpportunity.class, opportunityMap);
+
+        Object statusDetail = null;
+        GetApplicationStatusDetailResponse applicationStatusDetailResponse;
+        applicationStatusDetailResponse = getS2sConnectorService(s2sOpportunity)
+        .getApplicationStatusDetail(ggTrackingId, proposalNumber);
+        if (applicationStatusDetailResponse != null) {
+            statusDetail = applicationStatusDetailResponse.getDetailedStatus();
+        }
+        return statusDetail != null ? statusDetail.toString() : StringUtils.EMPTY;
 	}
 
 	/**
@@ -409,12 +400,13 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @throws S2SException
 	 * @see org.kuali.kra.s2s.service.S2SService#submitApplication(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
 	 */
-	public boolean submitApplication(ProposalDevelopmentDocument pdDoc)
+	public FormActionResult submitApplication(ProposalDevelopmentDocument pdDoc)
 			throws S2SException {
-		boolean submissionStatus = false;
 		Forms forms = Forms.Factory.newInstance();
 		List<AttachmentData> attList = new ArrayList<AttachmentData>();
-		if (generateAndValidateForms(forms, attList, pdDoc)) {
+
+        final FormActionResult result = generateAndValidateForms(forms, attList, pdDoc);
+        if (result.isValid()) {
 
 			Map<String, DataHandler> attachments = new HashMap<String, DataHandler>();
 			List<S2sAppAttachments> s2sAppAttachmentList = new ArrayList<S2sAppAttachments>();
@@ -446,9 +438,9 @@ public class KRAS2SServiceImpl implements S2SService {
             appSubmission.setStatus(S2SConstants.GRANTS_GOV_SUBMISSION_MESSAGE);
 			saveSubmissionDetails(pdDoc, appSubmission, response,
 					applicationXml, s2sAppAttachmentList);
-			submissionStatus = true;
+            result.setValid(true);
 		}
-		return submissionStatus;
+		return result;
 	}
 
 	/**
@@ -590,25 +582,11 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @throws S2SException
 	 * @see org.kuali.kra.s2s.service.S2SService#validateApplication(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
 	 */
-	public boolean validateApplication(
+	public FormActionResult validateApplication(
 			ProposalDevelopmentDocument proposalDevelopmentDocument)
 			throws S2SException {
 		return generateAndValidateForms(null, null,
-				proposalDevelopmentDocument, new ArrayList<AuditError>());
-	}
-
-	public boolean validateApplication(
-			ProposalDevelopmentDocument proposalDevelpmentDocument,
-			List<AuditError> auditErrors) throws S2SException {
-		return generateAndValidateForms(null, null, proposalDevelpmentDocument,
-				auditErrors);
-	}
-
-	protected boolean generateAndValidateForms(Forms forms,
-			List<AttachmentData> attList, ProposalDevelopmentDocument pdDoc)
-			throws S2SException {
-		return generateAndValidateForms(forms, attList, pdDoc,
-				new ArrayList<AuditError>());
+				proposalDevelopmentDocument);
 	}
 
 	/**
@@ -624,9 +602,8 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @return validation result true if valid false otherwise.
 	 * @throws S2SException
 	 */
-	protected boolean generateAndValidateForms(Forms forms,
-			List<AttachmentData> attList, ProposalDevelopmentDocument pdDoc,
-			List<AuditError> auditErrors) throws S2SException {
+	protected FormActionResult generateAndValidateForms(Forms forms,
+			List<AttachmentData> attList, ProposalDevelopmentDocument pdDoc) throws S2SException {
 		boolean validationSucceeded = true;
 		DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
 		List<S2sOppForms> opportunityForms = developmentProposal.getS2sOppForms();
@@ -636,7 +613,9 @@ public class KRAS2SServiceImpl implements S2SService {
 		if (attList == null) {
 		    attList = new ArrayList<AttachmentData>();
 		}
-	    getNarrativeService().deleteSystemGeneratedNarratives(pdDoc.getDevelopmentProposal().getNarratives());
+
+        List<AuditError> auditErrors = new ArrayList<AuditError>();
+        getNarrativeService().deleteSystemGeneratedNarratives(pdDoc.getDevelopmentProposal().getNarratives());
 		for (S2sOppForms opportunityForm : opportunityForms) {
 			if (!opportunityForm.getInclude()) {
 				continue;
@@ -670,10 +649,10 @@ public class KRAS2SServiceImpl implements S2SService {
 						+ opportunityForm.getFormName(), ex);
 			}
 		}
-		if (!validationSucceeded || !auditErrors.isEmpty()) {
-			setValidationErrorMessage(auditErrors);
-		}
-		return validationSucceeded;
+        FormActionResult result = new FormActionResult();
+        result.setValid(validationSucceeded);
+        result.setErrors(auditErrors);
+		return result;
 	}
 
     /**
@@ -701,30 +680,6 @@ public class KRAS2SServiceImpl implements S2SService {
 
 		// Add the form to the Forms object.
 		formCursor.moveXml(metaGrantCursor);
-	}
-
-	/**
-	 * 
-	 * This method is to put validation errors on UI
-	 * 
-	 * @param errors
-	 *            List of validation errors which has to be displayed on UI.
-	 */
-
-	protected void setValidationErrorMessage(List<AuditError> errors) {
-		LOG.info("Error list size:" + errors.size() + errors.toString());
-		List<org.kuali.rice.kns.util.AuditError> auditErrors = new ArrayList<>();
-		for (AuditError error : errors) {
-			auditErrors.add(new org.kuali.rice.kns.util.AuditError(error.getErrorKey(),
-					Constants.GRANTS_GOV_GENERIC_ERROR_KEY, error.getLink(),
-					new String[] { error.getMessageKey() }));
-		}
-		if (!auditErrors.isEmpty()) {
-			KNSGlobalVariables.getAuditErrorMap().put(
-					"grantsGovAuditErrors",
-					new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL,
-							auditErrors, Constants.GRANTSGOV_ERRORS));
-		}
 	}
 
 	/**
@@ -880,41 +835,6 @@ public class KRAS2SServiceImpl implements S2SService {
 	public void setS2SValidatorService(S2SValidatorService validatorService) {
 		s2SValidatorService = validatorService;
 	}
-
-    /*
-     * a utility method to check if dwr/ajax call really has authorization
-     * 'updateProtocolFundingSource' also accessed by non ajax call
-     */
-    
-    private boolean isAuthorizedToAccess(String proposalNumber) {
-        boolean isAuthorized = true;
-        if(proposalNumber.contains(Constants.COLON)){
-            if (GlobalVariables.getUserSession() != null) {
-                // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be replaced by
-                // jquery/ajax in rice 2.0
-                String[] invalues = StringUtils.split(proposalNumber, Constants.COLON);
-                String docFormKey = invalues[1];
-                if (StringUtils.isBlank(docFormKey)) {
-                    isAuthorized = false;
-                } else {
-                    Object formObj = GlobalVariables.getUserSession().retrieveObject(docFormKey);
-                    if (formObj == null || !(formObj instanceof ProposalDevelopmentForm)) {
-                        isAuthorized = false;
-                    } else {
-                        Map<String, String> editModes = ((ProposalDevelopmentForm)formObj).getEditingMode();
-                        isAuthorized = (BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.FULL_ENTRY))
-                        || BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.VIEW_ONLY))
-                        || BooleanUtils.toBoolean(editModes.get("modifyProposal")))
-                        && BooleanUtils.toBoolean(editModes.get("submitToSponsor"));
-                    }
-                }
-            } else {
-                // TODO : it seemed that tomcat has this issue intermittently ?
-                LOG.info("dwr/ajax does not have session ");
-            }
-        }
-        return isAuthorized;
-    }
 
     protected S2SConnectorService getS2sConnectorService(S2sOpportunity s2sOpportunity) {
         return KcServiceLocator.getService(s2sOpportunity.getS2sProvider().getConnectorServiceName());

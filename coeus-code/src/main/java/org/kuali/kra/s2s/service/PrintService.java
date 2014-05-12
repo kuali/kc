@@ -31,7 +31,7 @@ public interface PrintService {
 	 * @throws S2SException
 	 * 
 	 */
-	public KcFile printForm(ProposalDevelopmentDocument pdDoc)
+	public PrintResult printForm(ProposalDevelopmentDocument pdDoc)
 			throws S2SException, PrintingException;
 
 }
