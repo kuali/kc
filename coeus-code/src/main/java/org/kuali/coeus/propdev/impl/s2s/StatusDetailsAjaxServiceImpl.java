@@ -40,8 +40,6 @@ public class StatusDetailsAjaxServiceImpl implements StatusDetailsAjaxService {
         boolean isAuthorized = true;
         if(proposalNumber.contains(Constants.COLON)){
             if (GlobalVariables.getUserSession() != null) {
-                // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be replaced by
-                // jquery/ajax in rice 2.0
                 String[] invalues = StringUtils.split(proposalNumber, Constants.COLON);
                 String docFormKey = invalues[1];
                 if (StringUtils.isBlank(docFormKey)) {
@@ -59,7 +57,6 @@ public class StatusDetailsAjaxServiceImpl implements StatusDetailsAjaxService {
                     }
                 }
             } else {
-                // TODO : it seemed that tomcat has this issue intermittently ?
                 LOG.info("dwr/ajax does not have session ");
             }
         }

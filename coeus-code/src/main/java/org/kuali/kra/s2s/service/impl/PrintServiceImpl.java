@@ -313,7 +313,6 @@ public class PrintServiceImpl implements PrintService {
           }
 				formPrintable.setAttachments(formAttachments);
 				formPrintables.add(formPrintable);
-//			}
 		}
         PrintableResult result = new PrintableResult();
         result.printables = formPrintables;
