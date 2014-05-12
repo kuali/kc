@@ -22,6 +22,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.s2s.depend.S2sAppSubmissionContract;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import javax.persistence.*;
@@ -33,7 +34,7 @@ import java.util.List;
 @Entity
 @Table(name = "S2S_APP_SUBMISSION")
 @IdClass(S2sAppSubmission.S2sAppSubmissionId.class)
-public class S2sAppSubmission extends KcPersistableBusinessObjectBase {
+public class S2sAppSubmission extends KcPersistableBusinessObjectBase implements S2sAppSubmissionContract {
 
     @Id
     @Column(name = "PROPOSAL_NUMBER")
@@ -68,9 +69,7 @@ public class S2sAppSubmission extends KcPersistableBusinessObjectBase {
     @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private S2sApplication s2sApplication;
 
-    @Transient
-    private List<S2sAppAttachments> s2sAppAttachmentList;
-
+    @Override
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -79,6 +78,7 @@ public class S2sAppSubmission extends KcPersistableBusinessObjectBase {
         this.proposalNumber = proposalNumber;
     }
 
+    @Override
     public Integer getSubmissionNumber() {
         return submissionNumber;
     }
@@ -87,6 +87,7 @@ public class S2sAppSubmission extends KcPersistableBusinessObjectBase {
         this.submissionNumber = submissionNumber;
     }
 
+    @Override
     public String getAgencyTrackingId() {
         return agencyTrackingId;
     }
@@ -95,6 +96,7 @@ public class S2sAppSubmission extends KcPersistableBusinessObjectBase {
         this.agencyTrackingId = agencyTrackingId;
     }
 
+    @Override
     public String getComments() {
         return comments;
     }
@@ -103,6 +105,7 @@ public class S2sAppSubmission extends KcPersistableBusinessObjectBase {
         this.comments = comments;
     }
 
+    @Override
     public String getGgTrackingId() {
         return ggTrackingId;
     }
@@ -111,6 +114,7 @@ public class S2sAppSubmission extends KcPersistableBusinessObjectBase {
         this.ggTrackingId = ggTrackingId;
     }
 
+    @Override
     public Timestamp getLastModifiedDate() {
         return lastModifiedDate;
     }
@@ -119,6 +123,7 @@ public class S2sAppSubmission extends KcPersistableBusinessObjectBase {
         this.lastModifiedDate = lastModifiedDate;
     }
 
+    @Override
     public Timestamp getLastNotifiedDate() {
         return lastNotifiedDate;
     }
@@ -127,6 +132,7 @@ public class S2sAppSubmission extends KcPersistableBusinessObjectBase {
         this.lastNotifiedDate = lastNotifiedDate;
     }
 
+    @Override
     public Timestamp getReceivedDate() {
         return receivedDate;
     }
@@ -135,6 +141,7 @@ public class S2sAppSubmission extends KcPersistableBusinessObjectBase {
         this.receivedDate = receivedDate;
     }
 
+    @Override
     public String getStatus() {
         return status;
     }
@@ -143,33 +150,13 @@ public class S2sAppSubmission extends KcPersistableBusinessObjectBase {
         this.status = status;
     }
 
-    /**
-     * Gets the s2sApplications attribute. 
-     * @return Returns the s2sApplications.
-     */
+    @Override
     public S2sApplication getS2sApplication() {
         return s2sApplication;
     }
 
-    /**
-     * Sets the s2sApplications attribute value.
-     * @param s2sApplication The s2sApplications to set.
-     */
     public void setS2sApplication(S2sApplication s2sApplication) {
         this.s2sApplication = s2sApplication;
-    }
-
-    /**
-     * Gets the s2sAppAttachmentList attribute. 
-     * @return Returns the s2sAppAttachmentList.
-     */
-    public List<S2sAppAttachments> getS2sAppAttachmentList() {
-        if ((s2sAppAttachmentList == null || s2sAppAttachmentList.isEmpty()) && StringUtils.isNotBlank(proposalNumber)) {
-            s2sAppAttachmentList = (List<S2sAppAttachments>) KcServiceLocator.getService(BusinessObjectService.class).findMatching(
-                    S2sAppAttachments.class, Collections.singletonMap("proposalNumber", proposalNumber));
-        }
-
-        return s2sAppAttachmentList;
     }
 
     public static final class S2sAppSubmissionId implements Serializable, Comparable<S2sAppSubmissionId> {

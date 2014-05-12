@@ -37,7 +37,7 @@ public class S2sSubmissionTypeValuesFinder extends UifKeyValuesFinderBase {
         
         for (Iterator iter = S2SSubmissionTypes.iterator(); iter.hasNext();) {
             S2sSubmissionType s2sSubmissionType = (S2sSubmissionType) iter.next();
-            keyValues.add(new ConcreteKeyValue(s2sSubmissionType.getS2sSubmissionTypeCode(), s2sSubmissionType.getDescription()));                            
+            keyValues.add(new ConcreteKeyValue(s2sSubmissionType.getCode(), s2sSubmissionType.getDescription()));
         }       
         return keyValues;
     }

@@ -66,8 +66,9 @@ import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.XfaForm;
 
-@Component("s2SUserAttachedFormService")
-public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormService {
+@Component("s2sUserAttachedFormService")
+public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormService {
+
     private static final String DUPLICATE_FILE_NAMES = "Attachments contain duplicate file names";
     private static final String XFA_NS = "http://www.xfa.org/schema/xfa-data/1.0/";
 

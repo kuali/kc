@@ -117,7 +117,7 @@ public class SF424V2_1Generator extends SF424BaseGenerator {
         if (s2sOpportunity != null && s2sOpportunity.getS2sSubmissionTypeCode() != null) {
             s2sOpportunity.refreshNonUpdateableReferences();
             S2sSubmissionType submissionType = s2sOpportunity.getS2sSubmissionType();
-            SubmissionType.Enum subEnum = SubmissionType.Enum.forInt(Integer.parseInt(submissionType.getS2sSubmissionTypeCode()));
+            SubmissionType.Enum subEnum = SubmissionType.Enum.forInt(Integer.parseInt(submissionType.getCode()));
             sf424V21.setSubmissionType(subEnum);
             ApplicationType.Enum applicationTypeEnum = null;
             if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null) {

@@ -256,7 +256,7 @@
   </bean>
 
   <bean id="S2sOpportunity-revisionCode" parent="S2sOpportunity-revisionCode-parentBean"/>
-  <bean id="S2sOpportunity-revisionCode-parentBean" abstract="true" parent="S2sRevisionType-s2sRevisionTypeCode">
+  <bean id="S2sOpportunity-revisionCode-parentBean" abstract="true" parent="S2sRevisionType-code">
     <property name="name" value="revisionCode" />
   </bean>
 
@@ -286,7 +286,9 @@
   </bean>
 
   <bean id="S2sOpportunity-s2sSubmissionTypeCode" parent="S2sOpportunity-s2sSubmissionTypeCode-parentBean"/>
-  <bean id="S2sOpportunity-s2sSubmissionTypeCode-parentBean" abstract="true" parent="S2sSubmissionType-s2sSubmissionTypeCode"/>
+  <bean id="S2sOpportunity-s2sSubmissionTypeCode-parentBean" abstract="true" parent="S2sSubmissionType-code">
+      <property name="name" value="s2sSubmissionTypeCode" />
+  </bean>
   <bean id="S2sOpportunity-schemaUrl" parent="S2sOpportunity-schemaUrl-parentBean" />
   <bean id="S2sOpportunity-schemaUrl-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="schemaUrl" />

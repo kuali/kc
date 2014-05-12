@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.s2s;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.s2s.depend.S2sRevisionTypeContract;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,23 +29,25 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "S2S_REVISION_TYPE")
-public class S2sRevisionType extends KcPersistableBusinessObjectBase {
+public class S2sRevisionType extends KcPersistableBusinessObjectBase implements S2sRevisionTypeContract {
 
     @Id
     @Column(name = "S2S_REVISION_TYPE_CODE")
-    private String s2sRevisionTypeCode;
+    private String code;
 
     @Column(name = "DESCRIPTION")
     private String description;
 
-    public String getS2sRevisionTypeCode() {
-        return s2sRevisionTypeCode;
+    @Override
+    public String getCode() {
+        return code;
     }
 
-    public void setS2sRevisionTypeCode(String s2sRevisionTypeCode) {
-        this.s2sRevisionTypeCode = s2sRevisionTypeCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }

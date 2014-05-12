@@ -20,6 +20,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.s2s.depend.S2sOppFormsContract;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
@@ -27,7 +28,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "S2S_OPP_FORMS")
-public class S2sOppForms extends KcPersistableBusinessObjectBase {
+public class S2sOppForms extends KcPersistableBusinessObjectBase implements S2sOppFormsContract {
 
     @EmbeddedId
     private S2sOppFormsId s2sOppFormsId;
@@ -63,6 +64,14 @@ public class S2sOppForms extends KcPersistableBusinessObjectBase {
 
     public void setS2sOppFormsId(S2sOppFormsId s2sOppFormsId) {
         this.s2sOppFormsId = s2sOppFormsId;
+    }
+
+    public String getOppNameSpace() {
+        return this.s2sOppFormsId.oppNameSpace;
+    }
+
+    public String getProposalNumber() {
+        return this.s2sOppFormsId.proposalNumber;
     }
 
     public void setAvailable(Boolean available) {
@@ -111,6 +120,14 @@ public class S2sOppForms extends KcPersistableBusinessObjectBase {
 
     public void setSelectToPrint(Boolean selectToPrint) {
         this.selectToPrint = selectToPrint;
+    }
+
+    public Boolean getUserAttachedForm() {
+        return userAttachedForm;
+    }
+
+    public void setUserAttachedForm(Boolean userAttachedForm) {
+        this.userAttachedForm = userAttachedForm;
     }
 
     @Embeddable
@@ -165,12 +182,4 @@ public class S2sOppForms extends KcPersistableBusinessObjectBase {
             return new CompareToBuilder().append(this.oppNameSpace, other.oppNameSpace).append(this.proposalNumber, other.proposalNumber).toComparison();
         }
     }
-
-	public Boolean getUserAttachedForm() {
-		return userAttachedForm;
-	}
-
-	public void setUserAttachedForm(Boolean userAttachedForm) {
-		this.userAttachedForm = userAttachedForm;
-	}
 }
