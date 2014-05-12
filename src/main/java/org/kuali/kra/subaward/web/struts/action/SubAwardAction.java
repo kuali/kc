@@ -56,6 +56,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -579,6 +580,7 @@ public ActionForward blanketApprove(ActionMapping mapping,
    * @throws Exception
    */
 
+ 
   /**
    * 
    * This method is called to print forms
@@ -606,6 +608,7 @@ public ActionForward blanketApprove(ActionMapping mapping,
                           reportParameters.put("sponsorAwardNumber",subAwardFunding.getAward().getSponsorAwardNumber());
                           reportParameters.put("sponsorName",subAwardFunding.getAward().getSponsor().getSponsorName());
                           reportParameters.put("cfdaNumber",subAwardFunding.getAward().getCfdaNumber());
+                          reportParameters.put("awardID",subAwardFunding.getAward().getAwardId());
                       }
                   }
               }
