@@ -246,6 +246,8 @@
 							p:iconClass="icon-list-ol" p:order="40" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Access"
 							p:iconClass="icon-lock" p:order="50" />
+                        <bean parent="Uif-ActionLink" p:actionLabel="Summary"
+                              p:iconClass="icon-eye" p:order="60" p:actionScript="showLightboxComponent('PropDev-SummarySection');" />
 					</list>
 				</property>
 			</bean>
