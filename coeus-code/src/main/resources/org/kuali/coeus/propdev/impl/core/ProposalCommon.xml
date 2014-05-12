@@ -62,4 +62,6 @@
 		</property>
 	</bean>
 
+    <bean id="PropDev-DataField-NoColon" parent="PropDev-DataField-NoColon-parentBean"/>
+    <bean id="PropDev-DataField-NoColon-parentBean" parent="Uif-DataField" p:fieldLabel.renderColon="false"/>
 </beans>
