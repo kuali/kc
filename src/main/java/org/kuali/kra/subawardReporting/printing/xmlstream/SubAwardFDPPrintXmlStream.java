@@ -105,11 +105,28 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
     private String sponsorName;
     private String cfdaNumber;
     private String unitName;
+    private Long awardID;
     private List<SubAwardForms> sponsorTemplates;
     private ParameterService parameterService;
     
     
    
+
+    /**
+     * Gets the awardID attribute. 
+     * @return Returns the awardID.
+     */
+    public Long getAwardID() {
+        return awardID;
+    }
+
+    /**
+     * Sets the awardID attribute value.
+     * @param awardID The awardID to set.
+     */
+    public void setAwardID(Long awardID) {
+        this.awardID = awardID;
+    }
 
     /**
      * Gets the sponsorTemplates attribute. 
@@ -244,6 +261,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         this.sponsorAwardNumber=(String) reportParameters.get("sponsorAwardNumber");
         this.sponsorName=(String) reportParameters.get("sponsorName");
         this.cfdaNumber=(String) reportParameters.get("cfdaNumber");
+        this.awardID=(Long) reportParameters.get("awardID");
         this.sponsorTemplates = (List<SubAwardForms>) reportParameters.get(SubAwardPrintingService.SELECTED_TEMPLATES);
         setSubcontractTemplateInfo(subContractData,subaward);
         setFundingSource(subContractData,subaward);
@@ -510,6 +528,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             RolodexDetailsType rolodexdetails = RolodexDetailsType.Factory.newInstance();
             List<PrimeAdministrativeContact> rolodexDetailsList = new ArrayList<PrimeAdministrativeContact>();
             Map<String, String> administrativeMap = new HashMap<String, String>();
+            Map<String, Integer> rolodexId = new HashMap<String, Integer>();
             parameterService = KraServiceLocator.getService(ParameterService.class);
             String administrativeContactCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_PRIME_ADMINISTRATIVE_CONTACT_CODE);
             administrativeMap.put("contactTypeCode", administrativeContactCode);
@@ -518,29 +537,30 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
               if(subaward.getSubAwardContactsList() != null && !subaward.getSubAwardContactsList().isEmpty()){
                   for(SubAwardContact subAwardContact : subaward.getSubAwardContactsList()){
                     if(subAwardContact.getContactTypeCode().equals(administrativeContactCode)) {
-                        subAwardContact.getRolodex().getFullName();
-                        if( subAwardContact.getRolodex().getFullName() == null ) {
-                            rolodexdetails.setRolodexName(subAwardContact.getRolodex().getOrganization());
+                        rolodexId.put("rolodexId", subAwardContact.getRolodex().getRolodexId());
+                        Rolodex rolodex = businessObjectService.findByPrimaryKey(Rolodex.class, rolodexId); 
+                        if( rolodex.getFullName() == null ) {
+                            rolodexdetails.setRolodexName(rolodex.getOrganization());
                         }
                         else {
-                            rolodexdetails.setRolodexName(subAwardContact.getRolodex().getFullName());
+                            rolodexdetails.setRolodexName(rolodex.getFullName());
                         }
-                        rolodexdetails.setAddress1(subAwardContact.getRolodex().getAddressLine1());
-                        rolodexdetails.setAddress2(subAwardContact.getRolodex().getAddressLine2());
-                        rolodexdetails.setAddress3(subAwardContact.getRolodex().getAddressLine3());
-                        rolodexdetails.setCity(subAwardContact.getRolodex().getCity());
-                        String countryCode = subAwardContact.getRolodex().getCountryCode();
-                        String stateName = subAwardContact.getRolodex().getState();
+                        rolodexdetails.setAddress1(rolodex.getAddressLine1());
+                        rolodexdetails.setAddress2(rolodex.getAddressLine2());
+                        rolodexdetails.setAddress3(rolodex.getAddressLine3());
+                        rolodexdetails.setCity(rolodex.getCity());
+                        String countryCode = rolodex.getCountryCode();
+                        String stateName = rolodex.getState();
                         if(countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0){
                             State state = KraServiceLocator.getService(PrintingUtils.class).getStateFromName(countryCode, stateName);
                             if(state != null){
                                 rolodexdetails.setStateDescription(state.getName());
                             }
                         }
-                        rolodexdetails.setPincode(subAwardContact.getRolodex().getPostalCode());
-                        rolodexdetails.setPhoneNumber(subAwardContact.getRolodex().getPhoneNumber());
-                        rolodexdetails.setFax(subAwardContact.getRolodex().getFaxNumber());
-                        rolodexdetails.setEmail(subAwardContact.getRolodex().getEmailAddress());
+                        rolodexdetails.setPincode(rolodex.getPostalCode());
+                        rolodexdetails.setPhoneNumber(rolodex.getPhoneNumber());
+                        rolodexdetails.setFax(rolodex.getFaxNumber());
+                        rolodexdetails.setEmail(rolodex.getEmailAddress());
                  }
                }  
               }    
@@ -552,10 +572,10 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         public void setPrimePrincipalInvestigator(SubContractData subContractData, SubAward subaward) {
             PersonDetailsType personDetails = PersonDetailsType.Factory.newInstance();
             List<PersonDetailsType> personDetailsList = new ArrayList<PersonDetailsType>();
-            Map<String, String> awardMap = new HashMap<String, String>();
+            Map<String, Long> awardMap = new HashMap<String, Long>();
             if(awardNumber != null){
-                awardMap.put("awardNumber", awardNumber);
-                List<AwardPerson> awardList = (List<AwardPerson>) businessObjectService.findMatching(AwardPerson.class, awardMap);
+                awardMap.put("awardId", awardID);
+               List<AwardPerson> awardList = (List<AwardPerson>) businessObjectService.findMatching(AwardPerson.class, awardMap);
                 KcPerson awardPersons = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(awardList.get(0).getPersonId());
     
                 personDetails.setFullName(awardPersons.getFullName());
@@ -585,6 +605,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
             List<PrimeFinancialContact> personDetailsList = new ArrayList<PrimeFinancialContact>();
             Map<String, String> administrativeMap = new HashMap<String, String>();
+            Map<String, Integer> rolodexId = new HashMap<String, Integer>();
             parameterService = KraServiceLocator.getService(ParameterService.class);
             String administrativeFinancialCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_PRIME_FINANCIAL_CONTACT_CODE);
             administrativeMap.put("contactTypeCode", administrativeFinancialCode);
@@ -593,28 +614,30 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
               if(subaward.getSubAwardContactsList() != null && !subaward.getSubAwardContactsList().isEmpty()){
                  for(SubAwardContact subAwardContact : subaward.getSubAwardContactsList()){
                   if(subAwardContact.getContactTypeCode().equals(administrativeFinancialCode)) {
-                        if( subAwardContact.getRolodex().getFullName() == null) {
-                          rolodexDetails.setRolodexName(subAwardContact.getRolodex().getOrganization());
+                      rolodexId.put("rolodexId", subAwardContact.getRolodex().getRolodexId());
+                      Rolodex rolodex = businessObjectService.findByPrimaryKey(Rolodex.class, rolodexId);
+                        if( rolodex.getFullName() == null) {
+                          rolodexDetails.setRolodexName(rolodex.getOrganization());
                         }
                         else {
-                          rolodexDetails.setRolodexName(subAwardContact.getRolodex().getFullName());
+                          rolodexDetails.setRolodexName(rolodex.getFullName());
                         }
-                        rolodexDetails.setAddress1(subAwardContact.getRolodex().getAddressLine1());
-                        rolodexDetails.setAddress2(subAwardContact.getRolodex().getAddressLine2());
-                        rolodexDetails.setAddress3(subAwardContact.getRolodex().getAddressLine3());
-                        rolodexDetails.setCity(subAwardContact.getRolodex().getCity());
-                        String countryCode = subAwardContact.getCountryCode();
-                        String stateName = subAwardContact.getState();
+                        rolodexDetails.setAddress1(rolodex.getAddressLine1());
+                        rolodexDetails.setAddress2(rolodex.getAddressLine2());
+                        rolodexDetails.setAddress3(rolodex.getAddressLine3());
+                        rolodexDetails.setCity(rolodex.getCity());
+                        String countryCode = rolodex.getCountryCode();
+                        String stateName = rolodex.getState();
                         if(countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0){
                             State state = KraServiceLocator.getService(PrintingUtils.class).getStateFromName(countryCode, stateName);
                             if(state != null){
                                 rolodexDetails.setStateDescription(state.getName());
                             }
                         }
-                        rolodexDetails.setPincode(subAwardContact.getRolodex().getPostalCode());
-                        rolodexDetails.setPhoneNumber(subAwardContact.getRolodex().getPhoneNumber());
-                        rolodexDetails.setFax(subAwardContact.getRolodex().getFaxNumber());
-                        rolodexDetails.setEmail(subAwardContact.getRolodex().getEmailAddress());
+                        rolodexDetails.setPincode(rolodex.getPostalCode());
+                        rolodexDetails.setPhoneNumber(rolodex.getPhoneNumber());
+                        rolodexDetails.setFax(rolodex.getFaxNumber());
+                        rolodexDetails.setEmail(rolodex.getEmailAddress());
                    }
                  }
               }
@@ -628,6 +651,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
             List<PrimeAuthorizedOfficial> primeAuthorisedList = new ArrayList<PrimeAuthorizedOfficial>();
             Map<String, String> administrativeMap = new HashMap<String, String>();
+            Map<String, Integer> rolodexId = new HashMap<String, Integer>();
             parameterService = KraServiceLocator.getService(ParameterService.class);
             String auhtorisedOfficialCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_PRIME_AUTHORIZED_OFFICIAL_CODE);
             administrativeMap.put("contactTypeCode", auhtorisedOfficialCode);
@@ -636,28 +660,30 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
               if(subaward.getSubAwardContactsList() != null && !subaward.getSubAwardContactsList().isEmpty()){
                   for(SubAwardContact subAwardContact : subaward.getSubAwardContactsList()){
                       if(subAwardContact.getContactTypeCode().equals(auhtorisedOfficialCode)) {
-                           if( subAwardContact.getRolodex().getFullName()==null) {
-                           rolodexDetails.setRolodexName(subAwardContact.getRolodex().getOrganization());
+                          rolodexId.put("rolodexId", subAwardContact.getRolodex().getRolodexId());
+                          Rolodex rolodex = businessObjectService.findByPrimaryKey(Rolodex.class, rolodexId);
+                           if( rolodex.getFullName()==null) {
+                           rolodexDetails.setRolodexName(rolodex.getOrganization());
                            }
                            else {
-                           rolodexDetails.setRolodexName(subAwardContact.getRolodex().getFullName());
+                           rolodexDetails.setRolodexName(rolodex.getFullName());
                            }
-                           rolodexDetails.setAddress1(subAwardContact.getRolodex().getAddressLine1());
-                           rolodexDetails.setAddress2(subAwardContact.getRolodex().getAddressLine2());
-                           rolodexDetails.setAddress3(subAwardContact.getRolodex().getAddressLine3());
-                           rolodexDetails.setCity(subAwardContact.getRolodex().getCity());
-                           String countryCode = subAwardContact.getCountryCode();
-                           String stateName = subAwardContact.getState();
+                           rolodexDetails.setAddress1(rolodex.getAddressLine1());
+                           rolodexDetails.setAddress2(rolodex.getAddressLine2());
+                           rolodexDetails.setAddress3(rolodex.getAddressLine3());
+                           rolodexDetails.setCity(rolodex.getCity());
+                           String countryCode = rolodex.getCountryCode();
+                           String stateName = rolodex.getState();
                            if(countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0){
                                State state = KraServiceLocator.getService(PrintingUtils.class).getStateFromName(countryCode, stateName);
                                if(state != null){
                                    rolodexDetails.setStateDescription(state.getName());
                                }
                            }
-                           rolodexDetails.setPincode(subAwardContact.getRolodex().getPostalCode());
-                           rolodexDetails.setPhoneNumber(subAwardContact.getRolodex().getPhoneNumber());
-                           rolodexDetails.setFax(subAwardContact.getRolodex().getFaxNumber());
-                           rolodexDetails.setEmail(subAwardContact.getRolodex().getEmailAddress());
+                           rolodexDetails.setPincode(rolodex.getPostalCode());
+                           rolodexDetails.setPhoneNumber(rolodex.getPhoneNumber());
+                           rolodexDetails.setFax(rolodex.getFaxNumber());
+                           rolodexDetails.setEmail(rolodex.getEmailAddress());
                       }
               }
              }
@@ -671,6 +697,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
                 List<AdministrativeContact> administrativeContactList = new ArrayList<AdministrativeContact>();
                 Map<String, String> administrativeMap = new HashMap<String, String>();
+                Map<String, Integer> rolodexId = new HashMap<String, Integer>();
                 parameterService = KraServiceLocator.getService(ParameterService.class);
                 String administrativeCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_SUB_ADMINISTRATIVE_CONTACT_CODE);
                 administrativeMap.put("contactTypeCode", administrativeCode);
@@ -680,7 +707,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                       for(SubAwardContact subAwardContact : subaward.getSubAwardContactsList()){
                       if(subAwardContact.getContactTypeCode().equals(administrativeCode))
                           {
-                          Rolodex rolodex = subAwardContact.getRolodex();
+                          rolodexId.put("rolodexId", subAwardContact.getRolodex().getRolodexId());
+                          Rolodex rolodex = businessObjectService.findByPrimaryKey(Rolodex.class, rolodexId);
                           String organization = rolodex.getOrganization();
                           String fullName = rolodex.getFullName();
                           if (fullName != null && fullName.length() > 0){
@@ -688,10 +716,10 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                           } else {
                               rolodexDetails.setRolodexName(organization);
                           }
-                          rolodexDetails.setAddress1(subAwardContact.getRolodex().getAddressLine1());
-                          rolodexDetails.setAddress2(subAwardContact.getRolodex().getAddressLine2());
-                          rolodexDetails.setAddress3(subAwardContact.getRolodex().getAddressLine3());
-                          rolodexDetails.setCity(subAwardContact.getRolodex().getCity());
+                          rolodexDetails.setAddress1(rolodex.getAddressLine1());
+                          rolodexDetails.setAddress2(rolodex.getAddressLine2());
+                          rolodexDetails.setAddress3(rolodex.getAddressLine3());
+                          rolodexDetails.setCity(rolodex.getCity());
                           String countryCode = rolodex.getCountryCode();
                           String stateName = rolodex.getState();
                           if(countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0){
@@ -700,10 +728,10 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                                   rolodexDetails.setStateDescription(state.getName());
                               }
                           }
-                          rolodexDetails.setPincode(subAwardContact.getRolodex().getPostalCode());
-                          rolodexDetails.setPhoneNumber(subAwardContact.getRolodex().getPhoneNumber());
-                          rolodexDetails.setFax(subAwardContact.getRolodex().getFaxNumber());
-                          rolodexDetails.setEmail(subAwardContact.getRolodex().getEmailAddress());
+                          rolodexDetails.setPincode(rolodex.getPostalCode());
+                          rolodexDetails.setPhoneNumber(rolodex.getPhoneNumber());
+                          rolodexDetails.setFax(rolodex.getFaxNumber());
+                          rolodexDetails.setEmail(rolodex.getEmailAddress());
                           }
                   }}
                 }
@@ -716,6 +744,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
                 List<FinancialContact> financialContactList = new ArrayList<FinancialContact>();
                 Map<String, String> administrativeMap = new HashMap<String, String>();
+                Map<String, Integer> rolodexId = new HashMap<String, Integer>();
                 parameterService = KraServiceLocator.getService(ParameterService.class);
                 String financialContactCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_SUB_FINANCIAL_CONTACT_CODE);
                 administrativeMap.put("contactTypeCode", financialContactCode);
@@ -725,7 +754,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                       for(SubAwardContact subAwardContact : subaward.getSubAwardContactsList()){
                       if(subAwardContact.getContactTypeCode().equals(financialContactCode))
                           {
-                          Rolodex rolodex = subAwardContact.getRolodex();
+                          rolodexId.put("rolodexId", subAwardContact.getRolodex().getRolodexId());
+                          Rolodex rolodex = businessObjectService.findByPrimaryKey(Rolodex.class, rolodexId);
                           String organization = rolodex.getOrganization();
                           String fullName = rolodex.getFullName();
                           if (fullName != null && fullName.length() > 0){
@@ -733,10 +763,10 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                           } else {
                               rolodexDetails.setRolodexName(organization);
                           }
-                          rolodexDetails.setAddress1(subAwardContact.getRolodex().getAddressLine1());
-                          rolodexDetails.setAddress2(subAwardContact.getRolodex().getAddressLine2());
-                          rolodexDetails.setAddress3(subAwardContact.getRolodex().getAddressLine3());
-                          rolodexDetails.setCity(subAwardContact.getRolodex().getCity());
+                          rolodexDetails.setAddress1(rolodex.getAddressLine1());
+                          rolodexDetails.setAddress2(rolodex.getAddressLine2());
+                          rolodexDetails.setAddress3(rolodex.getAddressLine3());
+                          rolodexDetails.setCity(rolodex.getCity());
                           String countryCode = rolodex.getCountryCode();
                           String stateName = rolodex.getState();
                           if(countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0){
@@ -745,10 +775,10 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                                   rolodexDetails.setStateDescription(state.getName());
                               }
                           }
-                          rolodexDetails.setPincode(subAwardContact.getRolodex().getPostalCode());
-                          rolodexDetails.setPhoneNumber(subAwardContact.getRolodex().getPhoneNumber());
-                          rolodexDetails.setFax(subAwardContact.getRolodex().getFaxNumber());
-                          rolodexDetails.setEmail(subAwardContact.getRolodex().getEmailAddress());
+                          rolodexDetails.setPincode(rolodex.getPostalCode());
+                          rolodexDetails.setPhoneNumber(rolodex.getPhoneNumber());
+                          rolodexDetails.setFax(rolodex.getFaxNumber());
+                          rolodexDetails.setEmail(rolodex.getEmailAddress());
                           }
                   }}
                 }
@@ -761,6 +791,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
                 List<AuthorizedOfficial> authorizedOfficialList = new ArrayList<AuthorizedOfficial>();
                 Map<String, String> administrativeMap = new HashMap<String, String>();
+                Map<String, Integer> rolodexId = new HashMap<String, Integer>();
                 parameterService = KraServiceLocator.getService(ParameterService.class);
                 String financialContactCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_SUB_AUTHORIZED_CONTACT_CODE);
                 administrativeMap.put("contactTypeCode", financialContactCode);
@@ -770,7 +801,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                       for(SubAwardContact subAwardContact : subaward.getSubAwardContactsList()){
                       if(subAwardContact.getContactTypeCode().equals(financialContactCode))
                           {
-                          Rolodex rolodex = subAwardContact.getRolodex();
+                          rolodexId.put("rolodexId", subAwardContact.getRolodex().getRolodexId());
+                          Rolodex rolodex = businessObjectService.findByPrimaryKey(Rolodex.class, rolodexId);
                           String organization = rolodex.getOrganization();
                           String fullName = rolodex.getFullName();
                           if (fullName != null && fullName.length() > 0){
@@ -778,10 +810,10 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                           } else {
                               rolodexDetails.setRolodexName(organization);
                           }
-                          rolodexDetails.setAddress1(subAwardContact.getRolodex().getAddressLine1());
-                          rolodexDetails.setAddress2(subAwardContact.getRolodex().getAddressLine2());
-                          rolodexDetails.setAddress3(subAwardContact.getRolodex().getAddressLine3());
-                          rolodexDetails.setCity(subAwardContact.getRolodex().getCity());
+                          rolodexDetails.setAddress1(rolodex.getAddressLine1());
+                          rolodexDetails.setAddress2(rolodex.getAddressLine2());
+                          rolodexDetails.setAddress3(rolodex.getAddressLine3());
+                          rolodexDetails.setCity(rolodex.getCity());
                           String countryCode = rolodex.getCountryCode();
                           String stateName = rolodex.getState();
                           if(countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0){
@@ -790,10 +822,10 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                                   rolodexDetails.setStateDescription(state.getName());
                               }
                           }
-                          rolodexDetails.setPincode(subAwardContact.getRolodex().getPostalCode());
-                          rolodexDetails.setPhoneNumber(subAwardContact.getRolodex().getPhoneNumber());
-                          rolodexDetails.setFax(subAwardContact.getRolodex().getFaxNumber());
-                          rolodexDetails.setEmail(subAwardContact.getRolodex().getEmailAddress());
+                          rolodexDetails.setPincode(rolodex.getPostalCode());
+                          rolodexDetails.setPhoneNumber(rolodex.getPhoneNumber());
+                          rolodexDetails.setFax(rolodex.getFaxNumber());
+                          rolodexDetails.setEmail(rolodex.getEmailAddress());
                           }
                   }}
                 }
