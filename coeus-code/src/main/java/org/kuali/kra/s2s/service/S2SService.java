@@ -107,7 +107,7 @@ public interface S2SService {
 	 * @return true if submitted false otherwise.
 	 * @throws S2SException
 	 */
-	public boolean submitApplication(ProposalDevelopmentDocument pdDoc)
+	public FormActionResult submitApplication(ProposalDevelopmentDocument pdDoc)
 			throws S2SException;
 
 	/**
@@ -119,20 +119,8 @@ public interface S2SService {
 	 * @return boolean true if valid false otherwise.
 	 * @throws S2SException
 	 */
-	public boolean validateApplication(ProposalDevelopmentDocument pdDoc)
+	public FormActionResult validateApplication(ProposalDevelopmentDocument pdDoc)
 			throws S2SException;
-
-	/**
-	 * 
-	 * This method is used to validate application before submission.
-	 * 
-	 * @param pdDoc
-	 *            Proposal Development Document.
-	 * @return boolean true if valid false otherwise.
-	 * @throws S2SException
-	 */
-	public boolean validateApplication(ProposalDevelopmentDocument pdDoc,
-			List<AuditError> auditErrors) throws S2SException;
 
 	/**
 	 * This method populates the {@link S2sAppSubmission} BO with details from

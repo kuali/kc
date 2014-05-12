@@ -66,6 +66,7 @@ import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.person.ProposalDevelopmentKeyPersonnelAction;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
+import org.kuali.kra.s2s.service.PrintResult;
 import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.rice.core.api.util.RiceConstants;
@@ -760,7 +761,9 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             GlobalVariables.getMessageMap().putError("noKey", ERROR_NO_GRANTS_GOV_FORM_SELECTED);
             return mapping.findForward(Constants.PROPOSAL_ACTIONS_PAGE);
         }
-        KcFile attachmentDataSource = getPrintService().printForm(proposalDevelopmentDocument);
+        PrintResult result = getPrintService().printForm(proposalDevelopmentDocument);
+        setValidationErrorMessage(result.getErrors());
+        KcFile attachmentDataSource = result.getFile();
         if(attachmentDataSource==null || attachmentDataSource.getData()==null || attachmentDataSource.getData().length==0){
             //KRACOEUS-3300 - there should be GrantsGov audit errors in this case, grab them and display them as normal errors on
             //the GrantsGov forms tab so we don't need to turn on auditing
@@ -800,6 +803,33 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         }
         streamToResponse(attachmentDataSource, response);
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     *
+     * This method is to put validation errors on UI
+     *
+     * @param errors
+     *            List of validation errors which has to be displayed on UI.
+     */
+
+    protected void setValidationErrorMessage(List<org.kuali.kra.s2s.util.AuditError> errors) {
+        if (errors != null) {
+            LOG.info("Error list size:" + errors.size() + errors.toString());
+            List<org.kuali.rice.kns.util.AuditError> auditErrors = new ArrayList<>();
+            for (org.kuali.kra.s2s.util.AuditError error : errors) {
+                auditErrors.add(new org.kuali.rice.kns.util.AuditError(error.getErrorKey(),
+                        Constants.GRANTS_GOV_GENERIC_ERROR_KEY, error.getLink(),
+                        new String[]{error.getMessageKey()}));
+            }
+            if (!auditErrors.isEmpty()) {
+                KNSGlobalVariables.getAuditErrorMap().put(
+                        "grantsGovAuditErrors",
+                        new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL,
+                                auditErrors, Constants.GRANTSGOV_ERRORS)
+                );
+            }
+        }
     }
 
     /**

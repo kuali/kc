@@ -595,7 +595,7 @@ function showS2SAppSubmissionStatusDetails(proposalNumber,trackingId) {
 			timeout : 1000
 	};
 	//alert(trackingId);
-	S2SService.getStatusDetails( trackingId, proposalNumber + ":" + docFormKey, dwrReply);
+    StatusDetailsAjaxService.getStatusDetails( trackingId, proposalNumber + ":" + docFormKey, dwrReply);
 }
 
 function displayStatusDetails(data){
