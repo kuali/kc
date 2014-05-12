@@ -136,11 +136,12 @@
 
     <bean id="PropDev-AttachmentsPage-AbstractsCollection" parent="PropDev-AttachmentsPage-AbstractsCollection-parentBean" />
     <bean id="PropDev-AttachmentsPage-AbstractsCollection-parentBean" abstract="true"
-          parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract"
+          parent="PropDev-Attachment-Collection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract"
           p:propertyName="proposalAbstracts"
-          p:layoutManager.summaryTitle="@{#lp.abstractType.description}"
-          p:addViaLightBox="true">
-        <property name="layoutManager.addLineGroup.header.headerText" value="Add Abstracts Attachments"/>
+          p:layoutManager.summaryTitle="@{#lp.abstractType.description}">
+        <property name="addLineLabel">
+            <bean parent="Uif-Message" p:messageText="Add Abstracts Attachments"/>
+        </property>
         <property name="addLineItems">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="abstractTypeCode" p:readOnly="false"
@@ -157,46 +158,17 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:label="Added By"
+                <bean parent="Uif-MessageField" p:label="Added By" p:render="@{#lp.updateUser ne null}"
                       p:messageText="@{#lp.updateUser} [color=grey]( @{#lp.updateTimestamp} )[/color]" p:order="10"/>
-                <bean parent="Uif-InputField" p:propertyName="abstractTypeCode"
-                      p:readOnlyDisplayReplacementPropertyName="abstractType.description" p:readOnly="true" p:order="20">
+                <bean parent="Uif-DataField" p:propertyName="abstractTypeCode"
+                      p:readOnlyDisplayReplacementPropertyName="abstractType.description" p:order="20">
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:render="false"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="abstractDetails" p:readOnly="true" p:order="30"/>
+                <bean parent="Uif-InputField" p:propertyName="abstractDetails" p:order="30"
+                      p:readOnly="@{!#ViewHelper.isAttachmentEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableAttachments)}"/>
             </list>
-        </property>
-        <property name="lineActions">
-            <list>
-                <bean parent="Uif-ActionLink" p:actionScript="Kc.PropDev.Attachments.cancelAttachment();"
-                      p:actionLabel="cancel" p:style="float:right" p:order="10"/>
-                <bean parent="Uif-PrimaryActionButton-Small" p:actionScript="Kc.PropDev.Attachments.editAttachment();"
-                      p:actionLabel="Edit" p:style="float:right" p:order="20"/>
-            </list>
-        </property>
-        <property name="layoutManager.lineGroupPrototype">
-            <bean parent="Uif-CollectionHorizontalBoxItem"
-                  p:disclosure.render="true">
-                <property name="layoutManager">
-                    <bean parent="Uif-SimpleLayout" />
-                </property>
-                <property name="header">
-                    <bean parent="Uif-HeaderFour">
-                        <property name="rightGroup">
-                            <bean parent="Uif-VerticalBoxGroup">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-DeleteLineAction" p:actionLabel=""
-                                              p:iconClass="icon-close" p:order="10" />
-                                    </list>
-                                </property>
-                            </bean>
-                        </property>
-                    </bean>
-                </property>
-            </bean>
         </property>
     </bean>
 

@@ -73,6 +73,12 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         }
     }
 
+
+    @Override
+    public void processAfterSaveLine(ViewModel model, Object lineObject, String collectionId, String collectionPath) {
+           getDataObjectService().save(lineObject);
+    }
+
     public static class SponsorSuggestResult {
         private Sponsor sponsor;
         public SponsorSuggestResult(Sponsor sponsor) {
@@ -103,6 +109,16 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             result.add(new SponsorSuggestResult(sponsor));
         }
         return result;
+    }
+
+    public boolean isAttachmentEditable(String selectedCollectionPath, String index, HashMap<String,List<String>> editableAttachments) {
+        boolean retVal = false;
+        if (editableAttachments.containsKey(selectedCollectionPath)) {
+            if (editableAttachments.get(selectedCollectionPath).contains(index)) {
+                retVal = true;
+            }
+        }
+        return retVal;
     }
 
     protected LegacyNarrativeService getNarrativeService() {
