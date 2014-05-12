@@ -34,6 +34,17 @@
 .multi-col-list dl dd ul li {
    list-style: none;
 }
+li.truncateAlign table {
+    display: inline-block;
+    width: auto !important;
+}
+#workarea th {
+  background-repeat: repeat-x;
+  background-color: #f5f5f5;
+}
+#workarea td.infoline {
+   background-repeat: repeat-x;
+}
 </style>
 <c:set var="subAwardPrintAgreementAttributes" value="${DataDictionary.SubAwardPrintAgreement.attributes}" />
 <c:set var="subAwardForms" value="${DataDictionary.SubAwardForms.attributes}" />
@@ -162,7 +173,7 @@
 				<c:choose>
 				<c:when test="${status.index % 2 == 0}" >
 				 <dd><ul>
-				  <li>
+				  <li class="truncateAlign">
 				  <html:checkbox property="document.subAwardList[0].subAwardAttachments[${status.index}].selectToPrint"/>
 				  <kra:truncateComment textAreaFieldName="document.subAwardList[0].subAwardAttachments[${status.index}].description" action="subAwardActions" textAreaLabel="Descripton" 
 				  textValue="${KualiForm.document.subAwardList[0].subAwardAttachments[status.index].description}" displaySize="30"/>
@@ -170,8 +181,8 @@
 				  </ul></dd>
       			  </c:when>
       			  <c:otherwise >
-      			  <dd><ul>
-      			  <li>
+      			 <dd><ul>
+      			  <li class="truncateAlign">
 				  <html:checkbox property="document.subAwardList[0].subAwardAttachments[${status.index}].selectToPrint"/>
 				  <kra:truncateComment textAreaFieldName="document.subAwardList[0].subAwardAttachments[${status.index}].description" action="subAwardActions" textAreaLabel="Descripton" 
 				  textValue="${KualiForm.document.subAwardList[0].subAwardAttachments[status.index].description}" displaySize="30"/>
