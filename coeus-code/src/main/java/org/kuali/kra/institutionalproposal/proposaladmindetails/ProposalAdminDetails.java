@@ -18,10 +18,11 @@ package org.kuali.kra.institutionalproposal.proposaladmindetails;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsContract;
 
 import java.sql.Date;
 
-public class ProposalAdminDetails extends KcPersistableBusinessObjectBase {
+public class ProposalAdminDetails extends KcPersistableBusinessObjectBase implements ProposalAdminDetailsContract {
 
 
     private static final long serialVersionUID = -277575593517810685L;
@@ -52,9 +53,7 @@ public class ProposalAdminDetails extends KcPersistableBusinessObjectBase {
 
     private InstitutionalProposal institutionalProposal;
 
-    public ProposalAdminDetails() {
-    }
-
+    @Override
     public Date getDateSubmittedByDept() {
         return dateSubmittedByDept;
     }
@@ -63,6 +62,7 @@ public class ProposalAdminDetails extends KcPersistableBusinessObjectBase {
         this.dateSubmittedByDept = dateSubmittedByDept;
     }
 
+    @Override
     public Date getDateReturnedToDept() {
         return dateReturnedToDept;
     }
@@ -71,6 +71,7 @@ public class ProposalAdminDetails extends KcPersistableBusinessObjectBase {
         this.dateReturnedToDept = dateReturnedToDept;
     }
 
+    @Override
     public Date getDateApprovedByOsp() {
         return dateApprovedByOsp;
     }
@@ -79,6 +80,7 @@ public class ProposalAdminDetails extends KcPersistableBusinessObjectBase {
         this.dateApprovedByOsp = dateApprovedByOsp;
     }
 
+    @Override
     public Date getDateSubmittedToAgency() {
         return dateSubmittedToAgency;
     }
@@ -87,6 +89,7 @@ public class ProposalAdminDetails extends KcPersistableBusinessObjectBase {
         this.dateSubmittedToAgency = dateSubmittedToAgency;
     }
 
+    @Override
     public Date getInstPropCreateDate() {
         return instPropCreateDate;
     }
@@ -95,6 +98,7 @@ public class ProposalAdminDetails extends KcPersistableBusinessObjectBase {
         this.instPropCreateDate = instPropCreateDate;
     }
 
+    @Override
     public String getInstPropCreateUser() {
         return instPropCreateUser;
     }
@@ -103,6 +107,7 @@ public class ProposalAdminDetails extends KcPersistableBusinessObjectBase {
         this.instPropCreateUser = instPropCreateUser;
     }
 
+    @Override
     public String getSignedBy() {
         return signedBy;
     }
@@ -111,6 +116,7 @@ public class ProposalAdminDetails extends KcPersistableBusinessObjectBase {
         this.signedBy = signedBy;
     }
 
+    @Override
     public boolean getSubmissionType() {
         return submissionType;
     }
@@ -119,83 +125,49 @@ public class ProposalAdminDetails extends KcPersistableBusinessObjectBase {
         this.submissionType = submissionType;
     }
 
-    /**
-     * Gets the proposalAdminDetailId attribute. 
-     * @return Returns the proposalAdminDetailId.
-     */
+    @Override
     public Long getProposalAdminDetailId() {
         return proposalAdminDetailId;
     }
 
-    /**
-     * Sets the proposalAdminDetailId attribute value.
-     * @param proposalAdminDetailId The proposalAdminDetailId to set.
-     */
+
     public void setProposalAdminDetailId(Long proposalAdminDetailId) {
         this.proposalAdminDetailId = proposalAdminDetailId;
     }
 
-    /**
-     * Gets the instProposalId attribute. 
-     * @return Returns the instProposalId.
-     */
-    public Long getInstProposalId() {
-        return instProposalId;
-    }
-
-    /**
-     * Sets the instProposalId attribute value.
-     * @param instProposalId The instProposalId to set.
-     */
-    public void setInstProposalId(Long instProposalId) {
-        this.instProposalId = instProposalId;
-    }
-
-    /**
-     * Gets the developmentProposal attribute. 
-     * @return Returns the developmentProposal.
-     */
-    public DevelopmentProposal getDevelopmentProposal() {
-        return developmentProposal;
-    }
-
-    /**
-     * Sets the developmentProposal attribute value.
-     * @param developmentProposal The developmentProposal to set.
-     */
-    public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
-        this.developmentProposal = developmentProposal;
-    }
-
-    /**
-     * Gets the institutionalProposal attribute. 
-     * @return Returns the institutionalProposal.
-     */
-    public InstitutionalProposal getInstitutionalProposal() {
-        return institutionalProposal;
-    }
-
-    /**
-     * Sets the institutionalProposal attribute value.
-     * @param institutionalProposal The institutionalProposal to set.
-     */
-    public void setInstitutionalProposal(InstitutionalProposal institutionalProposal) {
-        this.institutionalProposal = institutionalProposal;
-    }
-
-    /**
-     * Gets the devProposalNumber attribute. 
-     * @return Returns the devProposalNumber.
-     */
+    @Override
     public String getDevProposalNumber() {
         return devProposalNumber;
     }
 
-    /**
-     * Sets the devProposalNumber attribute value.
-     * @param devProposalNumber The devProposalNumber to set.
-     */
+
     public void setDevProposalNumber(String devProposalNumber) {
         this.devProposalNumber = devProposalNumber;
+    }
+
+
+    @Override
+    public Long getInstProposalId() {
+        return instProposalId;
+    }
+
+    public void setInstProposalId(Long instProposalId) {
+        this.instProposalId = instProposalId;
+    }
+
+    public DevelopmentProposal getDevelopmentProposal() {
+        return developmentProposal;
+    }
+
+    public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
+        this.developmentProposal = developmentProposal;
+    }
+
+    public InstitutionalProposal getInstitutionalProposal() {
+        return institutionalProposal;
+    }
+
+    public void setInstitutionalProposal(InstitutionalProposal institutionalProposal) {
+        this.institutionalProposal = institutionalProposal;
     }
 }
