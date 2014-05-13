@@ -108,17 +108,17 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     @Transient
     private boolean roleChanged;
 
-    @OneToMany(mappedBy="proposalPerson", fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.ALL })
+    @OneToMany(mappedBy="proposalPerson", orphanRemoval = true, cascade = { CascadeType.ALL })
     @OrderBy("questionId")
     private List<ProposalPersonYnq> proposalPersonYnqs;
 
-    @OneToMany(mappedBy="proposalPerson", fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.ALL })
+    @OneToMany(mappedBy="proposalPerson", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<ProposalPersonUnit> units;
 
-    @OneToMany(mappedBy="proposalPerson", fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.ALL })
+    @OneToMany(mappedBy="proposalPerson", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<ProposalPersonDegree> proposalPersonDegrees;
 
-    @OneToMany(mappedBy="proposalPerson", fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.ALL })
+    @OneToMany(mappedBy="proposalPerson", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<ProposalPersonCreditSplit> creditSplits;
 
     @Transient
