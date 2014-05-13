@@ -57,10 +57,13 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Qualifier("lookupService")
     private LookupService lookupService;
 
+    private static final String PERS_NUMBER = "proposalPersons[";
+    
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
         ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
+        DevelopmentProposal proposal = document.getDevelopmentProposal();
         if (addLine instanceof Narrative) {
             Narrative narrative = (Narrative) addLine;
             getNarrativeService().prepareNarrative(document, narrative);
@@ -72,10 +75,17 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 		} else if (addLine instanceof ProposalPersonUnit) {
 			((ProposalPersonUnit)addLine).setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
 		} else if (addLine instanceof ProposalPersonDegree) {
-			((ProposalPersonDegree)addLine).setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+			ProposalPersonDegree degree = (ProposalPersonDegree)addLine;
+			// set proposal number and proposal person number for now since JPA can't
+			String str = collectionPath.substring(collectionPath.indexOf(PERS_NUMBER) + PERS_NUMBER.length());
+			str = str.substring(0, str.indexOf("]"));
+			Integer propPerson = Integer.parseInt(str);
+			degree.setProposalNumber(proposal.getProposalNumber());
+			degree.setProposalPersonNumber(proposal.getProposalPerson(propPerson).getProposalPersonNumber());
+	        degree.setDegreeSequenceNumber(document.getDocumentNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
         } else if (addLine instanceof ProposalAbstract) {
             ProposalAbstract proposalAbstract = (ProposalAbstract) addLine;
-            proposalAbstract.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+            proposalAbstract.setProposalNumber(proposal.getProposalNumber());
             proposalAbstract.refreshReferenceObject("abstractType");
         } else if (addLine instanceof ProposalSpecialReview) {
         	ProposalSpecialReview proposalSpecialReview = (ProposalSpecialReview) addLine;
