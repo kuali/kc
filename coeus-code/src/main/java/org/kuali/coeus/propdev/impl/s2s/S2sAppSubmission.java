@@ -15,21 +15,16 @@
  */
 package org.kuali.coeus.propdev.impl.s2s;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.s2s.depend.S2sAppSubmissionContract;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.coeus.propdev.api.s2s.S2sAppSubmissionContract;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.List;
 
 @Entity
 @Table(name = "S2S_APP_SUBMISSION")

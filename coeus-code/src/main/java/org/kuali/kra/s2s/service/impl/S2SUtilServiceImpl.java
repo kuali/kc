@@ -49,7 +49,7 @@ import org.kuali.coeus.common.api.country.CountryContract;
 import org.kuali.coeus.common.api.country.KcCountryService;
 import org.kuali.coeus.common.api.state.KcStateService;
 import org.kuali.coeus.common.api.state.StateContract;
-import org.kuali.kra.s2s.depend.S2sOpportunityContract;
+import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SUtilService;

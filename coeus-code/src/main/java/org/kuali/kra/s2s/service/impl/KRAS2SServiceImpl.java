@@ -31,6 +31,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.api.s2s.*;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.s2s.*;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -40,7 +41,6 @@ import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDet
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeService;
-import org.kuali.kra.s2s.depend.*;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;

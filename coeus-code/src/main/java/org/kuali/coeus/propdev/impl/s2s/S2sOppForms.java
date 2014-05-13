@@ -20,7 +20,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.s2s.depend.S2sOppFormsContract;
+import org.kuali.coeus.propdev.api.s2s.S2sOppFormsContract;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
