@@ -13,9 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.medusa.service;
-
-import org.kuali.kra.medusa.MedusaNode;
+package org.kuali.coeus.common.framework.medusa;
 
 import java.util.List;
 

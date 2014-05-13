@@ -45,7 +45,7 @@
         <form-bean name="ProtocolCorrespondenceTemplateForm" type="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateForm" />
         <form-bean name="BatchCorrespondenceDetailForm" type="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailForm" />
         <form-bean name="IacucBatchCorrespondenceDetailForm" type="org.kuali.kra.iacuc.correspondence.IacucBatchCorrespondenceDetailForm" />
-        <form-bean name="MedusaForm" type="org.kuali.kra.medusa.web.MedusaForm"/>
+        <form-bean name="MedusaForm" type="org.kuali.coeus.common.framework.medusa.MedusaForm"/>
         <form-bean name="ProtocolOnlineReviewForm" type="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewForm"/> 
         <form-bean name="ProtocolNotificationTemplateForm" type="org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplateForm" />
         <form-bean name="JqueryAjaxForm" type="org.kuali.kra.jqueryajax.JqueryAjaxForm"/>
@@ -619,7 +619,7 @@
      </action>
 
      
-     <action path="/medusaAjax" name="MedusaForm" type="org.kuali.kra.medusa.web.MedusaAjaxAction" attribute="KualiForm">
+     <action path="/medusaAjax" name="MedusaForm" type="org.kuali.coeus.common.framework.medusa.MedusaAjaxAction" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/medusa/medusaAjax.jsp"/>
      </action>
  		<action path="/jqueryAjax" name="JqueryAjaxForm" type="org.kuali.kra.jqueryajax.JqueryAjaxAction" scope="request" attribute="KualiForm">

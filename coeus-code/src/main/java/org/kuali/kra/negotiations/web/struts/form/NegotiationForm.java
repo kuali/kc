@@ -20,7 +20,7 @@ import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelp
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.medusa.MedusaBean;
+import org.kuali.coeus.common.framework.medusa.MedusaBean;
 import org.kuali.kra.negotiations.bo.*;
 import org.kuali.kra.negotiations.customdata.CustomDataHelper;
 import org.kuali.kra.negotiations.document.NegotiationDocument;

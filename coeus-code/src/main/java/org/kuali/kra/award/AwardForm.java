@@ -64,7 +64,7 @@ import org.kuali.kra.award.specialreview.SpecialReviewHelper;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
 import org.kuali.kra.award.external.award.web.AccountCreationPresentationHelper;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.medusa.MedusaBean;
+import org.kuali.coeus.common.framework.medusa.MedusaBean;
 import org.kuali.kra.award.service.AwardHierarchyUIService;
 import org.kuali.kra.budget.web.struts.form.BudgetVersionFormBase;
 import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
