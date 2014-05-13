@@ -13,8 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.person;
+package org.kuali.coeus.common.framework.person;
 
+import org.kuali.coeus.sys.api.model.Coded;
+import org.kuali.coeus.sys.api.model.Identifiable;
+import org.kuali.coeus.sys.api.model.IdentifiableNumeric;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
@@ -31,9 +34,11 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "EPS_PROP_PERSON_ROLE")
-public class ProposalPersonRole extends KcPersistableBusinessObjectBase implements ContactRole {
+public class PropAwardPersonRole extends KcPersistableBusinessObjectBase implements ContactRole, IdentifiableNumeric, Coded {
 
     public static final String PRINCIPAL_INVESTIGATOR = "PI";
+    
+    public static final String MULTI_PI = "MPI";
 
     public static final String CO_INVESTIGATOR = "COI";
 
@@ -43,7 +48,13 @@ public class ProposalPersonRole extends KcPersistableBusinessObjectBase implemen
 
     @Id
     @Column(name = "PROP_PERSON_ROLE_ID")
-    private String proposalPersonRoleId;
+    private Long id;
+    
+    @Column(name = "PROP_PERSON_ROLE_CODE")
+    private String code;
+    
+    @Column(name = "SPONSOR_HIERARCHY_NAME")
+    private String sponsorHierarchyName;
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -51,65 +62,37 @@ public class ProposalPersonRole extends KcPersistableBusinessObjectBase implemen
     @Column(name = "CERTIFICATION_REQUIRED")
     @Convert(converter = BooleanYNConverter.class)
     private Boolean certificationRequired = Boolean.TRUE;
-
-    @Transient
+    
+    @Column(name="READ_ONLY_ROLE")
     private Boolean readOnly;
 
     @Column(name = "UNIT_DETAILS_REQUIRED")
     @Convert(converter = BooleanYNConverter.class)
     private Boolean unitDetailsRequired = Boolean.TRUE;
 
-    /**
-     * Gets the value of proposalPersonRoleId
-     *
-     * @return the value of proposalPersonRoleId
-     */
-    public final String getProposalPersonRoleId() {
-        return this.proposalPersonRoleId;
+    public final String getCode() {
+        return this.code;
     }
 
-    /**
-     * Sets the value of proposalPersonRoleId
-     *
-     * @param argProposalPersonRoleId Value to assign to this.proposalPersonRoleId
-     */
-    public final void setProposalPersonRoleId(String argProposalPersonRoleId) {
-        this.proposalPersonRoleId = argProposalPersonRoleId;
+    public final void setCode(String argProposalPersonRoleId) {
+        this.code = argProposalPersonRoleId;
     }
 
-    /**
-     * Gets the value of description
-     *
-     * @return the value of description
-     */
     public final String getDescription() {
         return this.description;
     }
 
-    /**
-     * Sets the value of description
-     *
-     * @param argDescription Value to assign to this.description
-     */
     public final void setDescription(String argDescription) {
         this.description = argDescription;
     }
+    
+	public Boolean getReadOnly() {
+		return readOnly;
+	}
 
-    /**
-     * Gets the readOnly attribute. 
-     * @return Returns the readOnly.
-     */
-    public Boolean getReadOnly() {
-        return readOnly;
-    }
-
-    /**
-     * Sets the readOnly attribute value.
-     * @param readOnly The readOnly to set.
-     */
-    public void setReadOnly(Boolean readOnly) {
-        this.readOnly = readOnly;
-    }
+	public void setReadOnly(Boolean readOnly) {
+		this.readOnly = readOnly;
+	}    
 
     public Boolean getUnitDetailsRequired() {
         return unitDetailsRequired;
@@ -129,7 +112,7 @@ public class ProposalPersonRole extends KcPersistableBusinessObjectBase implemen
 
     @Override
     public String getRoleCode() {
-        return getProposalPersonRoleId();
+        return getCode();
     }
 
     @Override
@@ -137,11 +120,19 @@ public class ProposalPersonRole extends KcPersistableBusinessObjectBase implemen
         return getDescription();
     }
 
-    /**
-     * This method determines if ProposalPersonRole is PI
-     * @return
-     */
-    public boolean isPrincipalInvestigatorRole() {
-        return ContactRole.PI_CODE.equals(getRoleCode());
-    }
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getSponsorHierarchyName() {
+		return sponsorHierarchyName;
+	}
+
+	public void setSponsorHierarchyName(String sponsorHierarchyName) {
+		this.sponsorHierarchyName = sponsorHierarchyName;
+	}
 }

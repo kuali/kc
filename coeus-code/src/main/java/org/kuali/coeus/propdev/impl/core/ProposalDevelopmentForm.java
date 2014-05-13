@@ -418,14 +418,14 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
                         pd.getDevelopmentProposal().getSponsor().getSponsorName() + "/" + provider));
             }
             
-            if (getKeyPersonnelService().hasPrincipalInvestigator(pd)) {
+            if (pd.getDevelopmentProposal().getPrincipalInvestigator() != null) {
                 boolean found = false;
                 
                 for(Iterator<ProposalPerson> person_it = pd.getDevelopmentProposal().getInvestigators().iterator();
                     person_it.hasNext() && !found; ){
                     ProposalPerson investigator = person_it.next();
                     
-                    if (getKeyPersonnelService().isPrincipalInvestigator(investigator)) {
+                    if (investigator.isPrincipalInvestigator()) {
                         found = true; // Will break out of the loop as soon as the PI is found
                         getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", investigator.getFullName()));
                     }

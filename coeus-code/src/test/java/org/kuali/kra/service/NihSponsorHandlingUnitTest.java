@@ -3,11 +3,11 @@ package org.kuali.kra.service;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyServiceImpl;
@@ -23,7 +23,7 @@ import java.util.*;
 
 public class NihSponsorHandlingUnitTest {
     private NihSponsorHandlingTestHelper helper;
-    private List<ProposalPersonRole> roles;
+    private List<PropAwardPersonRole> roles;
 
     private static final String NIH = "NIH";
     private static final String GROUP_HIERARCHY_NAME = "Sponsor Groups";
@@ -61,20 +61,20 @@ public class NihSponsorHandlingUnitTest {
       helper.testIsSponsorNihMultiplePi_DevelopmentProposal_SponsorAdded();
     }
 
-    private List<ProposalPersonRole> defineRoles() {
-        List<ProposalPersonRole> roles = new ArrayList<ProposalPersonRole>();
-        ProposalPersonRole role = new ProposalPersonRole();
-        role.setProposalPersonRoleId("PI");
+    private List<PropAwardPersonRole> defineRoles() {
+        List<PropAwardPersonRole> roles = new ArrayList<PropAwardPersonRole>();
+        PropAwardPersonRole role = new PropAwardPersonRole();
+        role.setCode("PI");
         role.setDescription(NONNIH_PI_DESCRIPTION);
         roles.add(role);
 
-        role = new ProposalPersonRole();
-        role.setProposalPersonRoleId("COI");
+        role = new PropAwardPersonRole();
+        role.setCode("COI");
         role.setDescription(NONNIH_COI_DESCRIPTION);
         roles.add(role);
 
-        role = new ProposalPersonRole();
-        role.setProposalPersonRoleId("KP");
+        role = new PropAwardPersonRole();
+        role.setCode("KP");
         role.setDescription(KEY_PERSON_DESCRIPTION);
         roles.add(role);
         return roles;
@@ -85,7 +85,7 @@ public class NihSponsorHandlingUnitTest {
 
         return new BusinessObjectServiceAdapter() {
             public Collection findAll(Class klass) {
-                if(ProposalPersonRole.class.equals(klass)) {
+                if(PropAwardPersonRole.class.equals(klass)) {
                     return roles;
                 } else if(SponsorHierarchy.class.equals(klass)) {
                     return sponsorHierarchies.values();

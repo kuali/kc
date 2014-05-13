@@ -2,9 +2,9 @@ package org.kuali.kra.service.impl.adapters;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 
@@ -40,52 +40,13 @@ public class KeyPersonnelServiceAdapter implements KeyPersonnelService {
     public ProposalPersonUnit createProposalPersonUnit(String unitId, ProposalPerson person) {
         return null;  
     }
-
-    @Override
-    public boolean isPrincipalInvestigator(ProposalPerson person) {
-        return false;  
-    }
-    @Override
-    public boolean isCoInvestigator(ProposalPerson person) {
-        return false;  
-    }
-    @Override
-    public boolean isKeyPerson(ProposalPerson person) {
-        return false;  
-    }
-    @Override
-    public boolean isInvestigator(ProposalPerson person) {
-        return false;  
-    }
-    @Override
-    public boolean hasPrincipalInvestigator(ProposalDevelopmentDocument document) {
-        return false;  
-    }
     @Override
     public boolean isCreditSplitEnabled() {
         return false;  
     }
-
-    @Override
-    public boolean isRoleReadOnly(ProposalPersonRole role) {
-        return false;  
-    }
-    @Override
-    public String getPrincipalInvestigatorRoleDescription(ProposalDevelopmentDocument document) {
-        return null;  
-    }
     @Override
     public void assignLeadUnit(ProposalPerson person, String unitNumber) {
         
-    }
-
-    @Override
-    public Map<String, String> loadKeyPersonnelRoleDescriptions(boolean sponsorIsNih) {
-        return null;  
-    }
-    @Override
-    public String getPersonnelRoleDesc(PersonRolodex person) {
-        return null;
     }
     @Override
     public void addProposalPerson(ProposalPerson proposalPerson, ProposalDevelopmentDocument document) {
