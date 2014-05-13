@@ -3606,7 +3606,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public KualiDecimal getFandATotals() {
        KualiDecimal total = new KualiDecimal(0);
         for (AwardFandaRate currentRate : getAwardFandaRate()) {
-            total = total.add(currentRate.getUnderrecoveryOfIndirectCost());
+            if (currentRate.getUnderrecoveryOfIndirectCost() != null) {
+                total = total.add(currentRate.getUnderrecoveryOfIndirectCost());
+            }
         }
         return total;
     }
