@@ -572,11 +572,12 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         public void setPrimePrincipalInvestigator(SubContractData subContractData, SubAward subaward) {
             PersonDetailsType personDetails = PersonDetailsType.Factory.newInstance();
             List<PersonDetailsType> personDetailsList = new ArrayList<PersonDetailsType>();
-            Map<String, Long> awardMap = new HashMap<String, Long>();
+            Map<String, String> awardNum = new HashMap<String, String>();
             if(awardNumber != null){
-                awardMap.put("awardId", awardID);
-               List<AwardPerson> awardList = (List<AwardPerson>) businessObjectService.findMatching(AwardPerson.class, awardMap);
-                KcPerson awardPersons = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(awardList.get(0).getPersonId());
+                awardNum.put("awardNumber",awardNumber);
+                List<AwardPerson> awardNumList = (List<AwardPerson>) businessObjectService.findMatchingOrderBy(AwardPerson.class, awardNum, "sequenceNumber", true);
+                AwardPerson awardPerson = awardNumList.get(awardNumList.size() - 1);
+                KcPerson awardPersons = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(awardPerson.getPersonId());
     
                 personDetails.setFullName(awardPersons.getFullName());
                 personDetails.setAddressLine1(awardPersons.getAddressLine1());
