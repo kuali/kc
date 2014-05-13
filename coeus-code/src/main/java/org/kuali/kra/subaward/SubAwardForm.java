@@ -30,7 +30,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.medusa.MedusaBean;
+import org.kuali.coeus.common.framework.medusa.MedusaBean;
 import org.kuali.kra.subaward.bo.*;
 import org.kuali.kra.subaward.customdata.CustomDataHelper;
 import org.kuali.kra.subaward.document.SubAwardDocument;

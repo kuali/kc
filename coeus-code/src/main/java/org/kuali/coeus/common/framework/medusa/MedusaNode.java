@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.medusa;
+package org.kuali.coeus.common.framework.medusa;
 
 import org.kuali.rice.krad.bo.BusinessObject;
 

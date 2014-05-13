@@ -25,7 +25,7 @@ import org.kuali.coeus.sys.framework.model.AuditableForm;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.medusa.MedusaBean;
+import org.kuali.coeus.common.framework.medusa.MedusaBean;
 import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelperBase;
 import org.kuali.kra.protocol.noteattachment.NotesAttachmentsHelperBase;

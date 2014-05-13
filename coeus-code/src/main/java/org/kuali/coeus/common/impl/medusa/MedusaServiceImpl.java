@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.medusa.service;
+package org.kuali.coeus.common.impl.medusa;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
@@ -36,7 +36,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.medusa.MedusaNode;
+import org.kuali.coeus.common.framework.medusa.MedusaNode;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -47,6 +47,10 @@ import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -54,15 +58,29 @@ import java.util.*;
  * Medusa Service provides the methods to get MedusaNodes that describe the tree-like structure that describes
  * the nodes and provides a method of retrieving related BOs for summary display.
  */
+@Component("medusaService")
+@Lazy(true)
 public class MedusaServiceImpl implements MedusaService {
 
     private static final int INST_PROPOSAL_STATUS_FUNDED = 2;
 
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+    @Autowired
+    @Qualifier("awardAmountInfoService")
     private AwardAmountInfoService awardAmountInfoService;
+    @Autowired
+    @Qualifier("versionHistoryService")
     private VersionHistoryService versionHistoryService;
+    @Autowired
+    @Qualifier("negotiationService")
     private NegotiationService negotiationService;
+    @Autowired
+    @Qualifier("subAwardService")
     private SubAwardService subAwardService;
+    @Autowired
+    @Qualifier("parameterService")
     private ParameterService parameterService;
     
     @Override
@@ -589,7 +607,7 @@ public class MedusaServiceImpl implements MedusaService {
         }
         SubAward currentSubAward = (SubAward) getActiveOrCurrentVersion(SubAward.class, subAward.getSubAwardCode());
         if (currentSubAward != null) {
-            KcServiceLocator.getService(SubAwardService.class).getAmountInfo(currentSubAward);
+            getSubAwardService().getAmountInfo(currentSubAward);
         }
         return currentSubAward == null ? subAward : currentSubAward;
     }

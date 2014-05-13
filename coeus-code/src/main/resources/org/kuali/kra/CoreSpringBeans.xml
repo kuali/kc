@@ -27,27 +27,12 @@
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
     <context:annotation-config />
-    <!--<context:component-scan base-package="org.kuali.coeus.sys" />-->
 
-    <!-- TODO: Consolidate these... i.e. <context:component-scan base-package="org.kuali.coeus.common.impl"/>  -->
-    <!-- Currently adding only fully annotated services -->
-	<context:component-scan base-package="org.kuali.coeus.common.notification.impl.service.impl"/>
+    <context:component-scan base-package="org.kuali.coeus.common.notification.impl.service.impl"/>
 
-    <context:component-scan base-package="org.kuali.coeus.common.impl.attachment"/>
-    <context:component-scan base-package="org.kuali.coeus.common.impl.custom.attr"/>
-    <context:component-scan base-package="org.kuali.coeus.common.impl.keyword"/>
-    <context:component-scan base-package="org.kuali.coeus.common.impl.mail"/>
-    <context:component-scan base-package="org.kuali.coeus.common.impl.org"/>
-    <context:component-scan base-package="org.kuali.coeus.common.impl.person"/>
-    <context:component-scan base-package="org.kuali.coeus.common.impl.rolodex"/>
-    <context:component-scan base-package="org.kuali.coeus.common.impl.sponsor"/>
-    <context:component-scan base-package="org.kuali.coeus.common.impl.unit"/>
-    <context:component-scan base-package="org.kuali.coeus.common.impl.version"/>
-    <context:component-scan base-package="org.kuali.coeus.common.impl.ynq"/>
-
+    <context:component-scan base-package="org.kuali.coeus.common.impl"/>
 	<context:component-scan base-package="org.kuali.kra.service.impl"/>
     <context:component-scan base-package="org.kuali.kra.multicampus"/>
-
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
@@ -1622,16 +1607,6 @@
     
     <bean id="subAwardService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="subAwardService" />
-    </bean>
-    
-    
-    <bean id="medusaService" class="org.kuali.kra.medusa.service.MedusaServiceImpl" lazy-init="true">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="awardAmountInfoService" ref="awardAmountInfoService" />
-        <property name="versionHistoryService" ref="versionHistoryService" />
-        <property name="negotiationService" ref="negotiationService" />
-        <property name="subAwardService" ref="subAwardService"/>
-        <property name="parameterService" ref="parameterService"/>
     </bean>
     
     <bean id ="specialReviewService" class ="org.kuali.coeus.common.specialreview.impl.service.impl.SpecialReviewServiceImpl" lazy-init="true">
