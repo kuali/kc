@@ -97,6 +97,8 @@
 		<property name="configurationService" ref="kualiConfigurationService"/>
         <property name="s2sOpportunityService" ref="s2sOpportunityService"/>
         <property name="s2sProviderService" ref="s2sProviderService"/>
+        <property name="instPropSponsorService" ref="instPropSponsorService" />
+        <property name="proposalAdminDetailsService" ref="proposalAdminDetailsService" />
 	</bean>
 
 	<bean id="printService"
@@ -138,7 +140,8 @@
 		</property>
 		<property name="unitService">
 			<ref bean="unitService" />
-		</property>		
+		</property>
+        <property name="proposalAdminDetailsService" ref="proposalAdminDetailsService"/>
 	</bean>
 
 	<bean id="s2SBudgetCalculatorService"
