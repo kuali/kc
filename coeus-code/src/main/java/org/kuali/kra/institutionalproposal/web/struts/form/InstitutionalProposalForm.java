@@ -36,7 +36,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepadBean
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandABean;
 import org.kuali.kra.institutionalproposal.notification.InstitutionalProposalNotificationContext;
 import org.kuali.kra.institutionalproposal.specialreview.SpecialReviewHelper;
-import org.kuali.kra.medusa.MedusaBean;
+import org.kuali.coeus.common.framework.medusa.MedusaBean;
 import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
