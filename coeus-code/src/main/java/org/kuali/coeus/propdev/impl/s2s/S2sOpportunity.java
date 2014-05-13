@@ -17,6 +17,7 @@ package org.kuali.coeus.propdev.impl.s2s;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.kra.s2s.depend.S2sOpportunityContract;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
@@ -25,7 +26,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "S2S_OPPORTUNITY")
-public class S2sOpportunity extends KcPersistableBusinessObjectBase {
+public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S2sOpportunityContract {
 
     @Id
     @Column(name = "PROPOSAL_NUMBER")
@@ -245,9 +246,6 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase {
     }
 
     public S2sProvider getS2sProvider() {
-        if (s2sProvider == null && providerCode != null) {
-            this.refreshReferenceObject("s2sProvider");
-        }
         return s2sProvider;
     }
 

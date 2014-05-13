@@ -280,7 +280,7 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.coeus.propdev.impl.s2s.S2sRevisionType" table="S2S_REVISION_TYPE">
-		<field-descriptor name="s2sRevisionTypeCode" column="S2S_REVISION_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="code" column="S2S_REVISION_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
@@ -288,7 +288,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
 	<class-descriptor class="org.kuali.coeus.propdev.impl.s2s.S2sSubmissionType" table="S2S_SUBMISSION_TYPE">
-		<field-descriptor name="s2sSubmissionTypeCode" column="S2S_SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="code" column="S2S_SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
@@ -859,7 +859,7 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.coeus.propdev.impl.s2s.S2sAppAttachments" table="S2S_APP_ATTACHMENTS">
-		<field-descriptor name="s2sAppAttachmentId" column="S2S_APP_ATTACHMENT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_S2S_APP_ATTACHMENT_ID"/> 
+		<field-descriptor name="id" column="S2S_APP_ATTACHMENT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_S2S_APP_ATTACHMENT_ID"/>
 		<field-descriptor name="contentId" column="CONTENT_ID" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="contentType" column="CONTENT_TYPE" jdbc-type="VARCHAR"/>

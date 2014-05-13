@@ -20,6 +20,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.s2s.depend.S2sAppAttachmentsContract;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
 import javax.persistence.*;
@@ -28,13 +29,13 @@ import java.io.Serializable;
 @Entity
 @Table(name = "S2S_APP_ATTACHMENTS")
 @IdClass(S2sAppAttachments.S2sAppAttachmentsId.class)
-public class S2sAppAttachments extends KcPersistableBusinessObjectBase {
+public class S2sAppAttachments extends KcPersistableBusinessObjectBase implements S2sAppAttachmentsContract {
 
     @PortableSequenceGenerator(name = "SEQ_S2S_APP_ATTACHMENT_ID")
     @GeneratedValue(generator = "SEQ_S2S_APP_ATTACHMENT_ID")
     @Id
     @Column(name = "S2S_APP_ATTACHMENT_ID")
-    private Long s2sAppAttachmentId;
+    private Long id;
 
     @Id
     @Column(name = "CONTENT_ID")
@@ -50,6 +51,16 @@ public class S2sAppAttachments extends KcPersistableBusinessObjectBase {
     @Column(name = "HASH_CODE")
     private String hashCode;
 
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long appAttachmentId) {
+        id = appAttachmentId;
+    }
+
+    @Override
     public String getContentId() {
         return contentId;
     }
@@ -58,6 +69,7 @@ public class S2sAppAttachments extends KcPersistableBusinessObjectBase {
         this.contentId = contentId;
     }
 
+    @Override
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -66,6 +78,7 @@ public class S2sAppAttachments extends KcPersistableBusinessObjectBase {
         this.proposalNumber = proposalNumber;
     }
 
+    @Override
     public String getContentType() {
         return contentType;
     }
@@ -74,6 +87,7 @@ public class S2sAppAttachments extends KcPersistableBusinessObjectBase {
         this.contentType = contentType;
     }
 
+    @Override
     public String getHashCode() {
         return hashCode;
     }
@@ -82,36 +96,20 @@ public class S2sAppAttachments extends KcPersistableBusinessObjectBase {
         this.hashCode = hashCode;
     }
 
-    /**
-     * Gets the s2sAppAttachmentId attribute. 
-     * @return Returns the s2sAppAttachmentId.
-     */
-    public Long getS2sAppAttachmentId() {
-        return s2sAppAttachmentId;
-    }
-
-    /**
-     * Sets the s2sAppAttachmentId attribute value.
-     * @param appAttachmentId The s2sAppAttachmentId to set.
-     */
-    public void setS2sAppAttachmentId(Long appAttachmentId) {
-        s2sAppAttachmentId = appAttachmentId;
-    }
-
     public static final class S2sAppAttachmentsId implements Serializable, Comparable<S2sAppAttachmentsId> {
 
-        private Long s2sAppAttachmentId;
+        private Long id;
 
         private String contentId;
 
         private String proposalNumber;
 
-        public Long getS2sAppAttachmentId() {
-            return this.s2sAppAttachmentId;
+        public Long getId() {
+            return this.id;
         }
 
-        public void setS2sAppAttachmentId(Long s2sAppAttachmentId) {
-            this.s2sAppAttachmentId = s2sAppAttachmentId;
+        public void setId(Long id) {
+            this.id = id;
         }
 
         public String getContentId() {
@@ -132,7 +130,7 @@ public class S2sAppAttachments extends KcPersistableBusinessObjectBase {
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this).append("s2sAppAttachmentId", this.s2sAppAttachmentId).append("contentId", this.contentId).append("proposalNumber", this.proposalNumber).toString();
+            return new ToStringBuilder(this).append("id", this.id).append("contentId", this.contentId).append("proposalNumber", this.proposalNumber).toString();
         }
 
         @Override
@@ -144,17 +142,17 @@ public class S2sAppAttachments extends KcPersistableBusinessObjectBase {
             if (other.getClass() != this.getClass())
                 return false;
             final S2sAppAttachmentsId rhs = (S2sAppAttachmentsId) other;
-            return new EqualsBuilder().append(this.s2sAppAttachmentId, rhs.s2sAppAttachmentId).append(this.contentId, rhs.contentId).append(this.proposalNumber, rhs.proposalNumber).isEquals();
+            return new EqualsBuilder().append(this.id, rhs.id).append(this.contentId, rhs.contentId).append(this.proposalNumber, rhs.proposalNumber).isEquals();
         }
 
         @Override
         public int hashCode() {
-            return new HashCodeBuilder(17, 37).append(this.s2sAppAttachmentId).append(this.contentId).append(this.proposalNumber).toHashCode();
+            return new HashCodeBuilder(17, 37).append(this.id).append(this.contentId).append(this.proposalNumber).toHashCode();
         }
 
         @Override
         public int compareTo(S2sAppAttachmentsId other) {
-            return new CompareToBuilder().append(this.s2sAppAttachmentId, other.s2sAppAttachmentId).append(this.contentId, other.contentId).append(this.proposalNumber, other.proposalNumber).toComparison();
+            return new CompareToBuilder().append(this.id, other.id).append(this.contentId, other.contentId).append(this.proposalNumber, other.proposalNumber).toComparison();
         }
     }
 }

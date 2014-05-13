@@ -10,10 +10,10 @@
     <property name="lookupDefinition" >
       <ref bean="S2sRevisionType-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="s2sRevisionTypeCode" />
+    <property name="titleAttribute" value="code" />
     <property name="attributes" >
       <list>
-        <ref bean="S2sRevisionType-s2sRevisionTypeCode" />
+        <ref bean="S2sRevisionType-code" />
         <ref bean="S2sRevisionType-description" />
         <ref bean="S2sRevisionType-versionNumber" />
       </list>
@@ -23,10 +23,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="S2sRevisionType-s2sRevisionTypeCode" parent="S2sRevisionType-s2sRevisionTypeCode-parentBean" />
+  <bean id="S2sRevisionType-code" parent="S2sRevisionType-code-parentBean" />
 
-  <bean id="S2sRevisionType-s2sRevisionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="s2sRevisionTypeCode" />
+  <bean id="S2sRevisionType-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="S2S Revision Type" />
     <property name="shortLabel" value="S2S Revision Type" />
@@ -86,7 +86,7 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition" p:attributeName="s2sRevisionTypeCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="description"/>
             </list>
           </property>
@@ -105,7 +105,7 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="s2sRevisionTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="code" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
             </list>
           </property>
@@ -125,7 +125,7 @@
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition" p:attributeName="s2sRevisionTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="code"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
       </list>
     </property>
@@ -134,7 +134,7 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="s2sRevisionTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
       </list>
     </property>
@@ -156,13 +156,13 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="s2sRevisionTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>      
     <property name="resultFields" >
       <list>
-        <bean p:propertyName="s2sRevisionTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="code" parent="Uif-DataField"/>
         <bean p:propertyName="description" parent="Uif-DataField"/>
       </list>
     </property>

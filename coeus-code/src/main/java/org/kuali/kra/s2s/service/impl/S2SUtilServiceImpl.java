@@ -45,11 +45,11 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
-import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.common.api.country.CountryContract;
 import org.kuali.coeus.common.api.country.KcCountryService;
 import org.kuali.coeus.common.api.state.KcStateService;
 import org.kuali.coeus.common.api.state.StateContract;
+import org.kuali.kra.s2s.depend.S2sOpportunityContract;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SUtilService;
@@ -112,15 +112,14 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      */
     public Map<String, String> getSubmissionType(ProposalDevelopmentDocument pdDoc) {
         Map<String, String> submissionInfo = new HashMap<String, String>();
-        S2sOpportunity opportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
+        S2sOpportunityContract opportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
         if (opportunity != null) {
-            opportunity.refreshNonUpdateableReferences();
-            String submissionTypeCode = opportunity.getS2sSubmissionTypeCode();
+            String submissionTypeCode = opportunity.getS2sSubmissionType().getCode();
             String submissionTypeDescription = "";
             if (opportunity.getS2sSubmissionType() != null) {
                 submissionTypeDescription = opportunity.getS2sSubmissionType().getDescription();
             }
-            String revisionCode = opportunity.getRevisionCode();
+            String revisionCode = opportunity.getS2sRevisionType().getCode();
             String revisionOtherDescription = opportunity.getRevisionOtherDescription();
 
             submissionInfo.put(SUBMISSION_TYPE_CODE, submissionTypeCode);
