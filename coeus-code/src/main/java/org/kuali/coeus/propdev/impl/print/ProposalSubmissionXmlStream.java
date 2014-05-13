@@ -411,7 +411,7 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 			propUnits
 					.setLEADUNITFLAG(propPersonUnit.isLeadUnit() ? Constants.TRUE_FLAG
 							: Constants.FALSE_FLAG);
-			propUnits.setPROPOSALNUMBER(propPersonUnit.getProposalNumber());
+			propUnits.setPROPOSALNUMBER(propPersonUnit.getProposalPerson().getDevelopmentProposal().getProposalNumber());
 			UNIT unit = UNIT.Factory.newInstance();
 			unit.setUNITNUMBER(propPersonUnit.getUnitNumber());
 			unit.setUNITNAME(propPersonUnit.getUnit().getUnitName());

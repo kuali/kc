@@ -26,6 +26,7 @@ import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,12 +47,9 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 public class ProposalPersonUnit extends KcPersistableBusinessObjectBase implements CreditSplitable {
 
     @Id
-    @Column(name = "PROPOSAL_NUMBER")
-    private String proposalNumber;
-
-    @Id
-    @Column(name = "PROP_PERSON_NUMBER")
-    private Integer proposalPersonNumber;
+    @ManyToOne
+    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER") })
+    private ProposalPerson proposalPerson;
 
     @Id
     @Column(name = "UNIT_NUMBER")
@@ -94,42 +92,6 @@ public class ProposalPersonUnit extends KcPersistableBusinessObjectBase implemen
      */
     public void setCreditSplits(List<ProposalUnitCreditSplit> argCreditSplits) {
         this.creditSplits = argCreditSplits;
-    }
-
-    /**
-     * Gets the value of proposalNumber
-     *
-     * @return the value of proposalNumber
-     */
-    public final String getProposalNumber() {
-        return this.proposalNumber;
-    }
-
-    /**
-     * Sets the value of proposalNumber
-     *
-     * @param argProposalNumber Value to assign to this.proposalNumber
-     */
-    public final void setProposalNumber(String argProposalNumber) {
-        this.proposalNumber = argProposalNumber;
-    }
-
-    /**
-     * Gets the value of propPersonNumber
-     *
-     * @return the value of propPersonNumber
-     */
-    public final Integer getProposalPersonNumber() {
-        return this.proposalPersonNumber;
-    }
-
-    /**
-     * Sets the value of propPersonNumber
-     *
-     * @param argPropPersonNumber Value to assign to this.propPersonNumber
-     */
-    public final void setProposalPersonNumber(Integer argPropPersonNumber) {
-        this.proposalPersonNumber = argPropPersonNumber;
     }
 
     /**
@@ -228,27 +190,17 @@ public class ProposalPersonUnit extends KcPersistableBusinessObjectBase implemen
 
     public static final class ProposalPersonUnitId implements Serializable, Comparable<ProposalPersonUnitId> {
 
-        private String proposalNumber;
-
-        private Integer proposalPersonNumber;
+        private ProposalPerson.ProposalPersonId proposalPerson;
 
         private String unitNumber;
 
-        public String getProposalNumber() {
-            return this.proposalNumber;
-        }
+        public ProposalPerson.ProposalPersonId getProposalPerson() {
+			return proposalPerson;
+		}
 
-        public void setProposalNumber(String proposalNumber) {
-            this.proposalNumber = proposalNumber;
-        }
-
-        public Integer getProposalPersonNumber() {
-            return this.proposalPersonNumber;
-        }
-
-        public void setProposalPersonNumber(Integer proposalPersonNumber) {
-            this.proposalPersonNumber = proposalPersonNumber;
-        }
+		public void setProposalPerson(ProposalPerson.ProposalPersonId proposalPerson) {
+			this.proposalPerson = proposalPerson;
+		}
 
         public String getUnitNumber() {
             return this.unitNumber;
@@ -260,7 +212,7 @@ public class ProposalPersonUnit extends KcPersistableBusinessObjectBase implemen
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this).append("proposalNumber", this.proposalNumber).append("proposalPersonNumber", this.proposalPersonNumber).append("unitNumber", this.unitNumber).toString();
+            return new ToStringBuilder(this).append("proposalPerson", this.proposalPerson).append("unitNumber", this.unitNumber).toString();
         }
 
         @Override
@@ -272,17 +224,25 @@ public class ProposalPersonUnit extends KcPersistableBusinessObjectBase implemen
             if (other.getClass() != this.getClass())
                 return false;
             final ProposalPersonUnitId rhs = (ProposalPersonUnitId) other;
-            return new EqualsBuilder().append(this.proposalNumber, rhs.proposalNumber).append(this.proposalPersonNumber, rhs.proposalPersonNumber).append(this.unitNumber, rhs.unitNumber).isEquals();
+            return new EqualsBuilder().append(this.proposalPerson, rhs.proposalPerson).append(this.unitNumber, rhs.unitNumber).isEquals();
         }
 
         @Override
         public int hashCode() {
-            return new HashCodeBuilder(17, 37).append(this.proposalNumber).append(this.proposalPersonNumber).append(this.unitNumber).toHashCode();
+            return new HashCodeBuilder(17, 37).append(this.proposalPerson).append(this.unitNumber).toHashCode();
         }
 
         @Override
         public int compareTo(ProposalPersonUnitId other) {
-            return new CompareToBuilder().append(this.proposalNumber, other.proposalNumber).append(this.proposalPersonNumber, other.proposalPersonNumber).append(this.unitNumber, other.unitNumber).toComparison();
+            return new CompareToBuilder().append(this.proposalPerson, other.proposalPerson).append(this.unitNumber, other.unitNumber).toComparison();
         }
     }
+
+	public ProposalPerson getProposalPerson() {
+		return proposalPerson;
+	}
+
+	public void setProposalPerson(ProposalPerson proposalPerson) {
+		this.proposalPerson = proposalPerson;
+	}
 }

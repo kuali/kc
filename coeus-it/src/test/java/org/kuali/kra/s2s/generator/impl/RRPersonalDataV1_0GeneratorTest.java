@@ -52,7 +52,6 @@ public class RRPersonalDataV1_0GeneratorTest extends S2STestBase<RRPersonalDataV
         ProposalPerson keyPerson = new ProposalPerson();
 
         proposalPerson.setDevelopmentProposal(document.getDevelopmentProposal());
-        proposalPerson.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
 
         keyPerson.setProposalPersonRoleId("COI");
         keyPerson.setFirstName("Terry");
@@ -68,7 +67,6 @@ public class RRPersonalDataV1_0GeneratorTest extends S2STestBase<RRPersonalDataV
         keyPerson.setRace("English");
 
         keyPerson.setDevelopmentProposal(document.getDevelopmentProposal());
-        keyPerson.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
 
         List<ProposalPerson> proposalPersonList = new ArrayList<ProposalPerson>();
         proposalPersonList.add(proposalPerson);

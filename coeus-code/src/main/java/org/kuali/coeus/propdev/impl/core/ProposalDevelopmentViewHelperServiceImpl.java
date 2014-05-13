@@ -18,8 +18,10 @@ package org.kuali.coeus.propdev.impl.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
@@ -30,6 +32,7 @@ import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
+import org.kuali.rice.krad.data.DataObjectWrapper;
 import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.ViewModel;
@@ -53,7 +56,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     private LookupService lookupService;
 
     @Override
-    public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, String collectionPath) {
+    public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
         ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
         if (addLine instanceof Narrative) {
@@ -64,9 +67,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             }
         } else if (addLine instanceof ProposalPersonBiography) {
             document.getDevelopmentProposal().addProposalPersonBiography((ProposalPersonBiography) addLine);
-		} else if (addLine instanceof ProposalPersonUnit) {
-			((ProposalPersonUnit)addLine).setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
-        } else if (addLine instanceof ProposalAbstract) {
+		}  else if (addLine instanceof ProposalAbstract) {
             ProposalAbstract proposalAbstract = (ProposalAbstract) addLine;
             proposalAbstract.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
             proposalAbstract.refreshReferenceObject("abstractType");

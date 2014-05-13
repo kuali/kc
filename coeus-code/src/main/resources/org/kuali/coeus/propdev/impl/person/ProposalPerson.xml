@@ -7,7 +7,6 @@
     <property name="titleAttribute" value="proposalPersonNumber" />
     <property name="attributes" >
       <list>
-        <ref bean="ProposalPerson-proposalNumber" />
         <ref bean="ProposalPerson-proposalPersonNumber" />
         <ref bean="ProposalPerson-proposalPersonRoleId" />
         <ref bean="ProposalPerson-personId" />
@@ -86,17 +85,6 @@
   </bean>
 
 <!-- Attribute Definitions -->
-
-
-  <bean id="ProposalPerson-proposalNumber" parent="ProposalPerson-proposalNumber-parentBean" />
-
-  <bean id="ProposalPerson-proposalNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
-    <property name="name" value="proposalNumber" />
-    <property name="label" value="Proposal Number" />
-    <property name="shortLabel" value="Prop Nbr" />
-    <property name="summary" value="Proposal Number" />
-    <property name="description" value="Proposal Number" />
-  </bean>
 
   <bean id="ProposalPerson-proposalPersonNumber" parent="ProposalPerson-proposalPersonNumber-parentBean"/>
   <bean id="ProposalPerson-proposalPersonNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">

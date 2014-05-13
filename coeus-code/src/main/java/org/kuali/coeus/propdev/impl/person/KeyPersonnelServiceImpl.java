@@ -146,8 +146,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                 }
                 if (!creditTypeFound ) {
                     ProposalPersonCreditSplit creditSplit = new ProposalPersonCreditSplit();
-                    creditSplit.setProposalNumber(person.getProposalNumber());
-                    creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
+                    creditSplit.setProposalPerson(person);
                     creditSplit.setInvCreditTypeCode(invcredtype.getInvCreditTypeCode());
                     creditSplit.setCredit(new ScaleTwoDecimal(0));
                     person.getCreditSplits().add(creditSplit);
@@ -164,8 +163,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                     }
                     if (!creditTypeFound ) {
                         ProposalUnitCreditSplit creditSplit = new ProposalUnitCreditSplit();
-                        creditSplit.setProposalNumber(person.getProposalNumber());
-                        creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
+                        creditSplit.setProposalPerson(person);
                         creditSplit.setInvCreditTypeCode(invcrdtype.getInvCreditTypeCode());
                         creditSplit.setCredit(new ScaleTwoDecimal(0));
                         unitsplit.getCreditSplits().add(creditSplit);
@@ -314,8 +312,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
         for (InvestigatorCreditType creditType : (Collection<InvestigatorCreditType>) getInvestigatorCreditTypes()) {
             ProposalPersonCreditSplit creditSplit = new ProposalPersonCreditSplit();
-            creditSplit.setProposalNumber(person.getProposalNumber());
-            creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
+            creditSplit.setProposalPerson(person);
             creditSplit.setInvCreditTypeCode(creditType.getInvCreditTypeCode());
             creditSplit.setCredit(new ScaleTwoDecimal(0));
             person.getCreditSplits().add(creditSplit);
@@ -451,8 +448,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         }
 
         if (!person.containsUnit(unit.getUnitNumber())) {
-            unit.setProposalNumber(person.getProposalNumber());
-            unit.setProposalPersonNumber(person.getProposalPersonNumber());
+        	unit.setProposalPerson(person);
 
             person.addUnit(unit);
             unit.refreshReferenceObject("unit");
@@ -493,8 +489,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
         for (InvestigatorCreditType creditType : getInvestigatorCreditTypes()) {
             ProposalUnitCreditSplit creditSplit = new ProposalUnitCreditSplit();
-            creditSplit.setProposalNumber(person.getProposalNumber());
-            creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
+            creditSplit.setProposalPerson(person);
             creditSplit.setUnitNumber(unitId);
             creditSplit.setInvCreditTypeCode(creditType.getInvCreditTypeCode());
             creditSplit.setCredit(new ScaleTwoDecimal(0));
