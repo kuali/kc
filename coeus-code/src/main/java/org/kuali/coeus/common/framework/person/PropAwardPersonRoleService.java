@@ -36,6 +36,6 @@ public interface PropAwardPersonRoleService {
 	 * @param sponsorCode
 	 * @return
 	 */
-	boolean isNihOtherSignificantContributerEnabledForSponsor(String sponsorCode);
+	boolean isNihOtherSignificantContributorEnabledForSponsor(String sponsorCode);
 	
 }
