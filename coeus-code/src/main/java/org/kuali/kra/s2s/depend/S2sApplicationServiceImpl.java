@@ -2,6 +2,8 @@ package org.kuali.kra.s2s.depend;
 
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.propdev.api.s2s.S2sApplicationContract;
+import org.kuali.coeus.propdev.api.s2s.S2sApplicationService;
 import org.kuali.coeus.propdev.impl.s2s.S2sApplication;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;

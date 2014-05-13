@@ -1,4 +1,4 @@
-package org.kuali.kra.s2s.depend;
+package org.kuali.coeus.propdev.api.s2s;
 
 import java.util.Calendar;
 import java.util.List;
