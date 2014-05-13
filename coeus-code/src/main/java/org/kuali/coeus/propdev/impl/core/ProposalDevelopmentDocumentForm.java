@@ -23,6 +23,7 @@ import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.ToggleMenu;
+import org.kuali.rice.krad.web.bind.ChangeTracking;
 import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@ChangeTracking
 public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBase {
 
     private static final long serialVersionUID = 1381360399393420225L;
