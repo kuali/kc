@@ -72,7 +72,6 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
 		proposalPerson.setProposalPersonNumber(1001);
 		proposalPerson.setRolodexId(1);
         proposalPerson.setDevelopmentProposal(document.getDevelopmentProposal());
-        proposalPerson.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
 
 
 		ProposalPersonBiography piBiography = new ProposalPersonBiography();
@@ -151,7 +150,6 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
 		keyPerson.setProposalPersonNumber(1002);
 		keyPerson.setRolodexId(1);
         keyPerson.setDevelopmentProposal(document.getDevelopmentProposal());
-        keyPerson.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
 
 
 		ProposalPersonBiography kpBiography = new ProposalPersonBiography();

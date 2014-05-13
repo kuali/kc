@@ -51,7 +51,6 @@ public class RRPersonalDataV1_2GeneratorTest extends
 		proposalPerson.setProposalPersonNumber(1001);
 		proposalPerson.setRace("English");
         proposalPerson.setDevelopmentProposal(document.getDevelopmentProposal());
-        proposalPerson.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
 
 
         ProposalPerson keyPerson = new ProposalPerson();
@@ -68,7 +67,6 @@ public class RRPersonalDataV1_2GeneratorTest extends
 		keyPerson.setProposalPersonNumber(1002);
 		keyPerson.setRace("English");
         keyPerson.setDevelopmentProposal(document.getDevelopmentProposal());
-        keyPerson.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
 
 		List<ProposalPerson> proposalPersonList = new ArrayList<ProposalPerson>();
 		proposalPersonList.add(proposalPerson);
