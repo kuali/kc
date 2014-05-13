@@ -647,7 +647,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 			if (parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
 			        ProposalDevelopmentUtils.S2S_SUBMISSION_TYPE_CODE_NOTSELECTED_PARM).equals(
 			                pdDoc.getDevelopmentProposal().getS2sOpportunity()
-					.getS2sSubmissionType().getS2sSubmissionTypeCode())) {
+					.getS2sSubmissionType().getCode())) {
 				submissionType = ACTIVITY_TYPE_CODE_LS_SUFFIX_PREAPPLICATION
 						+ suffix;
 			} else {

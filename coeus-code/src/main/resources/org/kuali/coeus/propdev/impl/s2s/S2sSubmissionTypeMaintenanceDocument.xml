@@ -12,7 +12,7 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>s2sSubmissionTypeCode</value>
+        <value>code</value>
       </list>
     </property>
 	<property name="allowsRecordDeletion" value="true" />
@@ -38,7 +38,7 @@
     <property name="title" value="Edit Submission Types"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="s2sSubmissionTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>

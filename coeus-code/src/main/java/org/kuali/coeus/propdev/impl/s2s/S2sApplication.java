@@ -16,13 +16,14 @@
 package org.kuali.coeus.propdev.impl.s2s;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.s2s.depend.S2sApplicationContract;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "S2S_APPLICATION")
-public class S2sApplication extends KcPersistableBusinessObjectBase {
+public class S2sApplication extends KcPersistableBusinessObjectBase implements S2sApplicationContract {
 
     @Id
     @Column(name = "PROPOSAL_NUMBER")
@@ -36,6 +37,7 @@ public class S2sApplication extends KcPersistableBusinessObjectBase {
     @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<S2sAppAttachments> s2sAppAttachmentList;
 
+    @Override
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -44,6 +46,7 @@ public class S2sApplication extends KcPersistableBusinessObjectBase {
         this.proposalNumber = proposalNumber;
     }
 
+    @Override
     public String getApplication() {
         return application;
     }
@@ -52,18 +55,11 @@ public class S2sApplication extends KcPersistableBusinessObjectBase {
         this.application = application;
     }
 
-    /**
-     * Gets the s2sAttachments attribute. 
-     * @return Returns the s2sAttachments.
-     */
+    @Override
     public List<S2sAppAttachments> getS2sAppAttachmentList() {
         return s2sAppAttachmentList;
     }
 
-    /**
-     * Sets the s2sAttachments attribute value.
-     * @param s2sAppAttachmentList The s2sAttachments to set.
-     */
     public void setS2sAppAttachmentList(List<S2sAppAttachments> s2sAppAttachmentList) {
         this.s2sAppAttachmentList = s2sAppAttachmentList;
     }

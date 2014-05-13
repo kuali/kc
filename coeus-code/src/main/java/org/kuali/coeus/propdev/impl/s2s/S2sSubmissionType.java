@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.s2s;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.s2s.depend.S2sSubmissionTypeContract;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,13 +25,13 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "S2S_SUBMISSION_TYPE")
-public class S2sSubmissionType extends KcPersistableBusinessObjectBase {
+public class S2sSubmissionType extends KcPersistableBusinessObjectBase implements S2sSubmissionTypeContract {
 
     public static final String CHANGE_CORRECTED_CODE = "3";
 
     @Id
     @Column(name = "S2S_SUBMISSION_TYPE_CODE")
-    private String s2sSubmissionTypeCode;
+    private String code;
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -38,14 +39,16 @@ public class S2sSubmissionType extends KcPersistableBusinessObjectBase {
     @Column(name = "SORT_ID")
     private Integer sortId;
 
-    public String getS2sSubmissionTypeCode() {
-        return s2sSubmissionTypeCode;
+    @Override
+    public String getCode() {
+        return code;
     }
 
-    public void setS2sSubmissionTypeCode(String s2sSubmissionTypeCode) {
-        this.s2sSubmissionTypeCode = s2sSubmissionTypeCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -54,6 +57,7 @@ public class S2sSubmissionType extends KcPersistableBusinessObjectBase {
         this.description = description;
     }
 
+    @Override
     public Integer getSortId() {
         return sortId;
     }

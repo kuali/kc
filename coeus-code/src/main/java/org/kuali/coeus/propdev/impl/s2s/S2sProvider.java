@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.s2s;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.s2s.depend.S2sProviderContract;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
@@ -23,7 +24,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "S2S_PROVIDERS")
-public class S2sProvider extends KcPersistableBusinessObjectBase implements MutableInactivatable {
+public class S2sProvider extends KcPersistableBusinessObjectBase implements MutableInactivatable, S2sProviderContract {
 
     private static final long serialVersionUID = 7014451402458842899L;
 
@@ -41,6 +42,7 @@ public class S2sProvider extends KcPersistableBusinessObjectBase implements Muta
     @Convert(converter = BooleanYNConverter.class)
     private boolean active = true;
 
+    @Override
     public String getCode() {
         return code;
     }
@@ -49,6 +51,7 @@ public class S2sProvider extends KcPersistableBusinessObjectBase implements Muta
         this.code = code;
     }
 
+    @Override
     public String getConnectorServiceName() {
         return connectorServiceName;
     }
@@ -57,14 +60,17 @@ public class S2sProvider extends KcPersistableBusinessObjectBase implements Muta
         this.connectorServiceName = connectorServiceName;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }

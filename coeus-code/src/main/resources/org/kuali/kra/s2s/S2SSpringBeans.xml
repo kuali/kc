@@ -95,6 +95,8 @@
             <ref bean="narrativeService" />
         </property>
 		<property name="configurationService" ref="kualiConfigurationService"/>
+        <property name="s2sOpportunityService" ref="s2sOpportunityService"/>
+        <property name="s2sProviderService" ref="s2sProviderService"/>
 	</bean>
 
 	<bean id="printService"
@@ -108,8 +110,8 @@
 		<property name="s2SUtilService">
 			<ref bean="s2SUtilService" />
 		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
+		<property name="s2sApplicationService">
+			<ref bean="s2sApplicationService" />
 		</property>
         <property name="narrativeService">
             <ref bean="narrativeService" />

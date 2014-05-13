@@ -19,8 +19,7 @@ import java.util.List;
 
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 
-public interface S2SUserAttachedFormService {
+public interface S2sUserAttachedFormService {
     public List<S2sUserAttachedForm> extractNSaveUserAttachedForms(DevelopmentProposal developmentProposal, S2sUserAttachedForm s2sUserAttachedForm) throws Exception;
-
     public void resetFormAvailability(DevelopmentProposal developmentProposal, String namespace);
 }

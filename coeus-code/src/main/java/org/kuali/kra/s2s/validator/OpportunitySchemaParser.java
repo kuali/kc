@@ -38,6 +38,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 
@@ -66,7 +67,7 @@ public class OpportunitySchemaParser {
      * @param schema {@link String}
      * @return {@link HashMap} containing all form information
      */
-    public ArrayList<S2sOppForms> getForms(String proposalNumber,String schema) throws S2SException{
+    public List<S2sOppForms> getForms(String proposalNumber,String schema) throws S2SException{
         boolean mandatory;
         boolean available;
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();

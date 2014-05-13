@@ -35,13 +35,10 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.coeus.propdev.impl.s2s.S2sAppAttachments;
-import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
-import org.kuali.coeus.propdev.impl.s2s.S2sApplication;
-import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.propdev.api.attachment.NarrativeService;
 import org.kuali.coeus.propdev.api.s2s.UserAttachedFormService;
+import org.kuali.kra.s2s.depend.*;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -51,7 +48,6 @@ import org.kuali.kra.s2s.service.*;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.XPathExecutor;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.w3c.dom.Element;
 
 import javax.xml.transform.Source;
@@ -68,7 +64,7 @@ import java.util.zip.ZipOutputStream;
 public class PrintServiceImpl implements PrintService {
 	private static final Log LOG = LogFactory.getLog(PrintServiceImpl.class);
 
-	private BusinessObjectService businessObjectService;
+	private S2sApplicationService s2sApplicationService;
 	private S2SFormGeneratorService s2SFormGeneratorService;
 	private S2SValidatorService s2SValidatorService;
 
@@ -94,7 +90,7 @@ public class PrintServiceImpl implements PrintService {
 			ProposalDevelopmentDocument pdDoc) throws S2SException,
 			PrintingException {
 		PrintableResult pResult;
-		S2sAppSubmission s2sAppSubmission = getLatestS2SAppSubmission(pdDoc);
+		S2sAppSubmissionContract s2sAppSubmission = getLatestS2SAppSubmission(pdDoc);
 		if (s2sAppSubmission != null
 				&& s2sAppSubmission.getGgTrackingId() != null) {
             pResult = getSubmittedPDFStream(pdDoc);
@@ -115,7 +111,7 @@ public class PrintServiceImpl implements PrintService {
         return result;
 	}
 
-	protected void saveGrantsGovXml(ProposalDevelopmentDocument pdDoc, boolean formEntryFlag,XmlObject formObject,List<AttachmentData> attachmentList,List<S2sAppAttachments> attachmentLists) throws Exception{
+	protected void saveGrantsGovXml(ProposalDevelopmentDocument pdDoc, boolean formEntryFlag,XmlObject formObject,List<AttachmentData> attachmentList,List<? extends S2sAppAttachmentsContract> attachmentLists) throws Exception{
 	    String loggingDirectory = KcServiceLocator.getService(ConfigurationService.class).getPropertyValueAsString(Constants.PRINT_XML_DIRECTORY);
         String opportunityId = pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityId();
         String proposalnumber = pdDoc.getDevelopmentProposal().getProposalNumber();
@@ -136,7 +132,7 @@ public class PrintServiceImpl implements PrintService {
             output.write(attachmentData.getContent());
             output.close();
         }
-        for (S2sAppAttachments attAppAttachments : attachmentLists) {
+        for (S2sAppAttachmentsContract attAppAttachments : attachmentLists) {
             File attachmentFile = new File(grantsGovXmlDirectoryFile,"Attachments");   
             attachmentFile.mkdir();
             KcFile ads = getAttributeContent(pdDoc,attAppAttachments.getContentId());
@@ -192,26 +188,6 @@ public class PrintServiceImpl implements PrintService {
 	}
 
 	/**
-	 * Gets the businessObjectService attribute.
-	 * 
-	 * @return Returns the businessObjectService.
-	 */
-	public BusinessObjectService getBusinessObjectService() {
-		return businessObjectService;
-	}
-
-	/**
-	 * Sets the businessObjectService attribute value.
-	 * 
-	 * @param businessObjectService
-	 *            The businessObjectService to set.
-	 */
-	public void setBusinessObjectService(
-			BusinessObjectService businessObjectService) {
-		this.businessObjectService = businessObjectService;
-	}
-
-	/**
 	 * 
 	 * This method is to write the submitted application data to a pdfStream
 	 * 
@@ -227,7 +203,7 @@ public class PrintServiceImpl implements PrintService {
         String frmAttXpath = null;
         grantsGovXmlDirectoryFile = null;
 		try {
-		    S2sAppSubmission s2sAppSubmission = getLatestS2SAppSubmission(pdDoc);
+		    S2sAppSubmissionContract s2sAppSubmission = getLatestS2SAppSubmission(pdDoc);
 		    String submittedApplicationXml = findSubmittedXml(s2sAppSubmission);
 		    String submittedApplication = getS2SUtilService().removeTimezoneFactor(submittedApplicationXml);
 			submittedDocument = GrantApplicationDocument.Factory.parse(submittedApplication);
@@ -261,8 +237,8 @@ public class PrintServiceImpl implements PrintService {
 				Map<String, byte[]> formXmlDataMap = new LinkedHashMap<String, byte[]>();
 				formXmlDataMap.put(info.getFormName(), formXmlBytes);
 				formPrintable.setXmlDataMap(formXmlDataMap);
-				S2sApplication s2sApplciation = getBusinessObjectService().findBySinglePrimaryKey(S2sApplication.class, pdDoc.getDevelopmentProposal().getProposalNumber());//submittedS2SAppSubmission.getS2sApplication();
-				List<S2sAppAttachments> attachmentList = s2sApplciation.getS2sAppAttachmentList();
+				S2sApplicationContract s2sApplciation = s2sApplicationService.findS2sApplicationByProposalNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
+				List<? extends S2sAppAttachmentsContract> attachmentList = s2sApplciation.getS2sAppAttachmentList();
 
 				Map<String, byte[]> formAttachments = new LinkedHashMap<String, byte[]>();
 				
@@ -277,7 +253,7 @@ public class PrintServiceImpl implements PrintService {
                   String contentId = ((Element)attNode).getAttributeNS("http://apply.grants.gov/system/Attachments-V1.0","href"); 
 				
                   if (attachmentList != null && !attachmentList.isEmpty()) {
-					for (S2sAppAttachments attAppAttachments : attachmentList) {
+					for (S2sAppAttachmentsContract attAppAttachments : attachmentList) {
 					  if(attAppAttachments.getContentId().equals(contentId)){
 						ByteArrayOutputStream attStream = new ByteArrayOutputStream();
 						try {
@@ -319,8 +295,8 @@ public class PrintServiceImpl implements PrintService {
 		return result;
 	}
 
-	protected String findSubmittedXml(S2sAppSubmission appSubmission) {
-	    S2sApplication s2sApplication = getBusinessObjectService().findBySinglePrimaryKey(S2sApplication.class, appSubmission.getProposalNumber());
+	protected String findSubmittedXml(S2sAppSubmissionContract appSubmission) {
+	    S2sApplicationContract s2sApplication = s2sApplicationService.findS2sApplicationByProposalNumber(appSubmission.getProposalNumber());
 	    return s2sApplication.getApplication();
     }
 
@@ -343,7 +319,7 @@ public class PrintServiceImpl implements PrintService {
 		DevelopmentProposal developmentProposal = pdDoc
 				.getDevelopmentProposal();
         String proposalNumber = developmentProposal.getProposalNumber();
-        List<String> sortedNameSpaces = getSortedNameSpaces(proposalNumber,developmentProposal.getS2sOppForms());
+        List<String> sortedNameSpaces = getSortedNameSpaces(proposalNumber, developmentProposal.getS2sOppForms());
 
 		List<Printable> formPrintables = new ArrayList<Printable>();
 		boolean formEntryFlag = true;
@@ -377,7 +353,7 @@ public class PrintServiceImpl implements PrintService {
 				List<AttachmentData> attachmentList = s2sFormGenerator.getAttachments();
 				try {
 				    if(developmentProposal.getGrantsGovSelectFlag()){
-				    	List<S2sAppAttachments> attachmentLists = new ArrayList<S2sAppAttachments>();
+				    	List<S2sAppAttachmentsContract> attachmentLists = new ArrayList<S2sAppAttachmentsContract>();
 				    	setFormObject(forms, formObject);
                     	saveGrantsGovXml(pdDoc,formEntryFlag,forms,attachmentList,attachmentLists);
                     	formEntryFlag = false;
@@ -493,13 +469,13 @@ public class PrintServiceImpl implements PrintService {
 	 * 
 	 * @param pdDoc
 	 *            {@link ProposalDevelopmentDocument}
-	 * @return {@link S2sAppSubmission}
+	 * @return {@link S2sAppSubmissionContract}
 	 */
-	protected S2sAppSubmission getLatestS2SAppSubmission(
+	protected S2sAppSubmissionContract getLatestS2SAppSubmission(
 			ProposalDevelopmentDocument pdDoc) {
-		S2sAppSubmission s2sSubmission = null;
+		S2sAppSubmissionContract s2sSubmission = null;
 		int submissionNo = 0;
-		for (S2sAppSubmission s2sAppSubmission : pdDoc.getDevelopmentProposal()
+		for (S2sAppSubmissionContract s2sAppSubmission : pdDoc.getDevelopmentProposal()
 				.getS2sAppSubmission()) {
 			if (s2sAppSubmission.getSubmissionNumber() != null
 					&& s2sAppSubmission.getSubmissionNumber().intValue() > submissionNo) {
@@ -521,7 +497,7 @@ public class PrintServiceImpl implements PrintService {
 	 *            list of S2sOppForms.
 	 * @return List<String> list of sorted name spaces.
 	 */
-	protected List<String> getSortedNameSpaces(String proposalNumber,List<S2sOppForms> s2sOppForms) {
+	protected List<String> getSortedNameSpaces(String proposalNumber,List<? extends S2sOppFormsContract> s2sOppForms) {
 		List<String> orderedNamespaces = new ArrayList<String>();
 		List<String> namespaces;
 		FormMappingLoader formMappingLoader = new FormMappingLoader();
@@ -531,10 +507,10 @@ public class PrintServiceImpl implements PrintService {
 				.keySet());
 		int index = 0;
 		for (Integer sortedIndex : sortedIndices) {
-            for (S2sOppForms oppForm : s2sOppForms) {
+            for (S2sOppFormsContract oppForm : s2sOppForms) {
                 namespaces = sortedNamespaces.get(sortedIndex);
                 for (String namespace : namespaces) {
-					if (namespace.equals(oppForm.getS2sOppFormsId().getOppNameSpace())) {
+					if (namespace.equals(oppForm.getOppNameSpace())) {
 						if (Boolean.TRUE.equals(oppForm.getSelectToPrint())) {
 							orderedNamespaces.add(index++, namespace);
 						}
@@ -543,9 +519,9 @@ public class PrintServiceImpl implements PrintService {
 			}
 		}
 		List<String> userAttachedFormNamespaces = findUserAttachedNamespaces(proposalNumber);
-        for (S2sOppForms oppForm : s2sOppForms) {
-            if(userAttachedFormNamespaces.contains(oppForm.getS2sOppFormsId().getOppNameSpace())){
-                orderedNamespaces.add(oppForm.getS2sOppFormsId().getOppNameSpace());
+        for (S2sOppFormsContract oppForm : s2sOppForms) {
+            if(userAttachedFormNamespaces.contains(oppForm.getOppNameSpace())){
+                orderedNamespaces.add(oppForm.getOppNameSpace());
             }
         }
 		return orderedNamespaces;
@@ -685,5 +661,21 @@ public class PrintServiceImpl implements PrintService {
     protected static class PrintableResult {
         private List<Printable> printables;
         private List<AuditError> errors;
+    }
+
+    public S2sApplicationService getS2sApplicationService() {
+        return s2sApplicationService;
+    }
+
+    public void setS2sApplicationService(S2sApplicationService s2sApplicationService) {
+        this.s2sApplicationService = s2sApplicationService;
+    }
+
+    public S2SFormGeneratorService getS2SFormGeneratorService() {
+        return s2SFormGeneratorService;
+    }
+
+    public S2SValidatorService getS2SValidatorService() {
+        return s2SValidatorService;
     }
 }
