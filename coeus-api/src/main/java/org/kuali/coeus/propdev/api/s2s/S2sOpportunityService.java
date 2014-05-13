@@ -1,4 +1,4 @@
-package org.kuali.kra.s2s.depend;
+package org.kuali.coeus.propdev.api.s2s;
 
 
 public interface S2sOpportunityService {

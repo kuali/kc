@@ -16,7 +16,7 @@
 package org.kuali.coeus.propdev.impl.s2s;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.s2s.depend.S2sApplicationContract;
+import org.kuali.coeus.propdev.api.s2s.S2sApplicationContract;
 
 import javax.persistence.*;
 import java.util.List;
