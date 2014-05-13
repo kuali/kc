@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.medusa;
+package org.kuali.coeus.common.framework.medusa;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.medusa.service.MedusaService;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -54,7 +53,7 @@ public class MedusaBean implements Serializable{
 
     /**
      * Sets the medudaViewRadio attribute value.
-     * @param medudaViewRadio The medudaViewRadio to set.
+     * @param medusaViewRadio The medudaViewRadio to set.
      */
     public void setMedusaViewRadio(String medusaViewRadio) {
         if (!StringUtils.equals(this.medusaViewRadio, medusaViewRadio)) {

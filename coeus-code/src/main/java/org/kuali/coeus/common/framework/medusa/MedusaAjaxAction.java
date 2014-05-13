@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.medusa.web;
+package org.kuali.coeus.common.framework.medusa;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -22,8 +22,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.medusa.MedusaNode;
-import org.kuali.kra.medusa.service.MedusaService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
@@ -33,10 +31,15 @@ import javax.servlet.http.HttpServletResponse;
 
 public class MedusaAjaxAction extends KualiDocumentActionBase {
 
+    private MedusaService medusaService;
+    protected  MedusaService getMedusaService (){
+        if (medusaService == null)
+            medusaService = KcServiceLocator.getService(MedusaService.class);
+        return medusaService;
+    }
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         MedusaForm medusaForm = (MedusaForm)form;
-        MedusaService medusaService = KcServiceLocator.getService(MedusaService.class);
-        medusaForm.getMedusaBean().setCurrentNode(medusaService.getMedusaNode(medusaForm.getMedusaBean().getModuleName(), medusaForm.getMedusaBean().getModuleIdentifier()));
+        medusaForm.getMedusaBean().setCurrentNode(getMedusaService().getMedusaNode(medusaForm.getMedusaBean().getModuleName(), medusaForm.getMedusaBean().getModuleIdentifier()));
         
         return super.execute(mapping, medusaForm, request, response);
     }
@@ -44,9 +47,8 @@ public class MedusaAjaxAction extends KualiDocumentActionBase {
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         MedusaForm medusaForm = (MedusaForm)form;
         medusaForm.setCommand("displayDocSearchView");
-        
-        MedusaService medusaService = KcServiceLocator.getService(MedusaService.class);
-        MedusaNode node = medusaService.getMedusaNode(medusaForm.getMedusaBean().getModuleName(), medusaForm.getMedusaBean().getModuleIdentifier());
+
+        MedusaNode node = getMedusaService().getMedusaNode(medusaForm.getMedusaBean().getModuleName(), medusaForm.getMedusaBean().getModuleIdentifier());
         
         if (StringUtils.equals(node.getType(), "IP")) {
             InstitutionalProposal proposal = (InstitutionalProposal)node.getBo();
