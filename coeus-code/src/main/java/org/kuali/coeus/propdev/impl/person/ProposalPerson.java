@@ -23,6 +23,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.framework.person.editable.PersonEditable;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
 import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.unit.Unit;
@@ -103,15 +105,8 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     @PrimaryKeyJoinColumns({ @PrimaryKeyJoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @PrimaryKeyJoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER") })
     private ProposalInvestigatorCertification certification;
 
-    @ManyToOne(targetEntity = ProposalPersonRole.class, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "PROP_PERSON_ROLE_ID", referencedColumnName = "PROP_PERSON_ROLE_ID", insertable = false, updatable = false)
-    private ProposalPersonRole role;
-
     @Transient
     private boolean delete;
-
-    @Transient
-    private boolean isInvestigator;
 
     @Transient
     private boolean roleChanged;
@@ -137,11 +132,11 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
     @Column(name = "OPT_IN_UNIT_STATUS")
     @Convert(converter = BooleanYNConverter.class)
-    private Boolean optInUnitStatus = Boolean.TRUE;
+    private Boolean optInUnitStatus = Boolean.FALSE;
 
     @Column(name = "OPT_IN_CERTIFICATION_STATUS")
     @Convert(converter = BooleanYNConverter.class)
-    private Boolean optInCertificationStatus = Boolean.TRUE;
+    private Boolean optInCertificationStatus = Boolean.FALSE;
 
     @Transient
     private boolean unitdelete;
@@ -151,10 +146,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
     @Column(name = "ORDINAL_POSITION")
     private Integer ordinalPosition;
-
-    @Column(name = "MULTIPLE_PI")
-    @Convert(converter = BooleanYNConverter.class)
-    private Boolean multiplePi = Boolean.FALSE;
 
     @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
@@ -386,6 +377,9 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     
     @Transient
     private ProposalPersonQuestionnaireHelper questionnaireHelper;
+    
+    @Transient
+    private transient PropAwardPersonRoleService propAwardPersonRoleService;
  
     public boolean isMoveDownAllowed() {
         return moveDownAllowed;
@@ -409,7 +403,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         setCreditSplits(new ArrayList<ProposalPersonCreditSplit>());
         setProposalPersonYnqs(new ArrayList<ProposalPersonYnq>());
         roleChanged = false;
-        isInvestigator = false;
         delete = false;
         setFullName(new String());
         questionnaireHelper = new ProposalPersonQuestionnaireHelper(this);
@@ -431,35 +424,31 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         return this.fullName;
     }
 
-    /**
-     * Stateful variable set by the Action to determine whether this <code>{@link ProposalPerson}</code> 
-     * is an investigator or not.
-     *
-     * @return boolean;
-     */
     public boolean isInvestigator() {
         return getInvestigatorFlag();
     }
 
-    /**
-     * Stateful variable set by the Action to determine whether this <code>{@link ProposalPerson}</code> 
-     * is an investigator or not.
-     *
-     * @return boolean;
-     */
     public boolean getInvestigatorFlag() {
-        return isInvestigator;
+        return isPrincipalInvestigator() || isMultiplePi() || isCoInvestigator()
+        		|| (isKeyPerson() && getOptInUnitStatus());
     }
-
-    /**
-     * Stateful variable set by the Action to determine whether this <code>{@link ProposalPerson}</code> 
-     * is an investigator or not.
-     *
-     * @param b;
-     */
-    public void setInvestigatorFlag(boolean b) {
-        isInvestigator = b;
+    
+    public boolean isPrincipalInvestigator() {
+    	return StringUtils.equals(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR, getProposalPersonRoleId());
     }
+    
+    public boolean isCoInvestigator() {
+    	return StringUtils.equals(PropAwardPersonRole.CO_INVESTIGATOR, getProposalPersonRoleId());
+    }
+    
+    public boolean isKeyPerson() {
+    	return StringUtils.equals(PropAwardPersonRole.KEY_PERSON, getProposalPersonRoleId());
+    }
+    
+    public boolean isMultiplePi() {
+    	return StringUtils.equals(PropAwardPersonRole.MULTI_PI, getProposalPersonRoleId());
+    }
+    
 
     /**
      * Set a <code>{@link List}</code> of credit splits
@@ -675,28 +664,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
      * @param argPropPersonRoleId Value to assign to this.propPersonRoleId
      */
     public void setProposalPersonRoleId(String argPropPersonRoleId) {
-        if (StringUtils.isNotBlank(argPropPersonRoleId)) {
-            this.proposalPersonRoleId = argPropPersonRoleId;
-            refreshReferenceObject("role");
-        }
-    }
-
-    /**
-     * Gets the value of propPersonRoleId
-     *
-     * @return the value of propPersonRoleId
-     */
-    public String getNonNihProposalPersonRoleId() {
-        return this.proposalPersonRoleId;
-    }
-
-    /** 
-     * Sets the value of propPersonRoleId
-     *
-     * @param argPropPersonRoleId Value to assign to this.propPersonRoleId
-     */
-    public void setNonNihProposalPersonRoleId(String argPropPersonRoleId) {
-        this.proposalPersonRoleId = argPropPersonRoleId;
+    	this.proposalPersonRoleId = argPropPersonRoleId;
     }
 
     /**
@@ -704,17 +672,13 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
      *
      * @return the value of propPersonRole
      */
-    public ProposalPersonRole getRole() {
-        return role;
-    }
-
-    /** 
-     * Sets the value of propPersonRole
-     *
-     * @param argPropPersonRole Value to assign to this.propPersonRole
-     */
-    public void setRole(ProposalPersonRole argPropPersonRole) {
-        this.role = argPropPersonRole;
+    public PropAwardPersonRole getRole() {
+    	if (StringUtils.isNotBlank(getProposalPersonRoleId()) && getDevelopmentProposal() != null &&
+    			StringUtils.isNotBlank(getDevelopmentProposal().getSponsorCode())) {
+    		return getPropAwardPersonRoleService().getRole(getProposalPersonRoleId(), getDevelopmentProposal().getSponsorCode());
+    	} else {
+    		return null;
+    	}
     }
 
     /**
@@ -2184,15 +2148,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         return getRole();
     }
 
-    //Return value here is boolean instead of Boolean due to PersonRolodex definition affecting numerous classes
-    public boolean isMultiplePi() {
-        return multiplePi == null ? false : multiplePi.booleanValue();
-    }
-
-    public void setMultiplePi(Boolean multiplePi) {
-        this.multiplePi = multiplePi;
-    }
-
     public DevelopmentProposal getDevelopmentProposal() {
         return developmentProposal;
     }
@@ -2206,7 +2161,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     }
 
     public String getInvestigatorRoleDescription() {
-        return KcServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
+        return getRole().getDescription();
     }
 
     /**
@@ -2310,5 +2265,17 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
 	public void setCitizenshipType(CitizenshipType citizenshipType) {
 		this.citizenshipType = citizenshipType;
+	}
+
+	protected PropAwardPersonRoleService getPropAwardPersonRoleService() {
+		if (propAwardPersonRoleService == null) {
+			propAwardPersonRoleService = KcServiceLocator.getService(PropAwardPersonRoleService.class);
+		}
+		return propAwardPersonRoleService;
+	}
+
+	public void setPropAwardPersonRoleService(
+			PropAwardPersonRoleService propAwardPersonRoleService) {
+		this.propAwardPersonRoleService = propAwardPersonRoleService;
 	}
 }

@@ -15,16 +15,18 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
-import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.util.ArrayList;
@@ -50,8 +52,8 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     private List<InstitutionalProposalPersonUnit> units;
 
     private List<InstitutionalProposalPersonCreditSplit> creditSplits;
-
-    private boolean multiplePi;
+    
+    private transient PropAwardPersonRoleService propAwardPersonRoleService;
 
     public InstitutionalProposalPerson() {
         super();
@@ -161,7 +163,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
      * @return
      */
     public boolean isCoInvestigator() {
-        return getContactRole() != null && getContactRole().getRoleCode().equals(ContactRole.COI_CODE);
+        return StringUtils.equals(getContactRoleCode(), ContactRole.COI_CODE);
     }
 
     /**
@@ -177,12 +179,16 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
      * @return
      */
     public boolean isKeyPerson() {
-        return getContactRole() != null && getContactRole().getRoleCode().equals(ContactRole.KEY_PERSON_CODE);
+        return StringUtils.equals(getContactRoleCode(), ContactRole.KEY_PERSON_CODE);
     }
 
 
     public boolean isPrincipalInvestigator() {
-        return getContactRole() != null && getContactRole().getRoleCode().equals(ContactRole.PI_CODE);
+        return StringUtils.equals(getContactRoleCode(), ContactRole.PI_CODE);
+    }
+    
+    public boolean isMultiplePi() {
+    	return StringUtils.equals(getContactRoleCode(), PropAwardPersonRole.MULTI_PI);
     }
 
     /**
@@ -261,7 +267,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     @SuppressWarnings("unchecked")
     @Override
     protected Class getContactRoleType() {
-        return ProposalPersonRole.class;
+        return PropAwardPersonRole.class;
     }
 
     @Override
@@ -295,19 +301,32 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
         this.setInstitutionalProposalContactId(null);
     }
 
-    public boolean isMultiplePi() {
-        return multiplePi;
-    }
-
-    public void setMultiplePi(boolean multiplePi) {
-        this.multiplePi = multiplePi;
-    }
-
     public Sponsorable getParent() {
         return this.getInstitutionalProposal();
     }
 
-    public String getInvestigatorRoleDescription() {
-        return KcServiceLocator.getService(KeyPersonnelService.class).getPersonnelRoleDesc(this);
+	public String getInvestigatorRoleDescription() {
+		return getContactRole().getRoleDescription();
+	}
+	
+    protected ContactRole refreshContactRole() {
+    	if (StringUtils.isNotBlank(getRoleCode()) && getParent() != null && StringUtils.isNotBlank(getParent().getSponsorCode())) {
+    		contactRole = getPropAwardPersonRoleService().getRole(getRoleCode(), getParent().getSponsorCode());
+    	} else {
+    		contactRole = null;
+    	}
+    	return contactRole;
     }
+
+	protected PropAwardPersonRoleService getPropAwardPersonRoleService() {
+		if (propAwardPersonRoleService == null) {
+			propAwardPersonRoleService = KcServiceLocator.getService(PropAwardPersonRoleService.class);
+		}
+		return propAwardPersonRoleService;
+	}
+
+	public void setPropAwardPersonRoleService(
+			PropAwardPersonRoleService propAwardPersonRoleService) {
+		this.propAwardPersonRoleService = propAwardPersonRoleService;
+	}
 }

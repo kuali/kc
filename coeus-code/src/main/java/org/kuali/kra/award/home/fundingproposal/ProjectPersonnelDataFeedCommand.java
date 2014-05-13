@@ -116,7 +116,6 @@ class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
         awardPerson.setPhoneNumber(proposalPerson.getPhoneNumber());
         awardPerson.setSummerEffort(proposalPerson.getSummerEffort());
         awardPerson.setTotalEffort(proposalPerson.getTotalEffort());
-        awardPerson.setMultiplePi(proposalPerson.isMultiplePi());
         
         for (InstitutionalProposalPersonCreditSplit ipPersonCreditSplit : proposalPerson.getCreditSplits()) {
             awardPerson.add(createAwardPersonCreditSplit(ipPersonCreditSplit));

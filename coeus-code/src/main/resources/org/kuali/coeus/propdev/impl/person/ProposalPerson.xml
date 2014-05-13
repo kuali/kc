@@ -10,7 +10,6 @@
         <ref bean="ProposalPerson-proposalNumber" />
         <ref bean="ProposalPerson-proposalPersonNumber" />
         <ref bean="ProposalPerson-proposalPersonRoleId" />
-        <ref bean="ProposalPerson-nonNihProposalPersonRoleId" />
         <ref bean="ProposalPerson-personId" />
         <ref bean="ProposalPerson-rolodexId" />
         <ref bean="ProposalPerson-socialSecurityNumber" />
@@ -73,7 +72,6 @@
         <ref bean="ProposalPerson-fedrDebrFlag" />
         <ref bean="ProposalPerson-fedrDelqFlag" />
         <ref bean="ProposalPerson-projectRole" />
-        <ref bean="ProposalPerson-multiplePi" />
         <ref bean="ProposalPerson-eraCommonsUserName" />
         <ref bean="ProposalPerson-division" />
         <ref bean="ProposalPerson-city" />
@@ -131,24 +129,6 @@
     </property>
     <property name="summary" value="Proposal Person Role Id" />
     <property name="description" value="Proposal Person Role Id" />
-  </bean>
-
-  <bean id="ProposalPerson-nonNihProposalPersonRoleId" parent="ProposalPerson-nonNihProposalPersonRoleId-parentBean"/>
-  <bean id="ProposalPerson-nonNihProposalPersonRoleId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
-    <property name="name" value="nonNihProposalPersonRoleId" />
-    <property name="label" value="Non-NIH Proposal Person Role Id" />
-    <property name="shortLabel" value="Non-NIH Prop Per Role Id" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.propdev.impl.person.NonNihProposalPersonRoleValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-    <property name="optionsFinder">
-      <bean class="org.kuali.coeus.propdev.impl.person.NonNihProposalPersonRoleValuesFinder"/>
-    </property>
-    <property name="controlField">
-      <bean parent="Uif-DropdownControl"/>
-    </property>
-    <property name="summary" value="Non-NIH Proposal Person Role Id" />
-    <property name="description" value="Non-NIH Proposal Person Role Id" />
   </bean>
 
   <bean id="ProposalPerson-personId" parent="ProposalPerson-personId-parentBean"/>
@@ -363,15 +343,6 @@
     <property name="summary" value="Key Person Role" />
     <property name="description" value="Key Person Role" />
   </bean>
-
-  <bean id="ProposalPerson-multiplePi" parent="ProposalPerson-multiplePi-parentBean"/>
-  <bean id="ProposalPerson-multiplePi-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
-    <property name="name" value="multiplePi" />
-    <property name="label" value="Multiple PI" />
-    <property name="shortLabel" value="MultiPI" />
-    <property name="summary" value="Multiple PI" />
-    <property name="description" value="Multiple PI" />
-  </bean>  
 
   <bean id="ProposalPerson-eraCommonsUserName" parent="ProposalPerson-eraCommonsUserName-parentBean"/>
   <bean id="ProposalPerson-eraCommonsUserName-parentBean" abstract="true" parent="KcPerson-eraCommonsUserName"/>

@@ -493,7 +493,6 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/person/attachment/ProposalPersonBiographyAttachment.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/person/creditsplit/ProposalPersonCreditSplit.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/person/ProposalPersonDegree.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/person/ProposalPersonRole.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/person/ProposalPersonUnit.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/person/ProposalPersonYnq.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/docperm/ProposalRoleState.xml</value>
@@ -502,6 +501,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/specialreview/ProposalSpecialReview.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/specialreview/ProposalSpecialReviewExemption.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/state/ProposalState.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/PropAwardPersonRole.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalStatus.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProposalType.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/person/creditsplit/ProposalUnitCreditSplit.xml</value>
@@ -1366,11 +1366,7 @@
     	<property name="finders">
     		<map>
     			<entry key="KC-PD:Investigators">
-    				<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-    					<property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.person.ProposalPersonRole" />
-    					<property name="keyAttributeName" value="proposalPersonRoleId"/>
-    					<property name="labelAttributeName" value="description"/>
-    				</bean>
+    				<bean class="org.kuali.coeus.propdev.impl.person.ProposalPersonRoleValuesFinder"/>
     			</entry>
     			<entry key="KC-WKFLW:Unit Administrator">
     				<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
@@ -1387,11 +1383,7 @@
     				</bean>
     			</entry>
     			<entry key="KC-IP:Investigators">
-					<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-    					<property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.person.ProposalPersonRole" />
-    					<property name="keyAttributeName" value="proposalPersonRoleId"/>
-    					<property name="labelAttributeName" value="description"/>
-    				</bean>    			
+					<bean class="org.kuali.coeus.propdev.impl.person.ProposalPersonRoleValuesFinder"/>			
     			</entry>
     			<entry key="KC-IP:All Unit Administrators">
     				<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
@@ -1401,11 +1393,7 @@
     				</bean>    				
     			</entry>
     			<entry key="KC-AWARD:Investigators">
-					<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-    					<property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.person.ProposalPersonRole" />
-    					<property name="keyAttributeName" value="proposalPersonRoleId"/>
-    					<property name="labelAttributeName" value="description"/>
-    				</bean>    			
+					<bean class="org.kuali.coeus.propdev.impl.person.ProposalPersonRoleValuesFinder"/> 			
     			</entry>
     			<entry key="KC-AWARD:All Unit Administrators">
     				<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">

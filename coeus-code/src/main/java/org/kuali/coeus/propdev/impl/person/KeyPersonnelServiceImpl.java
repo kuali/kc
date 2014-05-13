@@ -22,6 +22,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.person.editable.PersonEditableService;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.person.attr.PersonBiosketch;
 import org.kuali.coeus.common.framework.person.attr.PersonDegree;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
@@ -188,8 +189,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         document.getDevelopmentProposal().getInvestigators().clear();
 
         for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
-            LOG.debug(person.getFullName() + " is " + isInvestigator(person));
-            person.setInvestigatorFlag(isInvestigator(person));
+            LOG.debug(person.getFullName() + " is " + person.isInvestigator());
 
             if (person.isInvestigator()) {
                 LOG.info("Adding investigator " + person.getFullName());
@@ -204,7 +204,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         
         LOG.info("Added Proposal Person with proposalNumber = " + document.getDevelopmentProposal().getProposalNumber() + " and proposalPersonNumber = " + proposalPerson.getProposalPersonNumber());
         // handle lead unit for investigators respective to coi or pi
-        if (isPrincipalInvestigator(proposalPerson)) {
+        if (proposalPerson.isPrincipalInvestigator()) {
             assignLeadUnit(proposalPerson, document.getDevelopmentProposal().getOwnedByUnitNumber());
         } else {
             // Lead Unit information needs to be removed in case the person used to be a PI
@@ -250,23 +250,11 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         /* populate certification questions for new person */
         person = getYnqService().getPersonYNQ(person, document);
 
-        person.setInvestigatorFlag(isInvestigator(person));
-
         if (person.isInvestigator()) {
             if (!document.getDevelopmentProposal().getInvestigators().contains(person)) {
                 document.getDevelopmentProposal().getInvestigators().add(person);
             }
             populateCreditTypes(person);
-
-            if (!this.isCoInvestigator(person)) {
-                person.setMultiplePi(false);
-            }
-        }
-
-        person.refreshReferenceObject("role");
-
-        if (person.getRole() != null) {
-            person.getRole().setReadOnly(isRoleReadOnly(person.getRole()));
         }
 
         person.setRoleChanged(false);
@@ -457,43 +445,6 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     @Override
-    public boolean isPrincipalInvestigator(ProposalPerson person) {
-        return PRINCIPAL_INVESTIGATOR_ROLE.equals(person.getProposalPersonRoleId());
-    }
-
-    @Override
-    public boolean isCoInvestigator(ProposalPerson person) {
-        return CO_INVESTIGATOR_ROLE.equals(person.getProposalPersonRoleId());
-    }
-
-
-    @Override
-    public boolean isKeyPerson(ProposalPerson person) {
-        return KEY_PERSON_ROLE.equals(person.getProposalPersonRoleId());
-    }
-    @Override
-    public boolean isInvestigator(ProposalPerson person) {
-        if (person.getOptInUnitStatus()) {
-            return isPrincipalInvestigator(person) || isCoInvestigator(person) || isKeyPerson(person);
-        } else {
-            return isPrincipalInvestigator(person) || isCoInvestigator(person);
-        }
-    }
-
-    @Override
-    public boolean hasPrincipalInvestigator(ProposalDevelopmentDocument document) {
-        boolean retval = false;
-
-        for (Iterator<ProposalPerson> person_it = document.getDevelopmentProposal().getProposalPersons().iterator();
-        person_it.hasNext() && !retval;) {
-            ProposalPerson person = person_it.next();
-            retval |= isPrincipalInvestigator(person);
-        }
-
-        return retval;
-    }
-
-    @Override
     public void addUnitToPerson(ProposalPerson person, ProposalPersonUnit unit) {
         if (unit == null) {
             throw new IllegalArgumentException("Cannot add null units to a ProposalPerson instance");
@@ -567,23 +518,6 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     /**
-     * Compares the given <code>roleId</code> against the <code>personrole.readonly.roles</code> to see if it is
-     * read only or not.
-     *
-     * @param roleId to check
-     * @return true if the <code>roleId</code> is a value in the <code>personrole.readonly.roles</code> system parameter, and false
-     *         if the <coderoleId</code> is null
-     * @see #isRoleReadOnly(org.kuali.coeus.propdev.impl.person.ProposalPersonRole)
-     */
-    protected boolean isRoleReadOnly(String roleId) {
-        if (roleId == null) {
-            return false;
-        }
-        String parmValue = getParameterService().getParameterValueAsString(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, READ_ONLY_ROLES_PARAM_NAME);
-        return parmValue.toLowerCase().contains(roleId.toLowerCase());
-    }
-
-    /**
      * Uses the {@link ParameterService} to determine if the application-level configuration parameter is enabled
      *
      * @see KeyPersonnelService#isCreditSplitEnabled()
@@ -605,75 +539,13 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
     protected ParameterService getParameterService (){return parameterService;}
 
-    @Override
-    public boolean isRoleReadOnly(ProposalPersonRole role) {
-        if (role == null) {
-            return false;
-        }
-        return isRoleReadOnly(role.getProposalPersonRoleId());
-    }
-
-    @Override
-    public String getPrincipalInvestigatorRoleDescription(ProposalDevelopmentDocument document) {
-        String parameterName = "personrole.pi";
-        final Sponsor sponsor = document.getDevelopmentProposal().getSponsor();
-
-        if (sponsor != null && sponsor.getAcronym() != null && isSponsorNihMultiplePi(document)) {
-            parameterName = "personrole.nih.pi";
-        }
-        return getRoleDescriptionParameterValue(parameterName);
-    }
-    
-    public boolean isSponsorNihMultiplePi(ProposalDevelopmentDocument document){
-        return getSponsorHierarchyService().isSponsorNihMultiplePi(document.getDevelopmentProposal().getSponsorCode());
-    }
-
-    /**
-     * @param sponsorIsNih
-     * @return
-     */
-    public Map<String, String> loadKeyPersonnelRoleDescriptions(boolean sponsorIsNih) {
-        @SuppressWarnings("unchecked") final Collection<ProposalPersonRole> roles = getBusinessObjectService().findAll(ProposalPersonRole.class);
-        Map<String, String> roleDescriptions = new HashMap<String, String>();
-        for (ProposalPersonRole role : roles) {
-            roleDescriptions.put(role.getProposalPersonRoleId(), findRoleDescription(role, sponsorIsNih));
-        }
-        return roleDescriptions;
-    }
-
     protected SponsorHierarchyService getSponsorHierarchyService() {
         return sponsorHierarchyService;
-    }
-
-    protected String findRoleDescription(ContactRole role, boolean sponsorIsNih) {
-        String parmName = createRoleDescriptionParameterName(role, sponsorIsNih ? NIH_PARM_KEY : "");
-        return getRoleDescriptionParameterValue(parmName);
-    }
-    
-    protected String getRoleDescriptionParameterValue(String parmName) {
-        return getParameterService().getParameterValueAsString(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, parmName);
-    }
-
-    protected String createRoleDescriptionParameterName(ContactRole role, String nihToken) {
-        return String.format("%s%s%s", PERSON_ROLE_PARAMETER_PREFIX, nihToken, role.getRoleCode().toLowerCase());
     }
     
     protected boolean hasBeenRoutedOrCanceled(ProposalDevelopmentDocument document) {
         WorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
         return !workflowDoc.isInitiated() && !workflowDoc.isSaved();
-    }
-    
-    public String getPersonnelRoleDesc(PersonRolodex person) {
-        if (getSponsorHierarchyService().isSponsorNihMultiplePi(person.getParent().getSponsorCode())) {
-            String parmName = createRoleDescriptionParameterName(person.getContactRole(), NIH_PARM_KEY);
-            if (StringUtils.equals(person.getContactRole().getRoleCode(), ContactRole.COI_CODE)
-                    && person.isMultiplePi()) {
-                parmName += ".mpi";
-            }
-            return getRoleDescriptionParameterValue(parmName);
-        } else {
-            return person.getContactRole().getRoleDescription();
-        }
     }
     
     public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {

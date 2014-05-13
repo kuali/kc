@@ -23,13 +23,13 @@ import org.junit.Test;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonRole;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonModuleQuestionnaireBean;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.kra.questionnaire.Questionnaire;
@@ -113,9 +113,7 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
             pp.setProposalPersonNumber(new Integer(0));
             pp.setDevelopmentProposal(document.getDevelopmentProposal());
 
-            ProposalPersonRole role = (ProposalPersonRole)this.dataObjectService.findMatching(ProposalPersonRole.class, org.kuali.rice.core.api.criteria.QueryByCriteria.Builder.create().build()).getResults().iterator().next();
-            pp.setRole(role);
-            pp.setProposalPersonRoleId(role.getRoleCode());
+            pp.setProposalPersonRoleId(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR);
             pp.setOptInUnitStatus(true);
             pp.setOptInCertificationStatus(true);
             pp.setUserName(person.getUserName());

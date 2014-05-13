@@ -112,11 +112,7 @@ public interface ProposalDevelopmentService {
     public static final String PROPOSAL_NARRATIVE_TYPE_GROUP2 = "proposalNarrativeTypeGroup";
 
     public Map<String, Parameter> getProposalDevelopmentParameters();
-    
-    public static final String ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI = "ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI";
-    
-    public void updateNIHDescriptions(DevelopmentProposal proposal);
-    
+       
     public static enum ProposalLockingRegion {
         GENERAL, BUDGET, ATTACHMENTS;
     }
