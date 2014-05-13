@@ -70,7 +70,7 @@ public class PropAwardPersonRoleServiceImpl implements PropAwardPersonRoleServic
 	}
 	
 	@Override
-	public boolean isNihOtherSignificantContributerEnabledForSponsor(
+	public boolean isNihOtherSignificantContributorEnabledForSponsor(
 			String sponsorCode) {
         return areAllSponsorsMultiPi() || getSponsorHierarchyService().isSponsorNihOsc(sponsorCode);
 	}	

@@ -326,7 +326,7 @@ public class PropAwardPersonRoleServiceTest {
         roleService.setDataObjectService(dataObjectService);
         roleService.setSponsorHierarchyService(hierarchyService);
         roleService.setParameterService(parameterService);
-    	assertEquals(roleService.isNihOtherSignificantContributerEnabledForSponsor("000500"), true);
+    	assertEquals(roleService.isNihOtherSignificantContributorEnabledForSponsor("000500"), true);
     }
     
     @Test
@@ -344,6 +344,6 @@ public class PropAwardPersonRoleServiceTest {
         roleService.setDataObjectService(dataObjectService);
         roleService.setSponsorHierarchyService(hierarchyService);
         roleService.setParameterService(parameterService);
-    	assertEquals(roleService.isNihOtherSignificantContributerEnabledForSponsor("000500"), true);
+    	assertEquals(roleService.isNihOtherSignificantContributorEnabledForSponsor("000500"), true);
     }
 }
