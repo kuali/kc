@@ -31,16 +31,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsContract;
+import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsService;
+import org.kuali.coeus.propdev.api.s2s.*;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.s2s.*;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeService;
-import org.kuali.kra.s2s.depend.*;
+import org.kuali.coeus.instprop.api.sponsor.InstPropSponsorService;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -73,6 +75,8 @@ import java.util.*;
 public class KRAS2SServiceImpl implements S2SService {
 	private static final Log LOG = LogFactory.getLog(KRAS2SServiceImpl.class);
 	private BusinessObjectService businessObjectService;
+    private ProposalAdminDetailsService proposalAdminDetailsService;
+    private InstPropSponsorService instPropSponsorService;
     private S2sOpportunityService s2sOpportunityService;
     private S2sProviderService s2sProviderService;
 	private S2SFormGeneratorService s2SFormGeneratorService;
@@ -328,17 +332,10 @@ public class KRAS2SServiceImpl implements S2SService {
 	        }
 	        
 	        //find and populate the inst proposal sponsor proposal id as well
-	        Map<String, String> values = new HashMap<String, String>();
-	        values.put("devProposalNumber", pdDoc.getDevelopmentProposal().getProposalNumber());
-	        Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class, values);
+	        Collection<? extends ProposalAdminDetailsContract> proposalAdminDetails = proposalAdminDetailsService.findProposalAdminDetailsByPropDevNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
 	        
-	        for(Iterator<ProposalAdminDetails> iter = proposalAdminDetails.iterator(); iter.hasNext();){
-	            ProposalAdminDetails pad = iter.next();
-	            pad.refreshReferenceObject("institutionalProposal");
-	            if (StringUtils.isBlank(pad.getInstitutionalProposal().getSponsorProposalNumber())) {
-	                pad.getInstitutionalProposal().setSponsorProposalNumber(appSubmission.getAgencyTrackingId());
-	                getBusinessObjectService().save(pad.getInstitutionalProposal());
-	            }
+	        for(ProposalAdminDetailsContract pad : proposalAdminDetails){
+	            instPropSponsorService.updateSponsorProposalNumber(pad.getInstProposalId(), appSubmission.getAgencyTrackingId());
 	        }
 	        
 	    }
@@ -869,5 +866,21 @@ public class KRAS2SServiceImpl implements S2SService {
 
     public S2SUtilService getS2SUtilService() {
         return s2SUtilService;
+    }
+
+    public ProposalAdminDetailsService getProposalAdminDetailsService() {
+        return proposalAdminDetailsService;
+    }
+
+    public InstPropSponsorService getInstPropSponsorService() {
+        return instPropSponsorService;
+    }
+
+    public void setProposalAdminDetailsService(ProposalAdminDetailsService proposalAdminDetailsService) {
+        this.proposalAdminDetailsService = proposalAdminDetailsService;
+    }
+
+    public void setInstPropSponsorService(InstPropSponsorService instPropSponsorService) {
+        this.instPropSponsorService = instPropSponsorService;
     }
 }
