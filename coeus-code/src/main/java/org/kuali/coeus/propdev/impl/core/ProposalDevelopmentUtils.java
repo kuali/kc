@@ -25,12 +25,10 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
  */
 public final class ProposalDevelopmentUtils {
     
-    public static final String ACTIVITY_TYPE_CODE_CLINICAL_TRIAL_PARM = "ACTIVITY_TYPE_CODE_CLINICAL_TRIAL";
     public static final String ACTIVITY_TYPE_CODE_CONSTRUCTION_PARM = "ACTIVITY_TYPE_CODE_CONSTRUCTION";
     public static final String ACTIVITY_TYPE_CODE_RESEARCH_PARM = "ACTIVITY_TYPE_CODE_RESEARCH";
     
-    public static final String S2S_SUBMISSION_TYPE_CODE_NOTSELECTED_PARM = "S2S_SUBMISSION_TYPE_CODE_PREAPPLICATION";
-    
+
     public static final String PROPOSAL_TYPE_CODE_NEW_PARM = "PROPOSAL_TYPE_CODE_NEW";
     public static final String PROPOSAL_TYPE_CODE_RESUBMISSION_PARM = "PROPOSAL_TYPE_CODE_RESUBMISSION";
     public static final String PROPOSAL_TYPE_CODE_RENEWAL_PARM = "PROPOSAL_TYPE_CODE_RENEWAL";

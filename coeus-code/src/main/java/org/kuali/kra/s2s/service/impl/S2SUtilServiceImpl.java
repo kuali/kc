@@ -19,23 +19,26 @@ package org.kuali.kra.s2s.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.api.country.CountryContract;
+import org.kuali.coeus.common.api.country.KcCountryService;
+import org.kuali.coeus.common.api.state.KcStateService;
+import org.kuali.coeus.common.api.state.StateContract;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
-import org.kuali.coeus.common.framework.person.attr.CitizenshipTypeService;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsContract;
 import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsService;
+import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
+import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.infrastructure.CitizenshipTypes;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentModuleQuestionnaireBean;
@@ -46,16 +49,13 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
-import org.kuali.coeus.common.api.country.CountryContract;
-import org.kuali.coeus.common.api.country.KcCountryService;
-import org.kuali.coeus.common.api.state.KcStateService;
-import org.kuali.coeus.common.api.state.StateContract;
-import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
+import org.kuali.kra.s2s.CitizenshipTypes;
+import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
+import org.kuali.kra.s2s.service.CitizenshipTypeService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.math.BigDecimal;
@@ -72,26 +72,17 @@ import java.util.*;
  */
 public class S2SUtilServiceImpl implements S2SUtilService {
 
-
-    private BusinessObjectService businessObjectService;
-    private ProposalAdminDetailsService proposalAdminDetailsService;
-    private ParameterService parameterService;
-    private KcPersonService kcPersonService;
-    private CitizenshipTypeService citizenshipTypeService;
-    private UnitService unitService;
-    private ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService;
     private static final String SUBMISSION_TYPE_CODE = "submissionTypeCode";
     private static final String SUBMISSION_TYPE_DESCRIPTION = "submissionTypeDescription";
     private static final String YNQ_NOT_REVIEWED = "X";
     private static final int DIVISION_NAME_MAX_LENGTH = 30;
-    private static final String PROPOSAL_CONTACT_TYPE = "PROPOSAL_CONTACT_TYPE";
     private static final String CONTACT_TYPE_O = "O";
     private static final Log LOG = LogFactory.getLog(S2SUtilServiceImpl.class);
 
     public static final String PROPOSAL_YNQ_QUESTION_129 = "129";
     public static final String PROPOSAL_YNQ_QUESTION_130 = "130";
     public static final String PROPOSAL_YNQ_QUESTION_131 = "131";
-    
+
     private static final String MODULE_ITEM_KEY = "moduleItemKey";
     private static final String MODULE_ITEM_CODE = "moduleItemCode";
     private static final Integer MODULE_ITEM_CODE_THREE = 3;
@@ -103,8 +94,18 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
     private static final String QUESTIONNAIRE_ID = "questionnaireId";
     private static final String QUESTIONNAIRE_REF_ID_FK = "questionnaireRefIdFk";
-    private static final String PI_CUSTOM_DATA = "PI_CITIZENSHIP_FROM_CUSTOM_DATA";
 
+    private S2SConfigurationService s2SConfigurationService;
+    private CitizenshipTypeService citizenshipTypeService;
+    private ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService;
+    private QuestionnaireAnswerService questionnaireAnswerService;
+    private BusinessObjectService businessObjectService;
+    private ProposalAdminDetailsService proposalAdminDetailsService;
+    private KcPersonService kcPersonService;
+    private UnitService unitService;
+    private KcCountryService countryService;
+    private KcStateService stateService;
+    
     /**
      * This method creates and returns Map of submission details like submission type, description and Revision code
      *
@@ -274,7 +275,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     public Map<String, String> getEOStateReview(ProposalDevelopmentDocument pdDoc) {
         Map<String, String> stateReview = new HashMap<String, String>();
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(pdDoc.getDevelopmentProposal());
-        QuestionnaireAnswerService questionnaireAnswerService = KcServiceLocator.getService(QuestionnaireAnswerService.class);
         List<AnswerHeader> answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
         for (Answer answers : answerHeaders.get(0).getAnswers()) {
             if (answers.getQuestion().getQuestionId() != null
@@ -303,25 +303,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         }
         return stateReview;
     }
-
-    /**
-     * This method fetches system constant parameters
-     *
-     * @param parameter String for which value must be fetched
-     * @return String System constant parameters.
-     */
-    protected String getParameterValue(String parameter) {
-        String parameterValue = null;
-        try {
-            parameterValue = this.parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, parameter);
-        }
-        catch (IllegalArgumentException e) {
-            LOG.error("Parameter not found - " + parameter, e);
-        }
-        return parameterValue;
-    }
-
-
 
     /**
      * This method returns a {@link Calendar} whose date matches the date passed as {@link String}
@@ -363,15 +344,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * Sets the ParameterService.
-     * 
-     * @param parameterService the parameter service.
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
     }
 
     /**
@@ -463,9 +435,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         return country;
     }
 
-    protected static KcCountryService getCountryService() {
-        return KcServiceLocator.getService(KcCountryService.class);
-    }
 
     /**
      * This method is to get a State object from the state name
@@ -480,11 +449,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         StateContract state = getStateService().getState(country.getCode(), stateName);
         return state;
     }
-
-    protected static KcStateService getStateService() {
-        return KcServiceLocator.getService(KcStateService.class);
-    }
-
 
     /**
      * This method compares a key person with budget person. It checks whether the key person is from PERSON or ROLODEX and matches
@@ -678,7 +642,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * @return String contact type for the proposal
      */
     protected String getContactType() {
-        String contactType = getParameterValue(PROPOSAL_CONTACT_TYPE);
+        String contactType = s2SConfigurationService.getValueAsString(ConfigurationConstants.PROPOSAL_CONTACT_TYPE);
         if (contactType == null || contactType.length() == 0) {
             contactType = CONTACT_TYPE_O;
         }
@@ -752,7 +716,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      */
     public CitizenshipTypes getCitizenship(ProposalPerson proposalPerson) {
         String citizenSource = "1";
-        String piCitizenShipValue = getParameterValue(PI_CUSTOM_DATA);
+        String piCitizenShipValue = s2SConfigurationService.getValueAsString(ConfigurationConstants.PI_CUSTOM_DATA);
         if (piCitizenShipValue != null) {
             citizenSource = piCitizenShipValue;
         }
@@ -762,9 +726,9 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         }
         else {
             CitizenshipType citizenShip;
-            String allowOverride = parameterService.getParameterValueAsString("KC-GEN", "A",
-                    "ALLOW_PROPOSAL_PERSON_TO_OVERRIDE_KC_PERSON_EXTENDED_ATTRIBUTES");
-            if ("Y".equals(allowOverride)) {
+            Boolean allowOverride = s2SConfigurationService.getValueAsBoolean(
+                    ConfigurationConstants.ALLOW_PROPOSAL_PERSON_TO_OVERRIDE_KC_PERSON_EXTENDED_ATTRIBUTES);
+            if (allowOverride) {
                 citizenShip = proposalPerson.getCitizenshipType();
             }
             else {
@@ -772,20 +736,20 @@ public class S2SUtilServiceImpl implements S2SUtilService {
             }
             CitizenshipTypes retVal = null;
             String citizenShipCode = String.valueOf(citizenShip.getCitizenshipTypeCode());
-            if (citizenShipCode.equals(parameterService.getParameterValueAsString("KC-GEN", "A",
-                    "NON_US_CITIZEN_WITH_TEMPORARY_VISA_TYPE_CODE"))) {
+            if (citizenShipCode.equals(s2SConfigurationService.getValueAsString(
+                    ConfigurationConstants.NON_US_CITIZEN_WITH_TEMPORARY_VISA_TYPE_CODE))) {
                 return CitizenshipTypes.NON_US_CITIZEN_WITH_TEMPORARY_VISA;
             }
-            else if (citizenShipCode.equals(parameterService.getParameterValueAsString("KC-GEN", "A",
-                    "PERMANENT_RESIDENT_OF_US_TYPE_CODE"))) {
+            else if (citizenShipCode.equals(s2SConfigurationService.getValueAsString(
+                    ConfigurationConstants.PERMANENT_RESIDENT_OF_US_TYPE_CODE))) {
                 return CitizenshipTypes.PERMANENT_RESIDENT_OF_US;
             }
-            else if (citizenShipCode.equals(parameterService.getParameterValueAsString("KC-GEN", "A",
-                    "US_CITIZEN_OR_NONCITIZEN_NATIONAL_TYPE_CODE"))) {
+            else if (citizenShipCode.equals(s2SConfigurationService.getValueAsString(
+                    ConfigurationConstants.US_CITIZEN_OR_NONCITIZEN_NATIONAL_TYPE_CODE))) {
                 return CitizenshipTypes.US_CITIZEN_OR_NONCITIZEN_NATIONAL;
             }
-            else if (citizenShipCode.equals(parameterService.getParameterValueAsString("KC-GEN", "A",
-                    "PERMANENT_RESIDENT_OF_US_PENDING"))) {
+            else if (citizenShipCode.equals(s2SConfigurationService.getValueAsString(
+                    ConfigurationConstants.PERMANENT_RESIDENT_OF_US_PENDING))) {
                 return CitizenshipTypes.PERMANENT_RESIDENT_OF_US_PENDING;
             }
             else {
@@ -845,6 +809,46 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         }
         String filteredApplicationStr = StringUtils.remove(applicationXmlText, offset);
         return filteredApplicationStr;
+    }
+
+    public S2SConfigurationService getS2SConfigurationService() {
+        return s2SConfigurationService;
+    }
+
+    public void setS2SConfigurationService(S2SConfigurationService s2SConfigurationService) {
+        this.s2SConfigurationService = s2SConfigurationService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public CitizenshipTypeService getCitizenshipTypeService() {
+        return citizenshipTypeService;
+    }
+
+    public QuestionnaireAnswerService getQuestionnaireAnswerService() {
+        return questionnaireAnswerService;
+    }
+
+    public void setQuestionnaireAnswerService(QuestionnaireAnswerService questionnaireAnswerService) {
+        this.questionnaireAnswerService = questionnaireAnswerService;
+    }
+
+    public KcStateService getStateService() {
+        return stateService;
+    }
+
+    public void setStateService(KcStateService stateService) {
+        this.stateService = stateService;
+    }
+
+    public KcCountryService getCountryService() {
+        return countryService;
+    }
+
+    public void setCountryService(KcCountryService countryService) {
+        this.countryService = countryService;
     }
 
     public ProposalAdminDetailsService getProposalAdminDetailsService() {

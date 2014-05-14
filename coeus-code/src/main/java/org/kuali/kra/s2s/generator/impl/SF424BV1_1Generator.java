@@ -95,19 +95,4 @@ public class SF424BV1_1Generator extends SF424BaseGenerator {
         this.pdDoc = proposalDevelopmentDocument;
         return getAssurance();
     }
-
-    /**
-     * This method typecasts the given {@link XmlObject} to the required generator type and returns back the document of that
-     * generator type.
-     * 
-     * @param xmlObject which needs to be converted to the document type of the required generator
-     * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-     */
-    public XmlObject getFormObject(XmlObject xmlObject) {
-        AssuranceType assuranceType = (AssuranceType) xmlObject;
-        AssurancesDocument assurancesDocument = AssurancesDocument.Factory.newInstance();
-        assurancesDocument.setAssurances(assuranceType);
-        return assurancesDocument;
-    }
 }

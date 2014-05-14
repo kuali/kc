@@ -32,8 +32,8 @@ import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.common.framework.org.type.OrganizationType;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
@@ -48,9 +48,9 @@ import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionType;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.math.BigDecimal;
@@ -76,10 +76,10 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
     private String strReview = null;
     private static final String ORGANIZATION_YNQ_ANSWER_YES = "Y";
 
-    protected ParameterService parameterService;
+    protected S2SConfigurationService s2SConfigurationService;
 
     public SF424V2_0Generator() {
-        parameterService = KcServiceLocator.getService(ParameterService.class);
+        s2SConfigurationService = KcServiceLocator.getService(S2SConfigurationService.class);
     }
 
     /**
@@ -116,20 +116,20 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             ApplicationType.Enum applicationTypeEnum = null;
             if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null) {
                 String proposalTypeCode = pdDoc.getDevelopmentProposal().getProposalTypeCode();
-                if(parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
-                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_NEW_PARM).equals(proposalTypeCode)){
+                if(s2SConfigurationService.getValueAsString(
+                        ConfigurationConstants.PROPOSAL_TYPE_CODE_NEW).equals(proposalTypeCode)){
 					applicationTypeEnum = ApplicationType.NEW;
-                }else if(parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
-                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RESUBMISSION_PARM).equals(proposalTypeCode)){
+                }else if(s2SConfigurationService.getValueAsString(
+                        ConfigurationConstants.PROPOSAL_TYPE_CODE_RESUBMISSION).equals(proposalTypeCode)){
 					applicationTypeEnum = ApplicationType.REVISION;
-                }else if(parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
-                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM).equals(proposalTypeCode)){
+                }else if(s2SConfigurationService.getValueAsString(
+                        ConfigurationConstants.PROPOSAL_TYPE_CODE_RENEWAL).equals(proposalTypeCode)){
                     applicationTypeEnum = ApplicationType.CONTINUATION;
-                }else if(parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
-                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_CONTINUATION_PARM).equals(proposalTypeCode)){
+                }else if(s2SConfigurationService.getValueAsString(
+                        ConfigurationConstants.PROPOSAL_TYPE_CODE_CONTINUATION).equals(proposalTypeCode)){
                     applicationTypeEnum = ApplicationType.CONTINUATION;
-                }else if(parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
-                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_REVISION_PARM).equals(proposalTypeCode)){
+                }else if(s2SConfigurationService.getValueAsString(
+                        ConfigurationConstants.PROPOSAL_TYPE_CODE_REVISION).equals(proposalTypeCode)){
                     applicationTypeEnum = ApplicationType.REVISION;
                 }
             }
@@ -582,20 +582,5 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         this.pdDoc = proposalDevelopmentDocument;
         aorInfo = s2sUtilService.getDepartmentalPerson(pdDoc);
         return getSF424Doc();
-    }
-
-    /**
-     * This method typecasts the given {@link XmlObject} to the required generator type and returns back the document of that
-     * generator type.
-     * 
-     * @param xmlObject which needs to be converted to the document type of the required generator
-     * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-     */
-    public XmlObject getFormObject(XmlObject xmlObject) {
-        SF424 sf424 = (SF424) xmlObject;
-        SF424Document sfDocument = SF424Document.Factory.newInstance();
-        sfDocument.setSF424(sf424);
-        return sfDocument;
     }
 }

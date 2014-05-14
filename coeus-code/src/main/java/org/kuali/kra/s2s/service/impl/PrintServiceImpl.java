@@ -35,6 +35,7 @@ import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
+import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.propdev.api.attachment.NarrativeService;
@@ -46,7 +47,6 @@ import org.kuali.kra.s2s.printing.print.S2SFormPrint;
 import org.kuali.kra.s2s.service.*;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.XPathExecutor;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.w3c.dom.Element;
 
 import javax.xml.transform.Source;
@@ -66,11 +66,10 @@ public class PrintServiceImpl implements PrintService {
 	private S2sApplicationService s2sApplicationService;
 	private S2SFormGeneratorService s2SFormGeneratorService;
 	private S2SValidatorService s2SValidatorService;
-
+    private S2SConfigurationService s2SConfigurationService;
 	private S2SUtilService s2SUtilService;
     private NarrativeService narrativeService;
 	private PrintingService printingService;
-	File grantsGovXmlDirectoryFile = null;
 
 	/**
 	 * 
@@ -111,17 +110,17 @@ public class PrintServiceImpl implements PrintService {
 	}
 
 	protected void saveGrantsGovXml(ProposalDevelopmentDocument pdDoc, boolean formEntryFlag,XmlObject formObject,List<AttachmentData> attachmentList,List<? extends S2sAppAttachmentsContract> attachmentLists) throws Exception{
-	    String loggingDirectory = KcServiceLocator.getService(ConfigurationService.class).getPropertyValueAsString(Constants.PRINT_XML_DIRECTORY);
+	    String loggingDirectory = s2SConfigurationService.getValueAsString(ConfigurationConstants.PRINT_XML_DIRECTORY);
         String opportunityId = pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityId();
         String proposalnumber = pdDoc.getDevelopmentProposal().getProposalNumber();
         String exportDate = StringUtils.replaceChars((pdDoc.getDevelopmentProposal().getUpdateTimestamp().toString()), ":", "_");  
         exportDate = StringUtils.replaceChars(exportDate, " ", ".");
-        if (grantsGovXmlDirectoryFile == null) {
-            grantsGovXmlDirectoryFile = new File(loggingDirectory + opportunityId + "." + proposalnumber + "." + exportDate);
-        }
-        if (formEntryFlag) {
+
+        File grantsGovXmlDirectoryFile = new File(loggingDirectory + opportunityId + "." + proposalnumber + "." + exportDate);
+        if (!grantsGovXmlDirectoryFile.exists() || formEntryFlag) {
             grantsGovXmlDirectoryFile.mkdir();
         }
+
         pdDoc.setSaveXmlFolderName(grantsGovXmlDirectoryFile.getName());
         for (AttachmentData attachmentData : attachmentList) {
             File attachmentFile = new File(grantsGovXmlDirectoryFile,"Attachments");
@@ -200,7 +199,6 @@ public class PrintServiceImpl implements PrintService {
 		GrantApplicationDocument submittedDocument;
 		String frmXpath = null;        
         String frmAttXpath = null;
-        grantsGovXmlDirectoryFile = null;
 		try {
 		    S2sAppSubmissionContract s2sAppSubmission = getLatestS2SAppSubmission(pdDoc);
 		    String submittedApplicationXml = findSubmittedXml(s2sAppSubmission);
@@ -313,7 +311,6 @@ public class PrintServiceImpl implements PrintService {
 			throws S2SException {
 		FormMappingInfo info = null;
 		S2SBaseFormGenerator s2sFormGenerator = null;
-		grantsGovXmlDirectoryFile = null;
 		List<AuditError> errors = new ArrayList<AuditError>();
 		DevelopmentProposal developmentProposal = pdDoc
 				.getDevelopmentProposal();
@@ -657,9 +654,12 @@ public class PrintServiceImpl implements PrintService {
         formCursor.moveXml(metaGrantCursor);
     }
 
-    protected static class PrintableResult {
-        private List<Printable> printables;
-        private List<AuditError> errors;
+    public S2SConfigurationService getS2SConfigurationService() {
+        return s2SConfigurationService;
+    }
+
+    public void setS2SConfigurationService(S2SConfigurationService s2SConfigurationService) {
+        this.s2SConfigurationService = s2SConfigurationService;
     }
 
     public S2sApplicationService getS2sApplicationService() {
@@ -676,5 +676,10 @@ public class PrintServiceImpl implements PrintService {
 
     public S2SValidatorService getS2SValidatorService() {
         return s2SValidatorService;
+    }
+
+    protected static class PrintableResult {
+        private List<Printable> printables;
+        private List<AuditError> errors;
     }
 }

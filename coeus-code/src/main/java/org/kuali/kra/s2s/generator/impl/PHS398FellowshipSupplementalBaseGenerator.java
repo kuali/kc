@@ -16,13 +16,12 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.service.S2SUtilService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -39,16 +38,14 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
 
 	protected S2SUtilService s2sUtilService;
 	protected ProposalBudgetService proposalBudgetService;
-	protected ParameterService parameterService;
+	protected S2SConfigurationService s2SConfigurationService;
     
 
 	protected static final String NSR_SUPPORT_NO = "No";
 	protected static final String NSR_SUPPORT_YES = "Yes";
 	protected static final String QUESTION_ANSWER_NO = "N";
-	
-	protected static final String TUITION_COST_ELEMENTS = "TUITION_COST_ELEMENTS";
-	protected static final String STIPEND_COST_ELEMENTS = "STIPEND_COST_ELEMENTS";
-	protected static final char STRING_SEPRATOR = '-';
+
+    protected static final char STRING_SEPRATOR = '-';
 	protected static final String SUB_CATEGORY_NOT_FOUND = "SUB CATEGORY NOT FOUND";
 	protected static final String PROPOSAL_TYPE_CODE_NEW7 = "7";
 
@@ -94,10 +91,10 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
 	public PHS398FellowshipSupplementalBaseGenerator() {
 		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
         proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
-		parameterService = KcServiceLocator.getService(ParameterService.class);
+		s2SConfigurationService = KcServiceLocator.getService(S2SConfigurationService.class);
 	}
     protected List<String> getCostElementsByParam(String costElementParam) {
-        String costElementsParamValue = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, costElementParam);
+        String costElementsParamValue = s2SConfigurationService.getValueAsString(costElementParam);
         String[] costElements = costElementsParamValue.split(",");
         List<String> costElementList = new ArrayList<String>();
         for (int i = 0; i < costElements.length; i++) {

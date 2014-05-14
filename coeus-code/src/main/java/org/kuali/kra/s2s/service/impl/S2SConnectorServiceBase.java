@@ -25,15 +25,14 @@ import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.service.S2SConnectorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.data.DataObjectService;
 
 import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListRequest;
@@ -66,20 +65,20 @@ import java.util.*;
  * This class is used to make web service call to grants.gov
  */
 public class S2SConnectorServiceBase implements S2SConnectorService {
-    protected static final Log LOG = LogFactory.getLog(S2SConnectorServiceBase.class);
-    private S2SUtilService s2SUtilService;
-    private ConfigurationService configurationService;
-    private DataObjectService dataObjectService;
-    private ParameterService parameterService;
-    private static final String MULTI_CAMPUS_ENABLED = "MULTI_CAMPUS_ENABLED";
+
     private static final String KEY_OPPORTUNITY_ID = "OpportunityID";
     private static final String KEY_CFDA_NUMBER = "CFDANumber";
     private static final String KEY_SUBMISSION_TITLE = "SubmissionTitle";
+    protected static final Log LOG = LogFactory.getLog(S2SConnectorServiceBase.class);
+
+    private S2SUtilService s2SUtilService;
+    private DataObjectService dataObjectService;
+    private S2SConfigurationService s2SConfigurationService;
+    protected S2SCertificateReader s2sCertificateReader;
 
     protected String serviceHost;
     protected String servicePort;
-    protected S2SCertificateReader s2sCertificateReader;
-    
+
     /**
      * This method is to get Opportunity List for the given cfda number,opportunity Id and competition Id from the grants guv. It
      * sets the given parameters on {@link GetOpportunitiesRequest} object and passes it to the web service.
@@ -228,7 +227,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
     protected ApplicantWebServicesPortType getApplicantIntegrationSoapPort(String proposalNumber) throws S2SException {
         DevelopmentProposal pdDoc = dataObjectService.find(
                 DevelopmentProposal.class, proposalNumber);
-        Boolean multiCampusEnabled = parameterService.getParameterValueAsBoolean(ProposalDevelopmentDocument.class, MULTI_CAMPUS_ENABLED);
+        Boolean multiCampusEnabled = s2SConfigurationService.getValueAsBoolean(ConfigurationConstants.MULTI_CAMPUS_ENABLED);
         return configureApplicantIntegrationSoapPort(pdDoc.getApplicantOrganization().getOrganization().getDunsNumber(), multiCampusEnabled);
     }
     
@@ -307,14 +306,14 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
                 KeyStore keyStoreAlias;
                 keyStoreAlias = KeyStore.getInstance(s2sCertificateReader.getJksType());
                 Certificate[] certificates = keyStore.getCertificateChain(alias);
-                Key key = keyStore.getKey(alias, configurationService.getPropertyValueAsString(s2sCertificateReader.getKeyStorePassword()).toCharArray());
+                Key key = keyStore.getKey(alias, s2SConfigurationService.getValueAsString(s2sCertificateReader.getKeyStorePassword()).toCharArray());
                 keyStoreAlias.load(null, null);
                 keyStoreAlias.setKeyEntry(alias, key,
-                        configurationService.getPropertyValueAsString(s2sCertificateReader.getKeyStorePassword()).toCharArray(), certificates);
+                        s2SConfigurationService.getValueAsString(s2sCertificateReader.getKeyStorePassword()).toCharArray(), certificates);
                 keyManagerFactory.init(keyStoreAlias,
-                        configurationService.getPropertyValueAsString(s2sCertificateReader.getKeyStorePassword()).toCharArray());
+                        s2SConfigurationService.getValueAsString(s2sCertificateReader.getKeyStorePassword()).toCharArray());
             }else {
-                keyManagerFactory.init(keyStore, configurationService.getPropertyValueAsString(s2sCertificateReader.getKeyStorePassword()).toCharArray());
+                keyManagerFactory.init(keyStore, s2SConfigurationService.getValueAsString(s2sCertificateReader.getKeyStorePassword()).toCharArray());
             }
             KeyManager[] km = keyManagerFactory.getKeyManagers();
             tlsConfig.setKeyManagers(km);
@@ -351,8 +350,8 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
 
     protected String getS2SSoapHost() throws S2SException {
         StringBuilder host = new StringBuilder();
-        host.append(configurationService.getPropertyValueAsString(getServiceHost()));
-        String port = configurationService.getPropertyValueAsString(getServicePort());
+        host.append(s2SConfigurationService.getValueAsString(getServiceHost()));
+        String port = s2SConfigurationService.getValueAsString(getServicePort());
         if ((!host.toString().endsWith("/")) && (!port.startsWith("/"))) {
             host.append("/");
         }
@@ -401,19 +400,11 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         this.dataObjectService = dataObjectService;
     }
 
-    public ParameterService getParameterService() {
-        return parameterService;
+    public S2SConfigurationService getS2SConfigurationService() {
+        return s2SConfigurationService;
     }
 
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
-    public ConfigurationService getConfigurationService() {
-        return configurationService;
-    }
-
-    public void setConfigurationService(ConfigurationService configurationService) {
-        this.configurationService = configurationService;
+    public void setS2SConfigurationService(S2SConfigurationService s2SConfigurationService) {
+        this.s2SConfigurationService = s2SConfigurationService;
     }
 }

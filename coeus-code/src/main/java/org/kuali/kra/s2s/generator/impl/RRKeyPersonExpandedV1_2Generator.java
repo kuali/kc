@@ -479,21 +479,4 @@ public class RRKeyPersonExpandedV1_2Generator extends
 		return getRRKeyPersonExpanded();
 	}
 
-	/**
-	 * This method typecasts the given {@link XmlObject} to the required
-	 * generator type and returns back the document of that generator type.
-	 * 
-	 * @param xmlObject
-	 *            which needs to be converted to the document type of the
-	 *            required generator
-	 * @return {@link XmlObject} document of the required generator type
-	 */
-	public XmlObject getFormObject(XmlObject xmlObject) {
-		RRKeyPersonExpanded12 rrKeyPersonExpanded = (RRKeyPersonExpanded12) xmlObject;
-		RRKeyPersonExpanded12Document rrKeyPersonExpandedDocument = RRKeyPersonExpanded12Document.Factory
-				.newInstance();
-		rrKeyPersonExpandedDocument
-				.setRRKeyPersonExpanded12(rrKeyPersonExpanded);
-		return rrKeyPersonExpandedDocument;
-	}
 }

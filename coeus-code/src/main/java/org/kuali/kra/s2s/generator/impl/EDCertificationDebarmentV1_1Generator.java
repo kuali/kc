@@ -120,20 +120,4 @@ public class EDCertificationDebarmentV1_1Generator extends S2SBaseFormGenerator 
         this.pdDoc = proposalDevelopmentDocument;
         return getCertificationDebarment();
     }
-
-    /**
-     * This method typecasts the given {@link XmlObject} to the required generator type and returns back the document of that
-     * generator type.
-     * 
-     * @param xmlObject which needs to be converted to the document type of the required generator
-     * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-     */
-    public XmlObject getFormObject(XmlObject xmlObject) {
-
-        CertificationDebarment certificationDebarment = (CertificationDebarment) xmlObject;
-        CertificationDebarmentDocument certificationDebarmentDocument = CertificationDebarmentDocument.Factory.newInstance();
-        certificationDebarmentDocument.setCertificationDebarment(certificationDebarment);
-        return certificationDebarmentDocument;
-    }
 }

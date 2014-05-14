@@ -23,17 +23,17 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
+import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.impl.RROtherProjectInfoBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -322,7 +322,7 @@ public class RROtherProjectInfo_1_3_V1Generator extends
 			setHumanSubjectIRBReviewIndicator(proposalSpecialReview,
 					humanSubjectsSupplement);
 		}
-		Boolean paramValue= KcServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean("KC-PROTOCOL", "Document", "irb.protocol.development.proposal.linking.enabled");
+		Boolean paramValue= KcServiceLocator.getService(S2SConfigurationService.class).getValueAsBoolean(ConfigurationConstants.IRB_PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED);
 		 if(paramValue){
 			if (proposalSpecialReview.getSpecialReviewExemptions() != null && !proposalSpecialReview.getSpecialReviewExemptions().isEmpty()) {
 				humanSubjectsSupplement.setExemptFedReg(YesNoDataType.Y_YES);				
@@ -378,8 +378,7 @@ public class RROtherProjectInfo_1_3_V1Generator extends
 										.getApprovalDate()));
 			}
 		}
-		if (KcServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC,
-		        Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER)) {
+		if (KcServiceLocator.getService(S2SConfigurationService.class).getValueAsBoolean(ConfigurationConstants.IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER)) {
 		    if (proposalSpecialReview.getApprovalDate() == null) {
 		        vertebrateAnimalsSupplement.setVertebrateAnimalsIACUCReviewIndicator(YesNoDataType.Y_YES);
 		    } else {
@@ -607,23 +606,5 @@ public class RROtherProjectInfo_1_3_V1Generator extends
 			ProposalDevelopmentDocument proposalDevelopmentDocument) {
 		this.pdDoc = proposalDevelopmentDocument;
 		return getRROtherProjectInfo();
-	}
-
-	/**
-	 * This method typecasts the given {@link XmlObject} to the required
-	 * generator type and returns back the document of that generator type.
-	 * 
-	 * @param xmlObject
-	 *            which needs to be converted to the document type of the
-	 *            required generator
-	 * @return {@link XmlObject} document of the required generator type
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-	 */
-	public XmlObject getFormObject(XmlObject xmlObject) {
-		RROtherProjectInfo13 rrOtherProjectInfo = (RROtherProjectInfo13) xmlObject;
-		RROtherProjectInfo13Document rrOtherProjectInfoDocument = RROtherProjectInfo13Document.Factory
-				.newInstance();
-		rrOtherProjectInfoDocument.setRROtherProjectInfo13(rrOtherProjectInfo);
-		return rrOtherProjectInfoDocument;
 	}
 }

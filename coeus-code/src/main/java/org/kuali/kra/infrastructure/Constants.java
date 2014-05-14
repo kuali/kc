@@ -277,46 +277,7 @@ public interface Constants {
     public static final String NO_FIELD= "noField";
     public static final String GRANTS_GOV_LINK="message.grantsgov.link";
     public static final String GRANTS_GOV_GENERIC_ERROR_KEY= "error.grantsgov.schemavalidation.generic.errorkey";
-    public static final String S2SBUDGET_BUDGET_CATEGORY_TYPE_PERSONNEL = "s2sBudgetBudgetCategoryTypePersonnel";
-    public static final String S2SBUDGET_FILTER_CATEGORY_TYPE_PERSONNEL = "s2sBudgetFilterCategoryTypePersonnel";
-    public static final String S2SBUDGET_RATE_CLASS_TYPE_SALARIES_MS = "s2sBudgetRateClassTypeSalariesMs";
-    public static final String S2SBUDGET_RATE_CLASS_TYPE_LAB_ALLOCATION_SALARIES = "s2sBudgetRateClassTypeLabAllocationSalaries";
-    public static final String S2SBUDGET_RATE_CLASS_TYPE_EMPLOYEE_BENEFITS = "s2sBudgetRateClassTypeEmployeeBenefits";
-    public static final String S2SBUDGET_RATE_CLASS_TYPE_VACATION = "s2sBudgetRateClassTypeVacation";
-    public static final String S2SBUDGET_RATE_TYPE_ADMINISTRATIVE_SALARIES = "s2sBudgetRateTypeAdministrativeSalaries";
-    public static final String S2SBUDGET_RATE_TYPE_SUPPORT_STAFF_SALARIES = "s2sBudgetRateTypeSupportStaffSalaries";
-    public static final String S2SBUDGET_RATE_CLASS_CODE_EMPLOYEE_BENEFITS = "s2sBudgetRateClassCodeEmployeeBenefits";
-    public static final String S2SBUDGET_RATE_CLASS_CODE_VACATION = "s2sBudgetRateClassCodeVacation";
-    public static final String S2SBUDGET_PERIOD_TYPE_ACADEMIC_MONTHS = "s2sBudgetPeriodTypeAcademicMonths";
-    public static final String S2SBUDGET_PERIOD_TYPE_CALENDAR_MONTHS = "s2sBudgetPeriodTypeCalendarMonths";
-    public static final String S2SBUDGET_PERIOD_TYPE_SUMMER_MONTHS = "s2sBudgetPeriodTypeSummerMonths";
-    public static final String S2SBUDGET_PERIOD_TYPE_CYCLE_MONTHS = "s2sBudgetPeriodTypeCycleMonths";
-    public static final String S2SBUDGET_TARGET_CATEGORY_CODE_EQUIPMENT_COST = "s2sBudgetTargetCategoryCodeEquipmentCost";
-    public static final String S2SBUDGET_BUDGET_CATEGORY_CODE_PERSONNEL = "s2sBudgetCategoryCodePersonnel";
-    public static final String S2SBUDGET_CATEGORY_01_GRADUATES = "s2sBudgetCategory01Graduates";
-    public static final String S2SBUDGET_CATEGORY_01_POSTDOCS = "s2sBudgetCategory01Postdocs";
-    public static final String S2SBUDGET_CATEGORY_01_UNDERGRADS = "s2sBudgetCategory01Undergrads";
-    public static final String S2SBUDGET_CATEGORY_01_SECRETARIAL = "s2sBudgetCategory01Secretarial";
-    public static final String S2SBUDGET_CATEGORY_01_OTHER = "s2sBudgetCategory01Other";
-    public static final String S2SBUDGET_CATEGORY_01_OTHER_PROFS = "s2sBudgetCategory01OtherProfs";
-    public static final String S2SBUDGET_MATERIALS_AND_SUPPLIES_CATEGORY = "s2sBudgetMaterialsAndSuppliesCategory";
-    public static final String S2SBUDGET_CONSULTANT_COSTS_CATEGORY = "s2sBudgetConsultantCostsCategory";
-    public static final String S2SBUDGET_PUBLICATION_COSTS_CATEGORY = "s2sBudgetPublicationCostsCategory";
-    public static final String S2SBUDGET_COMPUTER_SERVICES_CATEGORY = "s2sBudgetComputerServicesCategory";
-    public static final String S2SBUDGET_ALTERATIONS_CATEGORY = "s2sBudgetAlterationsCategory";
-    public static final String S2SBUDGET_SUBCONTRACT_CATEGORY = "s2sBudgetSubcontractCategory";
-    public static final String S2SBUDGET_EQUIPMENT_RENTAL_CATEGORY = "s2sBudgetEquipmentRentalCategory";
-    public static final String S2SBUDGET_DOMESTIC_TRAVEL_CATEGORY = "s2sBudgetDomesticTravelCategory";
-    public static final String S2SBUDGET_FOREIGN_TRAVEL_CATEGORY = "s2sBudgetForeignTravelCategory";
-    public static final String S2SBUDGET_PARTICIPANT_STIPENDS_CATEGORY = "s2sBudgetParticipantStipendsCategory";
-    public static final String S2SBUDGET_PARTICIPANT_TRAVEL_CATEGORY = "s2sBudgetParticipantTravelCategory";
-    public static final String S2SBUDGET_PARTICIPANT_TUITION_CATEGORY = "s2sBudgetParticipantTutionCategory";
-    public static final String S2SBUDGET_PARTICIPANT_SUBSISTENCE_CATEGORY = "s2sBudgetParticipantSubsistenceCategory";
-    public static final String S2SBUDGET_PARTICIPANT_OTHER_CATEGORY = "s2sBudgetParticipantOtherCategory";
-    public static final String S2SBUDGET_OTHER_DIRECT_COSTS_CATEGORY = "s2sBudgetOtherDirectCostsCategory";
-    public static final String S2SBUDGET_APPOINTMENT_TYPE_SUM_EMPLOYEE = "s2sBudgetAppointmentTypeSumEmployee";
-    public static final String S2SBUDGET_APPOINTMENT_TYPE_TMP_EMPLOYEE = "s2sBudgetAppointmentTypeTmpEmployee";
-    
+
     // custom attribute
     public static final String CUSTOM_ATTRIBUTE_ID = "customAttributeId";
     public static final String DOCUMENT_NEWMAINTAINABLEOBJECT_CUSTOM_ATTRIBUTE_ID = "document.newMaintainableObject.customAttributeId";
@@ -417,7 +378,6 @@ public interface Constants {
     public static final String SUBAWARD_FILE_NOT_EXTRACTED = "newSubAward.subAwardFile.notExtracted";
 
     public static final String BUDGET_CATEGORY_TYPE_PERSONNEL = "budgetCategoryType.personnel";
-    public static final String BUDGET_CATEGORY_TYPE_PARTICIPANT_SUPPORT = "budgetCategoryType.participantSupport";
 
     //Award
     public static final String MAPPING_AWARD_BASIC = "basic";
@@ -869,9 +829,6 @@ public interface Constants {
     
     //Award property constants
     public static final String AWARD_ID = "awardId";
-
-    
-    public static final String PRINT_XML_DIRECTORY = "print.xml.directory";
 
     public static final String KC_CONFIRMATION_QUESTION = "kcConfirmationQuestion";
     public static final String NON_CANCELLING_RECALL_QUESTION = "nonCancellingRecallQuestion";

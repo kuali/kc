@@ -24,9 +24,14 @@
 
     <context:annotation-config />
     <context:component-scan base-package="org.kuali.kra.s2s.depend" />
+    <context:component-scan base-package="org.kuali.kra.s2s.service.impl" />
 
-    <bean id="citizenshipTypeService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="citizenshipTypeService" />
+    <bean id="rolodexService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="rolodexService" />
+    </bean>
+    
+    <bean id="unitService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="unitService" />
     </bean>
 
     <bean id="stateService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
@@ -37,37 +42,6 @@
         <property name="serviceName" value="countryService" />
     </bean>
 
-    <bean id="rolodexService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="rolodexService" />
-    </bean>
-    
-    <bean id="unitService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="unitService" />
-    </bean>
-    
-    <bean id="s2sOpportunityLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-  		<property name="lookupableHelperService">
-    		<ref bean="s2sOpportunityLookupableHelperService" />
-  		</property>  		
-	</bean>	
-
-	<bean id="s2sOpportunityLookupableHelperService" class="org.kuali.kra.s2s.lookup.S2sOpportunityLookupableHelperServiceImpl"
- 		scope="prototype">
- 		<property name="s2SService" >
-  			<ref bean="s2SService"/>
-  		</property>
-        <property name="persistenceStructureService" ref="persistenceStructureService" />
-        <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
-        <property name="dataDictionaryService" ref="dataDictionaryService" />
-        <property name="encryptionService" ref="encryptionService" />
-        <property name="lookupService" ref="lookupService" />
-        <property name="businessObjectMetaDataService" ref="businessObjectMetaDataService" />
-        <property name="sequenceAccessorService" ref="sequenceAccessorService" />
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="lookupResultsService" ref="lookupResultsService" />
-  	</bean>		
-	 
-	
 	<bean id="s2SFormGeneratorService"
 		class="org.kuali.kra.s2s.service.impl.S2SFormGeneratorServiceImpl">
 	</bean>
@@ -75,8 +49,7 @@
 	<bean id="s2SValidatorService"
 		class="org.kuali.kra.s2s.service.impl.S2SValidatorServiceImpl">
 	</bean>
-	
-	
+
 	<bean id="s2SService"
 		class="org.kuali.kra.s2s.service.impl.KRAS2SServiceImpl">
 		<property name="businessObjectService">
@@ -94,7 +67,7 @@
         <property name="narrativeService">
             <ref bean="narrativeService" />
         </property>
-		<property name="configurationService" ref="kualiConfigurationService"/>
+		<property name="s2SConfigurationService" ref="s2SConfigurationService"/>
         <property name="s2sOpportunityService" ref="s2sOpportunityService"/>
         <property name="s2sProviderService" ref="s2sProviderService"/>
         <property name="instPropSponsorService" ref="instPropSponsorService" />
@@ -119,6 +92,7 @@
             <ref bean="narrativeService" />
         </property>
 		<property name="printingService" ref="printingService" />
+        <property name="s2SConfigurationService" ref="s2SConfigurationService" />
 
 	</bean>
 	<bean id="s2SUtilService"
@@ -126,8 +100,8 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
+		<property name="s2SConfigurationService">
+			<ref bean="s2SConfigurationService" />
 		</property>
 		<property name="kcPersonService">
 			<ref bean="kcPersonService" />
@@ -142,12 +116,15 @@
 			<ref bean="unitService" />
 		</property>
         <property name="proposalAdminDetailsService" ref="proposalAdminDetailsService"/>
+        <property name="countryService" ref="kcCountryService" />
+        <property name="stateService" ref="kcStateService" />
+        <property name="questionnaireAnswerService" ref="questionnaireAnswerService"/>
 	</bean>
 
 	<bean id="s2SBudgetCalculatorService"
 		class="org.kuali.kra.s2s.service.impl.S2SBudgetCalculatorServiceImpl">
-        <property name="parameterService">
-            <ref bean="parameterService" />
+        <property name="s2SConfigurationService">
+            <ref bean="s2SConfigurationService" />
         </property>
         <property name="sponsorHierarchyService">
             <ref bean="sponsorHierarchyService" />
@@ -180,11 +157,8 @@
 		<property name="dataObjectService">
 			<ref bean="dataObjectService" />
 		</property>
-        <property name="parameterService">
-            <ref bean="parameterService" />
-        </property>
-        <property name="configurationService">
-            <ref bean="kualiConfigurationService" />
+        <property name="s2SConfigurationService">
+            <ref bean="s2SConfigurationService" />
         </property>
 		<property name="serviceHost" value="grants.gov.s2s.host"/>
 		<property name="servicePort" value="grants.gov.s2s.port"/>
@@ -198,7 +172,7 @@
 			</bean>
 		</property>
 	</bean>
-	
+
 	<bean id="researchGovConnectorService"
 		class="org.kuali.kra.s2s.service.impl.S2SConnectorServiceBase">
 		<property name="s2SUtilService">
@@ -207,11 +181,8 @@
         <property name="dataObjectService">
             <ref bean="dataObjectService" />
         </property>
-        <property name="parameterService">
-            <ref bean="parameterService" />
-        </property>
-        <property name="configurationService">
-            <ref bean="kualiConfigurationService" />
+        <property name="s2SConfigurationService">
+            <ref bean="s2SConfigurationService" />
         </property>
 		<property name="serviceHost" value="research.gov.s2s.host"/>
 		<property name="servicePort" value="research.gov.s2s.port"/>
@@ -223,8 +194,8 @@
 				<property name="trustStorePassword" value="research.gov.truststore.password"/>
 				<property name="jksType" value="JKS"/>
 			</bean>
-		</property>		
-	</bean>	
+		</property>
+	</bean>
 
 	<!--  S2S Scheduler configuration start -->
 	<bean id="preValidationTask"
@@ -352,7 +323,7 @@
 	<bean id="preValidationTrigger"
 		class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
 		<property name="jobDetail" ref="preValidation" />
-    <property name="parameterService" ref="parameterService" />    
+    <property name="parameterService" ref="parameterService" />
     <property name="dateTimeService" ref="dateTimeService" />
     <property name="defaultCronExpression" value="0 0/20 * * * ?" />
     <property name="triggerEnabledParameterName" value="s2s.polling.scheduler.enabled" />
@@ -363,7 +334,7 @@
 	<bean id="validationTrigger"
 		class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
 		<property name="jobDetail" ref="validation" />
-    <property name="parameterService" ref="parameterService" />    
+    <property name="parameterService" ref="parameterService" />
     <property name="dateTimeService" ref="dateTimeService" />
     <property name="defaultCronExpression" value="0 0/20 * * * ?" />
     <property name="triggerEnabledParameterName" value="s2s.polling.scheduler.enabled" />
@@ -376,7 +347,7 @@
 	<bean id="postValidationTrigger"
 		class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
 		<property name="jobDetail" ref="postValidation" />
-    <property name="parameterService" ref="parameterService" />    
+    <property name="parameterService" ref="parameterService" />
     <property name="dateTimeService" ref="dateTimeService" />
     <property name="defaultCronExpression" value="0 0/20 * * * ?" />
     <property name="triggerEnabledParameterName" value="s2s.polling.scheduler.enabled" />
@@ -389,7 +360,7 @@
 	<bean id="errorOutTrigger"
 		class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
 		<property name="jobDetail" ref="errorOut" />
-    <property name="parameterService" ref="parameterService" />    
+    <property name="parameterService" ref="parameterService" />
     <property name="dateTimeService" ref="dateTimeService" />
     <property name="defaultCronExpression" value="0 0/20 * * * ?" />
     <property name="triggerEnabledParameterName" value="s2s.polling.scheduler.enabled" />
@@ -399,7 +370,7 @@
 			value="s2sScheduler.errorOut.cronExpression">
 		</property>
 	</bean>
-	
+
 	<bean id="s2SSchedulerStarter"
 		class="org.kuali.kra.s2s.polling.S2SSchedulerFactoryBean">
 		<property name="triggers">
@@ -411,7 +382,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<!--  S2S Scheduler configuration end -->
 
 </beans>
