@@ -4,7 +4,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.print.PrintConstants;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.customdata.AwardCustomData;
-import org.kuali.kra.common.printing.CurrentReportBean;
+import org.kuali.coeus.common.framework.print.CurrentReportBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument;
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport;

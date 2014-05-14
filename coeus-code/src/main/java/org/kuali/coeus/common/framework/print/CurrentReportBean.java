@@ -1,4 +1,4 @@
-package org.kuali.kra.common.printing;
+package org.kuali.coeus.common.framework.print;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;

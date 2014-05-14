@@ -1,8 +1,8 @@
 package org.kuali.coeus.common.proposal.framework.report;
 
 import org.kuali.coeus.common.framework.print.PrintingException;
-import org.kuali.kra.common.printing.CurrentReportBean;
-import org.kuali.kra.common.printing.PendingReportBean;
+import org.kuali.coeus.common.framework.print.CurrentReportBean;
+import org.kuali.coeus.common.framework.print.PendingReportBean;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 
 import java.util.List;

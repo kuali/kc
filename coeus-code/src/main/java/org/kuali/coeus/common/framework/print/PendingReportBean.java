@@ -1,4 +1,4 @@
-package org.kuali.kra.common.printing;
+package org.kuali.coeus.common.framework.print;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -82,6 +82,13 @@ public class PendingReportBean extends ReportBean {
     
     private List<InstitutionalProposalCustomData> institutionalProposalCustomDataList;
 
+    protected ParameterService getParameterService(){
+        if (parameterService ==null)
+            parameterService = KcServiceLocator.getService(ParameterService.class);
+        return parameterService;
+    }
+
+
     public PendingReportBean(InstitutionalProposalPerson ipPerson) {
         InstitutionalProposal proposal = ipPerson.getInstitutionalProposal();
         this.proposalNumber = proposal.getProposalNumber();
@@ -98,8 +105,7 @@ public class PendingReportBean extends ReportBean {
         this.totalEffort = ipPerson.getTotalEffort();
         
         institutionalProposalCustomDataList = new ArrayList<InstitutionalProposalCustomData>();
-        parameterService = KcServiceLocator.getService(ParameterService.class);
-        String customGroupName = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.CURRENT_PENDING_REPORT_GROUP_NAME);
+        String customGroupName = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.CURRENT_PENDING_REPORT_GROUP_NAME);
       
         for(InstitutionalProposalCustomData custData:proposal.getInstitutionalProposalCustomDataList()){
                 if(custData.getCustomAttributeId()!=null){
@@ -191,12 +197,6 @@ public class PendingReportBean extends ReportBean {
         columns.add(createColumn("Total Direct Cost", "totalDirectCostTotal", totalDirectCostTotal, ScaleTwoDecimal.class));
         columns.add(createColumn("Total F&A Cost", "totalIndirectCostTotal", totalIndirectCostTotal, ScaleTwoDecimal.class));
         columns.add(createColumn("Total Requested Cost", "totalRequestedCost", getTotalRequestedCost(), ScaleTwoDecimal.class));
-
-//        String startDate = (requestedStartDateInitial != null) ? DATE_FORMATTER.format(requestedStartDateInitial) : "";
-//        columns.add(createColumn("Effective Date", "requestedStartDateInitial", startDate));
-//
-//        String endDate = (requestedEndDateTotal != null) ? DATE_FORMATTER.format(requestedEndDateTotal) : "";
-//        columns.add(createColumn("End Date", "requestedEndDateTotal", endDate));
 
         columns.add(createColumn("Effective Date", "requestedStartDateInitial", requestedStartDateInitial, Date.class));
         columns.add(createColumn("End Date", "requestedEndDateTotal", requestedEndDateTotal, Date.class));

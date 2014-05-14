@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.printing;
+package org.kuali.coeus.common.framework.print;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -22,7 +22,6 @@ import java.util.List;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
-import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 
 public class CorrespondencePrint extends AbstractPrint {
