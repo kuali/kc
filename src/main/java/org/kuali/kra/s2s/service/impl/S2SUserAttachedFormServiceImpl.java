@@ -614,7 +614,7 @@ public class S2SUserAttachedFormServiceImpl implements S2SUserAttachedFormServic
         S2sUserAttachedFormAttFile userAttachedFormFile = null;
         if(selectedFormAttFiles.isEmpty() ){
             Map<String,Long> params = new HashMap<String,Long>();
-            params.put("s2sUserAttachedFormAttId", selectedFormAtt.getS2sUserAttachedFormId());
+            params.put("s2sUserAttachedFormAttId", selectedFormAtt.getS2sUserAttachedFormAttId());
             selectedFormAttFiles = (List<S2sUserAttachedFormAttFile>) KraServiceLocator.getService(BusinessObjectService.class).
                         findMatching(S2sUserAttachedFormAttFile.class, params);
             if(!selectedFormAttFiles.isEmpty()){
