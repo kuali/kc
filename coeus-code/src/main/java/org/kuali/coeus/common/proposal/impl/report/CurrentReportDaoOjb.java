@@ -7,7 +7,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.common.printing.CurrentReportBean;
+import org.kuali.coeus.common.framework.print.CurrentReportBean;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.*;

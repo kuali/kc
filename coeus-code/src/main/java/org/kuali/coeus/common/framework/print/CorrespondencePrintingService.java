@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.printing;
+package org.kuali.coeus.common.framework.print;
 
-import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
 

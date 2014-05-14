@@ -13,12 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.printing;
+package org.kuali.coeus.common.framework.print;
 
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
-import org.kuali.coeus.common.framework.print.AbstractPrint;
-import org.kuali.coeus.common.framework.print.Printable;
-import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
@@ -26,6 +23,8 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,14 +35,21 @@ public abstract class CorrespondencePrintingServiceImpl implements Correspondenc
 
     private static final String PROTOCOL_NUMBER = "protocolNumber";
     private static final String SUBMISSION_NUMBER = "submissionNumber";
+
+    @Autowired
+    @Qualifier("printingService")
     private PrintingService printingService;
+    @Autowired
+    @Qualifier("correspondencePrint")
     private AbstractPrint correspondencePrint;
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
     
     protected ProtocolCorrespondence getCorrespondence(Long correspondenceId) {
         Map pkMap = new HashMap();
         pkMap.put("correspondenceId", correspondenceId);
-        return (ProtocolCorrespondence)businessObjectService.findByPrimaryKey(ProtocolCorrespondence.class, pkMap);
+        return businessObjectService.findByPrimaryKey(ProtocolCorrespondence.class, pkMap);
     }
     
     @Override

@@ -28,7 +28,7 @@ import org.kuali.kra.committee.rule.event.CommitteeActionGenerateBatchCorrespond
 import org.kuali.kra.committee.service.CommitteeBatchCorrespondenceService;
 import org.kuali.kra.committee.service.CommitteeCorrespondencePrint;
 import org.kuali.kra.committee.service.CommitteePrintingService;
-import org.kuali.kra.common.printing.CorrespondencePrintingService;
+import org.kuali.coeus.common.framework.print.CorrespondencePrintingService;
 import org.kuali.kra.infrastructure.TaskGroupName;
 
 import java.sql.Date;

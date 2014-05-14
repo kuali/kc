@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.service;
 
-import org.kuali.kra.common.printing.CorrespondencePrintingService;
+import org.kuali.coeus.common.framework.print.CorrespondencePrintingService;
 
 public interface ScheduleCorrespondencePrint extends CorrespondencePrintingService {
 
