@@ -152,7 +152,6 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImplBase impleme
         proposalPerson.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
         
         proposalPerson.setDevelopmentProposal(proposalDocument.getDevelopmentProposal());
-        proposalPerson.setProposalNumber(proposalDocument.getDevelopmentProposal().getProposalNumber());
         proposalPerson.setProposalPersonNumber(new Integer(1));
 
         proposalPerson.setOptInUnitStatus(true);

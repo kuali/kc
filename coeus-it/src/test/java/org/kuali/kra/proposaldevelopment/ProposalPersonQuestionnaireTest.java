@@ -109,7 +109,6 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
             ProposalPerson pp = new ProposalPerson();
             pp.setPersonId(person.getPersonId());
             pp.setDevelopmentProposal(document.getDevelopmentProposal());
-            pp.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
             pp.setProposalPersonNumber(new Integer(0));
             pp.setDevelopmentProposal(document.getDevelopmentProposal());
 
@@ -155,9 +154,9 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
         assertEquals("project title", proposal.getTitle());
         assertEquals("McGregor", getPerson().getLastName());
         assertTrue(proposal.getProposalDocument().getDocumentHeader().hasWorkflowDocument());
-        assertEquals(proposal.getProposalNumber(), getPerson().getProposalNumber());
+        assertEquals(proposal.getProposalNumber(), getPerson().getDevelopmentProposal().getProposalNumber());
         
-        assertNotSame(getPerson().getProposalPersonNumber().toString(), getDocument().getDevelopmentProposal().getProposalPerson(0).getProposalNumber().toString());
+        assertNotSame(getPerson().getProposalPersonNumber().toString(), getDocument().getDevelopmentProposal().getProposalPerson(0).getDevelopmentProposal().getProposalNumber().toString());
         
     }
     

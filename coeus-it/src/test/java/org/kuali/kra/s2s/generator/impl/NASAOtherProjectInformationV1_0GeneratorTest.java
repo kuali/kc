@@ -75,7 +75,6 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
         person.setOptInUnitStatus(true);
         person.setProposalPersonNumber(1000);
         person.setDevelopmentProposal(document.getDevelopmentProposal());
-        person.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
 
         List<ProposalPerson> perList = new ArrayList<ProposalPerson>();
         perList.add(person);

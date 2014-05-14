@@ -154,7 +154,6 @@ public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolP
         proposalPerson.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
         
         proposalPerson.setDevelopmentProposal(proposalDocument.getDevelopmentProposal());
-        proposalPerson.setProposalNumber(proposalDocument.getDevelopmentProposal().getProposalNumber());
         proposalPerson.setProposalPersonNumber(new Integer(1));
 
         proposalPerson.setOptInUnitStatus(false);

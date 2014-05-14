@@ -144,7 +144,7 @@ public class LookupableDevelopmentProposalLookupableHelperServiceImpl extends Ku
                 if (StringUtils.equals(key, "investigator")) {
                     List<ProposalPerson> proposalPersons = proposalPersonDao.getProposalPersonsByName(value);
                     for (ProposalPerson potentialPerson: proposalPersons) {
-                        matchingProposals.add(potentialPerson.getProposalNumber());
+                        matchingProposals.add(potentialPerson.getDevelopmentProposal().getProposalNumber());
                     }
                     proposalFields.put("proposalNumber",matchingProposals);
                 } else if (VALID_LOOKUP_FIELDS.contains(key)){

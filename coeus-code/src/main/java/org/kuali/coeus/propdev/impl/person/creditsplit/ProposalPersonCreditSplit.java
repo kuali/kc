@@ -20,11 +20,13 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
 
 /**
@@ -39,12 +41,9 @@ import java.io.Serializable;
 public final class ProposalPersonCreditSplit extends KcPersistableBusinessObjectBase implements CreditSplit {
 
     @Id
-    @Column(name = "PROPOSAL_NUMBER")
-    private String proposalNumber;
-
-    @Id
-    @Column(name = "PROP_PERSON_NUMBER")
-    private Integer proposalPersonNumber;
+    @ManyToOne
+    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER") })
+    private ProposalPerson proposalPerson;
 
     @Id
     @Column(name = "INV_CREDIT_TYPE_CODE")
@@ -74,42 +73,6 @@ public final class ProposalPersonCreditSplit extends KcPersistableBusinessObject
      */
     public void setInvestigatorCreditType(InvestigatorCreditType argInvCreditType) {
         this.investigatorCreditType = argInvCreditType;
-    }
-
-    /**
-     * Gets the value of proposalNumber
-     *
-     * @return the value of proposalNumber
-     */
-    public String getProposalNumber() {
-        return this.proposalNumber;
-    }
-
-    /**
-     * Sets the value of proposalNumber
-     *
-     * @param argProposalNumber Value to assign to this.proposalNumber
-     */
-    public void setProposalNumber(String argProposalNumber) {
-        this.proposalNumber = argProposalNumber;
-    }
-
-    /**
-     * Gets the value of personProposalNumber
-     *
-     * @return the value of personProposalNumber
-     */
-    public Integer getProposalPersonNumber() {
-        return this.proposalPersonNumber;
-    }
-
-    /**
-     * Sets the value of personProposalNumber
-     *
-     * @param argPersonProposalNumber Value to assign to this.personProposalNumber
-     */
-    public void setProposalPersonNumber(Integer argPersonProposalNumber) {
-        this.proposalPersonNumber = argPersonProposalNumber;
     }
 
     /**
@@ -150,27 +113,17 @@ public final class ProposalPersonCreditSplit extends KcPersistableBusinessObject
 
     public static final class ProposalPersonCreditSplitId implements Serializable, Comparable<ProposalPersonCreditSplitId> {
 
-        private Integer proposalPersonNumber;
-
-        private String proposalNumber;
+        private ProposalPerson.ProposalPersonId proposalPerson;
 
         private String invCreditTypeCode;
 
-        public Integer getProposalPersonNumber() {
-            return this.proposalPersonNumber;
-        }
+        public ProposalPerson.ProposalPersonId getProposalPerson() {
+			return proposalPerson;
+		}
 
-        public void setProposalPersonNumber(Integer proposalPersonNumber) {
-            this.proposalPersonNumber = proposalPersonNumber;
-        }
-
-        public String getProposalNumber() {
-            return this.proposalNumber;
-        }
-
-        public void setProposalNumber(String proposalNumber) {
-            this.proposalNumber = proposalNumber;
-        }
+		public void setProposalPerson(ProposalPerson.ProposalPersonId proposalPerson) {
+			this.proposalPerson = proposalPerson;
+		}
 
         public String getInvCreditTypeCode() {
             return this.invCreditTypeCode;
@@ -182,7 +135,7 @@ public final class ProposalPersonCreditSplit extends KcPersistableBusinessObject
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this).append("proposalPersonNumber", this.proposalPersonNumber).append("proposalNumber", this.proposalNumber).append("invCreditTypeCode", this.invCreditTypeCode).toString();
+            return new ToStringBuilder(this).append("proposalPerson", this.proposalPerson).append("invCreditTypeCode", this.invCreditTypeCode).toString();
         }
 
         @Override
@@ -194,17 +147,25 @@ public final class ProposalPersonCreditSplit extends KcPersistableBusinessObject
             if (other.getClass() != this.getClass())
                 return false;
             final ProposalPersonCreditSplitId rhs = (ProposalPersonCreditSplitId) other;
-            return new EqualsBuilder().append(this.proposalPersonNumber, rhs.proposalPersonNumber).append(this.proposalNumber, rhs.proposalNumber).append(this.invCreditTypeCode, rhs.invCreditTypeCode).isEquals();
+            return new EqualsBuilder().append(this.proposalPerson, rhs.proposalPerson).append(this.invCreditTypeCode, rhs.invCreditTypeCode).isEquals();
         }
 
         @Override
         public int hashCode() {
-            return new HashCodeBuilder(17, 37).append(this.proposalPersonNumber).append(this.proposalNumber).append(this.invCreditTypeCode).toHashCode();
+            return new HashCodeBuilder(17, 37).append(this.proposalPerson).append(this.invCreditTypeCode).toHashCode();
         }
 
         @Override
         public int compareTo(ProposalPersonCreditSplitId other) {
-            return new CompareToBuilder().append(this.proposalPersonNumber, other.proposalPersonNumber).append(this.proposalNumber, other.proposalNumber).append(this.invCreditTypeCode, other.invCreditTypeCode).toComparison();
+            return new CompareToBuilder().append(this.proposalPerson, other.proposalPerson).append(this.invCreditTypeCode, other.invCreditTypeCode).toComparison();
         }
     }
+
+	public ProposalPerson getProposalPerson() {
+		return proposalPerson;
+	}
+
+	public void setProposalPerson(ProposalPerson proposalPerson) {
+		this.proposalPerson = proposalPerson;
+	}
 }

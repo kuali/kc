@@ -259,7 +259,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         }
         
         if (person != null) {
-            person.setProposalNumber(pdform.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber());
+            person.setDevelopmentProposal(pdform.getProposalDevelopmentDocument().getDevelopmentProposal());
             person.setProposalPersonRoleId(pdform.getNewProposalPerson().getProposalPersonRoleId());
             pdform.setNewProposalPerson(person);
         }

@@ -7,9 +7,7 @@
     <property name="titleAttribute" value="invCreditTypeCode" />
     <property name="attributes" >
       <list>
-        <ref bean="ProposalUnitCreditSplit-proposalNumber" />
         <ref bean="ProposalUnitCreditSplit-unitNumber" />
-        <ref bean="ProposalUnitCreditSplit-proposalPersonNumber" />
         <ref bean="ProposalUnitCreditSplit-credit" />
         <ref bean="ProposalUnitCreditSplit-invCreditTypeCode" />
         <ref bean="ProposalUnitCreditSplit-versionNumber" />
@@ -19,38 +17,12 @@
 
 <!-- Attribute Definitions -->
 
-
-  <bean id="ProposalUnitCreditSplit-proposalNumber" parent="ProposalUnitCreditSplit-proposalNumber-parentBean" />
-
-  <bean id="ProposalUnitCreditSplit-proposalNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
-    <property name="name" value="proposalNumber" />
-    <property name="label" value="Proposal Number" />
-    <property name="shortLabel" value="Prop Nbr" />
-    <property name="summary" value="Proposal Number" />
-    <property name="description" value="Proposal Number" />
-  </bean>
-
   <bean id="ProposalUnitCreditSplit-unitNumber" parent="ProposalUnitCreditSplit-unitNumber-parentBean"/>
   <bean id="ProposalUnitCreditSplit-unitNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
     <property name="name" value="unitNumber" />
     <property name="label" value="Unit Number" />
     <property name="summary" value="Unit Number" />
     <property name="description" value="Unit Number" />
-  </bean>
-
-  <bean id="ProposalUnitCreditSplit-proposalPersonNumber" parent="ProposalUnitCreditSplit-proposalPersonNumber-parentBean"/>
-  <bean id="ProposalUnitCreditSplit-proposalPersonNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
-    <property name="name" value="proposalPersonNumber" />
-    <property name="label" value="Proposal Person Number" />
-    <property name="shortLabel" value="Prop Per Nbr" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
-    </property>
-    <property name="controlField">
-      <bean parent="Uif-HiddenControl"/>
-    </property>
-    <property name="summary" value="Proposal Person Number" />
-    <property name="description" value="Proposal Person Number" />
   </bean>
 
   <bean id="ProposalUnitCreditSplit-credit" parent="ProposalUnitCreditSplit-credit-parentBean"/>

@@ -23,6 +23,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.DegreeType;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -41,12 +42,9 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 public class ProposalPersonDegree extends KcPersistableBusinessObjectBase {
 
     @Id
-    @Column(name = "PROP_PERSON_NUMBER")
-    private Integer proposalPersonNumber;
-
-    @Id
-    @Column(name = "PROPOSAL_NUMBER")
-    private String proposalNumber;
+    @ManyToOne
+    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER") })
+    private ProposalPerson proposalPerson;
 
     @Id
     @Column(name = "DEGREE_SEQUENCE_NUMBER")
@@ -79,42 +77,6 @@ public class ProposalPersonDegree extends KcPersistableBusinessObjectBase {
     @ManyToOne(targetEntity = DegreeType.class, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "DEGREE_CODE", referencedColumnName = "DEGREE_CODE", insertable = false, updatable = false)
     private DegreeType degreeType;
-
-    /**
-     * Gets the value of proposalPersonNumber
-     *
-     * @return the value of proposalPersonNumber
-     */
-    public final Integer getProposalPersonNumber() {
-        return this.proposalPersonNumber;
-    }
-
-    /**
-     * Sets the value of proposalPersonNumber
-     *
-     * @param argProposalPersonNumber Value to assign to this.proposalPersonNumber
-     */
-    public final void setProposalPersonNumber(Integer argProposalPersonNumber) {
-        this.proposalPersonNumber = argProposalPersonNumber;
-    }
-
-    /**
-     * Gets the value of proposalNumber
-     *
-     * @return the value of proposalNumber
-     */
-    public final String getProposalNumber() {
-        return this.proposalNumber;
-    }
-
-    /**
-     * Sets the value of proposalNumber
-     *
-     * @param argProposalNumber Value to assign to this.proposalNumber
-     */
-    public final void setProposalNumber(String argProposalNumber) {
-        this.proposalNumber = argProposalNumber;
-    }
 
     /**
      * Gets the value of graduationYear
@@ -293,27 +255,17 @@ public class ProposalPersonDegree extends KcPersistableBusinessObjectBase {
 
     public static final class ProposalPersonDegreeId implements Serializable, Comparable<ProposalPersonDegreeId> {
 
-        private String proposalNumber;
-
-        private Integer proposalPersonNumber;
+        private ProposalPerson.ProposalPersonId proposalPerson;
 
         private Integer degreeSequenceNumber;
 
-        public String getProposalNumber() {
-            return this.proposalNumber;
-        }
+        public ProposalPerson.ProposalPersonId getProposalPerson() {
+			return proposalPerson;
+		}
 
-        public void setProposalNumber(String proposalNumber) {
-            this.proposalNumber = proposalNumber;
-        }
-
-        public Integer getProposalPersonNumber() {
-            return this.proposalPersonNumber;
-        }
-
-        public void setProposalPersonNumber(Integer proposalPersonNumber) {
-            this.proposalPersonNumber = proposalPersonNumber;
-        }
+		public void setProposalPerson(ProposalPerson.ProposalPersonId proposalPerson) {
+			this.proposalPerson = proposalPerson;
+		}
 
         public Integer getDegreeSequenceNumber() {
             return this.degreeSequenceNumber;
@@ -325,7 +277,7 @@ public class ProposalPersonDegree extends KcPersistableBusinessObjectBase {
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this).append("proposalNumber", this.proposalNumber).append("proposalPersonNumber", this.proposalPersonNumber).append("degreeSequenceNumber", this.degreeSequenceNumber).toString();
+            return new ToStringBuilder(this).append("proposalPerson", this.proposalPerson).append("degreeSequenceNumber", this.degreeSequenceNumber).toString();
         }
 
         @Override
@@ -337,17 +289,25 @@ public class ProposalPersonDegree extends KcPersistableBusinessObjectBase {
             if (other.getClass() != this.getClass())
                 return false;
             final ProposalPersonDegreeId rhs = (ProposalPersonDegreeId) other;
-            return new EqualsBuilder().append(this.proposalNumber, rhs.proposalNumber).append(this.proposalPersonNumber, rhs.proposalPersonNumber).append(this.degreeSequenceNumber, rhs.degreeSequenceNumber).isEquals();
+            return new EqualsBuilder().append(this.proposalPerson, rhs.proposalPerson).append(this.degreeSequenceNumber, rhs.degreeSequenceNumber).isEquals();
         }
 
         @Override
         public int hashCode() {
-            return new HashCodeBuilder(17, 37).append(this.proposalNumber).append(this.proposalPersonNumber).append(this.degreeSequenceNumber).toHashCode();
+            return new HashCodeBuilder(17, 37).append(this.proposalPerson).append(this.degreeSequenceNumber).toHashCode();
         }
 
         @Override
         public int compareTo(ProposalPersonDegreeId other) {
-            return new CompareToBuilder().append(this.proposalNumber, other.proposalNumber).append(this.proposalPersonNumber, other.proposalPersonNumber).append(this.degreeSequenceNumber, other.degreeSequenceNumber).toComparison();
+            return new CompareToBuilder().append(this.proposalPerson, other.proposalPerson).append(this.degreeSequenceNumber, other.degreeSequenceNumber).toComparison();
         }
     }
+
+	public ProposalPerson getProposalPerson() {
+		return proposalPerson;
+	}
+
+	public void setProposalPerson(ProposalPerson proposalPerson) {
+		this.proposalPerson = proposalPerson;
+	}
 }
