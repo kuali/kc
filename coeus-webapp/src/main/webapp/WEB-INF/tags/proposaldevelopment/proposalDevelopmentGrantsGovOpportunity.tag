@@ -62,7 +62,7 @@
 						<html:select property="document.developmentProposalList[0].s2sOpportunity.s2sSubmissionTypeCode" tabindex="0" >			
 						<c:choose>
 						<c:when test="${not empty KualiForm.document.developmentProposalList[0].continuedFrom}">
-		       				<c:forEach items="${krafn:getOptionList('org.kuali.kra.s2s.lookup.keyvalue.S2sSubmissionTypeValuesFinderForResubmission', paramMap)}" var="option">
+		       				<c:forEach items="${krafn:getOptionList('org.kuali.coeus.propdev.impl.s2s.S2sSubmissionTypeValuesFinderForResubmission', paramMap)}" var="option">
 		        				<c:choose>                    	
 		        				<c:when test="${KualiForm.document.developmentProposalList[0].s2sOpportunity.s2sSubmissionTypeCode == option.key}">
 		            				<option value="${option.key}" selected>${option.value}</option>
@@ -74,7 +74,7 @@
 	        				</c:forEach>
 	        			</c:when>
 				        <c:otherwise>
-	        				<c:forEach items="${krafn:getOptionList('org.kuali.kra.s2s.lookup.keyvalue.S2sSubmissionTypeValuesFinder', paramMap)}" var="option">
+	        				<c:forEach items="${krafn:getOptionList('org.kuali.coeus.propdev.impl.s2s.S2sSubmissionTypeValuesFinder', paramMap)}" var="option">
 		        				<c:choose>                    	
 	        					<c:when test="${KualiForm.document.developmentProposalList[0].s2sOpportunity.s2sSubmissionTypeCode == option.key}">
 		            				<option value="${option.key}" selected>${option.value}</option>

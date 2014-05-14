@@ -98,20 +98,4 @@ public class GGLobbyingFormV1_0Generator extends GGLobbyingFormBaseGenerator {
         this.pdDoc = proposalDevelopmentDocument;
         return getLobbyingForm();
     }
-
-    /**
-     * This method typecasts the given {@link XmlObject} to the required generator type and returns back the document of that
-     * generator type.
-     * 
-     * @param xmlObject which needs to be converted to the document type of the required generator
-     * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-     */
-    public XmlObject getFormObject(XmlObject xmlObject) {
-
-        LobbyingForm lobbyingForm = (LobbyingForm) xmlObject;
-        LobbyingFormDocument lobbyingFormDocument = LobbyingFormDocument.Factory.newInstance();
-        lobbyingFormDocument.setLobbyingForm(lobbyingForm);
-        return lobbyingFormDocument;
-    }
 }

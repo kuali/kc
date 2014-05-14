@@ -17,6 +17,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.budget.api.rate.TrainingStipendRateContract;
 import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -34,6 +35,7 @@ import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.question.Question;
+import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.budget.api.rate.TrainingStipendRateService;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
@@ -43,7 +45,6 @@ import org.kuali.kra.s2s.generator.bo.IndirectCostInfo;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.math.BigDecimal;
@@ -59,15 +60,6 @@ import java.util.Map;
  */
 public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
 
-    private static final String TUITION_OTHER_COST_ELEMENTS = "TUITION_OTHER_COST_ELEMENTS";
-    private static final String TUITION_PREDOC_SINGLE_DEG_COST_ELEMENTS = "TUITION_PREDOC_SINGLE_DEG_COST_ELEMENTS";
-    private static final String TUITION_PREDOC_DUAL_DEG_COST_ELEMENTS = "TUITION_PREDOC_DUAL_DEG_COST_ELEMENTS";
-    private static final String TUITION_UNDERGRAD_COST_ELEMENTS = "TUITION_UNDERGRAD_COST_ELEMENTS";
-    private static final String TUITION_POSTDOC_DEG_COST_ELEMENTS = "TUITION_POSTDOC_DEG_COST_ELEMENTS";
-    private static final String TUITION_POSTDOC_NONDEG_COST_ELEMENTS = "TUITION_POSTDOC_NONDEG_COST_ELEMENTS";
-    private static final String SUBCONTRACT_COST_ELEMENTS = "SUBCONTRACT_COST_ELEMENTS";
-    private static final String TRAINING_REL_COST_ELEMENTS = "TRAINING_REL_COST_ELEMENTS";
-    private static final String TRAINEE_TRAVEL_COST_ELEMENTS = "TRAINEE_TRAVEL_COST_ELEMENTS";
     private static final String UNDERGRADS = "Undergraduates";
     private static final String PREDOC = "Predoctoral";
     private static final String POSTDOC = "Postdoctoral";
@@ -75,7 +67,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     private static final String BUDGET_PERIOD = "period";
     private S2SBudgetCalculatorService s2sBudgetCalculatorService;
     private ProposalBudgetService proposalBudgetService;
-    private ParameterService parameterService;
+    private S2SConfigurationService s2SConfigurationService;
     private TrainingStipendRateService trainingStipendRateService;
     private static final int PHS_TRAINING_BUDGET_BUDGETJUSTIFICATION_130 = 130;
 
@@ -99,7 +91,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     /** Creates a new instance of PHS398TrainingBudgetV1_0Generator */
     public PHS398TrainingBudgetV1_0Generator() {
         s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
-        parameterService = KcServiceLocator.getService(ParameterService.class);
+        s2SConfigurationService = KcServiceLocator.getService(S2SConfigurationService.class);
         trainingStipendRateService = KcServiceLocator.getService(TrainingStipendRateService.class);
         proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
     }
@@ -180,25 +172,25 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             PHS398TrainingBudgetYearDataType phs398TrainingBudgetYearDataType = trainingBudgetType.addNewBudgetYear();
-            ScaleTwoDecimal trainingTraveCost = getBudgetPeriodCost(budgetPeriod,TRAINEE_TRAVEL_COST_ELEMENTS);
+            ScaleTwoDecimal trainingTraveCost = getBudgetPeriodCost(budgetPeriod, ConfigurationConstants.TRAINEE_TRAVEL_COST_ELEMENTS);
             phs398TrainingBudgetYearDataType.setTraineeTravelRequested(trainingTraveCost.bigDecimalValue());
-            ScaleTwoDecimal trainingCost = getBudgetPeriodCost(budgetPeriod,TRAINING_REL_COST_ELEMENTS);
+            ScaleTwoDecimal trainingCost = getBudgetPeriodCost(budgetPeriod, ConfigurationConstants.TRAINING_REL_COST_ELEMENTS);
             phs398TrainingBudgetYearDataType.setTrainingRelatedExpensesRequested(trainingCost.bigDecimalValue());
-            ScaleTwoDecimal consTrainingCost = getBudgetPeriodCost(budgetPeriod,SUBCONTRACT_COST_ELEMENTS);
+            ScaleTwoDecimal consTrainingCost = getBudgetPeriodCost(budgetPeriod, ConfigurationConstants.SUBCONTRACT_COST_ELEMENTS);
             phs398TrainingBudgetYearDataType.setConsortiumTrainingCostsRequested(consTrainingCost.bigDecimalValue());
 
             phs398TrainingBudgetYearDataType.setPostdocNonDegreeTuitionAndFeesRequested(getBudgetPeriodCost(budgetPeriod,
-                    TUITION_POSTDOC_NONDEG_COST_ELEMENTS).bigDecimalValue());
+                    ConfigurationConstants.TUITION_POSTDOC_NONDEG_COST_ELEMENTS).bigDecimalValue());
             phs398TrainingBudgetYearDataType.setPostdocDegreeTuitionAndFeesRequested(getBudgetPeriodCost(budgetPeriod,
-                    TUITION_POSTDOC_DEG_COST_ELEMENTS).bigDecimalValue());
+                    ConfigurationConstants.TUITION_POSTDOC_DEG_COST_ELEMENTS).bigDecimalValue());
             phs398TrainingBudgetYearDataType.setUndergraduateTuitionAndFeesRequested(getBudgetPeriodCost(budgetPeriod,
-                    TUITION_UNDERGRAD_COST_ELEMENTS).bigDecimalValue());
+                    ConfigurationConstants.TUITION_UNDERGRAD_COST_ELEMENTS).bigDecimalValue());
             phs398TrainingBudgetYearDataType.setPredocDualDegreeTuitionAndFeesRequested(getBudgetPeriodCost(budgetPeriod,
-                    TUITION_PREDOC_DUAL_DEG_COST_ELEMENTS).bigDecimalValue());
+                    ConfigurationConstants.TUITION_PREDOC_DUAL_DEG_COST_ELEMENTS).bigDecimalValue());
             phs398TrainingBudgetYearDataType.setPredocSingleDegreeTuitionAndFeesRequested(getBudgetPeriodCost(budgetPeriod,
-                    TUITION_PREDOC_SINGLE_DEG_COST_ELEMENTS).bigDecimalValue());
+                    ConfigurationConstants.TUITION_PREDOC_SINGLE_DEG_COST_ELEMENTS).bigDecimalValue());
             phs398TrainingBudgetYearDataType.setOtherTuitionAndFeesRequested(getBudgetPeriodCost(budgetPeriod,
-                    TUITION_OTHER_COST_ELEMENTS).bigDecimalValue());
+                    ConfigurationConstants.TUITION_OTHER_COST_ELEMENTS).bigDecimalValue());
 
             phs398TrainingBudgetYearDataType.setPeriodEndDate(DateUtils.toCalendar(budgetPeriod.getEndDate()));
             phs398TrainingBudgetYearDataType.setPeriodStartDate(DateUtils.toCalendar(budgetPeriod.getStartDate()));
@@ -1009,7 +1001,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
 
     private ScaleTwoDecimal getBudgetPeriodCost(BudgetPeriod budgetPeriod, String costType) {
         ScaleTwoDecimal totalLineItemCost = ScaleTwoDecimal.ZERO;
-        String costElementsStrValue = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, costType);
+        String costElementsStrValue = s2SConfigurationService.getValueAsString(costType);
         String[] costElements = costElementsStrValue.split(",");
         for (int i = 0; i < costElements.length; i++) {
             String costElement = costElements[i];

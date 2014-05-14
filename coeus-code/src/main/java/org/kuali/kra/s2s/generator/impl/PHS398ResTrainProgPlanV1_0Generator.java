@@ -23,15 +23,15 @@ import gov.grants.apply.forms.phs398ResearchTrainingProgramPlanV10.PHS398Researc
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -210,15 +210,15 @@ public class PHS398ResTrainProgPlanV1_0Generator extends S2SBaseFormGenerator{
 
     private gov.grants.apply.forms.phs398ResearchTrainingProgramPlanV10.PHS398ResearchTrainingProgramPlanDocument.PHS398ResearchTrainingProgramPlan.ApplicationType.TypeOfApplication.Enum getTypeOfApplication(String proposalTypeCode) {
         String proposalTypeCodeRenewal = 
-            getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
-        String proposalTypeCodeRevision = 
-            getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
-        String proposalTypeCodeContinuation = 
-            getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
-        String proposalTypeCodeNew = 
-            getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW);
-        String proposalTypeCodeResubmission = 
-            getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RESUBMISSION);
+            getS2SConfigurationService().getValueAsString(ConfigurationConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
+        String proposalTypeCodeRevision =
+            getS2SConfigurationService().getValueAsString(ConfigurationConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
+        String proposalTypeCodeContinuation =
+            getS2SConfigurationService().getValueAsString(ConfigurationConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
+        String proposalTypeCodeNew =
+            getS2SConfigurationService().getValueAsString(ConfigurationConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW);
+        String proposalTypeCodeResubmission =
+            getS2SConfigurationService().getValueAsString(ConfigurationConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RESUBMISSION);
         gov.grants.apply.forms.phs398ResearchTrainingProgramPlanV10.PHS398ResearchTrainingProgramPlanDocument.PHS398ResearchTrainingProgramPlan.ApplicationType.TypeOfApplication.Enum proposalTypeEnum = null;
         if(proposalTypeCode.equals(proposalTypeCodeRenewal))
             proposalTypeEnum = ApplicationType.TypeOfApplication.RENEWAL;
@@ -233,12 +233,8 @@ public class PHS398ResTrainProgPlanV1_0Generator extends S2SBaseFormGenerator{
         return proposalTypeEnum;
     }
 
-    /**
-     * Gets the parameterService attribute. 
-     * @return Returns the parameterService.
-     */
-    public ParameterService getParameterService() {
-        return KcServiceLocator.getService(ParameterService.class);
+    public S2SConfigurationService getS2SConfigurationService() {
+        return KcServiceLocator.getService(S2SConfigurationService.class);
     }
 
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {

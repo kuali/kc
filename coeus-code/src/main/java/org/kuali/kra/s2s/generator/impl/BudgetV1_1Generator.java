@@ -102,20 +102,4 @@ public class BudgetV1_1Generator extends S2SBaseFormGenerator {
         this.pdDoc = proposalDevelopmentDocument;
         return getBudgetNarrativeAttachmentsDocument();
     }
-
-    /**
-     * This method type casts the given {@link XmlObject} to the required generator type and returns back the document of that
-     * generator type.
-     * 
-     * @param xmlObject which needs to be converted to the document type of the required generator
-     * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-     */
-    public XmlObject getFormObject(XmlObject xmlObject) {
-        BudgetNarrativeAttachmentsDocument budgetNarrativeAttachmentsDocument = BudgetNarrativeAttachmentsDocument.Factory
-                .newInstance();
-        BudgetNarrativeAttachments budgetNarrativeAttachments = (BudgetNarrativeAttachments) xmlObject;
-        budgetNarrativeAttachmentsDocument.setBudgetNarrativeAttachments(budgetNarrativeAttachments);
-        return budgetNarrativeAttachmentsDocument;
-    }
 }

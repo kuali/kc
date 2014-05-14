@@ -33,16 +33,18 @@ import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsContract;
 import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsService;
+import org.kuali.coeus.instprop.api.sponsor.InstPropSponsorService;
 import org.kuali.coeus.propdev.api.s2s.*;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.s2s.*;
+import org.kuali.coeus.propdev.impl.s2s.S2sApplication;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
+import org.kuali.coeus.propdev.impl.s2s.*;
 import org.kuali.coeus.propdev.api.attachment.NarrativeService;
-import org.kuali.coeus.instprop.api.sponsor.InstPropSponsorService;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -74,15 +76,15 @@ import java.util.*;
  */
 public class KRAS2SServiceImpl implements S2SService {
 	private static final Log LOG = LogFactory.getLog(KRAS2SServiceImpl.class);
-	private BusinessObjectService businessObjectService;
     private ProposalAdminDetailsService proposalAdminDetailsService;
     private InstPropSponsorService instPropSponsorService;
     private S2sOpportunityService s2sOpportunityService;
     private S2sProviderService s2sProviderService;
+    private BusinessObjectService businessObjectService;
 	private S2SFormGeneratorService s2SFormGeneratorService;
 	private S2SUtilService s2SUtilService;
 	private S2SValidatorService s2SValidatorService;
-	private ConfigurationService configurationService;
+	private S2SConfigurationService s2SConfigurationService;
     private NarrativeService narrativeService;
 	private static final String GRANTS_GOV_STATUS_ERROR = "ERROR";
 	private static final String KEY_PROPOSAL_NUMBER = "proposalNumber";
@@ -765,7 +767,7 @@ public class KRAS2SServiceImpl implements S2SService {
 
 	public File getGrantsGovSavedFile(ProposalDevelopmentDocument pdDoc)
 	        throws IOException {
-        String loggingDirectory = KcServiceLocator.getService(ConfigurationService.class).getPropertyValueAsString(Constants.PRINT_XML_DIRECTORY);
+        String loggingDirectory = s2SConfigurationService.getValueAsString(ConfigurationConstants.PRINT_XML_DIRECTORY);
         String saveXmlFolderName = pdDoc.getSaveXmlFolderName();
         if (StringUtils.isNotBlank(loggingDirectory)) {
             File directory = new File(loggingDirectory);
@@ -832,14 +834,6 @@ public class KRAS2SServiceImpl implements S2SService {
         return KcServiceLocator.getService(s2sOpportunity.getS2sProvider().getConnectorServiceName());
     }
 
-    public ConfigurationService getConfigurationService() {
-        return configurationService;
-    }
-
-    public void setConfigurationService(ConfigurationService configurationService) {
-        this.configurationService = configurationService;
-    }
-
     public NarrativeService getNarrativeService() {
         return narrativeService;
     }
@@ -882,5 +876,13 @@ public class KRAS2SServiceImpl implements S2SService {
 
     public void setInstPropSponsorService(InstPropSponsorService instPropSponsorService) {
         this.instPropSponsorService = instPropSponsorService;
+    }
+
+    public S2SConfigurationService getS2SConfigurationService() {
+        return s2SConfigurationService;
+    }
+
+    public void setS2SConfigurationService(S2SConfigurationService s2SConfigurationService) {
+        this.s2SConfigurationService = s2SConfigurationService;
     }
 }

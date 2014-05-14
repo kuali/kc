@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.impl.person.attr;
+package org.kuali.kra.s2s.service.impl;
 
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum;
 
 import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
-import org.kuali.coeus.common.framework.person.attr.CitizenshipTypeService;
-import org.kuali.kra.infrastructure.CitizenshipTypes;
+import org.kuali.kra.s2s.service.CitizenshipTypeService;
+import org.kuali.kra.s2s.CitizenshipTypes;
 import org.springframework.stereotype.Component;
 
 /**

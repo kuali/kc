@@ -440,23 +440,4 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
 		this.pdDoc = proposalDevelopmentDocument;
 		return getCoverPageSupplement();
 	}
-
-	/**
-	 * This method typecasts the given {@link XmlObject} to the required
-	 * generator type and returns back the document of that generator type.
-	 * 
-	 * @param xmlObject
-	 *            which needs to be converted to the document type of the
-	 *            required generator
-	 * @return {@link XmlObject} document of the required generator type
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-	 */
-	public XmlObject getFormObject(XmlObject xmlObject) {
-		PHS398CoverPageSupplement20 coverPageSupplement = (PHS398CoverPageSupplement20) xmlObject;
-		PHS398CoverPageSupplement20Document coverPageSupplementDocument = PHS398CoverPageSupplement20Document.Factory
-				.newInstance();
-		coverPageSupplementDocument
-				.setPHS398CoverPageSupplement20(coverPageSupplement);
-		return coverPageSupplementDocument;
-	}
 }

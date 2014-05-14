@@ -25,6 +25,7 @@ import gov.grants.apply.system.globalLibraryV20.YesNoNotApplicableDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
+import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
@@ -33,9 +34,9 @@ import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,7 @@ import java.util.List;
 public class EDSF424SupplementV1_1Generator extends
 		EDSF424SupplementBaseGenerator {
 
-	/**
+    /**
 	 * 
 	 * Constructs a EDSF424SupplementV1_1Generator.java.
 	 */
@@ -151,7 +152,7 @@ public class EDSF424SupplementV1_1Generator extends
 						edsf424Supplement.setAssuranceNumber(assuranceNumber);
 					}
 				}
-				Boolean paramValue= KcServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean("KC-PROTOCOL", "Document", "irb.protocol.development.proposal.linking.enabled");
+				Boolean paramValue= KcServiceLocator.getService(S2SConfigurationService.class).getValueAsBoolean(ConfigurationConstants.IRB_PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED);
 			    if(paramValue){
 			    	ExemptionsNumber exemptionsNumber = ExemptionsNumber.Factory
 					.newInstance();
@@ -220,24 +221,5 @@ public class EDSF424SupplementV1_1Generator extends
 
 		this.pdDoc = proposalDevelopmentDocument;
 		return getEDSF424Supplement();
-	}
-
-	/**
-	 * This method typecasts the given {@link XmlObject} to the required
-	 * generator type and returns back the document of that generator type.
-	 * 
-	 * @param xmlObject
-	 *            which needs to be converted to the document type of the
-	 *            required generator
-	 * @return {@link XmlObject} document of the required generator type
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-	 */
-	public XmlObject getFormObject(XmlObject xmlObject) {
-
-		EDSF424SupplementDocument edsf4SupplementDocument = EDSF424SupplementDocument.Factory
-				.newInstance();
-		EDSF424Supplement edsf424Supplement = (EDSF424Supplement) xmlObject;
-		edsf4SupplementDocument.setEDSF424Supplement(edsf424Supplement);
-		return edsf4SupplementDocument;
 	}
 }

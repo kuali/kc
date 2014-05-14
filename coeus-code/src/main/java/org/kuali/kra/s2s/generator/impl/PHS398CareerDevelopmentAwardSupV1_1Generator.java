@@ -28,7 +28,7 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.infrastructure.CitizenshipTypes;
+import org.kuali.kra.s2s.CitizenshipTypes;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -395,25 +395,4 @@ public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 		this.pdDoc = proposalDevelopmentDocument;
 		return getPHS398CareerDevelopmentAwardSup();
 	}
-
-	/**
-	 * This method typecasts the given {@link XmlObject} to the required
-	 * generator type and returns back the document of that generator type.
-	 * 
-	 * @param xmlObject
-	 *            which needs to be converted to the document type of the
-	 *            required generator
-	 * @return {@link XmlObject} document of the required generator type
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-	 */
-	public XmlObject getFormObject(XmlObject xmlObject) {
-		PHS398CareerDevelopmentAwardSup11 phs398CareerDevelopmentAwardSup11 = PHS398CareerDevelopmentAwardSup11.Factory
-				.newInstance();
-		PHS398CareerDevelopmentAwardSup11Document phs398CareerDevelopmentAwardSupDocument = PHS398CareerDevelopmentAwardSup11Document.Factory
-				.newInstance();
-		phs398CareerDevelopmentAwardSupDocument
-				.setPHS398CareerDevelopmentAwardSup11(phs398CareerDevelopmentAwardSup11);
-		return phs398CareerDevelopmentAwardSupDocument;
-	}
-
 }

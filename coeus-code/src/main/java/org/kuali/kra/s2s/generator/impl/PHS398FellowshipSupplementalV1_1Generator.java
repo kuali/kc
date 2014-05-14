@@ -38,14 +38,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.infrastructure.CitizenshipTypes;
+import org.kuali.kra.s2s.CitizenshipTypes;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
@@ -55,6 +54,7 @@ import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
@@ -209,7 +209,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				.getBudgetPeriods()) {
 			ScaleTwoDecimal tution = ScaleTwoDecimal.ZERO;
 			for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-				if (getCostElementsByParam(TUITION_COST_ELEMENTS).contains(budgetLineItem.getCostElementBO().getCostElement())) {
+				if (getCostElementsByParam(ConfigurationConstants.TUITION_COST_ELEMENTS).contains(budgetLineItem.getCostElementBO().getCostElement())) {
 					tution = tution.add(budgetLineItem.getLineItemCost());
 				}
 			}
@@ -295,7 +295,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 			if (budgetPeriod.getBudgetPeriod() == 1) {
 				for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-					if (getCostElementsByParam(STIPEND_COST_ELEMENTS).contains(budgetLineItem.getCostElementBO().getCostElement())) {
+					if (getCostElementsByParam(ConfigurationConstants.STIPEND_COST_ELEMENTS).contains(budgetLineItem.getCostElementBO().getCostElement())) {
 						sumOfLineItemCost = sumOfLineItemCost.add(budgetLineItem.getLineItemCost());
 						numberOfMonths = numberOfMonths.add(getNumberOfMonths(budgetLineItem.getStartDate(), budgetLineItem.getEndDate()));
 					}
@@ -981,20 +981,20 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 				.getProposalTypeCode();
 		TypeOfApplication.Enum typeOfApplication = null;
 		if (proposalTypeCode != null) {
-			if (proposalTypeCode.equals(parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
-                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_NEW_PARM))) {
+			if (proposalTypeCode.equals(s2SConfigurationService.getValueAsString(
+                    ConfigurationConstants.PROPOSAL_TYPE_CODE_NEW))) {
 				typeOfApplication = TypeOfApplication.NEW;
-			} else if (proposalTypeCode.equals(parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
-                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_CONTINUATION_PARM))) {
+			} else if (proposalTypeCode.equals(s2SConfigurationService.getValueAsString(
+                    ConfigurationConstants.PROPOSAL_TYPE_CODE_CONTINUATION))) {
 				typeOfApplication = TypeOfApplication.CONTINUATION;
-			} else if (proposalTypeCode.equals(parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
-                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_REVISION_PARM))) {
+			} else if (proposalTypeCode.equals(s2SConfigurationService.getValueAsString(
+                    ConfigurationConstants.PROPOSAL_TYPE_CODE_REVISION))) {
 				typeOfApplication = TypeOfApplication.REVISION;
-			} else if (proposalTypeCode.equals(parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
-                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM))) {
+			} else if (proposalTypeCode.equals(s2SConfigurationService.getValueAsString(
+                    ConfigurationConstants.PROPOSAL_TYPE_CODE_RENEWAL))) {
 				typeOfApplication = TypeOfApplication.RENEWAL;
-			} else if (proposalTypeCode.equals(parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
-                    ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RESUBMISSION_PARM))) {
+			} else if (proposalTypeCode.equals(s2SConfigurationService.getValueAsString(
+                    ConfigurationConstants.PROPOSAL_TYPE_CODE_RESUBMISSION))) {
 				typeOfApplication = TypeOfApplication.RESUBMISSION;
 			} else if (proposalTypeCode.equals(PROPOSAL_TYPE_CODE_NEW7)) {
 				typeOfApplication = TypeOfApplication.NEW;
@@ -1080,25 +1080,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
         phsFellowshipSupplementalDocument
                 .setPHSFellowshipSupplemental11(phsFellowshipSupplemental);
         return phsFellowshipSupplementalDocument;
-	}
-
-	/**
-	 * This method typecasts the given {@link XmlObject} to the required
-	 * generator type and returns back the document of that generator type.
-	 * 
-	 * @param xmlObject
-	 *            which needs to be converted to the document type of the
-	 *            required generator
-	 * @return {@link XmlObject} document of the required generator type
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-	 */
-	public XmlObject getFormObject(XmlObject xmlObject) {
-		PHSFellowshipSupplemental11 phsFellowshipSupplemental = (PHSFellowshipSupplemental11) xmlObject;
-		PHSFellowshipSupplemental11Document phsFellowshipSupplementalDocument = PHSFellowshipSupplemental11Document.Factory
-				.newInstance();
-		phsFellowshipSupplementalDocument
-				.setPHSFellowshipSupplemental11(phsFellowshipSupplemental);
-		return phsFellowshipSupplementalDocument;
 	}
 
     public String getFormName() {

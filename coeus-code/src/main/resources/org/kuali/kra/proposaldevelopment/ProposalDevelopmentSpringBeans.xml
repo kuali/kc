@@ -74,7 +74,7 @@
             </list>
        </property>     
     </bean>
- 
+
 	<context:annotation-config />
         <context:component-scan base-package="org.kuali.coeus.propdev.impl"/>
     
@@ -291,19 +291,7 @@
   <bean id="lookupCriteriaGenerator" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="lookupCriteriaGenerator" />
   </bean>
-    
-        
-    <bean id="parentLookupableHelperService" abstract="true">
-        <property name="persistenceStructureService" ref="persistenceStructureService" />
-        <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
-        <property name="dataDictionaryService" ref="dataDictionaryService" />
-        <property name="encryptionService" ref="encryptionService" />
-        <property name="lookupService" ref="lookupService" />
-        <property name="businessObjectMetaDataService" ref="businessObjectMetaDataService" />
-        <property name="sequenceAccessorService" ref="sequenceAccessorService" />
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="lookupResultsService" ref="lookupResultsService" />
-    </bean>
+
 
     <bean id="sponsorHierarchyService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="sponsorHierarchyService"/>
@@ -323,30 +311,13 @@
 	<bean id="proposalDevelopmentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService" ref="proposalDevelopmentLookupableHelperService" />
 	</bean>
-	
-    <bean id="proposalDevelopmentLookupableHelperService" class="org.kuali.coeus.propdev.impl.core.DevelopmentProposalLookupableHelperServiceImpl" 
-          parent="parentLookupableHelperService" scope="prototype">
-        <property name="kraAuthorizationService" ref="kcAuthorizationService" />
-    </bean>
     
     <bean id="lookupableDevelopmentProposalLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService" ref="lookupableDevelopmentProposalLookupableHelperService" />
 	</bean>
     
-    <bean id="lookupableDevelopmentProposalLookupableHelperService" class="org.kuali.coeus.propdev.impl.core.LookupableDevelopmentProposalLookupableHelperServiceImpl" 
-          parent="parentLookupableHelperService" scope="prototype">
-        <property name="proposalPersonDao" ref="proposalPersonDao" />
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="documentService" ref="documentService" />
-    </bean>
-    
       <bean id="lookupDao" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="lookupDao" />
-    </bean>
-
-    <bean id="proposalAllUnitAdministratorDerivedRoleTypeService" 
-          class="org.kuali.coeus.propdev.impl.auth.ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl">
-        <property name="unitService" ref="unitService" />
     </bean>
 
     <bean id="kc.import.serviceBus" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
@@ -364,11 +335,6 @@
 		p:callbackService-ref="proposalAllUnitAdministratorDerivedRoleTypeService" 
 		p:localServiceName="proposalAllUnitAdministratorDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
- 
-    <bean id="proposalLockService" class="org.kuali.coeus.propdev.impl.lock.ProposalLockServiceImpl">
-    		<property name="dataDictionaryService" ref="dataDictionaryService"/>
-    		<property name="dataObjectService" ref="dataObjectService" />
-    </bean>
 
     <bean id="dbPlatform" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="dbPlatform" />
@@ -380,105 +346,19 @@
     </bean>
 
     <bean id="proposalHierarchyDao" parent="platformAwareDao" class="org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyDaoOjb" />
-    
-    <bean id="proposalRoleService" class="org.kuali.coeus.propdev.impl.docperm.ProposalRoleServiceImpl">
-        <property name="systemAuthorizationService" ref="systemAuthorizationService" />
-    </bean>
-    
-    <bean id="proposalRoleTemplateService" class="org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateServiceImpl">
-        <property name="kraAuthorizationService" ref="kcAuthorizationService" />
-        <property name="roleManagementService" ref="roleService" />
-        <property name="proposalRoleService" ref="proposalRoleService" />
-    </bean>
 
-	<bean id="proposalRoleTypeService" class="org.kuali.coeus.propdev.impl.person.ProposalPersonDerivedRoleTypeServiceImpl">
-		<property name="proposalPersonService" ref="proposalPersonService" />
-	</bean>
-	
 	<bean id="proposalRoleTypeServiceCallback" parent="kcCoreCallbackService"
 		p:callbackService-ref="proposalRoleTypeService"
 		p:localServiceName="proposalRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
-
-    <bean id="printCertificationPrint" class="org.kuali.coeus.propdev.impl.print.PrintCertificationPrint" scope="prototype">
-        <property name="xmlStream" ref="printCertificationXmlStream" />
-    </bean>
-    
-    <bean id="proposalSponsorFormsPrint" class="org.kuali.coeus.propdev.impl.print.ProposalSponsorFormsPrint" scope="prototype" lazy-init="true">
-        <property name="nihResearchAndRelatedXmlStream" ref="nihResearchAndRelatedXmlStream" />
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="proposalDevelopmentXmlStream" ref="proposalDevelopmentXmlStream" />
-    </bean>
-    
-    <bean id="questionnairePrint" class="org.kuali.kra.questionnaire.print.QuestionnairePrint" scope="prototype">
-           <property name="xmlStream" ref="questionnaireXmlStream" />
-    </bean>
-
-    <bean id="questionnaireXmlStream" class="org.kuali.kra.questionnaire.print.QuestionnaireXmlStream" scope="prototype">
-            <property name="businessObjectService" ref="businessObjectService" />
-            <property name="dateTimeService" ref="dateTimeService" />
-            <property name="documentService" ref="documentService" />
-            <property name="questionnaireService" ref="questionnaireService" />
-            <property name="questionService" ref="questionService" />
-            <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
-            <property name="kcPersonService" ref="kcPersonService" />
-    </bean>
-    
-    <bean id="printCertificationXmlStream" class="org.kuali.coeus.propdev.impl.print.PrintCertificationXmlStream"
-          parent="proposalBaseStream" />
-
-    <bean id="proposalSubmissionXmlStream" class="org.kuali.coeus.propdev.impl.print.ProposalSubmissionXmlStream"
-          parent="proposalBaseStream" />
-
-    <bean id="proposalBaseStream" class="org.kuali.coeus.propdev.impl.print.ProposalBaseStream" abstract="true">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="dateTimeService" ref="dateTimeService" />
-    </bean>
     
     <bean id="budgetPersonService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="budgetPersonService" />
-    </bean>
-
-    <bean id="abstractResearchAndRelatedStream" class="org.kuali.coeus.propdev.impl.print.AbstractResearchAndRelatedStream" abstract="true"
-          parent="proposalBaseStream">
-        <property name="kcPersonService" ref="kcPersonService" />
-        <property name="budgetPersonService" ref="budgetPersonService" />
-        <property name="sponsorHierarchyService" ref="sponsorHierarchyService" />
-    </bean>
-    
-    <bean id="researchAndRelatedXmlStream" class="org.kuali.coeus.propdev.impl.print.ResearchAndRelatedXmlStream"
-          parent="abstractResearchAndRelatedStream" />
-    
-    <bean id="nihResearchAndRelatedXmlStream" class="org.kuali.coeus.propdev.impl.print.NIHResearchAndRelatedXmlStream"
-          parent="abstractResearchAndRelatedStream" lazy-init="true">
-        <property name="parameterService" ref="parameterService" />
-        <property name="proposalDevelopmentService" ref="proposalDevelopmentService" />
-    </bean>
-    
-    <bean id="proposalDevelopmentXmlStream" class="org.kuali.coeus.propdev.impl.print.ProposalDevelopmentXmlStream" 
-          parent="proposalBaseStream" />
-
-    <!-- Current and Pending Report Services -->
-    
-    <bean id="currentAndPendingReportService" class="org.kuali.coeus.common.proposal.impl.report.CurrentAndPendingReportServiceImpl" scope="prototype">
-        <property name="currentReportDao" ref="currentReportDao" />
-        <property name="pendingReportDao" ref="pendingReportDao" />
-        <property name="currentProposalPrint" ref="currentProposalPrint" />
-        <property name="pendingProposalPrint" ref="pendingProposalPrint" />
-        <property name="printingService" ref="printingService" />
     </bean>
     
     <bean id="currentReportDao" parent="platformAwareDao" class="org.kuali.coeus.common.proposal.impl.report.CurrentReportDaoOjb" />
     
     <bean id="pendingReportDao" parent="platformAwareDao" class="org.kuali.coeus.common.proposal.impl.report.PendingReportDaoOjb" />
-    
-    <bean id="currentProposalPrint" class="org.kuali.coeus.common.proposal.impl.report.CurrentProposalPrint" scope="prototype">
-        <property name="xmlStream" ref="currentProposalXmlStream" />
-    </bean>
-    
-    <bean id="pendingProposalPrint" class="org.kuali.coeus.common.proposal.impl.report.PendingProposalPrint" scope="prototype">
-        <property name="xmlStream" ref="pendingProposalXmlStream" />
-    </bean>
 
 	<!-- Proposal Development Task Authorizers -->
 
@@ -880,9 +760,16 @@
   </bean>
 
     <bean id="proposalTypeValuesFinder" class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.type.ProposalType"/>
-        <property name="includeKeyInDescription" value="false"/>
-        <property name="keyAttributeName" value="proposalTypeCode"/>
-        <property name="labelAttributeName" value="description"/>
+           <property name="businessObjectClass" value="org.kuali.coeus.common.framework.type.ProposalType"/>
+           <property name="includeKeyInDescription" value="false"/>
+           <property name="keyAttributeName" value="proposalTypeCode"/>
+           <property name="labelAttributeName" value="description"/>
+   </bean>
+
+
+    <bean id="s2sOpportunityLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="s2sOpportunityLookupableHelperService"/>
     </bean>
+
+
 </beans>
