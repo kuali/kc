@@ -11,7 +11,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import static org.junit.Assert.*;
 
-//@{#parm('KC', 'All', 'A_PARM_NM')}
+
 public class S2SConfigurationServiceImplTest {
 
     private static final String S2S_NMSPC_CD = "KC-S2S";

@@ -4,49 +4,49 @@ INSERT INTO KRCR_NMSPC_T (NMSPC_CD, OBJ_ID, VER_NBR, NM, ACTV_IND, APPL_ID)
 VALUES ('KC-S2S', UUID(), 1, 'Kuali Coeus System to System', 'Y', 'KC')
 /
 INSERT INTO KRCR_PARM_T(NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
-VALUES ('KC-S2S','All','MULTI_CAMPUS_ENABLED',UUID(),1,'CONFG','@p{ns="KC-PD", c="Document", n="MULTI_CAMPUS_ENABLED"}','','A','KC')
+VALUES ('KC-S2S','All','MULTI_CAMPUS_ENABLED',UUID(),1,'CONFG','@{#param("KC-PD", "Document", "MULTI_CAMPUS_ENABLED")}','','A','KC')
 /
 INSERT INTO KRCR_PARM_T(NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
-VALUES ('KC-S2S','All','irb.protocol.development.proposal.linking.enabled',UUID(),1,'CONFG','@p{ns="KC-PROTOCOL", c="Document", n="irb.protocol.development.proposal.linking.enabled"}','','A','KC')
+VALUES ('KC-S2S','All','irb.protocol.development.proposal.linking.enabled',UUID(),1,'CONFG','@{#param("KC-PROTOCOL", "Document", "irb.protocol.development.proposal.linking.enabled")}','','A','KC')
 /
 INSERT INTO KRCR_PARM_T(NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
-VALUES ('KC-S2S','All','iacuc.protocol.proposal.development.linking.enabled',UUID(),1,'CONFG','@p{ns="KC-IACUC", c="Document", n="iacuc.protocol.proposal.development.linking.enabled"}','','A','KC')
+VALUES ('KC-S2S','All','iacuc.protocol.proposal.development.linking.enabled',UUID(),1,'CONFG','@{#param("KC-IACUC", "Document", "iacuc.protocol.proposal.development.linking.enabled")}','','A','KC')
 /
 INSERT INTO KRCR_PARM_T(NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
-VALUES ('KC-S2S','All','DHHS_AGREEMENT',UUID(),1,'CONFG','@p{ns="KC-PD", c="Document", n="DHHS_AGREEMENT"}','','A','KC')
+VALUES ('KC-S2S','All','DHHS_AGREEMENT',UUID(),1,'CONFG','@{#param("KC-PD", "Document", "DHHS_AGREEMENT")}','','A','KC')
 /
 INSERT INTO KRCR_PARM_T(NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
-VALUES ('KC-S2S','All','PROPOSAL_TYPE_CODE_NEW',UUID(),1,'CONFG','@p{ns="KC-PD", c="Document", n="PROPOSAL_TYPE_CODE_NEW"}','','A','KC')
+VALUES ('KC-S2S','All','PROPOSAL_TYPE_CODE_NEW',UUID(),1,'CONFG','@{#param("KC-PD", "Document", "PROPOSAL_TYPE_CODE_NEW")}','','A','KC')
 /
 INSERT INTO KRCR_PARM_T(NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
-VALUES ('KC-S2S','All','PROPOSAL_TYPE_CODE_RESUBMISSION',UUID(),1,'CONFG','@p{ns="KC-PD", c="Document", n="PROPOSAL_TYPE_CODE_RESUBMISSION"}','','A','KC')
+VALUES ('KC-S2S','All','PROPOSAL_TYPE_CODE_RESUBMISSION',UUID(),1,'CONFG','@{#param("KC-PD", "Document", "PROPOSAL_TYPE_CODE_RESUBMISSION")}','','A','KC')
 /
 INSERT INTO KRCR_PARM_T(NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
-VALUES ('KC-S2S','All','PROPOSAL_TYPE_CODE_RENEWAL',UUID(),1,'CONFG','@p{ns="KC-PD", c="Document", n="PROPOSAL_TYPE_CODE_RENEWAL"}','','A','KC')
+VALUES ('KC-S2S','All','PROPOSAL_TYPE_CODE_RENEWAL',UUID(),1,'CONFG','@{#param("KC-PD", "Document", "PROPOSAL_TYPE_CODE_RENEWAL")}','','A','KC')
 /
 INSERT INTO KRCR_PARM_T(NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
-VALUES ('KC-S2S','All','PROPOSAL_TYPE_CODE_CONTINUATION',UUID(),1,'CONFG','@p{ns="KC-PD", c="Document", n="PROPOSAL_TYPE_CODE_CONTINUATION"}','','A','KC')
+VALUES ('KC-S2S','All','PROPOSAL_TYPE_CODE_CONTINUATION',UUID(),1,'CONFG','@{#param("KC-PD", "Document", "PROPOSAL_TYPE_CODE_CONTINUATION")}','','A','KC')
 /
 INSERT INTO KRCR_PARM_T(NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
-VALUES ('KC-S2S','All','PROPOSAL_TYPE_CODE_REVISION',UUID(),1,'CONFG','@p{ns="KC-PD", c="Document", n="PROPOSAL_TYPE_CODE_REVISION"}','','A','KC')
+VALUES ('KC-S2S','All','PROPOSAL_TYPE_CODE_REVISION',UUID(),1,'CONFG','@{#param("KC-PD", "Document", "PROPOSAL_TYPE_CODE_REVISION")}','','A','KC')
 /
 INSERT INTO KRCR_PARM_T(NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
-VALUES ('KC-S2S','All','ACTIVITY_TYPE_CODE_CONSTRUCTION',UUID(),1,'CONFG','@p{ns="KC-PD", c="Document", n="ACTIVITY_TYPE_CODE_CONSTRUCTION"}','','A','KC')
+VALUES ('KC-S2S','All','ACTIVITY_TYPE_CODE_CONSTRUCTION',UUID(),1,'CONFG','@{#param("KC-PD", "Document", "ACTIVITY_TYPE_CODE_CONSTRUCTION")}','','A','KC')
 /
 INSERT INTO KRCR_PARM_T(NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
-VALUES ('KC-S2S','All','proposaldevelopment.proposaltype.new',UUID(),1,'CONFG','@p{ns="KC-PD", c="Document", n="proposaldevelopment.proposaltype.new"}','','A','KC')
+VALUES ('KC-S2S','All','proposaldevelopment.proposaltype.new',UUID(),1,'CONFG','@{#param("KC-PD", "Document", "proposaldevelopment.proposaltype.new")}','','A','KC')
 /
 INSERT INTO KRCR_PARM_T(NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
-VALUES ('KC-S2S','All','proposaldevelopment.proposaltype.renewal',UUID(),1,'CONFG','@p{ns="KC-PD", c="Document", n="proposaldevelopment.proposaltype.renewal"}','','A','KC')
+VALUES ('KC-S2S','All','proposaldevelopment.proposaltype.renewal',UUID(),1,'CONFG','@{#param("KC-PD", "Document", "proposaldevelopment.proposaltype.renewal")}','','A','KC')
 /
 INSERT INTO KRCR_PARM_T(NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
-VALUES ('KC-S2S','All','proposaldevelopment.proposaltype.revision',UUID(),1,'CONFG','@p{ns="KC-PD", c="Document", n="proposaldevelopment.proposaltype.revision"}','','A','KC')
+VALUES ('KC-S2S','All','proposaldevelopment.proposaltype.revision',UUID(),1,'CONFG','@{#param("KC-PD", "Document", "proposaldevelopment.proposaltype.revision")}','','A','KC')
 /
 INSERT INTO KRCR_PARM_T(NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
-VALUES ('KC-S2S','All','proposaldevelopment.proposaltype.continuation',UUID(),1,'CONFG','@p{ns="KC-PD", c="Document", n="proposaldevelopment.proposaltype.continuation"}','','A','KC')
+VALUES ('KC-S2S','All','proposaldevelopment.proposaltype.continuation',UUID(),1,'CONFG','@{#param("KC-PD", "Document", "proposaldevelopment.proposaltype.continuation")}','','A','KC')
 /
 INSERT INTO KRCR_PARM_T(NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
-VALUES ('KC-S2S','All','proposaldevelopment.proposaltype.resubmission',UUID(),1,'CONFG','@p{ns="KC-PD", c="Document", n="proposaldevelopment.proposaltype.resubmission"}','','A','KC')
+VALUES ('KC-S2S','All','proposaldevelopment.proposaltype.resubmission',UUID(),1,'CONFG','@{#param("KC-PD", "Document", "proposaldevelopment.proposaltype.resubmission")}','','A','KC')
 /
 UPDATE KRCR_PARM_T SET NMSPC_CD = 'KC-S2S', CMPNT_CD = 'All', PARM_TYP_CD = 'CONFG', EVAL_OPRTR_CD = 'A' WHERE NMSPC_CD = 'KC-PD' AND CMPNT_CD = 'Document' AND PARM_NM = 'PI_CITIZENSHIP_FROM_CUSTOM_DATA' AND APPL_ID = 'KC'
 /
