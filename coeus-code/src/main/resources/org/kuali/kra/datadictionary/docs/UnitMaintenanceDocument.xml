@@ -14,14 +14,16 @@
       <list>
         <value>unitNumber</value>
       </list>
-    </property>	<property name="allowsRecordDeletion" value="true" />	
+    </property>
+	<property name="allowsRecordDeletion" value="true" />
+	
     
     
     
     
     <property name="documentTypeName" value="UnitMaintenanceDocument"/>
     <property name="businessRulesClass" value="org.kuali.coeus.common.impl.unit.UnitMaintenanceDocumentRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kra.authorizer.UnitMaintenanceDocumentAuthorizer"/>
+    <property name="documentAuthorizerClass" value="org.kuali.coeus.common.auth.task.UnitMaintenanceDocumentAuthorizer"/>
     
     
   </bean>
