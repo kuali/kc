@@ -534,13 +534,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -548,7 +548,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -1058,13 +1058,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -1072,7 +1072,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -1621,13 +1621,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -1635,7 +1635,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -2224,13 +2224,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -2238,7 +2238,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -2774,13 +2774,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -2788,7 +2788,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -3324,13 +3324,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -3338,7 +3338,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -3947,13 +3947,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -3961,7 +3961,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -4518,13 +4518,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -4532,7 +4532,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -5094,13 +5094,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -5108,7 +5108,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
@@ -5644,13 +5644,13 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 	<xsl:template name="double-backslash">
 		<xsl:param name="text"/>
 		<xsl:param name="text-length"/>
-		<xsl:variable name="text-after-bs" select="substring-after($text, ''\'')"/>
+		<xsl:variable name="text-after-bs" select="substring-after($text, ''\\'')"/>
 		<xsl:variable name="text-after-bs-length" select="string-length($text-after-bs)"/>
 		<xsl:choose>
 			<xsl:when test="$text-after-bs-length = 0">
 				<xsl:choose>
-					<xsl:when test="substring($text, $text-length) = ''\''">
-						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\'')"/>
+					<xsl:when test="substring($text, $text-length) = ''\\''">
+						<xsl:value-of select="concat(substring($text,1,$text-length - 1), ''\\\\'')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$text"/>
@@ -5658,7 +5658,7 @@ INSERT INTO SUBAWARD_FORMS(FORM_ID,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,FORM
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\'')"/>
+				<xsl:value-of select="concat(substring($text,1,$text-length - $text-after-bs-length - 1), ''\\\\'')"/>
 				<xsl:call-template name="double-backslash">
 					<xsl:with-param name="text" select="$text-after-bs"/>
 					<xsl:with-param name="text-length" select="$text-after-bs-length"/>
