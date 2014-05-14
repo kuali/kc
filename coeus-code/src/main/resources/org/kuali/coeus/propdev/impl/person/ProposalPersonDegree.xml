@@ -13,8 +13,6 @@
     <property name="titleAttribute" value="degreeCode" />
     <property name="attributes" >
       <list>
-        <ref bean="ProposalPersonDegree-proposalNumber" />
-        <ref bean="ProposalPersonDegree-proposalPersonNumber" />
         <ref bean="ProposalPersonDegree-graduationYear" />
         <ref bean="ProposalPersonDegree-degreeCode" />
         <ref bean="ProposalPersonDegree-degree" />
@@ -30,32 +28,6 @@
   </bean>
 
 <!-- Attribute Definitions -->
-
-
-  <bean id="ProposalPersonDegree-proposalNumber" parent="ProposalPersonDegree-proposalNumber-parentBean" />
-
-  <bean id="ProposalPersonDegree-proposalNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
-    <property name="name" value="proposalNumber" />
-    <property name="label" value="Proposal Number" />
-    <property name="shortLabel" value="Prop Nbr" />
-    <property name="summary" value="Proposal Number" />
-    <property name="description" value="Proposal Number" />
-  </bean>
-
-  <bean id="ProposalPersonDegree-proposalPersonNumber" parent="ProposalPersonDegree-proposalPersonNumber-parentBean"/>
-  <bean id="ProposalPersonDegree-proposalPersonNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
-    <property name="name" value="proposalPersonNumber" />
-    <property name="label" value="Proposal Person Number" />
-    <property name="shortLabel" value="Prop Per Nbr" />
-    <property name="control" >
-      <bean parent="HiddenControlDefinition" />
-    </property>
-    <property name="controlField">
-      <bean parent="Uif-HiddenControl"/>
-    </property>
-    <property name="summary" value="Proposal Person Number" />
-    <property name="description" value="Proposal Person Number" />
-  </bean>
 
   <bean id="ProposalPersonDegree-graduationYear" parent="ProposalPersonDegree-graduationYear-parentBean"/>
   <bean id="ProposalPersonDegree-graduationYear-parentBean" abstract="true" parent="AttributeDefinition">
@@ -248,8 +220,6 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition" p:attributeName="proposalPersonNumber" p:forceInquiry="true"/>
-              <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="graduationYear" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="degreeCode" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="degree" p:forceInquiry="true"/>
@@ -275,8 +245,6 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="proposalPersonNumber" parent="Uif-DataField"/>
-              <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
               <bean p:propertyName="graduationYear" parent="Uif-DataField"/>
               <bean p:propertyName="degreeCode" parent="Uif-DataField"/>
               <bean p:propertyName="degree" parent="Uif-DataField"/>
@@ -303,8 +271,6 @@
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="proposalPersonNumber"/>
         <bean parent="FieldDefinition" p:attributeName="graduationYear"/>
         <bean parent="FieldDefinition" p:attributeName="degreeCode"/>
         <bean parent="FieldDefinition" p:attributeName="degree"/>
@@ -312,8 +278,6 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="proposalPersonNumber" p:forceInquiry="true"/>
-        <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="graduationYear" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="degreeCode" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="degree" p:forceInquiry="true"/>
@@ -342,8 +306,6 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="proposalNumber" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="proposalPersonNumber" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="graduationYear" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="degreeCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="degree" parent="Uif-LookupCriteriaInputField"/>
@@ -351,8 +313,6 @@
     </property>
     <property name="resultFields" >
       <list>
-        <bean p:propertyName="proposalPersonNumber" parent="Uif-DataField"/>
-        <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
         <bean p:propertyName="graduationYear" parent="Uif-DataField"/>
         <bean p:propertyName="degreeCode" parent="Uif-DataField"/>
         <bean p:propertyName="degree" parent="Uif-DataField"/>

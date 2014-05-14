@@ -528,7 +528,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             //to rematerialize this reference to the old one during fixProposalNumber otherwise.
             //tried doing this via reflection, but it didn't seem to trigger the OJB proxy.
             proposalperson.setDevelopmentProposal(newDoc.getDevelopmentProposal());
-            proposalperson.setProposalNumber(newDoc.getDevelopmentProposal().getProposalNumber());
             for (ProposalPersonUnit proposalPersonUnit : proposalperson.getUnits()) {
                 ObjectUtils.materializeObjects(proposalPersonUnit.getCreditSplits());
             }
@@ -723,7 +722,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
        
         List<ProposalPerson> persons = doc.getDevelopmentProposal().getProposalPersons();
         for (ProposalPerson person : persons) {
-            person.setProposalNumber(null);
+            person.setDevelopmentProposal(null);
            
             PropAwardPersonRole role = person.getRole();
             String roleId = role.getCode();

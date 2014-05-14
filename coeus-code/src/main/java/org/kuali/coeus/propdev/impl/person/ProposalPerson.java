@@ -63,8 +63,9 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
     private static final long serialVersionUID = -4110005875629288373L;
 
+    @Id
     @ManyToOne(cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    @JoinColumn(name = "PROPOSAL_NUMBER")
     private DevelopmentProposal developmentProposal;
 
     @Column(name = "CONFLICT_OF_INTEREST_FLAG")
@@ -91,10 +92,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     private Integer rolodexId;
 
     @Id
-    @Column(name = "PROPOSAL_NUMBER")
-    private String proposalNumber;
-
-    @Id
     @Column(name = "PROP_PERSON_NUMBER")
     private Integer proposalPersonNumber;
 
@@ -111,20 +108,17 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     @Transient
     private boolean roleChanged;
 
-    @OneToMany(mappedBy="proposalPerson", fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.ALL })
+    @OneToMany(mappedBy="proposalPerson", orphanRemoval = true, cascade = { CascadeType.ALL })
     @OrderBy("questionId")
     private List<ProposalPersonYnq> proposalPersonYnqs;
 
-    @OneToMany(targetEntity = ProposalPersonUnit.class, fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH, CascadeType.PERSIST })
-    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER", insertable = false, updatable = false) })
+    @OneToMany(mappedBy="proposalPerson", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<ProposalPersonUnit> units;
 
-    @OneToMany(targetEntity = ProposalPersonDegree.class, fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH, CascadeType.PERSIST })
-    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER", insertable = false, updatable = false) })
+    @OneToMany(mappedBy="proposalPerson", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<ProposalPersonDegree> proposalPersonDegrees;
 
-    @OneToMany(targetEntity = ProposalPersonCreditSplit.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER", insertable = false, updatable = false) })
+    @OneToMany(mappedBy="proposalPerson", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<ProposalPersonCreditSplit> creditSplits;
 
     @Transient
@@ -538,7 +532,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
      * @return
      */
     public String getUniqueId() {
-        return this.getProposalNumber() + "|" + this.getProposalPersonNumber();
+        return this.getDevelopmentProposal().getProposalNumber() + "|" + this.getProposalPersonNumber();
     }
 
     /**
@@ -629,24 +623,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
      */
     public void setRolodexId(Integer argRolodexId) {
         this.rolodexId = argRolodexId;
-    }
-
-    /**
-     * Gets the value of proposalNumber
-     *
-     * @return the value of proposalNumber
-     */
-    public String getProposalNumber() {
-        return this.proposalNumber;
-    }
-
-    /**
-     * Sets the value of proposalNumber
-     *
-     * @param argProposalNumber Value to assign to this.proposalNumber
-     */
-    public void setProposalNumber(String argProposalNumber) {
-        this.proposalNumber = argProposalNumber;
     }
 
     /**
@@ -2155,7 +2131,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
         this.developmentProposal = developmentProposal;
     }
-
+    
     public Sponsorable getParent() {
         return getDevelopmentProposal();
     }
@@ -2186,17 +2162,17 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
     public static final class ProposalPersonId implements Serializable, Comparable<ProposalPersonId> {
 
-        private String proposalNumber;
+        private String developmentProposal;
 
         private Integer proposalPersonNumber;
 
-        public String getProposalNumber() {
-            return this.proposalNumber;
-        }
+		public String getDevelopmentProposal() {
+			return developmentProposal;
+		}
 
-        public void setProposalNumber(String proposalNumber) {
-            this.proposalNumber = proposalNumber;
-        }
+		public void setDevelopmentProposal(String developmentProposal) {
+			this.developmentProposal = developmentProposal;
+		}
 
         public Integer getProposalPersonNumber() {
             return this.proposalPersonNumber;
@@ -2208,7 +2184,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this).append("proposalNumber", this.proposalNumber).append("proposalPersonNumber", this.proposalPersonNumber).toString();
+            return new ToStringBuilder(this).append("developmentProposal", this.developmentProposal).append("proposalPersonNumber", this.proposalPersonNumber).toString();
         }
 
         @Override
@@ -2220,17 +2196,17 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
             if (other.getClass() != this.getClass())
                 return false;
             final ProposalPersonId rhs = (ProposalPersonId) other;
-            return new EqualsBuilder().append(this.proposalNumber, rhs.proposalNumber).append(this.proposalPersonNumber, rhs.proposalPersonNumber).isEquals();
+            return new EqualsBuilder().append(this.developmentProposal, rhs.developmentProposal).append(this.proposalPersonNumber, rhs.proposalPersonNumber).isEquals();
         }
 
         @Override
         public int hashCode() {
-            return new HashCodeBuilder(17, 37).append(this.proposalNumber).append(this.proposalPersonNumber).toHashCode();
+            return new HashCodeBuilder(17, 37).append(this.developmentProposal).append(this.proposalPersonNumber).toHashCode();
         }
 
         @Override
         public int compareTo(ProposalPersonId other) {
-            return new CompareToBuilder().append(this.proposalNumber, other.proposalNumber).append(this.proposalPersonNumber, other.proposalPersonNumber).toComparison();
+            return new CompareToBuilder().append(this.developmentProposal, other.developmentProposal).append(this.proposalPersonNumber, other.proposalPersonNumber).toComparison();
         }
     }
 
