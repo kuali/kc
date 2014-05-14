@@ -93,8 +93,11 @@ public class PrintingServiceImpl implements PrintingService {
                 for (Source source : printableArtifact.getXSLTemplates()) {
                     xslCount++;
                     StreamSource xslt = (StreamSource) source;
-                    createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt, printableArtifact);
-
+                    if(xslt.getInputStream()==null || xslt.getInputStream().available()<=0){
+                        LOG.error("Stylesheet is not available");
+                    }else{
+                        createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt, printableArtifact);
+                    }
                 }
             }
             else if (printableArtifact.getXSLTemplateWithBookmarks() != null) {
@@ -122,6 +125,10 @@ public class PrintingServiceImpl implements PrintingService {
             throw new PrintingException(e.getMessage(), e);
         }
         catch (TransformerException e) {
+            LOG.error(e.getMessage(), e);
+            throw new PrintingException(e.getMessage(), e);
+        }
+        catch (IOException e) {
             LOG.error(e.getMessage(), e);
             throw new PrintingException(e.getMessage(), e);
         }

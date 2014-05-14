@@ -652,7 +652,7 @@ public class KRAS2SServiceImpl implements S2SService {
 			}
 			List<AttachmentData> formAttList = new ArrayList<AttachmentData>();
 			S2SBaseFormGenerator s2sFormGenerator = null;
-            FormMappingInfo info = new FormMappingLoader().getFormInfo(opportunityForm.getOppNameSpace());
+            FormMappingInfo info = new FormMappingLoader().getFormInfo(developmentProposal.getProposalNumber(),opportunityForm.getOppNameSpace());
             if(info==null) continue;
 			String namespace = info.getNameSpace();
             s2sFormGenerator = (S2SBaseFormGenerator)s2SFormGeneratorService.getS2SGenerator(developmentProposal.getProposalNumber(),namespace);

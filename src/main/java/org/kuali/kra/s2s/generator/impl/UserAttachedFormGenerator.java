@@ -66,6 +66,9 @@ public class UserAttachedFormGenerator extends S2SBaseFormGenerator {
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
         S2sUserAttachedFormFile userAttachedFormFile = findUserAttachedFormFile();
+        if(userAttachedFormFile==null){
+            throw new RuntimeException("Cannot find XML Data");
+        }
         String formXml = userAttachedFormFile.getXmlFile();
         XmlObject xmlObject;
         try {
@@ -119,7 +122,7 @@ public class UserAttachedFormGenerator extends S2SBaseFormGenerator {
         fieldValues.put("namespace", getNamespace());
         List<S2sUserAttachedForm> userAttachedForms = (List<S2sUserAttachedForm>) KraServiceLocator.getService(BusinessObjectService.class).
                                                                 findMatching(S2sUserAttachedForm.class, fieldValues);
-        return userAttachedForms.isEmpty()?userAttachedForms.get(0):null;
+        return !userAttachedForms.isEmpty()?userAttachedForms.get(0):null;
     }
 
     /**
