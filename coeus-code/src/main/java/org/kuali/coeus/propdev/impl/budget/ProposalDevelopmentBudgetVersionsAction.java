@@ -42,7 +42,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarcyActionHelper;
-import org.kuali.kra.question.CopyPeriodsQuestion;
+import org.kuali.coeus.common.budget.copy.CopyPeriodsQuestion;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.service.DocumentService;
