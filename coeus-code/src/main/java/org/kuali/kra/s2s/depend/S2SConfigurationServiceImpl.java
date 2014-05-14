@@ -15,6 +15,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+
 @Service("s2SConfigurationService")
 public class S2SConfigurationServiceImpl implements S2SConfigurationService {
 
@@ -22,10 +24,7 @@ public class S2SConfigurationServiceImpl implements S2SConfigurationService {
 
     private static final String S2S_NMSPC_CD = "KC-S2S";
     private static final String S2S_CMPNT_CD = "All";
-    private static final Pattern PLACEHOLDER = Pattern.compile("@p\\{.*?\\}");
-    private static final Pattern NS = Pattern.compile("ns=\".*?\"");
-    private static final Pattern C = Pattern.compile("c=\".*?\"");
-    private static final Pattern N = Pattern.compile("n=\".*?\"");
+    private static final Pattern PLACEHOLDER = Pattern.compile("@\\{#param\\((.*?)\\)\\}");
 
     @Autowired
     @Qualifier("parameterService")
@@ -67,25 +66,13 @@ public class S2SConfigurationServiceImpl implements S2SConfigurationService {
         return replaceParameterPlaceholders(parameterValue, new HashSet<Parm>());
     }
 
-    protected String matchNamespace(String placeholder) {
-        final Matcher nsMatcher = NS.matcher(placeholder);
-        return nsMatcher.find() ? nsMatcher.group().replace("\"", "").replace(",", "").replace("ns=", "").trim() : null;
-    }
+    protected Parm extractParm(String params) {
+        final String[] ps = params.split(",");
 
-    protected String matchComponent(String placeholder) {
-        final Matcher cMatcher = C.matcher(placeholder);
-        return cMatcher.find() ? cMatcher.group().replace("\"", "").replace(",", "").replace("c=", "").trim() : null;
-    }
+        final String namespace = ps[0].replace("'", "").replace("\"", "").trim();
+        final String component = ps[1].replace("'", "").replace("\"", "").trim();
+        final String name = ps[2].replace("'", "").replace("\"", "").trim();
 
-    protected String matchName(String placeholder) {
-        final Matcher nMatcher = N.matcher(placeholder);
-        return nMatcher.find() ? nMatcher.group().replace("\"", "").replace(",", "").replace("n=", "").trim() : null;
-    }
-
-    protected Parm extractParm(String placeholder) {
-        final String namespace = matchNamespace(placeholder);
-        final String component = matchComponent(placeholder);
-        final String name = matchName(placeholder);
         return new Parm(namespace,component,name);
     }
 
@@ -115,9 +102,9 @@ public class S2SConfigurationServiceImpl implements S2SConfigurationService {
         final Matcher placeholderMatcher =  PLACEHOLDER.matcher(replacedParameterValue);
         while (placeholderMatcher.find()) {
 
-            final String placeholder = placeholderMatcher.group();
-
-            final Parm p = extractParm(placeholder);
+            final String placeholder = placeholderMatcher.group(0);
+            final String params = placeholderMatcher.group(1);
+            final Parm p = extractParm(params);
             current.add(p);
 
             if (StringUtils.isNotBlank(p.namespace) && StringUtils.isNotBlank(p.component) & StringUtils.isNotBlank(p.name)) {
