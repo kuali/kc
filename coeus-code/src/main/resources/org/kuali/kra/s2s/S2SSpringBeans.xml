@@ -26,10 +26,6 @@
     <context:component-scan base-package="org.kuali.kra.s2s.depend" />
     <context:component-scan base-package="org.kuali.kra.s2s.service.impl" />
 
-    <bean id="citizenshipTypeService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="citizenshipTypeService" />
-    </bean>
-
     <bean id="rolodexService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="rolodexService" />
     </bean>
@@ -120,8 +116,8 @@
 			<ref bean="unitService" />
 		</property>
         <property name="proposalAdminDetailsService" ref="proposalAdminDetailsService"/>
-        <property name="countryService" ref="countryService" />
-        <property name="stateService" ref="stateService" />
+        <property name="countryService" ref="kcCountryService" />
+        <property name="stateService" ref="kcStateService" />
         <property name="questionnaireAnswerService" ref="questionnaireAnswerService"/>
 	</bean>
 
