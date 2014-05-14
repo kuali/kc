@@ -11,7 +11,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import static org.junit.Assert.*;
 
-
+//@{#parm('KC', 'All', 'A_PARM_NM')}
 public class S2SConfigurationServiceImplTest {
 
     private static final String S2S_NMSPC_CD = "KC-S2S";
@@ -131,7 +131,55 @@ public class S2SConfigurationServiceImplTest {
         final ConfigurationService configurationService = context.mock(ConfigurationService.class);
 
         final String name = "A_PARAM_NAME";
-        final String paramVal = "A PARAM @p{ns=\"KC-AB\"c=\"Document\"n=\"AWARD_BUDGET_POST_ENABLED\"} VALUE";
+        final String paramVal = "A PARAM @{#param('KC-AB', 'Document', 'AWARD_BUDGET_POST_ENABLED')} VALUE";
+        final String nestedParamVal = "NESTED";
+        final String resolvedParamVal = "A PARAM NESTED VALUE";
+        context.checking(new Expectations() {{
+            oneOf(parameterService).getParameterValueAsString(S2S_NMSPC_CD, S2S_CMPNT_CD, name);
+            will(returnValue(paramVal));
+            oneOf(parameterService).getParameterValueAsString("KC-AB", "Document", "AWARD_BUDGET_POST_ENABLED");
+            will(returnValue(nestedParamVal));
+        }});
+        configService.setParameterService(parameterService);
+        configService.setConfigurationService(configurationService);
+
+        final String value = configService.getValueAsString(name);
+
+        assertEquals(resolvedParamVal, value);
+    }
+
+    @Test
+    public void test_getConfigurationValue_parameter_present_with_placeholder_double_quote() {
+        final S2SConfigurationServiceImpl configService = new S2SConfigurationServiceImpl();
+        final ParameterService parameterService = context.mock(ParameterService.class);
+        final ConfigurationService configurationService = context.mock(ConfigurationService.class);
+
+        final String name = "A_PARAM_NAME";
+        final String paramVal = "A PARAM @{#param(\"KC-AB\", \"Document\", \"AWARD_BUDGET_POST_ENABLED\")} VALUE";
+        final String nestedParamVal = "NESTED";
+        final String resolvedParamVal = "A PARAM NESTED VALUE";
+        context.checking(new Expectations() {{
+            oneOf(parameterService).getParameterValueAsString(S2S_NMSPC_CD, S2S_CMPNT_CD, name);
+            will(returnValue(paramVal));
+            oneOf(parameterService).getParameterValueAsString("KC-AB", "Document", "AWARD_BUDGET_POST_ENABLED");
+            will(returnValue(nestedParamVal));
+        }});
+        configService.setParameterService(parameterService);
+        configService.setConfigurationService(configurationService);
+
+        final String value = configService.getValueAsString(name);
+
+        assertEquals(resolvedParamVal, value);
+    }
+
+    @Test
+    public void test_getConfigurationValue_parameter_present_with_placeholder_mixed_quote() {
+        final S2SConfigurationServiceImpl configService = new S2SConfigurationServiceImpl();
+        final ParameterService parameterService = context.mock(ParameterService.class);
+        final ConfigurationService configurationService = context.mock(ConfigurationService.class);
+
+        final String name = "A_PARAM_NAME";
+        final String paramVal = "A PARAM @{#param('KC-AB', \"Document', \"AWARD_BUDGET_POST_ENABLED\")} VALUE";
         final String nestedParamVal = "NESTED";
         final String resolvedParamVal = "A PARAM NESTED VALUE";
         context.checking(new Expectations() {{
@@ -155,7 +203,8 @@ public class S2SConfigurationServiceImplTest {
         final ConfigurationService configurationService = context.mock(ConfigurationService.class);
 
         final String name = "A_PARAM_NAME";
-        final String paramVal = "A PARAM @p{ns=\"KC-AB\"c=\"Document\"n=\"FOO_PARM\"} @p{ns=\"KC-AB\"c=\"Document\"n=\"BAR_PARM\"} VALUE";
+
+        final String paramVal = "A PARAM @{#param('KC-AB', 'Document', 'FOO_PARM')} @{#param('KC-AB', 'Document', 'BAR_PARM')} VALUE";
         final String nestedParamVal1 = "FOO";
         final String nestedParamVal2 = "BAR";
         final String resolvedParamVal = "A PARAM FOO BAR VALUE";
@@ -182,7 +231,8 @@ public class S2SConfigurationServiceImplTest {
         final ConfigurationService configurationService = context.mock(ConfigurationService.class);
 
         final String name = "A_PARAM_NAME";
-        final String paramVal = "A PARAM @p{ns=\"KC-AB\"c=\"Document\"n=\"AWARD_BUDGET_POST_ENABLED\"} @p{ns=\"KC-AB\"c=\"Document\"n=\"AWARD_BUDGET_POST_ENABLED\"} VALUE";
+
+        final String paramVal = "A PARAM @{#param('KC-AB', 'Document', 'AWARD_BUDGET_POST_ENABLED')} @{#param('KC-AB', 'Document', 'AWARD_BUDGET_POST_ENABLED')} VALUE";
         final String nestedParamVal = "NESTED";
         final String resolvedParamVal = "A PARAM NESTED NESTED VALUE";
         context.checking(new Expectations() {{
@@ -208,7 +258,8 @@ public class S2SConfigurationServiceImplTest {
         final ConfigurationService configurationService = context.mock(ConfigurationService.class);
 
         final String name = "A_PARAM_NAME";
-        final String paramVal = "A PARAM @p{ns=\"KC-S2S\"c=\"All\"n=\"A_PARAM_NAME\"} VALUE";
+
+        final String paramVal = "A PARAM @{#param('KC-S2S', 'All', 'A_PARAM_NAME')} VALUE";
         context.checking(new Expectations() {{
             allowing(parameterService).getParameterValueAsString(S2S_NMSPC_CD, S2S_CMPNT_CD, name);
             will(returnValue(paramVal));
@@ -226,7 +277,7 @@ public class S2SConfigurationServiceImplTest {
         final ConfigurationService configurationService = context.mock(ConfigurationService.class);
 
         final String name = "A_PARAM_NAME";
-        final String paramVal = "@p{ns=\"KC-S2S\"c=\"All\"n=\"A_PARAM_NAME\"}";
+        final String paramVal = "@{#param('KC-S2S', 'All', 'A_PARAM_NAME')}";
         context.checking(new Expectations() {{
             allowing(parameterService).getParameterValueAsString(S2S_NMSPC_CD, S2S_CMPNT_CD, name);
             will(returnValue(paramVal));
@@ -244,10 +295,11 @@ public class S2SConfigurationServiceImplTest {
         final ConfigurationService configurationService = context.mock(ConfigurationService.class);
 
         final String name = "A_PARAM_NAME";
-        final String paramVal = "@p{ns=\"KC-S2S\"c=\"All\"n=\"OTHER_PARAM\"}";
+
+        final String paramVal = "@{#param('KC-S2S', 'All', 'OTHER_PARAM')}";
 
         final String name2 = "OTHER_PARAM";
-        final String paramVal2 = "@p{ns=\"KC-S2S\"c=\"All\"n=\"A_PARAM_NAME\"}";
+        final String paramVal2 = "@{#param('KC-S2S', 'All', 'A_PARAM_NAME')}";
         context.checking(new Expectations() {{
             oneOf(parameterService).getParameterValueAsString(S2S_NMSPC_CD, S2S_CMPNT_CD, name);
             will(returnValue(paramVal));
@@ -270,7 +322,8 @@ public class S2SConfigurationServiceImplTest {
         final ConfigurationService configurationService = context.mock(ConfigurationService.class);
 
         final String name = "A_PARAM_NAME";
-        final String paramVal = "A PARAM @p{ns=\"KC-AB\"c=\"Document\"n=\"AWARD_BUDGET_POST_ENABLED\"} VALUE";
+
+        final String paramVal = "A PARAM @{#param('KC-AB', 'Document', 'AWARD_BUDGET_POST_ENABLED')} VALUE";
         final String resolvedParamVal = "A PARAM  VALUE";
         context.checking(new Expectations() {{
             oneOf(parameterService).getParameterValueAsString(S2S_NMSPC_CD, S2S_CMPNT_CD, name);
@@ -293,7 +346,7 @@ public class S2SConfigurationServiceImplTest {
         final ConfigurationService configurationService = context.mock(ConfigurationService.class);
 
         final String name = "A_PARAM_NAME";
-        final String paramVal = "A PARAM @p{ns=\"KC-AB\"z=\"Document\"n=\"AWARD_BUDGET_POST_ENABLED\"} VALUE";
+        final String paramVal = "A PARAM @{param('KC-AB', 'Document', 'AWARD_BUDGET_POST_ENABLED')} VALUE";
         final String resolvedParamVal = paramVal;
         context.checking(new Expectations() {{
             oneOf(parameterService).getParameterValueAsString(S2S_NMSPC_CD, S2S_CMPNT_CD, name);
@@ -314,7 +367,7 @@ public class S2SConfigurationServiceImplTest {
         final ConfigurationService configurationService = context.mock(ConfigurationService.class);
 
         final String name = "A_PARAM_NAME";
-        final String paramVal = "A PARAM @p{ns=\"KC-AB\",c=\"Document\",n=\"AWARD_BUDGET_POST_ENABLED\",} VALUE";
+        final String paramVal = "A PARAM @{#param('KC-AB', 'Document', 'AWARD_BUDGET_POST_ENABLED',)} VALUE";
         final String nestedParamVal = "NESTED";
         final String resolvedParamVal = "A PARAM NESTED VALUE";
         context.checking(new Expectations() {{
@@ -338,7 +391,7 @@ public class S2SConfigurationServiceImplTest {
         final ConfigurationService configurationService = context.mock(ConfigurationService.class);
 
         final String name = "A_PARAM_NAME";
-        final String paramVal = "A PARAM @p{ns=\"KC-AB\",c=\"Document\",n=\"AWARD_BUDGET_POST_ENABLED\"} VALUE";
+        final String paramVal = "A PARAM @{#param('KC-AB', 'Document', 'AWARD_BUDGET_POST_ENABLED')} VALUE";
         final String nestedParamVal = "NESTED";
         final String resolvedParamVal = "A PARAM NESTED VALUE";
         context.checking(new Expectations() {{
@@ -362,7 +415,7 @@ public class S2SConfigurationServiceImplTest {
         final ConfigurationService configurationService = context.mock(ConfigurationService.class);
 
         final String name = "A_PARAM_NAME";
-        final String paramVal = "A PARAM @p{ ns=\"KC-AB\", c=\"Document\", n=\"AWARD_BUDGET_POST_ENABLED\" } VALUE";
+        final String paramVal = "A PARAM @{#param('KC-AB', 'Document', 'AWARD_BUDGET_POST_ENABLED' )} VALUE";
         final String nestedParamVal = "NESTED";
         final String resolvedParamVal = "A PARAM NESTED VALUE";
         context.checking(new Expectations() {{
@@ -386,7 +439,7 @@ public class S2SConfigurationServiceImplTest {
         final ConfigurationService configurationService = context.mock(ConfigurationService.class);
 
         final String name = "A_PARAM_NAME";
-        final String paramVal = "A PARAM @p{ ns=\"KC-AB\" c=\"Document\" n=\"AWARD_BUDGET_POST_ENABLED\" } VALUE";
+        final String paramVal = "A PARAM @{#param( 'KC-AB', 'Document', 'AWARD_BUDGET_POST_ENABLED' )} VALUE";
         final String nestedParamVal = "NESTED";
         final String resolvedParamVal = "A PARAM NESTED VALUE";
         context.checking(new Expectations() {{
