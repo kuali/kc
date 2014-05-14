@@ -38,7 +38,7 @@
     <filter-class>org.kuali.rice.kns.web.filter.ParameterFilter</filter-class>
         <init-param>
             <param-name>excludeParams</param-name>
-            <param-value>(.*\.|^|.*|\[('|"))(c|C)lass(\.|('|")]|\[).*</param-value>
+            <param-value>(.*\.|^|\[('|"))(c|C)lass(\.|('|")]|\[).*</param-value>
         </init-param>
     </filter>
 
