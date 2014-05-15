@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.costshare;
+package org.kuali.coeus.common.framework.costshare;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
@@ -29,7 +29,7 @@ import java.util.List;
  * This class extends ResearchDocumentRuleBase as an abstract and implents validation functions for cost share stuff.
  */
 public abstract class CostShareRuleResearchDocumentBase extends BudgetParentDocumentRule {
-    
+
     private CostShareService costShareService;
     
     /**

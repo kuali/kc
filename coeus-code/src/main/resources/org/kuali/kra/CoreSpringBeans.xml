@@ -1226,10 +1226,6 @@
         <property name="parameterService" ref="parameterService" />
         <property name="configurationService" ref="kualiConfigurationService" />
     </bean>
-
-    <bean id="costShareService" class="org.kuali.kra.costshare.CostShareServiceImpl">
-        <property name="parameterService" ref="parameterService" />
-    </bean>
     
     <bean id="customAttributeDocumentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="customAttributeDocumentLookupableHelperService" />

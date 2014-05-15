@@ -18,8 +18,8 @@ package org.kuali.kra.award.commitments;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.costshare.CostShareFunctions;
-import org.kuali.kra.costshare.CostShareService;
+import org.kuali.coeus.common.framework.costshare.CostShareFunctions;
+import org.kuali.coeus.common.framework.costshare.CostShareService;
 
 import java.io.Serializable;
 
