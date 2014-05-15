@@ -19,10 +19,11 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.propdev.impl.s2s.MailInfo;
+import org.kuali.coeus.propdev.impl.s2s.S2SPollingTask;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ import java.util.Map;
 
 /**
  * 
- * This class tests execution of {@link S2SPollingTask}
+ * This class tests execution of {@link org.kuali.coeus.propdev.impl.s2s.S2SPollingTask}
  * 
  */
 public class S2SPollingTaskTest extends KcIntegrationTestBase {
