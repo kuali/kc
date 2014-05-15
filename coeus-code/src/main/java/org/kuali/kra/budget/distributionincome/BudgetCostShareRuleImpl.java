@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.distributionincome;
 
 import org.kuali.kra.budget.document.BudgetDocumentContainer;
-import org.kuali.kra.costshare.CostShareRuleResearchDocumentBase;
+import org.kuali.coeus.common.framework.costshare.CostShareRuleResearchDocumentBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.util.GlobalVariables;

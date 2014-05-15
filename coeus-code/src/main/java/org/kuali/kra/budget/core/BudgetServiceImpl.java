@@ -40,7 +40,7 @@ import org.kuali.kra.budget.personnel.ValidCeJobCode;
 import org.kuali.kra.budget.rates.BudgetRate;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.rates.ValidCeRateType;
-import org.kuali.kra.budget.summary.BudgetSummaryService;
+import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.*;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;

@@ -18,6 +18,8 @@ package org.kuali.kra.costshare;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.costshare.CostShareService;
+import org.kuali.coeus.common.impl.costshare.CostShareServiceImpl;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;

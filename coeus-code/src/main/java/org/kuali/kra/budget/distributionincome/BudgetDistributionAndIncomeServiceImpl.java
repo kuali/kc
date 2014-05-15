@@ -22,7 +22,7 @@ import org.kuali.kra.budget.core.Budget.FiscalYearSummary;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.rates.BudgetRate;
-import org.kuali.kra.costshare.CostShareService;
+import org.kuali.coeus.common.framework.costshare.CostShareService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 

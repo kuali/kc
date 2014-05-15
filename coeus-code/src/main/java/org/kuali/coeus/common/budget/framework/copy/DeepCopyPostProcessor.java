@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.deepcopy;
+package org.kuali.coeus.common.budget.framework.copy;
 
 import java.io.Serializable;
 
