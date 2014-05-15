@@ -199,7 +199,7 @@
 
 	<!--  S2S Scheduler configuration start -->
 	<bean id="preValidationTask"
-		class="org.kuali.kra.s2s.polling.S2SPollingTask">
+		class="org.kuali.coeus.propdev.impl.s2s.S2SPollingTask">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -223,7 +223,7 @@
 		</property>
 	</bean>
 	<bean id="validationTask"
-		class="org.kuali.kra.s2s.polling.S2SPollingTask">
+		class="org.kuali.coeus.propdev.impl.s2s.S2SPollingTask">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -244,7 +244,7 @@
 		</property>
 	</bean>
 	<bean id="postValidationTask"
-		class="org.kuali.kra.s2s.polling.S2SPollingTask">
+		class="org.kuali.coeus.propdev.impl.s2s.S2SPollingTask">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -265,7 +265,7 @@
 		</property>
 	</bean>
 	<bean id="errorOutTask"
-		class="org.kuali.kra.s2s.polling.S2SPollingTask">
+		class="org.kuali.coeus.propdev.impl.s2s.S2SPollingTask">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -286,7 +286,7 @@
 		</property>
 	</bean>
 
-	<bean id="mailInfo" class="org.kuali.kra.s2s.polling.MailInfo">
+	<bean id="mailInfo" class="org.kuali.coeus.propdev.impl.s2s.MailInfo">
 		<property name="dunsNumber" value="" />
 		<property name="to" value="" />
 		<property name="cc" value="" />
@@ -372,7 +372,7 @@
 	</bean>
 
 	<bean id="s2SSchedulerStarter"
-		class="org.kuali.kra.s2s.polling.S2SSchedulerFactoryBean">
+		class="org.kuali.coeus.propdev.impl.s2s.S2SSchedulerFactoryBean">
 		<property name="triggers">
 			<list>
 				<ref bean="preValidationTrigger" />
