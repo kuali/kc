@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.s2s.polling;
+package org.kuali.coeus.propdev.impl.s2s;
 
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 
