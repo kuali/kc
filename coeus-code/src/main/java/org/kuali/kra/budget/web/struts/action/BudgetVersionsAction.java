@@ -46,7 +46,7 @@ import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarcyActionHelper;
-import org.kuali.coeus.common.budget.copy.CopyPeriodsQuestion;
+import org.kuali.coeus.common.budget.framework.copy.CopyPeriodsQuestion;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.service.DocumentService;
