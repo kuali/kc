@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.propdev.impl.s2s;
 
-import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 
 /**
  * 
