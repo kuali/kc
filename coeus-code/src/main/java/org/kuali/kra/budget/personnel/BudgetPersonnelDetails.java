@@ -18,8 +18,7 @@ package org.kuali.kra.budget.personnel;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
-import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

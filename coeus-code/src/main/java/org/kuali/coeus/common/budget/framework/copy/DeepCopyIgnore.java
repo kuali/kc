@@ -13,16 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.costshare;
+package org.kuali.coeus.common.budget.framework.copy;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-public interface CostShareFunctions {
-    
-    /**
-     * 
-     * This method should call the CostShareService to get the label, and then do any document specific processing needed.
-     * @return
-     */
-    String getProjectPeriodLabel();
+@Retention(RetentionPolicy.RUNTIME)
+public @interface DeepCopyIgnore {
 
 }

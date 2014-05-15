@@ -21,7 +21,7 @@ import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.core.BudgetCategory;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.core.CostElement;
-import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
+import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.rice.krad.util.ObjectUtils;
 

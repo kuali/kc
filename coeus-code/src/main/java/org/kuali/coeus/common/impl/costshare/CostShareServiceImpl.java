@@ -13,20 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.costshare;
+package org.kuali.coeus.common.impl.costshare;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.costshare.CostShareService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
-
+@Component("costShareService")
 public class CostShareServiceImpl implements CostShareService {
     
     private static final String PARAM_LABEL_NAME = "CostShareProjectPeriodNameLabel"; 
     
     private static final String STANDARD_COST_SHARE_LABEL_FISCAL_YEAR = "Fiscal Year";
     private static final String STANDARD_COST_SHARE_LABEL_PROJECT_PERIOD = "Project Period";
-    
+
+    @Autowired
+    @Qualifier("parameterService")
     private ParameterService parameterService; 
 
     @Override
