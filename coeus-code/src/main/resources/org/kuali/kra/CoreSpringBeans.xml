@@ -31,6 +31,7 @@
     <context:component-scan base-package="org.kuali.coeus.common.notification.impl.service.impl"/>
 
     <context:component-scan base-package="org.kuali.coeus.common.impl"/>
+    <context:component-scan base-package="org.kuali.coeus.common.budget"/>
 	<context:component-scan base-package="org.kuali.kra.service.impl"/>
     <context:component-scan base-package="org.kuali.kra.multicampus"/>
 
@@ -1237,9 +1238,7 @@
     <bean id="customLookupable" class="org.kuali.kra.lookup.CustomLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="lookupableHelperService" />
     </bean>
-    
-    <bean id="deepCopyPostProcessor" class="org.kuali.kra.budget.deepcopy.DeepCopyPostProcessorImpl" />
-    
+
     <bean id="fundingSourceTypeService" class="org.kuali.kra.service.impl.FundingSourceTypeServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>

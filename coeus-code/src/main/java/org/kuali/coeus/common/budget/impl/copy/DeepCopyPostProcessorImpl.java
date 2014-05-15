@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.deepcopy;
+package org.kuali.coeus.common.budget.impl.copy;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
+import org.kuali.coeus.common.budget.framework.copy.DeepCopyPostProcessor;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
-import org.kuali.kra.budget.deepcopy.DeepCopyPostProcessor;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
@@ -33,7 +34,8 @@ import java.util.*;
 /**
  * This class is to process deep copy with Object Utils and then 
  */
-public class DeepCopyPostProcessorImpl implements DeepCopyPostProcessor{
+@Component("deepCopyPostProcessor")
+public class DeepCopyPostProcessorImpl implements DeepCopyPostProcessor {
 
     private static final Log LOG = LogFactory.getLog(DeepCopyPostProcessorImpl.class);
 
