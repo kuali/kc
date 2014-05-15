@@ -5,4 +5,4 @@
  *
  * We may want to come up with a replacement solution.
  */
-package org.kuali.kra.budget.deepcopy;
+package org.kuali.coeus.common.budget.framework.copy;

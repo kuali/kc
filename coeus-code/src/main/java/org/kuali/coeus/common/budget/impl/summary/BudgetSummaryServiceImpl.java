@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.summary;
+package org.kuali.coeus.common.budget.impl.summary;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCommonService;
 import org.kuali.kra.budget.core.BudgetCommonServiceFactory;
 import org.kuali.kra.budget.core.BudgetParent;
-import org.kuali.kra.budget.deepcopy.DeepCopyPostProcessor;
+import org.kuali.coeus.common.budget.framework.copy.DeepCopyPostProcessor;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -34,6 +34,9 @@ import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -41,14 +44,31 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
+@Component("budgetSummaryService")
 public class BudgetSummaryServiceImpl implements BudgetSummaryService {
 
     private static final String BUDGET_DATE_CHANGE_WARNING_MSG = "Changing the budget period dates will result in changes being made to line item Expenses & recalculation of the budget, Do you want to proceed? ";
     private static final String BUDGET_DATE_CHANGE_AND_DELETE_WARNING_MSG = "Changing the budget period dates will result in changes being made to line item Expenses & recalculation of the budget, and one or more periods to be deleted have expense line items that will be deleted. Are you sure you want to proceed? ";
     private static final String BUDGET_PERIOD_DELETE_WARNING_MSG = "One or more periods to be deleted have expense line items that will be deleted. Are you sure you want to proceed?";
 
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+    @Autowired
+    @Qualifier("budgetCalculationService")
     private BudgetCalculationService budgetCalculationService;
+    @Autowired
+    @Qualifier("dateTimeService")
+    private DateTimeService dateTimeService;
+    @Autowired
+    @Qualifier("deepCopyPostProcessor")
+    private DeepCopyPostProcessor deepCopyPostProcessor;
+
+    public void setDateTimeService (DateTimeService dateTimeService){this.dateTimeService = dateTimeService;}
+    protected DateTimeService getDateTimeService (){return dateTimeService;}
+
+    public void setDeepCopyPostProcessor (DeepCopyPostProcessor deepCopyPostProcessor){this.deepCopyPostProcessor = deepCopyPostProcessor;}
+    protected DeepCopyPostProcessor getDeepCopyPostProcessor (){return deepCopyPostProcessor;}
 
     @Override
     public void generateAllPeriods(Budget budget) {
@@ -72,23 +92,23 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                     // get line items for first period
                     budgetPeriod1 = budgetPeriod;
                     budgetLineItems = budgetPeriod.getBudgetLineItems();
-                    period1Duration = KcServiceLocator.getService(DateTimeService.class).dateDiff(budgetPeriod.getStartDate(), budgetPeriod.getEndDate(), false);
+                    period1Duration = getDateTimeService().dateDiff(budgetPeriod.getStartDate(), budgetPeriod.getEndDate(), false);
                     break;
                 default :
                     budgetPeriod.setNumberOfParticipants(budgetPeriod1.getNumberOfParticipants());
                     /* add line items for following periods */
                     for(BudgetLineItem periodLineItem: budgetLineItems) {
-                        BudgetLineItem budgetLineItem = (BudgetLineItem)(KcServiceLocator.getService(DeepCopyPostProcessor.class).processDeepCopyWithDeepCopyIgnore(periodLineItem));
+                        BudgetLineItem budgetLineItem = (BudgetLineItem)(getDeepCopyPostProcessor().processDeepCopyWithDeepCopyIgnore(periodLineItem));
                         budgetLineItem.setBudgetId(budget.getBudgetId());
                         budgetLineItem.getBudgetCalculatedAmounts().clear();
                         budgetLineItem.setBudgetPeriod(budPeriod);
                         budgetLineItem.setBudgetPeriodId(budgetPeriodId);
                         budgetLineItem.setBudgetPeriodBO(budgetPeriod);
                         boolean isLeapDateInPeriod = isLeapDaysInPeriod(budgetLineItem.getStartDate(), budgetLineItem.getEndDate()) ;
-                        gap= KcServiceLocator.getService(DateTimeService.class).dateDiff(budgetPeriod1.getStartDate(), budgetLineItem.getStartDate(), false);
+                        gap= getDateTimeService().dateDiff(budgetPeriod1.getStartDate(), budgetLineItem.getStartDate(), false);
                         boolean isLeapDayInGap = isLeapDaysInPeriod(budgetPeriod1.getStartDate(), budgetLineItem.getStartDate());
-                        lineDuration= KcServiceLocator.getService(DateTimeService.class).dateDiff(budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), false);
-                        currentPeriodDuration = KcServiceLocator.getService(DateTimeService.class).dateDiff(budgetPeriod.getStartDate(), budgetPeriod.getEndDate(), false);
+                        lineDuration= getDateTimeService().dateDiff(budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), false);
+                        currentPeriodDuration = getDateTimeService().dateDiff(budgetPeriod.getStartDate(), budgetPeriod.getEndDate(), false);
                         if (period1Duration == lineDuration || lineDuration > currentPeriodDuration) {
                             budgetLineItem.setStartDate(budgetPeriod.getStartDate());
                             budgetLineItem.setEndDate(budgetPeriod.getEndDate());
@@ -100,17 +120,17 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                             budgetLineItem.setEndDate(dates.get(1));
                         }
                         budgetLineItem.setBasedOnLineItem(budgetLineItem.getLineItemNumber());
-                        lineDuration= KcServiceLocator.getService(DateTimeService.class).dateDiff(periodLineItem.getStartDate(), periodLineItem.getEndDate(), false);
+                        lineDuration= getDateTimeService().dateDiff(periodLineItem.getStartDate(), periodLineItem.getEndDate(), false);
                         int personnelDuration = 0;
                         /* add personnel line items */
                         List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetLineItem.getBudgetPersonnelDetailsList();
                         for(BudgetPersonnelDetails budgetPersonnelDetail: budgetPersonnelDetails) {
                             budgetPersonnelDetail.setBudgetPersonnelLineItemId(null);
                             budgetPersonnelDetail.getBudgetCalculatedAmounts().clear();
-                            personnelDuration= KcServiceLocator.getService(DateTimeService.class).dateDiff(budgetPersonnelDetail.getStartDate(), budgetPersonnelDetail.getEndDate(), false);
+                            personnelDuration= getDateTimeService().dateDiff(budgetPersonnelDetail.getStartDate(), budgetPersonnelDetail.getEndDate(), false);
                             budgetPersonnelDetail.setBudgetPeriod(budPeriod);
                             budgetPersonnelDetail.setBudgetPeriodId(budgetPeriodId);
-                            gap= KcServiceLocator.getService(DateTimeService.class).dateDiff(periodLineItem.getStartDate(), budgetPersonnelDetail.getStartDate(), false);
+                            gap= getDateTimeService().dateDiff(periodLineItem.getStartDate(), budgetPersonnelDetail.getStartDate(), false);
                             isLeapDayInGap = isLeapDaysInPeriod(periodLineItem.getStartDate(), budgetPersonnelDetail.getStartDate());
                             if (period1Duration == personnelDuration || personnelDuration >= lineDuration) {
                                 budgetPersonnelDetail.setStartDate(budgetLineItem.getStartDate());
@@ -370,7 +390,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     
     /**
      * KRACOEUS-1376
-     * @see org.kuali.kra.budget.summary.BudgetSummaryService#adjustStartEndDatesForLineItems(org.kuali.kra.budget.core.Budget)
+     * @see BudgetSummaryService#adjustStartEndDatesForLineItems(org.kuali.kra.budget.core.Budget)
      */
     @Override
     public void adjustStartEndDatesForLineItems(Budget budget) {
@@ -488,15 +508,15 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
             // duration has priority over child start date relative to parent start date
             if (parentStartDate.compareTo(oldStartDate) != 0) {
                 // keep the gap between child start date and parent start date
-                newStartDate=add(newStartDate, KcServiceLocator.getService(DateTimeService.class).dateDiff(oldStartDate, parentStartDate, false));
+                newStartDate=add(newStartDate, getDateTimeService().dateDiff(oldStartDate, parentStartDate, false));
                 if (newStartDate.after(parentEndDate)) {
                     newStartDate = parentStartDate;
                 } else {                       
                     if (newStartDate.after(parentStartDate)) {
                         // keep the duration, but the item start date relative to period start date is not maintained.
-                        int parentDuration = KcServiceLocator.getService(DateTimeService.class).dateDiff(parentStartDate, parentEndDate, false);
-                        int duration = KcServiceLocator.getService(DateTimeService.class).dateDiff(startDate, endDate, false);
-                        int daysTOEndDate = KcServiceLocator.getService(DateTimeService.class).dateDiff(newStartDate, parentEndDate, false);
+                        int parentDuration = getDateTimeService().dateDiff(parentStartDate, parentEndDate, false);
+                        int duration = getDateTimeService().dateDiff(startDate, endDate, false);
+                        int daysTOEndDate = getDateTimeService().dateDiff(newStartDate, parentEndDate, false);
                         if (daysTOEndDate < duration) {
                             if (parentDuration > duration) {
                                 newEndDate = parentEndDate;
@@ -508,7 +528,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                         }   
                     }
                 }
-                newEndDate=add(newStartDate, KcServiceLocator.getService(DateTimeService.class).dateDiff(startDate, endDate, false));
+                newEndDate=add(newStartDate, getDateTimeService().dateDiff(startDate, endDate, false));
                 if (newEndDate.after(parentEndDate)) {
                     newEndDate = parentEndDate;
                 }
@@ -518,14 +538,14 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                     if (parentEndDate.after(startDate) && parentEndDate.before(endDate)) {
                         newEndDate = parentEndDate;
                         // try to keep duration
-                        newStartDate = add(newEndDate, KcServiceLocator.getService(DateTimeService.class).dateDiff(endDate, startDate,  false));
+                        newStartDate = add(newEndDate, getDateTimeService().dateDiff(endDate, startDate, false));
                         if (newStartDate.before(parentStartDate)) {
                             newStartDate = parentStartDate;
                         }
                     } else {
                         if (parentEndDate.before(startDate)) {
                             newStartDate=parentStartDate;
-                            newEndDate=add(newStartDate, KcServiceLocator.getService(DateTimeService.class).dateDiff(startDate, endDate, false));
+                            newEndDate=add(newStartDate, getDateTimeService().dateDiff(startDate, endDate, false));
                             if (newEndDate.after(parentEndDate)) {
                                 newEndDate = parentEndDate;
                             }

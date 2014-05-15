@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.nonpersonnel;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.budget.deepcopy.DeepCopyIgnore;
+import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 
 public class BudgetRateAndBase extends AbstractBudgetRateAndBase {
 
