@@ -24,7 +24,7 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.distributionincome.BudgetCostShare;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.costshare.CostShareService;
+import org.kuali.coeus.common.framework.costshare.CostShareService;
 import org.kuali.kra.costshare.CostShareServiceTest;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;

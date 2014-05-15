@@ -18,7 +18,7 @@ package org.kuali.kra.institutionalproposal.rules;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CostShareType;
-import org.kuali.kra.costshare.CostShareRuleResearchDocumentBase;
+import org.kuali.coeus.common.framework.costshare.CostShareRuleResearchDocumentBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;

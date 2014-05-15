@@ -13,16 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.costshare;
+package org.kuali.coeus.common.framework.costshare;
 
-
-public interface CostShareFunctions {
+/**
+ * 
+ * This class handles the service calls for getting shared cost share related information. 
+ */
+public interface CostShareService {
     
     /**
      * 
-     * This method should call the CostShareService to get the label, and then do any document specific processing needed.
+     * This method checks the parameter service for the cost share label and returns the string.
      * @return
      */
-    String getProjectPeriodLabel();
+    String getCostShareLabel();
+    
+    
+    /**
+     * 
+     * This method returns true if the project period label is "Fiscal Year"
+     * @return
+     */
+    boolean validateProjectPeriodAsFiscalYear();
+    
+    /**
+     * 
+     * This method returns true if the project period label is "Project Period"
+     * @return
+     */
+    boolean validateProjectPeriodAsProjectPeriod();
 
 }
