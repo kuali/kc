@@ -31,6 +31,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
+import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.rice.krad.data.DataObjectWrapper;
 import org.kuali.rice.krad.service.LookupService;
@@ -71,6 +72,9 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             ProposalAbstract proposalAbstract = (ProposalAbstract) addLine;
             proposalAbstract.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
             proposalAbstract.refreshReferenceObject("abstractType");
+        } else if (addLine instanceof ProposalSpecialReview) {
+        	ProposalSpecialReview proposalSpecialReview = (ProposalSpecialReview) addLine;
+        	proposalSpecialReview.setDevelopmentProposal(document.getDevelopmentProposal());
         }
     }
 

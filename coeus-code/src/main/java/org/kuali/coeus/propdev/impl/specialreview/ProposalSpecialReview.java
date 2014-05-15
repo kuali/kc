@@ -15,7 +15,11 @@
  */
 package org.kuali.coeus.propdev.impl.specialreview;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
@@ -31,14 +35,15 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
 
     private static final long serialVersionUID = 4616138222389685155L;
 
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROPOSAL_NUMBER")
+    private DevelopmentProposal developmentProposal;
+    
     @PortableSequenceGenerator(name = "SEQ_EPS_PROP_SPECIAL_REVIEW_ID")
     @GeneratedValue(generator = "SEQ_EPS_PROP_SPECIAL_REVIEW_ID")
     @Id
     @Column(name = "PROPOSAL_SPECIAL_REVIEW_ID")
     private Long proposalSpecialReviewId;
-
-    @Column(name = "PROPOSAL_NUMBER")
-    private String proposalNumber;
 
     @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
@@ -47,20 +52,15 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
     @Convert(converter = BooleanYNConverter.class)
     private boolean hiddenInHierarchy;
 
-    public void setProposalSpecialReviewId(Long proposalSpecialReviewId) {
+    @OneToMany(mappedBy="proposalSpecialReview", orphanRemoval = true, cascade = { CascadeType.ALL })
+    private List<ProposalSpecialReviewExemption> specialReviewExemptions;
+    
+	public void setProposalSpecialReviewId(Long proposalSpecialReviewId) {
         this.proposalSpecialReviewId = proposalSpecialReviewId;
     }
 
     public Long getProposalSpecialReviewId() {
         return proposalSpecialReviewId;
-    }
-
-    public String getProposalNumber() {
-        return this.proposalNumber;
-    }
-
-    public void setProposalNumber(String proposalNumber) {
-        this.proposalNumber = proposalNumber;
     }
 
     public String getHierarchyProposalNumber() {
@@ -101,7 +101,7 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         int result = super.hashCode();
         result = prime * result + (hiddenInHierarchy ? 1231 : 1237);
         result = prime * result + ((hierarchyProposalNumber == null) ? 0 : hierarchyProposalNumber.hashCode());
-        result = prime * result + ((proposalNumber == null) ? 0 : proposalNumber.hashCode());
+        result = prime * result + ((getDevelopmentProposal().getProposalNumber() == null) ? 0 : getDevelopmentProposal().getProposalNumber().hashCode());
         result = prime * result + ((proposalSpecialReviewId == null) ? 0 : proposalSpecialReviewId.hashCode());
         return result;
     }
@@ -128,11 +128,11 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         } else if (!hierarchyProposalNumber.equals(other.hierarchyProposalNumber)) {
             return false;
         }
-        if (proposalNumber == null) {
-            if (other.proposalNumber != null) {
+        if (getDevelopmentProposal().getProposalNumber() == null) {
+            if (other.getDevelopmentProposal().getProposalNumber() != null) {
                 return false;
             }
-        } else if (!proposalNumber.equals(other.proposalNumber)) {
+        } else if (!getDevelopmentProposal().getProposalNumber().equals(other.getDevelopmentProposal().getProposalNumber())) {
             return false;
         }
         if (proposalSpecialReviewId == null) {
@@ -149,7 +149,31 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         proposalSpecialReviewId = null;
         for (ProposalSpecialReviewExemption exemption : getSpecialReviewExemptions()) {
             exemption.setProposalSpecialReviewExemptionId(null);
-            exemption.setProposalSpecialReviewId(null);
+            exemption.setProposalSpecialReview(null);
         }
     }
+
+    public List<ProposalSpecialReviewExemption> getSpecialReviewExemptions() {
+		return specialReviewExemptions;
+	}
+
+	public void setSpecialReviewExemptions(List<ProposalSpecialReviewExemption> specialReviewExemptions) {
+    	if (specialReviewExemptions != null) {
+    		this.specialReviewExemptions = specialReviewExemptions;
+    	} else {
+    		this.specialReviewExemptions.clear();
+    	}
+    	for(ProposalSpecialReviewExemption proposalSpecialReviewExemption : specialReviewExemptions) {
+    		proposalSpecialReviewExemption.setProposalSpecialReview(this);
+    	}
+	}
+
+	public DevelopmentProposal getDevelopmentProposal() {
+		return developmentProposal;
+	}
+
+	public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
+		this.developmentProposal = developmentProposal;
+	}
+
 }

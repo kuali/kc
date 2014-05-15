@@ -59,11 +59,11 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kc
     @Lob
     private String comments;
 
-    @ManyToOne(targetEntity = SpecialReviewType.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "SPECIAL_REVIEW_CODE", referencedColumnName = "SPECIAL_REVIEW_CODE", insertable = false, updatable = false)
     private SpecialReviewType specialReviewType;
 
-    @ManyToOne(targetEntity = SpecialReviewApprovalType.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "APPROVAL_TYPE_CODE", referencedColumnName = "APPROVAL_TYPE_CODE", insertable = false, updatable = false)
     private SpecialReviewApprovalType approvalType;
 
@@ -158,7 +158,12 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kc
         this.syncSpecialReviewExemptionsToExemptionTypeCodes();
     }
 
+    //refreshReferenceObject should be replaced with @TrackChanges which is not working at this point
+    //Related jira - KRACOEUS-7159
     public SpecialReviewType getSpecialReviewType() {
+    	if(specialReviewType == null) {
+    		refreshReferenceObject("specialReviewType");
+    	}
         return specialReviewType;
     }
 
@@ -167,6 +172,9 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kc
     }
 
     public SpecialReviewApprovalType getApprovalType() {
+    	if(approvalType == null) {
+    		refreshReferenceObject("approvalType");
+    	}
         return approvalType;
     }
 
