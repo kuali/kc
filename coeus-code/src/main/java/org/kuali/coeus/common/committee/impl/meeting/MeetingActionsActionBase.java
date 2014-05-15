@@ -30,7 +30,7 @@ import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.framework.print.CorrespondencePrintingService;
+import org.kuali.coeus.common.question.framework.CorrespondencePrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.meeting.CommScheduleMinuteDoc;

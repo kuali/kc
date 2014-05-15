@@ -1629,13 +1629,13 @@
         <property name="groupName" value="application" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.coeus.common.auth.task.CreateProposalAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.coeus.propdev.impl.core.CreateProposalAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="createProposal" />
                 </bean>
                 <bean class="org.kuali.kra.irb.authorizer.CreateProtocolAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="createProtocol" />
                 </bean>
-                <bean class="org.kuali.coeus.common.auth.task.CreateCommitteeAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.coeus.common.committee.impl.CreateCommitteeAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="addCommittee" />
                 </bean>
                 <bean class="org.kuali.kra.iacuc.authorizer.CreateIacucCommitteeAuthorizer" parent="parentAuthorizer">
@@ -1660,7 +1660,7 @@
                 <bean class="org.kuali.kra.negotiations.authorizer.CreateNegotiationAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="createNegotiation" />
                 </bean>                
-                <bean class="org.kuali.coeus.common.auth.task.CreateResearchAreaAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.irb.authorizer.CreateResearchAreaAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="maintainResearchAreas" />
                 </bean>                
                 <bean class="org.kuali.kra.iacuc.authorizer.CreateIacucResearchAreaAuthorizer" parent="parentAuthorizer">

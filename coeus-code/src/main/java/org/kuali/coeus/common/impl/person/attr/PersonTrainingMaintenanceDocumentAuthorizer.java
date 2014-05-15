@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.auth.task;
+package org.kuali.coeus.common.impl.person.attr;
 
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -23,9 +23,8 @@ import org.kuali.rice.krad.util.KRADConstants;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PersonSignatureMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
-    private static final long serialVersionUID = -2238428296264361269L;
-    public static final String PERMISSION_MAINTAIN_PERSON_SIGNATURE = "Maintain Person Signature";
+public class PersonTrainingMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
+    public static final String PERMISSION_MAINTAIN_PERSON_TRAINING = "Maintain Person Training";
     public static final String KC_SYS = "KC-SYS";
     
     @Override
@@ -33,11 +32,10 @@ public class PersonSignatureMaintenanceDocumentAuthorizer extends MaintenanceDoc
         Map<String, String> permissionDetails = new HashMap<String, String>();
         permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, documentTypeName);
         
-        boolean retVal =  getPermissionService().isAuthorized(user.getPrincipalId(), KC_SYS, PERMISSION_MAINTAIN_PERSON_SIGNATURE, permissionDetails);
+        boolean retVal =  getPermissionService().isAuthorized(user.getPrincipalId(), KC_SYS, PERMISSION_MAINTAIN_PERSON_TRAINING, permissionDetails);
         return retVal;
     }
     
-    @SuppressWarnings("deprecation")
     @Override
     public boolean canMaintain(Object dataObject, Person user) {
         Map<String, String> permissionDetails = new HashMap<String, String>(2);

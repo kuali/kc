@@ -206,7 +206,7 @@
  		scope="prototype" parent="parentLookupableHelperService">
   	</bean>
   	
-  	<bean id="copyPeriodsQuestion" class="org.kuali.coeus.common.budget.copy.CopyPeriodsQuestion" scope="prototype" />
+  	<bean id="copyPeriodsQuestion" class="org.kuali.coeus.common.budget.framework.copy.CopyPeriodsQuestion" scope="prototype" />
   	
   	<!-- bean id="budgetPrintService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.BudgetPrintServiceDummyImpl"-->
   	<!-- Budget Service Configuration Start -->

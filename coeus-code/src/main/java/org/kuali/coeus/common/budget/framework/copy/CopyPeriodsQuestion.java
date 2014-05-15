@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.copy;
+package org.kuali.coeus.common.budget.framework.copy;
 
 import org.kuali.rice.kns.question.QuestionBase;
 
@@ -30,11 +30,7 @@ public class CopyPeriodsQuestion extends QuestionBase {
         BUTTONS.add("copyoneper");
         BUTTONS.add("copyallperiods");
     }
-    
-    /**
-     * @param question
-     * @param buttons
-     */
+
     public CopyPeriodsQuestion() {
         super("Confirm", BUTTONS);
     }

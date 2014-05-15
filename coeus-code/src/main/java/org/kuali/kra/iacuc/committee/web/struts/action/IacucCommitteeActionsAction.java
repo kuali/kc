@@ -23,7 +23,7 @@ import org.kuali.coeus.common.committee.impl.rule.event.CommitteeActionGenerateB
 import org.kuali.coeus.common.committee.impl.service.CommitteeBatchCorrespondenceServiceBase;
 import org.kuali.coeus.common.committee.impl.web.struts.action.CommitteeActionsActionBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.framework.print.CorrespondencePrintingService;
+import org.kuali.coeus.common.question.framework.CorrespondencePrintingService;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.dao.IacucCommitteeBatchCorrespondenceDao;
 import org.kuali.kra.iacuc.committee.print.service.IacucCommitteeCorrespondencePrint;

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.opensource.org/licenses/ecl1.php
+ * http://www.osedu.org/licenses/ECL-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,18 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.auth.task;
+package org.kuali.coeus.common.committee.impl;
 
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
-public class CreateResearchAreaAuthorizer extends TaskAuthorizerBase {
+/**
+ * The Create Committee Authorizer checks to see if the user has 
+ * permission to create a committee. The user must have the ADD_COMMITTEE
+ * permission in any of the units in order to create a committee.
+ */
+public class CreateCommitteeAuthorizer extends TaskAuthorizerBase {
 
     @Override
     public boolean isAuthorized(String userId, Task task) {
-        boolean retVal = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_PROTOCOL, PermissionConstants.MAINTAIN_AREA_OF_RESEARCH);
-        return retVal;
+        return hasUnitPermission(userId, Constants.MODULE_NAMESPACE_PROTOCOL, PermissionConstants.ADD_COMMITTEE);
     }
 }
