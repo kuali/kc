@@ -15,14 +15,22 @@
  */
 package org.kuali.coeus.propdev.impl.basic;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.specialreview.impl.rule.event.SaveDocumentSpecialReviewEvent;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
+import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption;
+import org.kuali.kra.bo.ExemptionType;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.element.Action;
@@ -38,11 +46,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.util.List;
 
 @Controller
 public class ProposalDevelopmentHomeController extends ProposalDevelopmentControllerBase {
@@ -183,6 +186,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    @InitBinder
    protected void initBinder(WebDataBinder binder) throws Exception {
 	   binder.registerCustomEditor(List.class, "document.developmentProposal.propScienceKeywords", new PropScienceKeywordEditor());
+	   binder.registerCustomEditor(List.class, "document.developmentProposal.propSpecialReviews.specialReviewExemptions", new PropSpecialReviewExemptionTypeEditor());
    }
    	  
    protected class PropScienceKeywordEditor extends CustomCollectionEditor {
@@ -201,4 +205,22 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    protected ScienceKeyword getScienceKeyword(Object element) {
 	   return (ScienceKeyword) getDataObjectService().findUnique(ScienceKeyword.class, QueryByCriteria.Builder.forAttribute("scienceKeywordCode", element).build());
    }
+
+   protected class PropSpecialReviewExemptionTypeEditor extends CustomCollectionEditor {
+		public PropSpecialReviewExemptionTypeEditor() {
+			super(List.class);
+		}
+
+		protected Object convertElement(Object element) {
+			if (element instanceof String) {
+				return new ProposalSpecialReviewExemption(null, getExemptionType(element));
+			}
+			return null;
+		}
+	}
+   
+   protected ExemptionType getExemptionType(Object element) {
+	   return (ExemptionType) getDataObjectService().findUnique(ExemptionType.class, QueryByCriteria.Builder.forAttribute("exemptionTypeCode", element).build());
+   }
+   
 }

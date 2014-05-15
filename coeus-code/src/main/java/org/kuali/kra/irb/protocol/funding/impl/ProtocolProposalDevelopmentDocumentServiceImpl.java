@@ -176,7 +176,7 @@ public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolP
         specialReview.setSpecialReviewTypeCode(SpecialReviewType.HUMAN_SUBJECTS);
         specialReview.setApprovalTypeCode(SpecialReviewApprovalType.PENDING);
         specialReview.setProtocolNumber(protocol.getProtocolNumber());
-        specialReview.setProposalNumber(proposalDocument.getDevelopmentProposal().getProposalNumber());
+        specialReview.setDevelopmentProposal(proposalDocument.getDevelopmentProposal());
         
         specialReview.setProtocolStatus(protocol.getProtocolStatus().getDescription());
         specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
