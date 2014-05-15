@@ -154,8 +154,8 @@
 		<property name="s2SUtilService">
 			<ref bean="s2SUtilService" />
 		</property>
-		<property name="dataObjectService">
-			<ref bean="dataObjectService" />
+		<property name="proposalSiteService">
+			<ref bean="proposalSiteService" />
 		</property>
         <property name="s2SConfigurationService">
             <ref bean="s2SConfigurationService" />
@@ -178,8 +178,8 @@
 		<property name="s2SUtilService">
 			<ref bean="s2SUtilService" />
 		</property>
-        <property name="dataObjectService">
-            <ref bean="dataObjectService" />
+        <property name="proposalSiteService">
+            <ref bean="proposalSiteService" />
         </property>
         <property name="s2SConfigurationService">
             <ref bean="s2SConfigurationService" />

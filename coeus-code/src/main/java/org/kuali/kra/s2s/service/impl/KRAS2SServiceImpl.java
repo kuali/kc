@@ -54,7 +54,6 @@ import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.OpportunitySchemaParser;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import javax.activation.DataHandler;
@@ -87,7 +86,6 @@ public class KRAS2SServiceImpl implements S2SService {
 	private S2SConfigurationService s2SConfigurationService;
     private NarrativeService narrativeService;
 	private static final String GRANTS_GOV_STATUS_ERROR = "ERROR";
-	private static final String KEY_PROPOSAL_NUMBER = "proposalNumber";
 
 	/**
 	 * 
