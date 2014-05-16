@@ -18,11 +18,11 @@
 		scope="prototype" p:additionalCssClasses="advanced_select">
 		<property name="template" value="/WEB-INF/ftl/krad/components/control/select.ftl"/>
 		<property name="templateOptions">
-			<map>
-				<entry key="&quot;selectedList&quot;" value="9"/>
-				<entry key="&quot;minWidth&quot;" value="auto"/>
+			<map merge="true">
+				<!-- more options can be found at http://silviomoreto.github.io/bootstrap-select/ -->
+				<entry key="&quot;selectedTextFormat&quot;" value="count > 5"/>
+				<entry key="&quot;liveSearch&quot;" value="true"/>
 			</map>
 		</property>
-		
 	</bean>
 </beans>
