@@ -349,7 +349,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         setNewInstituteAttachment(createNarrative());
         setNewPropPersonBio(new ProposalPersonBiography());
         setApproverViewTabTitle();
-        customDataHelper = new ProposalDevelopmentCustomDataHelper(this);
+
     }
 
     /**
