@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.basic;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,7 @@ import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption;
 import org.kuali.kra.bo.ExemptionType;
+import org.kuali.rice.contrib.krad.web.bind.UifCalendarEditor;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.element.Action;
@@ -187,6 +189,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    protected void initBinder(WebDataBinder binder) throws Exception {
 	   binder.registerCustomEditor(List.class, "document.developmentProposal.propScienceKeywords", new PropScienceKeywordEditor());
 	   binder.registerCustomEditor(List.class, "document.developmentProposal.propSpecialReviews.specialReviewExemptions", new PropSpecialReviewExemptionTypeEditor());
+	   binder.registerCustomEditor(Calendar.class, new UifCalendarEditor());
    }
    	  
    protected class PropScienceKeywordEditor extends CustomCollectionEditor {
