@@ -2,19 +2,19 @@ var RiceContrib = RiceContrib || {};
 RiceContrib.MultiSelect = RiceContrib.MultiSelect || {};
 (function(namespace, $) {
 	namespace.init = function() {
+		$('.selectpicker').selectpicker('refresh');
 		$('select.advanced_select').each(function() {
-			var defaultSettings = {
-					multiple: $(this).attr('multiple') ? true : false,
-					header: $(this).attr('multiple') ? true : false,
-					minWidth: 'auto',
-					selectedList : $(this).attr('multiple') ? 9 : 1,
-			};
-			var template = $(this).data('template');
-			$(this).multiselect($.extend({}, defaultSettings, template));
-			if ($(this).attr('multiple')) {
-				$(this).multiselectfilter();
+			if ($(this).siblings('.bootstrap-select').length == 0) {
+				var template = $(this).data('template');
+				var defaultSettings = {
+					selectedTextFormat : "count > 5",
+					liveSearch : $(this).attr('multiple') ? true : false,
+				};
+				
+				$(this).selectpicker($.extend({}, defaultSettings, template));
 			}
 		});
+		$("[data-role='View']").on(kradVariables.EVENTS.UPDATE_CONTENT, namespace.init);
 	};
 })(RiceContrib.MultiSelect, jQuery);
 
