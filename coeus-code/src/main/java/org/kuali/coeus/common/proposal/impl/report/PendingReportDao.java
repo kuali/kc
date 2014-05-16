@@ -1,6 +1,6 @@
 package org.kuali.coeus.common.proposal.impl.report;
 
-import org.kuali.kra.common.printing.PendingReportBean;
+import org.kuali.coeus.common.framework.print.PendingReportBean;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.List;

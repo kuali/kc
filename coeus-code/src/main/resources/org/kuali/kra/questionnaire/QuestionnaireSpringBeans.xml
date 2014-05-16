@@ -138,7 +138,7 @@
     </bean>
     
     <bean id="correspondencePrint"
-    	class="org.kuali.kra.common.printing.CorrespondencePrint" scope="prototype">
+    	class="org.kuali.coeus.common.question.impl.CorrespondencePrint" scope="prototype">
     	<property name="xmlStream" ref="correspondenceXmlStream" />
     </bean>
 

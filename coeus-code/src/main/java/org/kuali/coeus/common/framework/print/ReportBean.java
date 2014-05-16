@@ -1,4 +1,4 @@
-package org.kuali.kra.common.printing;
+package org.kuali.coeus.common.framework.print;
 
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
@@ -24,9 +24,7 @@ public abstract class ReportBean implements BusinessObject {
     }
 
     protected Column createColumn(String label, String propertyName, Object property, Class clazz) {
-//        if(property == null) {
-//            property = "";
-//        }
+        
         Column column = new Column(label, propertyName);
         column.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(clazz));
         column.setFormatter(Formatter.getFormatter(clazz));

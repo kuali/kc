@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.questionnaire.print;
 
-import org.kuali.kra.common.printing.CorrespondencePrintingService;
+import org.kuali.coeus.common.question.framework.CorrespondencePrintingService;
 
 public interface IacucCorrespondencePrintingService extends CorrespondencePrintingService {
 

@@ -27,7 +27,9 @@
 			<list>
 				<value>personTrainingId</value>
 			</list>
-		</property>		<property name="allowsRecordDeletion" value="true" />	
+		</property>
+		<property name="allowsRecordDeletion" value="true" />
+	
 		
 		
 		
@@ -36,7 +38,7 @@
 		<property name="documentTypeName" value="PersonTrainingMaintenanceDocument"/>
       <!--   <property name="businessRulesClass" value="org.kuali.kra.rules.PersonTrainingMaintenanceDocumentRule"/>-->
 		<!-- <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/> -->
-		<property name="documentAuthorizerClass" value="org.kuali.kra.authorizer.PersonTrainingMaintenanceDocumentAuthorizer"/>
+		<property name="documentAuthorizerClass" value="org.kuali.coeus.common.impl.person.attr.PersonTrainingMaintenanceDocumentAuthorizer"/>
 		
 		
 	</bean>
