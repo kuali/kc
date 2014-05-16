@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.authorizer;
+package org.kuali.coeus.common.committee.impl;
 
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
@@ -21,14 +21,14 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 /**
- * The Create Proposal Authorizer checks to see if the user has 
- * permission to create a proposal. The user must have the CREATE_PROPOSAL
- * permission in any of the units in order to create a proposal.
+ * The Create Committee Authorizer checks to see if the user has 
+ * permission to create a committee. The user must have the ADD_COMMITTEE
+ * permission in any of the units in order to create a committee.
  */
-public class CreateProposalAuthorizer extends TaskAuthorizerBase {
+public class CreateCommitteeAuthorizer extends TaskAuthorizerBase {
 
     @Override
-    public boolean isAuthorized(String userId, Task task) { 
-        return hasUnitPermission(userId, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL);
+    public boolean isAuthorized(String userId, Task task) {
+        return hasUnitPermission(userId, Constants.MODULE_NAMESPACE_PROTOCOL, PermissionConstants.ADD_COMMITTEE);
     }
 }
