@@ -292,6 +292,7 @@
         <property name="budgetSummaryService" ref="budgetSummaryService" />
         <property name="questionnaireService" ref="questionnaireService"/>
         <property name="questionnaireAnswerService" ref="questionnaireAnswerService"/>
+        <property name="unitService" ref="unitService" />
     </bean>
     
     <bean id="keyPersonnelService" class="org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl">
