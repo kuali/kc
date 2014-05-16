@@ -162,6 +162,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private DocumentService documentService;
     private ParameterService parameterService;
     private DateTimeService dateTimeService;
+    private UnitService unitService;
     
     /**
      * Sets the ParameterService.
@@ -530,6 +531,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
 
         fixProposalNumbers(newDoc, newDoc.getDevelopmentProposal().getProposalNumber(), list);
+        fixOwnedByUnitNumber(newDoc, srcDoc.getDevelopmentProposal().getOwnedByUnitNumber(), criteria.getLeadUnitNumber());
         fixKeyPersonnel(newDoc, srcDoc.getDevelopmentProposal().getOwnedByUnitNumber(), criteria.getLeadUnitNumber());
         fixCongressionalDistricts(newDoc);
         fixS2sUserAttachedForms(newDoc);
@@ -661,7 +663,14 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
         return false;
     }
-
+    
+    protected void fixOwnedByUnitNumber(ProposalDevelopmentDocument newDoc, String oldLeadUnitNumber, String newLeadUnitNumber) {
+        DevelopmentProposal devProposal = newDoc.getDevelopmentProposal();
+        Unit newLeadUnit = getUnitService().getUnit(newLeadUnitNumber);
+        devProposal.setOwnedByUnitNumber(newLeadUnitNumber);
+        devProposal.setOwnedByUnit(newLeadUnit);
+    }
+    
     /**
      * Fix the Key Personnel.
      * @param doc the proposal development document
@@ -1262,5 +1271,13 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
         this.budgetSummaryService = budgetSummaryService;
+    }
+    
+    public void setUnitService(UnitService unitService) {
+        this.unitService = unitService;
+    }
+    
+    public UnitService getUnitService() {
+        return unitService;
     }
 }
