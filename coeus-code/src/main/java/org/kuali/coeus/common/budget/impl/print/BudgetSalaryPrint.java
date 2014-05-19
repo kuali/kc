@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.printing.print;
+package org.kuali.coeus.common.budget.impl.print;
 
 import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
-import org.kuali.kra.budget.printing.BudgetPrintType;
 
 import javax.xml.transform.Source;
 import java.util.ArrayList;

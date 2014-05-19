@@ -13,25 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.printing.print;
+package org.kuali.coeus.common.budget.impl.print;
 
 import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
-import org.kuali.kra.budget.printing.BudgetPrintType;
 
 import javax.xml.transform.Source;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class provides the implementation for printing Budget Summary Total
- * Report. It generates XML that conforms with Salary Report XSD, fetches XSL
- * style-sheets applicable to this XML, returns XML and XSL for any consumer
- * that would use this XML and XSls for any purpose like report generation, PDF
- * streaming etc.
+ * This class provides the implementation for printing Budget Summary Report. It
+ * generates XML that conforms with Summary Report XSD, fetches XSL style-sheets
+ * applicable to this XML, returns XML and XSL for any consumer that would use
+ * this XML and XSls for any purpose like report generation, PDF streaming etc.
  * 
  */
-public class BudgetSummaryTotalPrint extends AbstractPrint {
+public class BudgetSummaryPrint extends AbstractPrint {
 
 	/**
 	 * This method fetches the XSL style-sheets required for transforming the
@@ -41,9 +39,10 @@ public class BudgetSummaryTotalPrint extends AbstractPrint {
 	 */
 	public List<Source> getXSLTemplates() {
 		ArrayList<Source> sourceList = PrintingUtils
-				.getXSLTforReport(BudgetPrintType.BUDGET_SUMMARY_TOTAL_REPORT
+				.getXSLTforReport(BudgetPrintType.BUDGET_SUMMARY_REPORT
 						.getBudgetPrintType());
 		return sourceList;
 	}
+
 
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.printing.service.impl;
+package org.kuali.coeus.common.budget.impl.print;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,12 +22,12 @@ import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.printing.BudgetPrintType;
-import org.kuali.kra.budget.printing.print.*;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
-import org.kuali.coeus.propdev.impl.budget.print.BudgetPrintForm;
-import org.kuali.coeus.propdev.impl.budget.print.BudgetPrintService;
+import org.kuali.coeus.common.budget.framework.print.BudgetPrintService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -41,17 +41,38 @@ import java.util.List;
  * 
  */
 
+@Component("budgetPrintService")
 public class BudgetPrintingServiceImpl implements BudgetPrintService {
+
+    private static final Log LOG = LogFactory.getLog(BudgetPrintingServiceImpl.class);
+
+    @Autowired
+    @Qualifier("budgetSummaryPrint")
 	private BudgetSummaryPrint budgetSummaryPrint;
+    @Autowired
+    @Qualifier("budgetCostShareSummaryPrint")
 	private BudgetCostShareSummaryPrint budgetCostShareSummaryPrint;
+    @Autowired
+    @Qualifier("budgetSalaryPrint")
 	private BudgetSalaryPrint budgetSalaryPrint;
+    @Autowired
+    @Qualifier("printingService")
 	private PrintingService printingService;
+    @Autowired
+    @Qualifier("budgetTotalPrint")
 	private BudgetTotalPrint budgetTotalPrint;
+    @Autowired
+    @Qualifier("budgetSummaryTotalPrint")
 	private BudgetSummaryTotalPrint budgetSummaryTotalPrint;
+    @Autowired
+    @Qualifier("industrialCumulativeBudgetPrint")
 	private IndustrialCumulativeBudgetPrint industrialCumulativeBudgetPrint;
+    @Autowired
+    @Qualifier("industrialBudgetPrint")
 	private IndustrialBudgetPrint industrialBudgetPrint;
+    @Autowired
+    @Qualifier("budgetCumulativePrint")
 	private BudgetCumulativePrint budgetCumulativePrint;
-	private static final Log LOG = LogFactory.getLog(BudgetPrintingServiceImpl.class);
 
 	/**
 	 * This method generates the required report and returns the PDF stream as

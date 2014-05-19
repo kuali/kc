@@ -18,7 +18,7 @@ package org.kuali.kra.budget.core;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.propdev.impl.budget.print.BudgetPrintForm;
+import org.kuali.coeus.common.budget.impl.print.BudgetPrintForm;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardAttachment;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardFiles;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
