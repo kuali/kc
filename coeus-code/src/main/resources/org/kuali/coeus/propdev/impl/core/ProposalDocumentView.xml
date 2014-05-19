@@ -182,13 +182,15 @@
 	</bean>
 	<bean id="PropDev-NavigationMenu-CustomData" parent="PropDev-NavigationMenu-CustomData-parentBean" />
 	<bean id="PropDev-NavigationMenu-CustomData-parentBean" abstract="true"
-		parent="PropDev-CollectionToggleMenu" p:toggleText="Supplemental Information"
-		p:iconClass="icon-bell"
-        p:bindingInfo.bindingPath="document.customDataList"
-        p:navigateToPageId="PropDev-SupplementalPage"
-        p:collectionObjectClass="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue"
-        p:actionLabelPropertyName="customAttribute.groupName"
-        p:methodToCall="customDataNavigate"/>
+		parent="PropDev-CollectionToggleMenu" p:toggleText="Supplemental Information" p:iconClass="icon-bell"
+        p:bindingInfo.bindingPath="document.customDataList" p:actionLabelPropertyName="customAttribute.groupName"
+        p:collectionObjectClass="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue">
+        <property name="navigationActionPrototype">
+            <bean parent="Uif-NavigationActionLink" p:methodToCall="customDataNavigate"
+                  p:navigateToPageId="PropDev-SupplementalPage" />
+        </property>
+
+    </bean>
 
 	<bean id="PropDev-NavigationMenu-Submit" parent="PropDev-NavigationMenu-Submit-parentBean" />
 	<bean id="PropDev-NavigationMenu-Submit-parentBean" parent="Uif-NavigationActionLink"

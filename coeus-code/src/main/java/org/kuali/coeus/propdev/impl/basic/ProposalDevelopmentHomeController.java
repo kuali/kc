@@ -182,6 +182,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        ModelAndView modelAndView = getTransactionalDocumentControllerService().docHandler(form, result, request, response);
        ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
        propDevForm.initialize();
+       propDevForm.getCustomDataHelper().prepareCustomData();
        return modelAndView;
    }
    

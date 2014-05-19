@@ -60,8 +60,10 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         newS2sOpportunity = new S2sOpportunity();
 
         editableAttachments = new HashMap<String,List<String>>();
+
+        customDataHelper = new ProposalDevelopmentCustomDataHelper(this.getProposalDevelopmentDocument());
     }
-    
+
     public int findIndexOfPageId(List<Action> actions) {
         return findIndexOfPageId(actions, getPageId());
     }
