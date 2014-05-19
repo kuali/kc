@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.printing.xmlstream;
+package org.kuali.coeus.common.budget.impl.print;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -23,8 +23,6 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCategoryType;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.budget.printing.util.BudgetDataPeriodVO;
-import org.kuali.kra.budget.printing.util.SalaryTypeVO;
 import org.kuali.kra.printing.schema.BudgetSalaryDocument;
 import org.kuali.kra.printing.schema.BudgetSalaryDocument.BudgetSalary;
 import org.kuali.kra.printing.schema.SalaryType;

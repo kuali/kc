@@ -203,10 +203,9 @@
   	
   	<bean id="copyPeriodsQuestion" class="org.kuali.coeus.common.budget.framework.copy.CopyPeriodsQuestion" scope="prototype" />
   	
-  	<!-- bean id="budgetPrintService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.BudgetPrintServiceDummyImpl"-->
-  	<!-- Budget Service Configuration Start -->
+  <!-- Budget Service Configuration Start -->
 	<bean id="budgetSummaryXmlStream"
-		class="org.kuali.kra.budget.printing.xmlstream.BudgetSummaryXmlStream">
+		class="org.kuali.coeus.common.budget.impl.print.BudgetSummaryXmlStream">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -215,15 +214,15 @@
 		</property>
 	</bean>
 	<bean id="budgetSummaryPrint"
-		class="org.kuali.kra.budget.printing.print.BudgetSummaryPrint" scope="prototype">
+		class="org.kuali.coeus.common.budget.impl.print.BudgetSummaryPrint" scope="prototype">
 		<property name="xmlStream" ref="budgetSummaryXmlStream" />
 	</bean>
 	<bean id="budgetCostShareSummaryPrint"
-		class="org.kuali.kra.budget.printing.print.BudgetCostShareSummaryPrint" scope="prototype">
+		class="org.kuali.coeus.common.budget.impl.print.BudgetCostShareSummaryPrint" scope="prototype">
 		<property name="xmlStream" ref="budgetSummaryXmlStream" />
 	</bean>
 	<bean id="budgetSalaryXmlStream"
-		class="org.kuali.kra.budget.printing.xmlstream.BudgetSalaryXmlStream" scope="prototype">
+		class="org.kuali.coeus.common.budget.impl.print.BudgetSalaryXmlStream" scope="prototype">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -235,11 +234,11 @@
 		</property>
 	</bean>
 	<bean id="budgetSalaryPrint"
-		class="org.kuali.kra.budget.printing.print.BudgetSalaryPrint" scope="prototype">
+		class="org.kuali.coeus.common.budget.impl.print.BudgetSalaryPrint" scope="prototype">
 		<property name="xmlStream" ref="budgetSalaryXmlStream" />
 	</bean>
 	<bean id="budgetTotalXmlStream"
-		class="org.kuali.kra.budget.printing.xmlstream.BudgetTotalXmlStream">
+		class="org.kuali.coeus.common.budget.impl.print.BudgetTotalXmlStream">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -248,11 +247,11 @@
 		</property>
 	</bean>
 	<bean id="budgetTotalPrint"
-		class="org.kuali.kra.budget.printing.print.BudgetTotalPrint" scope="prototype">
+		class="org.kuali.coeus.common.budget.impl.print.BudgetTotalPrint" scope="prototype">
 		<property name="xmlStream" ref="budgetTotalXmlStream" />
 	</bean>
 	<bean id="budgetSummaryTotalXmlStream"
-		class="org.kuali.kra.budget.printing.xmlstream.BudgetSummaryTotalXmlStream">
+		class="org.kuali.coeus.common.budget.impl.print.BudgetSummaryTotalXmlStream">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -261,11 +260,11 @@
 		</property>
 	</bean>
 	<bean id="budgetSummaryTotalPrint"
-		class="org.kuali.kra.budget.printing.print.BudgetSummaryTotalPrint" scope="prototype">
+		class="org.kuali.coeus.common.budget.impl.print.BudgetSummaryTotalPrint" scope="prototype">
 		<property name="xmlStream" ref="budgetSummaryTotalXmlStream" />
 	</bean>
 	<bean id="industrialCumBudgetXmlStream"
-		class="org.kuali.kra.budget.printing.xmlstream.IndustrialCumBudgetXmlStream">
+		class="org.kuali.coeus.common.budget.impl.print.IndustrialCumBudgetXmlStream">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -274,11 +273,11 @@
 		</property>
 	</bean>
 	<bean id="industrialCumulativeBudgetPrint"
-		class="org.kuali.kra.budget.printing.print.IndustrialCumulativeBudgetPrint" scope="prototype">
+		class="org.kuali.coeus.common.budget.impl.print.IndustrialCumulativeBudgetPrint" scope="prototype">
 		<property name="xmlStream" ref="industrialCumBudgetXmlStream" />
 	</bean>
 	<bean id="budgetCumilativeXmlStream"
-		class="org.kuali.kra.budget.printing.xmlstream.BudgetCumilativeXmlStream">
+		class="org.kuali.coeus.common.budget.impl.print.BudgetCumilativeXmlStream">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -287,11 +286,11 @@
 		</property>
 	</bean>
 	<bean id="budgetCumulativePrint"
-		class="org.kuali.kra.budget.printing.print.BudgetCumulativePrint" scope="prototype">
+		class="org.kuali.coeus.common.budget.impl.print.BudgetCumulativePrint" scope="prototype">
 		<property name="xmlStream" ref="budgetCumilativeXmlStream" />
 	</bean>
 	<bean id="industrialBudgetXmlStream"
-		class="org.kuali.kra.budget.printing.xmlstream.IndustrialBudgetXmlStream">
+		class="org.kuali.coeus.common.budget.impl.print.IndustrialBudgetXmlStream">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -300,26 +299,10 @@
 		</property>
 	</bean>
 	<bean id="industrialBudgetPrint"
-		class="org.kuali.kra.budget.printing.print.IndustrialBudgetPrint" scope="prototype">
+		class="org.kuali.coeus.common.budget.impl.print.IndustrialBudgetPrint" scope="prototype">
 		<property name="xmlStream" ref="industrialBudgetXmlStream" />
 	</bean>
-	
-	<bean id="budgetPrintService" class="org.kuali.kra.budget.printing.service.impl.BudgetPrintingServiceImpl">
-  	<property name="budgetSummaryPrint" ref="budgetSummaryPrint" />
-		<property name="budgetCostShareSummaryPrint"
-			ref="budgetCostShareSummaryPrint" />
-		<property name="budgetSalaryPrint" ref="budgetSalaryPrint" />
-		<property name="budgetTotalPrint" ref="budgetTotalPrint" />
-		<property name="budgetSummaryTotalPrint"
-			ref="budgetSummaryTotalPrint" />
-		<property name="industrialCumulativeBudgetPrint"
-			ref="industrialCumulativeBudgetPrint" />
-		<property name="budgetCumulativePrint"
-			ref="budgetCumulativePrint" />
-		<property name="industrialBudgetPrint"
-			ref="industrialBudgetPrint" />
-		<property name="printingService" ref="printingService" />
-	</bean>
+
 	<!-- Budget Service Configuration End -->
     
     <bean id="budgetPeriodLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" lazy-init="true">

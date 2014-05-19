@@ -1,4 +1,4 @@
-package org.kuali.kra.budget.printing.util;
+package org.kuali.coeus.common.budget.impl.print;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 

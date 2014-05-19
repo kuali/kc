@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.printing.xmlstream;
+package org.kuali.coeus.common.budget.impl.print;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -25,20 +25,21 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * This class generates XML that conforms with the XSD related to Budget Summary
- * total Report. The data for XML is derived from {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase}
- * and {@link Map} of details passed to the class.
+ * This class generates XML that conforms with the XSD related to Budget total
+ * Report. The data for XML is derived from {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and
+ * {@link Map} of details passed to the class.
  * 
  * @author
  * 
  */
-public class BudgetSummaryTotalXmlStream extends BudgetBaseSalaryStream {
-	private static final String BUDGET_SUMMARY_TOTAL = "Budget Summary Total";
+public class BudgetTotalXmlStream extends BudgetBaseSalaryStream {
+
+	private static final String BUDGET_TOTAL = "Budget Total";
 
 	/**
-	 * This method generates XML for Budget summary total Report. It uses data
-	 * passed in {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The
-	 * XMl once generated is returned as {@link XmlObject}
+	 * This method generates XML for Budget total Report. It uses data passed in
+	 * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The XMl once
+	 * generated is returned as {@link XmlObject}
 	 * 
 	 * @param printableBusinessObject
 	 *            using which XML is generated
@@ -55,8 +56,9 @@ public class BudgetSummaryTotalXmlStream extends BudgetBaseSalaryStream {
 		if (budget != null) {
 			BudgetSalary budgetSalary = getBudgetSalary();
 			budgetSalaryDocument.setBudgetSalary(budgetSalary);
-			xmlObjectList.put(BUDGET_SUMMARY_TOTAL, budgetSalaryDocument);
+			xmlObjectList.put(BUDGET_TOTAL, budgetSalaryDocument);
 		}
+
 		return xmlObjectList;
 	}
 
@@ -66,7 +68,7 @@ public class BudgetSummaryTotalXmlStream extends BudgetBaseSalaryStream {
 	 */
 	private BudgetSalary getBudgetSalary() {
 		BudgetSalary budgetSalary = getBudgetSalaryTypeXmlObject();
-		budgetSalary.setHeaderTitle(BUDGET_SUMMARY_TOTAL);
+		budgetSalary.setHeaderTitle(BUDGET_TOTAL);
 		budgetSalary.setSalaryArray(getBudgetTotalAndSummarySalaryTypes(true));
 		return budgetSalary;
 	}

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.printing.xmlstream;
+package org.kuali.coeus.common.budget.impl.print;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.logging.Log;
@@ -29,7 +29,6 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.printing.util.ReportTypeVO;
 import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.BudgetSummaryReportDocument.BudgetSummaryReport;
 import org.kuali.kra.printing.schema.ReportPageType.BudgetSummary;

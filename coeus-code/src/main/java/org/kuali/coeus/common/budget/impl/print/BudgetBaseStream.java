@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.printing.xmlstream;
+package org.kuali.coeus.common.budget.impl.print;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
@@ -36,7 +36,6 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
-import org.kuali.kra.budget.printing.util.ReportTypeVO;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
