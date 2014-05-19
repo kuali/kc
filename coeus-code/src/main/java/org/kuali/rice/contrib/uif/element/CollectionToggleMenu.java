@@ -1,12 +1,11 @@
 package org.kuali.rice.contrib.uif.element;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.velocity.util.StringUtils;
 import org.kuali.rice.krad.uif.component.BindingInfo;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.ToggleMenu;
-import org.kuali.rice.krad.uif.util.ComponentFactory;
+import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 
@@ -17,12 +16,13 @@ import java.util.List;
 
 
 public class CollectionToggleMenu extends ToggleMenu {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionToggleMenu.class);
+
     private Class<?> collectionObjectClass;
     private BindingInfo bindingInfo;
 
-    private String navigateToPageId;
+    private Action navigationActionPrototype;
     private String actionLabelPropertyName;
-    private String methodToCall;
 
     @Override
     public void performInitialization(Object model) {
@@ -39,11 +39,9 @@ public class CollectionToggleMenu extends ToggleMenu {
         for (Object object : modelCollection) {
             String actionLabel = getActionLabel(object);
             if (!actionLabelNames.contains(actionLabel)) {
-                Action menuItem =  (Action) ComponentFactory.getNewComponentInstance("Uif-NavigationActionLink");
-                menuItem.setNavigateToPageId(this.getNavigateToPageId());
+                Action menuItem =  (Action) ComponentUtils.copy(navigationActionPrototype);
+                menuItem.getActionParameters().put("actionLabel",actionLabel);
                 menuItem.setActionLabel(actionLabel);
-                menuItem.getActionParameters().put("groupName", actionLabel);
-                menuItem.setMethodToCall(getMethodToCall());
                 menuItemList.add(menuItem);
                 actionLabelNames.add(actionLabel);
             }
@@ -65,16 +63,10 @@ public class CollectionToggleMenu extends ToggleMenu {
     }
 
     protected String getActionLabel(Object obj) {
-        String labelPathArray[] = StringUtils.split(this.getActionLabelPropertyName(),".");
         try {
-            Object nextObj = PropertyUtils.getProperty(obj,labelPathArray[0]);
-            for(int i=1;i < labelPathArray.length;i++) {
-                Object tempObj = PropertyUtils.getProperty(nextObj,labelPathArray[i]);
-                nextObj = tempObj;
-            }
-            return nextObj.toString();
+            return PropertyUtils.getNestedProperty(obj,this.getActionLabelPropertyName()).toString();
         } catch(Exception e) {
-            e.printStackTrace();
+            LOG.error("Problem creating actionLabel from actionLabelPropertyName",e);
         }
         return null;
     }
@@ -89,20 +81,20 @@ public class CollectionToggleMenu extends ToggleMenu {
         this.collectionObjectClass = collectionObjectClass;
     }
 
-    public String getNavigateToPageId() {
-        return navigateToPageId;
-    }
-
-    public void setNavigateToPageId(String navigateToPageId) {
-        this.navigateToPageId = navigateToPageId;
-    }
-
     public BindingInfo getBindingInfo() {
         return bindingInfo;
     }
 
     public void setBindingInfo(BindingInfo bindingInfo) {
         this.bindingInfo = bindingInfo;
+    }
+
+    public Action getNavigationActionPrototype() {
+        return navigationActionPrototype;
+    }
+
+    public void setNavigationActionPrototype(Action navigationActionPrototype) {
+        this.navigationActionPrototype = navigationActionPrototype;
     }
 
     public String getActionLabelPropertyName() {
@@ -113,11 +105,4 @@ public class CollectionToggleMenu extends ToggleMenu {
         this.actionLabelPropertyName = actionLabelPropertyName;
     }
 
-    public String getMethodToCall() {
-        return methodToCall;
-    }
-
-    public void setMethodToCall(String methodToCall) {
-        this.methodToCall = methodToCall;
-    }
 }

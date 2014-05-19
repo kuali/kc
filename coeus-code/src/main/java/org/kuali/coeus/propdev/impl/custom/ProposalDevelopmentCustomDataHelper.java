@@ -18,7 +18,7 @@ package org.kuali.coeus.propdev.impl.custom;
 import org.kuali.coeus.common.framework.custom.CustomDataHelperBase;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import java.util.List;
 import java.util.Map;
@@ -26,31 +26,32 @@ import java.util.Map;
 public class ProposalDevelopmentCustomDataHelper extends CustomDataHelperBase<CustomAttributeDocValue> {
     
     private static final long serialVersionUID = 4399783400354474904L;
-    private ProposalDevelopmentDocumentForm form;
+    private ProposalDevelopmentDocument document;
     
-    public ProposalDevelopmentCustomDataHelper(ProposalDevelopmentDocumentForm form) {
-        this.form = form;
+    public ProposalDevelopmentCustomDataHelper(ProposalDevelopmentDocument document) {
+        this.document = document;
     }
 
     @Override
     protected CustomAttributeDocValue getNewCustomData() {
        CustomAttributeDocValue customAttributeDocValue = new  CustomAttributeDocValue();
-       customAttributeDocValue.setDocumentNumber(form.getProposalDevelopmentDocument().getDocumentNumber());
+       customAttributeDocValue.setDocumentNumber(document.getDocumentNumber());
        return customAttributeDocValue;
     }
 
+    @Override
     public List<CustomAttributeDocValue> getCustomDataList() {
-        return form.getProposalDevelopmentDocument().getCustomDataList();
+        return document.getCustomDataList();
     }
 
     @Override
     public Map<String, CustomAttributeDocument> getCustomAttributeDocuments() {
-        return form.getProposalDevelopmentDocument().getCustomAttributeDocuments();
+        return document.getCustomAttributeDocuments();
     }
 
     @Override
     public boolean documentNotRouted() {
-        WorkflowDocument doc = form.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument doc = document.getDocumentHeader().getWorkflowDocument();
         return doc.isSaved() || doc.isInitiated();
     }
 

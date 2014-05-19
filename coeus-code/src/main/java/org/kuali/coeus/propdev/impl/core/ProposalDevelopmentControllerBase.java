@@ -134,8 +134,6 @@ public abstract class ProposalDevelopmentControllerBase {
          getTransactionalDocumentControllerService().save(form, result, request, response);
          
          initializeProposalUsers(proposalDevelopmentDocument);
-         pdForm.setCustomDataHelper(new ProposalDevelopmentCustomDataHelper(pdForm));
-         pdForm.getCustomDataHelper().prepareCustomData();
          String pageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
          ModelAndView view = null;
          if (StringUtils.isNotBlank(pageId)) {
@@ -167,8 +165,6 @@ public abstract class ProposalDevelopmentControllerBase {
              view = getTransactionalDocumentControllerService().getUIFModelAndView(form);
          }
          initializeProposalUsers(proposalDevelopmentDocument);
-         pdForm.setCustomDataHelper(new ProposalDevelopmentCustomDataHelper(pdForm));
-         pdForm.getCustomDataHelper().prepareCustomData();
          return view;
      }
      

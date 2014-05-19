@@ -19,7 +19,7 @@ public class ProposalDevelopmentCustomDataController extends ProposalDevelopment
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=customDataNavigate")
     public ModelAndView customDataNavigate(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
-        form.setSelectedCustomDataGroup(form.getActionParamaterValue("groupName"));
+        form.setSelectedCustomDataGroup(form.getActionParamaterValue("actionLabel"));
         return super.navigate(form,result,request,response);
     }
 }
