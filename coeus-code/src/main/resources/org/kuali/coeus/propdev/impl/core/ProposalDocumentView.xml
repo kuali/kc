@@ -62,7 +62,7 @@
 				<bean id="PropDev-Budget-DistIncome" parent="PropDev-UnderDevelopmentPage" />
 				<bean id="PropDev-Budget-Modular" parent="PropDev-UnderDevelopmentPage" />
 				<bean id="PropDev-Budget-Actions" parent="PropDev-UnderDevelopmentPage" />
-				<bean id="PropDev-Summplemental1" parent="PropDev-UnderDevelopmentPage" />
+				<ref bean="PropDev-SupplementalPage"/>
 				<bean id="PropDev-Summplemental2" parent="PropDev-UnderDevelopmentPage" />
 				<bean id="PropDev-Summplemental3" parent="PropDev-UnderDevelopmentPage" />
 				<bean id="PropDev-SummarySubmit" parent="PropDev-UnderDevelopmentPage" />
@@ -182,19 +182,16 @@
 	</bean>
 	<bean id="PropDev-NavigationMenu-CustomData" parent="PropDev-NavigationMenu-CustomData-parentBean" />
 	<bean id="PropDev-NavigationMenu-CustomData-parentBean" abstract="true"
-		parent="Uif-SidebarToggleMenu" p:toggleText="Supplemental Information"
-		p:iconClass="icon-bell">
-		<property name="menuItems">
-			<list>
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Summplemental1"
-					p:actionLabel="Personnel Items for Review" p:order="10" />
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Summplemental2"
-					p:actionLabel="Project Details" p:order="20" />
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Summplemental3"
-					p:actionLabel="Other" p:order="30" />
-			</list>
-		</property>
-	</bean>
+		parent="PropDev-CollectionToggleMenu" p:toggleText="Supplemental Information" p:iconClass="icon-bell"
+        p:bindingInfo.bindingPath="document.customDataList" p:actionLabelPropertyName="customAttribute.groupName"
+        p:collectionObjectClass="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue">
+        <property name="navigationActionPrototype">
+            <bean parent="Uif-NavigationActionLink" p:methodToCall="customDataNavigate"
+                  p:navigateToPageId="PropDev-SupplementalPage" />
+        </property>
+
+    </bean>
+
 	<bean id="PropDev-NavigationMenu-Submit" parent="PropDev-NavigationMenu-Submit-parentBean" />
 	<bean id="PropDev-NavigationMenu-Submit-parentBean" parent="Uif-NavigationActionLink"
 		p:navigateToPageId="PropDev-SummarySubmit" p:actionLabel="Summary/Submit"

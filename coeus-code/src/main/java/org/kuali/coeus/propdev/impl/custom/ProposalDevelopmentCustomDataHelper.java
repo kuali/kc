@@ -15,14 +15,10 @@
  */
 package org.kuali.coeus.propdev.impl.custom;
 
-import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.custom.CustomDataHelperBase;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
-import org.kuali.coeus.propdev.impl.attachment.NarrativeStatus;
-import org.kuali.coeus.propdev.impl.attachment.NarrativeStatusValuesFinder;
-import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import java.util.List;
 import java.util.Map;
@@ -30,55 +26,32 @@ import java.util.Map;
 public class ProposalDevelopmentCustomDataHelper extends CustomDataHelperBase<CustomAttributeDocValue> {
     
     private static final long serialVersionUID = 4399783400354474904L;
-    private ProposalDevelopmentForm form;
+    private ProposalDevelopmentDocument document;
     
-    public ProposalDevelopmentCustomDataHelper(ProposalDevelopmentForm form) {
-        this.form = form;
+    public ProposalDevelopmentCustomDataHelper(ProposalDevelopmentDocument document) {
+        this.document = document;
     }
 
     @Override
     protected CustomAttributeDocValue getNewCustomData() {
-        return new CustomAttributeDocValue();
+       CustomAttributeDocValue customAttributeDocValue = new  CustomAttributeDocValue();
+       customAttributeDocValue.setDocumentNumber(document.getDocumentNumber());
+       return customAttributeDocValue;
     }
 
     @Override
     public List<CustomAttributeDocValue> getCustomDataList() {
-        return form.getProposalDevelopmentDocument().getCustomDataList();
+        return document.getCustomDataList();
     }
 
     @Override
     public Map<String, CustomAttributeDocument> getCustomAttributeDocuments() {
-        return form.getProposalDevelopmentDocument().getCustomAttributeDocuments();
-    }
-    
-    public List<KeyValue> getNarrativeStatuses() {
-        return new NarrativeStatusValuesFinder().getKeyValues();
-    }
-    
-    public void setNarrativeStatusChange(String narrativeStatusKey) {
-        NarrativeStatus narrativeStatus = null;
-        if(StringUtils.isNotBlank(narrativeStatusKey)) {
-            for(KeyValue keyValue : getNarrativeStatuses()) {
-                if(StringUtils.equals(keyValue.getKey(),narrativeStatusKey)) {
-                    narrativeStatus = new NarrativeStatus();
-                    narrativeStatus.setCode(keyValue.getKey());
-                    narrativeStatus.setDescription(keyValue.getValue());
-                    break;
-                }
-            }
-            if(narrativeStatus != null) {
-                form.setNarrativeStatusChange(narrativeStatus);
-            }
-        }
-    }
-    
-    public String getNarrativeStatusChange() {
-        return form.getNarrativeStatusesChangeKey();
+        return document.getCustomAttributeDocuments();
     }
 
     @Override
     public boolean documentNotRouted() {
-        WorkflowDocument doc = form.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument doc = document.getDocumentHeader().getWorkflowDocument();
         return doc.isSaved() || doc.isInitiated();
     }
 

@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelAddWizardHelper;
@@ -41,6 +42,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private KeyPersonnelAddWizardHelper addKeyPersonHelper;
     private S2sOpportunity newS2sOpportunity;
     private Map<String,List<String>> editableAttachments;
+    private ProposalDevelopmentCustomDataHelper customDataHelper;
+    private String selectedCustomDataGroup;
 
     public ProposalDevelopmentDocumentForm() {
         super();
@@ -57,8 +60,10 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         newS2sOpportunity = new S2sOpportunity();
 
         editableAttachments = new HashMap<String,List<String>>();
+
+        customDataHelper = new ProposalDevelopmentCustomDataHelper(this.getProposalDevelopmentDocument());
     }
-    
+
     public int findIndexOfPageId(List<Action> actions) {
         return findIndexOfPageId(actions, getPageId());
     }
@@ -149,5 +154,21 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     public void setEditableAttachments(Map<String, List<String>> editableAttachments) {
         this.editableAttachments = editableAttachments;
+    }
+
+    public ProposalDevelopmentCustomDataHelper getCustomDataHelper() {
+        return customDataHelper;
+    }
+
+    public void setCustomDataHelper(ProposalDevelopmentCustomDataHelper customDataHelper) {
+        this.customDataHelper = customDataHelper;
+    }
+
+    public String getSelectedCustomDataGroup() {
+        return selectedCustomDataGroup;
+    }
+
+    public void setSelectedCustomDataGroup(String selectedCustomDataGroup) {
+        this.selectedCustomDataGroup = selectedCustomDataGroup;
     }
 }

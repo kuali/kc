@@ -95,4 +95,14 @@
 
     <bean id="PropDev-DataField-NoColon" parent="PropDev-DataField-NoColon-parentBean"/>
     <bean id="PropDev-DataField-NoColon-parentBean" parent="Uif-DataField" p:fieldLabel.renderColon="false"/>
+
+
+    <bean id="PropDev-CollectionToggleMenu" abstract="true" parent="PropDev-CollectionToggleMenu-parentBean"/>
+    <bean id="PropDev-CollectionToggleMenu-parentBean" abstract="true"
+          class="org.kuali.rice.contrib.uif.element.CollectionToggleMenu" parent="Uif-SidebarToggleMenu">
+        <property name="bindingInfo">
+            <ref bean="Uif-BindingInfo"/>
+        </property>
+    </bean>
+
 </beans>
