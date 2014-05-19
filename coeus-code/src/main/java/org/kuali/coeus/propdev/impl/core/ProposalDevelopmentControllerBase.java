@@ -17,6 +17,7 @@ package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.specialreview.impl.rule.event.SaveDocumentSpecialReviewEvent;
+import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
@@ -133,7 +134,6 @@ public abstract class ProposalDevelopmentControllerBase {
          getTransactionalDocumentControllerService().save(form, result, request, response);
          
          initializeProposalUsers(proposalDevelopmentDocument);
-         
          String pageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
          ModelAndView view = null;
          if (StringUtils.isNotBlank(pageId)) {
