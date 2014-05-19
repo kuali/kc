@@ -25,6 +25,7 @@ import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.ToggleMenu;
 import org.kuali.rice.krad.web.bind.ChangeTracking;
+import org.kuali.rice.krad.web.bind.RequestAccessible;
 import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 
 import java.util.ArrayList;
@@ -40,7 +41,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private SpecialReviewHelper specialReviewHelper;
     private ProposalDevelopmentQuestionnaireHelper questionnaireHelper;
     private KeyPersonnelAddWizardHelper addKeyPersonHelper;
-    private S2sOpportunity newS2sOpportunity;
+    @RequestAccessible
+    protected S2sOpportunity newS2sOpportunity;
     private Map<String,List<String>> editableAttachments;
     private ProposalDevelopmentCustomDataHelper customDataHelper;
     private String selectedCustomDataGroup;

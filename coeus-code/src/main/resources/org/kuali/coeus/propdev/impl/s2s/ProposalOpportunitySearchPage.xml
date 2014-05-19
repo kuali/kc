@@ -110,9 +110,9 @@
 					p:fieldLabel.renderColon="false" />
 				<bean parent="Uif-DataField" p:propertyName="competetionId"
 					p:fieldLabel.renderColon="false" />
-				<bean parent="Uif-DataField" p:propertyName="openingDate"
+				<bean parent="Uif-DataField" p:propertyName="openingDate" p:propertyEditorClass="org.kuali.rice.contrib.krad.web.bind.UifCalendarEditor"
 					p:fieldLabel.renderColon="false" />
-				<bean parent="Uif-DataField" p:propertyName="closingDate"
+				<bean parent="Uif-DataField" p:propertyName="closingDate" p:propertyEditorClass="org.kuali.rice.contrib.krad.web.bind.UifCalendarEditor"
 					p:fieldLabel.renderColon="false" />
 				<bean parent="Uif-LinkField" p:fieldLabel.labelText="Instruction Page"
 					p:href="@{document.developmentProposal.s2sOpportunity?.instructionUrl}"
