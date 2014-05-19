@@ -1,5 +1,5 @@
 drop procedure if exists p;
-drop procedure if exists numericVal;
+drop function if exists numericVal;
 
 delimiter //
 
@@ -23,7 +23,7 @@ BEGIN
     SET strLength = strLength -1;
     SET strChar = NULL;
   END WHILE;
-RETURN numericVal(retVal);
+RETURN CAST(retVal as DECIMAL);
 END //
 
 create procedure p ()
