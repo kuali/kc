@@ -73,15 +73,15 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         } else if (addLine instanceof ProposalPersonBiography) {
             document.getDevelopmentProposal().addProposalPersonBiography((ProposalPersonBiography) addLine);
 		} else if (addLine instanceof ProposalPersonUnit) {
-			((ProposalPersonUnit)addLine).setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+//			((ProposalPersonUnit)addLine).setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
 		} else if (addLine instanceof ProposalPersonDegree) {
 			ProposalPersonDegree degree = (ProposalPersonDegree)addLine;
-			// set proposal number and proposal person number for now since JPA can't
-			String str = collectionPath.substring(collectionPath.indexOf(PERS_NUMBER) + PERS_NUMBER.length());
-			str = str.substring(0, str.indexOf("]"));
-			Integer propPerson = Integer.parseInt(str);
-			degree.setProposalNumber(proposal.getProposalNumber());
-			degree.setProposalPersonNumber(proposal.getProposalPerson(propPerson).getProposalPersonNumber());
+//			// set proposal number and proposal person number for now since JPA can't
+//			String str = collectionPath.substring(collectionPath.indexOf(PERS_NUMBER) + PERS_NUMBER.length());
+//			str = str.substring(0, str.indexOf("]"));
+//			Integer propPerson = Integer.parseInt(str);
+//			degree.setProposalNumber(proposal.getProposalNumber());
+//			degree.setProposalPersonNumber(proposal.getProposalPerson(propPerson).getProposalPersonNumber());
 	        degree.setDegreeSequenceNumber(document.getDocumentNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
         } else if (addLine instanceof ProposalAbstract) {
             ProposalAbstract proposalAbstract = (ProposalAbstract) addLine;
