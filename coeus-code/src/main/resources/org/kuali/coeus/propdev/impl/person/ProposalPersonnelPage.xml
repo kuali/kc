@@ -313,8 +313,7 @@
 			<list>
 				<bean parent="PropDev-PersonnelPage-Details" p:order="10" />
 				<bean parent="PropDev-PersonnelPage-Organization" p:order="20" />
-				<bean parent="PropDev-PersonnelPage-Education" p:order="30" />
-				<bean parent="PropDev-PersonnelPage-ExtendedDetails" p:order="40" />
+ 				<bean parent="PropDev-PersonnelPage-ExtendedDetails" p:order="40" />
 				<bean parent="PropDev-PersonnelPage-Degrees" p:order="50" />
 				<bean parent="PropDev-PersonnelPage-UnitDetails" p:order="60" />
 				<bean parent="PropDev-PersonnelPage-Questionnaire" p:order="70" />
@@ -398,26 +397,32 @@
 		</property>
 	</bean>
 
-	<bean id="PropDev-PersonnelPage-Education" parent="PropDev-PersonnelPage-Education-parentBean" />
-	<bean id="PropDev-PersonnelPage-Education-parentBean" abstract="true"
-		parent="Uif-CssGridSection-2FieldLabelColumn" p:headerText="Education">
+	<bean id="PropDev-PersonnelPage-ExtendedDetails" parent="PropDev-PersonnelPage-ExtendedDetails-parentBean" />
+	<bean id="PropDev-PersonnelPage-ExtendedDetails-parentBean"
+		abstract="true" parent="Uif-CssGridSection"
+		p:headerText="Extended Details">
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="educationLevel"
-					p:order="10" />
-				<bean parent="Uif-InputField" p:propertyName="yearGraduated"
-					p:order="20" />
-				<bean parent="Uif-InputField" p:propertyName="major" p:order="30" />
-				<bean parent="Uif-InputField" p:propertyName="degree" p:order="40" />
-				<bean parent="Uif-InputField" p:propertyName="school" p:order="50" />
+				<bean parent="Uif-FieldGroupBase" p:order="10">
+					<property name="group">
+						<bean parent="PropDev-PersonnelPage-ExtendedDetailsPersonal"
+							p:order="10" />
+					</property>
+				</bean>
+				<bean parent="Uif-FieldGroupBase" p:order="20">
+					<property name="group">
+						<bean parent="PropDev-PersonnelPage-ExtendedDetailsEducation"
+							p:order="10" />
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>
 
-	<bean id="PropDev-PersonnelPage-ExtendedDetails" parent="PropDev-PersonnelPage-ExtendedDetails-parentBean" />
-	<bean id="PropDev-PersonnelPage-ExtendedDetails-parentBean"
-		abstract="true" parent="Uif-CssGridSection-2FieldLabelColumn"
-		p:headerText="Extended Details">
+	<bean id="PropDev-PersonnelPage-ExtendedDetailsPersonal" parent="PropDev-PersonnelPage-ExtendedDetailsPersonal-parentBean" />
+	<bean id="PropDev-PersonnelPage-ExtendedDetailsPersonal-parentBean"
+		abstract="true" parent="Uif-CssGridSubSection-2FieldLabelColumn"
+		p:headerText="Personal Information">
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="ageByFiscalYear"
@@ -458,6 +463,23 @@
 					p:order="180" />				
 				<bean parent="Uif-InputField" p:propertyName="citizenshipTypeCode"
 					p:order="190" p:enableAutoQuickfinder="false"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropDev-PersonnelPage-ExtendedDetailsEducation" parent="PropDev-PersonnelPage-ExtendedDetailsEducation-parentBean" />
+	<bean id="PropDev-PersonnelPage-ExtendedDetailsEducation-parentBean"
+		abstract="true" parent="Uif-CssGridSubSection-2FieldLabelColumn"
+		p:headerText="Education">
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="educationLevel"
+					p:order="10" />
+				<bean parent="Uif-InputField" p:propertyName="yearGraduated"
+					p:order="20" />
+				<bean parent="Uif-InputField" p:propertyName="major" p:order="30" />
+				<bean parent="Uif-InputField" p:propertyName="degree" p:order="40" />
+				<bean parent="Uif-InputField" p:propertyName="school" p:order="50" />
 			</list>
 		</property>
 	</bean>
