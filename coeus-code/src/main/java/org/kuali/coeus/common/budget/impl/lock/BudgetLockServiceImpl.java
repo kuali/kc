@@ -47,25 +47,16 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
 
     @Autowired
     @Qualifier("dataObjectService")
-    private DataObjectService dataObjectService;
-    @Autowired
-    @Qualifier("dataDictionaryService")
-    private DataDictionaryService dataDictionaryService;
-
-    public DataObjectService getDataObjectService() {
-        return dataObjectService;
-    }
     @Override
     public void setDataObjectService(DataObjectService dataObjectService) {
-        this.dataObjectService = dataObjectService;
+        super.setDataObjectService(dataObjectService);
     }
-    @Override
-    public DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
+
+    @Autowired
+    @Qualifier("dataDictionaryService")
     @Override
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
+        super.setDataDictionaryService(dataDictionaryService);
     }
 
 
