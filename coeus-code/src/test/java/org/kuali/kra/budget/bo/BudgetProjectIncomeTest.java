@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.coeus.common.budget.impl.period.BudgetPeriod;
 import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 

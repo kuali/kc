@@ -21,7 +21,7 @@
 <%@ attribute name="budgetCategoryTypeCode" description="Budget Category Type Codes" required="true" %>
 <%@ attribute name="budgetExpensePanelReadOnly" description="Budget Expense Panel Read Only" required="true" %>
 <%@ attribute name="budgetPeriod" description="Budget Period" required="true" %>
-<%@ attribute name="budgetPeriodBO" description="Budget Period BO" required="true" type="org.kuali.kra.budget.parameters.BudgetPeriod" %>
+<%@ attribute name="budgetPeriodBO" description="Budget Period BO" required="true" type="org.kuali.coeus.common.budget.impl.period.BudgetPeriod" %>
 <%@ attribute name="budgetExpensePanelReadOnlyIfBudgetVersionIsFinal" description="Budget Expense Panel Read Only - Only if Budget Version if Final" required="true" %>
 
 <c:set var="budgetLineItemAttributes" value="${DataDictionary.BudgetLineItem.attributes}" />

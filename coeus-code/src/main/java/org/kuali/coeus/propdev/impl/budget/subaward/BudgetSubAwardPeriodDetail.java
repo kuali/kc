@@ -19,7 +19,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardPeriodDetailContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.coeus.common.budget.impl.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 
 public class BudgetSubAwardPeriodDetail extends BudgetAssociate implements BudgetSubAwardPeriodDetailContract {

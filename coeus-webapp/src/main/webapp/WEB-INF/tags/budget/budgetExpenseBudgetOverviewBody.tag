@@ -79,13 +79,13 @@
     </c:choose>    </h3>
     <table cellpadding=0 cellspacing=0 summary="">
 	    	<tr>
-	    		<th width="25%"><div align="right"><a title="[Help] Start Date" target="helpWindow" tabindex="32767" href="${ConfigProperties.kr.url}/help.do?methodToCall=getAttributeHelpText&businessObjectClassName=org.kuali.kra.budget.parameters.BudgetPeriod&attributeName=startDate">Period ${budgetPeriod} Start Date</a></div></th>
+	    		<th width="25%"><div align="right"><a title="[Help] Start Date" target="helpWindow" tabindex="32767" href="${ConfigProperties.kr.url}/help.do?methodToCall=getAttributeHelpText&businessObjectClassName=org.kuali.coeus.common.budget.impl.period.BudgetPeriod&attributeName=startDate">Period ${budgetPeriod} Start Date</a></div></th>
 	    		<td width="25%"><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].startDate" attributeEntry="${budgetPeriodAttributes.startDate}" readOnly="true"/></div></td>
 	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttribute.totalCostLimit}" noColon="true" /></div></th>
 	    		<td width="25%"><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].totalCostLimit" attributeEntry="${budgetPeriodAttribute.totalCostLimit}" readOnly="true"/></div></td>
 	    	</tr>
 	    	<tr>
-	    		<th width="25%"><div align="right"><a title="[Help] End Date" target="helpWindow" tabindex="32767" href="${ConfigProperties.kr.url}/help.do?methodToCall=getAttributeHelpText&businessObjectClassName=org.kuali.kra.budget.parameters.BudgetPeriod&attributeName=endDate">Period ${budgetPeriod} End Date</a></div></th>
+	    		<th width="25%"><div align="right"><a title="[Help] End Date" target="helpWindow" tabindex="32767" href="${ConfigProperties.kr.url}/help.do?methodToCall=getAttributeHelpText&businessObjectClassName=org.kuali.coeus.common.budget.impl.period.BudgetPeriod&attributeName=endDate">Period ${budgetPeriod} End Date</a></div></th>
 	    		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].endDate" attributeEntry="${budgetPeriodAttributes.endDate}" readOnly="true"/></div></td>
 	    		<c:choose>
 					<c:when test="${proposalBudgetFlag}">

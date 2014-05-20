@@ -26,7 +26,7 @@ import org.kuali.kra.budget.core.BudgetCategoryMap;
 import org.kuali.kra.budget.core.BudgetCategoryMapping;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetRateAndBase;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.coeus.common.budget.impl.period.BudgetPeriod;
 import org.kuali.kra.budget.personnel.*;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -37,7 +37,6 @@ import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Lazy;
 
 import java.math.BigDecimal;
 import java.sql.Date;

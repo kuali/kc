@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.distributionincome;
 
-import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.coeus.common.budget.impl.period.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
