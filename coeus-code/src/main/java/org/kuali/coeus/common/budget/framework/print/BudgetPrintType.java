@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.coeus.common.budget.impl.print;
+package org.kuali.coeus.common.budget.framework.print;
 
 /**
  * This class represents different types of reports for Budget Printing

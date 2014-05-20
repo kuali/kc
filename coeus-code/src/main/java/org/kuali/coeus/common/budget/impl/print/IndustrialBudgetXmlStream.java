@@ -33,6 +33,11 @@ import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.BudgetSummaryReportDocument.BudgetSummaryReport;
 import org.kuali.kra.printing.schema.ReportPageType.BudgetSummary;
 import org.kuali.kra.printing.schema.ReportPageType.CalculationMethodology;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.util.*;
@@ -45,12 +50,28 @@ import java.util.*;
  * @author
  * 
  */
+@Component("industrialBudgetXmlStream")
 public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 
 	private static final Log LOG = LogFactory
 			.getLog(IndustrialBudgetXmlStream.class);
 
-	/**
+    @Autowired
+    @Qualifier("dateTimeService")
+    @Override
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        super.setDateTimeService(dateTimeService);
+    }
+
+    @Autowired
+    @Qualifier("businessObjectService")
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        super.setBusinessObjectService(businessObjectService);
+    }
+
+
+    /**
 	 * This method generates XML for Award Delta Report. It uses data passed in
 	 * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The XMl once
 	 * generated is returned as {@link XmlObject}
