@@ -23,7 +23,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -59,7 +58,7 @@ public class ProposalDevelopmentS2sQuestionnaireAuditRule extends KcTransactiona
                     List<AnswerHeader> headers = proposalDevelopmentS2sQuestionnaireService.getProposalAnswerHeaderForForm(developmentProposal,oppforms.getS2sOppFormsId().getOppNameSpace(),oppforms.getFormName());
                     for (int i=0;i<headers.size();i++) {
                         AnswerHeader header = headers.get(i);
-                        if (!header.getCompleted()) {
+                        if (!header.isCompleted()) {
                             valid = false;
                             getProposalS2sAuditErrorsByGroup("s2sQuestionnaireHelper",usages.get(0).getQuestionnaireLabel(),i).add(
                                     new AuditError(String.format(PROPOSAL_S2S_QUESTIONS_KEY, i), KeyConstants.ERROR_S2S_QUESTIONNAIRE_NOT_COMPLETE,

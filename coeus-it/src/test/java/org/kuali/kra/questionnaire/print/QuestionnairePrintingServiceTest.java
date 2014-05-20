@@ -103,7 +103,7 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
         QuestionnaireQuestion q1 = new QuestionnaireQuestion();
         q1.setParentQuestionNumber(0);
         q1.setQuestionNumber(1);
-        q1.setQuestionRefIdFk(1L);
+        q1.setQuestionId(1L);
         q1.setQuestionSeqNumber(1);
         q1.setQuestion(createQuestion(1,"Question 1"));
         List<QuestionnaireQuestion> questions = new ArrayList<QuestionnaireQuestion>();
@@ -155,10 +155,10 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
         printOption2.setSelected(false);
         questionnairesToPrints.add(printOption2);
         final Map  pkMap = new HashMap();
-        pkMap.put("questionnaireRefId", 1L);
+        pkMap.put("id", 1L);
         try {
             final Questionnaire questionnaire = new Questionnaire();
-            questionnaire.setQuestionnaireId("1");
+            questionnaire.setQuestionnaireSeqId("1");
             questionnaire.setQuestionnaireRefIdFromLong(1L);
             ProtocolDocument document = new ProtocolDocument();
             final List<Protocol>protocols = new ArrayList<Protocol>(); 
@@ -180,7 +180,7 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
             List<Printable> printables = qnPrintingServiceImpl.getQuestionnairePrintable(document.getProtocol(), questionnairesToPrints);
             // FIXME Writing PDF to disk for testing purpose only.
             assertEquals(printables.size(),1);
-            assertEquals(((AbstractPrint)printables.get(0)).getReportParameters().get("questionnaireId"), 1);
+            assertEquals(((AbstractPrint)printables.get(0)).getReportParameters().get("questionnaireSeqId"), 1);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
             //assert false;

@@ -58,20 +58,20 @@ public class QuestionnaireServiceTest  extends KcIntegrationTestBase {
             List<QuestionnaireQuestion> questionnaireQuestions = destQuestionnaire.getQuestionnaireQuestions();
             List<QuestionnaireUsage> questionnaireUsages = destQuestionnaire.getQuestionnaireUsages();
             assertTrue(questionnaireQuestions.size() == 2);
-            Assert.assertNull(questionnaireQuestions.get(0).getQuestionnaireRefIdFk());            
-            Assert.assertNull(questionnaireQuestions.get(1).getQuestionnaireRefIdFk());            
-            Assert.assertNull(questionnaireQuestions.get(0).getQuestionnaireQuestionsId());            
-            Assert.assertNull(questionnaireQuestions.get(1).getQuestionnaireQuestionsId());            
-            assertEquals(questionnaireQuestions.get(0).getQuestionRefIdFk(), (Object)1000L);
+            Assert.assertNull(questionnaireQuestions.get(0).getQuestionnaireId());
+            Assert.assertNull(questionnaireQuestions.get(1).getQuestionnaireId());
+            Assert.assertNull(questionnaireQuestions.get(0).getId());
+            Assert.assertNull(questionnaireQuestions.get(1).getId());
+            assertEquals(questionnaireQuestions.get(0).getQuestionId(), (Object)1000L);
 
             
             assertTrue(questionnaireUsages.size() == 2);
             assertEquals(questionnaireUsages.get(0).getQuestionnaireLabel(), "test 1");
             assertEquals(questionnaireUsages.get(1).getQuestionnaireLabel(), "test 2");
-            Assert.assertNull(questionnaireUsages.get(0).getQuestionnaireRefIdFk());            
-            Assert.assertNull(questionnaireUsages.get(1).getQuestionnaireRefIdFk());            
-            Assert.assertNull(questionnaireUsages.get(0).getQuestionnaireUsageId());            
-            Assert.assertNull(questionnaireUsages.get(1).getQuestionnaireUsageId());            
+            Assert.assertNull(questionnaireUsages.get(0).getQuestionnaireId());
+            Assert.assertNull(questionnaireUsages.get(1).getQuestionnaireId());
+            Assert.assertNull(questionnaireUsages.get(0).getId());
+            Assert.assertNull(questionnaireUsages.get(1).getId());
         }
 
         private Questionnaire setupSourceQuestionnaire() {
@@ -79,29 +79,29 @@ public class QuestionnaireServiceTest  extends KcIntegrationTestBase {
             questionnaire.setQuestionnaireRefIdFromLong(1L);
             
             QuestionnaireQuestion questionnaireQuestion = new QuestionnaireQuestion();
-            questionnaireQuestion.setQuestionnaireRefIdFk("1");
-            questionnaireQuestion.setQuestionRefIdFk(1L);
-            questionnaireQuestion.setQuestionnaireQuestionsId(1L);
-            questionnaireQuestion.setQuestionRefIdFk(1000L);
+            questionnaireQuestion.setQuestionnaireId(1L);
+            questionnaireQuestion.setQuestionId(1L);
+            questionnaireQuestion.setId(1L);
+            questionnaireQuestion.setQuestionId(1000L);
             questionnaire.getQuestionnaireQuestions().add(questionnaireQuestion);
             
             questionnaireQuestion = new QuestionnaireQuestion();
-            questionnaireQuestion.setQuestionnaireRefIdFk("1");
-            questionnaireQuestion.setQuestionRefIdFk(2L);
-            questionnaireQuestion.setQuestionnaireQuestionsId(2L);
-            questionnaireQuestion.setQuestionRefIdFk(1001L);
+            questionnaireQuestion.setQuestionnaireId(1L);
+            questionnaireQuestion.setQuestionId(2L);
+            questionnaireQuestion.setId(2L);
+            questionnaireQuestion.setQuestionId(1001L);
             questionnaire.getQuestionnaireQuestions().add(questionnaireQuestion);
             
             QuestionnaireUsage questionnaireUsage = new QuestionnaireUsage();
-            questionnaireUsage.setQuestionnaireRefIdFk("1");
+            questionnaireUsage.setQuestionnaireId(1L);
             questionnaireUsage.setQuestionnaireLabel("test 1");
-            questionnaireUsage.setQuestionnaireUsageId(1L);
+            questionnaireUsage.setId(1L);
             questionnaire.getQuestionnaireUsages().add(questionnaireUsage);
             
             questionnaireUsage = new QuestionnaireUsage();
-            questionnaireUsage.setQuestionnaireRefIdFk("1");
+            questionnaireUsage.setQuestionnaireId(1L);
             questionnaireUsage.setQuestionnaireLabel("test 2");
-            questionnaireUsage.setQuestionnaireUsageId(2L);
+            questionnaireUsage.setId(2L);
             questionnaire.getQuestionnaireUsages().add(questionnaireUsage);
             
             
@@ -134,7 +134,7 @@ public class QuestionnaireServiceTest  extends KcIntegrationTestBase {
             final QuestionnaireServiceImpl questionnaireService = new QuestionnaireServiceImpl();
             questionnaireService.setBusinessObjectService(businessObjectService);
             final Questionnaire questionnaire = new Questionnaire();
-            questionnaire.setQuestionnaireId("1");
+            questionnaire.setQuestionnaireSeqId("1");
             questionnaire.setName("exist name");
             final List<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
             questionnaires.add(questionnaire);
@@ -158,7 +158,7 @@ public class QuestionnaireServiceTest  extends KcIntegrationTestBase {
             final QuestionnaireServiceImpl questionnaireService = new QuestionnaireServiceImpl();
             questionnaireService.setBusinessObjectService(businessObjectService);
             final Questionnaire questionnaire = new Questionnaire();
-            questionnaire.setQuestionnaireId("1");
+            questionnaire.setQuestionnaireSeqId("1");
             questionnaire.setName("exist name");
             final List<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
             questionnaires.add(questionnaire);

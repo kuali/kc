@@ -172,7 +172,7 @@ public class QuestionnaireXmlStream implements XmlStream {
                 qParam.put("questionnaireId", questionnaireId);
                 List<org.kuali.kra.questionnaire.Questionnaire> questionnaires = 
                     (List)businessObjectService.findMatchingOrderBy(
-                            org.kuali.kra.questionnaire.Questionnaire.class, qParam, "questionnaireRefId", false);
+                            org.kuali.kra.questionnaire.Questionnaire.class, qParam, "id", false);
                 questionnaire = questionnaires.get(0);
                 // not sure why need this.  If it is not refreshed, some may get empty Questions
                 questionnaire.refreshReferenceObject("questionnaireQuestions");
@@ -188,7 +188,7 @@ public class QuestionnaireXmlStream implements XmlStream {
             moduleQuestionnaireBean = getQuestionnaireAnswerHeaderBean(printableBusinessObject, params);
         }
         if(questionnaire != null) {
-            Integer questId = questionnaire.getQuestionnaireIdAsInteger();
+            Integer questId = questionnaire.getQuestionnaireSeqIdAsInteger();
             if(questId!=null){
                 questionnaireType.setQuestionnaireId(questId);
             }
@@ -551,20 +551,20 @@ public class QuestionnaireXmlStream implements XmlStream {
                 answeredFlag = true;                
                 if (questionnaireQuestion.getConditionValue() != null) {
                     for (AnswerHeader ansHeader : answerHeaders) {                       
-                        if (questionnaireQuestion.getQuestionnaireRefIdFk().equals(ansHeader.getQuestionnaireRefIdFk())) {
+                        if (questionnaireQuestion.getQuestionnaireId().equals(ansHeader.getQuestionnaireId())) {
                             for (Answer answer : ansHeader.getAnswers()) {
-                                if (answer.getQuestionnaireQuestion().getQuestionnaireQuestionsId().equals(
-                                        questionnaireQuestion.getQuestionnaireQuestionsId())
+                                if (answer.getQuestionnaireQuestion().getId().equals(
+                                        questionnaireQuestion.getId())
                                         && answer.getQuestionNumber().equals(questionnaireQuestion.getQuestionNumber())
-                                        && answer.getQuestionRefIdFk().equals(questionnaireQuestion.getQuestionRefIdFk())) {                                 
+                                        && answer.getQuestionId().equals(questionnaireQuestion.getQuestionId())) {
                               
-                                    if (answer.getParentAnswer() != null && answer.getParentAnswer().get(0).getAnswer() != null) {
-                                        if (answer.getParentAnswer().get(0).getQuestion().getQuestionTypeId() == QUESTION_TYPE_INT) {
-                                            if (answer.getParentAnswer().get(0).getAnswer().equals(
+                                    if (answer.getParentAnswers() != null && answer.getParentAnswers().get(0).getAnswer() != null) {
+                                        if (answer.getParentAnswers().get(0).getQuestion().getQuestionTypeId() == QUESTION_TYPE_INT) {
+                                            if (answer.getParentAnswers().get(0).getAnswer().equals(
                                                     questionnaireQuestion.getConditionValue())) {
                                                 answeredFlag = false;
                                             }
-                                        } else if (!answer.getParentAnswer().get(0).getAnswer().equals(
+                                        } else if (!answer.getParentAnswers().get(0).getAnswer().equals(
                                                             questionnaireQuestion.getConditionValue())) {
                                             answeredFlag = false;
                                         }                                 
@@ -576,7 +576,7 @@ public class QuestionnaireXmlStream implements XmlStream {
                 }                    
                                
                 if (answeredFlag) {
-                 questionId = questionnaireQuestion.getQuestionnaireQuestionsId();
+                 questionId = questionnaireQuestion.getId();
                  questionNumber = questionnaireQuestion.getQuestionNumber().intValue();
                  parentQuestionNumber = questionnaireQuestion.getParentQuestionNumber().intValue();
                  if(questionsType!=null)    {tempParentQuestionNumber=0;}
@@ -631,19 +631,19 @@ public class QuestionnaireXmlStream implements XmlStream {
         boolean answeredFlag = true;                
         if (questionnaireQuestion.getConditionValue() != null) {                    
             for (AnswerHeader ansHeader : answerHeaders) {                        
-                if (questionnaireQuestion.getQuestionnaireRefIdFk().equals(ansHeader.getQuestionnaireRefIdFk())) {                            
+                if (questionnaireQuestion.getQuestionnaireId().equals(ansHeader.getQuestionnaireId())) {
                     for (Answer answer : ansHeader.getAnswers()) {
-                        if (answer.getQuestionnaireQuestion().getQuestionnaireQuestionsId().equals(
-                                        questionnaireQuestion.getQuestionnaireQuestionsId())
+                        if (answer.getQuestionnaireQuestion().getId().equals(
+                                        questionnaireQuestion.getId())
                                         && answer.getQuestionNumber().equals(questionnaireQuestion.getQuestionNumber())
-                                        && answer.getQuestionRefIdFk().equals(questionnaireQuestion.getQuestionRefIdFk())) {                                    
-                            if (answer.getParentAnswer() != null && answer.getParentAnswer().get(0).getAnswer() != null) {        
-                                if (answer.getParentAnswer().get(0).getQuestion().getQuestionTypeId() == QUESTION_TYPE_INT) {
-                                    if (answer.getParentAnswer().get(0).getAnswer().equals(
+                                        && answer.getQuestionId().equals(questionnaireQuestion.getQuestionId())) {
+                            if (answer.getParentAnswers() != null && answer.getParentAnswers().get(0).getAnswer() != null) {
+                                if (answer.getParentAnswers().get(0).getQuestion().getQuestionTypeId() == QUESTION_TYPE_INT) {
+                                    if (answer.getParentAnswers().get(0).getAnswer().equals(
                                                     questionnaireQuestion.getConditionValue())) {
                                         answeredFlag = false; 
                                     }
-                                } else if (!answer.getParentAnswer().get(0).getAnswer().equals(
+                                } else if (!answer.getParentAnswers().get(0).getAnswer().equals(
                                                 questionnaireQuestion.getConditionValue())) {
                                     answeredFlag = false; 
                                 } 
@@ -674,13 +674,13 @@ public class QuestionnaireXmlStream implements XmlStream {
                         String answerName="";
                         String answerPerson="";
                         String answerDescription = null;
-                        if (questionnaireQuestion.getQuestionnaireRefIdFk().equals(answerHeader.getQuestionnaireRefIdFk())) {
+                        if (questionnaireQuestion.getQuestionnaireId().equals(answerHeader.getQuestionnaireId())) {
                             List<Answer> answers = answerHeader.getAnswers();
                             for (Answer answer : answers) {
-                                if (answer.getQuestionnaireQuestion().getQuestionnaireQuestionsId().equals(
-                                        questionnaireQuestion.getQuestionnaireQuestionsId())
+                                if (answer.getQuestionnaireQuestion().getId().equals(
+                                        questionnaireQuestion.getId())
                                         && answer.getQuestionNumber().equals(questionnaireQuestion.getQuestionNumber())
-                                        && answer.getQuestionRefIdFk().equals(questionnaireQuestion.getQuestionRefIdFk())) {
+                                        && answer.getQuestionId().equals(questionnaireQuestion.getQuestionId())) {
                                     boolean updateQuestionDescription = printableBusinessObject instanceof ProposalPerson;
                                     if (answer.getAnswer() != null) {
                                         isAnswerPresent = true;
@@ -764,7 +764,7 @@ public class QuestionnaireXmlStream implements XmlStream {
         }
         org.kuali.kra.questionnaire.Questionnaire toSortQuestionnaire = null;
         for (AnswerHeader header : answerHeaders) {
-            if (header.getQuestionnaire().getQuestionnaireId().equals(questionnaire.getQuestionnaireId())) {
+            if (header.getQuestionnaire().getQuestionnaireSeqId().equals(questionnaire.getQuestionnaireSeqId())) {
                 toSortQuestionnaire = header.getQuestionnaire();
             }
         }

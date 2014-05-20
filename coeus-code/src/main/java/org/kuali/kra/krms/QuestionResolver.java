@@ -60,14 +60,14 @@ public class QuestionResolver implements TermResolver<Object> {
     @Override
     public String resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) {
         String questionnaireId = parameters.get("Questionnaire Ref ID");
-        String questionId = parameters.get("Question ID");
+        String questionId = parameters.get("Question Seq ID");
         String moduleCode = (String) resolvedPrereqs.get("moduleCode");
         String moduleItemKey = (String) resolvedPrereqs.get("moduleItemKey");
         List<AnswerHeader> answerHeaders = getQuestionnaireAnswers(moduleCode, moduleItemKey);
         for (AnswerHeader answerHeader : answerHeaders) {
-            if (answerHeader.getQuestionnaireRefIdFk().equals(questionnaireId)) {
+            if (answerHeader.getQuestionnaireId().equals(questionnaireId)) {
                 for (Answer answer : answerHeader.getAnswers()) {
-                    if (answer.getQuestion().getQuestionId().equals(questionId)) {
+                    if (answer.getQuestion().getQuestionSeqId().equals(questionId)) {
                         return answer.getAnswer();
                     }
                 }

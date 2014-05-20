@@ -16,16 +16,17 @@
 package org.kuali.kra.questionnaire.question;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.kuali.coeus.common.api.question.QuestionExplanationContract;
 import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class QuestionExplanation extends KcPersistableBusinessObjectBase implements SequenceAssociate<Question> {
+public class QuestionExplanation extends KcPersistableBusinessObjectBase implements SequenceAssociate<Question>, QuestionExplanationContract {
 
     private static final long serialVersionUID = 1L;
 
-    private Long questionExplanationId;
+    private Long id;
 
-    private Long questionRefIdFk;
+    private Long questionId;
 
     private String explanationType;
 
@@ -33,25 +34,25 @@ public class QuestionExplanation extends KcPersistableBusinessObjectBase impleme
 
     private Question sequenceOwner;
 
-    public QuestionExplanation() {
+    @Override
+    public Long getId() {
+        return id;
     }
 
-    public Long getQuestionExplanationId() {
-        return questionExplanationId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setQuestionExplanationId(Long questionExplanationId) {
-        this.questionExplanationId = questionExplanationId;
+    @Override
+    public Long getQuestionId() {
+        return questionId;
     }
 
-    public Long getQuestionRefIdFk() {
-        return questionRefIdFk;
+    public void setQuestionId(Long questionId) {
+        this.questionId = questionId;
     }
 
-    public void setQuestionRefIdFk(Long questionRefIdFk) {
-        this.questionRefIdFk = questionRefIdFk;
-    }
-
+    @Override
     public String getExplanationType() {
         return explanationType;
     }
@@ -60,6 +61,7 @@ public class QuestionExplanation extends KcPersistableBusinessObjectBase impleme
         this.explanationType = explanationType;
     }
 
+    @Override
     public String getExplanation() {
         return explanation;
     }
@@ -80,7 +82,7 @@ public class QuestionExplanation extends KcPersistableBusinessObjectBase impleme
             return false;
         }
         QuestionExplanation questionExplanation = (QuestionExplanation) obj;
-        if (ObjectUtils.equals(this.questionRefIdFk, questionExplanation.questionRefIdFk) && ObjectUtils.equals(this.explanationType, questionExplanation.explanationType)) {
+        if (ObjectUtils.equals(this.questionId, questionExplanation.questionId) && ObjectUtils.equals(this.explanationType, questionExplanation.explanationType)) {
             return true;
         } else {
             return false;
@@ -91,7 +93,7 @@ public class QuestionExplanation extends KcPersistableBusinessObjectBase impleme
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + (this.questionRefIdFk == null ? 0 : this.questionRefIdFk.hashCode());
+        result = PRIME * result + (this.questionId == null ? 0 : this.questionId.hashCode());
         result = PRIME * result + (this.explanationType == null ? 0 : this.explanationType.hashCode());
         return result;
     }
@@ -109,6 +111,6 @@ public class QuestionExplanation extends KcPersistableBusinessObjectBase impleme
     }
 
     public void resetPersistenceState() {
-        this.questionExplanationId = null;
+        this.id = null;
     }
 }

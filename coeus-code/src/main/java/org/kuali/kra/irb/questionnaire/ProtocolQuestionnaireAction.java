@@ -48,7 +48,7 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 public class ProtocolQuestionnaireAction extends ProtocolAction {
     private static final String MODULE_SUB_ITEM_CODE = "moduleSubItemCode";
     private static final String PROTOCOL_NUMBER      = "protocolNumber";
-    private static final String QUESTIONNAIRE_ID     = "questionnaireId";
+    private static final String QUESTIONNAIRE_ID     = "questionnaireSeqId";
     private static final String SEQUENCE_NUMBER      = "sequenceNumber";
     private static final String TEMPLATE             = "template";
 
@@ -139,7 +139,7 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         final int answerHeaderIndex = this.getSelectedLine(request);
         
-        reportParameters.put(QUESTIONNAIRE_ID, ((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireIdAsInteger());
+        reportParameters.put(QUESTIONNAIRE_ID, ((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireSeqIdAsInteger());
         reportParameters.put(TEMPLATE, ((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getTemplate());
         reportParameters.put(MODULE_SUB_ITEM_CODE, ((ProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getModuleSubItemCode());
 
@@ -226,7 +226,7 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
     private List<AnswerHeader> getAnsweredQuestionnaire(List<AnswerHeader> answerHeaders) {
         List<AnswerHeader> savedHeaders = new ArrayList<AnswerHeader>();
         for (AnswerHeader answerHeader : answerHeaders) {
-            if (answerHeader.getAnswerHeaderId() != null) {
+            if (answerHeader.getId() != null) {
                 savedHeaders.add(answerHeader);
             }
         }

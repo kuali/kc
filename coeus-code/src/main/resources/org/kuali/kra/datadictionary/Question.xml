@@ -28,19 +28,19 @@
         <property name="helpDefinition" >
             <bean parent="HelpDefinition" p:parameterNamespace="KC-QUESTIONNAIRE" p:parameterName="questionnaireQuestionHelpUrl" p:parameterDetailType="Document" />
         </property>
-        <property name="titleAttribute" value="questionRefId" />
+        <property name="titleAttribute" value="id" />
         <property name="attributes" >
             <list>
-                <ref bean="Question-questionRefId" />
+                <ref bean="Question-id" />
                 <ref bean="Question-documentNumber" />
-                <ref bean="Question-questionId" />
-                <ref bean="Question-questionIdAsInteger" />
+                <ref bean="Question-questionSeqId" />
+                <ref bean="Question-questionSeqIdAsInteger" />
                 <ref bean="Question-sequenceNumber" />
                 <ref bean="Question-question" />
                 <ref bean="Question-status" />
                 <ref bean="Question-categoryTypeCode" />
                 <ref bean="Question-questionTypeId" />
-                <ref bean="Question-questionType.questionTypeName" />
+                <ref bean="Question-questionType.name" />
                 <ref bean="Question-lookupClass" />
                 <ref bean="Question-lookupReturn" />
                 <ref bean="Question-displayedAnswers" />
@@ -57,9 +57,9 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    <bean id="Question-questionRefId" parent="Question-questionRefId-parentBean" />
-    <bean id="Question-questionRefId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="questionRefId" />
+    <bean id="Question-id" parent="Question-id-parentBean" />
+    <bean id="Question-id-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="id" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Question Ref Id" />
         <property name="shortLabel" value="Question Ref Id" />
@@ -103,9 +103,9 @@
         <property name="description" value="Document Number" />
     </bean>
 
-    <bean id="Question-questionId" parent="Question-questionId-parentBean" />
-    <bean id="Question-questionId-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="questionId" />
+    <bean id="Question-questionSeqId" parent="Question-questionSeqId-parentBean" />
+    <bean id="Question-questionSeqId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionSeqId" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Question Id" />
         <property name="shortLabel" value="Question Id" />
@@ -126,9 +126,9 @@
         <property name="description" value="Question Id" />
     </bean>
     
-    <bean id="Question-questionIdAsInteger" parent="Question-questionIdAsInteger-parentBean" />
-    <bean id="Question-questionIdAsInteger-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="questionIdAsInteger" />
+    <bean id="Question-questionSeqIdAsInteger" parent="Question-questionSeqIdAsInteger-parentBean" />
+    <bean id="Question-questionSeqIdAsInteger-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionSeqIdAsInteger" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Question Id" />
         <property name="shortLabel" value="Question Id" />
@@ -242,15 +242,15 @@
       <bean parent="NumericPatternConstraint"/>
     </property>
          <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.questionnaire.question.QuestionCategory" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="categoryTypeCode" p:labelAttribute="categoryName"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.questionnaire.question.QuestionCategory" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="id" p:labelAttribute="name"/>
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
         <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.QuestionCategory"/>
         <property name="includeKeyInDescription" value="false"/>
         <property name="includeBlankRow" value="false"/>
-        <property name="keyAttributeName" value="categoryTypeCode"/>
-        <property name="labelAttributeName" value="categoryName"/>
+        <property name="keyAttributeName" value="id"/>
+        <property name="labelAttributeName" value="name"/>
       </bean>
     </property>
     <property name="controlField">
@@ -275,15 +275,15 @@
       <bean parent="NumericPatternConstraint"/>
     </property>
         <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.questionnaire.question.QuestionType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="questionTypeId" p:labelAttribute="questionTypeName"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.questionnaire.question.QuestionType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="id" p:labelAttribute="name"/>
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
         <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.QuestionType"/>
         <property name="includeKeyInDescription" value="false"/>
         <property name="includeBlankRow" value="false"/>
-        <property name="keyAttributeName" value="questionTypeId"/>
-        <property name="labelAttributeName" value="questionTypeName"/>
+        <property name="keyAttributeName" value="id"/>
+        <property name="labelAttributeName" value="name"/>
       </bean>
     </property>
     <property name="controlField">
@@ -413,9 +413,9 @@
         <property name="summary" value="Answer Max Length" />
         <property name="description" value="Answer Max Length" />
     </bean>
-  <bean id="Question-questionType.questionTypeName" parent="Question-questionType.questionTypeName-parentBean" />
-  <bean id="Question-questionType.questionTypeName-parentBean" abstract="true" parent="QuestionType-questionTypeName">
-    <property name="name" value="questionType.questionTypeName" />
+  <bean id="Question-questionType.name" parent="Question-questionType.name-parentBean" />
+  <bean id="Question-questionType.name-parentBean" abstract="true" parent="QuestionType-name">
+    <property name="name" value="questionType.name" />
     <property name="label" value="Question Type" />
     <property name="shortLabel" value="Question Type" />
   </bean>
@@ -559,12 +559,12 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-              <bean parent="FieldDefinition" p:attributeName="questionId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="questionSeqId" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
               <bean parent="FieldDefinition" p:attributeName="question"/>
               <bean parent="FieldDefinition" p:attributeName="status"/>
               <bean parent="FieldDefinition" p:attributeName="categoryTypeCode"/>
-              <bean parent="FieldDefinition" p:attributeName="questionType.questionTypeName"/>
+              <bean parent="FieldDefinition" p:attributeName="questionType.name"/>
               <bean parent="FieldDefinition" p:attributeName="lookupClass"/>
               <bean parent="FieldDefinition" p:attributeName="lookupReturn"/>
               <bean parent="FieldDefinition" p:attributeName="displayedAnswers"/>
@@ -587,12 +587,12 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="questionId" parent="Uif-DataField"/>
+              <bean p:propertyName="questionSeqId" parent="Uif-DataField"/>
               <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
               <bean p:propertyName="question" parent="Uif-DataField"/>
               <bean p:propertyName="status" parent="Uif-DataField"/>
               <bean p:propertyName="categoryTypeCode" parent="Uif-DataField"/>
-              <bean p:propertyName="questionType.questionTypeName" parent="Uif-DataField"/>
+              <bean p:propertyName="questionType.name" parent="Uif-DataField"/>
               <bean p:propertyName="lookupClass" parent="Uif-DataField"/>
               <bean p:propertyName="lookupReturn" parent="Uif-DataField"/>
               <bean p:propertyName="displayedAnswers" parent="Uif-DataField"/>
@@ -617,7 +617,7 @@
         </property>
         <property name="lookupFields" >
             <list>
-        <bean parent="FieldDefinition" p:attributeName="questionId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="questionSeqId" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
         <bean parent="FieldDefinition" p:attributeName="question"/>
         <bean parent="FieldDefinition" p:attributeName="status"/>
@@ -632,7 +632,7 @@
         </property>
         <property name="resultFields" >
             <list>
-        <bean parent="FieldDefinition" p:attributeName="questionIdAsInteger" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="questionSeqIdAsInteger" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="sequenceNumber"/>
         <bean parent="FieldDefinition" p:attributeName="question"/>
         <bean parent="FieldDefinition" p:attributeName="status"/>
@@ -663,7 +663,7 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="questionId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="questionSeqId" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="sequenceNumber" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="question" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="status" parent="Uif-LookupCriteriaInputField"/>
@@ -678,7 +678,7 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="questionIdAsInteger" parent="Uif-DataField"/>
+        <bean p:propertyName="questionSeqIdAsInteger" parent="Uif-DataField"/>
         <bean p:propertyName="sequenceNumber" parent="Uif-DataField"/>
         <bean p:propertyName="question" parent="Uif-DataField"/>
         <bean p:propertyName="status" parent="Uif-DataField"/>

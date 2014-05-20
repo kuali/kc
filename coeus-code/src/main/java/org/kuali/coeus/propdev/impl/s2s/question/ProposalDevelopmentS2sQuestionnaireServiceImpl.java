@@ -80,7 +80,7 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImpl implements ProposalD
                             && (formName==null||StringUtils.equals(oppForms.getFormName(), formName))) {
                         List<QuestionnaireUsage> usages = getQuestionnaireUsages(oppForms.getS2sOppFormsId().getOppNameSpace(),oppForms.getFormName(), developmentProposal);
                         for (QuestionnaireUsage usage : usages) {
-                            if (header.getQuestionnaire().getQuestionnaireId().equals(usage.getQuestionnaire().getQuestionnaireId())) {
+                            if (header.getQuestionnaire().getQuestionnaireSeqId().equals(usage.getQuestionnaire().getQuestionnaireSeqId())) {
                                 results.add(header);
                             }
                     
@@ -103,7 +103,7 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImpl implements ProposalD
         
         for (QuestionnaireUsage usage : usages) {    
             for (S2sOppFormQuestionnaire oppFormQuestionnaire : s2sOppFormQuestionnaires) {
-                if (oppFormQuestionnaire.getQuestionnaireId().toString().equals(usage.getQuestionnaire().getQuestionnaireId())) {
+                if (oppFormQuestionnaire.getQuestionnaireId().toString().equals(usage.getQuestionnaire().getQuestionnaireSeqId())) {
                     result.add(usage);
                 }
             }

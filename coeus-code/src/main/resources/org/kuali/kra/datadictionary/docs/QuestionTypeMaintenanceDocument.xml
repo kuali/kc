@@ -27,9 +27,10 @@
         </property>
         <property name="lockingKeys">
             <list>
-                <value>questionTypeId</value>
+                <value>id</value>
             </list>
-        </property>		<property name="allowsRecordDeletion" value="true" />	
+		<property name="allowsRecordDeletion" value="true" />
+	
         <property name="documentTypeName" value="QuestionTypeMaintenanceDocument"/>
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     </bean>
@@ -42,8 +43,8 @@
         <property name="title" value="Edit Question Type"/>
         <property name="maintainableItems">
             <list>
-                <bean parent="MaintainableFieldDefinition" p:name="questionTypeId" p:required="true"/>
-                <bean parent="MaintainableFieldDefinition" p:name="questionTypeName" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="id" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
             </list>
         </property>

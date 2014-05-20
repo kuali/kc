@@ -33,6 +33,7 @@ import gov.grants.apply.system.globalLibraryV10.YesNoDataType.Enum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
@@ -57,6 +58,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -67,6 +69,7 @@ import java.util.Map;
  */
 public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 
+    private List<? extends AnswerHeaderContract> answerHeaders;
 	private DepartmentalPerson departmentalPerson;
 	private static final Log LOG = LogFactory
 			.getLog(RRSF424V1_0Generator.class);
@@ -78,7 +81,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 	 * @return rrSF424Document {@link XmlObject} of type RRSF424Document.
 	 */
 	private RRSF424Document getRRSF424() {
-
+        answerHeaders = getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber());
 		RRSF424Document rrSF424Document = RRSF424Document.Factory.newInstance();
 		RRSF424 rrsf424 = RRSF424.Factory.newInstance();
 		rrsf424.setFormVersion(S2SConstants.FORMVERSION_1_0);
@@ -786,4 +789,8 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 				.getDepartmentalPerson(proposalDevelopmentDocument);
 		return getRRSF424();
 	}
+    @Override
+    protected List<? extends AnswerHeaderContract> getAnswerHeaders() {
+        return answerHeaders;
+    }
 }

@@ -47,10 +47,10 @@
  		<!--  <label>Sponsor Code Search</label> -->
    		<label>
    		<%--
-   			<input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionRefId:newQuestionId,question:newQuestion))).((%true%)).anchor" id = "lookupBtn" 
+   			<input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((id:newQuestionId,question:newQuestion))).((%true%)).anchor" id = "lookupBtn"
 	   src="/kra-dev/kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Multiple Value Search on " title="Multiple Value Search on " />
 	    --%>
-    			<input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((questionRefId:newQuestionId,questionTypeId:newQuestionTypeId,question:newQuestion,answerMaxLength:newAnswerMaxLength,maxAnswers:newMaxAnswers,displayedAnswers:newDisplayedAnswers,lookupReturn:newLookupReturn,lookupClass:newLookupClass,sequenceNumber:newQuestionSequence))).((%false%)).anchor" id = "lookupBtn" 
+    			<input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.kra.questionnaire.question.Question!!).(((id:newQuestionId,questionTypeId:newQuestionTypeId,question:newQuestion,answerMaxLength:newAnswerMaxLength,maxAnswers:newMaxAnswers,displayedAnswers:newDisplayedAnswers,lookupReturn:newLookupReturn,lookupClass:newLookupClass,sequenceNumber:newQuestionSequence))).((%false%)).anchor" id = "lookupBtn"
 	   src="kr/static/images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Multiple Value Search on " title="Multiple Value Search on " />
    		
          	</label><br>

@@ -24,17 +24,14 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin1Max100DataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.question.AnswerContract;
+import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
-import org.kuali.coeus.propdev.impl.person.question.ProposalPersonModuleQuestionnaireBean;
-import org.kuali.kra.questionnaire.answer.Answer;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -111,17 +108,11 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 	 * status,DisclosureLobbyingActivities,ExploratoryResearch,HistoricPlaces,
 	 * HighResolutionGraphics and AccomplishmentRenewal information for the
 	 * OtherInfo type.
-	 * 
-	 * @param nsfCoverPage13
-	 * 
-	 * @return OtherInfo object containing other informations about the
-	 *         principal investigator.
 	 */
 	private void setOtherInfo(NSFCoverPage13 nsfCoverPage13) {
 		OtherInfo otherInfo = OtherInfo.Factory.newInstance();
 		PIInfo pInfo = PIInfo.Factory.newInstance();
-		for (Answer questionnaireAnswer : s2sUtilService
-				.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(),getNamespace(),getFormName())) {
+		for (AnswerContract questionnaireAnswer : getPropDevQuestionAnswerService().getQuestionnaireAnswers(pdDoc.getDevelopmentProposal().getProposalNumber(),getNamespace(),getFormName())) {
 			String answer = questionnaireAnswer.getAnswer();
 			int questionId = questionnaireAnswer.getQuestionNumber();
 			
@@ -188,18 +179,15 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 		  	if (proposalPerson.getProposalPersonRoleId() != null
 					&& proposalPerson.getProposalPersonRoleId().equals(
 							PRINCIPAL_INVESTIGATOR)
-					|| proposalPerson.getProposalPersonRoleId().equals(
-							PI_C0_INVESTIGATOR)) {
-		  	  ProposalPersonModuleQuestionnaireBean moduleQuestionnaireBean = 
-		            new ProposalPersonModuleQuestionnaireBean(pdDoc.getDevelopmentProposal(), proposalPerson);
-		  	List<AnswerHeader> headers=getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
-		  	AnswerHeader answerHeader=headers.get(0);
-		  	List <Answer> certificationAnswers=answerHeader.getAnswers();
+					|| PI_C0_INVESTIGATOR.equals(proposalPerson.getProposalPersonRoleId())) {
+		  	List<? extends AnswerHeaderContract> headers=getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber());
+                AnswerHeaderContract answerHeader=headers.get(0);
+		  	List <? extends AnswerContract> certificationAnswers=answerHeader.getAnswers();
 		  	
-		  	for(Answer certificatonAnswer : certificationAnswers){
+		  	for(AnswerContract certificatonAnswer : certificationAnswers){
 		  	    if (certificatonAnswer != null
 		  	            && PROPOSAL_YNQ_LOBBYING_ACTIVITIES
-		  	            .equals(certificatonAnswer.getQuestion().getQuestionId())
+		  	            .equals(certificatonAnswer.getQuestionId())
 		  	            && S2SConstants.PROPOSAL_YNQ_ANSWER_Y
 		  	            .equals(certificatonAnswer.getAnswer())) {
 		  	        return YesNoDataType.Y_YES;
@@ -210,28 +198,25 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 			}
 		}
 		Organization organization = getOrganizationFromDevelopmentProposal(pdDoc.getDevelopmentProposal());
-		List<OrganizationYnq> organizationYnqs = null;
 		if (organization != null) {
-			organizationYnqs = organization.getOrganizationYnqs();
+            List<OrganizationYnq> organizationYnqs = organization.getOrganizationYnqs();
+            for (OrganizationYnq organizationYnq : organizationYnqs) {
+                if (organizationYnq.getQuestionId().equals(LOBBYING_QUESTION_ID)) {
+                    if(getAnswerFromOrganizationYnq(organizationYnq)){
+                        return YesNoDataType.Y_YES;
+                    }
+                }
+            }
         }
-		for (OrganizationYnq organizationYnq : organizationYnqs) {
-			if (organizationYnq.getQuestionId().equals(LOBBYING_QUESTION_ID)) {
-					if(getAnswerFromOrganizationYnq(organizationYnq)){
-						return YesNoDataType.Y_YES;
-					}
-			}
-		}
+
 		return answer;
 	}
-	  private QuestionnaireAnswerService getQuestionnaireAnswerService() {
-        return KcServiceLocator.getService(QuestionnaireAnswerService.class);
-    }
 
     /*
      * This method return true if question is answered otherwise false .
      */
     protected boolean getAnswerFromOrganizationYnq(OrganizationYnq organizationYnq) {
-        return organizationYnq.getAnswer().equals(ANSWER_INDICATOR_VALUE) ? true : false;
+        return organizationYnq.getAnswer().equals(ANSWER_INDICATOR_VALUE);
     }
 
 	/*
@@ -273,8 +258,7 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 	 *         narrative type code.
 	 */
 	private AttachedFileDataType[] getAttachedFileDataTypes() {
-		List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
-		AttachedFileDataType attachedFileDataType = null;
+		List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<>();
 		for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeType().getCode() != null) {
@@ -282,7 +266,7 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 				if (narrativeTypeCode == PERSONAL_DATA
 						|| narrativeTypeCode == PROPRIETARY_INFORMATION 
 						|| narrativeTypeCode == SINGLE_COPY_DOCUMENT) {
-					attachedFileDataType = getAttachedFileType(narrative); 
+                    AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
 					if(attachedFileDataType != null){
 						attachedFileDataTypeList.add(attachedFileDataType);
 					}

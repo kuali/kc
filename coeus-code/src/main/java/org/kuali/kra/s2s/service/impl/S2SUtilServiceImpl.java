@@ -17,10 +17,11 @@ package org.kuali.kra.s2s.service.impl;
 
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.api.country.CountryContract;
 import org.kuali.coeus.common.api.country.KcCountryService;
+import org.kuali.coeus.common.api.question.AnswerContract;
+import org.kuali.coeus.common.api.question.AnswerHeaderContract;
+import org.kuali.coeus.common.api.question.QuestionAnswerService;
 import org.kuali.coeus.common.api.state.KcStateService;
 import org.kuali.coeus.common.api.state.StateContract;
 import org.kuali.coeus.common.framework.org.Organization;
@@ -33,22 +34,14 @@ import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsContract;
 import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsService;
+import org.kuali.coeus.propdev.api.PropDevQuestionAnswerService;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentModuleQuestionnaireBean;
-import org.kuali.kra.questionnaire.Questionnaire;
-import org.kuali.kra.questionnaire.QuestionnaireQuestion;
-import org.kuali.kra.questionnaire.answer.Answer;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.kra.s2s.CitizenshipTypes;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
@@ -56,7 +49,6 @@ import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.CitizenshipTypeService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -77,34 +69,20 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     private static final String YNQ_NOT_REVIEWED = "X";
     private static final int DIVISION_NAME_MAX_LENGTH = 30;
     private static final String CONTACT_TYPE_O = "O";
-    private static final Log LOG = LogFactory.getLog(S2SUtilServiceImpl.class);
 
-    public static final String PROPOSAL_YNQ_QUESTION_129 = "129";
-    public static final String PROPOSAL_YNQ_QUESTION_130 = "130";
-    public static final String PROPOSAL_YNQ_QUESTION_131 = "131";
-
-    private static final String MODULE_ITEM_KEY = "moduleItemKey";
-    private static final String MODULE_ITEM_CODE = "moduleItemCode";
-    private static final Integer MODULE_ITEM_CODE_THREE = 3;
-    private static final String MODULE_SUB_ITEM_CODE = "moduleSubItemCode";
-    private static final Integer MODULE_SUB_ITEM_CODE_ZERO = 0;
-    private static final String MODULE_SUB_ITEM_KEY = "moduleSubItemKey";
-    private static final Integer MODULE_SUB_ITEM_KEY_ZERO = 0;
-
-    private static final String SEQUENCE_NUMBER = "sequenceNumber";
-    private static final String QUESTIONNAIRE_ID = "questionnaireId";
-    private static final String QUESTIONNAIRE_REF_ID_FK = "questionnaireRefIdFk";
+    public static final Long PROPOSAL_YNQ_QUESTION_129 = 129L;
+    public static final Long PROPOSAL_YNQ_QUESTION_130 = 130L;
+    public static final Long PROPOSAL_YNQ_QUESTION_131 = 131L;
 
     private S2SConfigurationService s2SConfigurationService;
     private CitizenshipTypeService citizenshipTypeService;
-    private ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService;
-    private QuestionnaireAnswerService questionnaireAnswerService;
-    private BusinessObjectService businessObjectService;
     private ProposalAdminDetailsService proposalAdminDetailsService;
     private KcPersonService kcPersonService;
     private UnitService unitService;
     private KcCountryService countryService;
     private KcStateService stateService;
+    private QuestionAnswerService questionAnswerService;
+    private PropDevQuestionAnswerService propDevQuestionAnswerService;
     
     /**
      * This method creates and returns Map of submission details like submission type, description and Revision code
@@ -274,23 +252,22 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      */
     public Map<String, String> getEOStateReview(ProposalDevelopmentDocument pdDoc) {
         Map<String, String> stateReview = new HashMap<String, String>();
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(pdDoc.getDevelopmentProposal());
-        List<AnswerHeader> answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
-        for (Answer answers : answerHeaders.get(0).getAnswers()) {
-            if (answers.getQuestion().getQuestionId() != null
-                    && answers.getQuestion().getQuestionId().equals(PROPOSAL_YNQ_QUESTION_129)) {
+        List<? extends AnswerHeaderContract> answerHeaders = propDevQuestionAnswerService.getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber());
+        for (AnswerContract answers : answerHeaders.get(0).getAnswers()) {
+            if (answers.getQuestionId() != null
+                    && answers.getQuestionId().equals(PROPOSAL_YNQ_QUESTION_129)) {
                 if (stateReview.get(S2SConstants.YNQ_ANSWER) == null) {
                     stateReview.put(S2SConstants.YNQ_ANSWER, answers.getAnswer());
                 }
             }
-            if (answers.getQuestion().getQuestionId() != null
-                    && answers.getQuestion().getQuestionId().equals(PROPOSAL_YNQ_QUESTION_130)) {
+            if (answers.getQuestionId() != null
+                    && answers.getQuestionId().equals(PROPOSAL_YNQ_QUESTION_130)) {
                 if (stateReview.get(S2SConstants.YNQ_REVIEW_DATE) == null) {
                     stateReview.put(S2SConstants.YNQ_REVIEW_DATE, answers.getAnswer());
                 }
             }
-            if (answers.getQuestion().getQuestionId() != null
-                    && answers.getQuestion().getQuestionId().equals(PROPOSAL_YNQ_QUESTION_131)) {
+            if (answers.getQuestionId() != null
+                    && answers.getQuestionId().equals(PROPOSAL_YNQ_QUESTION_131)) {
                 if (stateReview.get(S2SConstants.YNQ_STATE_REVIEW_DATA) == null) {
                     stateReview.put(S2SConstants.YNQ_STATE_REVIEW_DATA, answers.getAnswer());
                 }
@@ -335,15 +312,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
             calendar.setTime(date);
         }
         return calendar;
-    }
-
-    /**
-     * This method is to set businessObjectService
-     * 
-     * @param businessObjectService(BusinessObjectService)
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 
     /**
@@ -470,73 +438,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
             }
         }
         return equal;
-    }
-
-    /**
-     * Finds all the Questionnaire Answers associates with provided ProposalNumber.
-     * 
-     * @param pdDoc
-     * @return List of Questionnaire {@link Answer}.
-     */
-    public List<Answer> getQuestionnaireAnswers(ProposalDevelopmentDocument pdDoc, Integer questionnaireId) {
-        List<Answer> questionnaireAnswers = new ArrayList<Answer>();
-        String proposalNumber = pdDoc.getDevelopmentProposal().getProposalNumber();
-        Questionnaire questionnaire = getHighestSequenceNumberQuestionnair(questionnaireId);
-        if (questionnaire != null) {
-            Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put(MODULE_ITEM_KEY, proposalNumber);
-            fieldValues.put(MODULE_ITEM_CODE, MODULE_ITEM_CODE_THREE);
-            fieldValues.put(MODULE_SUB_ITEM_CODE, MODULE_SUB_ITEM_CODE_ZERO);
-            fieldValues.put(MODULE_SUB_ITEM_KEY, MODULE_SUB_ITEM_KEY_ZERO);
-            fieldValues.put(QUESTIONNAIRE_REF_ID_FK, questionnaire.getQuestionnaireRefId());
-            Collection<AnswerHeader> answerHeaderList = businessObjectService.findMatching(AnswerHeader.class, fieldValues);
-            for (AnswerHeader answerHeader : answerHeaderList) {
-                questionnaireAnswers.addAll(answerHeader.getAnswers());
-            }
-        }
-        return questionnaireAnswers;
-    }
-
-    public List<Answer> getQuestionnaireAnswers(DevelopmentProposal developmentProposal, String namespace, String formname) {
-        List<AnswerHeader> answerHeaders = getProposalDevelopmentS2sQuestionnaireService().getProposalAnswerHeaderForForm(
-                developmentProposal, namespace, formname);
-        List<Answer> questionnaireAnswers = new ArrayList<Answer>();
-        for (AnswerHeader answerHeader : answerHeaders) {
-            Questionnaire questionnaire = answerHeader.getQuestionnaire();
-            List<QuestionnaireQuestion> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
-            for (QuestionnaireQuestion questionnaireQuestion : questionnaireQuestions) {
-                Answer questionAnswer = getAnswer(questionnaireQuestion, answerHeader);
-                questionnaireAnswers.add(questionAnswer);
-            }
-        }
-        return questionnaireAnswers;
-    }
-
-    protected Answer getAnswer(QuestionnaireQuestion questionnaireQuestion, AnswerHeader answerHeader) {
-        List<Answer> answers = answerHeader.getAnswers();
-        for (Answer answer : answers) {
-            if (answer.getQuestionnaireQuestionsIdFk().equals(questionnaireQuestion.getQuestionnaireQuestionsId())) {
-                return answer;
-            }
-        }
-        return null;
-    }
-
-    /*
-     * Finds the {@link Questionnaire} with Highest Sequence Number
-     */
-    protected Questionnaire getHighestSequenceNumberQuestionnair(Integer questionnaireId) {
-        Questionnaire highestQuestionnairSequenceNumber = null;
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(QUESTIONNAIRE_ID, questionnaireId);
-        Collection<Questionnaire> questionnairs = businessObjectService.findMatchingOrderBy(Questionnaire.class, fieldValues,
-                SEQUENCE_NUMBER, Boolean.FALSE);
-        if (questionnairs.size() > 0) {
-            List<Questionnaire> questionnairList = new ArrayList<Questionnaire>();
-            questionnairList.addAll(questionnairs);
-            highestQuestionnairSequenceNumber = questionnairList.get(0);
-        }
-        return highestQuestionnairSequenceNumber;
     }
 
     /**
@@ -760,25 +661,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     }
 
     /**
-     * Gets the proposalDevelopmentS2sQuestionnaireService attribute.
-     * 
-     * @return Returns the proposalDevelopmentS2sQuestionnaireService.
-     */
-    public ProposalDevelopmentS2sQuestionnaireService getProposalDevelopmentS2sQuestionnaireService() {
-        return proposalDevelopmentS2sQuestionnaireService;
-    }
-
-    /**
-     * Sets the proposalDevelopmentS2sQuestionnaireService attribute value.
-     * 
-     * @param proposalDevelopmentS2sQuestionnaireService The proposalDevelopmentS2sQuestionnaireService to set.
-     */
-    public void setProposalDevelopmentS2sQuestionnaireService(
-            ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService) {
-        this.proposalDevelopmentS2sQuestionnaireService = proposalDevelopmentS2sQuestionnaireService;
-    }
-
-    /**
      * Gets the unitService attribute.
      * 
      * @return Returns the unitService.
@@ -819,20 +701,8 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         this.s2SConfigurationService = s2SConfigurationService;
     }
 
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
     public CitizenshipTypeService getCitizenshipTypeService() {
         return citizenshipTypeService;
-    }
-
-    public QuestionnaireAnswerService getQuestionnaireAnswerService() {
-        return questionnaireAnswerService;
-    }
-
-    public void setQuestionnaireAnswerService(QuestionnaireAnswerService questionnaireAnswerService) {
-        this.questionnaireAnswerService = questionnaireAnswerService;
     }
 
     public KcStateService getStateService() {
@@ -857,5 +727,13 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 
     public void setProposalAdminDetailsService(ProposalAdminDetailsService proposalAdminDetailsService) {
         this.proposalAdminDetailsService = proposalAdminDetailsService;
+    }
+
+    public QuestionAnswerService getQuestionAnswerService() {
+        return questionAnswerService;
+    }
+
+    public void setQuestionAnswerService(QuestionAnswerService questionAnswerService) {
+        this.questionAnswerService = questionAnswerService;
     }
 }

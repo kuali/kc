@@ -15,32 +15,32 @@
  */
 package org.kuali.kra.questionnaire.question;
 
+import org.kuali.coeus.common.api.question.QuestionCategoryContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class QuestionCategory extends KcPersistableBusinessObjectBase {
+public class QuestionCategory extends KcPersistableBusinessObjectBase implements QuestionCategoryContract {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer categoryTypeCode;
+    private Long id;
 
-    private String categoryName;
+    private String name;
 
-    public QuestionCategory() {
+    @Override
+    public Long getId() {
+        return id;
     }
 
-    public Integer getCategoryTypeCode() {
-        return categoryTypeCode;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setCategoryTypeCode(Integer categoryTypeCode) {
-        this.categoryTypeCode = categoryTypeCode;
+    @Override
+    public String getName() {
+        return name;
     }
 
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -23,15 +23,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.impl.util.Base64;
+import org.kuali.coeus.common.api.question.AnswerContract;
+import org.kuali.coeus.common.api.question.AnswerHeaderContract;
+import org.kuali.coeus.common.api.question.QuestionAnswerService;
+import org.kuali.coeus.propdev.api.PropDevQuestionAnswerService;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentModuleQuestionnaireBean;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.propdev.api.attachment.NarrativeService;
@@ -60,7 +59,7 @@ import java.util.List;
 public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
 
     private static final Log LOG = LogFactory.getLog(S2SBaseFormGenerator.class);
-
+    public static final String NOT_ANSWERED = "No";
     private List<AttachmentData> attachments;
     public static final String KEY_VALUE_SEPARATOR = "-";
     public static final String AREAS_AFFECTED_ABSTRACT_TYPE_CODE="16";
@@ -76,9 +75,13 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     private List<AuditError> auditErrors;
     private String namespace;
     private NarrativeService narrativeService;
+    private PropDevQuestionAnswerService propDevQuestionAnswerService;
+    private QuestionAnswerService questionAnswerService;
 
     public S2SBaseFormGenerator() {
-        narrativeService = KcServiceLocator.getService(NarrativeService.class);
+       narrativeService = KcServiceLocator.getService(NarrativeService.class);
+       propDevQuestionAnswerService = KcServiceLocator.getService(PropDevQuestionAnswerService.class);
+       questionAnswerService = KcServiceLocator.getService(QuestionAnswerService.class);
     }
 
     /*
@@ -359,12 +362,6 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
         this.attachments = attachments;
     }
 
-    public List<AnswerHeader> getQuestionnaireAnswers(DevelopmentProposal proposal, boolean finalDoc) {
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(pdDoc.getDevelopmentProposal());
-        QuestionnaireAnswerService questionnaireAnswerService = KcServiceLocator.getService(QuestionnaireAnswerService.class);
-        return questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
-    }
-
     /**
      * Sort the attachments.
      * @param byteArrayInputStream
@@ -409,6 +406,113 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     }
 
     /**
+     *
+     * This method is used to get the answer for a particular Questionnaire question
+     * question based on the question id.
+     *
+     * @param questionSeqId
+     *            the question seq id to be passed.
+     * @return returns the answer for a particular
+     *         question based on the question id passed.
+     */
+    protected String getAnswer(String questionSeqId, List<? extends AnswerHeaderContract> answerHeaders) {
+        for(AnswerHeaderContract answerHeader:answerHeaders){
+            if(answerHeader!=null){
+                List<? extends AnswerContract> answerDetails = answerHeader.getAnswers();
+                for(AnswerContract answers:answerDetails){
+                    if(questionSeqId.equals(getQuestionAnswerService().findQuestionById(answers.getQuestionId()).getQuestionSeqId())){
+                        return answers.getAnswer();
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     *
+     * This method is used to get the answerId for a particular Questionnaire question
+     * question based on the question id.
+     *
+     * @param questionSeqId
+     *            the question seq id to be passed.
+     * @return returns the answer for a particular
+     *         question based on the question id passed.
+     */
+    protected Long getAnswerId(String questionSeqId, List<? extends AnswerHeaderContract> answerHeaders) {
+        if (answerHeaders != null && !answerHeaders.isEmpty()) {
+            for (AnswerHeaderContract answerHeader : answerHeaders) {
+                List<? extends AnswerContract> answerDetails = answerHeader.getAnswers();
+                for (AnswerContract answers : answerDetails) {
+                    if (answers.getAnswer() != null && questionSeqId.equals(getQuestionAnswerService().findQuestionById(answers.getQuestionId()).getQuestionSeqId())) {
+                        return answers.getId();
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    /**
+     *
+     * This method is used to get the child question answer for a particular Questionnaire question
+     * question based on the question id.
+     * @param parentQuestionSeqId
+     *            the parentQuestion id to be passed.
+     * @param questionSeqId
+     *            the question id to be passed.
+     * @return returns the answer for a particular
+     *         question based on the question id passed.
+     */
+    protected String getChildQuestionAnswer(String parentQuestionSeqId,String questionSeqId, List<? extends AnswerHeaderContract> answerHeaders) {
+        for(AnswerHeaderContract answerHeader:answerHeaders){
+            if(answerHeader!=null){
+                List<? extends AnswerContract> answerDetails = answerHeader.getAnswers();
+                for(AnswerContract answers:answerDetails){
+                    if(answers.getParentAnswers()!= null){
+                        AnswerContract parentAnswer =  answers.getParentAnswers().get(0);
+                        if(questionSeqId.equals(getQuestionAnswerService().findQuestionById(answers.getQuestionId()).getQuestionSeqId()) &&
+                                parentQuestionSeqId.equals(getQuestionAnswerService().findQuestionById(parentAnswer.getQuestionId()).getQuestionSeqId()) ){
+                            return answers.getAnswer();
+                        }
+                    }
+                }
+            }
+        }
+
+        return null;
+
+    }
+
+    /*
+  * This method will get the childAnswer for sub question
+  */
+    protected String getAnswers(String questionSeqId, List<? extends AnswerHeaderContract> answerHeaders) {
+
+        String answer = null;
+        String childAnswer = null;
+        StringBuilder stringBuilder = new StringBuilder();
+        if (answerHeaders != null && !answerHeaders.isEmpty()) {
+            for (AnswerHeaderContract answerHeader : answerHeaders) {
+                List<? extends AnswerContract> answerDetails = answerHeader.getAnswers();
+                for (AnswerContract answers : answerDetails) {
+                    if (questionSeqId.equals(getQuestionAnswerService().findQuestionById(answers.getQuestionId()).getQuestionSeqId())) {
+                        answer = answers.getAnswer();
+                        if (answer != null) {
+                            if (!answer.equals(NOT_ANSWERED)) {
+                                stringBuilder.append(answer);
+                                stringBuilder.append(",");
+                            }
+                        }
+                        childAnswer = stringBuilder.toString();
+                    }
+                }
+            }
+        }
+        return childAnswer;
+    }
+
+    /**
      * Gets the namespace attribute. 
      * @return Returns the namespace.
      */
@@ -422,5 +526,17 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
      */
     public void setNamespace(String namespace) {
         this.namespace = namespace;
+    }
+
+    public NarrativeService getNarrativeService() {
+        return narrativeService;
+    }
+
+    public PropDevQuestionAnswerService getPropDevQuestionAnswerService() {
+        return propDevQuestionAnswerService;
+    }
+
+    public QuestionAnswerService getQuestionAnswerService() {
+        return questionAnswerService;
     }
 }

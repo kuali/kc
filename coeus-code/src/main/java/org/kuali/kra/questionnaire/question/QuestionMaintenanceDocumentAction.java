@@ -49,7 +49,7 @@ import java.util.Map;
  */
 public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentAction {
     
-    private static final String QUESTION_REF_ID = "questionRefId";
+    private static final String QUESTION_REF_ID = "id";
     private static final String EDIT_QUESTION_OF_ACTIVE_QUESTIONNAIRE_QUESTION = "EditQuestionOfActiveQuestionnaire";
 
     /**
@@ -120,7 +120,6 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
      * 
      * This method creates a new version of the question.
      * @param maintenanceDocumentBase
-     * @param request
      * @throws VersionException
      */
     private void createNewQuestionVersion(MaintenanceDocumentBase maintenanceDocumentBase, String oldQuestionRefId) throws VersionException {
@@ -140,12 +139,12 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
         QuestionMaintainableImpl oldMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase
                 .getOldMaintainableObject();
         Question oldQuestion = (Question) oldMaintainableObject.getBusinessObject();
-        oldQuestion.setQuestionRefId(newQuestionRefId);
+        oldQuestion.setId(newQuestionRefId);
 
         // Set new question to versionedQuestion along with the new questionRefId
         QuestionMaintainableImpl newMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase
                 .getNewMaintainableObject();
-        versionedQuestion.setQuestionRefId(newQuestionRefId);
+        versionedQuestion.setId(newQuestionRefId);
         versionedQuestion.setVersionNumber(oldQuestion.getVersionNumber());
         newMaintainableObject.setBusinessObject(versionedQuestion);
     }
@@ -163,13 +162,13 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
         QuestionMaintainableImpl oldMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase
                 .getOldMaintainableObject();
         Question oldQuestion = (Question) oldMaintainableObject.getBusinessObject();
-        oldQuestion.setQuestionId(null);
+        oldQuestion.setQuestionSeqId(null);
         oldQuestion.setSequenceNumber(null);
 
         QuestionMaintainableImpl newMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase
                 .getNewMaintainableObject();
         Question newQuestion = (Question) newMaintainableObject.getBusinessObject();
-        newQuestion.setQuestionId(null);
+        newQuestion.setQuestionSeqId(null);
         newQuestion.setSequenceNumber(null);
     }
     
@@ -183,7 +182,7 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String questionRefId = request.getParameter(QUESTION_REF_ID);
 
-        if (!questionMaintenanceForm.isReadOnly() && (question != null || questionService.isQuestionUsed(questionService.getQuestionByRefId(questionRefId).getQuestionId()))) {
+        if (!questionMaintenanceForm.isReadOnly() && (question != null || questionService.isQuestionUsed(questionService.getQuestionByRefId(questionRefId).getQuestionSeqId()))) {
 
             // logic for question
             if (question == null) {
@@ -258,11 +257,11 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
         QuestionMaintainableImpl newMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase
                 .getNewMaintainableObject();
         Question newQuestion = (Question) newMaintainableObject.getBusinessObject();
-        newQuestion.setQuestionId(null);
+        newQuestion.setQuestionSeqId(null);
         newQuestion.setSequenceNumber(1);
         for (QuestionExplanation questionExplanation : newQuestion.getQuestionExplanations()) {
-            questionExplanation.setQuestionExplanationId(null);
-            questionExplanation.setQuestionRefIdFk(null);
+            questionExplanation.setId(null);
+            questionExplanation.setQuestionId(null);
         }
         return forward;
 

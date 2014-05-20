@@ -538,7 +538,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                 List<AnswerHeader> freshHeaders = new ArrayList<AnswerHeader>();
                 for (AnswerHeader header : pdform.getAnswerHeadersToDelete()) {
                     Map primaryKeys = new HashMap();
-                    primaryKeys.put("QUESTIONNAIRE_ANSWER_HEADER_ID", header.getAnswerHeaderId());
+                    primaryKeys.put("QUESTIONNAIRE_ANSWER_HEADER_ID", header.getId());
                     AnswerHeader ah = (AnswerHeader) this.getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, primaryKeys);
                     if (ah != null) {
                         freshHeaders.add(ah);
@@ -742,7 +742,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(person);
         AnswerHeader header = helper.getAnswerHeaders().get(0);
         
-        reportParameters.put("questionnaireId", header.getQuestionnaire().getQuestionnaireIdAsInteger());
+        reportParameters.put("questionnaireId", header.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
         reportParameters.put("template", header.getQuestionnaire().getTemplate());
 
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(person, reportParameters);

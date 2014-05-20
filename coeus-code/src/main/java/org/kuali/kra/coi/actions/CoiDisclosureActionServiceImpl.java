@@ -218,7 +218,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         for (AnswerHeader answerHeader : retrieveAnswerHeaders(coiDisclosure)) {
                AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(answerHeader);
 //                copiedAnswerHeader.setModuleSubItemKey(coiDisclosure.getSequenceNumber().toString());
-                copiedAnswerHeader.setAnswerHeaderId(null);
+                copiedAnswerHeader.setId(null);
                 for (Answer answer : copiedAnswerHeader.getAnswers()) {
                     answer.setId(null);
                 }
@@ -550,13 +550,13 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
             for (AnswerHeader updateHeader : updateAnswerHeaders) {
                 if (StringUtils.equals(updateHeader.getModuleSubItemCode(), masterHeader.getModuleSubItemCode())
                         && StringUtils.equals(updateHeader.getModuleSubItemKey(), masterHeader.getModuleSubItemKey())
-                        && StringUtils.equals(updateHeader.getQuestionnaireRefIdFk(), masterHeader.getQuestionnaireRefIdFk())) {
+                        && updateHeader.getQuestionnaireId().equals(masterHeader.getQuestionnaireId())) {
                     existsAlready = true;
                 }
             }
             if (!existsAlready) {
                 AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(masterHeader);
-                copiedAnswerHeader.setAnswerHeaderId(null);
+                copiedAnswerHeader.setId(null);
                 copiedAnswerHeader.setModuleItemKey(updateDisclosure.getCoiDisclosureId().toString());
                 for (Answer answer : copiedAnswerHeader.getAnswers()) {
                     answer.setId(null);

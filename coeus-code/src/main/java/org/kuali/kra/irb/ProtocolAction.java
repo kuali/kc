@@ -116,10 +116,6 @@ public abstract class ProtocolAction extends ProtocolActionBase {
         return branchToPanelOrNotificationEditor(mapping, protocolForm, PROTOCOL_MEDUSA);
     }    
 
-    /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
-     * org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = null;
@@ -208,7 +204,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         AnswerHeader answerHeader = getAnswerHeader(request);
         // for release 3 : if questionnaire questions has answer, then print answer.
-        reportParameters.put("questionnaireId", answerHeader.getQuestionnaire().getQuestionnaireIdAsInteger());
+        reportParameters.put("questionnaireSeqId", answerHeader.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
         reportParameters.put("template", answerHeader.getQuestionnaire().getTemplate());
         Protocol protocol;
         if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode())) {
@@ -237,7 +233,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
     private AnswerHeader getAnswerHeader(HttpServletRequest request) {
 
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("answerHeaderId", Integer.toString(this.getSelectedLine(request)));
+        fieldValues.put("id", Integer.toString(this.getSelectedLine(request)));
         return  (AnswerHeader)getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, fieldValues);
     }
 

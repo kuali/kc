@@ -49,10 +49,10 @@ public class ProposalDevelopmentQuestionnaireAuditRule extends KcTransactionalDo
         List<QuestionnaireUsage> usages = getQuestionnaireAnswerService().getPublishedQuestionnaire(new ProposalDevelopmentModuleQuestionnaireBean(proposalDevelopmentDocument.getDevelopmentProposal()));
         int i = 0;
         for (AnswerHeader answerHeader : headers) {
-            if (!answerHeader.getCompleted()) {
+            if (!answerHeader.isCompleted()) {
                 for(QuestionnaireUsage questionnaireUsage : usages){
-                    String questionnaireId = questionnaireUsage.getQuestionnaire().getQuestionnaireId();
-                    if (questionnaireId.equalsIgnoreCase(answerHeader.getQuestionnaire().getQuestionnaireId())){
+                    String questionnaireId = questionnaireUsage.getQuestionnaire().getQuestionnaireSeqId();
+                    if (questionnaireId.equalsIgnoreCase(answerHeader.getQuestionnaire().getQuestionnaireSeqId())){
                         valid = false;
                         getProposalS2sAuditErrorsByGroup("questionnaireHelper",questionnaireUsage.getQuestionnaireLabel(),i).add(
                             new AuditError(String.format(PROPOSAL_QUESTIONNAIRE_KEY, i, "complete"), KeyConstants.ERROR_QUESTIONNAIRE_NOT_COMPLETE,

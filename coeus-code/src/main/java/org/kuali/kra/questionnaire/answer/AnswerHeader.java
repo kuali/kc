@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.question.QuestionDTO;
+import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 
 import java.util.ArrayList;
@@ -27,13 +28,13 @@ import java.util.List;
 /**
  * Holds additional information related to a series of {@link Answer Answers}.
  */
-public class AnswerHeader extends KcPersistableBusinessObjectBase implements Inactivatable {
+public class AnswerHeader extends KcPersistableBusinessObjectBase implements Inactivatable, AnswerHeaderContract {
 
     private static final long serialVersionUID = 1L;
 
     private static final String NOT_SHOW_ANSWER = "N";
 
-    private Long answerHeaderId;
+    private Long id;
 
     private String moduleItemCode;
 
@@ -43,11 +44,11 @@ public class AnswerHeader extends KcPersistableBusinessObjectBase implements Ina
 
     private String moduleSubItemKey;
 
-    private String questionnaireRefIdFk;
-
-    private Questionnaire questionnaire;
+    private Long questionnaireId;
 
     private boolean completed = false;
+
+    private Questionnaire questionnaire;
 
     private List<Answer> answers;
     
@@ -73,12 +74,12 @@ public class AnswerHeader extends KcPersistableBusinessObjectBase implements Ina
         showQuestions = NOT_SHOW_ANSWER;
     }
 
-    public AnswerHeader(ModuleQuestionnaireBean moduleQuestionnaireBean, Long questionnaireRefIdFk) {
+    public AnswerHeader(ModuleQuestionnaireBean moduleQuestionnaireBean, Long questionnaireId) {
         this.moduleItemCode = moduleQuestionnaireBean.getModuleItemCode();
         this.moduleSubItemCode = moduleQuestionnaireBean.getModuleSubItemCode();
         this.moduleItemKey = moduleQuestionnaireBean.getModuleItemKey();
         this.moduleSubItemKey = moduleQuestionnaireBean.getModuleSubItemKey();
-        this.questionnaireRefIdFk = questionnaireRefIdFk.toString();
+        this.questionnaireId = questionnaireId;
         // current coeus is setting this to 0  
         //       this.moduleSubItemCode = "0";  
         answers = new ArrayList<Answer>();
@@ -93,156 +94,84 @@ public class AnswerHeader extends KcPersistableBusinessObjectBase implements Ina
         this.moduleSubItemKey = newModuleQuestionnaireBean.getModuleSubItemKey();
     }
 
-    /**
-     * Gets the moduleItemCode attribute.
-     * 
-     * @return Returns the moduleItemCode.
-     */
+    @Override
     public String getModuleItemCode() {
         return this.moduleItemCode;
     }
 
-    /**
-     * Sets the moduleItemCode attribute value.
-     * 
-     * @param moduleItemCode The moduleItemCode to set.
-     */
     public void setModuleItemCode(String moduleItemCode) {
         this.moduleItemCode = moduleItemCode;
     }
 
-    /**
-     * Gets the moduleItemKey attribute.
-     * 
-     * @return Returns the moduleItemKey.
-     */
+    @Override
     public String getModuleItemKey() {
         return this.moduleItemKey;
     }
 
-    /**
-     * Sets the moduleItemKey attribute value.
-     * 
-     * @param moduleItemKey The moduleItemKey to set.
-     */
     public void setModuleItemKey(String moduleItemKey) {
         this.moduleItemKey = moduleItemKey;
     }
 
-    /**
-     * Gets the moduleSubItemCode attribute.
-     * 
-     * @return Returns the moduleSubItemCode.
-     */
+    @Override
     public String getModuleSubItemCode() {
         return this.moduleSubItemCode;
     }
 
-    /**
-     * Sets the moduleSubItemCode attribute value.
-     * 
-     * @param moduleSubItemCode The moduleSubItemCode to set.
-     */
     public void setModuleSubItemCode(String moduleSubItemCode) {
         this.moduleSubItemCode = moduleSubItemCode;
     }
 
-    /**
-     * Gets the moduleSubItemKey attribute.
-     * 
-     * @return Returns the moduleSubItemKey.
-     */
+    @Override
     public String getModuleSubItemKey() {
         return this.moduleSubItemKey;
     }
 
-    /**
-     * Sets the moduleSubItemKey attribute value.
-     * 
-     * @param moduleSubItemKey The moduleSubItemKey to set.
-     */
     public void setModuleSubItemKey(String moduleSubItemKey) {
         this.moduleSubItemKey = moduleSubItemKey;
     }
 
-    /**
-     * Gets the questionnaireId attribute.
-     * 
-     * @return Returns the questionnaireRefId.
-     */
-    public String getQuestionnaireRefIdFk() {
-        return this.questionnaireRefIdFk;
+    @Override
+    public Long getQuestionnaireId() {
+        return this.questionnaireId;
     }
 
-    /**
-     * Sets the questionnaireId attribute value.
-     * 
-     * @param questionnaireRefIdFk The questionnaireRefIdFk to set.
-     */
-    public void setQuestionnaireRefIdFk(String questionnaireRefIdFk) {
-        this.questionnaireRefIdFk = questionnaireRefIdFk;
+    public void setQuestionnaireId(Long questionnaireId) {
+        this.questionnaireId = questionnaireId;
     }
 
-    /**
-     * Gets the questionnaire attribute.
-     * 
-     * @return Returns the questionnaire.
-     */
     public Questionnaire getQuestionnaire() {
         return questionnaire;
     }
 
-    /**
-     * Sets the questionnaire attribute value.
-     * 
-     * @param questionnaire The questionnaire to set.
-     */
     public void setQuestionnaire(Questionnaire questionnaire) {
         this.questionnaire = questionnaire;
     }
 
-    /**
-     * Gets the completed attribute.
-     * 
-     * @return Returns the completed.
-     */
-    public boolean getCompleted() {
+    @Override
+    public boolean isCompleted() {
         return this.completed;
     }
 
-    /**
-     * Sets the completed attribute value.
-     * 
-     * @param completed The completed to set.
-     */
     public void setCompleted(boolean completed) {
         this.completed = completed;
     }
 
-    /**
-     * Gets the answers attribute.
-     * 
-     * @return Returns the answers.
-     */
+    @Override
     public List<Answer> getAnswers() {
         return this.answers;
     }
 
-    /**
-     * Sets the answers attribute value.
-     * 
-     * @param answers The answers to set.
-     */
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
     }
 
-    public Long getAnswerHeaderId() {
-        return answerHeaderId;
+    @Override
+    public Long getId() {
+        return id;
     }
 
-    public void setAnswerHeaderId(Long answerHeaderId) {
-        this.answerHeaderId = answerHeaderId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public boolean isNewerVersionPublished() {

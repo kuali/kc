@@ -931,7 +931,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
                 new ProposalPersonModuleQuestionnaireBean(developmentProposal, person);
             List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
             for (AnswerHeader ah : answerHeaders) {
-                if (!ah.getCompleted()) {
+                if (!ah.isCompleted()) {
                     return FALSE;
                 }
             }

@@ -89,9 +89,6 @@
 	</bean>
 	<bean id="s2SUtilService"
 		class="org.kuali.kra.s2s.service.impl.S2SUtilServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
 		<property name="s2SConfigurationService">
 			<ref bean="s2SConfigurationService" />
 		</property>
@@ -101,16 +98,13 @@
 		<property name="citizenshipTypeService">
 			<ref bean="citizenshipTypeService" />
 		</property>
-		<property name="proposalDevelopmentS2sQuestionnaireService">
-			<ref bean="proposalDevelopmentS2sQuestionnaireService" />
-		</property>
 		<property name="unitService">
 			<ref bean="unitService" />
 		</property>
         <property name="proposalAdminDetailsService" ref="proposalAdminDetailsService"/>
         <property name="countryService" ref="kcCountryService" />
         <property name="stateService" ref="kcStateService" />
-        <property name="questionnaireAnswerService" ref="questionnaireAnswerService"/>
+        <property name="questionAnswerService" ref="questionAnswerService" />
 	</bean>
 
     <bean id="s2SBudgetCalculatorService"

@@ -156,7 +156,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     private boolean checkIfAllQuestionsAreUpToDate(Questionnaire questionnaire) {
         boolean retVal = true;
         for (QuestionnaireQuestion question : questionnaire.getQuestionnaireQuestions()) {
-            if (question.getQuestion() == null || !question.getQuestionRefIdFk().equals(question.getQuestion().getQuestionRefId())) {
+            if (question.getQuestion() == null || !question.getQuestionId().equals(question.getQuestion().getId())) {
                 question.refreshReferenceObject("question");
             }
             if( !("N".equals(getVersionedQuestion(question))) ) {
@@ -310,14 +310,14 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
      */
     private String getQnReturnfields(QuestionnaireQuestion question) {
 
-        if (question.getQuestion() == null || !question.getQuestionRefIdFk().equals(question.getQuestion().getQuestionRefId())) {
+        if (question.getQuestion() == null || !question.getQuestionId().equals(question.getQuestion().getId())) {
             question.refreshReferenceObject("question");
         }
         String desc = question.getQuestion().getQuestion();
         if (desc.indexOf("\"") > 0) {
             desc = desc.replace("\"", "&#034;");
         }
-        return question.getQuestionnaireQuestionsId() + PFP + question.getQuestionRefIdFk() + PFP + question.getQuestionSeqNumber()
+        return question.getId() + PFP + question.getQuestionId() + PFP + question.getQuestionSeqNumber()
                 + PFP + desc + PFP + question.getQuestion().getQuestionTypeId() + PFP + question.getQuestionNumber() + PFP
                 + question.getCondition() + PFP + question.getConditionValue() + PFP + question.getParentQuestionNumber() + PFP
                 + question.getQuestion().getSequenceNumber() + PFP + getQeustionResponse(question.getQuestion()) + PFP
@@ -331,10 +331,10 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         
         String results = "N";
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("questionId", qnQuestion.getQuestion().getQuestionId());
+        fieldValues.put("questionSeqId", qnQuestion.getQuestion().getQuestionSeqId());
         Question question = ((List<Question>)getBusinessObjectService().findMatchingOrderBy(Question.class, fieldValues, "sequenceNumber", false)).get(0);
         if (!question.getSequenceNumber().equals(qnQuestion.getQuestion().getSequenceNumber())) {
-            results = question.getQuestionRefId().toString();
+            results = question.getId().toString();
         } 
         return results;
 
@@ -352,7 +352,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             CoeusSubModule subModule = getSubModule(questionnaireUsage.getModuleItemCode(), questionnaireUsage.getModuleSubItemCode());
             String subModuleDescription = subModule != null ? subModule.getDescription() : "";
             
-            result = result + questionnaireUsage.getQuestionnaireUsageId() + PFP + questionnaireUsage.getModuleItemCode() + PFP
+            result = result + questionnaireUsage.getId() + PFP + questionnaireUsage.getModuleItemCode() + PFP
                     + questionnaireUsage.getQuestionnaireLabel() + PFP + questionnaireUsage.getQuestionnaireSequenceNumber() + PFP
                     + questionnaireUsage.getModuleSubItemCode() + PFP + questionnaireUsage.getRuleId() + PFP
                     + questionnaireUsage.getVersionNumber()  + PFP + (questionnaireUsage.isMandatory() ? "Y" : "N") + PFP 
@@ -472,8 +472,8 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     private void preRouteCopy(ActionForm form) {
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         Map fieldValues = new HashMap<String, Object>();
-        fieldValues.put("questionnaireRefId", ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
-                .getOldMaintainableObject().getDataObject()).getQuestionnaireRefId());
+        fieldValues.put("id", ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
+                .getOldMaintainableObject().getDataObject()).getId());
         Questionnaire oldQuestionnaire = (Questionnaire) getBusinessObjectService().findByPrimaryKey(Questionnaire.class,
                 fieldValues);
         Questionnaire questionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
@@ -489,15 +489,15 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         try {
             VersioningService versionService = new VersioningServiceImpl();
             Questionnaire newQuestionnaire = (Questionnaire) versionService.createNewVersion(oldQuestionnaire);
-            questionnaire.setQuestionnaireRefId(null);
+            questionnaire.setId(null);
             questionnaire.setSequenceNumber(newQuestionnaire.getSequenceNumber());
             for (QuestionnaireQuestion qnaireQuestion : questionnaire.getQuestionnaireQuestions()) {
-                qnaireQuestion.setQuestionnaireRefIdFk(null);
-                qnaireQuestion.setQuestionnaireQuestionsId(null);
+                qnaireQuestion.setQuestionnaireId(null);
+                qnaireQuestion.setId(null);
             }
             for (QuestionnaireUsage qnaireUsage : questionnaire.getQuestionnaireUsages()) {
-                qnaireUsage.setQuestionnaireUsageId(null);
-                qnaireUsage.setQuestionnaireRefIdFk(null);
+                qnaireUsage.setId(null);
+                qnaireUsage.setQuestionnaireId(null);
             }
             questionnaire.setDocumentNumber("");
         }
@@ -639,15 +639,15 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         if (StringUtils.isNotBlank(qnForm.getQuestionId())) {
             Map pkMap = new HashMap();
-            pkMap.put("questionRefId", qnForm.getQuestionId());
+            pkMap.put("id", qnForm.getQuestionId());
             qnForm.setQuestion((Question)getBusinessObjectService().findByPrimaryKey(Question.class, pkMap));
             
             //lets check for a more current version
             pkMap.clear();
-            pkMap.put("questionId", qnForm.getQuestion().getQuestionId());
+            pkMap.put("questionSeqId", qnForm.getQuestion().getQuestionSeqId());
             List<Question> questions = ((List<Question>)getBusinessObjectService().findMatchingOrderBy(Question.class, pkMap, "sequenceNumber", false));
             if (CollectionUtils.isNotEmpty(questions)) {
-                if (!StringUtils.equals(questions.get(0).getQuestionRefId().toString(), qnForm.getQuestionId())) {
+                if (!StringUtils.equals(questions.get(0).getId().toString(), qnForm.getQuestionId())) {
                     qnForm.setQuestionCurrentVersion(false);
                 }
             }
@@ -660,11 +660,11 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         if (StringUtils.isNotBlank(qnForm.getQuestionId())) {
             Map pkMap = new HashMap();
-            pkMap.put("questionRefId", qnForm.getQuestionId());
+            pkMap.put("id", qnForm.getQuestionId());
             Question oldQ = (Question)getBusinessObjectService().findByPrimaryKey(Question.class, pkMap);
             if (oldQ != null) {
                 pkMap.clear();
-                pkMap.put("questionId", oldQ.getQuestionId());
+                pkMap.put("questionSeqId", oldQ.getQuestionSeqId());
                 List<Question> questions = ((List<Question>)getBusinessObjectService().findMatchingOrderBy(Question.class, pkMap, "sequenceNumber", false));
                 if (CollectionUtils.isNotEmpty(questions)) {
                     qnForm.setQuestion(questions.get(0));

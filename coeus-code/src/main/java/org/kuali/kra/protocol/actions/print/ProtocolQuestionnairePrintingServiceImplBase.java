@@ -50,7 +50,7 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
                     || (isCurrentAmendRenewalQn(answerHeader)) ) {
                 QuestionnairePrintOption printOption = new QuestionnairePrintOption();
                 printOption.setQuestionnaireRefId(answerHeader.getQuestionnaire().getQuestionnaireRefIdAsLong());
-                printOption.setQuestionnaireId(answerHeader.getQuestionnaire().getQuestionnaireIdAsInteger());
+                printOption.setQuestionnaireId(answerHeader.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
                 printOption.setSelected(true);
                 printOption.setQuestionnaireName(answerHeader.getQuestionnaire().getName());
                 printOption.setLabel(getQuestionnaireLabel(answerHeader));
@@ -66,7 +66,7 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
     }
 
     private boolean isQuestionnaireActive(AnswerHeader answerHeader) {        
-        Integer questionnaireId = answerHeader.getQuestionnaire().getQuestionnaireIdAsInteger();
+        Integer questionnaireId = answerHeader.getQuestionnaire().getQuestionnaireSeqIdAsInteger();
         String coeusModuleCode = answerHeader.getModuleItemCode();
         String coeusSubModuleCode = answerHeader.getModuleSubItemCode(); 
         return getQuestionnaireAnswerService().checkIfQuestionnaireIsActiveForModule(questionnaireId, coeusModuleCode, coeusSubModuleCode);
