@@ -28,7 +28,7 @@ public class S2sOppFormQuestionnaire extends KcPersistableBusinessObjectBase {
 
     private String formName;
 
-    private Integer questionnaireId;
+    private Long questionnaireId;
 
     public static final String OPP_NAMESPACE_FIELD = "oppNameSpace";
 
@@ -86,7 +86,7 @@ public class S2sOppFormQuestionnaire extends KcPersistableBusinessObjectBase {
      * Gets the questionnaireId attribute. 
      * @return Returns the questionnaireId.
      */
-    public Integer getQuestionnaireId() {
+    public Long getQuestionnaireId() {
         return questionnaireId;
     }
 
@@ -94,7 +94,7 @@ public class S2sOppFormQuestionnaire extends KcPersistableBusinessObjectBase {
      * Sets the questionnaireId attribute value.
      * @param questionnaireId The questionnaireId to set.
      */
-    public void setQuestionnaireId(Integer questionnaireId) {
+    public void setQuestionnaireId(Long questionnaireId) {
         this.questionnaireId = questionnaireId;
     }
 }

@@ -396,7 +396,7 @@ public class CoiDisclosureAction extends CoiAction {
                 boolean exists = false;
                 for (AnswerHeader existingHeader : coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders()) {
                     if (StringUtils.equals(existingHeader.getModuleSubItemCode(), answerHeader.getModuleSubItemCode())
-                            && StringUtils.equals(existingHeader.getQuestionnaireRefIdFk(), answerHeader.getQuestionnaireRefIdFk())) {
+                            && existingHeader.getQuestionnaireId().equals(answerHeader.getQuestionnaireId())) {
                         exists = true;
                         break;
                     }
@@ -1017,7 +1017,7 @@ public class CoiDisclosureAction extends CoiAction {
         // for release 3 : if questionnaire questions has answer, then print answer. 
         reportParameters.put("questionnaireId",
                 answerHeader.getQuestionnaire()
-                        .getQuestionnaireIdAsInteger());
+                        .getQuestionnaireSeqIdAsInteger());
         reportParameters.put("template",
                 answerHeader.getQuestionnaire()
                         .getTemplate());

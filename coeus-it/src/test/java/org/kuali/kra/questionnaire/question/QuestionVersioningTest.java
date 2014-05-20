@@ -50,14 +50,14 @@ public class QuestionVersioningTest extends KcIntegrationTestBase {
     
     private Question createQuestion(Integer questionId, String questionText) {
         Question question = new Question();
-        question.setQuestionIdFromInteger(questionId);
+        question.setQuestionSeqIdFromInteger(questionId);
         question.setQuestion(questionText);
         return question;
     }
 
     private void verifyVersioning(Question originalQuestion, Question versionedQuestion) {
         // Question
-        assertEquals(originalQuestion.getQuestionId(), versionedQuestion.getQuestionId());
+        assertEquals(originalQuestion.getQuestionSeqId(), versionedQuestion.getQuestionSeqId());
         assertEquals(originalQuestion.getQuestion(), versionedQuestion.getQuestion());
         Integer expectedSequenceNumber = originalQuestion.getSequenceNumber() + 1;
         assertEquals(expectedSequenceNumber, versionedQuestion.getSequenceNumber());

@@ -33,9 +33,7 @@ import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.QuestionnaireServiceImpl;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.questionnaire.question.Question;
-import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.util.*;
@@ -59,7 +57,7 @@ public class QuestionnaireAnswerServiceTest {
         fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
         fieldValues.put("moduleSubItemCode", "0");
         final Map <String, String> fieldValues1 = new HashMap<String, String>();
-        fieldValues1.put("questionnaireId", "1");
+        fieldValues1.put("questionnaireSeqId", "1");
 
         final Questionnaire questionnairenew = getQuestionnaire(1, 1, 2L); 
         questionnairenew.getQuestionnaireQuestions().add(createChildQuestionnaireQuestion(4,1,"1","N"));
@@ -109,7 +107,7 @@ public class QuestionnaireAnswerServiceTest {
      */
     private Questionnaire getQuestionnaire(Integer questionnaireId,Integer sequenceNumber, Long id) {
         Questionnaire questionnaire = new Questionnaire();
-        questionnaire.setQuestionnaireIdFromInteger(questionnaireId);
+        questionnaire.setQuestionnaireSeqIdFromInteger(questionnaireId);
         questionnaire.setQuestionnaireRefIdFromLong(id);
         questionnaire.setActive(true);
         questionnaire.setSequenceNumber(sequenceNumber);
@@ -158,8 +156,8 @@ public class QuestionnaireAnswerServiceTest {
      */
     private Question createQuestion(Long questionRefId, Integer questionId) {
         Question question = new Question();
-        question.setQuestionRefId(questionRefId);
-        question.setQuestionIdFromInteger(questionId); 
+        question.setId(questionRefId);
+        question.setQuestionSeqIdFromInteger(questionId);
         question.setMaxAnswers(1);
         return question;
         
@@ -172,7 +170,7 @@ public class QuestionnaireAnswerServiceTest {
         QuestionnaireUsage questionnaireUsage = new QuestionnaireUsage();
         questionnaireUsage.setModuleItemCode(CoeusModule.IRB_MODULE_CODE);
         questionnaireUsage.setModuleSubItemCode("0");
-        questionnaireUsage.setQuestionnaireRefIdFk(questionnaireRefId.toString());
+        questionnaireUsage.setQuestionnaireId(questionnaireRefId);
         questionnaireUsage.setQuestionnaireLabel(label);
         return questionnaireUsage;
         
@@ -194,7 +192,7 @@ public class QuestionnaireAnswerServiceTest {
         fieldValues.put("moduleSubItemKey", "0");
         fieldValues.put("moduleSubItemCode", "0");
         final Map <String, String> fieldValues1 = new HashMap<String, String>();
-        fieldValues1.put("questionnaireId", "1");
+        fieldValues1.put("questionnaireSeqId", "1");
         final Map <String, String> fieldValues2 = new HashMap<String, String>();
         fieldValues2.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
         fieldValues2.put("moduleSubItemCode", "0");
@@ -252,25 +250,25 @@ public class QuestionnaireAnswerServiceTest {
         answerHeader.setModuleItemCode(CoeusModule.IRB_MODULE_CODE);
         answerHeader.setModuleItemKey(moduleItemKey);
         answerHeader.setModuleSubItemKey(moduleSubItemKey);
-        answerHeader.setQuestionnaireRefIdFk(questionnaireRefId.toString());
+        answerHeader.setQuestionnaireId(questionnaireRefId);
         answerHeader.setAnswers(new ArrayList<Answer>());
         Answer answer = createAnswer(1,"Y");
         answer.setQuestionNumber(1);
         answer.setQuestionnaireQuestion(createQuestionnaireQuestion(1));
         answer.setQuestion(answer.getQuestionnaireQuestion().getQuestion());
-        answer.setQuestionRefIdFk(answer.getQuestionnaireQuestion().getQuestion().getQuestionRefId());
+        answer.setQuestionId(answer.getQuestionnaireQuestion().getQuestion().getId());
         answerHeader.getAnswers().add(answer);
         answer = createAnswer(1,"10");
         answer.setQuestionNumber(3);
         answer.setQuestionnaireQuestion(createChildQuestionnaireQuestion(3,1,"1","Y"));
         answer.setQuestion(answer.getQuestionnaireQuestion().getQuestion());
-        answer.setQuestionRefIdFk(answer.getQuestionnaireQuestion().getQuestion().getQuestionRefId());
+        answer.setQuestionId(answer.getQuestionnaireQuestion().getQuestion().getId());
         answerHeader.getAnswers().add(answer);
         answer = createAnswer(1,"Test");
         answer.setQuestionNumber(2);
         answer.setQuestionnaireQuestion(createQuestionnaireQuestion(2));
         answer.setQuestion(answer.getQuestionnaireQuestion().getQuestion());
-        answer.setQuestionRefIdFk(answer.getQuestionnaireQuestion().getQuestion().getQuestionRefId());
+        answer.setQuestionId(answer.getQuestionnaireQuestion().getQuestion().getId());
         answerHeader.getAnswers().add(answer);
         return answerHeader;
         
@@ -311,13 +309,13 @@ public class QuestionnaireAnswerServiceTest {
         answer.setQuestionNumber(4);
         answer.setQuestionnaireQuestion(createQuestionnaireQuestion(4));
         answer.setQuestion(answer.getQuestionnaireQuestion().getQuestion());
-        answer.setQuestionRefIdFk(answer.getQuestionnaireQuestion().getQuestion().getQuestionRefId());
+        answer.setQuestionId(answer.getQuestionnaireQuestion().getQuestion().getId());
         newAnswerHeader.getAnswers().add(answer);
 
         // this question is a new version, so answer should not be copied
         answer = newAnswerHeader.getAnswers().get(2);
-        answer.setQuestionRefIdFk(5L);
-        answer.getQuestion().setQuestionRefId(5L);
+        answer.setQuestionId(5L);
+        answer.getQuestion().setId(5L);
                 
         questionnaireAnswerServiceImpl.copyAnswerToNewVersion(oldAnswerHeader, newAnswerHeader);
         Assert.assertEquals(4, newAnswerHeader.getAnswers().size());
@@ -331,7 +329,7 @@ public class QuestionnaireAnswerServiceTest {
         Assert.assertEquals("", newAnswerHeader.getAnswers().get(2).getAnswer());
         Assert.assertEquals(4, newAnswerHeader.getAnswers().get(3).getQuestionNumber().intValue());
         Assert.assertEquals("", newAnswerHeader.getAnswers().get(3).getAnswer());
-        Assert.assertFalse(newAnswerHeader.getCompleted());
+        Assert.assertFalse(newAnswerHeader.isCompleted());
         //assertEquals(answerHeader, questionnaireAnswerServiceImpl.getNewVersionAnswerHeader(new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocol), questionnaire));
     }
 
@@ -355,9 +353,9 @@ public class QuestionnaireAnswerServiceTest {
         fieldValues.put("moduleSubItemCode", "0");
         fieldValues.put("moduleSubItemKey", "0");
         final Map <String, String> fieldValues2 = new HashMap<String, String>();
-        fieldValues2.put("questionnaireId", "1");
+        fieldValues2.put("questionnaireSeqId", "1");
         final Map <String, String> fieldValues3 = new HashMap<String, String>();
-        fieldValues3.put("questionnaireId", "2");
+        fieldValues3.put("questionnaireSeqId", "2");
 
         final Collection<AnswerHeader> headers = new ArrayList<AnswerHeader>();
         AnswerHeader answerHeader = createAnswerHeaderForVersioning(1L, "0912000001", "0");
@@ -421,8 +419,8 @@ public class QuestionnaireAnswerServiceTest {
         Assert.assertEquals(2, answerHeaders.size());
         Assert.assertEquals(3, answerHeaders.get(0).getAnswers().size());
         Assert.assertEquals(4, answerHeaders.get(1).getAnswers().size());
-        Assert.assertFalse(answerHeaders.get(1).getCompleted());
-        Assert.assertTrue(answerHeaders.get(0).getCompleted());
+        Assert.assertFalse(answerHeaders.get(1).isCompleted());
+        Assert.assertTrue(answerHeaders.get(0).isCompleted());
         Assert.assertEquals("Y", answerHeaders.get(0).getAnswers().get(0).getAnswer());
         Assert.assertEquals("10", answerHeaders.get(0).getAnswers().get(1).getAnswer());
         Assert.assertEquals("Test", answerHeaders.get(0).getAnswers().get(2).getAnswer());
@@ -466,8 +464,8 @@ public class QuestionnaireAnswerServiceTest {
         questionnaire.setQuestionnaireUsages(usages);
         
         // create the field values map for the mock service
-        final Map <String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("questionnaireId", questionnaireId.toString());
+        final Map <String, Long> fieldValues = new HashMap<String, Long>();
+        fieldValues.put("questionnaireSeqId", Long.valueOf(questionnaireId));
                 
         // define the mock business object service
         final Collection<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
@@ -559,8 +557,8 @@ public class QuestionnaireAnswerServiceTest {
         answerHeaders.add(newAnswerHeader);
         questionnaireAnswerServiceImpl.preSave(answerHeaders);
         Assert.assertEquals(2, answerHeaders.size());
-        Assert.assertFalse(answerHeaders.get(1).getCompleted());
-        Assert.assertTrue(answerHeaders.get(0).getCompleted());
+        Assert.assertFalse(answerHeaders.get(1).isCompleted());
+        Assert.assertTrue(answerHeaders.get(0).isCompleted());
         Assert.assertEquals("Test", answerHeaders.get(0).getAnswers().get(2).getAnswer());
         // answer moved up 
         Assert.assertEquals("Test1", answerHeaders.get(0).getAnswers().get(3).getAnswer());
@@ -584,7 +582,7 @@ public class QuestionnaireAnswerServiceTest {
         answer.setQuestionNumber(4);
         answer.setQuestionnaireQuestion(createChildQuestionnaireQuestion(4,1,"1","N"));
         answer.setQuestion(answer.getQuestionnaireQuestion().getQuestion());
-        answer.setQuestionRefIdFk(answer.getQuestionnaireQuestion().getQuestion().getQuestionRefId());
+        answer.setQuestionId(answer.getQuestionnaireQuestion().getQuestion().getId());
         newAnswerHeader.getAnswers().add(answer);
 
                 

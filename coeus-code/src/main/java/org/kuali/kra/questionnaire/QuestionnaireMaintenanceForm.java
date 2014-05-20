@@ -193,12 +193,12 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
                     QuestionnaireQuestion question = new QuestionnaireQuestion();
                     // "null" is coming between js and java code
                     if (StringUtils.isNotBlank(splitstr[0]) && !splitstr[0].equals("null")) { 
-                        question.setQuestionnaireQuestionsId(Long.parseLong(splitstr[0]));
+                        question.setId(Long.parseLong(splitstr[0]));
                     }
                     if (StringUtils.isNotBlank(splitstr[1])) {
-                        question.setQuestionnaireRefIdFk(splitstr[1]);
+                        question.setQuestionnaireId(Long.valueOf(splitstr[1]));
                     }
-                    question.setQuestionRefIdFk(Long.parseLong(splitstr[2]));
+                    question.setQuestionId(Long.parseLong(splitstr[2]));
                     question.setQuestionNumber(Integer.parseInt(splitstr[3]));
                     question.setParentQuestionNumber(Integer.parseInt(splitstr[4]));
                     question.setConditionFlag("Y".equals(splitstr[5]));

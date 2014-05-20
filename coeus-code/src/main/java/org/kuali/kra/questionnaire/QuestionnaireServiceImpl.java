@@ -64,7 +64,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatching(Questionnaire.class,
                 fieldValues);
         for (Questionnaire questionnaire : questionnaires) {
-            if (questionnaireId == null || !questionnaire.getQuestionnaireId().equals(questionnaireId)) {
+            if (questionnaireId == null || !questionnaire.getQuestionnaireSeqId().equals(questionnaireId)) {
                 isExist = true;
                 break;
             }
@@ -89,15 +89,15 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     protected void copyQuestionnaireLists(Questionnaire src, Questionnaire dest) {
         dest.setQuestionnaireQuestions(src.getQuestionnaireQuestions());
         dest.setQuestionnaireUsages(src.getQuestionnaireUsages());
-        dest.setQuestionnaireId(null);
+        dest.setQuestionnaireSeqId(null);
         for (QuestionnaireQuestion question : dest.getQuestionnaireQuestions()) {
-            question.setQuestionnaireRefIdFk(null);
-            question.setQuestionnaireQuestionsId(null);
+            question.setQuestionnaireId(null);
+            question.setId(null);
             question.setVersionNumber(new Long(1));
         }
         for (QuestionnaireUsage usage : dest.getQuestionnaireUsages()) {
-            usage.setQuestionnaireRefIdFk(null);
-            usage.setQuestionnaireUsageId(null);
+            usage.setQuestionnaireId(null);
+            usage.setId(null);
             usage.setVersionNumber(new Long(1));
         }
 
@@ -145,7 +145,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         fieldValues.put("moduleSubItemCode", usage.getCoeusSubModule().getSubModuleCode());
         List<QuestionnaireUsage> usages = (List<QuestionnaireUsage>) businessObjectService.findMatching(QuestionnaireUsage.class, fieldValues);
         for (QuestionnaireUsage curUsage : usages) {
-            if (!StringUtils.equals(questionnaire.getQuestionnaireId(), curUsage.getQuestionnaire().getQuestionnaireId())
+            if (!StringUtils.equals(questionnaire.getQuestionnaireSeqId(), curUsage.getQuestionnaire().getQuestionnaireSeqId())
                     && curUsage.getQuestionnaire().isActive() && isCurrentQuestionnaire(curUsage.getQuestionnaire())) {
                 return false;
             }
@@ -155,9 +155,9 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     
     public boolean isCurrentQuestionnaire(Questionnaire questionnaire) {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("questionnaireId", questionnaire.getQuestionnaireId());
+        fieldValues.put("questionnaireSeqId", questionnaire.getQuestionnaireSeqId());
         List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatchingOrderBy(Questionnaire.class, fieldValues, "sequenceNumber", false);
-        return questionnaire.getQuestionnaireRefId().equals(questionnaires.get(0).getQuestionnaireRefId());
+        return questionnaire.getId().equals(questionnaires.get(0).getId());
     }
 
 

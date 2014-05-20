@@ -121,25 +121,25 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
             if(answerHeader!=null){
                 List<Answer> answerDetails = answerHeader.getAnswers();
                 for(Answer answers:answerDetails){
-                    if(answers.getParentAnswer()!= null){
-                        Answer parentAnswer =  answers.getParentAnswer().get(0);
+                    if(answers.getParentAnswers()!= null){
+                        Answer parentAnswer =  answers.getParentAnswers().get(0);
 
-                        if(EXPLATATION.equals(answers.getQuestion().getQuestionId()) && parentAnswer.getQuestion().getQuestionId().equals(HISTORICAL_IMPACT) ){
+                        if(EXPLATATION.equals(answers.getQuestion().getQuestionSeqId()) && parentAnswer.getQuestion().getQuestionSeqId().equals(HISTORICAL_IMPACT) ){
                             answers.setAnswer("TEST");
                         }
 
-                        if(EXPLATATION.equals(answers.getQuestion().getQuestionId()) && parentAnswer.getQuestion().getQuestionId().equals(INTERNATIONAL_PARTICIPATION) ){
+                        if(EXPLATATION.equals(answers.getQuestion().getQuestionSeqId()) && parentAnswer.getQuestion().getQuestionSeqId().equals(INTERNATIONAL_PARTICIPATION) ){
                             answers.setAnswer("TEST");
                         }
                     }
-                    if(INTERNATIONAL_PARTICIPATION.equals(answers.getQuestion().getQuestionId())
-                            || HISTORICAL_IMPACT.equals(answers.getQuestion().getQuestionId())||
-                            INTERNATIONAL_PARTICIPATION_SUPPORT.equals(answers.getQuestion().getQuestionId())
-                                    || CIVIL_SERVICE_PERSONNEL.equals(answers.getQuestion().getQuestionId())){
+                    if(INTERNATIONAL_PARTICIPATION.equals(answers.getQuestion().getQuestionSeqId())
+                            || HISTORICAL_IMPACT.equals(answers.getQuestion().getQuestionSeqId())||
+                            INTERNATIONAL_PARTICIPATION_SUPPORT.equals(answers.getQuestion().getQuestionSeqId())
+                                    || CIVIL_SERVICE_PERSONNEL.equals(answers.getQuestion().getQuestionSeqId())){
                          answers.setAnswer("Y");
                     }
-                    if(FTE.equals(answers.getQuestion().getQuestionId())
-                            || FISCAL_YEAR.equals(answers.getQuestion().getQuestionId())){
+                    if(FTE.equals(answers.getQuestion().getQuestionSeqId())
+                            || FISCAL_YEAR.equals(answers.getQuestion().getQuestionSeqId())){
                         answers.setAnswer("2012");
                     }
                 }

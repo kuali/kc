@@ -93,8 +93,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
         // the higher version will have higher questionnaireid
         for (QuestionnaireUsage questionnaireUsage : questionnaireUsages) {
-            if (!questionnaireIds.contains(questionnaireUsage.getQuestionnaire().getQuestionnaireId())) {
-                questionnaireIds.add(questionnaireUsage.getQuestionnaire().getQuestionnaireId());
+            if (!questionnaireIds.contains(questionnaireUsage.getQuestionnaire().getQuestionnaireSeqId())) {
+                questionnaireIds.add(questionnaireUsage.getQuestionnaire().getQuestionnaireSeqId());
 
                 if (moduleQuestionnaireBean.isFinalDoc() || (getQuestionnaireService().isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()) && questionnaireUsage.getQuestionnaire().isActive())) {
                     if (StringUtils.isNotBlank(questionnaireUsage.getRuleId())) {
@@ -117,10 +117,10 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     protected List<AnswerHeader> initAnswerHeaders(ModuleQuestionnaireBean moduleQuestionnaireBean, Map<String, AnswerHeader> answerHeaderMap) {
         List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
         for (QuestionnaireUsage questionnaireUsage : getPublishedQuestionnaire(moduleQuestionnaireBean)) {
-            String questionnaireId = questionnaireUsage.getQuestionnaire().getQuestionnaireId();
+            String questionnaireId = questionnaireUsage.getQuestionnaire().getQuestionnaireSeqId();
             if (answerHeaderMap.containsKey(questionnaireId)) {
                 answerHeaders.add(answerHeaderMap.get(questionnaireId));
-                if (!questionnaireUsage.getQuestionnaire().getQuestionnaireRefId().equals(answerHeaderMap.get(questionnaireId).getQuestionnaireRefIdFk())) {
+                if (!questionnaireUsage.getQuestionnaire().getId().equals(answerHeaderMap.get(questionnaireId).getQuestionnaireId())) {
                     // the current qnaire is "Active"
                     if (questionnaireUsage.getQuestionnaire().isActive()) {
                         answerHeaderMap.get(questionnaireId).setNewerVersionPublished(true);
@@ -154,7 +154,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         AnswerHeader answerHeader = new AnswerHeader();
         List<QuestionnaireUsage> usages = getPublishedQuestionnaire(moduleQuestionnaireBean);
         for (QuestionnaireUsage questionnaireUsage : usages) {
-            if (questionnaireUsage.getQuestionnaire().getQuestionnaireId().equals(questionnaire.getQuestionnaireId())
+            if (questionnaireUsage.getQuestionnaire().getQuestionnaireSeqId().equals(questionnaire.getQuestionnaireSeqId())
                     && questionnaireUsage.getQuestionnaire().getSequenceNumber() > questionnaire.getSequenceNumber()) {
                 answerHeader = setupAnswerForQuestionnaire(questionnaireUsage, moduleQuestionnaireBean);
             }
@@ -169,10 +169,10 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         List<AnswerHeader> newAnswerHeaders = new ArrayList<AnswerHeader>();
         List<String> questionnaireIds = getAssociateedQuestionnaireIds(moduleQuestionnaireBean);
         for (AnswerHeader answerHeader : retrieveAnswerHeaders(moduleQuestionnaireBean)) {
-            if (questionnaireIds.contains(answerHeader.getQuestionnaire().getQuestionnaireId())) {
+            if (questionnaireIds.contains(answerHeader.getQuestionnaire().getQuestionnaireSeqId())) {
                 AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(answerHeader);
                 copiedAnswerHeader.setModuleSubItemKey(newSequenceNumber.toString());
-                copiedAnswerHeader.setAnswerHeaderId(null);
+                copiedAnswerHeader.setId(null);
                 for (Answer answer : copiedAnswerHeader.getAnswers()) {
                     answer.setId(null);
                 }
@@ -187,7 +187,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * ModuleQuestionnaire Bean. This method DOES NOT persist any of the newly created objects.
      * 
      * @param srcModuleQuestionnaireBean the ModulQuestionnaireBean containing the data pointing to the source questionnaires.
-     * @param newModuleQuestionnaireBean the ModuleQuestionnaireBean you would like to copy the AnswerHeader objects to.
+     * @param destModuleQuestionnaireBean the ModuleQuestionnaireBean you would like to copy the AnswerHeader objects to.
      * 
      * @return a list of AnswerHeader objects.
      */
@@ -197,10 +197,10 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         List<AnswerHeader> newAnswerHeaders = new ArrayList<AnswerHeader>();
         List<String> questionnaireIds = getAssociateedQuestionnaireIds(destModuleQuestionnaireBean);
         for (AnswerHeader answerHeader : retrieveAnswerHeaders(srcModuleQuestionnaireBean)) {
-            if (questionnaireIds.contains(answerHeader.getQuestionnaire().getQuestionnaireId())) {
+            if (questionnaireIds.contains(answerHeader.getQuestionnaire().getQuestionnaireSeqId())) {
                 AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(answerHeader);
                 copiedAnswerHeader.setNewModuleQuestionnaireBeanReferenceData(destModuleQuestionnaireBean);
-                copiedAnswerHeader.setAnswerHeaderId(null);
+                copiedAnswerHeader.setId(null);
                 for (Answer answer : copiedAnswerHeader.getAnswers()) {
                     answer.setId(null);
                 }
@@ -223,11 +223,11 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             GlobalVariables.getUserSession().removeObject(moduleQuestionnaireBean.getSessionContextKey() + "-rulereferenced");
         }
         for (AnswerHeader answerHeader : answers) {
-            if (!answerHeaderMap.containsKey(answerHeader.getQuestionnaire().getQuestionnaireId())
-                    || answerHeaderMap.get(answerHeader.getQuestionnaire().getQuestionnaireId()).getQuestionnaire().getSequenceNumber()
+            if (!answerHeaderMap.containsKey(answerHeader.getQuestionnaire().getQuestionnaireSeqId())
+                    || answerHeaderMap.get(answerHeader.getQuestionnaire().getQuestionnaireSeqId()).getQuestionnaire().getSequenceNumber()
                             < answerHeader.getQuestionnaire().getSequenceNumber()) {
                 setupChildAnswerIndicator(answerHeader);
-                answerHeaderMap.put(answerHeader.getQuestionnaire().getQuestionnaireId(), answerHeader);
+                answerHeaderMap.put(answerHeader.getQuestionnaire().getQuestionnaireSeqId(), answerHeader);
             }
         }
 
@@ -253,7 +253,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     protected List<String> getAssociateedQuestionnaireIds(ModuleQuestionnaireBean moduleQuestionnaireBean) {
         List<String> questionnaireIds = new ArrayList<String>();
         for (QuestionnaireUsage questionnaireUsage : getPublishedQuestionnaire(moduleQuestionnaireBean)) {
-            questionnaireIds.add(questionnaireUsage.getQuestionnaire().getQuestionnaireId());
+            questionnaireIds.add(questionnaireUsage.getQuestionnaire().getQuestionnaireSeqId());
         }
         return questionnaireIds;
 
@@ -267,8 +267,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      */
     protected Questionnaire getLatestQuestionnaireVersion(Integer questionnaireId) {
         Questionnaire latestQnnrInstance = null;
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("questionnaireId", questionnaireId.toString());
+        Map<String, Long> fieldValues = new HashMap<String, Long>();
+        fieldValues.put("questionnaireSeqId", Long.valueOf(questionnaireId));
         List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatchingOrderBy(Questionnaire.class,
                 fieldValues, "sequenceNumber", false);
         // since we sorted by descending order of seq numbers, and the largest seq number is the latest version, so we return the
@@ -301,8 +301,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         for (Answer oldAnswer : oldAnswerHeader.getAnswers()) {
             if (StringUtils.isNotBlank(oldAnswer.getAnswer())) {
                 for (Answer newAnswer : newAnswerHeader.getAnswers()) {
-                    if (oldAnswer.getQuestion().getQuestionId().equals(newAnswer.getQuestion().getQuestionId())
-                            && oldAnswer.getQuestion().getQuestionRefId().equals(newAnswer.getQuestion().getQuestionRefId())
+                    if (oldAnswer.getQuestion().getQuestionSeqId().equals(newAnswer.getQuestion().getQuestionSeqId())
+                            && oldAnswer.getQuestion().getId().equals(newAnswer.getQuestion().getId())
                             && oldAnswer.getAnswerNumber().equals(newAnswer.getAnswerNumber())) {
                         if ((oldAnswer.getQuestionnaireQuestion().getParentQuestionNumber() == 0 
                                 && newAnswer.getQuestionnaireQuestion().getParentQuestionNumber() == 0) 
@@ -390,7 +390,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         Answer nAnswer = newAnswer;
         while (questionHierarchyMatched && oAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0
                 && nAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0) {
-            if (!oAnswer.getQuestionRefIdFk().equals(nAnswer.getQuestionRefIdFk())) {
+            if (!oAnswer.getQuestionId().equals(nAnswer.getQuestionId())) {
                 questionHierarchyMatched = false;
             }
             oAnswer = oldParentAnswers.get(oAnswer.getQuestionnaireQuestion().getParentQuestionNumber()).get(0);
@@ -488,8 +488,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             Answer answer = new Answer();
             answer.setQuestion(questionnaireQuestion.getQuestion());
             answer.setQuestionNumber(questionnaireQuestion.getQuestionNumber());
-            answer.setQuestionRefIdFk(questionnaireQuestion.getQuestion().getQuestionRefId());
-            answer.setQuestionnaireQuestionsIdFk(questionnaireQuestion.getQuestionnaireQuestionsId());
+            answer.setQuestionId(questionnaireQuestion.getQuestion().getId());
+            answer.setQuestionnaireQuestionsId(questionnaireQuestion.getId());
             answer.setQuestionnaireQuestion(questionnaireQuestion);
             answer.setAnswerNumber(i + 1);
             answers.add(answer);
@@ -504,7 +504,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         List<String> ruleIds = new ArrayList<String>();
         for (Answer answer : answers) {
             if (answer.getQuestionnaireQuestion().getParentQuestionNumber() > 0) {
-                answer.setParentAnswer(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()));
+                answer.setParentAnswers(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()));
             }
             if (StringUtils.isNotBlank(answer.getQuestionnaireQuestion().getRuleId())) {
                 ruleIds.add(answer.getQuestionnaireQuestion().getRuleId());
@@ -521,17 +521,10 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         }
 
         for (Answer answer : answers) {
-//            answer.refreshReferenceObject("questionnaireQuestion");
             QuestionnaireQuestion questionnaireQuestion = answer.getQuestionnaireQuestion();
-//            if(questionnaireQuestion.getQuestionnaireRefIdFk().equals("883")){
-//                String condition = questionnaireQuestion.getCondition();
-//                //do something
-//            }
             if (questionnaireQuestion.getParentQuestionNumber() == 0) {
                 String ruleId = questionnaireQuestion.getRuleId();
                 if (StringUtils.isNotBlank(ruleId)) {
-                    // TODO : need to implement rulematched
-                  //  if (ruleMatched(answer.getQuestionnaireQuestion().getConditionValue())) {
                     if (ruleResults.containsKey(ruleId) && ruleResults.get(ruleId).booleanValue()) {
                         answer.setMatchedChild(YES);
                         answer.setRuleMatched(true);
@@ -544,7 +537,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 }
             }
             else {
-                answer.setParentAnswer(parentAnswers.get(questionnaireQuestion.getParentQuestionNumber()));
+                answer.setParentAnswers(parentAnswers.get(questionnaireQuestion.getParentQuestionNumber()));
                 if (StringUtils.isBlank(questionnaireQuestion.getCondition())) {
                     if (isParentNotDisplayed(parentAnswers.get(questionnaireQuestion.getParentQuestionNumber()))) {
                         answer.setMatchedChild(NO);
@@ -595,7 +588,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 answerHeader.getQuestions().add(currentQuestion);
                 currentQuestion.setChildMatched(StringUtils.equals(answer.getMatchedChild(), YES));
                 currentQuestion.setRuleMatched(answer.isRuleMatched());
-                currentQuestion.setParentAnswers(answer.getParentAnswer());
+                currentQuestion.setParentAnswers(answer.getParentAnswers());
             }
             currentQuestion.getAnswers().add(answer);
         }
@@ -920,7 +913,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     public List<AnswerHeader> getNewVersionOfQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
         List<AnswerHeader> newAnswerHeaders = getQuestionnaireAnswer(moduleQuestionnaireBean);
         for (AnswerHeader answerHeader : newAnswerHeaders) {
-            answerHeader.setAnswerHeaderId(null);
+            answerHeader.setId(null);
             for(Answer answer : answerHeader.getAnswers()) {
                 answer.setId(null);
             }

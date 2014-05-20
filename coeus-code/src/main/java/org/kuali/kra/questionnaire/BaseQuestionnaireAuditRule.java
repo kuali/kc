@@ -57,7 +57,7 @@ public abstract class BaseQuestionnaireAuditRule<T extends KcTransactionalDocume
         List<Integer> headers = new ArrayList<Integer>();
         int i = 0;
         for (AnswerHeader answerHeader : getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean)) {
-            if (getQuestionnaireUsage(ModuleCode, moduleQuestionnaireBean.getModuleSubItemCode(), answerHeader.getQuestionnaire().getQuestionnaireUsages()).isMandatory() && !answerHeader.getCompleted()) {
+            if (getQuestionnaireUsage(ModuleCode, moduleQuestionnaireBean.getModuleSubItemCode(), answerHeader.getQuestionnaire().getQuestionnaireUsages()).isMandatory() && !answerHeader.isCompleted()) {
                 headers.add(i);
             }
             i++;

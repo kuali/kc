@@ -657,12 +657,12 @@ public interface Constants {
     public static final String QUESTION_AFFIRMATIVE_QUESTION_CONVERSION = "A";
     public static final String QUESTION_NEGATIVE_QUESTION_CONVERSION = "N";
     
-    public static final int QUESTION_RESPONSE_TYPE_YES_NO = 1;
-    public static final int QUESTION_RESPONSE_TYPE_YES_NO_NA = 2;
-    public static final int QUESTION_RESPONSE_TYPE_NUMBER = 3;
-    public static final int QUESTION_RESPONSE_TYPE_DATE = 4;
-    public static final int QUESTION_RESPONSE_TYPE_TEXT = 5;
-    public static final int QUESTION_RESPONSE_TYPE_LOOKUP = 6;
+    public static final long QUESTION_RESPONSE_TYPE_YES_NO = 1L;
+    public static final long QUESTION_RESPONSE_TYPE_YES_NO_NA = 2L;
+    public static final long QUESTION_RESPONSE_TYPE_NUMBER = 3L;
+    public static final long QUESTION_RESPONSE_TYPE_DATE = 4L;
+    public static final long QUESTION_RESPONSE_TYPE_TEXT = 5L;
+    public static final long QUESTION_RESPONSE_TYPE_LOOKUP = 6L;
     
     public static final String QUESTION_DOCUMENT_FIELD_QUESTION_TYPE_ID = "document.newMaintainableObject.businessObject.questionTypeId";
     public static final String QUESTION_DOCUMENT_FIELD_STATUS = "document.newMaintainableObject.businessObject.status";

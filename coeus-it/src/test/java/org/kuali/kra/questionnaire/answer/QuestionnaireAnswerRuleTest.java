@@ -95,25 +95,25 @@ public class QuestionnaireAnswerRuleTest extends KcIntegrationTestBase {
         answerHeader.setModuleItemCode(CoeusModule.IRB_MODULE_CODE);
         answerHeader.setModuleItemKey(moduleItemKey);
         answerHeader.setModuleSubItemKey(moduleSubItemKey);
-        answerHeader.setQuestionnaireRefIdFk(questionnaireRefId.toString());
+        answerHeader.setQuestionnaireId(questionnaireRefId);
         answerHeader.setAnswers(new ArrayList<Answer>());
         Answer answer = createAnswer(1,"Y");
         answer.setQuestionNumber(1);
-        answer.setQuestionnaireQuestion(createQuestionnaireQuestion(1, 5));
+        answer.setQuestionnaireQuestion(createQuestionnaireQuestion(1, 5L));
         answer.setQuestion(answer.getQuestionnaireQuestion().getQuestion());
-        answer.setQuestionRefIdFk(answer.getQuestionnaireQuestion().getQuestion().getQuestionRefId());
+        answer.setQuestionId(answer.getQuestionnaireQuestion().getQuestion().getId());
         answerHeader.getAnswers().add(answer);
         answer = createAnswer(1,"10");
         answer.setQuestionNumber(3);
-        answer.setQuestionnaireQuestion(createChildQuestionnaireQuestion(3,1,"1","Y",3));
+        answer.setQuestionnaireQuestion(createChildQuestionnaireQuestion(3,1,"1","Y",3L));
         answer.setQuestion(answer.getQuestionnaireQuestion().getQuestion());
-        answer.setQuestionRefIdFk(answer.getQuestionnaireQuestion().getQuestion().getQuestionRefId());
+        answer.setQuestionId(answer.getQuestionnaireQuestion().getQuestion().getId());
         answerHeader.getAnswers().add(answer);
         answer = createAnswer(1,"01/01/2009");
         answer.setQuestionNumber(2);
-        answer.setQuestionnaireQuestion(createQuestionnaireQuestion(2,4));
+        answer.setQuestionnaireQuestion(createQuestionnaireQuestion(2,4L));
         answer.setQuestion(answer.getQuestionnaireQuestion().getQuestion());
-        answer.setQuestionRefIdFk(answer.getQuestionnaireQuestion().getQuestion().getQuestionRefId());
+        answer.setQuestionId(answer.getQuestionnaireQuestion().getQuestion().getId());
         answerHeader.getAnswers().add(answer);
         return answerHeader;
         
@@ -127,7 +127,7 @@ public class QuestionnaireAnswerRuleTest extends KcIntegrationTestBase {
         
     }
     
-    private QuestionnaireQuestion createQuestionnaireQuestion(Integer questionNumber, Integer questionTypeId) {
+    private QuestionnaireQuestion createQuestionnaireQuestion(Integer questionNumber, Long questionTypeId) {
         QuestionnaireQuestion questionnaireQuestion = new QuestionnaireQuestion();
         questionnaireQuestion.setQuestionNumber(questionNumber);
         questionnaireQuestion.setParentQuestionNumber(0);
@@ -136,7 +136,7 @@ public class QuestionnaireAnswerRuleTest extends KcIntegrationTestBase {
         
     }
     
-    private QuestionnaireQuestion createChildQuestionnaireQuestion(Integer questionNumber, Integer parentQuestionNumber, String condition, String conditionValue, Integer questionTypeId) {
+    private QuestionnaireQuestion createChildQuestionnaireQuestion(Integer questionNumber, Integer parentQuestionNumber, String condition, String conditionValue, Long questionTypeId) {
         QuestionnaireQuestion questionnaireQuestion = createQuestionnaireQuestion(questionNumber, questionTypeId) ;
         questionnaireQuestion.setParentQuestionNumber(parentQuestionNumber);
         questionnaireQuestion.setCondition(condition);
@@ -146,10 +146,10 @@ public class QuestionnaireAnswerRuleTest extends KcIntegrationTestBase {
         
     }
     
-    private Question createQuestion(Long questionRefId, Integer questionId, Integer questionTypeId) {
+    private Question createQuestion(Long questionRefId, Integer questionId, Long questionTypeId) {
         Question question = new Question();
-        question.setQuestionRefId(questionRefId);
-        question.setQuestionIdFromInteger(questionId); 
+        question.setId(questionRefId);
+        question.setQuestionSeqIdFromInteger(questionId);
         question.setQuestionTypeId(questionTypeId);
         question.setMaxAnswers(1);
         return question;

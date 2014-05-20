@@ -52,7 +52,7 @@ public class QuestionServiceTest {
              * found.
              */
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("questionRefId", "999");
+            fieldValues.put("id", "999");
             
             final Question question = new Question();
             
@@ -81,7 +81,7 @@ public class QuestionServiceTest {
              * is returned if the question is not in the database.
              */
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("questionRefId", "999");
+            fieldValues.put("id", "999");
             
             final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
             context.checking(new Expectations() {{
@@ -108,7 +108,7 @@ public class QuestionServiceTest {
              * found.
              */
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("questionId", "999");
+            fieldValues.put("questionSeqId", "999");
             
             final Collection<Question> questions = new ArrayList<Question>();
             Question question = new Question();
@@ -139,7 +139,7 @@ public class QuestionServiceTest {
              * is returned if the question is not in the database.
              */
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("questionId", "999");
+            fieldValues.put("questionSeqId", "999");
             
             final Collection<Question> questions = new ArrayList<Question>();
             

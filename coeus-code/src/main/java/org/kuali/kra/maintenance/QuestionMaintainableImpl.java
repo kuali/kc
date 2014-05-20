@@ -44,10 +44,6 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
     
     private static final String SEQUENCE_STATUS_ARCHIVED = "A";
 
-    /**
-    *
-    * @see org.kuali.core.maintenance.Maintainable#prepareForSave()
-    */
     @Override
     public void prepareForSave() {
         super.prepareForSave();
@@ -62,10 +58,10 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
                 }
        
                 // In order for the questionId to be displayed after a submission of a new question we need to manually create it. 
-                if (question.getQuestionId() == null) {
+                if (question.getQuestionSeqId() == null) {
                     Long newQuestionId = KcServiceLocator.getService(SequenceAccessorService.class)
                             .getNextAvailableSequenceNumber("SEQ_QUESTION_ID", question.getClass());
-                    question.setQuestionIdFromInteger(newQuestionId.intValue());
+                    question.setQuestionSeqIdFromInteger(newQuestionId.intValue());
                 }
             }
         }
@@ -105,35 +101,35 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
     private void clearUnusedFieldValues() {
         Question question = (Question) businessObject;
         if (question.getQuestionType() != null) {
-            switch (question.getQuestionTypeId()) {
-                case Constants.QUESTION_RESPONSE_TYPE_YES_NO:
+            switch (question.getQuestionTypeId().intValue()) {
+                case (int) Constants.QUESTION_RESPONSE_TYPE_YES_NO:
                     question.setLookupClass(null);
                     question.setLookupReturn(null);
                     question.setDisplayedAnswers(null);
                     question.setMaxAnswers(null);
                     question.setAnswerMaxLength(null);
                     break;
-                case Constants.QUESTION_RESPONSE_TYPE_YES_NO_NA:
+                case (int) Constants.QUESTION_RESPONSE_TYPE_YES_NO_NA:
                     question.setLookupClass(null);
                     question.setLookupReturn(null);
                     question.setDisplayedAnswers(null);
                     question.setMaxAnswers(null);
                     question.setAnswerMaxLength(null);
                     break;
-                case Constants.QUESTION_RESPONSE_TYPE_NUMBER:
+                case (int) Constants.QUESTION_RESPONSE_TYPE_NUMBER:
                     question.setLookupClass(null);
                     question.setLookupReturn(null);
                     break;
-                case Constants.QUESTION_RESPONSE_TYPE_DATE:
+                case (int) Constants.QUESTION_RESPONSE_TYPE_DATE:
                     question.setLookupClass(null);
                     question.setLookupReturn(null);
                     question.setAnswerMaxLength(null);
                     break;
-                case Constants.QUESTION_RESPONSE_TYPE_TEXT:
+                case (int) Constants.QUESTION_RESPONSE_TYPE_TEXT:
                     question.setLookupClass(null);
                     question.setLookupReturn(null);
                     break;
-                case Constants.QUESTION_RESPONSE_TYPE_LOOKUP:
+                case (int) Constants.QUESTION_RESPONSE_TYPE_LOOKUP:
                     question.setDisplayedAnswers(null);
                     question.setAnswerMaxLength(null);
                     break;
@@ -151,7 +147,7 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
     public void saveBusinessObject() {
         Question newQuestion = (Question) businessObject;
         QuestionService questionService = KcServiceLocator.getService(QuestionService.class);
-        Question oldQuestion = questionService.getQuestionById(newQuestion.getQuestionId());
+        Question oldQuestion = questionService.getQuestionById(newQuestion.getQuestionSeqId());
         if (oldQuestion != null) {
             oldQuestion.setSequenceStatus(SEQUENCE_STATUS_ARCHIVED);
             KNSServiceLocator.getBusinessObjectService().save(oldQuestion);

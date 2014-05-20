@@ -15,19 +15,20 @@
  */
 package org.kuali.kra.questionnaire;
 
+import org.kuali.coeus.common.api.question.QuestionnaireQuestionContract;
 import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.questionnaire.question.Question;
 
-public class QuestionnaireQuestion extends KcPersistableBusinessObjectBase implements SequenceAssociate<Questionnaire> {
+public class QuestionnaireQuestion extends KcPersistableBusinessObjectBase implements SequenceAssociate<Questionnaire>, QuestionnaireQuestionContract {
 
     private static final long serialVersionUID = 1699439856326521334L;
 
-    private Long questionnaireQuestionsId;
+    private Long id;
 
-    private String questionnaireRefIdFk;
+    private Long questionnaireId;
 
-    private Long questionRefIdFk;
+    private Long questionId;
 
     private Integer questionNumber;
 
@@ -63,30 +64,34 @@ public class QuestionnaireQuestion extends KcPersistableBusinessObjectBase imple
     public QuestionnaireQuestion() {
     }
 
-    public Long getQuestionnaireQuestionsId() {
-        return questionnaireQuestionsId;
+    @Override
+    public Long getId() {
+        return id;
     }
 
-    public void setQuestionnaireQuestionsId(Long questionnaireQuestionsId) {
-        this.questionnaireQuestionsId = questionnaireQuestionsId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getQuestionnaireRefIdFk() {
-        return questionnaireRefIdFk;
+    @Override
+    public Long getQuestionnaireId() {
+        return questionnaireId;
     }
 
-    public void setQuestionnaireRefIdFk(String questionnaireRefIdFk) {
-        this.questionnaireRefIdFk = questionnaireRefIdFk;
+    public void setQuestionnaireId(Long questionnaireId) {
+        this.questionnaireId = questionnaireId;
     }
 
-    public Long getQuestionRefIdFk() {
-        return questionRefIdFk;
+    @Override
+    public Long getQuestionId() {
+        return questionId;
     }
 
-    public void setQuestionRefIdFk(Long questionRefIdFk) {
-        this.questionRefIdFk = questionRefIdFk;
+    public void setQuestionId(Long questionId) {
+        this.questionId = questionId;
     }
 
+    @Override
     public Integer getQuestionNumber() {
         return questionNumber;
     }
@@ -95,6 +100,7 @@ public class QuestionnaireQuestion extends KcPersistableBusinessObjectBase imple
         this.questionNumber = questionNumber;
     }
 
+    @Override
     public Integer getParentQuestionNumber() {
         return parentQuestionNumber;
     }
@@ -103,6 +109,7 @@ public class QuestionnaireQuestion extends KcPersistableBusinessObjectBase imple
         this.parentQuestionNumber = parentQuestionNumber;
     }
 
+    @Override
     public boolean getConditionFlag() {
         return conditionFlag;
     }
@@ -111,6 +118,7 @@ public class QuestionnaireQuestion extends KcPersistableBusinessObjectBase imple
         this.conditionFlag = conditionFlag;
     }
 
+    @Override
     public String getCondition() {
         return condition;
     }
@@ -119,6 +127,7 @@ public class QuestionnaireQuestion extends KcPersistableBusinessObjectBase imple
         this.condition = condition;
     }
 
+    @Override
     public String getConditionValue() {
         return conditionValue;
     }
@@ -127,6 +136,7 @@ public class QuestionnaireQuestion extends KcPersistableBusinessObjectBase imple
         this.conditionValue = conditionValue;
     }
 
+    @Override
     public Integer getQuestionSeqNumber() {
         return questionSeqNumber;
     }
@@ -135,6 +145,7 @@ public class QuestionnaireQuestion extends KcPersistableBusinessObjectBase imple
         this.questionSeqNumber = questionSeqNumber;
     }
 
+    @Override
     public Question getQuestion() {
         return question;
     }
@@ -161,7 +172,7 @@ public class QuestionnaireQuestion extends KcPersistableBusinessObjectBase imple
 
     @Override
     public void resetPersistenceState() {
-        this.setQuestionnaireQuestionsId(null);
+        this.setId(null);
     }
 
     public Integer getSequenceNumber() {

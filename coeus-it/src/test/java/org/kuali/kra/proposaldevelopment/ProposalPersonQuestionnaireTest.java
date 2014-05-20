@@ -186,7 +186,7 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
                 assertEquals("1", q.getQuestion().getAnswerMaxLength().toString());
                 q1Found = true;
             } else if (StringUtils.equals(q2, q.getQuestion().getQuestion())) {
-                assertEquals("Yes/No", q.getQuestion().getQuestionType().getQuestionTypeName());
+                assertEquals("Yes/No", q.getQuestion().getQuestionType().getName());
                 q2Found = true;
             } else if (StringUtils.equals(q3, q.getQuestion().getQuestion())) {
                 assertEquals("1", q.getQuestion().getMaxAnswers().toString());
@@ -241,7 +241,7 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
                 assertEquals("1", thisQuestion.getAnswerMaxLength().toString());
                 q1Found = true;
             } else if (StringUtils.equals(q2, thisQuestion.getQuestion())) {
-                assertEquals("Yes/No", thisQuestion.getQuestionType().getQuestionTypeName());
+                assertEquals("Yes/No", thisQuestion.getQuestionType().getName());
                 q2Found = true;
             } else if (StringUtils.equals(q3, thisQuestion.getQuestion())) {
                 assertEquals("1", thisQuestion.getMaxAnswers().toString());

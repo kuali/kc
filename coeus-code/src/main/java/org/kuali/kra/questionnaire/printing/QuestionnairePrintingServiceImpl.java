@@ -43,7 +43,7 @@ public abstract class QuestionnairePrintingServiceImpl implements QuestionnaireP
     
     private Questionnaire getQuestionnaire(Long questionnaireRefId) {
         Map pkMap = new HashMap();
-        pkMap.put("questionnaireRefId", questionnaireRefId);
+        pkMap.put("id", questionnaireRefId);
         return (Questionnaire)businessObjectService.findByPrimaryKey(Questionnaire.class, pkMap);
         
     }
@@ -59,7 +59,7 @@ public abstract class QuestionnairePrintingServiceImpl implements QuestionnaireP
                 printable.setXmlStream(getQuestionnairePrint().getXmlStream());
                 Map<String, Object> reportParameters = new HashMap<String, Object>();
                 Questionnaire questionnaire = getQuestionnaire(printOption.getQuestionnaireRefId());
-                reportParameters.put("questionnaireId", questionnaire.getQuestionnaireIdAsInteger());
+                reportParameters.put("questionnaireSeqId", questionnaire.getQuestionnaireSeqIdAsInteger());
                 reportParameters.put("template", questionnaire.getTemplate());
                 //  will be used by amendquestionnaire
                 reportParameters.put("moduleSubItemCode", printOption.getSubItemCode());
