@@ -43,7 +43,7 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.impl.period.BudgetPeriod;
 import org.kuali.kra.budget.personnel.*;
 import org.kuali.kra.budget.rates.BudgetRatesService;
-import org.kuali.kra.budget.service.BudgetLockService;
+import org.kuali.coeus.common.budget.framework.lock.BudgetLockService;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
@@ -688,8 +688,6 @@ public class BudgetAction extends BudgetActionBase {
         
                     if (budgetLineItem.getBudgetPersonnelDetailsList() != null && !budgetLineItem.getBudgetPersonnelDetailsList().isEmpty()) {
                         for (BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
-//                            budgetPersonnelDetails.setProposalNumber(budgetLineItem.getProposalNumber());
-//                            budgetPersonnelDetails.setBudgetVersionNumber(budgetLineItem.getBudgetVersionNumber());
                             budgetPersonnelDetails.setBudgetId(budgetLineItem.getBudgetId());
                             budgetPersonnelDetails.setBudgetPeriod(budgetLineItem.getBudgetPeriod());
                             budgetPersonnelDetails.setLineItemNumber(budgetLineItem.getLineItemNumber());
