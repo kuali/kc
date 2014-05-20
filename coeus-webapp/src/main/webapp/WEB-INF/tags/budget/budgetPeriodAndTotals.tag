@@ -200,7 +200,7 @@
 		    				</c:otherwise>
 						</c:choose>
 						<c:if test="${!proposalBudgetFlag}">
-    				    	<kul:multipleValueLookup boClassName="org.kuali.coeus.common.budget.impl.period.BudgetPeriod"
+    				    	<kul:multipleValueLookup boClassName="org.kuali.coeus.common.budget.framework.period.BudgetPeriod"
     				    							anchor="${tabKey}" 
     				    							lookupParameters="document.parentDocument.award.awardNumber:budgetParentId"
     				    							lookedUpCollectionName="${status.index}" autoSearch="yes" />						

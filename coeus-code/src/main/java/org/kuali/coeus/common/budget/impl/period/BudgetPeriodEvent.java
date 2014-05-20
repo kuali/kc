@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.budget.impl.period;
 
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
@@ -26,7 +27,7 @@ import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 public interface BudgetPeriodEvent extends KualiDocumentEvent{
 
     /**
-     * @return <code>{@link BudgetPeriod}</code> that triggered this event.
+     * @return <code>{@link org.kuali.coeus.common.budget.framework.period.BudgetPeriod}</code> that triggered this event.
      */
     public BudgetPeriod getBudgetPeriod();
     public int getBudgetPeriodNumber();

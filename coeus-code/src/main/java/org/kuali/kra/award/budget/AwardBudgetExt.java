@@ -21,7 +21,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.coeus.common.budget.impl.period.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;

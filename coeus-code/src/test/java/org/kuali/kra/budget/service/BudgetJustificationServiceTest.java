@@ -26,7 +26,7 @@ import org.kuali.kra.budget.nonpersonnel.BudgetJustificationService;
 import org.kuali.kra.budget.nonpersonnel.BudgetJustificationServiceImpl;
 import org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapper;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.coeus.common.budget.impl.period.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 
 import java.util.Map;
 import java.util.TreeMap;
