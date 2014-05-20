@@ -105,7 +105,6 @@ case "${dbtype}" in
 	"ORACLE")
 	
 		cd KC-RELEASE-0_0_0-SCRIPT
-        sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-RELEASE-0_0_0-Upgrade-ORACLE.sql
         sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-0_0_0-Upgrade-ORACLE.sql
         mv *.log ../LOGS/
         cd ..
