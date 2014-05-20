@@ -20,6 +20,13 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.printing.schema.BudgetSalaryDocument;
 import org.kuali.kra.printing.schema.BudgetSalaryDocument.BudgetSalary;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -32,9 +39,25 @@ import java.util.Map;
  * @author
  * 
  */
+@Component("budgetTotalXmlStream")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class BudgetTotalXmlStream extends BudgetBaseSalaryStream {
 
 	private static final String BUDGET_TOTAL = "Budget Total";
+
+    @Autowired
+    @Qualifier("dateTimeService")
+    @Override
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        super.setDateTimeService(dateTimeService);
+    }
+
+    @Autowired
+    @Qualifier("businessObjectService")
+    @Override
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        super.setBusinessObjectService(businessObjectService);
+    }
 
 	/**
 	 * This method generates XML for Budget total Report. It uses data passed in

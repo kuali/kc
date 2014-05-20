@@ -22,7 +22,7 @@ import org.kuali.coeus.propdev.impl.print.ProposalDevelopmentPrintingService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingType;
 import org.kuali.kra.award.printing.AwardPrintType;
-import org.kuali.coeus.common.budget.impl.print.BudgetPrintType;
+import org.kuali.coeus.common.budget.framework.print.BudgetPrintType;
 import org.kuali.kra.coi.print.CoiDisclosureType;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;

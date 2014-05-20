@@ -15,8 +15,13 @@
  */
 package org.kuali.coeus.common.budget.impl.print;
 
+import org.kuali.coeus.common.budget.framework.print.BudgetPrintType;
 import org.kuali.coeus.common.framework.print.AbstractPrint;
+import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import javax.xml.transform.Source;
 import java.util.ArrayList;
@@ -30,9 +35,17 @@ import java.util.List;
  * streaming etc.
  * 
  */
+@Component("budgetSummaryTotalPrint")
 public class BudgetSummaryTotalPrint extends AbstractPrint {
 
-	/**
+    @Autowired
+    @Qualifier("budgetSummaryTotalXmlStream")
+    @Override
+    public void setXmlStream(XmlStream budgetSummaryTotalXmlStream) {
+        super.setXmlStream(budgetSummaryTotalXmlStream);
+    }
+
+    /**
 	 * This method fetches the XSL style-sheets required for transforming the
 	 * generated XML into PDF.
 	 * 
