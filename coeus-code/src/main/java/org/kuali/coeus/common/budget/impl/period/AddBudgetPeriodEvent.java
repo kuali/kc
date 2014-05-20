@@ -13,42 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.parameters;
+package org.kuali.coeus.common.budget.impl.period;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public class SaveBudgetPeriodEvent extends BudgetPeriodEventBase{
+public class AddBudgetPeriodEvent extends BudgetPeriodEventBase{
     /**
-     * Constructs an SaveBudgetPeriodEvent with the given errorPathPrefix, document, and budgetPeriod.
+     * Constructs an AddBudgetPeriodEvent with the given errorPathPrefix, document, and budgetPeriod.
      * 
      * @param errorPathPrefix
      * @param budgetDocument
      * @param budgetPeriod
      */
-    public SaveBudgetPeriodEvent(String errorPathPrefix, BudgetDocument document) {
-        super("saving budget period to document " + getDocumentId(document), errorPathPrefix, document);
+    public AddBudgetPeriodEvent(String errorPathPrefix, BudgetDocument document, BudgetPeriod budgetPeriod) {
+        super("adding budget period to document " + getDocumentId(document), errorPathPrefix, document, budgetPeriod);
     }
 
     /**
-     * Constructs an SaveBudgetPeriodEvent with the given errorPathPrefix, document, and budgetPeriod.
+     * Constructs an AddBudgetPeriodEvent with the given errorPathPrefix, document, and budgetPeriod.
      * 
      * @param errorPathPrefix
      * @param document
      * @param budgetPeriod
      */
-    public SaveBudgetPeriodEvent(String errorPathPrefix, Document document) {
-        this(errorPathPrefix, (BudgetDocument) document);
+    public AddBudgetPeriodEvent(String errorPathPrefix, Document document, BudgetPeriod budgetPeriod) {
+        this(errorPathPrefix, (BudgetDocument) document, budgetPeriod);
     }
 
     @Override
     public Class getRuleInterfaceClass() {
-        return SaveBudgetPeriodRule.class;
+        return AddBudgetPeriodRule.class;
     }
 
     @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((SaveBudgetPeriodRule) rule).processSaveBudgetPeriodBusinessRules(this);
+        return ((AddBudgetPeriodRule) rule).processAddBudgetPeriodBusinessRules(this);
     }
     
 }

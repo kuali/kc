@@ -13,42 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.parameters;
+package org.kuali.coeus.common.budget.impl.period;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public class GenerateBudgetPeriodEvent extends BudgetPeriodEventBase{
+public class SaveBudgetPeriodEvent extends BudgetPeriodEventBase{
     /**
-     * Constructs an GenerateBudgetPeriodEvent with the given errorPathPrefix, document, and budgetPeriod.
+     * Constructs an SaveBudgetPeriodEvent with the given errorPathPrefix, document, and budgetPeriod.
      * 
      * @param errorPathPrefix
      * @param budgetDocument
      * @param budgetPeriod
      */
-    public GenerateBudgetPeriodEvent(String errorPathPrefix, BudgetDocument document) {
+    public SaveBudgetPeriodEvent(String errorPathPrefix, BudgetDocument document) {
         super("saving budget period to document " + getDocumentId(document), errorPathPrefix, document);
     }
 
     /**
-     * Constructs an GenerateBudgetPeriodEvent with the given errorPathPrefix, document, and budgetPeriod.
+     * Constructs an SaveBudgetPeriodEvent with the given errorPathPrefix, document, and budgetPeriod.
      * 
      * @param errorPathPrefix
      * @param document
      * @param budgetPeriod
      */
-    public GenerateBudgetPeriodEvent(String errorPathPrefix, Document document) {
+    public SaveBudgetPeriodEvent(String errorPathPrefix, Document document) {
         this(errorPathPrefix, (BudgetDocument) document);
     }
 
     @Override
     public Class getRuleInterfaceClass() {
-        return GenerateBudgetPeriodRule.class;
+        return SaveBudgetPeriodRule.class;
     }
 
     @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((GenerateBudgetPeriodRule) rule).processGenerateBudgetPeriodBusinessRules(this);
+        return ((SaveBudgetPeriodRule) rule).processSaveBudgetPeriodBusinessRules(this);
     }
     
 }

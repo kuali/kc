@@ -13,21 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.parameters;
+package org.kuali.coeus.common.budget.impl.period;
 
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-/**
- * Event triggered when a budget Period is modified on a 
- * <code>{@link BudgetDocument}</code>
- *
- */
-public interface BudgetPeriodEvent extends KualiDocumentEvent{
-
+public interface GenerateBudgetPeriodRule  extends BusinessRule {
+    
     /**
-     * @return <code>{@link BudgetPeriod}</code> that triggered this event.
+     * Rule invoked upon generating budget period 
+     * <code>{@link org.kuali.kra.budget.document.BudgetDocument}</code>
+     *
+     * @return boolean
      */
-    public BudgetPeriod getBudgetPeriod();
-    public int getBudgetPeriodNumber();
+    public boolean processGenerateBudgetPeriodBusinessRules(GenerateBudgetPeriodEvent generateBudgetPeriodEvent);
 }

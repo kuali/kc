@@ -22,7 +22,7 @@ import org.kuali.kra.budget.core.BudgetCategory;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.coeus.common.budget.impl.period.BudgetPeriod;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.sql.Date;

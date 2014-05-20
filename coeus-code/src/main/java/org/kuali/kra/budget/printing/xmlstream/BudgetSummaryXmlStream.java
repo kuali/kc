@@ -24,7 +24,7 @@ import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.coeus.common.budget.impl.period.BudgetPeriod;
 import org.kuali.kra.budget.printing.util.ReportTypeVO;
 import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.BudgetSummaryReportDocument.BudgetSummaryReport;
