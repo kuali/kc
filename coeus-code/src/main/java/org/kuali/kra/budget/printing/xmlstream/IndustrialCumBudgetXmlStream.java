@@ -21,7 +21,7 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
-import org.kuali.coeus.common.budget.impl.period.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.budget.printing.util.BudgetDataPeriodVO;
 import org.kuali.kra.budget.printing.util.SalaryTypeVO;
 import org.kuali.kra.printing.schema.BudgetSalaryDocument;

@@ -19,7 +19,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.common.budget.impl.period.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 
 import java.sql.Date;
 import java.util.Calendar;

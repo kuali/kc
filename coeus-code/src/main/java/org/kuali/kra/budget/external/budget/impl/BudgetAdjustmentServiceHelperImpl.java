@@ -28,7 +28,7 @@ import org.kuali.kra.budget.core.BudgetCategoryType;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
-import org.kuali.coeus.common.budget.impl.period.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.budget.external.budget.BudgetAdjustmentServiceHelper;
 import org.kuali.kra.budget.external.budget.RateClassRateType;

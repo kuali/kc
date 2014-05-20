@@ -40,7 +40,7 @@ import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
-import org.kuali.coeus.common.budget.impl.period.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.budget.personnel.*;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.lock.BudgetLockService;

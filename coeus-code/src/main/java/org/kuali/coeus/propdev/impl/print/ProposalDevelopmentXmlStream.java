@@ -62,7 +62,7 @@ import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.coeus.common.budget.impl.period.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
