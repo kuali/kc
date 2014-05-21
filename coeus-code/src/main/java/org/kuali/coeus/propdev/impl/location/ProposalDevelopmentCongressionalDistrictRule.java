@@ -17,7 +17,10 @@ package org.kuali.coeus.propdev.impl.location;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -31,29 +34,23 @@ public class ProposalDevelopmentCongressionalDistrictRule extends ProposalSiteRu
      * @see org.kuali.coeus.propdev.impl.location.AddCongressionalDistrictRule#processAddCongressionalDistrictRules(org.kuali.coeus.propdev.impl.location.AddProposalCongressionalDistrictEvent)
      */
     public boolean processAddCongressionalDistrictRules(AddProposalCongressionalDistrictEvent addCongressionalDistrictEvent) {
-        String siteIndexStr = addCongressionalDistrictEvent.getSiteIndex();
-        boolean isValid = isIndexValid(siteIndexStr, "Site Index");
-        
-        CongressionalDistrictHelper proposalSiteHelper = null;
-        int siteIndex = -1;
-        if (isValid) {
-            siteIndex = new Integer(siteIndexStr);
-            proposalSiteHelper = addCongressionalDistrictEvent.getCongressionalDistrictHelpers().get(siteIndex);
+    	boolean isValid = true;
+        List<CongressionalDistrict> congressionalDistricts = addCongressionalDistrictEvent.getCongressionalDistricts();
+        CongressionalDistrict  congressionalDistrict= addCongressionalDistrictEvent.getCongressionalDistrict();
 
-            String stateCode = proposalSiteHelper.getNewState();
-            String districtNumber = proposalSiteHelper.getNewDistrictNumber();
-            CongressionalDistrict newDistrict = new CongressionalDistrict();
-            newDistrict.setCongressionalDistrict(stateCode, districtNumber);
+        String stateCode = congressionalDistrict.getNewState();
+        String districtNumber = congressionalDistrict.getNewDistrictNumber();
+        CongressionalDistrict newDistrict = new CongressionalDistrict();
+        newDistrict.setCongressionalDistrict(stateCode, districtNumber);
             
-            String districtString = newDistrict.getCongressionalDistrict();
-            if (!districtValidationPattern.matcher(districtString).matches()) {
-                reportError("newDistrictNumber", KeyConstants.ERROR_PROPOSAL_SITES_DISTRICT_INVALID_FORMAT);
-                isValid = false;
-            }
+        String districtString = newDistrict.getCongressionalDistrict();
+        if (!districtValidationPattern.matcher(districtString).matches()) {
+              reportError("newDistrictNumber", KeyConstants.ERROR_PROPOSAL_SITES_DISTRICT_INVALID_FORMAT);
+              isValid = false;
         }
         
         if (isValid) {
-            isValid = checkUniqueness(addCongressionalDistrictEvent, proposalSiteHelper);
+            isValid = checkUniqueness(addCongressionalDistrictEvent, congressionalDistrict);
         }
         
         return isValid;
@@ -66,15 +63,16 @@ public class ProposalDevelopmentCongressionalDistrictRule extends ProposalSiteRu
      * @param proposalSiteHelper
      * @return
      */
-    private boolean checkUniqueness(AddProposalCongressionalDistrictEvent addCongressionalDistrictEvent, CongressionalDistrictHelper proposalSiteHelper) {
+    private boolean checkUniqueness(AddProposalCongressionalDistrictEvent addCongressionalDistrictEvent, CongressionalDistrict congressionalDistrict) {
         boolean isValid = true;
         
         CongressionalDistrict newDistrict = new CongressionalDistrict();
-        newDistrict.setCongressionalDistrict(proposalSiteHelper.getNewState(), proposalSiteHelper.getNewDistrictNumber());
+        newDistrict.setCongressionalDistrict(congressionalDistrict.getNewState(), congressionalDistrict.getNewDistrictNumber());
         
-        for (CongressionalDistrict existingDistrict: addCongressionalDistrictEvent.getProposalSite().getCongressionalDistricts()) {
+        for (CongressionalDistrict existingDistrict: addCongressionalDistrictEvent.getCongressionalDistricts()) {
             if (StringUtils.equals(newDistrict.getCongressionalDistrict(), existingDistrict.getCongressionalDistrict())) {
-                reportError("newDistrictNumber", KeyConstants.ERROR_PROPOSAL_SITES_DISTRICT_DUPLICATE);
+                GlobalVariables.getMessageMap().putErrorForSectionId(addCongressionalDistrictEvent.getCollectionId(), RiceKeyConstants.ERROR_DUPLICATE_ELEMENT,
+            			addCongressionalDistrictEvent.getCollectionLabel(),congressionalDistrict.getCongressionalDistrict());
                 isValid = false;
             }
         }

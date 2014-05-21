@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.location;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
@@ -98,6 +99,9 @@ public class CongressionalDistrict extends KcPersistableBusinessObjectBase {
 	}
 
 	public String getNewDistrictNumber() {
+		if (StringUtils.isNumeric(newDistrictNumber)) {
+            newDistrictNumber = StringUtils.leftPad(newDistrictNumber, CongressionalDistrict.DISTRICT_NUMBER_LENGTH, "0");
+        }
 		return newDistrictNumber;
 	}
 
