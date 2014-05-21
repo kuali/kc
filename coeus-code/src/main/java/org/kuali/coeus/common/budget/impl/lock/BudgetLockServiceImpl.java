@@ -13,20 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.service.impl;
+package org.kuali.coeus.common.budget.impl.lock;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.service.BudgetLockService;
+import org.kuali.coeus.common.budget.framework.lock.BudgetLockService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
+import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.impl.PessimisticLockServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -35,9 +40,25 @@ import java.util.Map;
  * The Budget Lock Service implementation.  It derives from the Pessimistic Lock Service in 
  * order to customize the lock descriptors.
  */
+@Component("budgetLockService")
 public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements BudgetLockService {
 
     private static final String ADD_BUDGET = "addBudget";
+
+    @Autowired
+    @Qualifier("dataObjectService")
+    @Override
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        super.setDataObjectService(dataObjectService);
+    }
+
+    @Autowired
+    @Qualifier("dataDictionaryService")
+    @Override
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        super.setDataDictionaryService(dataDictionaryService);
+    }
+
 
     @SuppressWarnings("unchecked")
     @Override

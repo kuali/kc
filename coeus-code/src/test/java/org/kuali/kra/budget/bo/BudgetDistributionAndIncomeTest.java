@@ -19,7 +19,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 
 import java.sql.Date;
 import java.util.Calendar;

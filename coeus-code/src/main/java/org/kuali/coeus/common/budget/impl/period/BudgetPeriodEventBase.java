@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.parameters;
+package org.kuali.coeus.common.budget.impl.period;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.rice.krad.document.Document;
 
 public abstract class BudgetPeriodEventBase extends KcDocumentEventBase implements BudgetPeriodEvent {
 
@@ -32,9 +32,6 @@ public abstract class BudgetPeriodEventBase extends KcDocumentEventBase implemen
             BudgetPeriod budgetPeriod) {
         super(description, errorPathPrefix, document);
 
-        //by doing a deep copy, we are ensuring that the business rule class can't update
-        //the original object by reference
-        //this.budgetPeriod = (BudgetPeriod) ObjectUtils.deepCopy(budgetPeriod);
         this.budgetPeriod = budgetPeriod;
         logEvent();
     }
@@ -43,19 +40,12 @@ public abstract class BudgetPeriodEventBase extends KcDocumentEventBase implemen
             int budgetPeriodNumber) {
         super(description, errorPathPrefix, document);
 
-        //by doing a deep copy, we are ensuring that the business rule class can't update
-        //the original object by reference
-        //this.budgetPeriod = (BudgetPeriod) ObjectUtils.deepCopy(budgetPeriod);
         this.budgetPeriodNumber = budgetPeriodNumber;
         logEvent();
     }
 
     protected BudgetPeriodEventBase(String description, String errorPathPrefix, BudgetDocument document) {
         super(description, errorPathPrefix, document);
-
-        //by doing a deep copy, we are ensuring that the business rule class can't update
-        //the original object by reference
-        //this.budgetPeriod = (BudgetPeriod) ObjectUtils.deepCopy(budgetPeriod);
         logEvent();
     }
 

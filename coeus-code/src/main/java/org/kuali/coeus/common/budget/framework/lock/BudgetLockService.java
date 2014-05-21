@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.osedu.org/licenses/ECL-2.0
+ * http://www.opensource.org/licenses/ecl1.php
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,17 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.parameters;
+package org.kuali.coeus.common.budget.framework.lock;
 
-import org.kuali.rice.krad.rules.rule.BusinessRule;
+import org.kuali.rice.krad.service.PessimisticLockService;
 
-public interface GenerateBudgetPeriodRule  extends BusinessRule {
-    
-    /**
-     * Rule invoked upon generating budget period 
-     * <code>{@link org.kuali.kra.budget.document.BudgetDocument}</code>
-     *
-     * @return boolean
-     */
-    public boolean processGenerateBudgetPeriodBusinessRules(GenerateBudgetPeriodEvent generateBudgetPeriodEvent);
+/**
+ * The Budget Lock Service.  Every document that customizes the PessimisticLockService
+ * must subclass that service in order to override certain methods.
+ */
+public interface BudgetLockService extends PessimisticLockService {
+
 }

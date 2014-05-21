@@ -40,10 +40,10 @@ import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.budget.personnel.*;
 import org.kuali.kra.budget.rates.BudgetRatesService;
-import org.kuali.kra.budget.service.BudgetLockService;
+import org.kuali.coeus.common.budget.framework.lock.BudgetLockService;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
@@ -688,8 +688,6 @@ public class BudgetAction extends BudgetActionBase {
         
                     if (budgetLineItem.getBudgetPersonnelDetailsList() != null && !budgetLineItem.getBudgetPersonnelDetailsList().isEmpty()) {
                         for (BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
-//                            budgetPersonnelDetails.setProposalNumber(budgetLineItem.getProposalNumber());
-//                            budgetPersonnelDetails.setBudgetVersionNumber(budgetLineItem.getBudgetVersionNumber());
                             budgetPersonnelDetails.setBudgetId(budgetLineItem.getBudgetId());
                             budgetPersonnelDetails.setBudgetPeriod(budgetLineItem.getBudgetPeriod());
                             budgetPersonnelDetails.setLineItemNumber(budgetLineItem.getLineItemNumber());

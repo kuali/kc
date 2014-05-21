@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.parameters;
+package org.kuali.coeus.common.budget.impl.period;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetExt;
@@ -38,8 +39,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
-
 public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements AddBudgetPeriodRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule{
     private static final Log LOG = LogFactory.getLog(BudgetPeriodRule.class);
 
@@ -58,7 +57,6 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
         BudgetPeriod newBudgetPeriod = addBudgetPeriodEvent.getBudgetPeriod();
         
         boolean rulePassed = true;
-        //String errorPath = NEW_BUDGET_PERIOD;
 
         if (!isValidBudgetPeriod(budget, newBudgetPeriod)) {
             rulePassed = false;
@@ -435,7 +433,7 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
     }
 
     private BudgetSummaryService getBudgetSummaryService() {
-        return getService(BudgetSummaryService.class);
+        return KcServiceLocator.getService(BudgetSummaryService.class);
     }
 
     private void setProjectStartDate(Date projectStartDate) {

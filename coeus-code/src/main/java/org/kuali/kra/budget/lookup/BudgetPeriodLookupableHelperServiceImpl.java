@@ -17,7 +17,7 @@ package org.kuali.kra.budget.lookup;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.budget.AwardBudgetService;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 

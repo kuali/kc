@@ -17,7 +17,7 @@ package org.kuali.kra.budget.core;
 
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**

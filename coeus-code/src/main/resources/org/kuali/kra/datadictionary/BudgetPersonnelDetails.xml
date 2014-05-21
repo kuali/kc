@@ -369,11 +369,11 @@
     </property>
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.budget.parameters.BudgetPeriodType" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="budgetPeriodTypeCode" p:labelAttribute="description"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.budget.framework.period.BudgetPeriodType" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="budgetPeriodTypeCode" p:labelAttribute="description"/>
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.budget.parameters.BudgetPeriodType"/>
+        <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.period.BudgetPeriodType"/>
         <property name="includeKeyInDescription" value="false"/>
         <property name="includeBlankRow" value="false"/>
         <property name="keyAttributeName" value="budgetPeriodTypeCode"/>
