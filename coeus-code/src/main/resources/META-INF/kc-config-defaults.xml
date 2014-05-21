@@ -93,6 +93,9 @@
 	<param name="kc.struts.message.resources">ApplicationResources</param>
 	<param name="rice.struts.message.resources">${core.rice.struts.message.resources}, ${kc.struts.message.resources}</param>
 
+
+    <param name="resourceBundleNames">org.kuali.rice.krad.ApplicationResources,org.kuali.rice.krad.KRADApplicationResources,org.kuali.rice.kew.ApplicationResources,org.kuali.rice.ksb.ApplicationResources,org.kuali.rice.kim.ApplicationResources,org.kuali.rice.krms.ApplicationResources,org.kuali.rice.core.web.cache.CacheApplicationResources,ApplicationResources</param>
+
 	<!-- KC Client DB -->
 	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
 	<param name="datasource.username">KRADEV</param>

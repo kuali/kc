@@ -72,6 +72,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sOpportunityLookup.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/sponsor/ProposalSponsorProgramInfoPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/supplemental/ProposalSupplementalPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalDataValidationSection.xml</value>
             </list>
        </property>     
     </bean>
