@@ -29,10 +29,6 @@ import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.BudgetSummaryReportDocument.BudgetSummaryReport;
 import org.kuali.kra.printing.schema.ReportPageType.BudgetSummary;
 import org.kuali.kra.printing.schema.ReportPageType.CalculationMethodology;
-import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -51,19 +47,6 @@ import java.util.*;
 public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 
 	private static final String CUMULATIVE_BUDGET = "Cumulative Budget";
-
-    @Autowired
-    @Qualifier("dateTimeService")
-    @Override
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        super.setDateTimeService(dateTimeService);
-    }
-    @Autowired
-    @Qualifier("businessObjectService")
-    @Override
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        super.setBusinessObjectService(businessObjectService);
-    }
 
     /**
 	 * This method generates XML for Award Delta Report. It uses data passed in
