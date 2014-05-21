@@ -57,8 +57,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Qualifier("lookupService")
     private LookupService lookupService;
 
-    private static final String PERS_NUMBER = "proposalPersons[";
-    
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
