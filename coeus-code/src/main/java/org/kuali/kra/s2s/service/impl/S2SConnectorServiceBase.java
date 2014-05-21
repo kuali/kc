@@ -28,12 +28,11 @@ import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
+import org.kuali.coeus.propdev.api.location.ProposalSiteService;
 import org.kuali.kra.s2s.service.S2SConnectorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
-import org.kuali.rice.krad.data.DataObjectService;
 
 import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListRequest;
 import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse;
@@ -72,8 +71,8 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
     protected static final Log LOG = LogFactory.getLog(S2SConnectorServiceBase.class);
 
     private S2SUtilService s2SUtilService;
-    private DataObjectService dataObjectService;
     private S2SConfigurationService s2SConfigurationService;
+    private ProposalSiteService proposalSiteService;
     protected S2SCertificateReader s2sCertificateReader;
 
     protected String serviceHost;
@@ -225,10 +224,9 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * @throws S2SException
      */
     protected ApplicantWebServicesPortType getApplicantIntegrationSoapPort(String proposalNumber) throws S2SException {
-        DevelopmentProposal pdDoc = dataObjectService.find(
-                DevelopmentProposal.class, proposalNumber);
+
         Boolean multiCampusEnabled = s2SConfigurationService.getValueAsBoolean(ConfigurationConstants.MULTI_CAMPUS_ENABLED);
-        return configureApplicantIntegrationSoapPort(pdDoc.getApplicantOrganization().getOrganization().getDunsNumber(), multiCampusEnabled);
+        return configureApplicantIntegrationSoapPort(proposalSiteService.getProposalDunsNumber(proposalNumber), multiCampusEnabled);
     }
     
 
@@ -392,19 +390,19 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         this.s2SUtilService = s2SUtilService;
     }
 
-    public DataObjectService getDataObjectService() {
-        return dataObjectService;
-    }
-
-    public void setDataObjectService(DataObjectService dataObjectService) {
-        this.dataObjectService = dataObjectService;
-    }
-
     public S2SConfigurationService getS2SConfigurationService() {
         return s2SConfigurationService;
     }
 
     public void setS2SConfigurationService(S2SConfigurationService s2SConfigurationService) {
         this.s2SConfigurationService = s2SConfigurationService;
+    }
+
+    public ProposalSiteService getProposalSiteService() {
+        return proposalSiteService;
+    }
+
+    public void setProposalSiteService(ProposalSiteService proposalSiteService) {
+        this.proposalSiteService = proposalSiteService;
     }
 }
