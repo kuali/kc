@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.parameters;
+package org.kuali.coeus.common.budget.framework.period;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -322,7 +322,6 @@ public class BudgetPeriod extends BudgetAssociate {
 
     /**
      * Gets the sum of the Total Underreovery Amount for all line items.
-     * @param lineItems the budget line items
      * @return the amount.
      */
     public final ScaleTwoDecimal getSumUnderreoveryAmountFromLineItems() {

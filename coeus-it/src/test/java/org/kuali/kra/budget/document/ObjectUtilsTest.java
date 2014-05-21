@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.document;
 
 import org.junit.Test;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 import static org.junit.Assert.*;

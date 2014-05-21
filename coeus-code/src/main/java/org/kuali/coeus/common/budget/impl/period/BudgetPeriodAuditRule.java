@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.parameters;
+package org.kuali.coeus.common.budget.impl.period;
 
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
@@ -105,7 +106,7 @@ public class BudgetPeriodAuditRule extends KcTransactionalDocumentRuleBase imple
     
     /**
      * Adds an budget period date error.
-     * @param warning the error
+     * @param error the error
      */
     private void addBudgetPeriodDateAuditError(final AuditError error) {
         assert error != null : "the error is null";

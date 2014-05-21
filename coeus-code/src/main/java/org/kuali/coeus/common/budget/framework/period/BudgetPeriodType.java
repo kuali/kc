@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.parameters;
+package org.kuali.coeus.common.budget.framework.period;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 

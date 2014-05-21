@@ -22,7 +22,7 @@ import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
@@ -215,7 +215,7 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
 
     /**
      * Do nothing for proposal budget
-     * @see org.kuali.kra.budget.core.BudgetCommonService#removeBudgetSummaryPeriodCalcAmounts(org.kuali.kra.budget.parameters.BudgetPeriod)
+     * @see org.kuali.kra.budget.core.BudgetCommonService#removeBudgetSummaryPeriodCalcAmounts(org.kuali.coeus.common.budget.framework.period.BudgetPeriod)
      */
     public void removeBudgetSummaryPeriodCalcAmounts(BudgetPeriod budgetPeriod) {
     }
