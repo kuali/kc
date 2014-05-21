@@ -13,11 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.printing.print;
+package org.kuali.coeus.common.budget.impl.print;
 
+import org.kuali.coeus.common.budget.framework.print.BudgetPrintType;
 import org.kuali.coeus.common.framework.print.AbstractPrint;
+import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
-import org.kuali.kra.budget.printing.BudgetPrintType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import javax.xml.transform.Source;
 import java.util.ArrayList;
@@ -30,9 +36,18 @@ import java.util.List;
  * this XML and XSls for any purpose like report generation, PDF streaming etc.
  * 
  */
+@Component("budgetSalaryPrint")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class BudgetSalaryPrint extends AbstractPrint {
 
-	/**
+    @Autowired
+    @Qualifier("budgetSalaryXmlStream")
+    @Override
+    public void setXmlStream(XmlStream budgetSalaryXmlStream) {
+       super.setXmlStream(budgetSalaryXmlStream);
+    }
+
+    /**
 	 * This method fetches the XSL style-sheets required for transforming the
 	 * generated XML into PDF.
 	 * 

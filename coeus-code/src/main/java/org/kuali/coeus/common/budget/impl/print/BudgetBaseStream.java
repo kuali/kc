@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.printing.xmlstream;
+package org.kuali.coeus.common.budget.impl.print;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
@@ -36,10 +36,11 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
-import org.kuali.kra.budget.printing.util.ReportTypeVO;
 import org.kuali.kra.budget.rates.RateType;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -56,6 +57,8 @@ import java.util.Map;
  * 
  */
 public abstract class BudgetBaseStream implements XmlStream {
+
+    private static final Log LOG = LogFactory.getLog(BudgetBaseStream.class);
 
 	private static final String RATE_CLASS_TYPE = "rateClassType";
 	private static final String DEPENDENT_RATE_CLASS_TYPE = "dependentRateClassType";
@@ -80,20 +83,23 @@ public abstract class BudgetBaseStream implements XmlStream {
 	private static final String STRING_SEPRATOR = "-";
 	private static final String EMPTY_STRING = "";
 
-	protected BusinessObjectService businessObjectService = null;
+    protected static final String DATE_FORMAT = "dd MMM yyyy";
+    protected static final String DATE_FORMAT_MMDDYY = "MM/dd/yy";
+    protected static final String BUDGET_PERIOD = "Period";
+    protected static final String BUDGET_CATEGORY_PERSONNEL = "P";
+
 	protected Budget budget;
 	protected String category[] = { "budgetCategoryDescription" };
 	protected String rateType[] = { "rateTypeDesc" };
 	protected String rateClassRateType[] = { "rateClassDesc", "rateTypeDesc" };
-	protected BudgetPeriod budgetPeriod;
-	protected DateTimeService dateTimeService;
-	protected static final String DATE_FORMAT = "dd MMM yyyy";
-	protected static final String DATE_FORMAT_MMDDYY = "MM/dd/yy";
-	protected static final String BUDGET_PERIOD = "Period";
-	protected static final String BUDGET_CATEGORY_PERSONNEL = "P";
-	
+    protected BudgetPeriod budgetPeriod;
 
-	private static final Log LOG = LogFactory.getLog(BudgetBaseStream.class);
+    @Autowired
+    @Qualifier("businessObjectService")
+    protected BusinessObjectService businessObjectService;
+    @Autowired
+    @Qualifier("dateTimeService")
+	protected DateTimeService dateTimeService;
 	
 
 	/**

@@ -13,13 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.printing.xmlstream;
+package org.kuali.coeus.common.budget.impl.print;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.printing.schema.BudgetSalaryDocument;
 import org.kuali.kra.printing.schema.BudgetSalaryDocument.BudgetSalary;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -32,6 +35,8 @@ import java.util.Map;
  * @author
  * 
  */
+@Component("budgetTotalXmlStream")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class BudgetTotalXmlStream extends BudgetBaseSalaryStream {
 
 	private static final String BUDGET_TOTAL = "Budget Total";

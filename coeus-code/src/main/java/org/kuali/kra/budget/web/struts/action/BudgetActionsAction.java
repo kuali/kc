@@ -53,7 +53,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.budget.print.BudgetPrintService;
+import org.kuali.coeus.common.budget.framework.print.BudgetPrintService;
 import org.kuali.coeus.propdev.impl.budget.subaward.PropDevBudgetSubAwardService;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
