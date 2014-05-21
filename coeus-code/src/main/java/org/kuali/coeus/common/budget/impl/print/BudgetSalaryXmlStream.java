@@ -26,8 +26,6 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.printing.schema.BudgetSalaryDocument;
 import org.kuali.kra.printing.schema.BudgetSalaryDocument.BudgetSalary;
 import org.kuali.kra.printing.schema.SalaryType;
-import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -56,20 +54,6 @@ public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
     @Autowired
     @Qualifier("budgetCalculationService")
 	private BudgetCalculationService budgetCalculationService;
-
-    @Autowired
-    @Qualifier("businessObjectService")
-    @Override
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    @Autowired
-    @Qualifier("dateTimeService")
-    @Override
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
 
     /**
 	 * This method generates XML for Budget Salary Report. It uses data passed
