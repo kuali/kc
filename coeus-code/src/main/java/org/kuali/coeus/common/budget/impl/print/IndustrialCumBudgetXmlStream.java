@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.printing.xmlstream;
+package org.kuali.coeus.common.budget.impl.print;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -22,11 +22,12 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.printing.util.BudgetDataPeriodVO;
-import org.kuali.kra.budget.printing.util.SalaryTypeVO;
 import org.kuali.kra.printing.schema.BudgetSalaryDocument;
 import org.kuali.kra.printing.schema.BudgetSalaryDocument.BudgetSalary;
 import org.kuali.kra.printing.schema.SalaryType;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import javax.xml.crypto.dsig.XMLObject;
 import java.util.*;
@@ -39,10 +40,12 @@ import java.util.*;
  * @author
  * 
  */
+@Component("industrialCumBudgetXmlStream")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class IndustrialCumBudgetXmlStream extends BudgetBaseSalaryStream {
 	private static final String CUM_INDSTRL_BUDGET = "Cumulative Industrial Budget";
 
-	/**
+   /**
 	 * This method generates XML for Industrial cumulative Budget Report. It
 	 * uses data passed in {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML
 	 * nodes. The XMl once generated is returned as {@link XMLObject}

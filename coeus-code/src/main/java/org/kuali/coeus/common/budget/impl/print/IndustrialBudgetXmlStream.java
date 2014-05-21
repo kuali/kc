@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.printing.xmlstream;
+package org.kuali.coeus.common.budget.impl.print;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.logging.Log;
@@ -29,11 +29,13 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.printing.util.ReportTypeVO;
 import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.BudgetSummaryReportDocument.BudgetSummaryReport;
 import org.kuali.kra.printing.schema.ReportPageType.BudgetSummary;
 import org.kuali.kra.printing.schema.ReportPageType.CalculationMethodology;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.util.*;
@@ -46,12 +48,14 @@ import java.util.*;
  * @author
  * 
  */
+@Component("industrialBudgetXmlStream")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 
 	private static final Log LOG = LogFactory
 			.getLog(IndustrialBudgetXmlStream.class);
 
-	/**
+    /**
 	 * This method generates XML for Award Delta Report. It uses data passed in
 	 * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The XMl once
 	 * generated is returned as {@link XmlObject}

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.budget.print;
+package org.kuali.coeus.common.budget.impl.print;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
