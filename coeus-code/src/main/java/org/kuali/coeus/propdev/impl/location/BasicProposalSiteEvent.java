@@ -30,6 +30,7 @@ public class BasicProposalSiteEvent extends KcDocumentEventBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AddProposalCongressionalDistrictEvent.class);
     private List<ProposalSite> proposalSites;
     private String siteIndex;
+    private List<CongressionalDistrict> congressionalDistricts;
 
     public BasicProposalSiteEvent(String errorPathPrefix, ProposalDevelopmentDocument proposalDevelopmentDocument) {
         this("Creating a rule event that only checks the proposal site index. Document Id = " + getDocumentId(proposalDevelopmentDocument), errorPathPrefix, proposalDevelopmentDocument);
@@ -67,6 +68,15 @@ public class BasicProposalSiteEvent extends KcDocumentEventBase {
 
     private BasicProposalSiteEvent(String description, String errorPathPrefix, ProposalDevelopmentDocument proposalDevelopmentDocument) {
         super(description, errorPathPrefix, proposalDevelopmentDocument);
+    }
+    
+    public BasicProposalSiteEvent(String description, ProposalDevelopmentDocument proposalDevelopmentDocument, List<CongressionalDistrict> congressionalDistricts) {
+        this(description,proposalDevelopmentDocument);
+        this.congressionalDistricts = congressionalDistricts;       
+    }
+    
+    public BasicProposalSiteEvent(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        this("Creating a rule event that only checks the proposal site index. Document Id = " + getDocumentId(proposalDevelopmentDocument), proposalDevelopmentDocument);
     }
     
     public List<ProposalSite> getProposalSites() {

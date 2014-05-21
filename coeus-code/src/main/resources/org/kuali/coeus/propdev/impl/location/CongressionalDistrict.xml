@@ -92,9 +92,6 @@
   <bean id="CongressionalDistrict-newState" parent="CongressionalDistrict-newState-parentBean" />
   <bean id="CongressionalDistrict-newState-parentBean" abstract="true" parent="KraAttributeReferenceDummy-state">
     <property name="name" value="newState" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.propdev.impl.location.CongDistrictStateCodeValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="stateCode" p:labelAttribute="stateCode"/>
-    </property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.propdev.impl.location.CongDistrictStateCodeValuesFinder"/>
     </property>
@@ -113,16 +110,10 @@
     <property name="label" value="District Number" />
     <property name="shortLabel" value="District Number" />
     <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
     <property name="validCharactersConstraint">
       <bean parent="NumericPatternConstraint"/>
     </property>
     <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="3" />
-    </property>
     <property name="controlField">
       <bean p:size="3" parent="Uif-TextControl"/>
     </property>

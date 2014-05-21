@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,14 +30,20 @@ import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
+import org.kuali.coeus.propdev.impl.location.AddProposalCongressionalDistrictEvent;
+import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
+import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.rice.krad.data.DataObjectWrapper;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.LookupService;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -79,111 +86,30 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         } else if (addLine instanceof ProposalSpecialReview) {
         	ProposalSpecialReview proposalSpecialReview = (ProposalSpecialReview) addLine;
         	proposalSpecialReview.setDevelopmentProposal(document.getDevelopmentProposal());
-        } else if (addLine instanceof ProposalSite && model.getPageId().equalsIgnoreCase("PropDev-OrganizationLocationsPage")) {
+        } else if (addLine instanceof ProposalSite) {
        	 	((ProposalSite) addLine).setLocationTypeCode(ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);        	
-        } else if (addLine instanceof CongressionalDistrict && model.getPageId().equalsIgnoreCase("PropDev-OrganizationLocationsPage")) {
+        } else if (addLine instanceof CongressionalDistrict) {
        	 	CongressionalDistrict congressionalDistrict =(CongressionalDistrict) addLine;
-       	 	((CongressionalDistrict) addLine).setCongressionalDistrict(congressionalDistrict.getNewState(), congressionalDistrict.getNewDistrictNumber());       	 	
+       	 	((CongressionalDistrict) addLine).setCongressionalDistrict(congressionalDistrict.getNewState(), congressionalDistrict.getNewDistrictNumber());
         }
     }
+
 
     @Override   
     protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId,
             String collectionPath) {
-      boolean isValid = true;
-
-        Collection <Object> collectionItems = ObjectPropertyUtils.getPropertyValue(viewModel, collectionPath);
-
-        if (viewModel.getViewPostMetadata().getComponentPostData(collectionId,
-                UifConstants.PostMetadata.DUPLICATE_LINE_PROPERTY_NAMES) == null) {
-            return isValid;
-        }
-
-        List<String> duplicateLinePropertyNames = (List<String>) viewModel.getViewPostMetadata().getComponentPostData(
-                collectionId, UifConstants.PostMetadata.DUPLICATE_LINE_PROPERTY_NAMES);
-
-        String collectionLabel = null;
-        if (viewModel.getViewPostMetadata().getComponentPostData(collectionId, UifConstants.PostMetadata.COLL_LABEL)
-                != null) {
-            collectionLabel = (String) viewModel.getViewPostMetadata().getComponentPostData(collectionId,
-                    UifConstants.PostMetadata.COLL_LABEL);
-        }
-
-        String duplicateLineLabelString = null;
-        if (viewModel.getViewPostMetadata().getComponentPostData(collectionId,
-                UifConstants.PostMetadata.DUPLICATE_LINE_LABEL_STRING) != null) {
-            duplicateLineLabelString = (String) viewModel.getViewPostMetadata().getComponentPostData(collectionId,
-                    UifConstants.PostMetadata.DUPLICATE_LINE_LABEL_STRING);
-        }
-
-        if (containsDuplicateLine(newLine, collectionItems, duplicateLinePropertyNames)) {
-            isValid = false;
-            GlobalVariables.getMessageMap().putErrorForSectionId(collectionId, RiceKeyConstants.ERROR_DUPLICATE_ELEMENT,
-                    collectionLabel, duplicateLineLabelString);
-        }
-        
+    	boolean isValid = true;
+    	isValid = super.performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
+    	String collectionLabel = (String) viewModel.getViewPostMetadata().getComponentPostData(collectionId,UifConstants.PostMetadata.COLL_LABEL);
+    	ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) viewModel;
+        ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
+        Collection<CongressionalDistrict> CongressionalDistricts= ObjectPropertyUtils.getPropertyValue(viewModel, collectionPath);
         if (newLine instanceof CongressionalDistrict) {        	
-        	Collection<CongressionalDistrict> CongressionalDistricts= ObjectPropertyUtils.getPropertyValue(viewModel, collectionPath);
-        	CongressionalDistrict newCongressionalDistrict = (CongressionalDistrict) newLine;
-        	for(CongressionalDistrict congressionalDistrict: CongressionalDistricts){
-        		if (congressionalDistrict.getCongressionalDistrict().equalsIgnoreCase(newCongressionalDistrict.getCongressionalDistrict())) {
-        			GlobalVariables.getMessageMap().putErrorForSectionId(collectionId, RiceKeyConstants.ERROR_DUPLICATE_ELEMENT,
-                            collectionLabel,newCongressionalDistrict.getCongressionalDistrict() );
-            		 isValid = false;
-            		 break;
-        		} 
-        	}
-        }
+        	isValid = KcServiceLocator.getService(KualiRuleService.class).applyRules(
+        			new AddProposalCongressionalDistrictEvent(document, (List<CongressionalDistrict>) CongressionalDistricts,(CongressionalDistrict) newLine,collectionId,collectionLabel));
         	
-        if (newLine instanceof ProposalSite) {        	
-        	Collection<ProposalSite> proposalSiteList= ObjectPropertyUtils.getPropertyValue(viewModel, collectionPath);
-        	ProposalSite newProposalSite = (ProposalSite) newLine;            	
-        	if (newProposalSite.getLocationTypeCode()==ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION) {            		
-        		for (ProposalSite proposalSite: proposalSiteList) {
-            		if (proposalSite.getLocationTypeCode()==ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION && proposalSite.getOrganization()!=null 
-            				&& proposalSite.getOrganization().getOrganizationId().equals(newProposalSite.getOrganization().getOrganizationId())) {
-            			GlobalVariables.getMessageMap().putErrorForSectionId(collectionId, RiceKeyConstants.ERROR_DUPLICATE_ELEMENT,
-                                collectionLabel,newProposalSite.getOrganization().getOrganizationName());
-                		 isValid = false;
-                		 break;
-            		} 
-        		}
-        	}        		
         }
         return isValid;
-    }
-    
-    private boolean containsDuplicateLine(Object addLine, Collection<Object> collectionItems,
-            List<String> duplicateLinePropertyNames) {
-        if (collectionItems.isEmpty() || duplicateLinePropertyNames.isEmpty()) {
-            return false;
-        }
-
-        for (Object collectionItem : collectionItems) {
-            if (isDuplicateLine(addLine, collectionItem, duplicateLinePropertyNames)) {
-                return true;
-            }
-        }
-
-        return false;
-    }    
-   
-    private boolean isDuplicateLine(Object addLine, Object collectionItem, List<String> duplicateLinePropertyNames) {
-        if (duplicateLinePropertyNames.isEmpty()) {
-            return false;
-        }
-
-        for (String duplicateLinePropertyName : duplicateLinePropertyNames) {
-            Object addLinePropertyValue = ObjectPropertyUtils.getPropertyValue(addLine, duplicateLinePropertyName);
-            Object duplicateLinePropertyValue = ObjectPropertyUtils.getPropertyValue(collectionItem,
-                    duplicateLinePropertyName);
-
-            if (!ObjectUtils.equals(addLinePropertyValue, duplicateLinePropertyValue)) {
-                return false;
-            }
-        }
-
-        return true;
     }
     
     @Override

@@ -24,8 +24,7 @@
 
 	<bean id="PropDev-OrganizationLocationsPage-Group" parent="PropDev-OrganizationLocationsPage-Group-parentBean" />
 	<bean id="PropDev-OrganizationLocationsPage-Group-parentBean"
-		parent="Uif-TabSection">
-		<property name="header.headerText" value="Organizations &amp; Locations" />
+		parent="Uif-TabSection" p:header.headerText="Organizations &amp; Locations" >
 			<property name="items">
 				<list>
 					<bean parent="PropDev-ApplicantOrganizationPage-Section" p:headerText="Applicant Organization" p:order="10" />
@@ -84,21 +83,18 @@
 	<bean id="PropDev-PerformingOrganization-OrganizationSearch" parent="PropDev-PerformingOrganization-OrganizationSearch-parentBean" />
 	<bean id="PropDev-PerformingOrganization-OrganizationSearch-parentBean"
 		abstract="true" parent="Uif-InputField" p:fieldLabel.render="false"
-		p:propertyName="rolodex.rolodexId">
+		p:propertyName="rolodex.rolodexId" >
 		<property name="control">
 			<bean parent="Uif-HiddenControl" />
 		</property>
 		<property name="quickfinder">
 			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.coeus.common.framework.org.Organization"
 				p:hideCriteriaOnSearch="true"
-				p:fieldConversions="organizationId:organization.organizationId,rolodex.rolodexId:rolodex.rolodexId,organizationName:organization.organizationName,
-				rolodex.addressLine1:rolodex.addressLine1,rolodex.addressLine2,rolodex.addressLine2,rolodex.addressLine3,rolodex.addressLine3,rolodex.city:rolodex.city,
-				rolodex.state:rolodex.state,rolodex.postalCode:rolodex.postalCode" >
+				p:fieldConversions="organizationId:organization.organizationId,rolodex.rolodexId:rolodex.rolodexId,organizationName:organization.organizationName,rolodex.addressLine1:rolodex.addressLine1,rolodex.addressLine2,rolodex.addressLine2,rolodex.addressLine3,rolodex.addressLine3,rolodex.city:rolodex.city,rolodex.state:rolodex.state,rolodex.postalCode:rolodex.postalCode">
 				<property name="quickfinderAction">
 					<bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="performLookup"
 					    p:focusOnIdAfterSubmit="NEXT_INPUT" p:wrapperCssClasses="input-group-btn"
-						p:actionLabel="Select Different Organization" p:iconClass="icon-search" 
-						/>
+						p:actionLabel="Select Different Organization" p:iconClass="icon-search" />
 				</property>
 			</bean>
 		</property>
@@ -129,25 +125,22 @@
 
 	<bean id="PropDev-CongressionalDistricts-Section" parent="PropDev-CongressionalDistricts-Section-parentBean" />
 	<bean id="PropDev-CongressionalDistricts-Section-parentBean" abstract="true"
-		parent="PropDev-Attachment-Collection" >
-		<property name="collectionObjectClass"
-			value="org.kuali.coeus.propdev.impl.location.CongressionalDistrict" />
-		<property name="propertyName" value="congressionalDistricts" />
-		<property name="layoutManager.summaryTitle" value="@{#lp.congressionalDistrict}" />
+		parent="PropDev-Attachment-Collection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.location.CongressionalDistrict"
+		p:propertyName="congressionalDistricts" p:layoutManager.summaryTitle="@{#lp.congressionalDistrict}">
 		<property name="addViaLightBoxAction">
             <bean parent="Uif-AddViaLightBoxAction" p:actionLabel="Add Congressioanl District" p:iconClass="icon-plus"/>
         </property>	
 		<property name="lineActions">
             <list>
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="editAttachment"
-                      p:hidden="true" p:actionLabel="Edit" p:style="float:right" p:render="false"/>
+                      p:hidden="true" p:actionLabel="Edit" p:style="float:right" p:render="false" p:order="10"/>
             </list>
         </property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="newState" p:render="@{#isAddLine}" />
-				<bean parent="Uif-InputField" p:propertyName="newDistrictNumber" p:render="@{#isAddLine}" />
-				<bean parent="Uif-InputField" p:propertyName="congressionalDistrict" p:readOnly="true" p:render="@{!#isAddLine}" />
+				<bean parent="Uif-InputField" p:propertyName="newState" p:render="@{#isAddLine}" p:order="10" />
+				<bean parent="Uif-InputField" p:propertyName="newDistrictNumber" p:render="@{#isAddLine}" p:order="20" />
+				<bean parent="Uif-DataField" p:propertyName="congressionalDistrict"	p:render="@{!#isAddLine}" p:order="30"/>
 			</list>
 		</property>
 	</bean>
@@ -181,12 +174,11 @@
 		</property>		
 		<property name="items"  >
 			<list>
-			<bean parent="Uif-HorizontalFieldGroup" p:label="Organization" p:render="@{#lp.locationTypeCode==3}" >
+			<bean parent="Uif-HorizontalFieldGroup" p:label="Organization" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_OTHER_ORGANIZATION}" >
         		<property name="items">
           			<list>
-						<bean parent="Uif-InputField" p:propertyName="organization.organizationName"
-							p:readOnly="true" p:order="10" p:render="@{#lp.locationTypeCode==3}" p:label=" " />						
-						<bean  parent="Uif-InputField" p:order="30" p:propertyName="organization.organizationId" abstract="true" p:label=" " p:render="@{#lp.locationTypeCode==3}">
+						<bean parent="Uif-DataField" p:propertyName="organization.organizationName"	p:order="10" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_OTHER_ORGANIZATION}" p:label=" " />
+						<bean  parent="Uif-InputField" p:order="20" p:propertyName="organization.organizationId" p:label=" " p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_OTHER_ORGANIZATION}">
 							<property name="control">
 								<bean parent="Uif-HiddenControl" />
 							</property>
@@ -203,38 +195,35 @@
 					</list>
 				</property>
 			</bean>				
-			<bean parent="Uif-InputField" p:propertyName="organization.address"
-							p:readOnly="true" p:order="20" p:render="@{#lp.locationTypeCode==3}" p:label="Address" />				
+			<bean parent="Uif-DataField"  p:order="30" p:propertyName="organization.address" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_OTHER_ORGANIZATION}"/>
 			</list>
 		</property>
 		<property name="subCollections">
 			<list>
-				<bean parent="PropDev-OtherOrganizationsPage-CongressionalDistricts" p:render="@{#line.locationTypeCode == 3}" p:order="30" />
+				<bean parent="PropDev-OtherOrganizationsPage-CongressionalDistricts" p:render="@{#line.locationTypeCode == #line.PROPOSAL_SITE_OTHER_ORGANIZATION}" p:order="30" />
 			</list>
 		</property>		
 	</bean>	
 	
 	<bean id="PropDev-OtherOrganizationsPage-CongressionalDistricts" parent="PropDev-OtherOrganizationsPage-CongressionalDistricts-parentBean" />
-	<bean id="PropDev-OtherOrganizationsPage-CongressionalDistricts-parentBean" abstract="true" parent="PropDev-Attachment-Collection" >
-		<property name="collectionObjectClass"
-			value="org.kuali.coeus.propdev.impl.location.CongressionalDistrict" />
-		<property name="propertyName" value="congressionalDistricts" />
-		<property name="layoutManager.summaryTitle" value="@{#lp.congressionalDistrict}" />
+	<bean id="PropDev-OtherOrganizationsPage-CongressionalDistricts-parentBean" abstract="true" parent="PropDev-Attachment-Collection" 
+		p:collectionObjectClass="org.kuali.coeus.propdev.impl.location.CongressionalDistrict" p:propertyName="congressionalDistricts"
+		p:layoutManager.summaryTitle="@{#lp.congressionalDistrict}" >
 		<property name="addViaLightBoxAction">
             <bean parent="Uif-AddViaLightBoxAction" p:actionLabel="Add Congressioanl District" p:iconClass="icon-plus"/>
         </property>	
 		<property name="lineActions">
             <list>                
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="editAttachment"
-                      p:hidden="true"
+                      p:hidden="true" p:order="10"
                       p:actionLabel="Edit" p:style="float:right" p:render="false"/>                
             </list>
         </property>	
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="newState" p:render="@{#isAddLine}" />					
-				<bean parent="Uif-InputField" p:propertyName="newDistrictNumber" p:render="@{#isAddLine}" />
-				<bean parent="Uif-InputField" p:propertyName="congressionalDistrict" p:readOnly="true" p:render="@{!#isAddLine}" />
+				<bean parent="Uif-InputField" p:propertyName="newState" p:render="@{#isAddLine}" p:order="10"/>					
+				<bean parent="Uif-InputField" p:propertyName="newDistrictNumber" p:render="@{#isAddLine}" p:order="20"/>
+				<bean parent="Uif-DataField" p:propertyName="congressionalDistrict"	p:render="@{!#isAddLine}" p:order="30"/>
 			</list>
 		</property>
 	</bean>	

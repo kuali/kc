@@ -73,7 +73,6 @@ import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionn
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
-import org.kuali.coeus.propdev.impl.location.CongressionalDistrictHelper;
 import org.kuali.kra.questionnaire.MultiQuestionableFormInterface;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
@@ -164,10 +163,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     private ProposalDevelopmentApproverViewDO approverViewDO;
     
-    private CongressionalDistrictHelper applicantOrganizationHelper;
-    private CongressionalDistrictHelper performingOrganizationHelper;
-    private List<CongressionalDistrictHelper> performanceSiteHelpers;
-    private List<CongressionalDistrictHelper> otherOrganizationHelpers;
     private SpecialReviewHelper specialReviewHelper;
     private String newHierarchyProposalNumber;
     private String newHierarchyChildProposalNumber;
@@ -316,10 +311,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         setNewS2sUserAttachedForm(new S2sUserAttachedForm());
         setNewPerformanceSite(new ProposalSite());
         setNewOtherOrganization(new ProposalSite());
-        setApplicantOrganizationHelper(new CongressionalDistrictHelper());
-        setPerformingOrganizationHelper(new CongressionalDistrictHelper());
-        setPerformanceSiteHelpers(new ArrayList<CongressionalDistrictHelper>());
-        setOtherOrganizationHelpers(new ArrayList<CongressionalDistrictHelper>());
         setSpecialReviewHelper(new SpecialReviewHelper(this));
         customAttributeValues = new HashMap<String, String[]>();
         setCopyCriteria(new ProposalCopyCriteria(getProposalDevelopmentDocument()));
@@ -1328,30 +1319,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         return newOtherOrganization;
     }
 
-    public void setApplicantOrganizationHelper(CongressionalDistrictHelper applicantOrganizationHelper) {
-        this.applicantOrganizationHelper = applicantOrganizationHelper;
-    }
-
-    public CongressionalDistrictHelper getApplicantOrganizationHelper() {
-        return applicantOrganizationHelper;
-    }
-
-    public void setPerformingOrganizationHelper(CongressionalDistrictHelper performingOrganizationHelper) {
-        this.performingOrganizationHelper = performingOrganizationHelper;
-    }
-
-    public CongressionalDistrictHelper getPerformingOrganizationHelper() {
-        return performingOrganizationHelper;
-    }
-
-    public void setPerformanceSiteHelpers(List<CongressionalDistrictHelper> performanceSiteHelpers) {
-        this.performanceSiteHelpers = performanceSiteHelpers;
-    }
-
-    public List<CongressionalDistrictHelper> getPerformanceSiteHelpers() {
-        return performanceSiteHelpers;
-    }
-
     public ProposalDevelopmentApproverViewDO getApproverViewDO() {
         return approverViewDO;
     }
@@ -1360,14 +1327,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         this.approverViewDO = approverViewDO;
     }
     
-    public void setOtherOrganizationHelpers(List<CongressionalDistrictHelper> otherOrganizationHelpers) {
-        this.otherOrganizationHelpers = otherOrganizationHelpers;
-    }
-
-    public List<CongressionalDistrictHelper> getOtherOrganizationHelpers() {
-        return otherOrganizationHelpers;
-    }
-
     public SpecialReviewHelper getSpecialReviewHelper() {
         return specialReviewHelper;
     }

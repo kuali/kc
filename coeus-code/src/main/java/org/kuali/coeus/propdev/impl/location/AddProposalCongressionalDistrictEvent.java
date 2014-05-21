@@ -25,27 +25,39 @@ import java.util.List;
  * This class represents the "add congressional district to a proposal site" event.
  */
 public class AddProposalCongressionalDistrictEvent extends BasicProposalSiteEvent {
-    private List<CongressionalDistrictHelper> congressionalDistrictHelpers;
+    private List<CongressionalDistrict> congressionalDistricts;
+    private CongressionalDistrict congressionalDistrict;
+    private String collectionId;
+    private String collectionLabel;
     
-    public AddProposalCongressionalDistrictEvent(String errorPathPrefix, ProposalDevelopmentDocument proposalDevelopmentDocument, ProposalSite proposalSite, CongressionalDistrictHelper proposalSiteHelper) {
-        super(getEventDescription(proposalDevelopmentDocument), errorPathPrefix, proposalDevelopmentDocument, proposalSite);
-        
-        congressionalDistrictHelpers = new ArrayList<CongressionalDistrictHelper>();
-        congressionalDistrictHelpers.add(proposalSiteHelper);
-    }
-
-    public AddProposalCongressionalDistrictEvent(String errorPathPrefix, ProposalDevelopmentDocument proposalDevelopmentDocument, List<ProposalSite> proposalSites, List<CongressionalDistrictHelper> proposalSiteHelpers, String siteIndex) {
-        super(getEventDescription(proposalDevelopmentDocument), errorPathPrefix, proposalDevelopmentDocument, proposalSites, siteIndex);
-        this.congressionalDistrictHelpers = proposalSiteHelpers;
+    public AddProposalCongressionalDistrictEvent(ProposalDevelopmentDocument proposalDevelopmentDocument, List<CongressionalDistrict> congressionalDistricts, CongressionalDistrict congressionalDistrict,
+    	String collectionId,String collectionLabel) {
+        super(getEventDescription(proposalDevelopmentDocument),proposalDevelopmentDocument,congressionalDistricts);
+        this.congressionalDistricts = congressionalDistricts;
+        this.congressionalDistrict = congressionalDistrict;
+        this.collectionId = collectionId;
+        this.collectionLabel = collectionLabel;
     }
 
     private static String getEventDescription(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         return "adding congressional district to document " + getDocumentId(proposalDevelopmentDocument);
     }
-    
-    public List<CongressionalDistrictHelper> getCongressionalDistrictHelpers() {
-        return congressionalDistrictHelpers;
-    }
+
+    public List<CongressionalDistrict> getCongressionalDistricts() {
+		return congressionalDistricts;
+	}
+
+	public CongressionalDistrict getCongressionalDistrict() {
+		return congressionalDistrict;
+	}
+
+	public String getCollectionId() {
+		return collectionId;
+	}
+
+	public String getCollectionLabel() {
+		return collectionLabel;
+	}
 
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
