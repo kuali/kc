@@ -3,7 +3,7 @@
   <bean id="TrainingStipendRateMaintenanceDocument" parent="TrainingStipendRateMaintenanceDocument-parentBean"/>
 
   <bean id="TrainingStipendRateMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.budget.rates.TrainingStipendRate"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.rate.TrainingStipendRate"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
     <property name="maintainableSections">
       <list>

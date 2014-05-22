@@ -21,7 +21,7 @@
 
     <bean id="RateClassBaseInclusionMaintenanceDocument" parent="RateClassBaseInclusionMaintenanceDocument-parentBean" />
     <bean id="RateClassBaseInclusionMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.budget.rates.RateClassBaseInclusion" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.budget.impl.rate.RateClassBaseInclusion" />
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
         <property name="maintainableSections" >
             <list>

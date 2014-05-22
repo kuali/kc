@@ -17,8 +17,8 @@ package org.kuali.kra.budget.calculator;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
-import org.kuali.kra.budget.rates.BudgetLaRate;
-import org.kuali.kra.budget.rates.BudgetRate;
+import org.kuali.coeus.common.budget.impl.rate.BudgetLaRate;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 
 /**
  * Holds all the info required for the breakup interval for which calculation 
