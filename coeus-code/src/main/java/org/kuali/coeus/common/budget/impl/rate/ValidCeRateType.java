@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.rates;
+package org.kuali.coeus.common.budget.impl.rate;
 
+import org.kuali.coeus.common.budget.framework.rate.RateClass;
+import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;

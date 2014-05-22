@@ -227,7 +227,7 @@
 					        </div>
 					        <div class="h2-container">
    								<span class="subhead-left"><h2>Rate Classes</h2></span>
-   								<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.rates.RateClass" altText="help"/></span>
+   								<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.coeus.common.budget.framework.rate.RateClass" altText="help"/></span>
        						</div>
        						<div>
        						<table cellpadding=0 cellspacing=0 summary="">

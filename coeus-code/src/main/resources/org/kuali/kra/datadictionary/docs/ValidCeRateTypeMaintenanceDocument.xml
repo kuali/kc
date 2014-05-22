@@ -3,7 +3,7 @@
   <bean id="ValidCeRateTypeMaintenanceDocument" parent="ValidCeRateTypeMaintenanceDocument-parentBean"/>
 
   <bean id="ValidCeRateTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.budget.rates.ValidCeRateType"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.budget.impl.rate.ValidCeRateType"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
     <property name="maintainableSections">
       <list>

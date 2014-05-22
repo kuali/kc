@@ -18,8 +18,8 @@ package org.kuali.kra.budget.external.budget;
 import org.kuali.coeus.common.framework.type.ActivityType;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.budget.rates.RateClass;
-import org.kuali.kra.budget.rates.RateType;
+import org.kuali.coeus.common.budget.framework.rate.RateClass;
+import org.kuali.coeus.common.budget.framework.rate.RateType;
 
 public class FinancialObjectCodeMapping extends KcPersistableBusinessObjectBase {
 
