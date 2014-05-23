@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.rates;
+package org.kuali.coeus.common.budget.impl.rate;
 
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
@@ -33,20 +33,31 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
+import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
+@Component("budgetRatesService")
 public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRatesServiceImpl<T> {
     
     private static final String AWARD_EB_RATE_CLASS_CODE = "awardBudgetEbRateClassCode";
     private static final String AWARD_EB_RATE_TYPE_CODE = "awardBudgetEbRateTypeCode";
-    private static final String DEFAULT_FNA_RATE_CLASS_CODE = "defaultFnARateClassCode";
+
+    @Autowired
+    @Qualifier("parameterService")
     private ParameterService parameterService;
+    @Autowired
+    @Qualifier("budgetCalculationService")
     private BudgetCalculationService budgetCalculationService;
+
     @Override
     protected Collection<InstituteRate> getInstituteRates(BudgetDocument<T> budgetDocument){
         Collection<InstituteRate> institueRates = super.getInstituteRates(budgetDocument);

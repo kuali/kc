@@ -25,7 +25,7 @@ import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.rates.RateClass;
+import org.kuali.coeus.common.budget.framework.rate.RateClass;
 
 import java.util.*;
 

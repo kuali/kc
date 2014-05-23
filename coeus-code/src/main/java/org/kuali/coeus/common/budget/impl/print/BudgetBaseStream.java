@@ -36,7 +36,7 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
-import org.kuali.kra.budget.rates.RateType;
+import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;

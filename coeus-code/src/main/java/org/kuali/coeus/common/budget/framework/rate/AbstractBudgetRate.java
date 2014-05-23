@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.rates;
+package org.kuali.coeus.common.budget.framework.rate;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.coeus.budget.api.core.IdentifiableBudget;
