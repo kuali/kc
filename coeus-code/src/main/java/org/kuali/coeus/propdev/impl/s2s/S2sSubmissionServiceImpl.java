@@ -1,0 +1,626 @@
+package org.kuali.coeus.propdev.impl.s2s;
+
+import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse;
+import gov.grants.apply.services.applicantwebservices_v2.GetApplicationStatusDetailResponse;
+import gov.grants.apply.services.applicantwebservices_v2.GetOpportunitiesResponse;
+import gov.grants.apply.services.applicantwebservices_v2.SubmitApplicationResponse;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsContract;
+import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsService;
+import org.kuali.coeus.instprop.api.sponsor.InstPropSponsorService;
+import org.kuali.coeus.propdev.api.s2s.*;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorService;
+import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.s2s.ConfigurationConstants;
+import org.kuali.kra.s2s.generator.bo.AttachmentData;
+import org.kuali.kra.s2s.service.FormActionResult;
+import org.kuali.kra.s2s.service.S2SFormGeneratorService;
+import org.kuali.kra.s2s.service.S2SService;
+import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.kra.s2s.validator.OpportunitySchemaParser;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+import javax.activation.DataHandler;
+import javax.mail.util.ByteArrayDataSource;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.sql.Timestamp;
+import java.util.*;
+
+@Component("s2sSubmissionService")
+public class S2sSubmissionServiceImpl implements S2sSubmissionService {
+
+    private static final Log LOG = LogFactory.getLog(S2sSubmissionServiceImpl.class);
+    private static final String GRANTS_GOV_STATUS_ERROR = "ERROR";
+
+    @Autowired
+    @Qualifier("proposalAdminDetailsService")
+    private ProposalAdminDetailsService proposalAdminDetailsService;
+
+    @Autowired
+    @Qualifier("instPropSponsorService")
+    private InstPropSponsorService instPropSponsorService;
+
+    @Autowired
+    @Qualifier("s2sOpportunityService")
+    private S2sOpportunityService s2sOpportunityService;
+
+    @Autowired
+    @Qualifier("businessObjectService")
+    private BusinessObjectService businessObjectService;
+
+    @Autowired
+    @Qualifier("s2SFormGeneratorService")
+    private S2SFormGeneratorService s2SFormGeneratorService;
+
+    @Autowired
+    @Qualifier("s2SService")
+    private S2SService s2SService;
+
+    @Autowired
+    @Qualifier("s2sProviderService")
+    private S2sProviderService s2sProviderService;
+
+    @Autowired
+    @Qualifier("s2SConfigurationService")
+    private S2SConfigurationService s2SConfigurationService;
+
+    /**
+     *
+     * This method is used to get the application status details.
+     *
+     * @param ggTrackingId
+     *            grants gov tracking id for the application.
+     * @param proposalNumber
+     *            Proposal number.
+     * @throws S2sCommunicationException
+     */
+    @Override
+    public String getStatusDetails(String ggTrackingId, String proposalNumber)
+            throws S2sCommunicationException {
+        if (StringUtils.isNotBlank(proposalNumber) && proposalNumber.contains(Constants.COLON)) {
+            proposalNumber = StringUtils.split(proposalNumber, Constants.COLON)[0];
+        }
+
+        S2sOpportunityContract s2sOpportunity = s2sOpportunityService.findS2SOpportunityByProposalNumber(proposalNumber);
+
+        Object statusDetail = null;
+        GetApplicationStatusDetailResponse applicationStatusDetailResponse;
+        applicationStatusDetailResponse = getS2sConnectorService(s2sOpportunity)
+                .getApplicationStatusDetail(ggTrackingId, proposalNumber);
+        if (applicationStatusDetailResponse != null) {
+            statusDetail = applicationStatusDetailResponse.getDetailedStatus();
+        }
+        return statusDetail != null ? statusDetail.toString() : StringUtils.EMPTY;
+    }
+
+    /**
+     * This method checks if status on grants.gov has changed since last check
+     * and returns the status.
+     *
+     * @param pdDoc
+     * @param appSubmission
+     * @return status
+     * @throws S2sCommunicationException
+     */
+    @Override
+    public boolean checkForSubmissionStatusChange(
+            ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission)
+            throws S2sCommunicationException {
+        boolean statusChanged = false;
+        GetApplicationStatusDetailResponse applicationStatusDetailResponse = getS2sConnectorService(pdDoc.getDevelopmentProposal().getS2sOpportunity())
+                .getApplicationStatusDetail(appSubmission.getGgTrackingId(),
+                        pdDoc.getDevelopmentProposal().getProposalNumber());
+        if (applicationStatusDetailResponse != null
+                && applicationStatusDetailResponse.getDetailedStatus() != null) {
+            String statusDetail = applicationStatusDetailResponse
+                    .getDetailedStatus().toString();
+            String statusStr = statusDetail.toUpperCase().indexOf(
+                    GRANTS_GOV_STATUS_ERROR) == -1 ? statusDetail
+                    : S2SConstants.STATUS_GRANTS_GOV_SUBMISSION_ERROR;
+            statusChanged = !appSubmission.getStatus().equalsIgnoreCase(
+                    statusStr);
+            appSubmission.setComments(statusDetail);
+            appSubmission.setStatus(statusStr);
+        } else {
+            appSubmission
+                    .setComments(S2SConstants.STATUS_NO_RESPONSE_FROM_GRANTS_GOV);
+        }
+        return statusChanged;
+    }
+
+    /**
+     * This method checks for the status of submission for the given
+     * {@link ProposalDevelopmentDocument} on Grants.gov
+     *
+     * @param pdDoc
+     *            for which status has to be checked
+     * @return boolean, <code>true</code> if status has changed, false
+     *         otherwise
+     * @throws S2sCommunicationException
+     */
+    @Override
+    public boolean refreshGrantsGov(ProposalDevelopmentDocument pdDoc)
+            throws S2sCommunicationException {
+        GetApplicationListResponse applicationListResponse = fetchApplicationListResponse(pdDoc);
+        if (applicationListResponse != null) {
+            saveGrantsGovStatus(pdDoc, applicationListResponse);
+        }
+        return true;
+    }
+
+    /**
+     *
+     * This method fetches the status from Grants Gov and saves in case status
+     * is modified
+     *
+     * @param pdDoc
+     *            {@link ProposalDevelopmentDocument}
+     * @param applicationListResponse
+     *            {@link GetApplicationListResponse} response from Grants Gov
+     * @throws S2sCommunicationException
+     */
+    protected void saveGrantsGovStatus(ProposalDevelopmentDocument pdDoc,
+                                       GetApplicationListResponse applicationListResponse)
+            throws S2sCommunicationException {
+        S2sAppSubmission appSubmission = null;
+        List<S2sAppSubmission> appSubmissionList = pdDoc
+                .getDevelopmentProposal().getS2sAppSubmission();
+        int submissionNo = 0;
+        for (S2sAppSubmission s2AppSubmission : appSubmissionList) {
+            if (s2AppSubmission.getSubmissionNumber() > submissionNo) {
+                appSubmission = s2AppSubmission;
+                submissionNo = s2AppSubmission.getSubmissionNumber();
+            }
+        }
+
+        if (appSubmission != null) {
+            boolean statusChanged = false;
+            if (applicationListResponse.getApplicationInfo() == null
+                    || applicationListResponse.getApplicationInfo()
+                    .size() == 0) {
+                statusChanged = checkForSubmissionStatusChange(pdDoc,
+                        appSubmission);
+            } else {
+                int appSize = applicationListResponse
+                        .getApplicationInfo().size();
+                GetApplicationListResponse.ApplicationInfo ggApplication = applicationListResponse
+                        .getApplicationInfo().get(appSize - 1);
+                if (ggApplication != null) {
+                    statusChanged = !appSubmission.getStatus()
+                            .equalsIgnoreCase(
+                                    ggApplication
+                                            .getGrantsGovApplicationStatus()
+                                            .value());
+                    populateAppSubmission(pdDoc, appSubmission, ggApplication);
+                }
+            }
+            if (statusChanged) {
+                businessObjectService.save(appSubmission);
+            }
+        }
+
+    }
+
+    /**
+     * This method populates the {@link S2sAppSubmission} BO with details from
+     * {@link ProposalDevelopmentDocument}
+     *
+     * @param appSubmission
+     * @param ggApplication
+     */
+    @Override
+    public void populateAppSubmission(ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission,
+                                      GetApplicationListResponse.ApplicationInfo ggApplication) {
+        appSubmission.setGgTrackingId(ggApplication
+                .getGrantsGovTrackingNumber());
+        appSubmission
+                .setReceivedDate(new Timestamp(ggApplication
+                        .getReceivedDateTime().toGregorianCalendar()
+                        .getTimeInMillis()));
+        appSubmission.setStatus(ggApplication.getGrantsGovApplicationStatus()
+                .toString());
+        appSubmission.setLastModifiedDate(new Timestamp(ggApplication
+                .getStatusDateTime().toGregorianCalendar().getTimeInMillis()));
+        appSubmission.setAgencyTrackingId(ggApplication
+                .getAgencyTrackingNumber());
+        if (ggApplication.getAgencyTrackingNumber() != null
+                && ggApplication.getAgencyTrackingNumber().length() > 0) {
+            appSubmission
+                    .setComments(S2SConstants.STATUS_AGENCY_TRACKING_NUMBER_ASSIGNED);
+            populateSponsorProposalId(pdDoc, appSubmission);
+        } else {
+            appSubmission.setComments(ggApplication
+                    .getGrantsGovApplicationStatus().toString());
+        }
+    }
+
+    /**
+     * This method fetches the application list from Grants.gov for a given
+     * proposal
+     *
+     * @param pdDoc
+     * @return {@link GetApplicationListResponse}
+     * @throws S2sCommunicationException
+     */
+    public GetApplicationListResponse fetchApplicationListResponse(
+            ProposalDevelopmentDocument pdDoc) throws S2sCommunicationException {
+        S2sOpportunityContract s2sOpportunity =
+                s2sOpportunityService.findS2SOpportunityByProposalNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
+
+        GetApplicationListResponse applicationListResponse = getS2sConnectorService(s2sOpportunity)
+                .getApplicationList(s2sOpportunity.getOpportunityId(),
+                        s2sOpportunity.getCfdaNumber(), s2sOpportunity
+                                .getProposalNumber()
+                );
+        return applicationListResponse;
+    }
+
+    /**
+     *
+     * Takes the appSubmission and proposal and if a federal tracking id has been specified, will
+     * set on both the proposal development doc and the related institutional proposal doc
+     * if there is not a sponsor proposal id already.
+     * @param pdDoc
+     * @param appSubmission
+     */
+    protected void populateSponsorProposalId(ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission) {
+        if (StringUtils.isNotBlank(appSubmission.getAgencyTrackingId())) {
+            if (StringUtils.isBlank(pdDoc.getDevelopmentProposal().getSponsorProposalNumber())) {
+                pdDoc.getDevelopmentProposal().setSponsorProposalNumber(appSubmission.getAgencyTrackingId());
+                getBusinessObjectService().save(pdDoc.getDevelopmentProposal());
+            }
+
+            //find and populate the inst proposal sponsor proposal id as well
+            Collection<? extends ProposalAdminDetailsContract> proposalAdminDetails = proposalAdminDetailsService.findProposalAdminDetailsByPropDevNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
+
+            for(ProposalAdminDetailsContract pad : proposalAdminDetails){
+                instPropSponsorService.updateSponsorProposalNumber(pad.getInstProposalId(), appSubmission.getAgencyTrackingId());
+            }
+
+        }
+    }
+
+    /**
+     * This method is used to submit forms to Grants.gov. It generates forms for
+     * a given {@link ProposalDevelopmentDocument}, validates and then submits
+     * the forms
+     *
+     * @param pdDoc
+     *            Proposal Development Document.
+     * @return true if submitted false otherwise.
+     * @throws S2sCommunicationException
+     */
+    public FormActionResult submitApplication(ProposalDevelopmentDocument pdDoc)
+            throws S2sCommunicationException {
+
+        final FormActionResult result = s2SService.generateAndValidateForms(pdDoc);
+        if (result.isValid()) {
+
+            Map<String, DataHandler> attachments = new HashMap<String, DataHandler>();
+            List<S2sAppAttachments> s2sAppAttachmentList = new ArrayList<S2sAppAttachments>();
+            DataHandler attachmentFile;
+            for (AttachmentData attachmentData : result.getAttachments()) {
+                attachmentFile = new DataHandler(new ByteArrayDataSource(
+                        attachmentData.getContent(), attachmentData
+                        .getContentType()));
+
+                attachments.put(attachmentData.getContentId(), attachmentFile);
+                S2sAppAttachments appAttachments = new S2sAppAttachments();
+                appAttachments.setContentId(attachmentData.getContentId());
+                appAttachments.setProposalNumber(pdDoc.getDevelopmentProposal()
+                        .getProposalNumber());
+                s2sAppAttachmentList.add(appAttachments);
+            }
+            S2sAppSubmission appSubmission = new S2sAppSubmission();
+            appSubmission.setStatus(S2SConstants.GRANTS_GOV_STATUS_MESSAGE);
+            appSubmission.setComments(S2SConstants.GRANTS_GOV_COMMENTS_MESSAGE);
+            SubmitApplicationResponse response = null;
+
+            S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
+            S2SConnectorService connectorService = getS2sConnectorService(s2sOpportunity);
+
+            response = connectorService.submitApplication(
+                    result.getApplicationXml(), attachments, pdDoc
+                            .getDevelopmentProposal().getProposalNumber());
+            appSubmission.setStatus(S2SConstants.GRANTS_GOV_SUBMISSION_MESSAGE);
+            saveSubmissionDetails(pdDoc, appSubmission, response,
+                    result.getApplicationXml(), s2sAppAttachmentList);
+            result.setValid(true);
+        }
+        return result;
+    }
+
+    /**
+     * This method convert GetOpportunityListResponse to ArrayList<OpportunityInfo>
+     *
+     * @param resList
+     *            {GetOpportunityListResponse}
+     * @return ArrayList<OpportunityInfo> containing all form information
+     */
+
+    protected ArrayList<S2sOpportunity> convertToArrayList(String source,
+                                                           GetOpportunitiesResponse resList) {
+        ArrayList<S2sOpportunity> convList = new ArrayList<S2sOpportunity>();
+        if (resList == null || resList.getOpportunityInfo() == null) {
+            return convList;
+        }
+        for (GetOpportunitiesResponse.OpportunityInfo opportunityInfo : resList.getOpportunityInfo()) {
+            convList.add(convert2S2sOpportunity(source, opportunityInfo));
+        }
+        return convList;
+    }
+
+    /**
+     * This method convert OpportunityInformationType to OpportunityInfo
+     *
+     * @param providerCode
+     *
+     * @return OpportunityInfo containing Opportunity information corresponding
+     *         to the OpportunityInformationType object.
+     */
+    protected S2sOpportunity convert2S2sOpportunity(
+            String providerCode, GetOpportunitiesResponse.OpportunityInfo oppInfo) {
+
+        S2sOpportunity s2Opportunity = new S2sOpportunity();
+        s2Opportunity.setCfdaNumber(oppInfo.getCFDANumber());
+        s2Opportunity
+                .setClosingDate(oppInfo.getClosingDate() == null ? null
+                        : oppInfo.getClosingDate()
+                        .toGregorianCalendar());
+
+        s2Opportunity.setCompetetionId(oppInfo.getCompetitionID());
+        s2Opportunity.setInstructionUrl(oppInfo.getInstructionsURL());
+        s2Opportunity
+                .setOpeningDate(oppInfo.getOpeningDate() == null ? null
+                        : oppInfo.getOpeningDate()
+                        .toGregorianCalendar());
+
+        s2Opportunity.setOpportunityId(oppInfo.getFundingOpportunityNumber());
+        s2Opportunity.setOpportunityTitle(oppInfo.getFundingOpportunityTitle());
+        s2Opportunity.setSchemaUrl(oppInfo.getSchemaURL());
+        s2Opportunity.setProviderCode(providerCode);
+        s2Opportunity.setOfferingAgency(oppInfo.getOfferingAgency());
+        s2Opportunity.setAgencyContactInfo(oppInfo.getAgencyContactInfo());
+        s2Opportunity.setCfdaDescription(oppInfo.getCFDADescription());
+        s2Opportunity.setMultiProject(oppInfo.isIsMultiProject());
+
+        return s2Opportunity;
+    }
+
+    /**
+     * This method is to find the list of available opportunities for a given
+     * cfda number, opportunity ID and competition ID.
+     *
+     * @param cfdaNumber
+     *            of the opportunity.
+     * @param opportunityId
+     *            parameter for the opportunity.
+     * @param competitionId
+     *            parameter for the opportunity.
+     * @return List<S2sOpportunity> a list containing the available
+     *         opportunities for the corresponding parameters.
+     * @throws S2sCommunicationException
+     */
+    @Override
+    public List<S2sOpportunity> searchOpportunity(String providerCode, String cfdaNumber,
+                                                  String opportunityId, String competitionId) throws S2sCommunicationException {
+
+        //The OpportunityID and CompetitionID element definitions were changed from a string with
+        //a length between 1 and 100 (StringMin1Max100Type) to an uppercase alphanumeric value with a maximum length
+        //of 40 characters ([A-Z0-9\-]{1,40}).
+        opportunityId = StringUtils.upperCase(opportunityId);
+        opportunityId = StringUtils.isBlank(opportunityId) ? null : opportunityId;
+
+        cfdaNumber = StringUtils.isBlank(cfdaNumber) ? null : cfdaNumber;
+
+        competitionId = StringUtils.upperCase(competitionId);
+        competitionId = StringUtils.isBlank(competitionId) ? null : competitionId;
+
+        S2sProviderContract provider = s2sProviderService.findS2SProviderByCode(providerCode);
+        if (provider == null) {
+            throw new S2sCommunicationException("An invalid provider code was provided when attempting to search for opportunities.");
+        }
+        S2SConnectorService connectorService = KcServiceLocator.getService(provider.getConnectorServiceName());
+        if (connectorService == null) {
+            throw new S2sCommunicationException("The connector service '" + provider.getConnectorServiceName() + "' required by '" + provider.getDescription() + "' S2S provider is not configured.");
+        }
+        List<S2sOpportunity> s2sOpportunityList = convertToArrayList(provider.getCode(),
+                connectorService.getOpportunityList(cfdaNumber, opportunityId, competitionId));
+        return s2sOpportunityList;
+    }
+
+    /**
+     *
+     * This method returns the list of forms for a given opportunity
+     *
+     * @param opportunity
+     * @return {@link List} of {@link S2sOppForms} which are included in the
+     *         given {@link S2sOpportunity}
+     * @throws S2sCommunicationException
+     */
+    @Override
+    public List<S2sOppForms> parseOpportunityForms(S2sOpportunity opportunity) throws S2sCommunicationException{
+        String opportunityContent = getOpportunityContent(opportunity.getSchemaUrl());
+        opportunity.setOpportunity(opportunityContent);
+        return new OpportunitySchemaParser().getForms(opportunity.getProposalNumber(),opportunity.getSchemaUrl());
+    }
+    private String getOpportunityContent(String schemaUrl) throws S2sCommunicationException{
+        String opportunity = "";
+        InputStream is  = null;
+        BufferedInputStream br = null;
+        try{
+            URL url = new URL(schemaUrl);
+            is = (InputStream)url.getContent();
+            br = new BufferedInputStream(is);
+            byte bufContent[] = new byte[is.available()];
+            br.read(bufContent);
+            opportunity = new String(bufContent);
+        }catch (Exception e) {
+            LOG.error(S2SConstants.ERROR_MESSAGE, e);
+            throw new S2sCommunicationException(KeyConstants.ERROR_GRANTSGOV_FORM_SCHEMA_NOT_FOUND,e.getMessage(),schemaUrl);
+        }finally{
+            try {
+                if(is!=null) is.close();
+                if(br!=null) br.close();
+            }catch (IOException e) {
+                LOG.error("Cannot close stream after fetching the content of opportinity schema", e);
+            }
+        }
+        return opportunity;
+    }
+
+    /**
+     *
+     * This method saves the submission details after successful submission of
+     * proposal
+     *
+     * @param pdDoc
+     *            {@link ProposalDevelopmentDocument} that was submitted
+     * @param appSubmission
+     *            {@link S2sAppSubmission} submission details of proposal
+     * @param response
+     *            {@link SubmitApplicationResponse} submission response from
+     *            grants gov
+     * @param grantApplicationXml
+     *            {@link String} XML content of submission
+     * @param s2sAppAttachmentList
+     *            {@link S2sAppAttachments} attachments included in submission
+     */
+    protected void saveSubmissionDetails(ProposalDevelopmentDocument pdDoc,
+                                         S2sAppSubmission appSubmission, SubmitApplicationResponse response,
+                                         String grantApplicationXml,
+                                         List<S2sAppAttachments> s2sAppAttachmentList) {
+        if (response != null) {
+            String proposalNumber = pdDoc.getDevelopmentProposal()
+                    .getProposalNumber();
+            S2sApplication application = new S2sApplication();
+            application.setApplication(grantApplicationXml);
+            application.setProposalNumber(proposalNumber);
+            application.setS2sAppAttachmentList(s2sAppAttachmentList);
+            List<S2sApplication> s2sApplicationList = new ArrayList<S2sApplication>();
+            s2sApplicationList.add(application);
+
+            appSubmission
+                    .setGgTrackingId(response.getGrantsGovTrackingNumber());
+            appSubmission.setReceivedDate(new Timestamp(response
+                    .getReceivedDateTime().toGregorianCalendar()
+                    .getTimeInMillis()));
+            appSubmission.setS2sApplication(s2sApplicationList.get(0));
+            appSubmission.setProposalNumber(proposalNumber);
+
+            List<S2sAppSubmission> appList = pdDoc.getDevelopmentProposal()
+                    .getS2sAppSubmission();
+            int submissionNumber = 1;
+            for (S2sAppSubmission submittedApplication : appList) {
+                if (submittedApplication.getSubmissionNumber() >= submissionNumber) {
+                    ++submissionNumber;
+                }
+            }
+
+            appSubmission.setSubmissionNumber(submissionNumber);
+
+            businessObjectService.save(appSubmission);
+            pdDoc.getDevelopmentProposal().refreshReferenceObject("s2sAppSubmission");
+        }
+    }
+
+    public File getGrantsGovSavedFile(ProposalDevelopmentDocument pdDoc)
+            throws IOException {
+        String loggingDirectory = s2SConfigurationService.getValueAsString(ConfigurationConstants.PRINT_XML_DIRECTORY);
+        String saveXmlFolderName = pdDoc.getSaveXmlFolderName();
+        if (StringUtils.isNotBlank(loggingDirectory)) {
+            File directory = new File(loggingDirectory);
+            if(!directory.exists()){
+                directory.createNewFile();
+            }
+            if(!loggingDirectory.endsWith("/")){
+                loggingDirectory+="/";
+            }
+            return new File(loggingDirectory + saveXmlFolderName + ".zip");
+        } else {
+            return null;
+        }
+
+    }
+
+    protected S2SConnectorService getS2sConnectorService(S2sOpportunityContract s2sOpportunity) {
+        return KcServiceLocator.getService(s2sOpportunity.getS2sProvider().getConnectorServiceName());
+    }
+
+    public S2sOpportunityService getS2sOpportunityService() {
+        return s2sOpportunityService;
+    }
+
+    public void setS2sOpportunityService(S2sOpportunityService s2sOpportunityService) {
+        this.s2sOpportunityService = s2sOpportunityService;
+    }
+
+    public ProposalAdminDetailsService getProposalAdminDetailsService() {
+        return proposalAdminDetailsService;
+    }
+
+    public void setProposalAdminDetailsService(ProposalAdminDetailsService proposalAdminDetailsService) {
+        this.proposalAdminDetailsService = proposalAdminDetailsService;
+    }
+
+    public InstPropSponsorService getInstPropSponsorService() {
+        return instPropSponsorService;
+    }
+
+    public void setInstPropSponsorService(InstPropSponsorService instPropSponsorService) {
+        this.instPropSponsorService = instPropSponsorService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public S2SFormGeneratorService getS2SFormGeneratorService() {
+        return s2SFormGeneratorService;
+    }
+
+    public void setS2SFormGeneratorService(S2SFormGeneratorService s2SFormGeneratorService) {
+        this.s2SFormGeneratorService = s2SFormGeneratorService;
+    }
+
+    public S2SService getS2SService() {
+        return s2SService;
+    }
+
+    public void setS2SService(S2SService s2SService) {
+        this.s2SService = s2SService;
+    }
+
+    public S2sProviderService getS2sProviderService() {
+        return s2sProviderService;
+    }
+
+    public void setS2sProviderService(S2sProviderService s2sProviderService) {
+        this.s2sProviderService = s2sProviderService;
+    }
+
+    public S2SConfigurationService getS2SConfigurationService() {
+        return s2SConfigurationService;
+    }
+
+    public void setS2SConfigurationService(S2SConfigurationService s2SConfigurationService) {
+        this.s2SConfigurationService = s2SConfigurationService;
+    }
+}

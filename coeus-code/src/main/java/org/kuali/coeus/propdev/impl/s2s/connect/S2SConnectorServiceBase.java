@@ -13,7 +13,7 @@ kc * Copyright 2005-2014 The Kuali Foundation.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.s2s.service.impl;
+package org.kuali.coeus.propdev.impl.s2s.connect;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -30,9 +30,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.s2s.ConfigurationConstants;
-import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.service.S2SConnectorService;
-import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.rice.krad.data.DataObjectService;
 
 import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListRequest;
@@ -47,6 +44,8 @@ import gov.grants.apply.services.applicantwebservices_v2_0.ApplicantWebServicesP
 import gov.grants.apply.services.applicantwebservices_v2_0.ErrorMessage;
 import gov.grants.apply.system.grantscommonelements_v1.ApplicationFilter;
 import gov.grants.apply.system.grantscommonelements_v1.Attachment;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.activation.DataHandler;
 import javax.net.ssl.KeyManager;
@@ -71,11 +70,15 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
     private static final String KEY_SUBMISSION_TITLE = "SubmissionTitle";
     protected static final Log LOG = LogFactory.getLog(S2SConnectorServiceBase.class);
 
-    private S2SUtilService s2SUtilService;
+    @Autowired
+    @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
-    private S2SConfigurationService s2SConfigurationService;
-    protected S2SCertificateReader s2sCertificateReader;
 
+    @Autowired
+    @Qualifier("s2SConfigurationService")
+    private S2SConfigurationService s2SConfigurationService;
+
+    protected S2SCertificateReader s2sCertificateReader;
     protected String serviceHost;
     protected String servicePort;
 
@@ -88,12 +91,12 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * @param competitionId parameter for the opportunity.
      * @return GetOpportunityListResponse available list of opportunities applicable for the given cfda number,opportunity Id and
      *         competition Id.
-     * @throws S2SException
-     * @see org.kuali.kra.s2s.service.S2SConnectorService#getOpportunityList(java.lang.String, java.lang.String,
+     * @throws S2sCommunicationException
+     * @see org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorService#getOpportunityList(java.lang.String, java.lang.String,
      *      java.lang.String)
      */
     public GetOpportunitiesResponse getOpportunityList(String cfdaNumber, String opportunityId, String competitionId)
-            throws S2SException {
+            throws S2sCommunicationException {
         ApplicantWebServicesPortType port = configureApplicantIntegrationSoapPort(null,false);
         GetOpportunitiesRequest getOpportunityListRequest = new GetOpportunitiesRequest();
         
@@ -105,13 +108,13 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         }catch(SOAPFaultException soapFault){
             LOG.error("Error while getting list of opportunities", soapFault);
             if(soapFault.getMessage().indexOf("Connection refused")!=-1){
-                throw new S2SException(KeyConstants.ERROR_GRANTSGOV_OPP_SER_UNAVAILABLE,soapFault.getMessage());
+                throw new S2sCommunicationException(KeyConstants.ERROR_GRANTSGOV_OPP_SER_UNAVAILABLE,soapFault.getMessage());
             }else{
-                throw new S2SException(KeyConstants.ERROR_S2S_UNKNOWN,soapFault.getMessage());
+                throw new S2sCommunicationException(KeyConstants.ERROR_S2S_UNKNOWN,soapFault.getMessage());
             }
         }catch (ErrorMessage e) {
             LOG.error("Error while getting list of opportunities", e);
-            throw new S2SException(KeyConstants.ERROR_S2S_UNKNOWN,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_S2S_UNKNOWN,e.getMessage());
         }
     }
 
@@ -121,11 +124,11 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * @param ggTrackingId grants gov tracking id for the proposal.
      * @param proposalNumber Proposal number.
      * @return GetApplicationStatusDetailResponse status of the submitted application.
-     * @throws S2SException
-     * @see org.kuali.kra.s2s.service.S2SConnectorService#getApplicationStatusDetail(java.lang.String, java.lang.String)
+     * @throws S2sCommunicationException
+     * @see org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorService#getApplicationStatusDetail(java.lang.String, java.lang.String)
      */
     public GetApplicationStatusDetailResponse getApplicationStatusDetail(String ggTrackingId, String proposalNumber)
-            throws S2SException {
+            throws S2sCommunicationException {
         ApplicantWebServicesPortType port = getApplicantIntegrationSoapPort(proposalNumber);
         GetApplicationStatusDetailRequest applicationStatusDetailRequest = new GetApplicationStatusDetailRequest();
         applicationStatusDetailRequest.setGrantsGovTrackingNumber(ggTrackingId);
@@ -134,7 +137,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         }
         catch (ErrorMessage e) {
             LOG.error("Error while getting proposal submission status details", e);
-            throw new S2SException(KeyConstants.ERROR_GRANTSGOV_SERVER_STATUS_REFRESH,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_GRANTSGOV_SERVER_STATUS_REFRESH,e.getMessage());
         }
     }
 
@@ -145,12 +148,12 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * @param cfdaNumber of the opportunity.
      * @param proposalNumber proposal number.
      * @return GetApplicationListResponse application list.
-     * @throws S2SException
-     * @see org.kuali.kra.s2s.service.S2SConnectorService#getApplicationList(java.lang.String, java.lang.String,
+     * @throws S2sCommunicationException
+     * @see org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorService#getApplicationList(java.lang.String, java.lang.String,
      *      java.lang.String)
      */
     public GetApplicationListResponse getApplicationList(String opportunityId, String cfdaNumber, String proposalNumber)
-            throws S2SException {
+            throws S2sCommunicationException {
         GetApplicationListRequest applicationListRequest = new GetApplicationListRequest();
         List<ApplicationFilter> filterList = applicationListRequest.getApplicationFilter();
         ApplicationFilter applicationFilter = new ApplicationFilter();
@@ -173,7 +176,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         }
         catch (ErrorMessage e) {
             LOG.error("Error occured while fetching application list", e);
-            throw new S2SException(KeyConstants.ERROR_GRANTSGOV_SERVER_APPLICATION_LIST_REFRESH,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_GRANTSGOV_SERVER_APPLICATION_LIST_REFRESH,e.getMessage());
         }
     }
 
@@ -184,12 +187,12 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * @param attachments attachments of the proposal.
      * @param proposalNumber proposal number.
      * @return SubmitApplicationResponse corresponding to the input parameters passed.
-     * @throws S2SException
-     * @see org.kuali.kra.s2s.service.S2SConnectorService#submitApplication(java.lang.String, java.util.Map, java.lang.String)
+     * @throws S2sCommunicationException
+     * @see org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorService#submitApplication(java.lang.String, java.util.Map, java.lang.String)
      */
     public SubmitApplicationResponse submitApplication(String xmlText, 
                     Map<String, DataHandler> attachments, String proposalNumber)
-            throws S2SException {
+            throws S2sCommunicationException {
         ApplicantWebServicesPortType port = getApplicantIntegrationSoapPort(proposalNumber);
         Iterator<String> it = attachments.keySet().iterator();
         SubmitApplicationRequest request = new SubmitApplicationRequest();
@@ -209,10 +212,10 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
             return port.submitApplication(request);
         }catch (ErrorMessage e) {
             LOG.error("Error occured while submitting proposal to Grants Gov", e);
-            throw new S2SException(KeyConstants.ERROR_GRANTSGOV_SERVER_SUBMIT_APPLICATION,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_GRANTSGOV_SERVER_SUBMIT_APPLICATION,e.getMessage());
         }catch(SOAPFaultException e){
             LOG.error("Error occured while submitting proposal to Grants Gov", e);
-            throw new S2SException(KeyConstants.ERROR_S2S_UNKNOWN,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_S2S_UNKNOWN,e.getMessage());
         }
     }
 
@@ -222,9 +225,9 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * 
      * @param proposalNumber Proposal number.
      * @return ApplicantIntegrationPortType Soap port used for applicant integration.
-     * @throws S2SException
+     * @throws S2sCommunicationException
      */
-    protected ApplicantWebServicesPortType getApplicantIntegrationSoapPort(String proposalNumber) throws S2SException {
+    protected ApplicantWebServicesPortType getApplicantIntegrationSoapPort(String proposalNumber) throws S2sCommunicationException {
         DevelopmentProposal pdDoc = dataObjectService.find(
                 DevelopmentProposal.class, proposalNumber);
         Boolean multiCampusEnabled = s2SConfigurationService.getValueAsBoolean(ConfigurationConstants.MULTI_CAMPUS_ENABLED);
@@ -237,10 +240,10 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * This method is to get Soap Port
      * 
      * @return ApplicantIntegrationPortType Soap port used for applicant integration.
-     * @throws S2SException
+     * @throws S2sCommunicationException
      */
     protected ApplicantWebServicesPortType configureApplicantIntegrationSoapPort(String alias,boolean mulitCampusEnabled)
-                                                                                throws S2SException {
+                                                                                throws S2sCommunicationException {
         System.clearProperty("java.protocol.handler.pkgs");
         JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
         factory.setAddress(getS2SSoapHost());
@@ -294,10 +297,10 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * @param tlsConfig
      * @param alias
      * @param mulitCampusEnabled
-     * @throws S2SException
+     * @throws S2sCommunicationException
      */
     protected void configureKeyStoreAndTrustStore(TLSClientParameters tlsConfig, String alias, boolean mulitCampusEnabled)
-            throws S2SException {
+            throws S2sCommunicationException {
         KeyStore keyStore = s2sCertificateReader.getKeyStore();
         KeyManagerFactory keyManagerFactory;
         try {
@@ -324,19 +327,19 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
             tlsConfig.setTrustManagers(tm);
         }catch (NoSuchAlgorithmException e){
             LOG.error(e.getMessage(), e);
-            throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
         }catch (KeyStoreException e) {
             LOG.error(e.getMessage(), e);
-            throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
         }catch (UnrecoverableKeyException e) {
             LOG.error(e.getMessage(), e);
-            throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
         }catch (CertificateException e) {
             LOG.error(e.getMessage(), e);
-            throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
         }catch (IOException e) {
             LOG.error(e.getMessage(), e);
-            throw new S2SException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
         }
     }
 
@@ -345,10 +348,10 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * This method returns the Host URL for S2S web services
      * 
      * @return {@link String} host URL
-     * @throws S2SException if unable to read property file
+     * @throws S2sCommunicationException if unable to read property file
      */
 
-    protected String getS2SSoapHost() throws S2SException {
+    protected String getS2SSoapHost() throws S2sCommunicationException {
         StringBuilder host = new StringBuilder();
         host.append(s2SConfigurationService.getValueAsString(getServiceHost()));
         String port = s2SConfigurationService.getValueAsString(getServicePort());
@@ -382,14 +385,6 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
 
     public void setS2sCertificateReader(S2SCertificateReader s2sCertificateReader) {
         this.s2sCertificateReader = s2sCertificateReader;
-    }
-
-    public S2SUtilService getS2SUtilService() {
-        return s2SUtilService;
-    }
-
-    public void setS2SUtilService(S2SUtilService s2SUtilService) {
-        this.s2SUtilService = s2SUtilService;
     }
 
     public DataObjectService getDataObjectService() {

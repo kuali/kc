@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.s2s;
+package org.kuali.coeus.propdev.impl.s2s.schedule;
 
+
+import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 
 /**
  * 
- * This class is a wrapper around {@link S2sAppSubmission} business object. IT helps in storing some additional information related
+ * This class is a wrapper around {@link org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission} business object. IT helps in storing some additional information related
  * to scheduling that is in addition to the opportunity submission information that is available in the business object.
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
@@ -41,7 +43,7 @@ public class SubmissionData {
     /**
      * Setter for BO {@link S2sAppSubmission}
      * 
-     * @param {@link S2sAppSubmission)
+     * @param {@link S2sAppSubmission}
      */
     public void setS2sAppSubmission(S2sAppSubmission appSubmission) {
         s2sAppSubmission = appSubmission;

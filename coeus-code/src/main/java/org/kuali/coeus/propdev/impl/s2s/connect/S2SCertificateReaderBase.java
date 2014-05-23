@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.s2s.service.impl;
+package org.kuali.coeus.propdev.impl.s2s.connect;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.s2s.S2SException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -30,7 +30,14 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 
-public class S2SCertificateReader {
+public class S2SCertificateReaderBase implements S2SCertificateReader {
+
+    private static final Log LOG = LogFactory.getLog(S2SCertificateReaderBase.class);
+
+    @Autowired
+    @Qualifier("s2SConfigurationService")
+    private S2SConfigurationService s2SConfigurationService;
+
     private String keyStoreLocation;
     private String keyStorePassword;
     private String trustStoreLocation;
@@ -39,9 +46,9 @@ public class S2SCertificateReader {
     
     private KeyStore keyStore = null;
     private KeyStore trustStore = null;
-    
-    private static final Log LOG = LogFactory.getLog(S2SCertificateReader.class);
-    public KeyStore getKeyStore() throws S2SException{
+
+    @Override
+    public KeyStore getKeyStore() throws S2sCommunicationException {
         if(keyStore!=null) return keyStore;
         try {
             keyStore = KeyStore.getInstance(jksType);
@@ -50,32 +57,29 @@ public class S2SCertificateReader {
         }catch (KeyStoreException e) {
             keyStore = null;
             LOG.error("Error while creating Keystore with cert " +keyStoreLocation, e);
-            throw new S2SException(KeyConstants.ERROR_S2S_KEYSTORE_CREATION,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_S2S_KEYSTORE_CREATION,e.getMessage());
         }catch (NoSuchAlgorithmException e) {
             keyStore = null;
             LOG.error("JCE provider doesnt support certificate algorithm "+keyStoreLocation, e);
-            throw new S2SException(KeyConstants.ERROR_S2S_KEYSTORE_NO_ALGORITHM,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_S2S_KEYSTORE_NO_ALGORITHM,e.getMessage());
         }catch (CertificateException e) {
             keyStore = null;
             LOG.error("Error while creating keystore "+keyStoreLocation, e);
-            throw new S2SException(KeyConstants.ERROR_S2S_KEYSTORE_BAD_CERTIFICATE,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_S2S_KEYSTORE_BAD_CERTIFICATE,e.getMessage());
         }catch (FileNotFoundException e) {
             keyStore = null;
             LOG.error("File not found "+keyStoreLocation, e);
-            throw new S2SException(KeyConstants.ERROR_S2S_KEYSTORE_NOT_FOUND,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_S2S_KEYSTORE_NOT_FOUND,e.getMessage());
         }catch (IOException e) {
             keyStore = null;
             LOG.error("IO Exception while reading keystore file "+keyStoreLocation, e);
-            throw new S2SException(KeyConstants.ERROR_S2S_KEYSTORE_CANNOT_READ,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_S2S_KEYSTORE_CANNOT_READ,e.getMessage());
         }
         return keyStore;
     }
 
-    private static S2SConfigurationService getS2SConfigurationService() {
-        return KcServiceLocator.getService(S2SConfigurationService.class);
-    }
-
-    public KeyStore getTrustStore() throws S2SException{
+    @Override
+    public KeyStore getTrustStore() throws S2sCommunicationException {
         if(trustStore!=null)
             return trustStore;
         try {
@@ -85,23 +89,23 @@ public class S2SCertificateReader {
         }catch (KeyStoreException e) {
             trustStore = null;
             LOG.error("Error while creating Keystore with cert " +trustStoreLocation, e);
-            throw new S2SException(KeyConstants.ERROR_S2S_TRUSTSTORE_CREATION,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_S2S_TRUSTSTORE_CREATION,e.getMessage());
         }catch (NoSuchAlgorithmException e) {
             trustStore = null;
             LOG.error("JCE provider doesnt support certificate algorithm "+trustStoreLocation, e);
-            throw new S2SException(KeyConstants.ERROR_S2S_TRUSTSTORE_NO_ALGORITHM,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_S2S_TRUSTSTORE_NO_ALGORITHM,e.getMessage());
         }catch (CertificateException e) {
             trustStore = null;
             LOG.error("Error while creating keystore "+trustStoreLocation, e);
-            throw new S2SException(KeyConstants.ERROR_S2S_TRUSTSTORE_BAD_CERTIFICATE,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_S2S_TRUSTSTORE_BAD_CERTIFICATE,e.getMessage());
         }catch (FileNotFoundException e) {
             trustStore = null;
             LOG.error("File not found "+trustStoreLocation, e);
-            throw new S2SException(KeyConstants.ERROR_S2S_TRUSTSTORE_NOT_FOUND,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_S2S_TRUSTSTORE_NOT_FOUND,e.getMessage());
         }catch (IOException e) {
             trustStore = null;
             LOG.error("IO Exception while reading keystore file "+trustStoreLocation, e);
-            throw new S2SException(KeyConstants.ERROR_S2S_TRUSTSTORE_CANNOT_READ,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_S2S_TRUSTSTORE_CANNOT_READ,e.getMessage());
         }
         return trustStore;
     }
@@ -162,4 +166,11 @@ public class S2SCertificateReader {
         this.jksType = jksType;
     }
 
+    public S2SConfigurationService getS2SConfigurationService() {
+        return s2SConfigurationService;
+    }
+
+    public void setS2SConfigurationService(S2SConfigurationService s2SConfigurationService) {
+        this.s2SConfigurationService = s2SConfigurationService;
+    }
 }
