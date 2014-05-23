@@ -92,7 +92,7 @@
     <bean id="IrbCorrespondentType-lookupDefinition" parent="IrbCorrespondentType-lookupDefinition-parentBean" />
   <bean id="IrbCorrespondentType-LookupView" parent="IrbCorrespondentType-LookupView-parentBean"/>
     <bean id="IrbCorrespondentType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="IACUC Correspondent Type Lookup" />
+        <property name="title" value="Protocol Correspondent Type Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
       <bean parent="SortDefinition"/>

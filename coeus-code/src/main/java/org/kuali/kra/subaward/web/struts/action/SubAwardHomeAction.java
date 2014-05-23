@@ -444,4 +444,16 @@ public ActionForward deleteCloseout(ActionMapping mapping,
         return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
     }
 
+public ActionForward selectAllSubAwardPrintNoticeItems(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    SubAwardForm subAwardForm = (SubAwardForm)form;
+    subAwardForm.getSubAwardPrintAgreement().selectAllItems();
+    return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
+}
+
+public ActionForward deselectAllSubAwardPrintNoticeItems(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    SubAwardForm subAwardForm = (SubAwardForm)form;
+    subAwardForm.getSubAwardPrintAgreement().deselectAllItems();
+    return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
+}
+
 }

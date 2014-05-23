@@ -8,4 +8,4 @@ update KRMS_TERM_SPEC_T set DESC_TXT = 'Is fellowship' where DESC_TXT = 'Check s
     and NM = (select FUNC_ID from KRMS_FUNC_T where NM = 'divisionCodeIsFellowship');
 /
 
-DELIMITER;
+DELIMITER ;

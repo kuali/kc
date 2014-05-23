@@ -17,8 +17,10 @@ package org.kuali.kra.subaward.web.struts.action;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,6 +39,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.subaward.bo.SubAwardForms;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.customdata.SubAwardCustomData;
 import org.kuali.kra.subaward.bo.SubAwardTemplateInfo;
@@ -544,6 +547,9 @@ public ActionForward blanketApprove(ActionMapping mapping,
  public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
          Map<String, Object> reportParameters = new HashMap<String, Object>();          
          SubAwardForm subAwardForm = (SubAwardForm) form;
+         List<SubAwardForms> printFormTemplates = new ArrayList<SubAwardForms>();
+         SubAwardPrintingService printService = KcServiceLocator.getService(SubAwardPrintingService.class);
+         printFormTemplates = printService.getSponsorFormTemplates(subAwardForm.getSubAwardPrintAgreement());
           if(new SubAwardDocumentRule().processsSubawardPrintRule(subAwardForm)){
               Collection<SubAwardFundingSource> fundingSource = (Collection<SubAwardFundingSource>) KcServiceLocator
                       .getService(BusinessObjectService.class).findAll(SubAwardFundingSource.class);
@@ -556,6 +562,7 @@ public ActionForward blanketApprove(ActionMapping mapping,
            }
               SubAwardPrintingService subAwardPrintingService = KcServiceLocator.getService(SubAwardPrintingService.class);
               AttachmentDataSource dataStream ;
+              reportParameters.put(SubAwardPrintingService.SELECTED_TEMPLATES, printFormTemplates);
               reportParameters.put("fdpType",subAwardForm.getSubAwardPrintAgreement().getFdpType());
               if(subAwardForm.getSubAwardPrintAgreement().getFdpType().equals(SUBAWARD_AGREEMENT)){
                   dataStream = subAwardPrintingService.printSubAwardFDPReport(subAwardForm.getSubAwardDocument().getSubAward(), SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE, reportParameters);

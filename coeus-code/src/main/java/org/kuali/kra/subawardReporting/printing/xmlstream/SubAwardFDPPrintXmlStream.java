@@ -17,11 +17,15 @@ package org.kuali.kra.subawardReporting.printing.xmlstream;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.framework.module.CoeusModule;
+import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -29,9 +33,23 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactType;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
+import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.ContactType;
+import org.kuali.kra.award.home.ContactUsage;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
+import org.kuali.kra.subaward.bo.SubAwardContact;
+import org.kuali.kra.subaward.bo.SubAwardForms;
+import org.kuali.kra.subaward.bo.SubAwardFundingSource;
+import org.kuali.kra.subaward.bo.SubAwardReportType;
+import org.kuali.kra.subaward.bo.SubAwardReports;
 import org.kuali.kra.subaward.bo.SubAwardTemplateInfo;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
+import org.kuali.kra.subaward.reporting.printing.service.SubAwardPrintingService;
+import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -45,18 +63,22 @@ import org.kuali.kra.award.printing.schema.AwardHeaderType;
 import org.kuali.kra.award.printing.schema.AwardType;
 import org.kuali.kra.award.printing.schema.AwardType.AwardDetails;
 import org.kuali.kra.award.printing.schema.AwardType.AwardDetails.OtherHeaderDetails;
-import org.kuali.kra.subaward.printing.schema.OrganizationType;
-import org.kuali.kra.subaward.printing.schema.RolodexDetailsType;
-import org.kuali.kra.subaward.printing.schema.SubContractDataDocument;
+import org.kuali.kra.subaward.printing.schema.*;
 import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContractData;
+import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContractData.AdministrativeContact;
+import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContractData.AuthorizedOfficial;
+import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContractData.FinancialContact;
 import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContractData.FundingSource;
+import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContractData.PrimeAdministrativeContact;
+import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContractData.PrimeAuthorizedOfficial;
+import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContractData.PrimeFinancialContact;
 import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContractData.PrimeRecipientContacts;
 import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContractData.PrintRequirement;
 import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContractData.SubcontractAmountInfo;
 import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContractData.SubcontractContacts.RolodexDetails;
 import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContractData.SubcontractDetail;
+import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContractData.SubcontractReports;
 import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContractData.SubcontractTemplateInfo;
-
 
 public class SubAwardFDPPrintXmlStream implements XmlStream  {
     private static final String SUB_AWARD_FDP_TEMPLATE  = "fdpAgreement";
@@ -67,10 +89,28 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
     private String sponsorName;
     private String cfdaNumber;
     private String unitName;
+    private List<SubAwardForms> sponsorTemplates;
     private ParameterService parameterService;
     
     
     
+
+    /**
+     * Gets the sponsorTemplates attribute. 
+     * @return Returns the sponsorTemplates.
+     */
+    public List<SubAwardForms> getSponsorTemplates() {
+        return sponsorTemplates;
+    }
+
+    /**
+     * Sets the sponsorTemplates attribute value.
+     * @param sponsorTemplates The sponsorTemplates to set.
+     */
+    public void setSponsorTemplates(List<SubAwardForms> sponsorTemplates) {
+        this.sponsorTemplates = sponsorTemplates;
+    }
+
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
@@ -186,6 +226,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         this.awardNumber=(String) reportParameters.get("awardNumber");
         this.sponsorName=(String) reportParameters.get("sponsorName");
         this.cfdaNumber=(String) reportParameters.get("cfdaNumber");
+        this.sponsorTemplates = (List<SubAwardForms>) reportParameters.get(SubAwardPrintingService.SELECTED_TEMPLATES);
         setSubcontractTemplateInfo(subContractData,subaward);
         setFundingSource(subContractData,subaward);
         setSubcontractDetail(subContractData,subaward);
@@ -193,6 +234,14 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         setAwardHeader(subContractData,subaward);
         setPrimeRecipientContacts(subContractData,subaward);
         setPrintRequirement(subContractData,subaward);
+        setPrimeAdministrativeContact(subContractData,subaward);
+        setPrimePrincipalInvestigator(subContractData,subaward);
+        setPrimeFinancialContact(subContractData,subaward);
+        setPrimeAuthorizedOfficial(subContractData,subaward);
+        setAdministrativeContact(subContractData,subaward);
+        setFinancialContact(subContractData,subaward);
+        setAuthorizedOfficial(subContractData,subaward);
+        setSubcontractReports(subContractData,subaward);
         subContractDataDoc.setSubContractData(subContractData);
         xmlObjectList.put(SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE.getSubAwardPrintType(), subContractDataDoc);
         return xmlObjectList;
@@ -207,27 +256,64 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
            subawardTemplate =subaward.getSubAwardTemplateInfo().get(0);
       
        Collection<ContactType> contact = (Collection<ContactType>) KcServiceLocator.getService(BusinessObjectService.class).findAll(ContactType.class);
-       for(ContactType contactType : contact){
-           if(subawardTemplate.getInvoiceOrPaymentContact()!= null && contactType.getContactTypeCode().equals(subawardTemplate.getInvoiceOrPaymentContact().toString())){
-               subContractTemplateInfo.setInvoiceOrPaymentContactDescription(contactType.getDescription());
-           }
-           if(subawardTemplate.getFinalStmtOfCostscontact()!=null && contactType.getContactTypeCode().equals(subawardTemplate.getFinalStmtOfCostscontact().toString())){
-               subContractTemplateInfo.setFinalStmtOfCostsContactDescription(contactType.getDescription());
-           }
-           if(subawardTemplate.getChangeRequestsContact()!= null && contactType.getContactTypeCode().equals(subawardTemplate.getChangeRequestsContact().toString())){
-               subContractTemplateInfo.setChangeRequestsContactDescription(contactType.getDescription());
-           }
-           if(subawardTemplate.getTerminationContact()!= null && contactType.getContactTypeCode().equals(subawardTemplate.getTerminationContact().toString())){
-               subContractTemplateInfo.setTerminationContactDescription(contactType.getDescription());
-           }
-           if(subawardTemplate.getNoCostExtensionContact() != null && contactType.getContactTypeCode().equals(subawardTemplate.getNoCostExtensionContact().toString())){
-               subContractTemplateInfo.setNoCostExtensionContactDescription(contactType.getDescription());
-           }
-        }
-           subContractTemplateInfo.setSowOrSubProposalBudget(subawardTemplate.getSowOrSubProposalBudget());
-           if(subawardTemplate.getSubProposalDate() != null){
-            subContractTemplateInfo.setSubProposalDate(getDateTimeService().getCalendar(subawardTemplate.getSubProposalDate()));
-           }
+           for(ContactType contactType : contact){
+               if(subawardTemplate.getInvoiceOrPaymentContact()!= null && contactType.getContactTypeCode().equals(subawardTemplate.getInvoiceOrPaymentContact().toString())){
+                   subContractTemplateInfo.setInvoiceOrPaymentContactDescription(contactType.getDescription());
+               }
+               if(subawardTemplate.getFinalStmtOfCostscontact()!=null && contactType.getContactTypeCode().equals(subawardTemplate.getFinalStmtOfCostscontact().toString())){
+                   subContractTemplateInfo.setFinalStmtOfCostsContactDescription(contactType.getDescription());
+               }
+               if(subawardTemplate.getChangeRequestsContact()!= null && contactType.getContactTypeCode().equals(subawardTemplate.getChangeRequestsContact().toString())){
+                   subContractTemplateInfo.setChangeRequestsContactDescription(contactType.getDescription());
+               }
+               if(subawardTemplate.getTerminationContact()!= null && contactType.getContactTypeCode().equals(subawardTemplate.getTerminationContact().toString())){
+                   subContractTemplateInfo.setTerminationContactDescription(contactType.getDescription());
+               }
+               if(subawardTemplate.getNoCostExtensionContact() != null && contactType.getContactTypeCode().equals(subawardTemplate.getNoCostExtensionContact().toString())){
+                   subContractTemplateInfo.setNoCostExtensionContactDescription(contactType.getDescription());
+               }
+            }
+                   subContractTemplateInfo.setSowOrSubProposalBudget(subawardTemplate.getSowOrSubProposalBudget());
+                   subContractTemplateInfo.setExemptFromRprtgExecComp(subawardTemplate.getExemptFromRprtgExecComp());
+                   subContractTemplateInfo.setSubRegisteredInCcr(subawardTemplate.getSubRegisteredInCcr());
+               if(subawardTemplate.getPerfSiteDiffFromOrgAddr() != null){
+                   subContractTemplateInfo.setPerfSiteDiffFromOrgAddr(subawardTemplate.getPerfSiteDiffFromOrgAddr());
+               }
+               if(subawardTemplate.getPerfSiteSameAsSubPiAddr() != null){
+                   subContractTemplateInfo.setPerfSiteSameAsSubPiAddr(subawardTemplate.getPerfSiteSameAsSubPiAddr());
+               }
+               if(subawardTemplate.getSubProposalDate() != null){
+                   subContractTemplateInfo.setSubProposalDate(getDateTimeService().getCalendar(subawardTemplate.getSubProposalDate()));
+               }
+                   
+               if(subawardTemplate.getParentDunsNumber() != null){
+                   subContractTemplateInfo.setParentDunsNumber(subawardTemplate.getParentDunsNumber());
+               }
+               if(subawardTemplate.getParentCongressionalDistrict() != null){
+                   subContractTemplateInfo.setParentCongressionalDistrict(subawardTemplate.getParentCongressionalDistrict());
+               }
+               if(subawardTemplate.getCopyRightType() != null) {
+                   subContractTemplateInfo.setCopyRights(subawardTemplate.getCopyRightType().toString());
+               }
+               if(subawardTemplate.getAutomaticCarryForward() != null) {
+                   subContractTemplateInfo.setAutomaticCarryForward(subawardTemplate.getAutomaticCarryForward());
+               }
+               if(subawardTemplate.getTreatmentPrgmIncomeAdditive() != null) {
+                   subContractTemplateInfo.setTreatmentPrgmIncomeAdditive(subawardTemplate.getTreatmentPrgmIncomeAdditive());
+               }
+               if(subawardTemplate.getApplicableProgramRegulations() != null) {
+                   subContractTemplateInfo.setApplicableProgramRegulations(subawardTemplate.getApplicableProgramRegulations());
+               }
+               if(subawardTemplate.getApplicableProgramRegsDate() != null) {
+                   subContractTemplateInfo.setApplicableProgramRegsDate(getDateTimeService().getCalendar(subawardTemplate.getApplicableProgramRegsDate()));
+               }
+               if(subawardTemplate.getCarryForwardRequestsSentTo() != null) {
+                   ContactType contactTypeCode = (ContactType) KcServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(ContactType.class,subawardTemplate.getCarryForwardRequestsSentTo());
+                   if(contactTypeCode.getDescription() != null) {
+                       subContractTemplateInfo.setCarryForwardRequestsSentToDescription(contactTypeCode.getDescription());
+                   }
+               }
+                   
            templateDataList.add(subContractTemplateInfo);
        }
            subContractData.setSubcontractTemplateInfoArray((SubcontractTemplateInfo[])templateDataList.toArray(new SubcontractTemplateInfo[0]));
@@ -244,13 +330,31 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
         public void setSubcontractDetail(SubContractData subContractData, SubAward subaward) {
             SubcontractDetail subcontractDetail = SubcontractDetail.Factory.newInstance();
             RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
+            RolodexDetailsType rolodexDetailsType = RolodexDetailsType.Factory.newInstance();
+            OrganizationType organisation =OrganizationType.Factory.newInstance();
             if(subaward.getRolodex() != null ){
                 subcontractDetail.setSiteInvestigator(subaward.getRolodex().getFullName());
+                rolodexDetails.setRolodexName(subaward.getRolodex().getFullName());
+                rolodexDetails.setAddress1(subaward.getRolodex().getAddressLine1());
+                rolodexDetails.setAddress2(subaward.getRolodex().getAddressLine2());
+                rolodexDetails.setCity(subaward.getRolodex().getCity());
+                rolodexDetails.setStateDescription(subaward.getRolodex().getState());
+                rolodexDetails.setPincode(subaward.getRolodex().getPostalCode());
+                rolodexDetails.setPhoneNumber(subaward.getRolodex().getPhoneNumber());
+                rolodexDetails.setFax(subaward.getRolodex().getFaxNumber());
+                rolodexDetails.setEmail(subaward.getRolodex().getEmailAddress());
             }
                 subcontractDetail.setPONumber(subaward.getPurchaseOrderNum());
             if(subaward.getOrganization() != null){
                 subcontractDetail.setSubcontractorName(subaward.getOrganization().getOrganizationName());
-                rolodexDetails.setAddress1(subaward.getOrganization().getAddress());
+                rolodexDetailsType.setAddress1(subaward.getOrganization().getAddress());
+                rolodexDetailsType.setAddress2(subaward.getOrganization().getRolodex().getAddressLine2());
+                rolodexDetailsType.setCity(subaward.getOrganization().getRolodex().getCity());
+                rolodexDetailsType.setStateDescription(subaward.getOrganization().getRolodex().getState());
+                rolodexDetailsType.setPincode(subaward.getOrganization().getRolodex().getPostalCode());
+                organisation.setFedralEmployerId(subaward.getOrganization().getFederalEmployerId());
+                organisation.setDunsNumber(subaward.getOrganization().getDunsNumber());
+                organisation.setCongressionalDistrict(subaward.getOrganization().getCongressionalDistrict());
             }
             if(subaward.getStartDate() != null){
                 subcontractDetail.setStartDate(getDateTimeService().getCalendar(subaward.getStartDate()));
@@ -258,7 +362,10 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             if(subaward.getEndDate() != null){
                 subcontractDetail.setEndDate(getDateTimeService().getCalendar(subaward.getEndDate()));
             }
-            subcontractDetail.setSubcontractorOrgRolodexDetails(rolodexDetails);
+            
+            subcontractDetail.setSubcontractorOrgRolodexDetails(rolodexDetailsType);
+            subcontractDetail.setSiteInvestigatorDetails(rolodexDetails);
+            subcontractDetail.setSubcontractorDetails(organisation);
             subContractData.setSubcontractDetail(subcontractDetail);
         }
         public void setSubcontractAmountInfo(SubContractData subContractData, SubAward subaward) {
@@ -317,9 +424,12 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
                 this.unitName = unitService.getUnitName(subaward.getRequisitionerUnit());
                 organisation.setOrganizationName(unitName);
                 }
-            if(subaward.getOrganization().getRolodex() != null ){
+            if(subaward.getOrganization().getRolodex() != null && unitName!=null ){
                 rolodexDetails.setAddress1(subaward.getOrganization().getRolodex().getAddressLine1());
                 rolodexDetails.setAddress2(subaward.getOrganization().getRolodex().getAddressLine2());
+                rolodexDetails.setCity(subaward.getOrganization().getRolodex().getCity());
+                rolodexDetails.setStateDescription(subaward.getOrganization().getRolodex().getState());
+                rolodexDetails.setPincode(subaward.getOrganization().getRolodex().getPostalCode());
             }
             primeReceipient.setOrgRolodexDetails(rolodexDetails);
             primeReceipient.setRequisitionerOrgDetails(organisation);
@@ -329,16 +439,248 @@ public class SubAwardFDPPrintXmlStream implements XmlStream  {
             PrintRequirement printrequirement =PrintRequirement.Factory.newInstance();
             ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
             String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
-            String path=configurationService.getPropertyValueAsString(externalImageURL);
-            printrequirement.setAttachment5Required("N");
+
+            String imagePath=configurationService.getPropertyValueAsString(externalImageURL);
             parameterService = KcServiceLocator.getService(ParameterService.class);
-            String subawardattachment5 = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, "Subaward_FDP_Attachment_5_Form_ID");
-            if(subawardattachment5.equals("1")){
+            
+            printrequirement.setAttachment5Required("N");
+            printrequirement.setAttachment3BRequired("N");
+            printrequirement.setAttachment4Required("N");
+            String subawardAttachment5 = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_SUBAWARD_ATTACHMENT_5);
+            String subawardAttachment4 = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_SUBAWARD_ATTACHMENT_4);
+            String subawardAttachment3B = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_SUBAWARD_ATTACHMENT_3B);
+            
+            for(SubAwardForms subAwardForms : sponsorTemplates){
+                if(subAwardForms.getFormId().equals(subawardAttachment4)){
+                    printrequirement.setAttachment4Required("Y");
+                }
+                if(subAwardForms.getFormId().equals(subawardAttachment3B)){
+                    printrequirement.setAttachment3BRequired("Y");
+                }
+            }
+            if(subawardAttachment5.equals("1")){
               printrequirement.setAttachment5Required("Y");
             }
-            printrequirement.setImageCheckedPath(path);
-            printrequirement.setImageUncheckedPath(path);
+            printrequirement.setImageCheckedPath(imagePath);
+            printrequirement.setImageUncheckedPath(imagePath);
            subContractData.setPrintRequirement(printrequirement);
         }
+        public void setPrimeAdministrativeContact(SubContractData subContractData, SubAward subaward) {
+            PrimeAdministrativeContact primeAdministrativeContact= PrimeAdministrativeContact.Factory.newInstance();
+            RolodexDetailsType rolodexdetails = RolodexDetailsType.Factory.newInstance();
+            List<PrimeAdministrativeContact> rolodexDetailsList = new ArrayList<PrimeAdministrativeContact>();
+            Map<String, String> administrativeMap = new HashMap<String, String>();
+            parameterService = KcServiceLocator.getService(ParameterService.class);
+            String administrativeContactCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_PRIME_ADMINISTRATIVE_CONTACT_CODE);
+            administrativeMap.put("contactTypeCode", administrativeContactCode);
+            ContactUsage contactUsage =   businessObjectService.findByPrimaryKey(ContactUsage.class, administrativeMap);
+            if(contactUsage.getModuleCode().equals(CoeusModule.SUBCONTRACTS_MODULE_CODE)){
+              if(subaward.getSubAwardContactsList() != null && !subaward.getSubAwardContactsList().isEmpty()){
+                  for(SubAwardContact subAwardContact : subaward.getSubAwardContactsList()){
+                    if(subAwardContact.getContactTypeCode().equals(administrativeContactCode))
+                    {
+                        rolodexdetails.setRolodexName(subAwardContact.getRolodex().getOrganization());
+                        rolodexdetails.setAddress1(subAwardContact.getRolodex().getAddressLine1());
+                        rolodexdetails.setAddress2(subAwardContact.getRolodex().getAddressLine2());
+                        rolodexdetails.setCity(subAwardContact.getRolodex().getCity());
+                        rolodexdetails.setStateDescription(subAwardContact.getRolodex().getState());
+                        rolodexdetails.setPincode(subAwardContact.getRolodex().getPostalCode());
+                        rolodexdetails.setPhoneNumber(subAwardContact.getRolodex().getPhoneNumber());
+                        rolodexdetails.setFax(subAwardContact.getRolodex().getFaxNumber());
+                        rolodexdetails.setEmail(subAwardContact.getRolodex().getEmailAddress());
+                    }
+               }  
+              }    
+            }
+            primeAdministrativeContact.setRolodexDetails(rolodexdetails);
+            rolodexDetailsList.add(primeAdministrativeContact);
+            subContractData.setPrimeAdministrativeContactArray((PrimeAdministrativeContact[])rolodexDetailsList.toArray(new PrimeAdministrativeContact[0]));
+        }
+        public void setPrimePrincipalInvestigator(SubContractData subContractData, SubAward subaward) {
+            PersonDetailsType personDetails = PersonDetailsType.Factory.newInstance();
+            List<PersonDetailsType> personDetailsList = new ArrayList<PersonDetailsType>();
+            Map<String, String> awardMap = new HashMap<String, String>();
+            awardMap.put("awardNumber", awardNumber);
+            List<AwardPerson> awardList = (List<AwardPerson>) businessObjectService.findMatching(AwardPerson.class, awardMap);
+            KcPerson awardPersons = KcServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(awardList.get(0).getPersonId());
+            personDetails.setFullName(awardPersons.getFullName());
+            personDetails.setAddressLine1(awardPersons.getAddressLine1());
+            personDetails.setAddressLine2(awardPersons.getAddressLine2());
+            personDetails.setCity(awardPersons.getCity());
+            personDetails.setState(awardPersons.getState());
+            personDetails.setPostalCode(awardPersons.getPostalCode());
+            personDetails.setMobilePhoneNumber(awardPersons.getMobilePhoneNumber());
+            personDetails.setFaxNumber(awardPersons.getFaxNumber());
+            personDetails.setEmailAddress(awardPersons.getEmailAddress());
+            personDetailsList.add(personDetails);
+            subContractData.setPrimePrincipalInvestigatorArray((PersonDetailsType[])personDetailsList.toArray(new PersonDetailsType [0]));
+        }
+       
+        public void setPrimeFinancialContact(SubContractData subContractData, SubAward subaward) {
+            PrimeFinancialContact primeFinancialContact = PrimeFinancialContact.Factory.newInstance();
+            RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
+            List<PrimeFinancialContact> personDetailsList = new ArrayList<PrimeFinancialContact>();
+            Map<String, String> administrativeMap = new HashMap<String, String>();
+            parameterService = KcServiceLocator.getService(ParameterService.class);
+            String administrativeFinancialCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_PRIME_FINANCIAL_CONTACT_CODE);
+            administrativeMap.put("contactTypeCode", administrativeFinancialCode);
+            ContactUsage contactUsage =   businessObjectService.findByPrimaryKey(ContactUsage.class, administrativeMap);
+            if(contactUsage.getModuleCode().equals(CoeusModule.SUBCONTRACTS_MODULE_CODE)){
+              if(subaward.getSubAwardContactsList() != null && !subaward.getSubAwardContactsList().isEmpty()){
+                 for(SubAwardContact subAwardContact : subaward.getSubAwardContactsList()){
+                  if(subAwardContact.getContactTypeCode().equals(administrativeFinancialCode))
+                      {
+                      rolodexDetails.setRolodexName(subAwardContact.getRolodex().getOrganization());
+                      rolodexDetails.setAddress1(subAwardContact.getRolodex().getAddressLine1());
+                      rolodexDetails.setAddress2(subAwardContact.getRolodex().getAddressLine2());
+                      rolodexDetails.setCity(subAwardContact.getRolodex().getCity());
+                      rolodexDetails.setStateDescription(subAwardContact.getRolodex().getState());
+                      rolodexDetails.setPincode(subAwardContact.getRolodex().getPostalCode());
+                      rolodexDetails.setPhoneNumber(subAwardContact.getRolodex().getPhoneNumber());
+                      rolodexDetails.setFax(subAwardContact.getRolodex().getFaxNumber());
+                      rolodexDetails.setEmail(subAwardContact.getRolodex().getEmailAddress());
+                      }
+                 }
+              }
+            }
+            primeFinancialContact.setRolodexDetails(rolodexDetails);
+            personDetailsList.add(primeFinancialContact);
+            subContractData.setPrimeFinancialContactArray((PrimeFinancialContact[])personDetailsList.toArray(new PrimeFinancialContact [0]));
+        }
+        public void setPrimeAuthorizedOfficial(SubContractData subContractData, SubAward subaward) {
+            PrimeAuthorizedOfficial primeAuthorisedOfficial = PrimeAuthorizedOfficial.Factory.newInstance();
+            RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
+            List<PrimeAuthorizedOfficial> primeAuthorisedList = new ArrayList<PrimeAuthorizedOfficial>();
+            Map<String, String> administrativeMap = new HashMap<String, String>();
+            parameterService = KcServiceLocator.getService(ParameterService.class);
+            String auhtorisedOfficialCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_PRIME_AUTHORIZED_OFFICIAL_CODE);
+            administrativeMap.put("contactTypeCode", auhtorisedOfficialCode);
+            ContactUsage contactUsage =   businessObjectService.findByPrimaryKey(ContactUsage.class, administrativeMap);
+            if(contactUsage.getModuleCode().equals(CoeusModule.SUBCONTRACTS_MODULE_CODE)){
+              if(subaward.getSubAwardContactsList() != null && !subaward.getSubAwardContactsList().isEmpty()){
+                  for(SubAwardContact subAwardContact : subaward.getSubAwardContactsList()){
+                  if(subAwardContact.getContactTypeCode().equals(auhtorisedOfficialCode))
+                      {
+                      rolodexDetails.setRolodexName(subAwardContact.getRolodex().getOrganization());
+                      rolodexDetails.setAddress1(subAwardContact.getRolodex().getAddressLine1());
+                      rolodexDetails.setAddress2(subAwardContact.getRolodex().getAddressLine2());
+                      rolodexDetails.setCity(subAwardContact.getRolodex().getCity());
+                      rolodexDetails.setStateDescription(subAwardContact.getRolodex().getState());
+                      rolodexDetails.setPincode(subAwardContact.getRolodex().getPostalCode());
+                      rolodexDetails.setPhoneNumber(subAwardContact.getRolodex().getPhoneNumber());
+                      rolodexDetails.setFax(subAwardContact.getRolodex().getFaxNumber());
+                      rolodexDetails.setEmail(subAwardContact.getRolodex().getEmailAddress());
+                      }
+              }}
+            }
+            primeAuthorisedOfficial.setRolodexDetails(rolodexDetails);
+            primeAuthorisedList.add(primeAuthorisedOfficial);
+            subContractData.setPrimeAuthorizedOfficialArray((PrimeAuthorizedOfficial[])primeAuthorisedList.toArray(new PrimeAuthorizedOfficial [0]));
+        }
+            public void setAdministrativeContact(SubContractData subContractData, SubAward subaward) {
+                AdministrativeContact administrativeContact = AdministrativeContact.Factory.newInstance();
+                RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
+                List<AdministrativeContact> administrativeContactList = new ArrayList<AdministrativeContact>();
+                Map<String, String> administrativeMap = new HashMap<String, String>();
+                parameterService = KcServiceLocator.getService(ParameterService.class);
+                String administrativeCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_SUB_ADMINISTRATIVE_CONTACT_CODE);
+                administrativeMap.put("contactTypeCode", administrativeCode);
+                ContactUsage contactUsage =   businessObjectService.findByPrimaryKey(ContactUsage.class, administrativeMap);
+                if(contactUsage.getModuleCode().equals(CoeusModule.SUBCONTRACTS_MODULE_CODE)){
+                  if(subaward.getSubAwardContactsList() != null && !subaward.getSubAwardContactsList().isEmpty()){
+                      for(SubAwardContact subAwardContact : subaward.getSubAwardContactsList()){
+                      if(subAwardContact.getContactTypeCode().equals(administrativeCode))
+                          {
+                          rolodexDetails.setRolodexName(subAwardContact.getRolodex().getOrganization());
+                          rolodexDetails.setAddress1(subAwardContact.getRolodex().getAddressLine1());
+                          rolodexDetails.setAddress2(subAwardContact.getRolodex().getAddressLine2());
+                          rolodexDetails.setCity(subAwardContact.getRolodex().getCity());
+                          rolodexDetails.setStateDescription(subAwardContact.getRolodex().getState());
+                          rolodexDetails.setPincode(subAwardContact.getRolodex().getPostalCode());
+                          rolodexDetails.setPhoneNumber(subAwardContact.getRolodex().getPhoneNumber());
+                          rolodexDetails.setFax(subAwardContact.getRolodex().getFaxNumber());
+                          rolodexDetails.setEmail(subAwardContact.getRolodex().getEmailAddress());
+                          }
+                  }}
+                }
+                administrativeContact.setRolodexDetails(rolodexDetails);
+                administrativeContactList.add(administrativeContact);
+                subContractData.setAdministrativeContactArray((AdministrativeContact[])administrativeContactList.toArray(new AdministrativeContact [0]));
+            }
+            public void setFinancialContact(SubContractData subContractData, SubAward subaward) {
+                FinancialContact financialContact =FinancialContact.Factory.newInstance();
+                RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
+                List<FinancialContact> financialContactList = new ArrayList<FinancialContact>();
+                Map<String, String> administrativeMap = new HashMap<String, String>();
+                parameterService = KcServiceLocator.getService(ParameterService.class);
+                String financialContactCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_SUB_FINANCIAL_CONTACT_CODE);
+                administrativeMap.put("contactTypeCode", financialContactCode);
+                ContactUsage contactUsage =   businessObjectService.findByPrimaryKey(ContactUsage.class, administrativeMap);
+                if(contactUsage.getModuleCode().equals(CoeusModule.SUBCONTRACTS_MODULE_CODE)){
+                  if(subaward.getSubAwardContactsList() != null && !subaward.getSubAwardContactsList().isEmpty()){
+                      for(SubAwardContact subAwardContact : subaward.getSubAwardContactsList()){
+                      if(subAwardContact.getContactTypeCode().equals(financialContactCode))
+                          {
+                          rolodexDetails.setRolodexName(subAwardContact.getRolodex().getOrganization());
+                          rolodexDetails.setAddress1(subAwardContact.getRolodex().getAddressLine1());
+                          rolodexDetails.setAddress2(subAwardContact.getRolodex().getAddressLine2());
+                          rolodexDetails.setCity(subAwardContact.getRolodex().getCity());
+                          rolodexDetails.setStateDescription(subAwardContact.getRolodex().getState());
+                          rolodexDetails.setPincode(subAwardContact.getRolodex().getPostalCode());
+                          rolodexDetails.setPhoneNumber(subAwardContact.getRolodex().getPhoneNumber());
+                          rolodexDetails.setFax(subAwardContact.getRolodex().getFaxNumber());
+                          rolodexDetails.setEmail(subAwardContact.getRolodex().getEmailAddress());
+                          }
+                  }}
+                }
+                financialContact.setRolodexDetails(rolodexDetails);
+                financialContactList.add(financialContact);
+                subContractData.setFinancialContactArray((FinancialContact[])financialContactList.toArray(new FinancialContact [0]));
+            }
+            public void setAuthorizedOfficial(SubContractData subContractData, SubAward subaward) {
+                AuthorizedOfficial authorizedOfficial =AuthorizedOfficial.Factory.newInstance();
+                RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
+                List<AuthorizedOfficial> authorizedOfficialList = new ArrayList<AuthorizedOfficial>();
+                Map<String, String> administrativeMap = new HashMap<String, String>();
+                parameterService = KcServiceLocator.getService(ParameterService.class);
+                String financialContactCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_FDP_SUB_AUTHORIZED_CONTACT_CODE);
+                administrativeMap.put("contactTypeCode", financialContactCode);
+                ContactUsage contactUsage =   businessObjectService.findByPrimaryKey(ContactUsage.class, administrativeMap);
+                if(contactUsage.getModuleCode().equals(CoeusModule.SUBCONTRACTS_MODULE_CODE)){
+                  if(subaward.getSubAwardContactsList() != null && !subaward.getSubAwardContactsList().isEmpty()){
+                      for(SubAwardContact subAwardContact : subaward.getSubAwardContactsList()){
+                      if(subAwardContact.getContactTypeCode().equals(financialContactCode))
+                          {
+                          rolodexDetails.setRolodexName(subAwardContact.getRolodex().getOrganization());
+                          rolodexDetails.setAddress1(subAwardContact.getRolodex().getAddressLine1());
+                          rolodexDetails.setAddress2(subAwardContact.getRolodex().getAddressLine2());
+                          rolodexDetails.setCity(subAwardContact.getRolodex().getCity());
+                          rolodexDetails.setStateDescription(subAwardContact.getRolodex().getState());
+                          rolodexDetails.setPincode(subAwardContact.getRolodex().getPostalCode());
+                          rolodexDetails.setPhoneNumber(subAwardContact.getRolodex().getPhoneNumber());
+                          rolodexDetails.setFax(subAwardContact.getRolodex().getFaxNumber());
+                          rolodexDetails.setEmail(subAwardContact.getRolodex().getEmailAddress());
+                          }
+                  }}
+                }
+                authorizedOfficial.setRolodexDetails(rolodexDetails);
+                authorizedOfficialList.add(authorizedOfficial);
+                subContractData.setAuthorizedOfficialArray((AuthorizedOfficial[])authorizedOfficialList.toArray(new AuthorizedOfficial [0]));
+            }
+            public void setSubcontractReports(SubContractData subContractData, SubAward subaward) {
+                List<SubcontractReports> subContractReportsList = new ArrayList<SubcontractReports>();
+                Map<String, String> reportTypeCode = new HashMap<String, String>();
+                SubAwardReportType subAwardReportsType = null;
+                if(subaward.getSubAwardReportList() != null && !subaward.getSubAwardReportList().isEmpty()){
+                for(SubAwardReports subAwardReports : subaward.getSubAwardReportList()){
+                    SubcontractReports subContractReports = SubcontractReports.Factory.newInstance();
+                    reportTypeCode.put("subAwardReportTypeCode", subAwardReports.getSubAwardReportTypeCode());
+                    subAwardReportsType = businessObjectService.findByPrimaryKey(SubAwardReportType.class, reportTypeCode);
+                subContractReports.setReportTypeDescription(subAwardReportsType.getDescription());
+                subContractReportsList.add(subContractReports);
+                }
+               }
+                subContractData.setSubcontractReportsArray((SubcontractReports[])subContractReportsList.toArray(new SubcontractReports [0]));
+            }
         
 }
