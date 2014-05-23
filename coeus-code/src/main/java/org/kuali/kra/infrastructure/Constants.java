@@ -126,7 +126,7 @@ public interface Constants {
     public static final String PRIME_SPONSOR_KEY = "document.developmentProposalList[0].primeSponsorCode";
     public static final String PROJECT_TITLE_KEY = "document.developmentProposalList[0].title";
 
-    public static final String AUDIT_ERRORS = "Validation Errors";
+    public static final String AUDIT_ERRORS = "Error";
     public static final String AUDIT_WARNINGS = "Warnings";
     public static final String GRANTSGOV_ERRORS= "Grants.Gov Errors";
     
@@ -158,10 +158,10 @@ public interface Constants {
     public static final String BUDGET_VERSION_PANEL_NAME = "Budget Versions";
 
     // Key Personnel Mojo
-    public static final String KEY_PERSONNEL_PAGE = "keyPersonnel";
+    public static final String KEY_PERSONNEL_PAGE = "PropDev-PersonnelPage";
     public static final String PROPOSAL_PERSON_INVESTIGATOR = "investigator";
-    public static final String KEY_PERSONNEL_PANEL_ANCHOR = "KeyPersonnel";
-    public static final String KEY_PERSONNEL_PANEL_NAME = "Key Personnel Information";
+    public static final String KEY_PERSONNEL_PANEL_ANCHOR = "PropDev-PersonnelPage-Section";
+    public static final String KEY_PERSONNEL_PANEL_NAME = "Key Personnel";
     public static final String PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY = "document.newMaintainableObject.fieldName";
     public static final String INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY = "invCreditTypeCode";
     public static final String EMPTY_STRING = "";

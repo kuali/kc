@@ -224,8 +224,8 @@
 			<bean parent="Uif-ActionBar">
 				<property name="items">
 					<list>
-						<bean parent="Uif-ActionLink" p:methodToCall="validateData" p:conditionalRefresh="@{validateData}"
-                            p:actionLabel="Data Validation @{validateData?'(on)':'(off)'}"
+						<bean parent="Uif-ActionLink" p:methodToCall="validateData"
+                            p:actionLabel="Data Validation"
                             p:iconClass="icon-ok" p:order="10"
                             p:successCallback="retrieveComponent('PropDev-DataValidationSection');showLightboxComponent('PropDev-DataValidationSection');" />
 						<bean parent="Uif-ActionLink" p:methodToCall="noop"
