@@ -30,6 +30,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
@@ -60,6 +61,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
         ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
+        DevelopmentProposal proposal = document.getDevelopmentProposal();
         if (addLine instanceof Narrative) {
             Narrative narrative = (Narrative) addLine;
             getNarrativeService().prepareNarrative(document, narrative);
@@ -68,9 +70,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             }
         } else if (addLine instanceof ProposalPersonBiography) {
             document.getDevelopmentProposal().addProposalPersonBiography((ProposalPersonBiography) addLine);
-		}  else if (addLine instanceof ProposalAbstract) {
+		} else if (addLine instanceof ProposalPersonDegree) {
+			((ProposalPersonDegree)addLine).setDegreeSequenceNumber(document.getDocumentNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
+        } else if (addLine instanceof ProposalAbstract) {
             ProposalAbstract proposalAbstract = (ProposalAbstract) addLine;
-            proposalAbstract.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+            proposalAbstract.setProposalNumber(proposal.getProposalNumber());
             proposalAbstract.refreshReferenceObject("abstractType");
         } else if (addLine instanceof ProposalSpecialReview) {
         	ProposalSpecialReview proposalSpecialReview = (ProposalSpecialReview) addLine;
