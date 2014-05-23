@@ -28,6 +28,7 @@ import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.sql.Date;
 import java.util.*;
@@ -205,8 +206,10 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         }
         
         List<PessimisticLock> locks = protocol.getProtocolDocument().getPessimisticLocks();
-        for(PessimisticLock lock : locks) {
-            dataObjectService.delete(lock);
+        if (locks != null) {
+        	for(PessimisticLock lock : locks) {
+        		dataObjectService.delete(lock);
+        	}
         }
 
         protocol.getProtocolDocument().getPessimisticLocks().clear();
