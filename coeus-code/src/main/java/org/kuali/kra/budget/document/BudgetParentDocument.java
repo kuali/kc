@@ -21,7 +21,7 @@ import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
-import org.kuali.coeus.common.budget.impl.version.BudgetVersionCollection;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionCollection;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;

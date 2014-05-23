@@ -147,7 +147,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         this.pessimisticLockService = pessimisticLockService;
     }
     /**
-     * Retrieve injected <code>{@link org.kuali.coeus.common.budget.impl.version.AddBudgetVersionRule}</code> singleton
+     * Retrieve injected <code>{@link org.kuali.coeus.common.budget.framework.version.AddBudgetVersionRule}</code> singleton
      * 
      * @return AddBudgetVersionRule
      */
@@ -156,7 +156,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     }
 
     /**
-     * Inject <code>{@link org.kuali.coeus.common.budget.impl.version.AddBudgetVersionRule}</code> singleton
+     * Inject <code>{@link org.kuali.coeus.common.budget.framework.version.AddBudgetVersionRule}</code> singleton
      * 
      * @return AddBudgetVersionRule
      */
