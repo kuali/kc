@@ -24,6 +24,7 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
+import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -31,7 +32,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.s2s.S2sOppFormsContract;
-import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -51,7 +51,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
     private static final String CONTENT_TYPE_PDF = "application/pdf";
 
 
-    private S2SService s2SService;
+    private S2sSubmissionService s2sSubmissionService;
     private S2sUserAttachedFormService s2SUserAttachedFormService;
     
 	/**
@@ -111,7 +111,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         try {
             List<String> mandatoryForms = new ArrayList<String>();
             if (s2sOpportunity != null && s2sOpportunity.getSchemaUrl() != null) {
-                s2sOppForms = getS2SService().parseOpportunityForms(s2sOpportunity);
+                s2sOppForms = getS2sSubmissionService().parseOpportunityForms(s2sOpportunity);
                 if(s2sOppForms!=null){
                     for(S2sOppFormsContract s2sOppForm:s2sOppForms){
                         if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
@@ -131,7 +131,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
                     developmentProposal.setS2sOpportunity(new S2sOpportunity());
                 }            
             }
-        }catch(S2SException ex){
+        }catch(S2sCommunicationException ex){
             if(ex.getErrorKey().equals(KeyConstants.ERROR_GRANTSGOV_NO_FORM_ELEMENT)) {
                 ex.setMessage(s2sOpportunity.getOpportunityId());
             }
@@ -221,13 +221,13 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         try{
-            if(getS2SService().refreshGrantsGov(proposalDevelopmentDocument)){
+            if(getS2sSubmissionService().refreshGrantsGov(proposalDevelopmentDocument)){
                 proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("s2sAppSubmission");
                 return mapping.findForward(Constants.MAPPING_BASIC);
             }else{
                 throw new RuntimeException("Refresh Failed");
             }
-        }catch(S2SException ex){
+        }catch(S2sCommunicationException ex){
             GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessage());
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
@@ -430,10 +430,10 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         return s2SUserAttachedFormService;
     }
 
-    protected S2SService getS2SService() {
-        if (s2SService == null)
-            s2SService = KcServiceLocator.getService(S2SService.class);
-        return s2SService;
+    protected S2sSubmissionService getS2sSubmissionService() {
+        if (s2sSubmissionService == null)
+            s2sSubmissionService = KcServiceLocator.getService(S2sSubmissionService.class);
+        return s2sSubmissionService;
     }
 
 }
