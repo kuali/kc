@@ -13,17 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.versions;
+package org.kuali.coeus.common.budget.impl.version;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetDocumentRule;
+import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -36,6 +42,8 @@ import static org.springframework.util.StringUtils.hasText;
  * so it does not use or require an event.
  * 
  **/
+@Component("budgetVersionRule")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class BudgetVersionRule  implements AddBudgetVersionRule {
 
     private static final Log LOG = LogFactory.getLog(BudgetVersionRule.class);

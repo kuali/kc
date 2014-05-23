@@ -117,8 +117,6 @@
 		</property>
  	</bean>
 
-	<bean id="budgetVersionRule" class="org.kuali.kra.budget.versions.BudgetVersionRule" scope="prototype" />
-
 	<bean id="budgetCalculationService" class="org.kuali.kra.budget.calculator.BudgetCalculationServiceImpl">
 		<property name="businessObjectService" >
   			<ref bean="businessObjectService"/>

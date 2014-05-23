@@ -18,10 +18,8 @@ package org.kuali.coeus.propdev.impl.copy;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.propdev.impl.copy.CopyBudgetVersionsValuesFinder;
-import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.rice.core.api.util.KeyValue;
 
 import java.util.ArrayList;

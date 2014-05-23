@@ -17,7 +17,7 @@ package org.kuali.kra.award.budget;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
