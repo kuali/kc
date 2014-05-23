@@ -29,7 +29,7 @@ import org.kuali.coeus.common.budget.impl.period.AddBudgetPeriodEvent;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.impl.period.GenerateBudgetPeriodEvent;
 import org.kuali.coeus.common.budget.impl.period.SaveBudgetPeriodEvent;
-import org.kuali.kra.budget.rates.BudgetRatesService;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;

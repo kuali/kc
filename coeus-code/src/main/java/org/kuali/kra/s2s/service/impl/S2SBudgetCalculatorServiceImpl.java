@@ -30,7 +30,7 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.budget.personnel.*;
-import org.kuali.kra.budget.rates.RateClass;
+import org.kuali.coeus.common.budget.framework.rate.RateClass;
 
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;

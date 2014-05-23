@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.bo;
 
-import org.kuali.kra.budget.rates.AbstractBudgetRate;
-import org.kuali.kra.budget.rates.BudgetLaRate;
+import org.kuali.coeus.common.budget.framework.rate.AbstractBudgetRate;
+import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
 
 /**
  * 

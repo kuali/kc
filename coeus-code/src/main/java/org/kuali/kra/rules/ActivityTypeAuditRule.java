@@ -20,7 +20,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.budget.rates.BudgetRate;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.util.AuditCluster;

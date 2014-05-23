@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="BudgetRate" parent="BudgetRate-parentBean" />
   <bean id="BudgetRate-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.budget.rates.BudgetRate" />
+    <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.rate.BudgetRate" />
 		<property name="objectLabel" value="Budget Proposal Rate" />
     <property name="inquiryDefinition" >
       <ref bean="BudgetRate-inquiryDefinition" />
@@ -315,7 +315,7 @@
 
   <bean id="BudgetRate-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Prop Rates"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.budget.rates.BudgetRate"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.rate.BudgetRate"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -377,7 +377,7 @@
   </bean>
 
   <bean id="BudgetRate-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.budget.rates.BudgetRate"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.rate.BudgetRate"/>
     <property name="headerText" value="Prop Rates Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

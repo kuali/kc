@@ -16,9 +16,9 @@
 package org.kuali.kra.budget.calculator;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.budget.rates.RateClass;
-import org.kuali.kra.budget.rates.RateClassType;
-import org.kuali.kra.budget.rates.RateType;
+import org.kuali.coeus.common.budget.framework.rate.RateClass;
+import org.kuali.coeus.common.budget.framework.rate.RateClassType;
+import org.kuali.coeus.common.budget.framework.rate.RateType;
 
 public class ValidCalcType extends KcPersistableBusinessObjectBase {
 
