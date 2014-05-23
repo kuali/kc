@@ -17,9 +17,12 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
+import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
+import org.kuali.coeus.common.budget.impl.version.BudgetVersionCollection;
+import org.kuali.coeus.common.budget.impl.version.BudgetVersionRule;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.versions.*;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.DocumentBase;
 
@@ -31,7 +34,7 @@ import static org.junit.Assert.assertTrue;
 
 /**
  *
- * @see org.kuali.kra.budget.versions.BudgetVersionRule
+ * @see org.kuali.coeus.common.budget.impl.version.BudgetVersionRule
  */
 public class BudgetVersionRuleTest {
     private static final String VERSION_NAME = "test version";
@@ -91,10 +94,10 @@ public class BudgetVersionRuleTest {
     }
     
     /**
-     * Adds a fake {@link BudgetVersionOverview} with <code>name</code> to the given {@link ProposalDevelopmentDocument}
+     * Adds a fake {@link org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview} with <code>name</code> to the given {@link ProposalDevelopmentDocument}
      *
-     * @param document document to add {@link BudgetVersionOverview} to
-     * @param name of the {@link BudgetVersionOverview} to add
+     * @param document document to add {@link org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview} to
+     * @param name of the {@link org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview} to add
      */
     public void addNewBudgetVersion(BudgetVersionCollection document, String name) {
         document.getBudgetDocumentVersions().add(new PseudoBudgetVersionOverview(name));

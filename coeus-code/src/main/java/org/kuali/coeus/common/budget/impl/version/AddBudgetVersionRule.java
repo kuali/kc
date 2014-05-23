@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.versions;
+package org.kuali.coeus.common.budget.impl.version;
 
+import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
 import org.kuali.kra.budget.document.BudgetDocumentRule;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
@@ -29,7 +30,7 @@ public interface AddBudgetVersionRule  extends BusinessRule {
     /**
      * Entry method for the business rule. 
      *
-     * @param event The {@link AddBudgetVersionEvent} triggering the rule
+     * @param event The {@link org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent} triggering the rule
      * @returns true if it passed, false if it failed
      */
     public boolean processAddBudgetVersionName(AddBudgetVersionEvent event);

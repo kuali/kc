@@ -18,7 +18,7 @@ package org.kuali.coeus.propdev.impl.lock;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.data.DataObjectService;

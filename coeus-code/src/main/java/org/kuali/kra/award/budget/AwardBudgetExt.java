@@ -24,8 +24,8 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 

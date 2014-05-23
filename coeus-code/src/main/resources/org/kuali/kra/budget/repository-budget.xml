@@ -40,7 +40,7 @@
 		<!-- GENERATE NEXT VALUE -->
 
 	</class-descriptor>
-    <class-descriptor class="org.kuali.kra.budget.versions.BudgetDocumentVersion" table="BUDGET_DOCUMENT">			
+    <class-descriptor class="org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion" table="BUDGET_DOCUMENT">
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />		
 		<field-descriptor name="parentDocumentKey" column="PARENT_DOCUMENT_KEY" jdbc-type="VARCHAR"/>
 		<field-descriptor name="parentDocumentTypeCode" column="PARENT_DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
@@ -49,7 +49,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 
-    	<collection-descriptor name="budgetVersionOverviews" proxy="true" element-class-ref="org.kuali.kra.budget.versions.BudgetVersionOverview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    	<collection-descriptor name="budgetVersionOverviews" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="documentNumber" />
     	</collection-descriptor>
 	</class-descriptor>
@@ -148,7 +148,7 @@
 	</class-descriptor>
 	
 	<!-- Shared Tables -->
-	<class-descriptor class="org.kuali.kra.budget.versions.BudgetVersionOverview" table="BUDGET">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview" table="BUDGET">
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_BUDGET_ID" />
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="budgetVersionNumber" column="VERSION_NUMBER" jdbc-type="INTEGER" />
@@ -1173,7 +1173,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="budgetInitiator" column="BUDGET_INITIATOR" jdbc-type="VARCHAR" />
-		<reference-descriptor name="super" class-ref="org.kuali.kra.budget.versions.BudgetVersionOverview">
+		<reference-descriptor name="super" class-ref="org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview">
 			<foreignkey field-ref="budgetId"/>
 		</reference-descriptor>
 		<reference-descriptor name="awardBudgetStatus" class-ref="org.kuali.kra.award.budget.AwardBudgetStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
