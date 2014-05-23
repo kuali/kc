@@ -26,7 +26,7 @@ public class IacucProtocolStudyCustomData extends KcPersistableBusinessObjectBas
 
     private Integer iacucProtocolStudyCustomDataId; 
     private Integer iacucProtocolStudyGroupId; 
-    private Integer procedureCustomAttributeId;
+    private Long procedureCustomAttributeId;
     private String value;
     
     private IacucProcedureCategoryCustomData iacucProcedureCategoryCustomData;
@@ -52,11 +52,11 @@ public class IacucProtocolStudyCustomData extends KcPersistableBusinessObjectBas
         this.iacucProtocolStudyGroupId = iacucProtocolStudyGroupId;
     }
 
-    public Integer getProcedureCustomAttributeId() {
+    public Long getProcedureCustomAttributeId() {
         return procedureCustomAttributeId;
     }
 
-    public void setProcedureCustomAttributeId(Integer procedureCustomAttributeId) {
+    public void setProcedureCustomAttributeId(Long procedureCustomAttributeId) {
         this.procedureCustomAttributeId = procedureCustomAttributeId;
     }
 

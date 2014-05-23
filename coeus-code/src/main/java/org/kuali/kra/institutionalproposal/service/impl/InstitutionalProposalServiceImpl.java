@@ -453,8 +453,8 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
                 ipCustomAttributes.put(key, dpCustomAttributeDocument);
                 ipCustomData = new InstitutionalProposalCustomData();
                 ipCustomData.setCustomAttribute(new CustomAttribute());
-                ipCustomData.getCustomAttribute().setId(dpCustomAttributeDocument.getCustomAttributeId());
-                ipCustomData.setCustomAttributeId((long) dpCustomAttributeDocument.getCustomAttributeId());
+                ipCustomData.getCustomAttribute().setId(dpCustomAttributeDocument.getId());
+                ipCustomData.setCustomAttributeId((long) dpCustomAttributeDocument.getId());
                 ipCustomData.setInstitutionalProposal(institutionalProposalDocument.getInstitutionalProposal());
                 ipCustomData.setValue(dpCustomAttributeDocument.getCustomAttribute().getValue());
                 ipCustomDataList.add(ipCustomData);
@@ -645,9 +645,9 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             Map<String, CustomAttributeDocument> customAttributeDocuments = oldInstitutionalProposal.getInstitutionalProposalDocument().getCustomAttributeDocuments();
             for (Map.Entry<String, CustomAttributeDocument> entry : customAttributeDocuments.entrySet()) {
                 CustomAttributeDocument customAttributeDocument = entry.getValue();
-                if(!availableCustomAttributes.contains(customAttributeDocument.getCustomAttributeId())) {
+                if(!availableCustomAttributes.contains(customAttributeDocument.getId())) {
                     InstitutionalProposalCustomData customData = new InstitutionalProposalCustomData();
-                    customData.setCustomAttributeId((long) customAttributeDocument.getCustomAttributeId());
+                    customData.setCustomAttributeId((long) customAttributeDocument.getId());
                     customData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
                     customData.setValue("");
                     customData.setInstitutionalProposal(newInstitutionalProposal);

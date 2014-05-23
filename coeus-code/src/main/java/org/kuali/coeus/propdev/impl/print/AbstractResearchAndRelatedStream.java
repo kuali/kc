@@ -642,9 +642,9 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         }
         rateAndBase.refreshNonUpdateableReferences();
         if (rateAndBase.getRateClass() != null
-                && (RateClassType.EMPLOYEE_BENEFITS.getRateClassType().equals(rateAndBase.getRateClass().getRateClassType()) && !rateAndBase
+                && (RateClassType.EMPLOYEE_BENEFITS.getRateClassType().equals(rateAndBase.getRateClass().getRateClassTypeCode()) && !rateAndBase
                         .getRateTypeCode().equals("3"))
-                || (RateClassType.VACATION.getRateClassType().equals(rateAndBase.getRateClass().getRateClassType()) && !rateAndBase
+                || (RateClassType.VACATION.getRateClassType().equals(rateAndBase.getRateClass().getRateClassTypeCode()) && !rateAndBase
                         .getRateTypeCode().equals("2"))) {
             return true;
         }
@@ -663,7 +663,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         }
         rateAndBase.refreshNonUpdateableReferences();
         if (rateAndBase.getRateClass() != null
-                && RateClassType.EMPLOYEE_BENEFITS.getRateClassType().equals(rateAndBase.getRateClass().getRateClassType())
+                && RateClassType.EMPLOYEE_BENEFITS.getRateClassType().equals(rateAndBase.getRateClass().getRateClassTypeCode())
                 && !rateAndBase.getRateTypeCode().equals("3")) {
             return true;
         }else {
@@ -681,7 +681,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         }
         rateAndBase.refreshNonUpdateableReferences();
         if (rateAndBase.getRateClass() != null
-                && RateClassType.VACATION.getRateClassType().equals(rateAndBase.getRateClass().getRateClassType())
+                && RateClassType.VACATION.getRateClassType().equals(rateAndBase.getRateClass().getRateClassTypeCode())
                 && !rateAndBase.getRateTypeCode().equals("2")) {
             return true;
         }
@@ -1323,9 +1323,9 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                     compensationInfo.setCostSharingAmount(compensationInfo.getCostSharingAmount().add(totalSalCostSharing));
                     for (BudgetPersonnelCalculatedAmount personCalculatedAmt : personDetails.getBudgetPersonnelCalculatedAmounts()) {
                         personCalculatedAmt.refreshReferenceObject("rateClass");
-                        if ((personCalculatedAmt.getRateClass().getRateClassType().equals(RATE_CLASS_TYPE_EMPLOYEE_BENEFITS) && !personCalculatedAmt
+                        if ((personCalculatedAmt.getRateClass().getRateClassTypeCode().equals(RATE_CLASS_TYPE_EMPLOYEE_BENEFITS) && !personCalculatedAmt
                                 .getRateTypeCode().equals(RATE_TYPE_SUPPORT_STAFF_SALARIES))
-                                || (personCalculatedAmt.getRateClass().getRateClassType().equals(RATE_CLASS_TYPE_VACATION) && !personCalculatedAmt
+                                || (personCalculatedAmt.getRateClass().getRateClassTypeCode().equals(RATE_CLASS_TYPE_VACATION) && !personCalculatedAmt
                                         .getRateTypeCode().equals(RATE_TYPE_ADMINISTRATIVE_SALARIES))) {
                             ScaleTwoDecimal fringe = personCalculatedAmt.getCalculatedCost();
                             compensationInfo.setFringe(compensationInfo.getFringe().add(fringe));

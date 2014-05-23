@@ -42,11 +42,11 @@
 				<td width="45%">
 
 				<c:forEach var="institutionalProposalCustomData" items="${KualiForm.document.institutionalProposalList[0].institutionalProposalCustomDataList}" > 
-				  	<c:if test="${institutionalProposalCustomData.customAttributeId == customAttributeDocument.customAttributeId}" >
+				  	<c:if test="${institutionalProposalCustomData.id == customAttributeDocument.id}" >
 				  	   <c:set var="customAttributeValue" value="${institutionalProposalCustomData.value}" />
 				  	</c:if>
 				</c:forEach>
-				<c:set var="customAttributeId" value="institutionalProposalCustomDataFormHelper.customDataValues[${customAttributeDocument.customAttributeId-1}].value" />
+				<c:set var="id" value="institutionalProposalCustomDataFormHelper.customDataValues[${customAttributeDocument.customAttributeId-1}].value" />
 				
           	  <c:set var="customAttributeErrorStyle" value="" scope="request"/>
 				<c:forEach items="${ErrorPropertyList}" var="key">

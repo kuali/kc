@@ -17,6 +17,7 @@ package org.kuali.coeus.common.budget.framework.version;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.budget.api.version.BudgetDocumentVersionContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -27,12 +28,10 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "BUDGET_DOCUMENT")
-public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase implements Comparable<BudgetDocumentVersion> {
+public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase implements Comparable<BudgetDocumentVersion>, BudgetDocumentVersionContract {
 
     private static final String BUDGET_COMPLETE = "1";
 
@@ -50,15 +49,11 @@ public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase imple
     @Column(name = "PARENT_DOCUMENT_TYPE_CODE")
     private String parentDocumentTypeCode;
 
-    @OneToMany(mappedBy="budgetDocumentVersion", cascade=CascadeType.ALL, orphanRemoval = true)
-    private List<BudgetVersionOverview> budgetVersionOverviews;
+    @OneToOne(mappedBy="budgetDocumentVersion", cascade=CascadeType.ALL)
+    private BudgetVersionOverview budgetVersionOverview;
 
     @Transient
     private DocumentHeader documentHeader;
-
-    public BudgetDocumentVersion() {
-        budgetVersionOverviews = new ArrayList<BudgetVersionOverview>();
-    }
 
     @Override
     protected void postLoad() {
@@ -66,64 +61,41 @@ public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase imple
         documentHeader = KRADServiceLocatorWeb.getDocumentHeaderService().getDocumentHeaderById(documentNumber);
     }
 
-    /**
-     * Gets the budgetVersionOverviews attribute. 
-     * @return Returns the budgetVersionOverviews.
-     */
-    public List<BudgetVersionOverview> getBudgetVersionOverviews() {
-        return budgetVersionOverviews;
-    }
-
-    /**
-     * Sets the budgetVersionOverviews attribute value.
-     * @param budgets The budgetVersionOverviews to set.
-     */
-    public void setBudgetVersionOverviews(List<BudgetVersionOverview> budgets) {
-        this.budgetVersionOverviews = budgets;
-    }
-
-    /**
-     * 
-     * This method returns Budget object. Creates new budget instance if the budgetVersionOverviews list is empty
-     * @return Budget
-     */
+    @Override
     public BudgetVersionOverview getBudgetVersionOverview() {
-        if (budgetVersionOverviews.isEmpty()) {
-            budgetVersionOverviews.add(new BudgetVersionOverview());
+        if(budgetVersionOverview == null) {
+            budgetVersionOverview = new BudgetVersionOverview();
         }
-        return budgetVersionOverviews.get(0);
+
+        return budgetVersionOverview;
     }
 
-    /**
-     * Gets the parentDocumentKey attribute. 
-     * @return Returns the parentDocumentKey.
-     */
+    public void setBudgetVersionOverview(BudgetVersionOverview budget) {
+        this.budgetVersionOverview = budget;
+    }
+
+    @Override
     public String getParentDocumentKey() {
         return parentDocumentKey;
     }
 
-    /**
-     * Sets the parentDocumentKey attribute value.
-     * @param parentDocumentNumber The parentDocumentKey to set.
-     */
     public void setParentDocumentKey(String parentDocumentNumber) {
         this.parentDocumentKey = parentDocumentNumber;
     }
 
     public Budget getFinalBudget() {
-        for (BudgetVersionOverview budgetVersionOverview : this.getBudgetVersionOverviews()) {
-            if (budgetVersionOverview != null && budgetVersionOverview.getBudgetStatus() != null && budgetVersionOverview.getBudgetStatus().equals(BUDGET_COMPLETE) && budgetVersionOverview.isFinalVersionFlag()) {
-                Budget result = findBudget();
-                if (result != null) {
-                    return (Budget) result;
-                }
+        BudgetVersionOverview budgetVersionOverview = this.getBudgetVersionOverview();
+        if (budgetVersionOverview != null && budgetVersionOverview.getBudgetStatus() != null && budgetVersionOverview.getBudgetStatus().equals(BUDGET_COMPLETE) && budgetVersionOverview.isFinalVersionFlag()) {
+            Budget result = findBudget();
+            if (result != null) {
+                return (Budget) result;
             }
         }
         return null;
     }
 
     public boolean isBudgetComplete() {
-        if (!getBudgetVersionOverviews().isEmpty()) {
+        if (getBudgetVersionOverview() != null) {
             return BUDGET_COMPLETE.equals(getBudgetVersionOverview().getBudgetStatus());
         }
         return false;
@@ -145,50 +117,28 @@ public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase imple
         return getBudgetVersionOverview().getBudgetVersionNumber().compareTo(otherVersion.getBudgetVersionOverview().getBudgetVersionNumber());
     }
 
-    /**
-     * Gets the documentNumber attribute. 
-     * @return Returns the documentNumber.
-     */
+    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
 
-    /**
-     * Sets the documentNumber attribute value.
-     * @param documentNumber The documentNumber to set.
-     */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
 
-    /**
-     * Gets the documentHeader attribute. 
-     * @return Returns the documentHeader.
-     */
     public DocumentHeader getDocumentHeader() {
         return documentHeader;
     }
 
-    /**
-     * Sets the documentHeader attribute value.
-     * @param documentHeader The documentHeader to set.
-     */
     public void setDocumentHeader(DocumentHeader documentHeader) {
         this.documentHeader = documentHeader;
     }
 
-    /**
-     * Gets the parentDocumentTypeCode attribute. 
-     * @return Returns the parentDocumentTypeCode.
-     */
+    @Override
     public String getParentDocumentTypeCode() {
         return parentDocumentTypeCode;
     }
 
-    /**
-     * Sets the parentDocumentTypeCode attribute value.
-     * @param parentDocumentTypeCode The parentDocumentTypeCode to set.
-     */
     public void setParentDocumentTypeCode(String parentDocumentTypeCode) {
         this.parentDocumentTypeCode = parentDocumentTypeCode;
     }

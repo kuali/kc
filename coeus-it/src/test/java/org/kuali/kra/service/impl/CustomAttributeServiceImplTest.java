@@ -78,7 +78,7 @@ public class CustomAttributeServiceImplTest extends KcIntegrationTestBase {
 
         for(Map.Entry<String, CustomAttributeDocument> testCustomAttributeDocumentEntry: testCustomAttributeDocuments.entrySet()) {
             CustomAttributeDocument testCustomAttributeDocument = testCustomAttributeDocumentEntry.getValue();
-            CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(testCustomAttributeDocument.getCustomAttributeId().toString());
+            CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(testCustomAttributeDocument.getId().toString());
             assertNotNull(customAttributeDocument);
             assertEquals(testCustomAttributeDocument.getDocumentTypeName(), customAttributeDocument.getDocumentTypeName());
             assertEquals(testCustomAttributeDocument.isRequired(), customAttributeDocument.isRequired());
@@ -104,7 +104,7 @@ public class CustomAttributeServiceImplTest extends KcIntegrationTestBase {
 
         for(Map.Entry<String, CustomAttributeDocument> testCustomAttributeDocumentEntry: testCustomAttributeDocuments.entrySet()) {
             CustomAttributeDocument testCustomAttributeDocument = testCustomAttributeDocumentEntry.getValue();
-            CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(testCustomAttributeDocument.getCustomAttributeId().toString());
+            CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(testCustomAttributeDocument.getId().toString());
             assertNotNull(customAttributeDocument);
             assertEquals(testCustomAttributeDocument.getDocumentTypeName(), customAttributeDocument.getDocumentTypeName());
             assertEquals(testCustomAttributeDocument.isRequired(), customAttributeDocument.isRequired());
@@ -133,7 +133,7 @@ public class CustomAttributeServiceImplTest extends KcIntegrationTestBase {
 
         for(Map.Entry<String, CustomAttributeDocument> testCustomAttributeDocumentEntry: testCustomAttributeDocuments.entrySet()) {
             CustomAttributeDocument testCustomAttributeDocument = testCustomAttributeDocumentEntry.getValue();
-            CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(testCustomAttributeDocument.getCustomAttributeId().toString());
+            CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(testCustomAttributeDocument.getId().toString());
             assertNotNull(customAttributeDocument);
             assertEquals(testCustomAttributeDocument.getDocumentTypeName(), customAttributeDocument.getDocumentTypeName());
             assertEquals(testCustomAttributeDocument.isRequired(), customAttributeDocument.isRequired());
@@ -162,7 +162,7 @@ public class CustomAttributeServiceImplTest extends KcIntegrationTestBase {
 
         for(Map.Entry<String, CustomAttributeDocument> testCustomAttributeDocumentEntry: testCustomAttributeDocuments.entrySet()) {
             CustomAttributeDocument testCustomAttributeDocument = testCustomAttributeDocumentEntry.getValue();
-            CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(testCustomAttributeDocument.getCustomAttributeId().toString());
+            CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(testCustomAttributeDocument.getId().toString());
             assertNotNull(customAttributeDocument);
             assertEquals(testCustomAttributeDocument.getDocumentTypeName(), customAttributeDocument.getDocumentTypeName());
             assertEquals(testCustomAttributeDocument.isRequired(), customAttributeDocument.isRequired());

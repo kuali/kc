@@ -171,8 +171,8 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
             for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : budgetLineItem
                     .getBudgetLineItemCalculatedAmounts()) {
                 budgetLineItemCalculatedAmount.refreshReferenceObject("rateClass");
-                if (budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RATE_CLASS_TYPE_EMPLOYEE_BENEFITS)
-                        || budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RATE_CLASS_TYPE_EMPLOYEE_BENEFITS)) {
+                if (budgetLineItemCalculatedAmount.getRateClass().getRateClassTypeCode().equals(RATE_CLASS_TYPE_EMPLOYEE_BENEFITS)
+                        || budgetLineItemCalculatedAmount.getRateClass().getRateClassTypeCode().equals(RATE_CLASS_TYPE_EMPLOYEE_BENEFITS)) {
                     calculatedCost = calculatedCost.add(budgetLineItemCalculatedAmount.getCalculatedCost());
                 }
             }

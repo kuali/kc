@@ -251,7 +251,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		for (BudgetLineItemCalculatedAmount lineItemCalAmt : budgetLineItem
 				.getBudgetLineItemCalculatedAmounts()) {
 			lineItemCalAmt.refreshReferenceObject(RATE_CLASS);
-			if (lineItemCalAmt.getRateClass().getRateClassType().equals(
+			if (lineItemCalAmt.getRateClass().getRateClassTypeCode().equals(
 					rateClassType)
 					&& lineItemCalAmt.getCalculatedCost() != null) {
 				calculatedCost = calculatedCost.add(lineItemCalAmt
@@ -275,7 +275,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		for (BudgetLineItemCalculatedAmount lineItemCalAmt : budgetLineItem
 				.getBudgetLineItemCalculatedAmounts()) {
 			lineItemCalAmt.refreshReferenceObject(RATE_CLASS);
-			if (lineItemCalAmt.getRateClass().getRateClassType().equals(
+			if (lineItemCalAmt.getRateClass().getRateClassTypeCode().equals(
 					rateClassType)
 					&& lineItemCalAmt.getCalculatedCostSharing() != null) {
 				costSharingAmount = costSharingAmount.add(lineItemCalAmt
@@ -1435,7 +1435,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem
 				.getBudgetRateAndBaseList()) {
 			budgetRateAndBase.refreshReferenceObject(RATE_CLASS);
-			if (budgetRateAndBase.getRateClass().getRateClassType().equals(
+			if (budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(
 					rateClassType)) {
 				String budgetRateBaseKey = getBudgetRateAndBaseKey(budgetRateAndBase);
 				if (laRateBaseMap.containsKey(budgetRateBaseKey)) {
@@ -1463,9 +1463,9 @@ public abstract class BudgetBaseStream implements XmlStream {
 		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem
 				.getBudgetRateAndBaseList()) {
 			budgetRateAndBase.refreshReferenceObject(RATE_CLASS);
-			if (budgetRateAndBase.getRateClass().getRateClassType().equals(
+			if (budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(
 					rateClassType)
-					&& !budgetRateAndBase.getRateClass().getRateClassType()
+					&& !budgetRateAndBase.getRateClass().getRateClassTypeCode()
 							.equals(getLiVacOnLaRateTypeCode())) {
 				String budgetRateBaseKey = getBudgetRateAndBaseKey(budgetRateAndBase);
 				if (vacBudgetRateBaseMap.containsKey(budgetRateBaseKey)) {
@@ -1494,9 +1494,9 @@ public abstract class BudgetBaseStream implements XmlStream {
 		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem
 				.getBudgetRateAndBaseList()) {
 			budgetRateAndBase.refreshReferenceObject(RATE_CLASS);
-			if (budgetRateAndBase.getRateClass().getRateClassType().equals(
+			if (budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(
 					rateClassType1)
-					|| budgetRateAndBase.getRateClass().getRateClassType()
+					|| budgetRateAndBase.getRateClass().getRateClassTypeCode()
 							.equals(rateClassType2)) {
 				String budgetRateBaseKey = getBudgetRateAndBaseKey(budgetRateAndBase);
 				if (laRateBaseMap.containsKey(budgetRateBaseKey)) {
@@ -1536,9 +1536,9 @@ public abstract class BudgetBaseStream implements XmlStream {
 		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem
 				.getBudgetRateAndBaseList()) {
 			budgetRateAndBase.refreshReferenceObject(RATE_CLASS);
-			if (budgetRateAndBase.getRateClass().getRateClassType().equals(
+			if (budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(
 					rateClassType)
-					&& !budgetRateAndBase.getRateClass().getRateClassType()
+					&& !budgetRateAndBase.getRateClass().getRateClassTypeCode()
 							.equals(getLiEbOnLaRateTypeCode())) {
 				String budgetRateBaseKey = getBudgetRateAndBaseKey(budgetRateAndBase);
 				if (ebBudgetRateBaseMap.containsKey(budgetRateBaseKey)) {
@@ -1566,7 +1566,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem
 				.getBudgetRateAndBaseList()) {
 			budgetRateAndBase.refreshReferenceObject(RATE_CLASS);
-			if (budgetRateAndBase.getRateClass().getRateClassType().equals(
+			if (budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(
 					rateClassType)) {
 				String budgetRateBaseKey = getBudgetRateAndBaseKey(budgetRateAndBase);
 				if (ohBudgetRateBaseMap.containsKey(budgetRateBaseKey)) {
@@ -1638,7 +1638,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 				budgetPersRateAndBase.refreshNonUpdateableReferences();
 				if (budgetPersRateAndBase.getRateClass() != null
 						&& rateClassType.equals(budgetPersRateAndBase
-								.getRateClass().getRateClassType())) {
+								.getRateClass().getRateClassTypeCode())) {
 					String budgetPersRateBaseKey = getBudgetPersRateAndBaseKey(budgetPersRateAndBase);
 					if (otherBudgetPersRateBaseMap
 							.containsKey(budgetPersRateBaseKey)) {
@@ -1677,9 +1677,9 @@ public abstract class BudgetBaseStream implements XmlStream {
 				budgetPersRateAndBase.refreshNonUpdateableReferences();
 				if (budgetPersRateAndBase.getRateClass() != null
 						&& budgetPersRateAndBase.getRateClass()
-								.getRateClassType() != null
+								.getRateClassTypeCode() != null
 						&& budgetPersRateAndBase.getRateClass()
-								.getRateClassType().equals(rateClassType)) {
+								.getRateClassTypeCode().equals(rateClassType)) {
 					String budgetPersRateBaseKey = getBudgetPersRateAndBaseKey(budgetPersRateAndBase);
 					if (vacBudgetPersRateBaseMap
 							.containsKey(budgetPersRateBaseKey)) {
@@ -1718,9 +1718,9 @@ public abstract class BudgetBaseStream implements XmlStream {
 				budgetPersRateAndBase.refreshNonUpdateableReferences();
 				if (budgetPersRateAndBase.getRateClass() != null
 						&& (rateClassType1.equals(budgetPersRateAndBase
-								.getRateClass().getRateClassType()) || rateClassType2
+								.getRateClass().getRateClassTypeCode()) || rateClassType2
 								.equals(budgetPersRateAndBase.getRateClass()
-										.getRateClassType()))) {
+										.getRateClassTypeCode()))) {
 					String budgetPersRateBaseKey = getBudgetPersRateAndBaseKey(budgetPersRateAndBase);
 					if (laRateBaseMap.containsKey(budgetPersRateBaseKey)) {
 						continue;
@@ -1757,9 +1757,9 @@ public abstract class BudgetBaseStream implements XmlStream {
 				budgetPersRateAndBase.refreshNonUpdateableReferences();
 				if (budgetPersRateAndBase.getRateClass() != null
 						&& budgetPersRateAndBase.getRateClass()
-								.getRateClassType() != null
+								.getRateClassTypeCode() != null
 						&& budgetPersRateAndBase.getRateClass()
-								.getRateClassType().equals(rateClassType)) {
+								.getRateClassTypeCode().equals(rateClassType)) {
 					String budgetPersRateBaseKey = getBudgetPersRateAndBaseKey(budgetPersRateAndBase);
 					if (ebBudgetPersRateBaseMap
 							.containsKey(budgetPersRateBaseKey)) {
@@ -1797,9 +1797,9 @@ public abstract class BudgetBaseStream implements XmlStream {
 				budgetPersRateAndBase.refreshNonUpdateableReferences();
 				if (budgetPersRateAndBase.getRateClass() != null
 						&& budgetPersRateAndBase.getRateClass()
-								.getRateClassType() != null
+								.getRateClassTypeCode() != null
 						&& budgetPersRateAndBase.getRateClass()
-								.getRateClassType().equals(rateClassType)) {
+								.getRateClassTypeCode().equals(rateClassType)) {
 					String budgetPersRateBaseKey = getBudgetPersRateAndBaseKey(budgetPersRateAndBase);
 					if (ohBudgetPersRateBaseMap
 							.containsKey(budgetPersRateBaseKey)) {
@@ -2095,7 +2095,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 	protected boolean isRateAndBaseLASalary(
 			AbstractBudgetRateAndBase rateAndBase) {
 		rateAndBase.refreshNonUpdateableReferences();
-		return rateAndBase.getRateClass().getRateClassType().equals(RateClassType.LA_SALARIES.getRateClassType());
+		return rateAndBase.getRateClass().getRateClassTypeCode().equals(RateClassType.LA_SALARIES.getRateClassType());
 	}
 
 	/**
@@ -2142,7 +2142,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 	 */
 	protected boolean isLineItemCalAmountOfRateClassTypeLAWithEBVA(
 			BudgetLineItemCalculatedAmount lineItemCalcAmount) {
-		return lineItemCalcAmount.getRateClass().getRateClassType().equals(
+		return lineItemCalcAmount.getRateClass().getRateClassTypeCode().equals(
 				RateClassType.LA_SALARIES.getRateClassType());
 	}
 
@@ -2155,7 +2155,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 	 */
 	protected boolean isLineItemCalAmountOfRateClassTypeLabAllocation(
 			BudgetLineItemCalculatedAmount lineItemCalcAmount) {
-		return lineItemCalcAmount.getRateClass().getRateClassType().equals(
+		return lineItemCalcAmount.getRateClass().getRateClassTypeCode().equals(
 				RateClassType.LAB_ALLOCATION.getRateClassType());
 	}
 
@@ -2168,7 +2168,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 	 */
 	protected boolean isLineItemCalAmountOfRateClassTypeOverhead(
 			BudgetLineItemCalculatedAmount lineItemCalcAmount) {
-		return lineItemCalcAmount.getRateClass().getRateClassType().equals(
+		return lineItemCalcAmount.getRateClass().getRateClassTypeCode().equals(
 				RateClassType.OVERHEAD.getRateClassType());
 	}
 
@@ -2183,7 +2183,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		boolean status = false;
 		rateAndBase.refreshNonUpdateableReferences();
 		if (rateAndBase.getRateClass() != null) {
-			return rateAndBase.getRateClass().getRateClassType().equals(
+			return rateAndBase.getRateClass().getRateClassTypeCode().equals(
 					RateClassType.LA_SALARIES.getRateClassType());
 		}
 		return status;
@@ -2200,7 +2200,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		boolean status = false;
 		rateAndBase.refreshNonUpdateableReferences();
 		if (rateAndBase.getRateClass() != null) {
-			return rateAndBase.getRateClass().getRateClassType().equals(
+			return rateAndBase.getRateClass().getRateClassTypeCode().equals(
 					RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
 		}
 		return status;
@@ -2217,7 +2217,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		boolean status = false;
 		rateAndBase.refreshNonUpdateableReferences();
 		if (rateAndBase.getRateClass() != null) {
-			return rateAndBase.getRateClass().getRateClassType().equals(
+			return rateAndBase.getRateClass().getRateClassTypeCode().equals(
 					RateClassType.VACATION.getRateClassType());
 		}
 		return status;

@@ -15,7 +15,7 @@
     <property name="documentTypeName" value="CustomAttributeDocumentMaintenanceDocument"/>
     <property name="lockingKeys">
       <list>
-        <value>customAttributeId</value>
+        <value>id</value>
         <value>documentTypeName</value> 
       </list>
     </property>
@@ -39,7 +39,7 @@
     <property name="title" value="Edit CustomAttributeDocument"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="customAttributeId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="id" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="documentTypeName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="required"/>
         <bean parent="MaintainableFieldDefinition" p:name="typeName"/>

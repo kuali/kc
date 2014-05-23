@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.rate;
 
+import org.kuali.coeus.budget.api.rate.RateClassTypeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
@@ -22,11 +23,11 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "RATE_CLASS_TYPE")
-public class RateClassType extends KcPersistableBusinessObjectBase {
+public class RateClassType extends KcPersistableBusinessObjectBase implements RateClassTypeContract {
 
     @Id
     @Column(name = "RATE_CLASS_TYPE")
-    private String rateClassType;
+    private String code;
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -38,14 +39,15 @@ public class RateClassType extends KcPersistableBusinessObjectBase {
     @Convert(converter = BooleanYNConverter.class)
     private Boolean prefixActivityType;
 
-    public String getRateClassType() {
-        return rateClassType;
+    public String getCode() {
+        return code;
     }
 
-    public void setRateClassType(String rateClassType) {
-        this.rateClassType = rateClassType;
+    public void setCode(String code) {
+        this.code = code;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -54,6 +56,7 @@ public class RateClassType extends KcPersistableBusinessObjectBase {
         this.description = description;
     }
 
+    @Override
     public Integer getSortId() {
         return sortId;
     }
@@ -62,6 +65,7 @@ public class RateClassType extends KcPersistableBusinessObjectBase {
         this.sortId = sortId;
     }
 
+    @Override
     public final Boolean getPrefixActivityType() {
         return prefixActivityType;
     }

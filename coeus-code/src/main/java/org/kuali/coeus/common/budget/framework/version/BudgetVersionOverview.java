@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.version;
 
+import org.kuali.coeus.budget.api.version.BudgetVersionOverviewContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -39,7 +40,7 @@ import java.util.Map;
  */
 @Entity
 @Table(name = "BUDGET")
-public class BudgetVersionOverview extends KcPersistableBusinessObjectBase implements Comparable<BudgetVersionOverview> {
+public class BudgetVersionOverview extends KcPersistableBusinessObjectBase implements Comparable<BudgetVersionOverview>, BudgetVersionOverviewContract {
 
 
     private static final long serialVersionUID = -4997453399414404715L;
@@ -131,7 +132,7 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
     @JoinColumn(name = "OH_RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
     private RateClass rateClass;
 
-    @ManyToOne(cascade = CascadeType.REFRESH)
+    @OneToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
     private BudgetDocumentVersion budgetDocumentVersion;
 
@@ -150,6 +151,7 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
     @Transient
     private String documentDescription;
 
+    @Override
     public Integer getBudgetVersionNumber() {
         return budgetVersionNumber;
     }
@@ -158,6 +160,7 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         this.budgetVersionNumber = budgetVersionNumber;
     }
 
+    @Override
     public ScaleTwoDecimal getCostSharingAmount() {
         return costSharingAmount == null ? ScaleTwoDecimal.ZERO : costSharingAmount;
     }
@@ -166,6 +169,7 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         this.costSharingAmount = costSharingAmount;
     }
 
+    @Override
     public Boolean isFinalVersionFlag() {
         return finalVersionFlag;
     }
@@ -174,6 +178,7 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         this.finalVersionFlag = finalVersionFlag;
     }
 
+    @Override
     public String getOhRateTypeCode() {
         return ohRateTypeCode;
     }
@@ -190,6 +195,7 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         this.ohRateClassCode = ohRateClassCode;
     }
 
+    @Override
     public RateClass getRateClass() {
         return this.rateClass;
     }
@@ -198,6 +204,7 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         this.rateClass = rateClass;
     }
 
+    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
@@ -206,6 +213,7 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         this.documentNumber = documentNumber;
     }
 
+    @Override
     public ScaleTwoDecimal getResidualFunds() {
         return residualFunds;
     }
@@ -214,6 +222,7 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         this.residualFunds = residualFunds;
     }
 
+    @Override
     public ScaleTwoDecimal getTotalCost() {
         return totalCost == null ? ScaleTwoDecimal.ZERO : totalCost;
     }
@@ -250,6 +259,7 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         this.budgetStatus = budgetStatus;
     }
 
+    @Override
     public Date getEndDate() {
         return endDate;
     }
@@ -258,6 +268,7 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         this.endDate = endDate;
     }
 
+    @Override
     public Date getStartDate() {
         return startDate;
     }
@@ -266,6 +277,7 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         this.startDate = startDate;
     }
 
+    @Override
     public ScaleTwoDecimal getTotalCostLimit() {
         return totalCostLimit == null ? ScaleTwoDecimal.ZERO : totalCostLimit;
     }
@@ -274,14 +286,17 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         this.totalCostLimit = totalCostLimit;
     }
 
+    @Override
     public ScaleTwoDecimal getTotalDirectCost() {
         return totalDirectCost == null ? new ScaleTwoDecimal(0) : totalDirectCost;
     }
 
+    @Override
     public ScaleTwoDecimal getTotalIndirectCost() {
         return totalIndirectCost == null ? new ScaleTwoDecimal(0) : totalIndirectCost;
     }
 
+    @Override
     public ScaleTwoDecimal getUnderrecoveryAmount() {
         return underrecoveryAmount == null ? new ScaleTwoDecimal(0) : underrecoveryAmount;
     }
@@ -294,6 +309,7 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         this.documentDescription = documentDescription;
     }
 
+    @Override
     public String getComments() {
         return comments;
     }
@@ -329,7 +345,7 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         LegacyDataAdapter boService = KcServiceLocator.getService(LegacyDataAdapter.class);
         Map<String, Object> keyMap = new HashMap<String, Object>();
         keyMap.put("documentNumber", this.documentNumber);
-        DocumentHeader docHeader = (DocumentHeader) boService.findByPrimaryKey(DocumentHeader.class, keyMap);
+        DocumentHeader docHeader = boService.findByPrimaryKey(DocumentHeader.class, keyMap);
         return docHeader;
     }
 
@@ -338,66 +354,37 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         return this.budgetVersionNumber.compareTo(otherVersion.getBudgetVersionNumber());
     }
 
-    /**
-     * Gets the budgetId attribute. 
-     * @return Returns the budgetId.
-     */
+    @Override
     public Long getBudgetId() {
         return budgetId;
     }
 
-    /**
-     * Sets the budgetId attribute value.
-     * @param budgetId The budgetId to set.
-     */
     public void setBudgetId(Long budgetId) {
         this.budgetId = budgetId;
     }
 
-    /**
-     * Gets the modularBudgetFlag attribute. 
-     * @return Returns the modularBudgetFlag.
-     */
+    @Override
     public Boolean getModularBudgetFlag() {
         return modularBudgetFlag;
     }
 
-    /**
-     * Sets the modularBudgetFlag attribute value.
-     * @param modularBudgetFlag The modularBudgetFlag to set.
-     */
     public void setModularBudgetFlag(Boolean modularBudgetFlag) {
         this.modularBudgetFlag = modularBudgetFlag;
     }
 
-    /**
-     * Gets the urRateClassCode attribute. 
-     * @return Returns the urRateClassCode.
-     */
     public String getUrRateClassCode() {
         return urRateClassCode;
     }
 
-    /**
-     * Sets the urRateClassCode attribute value.
-     * @param urRateClassCode The urRateClassCode to set.
-     */
     public void setUrRateClassCode(String urRateClassCode) {
         this.urRateClassCode = urRateClassCode;
     }
 
-    /**
-     * Gets the onOffCampusFlag attribute. 
-     * @return Returns the onOffCampusFlag.
-     */
+    @Override
     public String getOnOffCampusFlag() {
         return onOffCampusFlag;
     }
 
-    /**
-     * Sets the onOffCampusFlag attribute value.
-     * @param onOffCampusFlag The onOffCampusFlag to set.
-     */
     public void setOnOffCampusFlag(String onOffCampusFlag) {
         this.onOffCampusFlag = onOffCampusFlag;
     }
@@ -559,18 +546,11 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         return true;
     }
 
-    /**
-     * Gets the totalDirectCostLimit attribute. 
-     * @return Returns the totalDirectCostLimit.
-     */
+    @Override
     public ScaleTwoDecimal getTotalDirectCostLimit() {
         return totalDirectCostLimit == null ? ScaleTwoDecimal.ZERO : totalDirectCostLimit;
     }
 
-    /**
-     * Sets the totalDirectCostLimit attribute value.
-     * @param totalDirectCostLimit The totalDirectCostLimit to set.
-     */
     public void setTotalDirectCostLimit(ScaleTwoDecimal totalDirectCostLimit) {
         this.totalDirectCostLimit = totalDirectCostLimit;
     }
@@ -583,34 +563,20 @@ public class BudgetVersionOverview extends KcPersistableBusinessObjectBase imple
         return printBudgetCommentFlag;
     }
 
-    /**
-     * Gets the submitCostSharingFlag attribute. 
-     * @return Returns the submitCostSharingFlag.
-     */
+    @Override
     public Boolean getSubmitCostSharingFlag() {
         return submitCostSharingFlag;
     }
 
-    /**
-     * Sets the submitCostSharingFlag attribute value.
-     * @param submitCostSharingFlag The submitCostSharingFlag to set.
-     */
     public void setSubmitCostSharingFlag(Boolean submitCostSharingFlag) {
         this.submitCostSharingFlag = submitCostSharingFlag;
     }
 
-    /**
-     * Gets the urRateClass attribute. 
-     * @return Returns the urRateClass.
-     */
+    @Override
     public RateClass getUrRateClass() {
         return urRateClass;
     }
 
-    /**
-     * Sets the urRateClass attribute value.
-     * @param urRateClass The urRateClass to set.
-     */
     public void setUrRateClass(RateClass urRateClass) {
         this.urRateClass = urRateClass;
     }

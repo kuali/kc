@@ -10,15 +10,15 @@
     <property name="lookupDefinition" >
       <ref bean="RateClass-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="rateClassCode" />
+    <property name="titleAttribute" value="code" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterNamespace="KC-B" p:parameterName="budgetRateClassHelpUrl" p:parameterDetailType="Document"/>
     </property>
     <property name="attributes" >
       <list>
-        <ref bean="RateClass-rateClassCode" />
+        <ref bean="RateClass-code" />
         <ref bean="RateClass-description" />
-        <ref bean="RateClass-rateClassType" />
+        <ref bean="RateClass-rateClassTypeCode" />
         <ref bean="RateClass-versionNumber" />
       </list>
     </property>
@@ -27,10 +27,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="RateClass-rateClassCode" parent="RateClass-rateClassCode-parentBean" />
+  <bean id="RateClass-code" parent="RateClass-code-parentBean" />
 
-  <bean id="RateClass-rateClassCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="rateClassCode" />
+  <bean id="RateClass-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Rate Class Code" />
     <property name="shortLabel" value="Rate Class Code" />
@@ -58,10 +58,10 @@
     <property name="label" value="Rate Class Description" />
   </bean>
  
-  <bean id="RateClass-rateClassType" parent="RateClass-rateClassType-parentBean" />
+  <bean id="RateClass-rateClassTypeCode" parent="RateClass-rateClassTypeCode-parentBean" />
 
-  <bean id="RateClass-rateClassType-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="rateClassType" />
+  <bean id="RateClass-rateClassTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="rateClassTypeCode" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Rate Class Type" />
     <property name="shortLabel" value="Rate Class Type" />
@@ -96,8 +96,8 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition" p:attributeName="rateClassCode" p:forceInquiry="true"/>
-              <bean parent="FieldDefinition" p:attributeName="rateClassType"/>
+              <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="rateClassTypeCode"/>
               <bean parent="FieldDefinition" p:attributeName="description"/>
             </list>
           </property>
@@ -116,8 +116,8 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="rateClassCode" parent="Uif-DataField"/>
-              <bean p:propertyName="rateClassType" parent="Uif-DataField"/>
+              <bean p:propertyName="code" parent="Uif-DataField"/>
+              <bean p:propertyName="rateClassTypeCode" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
             </list>
           </property>
@@ -140,15 +140,15 @@
    	</property>         
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition" p:attributeName="rateClassCode"/>
-        <bean parent="FieldDefinition" p:attributeName="rateClassType"/>
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="rateClassTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition" p:attributeName="rateClassCode" p:forceInquiry="true"/>
-        <bean parent="FieldDefinition" p:attributeName="rateClassType"/>
+        <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="rateClassTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
       </list>
     </property>
@@ -170,15 +170,15 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="rateClassCode" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="rateClassType" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="rateClassTypeCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="rateClassCode" parent="Uif-DataField"/>
-        <bean p:propertyName="rateClassType" parent="Uif-DataField"/>
+        <bean p:propertyName="code" parent="Uif-DataField"/>
+        <bean p:propertyName="rateClassTypeCode" parent="Uif-DataField"/>
         <bean p:propertyName="description" parent="Uif-DataField"/>
       </list>
     </property>

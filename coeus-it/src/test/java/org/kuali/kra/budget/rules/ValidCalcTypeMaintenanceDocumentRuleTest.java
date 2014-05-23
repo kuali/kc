@@ -27,6 +27,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 import java.util.List;
 import java.util.Map;
@@ -102,14 +103,15 @@ public class ValidCalcTypeMaintenanceDocumentRuleTest extends MaintenanceRuleTes
         validCalcType.setDependentRateClassType("Y");
         MaintenanceDocument validCalcTypeDocument = newMaintDoc(validCalcType);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(validCalcTypeDocument));
-        List errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.rateTypeCode");
+        MessageMap mm = GlobalVariables.getMessageMap();
+        List errors = mm.getMessages("document.newMaintainableObject.rateTypeCode");
         assertEquals(1, errors.size());
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_RATE_TYPE_NOT_EXIST);
 
         // approve will have the same error too.
         assertFalse(rule.processCustomApproveDocumentBusinessRules(validCalcTypeDocument));
-        errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.rateTypeCode");
+        errors = mm.getMessages("document.newMaintainableObject.rateTypeCode");
         assertEquals(1, errors.size());
         message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_RATE_TYPE_NOT_EXIST);
@@ -127,14 +129,15 @@ public class ValidCalcTypeMaintenanceDocumentRuleTest extends MaintenanceRuleTes
         validCalcType.setDependentRateClassType("Y");
         MaintenanceDocument validCalcTypeDocument = newMaintDoc(validCalcType);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(validCalcTypeDocument));
-        List errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.rateClassType");
+        MessageMap mm = GlobalVariables.getMessageMap();
+        List errors = mm.getMessages("document.newMaintainableObject.code");
         assertEquals(1, errors.size());
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);
 
         // approve will have the same error too.
         assertFalse(rule.processCustomApproveDocumentBusinessRules(validCalcTypeDocument));
-        errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.rateClassType");
+        errors = GlobalVariables.getMessageMap().getMessages("document.newMaintainableObject.code");
         assertEquals(1, errors.size());
         message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_EXISTENCE);

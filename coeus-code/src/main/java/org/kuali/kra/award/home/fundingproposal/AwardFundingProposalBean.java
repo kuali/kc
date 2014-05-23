@@ -367,7 +367,7 @@ public class AwardFundingProposalBean implements Serializable {
             for (Map.Entry<String, CustomAttributeDocument> entry : customAttributeDocuments.entrySet()) {
                 CustomAttributeDocument customAttributeDocument = entry.getValue();
                 AwardCustomData awardCustomData = new AwardCustomData();
-                awardCustomData.setCustomAttributeId((long) customAttributeDocument.getCustomAttributeId());
+                awardCustomData.setCustomAttributeId((long) customAttributeDocument.getId());
                 awardCustomData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
                 awardCustomData.setValue("");
                 awardCustomData.setAward(award);

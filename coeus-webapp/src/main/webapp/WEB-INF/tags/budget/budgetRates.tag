@@ -27,7 +27,7 @@
 	<bean:define id="rateClass" name="KualiForm"
 		property="document.budget.rateClassTypes[${gps.index}].description" />
 	<bean:define id="rateClassType" name="KualiForm"
-		property="document.budget.rateClassTypes[${gps.index}].rateClassType" />
+		property="document.budget.rateClassTypes[${gps.index}].code" />
 	<c:if test="${gps.first}">
 		<c:set var="transparent" value="true" />
 	</c:if>
@@ -40,10 +40,10 @@
 	<c:forEach items="${KualiForm.document.budget.budgetRates}"
 		var="proposalRates" varStatus="status">
 		<bean:define id="irateClassType" name="KualiForm"
-			property="document.budget.budgetRates[${status.index}].rateClass.rateClassType" />
+			property="document.budget.budgetRates[${status.index}].rateClass.rateClassTypeCode" />
 		<bean:define id="displayRow" name="KualiForm"
 			property="document.budget.budgetRates[${status.index}].displayLocation" />
-		<c:if test="${irateClassType == rateClassType && displayRow == 'Yes'}">
+		<c:if test="${irateClassType ==  rateClassType && displayRow == 'Yes'}">
 			<c:set var="tabKey"
 				value="${tabKey},document.budgetRates[${status.index}]*" />
 		</c:if>
@@ -51,7 +51,7 @@
 	<c:forEach items="${KualiForm.document.budget.budgetLaRates}"
 		var="proposalLaRates" varStatus="laStatus">
 		<bean:define id="irateClassType" name="KualiForm"
-			property="document.budget.budgetLaRates[${laStatus.index}].rateClass.rateClassType" />
+			property="document.budget.budgetLaRates[${laStatus.index}].rateClass.rateClassTypeCode" />
 		<bean:define id="displayRow" name="KualiForm"
 			property="document.budget.budgetLaRates[${laStatus.index}].displayLocation" />
 		<c:if test="${irateClassType == rateClassType && displayRow == 'Yes'}">
