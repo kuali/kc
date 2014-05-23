@@ -24,6 +24,8 @@ import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBuilder;
 import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -43,6 +45,7 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
     private ProtocolActionService protocolActionService;
     private BusinessObjectService businessObjectService;
     private ProtocolAssignReviewersService protocolAssignReviewersService;
+	private DataObjectService dataObjectService;
     
     /**
      * Set the Document Service.
@@ -200,7 +203,12 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         if (submission.getScheduleIdFk() != null) {
             updateDefaultSchedule(submission);
         }
-        businessObjectService.delete(protocol.getProtocolDocument().getPessimisticLocks());
+        
+        List<PessimisticLock> locks = protocol.getProtocolDocument().getPessimisticLocks();
+        for(PessimisticLock lock : locks) {
+            dataObjectService.delete(lock);
+        }
+
         protocol.getProtocolDocument().getPessimisticLocks().clear();
         documentService.saveDocument(protocol.getProtocolDocument());
         
@@ -318,5 +326,13 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
                 submissionBuilder.addExpeditedReviewCheckListItem(item.getExpeditedReviewCheckListCode());
             }
         }
+    }
+    
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+    
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
 }
