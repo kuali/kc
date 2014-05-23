@@ -28,7 +28,7 @@ insert into QUESTION_EXPLANATION (QUESTION_EXPLANATION_ID, QUESTION_REF_ID_FK, E
 UPDATE_USER, VER_NBR, OBJ_ID)  values
 ((SELECT (MAX(ID)) FROM SEQ_QUESTIONNAIRE_REF_ID),
 (select QUESTION_REF_ID from QUESTION where QUESTION = 'Does this project have an actual or potential impact - positive or negative - on the environment?'
- AND SEQUENCE_STATUS = 'C'),'E','If yes, Enter explanation of the actual or potential impact on the environment in the following question. Supports RR Other Project Information form.'
+ AND SEQUENCE_STATUS = 'C'),'E','If yes, Enter explanation of the actual or potential impact on the environment in the following question. Supports RR Other Project Information form.',
  NOW(), 'admin', '1', uuid())
 /
  

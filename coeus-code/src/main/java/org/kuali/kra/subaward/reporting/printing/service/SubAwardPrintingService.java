@@ -19,6 +19,8 @@ import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
+import org.kuali.kra.subaward.bo.SubAwardForms;
+import org.kuali.kra.subaward.bo.SubAwardPrintAgreement;
 
 import java.util.List;
 import java.util.Map;
@@ -46,10 +48,15 @@ public interface SubAwardPrintingService {
 	 * @throws PrintingException
 	 *             if any errors occur during report generation
 	 */
+    
+    public static final String SELECTED_TEMPLATES = "Selected Templates";
+    
 	public AttachmentDataSource printSubAwardReport(
 			KcPersistableBusinessObjectBase awardDocument, SubAwardPrintType subAwardPrintType,
 			Map<String, Object> reportParameters) throws PrintingException;
 	
 	public AttachmentDataSource printSubAwardFDPReport(KcPersistableBusinessObjectBase subAwardDoc,SubAwardPrintType subAwardPrintType,
             Map<String, Object> reportParameters) throws PrintingException;
+	
+	List<SubAwardForms> getSponsorFormTemplates( SubAwardPrintAgreement subAwardPrintAgreement);
 }

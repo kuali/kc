@@ -748,6 +748,16 @@ public interface Constants {
     public static final String SUBAWARD_FINANCIAL_PANEL_NAME ="Financial";
     public static final String SUBAWARD_FINANCIAL_ANTICIPATED_AMOUNT = "document.subAwardList[0].totalAnticipatedAmount";
     public static final String SUBAWARD_FINANCIAL_OBLIGATED_AMOUNT = "document.subAwardList[0].totalObligatedAmount";
+    public static final String PARAMETER_FDP_PRIME_ADMINISTRATIVE_CONTACT_CODE = "FDP_Prime_Administrative_Contact_Code";
+    public static final String PARAMETER_FDP_PRIME_AUTHORIZED_OFFICIAL_CODE = "FDP_Prime_Authorized_Official_Code";
+    public static final String PARAMETER_FDP_PRIME_FINANCIAL_CONTACT_CODE = "FDP_Prime_Financial_Contact_Code";
+    public static final String PARAMETER_FDP_SUB_ADMINISTRATIVE_CONTACT_CODE = "FDP_Sub_Administrative_Contact_Code";
+    public static final String PARAMETER_FDP_SUB_AUTHORIZED_CONTACT_CODE = "FDP_Sub_Authorized_Official_Code";
+    public static final String PARAMETER_FDP_SUB_FINANCIAL_CONTACT_CODE = "FDP_Sub_Financial_Contact_Code";
+    public static final String PARAMETER_FDP_SUBAWARD_ATTACHMENT_3B = "Subaward_FDP_Attachment_3B_Form_ID";
+    public static final String PARAMETER_FDP_SUBAWARD_ATTACHMENT_4 = "Subaward_FDP_Attachment_4_Form_ID";
+    public static final String PARAMETER_FDP_SUBAWARD_ATTACHMENT_5 = "Subaward_FDP_Attachment_5_Form_ID";
+    
     // coi
     public static final String MODULE_NAMESPACE_COIDISCLOSURE = "KC-COIDISCLOSURE";
     public static final String PARAMETER_COI_ATTACHMENT_DEFAULT_SORT = "coiAttachmentDefaultSort";

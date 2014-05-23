@@ -228,4 +228,10 @@ public class AwardServiceImpl implements AwardService {
         
     }
     
+    public Award getAwardAssociatedWithDocument(String docNumber) {
+        Map<String, Object> values = new HashMap<String, Object>();
+        values.put("documentNumber", docNumber);
+        List<Award> awards = (List<Award>) businessObjectService.findMatching(Award.class, values);
+        return awards.get(0);
+    }
 }

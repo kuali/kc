@@ -39,7 +39,6 @@
 </style>
 <c:set var="subAwardPrintAgreementAttributes" value="${DataDictionary.SubAwardPrintAgreement.attributes}" />
 <c:set var="action" value="SubAwardHomeAction" />
-<%--  <c:set var="subaward" value="${KualiForm.document.subaward}" /> --%>
 
 <kul:tab tabTitle="Print" tabItemCount="" defaultOpen="false" tabErrorKey="" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 		<div class="tab-container" align="center">
@@ -91,9 +90,100 @@
 					</table>
 				</td>
 				</tr>
-				<!-- <tr>
+				<tr>
+					<td scope="row" style="width:160px; text-align:center;" nowrap="nowrap">FDP Template Attachments:</td>
+					  <td>
+						<div class="multi-col-list" id="awardPrintNoticeItems">
+						<dl><dd><ul>
+						<li><kul:htmlControlAttribute property="subAwardPrintAgreement.attachment3A" 
+		      							attributeEntry="${subAwardPrintAgreementAttributes.attachment3A}" readOnly="false"/>
+		      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.attachment3A}" useShortLabel="true" noColon="true" />
+		      			</li>
+		      			<li><kul:htmlControlAttribute property="subAwardPrintAgreement.attachment3B" 
+		      							attributeEntry="${subAwardPrintAgreementAttributes.attachment3B}" readOnly="false"/>
+		      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.attachment3B}" useShortLabel="true" noColon="true" />
+						</li>
+						</ul></dd>
+						<dd><ul>
+						<li><kul:htmlControlAttribute property="subAwardPrintAgreement.attachment3BPage2" 
+		      							attributeEntry="${subAwardPrintAgreementAttributes.attachment3BPage2}" readOnly="false"/>
+		      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.attachment3BPage2}" useShortLabel="true" noColon="true" />
+		      				  </li><li>
+		      		    <kul:htmlControlAttribute property="subAwardPrintAgreement.attachment4" 
+		      							attributeEntry="${subAwardPrintAgreementAttributes.attachment4}" readOnly="false"/>
+		      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.attachment4}" useShortLabel="true" noColon="true" />
+						</li>
+						</ul></dd></dl>
+						</div>
+				</td>
+				</tr> 
+				<tr>
+				<td scope="row" style="width:160px; text-align:center;">Sponsor Attachments:</td>
 				
-			   </tr> -->
+				<td>
+				
+				
+				<div class="multi-col-list" id="awardPrintNoticeItems">
+				 <dl><dd><ul>
+				  <li><kul:htmlControlAttribute property="subAwardPrintAgreement.afosrSponsor" 
+      							attributeEntry="${subAwardPrintAgreementAttributes.afosrSponsor}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.afosrSponsor}" useShortLabel="true" noColon="true" />
+      			  </li>
+				  <li><kul:htmlControlAttribute property="subAwardPrintAgreement.amrmcSponsor" 
+      							attributeEntry="${subAwardPrintAgreementAttributes.amrmcSponsor}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.amrmcSponsor}" useShortLabel="true" noColon="true" />
+      			  </li>
+      			  <li><kul:htmlControlAttribute property="subAwardPrintAgreement.aroSponsor" 
+      							attributeEntry="${subAwardPrintAgreementAttributes.aroSponsor}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.aroSponsor}" useShortLabel="true" noColon="true" />
+      			  </li>
+				<li><kul:htmlControlAttribute property="subAwardPrintAgreement.doeSponsor" 
+      							attributeEntry="${subAwardPrintAgreementAttributes.doeSponsor}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.doeSponsor}" useShortLabel="true" noColon="true" />
+      			  </li>
+      			  <kul:htmlControlAttribute property="subAwardPrintAgreement.epaSponsor" 
+      							attributeEntry="${subAwardPrintAgreementAttributes.epaSponsor}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.epaSponsor}" useShortLabel="true" noColon="true" />
+      			  
+      			  </ul></dd><!-- </dl>
+      			  </div> 
+      			  </td><td style="border-left: 0px;border-bottom: 0px;">
+      			  <div class="multi-col-list" id="awardPrintNoticeItems">
+      			   <dl> --><dd><ul>
+      			  <li><kul:htmlControlAttribute property="subAwardPrintAgreement.nasaSponsor" 
+      							attributeEntry="${subAwardPrintAgreementAttributes.nasaSponsor}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.nasaSponsor}" useShortLabel="true" noColon="true" />
+      			  </li>
+      			 
+      			  <li><kul:htmlControlAttribute property="subAwardPrintAgreement.nihSponsor" 
+      							attributeEntry="${subAwardPrintAgreementAttributes.nihSponsor}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.nihSponsor}" useShortLabel="true" noColon="true" />
+      			  </li>
+      			  <li><kul:htmlControlAttribute property="subAwardPrintAgreement.nsfSponsor" 
+      							attributeEntry="${subAwardPrintAgreementAttributes.nsfSponsor}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.nsfSponsor}" useShortLabel="true" noColon="true" />
+      			  </li>
+      			  <li><kul:htmlControlAttribute property="subAwardPrintAgreement.onrSponsor" 
+      							attributeEntry="${subAwardPrintAgreementAttributes.onrSponsor}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.onrSponsor}" useShortLabel="true" noColon="true" />
+      			  </li>
+				 <kul:htmlControlAttribute property="subAwardPrintAgreement.usdaSponsor" 
+      							attributeEntry="${subAwardPrintAgreementAttributes.usdaSponsor}" readOnly="false"/>
+      				  <kul:htmlAttributeLabel attributeEntry="${subAwardPrintAgreementAttributes.usdaSponsor}" useShortLabel="true" noColon="true" />
+      			  </ul></dd></dl>
+				  </div>
+				
+				</td>
+				
+			   </tr>
+				<tr>
+				  <td colspan="3" style="text-align: center;">
+					  <html:image property="methodToCall.selectAllSubAwardPrintNoticeItems.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="setAllItemsIn('awardPrintNoticeItems', true);return false;" />
+      			      <html:image property="methodToCall.deselectAllSubAwardPrintNoticeItems.anchor${tabKey}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectnone.gif" title="Select None" alt="Select None" styleClass="tinybutton" onclick="setAllItemsIn('awardPrintNoticeItems', false);return false;" />
+				  </td>
+				</tr>
+				
+				
     	</table>
 		</div>
 </kul:tab>

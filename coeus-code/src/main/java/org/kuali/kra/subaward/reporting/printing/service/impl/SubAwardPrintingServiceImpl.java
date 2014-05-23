@@ -19,18 +19,24 @@ import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.printing.service.AwardPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.subaward.bo.SubAwardForms;
+import org.kuali.kra.subaward.bo.SubAwardPrintAgreement;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
 import org.kuali.kra.subaward.reporting.printing.print.SubAwardSF294Print;
 import org.kuali.kra.subaward.reporting.printing.print.SubAwardSF295Print;
 import org.kuali.kra.subaward.reporting.printing.service.SubAwardPrintingService;
 import org.kuali.kra.subawardReporting.printing.print.SubAwardFDPAgreement;
 import org.kuali.kra.subawardReporting.printing.print.SubAwardFDPModification;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -54,8 +60,26 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
     private PrintingService printingService;       
     private SubAwardFDPModification subAwardFDPModification;
     private SubAwardFDPAgreement subAwardFDPAgreement;
+    private BusinessObjectService businessObjectService;
+    
 
     
+    /**
+     * Gets the businessObjectService attribute. 
+     * @return Returns the businessObjectService.
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return KcServiceLocator.getService(BusinessObjectService.class);
+    }
+
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 
 
     /**
@@ -173,5 +197,65 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
             source.setName(SUB_AWARD_FDP_MODIFICATION);
         }
         return source;   
+    }
+    /**
+     * This method gets the  form template from the given sponsor form table
+     * 
+     * 
+     * @param sponsorFormTemplateLists -
+     *            list of sponsor form template list
+     * @return list of sponsor form template
+     */
+    public List<SubAwardForms> getSponsorFormTemplates(SubAwardPrintAgreement subAwardPrint) {
+        List<SubAwardForms> printFormTemplates = new ArrayList<SubAwardForms>();
+        if(subAwardPrint.getFdpType().equals(SUB_AWARD_FDP_TEMPLATE)){
+            printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP Template"));
+        }else if(subAwardPrint.getFdpType().equals(SUB_AWARD_FDP_MODIFICATION))
+        {
+            printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP Modification"));
+        }
+        if(subAwardPrint.getAttachment3A()){
+            printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ATT_3A"));
+        }
+        if(subAwardPrint.getAttachment3B()){
+            printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ATT_3B"));
+        }
+        if(subAwardPrint.getAttachment3BPage2()){
+            printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ATT_3B_2"));
+        }
+        if(subAwardPrint.getAttachment4()){
+            printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ATT_4"));
+        }
+        if(subAwardPrint.getAfosrSponsor()){
+            printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_AFOSR"));
+         }
+         if(subAwardPrint.getAmrmcSponsor()){
+             printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_AMRMC"));
+         }
+          if(subAwardPrint.getAroSponsor()){
+              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ARO"));
+          }
+          if(subAwardPrint.getDoeSponsor()){
+              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_DOE"));
+          }
+          if(subAwardPrint.getEpaSponsor()){
+              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_EPA"));
+          }
+          if(subAwardPrint.getNasaSponsor()){
+              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_NASA"));
+          }
+          if(subAwardPrint.getNihSponsor()){
+              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_NIH"));
+          }
+          if(subAwardPrint.getNsfSponsor()){
+              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_NSF"));
+          }
+          if(subAwardPrint.getOnrSponsor()){
+              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ONR"));
+          }
+          if(subAwardPrint.getUsdaSponsor()){
+              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_USDA"));
+          }
+        return printFormTemplates;
     }
 }
