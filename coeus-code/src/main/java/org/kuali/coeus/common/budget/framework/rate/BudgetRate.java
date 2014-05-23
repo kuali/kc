@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.common.budget.framework.rate;
 
-import org.kuali.coeus.common.budget.impl.rate.AbstractBudgetRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.calculator.DateSortable;
 

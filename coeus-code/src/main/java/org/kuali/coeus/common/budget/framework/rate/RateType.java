@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.common.budget.framework.rate;
 
-import org.kuali.coeus.common.budget.impl.rate.RateClassType;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 public class RateType extends KcPersistableBusinessObjectBase implements Comparable {

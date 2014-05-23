@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="ValidCeRateType" parent="ValidCeRateType-parentBean" />
   <bean id="ValidCeRateType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.coeus.common.budget.impl.rate.ValidCeRateType" />
+    <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.rate.ValidCeRateType" />
 		<property name="objectLabel" value="Valid Ce Rate Type" />
     <property name="inquiryDefinition" >
       <ref bean="ValidCeRateType-inquiryDefinition" />
@@ -133,7 +133,7 @@
 
   <bean id="ValidCeRateType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Valid Ce Rate Types"/>
-    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.impl.rate.ValidCeRateType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.rate.ValidCeRateType"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -184,7 +184,7 @@
   </bean>
 
   <bean id="ValidCeRateType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.impl.rate.ValidCeRateType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.rate.ValidCeRateType"/>
     <property name="headerText" value="Valid Ce Rate Types Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

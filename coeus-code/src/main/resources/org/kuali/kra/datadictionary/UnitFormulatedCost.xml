@@ -73,11 +73,11 @@
       <bean parent="AnyCharacterPatternConstraint"/>
     </property>
         <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.budget.impl.rate.FormulatedType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="true" p:keyAttribute="formulatedTypeCode" p:labelAttribute="description"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.budget.framework.rate.FormulatedType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="true" p:keyAttribute="formulatedTypeCode" p:labelAttribute="description"/>
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.coeus.common.budget.impl.rate.FormulatedType"/>
+        <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.rate.FormulatedType"/>
         <property name="includeKeyInDescription" value="false"/>
         <property name="includeBlankRow" value="true"/>
         <property name="keyAttributeName" value="formulatedTypeCode"/>

@@ -17,7 +17,7 @@ package org.kuali.kra.rules;
 
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
-import org.kuali.coeus.common.budget.impl.rate.RateClassType;
+import org.kuali.coeus.common.budget.framework.rate.RateClassType;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 import java.util.HashMap;

@@ -17,7 +17,7 @@ package org.kuali.kra.budget.nonpersonnel;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.impl.rate.FormulatedType;
+import org.kuali.coeus.common.budget.framework.rate.FormulatedType;
 
 public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase {
     
