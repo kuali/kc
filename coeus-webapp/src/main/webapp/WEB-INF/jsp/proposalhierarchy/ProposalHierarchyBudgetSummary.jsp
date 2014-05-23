@@ -171,7 +171,7 @@ http://www.osedu.org/licenses/ECL-2.0
 				</td>
 		   </tr>
 		   	     <c:forEach var="calculatedExpenseTotal" items="${budget.personnelCalculatedExpenseTotals}" >
-	           		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassType && calculatedExpenseTotal.key.rateClass.rateClassType eq 'O'}">
+	           		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassTypeCode && calculatedExpenseTotal.key.rateClass.rateClassTypeCode eq 'O'}">
 		                <c:forEach var="periodTotal" items="${calculatedExpenseTotal.value}" varStatus="status">
 		                	<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
 		                	<c:set target="${indirectCostMap}" property="calculatedIndirectExpense${status.index}" value="0.00" />
@@ -251,7 +251,7 @@ http://www.osedu.org/licenses/ECL-2.0
 				</td>
 		   </tr>
 		   	    <c:forEach var="calculatedExpenseTotal" items="${budget.nonPersonnelCalculatedExpenseTotals}" >
-	           		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassType && calculatedExpenseTotal.key.rateClass.rateClassType eq 'O'}">
+	           		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassTypeCode && calculatedExpenseTotal.key.rateClass.rateClassTypeCode eq 'O'}">
 		               <c:forEach var="periodTotal" items="${calculatedExpenseTotal.value}" varStatus="status">
 		               		<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
 		               		<c:set target="${indirectCostMap}" property="calculatedIndirectExpense${status.index}" value="${0.00 + indirectCostMap[calculatedIndirectExpenseVar] + periodTotal}" />

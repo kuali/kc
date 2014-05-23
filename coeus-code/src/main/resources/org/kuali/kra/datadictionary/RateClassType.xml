@@ -10,10 +10,10 @@
     <property name="lookupDefinition" >
       <ref bean="RateClassType-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="rateClassType" />
+    <property name="titleAttribute" value="code" />
     <property name="attributes" >
       <list>
-        <ref bean="RateClassType-rateClassType" />
+        <ref bean="RateClassType-code" />
         <ref bean="RateClassType-prefixActivityType" />
         <ref bean="RateClassType-sortId" />
         <ref bean="RateClassType-description" />
@@ -25,10 +25,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="RateClassType-rateClassType" parent="RateClassType-rateClassType-parentBean" />
+  <bean id="RateClassType-code" parent="RateClassType-code-parentBean" />
 
-  <bean id="RateClassType-rateClassType-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="rateClassType" />
+  <bean id="RateClassType-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Rate Class Type" />
     <property name="shortLabel" value="Rate Class Type" />
@@ -97,7 +97,7 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition" p:attributeName="rateClassType" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="description"/>
               <bean parent="FieldDefinition" p:attributeName="sortId"/>
               <bean parent="FieldDefinition" p:attributeName="prefixActivityType"/>
@@ -118,7 +118,7 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="rateClassType" parent="Uif-DataField"/>
+              <bean p:propertyName="code" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
               <bean p:propertyName="sortId" parent="Uif-DataField"/>
               <bean p:propertyName="prefixActivityType" parent="Uif-DataField"/>
@@ -140,14 +140,14 @@
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition" p:attributeName="rateClassType"/>
+        <bean parent="FieldDefinition" p:attributeName="code"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
         <bean parent="FieldDefinition" p:attributeName="prefixActivityType"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition" p:attributeName="rateClassType" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
         <bean parent="FieldDefinition" p:attributeName="sortId"/>
         <bean parent="FieldDefinition" p:attributeName="prefixActivityType"/>
@@ -171,14 +171,14 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="rateClassType" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="prefixActivityType" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="rateClassType" parent="Uif-DataField"/>
+        <bean p:propertyName="code" parent="Uif-DataField"/>
         <bean p:propertyName="description" parent="Uif-DataField"/>
         <bean p:propertyName="sortId" parent="Uif-DataField"/>
         <bean p:propertyName="prefixActivityType" parent="Uif-DataField"/>

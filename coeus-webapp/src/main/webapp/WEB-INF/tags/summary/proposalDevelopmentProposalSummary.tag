@@ -149,7 +149,7 @@
 			var="customAttributeDocument1" varStatus="status">
 			<c:choose>
 				<c:when
-					test="${KualiForm.document.budgetDocumentVersions[status.index].budgetVersionOverviews[0].finalVersionFlag == true}">
+					test="${KualiForm.document.budgetDocumentVersions[status.index].budgetVersionOverview.finalVersionFlag == true}">
 					<c:set var="budgetFinal" value="true" />
 					<br>
 					<h3>
@@ -186,7 +186,7 @@
 								<div align="right">
 									$
 									<kul:htmlControlAttribute
-										property="document.budgetDocumentVersions[${status.index}].budgetVersionOverviews[0].totalDirectCost"
+										property="document.budgetDocumentVersions[${status.index}].budgetVersionOverview.totalDirectCost"
 										attributeEntry="${budgetAttributes.totalDirectCost}"
 										readOnly="true" />
 								</div>
@@ -195,7 +195,7 @@
 								<div align="right">
 									$
 									<kul:htmlControlAttribute
-										property="document.budgetDocumentVersions[${status.index}].budgetVersionOverviews[0].totalIndirectCost"
+										property="document.budgetDocumentVersions[${status.index}].budgetVersionOverview.totalIndirectCost"
 										attributeEntry="${budgetAttributes.totalIndirectCost}"
 										readOnly="true" />
 								</div>
@@ -204,7 +204,7 @@
 								<div align="right">
 									$
 									<kul:htmlControlAttribute
-										property="document.budgetDocumentVersions[${status.index}].budgetVersionOverviews[0].totalCost"
+										property="document.budgetDocumentVersions[${status.index}].budgetVersionOverview.totalCost"
 										attributeEntry="${budgetAttributes.totalCost}" readOnly="true" />
 								</div>
 							</td>
@@ -212,7 +212,7 @@
 								<div align="right">
 									$
 									<kul:htmlControlAttribute
-										property="document.budgetDocumentVersions[0].budgetVersionOverviews[0].costSharingAmount"
+										property="document.budgetDocumentVersions[0].budgetVersionOverview.costSharingAmount"
 										attributeEntry="${budgetAttributes.costSharingAmount}"
 										readOnly="true" />
 								</div>
@@ -221,7 +221,7 @@
 								<div align="right">
 									$
 									<kul:htmlControlAttribute
-										property="document.budgetDocumentVersions[0].budgetVersionOverviews[0].underrecoveryAmount"
+										property="document.budgetDocumentVersions[0].budgetVersionOverview.underrecoveryAmount"
 										attributeEntry="${budgetAttributes.underrecoveryAmount}"
 										readOnly="true" />
 								</div>
@@ -236,7 +236,7 @@
 								</div>
 							</td>
 							<td>
-								<div align=left>${KualiForm.document.budgetDocumentVersions[0].budgetVersionOverviews[0].rateClass.description}&nbsp;</div>
+								<div align=left>${KualiForm.document.budgetDocumentVersions[0].budgetVersionOverview.rateClass.description}&nbsp;</div>
 							</td>
 						</tr>
 
@@ -286,7 +286,7 @@
 						<c:forEach items="${KualiForm.document.budgetDocumentVersions}"
 							var="customAttributeDocument1" varStatus="status">
 							<c:set var="versionNumber"
-								value="${KualiForm.document.budgetDocumentVersions[status.index].budgetVersionOverviews[0].budgetVersionNumber}" />
+								value="${KualiForm.document.budgetDocumentVersions[status.index].budgetVersionOverview.budgetVersionNumber}" />
 
 							<c:if
 								test="${fn:length(KualiForm.document.budgetDocumentVersions) == versionNumber}">
@@ -295,7 +295,7 @@
 									<div align="right">
 										$
 										<kul:htmlControlAttribute
-											property="document.budgetDocumentVersions[${status.index}].budgetVersionOverviews[0].totalDirectCost"
+											property="document.budgetDocumentVersions[${status.index}].budgetVersionOverview.totalDirectCost"
 											attributeEntry="${budgetAttributes.totalDirectCost}"
 											readOnly="true" />
 									</div>
@@ -304,7 +304,7 @@
 									<div align="right">
 										$
 										<kul:htmlControlAttribute
-											property="document.budgetDocumentVersions[${status.index}].budgetVersionOverviews[0].totalIndirectCost"
+											property="document.budgetDocumentVersions[${status.index}].budgetVersionOverview.totalIndirectCost"
 											attributeEntry="${budgetAttributes.totalIndirectCost}"
 											readOnly="true" />
 									</div>
@@ -313,7 +313,7 @@
 									<div align="right">
 										$
 										<kul:htmlControlAttribute
-											property="document.budgetDocumentVersions[${status.index}].budgetVersionOverviews[0].totalCost"
+											property="document.budgetDocumentVersions[${status.index}].budgetVersionOverview.totalCost"
 											attributeEntry="${budgetAttributes.totalCost}"
 											readOnly="true" />
 									</div>
@@ -322,7 +322,7 @@
 									<div align="right">
 										$
 										<kul:htmlControlAttribute
-											property="document.budgetDocumentVersions[0].budgetVersionOverviews[0].costSharingAmount"
+											property="document.budgetDocumentVersions[0].budgetVersionOverview.costSharingAmount"
 											attributeEntry="${budgetAttributes.costSharingAmount}"
 											readOnly="true" />
 									</div>
@@ -331,7 +331,7 @@
 									<div align="right">
 										$
 										<kul:htmlControlAttribute
-											property="document.budgetDocumentVersions[0].budgetVersionOverviews[0].underrecoveryAmount"
+											property="document.budgetDocumentVersions[0].budgetVersionOverview.underrecoveryAmount"
 											attributeEntry="${budgetAttributes.underrecoveryAmount}"
 											readOnly="true" />
 									</div>
@@ -346,7 +346,7 @@
 									</div>
 								</td>
 								<td>
-									<div align=left>${KualiForm.document.budgetDocumentVersions[0].budgetVersionOverviews[0].rateClass.description}&nbsp;</div>
+									<div align=left>${KualiForm.document.budgetDocumentVersions[0].budgetVersionOverview.rateClass.description}&nbsp;</div>
 								</td>
 							</c:if>
 						</c:forEach>

@@ -30,6 +30,7 @@ import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.ynq.YnqGroupName;
 import org.kuali.coeus.common.framework.ynq.YnqService;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
@@ -84,7 +85,7 @@ import java.util.*;
 @Entity
 @Table(name = "EPS_PROPOSAL")
 @Customizer(DevelopmentProposal.DevelopmentProposalCustomizer.class)
-public class DevelopmentProposal extends KcPersistableBusinessObjectBase implements BudgetParent, Sponsorable, Disclosurable, KcKrmsContextBo {
+public class DevelopmentProposal extends KcPersistableBusinessObjectBase implements BudgetParent, Sponsorable, Disclosurable, KcKrmsContextBo, DevelopmentProposalContract {
 
     private static final long serialVersionUID = -9211313487776934111L;
 

@@ -87,7 +87,6 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         for (AwardFandaRate awardFnARate : awardFnARates) {
             InstituteRate awardRate = createAwardFnAInstitueRate(awardFnARate,award,instituteRates);
             instituteRatesForAward.add(awardRate);
-//            budgetDocument.getBudget().setOhRateClassCode(awardRate.getRateClassCode());
         }
         if(!instituteRatesForAward.isEmpty()){
             QueryList<InstituteRate> qlInstituteRates = new QueryList<InstituteRate>(instituteRatesForAward);

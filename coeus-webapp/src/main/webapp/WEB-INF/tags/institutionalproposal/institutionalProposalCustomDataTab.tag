@@ -33,7 +33,7 @@
 		</c:choose>
   
 	   	<c:forEach items="${KualiForm.institutionalProposalCustomDataFormHelper.customAttributeGroups[fullName]}" var="customAttributeDocument" varStatus="status">
-				<c:set var="customAttributeId" value="customAttributeValues(id${customAttributeDocument.customAttributeId})" />
+				<c:set var="customAttributeId" value="customAttributeValues(id${customAttributeDocument.id})" />
                 <c:choose>
 					<c:when test="${empty tabErrorKey}">
     					<c:set var="tabErrorKey" value="${customAttributeId}"/>

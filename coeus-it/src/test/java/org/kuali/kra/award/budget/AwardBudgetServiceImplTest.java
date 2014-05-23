@@ -100,7 +100,7 @@ public class AwardBudgetServiceImplTest extends KcIntegrationTestBase {
             BudgetDocumentVersion temp = new BudgetDocumentVersion();
             BudgetVersionOverview overview = new BudgetVersionOverview();
             overview.setBudgetId(budgetId);
-            temp.getBudgetVersionOverviews().add(overview);
+            temp.setBudgetVersionOverview(overview);
             result.add(temp);
         }
         return result;

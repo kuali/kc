@@ -903,7 +903,7 @@
 		<!-- Custom Attributes: start -->
 
 	<class-descriptor class="org.kuali.coeus.common.framework.custom.attr.CustomAttribute" table="CUSTOM_ATTRIBUTE">
-		<field-descriptor name="id" column="ID" jdbc-type="INTEGER" primarykey="true"  sequence-name="SEQ_CUSTOM_ATTRIBUTE" autoincrement="true" />
+		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true"  sequence-name="SEQ_CUSTOM_ATTRIBUTE" autoincrement="true" />
 		<field-descriptor name="dataLength" column="DATA_LENGTH" jdbc-type="INTEGER"/>
 		<field-descriptor name="dataTypeCode" column="DATA_TYPE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="defaultValue" column="DEFAULT_VALUE" jdbc-type="VARCHAR"/>
@@ -922,7 +922,7 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDataType" table="CUSTOM_ATTRIBUTE_DATA_TYPE">
-		<field-descriptor name="dataTypeCode" column="DATA_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="code" column="DATA_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
@@ -931,7 +931,7 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument" table="CUSTOM_ATTRIBUTE_DOCUMENT">
-		<field-descriptor name="customAttributeId" column="CUSTOM_ATTRIBUTE_ID" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="id" column="CUSTOM_ATTRIBUTE_ID" jdbc-type="BIGINT" primarykey="true"/>
 		<field-descriptor name="documentTypeName" column="DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="required" column="IS_REQUIRED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
@@ -941,20 +941,20 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<reference-descriptor name="customAttribute" class-ref="org.kuali.coeus.common.framework.custom.attr.CustomAttribute" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="customAttributeId"/>
+			<foreignkey field-ref="id"/>
 		</reference-descriptor>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue" table="CUSTOM_ATTRIBUTE_DOC_VALUE">
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="customAttributeId" column="CUSTOM_ATTRIBUTE_ID" jdbc-type="BIGINT" primarykey="true"/>
+		<field-descriptor name="id" column="CUSTOM_ATTRIBUTE_ID" jdbc-type="BIGINT" primarykey="true"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="value" column="VALUE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<reference-descriptor name="customAttribute" class-ref="org.kuali.coeus.common.framework.custom.attr.CustomAttribute" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="customAttributeId"/>
+			<foreignkey field-ref="id"/>
 		</reference-descriptor>
 	</class-descriptor>
 

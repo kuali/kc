@@ -34,7 +34,7 @@ public class IacucProcedureCategoryCustomData extends CustomAttribute {
     protected void prePersist() {
         super.prePersist();
         if (sortId == null) {
-            sortId = this.getId();
+            sortId = this.getId().intValue();
         }
     }
 

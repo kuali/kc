@@ -330,7 +330,7 @@ public class BudgetPeriodCalculator {
             if(StringUtils.isEmpty(calcAmt.getRateClassType())) {
                 calcAmt.refreshReferenceObject("rateClass");
                 if(calcAmt.getRateClass() != null) {
-                    calcAmt.setRateClassType(calcAmt.getRateClass().getRateClassType());
+                    calcAmt.setRateClassType(calcAmt.getRateClass().getRateClassTypeCode());
                 }
             }
         }
