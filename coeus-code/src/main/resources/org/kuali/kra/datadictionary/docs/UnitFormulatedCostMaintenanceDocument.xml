@@ -21,7 +21,7 @@
 
     <bean id="UnitFormulatedCostMaintenanceDocument" parent="UnitFormulatedCostMaintenanceDocument-parentBean" />
     <bean id="UnitFormulatedCostMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.budget.rates.UnitFormulatedCost" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.budget.impl.rate.UnitFormulatedCost" />
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
         <property name="maintainableSections" >
             <list>
@@ -36,7 +36,7 @@
         </property>
         <property name="allowsRecordDeletion" value="true" />
         <property name="documentTypeName" value="UnitFormulatedCostMaintenanceDocument" />
-        <property name="businessRulesClass" value="org.kuali.kra.budget.rates.UnitFormulatedCostRule"/>
+        <property name="businessRulesClass" value="org.kuali.coeus.common.budget.impl.rate.UnitFormulatedCostRule"/>
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
     </bean>
 

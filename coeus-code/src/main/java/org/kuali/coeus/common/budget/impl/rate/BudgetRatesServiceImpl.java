@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.rates;
+package org.kuali.coeus.common.budget.impl.rate;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.budget.framework.rate.*;
 import org.kuali.coeus.common.framework.type.ActivityType;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
@@ -42,6 +43,8 @@ import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.sql.Date;
 import java.util.*;
@@ -51,13 +54,17 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     public static final String UNIT_NUMBER_KEY = "unitNumber";
     public static final String ACTIVITY_TYPE_CODE_KEY = "activityTypeCode";
 
-    private BusinessObjectService businessObjectService;
-    private UnitService unitService;
-
     private static final String PERIOD_SEARCH_SEPARATOR = "|";
     private static final String PERIOD_DISPLAY_SEPARATOR = ",";
     private static final Log LOG = LogFactory.getLog(BudgetRatesServiceImpl.class);
     private static final String BUDGET_RATE_AUDIT_WARNING_KEY = "budgetRateAuditWarnings";
+
+    @Autowired
+    @Qualifier("businessObjectService")
+    private BusinessObjectService businessObjectService;
+    @Autowired
+    @Qualifier("unitService")
+    private UnitService unitService;
 
     @Override
     public void resetAllBudgetRates(Budget budget) {
@@ -161,7 +168,6 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * 
      * */
     protected void checkActivityPrefixForRateClassTypes(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument) {
-        //String activityTypeDescription = budget.getProposal().getActivityType().getDescription().concat(SPACE);
         Budget budget = budgetDocument.getBudget();
         String activityTypeDescription = getActivityTypeDescription(budgetDocument);
         List<BudgetRate> budgetRates = budget.getBudgetRates();
@@ -193,7 +199,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     protected String getActivityTypeDescription(BudgetDocument<T> budgetDocument) {
         Budget budget = budgetDocument.getBudget();
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
-        
+
         if (budget.isRateSynced() || !KcServiceLocator.getService(BudgetService.class).
                 checkActivityTypeChange(getBudgetParentDocument(budget), budget)) {
             if(budgetParent.getActivityType()!= null){
@@ -206,13 +212,13 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         } else {
             String activityTypeCode=null;
             if (CollectionUtils.isNotEmpty(budget.getBudgetRates())) {
-                activityTypeCode = ((BudgetRate)budget.getBudgetRates().get(0)).getActivityTypeCode();
+                activityTypeCode = budget.getBudgetRates().get(0).getActivityTypeCode();
             }
 
             if (activityTypeCode != null) {
                 Map pkMap = new HashMap();
                 pkMap.put("activityTypeCode",activityTypeCode);
-                ActivityType activityType = (ActivityType) KcServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(ActivityType.class, pkMap);
+                ActivityType activityType = getBusinessObjectService().findByPrimaryKey(ActivityType.class, pkMap);
                 if (activityType == null) {
                     return "";
                 } else {
@@ -255,7 +261,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
                 if(budgetRate.getStartDate().compareTo(budgetPeriod.getEndDate()) <= 0) {
                     String dispBudgetPeriod = budgetPeriod.getBudgetPeriod().toString();
                     String formattedPeriod = dispBudgetPeriod.concat(PERIOD_SEARCH_SEPARATOR);
-                    String currBudgetPeriod = budgetRate.getTrackAffectedPeriod(); //(String)ratesForEachPeriod.get(budgetPeriod.getBudgetPeriod());
+                    String currBudgetPeriod = budgetRate.getTrackAffectedPeriod();
                     if(currBudgetPeriod == null) {
                         currBudgetPeriod = PERIOD_SEARCH_SEPARATOR.concat(formattedPeriod);
                         budgetRate.setTrackAffectedPeriod(currBudgetPeriod);
@@ -272,7 +278,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
                 if(budgetLaRate.getStartDate().compareTo(budgetPeriod.getEndDate()) <= 0) {
                     String dispBudgetPeriod = budgetPeriod.getBudgetPeriod().toString();
                     String formattedPeriod = dispBudgetPeriod.concat(PERIOD_SEARCH_SEPARATOR);
-                    String currBudgetPeriod = budgetLaRate.getTrackAffectedPeriod(); //(String)ratesForEachPeriod.get(budgetPeriod.getBudgetPeriod());
+                    String currBudgetPeriod = budgetLaRate.getTrackAffectedPeriod();
                     if(currBudgetPeriod == null) {
                         currBudgetPeriod = PERIOD_SEARCH_SEPARATOR.concat(formattedPeriod);
                         budgetLaRate.setTrackAffectedPeriod(currBudgetPeriod);
@@ -321,10 +327,9 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     protected Unit findFirstUnitWithRates(Unit leadUnit, Class rateType) {
         Unit currentUnit = leadUnit;
         Map<String, String> currentSearchMap = new HashMap<String, String>();
-        Collection currentRates = null;
         while (currentUnit != null) {
-            currentSearchMap.put(UNIT_NUMBER_KEY, currentUnit.getUnitNumber());            
-            currentRates = filterForActiveRatesOnly(getBusinessObjectService().findMatching(rateType, currentSearchMap));
+            currentSearchMap.put(UNIT_NUMBER_KEY, currentUnit.getUnitNumber());
+            Collection currentRates = filterForActiveRatesOnly(getBusinessObjectService().findMatching(rateType, currentSearchMap));
             if (currentRates != null && !currentRates.isEmpty()) {
                 break;
             }
@@ -346,10 +351,9 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * */
     @SuppressWarnings("unchecked")
     protected Collection<InstituteLaRate> getInstituteLaRates(BudgetDocument<T> budgetDocument) {
-//        Budget budget = budgetDocument.getBudget();
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent(); 
         String unitNumber = budgetParent.getUnitNumber();                               
-        Collection abstractInstituteRates = getFilteredInstituteLaRates(InstituteLaRate.class, unitNumber, budgetParent.getUnit(), getRateFilterMap(budgetDocument));
+        Collection abstractInstituteRates = getFilteredInstituteLaRates(InstituteLaRate.class, getRateFilterMap(budgetDocument));
         abstractInstituteRates = abstractInstituteRates.size() > 0 ? abstractInstituteRates : new ArrayList();
         return (Collection<InstituteLaRate>)abstractInstituteRates ;
     }
@@ -362,8 +366,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
             budget.refreshReferenceObject("budgetDocument");
             budgetDocument = budget.getBudgetDocument();
         }
-//        ProposalDevelopmentDocument proposal = (ProposalDevelopmentDocument)budgetDocument.getParentDocument();
-        return budgetDocument.getParentDocument();
+    return budgetDocument.getParentDocument();
     }
 
     protected Map<String, String> getRateFilterMap(BudgetDocument<T> budgetDocument) {        
@@ -374,7 +377,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
 
     @SuppressWarnings("unchecked")
-    protected Collection getFilteredInstituteLaRates(Class rateType, String unitNumber, Unit currentUnit, Map<String, String> rateFilterMap) {
+    protected Collection getFilteredInstituteLaRates(Class rateType, Map<String, String> rateFilterMap) {
         Collection abstractInstituteRates;
         abstractInstituteRates = filterForActiveRatesOnly(getBusinessObjectService().findMatching(rateType, rateFilterMap));
         return abstractInstituteRates;
@@ -980,14 +983,5 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         }
         return 0;
     }
-
-    public UnitService getUnitService() {
-        return unitService;
-    }
-
-    public void setUnitService(UnitService unitService) {
-        this.unitService = unitService;
-    }
-
 
 }

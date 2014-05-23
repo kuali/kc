@@ -59,24 +59,6 @@
         <property name="serviceName" value="dataObjectService" />
     </bean>
 
-	<bean id="budgetRatesServiceImpl" abstract="true">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="unitService">
-			<ref bean="unitService" />
-		</property>
-	</bean>
-	
-	<bean id="budgetRatesService" class="org.kuali.kra.budget.rates.BudgetRateServiceDecorator" parent="budgetRatesServiceImpl">
-		<property name="parameterService">
-			<ref bean="parameterService"/>
-		</property>
-		<property name="budgetCalculationService">
-			<ref bean="budgetCalculationService" />
-		</property>
-	</bean>
-
 	<bean id="budgetPersonService" class="org.kuali.kra.budget.personnel.BudgetPersonServiceImpl">
 		<property name="parameterService">
 			<ref bean="parameterService"/>
