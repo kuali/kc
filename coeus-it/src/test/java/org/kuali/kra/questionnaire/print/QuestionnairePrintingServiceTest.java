@@ -144,14 +144,14 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
         printOption1.setLabel("Test1");
         printOption1.setItemKey("1234");
         printOption1.setSubItemKey("0");
-        printOption1.setQuestionnaireRefId(1L);
-        printOption1.setQuestionnaireId(1);
+        printOption1.setQuestionnaireId(1L);
+        printOption1.setQuestionnaireSeqId(1);
         printOption1.setSelected(true);
         questionnairesToPrints.add(printOption1);
         QuestionnairePrintOption printOption2 = new QuestionnairePrintOption();
         printOption2.setLabel("Test2");
-        printOption2.setQuestionnaireRefId(2L);
-        printOption2.setQuestionnaireId(1);
+        printOption2.setQuestionnaireId(2L);
+        printOption2.setQuestionnaireSeqId(1);
         printOption2.setSelected(false);
         questionnairesToPrints.add(printOption2);
         final Map  pkMap = new HashMap();

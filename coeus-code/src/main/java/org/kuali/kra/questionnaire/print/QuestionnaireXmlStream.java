@@ -69,6 +69,19 @@ import java.util.*;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class QuestionnaireXmlStream implements XmlStream {
 
+    public static final String DOCUMENT_NUMBER = "documentNumber";
+    public static final String QUESTIONNAIRE_ID = "questionnaireId";
+    public static final String QUESTIONNAIRE = "questionnaire";
+    public static final String QUESTIONNAIRE_QUESTIONS = "questionnaireQuestions";
+    public static final String ID = "id";
+    public static final String MODULE_CODE = "moduleCode";
+    public static final String SUB_MODULE_CODE = "subModuleCode";
+    public static final String SUBMISSION_NUMBER = "submissionNumber";
+    public static final String PROTOCOL_NUMBER = "protocolNumber";
+    public static final String MODULE_SUB_ITEM_CODE = "moduleSubItemCode";
+    public static final String COEUS_MODULE_SUB_ITEM_CODE = "coeusModuleSubItemCode";
+    public static final String QUESTION = "question";
+    public static final String PERSON_ID = "personId";
     @Autowired
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
@@ -151,9 +164,6 @@ public class QuestionnaireXmlStream implements XmlStream {
      * 
      * This method is to get the Questionnaire data from Questionnaire BO and populate it to QuestionnaireDocument,
      * which generated Questionnaire schema.
-     * @param document
-     * @param params
-     * @return
      * @throws PrintingException
      */
     @SuppressWarnings("unchecked")
@@ -162,20 +172,20 @@ public class QuestionnaireXmlStream implements XmlStream {
         QuestionnaireDocument questionnaireDocument = QuestionnaireDocument.Factory.newInstance();
         Questionnaire questionnaireType = questionnaireDocument.addNewQuestionnaire();
         
-        String documentNumber = (String)params.get("documentNumber");
-        Integer questionnaireId = (Integer)params.get("questionnaireId");
+        String documentNumber = (String)params.get(DOCUMENT_NUMBER);
+        Integer questionnaireId = (Integer)params.get(QUESTIONNAIRE_ID);
         org.kuali.kra.questionnaire.Questionnaire questionnaire = 
-                (org.kuali.kra.questionnaire.Questionnaire)params.get("questionnaire");
+                (org.kuali.kra.questionnaire.Questionnaire)params.get(QUESTIONNAIRE);
         if (questionnaire == null) {
             if (questionnaireId != null) { 
                 Map<String,Integer> qParam = new HashMap<String,Integer>();
-                qParam.put("questionnaireId", questionnaireId);
+                qParam.put(QUESTIONNAIRE_ID, questionnaireId);
                 List<org.kuali.kra.questionnaire.Questionnaire> questionnaires = 
                     (List)businessObjectService.findMatchingOrderBy(
-                            org.kuali.kra.questionnaire.Questionnaire.class, qParam, "id", false);
+                            org.kuali.kra.questionnaire.Questionnaire.class, qParam, ID, false);
                 questionnaire = questionnaires.get(0);
                 // not sure why need this.  If it is not refreshed, some may get empty Questions
-                questionnaire.refreshReferenceObject("questionnaireQuestions");
+                questionnaire.refreshReferenceObject(QUESTIONNAIRE_QUESTIONS);
             } else {
                 questionnaire = findQuestionnaireObject(documentNumber);
             }
@@ -221,8 +231,6 @@ public class QuestionnaireXmlStream implements XmlStream {
     }
     /**
      * This method is to set the protocol info
-     * @param protocolDocument
-     * @param questionnaireType
      */
     private void setProtocolInfo(Protocol protocolInfoBean, Questionnaire questionnaireType) {
         ProtocolInfoType protocolInfo = questionnaireType.addNewProtocolInfo();
@@ -237,9 +245,7 @@ public class QuestionnaireXmlStream implements XmlStream {
     }
     /**
      * 
-     * This method is to set development proposal info to XMLBeans object 
-     * @param document
-     * @param questionnaireType
+     * This method is to set development proposal info to XMLBeans object
      */
     private void setDevProposalInfo(DevelopmentProposal proposalBean, Questionnaire questionnaireType) {
         if(proposalBean!=null){
@@ -363,8 +369,8 @@ public class QuestionnaireXmlStream implements XmlStream {
     @SuppressWarnings("unchecked")
     private CoeusSubModule getQuestionnaireCoeusSubModule(String moduleItemCode, String moduleSubItemKey) {
         Map param = new HashMap();
-        param.put("moduleCode", moduleItemCode);
-        param.put("subModuleCode", moduleSubItemKey);
+        param.put(MODULE_CODE, moduleItemCode);
+        param.put(SUB_MODULE_CODE, moduleSubItemKey);
         return (CoeusSubModule)businessObjectService.findByPrimaryKey(CoeusSubModule.class, param);
     }
 
@@ -400,8 +406,6 @@ public class QuestionnaireXmlStream implements XmlStream {
     /**
      * 
      * This method is to fetch the AnswerHeader data from the document
-     * @param document
-     * @return
      */
     private ModuleQuestionnaireBean getQuestionnaireAnswerHeaderBean(
             KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> params) {
@@ -413,39 +417,39 @@ public class QuestionnaireXmlStream implements XmlStream {
             Protocol protocol = (Protocol)printableBusinessObject;
             moduleItemCode = CoeusModule.IRB_MODULE_CODE;
             moduleSubItemCode = getProtocolSubItemCode(protocol);
-            if (params.get("protocolNumber") != null && params.get("submissionNumber") != null) {
-                moduleItemKey = (String)params.get("protocolNumber");
-                moduleSubItemKey = (String)params.get("submissionNumber");
+            if (params.get(PROTOCOL_NUMBER) != null && params.get(SUBMISSION_NUMBER) != null) {
+                moduleItemKey = (String)params.get(PROTOCOL_NUMBER);
+                moduleSubItemKey = (String)params.get(SUBMISSION_NUMBER);
                 moduleSubItemCode = CoeusSubModule.PROTOCOL_SUBMISSION;
             } else {
                 moduleItemKey = protocol.getProtocolNumber();
                 moduleSubItemKey = protocol.getSequenceNumber().toString();
-                if (params.get("moduleSubItemCode") != null) {
+                if (params.get(MODULE_SUB_ITEM_CODE) != null) {
                     // for amendquestionnaire
-                    moduleSubItemCode = (String)params.get("moduleSubItemCode");
+                    moduleSubItemCode = (String)params.get(MODULE_SUB_ITEM_CODE);
                 }
             }
         } else if(printableBusinessObject instanceof IacucProtocol){
             IacucProtocol protocol = (IacucProtocol)printableBusinessObject;
             moduleItemCode = CoeusModule.IACUC_PROTOCOL_MODULE_CODE;
             moduleSubItemCode = getIacucProtocolSubItemCode(protocol);
-            if (params.get("protocolNumber") != null && params.get("submissionNumber") != null) {
-                moduleItemKey = (String)params.get("protocolNumber");
-                moduleSubItemKey = (String)params.get("submissionNumber");
+            if (params.get(PROTOCOL_NUMBER) != null && params.get(SUBMISSION_NUMBER) != null) {
+                moduleItemKey = (String)params.get(PROTOCOL_NUMBER);
+                moduleSubItemKey = (String)params.get(SUBMISSION_NUMBER);
                 moduleSubItemCode = CoeusSubModule.PROTOCOL_SUBMISSION;
             } else {
                 moduleItemKey = protocol.getProtocolNumber();
                 moduleSubItemKey = protocol.getSequenceNumber().toString();
-                if (params.get("moduleSubItemCode") != null) {
+                if (params.get(MODULE_SUB_ITEM_CODE) != null) {
                     // for amendquestionnaire
-                    moduleSubItemCode = (String)params.get("moduleSubItemCode");
+                    moduleSubItemCode = (String)params.get(MODULE_SUB_ITEM_CODE);
                 }
             }
         } else if(printableBusinessObject instanceof DevelopmentProposal){
             DevelopmentProposal developmentProposal = (DevelopmentProposal)printableBusinessObject;
             moduleItemCode = CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE;
             moduleItemKey = developmentProposal.getProposalNumber();
-            moduleSubItemCode = (String) params.get("coeusModuleSubItemCode");
+            moduleSubItemCode = (String) params.get(COEUS_MODULE_SUB_ITEM_CODE);
             moduleSubItemKey = "0";
         } else if (printableBusinessObject instanceof ProposalPerson) {
             ProposalPerson person = (ProposalPerson) printableBusinessObject;
@@ -457,7 +461,7 @@ public class QuestionnaireXmlStream implements XmlStream {
             CoiDisclosure disclosure = (CoiDisclosure) printableBusinessObject;
             moduleItemCode = CoeusModule.COI_DISCLOSURE_MODULE_CODE;
             moduleItemKey = disclosure.getCoiDisclosureNumber();
-            moduleSubItemCode = (String) params.get("coeusModuleSubItemCode");
+            moduleSubItemCode = (String) params.get(COEUS_MODULE_SUB_ITEM_CODE);
         }
         return getQuestionnaireAnswerService().getModuleSpecificBean(moduleItemCode,moduleItemKey,moduleSubItemCode,moduleSubItemKey, false);
                 
@@ -492,7 +496,7 @@ public class QuestionnaireXmlStream implements XmlStream {
     @SuppressWarnings("unchecked")
     private org.kuali.kra.questionnaire.Questionnaire findQuestionnaireObject(String documentNumber) throws PrintingException {
         Map qMap = new HashMap();
-        qMap.put("documentNumber", documentNumber);
+        qMap.put(DOCUMENT_NUMBER, documentNumber);
         List<org.kuali.kra.questionnaire.Questionnaire> questionnaires = (List)businessObjectService.findMatching(org.kuali.kra.questionnaire.Questionnaire.class, qMap);
         if(questionnaires.isEmpty()){
             return findUnapprovedQuestionnaire(documentNumber);
@@ -659,7 +663,7 @@ public class QuestionnaireXmlStream implements XmlStream {
                 }
                 questionInfo.setQuestionNumber(questionNumber);
                 if (questionnaireQuestion.getQuestion() == null) {
-                    questionnaireQuestion.refreshReferenceObject("question");
+                    questionnaireQuestion.refreshReferenceObject(QUESTION);
                 }
                 if (questionnaireQuestion.getQuestion() != null) {
                     questionInfo.setQuestion(questionnaireQuestion.getQuestion().getQuestion());
@@ -719,7 +723,7 @@ public class QuestionnaireXmlStream implements XmlStream {
 //                    if(answerDescription==null||answerDescription.isEmpty())
 //                        answerDescription="notAnswered";
                     if((questionnaireQuestion.getQuestion().getQuestionTypeId().equals(6)) && (questionnaireQuestion.getQuestion().getLookupClass().equals("org.kuali.kra.bo.KcPerson"))) {
-                        if((questionnaireQuestion.getQuestion().getLookupReturn().equals("personId"))){
+                        if((questionnaireQuestion.getQuestion().getLookupReturn().equals(PERSON_ID))){
                             if(answerDescription!=null && !answerDescription.equals("")){
                         String personAnswers[]=answerDescription.split(",");
                         answerDescription = "";
@@ -758,7 +762,7 @@ public class QuestionnaireXmlStream implements XmlStream {
             if (!answerHeaders.isEmpty()) {
                 answeredQuestionnaire = answerHeaders.get(0).getQuestionnaire();
                 // This is another weird behavior. some have empty questionnairequestions, and require this refresh.
-                answeredQuestionnaire.refreshReferenceObject("questionnaireQuestions");
+                answeredQuestionnaire.refreshReferenceObject(QUESTIONNAIRE_QUESTIONS);
             }
 
         }

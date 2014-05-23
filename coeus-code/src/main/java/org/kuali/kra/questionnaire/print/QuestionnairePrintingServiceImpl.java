@@ -96,7 +96,7 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
                 AbstractPrint printable =  new QuestionnairePrint();
                 printable.setXmlStream(getQuestionnairePrint().getXmlStream());
                 Map<String, Object> reportParameters = new HashMap<String, Object>();
-                Questionnaire questionnaire = getQuestionnaire(printOption.getQuestionnaireRefId());
+                Questionnaire questionnaire = getQuestionnaire(printOption.getQuestionnaireId());
                 reportParameters.put("questionnaireSeqId", questionnaire.getQuestionnaireSeqIdAsInteger());
                 reportParameters.put("template", questionnaire.getTemplate());
                 //  will be used by amendquestionnaire
