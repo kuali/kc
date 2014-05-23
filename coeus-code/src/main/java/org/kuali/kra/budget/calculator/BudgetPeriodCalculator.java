@@ -30,7 +30,7 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
-import org.kuali.coeus.common.budget.impl.rate.ValidCeRateType;
+import org.kuali.coeus.common.budget.framework.rate.ValidCeRateType;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;

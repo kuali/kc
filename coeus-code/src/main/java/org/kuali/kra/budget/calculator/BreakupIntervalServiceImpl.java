@@ -16,10 +16,10 @@
 package org.kuali.kra.budget.calculator;
 
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
-import org.kuali.coeus.common.budget.impl.rate.AbstractBudgetRate;
-import org.kuali.coeus.common.budget.impl.rate.BudgetLaRate;
-import org.kuali.coeus.common.budget.impl.rate.RateClassBaseExclusion;
-import org.kuali.coeus.common.budget.impl.rate.RateClassBaseInclusion;
+import org.kuali.coeus.common.budget.framework.rate.AbstractBudgetRate;
+import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
+import org.kuali.coeus.common.budget.framework.rate.RateClassBaseExclusion;
+import org.kuali.coeus.common.budget.framework.rate.RateClassBaseInclusion;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.calculator.query.And;

@@ -20,7 +20,7 @@ import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
-import org.kuali.coeus.common.budget.impl.rate.ValidCeRateType;
+import org.kuali.coeus.common.budget.framework.rate.ValidCeRateType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;

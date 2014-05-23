@@ -19,7 +19,7 @@ package org.kuali.kra.budget.calculator;
 import org.junit.Test;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.budget.impl.rate.BudgetLaRate;
+import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;

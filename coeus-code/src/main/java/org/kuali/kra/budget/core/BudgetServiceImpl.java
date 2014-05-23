@@ -39,7 +39,7 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.ValidCeJobCode;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
-import org.kuali.coeus.common.budget.impl.rate.ValidCeRateType;
+import org.kuali.coeus.common.budget.framework.rate.ValidCeRateType;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.*;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;

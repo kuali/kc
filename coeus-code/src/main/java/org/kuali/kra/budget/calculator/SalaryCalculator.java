@@ -26,7 +26,7 @@ import org.kuali.kra.budget.personnel.AppointmentType;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
-import org.kuali.coeus.common.budget.impl.rate.ValidCeRateType;
+import org.kuali.coeus.common.budget.framework.rate.ValidCeRateType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
