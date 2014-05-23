@@ -33,8 +33,9 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(JMock.class)
 public class QuestionServiceTest {
-    
-        private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
+
+    public static final String QUESTION_SEQ_ID = "questionSeqId";
+    private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
 
         /**
          * Verify that the correct question is returned if it is found 
@@ -108,7 +109,7 @@ public class QuestionServiceTest {
              * found.
              */
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("questionSeqId", "999");
+            fieldValues.put(QUESTION_SEQ_ID, "999");
             
             final Collection<Question> questions = new ArrayList<Question>();
             Question question = new Question();
@@ -139,7 +140,7 @@ public class QuestionServiceTest {
              * is returned if the question is not in the database.
              */
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("questionSeqId", "999");
+            fieldValues.put(QUESTION_SEQ_ID, "999");
             
             final Collection<Question> questions = new ArrayList<Question>();
             

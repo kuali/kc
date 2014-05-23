@@ -67,6 +67,16 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     private static final String PUP = "#u#";
     private static final String PFP = "#f#";
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
+    public static final String ID = "id";
+    public static final String QUESTION_SEQ_ID = "questionSeqId";
+    public static final String DOCUMENT_NUMBER = "documentNumber";
+    public static final String QUESTIONNAIRE = "questionnaire";
+    public static final String TEMPLATE = "template";
+    public static final String SEQ_QUESTIONNAIRE_REF_ID = "SEQ_QUESTIONNAIRE_REF_ID";
+    public static final String MODULE_CODE = "moduleCode";
+    public static final String SUB_MODULE_CODE = "subModuleCode";
+    public static final String N = "N";
+    public static final String QUESTION = "question";
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -311,7 +321,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     private String getQnReturnfields(QuestionnaireQuestion question) {
 
         if (question.getQuestion() == null || !question.getQuestionId().equals(question.getQuestion().getId())) {
-            question.refreshReferenceObject("question");
+            question.refreshReferenceObject(QUESTION);
         }
         String desc = question.getQuestion().getQuestion();
         if (desc.indexOf("\"") > 0) {
@@ -329,9 +339,9 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     @SuppressWarnings("unchecked")
     private String getVersionedQuestion(QuestionnaireQuestion qnQuestion) {
         
-        String results = "N";
+        String results = N;
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("questionSeqId", qnQuestion.getQuestion().getQuestionSeqId());
+        fieldValues.put(QUESTION_SEQ_ID, qnQuestion.getQuestion().getQuestionSeqId());
         Question question = ((List<Question>)getBusinessObjectService().findMatchingOrderBy(Question.class, fieldValues, "sequenceNumber", false)).get(0);
         if (!question.getSequenceNumber().equals(qnQuestion.getQuestion().getSequenceNumber())) {
             results = question.getId().toString();
@@ -370,8 +380,8 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         
         List<CoeusSubModule> subModules = new ArrayList<CoeusSubModule>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("moduleCode", moduleCode);
-        fieldValues.put("subModuleCode", subModuleCode);
+        fieldValues.put(MODULE_CODE, moduleCode);
+        fieldValues.put(SUB_MODULE_CODE, subModuleCode);
         subModules.addAll(getBusinessObjectService().findMatching(CoeusSubModule.class, fieldValues));
         
         if(!subModules.isEmpty()) {
@@ -399,7 +409,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
                 .getOldMaintainableObject().getDataObject();
         versionQuestionnaire(questionnaire, oldQuestionnaire);
         Long questionnaireRefId = KcServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber(
-                "SEQ_QUESTIONNAIRE_REF_ID", questionnaire.getClass()); 
+                SEQ_QUESTIONNAIRE_REF_ID, questionnaire.getClass());
         questionnaire.setQuestionnaireRefIdFromLong(questionnaireRefId);
         // inherit from previous version when start editing
 //        questionnaire.setIsFinal(false);
@@ -571,15 +581,15 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         ActionForward forward = mapping.findForward(MAPPING_BASIC);
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
-        reportParameters.put("documentNumber", qnForm.getDocument().getDocumentNumber());
+        reportParameters.put(DOCUMENT_NUMBER, qnForm.getDocument().getDocumentNumber());
         Questionnaire questionnaire = ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
                 .getNewMaintainableObject().getDataObject());
-        reportParameters.put("questionnaire", questionnaire);
+        reportParameters.put(QUESTIONNAIRE, questionnaire);
         if (qnForm.getTemplateFile() != null && qnForm.getTemplateFile().getFileData().length > 0) {
-            reportParameters.put("template", qnForm.getTemplateFile().getFileData());
+            reportParameters.put(TEMPLATE, qnForm.getTemplateFile().getFileData());
             
         } else {
-           reportParameters.put("template", questionnaire.getTemplate());
+           reportParameters.put(TEMPLATE, questionnaire.getTemplate());
         }
         // TODO : this is not a transaction document, so set to null ?
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaire(null, reportParameters);
@@ -639,12 +649,12 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         if (StringUtils.isNotBlank(qnForm.getQuestionId())) {
             Map pkMap = new HashMap();
-            pkMap.put("id", qnForm.getQuestionId());
+            pkMap.put(ID, qnForm.getQuestionId());
             qnForm.setQuestion((Question)getBusinessObjectService().findByPrimaryKey(Question.class, pkMap));
             
             //lets check for a more current version
             pkMap.clear();
-            pkMap.put("questionSeqId", qnForm.getQuestion().getQuestionSeqId());
+            pkMap.put(QUESTION_SEQ_ID, qnForm.getQuestion().getQuestionSeqId());
             List<Question> questions = ((List<Question>)getBusinessObjectService().findMatchingOrderBy(Question.class, pkMap, "sequenceNumber", false));
             if (CollectionUtils.isNotEmpty(questions)) {
                 if (!StringUtils.equals(questions.get(0).getId().toString(), qnForm.getQuestionId())) {
@@ -660,11 +670,11 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         if (StringUtils.isNotBlank(qnForm.getQuestionId())) {
             Map pkMap = new HashMap();
-            pkMap.put("id", qnForm.getQuestionId());
+            pkMap.put(ID, qnForm.getQuestionId());
             Question oldQ = (Question)getBusinessObjectService().findByPrimaryKey(Question.class, pkMap);
             if (oldQ != null) {
                 pkMap.clear();
-                pkMap.put("questionSeqId", oldQ.getQuestionSeqId());
+                pkMap.put(QUESTION_SEQ_ID, oldQ.getQuestionSeqId());
                 List<Question> questions = ((List<Question>)getBusinessObjectService().findMatchingOrderBy(Question.class, pkMap, "sequenceNumber", false));
                 if (CollectionUtils.isNotEmpty(questions)) {
                     qnForm.setQuestion(questions.get(0));

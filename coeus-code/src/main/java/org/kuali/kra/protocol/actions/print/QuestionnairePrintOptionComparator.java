@@ -28,7 +28,7 @@ public class QuestionnairePrintOptionComparator implements Comparator<Questionna
 
     public int compare(QuestionnairePrintOption q1, QuestionnairePrintOption q2) {
         int retval = 0;
-        retval = q1.getQuestionnaireId().compareTo(q2.getQuestionnaireId());
+        retval = q1.getQuestionnaireSeqId().compareTo(q2.getQuestionnaireSeqId());
         if (retval == 0) {
             if (ObjectUtils.equals(q1.getItemKey(), q2.getItemKey())) {
                 if (ObjectUtils.equals(q1.getSubItemCode(), q2.getSubItemCode())) {

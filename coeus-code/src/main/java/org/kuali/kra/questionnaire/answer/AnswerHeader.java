@@ -80,8 +80,6 @@ public class AnswerHeader extends KcPersistableBusinessObjectBase implements Ina
         this.moduleItemKey = moduleQuestionnaireBean.getModuleItemKey();
         this.moduleSubItemKey = moduleQuestionnaireBean.getModuleSubItemKey();
         this.questionnaireId = questionnaireId;
-        // current coeus is setting this to 0  
-        //       this.moduleSubItemCode = "0";  
         answers = new ArrayList<Answer>();
         questions = new ArrayList<QuestionDTO>();
         showQuestions = NOT_SHOW_ANSWER;

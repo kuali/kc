@@ -80,14 +80,17 @@ public abstract class ProtocolAction extends ProtocolActionBase {
     public static final String PROTOCOL_PERMISSIONS_HOOK = "permissions";
     public static final String PROTOCOL_CUSTOM_DATA_HOOK = "customData";
     public static final String PROTOCOL_MEDUSA = "medusa";
-    
+
     private static final Log LOG = LogFactory.getLog(ProtocolAction.class);
     private static final String PROTOCOL_NUMBER = "protocolNumber";
     private static final String SUBMISSION_NUMBER = "submissionNumber";
     private static final String SUFFIX_T = "T";
     private static final String NOT_FOUND_SELECTION = "The attachment was not found for selection ";
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
-       
+    public static final String QUESTIONNAIRE_SEQ_ID = "questionnaireSeqId";
+    public static final String TEMPLATE = "template";
+    public static final String SEQUENCE_NUMBER = "sequenceNumber";
+
     protected ProtocolSubmissionBeanBase getSubmissionBean(ActionForm form, String submissionActionType) {
         ProtocolSubmissionBeanBase submissionBean = null;
                  
@@ -204,8 +207,8 @@ public abstract class ProtocolAction extends ProtocolActionBase {
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         AnswerHeader answerHeader = getAnswerHeader(request);
         // for release 3 : if questionnaire questions has answer, then print answer.
-        reportParameters.put("questionnaireSeqId", answerHeader.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
-        reportParameters.put("template", answerHeader.getQuestionnaire().getTemplate());
+        reportParameters.put(QUESTIONNAIRE_SEQ_ID, answerHeader.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
+        reportParameters.put(TEMPLATE, answerHeader.getQuestionnaire().getTemplate());
         Protocol protocol;
         if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode())) {
             reportParameters.put(PROTOCOL_NUMBER, answerHeader.getModuleItemKey());
@@ -214,7 +217,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
         } else {
             Map keyValues= new HashMap();
             keyValues.put(PROTOCOL_NUMBER, answerHeader.getModuleItemKey());
-            keyValues.put("sequenceNumber", answerHeader.getModuleSubItemKey());
+            keyValues.put(SEQUENCE_NUMBER, answerHeader.getModuleSubItemKey());
             protocol = ((List<Protocol>)getBusinessObjectService().findMatching(Protocol.class, keyValues)).get(0);
         }
 

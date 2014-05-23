@@ -49,8 +49,8 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
             if ( (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode()) && Integer.parseInt(answerHeader.getModuleSubItemKey()) <= maxSubmissionNumber)
                     || (isCurrentAmendRenewalQn(answerHeader)) ) {
                 QuestionnairePrintOption printOption = new QuestionnairePrintOption();
-                printOption.setQuestionnaireRefId(answerHeader.getQuestionnaire().getQuestionnaireRefIdAsLong());
-                printOption.setQuestionnaireId(answerHeader.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
+                printOption.setQuestionnaireId(answerHeader.getQuestionnaire().getQuestionnaireRefIdAsLong());
+                printOption.setQuestionnaireSeqId(answerHeader.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
                 printOption.setSelected(true);
                 printOption.setQuestionnaireName(answerHeader.getQuestionnaire().getName());
                 printOption.setLabel(getQuestionnaireLabel(answerHeader));

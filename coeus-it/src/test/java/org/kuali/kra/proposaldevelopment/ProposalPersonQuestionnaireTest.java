@@ -223,7 +223,6 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
         
         this.businessObjectService.save(header);
         
-        //ProposalPersonModuleQuestionnaireBean bean = new ProposalPersonModuleQuestionnaireBean(proposal, getPerson());
         List<AnswerHeader> headers = questionnaireAnswerService.getQuestionnaireAnswer(questionnaireHelper.getModuleQnBean());
         assertEquals(1, headers.size());
         List<Answer> answers = headers.get(0).getAnswers();

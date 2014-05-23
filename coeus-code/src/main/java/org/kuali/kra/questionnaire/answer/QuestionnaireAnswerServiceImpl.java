@@ -56,6 +56,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     private static final String MODULE_SUB_ITEM_CODE = "moduleSubItemCode";
     private static final String MODULE_ITEM_KEY = "moduleItemKey";
     private static final String MODULE_SUB_ITEM_KEY = "moduleSubItemKey";
+    public static final String QUESTIONNAIRE_SEQ_ID = "questionnaireSeqId";
+    public static final String SEQUENCE_NUMBER = "sequenceNumber";
     private BusinessObjectService businessObjectService;
     private ProtocolFinderDao protocolFinderDao;
     private QuestionnaireService questionnaireService;
@@ -268,9 +270,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     protected Questionnaire getLatestQuestionnaireVersion(Integer questionnaireId) {
         Questionnaire latestQnnrInstance = null;
         Map<String, Long> fieldValues = new HashMap<String, Long>();
-        fieldValues.put("questionnaireSeqId", Long.valueOf(questionnaireId));
+        fieldValues.put(QUESTIONNAIRE_SEQ_ID, Long.valueOf(questionnaireId));
         List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatchingOrderBy(Questionnaire.class,
-                fieldValues, "sequenceNumber", false);
+                fieldValues, SEQUENCE_NUMBER, false);
         // since we sorted by descending order of seq numbers, and the largest seq number is the latest version, so we return the
         // first element of the results list
         if(!questionnaires.isEmpty()) {
