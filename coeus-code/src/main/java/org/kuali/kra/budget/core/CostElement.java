@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.core;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.budget.rates.ValidCeRateType;
+import org.kuali.coeus.common.budget.framework.rate.ValidCeRateType;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 import java.util.ArrayList;

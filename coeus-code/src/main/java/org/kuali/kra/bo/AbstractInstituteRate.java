@@ -18,9 +18,9 @@ package org.kuali.kra.bo;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.budget.rates.AbstractBudgetRate;
-import org.kuali.kra.budget.rates.RateClass;
-import org.kuali.kra.budget.rates.RateType;
+import org.kuali.coeus.common.budget.framework.rate.AbstractBudgetRate;
+import org.kuali.coeus.common.budget.framework.rate.RateClass;
+import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 

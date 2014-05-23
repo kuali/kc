@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.coeus.budget.api.rate.TrainingStipendRateContract;
 import org.kuali.coeus.budget.api.rate.TrainingStipendRateService;
-import org.kuali.kra.budget.rates.TrainingStipendRate;
+import org.kuali.coeus.common.budget.framework.rate.TrainingStipendRate;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

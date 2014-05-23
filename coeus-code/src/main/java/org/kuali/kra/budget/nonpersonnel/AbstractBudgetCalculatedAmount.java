@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.BudgetAssociate;
-import org.kuali.kra.budget.rates.RateClass;
+import org.kuali.coeus.common.budget.framework.rate.RateClass;
 
 public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
 

@@ -15,13 +15,17 @@
  */
 package org.kuali.kra.budget.calculator;
 
+import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
+import org.kuali.coeus.common.budget.framework.rate.AbstractBudgetRate;
+import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
+import org.kuali.coeus.common.budget.framework.rate.RateClassBaseExclusion;
+import org.kuali.coeus.common.budget.framework.rate.RateClassBaseInclusion;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.calculator.query.NotEquals;
 import org.kuali.kra.budget.calculator.query.Operator;
-import org.kuali.kra.budget.rates.*;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.ArrayList;
