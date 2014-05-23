@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.impl.version;
+package org.kuali.coeus.common.budget.framework.version;
 
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
 import org.kuali.kra.budget.document.BudgetDocumentRule;

@@ -19,7 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
-import org.kuali.coeus.common.budget.impl.version.BudgetVersionCollection;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionCollection;
 import org.kuali.coeus.common.budget.impl.version.BudgetVersionRule;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.budget.document.BudgetDocument;
