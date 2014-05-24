@@ -23,7 +23,7 @@ import org.kuali.kra.award.budget.AwardBudgetLineItemCalculatedAmountExt;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.core.*;
-import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetDistributionService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
@@ -52,7 +52,7 @@ import java.util.*;
 public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     
     private BusinessObjectService businessObjectService;
-    private BudgetDistributionAndIncomeService budgetDistributionAndIncomeService;
+    private BudgetDistributionService budgetDistributionService;
 
     @Override
     public void calculateBudget(Budget budget){
@@ -323,7 +323,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         assert document != null : "the document was null";
         
         document.getBudgetUnrecoveredFandAs().clear();
-        this.getBudgetDistributionAndIncomeService().initializeUnrecoveredFandACollectionDefaults(document);
+        this.getBudgetDistributionService().initializeUnrecoveredFandACollectionDefaults(document);
     }
     
     /**
@@ -336,7 +336,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         assert document != null : "the document was null";
         
         document.getBudgetCostShares().clear();
-        this.getBudgetDistributionAndIncomeService().initializeCostSharingCollectionDefaults(document);
+        this.getBudgetDistributionService().initializeCostSharingCollectionDefaults(document);
     }
 
     /**
@@ -853,19 +853,19 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
     
     /**
-     * Gets the budgetDistributionAndIncomeService attribute. 
-     * @return Returns the budgetDistributionAndIncomeService.
+     * Gets the budgetDistributionService attribute.
+     * @return Returns the budgetDistributionService.
      */
-    public BudgetDistributionAndIncomeService getBudgetDistributionAndIncomeService() {
-        return this.budgetDistributionAndIncomeService;
+    public BudgetDistributionService getBudgetDistributionService() {
+        return this.budgetDistributionService;
     }
     
     /**
-     * Sets the budgetDistributionAndIncomeService attribute value.
-     * @param service The budgetDistributionAndIncomeService to set.
+     * Sets the budgetDistributionService attribute value.
+     * @param service The budgetDistributionService to set.
      */
-    public void setBudgetDistributionAndIncomeService(BudgetDistributionAndIncomeService service) {
-        this.budgetDistributionAndIncomeService = service;
+    public void setBudgetDistributionService(BudgetDistributionService service) {
+        this.budgetDistributionService = service;
     }
     @Override
     public void rePopulateCalculatedAmount(Budget budget, BudgetLineItem budgetLineItem) {

@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.distributionincome;
+package org.kuali.coeus.common.budget.impl.distribution;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetDistributionService;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.Budget.FiscalYearSummary;
@@ -25,10 +28,18 @@ import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.framework.costshare.CostShareService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
-public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributionAndIncomeService {
+@Component("budgetDistributionService")
+public class BudgetDistributionServiceImpl implements BudgetDistributionService {
 
+    @Autowired
+    @Qualifier("parameterService")
     private ParameterService parameterService;
+    @Autowired
+    @Qualifier("costShareService")
     private CostShareService costShareService;
     
     /**
@@ -38,12 +49,20 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    
+
     public void setCostShareService(CostShareService costShareService) {
         this.costShareService = costShareService;
     }
-    
-    
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public CostShareService getCostShareService() {
+        return costShareService;
+    }
+
+
     protected boolean isBudgetFinalAndComplete(Budget budget) {
         String budgetStatusCompleteValue = this.parameterService.getParameterValueAsString(
                 BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
@@ -90,7 +109,6 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributio
         /**
          * Per KRACOEUS-5515 switching rate class code.
          */
-        //String unrecoveredFandARateClassCode = budget.getUrRateClassCode();
         String unrecoveredFandARateClassCode = budget.getOhRateClassCode();
         if(unrecoveredFandARateClassCode == null || unrecoveredFandARateClassCode.trim().length() == 0) {
             return ScaleTwoDecimal.ZERO;

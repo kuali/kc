@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.distributionincome;
+package org.kuali.coeus.common.budget.framework.income;
 
+import org.kuali.coeus.common.budget.framework.core.BudgetDistributionAndIncomeComponent;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
-/**
- * 
- */
 public class BudgetProjectIncome extends BudgetDistributionAndIncomeComponent implements HierarchyMaintainable {
 
     private static final long serialVersionUID = 8999969227018875501L;

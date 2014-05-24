@@ -34,7 +34,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.*;
-import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetDistributionService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder;
@@ -440,8 +440,8 @@ public class BudgetAction extends BudgetActionBase {
     }
    
     public ActionForward distributionAndIncome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        BudgetDistributionAndIncomeService budgetDistributionAndIncomeService = KcServiceLocator.getService(BudgetDistributionAndIncomeService.class);
-        budgetDistributionAndIncomeService.initializeCollectionDefaults(((BudgetForm) form).getBudgetDocument().getBudget());
+        BudgetDistributionService budgetDistributionService = KcServiceLocator.getService(BudgetDistributionService.class);
+        budgetDistributionService.initializeCollectionDefaults(((BudgetForm) form).getBudgetDocument().getBudget());
         
         return mapping.findForward(Constants.BUDGET_DIST_AND_INCOME_PAGE);
     }

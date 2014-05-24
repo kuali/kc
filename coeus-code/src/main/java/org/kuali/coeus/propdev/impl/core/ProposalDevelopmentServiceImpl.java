@@ -45,7 +45,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
-import org.kuali.kra.budget.distributionincome.BudgetCostShare;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
