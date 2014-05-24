@@ -13,23 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.distributionincome;
+package org.kuali.coeus.common.budget.impl.distribution;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.budget.framework.distribution.AddBudgetUnrecoveredFandARule;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public class AddBudgetProjectIncomeEvent extends KcDocumentEventBase {
-    private static final Log LOG = LogFactory.getLog(AddBudgetProjectIncomeEvent.class);
+public class AddBudgetUnrecoveredFandAEvent extends KcDocumentEventBase {
+    private static final Log LOG = LogFactory.getLog(AddBudgetUnrecoveredFandAEvent.class);
     
-    private BudgetProjectIncome budgetProjectIncome;
+    private BudgetUnrecoveredFandA budgetUnrecoveredFandA;
     
-    public AddBudgetProjectIncomeEvent(String description, String errorPathPrefix, Document document, 
-                                    BudgetProjectIncome budgetProjectIncome) {
+    public AddBudgetUnrecoveredFandAEvent(String description, String errorPathPrefix, Document document, BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
         super(description, errorPathPrefix, document);
-        this.budgetProjectIncome = budgetProjectIncome;
+        this.budgetUnrecoveredFandA = budgetUnrecoveredFandA;
     }
 
     @Override
@@ -38,20 +39,20 @@ public class AddBudgetProjectIncomeEvent extends KcDocumentEventBase {
         logMessage.append(" with ");
 
         //vary logging detail as needed
-        String msg = (budgetProjectIncome == null) ? "null budgetProjectIncome" : budgetProjectIncome.toString();
+        String msg = (budgetUnrecoveredFandA == null) ? "null budgetUnrecoveredFandA" : budgetUnrecoveredFandA.toString();
         LOG.debug(msg);
     }
 
-    public Class<AddBudgetProjectIncomeRule> getRuleInterfaceClass() {
-        return AddBudgetProjectIncomeRule.class;
+    public Class<AddBudgetUnrecoveredFandARule> getRuleInterfaceClass() {
+        return AddBudgetUnrecoveredFandARule.class;
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddBudgetProjectIncomeRule) rule).processAddBudgetProjectIncomeBusinessRules(this);
+        return ((AddBudgetUnrecoveredFandARule) rule).processAddBudgetUnrecoveredFandABusinessRules(this);
     }
 
-    public BudgetProjectIncome getBudgetProjectIncome() {
-        return budgetProjectIncome;
+    public BudgetUnrecoveredFandA getBudgetUnrecoveredFandA() {
+        return budgetUnrecoveredFandA;
     }
 
 }

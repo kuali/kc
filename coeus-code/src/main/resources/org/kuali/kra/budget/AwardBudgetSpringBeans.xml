@@ -32,8 +32,8 @@
         <property name="serviceName" value="budgetCalculationService" />
     </bean>
     
-    <bean id="budgetDistributionAndIncomeService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="budgetDistributionAndIncomeService" />
+    <bean id="budgetDistributionService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="budgetDistributionService" />
     </bean>
     
     <bean id="kcDocumentRejectionService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
@@ -54,7 +54,7 @@
     
     <bean id="awardBudgetCalculationService" class="org.kuali.kra.award.budget.calculator.AwardBudgetCalculationServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="budgetDistributionAndIncomeService" ref="budgetDistributionAndIncomeService" />
+        <property name="budgetDistributionService" ref="budgetDistributionService" />
     </bean>
           
     <!-- Award Budget Task Authorizers -->

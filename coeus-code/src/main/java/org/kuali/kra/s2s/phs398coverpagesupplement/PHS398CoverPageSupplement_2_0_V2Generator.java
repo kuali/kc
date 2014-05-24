@@ -31,14 +31,12 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
+import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 

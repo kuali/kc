@@ -121,19 +121,10 @@
 		<property name="businessObjectService" >
   			<ref bean="businessObjectService"/>
   		</property>
-  		<property name="budgetDistributionAndIncomeService" >
-  			<ref bean="budgetDistributionAndIncomeService"/>
+  		<property name="budgetDistributionService" >
+  			<ref bean="budgetDistributionService"/>
   		</property>
   		
-	</bean>
-
-	<bean id="budgetDistributionAndIncomeService" class="org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeServiceImpl">
-		<property name="parameterService">
-			<ref bean="parameterService"/>
-		</property>
-		<property name="costShareService">
-			<ref bean="costShareService"/>
-		</property>
 	</bean>
 
 	<bean id="budgetModularService" class="org.kuali.coeus.propdev.impl.budget.modular.BudgetModularServiceImpl">

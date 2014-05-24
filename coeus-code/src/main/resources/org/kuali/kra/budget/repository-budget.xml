@@ -101,7 +101,7 @@
 			<inverse-foreignkey field-ref="budgetId"/>
 		</collection-descriptor>
 
-        <collection-descriptor name="budgetCostShares" proxy="true" element-class-ref="org.kuali.kra.budget.distributionincome.BudgetCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="budgetCostShares" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="projectPeriod" sort="ASC" /> 
 			<inverse-foreignkey field-ref="budgetId"/>
 			<query-customizer
@@ -113,12 +113,12 @@
 	       </query-customizer>
 		</collection-descriptor>
 		
-		<collection-descriptor name="budgetProjectIncomes" proxy="true" element-class-ref="org.kuali.kra.budget.distributionincome.BudgetProjectIncome" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="budgetProjectIncomes" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="budgetPeriodNumber" sort="ASC" /> 
 			<inverse-foreignkey field-ref="budgetId"/>
 		</collection-descriptor>
 		
-		<collection-descriptor name="budgetUnrecoveredFandAs" proxy="true" element-class-ref="org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="budgetUnrecoveredFandAs" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="fiscalYear" sort="ASC" /> 
 			<inverse-foreignkey field-ref="budgetId"/>
 			<query-customizer
@@ -358,7 +358,7 @@
 		</reference-descriptor>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.budget.distributionincome.BudgetCostShare" table="EPS_PROP_COST_SHARING">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare" table="EPS_PROP_COST_SHARING">
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"  primarykey="true" /> 	
 		<field-descriptor name="documentComponentId" column="COST_SHARE_ID" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="projectPeriod" column="PROJECT_PERIOD" jdbc-type="INTEGER" />
@@ -378,7 +378,7 @@
 		<field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.budget.distributionincome.BudgetProjectIncome" table="BUDGET_PROJECT_INCOME">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome" table="BUDGET_PROJECT_INCOME">
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"  primarykey="true" /> 	
 		<field-descriptor name="documentComponentId" column="PROJECT_INCOME_ID" jdbc-type="INTEGER" primarykey="true"/>
 
@@ -406,7 +406,7 @@
 	</class-descriptor>
 
 	
-	<class-descriptor class="org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA" table="EPS_PROP_IDC_RATE">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA" table="EPS_PROP_IDC_RATE">
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" /> 	
 		<field-descriptor name="documentComponentId" column="UNRECOVERED_FNA_ID" jdbc-type="INTEGER" primarykey="true"/>
 
