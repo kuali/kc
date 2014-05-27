@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.versions;
+package org.kuali.coeus.common.budget.framework.version;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,10 +35,9 @@ public class AddBudgetVersionEvent extends KcDocumentEventBase {
 
     /**
      * Convenience constructor for {@link #AddBudgetVersionEvent(String, Document, String)}
-     * 
-     * @param errorPathPrefix
+     *
      * @param document {@link ProposalDevelopmentDocument} instance the version is to be added to
-     * @param versionName or name of the {@link BudgetVersionsOverview}
+     * @param versionName
      */
     public AddBudgetVersionEvent(Document document, String versionName) {
         this(EMPTY_STRING, document, versionName);
@@ -49,7 +48,7 @@ public class AddBudgetVersionEvent extends KcDocumentEventBase {
      * 
      * @param errorPathPrefix
      * @param document {@link ProposalDevelopmentDocument} instance the version is to be added to
-     * @param versionName or name of the {@link BudgetVersionsOverview}
+     * @param versionName
      */
     public AddBudgetVersionEvent(String errorPathPrefix, Document document, String versionName) {
         super("adding budget version to document " + getDocumentId(document), errorPathPrefix, document);
@@ -62,7 +61,7 @@ public class AddBudgetVersionEvent extends KcDocumentEventBase {
      * 
      * @param errorPathPrefix
      * @param document {@link ProposalDevelopmentDocument} instance the version is to be added to
-     * @param versionName or name of the {@link BudgetVersionsOverview}
+     * @param budgetVersionOverview
      */
     public AddBudgetVersionEvent(String errorPathPrefix, Document document, Budget budgetVersionOverview) {
         super("adding budget version to document " + getDocumentId(document), errorPathPrefix, document);

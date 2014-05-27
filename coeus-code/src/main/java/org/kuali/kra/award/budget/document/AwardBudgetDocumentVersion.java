@@ -16,7 +16,7 @@
 package org.kuali.kra.award.budget.document;
 
 import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 
 public class AwardBudgetDocumentVersion extends BudgetDocumentVersion {
 
