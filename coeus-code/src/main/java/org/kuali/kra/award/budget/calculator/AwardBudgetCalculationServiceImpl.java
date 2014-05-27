@@ -21,7 +21,7 @@ import org.kuali.kra.budget.calculator.BudgetCalculationServiceImpl;
 import org.kuali.kra.budget.core.BudgetCategoryType;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 
 import java.util.*;
 

@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.versions;
+package org.kuali.coeus.common.budget.framework.version;
+
+import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 
 import java.util.List;
 
 
 
 /**
- * Interface for a class that contains a {@link List} of {@link BudgetVersionOverview}
+ * Interface for a class that contains a {@link List} of {@link org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview}
  * instances
  *
  */

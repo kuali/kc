@@ -18,6 +18,10 @@ package org.kuali.kra.budget.core;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
+import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
+import org.kuali.coeus.common.budget.impl.version.BudgetVersionRule;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -41,7 +45,6 @@ import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.rate.ValidCeRateType;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
-import org.kuali.kra.budget.versions.*;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -115,7 +118,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      * determine if it is ok to add a {@link BudgetVersionOverview} instance to a {@link BudgetDocument} instance. If the business rules fail, 
      * this should be false and there will be errors in the error map.<br/>
      *
-     * <p>Takes care of all the setup and calling of the {@link KualiRuleService}. Uses the {@link AddBudgetVersionEvent}.</p>
+     * <p>Takes care of all the setup and calling of the {@link KualiRuleService}. Uses the {@link org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent}.</p>
      *
      * @param document {@link ProposalDevelopmentDocument} to validate against
      * @param name of the pseudo-{@link BudgetVersionOverview} instance to validate
@@ -144,7 +147,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         this.pessimisticLockService = pessimisticLockService;
     }
     /**
-     * Retrieve injected <code>{@link AddBudgetVersionRule}</code> singleton
+     * Retrieve injected <code>{@link org.kuali.coeus.common.budget.framework.version.AddBudgetVersionRule}</code> singleton
      * 
      * @return AddBudgetVersionRule
      */
@@ -153,7 +156,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     }
 
     /**
-     * Inject <code>{@link AddBudgetVersionRule}</code> singleton
+     * Inject <code>{@link org.kuali.coeus.common.budget.framework.version.AddBudgetVersionRule}</code> singleton
      * 
      * @return AddBudgetVersionRule
      */

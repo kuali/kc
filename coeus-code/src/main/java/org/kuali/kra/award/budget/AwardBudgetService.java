@@ -23,7 +23,7 @@ import org.kuali.kra.budget.core.BudgetCommonService;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.Collection;
