@@ -3,7 +3,7 @@
   <bean id="BudgetCategoryMapMaintenanceDocument" parent="BudgetCategoryMapMaintenanceDocument-parentBean"/>
 
   <bean id="BudgetCategoryMapMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.budget.core.BudgetCategoryMap"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.core.BudgetCategoryMap"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
     <property name="maintainableSections">
       <list>

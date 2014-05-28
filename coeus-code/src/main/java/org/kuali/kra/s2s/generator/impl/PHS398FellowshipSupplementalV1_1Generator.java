@@ -283,7 +283,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		if (budgetDoc == null) {
 			return federalStipendRequested;
 		}
-		org.kuali.kra.budget.core.Budget budget = budgetDoc.getBudget();
+		org.kuali.coeus.common.budget.framework.core.Budget budget = budgetDoc.getBudget();
 		ScaleTwoDecimal sumOfLineItemCost = ScaleTwoDecimal.ZERO;
 		ScaleTwoDecimal numberOfMonths = ScaleTwoDecimal.ZERO;
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {

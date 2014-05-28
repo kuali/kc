@@ -17,7 +17,7 @@ package org.kuali.kra.budget.external.budget;
 
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.budget.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
 
 import java.util.HashMap;

@@ -80,7 +80,7 @@
 		</property>
 	</bean>
       			
-    <bean id="budgetService" class="org.kuali.kra.budget.core.BudgetServiceImpl">
+    <bean id="budgetService" class="org.kuali.coeus.common.budget.impl.core.BudgetServiceImpl">
 		<property name="documentService">
 			<ref bean="documentService"/>
 		</property>
@@ -130,11 +130,7 @@
   		<property name="lookupableHelperService">
     		<ref bean="budgetExpenseLookupableHelperService" />
   		</property>  		
-	</bean>	
-
-	<bean id="budgetExpenseLookupableHelperService" class="org.kuali.kra.budget.lookup.BudgetExpenseLookupableHelperServiceImpl"
- 		scope="prototype" parent="parentLookupableHelperService">
-  	</bean>
+	</bean>
   	
 	<bean id="objectCodeToBudgetCategoryCodeService" class="org.kuali.kra.service.impl.ObjectCodeToBudgetCategoryCodeServiceImpl">
 		<property name="businessObjectService">
@@ -169,10 +165,6 @@
     		<ref bean="budgetPeriodLookupableHelperService" />
   		</property>  		
 	</bean>	
-	<bean id="budgetPeriodLookupableHelperService" class="org.kuali.kra.budget.lookup.BudgetPeriodLookupableHelperServiceImpl"
- 		scope="prototype" parent="parentLookupableHelperService" lazy-init="true"> 
- 		<property name="awardBudgetService" ref="awardBudgetService"/>
-  	</bean>		
   	
   	<!-- Budget adjustment client -->
   	<bean id="budgetAdjustmentClient" class= "org.kuali.kra.budget.external.budget.BudgetAdjustmentClientFactoryBean">

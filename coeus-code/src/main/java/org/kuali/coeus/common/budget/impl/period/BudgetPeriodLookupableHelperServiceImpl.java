@@ -13,22 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.lookup;
+package org.kuali.coeus.common.budget.impl.period;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
 
-
+@Component("budgetPeriodLookupableHelperService")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Lazy
 public class BudgetPeriodLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    
+
+    @Autowired
+    @Qualifier("awardBudgetService")
     protected AwardBudgetService awardBudgetService;
 
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {

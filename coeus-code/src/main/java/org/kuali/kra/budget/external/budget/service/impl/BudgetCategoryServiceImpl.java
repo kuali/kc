@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.external.budget.service.impl;
 
-import org.kuali.kra.budget.core.BudgetCategory;
+import org.kuali.coeus.common.budget.framework.core.BudgetCategory;
 import org.kuali.kra.external.HashMapElement;
 import org.kuali.kra.budget.external.budget.service.BudgetCategoryDTO;
 import org.kuali.kra.budget.external.budget.service.BudgetCategoryService;
