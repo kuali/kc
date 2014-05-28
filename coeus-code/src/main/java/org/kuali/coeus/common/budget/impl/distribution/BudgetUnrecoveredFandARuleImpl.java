@@ -13,8 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.distributionincome;
+package org.kuali.coeus.common.budget.impl.distribution;
 
+import org.kuali.coeus.common.budget.framework.distribution.AddBudgetUnrecoveredFandARule;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetValidationUnrecoveredFandARule;
+import org.kuali.coeus.common.budget.impl.core.ValidationHelper;
 import org.kuali.kra.budget.document.BudgetDocumentContainer;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;

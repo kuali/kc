@@ -13,17 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.distributionincome;
+package org.kuali.coeus.common.budget.framework.core;
 
-import org.kuali.rice.krad.rules.rule.BusinessRule;
+import org.kuali.kra.budget.core.BudgetAssociate;
 
+public abstract class BudgetDistributionAndIncomeComponent extends BudgetAssociate {
 
-public interface BudgetCostShareAllocationRule extends BusinessRule {
+    private static final long serialVersionUID = -5475883963362089242L;
 
-    /**
-     * ProcessDefinitionDefinitionDefinition business rules for allocation of BudgetCostShare
-     * @param addBudgetCostShareEvent
-     * @return
-     */
-    public boolean processBudgetCostShareAllocationBusinessRules(BudgetCostShareAllocationEvent budgetCostShareEvent);
+    private Integer documentComponentId;
+
+    public abstract String getDocumentComponentIdKey();
+
+    public Integer getDocumentComponentId() {
+        return documentComponentId;
+    }
+
+    public void setDocumentComponentId(Integer costShareId) {
+        this.documentComponentId = costShareId;
+    }
 }

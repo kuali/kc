@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.framework.costshare;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.distributionincome.BudgetCostShare;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.kra.budget.document.BudgetParentDocumentRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;

@@ -20,10 +20,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
-import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandARuleImpl;
-import org.kuali.kra.budget.distributionincome.BudgetValidationUnrecoveredFandAEvent;
-import org.kuali.kra.budget.distributionincome.BudgetValidationUnrecoveredFandARule;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
+import org.kuali.coeus.common.budget.impl.distribution.BudgetUnrecoveredFandARuleImpl;
+import org.kuali.coeus.common.budget.impl.distribution.BudgetValidationUnrecoveredFandAEvent;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetValidationUnrecoveredFandARule;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 

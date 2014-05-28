@@ -13,24 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.distributionincome;
+package org.kuali.coeus.common.budget.framework.distribution;
 
-import org.kuali.kra.budget.core.BudgetAssociate;
+import org.kuali.coeus.common.budget.impl.distribution.BudgetValidationUnrecoveredFandAEvent;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public abstract class BudgetDistributionAndIncomeComponent extends BudgetAssociate {
-
-
-    private static final long serialVersionUID = -5475883963362089242L;
-
-    private Integer documentComponentId;
-
-    public abstract String getDocumentComponentIdKey();
-
-    public Integer getDocumentComponentId() {
-        return documentComponentId;
-    }
-
-    public void setDocumentComponentId(Integer costShareId) {
-        this.documentComponentId = costShareId;
-    }
+public interface BudgetValidationUnrecoveredFandARule  extends BusinessRule {
+    
+    /**
+     * Rule invoked upon validating a budget 
+     * <code>{@link org.kuali.kra.budget.document.BudgetDocument}</code>
+     *
+     * @return boolean
+     */
+    public boolean processBudgetValidationUnrecoveredFandABusinessRules(BudgetValidationUnrecoveredFandAEvent validatingBudgetUnrecoveredFandAEvent);
 }

@@ -13,26 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.distributionincome;
+package org.kuali.coeus.common.budget.framework.income;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public class AddBudgetCostShareEvent extends KcDocumentEventBase {
-    private static final Log LOG = LogFactory.getLog(AddBudgetCostShareEvent.class);
+public class AddBudgetProjectIncomeEvent extends KcDocumentEventBase {
+    private static final Log LOG = LogFactory.getLog(AddBudgetProjectIncomeEvent.class);
     
-    private BudgetCostShare budgetCostShare;
-    private BudgetDocument budgetDocument;
+    private BudgetProjectIncome budgetProjectIncome;
     
-    public AddBudgetCostShareEvent(String description, String errorPathPrefix, Document document, BudgetCostShare budgetCostShare, 
-            BudgetDocument budgetDocument) {
+    public AddBudgetProjectIncomeEvent(String description, String errorPathPrefix, Document document, 
+                                    BudgetProjectIncome budgetProjectIncome) {
         super(description, errorPathPrefix, document);
-        this.budgetCostShare = budgetCostShare;
-        this.budgetDocument = budgetDocument;
+        this.budgetProjectIncome = budgetProjectIncome;
     }
 
     @Override
@@ -40,23 +37,21 @@ public class AddBudgetCostShareEvent extends KcDocumentEventBase {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
         logMessage.append(" with ");
 
-        LOG.debug((budgetCostShare == null) ? "null budgetCostShare" : budgetCostShare.toString());
+        //vary logging detail as needed
+        String msg = (budgetProjectIncome == null) ? "null budgetProjectIncome" : budgetProjectIncome.toString();
+        LOG.debug(msg);
     }
 
-    public Class<AddBudgetCostShareRule> getRuleInterfaceClass() {
-        return AddBudgetCostShareRule.class;
+    public Class<AddBudgetProjectIncomeRule> getRuleInterfaceClass() {
+        return AddBudgetProjectIncomeRule.class;
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddBudgetCostShareRule) rule).processAddBudgetCostShareBusinessRules(this);
+        return ((AddBudgetProjectIncomeRule) rule).processAddBudgetProjectIncomeBusinessRules(this);
     }
 
-    public BudgetCostShare getBudgetCostShare() {
-        return budgetCostShare;
-    }
-    
-    public BudgetDocument getBudgetDocument() {
-        return this.budgetDocument;
+    public BudgetProjectIncome getBudgetProjectIncome() {
+        return budgetProjectIncome;
     }
 
 }

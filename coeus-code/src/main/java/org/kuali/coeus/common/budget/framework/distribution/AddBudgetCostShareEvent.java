@@ -13,22 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.distributionincome;
+package org.kuali.coeus.common.budget.framework.distribution;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public class BudgetValidationUnrecoveredFandAEvent extends KcDocumentEventBase {
-    private static final Log LOG = LogFactory.getLog(BudgetValidationUnrecoveredFandAEvent.class);
+public class AddBudgetCostShareEvent extends KcDocumentEventBase {
+    private static final Log LOG = LogFactory.getLog(AddBudgetCostShareEvent.class);
     
-    private BudgetUnrecoveredFandA budgetUnrecoveredFandA;
+    private BudgetCostShare budgetCostShare;
+    private BudgetDocument budgetDocument;
     
-    public BudgetValidationUnrecoveredFandAEvent(String description, String errorPathPrefix, Document document, BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
+    public AddBudgetCostShareEvent(String description, String errorPathPrefix, Document document, BudgetCostShare budgetCostShare,
+            BudgetDocument budgetDocument) {
         super(description, errorPathPrefix, document);
-        this.budgetUnrecoveredFandA = budgetUnrecoveredFandA;
+        this.budgetCostShare = budgetCostShare;
+        this.budgetDocument = budgetDocument;
     }
 
     @Override
@@ -36,19 +40,23 @@ public class BudgetValidationUnrecoveredFandAEvent extends KcDocumentEventBase {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
         logMessage.append(" with ");
 
-        LOG.debug((budgetUnrecoveredFandA == null) ? "null unrecoveredF&A" : budgetUnrecoveredFandA.toString());
+        LOG.debug((budgetCostShare == null) ? "null budgetCostShare" : budgetCostShare.toString());
     }
 
-    public Class<BudgetValidationUnrecoveredFandARule> getRuleInterfaceClass() {
-        return BudgetValidationUnrecoveredFandARule.class;
+    public Class<AddBudgetCostShareRule> getRuleInterfaceClass() {
+        return AddBudgetCostShareRule.class;
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((BudgetValidationUnrecoveredFandARule) rule).processBudgetValidationUnrecoveredFandABusinessRules(this);
+        return ((AddBudgetCostShareRule) rule).processAddBudgetCostShareBusinessRules(this);
     }
 
-    public BudgetUnrecoveredFandA getBudgetUnrecoveredFandA() {
-        return budgetUnrecoveredFandA;
+    public BudgetCostShare getBudgetCostShare() {
+        return budgetCostShare;
+    }
+    
+    public BudgetDocument getBudgetDocument() {
+        return this.budgetDocument;
     }
 
 }
