@@ -34,6 +34,7 @@ import org.kuali.coeus.propdev.impl.copy.ProposalCopyService;
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
 import org.kuali.coeus.propdev.impl.editable.ProposalOverview;
+import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.propdev.impl.state.ProposalStateService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
@@ -1077,8 +1078,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      * @throws Exception
      */
     private void submitS2sApplication(ProposalDevelopmentDocument proposalDevelopmentDocument) throws Exception{
-        S2SService s2sService = ((S2SService) KcServiceLocator.getService(S2SService.class));
-        s2sService.submitApplication(proposalDevelopmentDocument);
+        S2sSubmissionService s2sSubmissionService = KcServiceLocator.getService(S2sSubmissionService.class);
+        s2sSubmissionService.submitApplication(proposalDevelopmentDocument);
     }
     
     /**

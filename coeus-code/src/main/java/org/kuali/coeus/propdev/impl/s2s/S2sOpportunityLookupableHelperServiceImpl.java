@@ -18,10 +18,9 @@ package org.kuali.coeus.propdev.impl.s2s;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.encryption.EncryptionService;
@@ -69,14 +68,15 @@ import java.util.*;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    @Autowired
-    @Qualifier("s2SService")
-    private S2SService s2SService;
+    private static final Log LOG = LogFactory.getLog(S2sOpportunityLookupableHelperServiceImpl.class);
 
     @Autowired
-    @Qualifier("s2SService")
+    @Qualifier("s2sSubmissionService")
+    private S2sSubmissionService s2sSubmissionService;
+
+    @Autowired
+    @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
-    private static final Log LOG = LogFactory.getLog(S2sOpportunityLookupableHelperServiceImpl.class);
 
     @Autowired
     @Qualifier("businessObjectService")
@@ -164,8 +164,8 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
         }
         if (StringUtils.isNotBlank(cfdaNumber) || StringUtils.isNotBlank(opportunityId)) {
             try {
-                s2sOpportunity = s2SService.searchOpportunity(providerCode, cfdaNumber, opportunityId, "");
-            }catch (S2SException e) {
+                s2sOpportunity = s2sSubmissionService.searchOpportunity(providerCode, cfdaNumber, opportunityId, "");
+            }catch (S2sCommunicationException e) {
                 LOG.error(e.getMessage(), e);
                 GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
                 return new ArrayList<S2sOpportunity>();
@@ -174,8 +174,8 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
                 return s2sOpportunity;
             } else if (StringUtils.isNotBlank(cfdaNumber) && StringUtils.isNotBlank(opportunityId)) {
                 try{
-                    s2sOpportunity = s2SService.searchOpportunity(providerCode, cfdaNumber, "", "");
-                }catch (S2SException e) {
+                    s2sOpportunity = s2sSubmissionService.searchOpportunity(providerCode, cfdaNumber, "", "");
+                }catch (S2sCommunicationException e) {
                     LOG.error(e.getMessage(), e);
                     GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
                     return new ArrayList<S2sOpportunity>();
@@ -200,14 +200,6 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
             return s2sOpportunity;
         }
     }
-
-    public S2SService getS2SService() {
-        return s2SService;
-    }
-
-    public void setS2SService(S2SService service) {
-        s2SService = service;
-    }   
 
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Collection displayList = super.performLookup(lookupForm, resultTable, bounded);
@@ -286,5 +278,13 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    public S2sSubmissionService getS2sSubmissionService() {
+        return s2sSubmissionService;
+    }
+
+    public void setS2sSubmissionService(S2sSubmissionService s2sSubmissionService) {
+        this.s2sSubmissionService = s2sSubmissionService;
     }
 }

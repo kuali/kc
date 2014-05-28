@@ -13,9 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.s2s.service;
-
-import org.kuali.kra.s2s.S2SException;
+package org.kuali.coeus.propdev.impl.s2s.connect;
 
 import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse;
 import gov.grants.apply.services.applicantwebservices_v2.GetApplicationStatusDetailResponse;
@@ -39,10 +37,10 @@ public interface S2SConnectorService {
      * @param competitionId parameter for the opportunity.
      * @return GetOpportunityListResponse available list of opportunities applicable for the given cfda number,opportunity Id and
      *         competition Id.
-     * @throws S2SException
+     * @throws S2sCommunicationException
      */
     public GetOpportunitiesResponse getOpportunityList(String cfdaNumber, String opportunityId, String competitionId)
-            throws S2SException;
+            throws S2sCommunicationException;
 
     /**
      * 
@@ -51,10 +49,10 @@ public interface S2SConnectorService {
      * @param ggTrackingId grants gov tracking id for the proposal.
      * @param proposalNumber Proposal number.
      * @return GetApplicationStatusDetailResponse status of the submitted application.
-     * @throws S2SException
+     * @throws S2sCommunicationException
      */
     public GetApplicationStatusDetailResponse getApplicationStatusDetail(String ggTrackingId, String proposalNumber)
-            throws S2SException;
+            throws S2sCommunicationException;
 
     /**
      * 
@@ -64,10 +62,10 @@ public interface S2SConnectorService {
      * @param cfdaNumber of the opportunity.
      * @param proposalNumber proposal number.
      * @return GetApplicationListResponse application list.
-     * @throws S2SException
+     * @throws S2sCommunicationException
      */
     public GetApplicationListResponse getApplicationList(String opportunityId, String cfdaNumber, String proposalNumber)
-            throws S2SException;
+            throws S2sCommunicationException;
 
     /**
      * 
@@ -77,9 +75,9 @@ public interface S2SConnectorService {
      * @param attachments attachments of the proposal.
      * @param proposalNumber proposal number.
      * @return SubmitApplicationResponse corresponding to the input parameters passed.
-     * @throws S2SException
+     * @throws S2sCommunicationException
      */
     public SubmitApplicationResponse submitApplication(String xmlText, Map<String, DataHandler> attachments, String proposalNumber)
-            throws S2SException;
+            throws S2sCommunicationException;
 
 }
