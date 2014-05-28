@@ -51,8 +51,10 @@
 					p:order="40" />
 				<bean parent="Uif-DataField" p:propertyName="competetionId"
 					p:order="50" />
+				<bean parent="Uif-DataField" p:propertyName="openingDate"
+					p:order="60" p:propertyEditorClass="org.kuali.rice.contrib.krad.web.bind.UifCalendarEditor"/>
 				<bean parent="Uif-DataField" p:propertyName="closingDate"
-					p:order="60" />
+					p:order="70" p:propertyEditorClass="org.kuali.rice.contrib.krad.web.bind.UifCalendarEditor"/>
 			</list>
 		</property>
 	</bean>

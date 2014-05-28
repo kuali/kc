@@ -15,15 +15,24 @@
  */
 package org.kuali.coeus.propdev.impl.core;
 
+import java.util.Calendar;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.specialreview.impl.rule.event.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
+import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
+import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.TransactionalDocumentControllerService;
+import org.kuali.kra.bo.ExemptionType;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.rice.contrib.krad.web.bind.UifCalendarEditor;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -41,7 +50,10 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -96,6 +108,48 @@ public abstract class ProposalDevelopmentControllerBase {
     public UifFormBase initForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
         UifFormBase form =  getTransactionalDocumentControllerService().initForm(this.createInitialForm(request), request, response);
         return form;
+    }
+    
+    
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) throws Exception {
+ 	   binder.registerCustomEditor(List.class, "document.developmentProposal.propScienceKeywords", new PropScienceKeywordEditor());
+ 	   binder.registerCustomEditor(List.class, "document.developmentProposal.propSpecialReviews.specialReviewExemptions", new PropSpecialReviewExemptionTypeEditor());
+ 	   binder.registerCustomEditor(Calendar.class, new UifCalendarEditor());
+    }
+    	  
+    protected class PropScienceKeywordEditor extends CustomCollectionEditor {
+ 		public PropScienceKeywordEditor() {
+ 			super(List.class);
+ 		}
+
+ 		protected Object convertElement(Object element) {
+ 			if (element instanceof String) {
+ 				return new PropScienceKeyword(null, getScienceKeyword(element));
+ 			}
+ 			return null;
+ 		}
+ 	}
+    
+    protected ScienceKeyword getScienceKeyword(Object element) {
+ 	   return (ScienceKeyword) getDataObjectService().findUnique(ScienceKeyword.class, QueryByCriteria.Builder.forAttribute("scienceKeywordCode", element).build());
+    }
+
+    protected class PropSpecialReviewExemptionTypeEditor extends CustomCollectionEditor {
+ 		public PropSpecialReviewExemptionTypeEditor() {
+ 			super(List.class);
+ 		}
+
+ 		protected Object convertElement(Object element) {
+ 			if (element instanceof String) {
+ 				return new ProposalSpecialReviewExemption(null, getExemptionType(element));
+ 			}
+ 			return null;
+ 		}
+ 	}
+    
+    protected ExemptionType getExemptionType(Object element) {
+ 	   return (ExemptionType) getDataObjectService().findUnique(ExemptionType.class, QueryByCriteria.Builder.forAttribute("exemptionTypeCode", element).build());
     }
     
     /**

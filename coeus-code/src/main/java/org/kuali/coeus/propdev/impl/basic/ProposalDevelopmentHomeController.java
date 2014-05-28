@@ -185,46 +185,5 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        propDevForm.getCustomDataHelper().prepareCustomData();
        return modelAndView;
    }
-   
-   @InitBinder
-   protected void initBinder(WebDataBinder binder) throws Exception {
-	   binder.registerCustomEditor(List.class, "document.developmentProposal.propScienceKeywords", new PropScienceKeywordEditor());
-	   binder.registerCustomEditor(List.class, "document.developmentProposal.propSpecialReviews.specialReviewExemptions", new PropSpecialReviewExemptionTypeEditor());
-	   binder.registerCustomEditor(Calendar.class, new UifCalendarEditor());
-   }
-   	  
-   protected class PropScienceKeywordEditor extends CustomCollectionEditor {
-		public PropScienceKeywordEditor() {
-			super(List.class);
-		}
 
-		protected Object convertElement(Object element) {
-			if (element instanceof String) {
-				return new PropScienceKeyword(null, getScienceKeyword(element));
-			}
-			return null;
-		}
-	}
-   
-   protected ScienceKeyword getScienceKeyword(Object element) {
-	   return (ScienceKeyword) getDataObjectService().findUnique(ScienceKeyword.class, QueryByCriteria.Builder.forAttribute("scienceKeywordCode", element).build());
-   }
-
-   protected class PropSpecialReviewExemptionTypeEditor extends CustomCollectionEditor {
-		public PropSpecialReviewExemptionTypeEditor() {
-			super(List.class);
-		}
-
-		protected Object convertElement(Object element) {
-			if (element instanceof String) {
-				return new ProposalSpecialReviewExemption(null, getExemptionType(element));
-			}
-			return null;
-		}
-	}
-   
-   protected ExemptionType getExemptionType(Object element) {
-	   return (ExemptionType) getDataObjectService().findUnique(ExemptionType.class, QueryByCriteria.Builder.forAttribute("exemptionTypeCode", element).build());
-   }
-   
 }
