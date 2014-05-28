@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.external.budget;
 
-import org.kuali.kra.budget.calculator.BudgetCalculationService;
+import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.external.budget.impl.BudgetAdjustmentClientImpl;
 import org.kuali.kra.budget.external.budget.impl.BudgetAdjustmentKSBClientImpl;
 import org.kuali.kra.external.unit.service.InstitutionalUnitService;

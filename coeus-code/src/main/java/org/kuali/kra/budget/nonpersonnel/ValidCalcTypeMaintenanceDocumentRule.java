@@ -18,7 +18,7 @@ package org.kuali.kra.budget.nonpersonnel;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.calculator.ValidCalcType;
+import org.kuali.coeus.common.budget.framework.calculator.ValidCalcType;
 import org.kuali.coeus.common.budget.framework.rate.RateClassType;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.kra.infrastructure.KeyConstants;
