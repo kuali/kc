@@ -13,8 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.distributionincome;
+package org.kuali.coeus.common.budget.impl.distribution;
 
+import org.kuali.coeus.common.budget.framework.core.BudgetDistributionAndIncomeComponent;
+import org.kuali.coeus.common.budget.framework.distribution.AddBudgetCostShareEvent;
+import org.kuali.coeus.common.budget.framework.distribution.AddBudgetCostShareRule;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShareAllocationRule;
+import org.kuali.coeus.common.budget.impl.distribution.BudgetCostShareAllocationEvent;
 import org.kuali.kra.budget.document.BudgetDocumentContainer;
 import org.kuali.coeus.common.framework.costshare.CostShareRuleResearchDocumentBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -44,7 +49,7 @@ public class BudgetCostShareRuleImpl extends CostShareRuleResearchDocumentBase i
      * This method ensures that an added BudgetCostShare won't duplicate another. A duplicate record would have the same source
      * account, share amount, and fiscal year as another already in the list.
      * 
-     * @param budgetCostShare
+     * @param testBudgetCostShare
      * @return
      */
     private boolean areDuplicatesPresent(BudgetDistributionAndIncomeComponent testBudgetCostShare) {

@@ -13,17 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.distributionincome;
+package org.kuali.coeus.common.budget.framework.income;
 
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public interface BudgetValidationUnrecoveredFandARule  extends BusinessRule {
-    
-    /**
-     * Rule invoked upon validating a budget 
-     * <code>{@link org.kuali.kra.budget.document.BudgetDocument}</code>
-     *
-     * @return boolean
-     */
-    public boolean processBudgetValidationUnrecoveredFandABusinessRules(BudgetValidationUnrecoveredFandAEvent validatingBudgetUnrecoveredFandAEvent);
+
+public interface AddBudgetProjectIncomeRule extends BusinessRule {
+
+    public boolean processAddBudgetProjectIncomeBusinessRules(AddBudgetProjectIncomeEvent addBudgetIncomeEvent);
 }

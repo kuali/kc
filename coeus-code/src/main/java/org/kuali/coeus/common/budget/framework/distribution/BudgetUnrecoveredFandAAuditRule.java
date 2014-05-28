@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.distributionincome;
+package org.kuali.coeus.common.budget.framework.distribution;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -46,7 +46,6 @@ public class BudgetUnrecoveredFandAAuditRule implements DocumentAuditRule {
             List auditErrors = ((AuditCluster) getAuditErrorMap().get(BUDGET_UNRECOVERED_F_AND_A_ERROR_KEY)).getAuditErrorList();
             auditErrors.clear();
         }
-//        getAuditErrors().clear();
         
         // Returns if unrecovered f and a is not applicable
         if (!budget.isUnrecoveredFandAApplicable()) {

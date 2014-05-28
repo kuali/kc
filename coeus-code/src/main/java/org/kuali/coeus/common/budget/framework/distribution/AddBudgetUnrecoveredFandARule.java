@@ -13,17 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.distributionincome;
+package org.kuali.coeus.common.budget.framework.distribution;
 
+import org.kuali.coeus.common.budget.impl.distribution.AddBudgetUnrecoveredFandAEvent;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 
-public interface AddBudgetCostShareRule extends BusinessRule {
+public interface AddBudgetUnrecoveredFandARule extends BusinessRule {
 
-    /**
-     * ProcessDefinitionDefinitionDefinition business rules for add of BudgetCostShare
-     * @param addBudgetCostShareEvent
-     * @return
-     */
-    public boolean processAddBudgetCostShareBusinessRules(AddBudgetCostShareEvent budgetCostShareEvent);
+    public boolean processAddBudgetUnrecoveredFandABusinessRules(AddBudgetUnrecoveredFandAEvent addUnrecoveredFandAEvent);
 }
