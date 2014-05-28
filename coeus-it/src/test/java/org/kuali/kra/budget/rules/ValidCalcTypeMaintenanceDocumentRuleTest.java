@@ -18,7 +18,7 @@ package org.kuali.kra.budget.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.budget.calculator.ValidCalcType;
+import org.kuali.coeus.common.budget.framework.calculator.ValidCalcType;
 import org.kuali.kra.budget.nonpersonnel.ValidCalcTypeMaintenanceDocumentRule;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;

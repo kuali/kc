@@ -34,7 +34,7 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
-import org.kuali.kra.budget.calculator.BudgetCalculationService;
+import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.core.BudgetDistributionAndIncomeComponent;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;

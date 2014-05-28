@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.budget.framework.rate;
 
 import org.kuali.kra.bo.InstituteRate;
-import org.kuali.kra.budget.calculator.DateSortable;
+import org.kuali.coeus.common.budget.framework.core.DateSortable;
 
 import java.sql.Date;
 
