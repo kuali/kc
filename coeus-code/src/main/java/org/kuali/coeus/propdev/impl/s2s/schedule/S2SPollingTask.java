@@ -13,22 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.s2s;
+package org.kuali.coeus.propdev.impl.s2s.schedule;
 
 import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse;
 import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse.ApplicationInfo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
+import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
+import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.MailService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.mail.MessagingException;
 import java.sql.Timestamp;
@@ -48,8 +50,18 @@ public class S2SPollingTask {
     private static final Log LOG = LogFactory.getLog(S2SPollingTask.class);
     private final List<String> lstStatus = new ArrayList<String>();
     private final Map<String, String> sortMsgKeyMap = new Hashtable<String, String>();
+
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService = null;
-    private S2SService s2SService = null;
+
+    @Autowired
+    @Qualifier("s2sSubmissionService")
+    private S2sSubmissionService s2sSubmissionService;
+
+    @Autowired
+    @Qualifier("mailService")
+    private MailService mailService;
 
     private String stopPollInterval;
     private String mailInterval;
@@ -114,7 +126,6 @@ public class S2SPollingTask {
      * 
      * This method filters out the latest submission record for each proposal and returns it in a map.
      * 
-     * @param submissionList {@link Collection} of all submissions
      * @return map of one submission record for each proposal
      */
     private Map<String, SubmissionData> populatePollingList() {
@@ -183,12 +194,12 @@ public class S2SPollingTask {
             try {
                 ProposalDevelopmentDocument pdDoc = getProposalDevelopmentDocument(appSubmission.getProposalNumber());
                 if (pdDoc != null) {
-                    applicationListResponse = s2SService.fetchApplicationListResponse(pdDoc);
+                    applicationListResponse = s2sSubmissionService.fetchApplicationListResponse(pdDoc);
                 }
 
                 if (applicationListResponse.getApplicationInfo() == null
                         || applicationListResponse.getApplicationInfo().size() == 0) {
-                    statusChanged = s2SService.checkForSubmissionStatusChange(pdDoc, appSubmission);
+                    statusChanged = s2sSubmissionService.checkForSubmissionStatusChange(pdDoc, appSubmission);
                     if (statusChanged == false
                             && appSubmission.getComments().equals(S2SConstants.STATUS_NO_RESPONSE_FROM_GRANTS_GOV)) {
                         localSubInfo.setSortId(SORT_ID_F);
@@ -201,11 +212,11 @@ public class S2SPollingTask {
                         localSubInfo.setAcType('U');
                         statusChanged = !appSubmission.getStatus().equalsIgnoreCase(
                                 ggApplication.getGrantsGovApplicationStatus().value());
-                        s2SService.populateAppSubmission(pdDoc, appSubmission, ggApplication);
+                        s2sSubmissionService.populateAppSubmission(pdDoc, appSubmission, ggApplication);
                     }
                 }
             }
-            catch (S2SException e) {
+            catch (S2sCommunicationException e) {
                 LOG.error(e.getMessage(), e);
                 appSubmission.setComments(e.getMessage());
                 localSubInfo.setSortId(SORT_ID_F);
@@ -355,7 +366,6 @@ public class S2SPollingTask {
      * @throws Exception
      */
     private void sendMail(HashMap<String, Vector<SubmissionData>> htMails) throws InvalidAddressException , MessagingException {
-        MailService mailService = KcServiceLocator.getService(MailService.class);
         if (htMails.isEmpty()) {
             return;
         }
@@ -558,10 +568,23 @@ public class S2SPollingTask {
         this.businessObjectService = businessObjectService;
     }
 
-    /**
-     * @param s2SService the s2sService to set
-     */
-    public void sets2SService(S2SService s2SService) {
-        this.s2SService = s2SService;
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public S2sSubmissionService getS2sSubmissionService() {
+        return s2sSubmissionService;
+    }
+
+    public void setS2sSubmissionService(S2sSubmissionService s2sSubmissionService) {
+        this.s2sSubmissionService = s2sSubmissionService;
+    }
+
+    public MailService getMailService() {
+        return mailService;
+    }
+
+    public void setMailService(MailService mailService) {
+        this.mailService = mailService;
     }
 }

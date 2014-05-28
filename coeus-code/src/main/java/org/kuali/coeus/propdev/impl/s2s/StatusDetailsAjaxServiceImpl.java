@@ -6,7 +6,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +20,12 @@ public class StatusDetailsAjaxServiceImpl implements StatusDetailsAjaxService {
     private static final Log LOG = LogFactory.getLog(StatusDetailsAjaxServiceImpl.class);
 
     @Autowired
-    @Qualifier("s2SService")
-    private S2SService s2SService;
+    @Qualifier("s2sSubmissionService")
+    private S2sSubmissionService s2sSubmissionService;
 
     public String getStatusDetails(String ggTrackingId, String proposalNumber) {
         if(isAuthorizedToAccess(proposalNumber)){
-            return s2SService.getStatusDetails(ggTrackingId, proposalNumber);
+            return s2sSubmissionService.getStatusDetails(ggTrackingId, proposalNumber);
         }
         return StringUtils.EMPTY;
     }
@@ -63,11 +62,11 @@ public class StatusDetailsAjaxServiceImpl implements StatusDetailsAjaxService {
         return isAuthorized;
     }
 
-    public S2SService getS2SService() {
-        return s2SService;
+    public S2sSubmissionService getS2sSubmissionService() {
+        return s2sSubmissionService;
     }
 
-    public void setS2SService(S2SService s2SService) {
-        this.s2SService = s2SService;
+    public void setS2sSubmissionService(S2sSubmissionService s2sSubmissionService) {
+        this.s2sSubmissionService = s2sSubmissionService;
     }
 }

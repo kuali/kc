@@ -746,7 +746,11 @@
     <bean id="countryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="countryService" />
     </bean>
-	
+
+    <bean id="mailService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="mailService" />
+    </bean>
+
 	<bean id="proposalDevelopmentProtocolDocumentService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
   	<property name="serviceName" value="proposalDevelopmentProtocolDocumentService" />
   </bean>
@@ -772,5 +776,198 @@
         <property name="lookupableHelperService" ref="s2sOpportunityLookupableHelperService"/>
     </bean>
 
+    <bean id="grantsGovConnectorService"
+          class="org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorServiceBase">
+        <property name="serviceHost" value="grants.gov.s2s.host"/>
+        <property name="servicePort" value="grants.gov.s2s.port"/>
+        <property name="s2sCertificateReader">
+            <bean class="org.kuali.coeus.propdev.impl.s2s.connect.S2SCertificateReaderBase">
+                <property name="keyStoreLocation" value="s2s.keystore.location"/>
+                <property name="keyStorePassword" value="s2s.keystore.password"/>
+                <property name="trustStoreLocation" value="s2s.truststore.location"/>
+                <property name="trustStorePassword" value="s2s.truststore.password"/>
+                <property name="jksType" value="JKS"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="researchGovConnectorService"
+          class="org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorServiceBase">
+        <property name="serviceHost" value="research.gov.s2s.host"/>
+        <property name="servicePort" value="research.gov.s2s.port"/>
+        <property name="s2sCertificateReader">
+            <bean class="org.kuali.coeus.propdev.impl.s2s.connect.S2SCertificateReaderBase">
+                <property name="keyStoreLocation" value="research.gov.keystore.location"/>
+                <property name="keyStorePassword" value="research.gov.keystore.password"/>
+                <property name="trustStoreLocation" value="research.gov.truststore.location"/>
+                <property name="trustStorePassword" value="research.gov.truststore.password"/>
+                <property name="jksType" value="JKS"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!--  S2S Scheduler configuration start -->
+    <bean id="preValidationTask"
+          class="org.kuali.coeus.propdev.impl.s2s.schedule.S2SPollingTask">
+        <property name="stopPollInterval" value="4320" />
+        <property name="mailInterval" value="20" />
+        <property name="statusMap">
+            <map>
+                <entry key="1" value="Submitted to S2S" />
+                <entry key="2" value="Receiving" />
+                <entry key="3" value="Received" />
+                <entry key="4" value="Processing" />
+            </map>
+        </property>
+        <property name="mailInfoList">
+            <list>
+                <ref bean="mailInfo" />
+            </list>
+        </property>
+    </bean>
+    <bean id="validationTask"
+          class="org.kuali.coeus.propdev.impl.s2s.schedule.S2SPollingTask">
+        <property name="stopPollInterval" value="1440" />
+        <property name="mailInterval" value="120" />
+        <property name="statusMap">
+            <map>
+                <entry key="5" value="Validated" />
+            </map>
+        </property>
+        <property name="mailInfoList">
+            <list>
+                <ref bean="mailInfo" />
+            </list>
+        </property>
+    </bean>
+    <bean id="postValidationTask"
+          class="org.kuali.coeus.propdev.impl.s2s.schedule.S2SPollingTask">
+        <property name="stopPollInterval" value="1440" />
+        <property name="mailInterval" value="240" />
+        <property name="statusMap">
+            <map>
+                <entry key="6" value="Received by Agency" />
+            </map>
+        </property>
+        <property name="mailInfoList">
+            <list>
+                <ref bean="mailInfo" />
+            </list>
+        </property>
+    </bean>
+    <bean id="errorOutTask"
+          class="org.kuali.coeus.propdev.impl.s2s.schedule.S2SPollingTask">
+        <property name="stopPollInterval" value="24" />
+        <property name="mailInterval" value="40" />
+        <property name="statusMap">
+            <map>
+                <entry key="10" value="S2S Submission Error" />
+            </map>
+        </property>
+        <property name="mailInfoList">
+            <list>
+                <ref bean="mailInfo" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="mailInfo" class="org.kuali.coeus.propdev.impl.s2s.schedule.MailInfo">
+        <property name="dunsNumber" value="" />
+        <property name="to" value="" />
+        <property name="cc" value="" />
+        <property name="bcc" value="" />
+        <property name="footer" value="" />
+        <property name="message" value="S2S Submissions" />
+        <property name="subject" value="S2S Submissions" />
+    </bean>
+    <bean id="preValidation"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="preValidationTask" />
+        <property name="targetMethod" value="execute" />
+        <property name="concurrent" value="false" />
+    </bean>
+    <bean id="validation"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="validationTask" />
+        <property name="targetMethod" value="execute" />
+        <property name="concurrent" value="false" />
+    </bean>
+    <bean id="postValidation"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="postValidationTask" />
+        <property name="targetMethod" value="execute" />
+        <property name="concurrent" value="false" />
+    </bean>
+    <bean id="errorOut"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="errorOutTask" />
+        <property name="targetMethod" value="execute" />
+        <property name="concurrent" value="false" />
+    </bean>
+
+    <bean id="preValidationTrigger"
+          class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
+        <property name="jobDetail" ref="preValidation" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="defaultCronExpression" value="0 0/20 * * * ?" />
+        <property name="triggerEnabledParameterName" value="s2s.polling.scheduler.enabled" />
+        <property name="parameterNamespace" value="KC-PD" />
+        <property name="parameterComponent" value="Document" />
+        <property name="cronExpressionParameterName" value="s2sScheduler.preValidation.cronExpression"/>
+    </bean>
+    <bean id="validationTrigger"
+          class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
+        <property name="jobDetail" ref="validation" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="defaultCronExpression" value="0 0/20 * * * ?" />
+        <property name="triggerEnabledParameterName" value="s2s.polling.scheduler.enabled" />
+        <property name="parameterNamespace" value="KC-PD" />
+        <property name="parameterComponent" value="Document" />
+        <property name="cronExpressionParameterName"
+                  value="s2sScheduler.validation.cronExpression">
+        </property>
+    </bean>
+    <bean id="postValidationTrigger"
+          class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
+        <property name="jobDetail" ref="postValidation" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="defaultCronExpression" value="0 0/20 * * * ?" />
+        <property name="triggerEnabledParameterName" value="s2s.polling.scheduler.enabled" />
+        <property name="parameterNamespace" value="KC-PD" />
+        <property name="parameterComponent" value="Document" />
+        <property name="cronExpressionParameterName"
+                  value="s2sScheduler.postValidation.cronExpression">
+        </property>
+    </bean>
+    <bean id="errorOutTrigger"
+          class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
+        <property name="jobDetail" ref="errorOut" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="defaultCronExpression" value="0 0/20 * * * ?" />
+        <property name="triggerEnabledParameterName" value="s2s.polling.scheduler.enabled" />
+        <property name="parameterNamespace" value="KC-PD" />
+        <property name="parameterComponent" value="Document" />
+        <property name="cronExpressionParameterName"
+                  value="s2sScheduler.errorOut.cronExpression">
+        </property>
+    </bean>
+
+    <bean id="s2SSchedulerStarter"
+          class="org.kuali.coeus.propdev.impl.s2s.schedule.S2SSchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="preValidationTrigger" />
+                <ref bean="validationTrigger" />
+                <ref bean="postValidationTrigger" />
+                <ref bean="errorOutTrigger" />
+            </list>
+        </property>
+    </bean>
+
+    <!--  S2S Scheduler configuration end -->
 
 </beans>

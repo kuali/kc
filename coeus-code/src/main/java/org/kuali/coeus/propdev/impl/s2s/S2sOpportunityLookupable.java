@@ -3,11 +3,10 @@ package org.kuali.coeus.propdev.impl.s2s;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -30,7 +29,7 @@ public class S2sOpportunityLookupable extends LookupableImpl {
 
     private static final Log LOG = LogFactory.getLog(S2sOpportunityLookupable.class);
 
-    private S2SService s2SService;
+    private S2sSubmissionService s2sSubmissionService;
 
     @Override
     public List<?> performSearch(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
@@ -46,8 +45,8 @@ public class S2sOpportunityLookupable extends LookupableImpl {
         List<S2sOpportunity> s2sOpportunity = new ArrayList<S2sOpportunity>();
         if (StringUtils.isNotBlank(cfdaNumber) || StringUtils.isNotBlank(opportunityId)) {
             try {
-                s2sOpportunity = getS2SService().searchOpportunity(providerCode, cfdaNumber, opportunityId, "");
-            }catch (S2SException e) {
+                s2sOpportunity = getS2sSubmissionService().searchOpportunity(providerCode, cfdaNumber, opportunityId, "");
+            }catch (S2sCommunicationException e) {
                 LOG.error(e.getMessage(), e);
                 GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
                 return Collections.emptyList();
@@ -56,8 +55,8 @@ public class S2sOpportunityLookupable extends LookupableImpl {
                 return s2sOpportunity;
             } else if (StringUtils.isNotBlank(cfdaNumber) && StringUtils.isNotBlank(opportunityId)) {
                 try{
-                    s2sOpportunity = getS2SService().searchOpportunity(providerCode, cfdaNumber, "", "");
-                }catch (S2SException e) {
+                    s2sOpportunity = getS2sSubmissionService().searchOpportunity(providerCode, cfdaNumber, "", "");
+                }catch (S2sCommunicationException e) {
                     LOG.error(e.getMessage(), e);
                     GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
                     return Collections.emptyList();
@@ -83,11 +82,11 @@ public class S2sOpportunityLookupable extends LookupableImpl {
         }
     }
 
-    public S2SService getS2SService() {
-        if (s2SService == null) {
-            s2SService = KcServiceLocator.getService(S2SService.class);
+    public S2sSubmissionService getS2sSubmissionService() {
+        if (s2sSubmissionService == null) {
+            s2sSubmissionService = KcServiceLocator.getService(S2sSubmissionService.class);
         }
 
-        return s2SService;
+        return s2sSubmissionService;
     }
 }
