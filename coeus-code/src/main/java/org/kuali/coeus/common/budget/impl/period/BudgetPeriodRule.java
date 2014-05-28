@@ -22,12 +22,11 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetExt;
-import org.kuali.kra.budget.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
-import org.kuali.kra.budget.infrastructure.BudgetSummaryErrorConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -46,7 +45,6 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
     private static final String BUDGET_SUMMARY = "budgetParameters";
     private Date projectStartDate;
     private Date projectEndDate;
-    private Date previousPeriodEndDate;
     private String[] errorParameter;
     private BudgetDocument budgetDocument;
     private ParameterService parameterService;
@@ -160,7 +158,6 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
                 && budgetStatus.equals(budgetStatusCompleteCode) 
                 && !finalVersionFlag) {
             errorMap.putError("document.proposal.budgetStatus", KeyConstants.ERROR_NO_FINAL_BUDGET);
-            finalVersionFlag = false;
         }
         errorMap.removeFromErrorPath(BUDGET_SUMMARY);
         return true;
@@ -267,7 +264,7 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
                 Date validDateBefore;
                 periodStartDate = budgetPeriod.getStartDate();
                 periodEndDate = budgetPeriod.getEndDate();
-                String dateCompareValue = null; 
+                String dateCompareValue = null;
                 /* check first record */
                 if(previousPeriodStartDate == null) {
                     validDateBefore = projectStartDate;
@@ -343,9 +340,6 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
         int index = 0;
         MessageMap errorMap = GlobalVariables.getMessageMap();
 
-        boolean insertBudgetPeriod = false;
-        
-        int totalBudgetPeriods = budgetPeriods.size() - 1;
         /* verify existing budget periods */
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
             errorMap.addToErrorPath("document.budgetPeriods[" + index + "]");

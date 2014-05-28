@@ -13,29 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.core;
+package org.kuali.coeus.common.budget.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Section;
-import org.kuali.rice.krad.bo.BusinessObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CostElementInquirableImpl extends KualiInquirableImpl {
+public class CostElementMaintainableImpl extends KualiMaintainableImpl {
+
+    private static final long serialVersionUID = -2403270541923494151L;
     
     private static final String KFS_ON_PARM_NMSPC_CD = "KC-AWARD";
     private static final String KFS_ON_PARM_DTL_TYP_CD = "Document";
     private static final String KFS_ON_PARM_NM = "FIN_SYSTEM_INTEGRATION_ON";
     private static final String KFS_ON_OFF_VALUE = "OFF";
-    private static final String KFS_SECTION_NAME = "Object Code KFS Options";
-    
+    private static final String KFS_SECTION_NAME = "Edit Cost Element KFS Option List";
+
     @Override
-    public List<Section> getSections(BusinessObject bo) {
-        List<Section> oldSections = super.getSections(bo);
+    @SuppressWarnings("unchecked")
+    public List<Section> getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
+        List<Section> oldSections = super.getSections(document, oldMaintainable);
         
         String kfsOnParameterValue = getParameterService().getParameterValueAsString(KFS_ON_PARM_NMSPC_CD, KFS_ON_PARM_DTL_TYP_CD, KFS_ON_PARM_NM);
         
@@ -52,9 +56,9 @@ public class CostElementInquirableImpl extends KualiInquirableImpl {
         
         return sections;
     }
-    
+
     private ParameterService getParameterService() {
         return KcServiceLocator.getService(ParameterService.class);
     }
-
+    
 }
