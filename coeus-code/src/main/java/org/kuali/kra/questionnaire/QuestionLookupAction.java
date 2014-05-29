@@ -73,11 +73,11 @@ public class QuestionLookupAction extends KualiAction {
                     desc = desc.replace("\"", "&#034;");
                 }
                 if (StringUtils.isBlank(questions)) {
-                    questions = question.getQuestionRefId() + PFP + desc + PFP + question.getQuestionTypeId() + PFP
+                    questions = question.getId() + PFP + desc + PFP + question.getQuestionTypeId() + PFP
                             + question.getSequenceNumber();
                 }
                 else {
-                    questions = questions + PQP + question.getQuestionRefId() + PFP + desc + PFP
+                    questions = questions + PQP + question.getId() + PFP + desc + PFP
                             + question.getQuestionTypeId() + PFP + question.getSequenceNumber();
 
                 }

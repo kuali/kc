@@ -78,7 +78,7 @@ public class IacucProtocolNotifyIacucServiceImpl implements IacucProtocolNotifyI
     private void saveQuestionnaire(IacucProtocolNotifyIacucBean notifyIacucBean, Integer submissionNumber) {
         List<AnswerHeader> saveHeaders = new ArrayList<AnswerHeader>();
         for (AnswerHeader answerHeader : notifyIacucBean.getAnswerHeaders()) {
-            if (answerHeader.getAnswerHeaderId() != null) {
+            if (answerHeader.getId() != null) {
                 answerHeader.setModuleSubItemKey(submissionNumber.toString());
                 answerHeader.setModuleItemKey(answerHeader.getModuleItemKey().substring(0,
                         answerHeader.getModuleItemKey().length() - 1));

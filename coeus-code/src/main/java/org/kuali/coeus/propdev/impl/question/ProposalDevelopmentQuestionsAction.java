@@ -90,11 +90,11 @@ public class ProposalDevelopmentQuestionsAction extends ProposalDevelopmentActio
         final String formProperty = getFormProperty(request,"printQuestionnaireAnswer");
 
         if (StringUtils.equals(formProperty, ".questionnaireHelper")) {
-            reportParameters.put("questionnaireId", proposalDevelopmentForm.getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireIdAsInteger());
+            reportParameters.put("questionnaireSeqId", proposalDevelopmentForm.getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireSeqIdAsInteger());
             reportParameters.put("template", proposalDevelopmentForm.getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getTemplate());
             reportParameters.put("coeusModuleSubItemCode", CoeusSubModule.ZERO_SUBMODULE);
         } else if (StringUtils.equals(formProperty, ".s2sQuestionnaireHelper")) { 
-            reportParameters.put("questionnaireId", proposalDevelopmentForm.getS2sQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireIdAsInteger());
+            reportParameters.put("questionnaireSeqId", proposalDevelopmentForm.getS2sQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireSeqIdAsInteger());
             reportParameters.put("template", proposalDevelopmentForm.getS2sQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getTemplate());
             reportParameters.put("coeusModuleSubItemCode", CoeusSubModule.PROPOSAL_S2S_SUBMODULE);
         } else {
@@ -120,7 +120,7 @@ public class ProposalDevelopmentQuestionsAction extends ProposalDevelopmentActio
     private List<AnswerHeader> getAnsweredQuestionnaire(List<AnswerHeader> answerHeaders) {
         List<AnswerHeader> savedHeaders = new ArrayList<AnswerHeader>();
         for (AnswerHeader answerHeader : answerHeaders) {
-            if (answerHeader.getAnswerHeaderId() != null) {
+            if (answerHeader.getId() != null) {
                 savedHeaders.add(answerHeader);
             }
         }

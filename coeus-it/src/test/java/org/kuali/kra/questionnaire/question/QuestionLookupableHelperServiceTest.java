@@ -95,7 +95,7 @@ public class QuestionLookupableHelperServiceTest extends KcIntegrationTestBase {
         Assert.assertThat(searchResults.isEmpty(), is(not(true)));
         
         for (Question q : searchResults) {
-            Assert.assertThat("question retrieved " + q.getQuestionId() + " did not have a status of " + SEQUENCE_STATUS_CURRENT, q.getSequenceStatus(), is(SEQUENCE_STATUS_CURRENT));
+            Assert.assertThat("question retrieved " + q.getQuestionSeqId() + " did not have a status of " + SEQUENCE_STATUS_CURRENT, q.getSequenceStatus(), is(SEQUENCE_STATUS_CURRENT));
         }
     }
 
@@ -122,7 +122,7 @@ public class QuestionLookupableHelperServiceTest extends KcIntegrationTestBase {
         documentService.routeDocument(maintDocument,null,null);
         
         List pkNames = new ArrayList();
-        pkNames.add("questionRefId");
+        pkNames.add("id");
         
         String docNumber = maintDocument.getDocumentNumber();
         List<HtmlData> htmldata = questionLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);
@@ -153,14 +153,14 @@ public class QuestionLookupableHelperServiceTest extends KcIntegrationTestBase {
         documentService.routeDocument(maintDocument,null,null);
         
         List pkNames = new ArrayList();
-        pkNames.add("questionRefId");
+        pkNames.add("id");
         
         String docNumber = maintDocument.getDocumentNumber();
         List<HtmlData> htmldata = questionLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);
         Assert.assertEquals(4, htmldata.size());
-        Assert.assertEquals(((AnchorHtmlData)htmldata.get(0)).getHref(), "../maintenanceQ.do?questionRefId="+question.getQuestionRefId()+"&businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=edit");
-        Assert.assertEquals(((AnchorHtmlData)htmldata.get(1)).getHref(), "../maintenanceQ.do?questionRefId="+question.getQuestionRefId()+"&businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=copy");
-        Assert.assertEquals(((AnchorHtmlData)htmldata.get(2)).getHref(), "../maintenanceQ.do?questionRefId="+question.getQuestionRefId()+"&businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=delete");
+        Assert.assertEquals("../maintenanceQ.do?businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=edit&id="+question.getId(), ((AnchorHtmlData)htmldata.get(0)).getHref());
+        Assert.assertEquals("../maintenanceQ.do?businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=copy&id="+question.getId(), ((AnchorHtmlData)htmldata.get(1)).getHref());
+        Assert.assertEquals("../maintenanceQ.do?businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=delete&id="+question.getId(), ((AnchorHtmlData)htmldata.get(2)).getHref());
         Assert.assertEquals(getTailOfUrl(((AnchorHtmlData)htmldata.get(3)).getHref()), "DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+docNumber);
     }
 
@@ -191,7 +191,7 @@ public class QuestionLookupableHelperServiceTest extends KcIntegrationTestBase {
         documentService.routeDocument(maintDocument,null,null);
 
         List pkNames = new ArrayList();
-        pkNames.add("questionRefId");
+        pkNames.add("id");
         
         List<HtmlData> htmldata = questionLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);
         Assert.assertEquals(htmldata.size(), 0);
@@ -206,13 +206,13 @@ public class QuestionLookupableHelperServiceTest extends KcIntegrationTestBase {
      */
     private Question createQuestion(int questionRefId, String sequenceStatus) {
         Question question = new Question();
-        question.setQuestionRefId(Long.valueOf(questionRefId));
-        question.setQuestionIdFromInteger(questionRefId);
+        question.setId(Long.valueOf(questionRefId));
+        question.setQuestionSeqIdFromInteger(questionRefId);
         question.setSequenceStatus(sequenceStatus);
         question.setQuestion("test" + questionRefId);
         question.setStatus("A");
-        question.setCategoryTypeCode(1);
-        question.setQuestionTypeId(1);  
+        question.setCategoryTypeCode(1L);
+        question.setQuestionTypeId(1L);
         return question;
     }
 }

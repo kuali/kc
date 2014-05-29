@@ -1139,7 +1139,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     protected void removeOldQuestionnaire() {
 
         List <AnswerHeader> answerHeaders = getAnswerHeaderForProtocol(this);
-        if (!answerHeaders.isEmpty() && answerHeaders.get(0).getAnswerHeaderId() != null){
+        if (!answerHeaders.isEmpty() && answerHeaders.get(0).getId() != null){
             getBusinessObjectService().delete(answerHeaders);
         }
     }
@@ -1153,10 +1153,10 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         if (!answerHeaders.isEmpty()){
             for (AnswerHeader answerHeader : answerHeaders) {
                 for (Answer answer : answerHeader.getAnswers()) {
-                    answer.setAnswerHeaderIdFk(null);
+                    answer.setAnswerHeaderId(null);
                     answer.setId(null);
                 }
-                answerHeader.setAnswerHeaderId(null);
+                answerHeader.setId(null);
                 answerHeader.setModuleItemKey(this.getProtocolNumber());
                 answerHeader.setModuleSubItemKey(this.getSequenceNumber().toString());
             }

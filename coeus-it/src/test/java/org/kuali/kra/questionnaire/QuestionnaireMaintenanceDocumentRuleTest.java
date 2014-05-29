@@ -58,8 +58,8 @@ public class QuestionnaireMaintenanceDocumentRuleTest extends MaintenanceRuleTes
         questionnaireMaintenanceDocument = newMaintDoc(questionnaire1);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(questionnaireMaintenanceDocument));
         KcServiceLocator.getService(BusinessObjectService.class).save(questionnaire1);
-        questionnaire1.setQuestionnaireRefId(null);
-        questionnaire1.setQuestionnaireId(null);
+        questionnaire1.setId(null);
+        questionnaire1.setQuestionnaireSeqId(null);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(questionnaireMaintenanceDocument));
         
 

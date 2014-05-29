@@ -171,7 +171,7 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
         List<AnswerHeader> headers = getQuestionnaireAnswerService().getQuestionnaireAnswer(bean);
         
         for (AnswerHeader head : headers) {
-            retval &= head.getCompleted();
+            retval &= head.isCompleted();
         }
                
         return retval;

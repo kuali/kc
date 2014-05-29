@@ -83,7 +83,7 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
     private void saveQuestionnaire(ProtocolNotifyIrbBean notifyIrbBean, Integer submissionNumber) {
         List<AnswerHeader> saveHeaders = new ArrayList<AnswerHeader>();
         for (AnswerHeader answerHeader : notifyIrbBean.getQuestionnaireHelper().getAnswerHeaders()) {
-            if (answerHeader.getAnswerHeaderId() != null) {
+            if (answerHeader.getId() != null) {
                 answerHeader.setModuleSubItemKey(submissionNumber.toString());
                 //remove any trailing characters from the protocol number to avoid linking to an amendment or renewal or whatever T means.
                 if (answerHeader.getModuleItemKey().matches(".*[A-Z]$")) {

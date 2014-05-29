@@ -36,6 +36,11 @@ public abstract class QuestionnairePrintingServiceImpl implements QuestionnaireP
 
     private static final String PROTOCOL_NUMBER = "protocolNumber";
     private static final String SUBMISSION_NUMBER = "submissionNumber";
+    public static final String QUESTIONNAIRE_SEQ_ID = "questionnaireSeqId";
+    public static final String TEMPLATE = "template";
+    public static final String MODULE_SUB_ITEM_CODE = "moduleSubItemCode";
+    public static final String SUBMISSION_ID = "submissionId";
+    public static final String ID = "id";
     private PrintingService printingService;
     private QuestionnairePrint questionnairePrint;
     private BusinessObjectService businessObjectService;
@@ -43,7 +48,7 @@ public abstract class QuestionnairePrintingServiceImpl implements QuestionnaireP
     
     private Questionnaire getQuestionnaire(Long questionnaireRefId) {
         Map pkMap = new HashMap();
-        pkMap.put("questionnaireRefId", questionnaireRefId);
+        pkMap.put(ID, questionnaireRefId);
         return (Questionnaire)businessObjectService.findByPrimaryKey(Questionnaire.class, pkMap);
         
     }
@@ -58,11 +63,11 @@ public abstract class QuestionnairePrintingServiceImpl implements QuestionnaireP
                 AbstractPrint printable =  new QuestionnairePrint();
                 printable.setXmlStream(getQuestionnairePrint().getXmlStream());
                 Map<String, Object> reportParameters = new HashMap<String, Object>();
-                Questionnaire questionnaire = getQuestionnaire(printOption.getQuestionnaireRefId());
-                reportParameters.put("questionnaireId", questionnaire.getQuestionnaireIdAsInteger());
-                reportParameters.put("template", questionnaire.getTemplate());
+                Questionnaire questionnaire = getQuestionnaire(printOption.getQuestionnaireId());
+                reportParameters.put(QUESTIONNAIRE_SEQ_ID, questionnaire.getQuestionnaireSeqIdAsInteger());
+                reportParameters.put(TEMPLATE, questionnaire.getTemplate());
                 //  will be used by amendquestionnaire
-                reportParameters.put("moduleSubItemCode", printOption.getSubItemCode());
+                reportParameters.put(MODULE_SUB_ITEM_CODE, printOption.getSubItemCode());
                 if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(printOption.getSubItemCode())) {
                     reportParameters.put(PROTOCOL_NUMBER, printOption.getItemKey());
                     reportParameters.put(SUBMISSION_NUMBER, printOption.getSubItemKey());
@@ -86,15 +91,15 @@ public abstract class QuestionnairePrintingServiceImpl implements QuestionnaireP
     private ProtocolBase getProtocolPrintable(QuestionnairePrintOption printOption) {
         if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(printOption.getSubItemCode())) {
             Map keyValues = new HashMap();
-            keyValues.put("protocolNumber", printOption.getItemKey());
-            keyValues.put("submissionNumber", printOption.getSubItemKey());
+            keyValues.put(PROTOCOL_NUMBER, printOption.getItemKey());
+            keyValues.put(SUBMISSION_NUMBER, printOption.getSubItemKey());
             return ((List<ProtocolSubmissionBase>) businessObjectService.findMatchingOrderBy(getProtocolSubmissionBOClassHook(), keyValues,
-                    "submissionId", false)).get(0).getProtocol();
+                    SUBMISSION_ID, false)).get(0).getProtocol();
         }
         else {
             Map keyValues = new HashMap();
-            keyValues.put("protocolNumber", printOption.getItemKey());
-            keyValues.put("sequenceNumber", printOption.getSubItemKey());
+            keyValues.put(PROTOCOL_NUMBER, printOption.getItemKey());
+            keyValues.put(SUBMISSION_NUMBER, printOption.getSubItemKey());
             return ((List<ProtocolBase>) businessObjectService.findMatching(getProtocolBOClassHook(), keyValues)).get(0);
         }
 

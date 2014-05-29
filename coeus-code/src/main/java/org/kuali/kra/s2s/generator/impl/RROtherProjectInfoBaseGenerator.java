@@ -37,7 +37,7 @@ public abstract class RROtherProjectInfoBaseGenerator extends
 	public static final String ENVIRONMENTAL_EXEMPTION_YNQ = "124";
 	public static final String INTERNATIONAL_ACTIVITIES_YNQ = "126";
 	public static final String INTERNATIONAL_ACTIVITIES_EXPL = "127";
-	public static final String EXPLANATION = "107";	
+	public static final String EXPLANATION = "107";
 	// Attachments
 	public static final int EQUIPMENT_ATTACHMENT = 3;
 	public static final int FACILITIES_ATTACHMENT = 2;

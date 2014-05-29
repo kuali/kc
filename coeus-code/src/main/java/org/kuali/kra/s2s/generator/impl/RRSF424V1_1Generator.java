@@ -30,6 +30,7 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
@@ -69,7 +70,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 			.getLog(RRSF424V1_0Generator.class);
 
 	private DepartmentalPerson departmentalPerson;
-
+    private List<? extends AnswerHeaderContract> answerHeaders;
 	/**
 	 * 
 	 * This method gives information of applications that are used in RRSF424
@@ -77,6 +78,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 	 * @return rrSF424Document {@link XmlObject} of type RRSF424Document.
 	 */
 	private RRSF424Document getRRSF424() {
+        answerHeaders = getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber());
         DevelopmentProposal devProp = pdDoc.getDevelopmentProposal();
 
 		RRSF424Document rrSF424Document = RRSF424Document.Factory.newInstance();
@@ -427,7 +429,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 			}
 		}
 		YesNoDataType.Enum answer = null;
-        String answerdetails = getAnswer(ANSWER_128);
+        String answerdetails = getAnswer(ANSWER_128, answerHeaders);
         if (answerdetails != null && !answerdetails.equals(NOT_ANSWERED)) {
             answer =  answerdetails.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
             applicationType.setIsOtherAgencySubmission(answer);
@@ -725,4 +727,9 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 				.getDepartmentalPerson(proposalDevelopmentDocument);
 		return getRRSF424();
 	}
+
+    @Override
+    protected List<? extends AnswerHeaderContract> getAnswerHeaders() {
+        return answerHeaders;
+    }
 }

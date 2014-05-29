@@ -17,6 +17,7 @@ package org.kuali.kra.questionnaire.question;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.api.question.QuestionContract;
 import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -28,7 +29,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Question extends KcPersistableBusinessObjectBase implements Comparable<Question>, SequenceOwner<Question> {
+public class Question extends KcPersistableBusinessObjectBase implements Comparable<Question>, SequenceOwner<Question>, QuestionContract {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,9 +37,9 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
 
     private String documentNumber;
 
-    private Long questionRefId;
+    private Long id;
 
-    private String questionId;
+    private String questionSeqId;
 
     private Integer sequenceNumber;
 
@@ -48,9 +49,9 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
 
     private String status;
 
-    private Integer categoryTypeCode;
+    private Long categoryTypeCode;
 
-    private Integer questionTypeId;
+    private Long questionTypeId;
 
     private String lookupClass;
 
@@ -82,38 +83,41 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
         this.documentNumber = documentNumber;
     }
 
-    public Long getQuestionRefId() {
-        return questionRefId;
+    @Override
+    public Long getId() {
+        return id;
     }
 
-    public void setQuestionRefId(Long questionRefId) {
-        this.questionRefId = questionRefId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getQuestionId() {
-        return questionId;
+    @Override
+    public String getQuestionSeqId() {
+        return questionSeqId;
     }
 
-    public Integer getQuestionIdAsInteger() {
+    public Integer getQuestionSeqIdAsInteger() {
         Integer retVal = null;
-        if (this.questionId != null) {
-            retVal = Integer.valueOf(this.questionId);
+        if (this.questionSeqId != null) {
+            retVal = Integer.valueOf(this.questionSeqId);
         }
         return retVal;
     }
 
-    public void setQuestionId(String questionId) {
-        this.questionId = questionId;
+    public void setQuestionSeqId(String questionId) {
+        this.questionSeqId = questionId;
     }
 
-    public void setQuestionIdFromInteger(Integer questionIdAsInteger) {
-        if (questionIdAsInteger != null) {
-            this.questionId = questionIdAsInteger.toString();
+    public void setQuestionSeqIdFromInteger(Integer questionSeqIdAsInteger) {
+        if (questionSeqIdAsInteger != null) {
+            this.questionSeqId = questionSeqIdAsInteger.toString();
         } else {
-            this.questionId = null;
+            this.questionSeqId = null;
         }
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
@@ -122,6 +126,7 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
         this.sequenceNumber = sequenceNumber;
     }
 
+    @Override
     public String getSequenceStatus() {
         return this.sequenceStatus;
     }
@@ -130,6 +135,7 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
         this.sequenceStatus = sequenceStatus;
     }
 
+    @Override
     public String getQuestion() {
         return question;
     }
@@ -138,6 +144,7 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
         this.question = question;
     }
 
+    @Override
     public String getStatus() {
         return status;
     }
@@ -146,19 +153,19 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
         this.status = status;
     }
 
-    public Integer getCategoryTypeCode() {
+    public Long getCategoryTypeCode() {
         return categoryTypeCode;
     }
 
-    public void setCategoryTypeCode(Integer categoryTypeCode) {
+    public void setCategoryTypeCode(Long categoryTypeCode) {
         this.categoryTypeCode = categoryTypeCode;
     }
 
-    public Integer getQuestionTypeId() {
+    public Long getQuestionTypeId() {
         return questionTypeId;
     }
 
-    public void setQuestionTypeId(Integer questionTypeId) {
+    public void setQuestionTypeId(Long questionTypeId) {
         this.questionTypeId = questionTypeId;
     }
 
@@ -206,7 +213,7 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
             return "";
         }
     }
-
+    @Override
     public Integer getDisplayedAnswers() {
         return displayedAnswers;
     }
@@ -215,6 +222,7 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
         this.displayedAnswers = displayedAnswers;
     }
 
+    @Override
     public Integer getMaxAnswers() {
         return maxAnswers;
     }
@@ -223,6 +231,7 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
         this.maxAnswers = maxAnswers;
     }
 
+    @Override
     public Integer getAnswerMaxLength() {
         return answerMaxLength;
     }
@@ -231,6 +240,7 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
         this.answerMaxLength = answerMaxLength;
     }
 
+    @Override
     public QuestionCategory getQuestionCategory() {
         // Refresh of the reference object is needed so that the category name is displayed  
         // after a save or refresh.  Otherwise the category type code is displayed.  
@@ -244,6 +254,7 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
         this.questionCategory = questionCategory;
     }
 
+    @Override
     public QuestionType getQuestionType() {
         // Refresh of the reference object is needed so that the question type name is available  
         // after a save or refresh.  Otherwise the proper question type can not be determined and  
@@ -258,6 +269,7 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
         this.questionType = questionType;
     }
 
+    @Override
     public List<QuestionExplanation> getQuestionExplanations() {
         return questionExplanations;
     }
@@ -333,7 +345,7 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
         int index = getExplanationObjectIndex(explanationType);
         if (index < 0) {
             QuestionExplanation questionExplanation = new QuestionExplanation();
-            questionExplanation.setQuestionRefIdFk(this.questionRefId);
+            questionExplanation.setQuestionId(this.id);
             questionExplanation.setExplanationType(explanationType);
             questionExplanation.setExplanation(explanation);
             this.questionExplanations.add(questionExplanation);
@@ -372,10 +384,10 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
      *         & sequenceNumber pair that is greater than the argument Question.
      */
     public int compareTo(Question argQuestion) {
-        if (ObjectUtils.equals(this.getQuestionIdAsInteger(), argQuestion.getQuestionIdAsInteger())) {
+        if (ObjectUtils.equals(this.getQuestionSeqIdAsInteger(), argQuestion.getQuestionSeqIdAsInteger())) {
             return this.getSequenceNumber().compareTo(argQuestion.getSequenceNumber());
         } else {
-            return this.getQuestionIdAsInteger().compareTo(argQuestion.getQuestionIdAsInteger());
+            return this.getQuestionSeqIdAsInteger().compareTo(argQuestion.getQuestionSeqIdAsInteger());
         }
     }
 
@@ -384,7 +396,7 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
     }
 
     public String getVersionNameField() {
-        return "questionId";
+        return "questionSeqId";
     }
 
     public void incrementSequenceNumber() {
@@ -399,6 +411,6 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
     }
 
     public void resetPersistenceState() {
-        this.questionRefId = null;
+        this.id = null;
     }
 }
