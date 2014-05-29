@@ -17,7 +17,7 @@ package org.kuali.coeus.common.budget.impl.category;
 
 import org.kuali.coeus.common.budget.framework.category.BudgetCategory;
 import org.kuali.coeus.common.budget.framework.category.BudgetCategoryMapping;
-import org.kuali.coeus.common.budget.framework.core.CostElement;
+import org.kuali.coeus.common.budget.framework.costelement.CostElement;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 

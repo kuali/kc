@@ -2,8 +2,8 @@
 
   <bean id="CostElementMaintenanceDocument" parent="CostElementMaintenanceDocument-parentBean"/>
   <bean id="CostElementMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.core.CostElement"/>
-    <property name="maintainableClass" value="org.kuali.coeus.common.budget.impl.core.CostElementMaintainableImpl"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.costelement.CostElement"/>
+    <property name="maintainableClass" value="org.kuali.coeus.common.budget.impl.costelement.CostElementMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
         <ref bean="CostElementMaintenanceDocument-EditCostElement"/>

@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.lookup;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.budget.framework.core.CostElement;
+import org.kuali.coeus.common.budget.framework.costelement.CostElement;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.util.KNSGlobalVariables;

@@ -37,12 +37,9 @@ import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.BudgetAssociate;
-import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
-import org.kuali.coeus.common.budget.framework.core.CostElement;
->>>>>>> KRACOEUS-6955 : common budget core mainly and other miscs
+import org.kuali.coeus.common.budget.framework.costelement.CostElement;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyPostProcessor;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;

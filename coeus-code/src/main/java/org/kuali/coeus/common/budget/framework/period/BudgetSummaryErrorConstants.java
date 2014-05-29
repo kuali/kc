@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.impl.period;
+package org.kuali.coeus.common.budget.framework.period;
 
 
 public enum BudgetSummaryErrorConstants {

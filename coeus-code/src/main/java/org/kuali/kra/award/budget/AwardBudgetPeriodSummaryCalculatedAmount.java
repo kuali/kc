@@ -17,7 +17,7 @@ package org.kuali.kra.award.budget;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.CostElement;
+import org.kuali.coeus.common.budget.framework.costelement.CostElement;
 
 public class AwardBudgetPeriodSummaryCalculatedAmount extends KcPersistableBusinessObjectBase {
 

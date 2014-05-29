@@ -24,6 +24,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetLineItemCalculatedAmountExt;
 import org.kuali.coeus.common.budget.framework.query.operator.And;
 import org.kuali.coeus.common.budget.framework.query.operator.Equals;
+import org.kuali.coeus.common.budget.framework.costelement.CostElement;
 import org.kuali.coeus.common.budget.framework.category.BudgetCategoryType;
 import org.kuali.coeus.common.budget.framework.core.*;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
