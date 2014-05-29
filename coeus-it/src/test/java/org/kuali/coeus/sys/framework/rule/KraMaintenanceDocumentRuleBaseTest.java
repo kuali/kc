@@ -18,7 +18,7 @@ package org.kuali.coeus.sys.framework.rule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.common.budget.framework.costelement.CostElement;
+import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;

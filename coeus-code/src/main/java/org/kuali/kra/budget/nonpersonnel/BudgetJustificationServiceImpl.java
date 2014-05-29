@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.BudgetException;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.costelement.CostElement;
+import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;

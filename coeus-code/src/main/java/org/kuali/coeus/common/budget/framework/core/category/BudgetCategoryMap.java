@@ -13,29 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.framework.category;
+package org.kuali.coeus.common.budget.framework.core.category;
 
-import org.kuali.coeus.common.budget.framework.category.BudgetCategory;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.budget.api.category.BudgetCategoryMappingContract;
+import org.kuali.coeus.budget.api.category.BudgetCategoryMapContract;
 
-public class BudgetCategoryMapping extends KcPersistableBusinessObjectBase implements BudgetCategoryMappingContract {
+import java.util.ArrayList;
+import java.util.List;
 
-    private String budgetCategoryCode;
+public class BudgetCategoryMap extends KcPersistableBusinessObjectBase implements BudgetCategoryMapContract {
 
     private String mappingName;
 
     private String targetCategoryCode;
 
-    private BudgetCategory budgetCategory;
+    private String categoryType;
 
-    @Override
-    public String getBudgetCategoryCode() {
-        return budgetCategoryCode;
-    }
+    private String description;
 
-    public void setBudgetCategoryCode(String budgetCategoryCode) {
-        this.budgetCategoryCode = budgetCategoryCode;
+    private List<BudgetCategoryMapping> budgetCategoryMappings;
+
+    public BudgetCategoryMap() {
+        budgetCategoryMappings = new ArrayList<BudgetCategoryMapping>();
     }
 
     @Override
@@ -57,11 +56,30 @@ public class BudgetCategoryMapping extends KcPersistableBusinessObjectBase imple
     }
 
     @Override
-    public BudgetCategory getBudgetCategory() {
-        return budgetCategory;
+    public String getCategoryType() {
+        return categoryType;
     }
 
-    public void setBudgetCategory(BudgetCategory budgetCategory) {
-        this.budgetCategory = budgetCategory;
+    public void setCategoryType(String categoryType) {
+        this.categoryType = categoryType;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public List<BudgetCategoryMapping> getBudgetCategoryMappings() {
+        return budgetCategoryMappings;
+    }
+
+
+    public void setBudgetCategoryMappings(List<BudgetCategoryMapping> budgetCategoryMappings) {
+        this.budgetCategoryMappings = budgetCategoryMappings;
     }
 }

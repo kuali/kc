@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.impl.costelement;
+package org.kuali.coeus.common.budget.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;

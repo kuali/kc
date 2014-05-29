@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="CostElement" parent="CostElement-parentBean" />
   <bean id="CostElement-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.costelement.CostElement" />
+    <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.core.CostElement" />
 		<property name="objectLabel" value="Cost Element" />
     <property name="inquiryDefinition" >
       <ref bean="CostElement-inquiryDefinition" />
@@ -184,7 +184,7 @@
   <bean id="CostElement-InquiryView" parent="CostElement-InquiryView-parentBean"/>
   <bean id="CostElement-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Object Code" />
-    <property name="inquirableClass" value="org.kuali.coeus.common.budget.impl.costelement.CostElementInquirableImpl" />
+    <property name="inquirableClass" value="org.kuali.coeus.common.budget.impl.core.CostElementInquirableImpl" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -215,8 +215,8 @@
 
   <bean id="CostElement-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Object Code"/>
-    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.costelement.CostElement"/>
-    <property name="viewHelperServiceClass" value="org.kuali.coeus.common.budget.impl.costelement.CostElementInquirableImpl"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.core.CostElement"/>
+    <property name="viewHelperServiceClass" value="org.kuali.coeus.common.budget.impl.core.CostElementInquirableImpl"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -282,7 +282,7 @@
   </bean>
 
   <bean id="CostElement-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.costelement.CostElement"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.core.CostElement"/>
     <property name="headerText" value="Object Code Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

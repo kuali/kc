@@ -30,7 +30,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.costelement.CostElement;
+import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.kra.budget.external.budget.BudgetAdjustmentClient;

@@ -13,21 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.impl.category;
+package org.kuali.coeus.common.budget.impl.core.category;
 
-import org.kuali.coeus.common.budget.framework.category.BudgetCategory;
-import org.kuali.coeus.common.budget.framework.category.BudgetCategoryMapping;
-import org.kuali.coeus.common.budget.framework.costelement.CostElement;
+import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
+import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class BudgetCategoryExistenceRule extends KcMaintenanceDocumentRuleBase {
+public class BudgetCategoryTypeExistenceRule extends KcMaintenanceDocumentRuleBase {
     
 
-    public BudgetCategoryExistenceRule() {
+    public BudgetCategoryTypeExistenceRule() {
         super();
     }
     
@@ -43,7 +42,7 @@ public class BudgetCategoryExistenceRule extends KcMaintenanceDocumentRuleBase {
 
     /**
      * 
-     * This method is to check the existence of budgetcategorycode in table.
+     * This method is to check the existence of budgetcategorytype in table.
      * @param maintenanceDocument
      * @return
      */
@@ -54,19 +53,11 @@ public class BudgetCategoryExistenceRule extends KcMaintenanceDocumentRuleBase {
         if (LOG.isDebugEnabled()) {
             LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
         }
-        // shared by budgetcategorymapping & costelement
-        String budgetCategoryCode;
-        if (maintenanceDocument.getNewMaintainableObject().getDataObject() instanceof BudgetCategoryMapping) {
-            BudgetCategoryMapping budgetCategoryMapping = (BudgetCategoryMapping) maintenanceDocument.getNewMaintainableObject().getDataObject();
-            budgetCategoryCode=budgetCategoryMapping.getBudgetCategoryCode();
-        } else {
-            CostElement costElement = (CostElement) maintenanceDocument.getNewMaintainableObject().getDataObject();
-            budgetCategoryCode=costElement.getBudgetCategoryCode();
-            
-        }
+        BudgetCategory budgetCategory = (BudgetCategory) maintenanceDocument.getNewMaintainableObject().getDataObject();
+
         Map pkMap = new HashMap();
-        pkMap.put("code", budgetCategoryCode);
-        valid=checkExistenceFromTable(BudgetCategory.class,pkMap,"code", "Budget Category");
+        pkMap.put("budgetCategoryTypeCode", budgetCategory.getBudgetCategoryTypeCode());
+        valid=checkExistenceFromTable(BudgetCategoryType.class,pkMap,"budgetCategoryTypeCode", "Budget Category Type");
 
 
         return valid;
@@ -74,4 +65,5 @@ public class BudgetCategoryExistenceRule extends KcMaintenanceDocumentRuleBase {
     }
     
 
+    
 }
