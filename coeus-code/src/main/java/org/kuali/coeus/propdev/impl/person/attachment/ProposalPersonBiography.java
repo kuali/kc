@@ -20,17 +20,14 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyContract;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.PropPerDocType;
 
 import javax.persistence.*;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 
@@ -39,7 +36,7 @@ import java.util.List;
 @Entity
 @Table(name = "EPS_PROP_PERSON_BIO")
 @IdClass(ProposalPersonBiography.ProposalPersonBiographyId.class)
-public class ProposalPersonBiography extends KcPersistableBusinessObjectBase implements KcFile {
+public class ProposalPersonBiography extends KcPersistableBusinessObjectBase implements ProposalPersonBiographyContract, KcFile {
 
     @Id
     @Column(name = "PROP_PERSON_NUMBER")
@@ -71,15 +68,15 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     @Column(name = "CONTENT_TYPE")
     private String type;
 
-    @Transient
-    private transient FormFile personnelAttachmentFile;
+    @ManyToOne(targetEntity = PropPerDocType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "DOCUMENT_TYPE_CODE", referencedColumnName = "DOCUMENT_TYPE_CODE", insertable = false, updatable = false)
+    private PropPerDocType propPerDocType;
 
     @OneToOne(mappedBy = "proposalPersonBiography", cascade = CascadeType.ALL)
     private ProposalPersonBiographyAttachment personnelAttachment;
 
-    @ManyToOne(targetEntity = PropPerDocType.class, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "DOCUMENT_TYPE_CODE", referencedColumnName = "DOCUMENT_TYPE_CODE", insertable = false, updatable = false)
-    private PropPerDocType propPerDocType;
+    @Transient
+    private transient FormFile personnelAttachmentFile;
 
     @Transient
     private Timestamp timestampDisplay;
@@ -93,6 +90,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     @Transient
     private transient int positionNumber;
 
+    @Override
     public Integer getProposalPersonNumber() {
         return proposalPersonNumber;
     }
@@ -101,6 +99,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         this.proposalPersonNumber = proposalPersonNumber;
     }
 
+    @Override
     public String getPersonId() {
         return personId;
     }
@@ -109,6 +108,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         this.personId = personId;
     }
 
+    @Override
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -117,6 +117,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         this.proposalNumber = proposalNumber;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -141,6 +142,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         this.personnelAttachmentFile = personnelAttachmentFile;
     }
 
+    @Override
     public ProposalPersonBiographyAttachment getPersonnelAttachment() {
         return personnelAttachment;
     }
@@ -149,6 +151,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         this.personnelAttachment = personnelAttachment;
     }
 
+    @Override
     public PropPerDocType getPropPerDocType() {
         return propPerDocType;
     }
@@ -157,6 +160,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         this.propPerDocType = propPerDocType;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -165,6 +169,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         this.name = name;
     }
 
+    @Override
     public Integer getRolodexId() {
         return rolodexId;
     }
@@ -173,6 +178,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         this.rolodexId = rolodexId;
     }
 
+    @Override
     public Integer getBiographyNumber() {
         return biographyNumber;
     }
@@ -205,6 +211,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         this.uploadUserFullName = uploadUserFullName;
     }
 
+    @Override
     public String getType() {
         return type;
     }
