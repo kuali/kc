@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.impl.period;
+package org.kuali.coeus.common.budget.framework.period;
 
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public interface SaveBudgetPeriodRule  extends BusinessRule {
+public interface GenerateBudgetPeriodRule  extends BusinessRule {
     
     /**
-     * Rule invoked upon adding a budget period 
+     * Rule invoked upon generating budget period 
      * <code>{@link org.kuali.kra.budget.document.BudgetDocument}</code>
      *
      * @return boolean
      */
-    public boolean processSaveBudgetPeriodBusinessRules(SaveBudgetPeriodEvent saveBudgetPeriodEvent);
+    public boolean processGenerateBudgetPeriodBusinessRules(GenerateBudgetPeriodEvent generateBudgetPeriodEvent);
 }

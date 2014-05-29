@@ -13,43 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.impl.period;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+package org.kuali.coeus.common.budget.framework.period;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public class AddBudgetPeriodEvent extends BudgetPeriodEventBase{
+public class DeleteBudgetPeriodEvent extends BudgetPeriodEventBase {
     /**
-     * Constructs an AddBudgetPeriodEvent with the given errorPathPrefix, document, and budgetPeriod.
+     * Constructs an DeleteBudgetPeriodEvent with the given errorPathPrefix, document, and budgetPeriod.
      * 
      * @param errorPathPrefix
      * @param budgetDocument
      * @param budgetPeriod
      */
-    public AddBudgetPeriodEvent(String errorPathPrefix, BudgetDocument document, BudgetPeriod budgetPeriod) {
-        super("adding budget period to document " + getDocumentId(document), errorPathPrefix, document, budgetPeriod);
+    public DeleteBudgetPeriodEvent(String errorPathPrefix, BudgetDocument document, int budgetPeriodNumber) {
+        super("deleting budget period to document " + getDocumentId(document), errorPathPrefix, document, budgetPeriodNumber);
     }
 
     /**
-     * Constructs an AddBudgetPeriodEvent with the given errorPathPrefix, document, and budgetPeriod.
+     * Constructs an DeleteBudgetPeriodEvent with the given errorPathPrefix, document, and budgetPeriod.
      * 
      * @param errorPathPrefix
      * @param document
      * @param budgetPeriod
      */
-    public AddBudgetPeriodEvent(String errorPathPrefix, Document document, BudgetPeriod budgetPeriod) {
-        this(errorPathPrefix, (BudgetDocument) document, budgetPeriod);
+    public DeleteBudgetPeriodEvent(String errorPathPrefix, Document document, int budgetPeriodNumber) {
+        this(errorPathPrefix, (BudgetDocument) document, budgetPeriodNumber);
     }
 
     @Override
     public Class getRuleInterfaceClass() {
-        return AddBudgetPeriodRule.class;
+        return DeleteBudgetPeriodRule.class;
     }
 
     @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddBudgetPeriodRule) rule).processAddBudgetPeriodBusinessRules(this);
+        return ((DeleteBudgetPeriodRule) rule).processDeleteBudgetPeriodBusinessRules(this);
     }
     
 }
