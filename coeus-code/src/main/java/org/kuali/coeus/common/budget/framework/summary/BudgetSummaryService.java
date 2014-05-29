@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.summary;
 
-import org.kuali.kra.budget.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 
 import java.sql.Date;

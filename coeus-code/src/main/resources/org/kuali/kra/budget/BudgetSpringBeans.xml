@@ -79,34 +79,7 @@
 			<ref bean="budgetCalculationService"/>
 		</property>
 	</bean>
-      			
-    <bean id="budgetService" class="org.kuali.kra.budget.core.BudgetServiceImpl">
-		<property name="documentService">
-			<ref bean="documentService"/>
-		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService"/>
-		</property>
-		<property name="parameterService">
-			<ref bean="parameterService"/>
-		</property>
-		<property name="budgetRatesService">
-			<ref bean="budgetRatesService"/>
-		</property>
-		<property name="pessimisticLockService">
-			<ref bean="pessimisticLockService"/>
-		</property>
-		<property name="budgetVersionRule">
-			<ref bean="budgetVersionRule"/>
-		</property>
-		<property name="budgetSummaryService">
-			<ref bean="budgetSummaryService"/>
-		</property>
-		<property name="fiscalYearMonthService">
-			<ref bean="fiscalYearMonthService"/>
-		</property>
-	</bean>
-	
+
     <bean id="pessimisticLockService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="pessimisticLockService" />
     </bean>
@@ -130,11 +103,7 @@
   		<property name="lookupableHelperService">
     		<ref bean="budgetExpenseLookupableHelperService" />
   		</property>  		
-	</bean>	
-
-	<bean id="budgetExpenseLookupableHelperService" class="org.kuali.kra.budget.lookup.BudgetExpenseLookupableHelperServiceImpl"
- 		scope="prototype" parent="parentLookupableHelperService">
-  	</bean>
+	</bean>
   	
 	<bean id="objectCodeToBudgetCategoryCodeService" class="org.kuali.kra.service.impl.ObjectCodeToBudgetCategoryCodeServiceImpl">
 		<property name="businessObjectService">
@@ -169,10 +138,6 @@
     		<ref bean="budgetPeriodLookupableHelperService" />
   		</property>  		
 	</bean>	
-	<bean id="budgetPeriodLookupableHelperService" class="org.kuali.kra.budget.lookup.BudgetPeriodLookupableHelperServiceImpl"
- 		scope="prototype" parent="parentLookupableHelperService" lazy-init="true"> 
- 		<property name="awardBudgetService" ref="awardBudgetService"/>
-  	</bean>		
   	
   	<!-- Budget adjustment client -->
   	<bean id="budgetAdjustmentClient" class= "org.kuali.kra.budget.external.budget.BudgetAdjustmentClientFactoryBean">

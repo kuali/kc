@@ -23,6 +23,7 @@ import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupple
 import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.*;
 import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.AdditionalInformation.*;
 import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ApplicationType.TypeOfApplication;
+import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Budget;
 import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Budget.FederalStipendRequested;
 import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Budget.InstitutionalBaseSalary;
 import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Budget.InstitutionalBaseSalary.AcademicPeriod;
@@ -543,7 +544,7 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
         FederalStipendRequested federalStipendRequested = FederalStipendRequested.Factory.newInstance();
         BudgetDocument budgetDoc = getBudgetDocument();
         if (budgetDoc != null) {
-            org.kuali.kra.budget.core.Budget pBudget = budgetDoc.getBudget();
+            org.kuali.coeus.common.budget.framework.core.Budget pBudget = budgetDoc.getBudget();
             ScaleTwoDecimal sumOfLineItemCost = ScaleTwoDecimal.ZERO;
             ScaleTwoDecimal numberOfMonths = ScaleTwoDecimal.ZERO;
             for (BudgetPeriod budgetPeriod : pBudget.getBudgetPeriods()) {

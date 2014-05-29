@@ -20,7 +20,7 @@ import org.kuali.coeus.budget.api.core.IdentifiableBudget;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.coeus.common.budget.framework.calculator.RateClassType;
-import org.kuali.kra.budget.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 
 public abstract class AbstractBudgetRate extends AbstractInstituteRate implements IdentifiableBudget {
 

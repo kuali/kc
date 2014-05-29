@@ -54,7 +54,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.*;
-import org.kuali.kra.budget.core.BudgetParent;
+import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.coi.Disclosurable;
@@ -2077,7 +2077,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      * In the case where a person is in the proposal twice (Investigator and Key Person),
      * this method's return list contains only the Investigator.
      * 
-     * @see org.kuali.kra.budget.core.BudgetParent#getPersonRolodexList()
+     * @see org.kuali.coeus.common.budget.framework.core.BudgetParent#getPersonRolodexList()
      */
     public List<PersonRolodex> getPersonRolodexList() {
         ArrayList<PersonRolodex> filtered = new ArrayList<PersonRolodex>();

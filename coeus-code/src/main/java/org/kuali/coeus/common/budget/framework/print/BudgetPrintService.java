@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.print;
 
-import org.kuali.kra.budget.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 
 public interface BudgetPrintService {

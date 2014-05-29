@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.budget;
 
-import org.kuali.kra.budget.core.BudgetCommonService;
+import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;

@@ -20,7 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.budget.core.Budget.FiscalYearSummary;
+import org.kuali.coeus.common.budget.framework.core.Budget.FiscalYearSummary;
 
 import java.sql.Date;
 import java.util.Calendar;
