@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.impl.period;
+package org.kuali.coeus.common.budget.framework.period;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public class GenerateBudgetPeriodEvent extends BudgetPeriodEventBase{
+public class GenerateBudgetPeriodEvent extends BudgetPeriodEventBase {
     /**
      * Constructs an GenerateBudgetPeriodEvent with the given errorPathPrefix, document, and budgetPeriod.
      * 
