@@ -62,7 +62,7 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
 
     @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=toggleValidation")
-    public ModelAndView ToggleValidation(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+    public ModelAndView toggleValidation(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
         form.setValidateData(!form.isValidateData());
 
