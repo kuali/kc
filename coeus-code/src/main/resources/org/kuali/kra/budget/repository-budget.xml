@@ -315,7 +315,7 @@
 		<reference-descriptor name="budgetCategory" class-ref="org.kuali.coeus.common.budget.framework.category.BudgetCategory" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetCategoryCode"/> 
 		</reference-descriptor>
-		<reference-descriptor name="costElementBO" class-ref="org.kuali.coeus.common.budget.framework.core.CostElement" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="costElementBO" class-ref="org.kuali.coeus.common.budget.framework.costelement.CostElement" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="costElement"/> 
 		</reference-descriptor>
 		<reference-descriptor name="budgetPeriodBO" class-ref="org.kuali.coeus.common.budget.framework.period.BudgetPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -588,7 +588,7 @@
 		</reference-descriptor>
 
 	--></class-descriptor>
-	<class-descriptor class="org.kuali.coeus.common.budget.framework.core.CostElement" table="COST_ELEMENT">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.costelement.CostElement" table="COST_ELEMENT">
 		<field-descriptor name="costElement" column="COST_ELEMENT" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="budgetCategoryCode" column="BUDGET_CATEGORY_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
@@ -815,7 +815,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 
-		<reference-descriptor name="costElementReference" class-ref="org.kuali.coeus.common.budget.framework.core.CostElement" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="costElementReference" class-ref="org.kuali.coeus.common.budget.framework.costelement.CostElement" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="costElement"/> 
 		</reference-descriptor>
 		<reference-descriptor name="jobCodeReference" class-ref="org.kuali.kra.budget.personnel.JobCode" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -836,7 +836,7 @@
 			<foreignkey field-ref="rateClassCode"/> 
 		</reference-descriptor>
 		
-		<reference-descriptor name="costElementBo" class-ref="org.kuali.coeus.common.budget.framework.core.CostElement" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="costElementBo" class-ref="org.kuali.coeus.common.budget.framework.costelement.CostElement" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="costElement"/> 
 		</reference-descriptor>
 		
@@ -1316,7 +1316,7 @@
 		<reference-descriptor name="budgetPeriod" class-ref="org.kuali.kra.award.budget.AwardBudgetPeriodExt" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="budgetPeriodId"/>
 		</reference-descriptor>
-		<reference-descriptor name="costElement" class-ref="org.kuali.coeus.common.budget.framework.core.CostElement" auto-retrieve="false" auto-update="none" auto-delete="none">
+		<reference-descriptor name="costElement" class-ref="org.kuali.coeus.common.budget.framework.costelement.CostElement" auto-retrieve="false" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="costElement"/>
 		</reference-descriptor> 
 	</class-descriptor>	

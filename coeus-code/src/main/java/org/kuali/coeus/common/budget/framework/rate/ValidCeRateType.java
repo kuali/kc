@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.budget.framework.rate;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.common.budget.framework.core.CostElement;
+import org.kuali.coeus.common.budget.framework.costelement.CostElement;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 public class ValidCeRateType extends KcPersistableBusinessObjectBase implements MutableInactivatable {
