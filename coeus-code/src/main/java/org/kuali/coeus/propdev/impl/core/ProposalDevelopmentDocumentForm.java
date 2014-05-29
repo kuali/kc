@@ -17,6 +17,7 @@ package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
+import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelAddWizardHelper;
@@ -44,6 +45,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private Map<String,List<String>> editableAttachments;
     private ProposalDevelopmentCustomDataHelper customDataHelper;
     private String selectedCustomDataGroup;
+    private List<ProposalDevelopmentDataValidationItem> dataValidationItems;
+    private boolean validateData;
 
     public ProposalDevelopmentDocumentForm() {
         super();
@@ -62,6 +65,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         editableAttachments = new HashMap<String,List<String>>();
 
         customDataHelper = new ProposalDevelopmentCustomDataHelper(this.getProposalDevelopmentDocument());
+
+        dataValidationItems = new ArrayList<ProposalDevelopmentDataValidationItem>();
     }
 
     public int findIndexOfPageId(List<Action> actions) {
@@ -170,5 +175,21 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     public void setSelectedCustomDataGroup(String selectedCustomDataGroup) {
         this.selectedCustomDataGroup = selectedCustomDataGroup;
+    }
+
+    public List<ProposalDevelopmentDataValidationItem> getDataValidationItems() {
+        return dataValidationItems;
+    }
+
+    public void setDataValidationItems(List<ProposalDevelopmentDataValidationItem> dataValidationItems) {
+        this.dataValidationItems = dataValidationItems;
+    }
+
+    public boolean isValidateData() {
+        return validateData;
+    }
+
+    public void setValidateData(boolean validateData) {
+        this.validateData = validateData;
     }
 }
