@@ -16,6 +16,7 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.kuali.coeus.common.api.question.QuestionAnswerService;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
@@ -39,6 +40,7 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
 	protected S2SUtilService s2sUtilService;
 	protected ProposalBudgetService proposalBudgetService;
 	protected S2SConfigurationService s2SConfigurationService;
+    protected QuestionAnswerService questionAnswerService;
     
 
 	protected static final String NSR_SUPPORT_NO = "No";
@@ -92,6 +94,7 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
 		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
         proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
 		s2SConfigurationService = KcServiceLocator.getService(S2SConfigurationService.class);
+        questionAnswerService = KcServiceLocator.getService(QuestionAnswerService.class);
 	}
     protected List<String> getCostElementsByParam(String costElementParam) {
         String costElementsParamValue = s2SConfigurationService.getValueAsString(costElementParam);

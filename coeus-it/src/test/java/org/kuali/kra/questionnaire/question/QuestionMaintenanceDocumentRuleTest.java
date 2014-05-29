@@ -220,7 +220,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
     @Test
     public void testLookupMissingData() throws Exception {
         Question question = new Question();
-        question.setQuestionIdFromInteger(1);
+        question.setQuestionSeqIdFromInteger(1);
         question.setQuestionTypeId(Constants.QUESTION_RESPONSE_TYPE_LOOKUP);
         question.setStatus("A");
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
@@ -240,7 +240,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
     @Test
     public void testInvalidLookupReturn() throws Exception {
         Question question = new Question();
-        question.setQuestionIdFromInteger(1);
+        question.setQuestionSeqIdFromInteger(1);
         question.setStatus("A");
         question.setQuestionTypeId(Constants.QUESTION_RESPONSE_TYPE_LOOKUP);
         question.setLookupClass("org.kuali.coeus.propdev.impl.abstrct.AbstractType");
@@ -261,7 +261,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
     @Test
     public void testMissingQuestionResponseType() throws Exception {
         Question question = new Question();
-        question.setQuestionIdFromInteger(1);
+        question.setQuestionSeqIdFromInteger(1);
         question.setStatus("A");
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
@@ -279,8 +279,8 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
     public void testInvalidQuestionResponseType() throws Exception {
         Question question = new Question();
         question.setStatus("A");
-        question.setQuestionId("1");
-        question.setQuestionTypeId(999);
+        question.setQuestionSeqId("1");
+        question.setQuestionTypeId(999L);
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));
 

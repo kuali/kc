@@ -24,7 +24,12 @@ import org.kuali.rice.krms.api.engine.TermResolver;
 import java.util.*;
 
 public class QuestionResolver implements TermResolver<Object> {
-    
+
+    public static final String MODULE_CODE = "moduleCode";
+    public static final String MODULE_ITEM_KEY = "moduleItemKey";
+    public static final String QUESTIONNAIRE_REF_ID = "Questionnaire Ref ID";
+    public static final String QUESTION_SEQ_ID = "Question Seq ID";
+    public static final String MODULE_ITEM_CODE = "moduleItemCode";
     private String outputName;
     private Set<String> prereqs;
     private Set<String> params;
@@ -32,8 +37,8 @@ public class QuestionResolver implements TermResolver<Object> {
     public QuestionResolver(String outputName, Set<String> params) {
         this.outputName = outputName;
         this.prereqs = new HashSet<String>();
-        prereqs.add("moduleCode");
-        prereqs.add("moduleItemKey");
+        prereqs.add(MODULE_CODE);
+        prereqs.add(MODULE_ITEM_KEY);
         if (params == null) {
             this.params = Collections.emptySet(); 
         } else {
@@ -59,15 +64,15 @@ public class QuestionResolver implements TermResolver<Object> {
     
     @Override
     public String resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) {
-        String questionnaireId = parameters.get("Questionnaire Ref ID");
-        String questionId = parameters.get("Question ID");
-        String moduleCode = (String) resolvedPrereqs.get("moduleCode");
-        String moduleItemKey = (String) resolvedPrereqs.get("moduleItemKey");
+        String questionnaireId = parameters.get(QUESTIONNAIRE_REF_ID);
+        String questionId = parameters.get(QUESTION_SEQ_ID);
+        String moduleCode = (String) resolvedPrereqs.get(MODULE_CODE);
+        String moduleItemKey = (String) resolvedPrereqs.get(MODULE_ITEM_KEY);
         List<AnswerHeader> answerHeaders = getQuestionnaireAnswers(moduleCode, moduleItemKey);
         for (AnswerHeader answerHeader : answerHeaders) {
-            if (answerHeader.getQuestionnaireRefIdFk().equals(questionnaireId)) {
+            if (answerHeader.getQuestionnaireId().equals(questionnaireId)) {
                 for (Answer answer : answerHeader.getAnswers()) {
-                    if (answer.getQuestion().getQuestionId().equals(questionId)) {
+                    if (answer.getQuestion().getQuestionSeqId().equals(questionId)) {
                         return answer.getAnswer();
                     }
                 }
@@ -79,8 +84,8 @@ public class QuestionResolver implements TermResolver<Object> {
     protected List<AnswerHeader> getQuestionnaireAnswers(String moduleCode, String moduleItemKey) {
         BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("moduleItemCode", moduleCode);
-        fieldValues.put("moduleItemKey", moduleItemKey);
+        fieldValues.put(MODULE_ITEM_CODE, moduleCode);
+        fieldValues.put(MODULE_ITEM_KEY, moduleItemKey);
         return (List<AnswerHeader>) boService.findMatching(AnswerHeader.class, fieldValues);
     }
 

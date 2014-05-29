@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="currentQuestionType" value="${KualiForm.document.newMaintainableObject.businessObject.questionType.questionTypeName}" />
+<c:set var="currentQuestionType" value="${KualiForm.document.newMaintainableObject.businessObject.questionType.name}" />
 
 <c:choose>
     <c:when test="${empty currentQuestionType}">

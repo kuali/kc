@@ -146,7 +146,7 @@ public class IacucProtocolQuestionnaireAction extends IacucProtocolAction {
         final int answerHeaderIndex = this.getSelectedLine(request);
         // TODO : a flag to check whether to print answer or not
         // for release 3 : if questionnaire questions has answer, then print answer. 
-        reportParameters.put("questionnaireId", ((IacucProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireIdAsInteger());
+        reportParameters.put("questionnaireSeqId", ((IacucProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireSeqIdAsInteger());
         reportParameters.put("template", ((IacucProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getTemplate());
         reportParameters.put("moduleSubItemCode", ((IacucProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getModuleSubItemCode());
 
@@ -232,7 +232,7 @@ public class IacucProtocolQuestionnaireAction extends IacucProtocolAction {
     private List<AnswerHeader> getAnsweredQuestionnaire(List<AnswerHeader> answerHeaders) {
         List<AnswerHeader> savedHeaders = new ArrayList<AnswerHeader>();
         for (AnswerHeader answerHeader : answerHeaders) {
-            if (answerHeader.getAnswerHeaderId() != null) {
+            if (answerHeader.getId() != null) {
                 savedHeaders.add(answerHeader);
             }
         }

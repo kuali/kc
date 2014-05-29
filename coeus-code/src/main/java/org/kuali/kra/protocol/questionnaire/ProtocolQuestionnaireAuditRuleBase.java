@@ -55,7 +55,7 @@ public abstract class ProtocolQuestionnaireAuditRuleBase extends BaseQuestionnai
             for (int i=0;i<headers.size();i++) {
                 AnswerHeader header = headers.get(i);
                 QuestionnaireUsage usage = header.getQuestionnaire().getHighestVersionUsageFor(pmqb.getModuleItemCode(), pmqb.getModuleSubItemCode());
-                if ( (usage != null) && (usage.isMandatory()) && (!header.getCompleted()) && (header.isActiveQuestionnaire()) ) {
+                if ( (usage != null) && (usage.isMandatory()) && (!header.isCompleted()) && (header.isActiveQuestionnaire()) ) {
                     isValid = false;
                     addMandatoryQuestionnaireErrorToAuditErrors(i, usage);
                 }
@@ -80,7 +80,7 @@ public abstract class ProtocolQuestionnaireAuditRuleBase extends BaseQuestionnai
                 AnswerHeader header = defAmendHeaders.get(i);
                 QuestionnaireUsage usage = header.getQuestionnaire().getHighestVersionUsageFor(getModuleCodeHook(),
                         CoeusSubModule.ZERO_SUBMODULE);
-                if ((usage != null) && (usage.isMandatory()) && !(header.getCompleted()) && (header.isActiveQuestionnaire())) {
+                if ((usage != null) && (usage.isMandatory()) && !(header.isCompleted()) && (header.isActiveQuestionnaire())) {
                     isValid = false;
                     addMandatoryQuestionnaireErrorToAuditErrors((i + headers.size()), usage);
                 }

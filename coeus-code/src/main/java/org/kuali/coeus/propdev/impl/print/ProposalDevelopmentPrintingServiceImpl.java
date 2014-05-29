@@ -56,10 +56,13 @@ import java.util.*;
 @Lazy
 public class ProposalDevelopmentPrintingServiceImpl implements
 		ProposalDevelopmentPrintingService {
-	
-	private static final String SPONSOR_CODE_DB_KEY = "sponsorCode";
-	
-	@Autowired
+
+    private static final String SPONSOR_CODE_DB_KEY = "sponsorCode";
+    public static final String QUESTIONNAIRE_SEQ_ID = "questionnaireSeqId";
+    public static final String TEMPLATE = "template";
+    public static final String SPONSOR_HIERARCHY_NAME = "sponsorHierarchyName";
+
+    @Autowired
 	@Qualifier("printCertificationPrint")
 	private PrintCertificationPrint printCertificationPrint;
 	
@@ -199,7 +202,7 @@ public class ProposalDevelopmentPrintingServiceImpl implements
         SponsorHierarchy hierarchyEntry = (SponsorHierarchy) getBusinessObjectService().findByPrimaryKey(SponsorHierarchy.class, sponsorCodeMap);
         if (hierarchyEntry != null) {
             sponsorCodeMap.clear();
-            sponsorCodeMap.put("sponsorHierarchyName", hierarchyEntry.getLevel1());
+            sponsorCodeMap.put(SPONSOR_HIERARCHY_NAME, hierarchyEntry.getLevel1());
             sponsorForms = getBusinessObjectService()
                     .findMatching(SponsorForms.class, sponsorCodeMap);
             for (SponsorForms sponsorForm : sponsorForms) {
@@ -252,8 +255,8 @@ public class ProposalDevelopmentPrintingServiceImpl implements
         for (ProposalPerson person : persons) {
             ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(person);
             AnswerHeader header = helper.getAnswerHeaders().get(0);            
-            reportParameters.put("questionnaireId", header.getQuestionnaire().getQuestionnaireIdAsInteger());
-            reportParameters.put("template", header.getQuestionnaire().getTemplate());  
+            reportParameters.put(QUESTIONNAIRE_SEQ_ID, header.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
+            reportParameters.put(TEMPLATE, header.getQuestionnaire().getTemplate());
             AbstractPrint printable = getQuestionnairePrint();
             if (printable != null) {
             	printable.setPrintableBusinessObject(person);

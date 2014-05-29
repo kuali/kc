@@ -11,7 +11,7 @@
         </property>
         <property name="lockingKeys" >
             <list>
-                <value>questionnaireQuestionsId</value>
+                <value>id</value>
             </list>
         </property>
         <property name="allowsRecordDeletion" value="true" />
@@ -28,13 +28,13 @@
         <property name="maintainableItems" >
             <list>
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="questionnaireQuestionsId"
+                    p:name="id"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="questionnaireRefIdFk"
+                    p:name="questionnaireId"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="questionRefIdFk"
+                    p:name="questionId"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="questionNumber"

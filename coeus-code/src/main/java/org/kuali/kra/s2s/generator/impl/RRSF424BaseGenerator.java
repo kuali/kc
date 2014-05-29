@@ -17,14 +17,14 @@ package org.kuali.kra.s2s.generator.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.api.question.AnswerContract;
+import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
-import org.kuali.kra.questionnaire.answer.Answer;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.api.question.QuestionAnswerService;
 import org.kuali.kra.s2s.ConfigurationConstants;
@@ -32,7 +32,6 @@ import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SUtilService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -69,7 +68,7 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     protected static final int ANSWER_EXPLANATION_MAX_LENGTH = 20; 
     protected static final int SFLLL_OTHEREXPLANATORY = 86;
     protected static final String ANSWER_128 = "128";
-    protected static final String ANSWER_111 = "111"; 
+    protected static final String ANSWER_111 = "111";
     protected static final String NOT_ANSWERED = "No";
     protected static final String SPONSOR_GROUPS = "Sponsor Groups";
     protected static final String SPONSOR_NIH = "NIH";
@@ -84,34 +83,10 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
         questionAnswerService = KcServiceLocator.getService(QuestionAnswerService.class);
     }
 
-    /**
-     *
-     * This method is used to get the answerId for a particular Questionnaire question
-     * question based on the question id.
-     *
-     * @param questionId
-     *            the question id to be passed.
-     * @return returns the answer for a particular
-     *         question based on the question id passed.
-     */
-    protected Long getAnswerId(String questionId) {
-        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-        answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
-        if (answerHeaders != null && !answerHeaders.isEmpty()) {
-            for (AnswerHeader answerHeader : answerHeaders) {
-                List<Answer> answerDetails = answerHeader.getAnswers();
-                for (Answer answers : answerDetails) {
-                    if (answers.getAnswer() != null && questionId.equals(answers.getQuestion().getQuestionId())) {
-                        return answers.getId();
-                    }
-                }
-            }
-        }
-        return null;
-    }
+
 
     protected String getOtherAgencySubmissionExplanation() {
-        Long answerId = getAnswerId(ANSWER_111);
+        Long answerId = getAnswerId(ANSWER_111, getAnswerHeaders());
         String submissionExplanation = null;
         if (questionAnswerService.isAnswerDescriptionRetrievalSupported(answerId)) {
             submissionExplanation = questionAnswerService.getAnswerDescription(answerId);
@@ -129,32 +104,6 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
         } else {
             return submissionExplanation;
         }
-    }
-
-    /**
-     *
-     * This method is used to get the answer for a particular Questionnaire question
-     * question based on the question id.
-     *
-     * @param questionId
-     *            the question id to be passed.
-     * @return returns the answer for a particular
-     *         question based on the question id passed.
-     */
-    protected String getAnswer(String questionId) {
-        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-        answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
-        if (answerHeaders != null && !answerHeaders.isEmpty()) {
-            for (AnswerHeader answerHeader : answerHeaders) {
-                List<Answer> answerDetails = answerHeader.getAnswers();
-                for (Answer answers : answerDetails) {
-                    if (answers.getAnswer() != null && questionId.equals(answers.getQuestion().getQuestionId())) {
-                        return answers.getAnswer();
-                    }
-                }
-            }
-        }
-        return null;
     }
 
     /**
@@ -193,5 +142,6 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     public boolean isSponsorInHierarchy(Sponsorable sponsorable, String sponsorHierarchy,String level1) {
         return sponsorHierarchyService.isSponsorInHierarchy(sponsorable.getSponsorCode(), sponsorHierarchy, 1, level1);
     }
-    
+
+    protected abstract List<? extends AnswerHeaderContract> getAnswerHeaders();
 }

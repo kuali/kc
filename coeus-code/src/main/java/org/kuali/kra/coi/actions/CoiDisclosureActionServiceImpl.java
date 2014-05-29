@@ -217,8 +217,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         List<AnswerHeader> newAnswerHeaders = new ArrayList<AnswerHeader>();
         for (AnswerHeader answerHeader : retrieveAnswerHeaders(coiDisclosure)) {
                AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(answerHeader);
-//                copiedAnswerHeader.setModuleSubItemKey(coiDisclosure.getSequenceNumber().toString());
-                copiedAnswerHeader.setAnswerHeaderId(null);
+                copiedAnswerHeader.setId(null);
                 for (Answer answer : copiedAnswerHeader.getAnswers()) {
                     answer.setId(null);
                 }
@@ -233,29 +232,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         fieldValues.put(MODULE_ITEM_KEY, coiDisclosure.getCoiDisclosureId().toString());
         return (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
     }
-    
 
-    /*
-     * copy disclosure details of current master disclosure to the disclosure that is bing approved
-     * because the current disclosure becomes the master.
-     */
-    /*
-    private void copyDisclosureDetails(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
-        for (CoiDiscDetail coiDiscDetail : masterCoiDisclosure.getCoiDiscDetails()) {
-            if (!isDisclosureDetailExist(coiDisclosure, coiDiscDetail)) {
-                CoiDiscDetail copiedDiscDetail = (CoiDiscDetail) ObjectUtils.deepCopy(coiDiscDetail);
-                copiedDiscDetail.setCopiedCoiDiscDetailId(copiedDiscDetail.getCoiDiscDetailId());
-                copiedDiscDetail.setSequenceNumber(coiDisclosure.getSequenceNumber());
-                copiedDiscDetail.setCoiDiscDetailId(null);
-                if (copiedDiscDetail.getOriginalCoiDisclosureId() == null) {
-                    copiedDiscDetail.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
-                }
-                coiDisclosure.getCoiDiscDetails().add(copiedDiscDetail);
-            }
-        }
-    }
-    */
-    
     private void copyDisclosureDetails(List<CoiDiscDetail> originalDiscDetails, CoiDisclProject copiedDisclProject) {
         List<CoiDiscDetail> copiedDiscDetails = new ArrayList<CoiDiscDetail>();
         for (CoiDiscDetail coiDiscDetail : originalDiscDetails) {
@@ -550,13 +527,13 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
             for (AnswerHeader updateHeader : updateAnswerHeaders) {
                 if (StringUtils.equals(updateHeader.getModuleSubItemCode(), masterHeader.getModuleSubItemCode())
                         && StringUtils.equals(updateHeader.getModuleSubItemKey(), masterHeader.getModuleSubItemKey())
-                        && StringUtils.equals(updateHeader.getQuestionnaireRefIdFk(), masterHeader.getQuestionnaireRefIdFk())) {
+                        && updateHeader.getQuestionnaireId().equals(masterHeader.getQuestionnaireId())) {
                     existsAlready = true;
                 }
             }
             if (!existsAlready) {
                 AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(masterHeader);
-                copiedAnswerHeader.setAnswerHeaderId(null);
+                copiedAnswerHeader.setId(null);
                 copiedAnswerHeader.setModuleItemKey(updateDisclosure.getCoiDisclosureId().toString());
                 for (Answer answer : copiedAnswerHeader.getAnswers()) {
                     answer.setId(null);

@@ -26,13 +26,9 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.api.rolodex.RolodexContract;
-import org.kuali.coeus.common.api.rolodex.RolodexService;
-import org.kuali.coeus.common.api.sponsor.SponsorContract;
-import org.kuali.coeus.common.api.sponsor.SponsorService;
+import org.kuali.coeus.common.api.question.AnswerContract;
+import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.questionnaire.answer.Answer;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -93,7 +89,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
     private static final int FISCAL_YEAR_5 = 4;
     private static final int FISCAL_YEAR_6 = 5;
     
-    List<AnswerHeader> answerHeaders;
+    List<? extends AnswerHeaderContract> answerHeaders;
 
     /**
      * 
@@ -120,12 +116,11 @@ public class NASAOtherProjectInformationV1_0Generator extends
                 .setInternationalParticipation(getInternationalParticipation());
         nasaOtherInformationDocument
                 .setNASAOtherProjectInformation(nasaOtherProjectInformation);
-        AttachedFileDataType attachedFileDataType = null;
         for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
                 .getNarratives()) {
             if (narrative.getNarrativeType().getCode() != null
                     && Integer.parseInt(narrative.getNarrativeType().getCode()) == PROGRAM_SPECIFIC_DATA) {
-                attachedFileDataType = getAttachedFileType(narrative);
+                AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
                 if(attachedFileDataType != null){
                     nasaOtherProjectInformation.setPSDataAttach(attachedFileDataType);
                     break;
@@ -168,7 +163,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
         NASACivilServicePersonnel nasaCivilServicePersonnel = NASACivilServicePersonnel.Factory
                 .newInstance();
 
-        String answerDetails = getAnswer(CIVIL_SERVICE_PERSONNEL);
+        String answerDetails = getAnswer(CIVIL_SERVICE_PERSONNEL, answerHeaders);
         if(answerDetails!=null && !answerDetails.equals(NOT_ANSWERED)){
             YesNoDataType.Enum answer = (answerDetails.equals(
                     S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
@@ -180,7 +175,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
         List<String> fiscalYearDetails = getAnswerList(FISCAL_YEAR);
         if(fteAnswerDetails.size()>FISCAL_YEAR_1){
             FYFTE1 fyfte1 = FYFTE1.Factory.newInstance();
-            String fte = fteAnswerDetails.get(FISCAL_YEAR_1).toString();
+            String fte = fteAnswerDetails.get(FISCAL_YEAR_1);
             BigDecimal fte1= BigDecimal.valueOf(Double.parseDouble(fte));
             fyfte1.setFTE1(fte1);
             if(fiscalYearDetails.size()>FISCAL_YEAR_1){
@@ -194,7 +189,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
         }
         if(fteAnswerDetails.size()>FISCAL_YEAR_2){
             FYFTE2 fyfte2 = FYFTE2.Factory.newInstance();
-            String fte = fteAnswerDetails.get(FISCAL_YEAR_2).toString();
+            String fte = fteAnswerDetails.get(FISCAL_YEAR_2);
             BigDecimal fte2= BigDecimal.valueOf(Double.parseDouble(fte));
             fyfte2.setFTE2(fte2);
             if(fiscalYearDetails.size()>FISCAL_YEAR_2){
@@ -206,7 +201,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
         }
         if(fteAnswerDetails.size()>FISCAL_YEAR_3){
             FYFTE3 fyfte3 = FYFTE3.Factory.newInstance();
-            String fte = fteAnswerDetails.get(FISCAL_YEAR_3).toString();
+            String fte = fteAnswerDetails.get(FISCAL_YEAR_3);
             BigDecimal fte3= BigDecimal.valueOf(Double.parseDouble(fte));
             fyfte3.setFTE3(fte3);
             if(fiscalYearDetails.size()>FISCAL_YEAR_3){
@@ -218,7 +213,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
         }
         if(fteAnswerDetails.size()>FISCAL_YEAR_4){
             FYFTE4 fyfte4 = FYFTE4.Factory.newInstance();
-            String fte = fteAnswerDetails.get(FISCAL_YEAR_4).toString();
+            String fte = fteAnswerDetails.get(FISCAL_YEAR_4);
             BigDecimal fte4= BigDecimal.valueOf(Double.parseDouble(fte));
             fyfte4.setFTE4(fte4);
             if(fiscalYearDetails.size()>FISCAL_YEAR_4){
@@ -230,7 +225,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
         }
         if(fteAnswerDetails.size()>FISCAL_YEAR_5){
             FYFTE5 fyfte5 = FYFTE5.Factory.newInstance();
-            String fte = fteAnswerDetails.get(FISCAL_YEAR_5).toString();
+            String fte = fteAnswerDetails.get(FISCAL_YEAR_5);
             BigDecimal fte5= BigDecimal.valueOf(Double.parseDouble(fte));
             fyfte5.setFTE5(fte5);
             if(fiscalYearDetails.size()>FISCAL_YEAR_5){
@@ -242,7 +237,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
         }
         if(fteAnswerDetails.size()>FISCAL_YEAR_6){
             FYFTE6 fyfte6 = FYFTE6.Factory.newInstance();
-            String fte = fteAnswerDetails.get(FISCAL_YEAR_6).toString();
+            String fte = fteAnswerDetails.get(FISCAL_YEAR_6);
             BigDecimal fte6= BigDecimal.valueOf(Double.parseDouble(fte));
             fyfte6.setFTE6(fte6);
             if(fiscalYearDetails.size()>FISCAL_YEAR_6){
@@ -324,7 +319,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
     private HistoricImpact getHistoricImpact() {
         HistoricImpact historicImpact = HistoricImpact.Factory.newInstance();
         
-       String answerDetails = getAnswer(HISTORICAL_IMPACT);
+       String answerDetails = getAnswer(HISTORICAL_IMPACT, answerHeaders);
         if(answerDetails!= null && !answerDetails.equals(NOT_ANSWERED)){
             YesNoDataType.Enum answer = (answerDetails.equals(
                     S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
@@ -333,7 +328,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
         }
       
         
-        String childAnswerrDetails = getChildQuestionAnswer(HISTORICAL_IMPACT,EXPLATATION);
+        String childAnswerrDetails = getChildQuestionAnswer(HISTORICAL_IMPACT,EXPLATATION, answerHeaders);
         
         if(childAnswerrDetails!= null && !childAnswerrDetails.equals(NOT_ANSWERED)){
             if (childAnswerrDetails.length() > MAX_EXPLANATION_LENGTH) {
@@ -361,7 +356,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
         InternationalParticipation inParticipation = InternationalParticipation.Factory
                 .newInstance();
         
-        String answerDetails = getAnswer(INTERNATIONAL_PARTICIPATION);
+        String answerDetails = getAnswer(INTERNATIONAL_PARTICIPATION, answerHeaders);
         if(answerDetails != null && !answerDetails.equals(NOT_ANSWERED)){
             YesNoDataType.Enum  answer = (answerDetails.equals(
                     S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
@@ -369,7 +364,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
             inParticipation.setInternationalParticipationQ(answer);
         }
        
-        String childAnswerDetails = getChildQuestionAnswer(INTERNATIONAL_PARTICIPATION,EXPLATATION);
+        String childAnswerDetails = getChildQuestionAnswer(INTERNATIONAL_PARTICIPATION,EXPLATATION, answerHeaders);
         if(childAnswerDetails != null){
             if (inParticipation.getInternationalParticipationQ() != null
                     && inParticipation.getInternationalParticipationQ().equals(
@@ -417,17 +412,17 @@ public class NASAOtherProjectInformationV1_0Generator extends
      * This method is used to get the answerList for a particular Questionnaire question
      * question based on the question id.
      * 
-     * @param questionId
-     *            the question id to be passed.
+     * @param questionSeqId
+     *            the question seq id to be passed.
      * @return returns the answerList for a particular
      *         question based on the question id passed.
      */
-    private List<String> getAnswerList(String questionId){
-        List <String> answerList= new ArrayList();
-        for(AnswerHeader answerHeader:answerHeaders){
-            List<Answer> answerDetails = answerHeader.getAnswers();
-            for(Answer answers:answerDetails){
-                if(questionId.equals(answers.getQuestion().getQuestionId())){
+    private List<String> getAnswerList(String questionSeqId){
+        List <String> answerList= new ArrayList<>();
+        for(AnswerHeaderContract answerHeader:answerHeaders){
+            List<? extends AnswerContract> answerDetails = answerHeader.getAnswers();
+            for(AnswerContract answers:answerDetails){
+                if(questionSeqId.equals(getQuestionAnswerService().findQuestionById(answers.getQuestionId()).getQuestionSeqId())){
                     if(answers.getAnswer()!=null){
                         answerList.add(answers.getAnswer());
                     }
@@ -509,64 +504,6 @@ public class NASAOtherProjectInformationV1_0Generator extends
         return attachedFileDataTypeList.toArray(new AttachedFileDataType[0]);
     }
 
-   /**
-     * 
-     * This method is used to get the answer for a particular Questionnaire question
-     * question based on the question id.
-     * 
-     * @param questionId
-     *            the question id to be passed.
-     * @return returns the answer for a particular
-     *         question based on the question id passed.
-     */
-    private String getAnswer(String questionId) {
-        String answer= null;
-        for(AnswerHeader answerHeader:answerHeaders){
-            if(answerHeader!=null){
-                List<Answer> answerDetails = answerHeader.getAnswers();
-                for(Answer answers:answerDetails){
-                    if(questionId.equals(answers.getQuestion().getQuestionId())){
-                        answer = answers.getAnswer();
-                        return answer;
-                    }
-                }
-            }
-        }
-
-        return answer;
-
-    }
-    /**
-     * 
-     * This method is used to get the child question answer for a particular Questionnaire question
-     * question based on the question id.
-     * @param parentQuestionId
-     *            the parentQuestion id to be passed.
-     * @param questionId
-     *            the question id to be passed.
-     * @return returns the answer for a particular
-     *         question based on the question id passed.
-     */
-    private String getChildQuestionAnswer(String parentQuestionId,String questionId) {
-        String answer= null;
-        for(AnswerHeader answerHeader:answerHeaders){
-            if(answerHeader!=null){
-                List<Answer> answerDetails = answerHeader.getAnswers();
-                for(Answer answers:answerDetails){
-                    if(answers.getParentAnswer()!= null){
-                        Answer parentAnswer =  answers.getParentAnswer().get(0);
-                        if(questionId.equals(answers.getQuestion().getQuestionId()) && parentAnswer.getQuestion().getQuestionId().equals(parentQuestionId) ){
-                            answer = answers.getAnswer();
-                            return answer;
-                        }
-                    }
-                }
-            }
-        }
-
-        return answer;
-
-    }
     /**
      * This method creates {@link XmlObject} of type
      * {@link NASAOtherProjectInformationDocument} by populating data from the
@@ -581,7 +518,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
     public XmlObject getFormObject(
             ProposalDevelopmentDocument proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
-        answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
+        answerHeaders = getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber());
         return getNasaOtherProjectInformation();
     }
 }

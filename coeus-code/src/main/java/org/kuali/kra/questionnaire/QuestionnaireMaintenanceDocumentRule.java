@@ -73,7 +73,7 @@ public class QuestionnaireMaintenanceDocumentRule extends MaintenanceDocumentRul
             valid = false;
         }
 
-        if (getQuestionnaireService().isQuestionnaireNameExist(newQuestionnaire.getQuestionnaireId(), newQuestionnaire.getName())) {
+        if (getQuestionnaireService().isQuestionnaireNameExist(newQuestionnaire.getQuestionnaireSeqId(), newQuestionnaire.getName())) {
             errorMap.putError("document.newMaintainableObject.businessObject.name", KeyConstants.ERROR_QUESTIONNAIRE_NAME_EXIST);
             valid = false;
 
@@ -95,7 +95,7 @@ public class QuestionnaireMaintenanceDocumentRule extends MaintenanceDocumentRul
         }
         
         if (newQuestionnaire.getObjectId() != null 
-                && checkForLatestQuuestionnaireSequenceNumber(newQuestionnaire.getQuestionnaireId(), newQuestionnaire.getSequenceNumber())) {
+                && checkForLatestQuuestionnaireSequenceNumber(newQuestionnaire.getQuestionnaireSeqId(), newQuestionnaire.getSequenceNumber())) {
             errorMap.putError("document.newMaintainableObject.businessObject.name", ALREADY_EDITED_ERROR, "");
             valid = false;
         }

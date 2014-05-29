@@ -119,7 +119,7 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
     private boolean validateQuestionUsage(MaintenanceDocument maintenanceDocument) {
         Question question = (Question) maintenanceDocument.getNewMaintainableObject().getDataObject();
 
-        if (!"A".equals(question.getStatus()) && getQuestionService().isQuestionUsed(question.getQuestionId())) {
+        if (!"A".equals(question.getStatus()) && getQuestionService().isQuestionUsed(question.getQuestionSeqId())) {
             GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_STATUS,
                     KeyConstants.ERROR_QUESTION_STATUS_IN_USE);
             return false;
@@ -143,23 +143,23 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
             GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_QUESTION_TYPE_ID,
                     KeyConstants.ERROR_QUESTION_RESPONSE_TYPE_NOT_SPECIFIED);
         } else {
-            switch (question.getQuestionTypeId()) {
-                case Constants.QUESTION_RESPONSE_TYPE_YES_NO: 
+            switch (question.getQuestionTypeId().intValue()) {
+                case (int) Constants.QUESTION_RESPONSE_TYPE_YES_NO:
                     isValid &= validateResponseTypeYesNo(question); 
                     break;
-                case Constants.QUESTION_RESPONSE_TYPE_YES_NO_NA: 
+                case (int) Constants.QUESTION_RESPONSE_TYPE_YES_NO_NA:
                     isValid &= validateResponseTypeYesNoNa(question); 
                     break;
-                case Constants.QUESTION_RESPONSE_TYPE_NUMBER: 
+                case (int) Constants.QUESTION_RESPONSE_TYPE_NUMBER:
                     isValid &= validateResponseTypeNumber(question); 
                     break;
-                case Constants.QUESTION_RESPONSE_TYPE_DATE: 
+                case (int) Constants.QUESTION_RESPONSE_TYPE_DATE:
                     isValid &= validateResponseTypeDate(question); 
                     break;
-                case Constants.QUESTION_RESPONSE_TYPE_TEXT: 
+                case (int) Constants.QUESTION_RESPONSE_TYPE_TEXT:
                     isValid &= validateResponseTypeText(question); 
                     break;
-                case Constants.QUESTION_RESPONSE_TYPE_LOOKUP:
+                case (int) Constants.QUESTION_RESPONSE_TYPE_LOOKUP:
                     isValid &= validateResponseTypeLookup(question); 
                     break;
                 default:
@@ -320,12 +320,12 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
         }
         
         if (!isValid) {
-            switch (question.getQuestionTypeId()) {
-                case Constants.QUESTION_RESPONSE_TYPE_LOOKUP :
+            switch (question.getQuestionTypeId().intValue()) {
+                case (int) Constants.QUESTION_RESPONSE_TYPE_LOOKUP :
                     GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_MAX_ANSWERS,
                             KeyConstants.ERROR_QUESTION_MAX_ANSWERS_INVALID_RETURNS);
                     break;
-                case Constants.QUESTION_RESPONSE_TYPE_TEXT :
+                case (int) Constants.QUESTION_RESPONSE_TYPE_TEXT :
                     GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_MAX_ANSWERS,
                             KeyConstants.ERROR_QUESTION_MAX_ANSWERS_INVALID_ANSWERS_AREAS);
                     break;

@@ -75,7 +75,7 @@ public class AnswerComparator implements Comparator<Answer>  {
             }
         } else {
             // set up log now to see why it comes to here
-            LOG.info("no comparison matched "+ans1.getQuestionnaireQuestionsIdFk()+"-"+argAnswer.getQuestionnaireQuestionsIdFk());
+            LOG.info("no comparison matched "+ans1.getQuestionnaireQuestionsId()+"-"+argAnswer.getQuestionnaireQuestionsId());
             retVal = 0;
         }
         return retVal;
@@ -88,7 +88,7 @@ public class AnswerComparator implements Comparator<Answer>  {
 
         Answer thisAnswer = argAnswer;
         while (thisAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0) {
-            thisAnswer = thisAnswer.getParentAnswer().get(0);
+            thisAnswer = thisAnswer.getParentAnswers().get(0);
         }
         return thisAnswer;
     }
@@ -143,7 +143,7 @@ public class AnswerComparator implements Comparator<Answer>  {
         answers.add(argAnswer);
         Answer thisAnswer = argAnswer;
         while (thisAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0) {
-            thisAnswer = thisAnswer.getParentAnswer().get(0);
+            thisAnswer = thisAnswer.getParentAnswers().get(0);
             answers.add(thisAnswer);
 
         }

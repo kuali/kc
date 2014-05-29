@@ -25,20 +25,20 @@
         <property name="lookupDefinition" >
             <ref bean="QuestionCategory-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="categoryTypeCode" />
+        <property name="titleAttribute" value="id" />
         <property name="attributes" >
             <list>
-                <ref bean="QuestionCategory-categoryTypeCode" />
-                <ref bean="QuestionCategory-categoryName" />
+                <ref bean="QuestionCategory-id" />
+                <ref bean="QuestionCategory-name" />
                 <ref bean="QuestionCategory-versionNumber" />
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
-    <bean id="QuestionCategory-categoryTypeCode" parent="QuestionCategory-categoryTypeCode-parentBean" />
-    <bean id="QuestionCategory-categoryTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="categoryTypeCode" />
+    <bean id="QuestionCategory-id" parent="QuestionCategory-id-parentBean" />
+    <bean id="QuestionCategory-id-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="id" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Category Type Code" />
         <property name="shortLabel" value="Category Type Code" />
@@ -59,9 +59,9 @@
         <property name="description" value="Category Type Code" />
     </bean>
 
-    <bean id="QuestionCategory-categoryName" parent="QuestionCategory-categoryName-parentBean" />
-    <bean id="QuestionCategory-categoryName-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="categoryName" />
+    <bean id="QuestionCategory-name" parent="QuestionCategory-name-parentBean" />
+    <bean id="QuestionCategory-name-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="name" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Category Name" />
         <property name="shortLabel" value="Category Name" />
@@ -98,8 +98,8 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-              <bean parent="FieldDefinition" p:attributeName="categoryTypeCode" p:forceInquiry="true"/>
-              <bean parent="FieldDefinition" p:attributeName="categoryName"/>
+              <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="name"/>
             </list>
           </property>
         </bean>
@@ -117,8 +117,8 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="categoryTypeCode" parent="Uif-DataField"/>
-              <bean p:propertyName="categoryName" parent="Uif-DataField"/>
+              <bean p:propertyName="id" parent="Uif-DataField"/>
+              <bean p:propertyName="name" parent="Uif-DataField"/>
                         </list>
                     </property>
                 </bean>
@@ -137,14 +137,14 @@
         </property>
         <property name="lookupFields" >
             <list>
-        <bean parent="FieldDefinition" p:attributeName="categoryTypeCode" p:forceInquiry="true"/>
-        <bean parent="FieldDefinition" p:attributeName="categoryName"/>
+        <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
             </list>
         </property>
         <property name="resultFields" >
             <list>
-        <bean parent="FieldDefinition" p:attributeName="categoryTypeCode" p:forceInquiry="true"/>
-        <bean parent="FieldDefinition" p:attributeName="categoryName"/>
+        <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
             </list>
         </property>
     </bean>
@@ -165,14 +165,14 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="categoryTypeCode" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="categoryName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="name" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="categoryTypeCode" parent="Uif-DataField"/>
-        <bean p:propertyName="categoryName" parent="Uif-DataField"/>
+        <bean p:propertyName="id" parent="Uif-DataField"/>
+        <bean p:propertyName="name" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

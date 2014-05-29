@@ -25,13 +25,13 @@
         <property name="lookupDefinition">
             <ref bean="QuestionnaireUsage-lookupDefinition"/>
         </property>
-        <property name="titleAttribute" value="questionnaireUsageId"/>
+        <property name="titleAttribute" value="id"/>
         <property name="attributes">
             <list>
-                <ref bean="QuestionnaireUsage-questionnaireUsageId"/>
+                <ref bean="QuestionnaireUsage-id"/>
                 <ref bean="QuestionnaireUsage-moduleItemCode"/>
                 <ref bean="QuestionnaireUsage-moduleSubItemCode"/>
-                <ref bean="QuestionnaireUsage-questionnaireRefIdFk"/>
+                <ref bean="QuestionnaireUsage-questionnaireId"/>
                 <ref bean="QuestionnaireUsage-questionnaireSequenceNumber"/>
                 <ref bean="QuestionnaireUsage-ruleId"/>
                 <ref bean="QuestionnaireUsage-questionnaireLabel"/>
@@ -43,9 +43,9 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    <bean id="QuestionnaireUsage-questionnaireUsageId" parent="QuestionnaireUsage-questionnaireUsageId-parentBean"/>
-    <bean abstract="true" id="QuestionnaireUsage-questionnaireUsageId-parentBean" parent="AttributeDefinition">
-        <property name="name" value="questionnaireUsageId"/>
+    <bean id="QuestionnaireUsage-id" parent="QuestionnaireUsage-id-parentBean"/>
+    <bean abstract="true" id="QuestionnaireUsage-id-parentBean" parent="AttributeDefinition">
+        <property name="name" value="id"/>
         <property name="forceUppercase" value="false"/>
         <property name="label" value="Questionnaire Usage Id"/>
         <property name="shortLabel" value="Questionnaire Usage Id"/>
@@ -126,9 +126,9 @@
     </bean>
 
 
-    <bean id="QuestionnaireUsage-questionnaireRefIdFk" parent="QuestionnaireUsage-questionnaireRefIdFk-parentBean"/>
-    <bean abstract="true" id="QuestionnaireUsage-questionnaireRefIdFk-parentBean" parent="AttributeDefinition">
-        <property name="name" value="questionnaireRefIdFk"/>
+    <bean id="QuestionnaireUsage-questionnaireId" parent="QuestionnaireUsage-questionnaireId-parentBean"/>
+    <bean abstract="true" id="QuestionnaireUsage-questionnaireId-parentBean" parent="AttributeDefinition">
+        <property name="name" value="questionnaireId"/>
         <property name="forceUppercase" value="false"/>
         <property name="label" value="Questionnaire Id"/>
         <property name="shortLabel" value="Questionnaire Id"/>
@@ -227,10 +227,10 @@
                     <property name="numberOfColumns" value="1"/>
                     <property name="inquiryFields">
                         <list>
-                            <bean p:attributeName="questionnaireUsageId" p:forceInquiry="true" parent="FieldDefinition"/>
+                            <bean p:attributeName="id" p:forceInquiry="true" parent="FieldDefinition"/>
                             <bean p:attributeName="moduleItemCode" parent="FieldDefinition"/>
                             <bean p:attributeName="moduleSubItemCode" parent="FieldDefinition"/>
-                            <bean p:attributeName="questionnaireRefIdFk" parent="FieldDefinition"/>
+                            <bean p:attributeName="questionnaireId" parent="FieldDefinition"/>
                             <bean p:attributeName="ruleId" parent="FieldDefinition"/>
                             <bean p:attributeName="questionnaireLabel" parent="FieldDefinition"/>
                         </list>
@@ -250,10 +250,10 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="questionnaireUsageId" parent="Uif-DataField"/>
+              <bean p:propertyName="id" parent="Uif-DataField"/>
               <bean p:propertyName="moduleItemCode" parent="Uif-DataField"/>
               <bean p:propertyName="moduleSubItemCode" parent="Uif-DataField"/>
-              <bean p:propertyName="questionnaireRefIdFk" parent="Uif-DataField"/>
+              <bean p:propertyName="questionnaireId" parent="Uif-DataField"/>
               <bean p:propertyName="ruleId" parent="Uif-DataField"/>
               <bean p:propertyName="questionnaireLabel" parent="Uif-DataField"/>
             </list>
@@ -274,20 +274,20 @@
         </property>
         <property name="lookupFields">
             <list>
-                <bean p:attributeName="questionnaireUsageId" p:forceInquiry="true" parent="FieldDefinition"/>
+                <bean p:attributeName="id" p:forceInquiry="true" parent="FieldDefinition"/>
                 <bean p:attributeName="moduleItemCode" parent="FieldDefinition"/>
                 <bean p:attributeName="moduleSubItemCode" parent="FieldDefinition"/>
-                <bean p:attributeName="questionnaireRefIdFk" parent="FieldDefinition"/>
+                <bean p:attributeName="questionnaireId" parent="FieldDefinition"/>
                 <bean p:attributeName="ruleId" parent="FieldDefinition"/>
                 <bean p:attributeName="questionnaireLabel" parent="FieldDefinition"/>
             </list>
         </property>
         <property name="resultFields">
             <list>
-                <bean p:attributeName="questionnaireUsageId" p:forceInquiry="true" parent="FieldDefinition"/>
+                <bean p:attributeName="id" p:forceInquiry="true" parent="FieldDefinition"/>
                 <bean p:attributeName="moduleItemCode" parent="FieldDefinition"/>
                 <bean p:attributeName="moduleSubItemCode" parent="FieldDefinition"/>
-                <bean p:attributeName="questionnaireRefIdFk" parent="FieldDefinition"/>
+                <bean p:attributeName="questionnaireId" parent="FieldDefinition"/>
                 <bean p:attributeName="ruleId" parent="FieldDefinition"/>
                 <bean p:attributeName="questionnaireLabel" parent="FieldDefinition"/>
             </list>
@@ -310,20 +310,20 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="questionnaireUsageId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="moduleItemCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="moduleSubItemCode" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="questionnaireRefIdFk" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="questionnaireId" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="ruleId" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="questionnaireLabel" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="questionnaireUsageId" parent="Uif-DataField"/>
+        <bean p:propertyName="id" parent="Uif-DataField"/>
         <bean p:propertyName="moduleItemCode" parent="Uif-DataField"/>
         <bean p:propertyName="moduleSubItemCode" parent="Uif-DataField"/>
-        <bean p:propertyName="questionnaireRefIdFk" parent="Uif-DataField"/>
+        <bean p:propertyName="questionnaireId" parent="Uif-DataField"/>
         <bean p:propertyName="ruleId" parent="Uif-DataField"/>
         <bean p:propertyName="questionnaireLabel" parent="Uif-DataField"/>
       </list>

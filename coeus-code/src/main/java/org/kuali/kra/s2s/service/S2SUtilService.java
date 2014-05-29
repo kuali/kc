@@ -19,9 +19,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.s2s.CitizenshipTypes;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.coeus.common.api.country.CountryContract;
 import org.kuali.coeus.common.api.state.StateContract;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
@@ -167,17 +165,6 @@ public interface S2SUtilService {
 	 */
 	public boolean keyPersonEqualsBudgetPerson(KeyPersonInfo keyPersonInfo,
 			BudgetPersonnelDetails budgetPersonnelDetails);
-
-    /**
-	 * Finds all the Questionnaire Answers associates with provided
-	 * ProposalNumber and questionnaireId.
-	 * 
-	 * @param developmentProposal
-	 * @param namespace
-	 * @param formname
-	 * @return List of Questionnaire {@link Answer}.
-	 */
-    public List<Answer> getQuestionnaireAnswers(DevelopmentProposal developmentProposal,String namespace,String formname);
 
 	/**
 	 * Finds all the co-investigators associated with the provided pdDoc.
