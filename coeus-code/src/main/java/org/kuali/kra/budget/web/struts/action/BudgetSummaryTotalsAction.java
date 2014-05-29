@@ -23,7 +23,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetPeriodExt;
 import org.kuali.kra.award.budget.AwardBudgetService;
-import org.kuali.kra.budget.calculator.BudgetCalculationService;
+import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;

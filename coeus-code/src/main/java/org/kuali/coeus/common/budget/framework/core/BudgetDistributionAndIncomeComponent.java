@@ -15,8 +15,6 @@
  */
 package org.kuali.coeus.common.budget.framework.core;
 
-import org.kuali.kra.budget.core.BudgetAssociate;
-
 public abstract class BudgetDistributionAndIncomeComponent extends BudgetAssociate {
 
     private static final long serialVersionUID = -5475883963362089242L;

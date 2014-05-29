@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.nonpersonnel;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.budget.core.BudgetAssociate;
+import org.kuali.coeus.common.budget.framework.core.BudgetAssociate;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
 
 import java.sql.Date;

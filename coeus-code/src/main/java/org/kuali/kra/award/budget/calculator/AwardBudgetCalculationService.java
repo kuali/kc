@@ -16,7 +16,7 @@
 package org.kuali.kra.award.budget.calculator;
 
 import org.kuali.kra.award.budget.AwardBudgetExt;
-import org.kuali.kra.budget.calculator.BudgetCalculationService;
+import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 
 public interface AwardBudgetCalculationService extends BudgetCalculationService {
     

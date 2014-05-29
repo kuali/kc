@@ -11,7 +11,7 @@ end;
 CREATE OR REPLACE package body s2sRRFedNonFedBudgetPkg as
 -----------------------------------------------------------
 -- procedure get_tot_Fed_NonFed_costsharing
--- gets total direct costSharing and total indirect distribution
+-- gets total direct costSharing and total indirect costsharing
 -----------------------------------------------------------
 procedure get_tot_Fed_NonFed_costsharing (as_proposal_number OSP$EPS_PROPOSAL.PROPOSAL_NUMBER%TYPE,
 											cur_type IN OUT result_sets.cur_generic) is

@@ -20,7 +20,7 @@ import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.budget.calculator.RateClassType;
+import org.kuali.coeus.common.budget.framework.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCategoryMap;
 import org.kuali.kra.budget.core.BudgetCategoryMapping;
