@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.framework.costelement;
+package org.kuali.coeus.common.budget.framework.core;
 
-import org.kuali.coeus.common.budget.framework.category.BudgetCategory;
+import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.common.budget.framework.rate.ValidCeRateType;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;

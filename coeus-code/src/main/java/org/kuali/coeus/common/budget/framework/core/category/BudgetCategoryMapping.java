@@ -13,28 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.framework.category;
+package org.kuali.coeus.common.budget.framework.core.category;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.budget.api.category.BudgetCategoryMapContract;
+import org.kuali.coeus.budget.api.category.BudgetCategoryMappingContract;
 
-import java.util.ArrayList;
-import java.util.List;
+public class BudgetCategoryMapping extends KcPersistableBusinessObjectBase implements BudgetCategoryMappingContract {
 
-public class BudgetCategoryMap extends KcPersistableBusinessObjectBase implements BudgetCategoryMapContract {
+    private String budgetCategoryCode;
 
     private String mappingName;
 
     private String targetCategoryCode;
 
-    private String categoryType;
+    private BudgetCategory budgetCategory;
 
-    private String description;
+    @Override
+    public String getBudgetCategoryCode() {
+        return budgetCategoryCode;
+    }
 
-    private List<BudgetCategoryMapping> budgetCategoryMappings;
-
-    public BudgetCategoryMap() {
-        budgetCategoryMappings = new ArrayList<BudgetCategoryMapping>();
+    public void setBudgetCategoryCode(String budgetCategoryCode) {
+        this.budgetCategoryCode = budgetCategoryCode;
     }
 
     @Override
@@ -56,30 +56,11 @@ public class BudgetCategoryMap extends KcPersistableBusinessObjectBase implement
     }
 
     @Override
-    public String getCategoryType() {
-        return categoryType;
+    public BudgetCategory getBudgetCategory() {
+        return budgetCategory;
     }
 
-    public void setCategoryType(String categoryType) {
-        this.categoryType = categoryType;
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Override
-    public List<BudgetCategoryMapping> getBudgetCategoryMappings() {
-        return budgetCategoryMappings;
-    }
-
-
-    public void setBudgetCategoryMappings(List<BudgetCategoryMapping> budgetCategoryMappings) {
-        this.budgetCategoryMappings = budgetCategoryMappings;
+    public void setBudgetCategory(BudgetCategory budgetCategory) {
+        this.budgetCategory = budgetCategory;
     }
 }

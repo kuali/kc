@@ -176,8 +176,8 @@
 	                    </c:forEach>
 	                    </html:select>
 	                    <input type="hidden" name="document.budget.budgetCategoryType[${catCodes}]" value="${budgetCategoryTypeCodeKey}">                    
-	                	<kul:lookup boClassName="org.kuali.coeus.common.budget.framework.costelement.CostElement" fieldConversions="costElement:newBudgetLineItems[${catCodes}].costElement" anchor="${tabKey}" lookupParameters="newBudgetLineItems[${catCodes}].costElement:costElement,document.budget.budgetCategoryType[${catCodes}]:budgetCategoryTypeCode" autoSearch="yes"/>
-	                	<kul:directInquiry boClassName="org.kuali.coeus.common.budget.framework.costelement.CostElement" inquiryParameters="newBudgetLineItems[${catCodes}].costElement:costElement" anchor="${tabKey}"/>
+	                	<kul:lookup boClassName="org.kuali.coeus.common.budget.framework.core.CostElement" fieldConversions="costElement:newBudgetLineItems[${catCodes}].costElement" anchor="${tabKey}" lookupParameters="newBudgetLineItems[${catCodes}].costElement:costElement,document.budget.budgetCategoryType[${catCodes}]:budgetCategoryTypeCode" autoSearch="yes"/>
+	                	<kul:directInquiry boClassName="org.kuali.coeus.common.budget.framework.core.CostElement" inquiryParameters="newBudgetLineItems[${catCodes}].costElement:costElement" anchor="${tabKey}"/>
 	                	</div>
 					</td>
 					<td valign="middle" class="darkInfoline">

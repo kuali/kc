@@ -83,7 +83,7 @@
     	   	<c:out value="${selectedCostElement}"/>
 			<input type="hidden" name="document.budget.budgetCategoryTypeLineItem[${budgetLineItemNumber}]" value="${budgetCategoryTypeCode}">
 			<input type="hidden" name="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement" value="${budgetLineItem.costElement}"/>
-			<kul:directInquiry boClassName="org.kuali.coeus.common.budget.framework.costelement.CostElement" inquiryParameters="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement:costElement" anchor="${tabKey}"/>
+			<kul:directInquiry boClassName="org.kuali.coeus.common.budget.framework.core.CostElement" inquiryParameters="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement:costElement" anchor="${tabKey}"/>
 		</div>
 		<div id="costElementCode.div" align="center" class="fineprint">
 			<bean:write name="KualiForm" property="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement" />&nbsp;

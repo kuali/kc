@@ -3,7 +3,7 @@
   <bean id="BudgetCategoryMappingMaintenanceDocument" parent="BudgetCategoryMappingMaintenanceDocument-parentBean"/>
 
   <bean id="BudgetCategoryMappingMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.category.BudgetCategoryMapping"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryMapping"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
@@ -23,7 +23,7 @@
     
     
     <property name="documentTypeName" value="BudgetCategoryMappingMaintenanceDocument"/>
-    <property name="businessRulesClass" value="org.kuali.coeus.common.budget.impl.category.BudgetCategoryExistenceRule"/>
+    <property name="businessRulesClass" value="org.kuali.coeus.common.budget.impl.core.category.BudgetCategoryExistenceRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     
     

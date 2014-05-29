@@ -18,8 +18,8 @@ package org.kuali.kra.award.budget.calculator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.coeus.common.budget.impl.calculator.BudgetCalculationServiceImpl;
-import org.kuali.coeus.common.budget.framework.category.BudgetCategoryType;
-import org.kuali.coeus.common.budget.framework.costelement.CostElement;
+import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType;
+import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 
