@@ -309,7 +309,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 		budget.setFederalEstimatedAmount(BigDecimal.ZERO);
 		budget.setTotalEstimatedAmount(BigDecimal.ZERO);
 
-        org.kuali.kra.budget.core.Budget budgetDoc = null;
+        org.kuali.coeus.common.budget.framework.core.Budget budgetDoc = null;
         try {
             budgetDoc = proposalBudgetService
                     .getFinalBudgetVersion(pdDoc).getBudget();

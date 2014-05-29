@@ -17,7 +17,7 @@ package org.kuali.coeus.propdev.impl.core;
 
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.budget.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.coeus.propdev.impl.person.CoPiInfoDO;
 import org.kuali.coeus.propdev.impl.budget.CostShareInfoDO;

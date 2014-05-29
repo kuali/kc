@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.lookup;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.kra.budget.core.CostElement;
+import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -25,6 +25,9 @@ import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -32,7 +35,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+@Component("budgetExpenseLookupableHelperService")
 @Transactional
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class BudgetExpenseLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     
     private static final String KFS_ON_PARM_NMSPC_CD = "KC-AWARD";
@@ -89,7 +94,6 @@ public class BudgetExpenseLookupableHelperServiceImpl extends KualiLookupableHel
     }
 
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        //LookupUtils.removeHiddenCriteriaFields( getBusinessObjectClass(), fieldValues );
         setBackLocation(fieldValues.get(KRADConstants.BACK_LOCATION));
         setDocFormKey(fieldValues.get(KRADConstants.DOC_FORM_KEY));
         setReferencesToRefresh(fieldValues.get(KRADConstants.REFERENCES_TO_REFRESH));
@@ -110,10 +114,8 @@ public class BudgetExpenseLookupableHelperServiceImpl extends KualiLookupableHel
         for (Iterator iterator = searchResults.iterator(); iterator.hasNext();) {
             CostElement costElement = (CostElement) iterator.next();
             costElement.refreshReferenceObject("budgetCategory");
-            // TODO : need more test for ce maint doc which will display all ce and budgetcategorytypecode=""
             if(StringUtils.isBlank(budgetCategoryTypeCode) || StringUtils.equalsIgnoreCase(costElement.getBudgetCategory().getBudgetCategoryTypeCode(),budgetCategoryTypeCode)){
                 searchResultsReturn.add(costElement);
-                // TODO : what is categoryTypeName for ?
                 if(categoryTypeName==null){
                     categoryTypeName = costElement.getBudgetCategory().getBudgetCategoryType().getDescription();
                 }

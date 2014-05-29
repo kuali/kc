@@ -26,7 +26,7 @@ import org.kuali.coeus.sys.framework.workflow.SimpleBooleanSplitNodeAware;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.RolePersons;
-import org.kuali.kra.budget.core.BudgetService;
+import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.rice.kew.api.exception.WorkflowException;

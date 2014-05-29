@@ -15,8 +15,8 @@
  */
 package org.kuali.coeus.common.budget.framework.distribution;
 
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.core.Budget.FiscalYearSummary;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.Budget.FiscalYearSummary;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.coeus.common.framework.costshare.CostShareRuleResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;

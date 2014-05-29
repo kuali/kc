@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.distribution;
 
-import org.kuali.kra.budget.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 
 public interface BudgetDistributionService {
 

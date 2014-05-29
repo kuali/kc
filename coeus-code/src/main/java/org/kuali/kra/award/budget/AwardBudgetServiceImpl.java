@@ -36,9 +36,9 @@ import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.framework.calculator.RateClassType;
 import org.kuali.coeus.common.budget.framework.query.operator.And;
 import org.kuali.coeus.common.budget.framework.query.operator.Equals;
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.core.BudgetParent;
-import org.kuali.kra.budget.core.BudgetService;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetParent;
+import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -534,7 +534,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
 
     /**
      * Copies budget version from previous one
-     * @see org.kuali.kra.budget.core.BudgetCommonService#copyBudgetVersion(org.kuali.kra.budget.document.BudgetDocument)
+     * @see org.kuali.coeus.common.budget.framework.core.BudgetCommonService#copyBudgetVersion(org.kuali.kra.budget.document.BudgetDocument)
      */
     public BudgetDocument<Award> copyBudgetVersion(BudgetDocument<Award> budgetDocument) throws WorkflowException {
         return copyBudgetVersion(budgetDocument, false);

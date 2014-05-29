@@ -19,10 +19,10 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.core.BudgetCommonService;
-import org.kuali.kra.budget.core.BudgetCommonServiceFactory;
-import org.kuali.kra.budget.core.BudgetParent;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
+import org.kuali.coeus.common.budget.framework.core.BudgetCommonServiceFactory;
+import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyPostProcessor;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -390,7 +390,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     
     /**
      * KRACOEUS-1376
-     * @see BudgetSummaryService#adjustStartEndDatesForLineItems(org.kuali.kra.budget.core.Budget)
+     * @see BudgetSummaryService#adjustStartEndDatesForLineItems(org.kuali.coeus.common.budget.framework.core.Budget)
      */
     @Override
     public void adjustStartEndDatesForLineItems(Budget budget) {
