@@ -32,7 +32,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
-import org.kuali.coeus.common.budget.framework.core.QueryList;
+import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.framework.calculator.RateClassType;
 import org.kuali.coeus.common.budget.framework.query.operator.And;
 import org.kuali.coeus.common.budget.framework.query.operator.Equals;

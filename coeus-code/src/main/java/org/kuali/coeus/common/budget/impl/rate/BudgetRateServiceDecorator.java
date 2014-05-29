@@ -21,7 +21,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
-import org.kuali.coeus.common.budget.framework.core.QueryList;
+import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.framework.calculator.RateClassType;
 import org.kuali.coeus.common.budget.framework.query.operator.And;
 import org.kuali.coeus.common.budget.framework.query.operator.Equals;

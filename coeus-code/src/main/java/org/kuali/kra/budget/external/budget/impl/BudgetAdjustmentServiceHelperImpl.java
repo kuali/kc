@@ -21,7 +21,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.budget.AwardBudgetExt;
-import org.kuali.coeus.common.budget.framework.core.QueryList;
+import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.framework.query.operator.Equals;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCategoryType;

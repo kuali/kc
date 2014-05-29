@@ -18,7 +18,7 @@ package org.kuali.coeus.common.budget.impl.calculator;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.calculator.*;
-import org.kuali.coeus.common.budget.framework.core.QueryList;
+import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetLineItemCalculatedAmountExt;
@@ -63,6 +63,10 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     @Autowired
     @Qualifier("budgetDistributionService")
     private BudgetDistributionService budgetDistributionService;
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
 
     @Override
     public void calculateBudget(Budget budget){
@@ -648,7 +652,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                 
                 List<CostElement> objectCodes = budget.getObjectCodeListByBudgetCategoryType().get(budgetCategoryType);
                 for(CostElement objectCode : objectCodes) {
-                    if (!StringUtils.equalsIgnoreCase(objectCode.getCostElement(), KcServiceLocator.getService(ParameterService.class).getParameterValueAsString(BudgetDocument.class, "proposalHierarchySubProjectIndirectCostElement"))) {
+                    if (!StringUtils.equalsIgnoreCase(objectCode.getCostElement(), getParameterService().getParameterValueAsString(BudgetDocument.class, "proposalHierarchySubProjectIndirectCostElement"))) {
                         List<ScaleTwoDecimal> objectCodePeriodTotals = budget.getObjectCodeTotals().get(objectCode);
                         for(BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
                             budget.getBudgetSummaryTotals().get(budgetCategoryType.getCode()).set(budgetPeriod.getBudgetPeriod() - 1, ((ScaleTwoDecimal) (budget.getBudgetSummaryTotals().get(budgetCategoryType.getCode()).get(budgetPeriod.getBudgetPeriod() - 1))).add(objectCodePeriodTotals.get(budgetPeriod.getBudgetPeriod() - 1)));
@@ -862,6 +866,15 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     public void setBudgetDistributionService(BudgetDistributionService service) {
         this.budgetDistributionService = service;
     }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
     @Override
     public void rePopulateCalculatedAmount(Budget budget, BudgetLineItem budgetLineItem) {
         budgetLineItem.getBudgetCalculatedAmounts().clear();

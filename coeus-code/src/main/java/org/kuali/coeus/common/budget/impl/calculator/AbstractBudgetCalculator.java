@@ -17,7 +17,7 @@ package org.kuali.coeus.common.budget.impl.calculator;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.budget.framework.calculator.*;
-import org.kuali.coeus.common.budget.framework.core.QueryList;
+import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.framework.query.*;
 import org.kuali.coeus.common.budget.framework.query.operator.*;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;

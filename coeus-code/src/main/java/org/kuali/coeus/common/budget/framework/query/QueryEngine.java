@@ -21,7 +21,6 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.framework.query.operator.Operator;
-import org.kuali.coeus.common.budget.framework.core.QueryList;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;

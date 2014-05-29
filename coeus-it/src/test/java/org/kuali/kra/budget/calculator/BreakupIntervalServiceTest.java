@@ -18,7 +18,7 @@ package org.kuali.kra.budget.calculator;
 
 import org.junit.Test;
 import org.kuali.coeus.common.budget.framework.calculator.*;
-import org.kuali.coeus.common.budget.framework.core.QueryList;
+import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.impl.calculator.Boundary;
 import org.kuali.coeus.common.budget.impl.calculator.BreakUpInterval;
 import org.kuali.coeus.common.budget.impl.calculator.RateAndCost;

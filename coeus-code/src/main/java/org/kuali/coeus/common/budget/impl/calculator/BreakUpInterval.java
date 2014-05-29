@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.budget.impl.calculator;
 
-import org.kuali.coeus.common.budget.framework.core.QueryList;
+import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
