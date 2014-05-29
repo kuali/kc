@@ -18,6 +18,7 @@ package org.kuali.coeus.common.budget.framework.core;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.budget.framework.category.BudgetCategoryType;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;

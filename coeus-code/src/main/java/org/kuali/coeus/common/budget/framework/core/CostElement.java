@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.core;
 
+import org.kuali.coeus.common.budget.framework.category.BudgetCategory;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.common.budget.framework.rate.ValidCeRateType;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;

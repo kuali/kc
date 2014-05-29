@@ -18,7 +18,7 @@
 	<property name="allowsRecordDeletion" value="true" />
 	
     <property name="documentTypeName" value="CostElementMaintenanceDocument"/>
-    <property name="businessRulesClass" value="org.kuali.coeus.common.budget.framework.core.BudgetCategoryExistenceRule"/>
+    <property name="businessRulesClass" value="org.kuali.coeus.common.budget.impl.category.BudgetCategoryExistenceRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
   </bean>
 

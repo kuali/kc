@@ -21,7 +21,7 @@ import org.kuali.kra.printing.schema.BudgetSalaryDocument.BudgetSalary;
 import org.kuali.kra.printing.schema.SalaryType;
 import org.kuali.coeus.common.budget.framework.calculator.RateClassType;
 import org.kuali.kra.budget.calculator.RateClassType;
-import org.kuali.coeus.common.budget.framework.core.BudgetCategory;
+import org.kuali.coeus.common.budget.framework.category.BudgetCategory;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;

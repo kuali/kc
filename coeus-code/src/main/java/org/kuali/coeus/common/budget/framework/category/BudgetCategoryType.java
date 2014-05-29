@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.framework.core;
+package org.kuali.coeus.common.budget.framework.category;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.budget.api.category.BudgetCategoryContract;
+import org.kuali.coeus.budget.api.category.BudgetCategoryTypeContract;
 
-public class BudgetCategory extends KcPersistableBusinessObjectBase implements BudgetCategoryContract {
+/**
+ * Class representation of the BudgetCategory Type Business Object
+ */
+public class BudgetCategoryType extends KcPersistableBusinessObjectBase implements Comparable<BudgetCategoryType>, BudgetCategoryTypeContract {
 
     private String code;
 
-    private String budgetCategoryTypeCode;
-
     private String description;
 
-    private BudgetCategoryType budgetCategoryType;
+    private Integer sortId;
 
     @Override
     public String getCode() {
@@ -35,14 +36,6 @@ public class BudgetCategory extends KcPersistableBusinessObjectBase implements B
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public String getBudgetCategoryTypeCode() {
-        return budgetCategoryTypeCode;
-    }
-
-    public void setBudgetCategoryTypeCode(String budgetCategoryTypeCode) {
-        this.budgetCategoryTypeCode = budgetCategoryTypeCode;
     }
 
     @Override
@@ -55,11 +48,19 @@ public class BudgetCategory extends KcPersistableBusinessObjectBase implements B
     }
 
     @Override
-    public BudgetCategoryType getBudgetCategoryType() {
-        return budgetCategoryType;
+    public Integer getSortId() {
+        return sortId;
     }
 
-    public void setBudgetCategoryType(BudgetCategoryType budgetCategoryType) {
-        this.budgetCategoryType = budgetCategoryType;
+    public void setSortId(Integer sortId) {
+        this.sortId = sortId;
+    }
+
+    /**
+     * This is for totals page 
+     */
+    @Override
+    public int compareTo(BudgetCategoryType o) {
+        return this.sortId.compareTo(o.sortId);
     }
 }

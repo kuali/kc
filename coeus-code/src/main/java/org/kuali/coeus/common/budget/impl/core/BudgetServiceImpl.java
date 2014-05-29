@@ -25,7 +25,6 @@ import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.budget.impl.version.BudgetVersionRule;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.coeus.common.budget.framework.query.QueryList;
@@ -62,10 +61,14 @@ import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.rules.rule.event.DocumentAuditEvent;
 import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -74,19 +77,42 @@ import java.util.*;
 /**
  * This class implements methods specified by BudgetDocumentService interface
  */
+@Component("budgetService")
 public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<T> {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetServiceImpl.class);
     
+    @Autowired
+    @Qualifier("documentService")
     private DocumentService documentService;
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+    @Autowired
+    @Qualifier("parameterService")
     private ParameterService parameterService;
+    @Autowired
+    @Qualifier("budgetRatesService")
     private BudgetRatesService<T> budgetRatesService;
+    @Autowired
+    @Qualifier("pessimisticLockService")
     private PessimisticLockService pessimisticLockService;
+    @Autowired
+    @Qualifier("budgetVersionRule")
     private BudgetVersionRule budgetVersionRule;
+    @Autowired
+    @Qualifier("budgetSummaryService")
     private BudgetSummaryService budgetSummaryService;
-    private FiscalYearMonthService fiscalYearMonthService;    
+    @Autowired
+    @Qualifier("fiscalYearMonthService")
+    private FiscalYearMonthService fiscalYearMonthService;
+    @Autowired
+    @Qualifier("kualiRuleService")
+    private KualiRuleService kualiRuleService;
 
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
     
     /**
      * Service method for adding a {@link BudgetVersionOverview} to a {@link ProposalDevelopmentDocument}. If a 
@@ -184,13 +210,13 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     
     @Override
     public void updateDocumentDescription(BudgetVersionOverview budgetVersion) {
-        LegacyDataAdapter boService = KcServiceLocator.getService(LegacyDataAdapter.class);
+        DataObjectService doService = getDataObjectService();
         Map<String, Object> keyMap = new HashMap<String, Object>();
         keyMap.put("documentNumber", budgetVersion.getDocumentNumber());
-        DocumentHeader docHeader = (DocumentHeader) boService.findByPrimaryKey(DocumentHeader.class, keyMap);
+        DocumentHeader docHeader = doService.find(DocumentHeader.class, keyMap);
         if (!docHeader.getDocumentDescription().equals(budgetVersion.getDocumentDescription())) {
             docHeader.setDocumentDescription(budgetVersion.getDocumentDescription());
-            boService.save(docHeader);
+            doService.save(docHeader);
         }
     }
     
@@ -542,9 +568,9 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
 
     @SuppressWarnings("unchecked")
     protected boolean applyAuditRuleForBudgetDocument(BudgetVersionOverview budgetVersion) throws Exception {
-        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
+        DocumentService documentService = getDocumentService();
         BudgetDocument<T> budgetDocument = (BudgetDocument<T>) documentService.getByDocumentHeaderId(budgetVersion.getDocumentNumber());
-        return KcServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(budgetDocument));
+        return getKualiRuleService().applyRules(new DocumentAuditEvent(budgetDocument));
 
     }
     
@@ -756,7 +782,6 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         boolean isAuthorized = true;
         if(budgetCategoryTypeCode.contains(Constants.COLON)){
             if (GlobalVariables.getUserSession() != null) {
-                // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be replaced by
                 // jquery/ajax in rice 2.0
                 String[] invalues = StringUtils.split(budgetCategoryTypeCode, Constants.COLON);
                 String docFormKey = invalues[1];
@@ -777,7 +802,6 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
                 }
 
             } else {
-                // TODO : it seemed that tomcat has this issue intermittently ?
                 LOG.info("dwr/ajax does not have session ");
             }
         }
@@ -795,7 +819,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     @Override
     public String populateBudgetPersonSalaryDetailsInPeriods(String budgetId, String personSequenceNumber, String personId ){
         String baseSalary = "";
-        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService boService = getBusinessObjectService();
         HashMap budgetPersonInPeriodsSalaryMap = new HashMap();
         budgetPersonInPeriodsSalaryMap.put("personSequenceNumber", personSequenceNumber);
         budgetPersonInPeriodsSalaryMap.put("budgetId", budgetId);
@@ -879,6 +903,22 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
 
     protected ParameterService getParameterService() {
         return parameterService;
+    }
+
+    protected KualiRuleService getKualiRuleService() {
+        return kualiRuleService;
+    }
+
+    public void setKualiRuleService(KualiRuleService kualiRuleService) {
+        this.kualiRuleService = kualiRuleService;
+    }
+
+    protected DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
 
 }
