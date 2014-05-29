@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__2394", [["Documents/assigntocommittee.htm", "right", "Assign to Committee"],["Documents/assigntocommitteeandschedule.htm", "right", "Assign to Committee and Schedule"]]);

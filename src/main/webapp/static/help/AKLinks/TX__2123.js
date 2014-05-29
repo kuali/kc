@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__2123", [["Documents/disclosures.htm", "right", "Disclosures"],["Documents/disclosures1.htm", "right", "Disclosures"]]);

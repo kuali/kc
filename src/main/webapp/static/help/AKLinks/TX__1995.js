@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__1995", [["Documents/budget.htm", "right", "Budget"],["Documents/gloss_budget1.htm", "d2hWnd_SecondaryPopup", "Budget"]]);
