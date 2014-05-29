@@ -13,21 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.framework.core;
+package org.kuali.coeus.common.budget.framework.category;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.budget.api.category.BudgetCategoryTypeContract;
+import org.kuali.coeus.budget.api.category.BudgetCategoryContract;
 
-/**
- * Class representation of the BudgetCategory Type Business Object
- */
-public class BudgetCategoryType extends KcPersistableBusinessObjectBase implements Comparable<BudgetCategoryType>, BudgetCategoryTypeContract {
+public class BudgetCategory extends KcPersistableBusinessObjectBase implements BudgetCategoryContract {
 
     private String code;
 
+    private String budgetCategoryTypeCode;
+
     private String description;
 
-    private Integer sortId;
+    private BudgetCategoryType budgetCategoryType;
 
     @Override
     public String getCode() {
@@ -36,6 +35,14 @@ public class BudgetCategoryType extends KcPersistableBusinessObjectBase implemen
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getBudgetCategoryTypeCode() {
+        return budgetCategoryTypeCode;
+    }
+
+    public void setBudgetCategoryTypeCode(String budgetCategoryTypeCode) {
+        this.budgetCategoryTypeCode = budgetCategoryTypeCode;
     }
 
     @Override
@@ -48,19 +55,11 @@ public class BudgetCategoryType extends KcPersistableBusinessObjectBase implemen
     }
 
     @Override
-    public Integer getSortId() {
-        return sortId;
+    public BudgetCategoryType getBudgetCategoryType() {
+        return budgetCategoryType;
     }
 
-    public void setSortId(Integer sortId) {
-        this.sortId = sortId;
-    }
-
-    /**
-     * This is for totals page 
-     */
-    @Override
-    public int compareTo(BudgetCategoryType o) {
-        return this.sortId.compareTo(o.sortId);
+    public void setBudgetCategoryType(BudgetCategoryType budgetCategoryType) {
+        this.budgetCategoryType = budgetCategoryType;
     }
 }

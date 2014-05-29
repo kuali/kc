@@ -21,7 +21,7 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetCategoryType;
+import org.kuali.coeus.common.budget.framework.category.BudgetCategoryType;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.printing.schema.BudgetSalaryDocument;

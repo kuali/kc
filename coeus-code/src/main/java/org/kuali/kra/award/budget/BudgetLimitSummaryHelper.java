@@ -17,7 +17,7 @@ package org.kuali.kra.award.budget;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetCategoryType;
+import org.kuali.coeus.common.budget.framework.category.BudgetCategoryType;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
 

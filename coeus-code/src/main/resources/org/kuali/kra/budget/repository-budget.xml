@@ -183,7 +183,7 @@
 		</reference-descriptor> 
 		
     </class-descriptor>
-	<class-descriptor class="org.kuali.coeus.common.budget.framework.core.BudgetCategory" table="BUDGET_CATEGORY">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.category.BudgetCategory" table="BUDGET_CATEGORY">
 		<field-descriptor name="code" column="BUDGET_CATEGORY_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="budgetCategoryTypeCode" column="CATEGORY_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
@@ -191,11 +191,11 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="budgetCategoryType" class-ref="org.kuali.coeus.common.budget.framework.core.BudgetCategoryType" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="budgetCategoryType" class-ref="org.kuali.coeus.common.budget.framework.category.BudgetCategoryType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetCategoryTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>
-	<class-descriptor class="org.kuali.coeus.common.budget.framework.core.BudgetCategoryType" table="BUDGET_CATEGORY_TYPE">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.category.BudgetCategoryType" table="BUDGET_CATEGORY_TYPE">
 		<field-descriptor name="code" column="BUDGET_CATEGORY_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER"/>
@@ -204,7 +204,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
-	<class-descriptor class="org.kuali.coeus.common.budget.framework.core.BudgetCategoryMap" table="BUDGET_CATEGORY_MAPS">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.category.BudgetCategoryMap" table="BUDGET_CATEGORY_MAPS">
 		<field-descriptor name="mappingName" column="MAPPING_NAME" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="targetCategoryCode" column="TARGET_CATEGORY_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="categoryType" column="CATEGORY_TYPE" jdbc-type="CHAR"/>
@@ -213,12 +213,12 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<collection-descriptor name="budgetCategoryMappings" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.core.BudgetCategoryMapping" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="budgetCategoryMappings" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.category.BudgetCategoryMapping" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="mappingName"/>
 			<inverse-foreignkey field-ref="targetCategoryCode"/>
 		</collection-descriptor>
 	</class-descriptor>
-	<class-descriptor class="org.kuali.coeus.common.budget.framework.core.BudgetCategoryMapping" table="BUDGET_CATEGORY_MAPPING">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.category.BudgetCategoryMapping" table="BUDGET_CATEGORY_MAPPING">
 		<field-descriptor name="budgetCategoryCode" column="COEUS_CATEGORY_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="mappingName" column="MAPPING_NAME" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="targetCategoryCode" column="TARGET_CATEGORY_CODE" jdbc-type="VARCHAR" primarykey="true"/>
@@ -226,7 +226,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="budgetCategory" class-ref="org.kuali.coeus.common.budget.framework.core.BudgetCategory" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="budgetCategory" class-ref="org.kuali.coeus.common.budget.framework.category.BudgetCategory" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetCategoryCode"/>
 		</reference-descriptor>
 	</class-descriptor>
@@ -312,7 +312,7 @@
 		<collection-descriptor name="budgetFormulatedCosts" proxy="true" element-class-ref="org.kuali.kra.budget.nonpersonnel.BudgetFormulatedCostDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="budgetLineItemId"/>
 		</collection-descriptor>
-		<reference-descriptor name="budgetCategory" class-ref="org.kuali.coeus.common.budget.framework.core.BudgetCategory" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="budgetCategory" class-ref="org.kuali.coeus.common.budget.framework.category.BudgetCategory" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetCategoryCode"/> 
 		</reference-descriptor>
 		<reference-descriptor name="costElementBO" class-ref="org.kuali.coeus.common.budget.framework.core.CostElement" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -612,7 +612,7 @@
 	          />
       		</query-customizer>
 		</collection-descriptor>
-		<reference-descriptor name="budgetCategory" class-ref="org.kuali.coeus.common.budget.framework.core.BudgetCategory" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="budgetCategory" class-ref="org.kuali.coeus.common.budget.framework.category.BudgetCategory" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetCategoryCode"/> 
 		</reference-descriptor>
 	</class-descriptor>	

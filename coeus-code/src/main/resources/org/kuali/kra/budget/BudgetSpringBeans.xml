@@ -80,7 +80,7 @@
 		</property>
 	</bean>
       			
-    <bean id="budgetService" class="org.kuali.coeus.common.budget.impl.core.BudgetServiceImpl">
+    <!--bean id="budgetService" class="org.kuali.coeus.common.budget.impl.core.BudgetServiceImpl">
 		<property name="documentService">
 			<ref bean="documentService"/>
 		</property>
@@ -105,7 +105,7 @@
 		<property name="fiscalYearMonthService">
 			<ref bean="fiscalYearMonthService"/>
 		</property>
-	</bean>
+	</bean-->
 	
     <bean id="pessimisticLockService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="pessimisticLockService" />
