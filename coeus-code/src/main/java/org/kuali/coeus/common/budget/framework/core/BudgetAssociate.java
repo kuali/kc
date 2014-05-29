@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.core;
 
-import org.kuali.coeus.budget.api.core.IdentifiableBudget;
+import org.kuali.coeus.common.budget.api.core.IdentifiableBudget;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
