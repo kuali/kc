@@ -224,21 +224,22 @@
 			<bean parent="Uif-ActionBar">
 				<property name="items">
 					<list>
-						<bean parent="Uif-ActionLink"
-							p:actionLabel="Audit Mode &lt;span style='color:#090'&gt;(on)&lt;/span&gt;"
-							p:order="10" />
+						<bean parent="Uif-ActionLink" p:methodToCall="validateData"
+                            p:actionLabel="Data Validation"
+                            p:iconClass="icon-ok" p:order="10"
+                            p:successCallback="retrieveComponent('PropDev-DataValidationSection');showLightboxComponent('PropDev-DataValidationSection');" />
 						<bean parent="Uif-ActionLink" p:methodToCall="noop"
-							p:actionLabel="Print" p:iconClass="icon-print" p:order="10" />
+							p:actionLabel="Print" p:iconClass="icon-print" p:order="20" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Copy"
-							p:iconClass="icon-copy" p:order="20" />
+							p:iconClass="icon-copy" p:order="30" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Medusa"
-							p:iconClass="icon-tasks" p:order="30" />
+							p:iconClass="icon-tasks" p:order="40" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Hierachy"
-							p:iconClass="icon-list-ol" p:order="40" />
+							p:iconClass="icon-list-ol" p:order="50" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Access"
-							p:iconClass="icon-lock" p:order="50" />
+							p:iconClass="icon-lock" p:order="60" />
                         <bean parent="Uif-ActionLink" p:actionLabel="Summary"
-                              p:iconClass="icon-eye" p:order="60" p:actionScript="showLightboxComponent('PropDev-SummarySection');" />
+                              p:iconClass="icon-eye" p:order="70" p:actionScript="showLightboxComponent('PropDev-SummarySection');" />
 					</list>
 				</property>
 			</bean>
