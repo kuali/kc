@@ -18,7 +18,7 @@ package org.kuali.coeus.common.budget.impl.summary;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
-import org.kuali.kra.budget.calculator.BudgetCalculationService;
+import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCommonService;
 import org.kuali.kra.budget.core.BudgetCommonServiceFactory;

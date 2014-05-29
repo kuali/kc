@@ -74,7 +74,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.budget.calculator.RateClassType;
+import org.kuali.coeus.common.budget.framework.calculator.RateClassType;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCategoryMapping;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;

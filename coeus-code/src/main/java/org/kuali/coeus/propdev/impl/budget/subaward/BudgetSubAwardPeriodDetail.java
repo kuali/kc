@@ -18,7 +18,7 @@ package org.kuali.coeus.propdev.impl.budget.subaward;
 import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardPeriodDetailContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.budget.core.BudgetAssociate;
+import org.kuali.coeus.common.budget.framework.core.BudgetAssociate;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 

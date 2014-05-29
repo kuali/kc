@@ -16,8 +16,6 @@
 package org.kuali.coeus.common.budget.framework.rate;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.common.budget.framework.rate.RateType;
-
 
 public class RateClassBaseExclusion extends KcPersistableBusinessObjectBase {
     

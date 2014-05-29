@@ -32,7 +32,7 @@ import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.budget.calculator.BudgetCalculationService;
+import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.*;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetDistributionService;
 import org.kuali.kra.budget.document.BudgetDocument;
