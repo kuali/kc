@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.budget.framework.rate;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.kuali.coeus.budget.api.core.IdentifiableBudget;
+import org.kuali.coeus.common.budget.api.core.IdentifiableBudget;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.coeus.common.budget.framework.calculator.RateClassType;
