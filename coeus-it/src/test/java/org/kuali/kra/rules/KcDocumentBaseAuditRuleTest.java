@@ -111,7 +111,7 @@ public class KcDocumentBaseAuditRuleTest extends KcIntegrationTestBase {
             assertEquals(1, auditCluster.getSize());
             //assertEquals("Custom Data: " + customAttribute.getGroupName(), auditCluster.getLabel());
             assertEquals(customAttribute.getGroupName(), auditCluster.getLabel());
-            assertEquals("Validation Errors", auditCluster.getCategory());
+            assertEquals("Error", auditCluster.getCategory());
             AuditError auditError = (AuditError) auditCluster.getAuditErrorList().get(0);
             int index = 0;
             for (CustomAttributeDocValue value : document.getCustomDataList()) {
