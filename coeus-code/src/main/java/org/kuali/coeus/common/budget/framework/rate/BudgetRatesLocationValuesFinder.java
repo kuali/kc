@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.lookup.keyvalue;
+package org.kuali.coeus.common.budget.framework.rate;
 
-import org.kuali.kra.award.infrastructure.AwardOnOffCampusFlagConstants;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -23,22 +23,15 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 
- * This is a values finder class used in AwardIndirectCostRate.xml for populating
- * On-Off CampusContractContractContract Flag Select box.
- */
-public class AwardOnOffCampusValuesFinder extends UifKeyValuesFinderBase {
+public class BudgetRatesLocationValuesFinder extends UifKeyValuesFinderBase {
 
     @Override
     public List<KeyValue> getKeyValues() {
-        List<KeyValue> KeyValues = new ArrayList<KeyValue>();
-
-        for (AwardOnOffCampusFlagConstants awardOnOffCampusFlagConstants : AwardOnOffCampusFlagConstants.values()) {
-            KeyValues.add(new ConcreteKeyValue(awardOnOffCampusFlagConstants.code(), awardOnOffCampusFlagConstants.description()));
-        }
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "View All"));
+        keyValues.add(new ConcreteKeyValue(Constants.ON_CAMUS_FLAG, "On CampusContractContract"));
+        keyValues.add(new ConcreteKeyValue(Constants.OFF_CAMUS_FLAG, "Off CampusContractContract"));
+        return keyValues;
         
-        return KeyValues; 
     }
-    
 }

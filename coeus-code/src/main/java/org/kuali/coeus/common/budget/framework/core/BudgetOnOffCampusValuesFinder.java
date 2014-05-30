@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.lookup.keyvalue;
+package org.kuali.coeus.common.budget.framework.core;
 
 import org.kuali.kra.infrastructure.OnOffCampusFlagConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
