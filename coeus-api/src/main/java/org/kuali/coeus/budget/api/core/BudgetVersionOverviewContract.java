@@ -1,4 +1,4 @@
-package org.kuali.coeus.budget.api.version;
+package org.kuali.coeus.budget.api.core;
 
 import org.kuali.coeus.budget.api.rate.RateClassContract;
 import org.kuali.coeus.sys.api.model.DocumentNumbered;
