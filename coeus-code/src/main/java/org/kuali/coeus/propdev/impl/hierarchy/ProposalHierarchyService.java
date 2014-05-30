@@ -18,7 +18,7 @@ package org.kuali.coeus.propdev.impl.hierarchy;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.personnel.HierarchyPersonnelSummary;
+import org.kuali.coeus.common.budget.framework.personnel.HierarchyPersonnelSummary;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.rice.kew.api.WorkflowDocument;

@@ -33,7 +33,7 @@ import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
-import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.coeus.common.budget.framework.personnel.PersonRolodex;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitNameInfo;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitable;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;

@@ -13,6 +13,7 @@ import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.TravelCosts
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.budget.framework.personnel.*;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -27,7 +28,6 @@ import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryMappi
 import org.kuali.coeus.common.budget.framework.nonpersonnel.AbstractBudgetRateAndBase;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.personnel.*;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;

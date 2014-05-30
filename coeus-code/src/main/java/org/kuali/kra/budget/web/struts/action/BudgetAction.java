@@ -22,6 +22,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.budget.framework.core.*;
+import org.kuali.coeus.common.budget.framework.personnel.*;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
@@ -41,7 +42,6 @@ import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.personnel.*;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.lock.BudgetLockService;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
@@ -469,7 +469,7 @@ public class BudgetAction extends BudgetActionBase {
                     }
                 }
             } else if (budgetPerson.getPersonId() != null) {
-                PersonRolodex person = budgetParent.getProposalEmployee(budgetPerson.getPersonId());  
+                PersonRolodex person = budgetParent.getProposalEmployee(budgetPerson.getPersonId());
                 ContactRole role = budgetParent.getProposalEmployeeRole(budgetPerson.getPersonId());
                 if (role != null) { 
                     roleDesc = person.getInvestigatorRoleDescription();

@@ -18,8 +18,8 @@ package org.kuali.coeus.common.framework.person.attr;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.budget.personnel.AppointmentType;
-import org.kuali.kra.budget.personnel.JobCode;
+import org.kuali.coeus.common.budget.framework.personnel.AppointmentType;
+import org.kuali.coeus.common.budget.framework.personnel.JobCode;
 
 import java.sql.Date;
 

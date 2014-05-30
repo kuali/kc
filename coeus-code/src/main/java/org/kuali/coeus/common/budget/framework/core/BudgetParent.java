@@ -18,7 +18,7 @@ package org.kuali.coeus.common.budget.framework.core;
 import org.kuali.coeus.common.framework.type.ActivityType;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.coeus.common.budget.framework.personnel.PersonRolodex;
 
 import java.sql.Date;
 import java.util.List;

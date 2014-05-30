@@ -52,7 +52,7 @@
 				<label><kul:multipleValueLookup boClassName="org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex"
 				                                lookedUpCollectionName="newBudgetRolodexes" /></label><br>
 				<label>To be named</label>
-				<label><kul:multipleValueLookup boClassName="org.kuali.kra.budget.personnel.TbnPerson" 
+				<label><kul:multipleValueLookup boClassName="org.kuali.coeus.common.budget.framework.personnel.TbnPerson"
 				                                lookedUpCollectionName="newTbnPersons" /></label>
 			</td>
 		</tr>
@@ -70,7 +70,7 @@
                                              attributeEntry="${attributes.jobCode}" 
                                              onblur="loadJobCodeTitle('${jobCodeFieldName}', '${jobTitleFieldName}');" />
                    <kra:section permission="modifyBudgets">
-                       <kul:lookup boClassName="org.kuali.kra.budget.personnel.JobCode" 
+                       <kul:lookup boClassName="org.kuali.coeus.common.budget.framework.personnel.JobCode"
                                    fieldConversions="jobCode:${budgetPersonProperty}[${status.index}].jobCode,jobTitle:${budgetPersonProperty}[${status.index}].jobTitle" 
                                    anchor="${tabKey}" />
                    </kra:section>

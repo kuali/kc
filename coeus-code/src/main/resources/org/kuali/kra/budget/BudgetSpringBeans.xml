@@ -59,7 +59,7 @@
         <property name="serviceName" value="dataObjectService" />
     </bean>
 
-	<bean id="budgetPersonService" class="org.kuali.kra.budget.personnel.BudgetPersonServiceImpl">
+	<bean id="budgetPersonService" class="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonServiceImpl">
 		<property name="parameterService">
 			<ref bean="parameterService"/>
 		</property>
@@ -71,7 +71,7 @@
 		</property>
 	</bean>
 	
-	<bean id="budgetPersonnelBudgetService" class="org.kuali.kra.budget.personnel.BudgetPersonnelBudgetServiceImpl">
+	<bean id="budgetPersonnelBudgetService" class="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelBudgetServiceImpl">
 		<property name="budgetPersonService">
 			<ref bean="budgetPersonService"/>
 		</property>
@@ -84,7 +84,7 @@
         <property name="serviceName" value="pessimisticLockService" />
     </bean>
 	
-	<bean id="jobCodeService" class="org.kuali.kra.budget.personnel.JobCodeServiceImpl">
+	<bean id="jobCodeService" class="org.kuali.coeus.common.budget.framework.personnel.JobCodeServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>

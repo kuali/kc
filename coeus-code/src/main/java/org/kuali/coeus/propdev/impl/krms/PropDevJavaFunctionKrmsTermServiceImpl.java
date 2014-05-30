@@ -41,7 +41,7 @@ import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.personnel.AppointmentType;
+import org.kuali.coeus.common.budget.framework.personnel.AppointmentType;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.service.impl.KcKrmsJavaFunctionTermServiceBase;

@@ -32,7 +32,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;

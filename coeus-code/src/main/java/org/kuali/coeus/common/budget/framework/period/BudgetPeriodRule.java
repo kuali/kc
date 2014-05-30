@@ -24,7 +24,7 @@ import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;

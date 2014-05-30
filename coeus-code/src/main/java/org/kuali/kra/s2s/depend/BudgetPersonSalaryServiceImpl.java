@@ -4,7 +4,7 @@ import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.budget.api.person.BudgetPersonSalaryService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.budget.personnel.BudgetPersonSalaryDetails;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonSalaryDetails;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

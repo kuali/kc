@@ -20,8 +20,8 @@ import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculatedAmount;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 /**
  * 

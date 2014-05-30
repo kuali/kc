@@ -17,6 +17,7 @@ package org.kuali.kra.s2s.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.budget.api.rate.RateClassContract;
+import org.kuali.coeus.common.budget.framework.personnel.*;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
@@ -30,8 +31,7 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetRateAndBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.personnel.*;
-
+import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;

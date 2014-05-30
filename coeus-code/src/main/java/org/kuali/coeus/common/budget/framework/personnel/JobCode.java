@@ -13,22 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.personnel;
+package org.kuali.coeus.common.budget.framework.personnel;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-/**
- * To Be Named person business object
- */
-public class TbnPerson extends KcPersistableBusinessObjectBase {
-
-    private String tbnId;
-
-    private String personName;
+public class JobCode extends KcPersistableBusinessObjectBase {
 
     private String jobCode;
 
-    private JobCode jobCodeReference;
+    private String jobTitle;
 
     public String getJobCode() {
         return jobCode;
@@ -38,27 +31,11 @@ public class TbnPerson extends KcPersistableBusinessObjectBase {
         this.jobCode = jobCode;
     }
 
-    public String getPersonName() {
-        return personName;
+    public String getJobTitle() {
+        return jobTitle;
     }
 
-    public void setPersonName(String personName) {
-        this.personName = personName;
-    }
-
-    public String getTbnId() {
-        return tbnId;
-    }
-
-    public void setTbnId(String tbnId) {
-        this.tbnId = tbnId;
-    }
-
-    public JobCode getJobCodeReference() {
-        return jobCodeReference;
-    }
-
-    public void setJobCodeReference(JobCode jobCodeReference) {
-        this.jobCodeReference = jobCodeReference;
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
     }
 }

@@ -57,7 +57,7 @@ import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.*;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.coeus.common.budget.framework.personnel.PersonRolodex;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsContextBo;

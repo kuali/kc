@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="JobCode" parent="JobCode-parentBean" />
   <bean id="JobCode-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.budget.personnel.JobCode" />
+    <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.personnel.JobCode" />
 		<property name="objectLabel" value="Job Code" />
     <property name="inquiryDefinition" >
       <ref bean="JobCode-inquiryDefinition" />
@@ -94,7 +94,7 @@
 
   <bean id="JobCode-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Job Code"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.budget.personnel.JobCode"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.personnel.JobCode"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -138,7 +138,7 @@
   </bean>
 
   <bean id="JobCode-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.budget.personnel.JobCode"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.personnel.JobCode"/>
     <property name="headerText" value="Job Code Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">
