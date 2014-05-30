@@ -19,6 +19,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.propdev.api.budget.editable.BudgetChangedDataContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.*;
@@ -27,7 +28,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "BUDGET_CHANGED_DATA")
 @IdClass(BudgetChangedData.BudgetChangedDataId.class)
-public class BudgetChangedData extends KcPersistableBusinessObjectBase {
+public class BudgetChangedData extends KcPersistableBusinessObjectBase implements BudgetChangedDataContract {
 
     @Id
     @Column(name = "CHANGE_NUMBER")
@@ -36,9 +37,6 @@ public class BudgetChangedData extends KcPersistableBusinessObjectBase {
     @Id
     @Column(name = "COLUMN_NAME")
     private String columnName;
-
-    @Transient
-    private String attributeName;
 
     @Id
     @Column(name = "PROPOSAL_NUMBER")
@@ -60,10 +58,10 @@ public class BudgetChangedData extends KcPersistableBusinessObjectBase {
     @JoinColumn(name = "COLUMN_NAME", referencedColumnName = "COLUMN_NAME", insertable = false, updatable = false)
     private BudgetColumnsToAlter editableColumn;
 
-    public BudgetChangedData() {
-        super();
-    }
+    @Transient
+    private String attributeName;
 
+    @Override
     public Integer getChangeNumber() {
         return changeNumber;
     }
@@ -72,6 +70,7 @@ public class BudgetChangedData extends KcPersistableBusinessObjectBase {
         this.changeNumber = changeNumber;
     }
 
+    @Override
     public String getColumnName() {
         return columnName;
     }
@@ -80,6 +79,7 @@ public class BudgetChangedData extends KcPersistableBusinessObjectBase {
         this.columnName = columnName;
     }
 
+    @Override
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -88,6 +88,7 @@ public class BudgetChangedData extends KcPersistableBusinessObjectBase {
         this.proposalNumber = proposalNumber;
     }
 
+    @Override
     public String getChangedValue() {
         return changedValue;
     }
@@ -96,6 +97,7 @@ public class BudgetChangedData extends KcPersistableBusinessObjectBase {
         this.changedValue = changedValue;
     }
 
+    @Override
     public String getComments() {
         return comments;
     }
@@ -104,6 +106,7 @@ public class BudgetChangedData extends KcPersistableBusinessObjectBase {
         this.comments = comments;
     }
 
+    @Override
     public String getDisplayValue() {
         return displayValue;
     }
@@ -112,6 +115,7 @@ public class BudgetChangedData extends KcPersistableBusinessObjectBase {
         this.displayValue = displayValue;
     }
 
+    @Override
     public String getOldDisplayValue() {
         return oldDisplayValue;
     }
@@ -120,6 +124,7 @@ public class BudgetChangedData extends KcPersistableBusinessObjectBase {
         this.oldDisplayValue = oldDisplayValue;
     }
 
+    @Override
     public BudgetColumnsToAlter getEditableColumn() {
         return editableColumn;
     }
