@@ -19,7 +19,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.framework.calculator.ValidCalcType;
-import org.kuali.kra.budget.nonpersonnel.ValidCalcTypeMaintenanceDocumentRule;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.ValidCalcTypeMaintenanceDocumentRule;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 import org.kuali.rice.core.api.util.RiceKeyConstants;

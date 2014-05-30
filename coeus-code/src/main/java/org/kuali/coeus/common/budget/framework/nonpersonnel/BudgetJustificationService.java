@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.nonpersonnel;
+package org.kuali.coeus.common.budget.framework.nonpersonnel;
 
 import org.kuali.kra.budget.BudgetException;
 import org.kuali.coeus.common.budget.framework.core.Budget;

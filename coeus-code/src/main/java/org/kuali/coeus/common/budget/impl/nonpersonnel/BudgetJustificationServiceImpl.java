@@ -13,23 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.nonpersonnel;
+package org.kuali.coeus.common.budget.impl.nonpersonnel;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationService;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationWrapper;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.BudgetException;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
+@Component("budgetJustificationService")
 public class BudgetJustificationServiceImpl implements BudgetJustificationService {
+
+    @Autowired
+    @Qualifier("businessObjectService")
+    private BusinessObjectService businessObjectService;
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 
     @Override
     public void consolidateExpenseJustifications(Budget budget, BudgetJustificationWrapper budgetJustificationWrapper) throws BudgetException {
@@ -60,7 +78,7 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
      */
     @SuppressWarnings("unchecked")
     protected Map<String, CostElement> loadCostElements() {
-        Collection<CostElement> costElements = (Collection<CostElement>) KcServiceLocator.getService(BusinessObjectService.class).findAll(CostElement.class);
+        Collection<CostElement> costElements = (Collection<CostElement>) getBusinessObjectService().findAll(CostElement.class);
         Map<String, CostElement> costElementsMappedToCostElementCode = new TreeMap<String, CostElement>(); 
         for(CostElement costElement: costElements) {
             costElementsMappedToCostElementCode.put(costElement.getCostElement(), costElement);
