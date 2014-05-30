@@ -25,8 +25,8 @@ import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType.Enum;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
+import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
@@ -86,7 +86,7 @@ public class PHS398CoverPageSupplementV1_0Generator extends
 		pdpi.setIsNewInvestigator(YesNoDataType.NO);
 
 		if (PI != null) {
-			ProposalYnq proposalYnq = getProposalYnQ(IS_NEW_INVESTIGATOR);
+			ProposalYnqContract proposalYnq = getProposalYnQ(IS_NEW_INVESTIGATOR);
 			if (proposalYnq != null) {
 				YesNoDataType.Enum answer = null;
 				if (proposalYnq.getAnswer() != null) {

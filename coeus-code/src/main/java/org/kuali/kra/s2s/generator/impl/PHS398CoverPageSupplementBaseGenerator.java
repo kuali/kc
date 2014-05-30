@@ -15,7 +15,8 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
+import org.kuali.coeus.common.api.ynq.YnqContract;
+import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -62,12 +63,12 @@ public abstract class PHS398CoverPageSupplementBaseGenerator extends
 	 *            to be checked.
 	 * @return proposalYnq corresponding to the question id.
 	 */
-	protected ProposalYnq getProposalYnQ(String questionId) {
-		ProposalYnq ynQ = null;
-		for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal()
+	protected ProposalYnqContract getProposalYnQ(String questionId) {
+		ProposalYnqContract ynQ = null;
+		for (ProposalYnqContract proposalYnq : pdDoc.getDevelopmentProposal()
 				.getProposalYnqs()) {
-            String question = proposalYnq.getQuestionId();
-			if (question != null && question.equals(questionId)) {
+            YnqContract question = proposalYnq.getYnq();
+			if (question != null && question.getQuestionId().equals(questionId)) {
 				ynQ = proposalYnq;
 			}
 		}

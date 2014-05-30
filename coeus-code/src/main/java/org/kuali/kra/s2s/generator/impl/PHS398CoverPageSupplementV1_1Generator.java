@@ -25,8 +25,8 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
+import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
@@ -97,7 +97,7 @@ public class PHS398CoverPageSupplementV1_1Generator extends
 		// Set default values for mandatory fields
 		pdpi.setIsNewInvestigator(YesNoDataType.N_NO);
 
-		ProposalYnq proposalYnq = getProposalYnQ(IS_NEW_INVESTIGATOR);
+		ProposalYnqContract proposalYnq = getProposalYnQ(IS_NEW_INVESTIGATOR);
 		if (PI != null) {
 
 			if (proposalYnq != null) {

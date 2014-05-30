@@ -19,6 +19,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.api.ynq.YnqExplanationContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.*;
@@ -27,7 +28,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "YNQ_EXPLANATION")
 @IdClass(YnqExplanation.YnqExplanationId.class)
-public class YnqExplanation extends KcPersistableBusinessObjectBase {
+public class YnqExplanation extends KcPersistableBusinessObjectBase implements YnqExplanationContract {
 
     @Id
     @Column(name = "EXPLANATION_TYPE")
@@ -45,10 +46,6 @@ public class YnqExplanation extends KcPersistableBusinessObjectBase {
     @JoinColumn(name = "EXPLANATION_TYPE", referencedColumnName = "EXPLANATION_TYPE", insertable = false, updatable = false)
     private YnqExplanationType ynqExplanationType;
 
-    public YnqExplanation() {
-        super();
-    }
-
     public String getExplanationType() {
         return explanationType;
     }
@@ -57,6 +54,7 @@ public class YnqExplanation extends KcPersistableBusinessObjectBase {
         this.explanationType = explanationType;
     }
 
+    @Override
     public String getQuestionId() {
         return questionId;
     }
@@ -65,6 +63,7 @@ public class YnqExplanation extends KcPersistableBusinessObjectBase {
         this.questionId = questionId;
     }
 
+    @Override
     public String getExplanation() {
         return explanation;
     }
@@ -73,6 +72,7 @@ public class YnqExplanation extends KcPersistableBusinessObjectBase {
         this.explanation = explanation;
     }
 
+    @Override
     public YnqExplanationType getYnqExplanationType() {
         return ynqExplanationType;
     }
