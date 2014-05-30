@@ -25,6 +25,7 @@ import org.kuali.kra.award.printing.service.AwardPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.subaward.bo.SubAwardAttachments;
 import org.kuali.kra.subaward.bo.SubAwardForms;
 import org.kuali.kra.subaward.bo.SubAwardPrintAgreement;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
@@ -36,6 +37,7 @@ import org.kuali.kra.subawardReporting.printing.print.SubAwardFDPModification;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -186,6 +188,21 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
             }
         }  
         SubAward subAward = (SubAward)subAwardDoc;
+        Map<String, byte[]> formAttachments = new LinkedHashMap<String, byte[]>();
+        if(subAward.getSubAwardAttachments() != null) {
+            for(SubAwardAttachments subAwardAttachments:subAward.getSubAwardAttachments()) {
+                if(subAwardAttachments.getSelectToPrint()) {
+                    if(isPdf(subAwardAttachments.getAttachmentContent())) {
+                   formAttachments.put(subAwardAttachments.getAttachmentId().toString(),
+                            subAwardAttachments.getAttachmentContent());   
+                    }
+                }
+            }
+        }
+        resetSelectedFormList(subAward.getSubAwardAttachments());
+        
+        
+        printable.setAttachments(formAttachments);
         printable.setPrintableBusinessObject(subAwardDoc);
         printable.setReportParameters(reportParameters);       
         source = getPrintingService().print(printable); 
@@ -198,6 +215,21 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
         }
         return source;   
     }
+    
+    /**
+     * 
+     * This method is to reset the selected form list.
+     * 
+     * @param subAwardFormList
+     *            list of subAwardFormList.
+     */
+    protected void resetsubAwardFormList(
+            List<SubAwardForms> subAwardFormList) {
+        for (SubAwardForms subAwardFormValues : subAwardFormList) {
+            subAwardFormValues.setSelectToPrint(false);
+        }
+    }
+    
     /**
      * This method gets the  form template from the given sponsor form table
      * 
@@ -206,7 +238,7 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
      *            list of sponsor form template list
      * @return list of sponsor form template
      */
-    public List<SubAwardForms> getSponsorFormTemplates(SubAwardPrintAgreement subAwardPrint) {
+    public List<SubAwardForms> getSponsorFormTemplates(SubAwardPrintAgreement subAwardPrint, List<SubAwardForms> subAwardFormList) {
         List<SubAwardForms> printFormTemplates = new ArrayList<SubAwardForms>();
         if(subAwardPrint.getFdpType().equals(SUB_AWARD_FDP_TEMPLATE)){
             printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP Template"));
@@ -226,36 +258,78 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
         if(subAwardPrint.getAttachment4()){
             printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ATT_4"));
         }
-        if(subAwardPrint.getAfosrSponsor()){
-            printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_AFOSR"));
-         }
-         if(subAwardPrint.getAmrmcSponsor()){
-             printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_AMRMC"));
-         }
-          if(subAwardPrint.getAroSponsor()){
-              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ARO"));
-          }
-          if(subAwardPrint.getDoeSponsor()){
-              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_DOE"));
-          }
-          if(subAwardPrint.getEpaSponsor()){
-              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_EPA"));
-          }
-          if(subAwardPrint.getNasaSponsor()){
-              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_NASA"));
-          }
-          if(subAwardPrint.getNihSponsor()){
-              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_NIH"));
-          }
-          if(subAwardPrint.getNsfSponsor()){
-              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_NSF"));
-          }
-          if(subAwardPrint.getOnrSponsor()){
-              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_ONR"));
-          }
-          if(subAwardPrint.getUsdaSponsor()){
-              printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_USDA"));
-          }
+        for(SubAwardForms subAwardFormValues : subAwardFormList){
+            if(subAwardFormValues.getSelectToPrint()){
+                String description = subAwardFormValues.getDescription();
+                String[] token = description.split("\\s");
+                printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP_"+token[0]));
+            }
+        }
+        
+        resetsubAwardFormList(subAwardFormList);
         return printFormTemplates;
     }
+    
+    protected void resetSelectedFormList(
+            List<SubAwardAttachments> subAwardFormList) {
+        for (SubAwardAttachments subAwardFormValues : subAwardFormList) {
+            subAwardFormValues.setSelectToPrint(false);
+        }
+    }
+    
+    public boolean isPdf(byte[] data) {
+        final int ATTRIBUTE_CHUNK_SIZE = 1200;// increased for ppt
+        final String PRE_HEXA = "0x";
+
+        boolean retValue = false;
+        String str[] = { "25", "50", "44", "46" };
+        byte byteCheckArr[] = new byte[4];
+        byte byteDataArr[] = new byte[4];
+
+        for (int byteIndex = 0; byteIndex < byteCheckArr.length; byteIndex++) {
+            byteCheckArr[byteIndex] = Integer.decode(PRE_HEXA + str[byteIndex])
+                    .byteValue();
+        }
+
+        int startPoint, endPoint;
+
+        startPoint = 0;
+        endPoint = (ATTRIBUTE_CHUNK_SIZE > (data.length / 2)) ? data.length / 2
+                : ATTRIBUTE_CHUNK_SIZE;
+
+        for (int forwardIndex = startPoint; forwardIndex < endPoint
+                - str.length; forwardIndex++) {
+            if (forwardIndex == 0) {
+                // Fill All Data
+                for (int fillIndex = 0; fillIndex < str.length; fillIndex++) {
+                    byteDataArr[fillIndex] = toUnsignedBytes(data[fillIndex]);
+                }
+            } else {
+                // Push Data, Fill last index
+                for (int fillIndex = 0; fillIndex < str.length - 1; fillIndex++) {
+                    byteDataArr[fillIndex] = byteDataArr[fillIndex + 1];
+                }
+                byteDataArr[str.length - 1] = toUnsignedBytes(data[str.length
+                        - 1 + forwardIndex]);
+            }
+
+            if (new String(byteCheckArr).equals(new String(byteDataArr))) {
+                retValue = true;
+            }
+        }
+
+        
+        return retValue;
+    }
+    public static byte toUnsignedBytes(int intVal) {
+        byte byteVal;
+        if (intVal > 127) {
+            int temp = intVal - 256;
+            byteVal = (byte) temp;
+        } else {
+            byteVal = (byte) intVal;
+        }
+        return byteVal;
+    }
+
 }

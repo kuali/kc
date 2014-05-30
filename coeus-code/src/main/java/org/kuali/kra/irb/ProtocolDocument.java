@@ -158,7 +158,7 @@ public class ProtocolDocument extends ProtocolDocumentBase {
         action.setActionDate(approvalActionDate);
         newProtocolDocument.setProtocolWorkflowType(ProtocolWorkflowType.APPROVED);
         newProtocolDocument.getProtocol().getProtocolActions().add(action);
-        if (currentProtocol.getProtocolStatusCode().equals(ProtocolStatus.EXPIRED) && this.isRenewal()) {
+        if (isProtocolExpiredAndForRenewal(currentProtocol) || isProtocolSuspendedAndForAmendmentOrRenewal(currentProtocol)) {
             newProtocolDocument.getProtocol().setProtocolStatusCode(ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
         }
         try {
@@ -191,6 +191,30 @@ public class ProtocolDocument extends ProtocolDocumentBase {
         getBusinessObjectService().save(this);
         
         mergeProtocolCorrespondenceAndNotification(newProtocolDocument, getLastApprovalAction().getProtocolActionType().getProtocolActionTypeCode());
+    }
+    
+    /**
+     * This method is to verify whether a protocol expired and we are renewing that protocol
+     * @param currentProtocol
+     * @return
+     */
+    private boolean isProtocolExpiredAndForRenewal(Protocol currentProtocol) {
+        return currentProtocol.getProtocolStatusCode().equals(ProtocolStatus.EXPIRED) && this.isRenewal();
+    }
+
+    /**
+     * This method is to verify whether original protocol is suspended and currently we are on amendment/renewal/amendment with renewal
+     * to un-suspend a protocol.
+     * @param currentProtocol
+     * @return
+     */
+    private boolean isProtocolSuspendedAndForAmendmentOrRenewal(Protocol currentProtocol) {
+        String currentProtocolStatus = currentProtocol.getProtocolStatusCode();
+        if((currentProtocolStatus.equals(ProtocolStatus.SUSPENDED_BY_DSMB) || currentProtocolStatus.equals(ProtocolStatus.SUSPENDED_BY_IRB) || 
+                currentProtocolStatus.equals(ProtocolStatus.SUSPENDED_BY_PI)) && (this.isRenewal() || this.isAmendment() || this.isRenewalWithAmendment())) {
+            return true;
+        }
+        return false;
     }
     
     protected void mergeProtocolCorrespondenceAndNotification(ProtocolDocument newProtocolDocument, String protocolActionType) {

@@ -58,5 +58,7 @@ public interface SubAwardPrintingService {
 	public AttachmentDataSource printSubAwardFDPReport(KcPersistableBusinessObjectBase subAwardDoc,SubAwardPrintType subAwardPrintType,
             Map<String, Object> reportParameters) throws PrintingException;
 	
-	List<SubAwardForms> getSponsorFormTemplates( SubAwardPrintAgreement subAwardPrintAgreement);
+	List<SubAwardForms> getSponsorFormTemplates( SubAwardPrintAgreement subAwardPrintAgreement, List<SubAwardForms> subAwardFormList);
+	public boolean isPdf(byte[] data);
+
 }

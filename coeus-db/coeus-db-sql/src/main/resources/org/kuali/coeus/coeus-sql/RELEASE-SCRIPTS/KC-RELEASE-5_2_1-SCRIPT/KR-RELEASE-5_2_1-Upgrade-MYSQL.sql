@@ -9,7 +9,12 @@
 \. ./../../current_mysql/5.2.1/dml/KR_DML_01_KRACOEUS-7150_B000.sql
 \. ./../../current_mysql/5.2.1/dml/KR_DML_01_KRACOEUS-7152_B000.sql
 \. ./../../current_mysql/5.2.1/dml/KR_DML_01_KRACOEUS-7174_B000.sql
+\. ./../../current_mysql/5.2.1/dml/KR_DML_01_KRACOEUS-7207_B000.sql
+\. ./../../current_mysql/5.2.1/dml/KR_DML_01_KRACOEUS-7211_B000.sql
+\. ./../../current_mysql/5.2.1/dml/KR_DML_01_KRACOEUS-7214_B000.sql
+\. ./../../current_mysql/5.2.1/dml/KR_DML_01_KRACOEUS-7230_B000.sql
 \. ./../../current_mysql/5.2.1/dml/KR_DML_02_KRACOEUS-6848_B000.sql
+\. ./../../current_mysql/5.2.1/dml/KR_DML_02_KRACOEUS-7444_B000.sql
 \. ./../../current_mysql/5.2.1/dml/KR_DML_03_KRACOEUS-6848_B000.sql
 commit;
 exit

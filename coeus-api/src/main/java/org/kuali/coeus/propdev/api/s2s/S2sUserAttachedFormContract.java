@@ -14,11 +14,10 @@ public interface S2sUserAttachedFormContract extends IdentifiableNumeric {
     
     String getFormFileName();
 
-    byte[] getFormFile();
-
-    String getXmlFile();
-    
     String getDescription();
 
     List<? extends S2sUserAttachedFormAttContract> getS2sUserAttachedFormAtts();
+
+	List<? extends S2sUserAttachedFormFileContract> getS2sUserAttachedFormFileList();
+
 }

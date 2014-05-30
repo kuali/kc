@@ -103,6 +103,12 @@ fi
 
 case "${dbtype}" in
 	"ORACLE")
+	
+		cd KC-RELEASE-0_0_0-SCRIPT
+        sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-0_0_0-Upgrade-ORACLE.sql
+        mv *.log ../LOGS/
+        cd ..
+        
         cd KC-RELEASE-3_0-CLEAN/oracle
 		
 		if [ "${version}" = "NEW" ]
@@ -342,6 +348,7 @@ case "${dbtype}" in
 	
 		cd KC-RELEASE-0_0_0-SCRIPT
         mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-RELEASE-0_0_0-Upgrade-MYSQL.sql > KC-RELEASE-0_0_0-Upgrade-MYSQL-Install.log 2>&1
+        mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < KR-RELEASE-0_0_0-Upgrade-MYSQL.sql > KR-RELEASE-0_0_0-Upgrade-MYSQL-Install.log 2>&1
         mv *.log ../LOGS/
         cd ..
 	

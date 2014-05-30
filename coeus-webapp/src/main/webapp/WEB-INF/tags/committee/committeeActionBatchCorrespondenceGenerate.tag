@@ -8,7 +8,7 @@
 
 <h3>
     <span class="subhead-left">Generate Batch Correspondence</span>
-    <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.correspondence.BatchCorrespondence" altText="help"/></span>
+    <span class="subhead-right"><kul:help parameterNamespace="KC-COMMITTEE" parameterDetailType="Document" parameterName="committeeGenerateBatchCorrespondenceHelpUrl" altText="help"/></span>
 </h3>
 
 <table cellpadding="0" cellspacing="0">
@@ -93,7 +93,7 @@
         <span class="subhead-left">
             Generated Batch Correspondence
         </span>
-        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.committee.bo.CommitteeBatchCorrespondence" altText="help" /></span>
+        <span class="subhead-right"><kul:help parameterNamespace="KC-COMMITTEE" parameterDetailType="Document" parameterName="committeeGeneratedBatchCorrespondenceHelpUrl" altText="help"/></span>
     </h3>
 
     <table cellpadding=0 cellspacing=0 border=0>
