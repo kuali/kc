@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
-import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularTotalDirectCostRule;
 
 import javax.servlet.http.HttpServletRequest;

@@ -41,7 +41,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.budget.BudgetException;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationService;
 import org.kuali.coeus.common.budget.impl.nonpersonnel.BudgetJustificationServiceImpl;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationWrapper;

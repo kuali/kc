@@ -19,7 +19,7 @@ import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
-import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.framework.custom.KcDocumentBaseAuditRule;

@@ -19,8 +19,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetDistributionAndIncomeC
 import org.kuali.coeus.common.budget.framework.distribution.AddBudgetCostShareEvent;
 import org.kuali.coeus.common.budget.framework.distribution.AddBudgetCostShareRule;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShareAllocationRule;
-import org.kuali.coeus.common.budget.impl.distribution.BudgetCostShareAllocationEvent;
-import org.kuali.kra.budget.document.BudgetDocumentContainer;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocumentContainer;
 import org.kuali.coeus.common.framework.costshare.CostShareRuleResearchDocumentBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
