@@ -28,13 +28,13 @@ import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
+import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyContract;
 import org.kuali.coeus.propdev.api.s2s.*;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
@@ -424,10 +424,9 @@ public class PrintServiceImpl implements PrintService {
 				}
     		}
 		} else if (StringUtils.equals(contentIds[0], "B")){
-		    for (ProposalPersonBiography biography : pdDoc.getDevelopmentProposal().getPropPersonBios()) {
+		    for (ProposalPersonBiographyContract biography : pdDoc.getDevelopmentProposal().getPropPersonBios()) {
 		        if (biography.getProposalPersonNumber().equals(Integer.valueOf(contentDesc[0]))
 		                && biography.getBiographyNumber().equals(Integer.valueOf(contentDesc[1]))) {
-		            biography.refreshReferenceObject("personnelAttachment");
 		            return biography.getPersonnelAttachment().getData();
 		        }
 		    }
@@ -447,10 +446,9 @@ public class PrintServiceImpl implements PrintService {
                 }
             }
         } else if (StringUtils.equals(contentIds[0], "B")){
-            for (ProposalPersonBiography biography : pdDoc.getDevelopmentProposal().getPropPersonBios()) {
+            for (ProposalPersonBiographyContract biography : pdDoc.getDevelopmentProposal().getPropPersonBios()) {
                 if (biography.getProposalPersonNumber().equals(Integer.valueOf(contentDesc[0]))
                         && biography.getBiographyNumber().equals(Integer.valueOf(contentDesc[1]))) {
-                    biography.refreshReferenceObject("personnelAttachment");
                     return biography.getPersonnelAttachment();
                 }
             }

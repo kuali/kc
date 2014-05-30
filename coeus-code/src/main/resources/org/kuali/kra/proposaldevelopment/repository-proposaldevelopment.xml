@@ -448,7 +448,7 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 
-        <reference-descriptor name="propPerDocType" class-ref="org.kuali.kra.bo.PropPerDocType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="propPerDocType" class-ref="org.kuali.coeus.propdev.impl.person.attachment.PropPerDocType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="documentTypeCode"/> 
         </reference-descriptor>
         
@@ -510,8 +510,8 @@
         </reference-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.bo.PropPerDocType" table="EPS_PROP_PER_DOC_TYPE">
-        <field-descriptor name="documentTypeCode" column="DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+    <class-descriptor class="org.kuali.coeus.propdev.impl.person.attachment.PropPerDocType" table="EPS_PROP_PER_DOC_TYPE">
+        <field-descriptor name="code" column="DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="updateTimestamp" column="update_timestamp" jdbc-type="TIMESTAMP"/>

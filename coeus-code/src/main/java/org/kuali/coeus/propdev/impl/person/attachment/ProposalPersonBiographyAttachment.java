@@ -23,6 +23,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
+import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyAttachmentContract;
 
 /**
  * 
@@ -32,7 +33,7 @@ import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 @Table(name = "EPS_PROP_PERSON_BIO_ATTACHMENT")
 @AttributeOverride(name = "data",  column = @Column(name = "BIO_DATA"))
 @IdClass(ProposalPersonBiographyAttachment.ProposalPersonBiographyAttachmentId.class)
-public class ProposalPersonBiographyAttachment extends AttachmentDataSource {
+public class ProposalPersonBiographyAttachment extends AttachmentDataSource implements ProposalPersonBiographyAttachmentContract {
 
     @Id
     @Column(name = "PROP_PERSON_NUMBER")
@@ -54,6 +55,7 @@ public class ProposalPersonBiographyAttachment extends AttachmentDataSource {
         super();
     }
 
+    @Override
     public Integer getProposalPersonNumber() {
         return proposalPersonNumber;
     }
@@ -62,6 +64,7 @@ public class ProposalPersonBiographyAttachment extends AttachmentDataSource {
         this.proposalPersonNumber = proposalPersonNumber;
     }
 
+    @Override
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -70,6 +73,7 @@ public class ProposalPersonBiographyAttachment extends AttachmentDataSource {
         this.proposalNumber = proposalNumber;
     }
 
+    @Override
     public Integer getBiographyNumber() {
         return biographyNumber;
     }
