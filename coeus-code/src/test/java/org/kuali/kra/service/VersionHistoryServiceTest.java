@@ -192,9 +192,9 @@ public class VersionHistoryServiceTest {
         public BusinessObject getReferenceIfExists(BusinessObject bo, String referenceName) { return null; }
         public PersistableBusinessObject linkAndSave(PersistableBusinessObject bo) { return bo;}
         public List<? extends PersistableBusinessObject> linkAndSave(List<? extends PersistableBusinessObject> businessObjects) { return businessObjects; }
-        public void linkUserFields(PersistableBusinessObject bo) { }
+        public void linkUserFields(Object bo) { }
         public void linkUserFields(List<PersistableBusinessObject> bos) { }
-        public PersistableBusinessObject retrieve(PersistableBusinessObject object) { return null; }
+        public PersistableBusinessObject retrieve(Object object) { return null; }
         
         public List<? extends PersistableBusinessObject> save(List<? extends PersistableBusinessObject> businessObjects) {
             for(Object bo: businessObjects) {
@@ -207,7 +207,7 @@ public class VersionHistoryServiceTest {
         
         public int countMatching(Class clazz, Map fieldValues) { return 0; }
         public int countMatching(Class clazz, Map positiveFieldValues, Map negativeFieldValues) { return 0;}
-        public void delete(PersistableBusinessObject bo) {}
+        public void delete(Object bo) {}
         public void delete(List<? extends PersistableBusinessObject> boList) { }
 
         public void deleteMatching(Class clazz, Map fieldValues) {}

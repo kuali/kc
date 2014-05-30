@@ -31,7 +31,7 @@ import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.exception.AuthorizationException;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -363,7 +363,7 @@ public abstract class MeetingActionBase extends KualiAction {
     }
 
 
-    protected boolean applyRules(KualiDocumentEvent event) {
+    protected boolean applyRules(DocumentEvent event) {
         return KcServiceLocator.getService(KualiRuleService.class).applyRules(event);
     }
     

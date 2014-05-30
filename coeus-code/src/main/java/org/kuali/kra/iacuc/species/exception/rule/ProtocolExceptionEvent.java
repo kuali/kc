@@ -16,12 +16,12 @@
 package org.kuali.kra.iacuc.species.exception.rule;
 
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 
 /**
  * This interface is hook to Kuali Event Notification
  */
-public interface ProtocolExceptionEvent extends KualiDocumentEvent {    
+public interface ProtocolExceptionEvent extends DocumentEvent {    
 
     public IacucProtocolException getProtocolException();
     

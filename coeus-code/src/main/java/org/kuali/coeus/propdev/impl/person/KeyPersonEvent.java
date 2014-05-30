@@ -17,7 +17,7 @@ package org.kuali.coeus.propdev.impl.person;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 
 
 /**
@@ -27,7 +27,7 @@ import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.2 $
  */
-public interface KeyPersonEvent extends KualiDocumentEvent {
+public interface KeyPersonEvent extends DocumentEvent {
     
     /**
      * @return <code>{@link ProposalPerson}</code> that triggered this event.

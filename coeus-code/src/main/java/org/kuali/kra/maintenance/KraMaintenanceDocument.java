@@ -21,7 +21,7 @@ import org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 
 import java.util.ArrayList;
 
@@ -46,7 +46,7 @@ public class KraMaintenanceDocument extends MaintenanceDocumentBase {
 
 
     @Override
-    public void prepareForSave(KualiDocumentEvent event) {
+    public void prepareForSave(DocumentEvent event) {
         super.prepareForSave(event);
 		populateDocumentAttachment();
 		

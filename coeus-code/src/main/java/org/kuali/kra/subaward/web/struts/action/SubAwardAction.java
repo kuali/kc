@@ -63,7 +63,7 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -552,7 +552,7 @@ public ActionForward blanketApprove(ActionMapping mapping,
    * @param event the event to process
    * @return true if success; false if there was a validation error
    */
-  protected final boolean applyRules(KualiDocumentEvent event) {
+  protected final boolean applyRules(DocumentEvent event) {
       return KcServiceLocator.getService(KualiRuleService.class).applyRules(event);
   }
 

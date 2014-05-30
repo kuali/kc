@@ -16,13 +16,13 @@
 package org.kuali.coeus.propdev.impl.person.attachment;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 /**
  * Event triggered when a personnel attachment state is modified on a 
  * <code>{@link ProposalDevelopmentDocument}</code>
  *
  */
-public interface PersonnelAttachmentEvent extends KualiDocumentEvent {
+public interface PersonnelAttachmentEvent extends DocumentEvent {
     
     /**
      * @return <code>{@link ProposalPersonBiography}</code> that triggered this event.

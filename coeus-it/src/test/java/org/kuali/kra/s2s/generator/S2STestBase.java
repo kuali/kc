@@ -67,7 +67,7 @@ public abstract class S2STestBase<T> extends KcIntegrationTestBase {
         ProposalDevelopmentDocument document = initializeApp();
 
         prepareData(document);
-        document = saveBO(document);
+        document = saveDocument(document);
         ArrayList<AuditError> errors = new ArrayList<AuditError>();
         generatorObject.setAuditErrors(errors);
         generatorObject.setAttachments(new ArrayList<AttachmentData>());
@@ -120,7 +120,7 @@ public abstract class S2STestBase<T> extends KcIntegrationTestBase {
         return developmentProposal;
     }
 
-    protected ProposalDevelopmentDocument saveBO(Document bo) throws Exception {
+    protected ProposalDevelopmentDocument saveDocument(Document bo) throws Exception {
         return (ProposalDevelopmentDocument) getService(DocumentService.class).saveDocument(bo);
     }
 
