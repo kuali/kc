@@ -124,5 +124,64 @@ public class ParameterServiceAdapter implements ParameterService {
     public Parameter updateParameter(Parameter parameter) {
         return null;
     }
+
+	@Override
+	public String getParameterValueAsFilteredString(Class<?> arg0, String arg1) {
+		return null;
+	}
+
+	@Override
+	public String getParameterValueAsFilteredString(String arg0, String arg1,
+			String arg2) {
+		return null;
+	}
+
+	@Override
+	public String getParameterValueAsFilteredString(Class<?> arg0, String arg1,
+			String arg2) {
+		return null;
+	}
+
+	@Override
+	public String getParameterValueAsFilteredString(String arg0, String arg1,
+			String arg2, String arg3) {
+		return null;
+	}
+
+	@Override
+	public Collection<String> getParameterValuesAsFilteredString(Class<?> arg0,
+			String arg1) {
+		return null;
+	}
+
+	@Override
+	public Collection<String> getParameterValuesAsFilteredString(String arg0,
+			String arg1, String arg2) {
+		return null;
+	}
+
+	@Override
+	public String getSubParameterValueAsFilteredString(Class<?> arg0,
+			String arg1, String arg2) {
+		return null;
+	}
+
+	@Override
+	public String getSubParameterValueAsFilteredString(String arg0,
+			String arg1, String arg2, String arg3) {
+		return null;
+	}
+
+	@Override
+	public Collection<String> getSubParameterValuesAsFilteredString(
+			Class<?> arg0, String arg1, String arg2) {
+		return null;
+	}
+
+	@Override
+	public Collection<String> getSubParameterValuesAsFilteredString(
+			String arg0, String arg1, String arg2, String arg3) {
+		return null;
+	}
     
 }
