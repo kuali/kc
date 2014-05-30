@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.budget.editable;
 
+import org.kuali.coeus.propdev.api.budget.editable.BudgetColumnsToAlterContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
@@ -22,7 +23,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "BUDGET_COLUMNS_TO_ALTER")
-public class BudgetColumnsToAlter extends KcPersistableBusinessObjectBase {
+public class BudgetColumnsToAlter extends KcPersistableBusinessObjectBase implements BudgetColumnsToAlterContract {
 
     @Id
     @Column(name = "COLUMN_NAME")
@@ -50,10 +51,7 @@ public class BudgetColumnsToAlter extends KcPersistableBusinessObjectBase {
     @Transient
     private String lookupPkReturn;
 
-    public BudgetColumnsToAlter() {
-        super();
-    }
-
+    @Override
     public String getColumnName() {
         return columnName;
     }
@@ -62,6 +60,7 @@ public class BudgetColumnsToAlter extends KcPersistableBusinessObjectBase {
         this.columnName = columnName;
     }
 
+    @Override
     public String getColumnLabel() {
         return columnLabel;
     }
@@ -70,6 +69,7 @@ public class BudgetColumnsToAlter extends KcPersistableBusinessObjectBase {
         this.columnLabel = columnLabel;
     }
 
+    @Override
     public Integer getDataLength() {
         return dataLength;
     }
@@ -78,6 +78,7 @@ public class BudgetColumnsToAlter extends KcPersistableBusinessObjectBase {
         this.dataLength = dataLength;
     }
 
+    @Override
     public String getDataType() {
         return dataType;
     }
@@ -86,6 +87,7 @@ public class BudgetColumnsToAlter extends KcPersistableBusinessObjectBase {
         this.dataType = dataType;
     }
 
+    @Override
     public boolean getHasLookup() {
         return hasLookup;
     }
@@ -94,6 +96,7 @@ public class BudgetColumnsToAlter extends KcPersistableBusinessObjectBase {
         this.hasLookup = hasLookup;
     }
 
+    @Override
     public String getLookupClass() {
         return lookupClass;
     }
@@ -102,6 +105,7 @@ public class BudgetColumnsToAlter extends KcPersistableBusinessObjectBase {
         this.lookupClass = lookupClass;
     }
 
+    @Override
     public String getLookupReturn() {
         return lookupReturn;
     }
