@@ -65,7 +65,9 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Fix It" p:actionScript=""/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Fix It" p:methodToCall="navigateToError"
+                      p:navigateToPageId="@{#line.navigateToPageId}" p:onClickScript="closeLightbox();"
+                      p:successCallback="jQuery(&quot;a[href='#@{#line.navigateToSectionId}_tab']&quot;).click()"/>
             </list>
         </property>
     </bean>
