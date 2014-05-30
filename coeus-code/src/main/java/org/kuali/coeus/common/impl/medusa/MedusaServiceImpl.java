@@ -155,7 +155,7 @@ public class MedusaServiceImpl implements MedusaService {
      */
     protected List<MedusaNode> getMedusaTree(String moduleName, Long moduleIdentifier, String preferredModule) {
         List<MedusaNode> nodes = new ArrayList<MedusaNode>();
-        HashMap<BusinessObject, List<BusinessObject>> graph = new HashMap<BusinessObject, List<BusinessObject>>();
+        HashMap<Object, List<Object>> graph = new HashMap<Object, List<Object>>();
         if (StringUtils.equals(moduleName, Constants.AWARD_MODULE)) {
             Award award = getAward(moduleIdentifier);
             addVertex(graph, award);
@@ -212,10 +212,10 @@ public class MedusaServiceImpl implements MedusaService {
      * @param bo
      * @return the bo that was already in the graph or was added to the graph
      */
-    protected BusinessObject addVertex(HashMap<BusinessObject, List<BusinessObject>> graph, BusinessObject bo) {
-        BusinessObject graphBo = findMatchingBo(graph.keySet(), bo);
+    protected Object addVertex(HashMap<Object, List<Object>> graph, Object bo) {
+    	Object graphBo = findMatchingBo(graph.keySet(), bo);
         if (graphBo == null) {
-            graph.put(bo, new ArrayList<BusinessObject>());
+            graph.put(bo, new ArrayList<Object>());
             return bo;
         } else {
             return graphBo;
@@ -231,9 +231,9 @@ public class MedusaServiceImpl implements MedusaService {
      * @param bo1
      * @param bo2
      */
-    protected void addEdge(HashMap<BusinessObject, List<BusinessObject>> graph, BusinessObject bo1, BusinessObject bo2) {
-        BusinessObject graphBo1 = addVertex(graph, bo1);
-        BusinessObject graphBo2 = addVertex(graph, bo2);
+    protected void addEdge(HashMap<Object, List<Object>> graph, Object bo1, Object bo2) {
+    	Object graphBo1 = addVertex(graph, bo1);
+    	Object graphBo2 = addVertex(graph, bo2);
         if (findMatchingBo(graph.get(graphBo1), graphBo2) == null) {
             graph.get(graphBo1).add(graphBo2);
         }
@@ -250,11 +250,11 @@ public class MedusaServiceImpl implements MedusaService {
      * @param preferedOrder an array of module names (ie. award, DP, IP)
      * @return
      */
-    protected List<MedusaNode> getParentNodes(HashMap<BusinessObject, List<BusinessObject>> graph, String[] preferedOrder) {
+    protected List<MedusaNode> getParentNodes(HashMap<Object, List<Object>> graph, String[] preferedOrder) {
         List<MedusaNode> parentNodes = new ArrayList<MedusaNode>();
         
         for (String prefType : preferedOrder) {
-            for (BusinessObject bo : graph.keySet()) {
+            for (Object bo : graph.keySet()) {
                 MedusaNode node = getNode(bo);
                 if (StringUtils.equals(node.getType(), prefType)) {
                     parentNodes.add(node);
@@ -279,9 +279,9 @@ public class MedusaServiceImpl implements MedusaService {
      * @param node
      * @param parentNodes
      */
-    protected void populateChildNodes(HashMap<BusinessObject, List<BusinessObject>> graph, MedusaNode node, List<MedusaNode> parentNodes) {
-        Collection<BusinessObject> links = graph.get(node.getBo());
-        for (BusinessObject bo : links) {
+    protected void populateChildNodes(HashMap<Object, List<Object>> graph, MedusaNode node, List<MedusaNode> parentNodes) {
+        Collection<Object> links = graph.get(node.getBo());
+        for (Object bo : links) {
             MedusaNode nextNode = getNode(bo);
             if (parentNodes == null || !isBoInList(parentNodes, bo)) {
                 node.getChildNodes().add(nextNode);
@@ -298,7 +298,7 @@ public class MedusaServiceImpl implements MedusaService {
      * @param bo
      * @return
      */
-    protected boolean isBoInList(List<MedusaNode> nodes, BusinessObject bo) {
+    protected boolean isBoInList(List<MedusaNode> nodes, Object bo) {
         for (MedusaNode node : nodes) {
             if (areBusinessObjectsEqual(node.getBo(), bo)) {
                 return true;
@@ -307,7 +307,7 @@ public class MedusaServiceImpl implements MedusaService {
         return false;
     }
     
-    protected void buildGraph(HashMap<BusinessObject, List<BusinessObject>> graph, SubAward subAward) {
+    protected void buildGraph(HashMap<Object, List<Object>> graph, SubAward subAward) {
         
         Collection<Award> awards = getAwards(subAward);
         for (Award award : awards) {
@@ -319,7 +319,7 @@ public class MedusaServiceImpl implements MedusaService {
         }        
     }
     
-    protected void buildGraph(HashMap<BusinessObject, List<BusinessObject>> graph, Protocol protocol) {
+    protected void buildGraph(HashMap<Object, List<Object>> graph, Protocol protocol) {
         for (ProtocolFundingSourceBase fundingSource : protocol.getProtocolFundingSources()) {
             if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.AWARD)) {
                 addToGraph(graph, getAward(fundingSource.getFundingSourceNumber()), protocol);
@@ -331,7 +331,7 @@ public class MedusaServiceImpl implements MedusaService {
         }       
     }
     
-    protected void buildGraph(HashMap<BusinessObject, List<BusinessObject>> graph, IacucProtocol protocol) {
+    protected void buildGraph(HashMap<Object, List<Object>> graph, IacucProtocol protocol) {
         for (org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase fundingSource : protocol.getProtocolFundingSources()) {
             if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.AWARD)) {
                 addToGraph(graph, getAward(fundingSource.getFundingSourceNumber()), protocol);
@@ -343,7 +343,7 @@ public class MedusaServiceImpl implements MedusaService {
         }       
     }    
     
-    protected void addSpecialReviewLinksToGraph(HashMap<BusinessObject, List<BusinessObject>> graph, List<? extends SpecialReview> specialReviews, BusinessObject existingBo) {
+    protected void addSpecialReviewLinksToGraph(HashMap<Object, List<Object>> graph, List<? extends SpecialReview> specialReviews, Object existingBo) {
         Map<String, Boolean> specialReviewLinking = getSpecialReviewLinkingEnabled(existingBo);
         for (SpecialReview specialReview : specialReviews) {
             if (StringUtils.equals(specialReview.getSpecialReviewTypeCode(), SpecialReviewType.HUMAN_SUBJECTS)
@@ -360,7 +360,7 @@ public class MedusaServiceImpl implements MedusaService {
         }
     }
     
-    protected Map<String, Boolean> getSpecialReviewLinkingEnabled(BusinessObject existingBo) {
+    protected Map<String, Boolean> getSpecialReviewLinkingEnabled(Object existingBo) {
         Map<String, Boolean> result = new HashMap<String, Boolean>();
         String irbLinkingName = null;
         String iacucLinkingName = null;
@@ -395,7 +395,7 @@ public class MedusaServiceImpl implements MedusaService {
      * @param graph
      * @param award
      */
-    protected void buildGraph(HashMap<BusinessObject, List<BusinessObject>> graph, Award award) {
+    protected void buildGraph(HashMap<Object, List<Object>> graph, Award award) {
         Collection<InstitutionalProposal> proposals = getProposals(award);
         for (InstitutionalProposal proposal : proposals) {
             addToGraph(graph, proposal, award);
@@ -417,7 +417,7 @@ public class MedusaServiceImpl implements MedusaService {
      * @param graph
      * @param proposal
      */
-    protected void buildGraph(HashMap<BusinessObject, List<BusinessObject>> graph, InstitutionalProposal proposal) {
+    protected void buildGraph(HashMap<Object, List<Object>> graph, InstitutionalProposal proposal) {
         Collection<Award> awards = getAwards(proposal);
         for (Award award : awards) {
             addToGraph(graph, award, proposal);
@@ -439,7 +439,7 @@ public class MedusaServiceImpl implements MedusaService {
      * @param graph
      * @param devProp
      */
-    protected void buildGraph(HashMap<BusinessObject, List<BusinessObject>> graph, DevelopmentProposal devProp) {
+    protected void buildGraph(HashMap<Object, List<Object>> graph, DevelopmentProposal devProp) {
         Collection<InstitutionalProposal> proposals = getProposals(devProp);
         for (InstitutionalProposal proposal : proposals) {
             addToGraph(graph, proposal, devProp);
@@ -447,14 +447,14 @@ public class MedusaServiceImpl implements MedusaService {
         addSpecialReviewLinksToGraph(graph, devProp.getPropSpecialReviews(), devProp);
     }
     
-    protected void buildGraph(HashMap<BusinessObject, List<BusinessObject>> graph, Negotiation negotiation) {
-        BusinessObject bo = (BusinessObject)getNegotiationService().getAssociatedObject(negotiation);
+    protected void buildGraph(HashMap<Object, List<Object>> graph, Negotiation negotiation) {
+    	Object bo = getNegotiationService().getAssociatedObject(negotiation);
         if (bo instanceof Award || bo instanceof InstitutionalProposal || bo instanceof SubAward) {
             addToGraph(graph, bo, negotiation);
         }
     }
     
-    protected void addToGraph(HashMap<BusinessObject, List<BusinessObject>> graph, BusinessObject newBo, BusinessObject existingBo) {
+    protected void addToGraph(HashMap<Object, List<Object>> graph, Object newBo, Object existingBo) {
         if (newBo == null || existingBo == null) {
             throw new RuntimeException("Inavlid or null Medusa link found");
         }
@@ -487,8 +487,8 @@ public class MedusaServiceImpl implements MedusaService {
      * @param bo
      * @return
      */
-    protected BusinessObject findMatchingBo(Collection<BusinessObject> boSet, BusinessObject bo) {
-        for (BusinessObject curBo : boSet) {
+    protected Object findMatchingBo(Collection<Object> boSet, Object bo) {
+        for (Object curBo : boSet) {
             if (areBusinessObjectsEqual(bo, curBo)) {
                 return curBo;
             }
@@ -505,7 +505,7 @@ public class MedusaServiceImpl implements MedusaService {
      * @param bo2
      * @return
      */
-    protected boolean areBusinessObjectsEqual(BusinessObject bo1, BusinessObject bo2) {
+    protected boolean areBusinessObjectsEqual(Object bo1, Object bo2) {
         if (bo1 instanceof DevelopmentProposal
                 && bo2 instanceof DevelopmentProposal) {
             if (ObjectUtils.equals(((DevelopmentProposal)bo1).getProposalNumber(),
@@ -682,7 +682,7 @@ public class MedusaServiceImpl implements MedusaService {
      * @param bo
      * @return
      */
-    protected MedusaNode getNode(BusinessObject bo) {
+    protected MedusaNode getNode(Object bo) {
         if (bo instanceof Award) {
             return getNode((Award)bo);
         } else if (bo instanceof InstitutionalProposal) {
@@ -769,8 +769,7 @@ public class MedusaServiceImpl implements MedusaService {
             Collection<ProposalAdminDetails> proposalAdminDetails = 
                 businessObjectService.findMatching(ProposalAdminDetails.class, getFieldValues("instProposalId", ip.getProposalId()));
             for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
-                proposalAdminDetail.refreshReferenceObject("developmentProposal");
-                devProposals.add(proposalAdminDetail.getDevelopmentProposal());
+            	devProposals.add(getDevelopmentProposal(proposalAdminDetail.getDevProposalNumber()));
             }
         }
         return devProposals;
