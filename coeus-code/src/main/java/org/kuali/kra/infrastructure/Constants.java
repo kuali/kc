@@ -157,6 +157,9 @@ public interface Constants {
     public static final String PROPOSAL_NUMBER = "proposalNumber";
     public static final String BUDGET_VERSION_PANEL_NAME = "Budget Versions";
 
+    public static final String PROPOSAL_DEVELOPMENT_CREATE_IACUC_PROTOCOL_ENABLED_PARAMETER = "ENABLE_CREATE_PROPOSAL_TO_IACUC_PROTOCOL";
+    public static final String PROPOSAL_DEVELOPMENT_CREATE_IRB_PROTOCOL_ENABLED_PARAMETER = "ENABLE_CREATE_PROPOSAL_TO_IRB_PROTOCOL";
+    
     // Key Personnel Mojo
     public static final String KEY_PERSONNEL_PAGE = "PropDev-PersonnelPage";
     public static final String PROPOSAL_PERSON_INVESTIGATOR = "investigator";

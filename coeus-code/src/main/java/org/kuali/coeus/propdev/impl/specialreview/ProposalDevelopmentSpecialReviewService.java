@@ -28,4 +28,8 @@ public interface ProposalDevelopmentSpecialReviewService {
     boolean canCreateIrbProtocol(ProposalDevelopmentDocument document);
 
     boolean canCreateIacucProtocol(ProposalDevelopmentDocument document);
+    
+    public boolean isCreateIrbProtocolEnabled();
+    
+    public boolean isCreateIacucProtocolEnabled();
 }
