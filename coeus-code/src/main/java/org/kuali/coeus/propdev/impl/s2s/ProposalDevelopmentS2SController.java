@@ -19,11 +19,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -43,20 +42,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 @Controller
 public class ProposalDevelopmentS2SController extends ProposalDevelopmentControllerBase {
-	
-	@Autowired
-	@Qualifier("s2SService")
-	private S2SService s2SService;
-	
-	protected S2SService getS2SService() {
-		return s2SService;
-	}
 
-	public void setS2SService(S2SService s2sService) {
-		s2SService = s2sService;
-	}
+    @Autowired
+    @Qualifier("s2sSubmissionService")
+    private S2sSubmissionService s2sSubmissionService;
 
-@RequestMapping(value = "/proposalDevelopment", params={"methodToCall=refresh", "refreshCaller=S2sOpportunity-LookupView"})
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=refresh", "refreshCaller=S2sOpportunity-LookupView"})
    public ModelAndView refresh(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)
            throws Exception {
        ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
@@ -73,7 +64,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
        List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
        try {
            if (s2sOpportunity != null && s2sOpportunity.getSchemaUrl() != null) {
-               s2sOppForms = getS2SService().parseOpportunityForms(s2sOpportunity);
+               s2sOppForms = getS2sSubmissionService().parseOpportunityForms(s2sOpportunity);
                if(s2sOppForms!=null){
                    for(S2sOppForms s2sOppForm:s2sOppForms){
                        if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
@@ -98,7 +89,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
                    proposal.setS2sOpportunity(new S2sOpportunity());
                }            
            }
-       }catch(S2SException ex){
+       }catch(S2sCommunicationException ex){
            if(ex.getErrorKey().equals(KeyConstants.ERROR_GRANTSGOV_NO_FORM_ELEMENT)) {
                ex.setMessage(s2sOpportunity.getOpportunityId());
            }
@@ -117,4 +108,12 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
        proposal.setS2sOpportunity(null);
        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
    }
+
+    public S2sSubmissionService getS2sSubmissionService() {
+        return s2sSubmissionService;
+    }
+
+    public void setS2sSubmissionService(S2sSubmissionService s2sSubmissionService) {
+        this.s2sSubmissionService = s2sSubmissionService;
+    }
 }

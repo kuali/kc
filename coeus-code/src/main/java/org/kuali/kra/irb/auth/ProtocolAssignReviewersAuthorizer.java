@@ -85,4 +85,12 @@ public class ProtocolAssignReviewersAuthorizer extends ProtocolAuthorizer {
         return isFullCommitteeReview(submission) && StringUtils.isBlank(submission.getScheduleId());
     }
     
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
+    
  }

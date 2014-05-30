@@ -32,6 +32,7 @@ import gov.grants.apply.system.universalCodesV20.CountryCodeDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
@@ -41,8 +42,8 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
@@ -69,7 +70,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 			.getLog(RRSF424_2_0_V2Generator.class);
 	private DepartmentalPerson departmentalPerson;
 	protected static final int RRSF424_Cover_Letter = 139;
-	
+    private List<? extends AnswerHeaderContract> answerHeaders;
 
 	/**
 	 * 
@@ -78,7 +79,8 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 	 * @return rrSF424Document {@link XmlObject} of type RRSF424Document.
 	 */
 	private RRSF42420Document getRRSF424() {
-	    RRSF42420Document rrSF424Document = RRSF42420Document.Factory
+        answerHeaders = getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber());
+        RRSF42420Document rrSF424Document = RRSF42420Document.Factory
 				.newInstance();
 		RRSF42420 rrsf42420 = RRSF42420.Factory.newInstance();
 		rrsf42420.setFormVersion(S2SConstants.FORMVERSION_2_0);
@@ -390,7 +392,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 
 	private void setOtherAgencySubmissionDetails(ApplicationType applicationType) {
 	    YesNoDataType.Enum answer = null;
-	    String answerdetails = getAnswer(ANSWER_128);
+	    String answerdetails = getAnswer(ANSWER_128, answerHeaders);
 	    if(answerdetails != null && !answerdetails.equals(NOT_ANSWERED)){
 	        answer =  answerdetails.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
 	        applicationType.setIsOtherAgencySubmission(answer);
@@ -883,5 +885,10 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
         departmentalPerson = s2sUtilService
                 .getDepartmentalPerson(proposalDevelopmentDocument);
         return getRRSF424();
+    }
+
+    @Override
+    protected List<? extends AnswerHeaderContract> getAnswerHeaders() {
+        return answerHeaders;
     }
 }

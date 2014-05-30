@@ -30,7 +30,7 @@
         </property>
         <property name="lockingKeys" >
             <list>
-                <value>categoryTypeCode</value>
+                <value>id</value>
             </list>
         </property>
         <property name="allowsRecordDeletion" value="true" />
@@ -47,10 +47,10 @@
         <property name="maintainableItems" >
             <list>
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="categoryTypeCode"
+                    p:name="id"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="categoryName"
+                    p:name="name"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="versionNumber" />

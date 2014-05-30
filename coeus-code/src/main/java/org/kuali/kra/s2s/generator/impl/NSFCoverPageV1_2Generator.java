@@ -236,7 +236,6 @@ public class NSFCoverPageV1_2Generator extends NSFCoverPageBaseGenerator {
 	 */
 	private AttachedFileDataType[] getAttachedFileDataTypes() {
 		List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
-		AttachedFileDataType attachedFileDataType = null;
 		for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeType().getCode() != null) {
@@ -244,7 +243,7 @@ public class NSFCoverPageV1_2Generator extends NSFCoverPageBaseGenerator {
 				if (narrativeTypeCode == PERSONAL_DATA
 						|| narrativeTypeCode == PROPRIETARY_INFORMATION 
 						|| narrativeTypeCode == SINGLE_COPY_DOCUMENT) {
-					attachedFileDataType = getAttachedFileType(narrative);
+                    AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
 					if(attachedFileDataType != null){
 						attachedFileDataTypeList.add(attachedFileDataType);
 					}

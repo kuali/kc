@@ -25,11 +25,11 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.question.AnswerContract;
+import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.kra.questionnaire.answer.Answer;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SUtilService;
@@ -57,7 +57,7 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 	private static final String PI_SUB_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION_AMOUNT = "111";
 	private static final String PI_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION = "110";
 	private static final String NOT_ANSWERED = "No";
-	List<AnswerHeader> answerHeaders ;
+	List<? extends AnswerHeaderContract> answerHeaders ;
 	
 	/**
 	 * 
@@ -139,19 +139,18 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 					.newInstance());
 		}
 
-		answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
-	    for (AnswerHeader answerHeader : answerHeaders){
-	        for (Answer answers : answerHeader.getAnswers()) {
-	            if (answers.getQuestion().getQuestionId() != null
-	                    && answers.getQuestion().getQuestionId().equals(
+		answerHeaders = getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber());
+	    for (AnswerHeaderContract answerHeader : answerHeaders){
+	        for (AnswerContract answers : answerHeader.getAnswers()) {
+                if (answers.getQuestionId() != null
+	                    && getQuestionAnswerService().findQuestionById(answers.getQuestionId()).getQuestionSeqId().equals(
 	                            PI_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION)){
-	                String answer = null;
 	                String explanation = null;
 	                if(answers.getAnswer() != null ){
 	                    if(!answers.getAnswer().equals(NOT_ANSWERED)){
-	                        answer = answers.getAnswer();
-	                        if ((getExplanation(PI_SUB_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION_AMOUNT)) != null ){
-	                            explanation = getExplanation(PI_SUB_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION_AMOUNT);  
+	                       String  answer = answers.getAnswer();
+	                        if ((getAnswer(PI_SUB_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION_AMOUNT, answerHeaders)) != null ){
+	                            explanation = getAnswer(PI_SUB_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION_AMOUNT, answerHeaders);
 	                        }
 	                        if (answer != null) {
 	                            if (answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
@@ -159,8 +158,9 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 	                                    .setUSGovernmentParticipation(YesNoDataType.Y_YES);
 	                                FederalAgencyDataType.Enum FederalAgencyEnum = getFederalAgency(explanation);
 	                                principalInvestigatorName.setFederalAgency(FederalAgencyEnum);
-	                                principalInvestigatorName
-	                                    .setFederalAgencyDollar(getAmount(PI_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION_AMOUNT));
+	                                final String amnt = getAnswer(PI_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION_AMOUNT, answerHeaders);
+                                    principalInvestigatorName
+	                                    .setFederalAgencyDollar(amnt != null ? new BigDecimal(Integer.valueOf(amnt)) : null);
 	                            } else if (answer
 	                                    .equals(S2SConstants.PROPOSAL_YNQ_ANSWER_N)) {
 	                                principalInvestigatorName
@@ -172,15 +172,14 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 	            }
 	        }    
 	    }    
-	    for (AnswerHeader answerHeader : answerHeaders){
-            for (Answer answers : answerHeader.getAnswers()) {
-                if (answers.getQuestion().getQuestionId() != null
-                        && answers.getQuestion().getQuestionId().equals(
+	    for (AnswerHeaderContract answerHeader : answerHeaders){
+            for (AnswerContract answers : answerHeader.getAnswers()) {
+                if (answers.getQuestionId() != null
+                        && getQuestionAnswerService().findQuestionById(answers.getQuestionId()).getQuestionSeqId().equals(
                                 PI_PROPOSAL_YNQ_INTERNATIONAL_PARTICIPATION)) {
-                    String answer = null;
                     if(answers.getAnswer() != null ){
                         if(!answers.getAnswer().equals(NOT_ANSWERED)){
-                            answer = answers.getAnswer();
+                            String answer = answers.getAnswer();
                                 if (answer != null) {
                                     if (answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
                                         principalInvestigatorName
@@ -205,10 +204,9 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 	private FederalAgencyDataType.Enum getFederalAgency(String explanation) {
 		FederalAgencyDataType.Enum FederalAgencyEnum = null;
 		if (explanation != null) {
-			int federalAgencyCode = 0;
 			try {
 				// Explanation should be Federal Agency Code ranging from
-				federalAgencyCode = Integer.parseInt(explanation);
+				int federalAgencyCode = Integer.parseInt(explanation);
 				if (federalAgencyCode > 99 && federalAgencyCode < 151) {
 					FederalAgencyEnum = FederalAgencyDataType.Enum
 							.forInt(federalAgencyCode - 100);
@@ -240,44 +238,5 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 		this.pdDoc = proposalDevelopmentDocument;
 		return getnasapIandAORSupplementalDataSheetDocument();
 	}
-	
-	/*
-     * This method will get the Answer for question id
-     */
-    private String getExplanation(String questionID) {
-        String answer = null;
-        if (answerHeaders != null && !answerHeaders.isEmpty()) {
-            for(AnswerHeader answerHeader : answerHeaders){
-                for (Answer answers : answerHeader.getAnswers()) {
-                    if (answers.getQuestion().getQuestionId() != null
-                            && questionID.equals(answers.getQuestion().getQuestionId())) {
-                        answer = answers.getAnswer();  
-                        break;                    
-                    }
-                }
-            }
-        }
-        return answer;
-    }
-    
-    /*
-     * This method will get the Amount for question id
-     */
-    private BigDecimal getAmount(String questionID) {
-        BigDecimal amount = null;
-        String answer;
-        for(AnswerHeader answerHeader : answerHeaders){
-            for (Answer answers : answerHeader.getAnswers()) {
-                if (answers.getQuestion().getQuestionId() != null
-                        && questionID.equals(answers.getQuestion().getQuestionId())) {
-                  answer = answers.getAnswer();
-                  if(answer!=null){
-                      amount=  new BigDecimal(Integer.parseInt(answer));   
-                  }
-                }
-            }
-        }
-        return amount;
-    }
 
 }

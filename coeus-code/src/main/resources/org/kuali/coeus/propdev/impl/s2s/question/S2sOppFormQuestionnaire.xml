@@ -74,7 +74,7 @@
   	 </bean>
   
 	  <bean id="S2sOppFormQuestionnaire-questionnaireId" parent="S2sOppFormQuestionnaire-questionnaireId-parentBean" />
-  	  <bean id="S2sOppFormQuestionnaire-questionnaireId-parentBean" abstract="true" parent="Questionnaire-questionnaireId">
+  	  <bean id="S2sOppFormQuestionnaire-questionnaireId-parentBean" abstract="true" parent="Questionnaire-id">
     	<property name="name" value="questionnaireId" />
     	<property name="label" value="Questionnaire Id" />
     	<property name="shortLabel" value="Questionnaire Id" />

@@ -18,7 +18,7 @@ package org.kuali.kra.award.budget.service.impl;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
-import org.kuali.kra.budget.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.service.impl.KcKrmsFactBuilderServiceHelper;

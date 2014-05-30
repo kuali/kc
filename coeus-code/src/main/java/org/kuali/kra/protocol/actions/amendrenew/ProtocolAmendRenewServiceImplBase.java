@@ -287,7 +287,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
         moduleQuestionnaireBean.setModuleSubItemCode("0");
         List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
         answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
-        if (!answerHeaders.isEmpty() && answerHeaders.get(0).getAnswerHeaderId() != null) {
+        if (!answerHeaders.isEmpty() && answerHeaders.get(0).getId() != null) {
             businessObjectService.delete(answerHeaders);
         }
     }

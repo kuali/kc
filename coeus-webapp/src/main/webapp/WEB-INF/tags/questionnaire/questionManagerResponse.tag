@@ -122,7 +122,7 @@
                 <div align="center">
                     <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.questionTypeId" 
                                               attributeEntry="${DataDictionary.Question.attributes.questionTypeId}"
-                                              readOnlyAlternateDisplay="${KualiForm.document.newMaintainableObject.businessObject.questionType.questionTypeName}"
+                                              readOnlyAlternateDisplay="${KualiForm.document.newMaintainableObject.businessObject.questionType.name}"
                                               onchange="javascript:showQuestionType();" />
                     <noscript>
                         <p>

@@ -67,17 +67,17 @@
         	<tr>
 				<c:set var="displayTop" value="false" />
       			<c:forEach var="procedureCategories" items="${KualiForm.iacucProtocolProceduresHelper.allProcedures}" varStatus="status">
-				<c:set var="categoryName" value="${KualiForm.iacucProtocolProceduresHelper.allProcedures[status.index].iacucProcedureCategory.procedureCategory}" />
+				<c:set var="name" value="${KualiForm.iacucProtocolProceduresHelper.allProcedures[status.index].iacucProcedureCategory.procedureCategory}" />
 				<c:set var="previousCategoryName" value="${KualiForm.iacucProtocolProceduresHelper.allProcedures[status.index-1].iacucProcedureCategory.procedureCategory}" />
       			<c:if test="${status.first}">
             		<td style="vertical-align:top;">
 					<c:set var="displayTop" value="true" />
             	</c:if>
-				<c:if test="${categoryName != previousCategoryName}">
+				<c:if test="${name != previousCategoryName}">
 					<c:if test="${!displayTop}">
 						</br>
 					</c:if>
-			    	<b><c:out value="${categoryName}" /></b>
+			    	<b><c:out value="${name}" /></b>
 			    	</br>
 				</c:if>
 				<c:set var="procedureCategory" value="category${status.index}Procedure" />
@@ -97,8 +97,8 @@
 						<c:set var="displayTop" value="true" />
 	            		<td style="vertical-align:top;">
 						<c:set var="nextCategoryName" value="${KualiForm.iacucProtocolProceduresHelper.allProcedures[status.index+1].iacucProcedureCategory.procedureCategory}" />
-						<c:if test="${categoryName == previousCategoryName && categoryName == nextCategoryName}">
-			    			<b><c:out value="${categoryName} (Continued)" /></b>
+						<c:if test="${name == previousCategoryName && name == nextCategoryName}">
+			    			<b><c:out value="${name} (Continued)" /></b>
 			    			</br>
 						</c:if>
 					</c:when>

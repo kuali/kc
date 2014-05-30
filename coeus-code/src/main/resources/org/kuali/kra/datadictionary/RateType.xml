@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="RateType" parent="RateType-parentBean" />
   <bean id="RateType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.budget.rates.RateType" />
+    <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.rate.RateType" />
 		<property name="objectLabel" value="Rate Type" />
     <property name="inquiryDefinition" >
       <ref bean="RateType-inquiryDefinition" />
@@ -104,7 +104,7 @@
 
   <bean id="RateType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Rate Type"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.budget.rates.RateType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.rate.RateType"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -151,7 +151,7 @@
   </bean>
 
   <bean id="RateType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.budget.rates.RateType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.rate.RateType"/>
     <property name="headerText" value="Rate Type Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

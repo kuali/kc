@@ -79,7 +79,7 @@ function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, 
 		    var idx = jQuery(this).attr("id").substring(5);
 	        newQuestionWindow = window.open(extractUrlBase() +
 	    	                               "/kr/directInquiry.do?businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=start" +
-	    	                               "&questionRefId=" + newqn[idx] , 
+	    	                               "&id=" + newqn[idx] ,
 	    	                               "_blank", "width=640, height=600, scrollbars=yes");
 	    });
 	    linkNewQ.appendTo(outerLinkSpan);
@@ -349,7 +349,7 @@ function clickAdd(curidx) {
 					Number(jQuery("#questionNumber").attr("value")) + 1);
 
 			idx = jQuery(listitem).attr("id").substring(8);		
-            var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
+            var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.id').attr("value")
                +"#f#" +qid +"#f#" +qnum +"#f#" +parentNum +"#f#" +"N" +"#f#" +"" +"#f#" +
                "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N"+"#f#" +null ;
             jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
@@ -882,9 +882,9 @@ function pasteChild(parentid, startnode) {
 	jQuery("#questionNumber").attr("value",
 			Number(jQuery("#questionNumber").attr("value")) + 1)
 
-	// questionnaireQuestionsId/questionnaireRefIdFk/questionRefIdFk/questionNumber/parentQuestionNumber		
+	// questionnaireQuestionsId/questionnaireId/questionId/questionNumber/parentQuestionNumber
     //conditionFlag/condition/conditionValue/questionSeqNumber/versionNumber/deleted
-	var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
+	var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.id').attr("value")
           +"#f#" +qid +"#f#" +qnum +"#f#" +parentNum +"#f#" +"N" +"#f#" +"" +"#f#" +
           "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" +"#f#" +null ;
 	jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
@@ -1377,7 +1377,7 @@ function returnQuestionList(questionList) {
 		jQuery("#questionNumber").attr("value",
 				Number(jQuery("#questionNumber").attr("value")) + 1)
 
-    var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
+    var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.id').attr("value")
           +"#f#" +field[0]+"#f#" +qnum +"#f#" +parentnum +"#f#" +"N" +"#f#" +"" +"#f#" +
           "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" +"#f#" +null ;
 	jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
@@ -1847,7 +1847,7 @@ function checkBeforeSubmit() {
 	//alert("in checkbeforesubmit")
 	//var numOfQuestions =  jQuery('#numOfQuestions').attr("value",i);
 	var qname = jQuery('#document\\.newMaintainableObject\\.businessObject\\.name').attr("value");
-	var qnaireid = jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value");
+	var qnaireid = jQuery('#document\\.newMaintainableObject\\.businessObject\\.id').attr("value");
 	var qid = jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireId').attr("value");
 	var docstatus = jQuery('#docStatus').attr("value");
 	var qdescription = jQuery('#document\\.newMaintainableObject\\.businessObject\\.description').attr("value");
@@ -1902,7 +1902,7 @@ function loadQuestion() {
     var rootidx;
     var pnum0 = 0;
     var nodecount = 0;
-    var refid = jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value");
+    var refid = jQuery('#document\\.newMaintainableObject\\.businessObject\\.id').attr("value");
     for ( var k = 0; k < qlen; k++) {
         var curq = questions[k];
         // alert("parent 0 "+k+"-"+curq+pnum0+"-"+nodecount+"-"+qlen);
@@ -2301,7 +2301,7 @@ function addForReplace(curidx) {
 			var value = splitq[7];
 			var ruleId =splitq[11];
 			idx = jQuery(listitem).attr("id").substring(8);		
-            var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
+            var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.id').attr("value")
                +"#f#" +qid +"#f#" +qnum +"#f#" +parentNum +"#f#" + "N" +"#f#" + cond +"#f#" +
                value +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" +"#f#" + ruleId;
             jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);

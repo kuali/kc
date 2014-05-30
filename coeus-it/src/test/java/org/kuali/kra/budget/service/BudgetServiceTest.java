@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
-import org.kuali.kra.budget.core.BudgetCommonService;
+import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;

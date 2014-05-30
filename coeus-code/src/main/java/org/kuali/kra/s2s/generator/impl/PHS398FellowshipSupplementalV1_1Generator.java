@@ -37,10 +37,9 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.question.*;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -48,11 +47,6 @@ import org.kuali.kra.s2s.CitizenshipTypes;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
-import org.kuali.kra.questionnaire.Questionnaire;
-import org.kuali.kra.questionnaire.QuestionnaireQuestion;
-import org.kuali.kra.questionnaire.answer.Answer;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -146,10 +140,10 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		Budget budget = Budget.Factory.newInstance();
 		Map<Integer, String> budgetMap = new HashMap<Integer, String>();
 
-		for (Answer questionnaireAnswer : s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(),getNamespace(),getFormName())) {
+		for (AnswerContract questionnaireAnswer : getPropDevQuestionAnswerService().getQuestionnaireAnswers(pdDoc.getDevelopmentProposal().getProposalNumber(), getNamespace(), getFormName())) {
 			String answer = questionnaireAnswer.getAnswer();
 			if (answer != null) {
-				switch (questionnaireAnswer.getQuestion().getQuestionIdAsInteger()) {
+				switch (Integer.valueOf(getQuestionAnswerService().findQuestionById(questionnaireAnswer.getQuestionId()).getQuestionSeqId())) {
 				case SENIOR_FELL:
 					budgetMap.put(SENIOR_FELL, answer);
 					break;
@@ -252,27 +246,27 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 			Map<Integer, String> budgetMap) {
 	    SupplementationFromOtherSources supplementationFromOtherSources=null;
 		if (budgetMap.get(OTHER_SUPP_SOURCE) != null
-				&& budgetMap.get(OTHER_SUPP_SOURCE).toString().equals(
+				&& budgetMap.get(OTHER_SUPP_SOURCE).equals(
 						S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
 	        supplementationFromOtherSources = SupplementationFromOtherSources.Factory.newInstance();
 			if (budgetMap.get(SUPP_SOURCE) != null) {
 				supplementationFromOtherSources.setSource(budgetMap.get(
-						SUPP_SOURCE).toString());
+						SUPP_SOURCE));
 			}
 			if (budgetMap.get(SUPP_FUNDING_AMT) != null) {
 				supplementationFromOtherSources.setAmount(new BigDecimal(
-						budgetMap.get(SUPP_FUNDING_AMT).toString()));
+						budgetMap.get(SUPP_FUNDING_AMT)));
 			}else{
 			    supplementationFromOtherSources.setAmount(null);
 			}
 			if (budgetMap.get(SUPP_MONTHS) != null) {
 				supplementationFromOtherSources
 						.setNumberOfMonths(new BigDecimal(budgetMap.get(
-								SUPP_MONTHS).toString()));
+								SUPP_MONTHS)));
 			}
 			if (budgetMap.get(SUPP_TYPE) != null) {
 				supplementationFromOtherSources.setType(budgetMap
-						.get(SUPP_TYPE).toString());
+						.get(SUPP_TYPE));
 			}
 		}
 		return supplementationFromOtherSources;
@@ -289,7 +283,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		if (budgetDoc == null) {
 			return federalStipendRequested;
 		}
-		org.kuali.kra.budget.core.Budget budget = budgetDoc.getBudget();
+		org.kuali.coeus.common.budget.framework.core.Budget budget = budgetDoc.getBudget();
 		ScaleTwoDecimal sumOfLineItemCost = ScaleTwoDecimal.ZERO;
 		ScaleTwoDecimal numberOfMonths = ScaleTwoDecimal.ZERO;
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
@@ -329,22 +323,22 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 			Map<Integer, String> budgetMap) {
 	    InstitutionalBaseSalary institutionalBaseSalary=null;
 		if (budgetMap.get(SENIOR_FELL) != null
-				&& budgetMap.get(SENIOR_FELL).toString().equals(
+				&& budgetMap.get(SENIOR_FELL).equals(
 						S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
 	        institutionalBaseSalary = InstitutionalBaseSalary.Factory.newInstance();
 			if (budgetMap.get(BASE_SALARY) != null) {
 				institutionalBaseSalary.setAmount(new BigDecimal(budgetMap.get(
-						BASE_SALARY).toString()));
+						BASE_SALARY)));
 			}else{
 			    institutionalBaseSalary.setAmount(null);
 			}
 			if (budgetMap.get(ACAD_PERIOD) != null) {
 				institutionalBaseSalary.setAcademicPeriod(AcademicPeriod.Enum
-						.forString(budgetMap.get(ACAD_PERIOD).toString()));
+						.forString(budgetMap.get(ACAD_PERIOD)));
 			}
 			if (budgetMap.get(SALARY_MONTH) != null) {
 				institutionalBaseSalary.setNumberOfMonths(new BigDecimal(
-						budgetMap.get(SALARY_MONTH).toString()));
+						budgetMap.get(SALARY_MONTH)));
 			}
 		}
 		return institutionalBaseSalary;
@@ -556,10 +550,10 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
         researchTrainingPlan.setHumanSubjectsIndefinite(YesNoDataType.N_NO);
         researchTrainingPlan.setClinicalTrial(YesNoDataType.N_NO);
         researchTrainingPlan.setPhase3ClinicalTrial(YesNoDataType.N_NO);
-		for (Answer questionnaireAnswer : s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), getNamespace(),getFormName())) {
+		for (AnswerContract questionnaireAnswer : getPropDevQuestionAnswerService().getQuestionnaireAnswers(pdDoc.getDevelopmentProposal().getProposalNumber(), getNamespace(), getFormName())) {
 			String answer = questionnaireAnswer.getAnswer();
 			if (answer != null) {
-				switch (questionnaireAnswer.getQuestionnaireQuestion().getQuestion().getQuestionIdAsInteger()) {
+				switch (Integer.valueOf(getQuestionAnswerService().findQuestionById(questionnaireAnswer.getQuestionId()).getQuestionSeqId())) {
 				case HUMAN:
 					researchTrainingPlan
 							.setHumanSubjectsIndefinite(answer
@@ -631,8 +625,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
         GraduateDegreeSought graduateDegreeSought = GraduateDegreeSought.Factory.newInstance();
         ProposalPerson principalInvestigator = s2sUtilService.getPrincipalInvestigator(pdDoc);
         ArrayList<String> cellLinesList = new ArrayList<String>(Arrays.asList(stemCells.getCellLinesArray())); 
-        QuestionnaireQuestion questionnaireQuestion = null;
-        AnswerHeader answerHeader = null;
 		for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal()
 				.getProposalPersons()) {
 			if (proposalPerson.isInvestigator()) {	
@@ -654,91 +646,95 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		if (principalInvestigator != null && principalInvestigator.getMobilePhoneNumber() != null) {
 			additionalInformation.setAlernatePhoneNumber(principalInvestigator.getMobilePhoneNumber());
 		}
-		for (Answer questionnaireAnswer : s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), getNamespace(),getFormName())) {
-			String answer = questionnaireAnswer.getAnswer();
-			questionnaireQuestion = questionnaireAnswer.getQuestionnaireQuestion();
-			answerHeader = (AnswerHeader) questionnaireAnswer.getAnswerHeader();
-		   if(questionnaireAnswer.getQuestionnaireQuestion().getQuestion().getQuestionIdAsInteger().equals(STEMCELLLINES)){  
-		       List<Answer> answerList = getAnswers(questionnaireQuestion,answerHeader);                      
-               for (Answer questionnaireAnswerBO: answerList) {
-                   String questionnaireSubAnswer =  questionnaireAnswerBO.getAnswer();
-                   if(questionnaireSubAnswer!=null){
-                     cellLinesList.add(questionnaireSubAnswer);
-                     stemCells.addCellLines(questionnaireSubAnswer);
-                   }
-               }
-           }
-               
-            if (answer != null) {
-                switch (questionnaireAnswer.getQuestionnaireQuestion().getQuestion().getQuestionIdAsInteger()) {
-                case BROAD_TRAINING:
-                case FIELD_TRAINING:
-                    if (!answer.toUpperCase().equals(SUB_CATEGORY_NOT_FOUND)) {
-                        FieldOfTrainingDataType.Enum e = FieldOfTrainingDataType.Enum.forString(answer);
-                        additionalInformation.setFieldOfTraining(e);
+        List<? extends AnswerHeaderContract> answerHeaders = getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber(), getNamespace(), getFormName());
+		for (AnswerHeaderContract answerHeader : answerHeaders) {
+            for (AnswerContract questionnaireAnswer : answerHeader.getAnswers()) {
+                String answer = questionnaireAnswer.getAnswer();
+
+                Integer seqId = Integer.valueOf(getQuestionAnswerService().findQuestionById(questionnaireAnswer.getQuestionId()).getQuestionSeqId());
+                if(seqId.equals(STEMCELLLINES)){
+                    List<AnswerContract> answerList = getAnswers(questionnaireAnswer.getQuestionnaireQuestionsId(),answerHeader);
+                    for (AnswerContract questionnaireAnswerBO: answerList) {
+                        String questionnaireSubAnswer =  questionnaireAnswerBO.getAnswer();
+                        if(questionnaireSubAnswer!=null){
+                            cellLinesList.add(questionnaireSubAnswer);
+                            stemCells.addCellLines(questionnaireSubAnswer);
+                        }
                     }
-                    break;
+                }
+
+                if (answer != null) {
+                    switch (seqId) {
+                        case BROAD_TRAINING:
+                case FIELD_TRAINING:
+                            if (!answer.toUpperCase().equals(SUB_CATEGORY_NOT_FOUND)) {
+                                FieldOfTrainingDataType.Enum e = FieldOfTrainingDataType.Enum.forString(answer);
+                                additionalInformation.setFieldOfTraining(e);
+                            }
+                            break;
                 case NRSA_SUPPORT:
-                    additionalInformation
-                            .setCurrentPriorNRSASupportIndicator(answer
-                                    .equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
-                                    : YesNoDataType.N_NO);
-                    break;
+                            additionalInformation
+                                    .setCurrentPriorNRSASupportIndicator(answer
+                                            .equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
+                                            : YesNoDataType.N_NO);
+                            break;
                 case SUBMITTED_DIFF_INST:
-                    additionalInformation
-                            .setChangeOfInstitution(answer
-                                    .equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
-                                    : YesNoDataType.N_NO);
-                    break;
+                            additionalInformation
+                                    .setChangeOfInstitution(answer
+                                            .equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
+                                            : YesNoDataType.N_NO);
+                            break;
                 case FORMER_INST:
-                    additionalInformation.setFormerInstitution(answer);
-                    break;
+                            additionalInformation.setFormerInstitution(answer);
+                            break;
                 case STEMCELLS:
-                    stemCells
-                            .setIsHumanStemCellsInvolved(answer
-                                    .equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
-                                    : YesNoDataType.N_NO);
-                    break;
+                            stemCells
+                                    .setIsHumanStemCellsInvolved(answer
+                                            .equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
+                                            : YesNoDataType.N_NO);
+                            break;
                 case CELLLINEIND:
-                    stemCells.setStemCellsIndicator(answer
+                            stemCells.setStemCellsIndicator(answer
                                     .equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
                                     : YesNoDataType.N_NO);
-                    break;
-            
+                            break;
+
                 case DEGREE_TYPE_SOUGHT:
-                    graduateDegreeSought.setDegreeType(DegreeTypeDataType.Enum.forString(answer));
-                    break;
+                            graduateDegreeSought.setDegreeType(DegreeTypeDataType.Enum.forString(answer));
+                            break;
                 case DEG_EXP_COMP_DATE:
-                    graduateDegreeSought.setDegreeDate(answer.substring(6, 10)
-                            + STRING_SEPRATOR + answer.substring(0, 2));
-                    break;
+                            graduateDegreeSought.setDegreeDate(answer.substring(6, 10)
+                                    + STRING_SEPRATOR + answer.substring(0, 2));
+                            break;
                 case OTHER_MASTERS:
-                    graduateDegreeSought.setOtherDegreeTypeText(answer);
-                    break;
+                            graduateDegreeSought.setOtherDegreeTypeText(answer);
+                            break;
                 case OTHER_DOCT:
-                    graduateDegreeSought.setOtherDegreeTypeText(answer);
-                    break;
+                            graduateDegreeSought.setOtherDegreeTypeText(answer);
+                            break;
                 case OTHER_DDOT:
-                    graduateDegreeSought.setDegreeType(DegreeTypeDataType.DDOT_OTHER_DOCTOR_OF_MEDICAL_DENTISTRY);
-                    graduateDegreeSought.setOtherDegreeTypeText(answer);
-                    break;
+                            graduateDegreeSought.setDegreeType(DegreeTypeDataType.DDOT_OTHER_DOCTOR_OF_MEDICAL_DENTISTRY);
+                            graduateDegreeSought.setOtherDegreeTypeText(answer);
+                            break;
                 case OTHER_VDOT:
-                    graduateDegreeSought.setDegreeType(DegreeTypeDataType.VDOT_OTHER_DOCTOR_OF_VETERINARY_MEDICINE);
-                    graduateDegreeSought.setOtherDegreeTypeText(answer);
-                    break;
+                            graduateDegreeSought.setDegreeType(DegreeTypeDataType.VDOT_OTHER_DOCTOR_OF_VETERINARY_MEDICINE);
+                            graduateDegreeSought.setOtherDegreeTypeText(answer);
+                            break;
                 case OTHER_DBOTH:
-                    graduateDegreeSought.setDegreeType(DegreeTypeDataType.DBOTH_OTHER_DOUBLE_DEGREE_PROGRAM);
-                    graduateDegreeSought.setOtherDegreeTypeText(answer);
-                    break;
+                            graduateDegreeSought.setDegreeType(DegreeTypeDataType.DBOTH_OTHER_DOUBLE_DEGREE_PROGRAM);
+                            graduateDegreeSought.setOtherDegreeTypeText(answer);
+                            break;
                 case OTHER_MDOT:
-                    graduateDegreeSought.setDegreeType(DegreeTypeDataType.MDOT_OTHER_DOCTOR_OF_MEDICINE);
-                    graduateDegreeSought.setOtherDegreeTypeText(answer);
-                    break;
-                default:
-                    break;
+                            graduateDegreeSought.setDegreeType(DegreeTypeDataType.MDOT_OTHER_DOCTOR_OF_MEDICINE);
+                            graduateDegreeSought.setOtherDegreeTypeText(answer);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }
+
         additionalInformation.setStemCells(stemCells);
         if(graduateDegreeSought.getDegreeType()!=null){
             additionalInformation.setGraduateDegreeSought(graduateDegreeSought);
@@ -811,19 +807,20 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	 */
 	private CurrentPriorNRSASupport[] getCurrentPriorNRSASupportArray() {
         List<CurrentPriorNRSASupport> currentPriorNRSASupportList = new ArrayList<CurrentPriorNRSASupport>();
-        List<Answer> answerList = new ArrayList<Answer>();
+        List<AnswerContract> answerList = new ArrayList<AnswerContract>();
         String nsrSupport = null;
         
-        List<AnswerHeader> answers = findQuestionnaireWithAnswers(pdDoc.getDevelopmentProposal());
-        for (AnswerHeader answerHeader : answers) {
-            Questionnaire questionnaire = answerHeader.getQuestionnaire();
-            List<QuestionnaireQuestion> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
-            for (QuestionnaireQuestion questionnaireQuestion : questionnaireQuestions) {
-                Answer answerBO = getAnswer(questionnaireQuestion,answerHeader);
+        List<? extends AnswerHeaderContract> answers = findQuestionnaireWithAnswers(pdDoc.getDevelopmentProposal());
+        for (AnswerHeaderContract answerHeader : answers) {
+            QuestionnaireContract questionnaire = questionAnswerService.findQuestionnaireById(answerHeader.getQuestionnaireId());
+            List<? extends QuestionnaireQuestionContract> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
+            for (QuestionnaireQuestionContract questionnaireQuestion : questionnaireQuestions) {
+                AnswerContract answerBO = getAnswer(questionnaireQuestion,answerHeader);
                 String answer = answerBO.getAnswer();
-                Question question = questionnaireQuestion.getQuestion();
-                int questionId = question.getQuestionIdAsInteger();
+                QuestionContract question = questionnaireQuestion.getQuestion();
+
                 if (answer != null) {
+                    Integer questionId = Integer.valueOf(question.getQuestionSeqId());
                 switch (questionId) {
                 case KIRST_START_KNOWN:
                 case KIRST_END_KNOWN:
@@ -857,7 +854,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
                                 break;
                             }
                         }
-                        Answer quesAnswer = new Answer();
+                        InternalAnswer quesAnswer = new InternalAnswer();
                         quesAnswer.setAnswer(answer);
                         quesAnswer.setQuestionNumber(questionId);
                         answerList.add(quesAnswer);
@@ -874,8 +871,8 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
             }
         }
     }
-        Collections.sort(answerList, new Comparator<Answer>() {
-            public int compare(Answer answer1, Answer answer2) {
+        Collections.sort(answerList, new Comparator<AnswerContract>() {
+            public int compare(AnswerContract answer1, AnswerContract answer2) {
                 return answer1.getQuestionNumber().compareTo(
                         answer2.getQuestionNumber());
             }
@@ -886,7 +883,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
         List<Calendar> startDateList = new ArrayList<Calendar>();
         List<Calendar> endDateList = new ArrayList<Calendar>();
         List<String> grantNumberList = new ArrayList<String>();
-        for (Answer questionnaireAnswer : answerList) {
+        for (AnswerContract questionnaireAnswer : answerList) {
             if (nsrSupport != null && nsrSupport.equals(NSR_SUPPORT_YES)) {
                 if (questionnaireAnswer.getQuestionNumber() == PRE_OR_POST) {
                     levelList.add(CurrentPriorNRSASupport.Level.Enum
@@ -928,10 +925,10 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
         }
         return currentPriorNRSASupportList.toArray(new CurrentPriorNRSASupport[currentPriorNRSASupportList.size()]);
     }
-	 private Answer getAnswer(QuestionnaireQuestion questionnaireQuestion, AnswerHeader answerHeader) {
-	        List<Answer> answers = answerHeader.getAnswers();
-	        for (Answer answer : answers) {
-	            if(answer.getQuestionnaireQuestionsIdFk().equals(questionnaireQuestion.getQuestionnaireQuestionsId())){
+	 private AnswerContract getAnswer(QuestionnaireQuestionContract questionnaireQuestion, AnswerHeaderContract answerHeader) {
+	        List<? extends AnswerContract> answers = answerHeader.getAnswers();
+	        for (AnswerContract answer : answers) {
+	            if(answer.getQuestionnaireQuestionsId().equals(questionnaireQuestion.getId())){
 	                return answer;
 	            }
 	        }
@@ -1089,25 +1086,95 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
     public String getNamespace() {
         return "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_1-V1.1";
     }
-    private List<Answer> getAnswers(QuestionnaireQuestion questionnaireQuestion, AnswerHeader answerHeader) {
-        List<Answer> returnAnswers = new ArrayList<Answer>();
+    private List<AnswerContract> getAnswers(Long questonnaireQuestionId, AnswerHeaderContract answerHeader) {
+        List<AnswerContract> returnAnswers = new ArrayList<AnswerContract>();
         if (answerHeader != null) {
-            List<Answer> answers = answerHeader.getAnswers();
-            //List<Answer> answerList = new ArrayList<Answer>();
-            for (Answer answer : answers) {
-                if (answer.getQuestionnaireQuestionsIdFk().equals(questionnaireQuestion.getQuestionnaireQuestionsId())) {               
+            List<? extends AnswerContract> answers = answerHeader.getAnswers();
+            for (AnswerContract answer : answers) {
+                if (answer.getQuestionnaireQuestionsId().equals(questonnaireQuestionId)) {
                     returnAnswers.add(answer);
                 }
             }
         }
         return returnAnswers;
     }
-    private List<AnswerHeader> findQuestionnaireWithAnswers(DevelopmentProposal developmentProposal) {
-        ProposalDevelopmentS2sQuestionnaireService questionnaireAnswerService = getProposalDevelopmentS2sQuestionnaireService();
-        return questionnaireAnswerService.getProposalAnswerHeaderForForm(developmentProposal, 
+    private List<? extends AnswerHeaderContract> findQuestionnaireWithAnswers(DevelopmentProposal developmentProposal) {
+        return getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(developmentProposal.getProposalNumber(),
                 "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_1-V1.1", "PHS_Fellowship_Supplemental_1_1-V1.1");
     }
-    private ProposalDevelopmentS2sQuestionnaireService getProposalDevelopmentS2sQuestionnaireService() {
-        return KcServiceLocator.getService(ProposalDevelopmentS2sQuestionnaireService.class);
+
+    private static class InternalAnswer implements AnswerContract {
+        private Long id;
+        private Integer questionNumber;
+        private Integer answerNumber;
+        private String answer;
+        private Long answerHeaderId;
+        private Long questionId;
+        private Long questionnaireQuestionsId;
+        private List<InternalAnswer> parentAnswers;
+
+        public Long getId() {
+            return id;
+        }
+
+        public Integer getQuestionNumber() {
+            return questionNumber;
+        }
+
+        public Integer getAnswerNumber() {
+            return answerNumber;
+        }
+
+        public String getAnswer() {
+            return answer;
+        }
+
+        public Long getAnswerHeaderId() {
+            return answerHeaderId;
+        }
+
+        public Long getQuestionId() {
+            return questionId;
+        }
+
+        public Long getQuestionnaireQuestionsId() {
+            return questionnaireQuestionsId;
+        }
+
+        public List<InternalAnswer> getParentAnswers() {
+            return parentAnswers;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public void setQuestionNumber(Integer questionNumber) {
+            this.questionNumber = questionNumber;
+        }
+
+        public void setAnswerNumber(Integer answerNumber) {
+            this.answerNumber = answerNumber;
+        }
+
+        public void setAnswer(String answer) {
+            this.answer = answer;
+        }
+
+        public void setAnswerHeaderId(Long answerHeaderId) {
+            this.answerHeaderId = answerHeaderId;
+        }
+
+        public void setQuestionId(Long questionId) {
+            this.questionId = questionId;
+        }
+
+        public void setQuestionnaireQuestionsId(Long questionnaireQuestionsId) {
+            this.questionnaireQuestionsId = questionnaireQuestionsId;
+        }
+
+        public void setParentAnswers(List<InternalAnswer> parentAnswers) {
+            this.parentAnswers = parentAnswers;
+        }
     }
 }

@@ -20,10 +20,16 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.budget.framework.distribution.AddBudgetCostShareEvent;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
+import org.kuali.coeus.common.budget.framework.income.AddBudgetProjectIncomeEvent;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetDistributionService;
+import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
+import org.kuali.coeus.common.budget.impl.distribution.AddBudgetUnrecoveredFandAEvent;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.distributionincome.*;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
@@ -38,12 +44,12 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 public class BudgetDistributionAndIncomeAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetDistributionAndIncomeAction.class);
    
-    private BudgetDistributionAndIncomeService bdiService;
+    private BudgetDistributionService bdiService;
     
 
     public BudgetDistributionAndIncomeAction() {
         super();
-        bdiService = KcServiceLocator.getService(BudgetDistributionAndIncomeService.class);
+        bdiService = KcServiceLocator.getService(BudgetDistributionService.class);
     }
 
     /**
@@ -240,7 +246,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @return
      */
     private AddBudgetCostShareEvent createAddRuleEvent(BudgetForm budgetForm, BudgetCostShare budgetCostShare) {
-        return new AddBudgetCostShareEvent("Add BudgetCostShare Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), 
+        return new AddBudgetCostShareEvent("Add BudgetCostShare Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(),
                 budgetCostShare, budgetForm.getBudgetDocument());
     }
     

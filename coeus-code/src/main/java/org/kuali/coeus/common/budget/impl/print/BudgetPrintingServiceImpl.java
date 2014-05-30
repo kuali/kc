@@ -22,7 +22,7 @@ import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.budget.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.budget.framework.print.BudgetPrintService;

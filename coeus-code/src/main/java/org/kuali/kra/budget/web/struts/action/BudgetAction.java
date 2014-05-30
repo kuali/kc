@@ -21,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.budget.framework.core.*;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
@@ -32,9 +33,8 @@ import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.budget.calculator.BudgetCalculationService;
-import org.kuali.kra.budget.core.*;
-import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService;
+import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetDistributionService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder;
@@ -42,11 +42,11 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.budget.personnel.*;
-import org.kuali.kra.budget.rates.BudgetRatesService;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.lock.BudgetLockService;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -440,8 +440,8 @@ public class BudgetAction extends BudgetActionBase {
     }
    
     public ActionForward distributionAndIncome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        BudgetDistributionAndIncomeService budgetDistributionAndIncomeService = KcServiceLocator.getService(BudgetDistributionAndIncomeService.class);
-        budgetDistributionAndIncomeService.initializeCollectionDefaults(((BudgetForm) form).getBudgetDocument().getBudget());
+        BudgetDistributionService budgetDistributionService = KcServiceLocator.getService(BudgetDistributionService.class);
+        budgetDistributionService.initializeCollectionDefaults(((BudgetForm) form).getBudgetDocument().getBudget());
         
         return mapping.findForward(Constants.BUDGET_DIST_AND_INCOME_PAGE);
     }

@@ -15,9 +15,8 @@
  */
 package org.kuali.coeus.propdev.impl.budget.modular;
 
-import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.budget.core.BudgetAssociate;
+import org.kuali.coeus.common.budget.framework.core.BudgetAssociate;
 
 import java.util.ArrayList;
 import java.util.List;

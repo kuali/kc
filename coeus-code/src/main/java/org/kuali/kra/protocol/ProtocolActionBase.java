@@ -532,7 +532,7 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
         // for release 3 : if questionnaire questions has answer, then print answer. 
         reportParameters.put("questionnaireId",
                 answerHeader.getQuestionnaire()
-                        .getQuestionnaireIdAsInteger());
+                        .getQuestionnaireSeqIdAsInteger());
         reportParameters.put("template",
                 answerHeader.getQuestionnaire()
                         .getTemplate());

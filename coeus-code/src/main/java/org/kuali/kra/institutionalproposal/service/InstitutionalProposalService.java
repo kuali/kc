@@ -16,7 +16,7 @@
 package org.kuali.kra.institutionalproposal.service;
 
 import org.kuali.coeus.common.framework.version.VersionException;
-import org.kuali.kra.budget.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;

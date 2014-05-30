@@ -26,14 +26,13 @@ import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
-import org.kuali.kra.questionnaire.answer.Answer;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -55,7 +54,7 @@ import java.util.TreeMap;
 public class PHS398ChecklistV1_0Generator extends PHS398ChecklistBaseGenerator {
 	private static final Log LOG = LogFactory
 			.getLog(PHS398ChecklistV1_0Generator.class);
-	List<AnswerHeader> answerHeaders;
+	List<? extends AnswerHeaderContract> answerHeaders;
 
 	/**
 	 * 
@@ -76,7 +75,7 @@ public class PHS398ChecklistV1_0Generator extends PHS398ChecklistBaseGenerator {
 		PHS398Checklist phsChecklist = PHS398Checklist.Factory.newInstance();
 		phsChecklist.setFormVersion(S2SConstants.FORMVERSION_1_0);
 		ApplicationType.Enum appEnum = null;
-		answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
+		answerHeaders = getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber());
 		if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null
 				&& Integer.parseInt(pdDoc.getDevelopmentProposal()
 						.getProposalTypeCode()) < PROPOSAL_TYPE_CODE_6) {
@@ -92,8 +91,8 @@ public class PHS398ChecklistV1_0Generator extends PHS398ChecklistBaseGenerator {
 		if (federalId != null) {
 			phsChecklist.setFederalID(federalId);
 		}
-		String pIChange = getAnswer(PROPOSAL_YNQ_QUESTION_114);
-        String pIChangeExplanation = getAnswer(PROPOSAL_YNQ_QUESTION_115);
+		String pIChange = getAnswer(PROPOSAL_YNQ_QUESTION_114,answerHeaders);
+        String pIChangeExplanation = getAnswer(PROPOSAL_YNQ_QUESTION_115,answerHeaders);
         if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(pIChange)) {
             phsChecklist.setIsChangeOfPDPI(YesNoDataType.YES);
             if (pIChangeExplanation != null) {
@@ -111,8 +110,8 @@ public class PHS398ChecklistV1_0Generator extends PHS398ChecklistBaseGenerator {
             phsChecklist.setIsChangeOfPDPI(YesNoDataType.NO);
         }
 		
-        String institutionChange = getAnswer(PROPOSAL_YNQ_QUESTION_116);
-        String institutionChangeExplanation = getAnswer(PROPOSAL_YNQ_QUESTION_117);
+        String institutionChange = getAnswer(PROPOSAL_YNQ_QUESTION_116,answerHeaders);
+        String institutionChangeExplanation = getAnswer(PROPOSAL_YNQ_QUESTION_117,answerHeaders);
         
         if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(institutionChange)) {
             phsChecklist.setIsChangeOfInstitution(YesNoDataType.YES);
@@ -123,14 +122,14 @@ public class PHS398ChecklistV1_0Generator extends PHS398ChecklistBaseGenerator {
             phsChecklist.setIsChangeOfInstitution(YesNoDataType.NO);
         }
 		
-        String renewalApplication = getAnswer(PROPOSAL_YNQ_QUESTION_118);
+        String renewalApplication = getAnswer(PROPOSAL_YNQ_QUESTION_118,answerHeaders);
         boolean hasSubQuestionExplanation = false;
         if (renewalApplication != null && !renewalApplication.equals(NOT_ANSWERED)) {
             if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(renewalApplication)) {
-                String inventionsConceived = getAnswer(PROPOSAL_YNQ_QUESTION_119);
+                String inventionsConceived = getAnswer(PROPOSAL_YNQ_QUESTION_119,answerHeaders);
                 if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(inventionsConceived)) {
                     phsChecklist.setIsInventionsAndPatents(YesNoDataType.YES);
-                    String reportedPreviously = getAnswer(PROPOSAL_YNQ_QUESTION_120);
+                    String reportedPreviously = getAnswer(PROPOSAL_YNQ_QUESTION_120,answerHeaders);
                     if (reportedPreviously != null && !reportedPreviously.equals(NOT_ANSWERED)) {
                         if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(reportedPreviously)) {
                             phsChecklist.setIsPreviouslyReported(YesNoDataType.YES);
@@ -182,37 +181,8 @@ public class PHS398ChecklistV1_0Generator extends PHS398ChecklistBaseGenerator {
 		phsChecklistDocument.setPHS398Checklist(phsChecklist);
 		return phsChecklistDocument;
 	}
-	
-	/**
-     * 
-     * This method is used to get the answer for a particular Questionnaire question
-     * question based on the question id.
-     * 
-     * @param questionId
-     *            the question id to be passed.              
-     * @return returns the answer for a particular
-     *         question based on the question id passed.
-     */
-    private String getAnswer(String questionId) {
-        String answer = null;
-        if (answerHeaders != null && !answerHeaders.isEmpty()) {
-            for (AnswerHeader answerHeader : answerHeaders) {
-                List<Answer> answerDetails = answerHeader.getAnswers();
-                for (Answer answers : answerDetails) {
-                    if (questionId.equals(answers.getQuestion().getQuestionId())) {
-                        answer = answers.getAnswer();
-                        return answer;
-                    }
-                }
-            }
-        }
-        return answer;        
-    }
 
-	/**
-	 * @param phsChecklist
-	 * @param budget
-	 */
+
 	private void setProjectIncome(PHS398Checklist phsChecklist, Budget budget) {
 		phsChecklist.setProgramIncome(YesNoDataType.YES);
 

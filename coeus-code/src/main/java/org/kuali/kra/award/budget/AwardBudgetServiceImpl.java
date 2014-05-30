@@ -31,26 +31,26 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
-import org.kuali.kra.budget.calculator.BudgetCalculationService;
-import org.kuali.kra.budget.calculator.QueryList;
-import org.kuali.kra.budget.calculator.RateClassType;
-import org.kuali.kra.budget.calculator.query.And;
-import org.kuali.kra.budget.calculator.query.Equals;
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.core.BudgetParent;
-import org.kuali.kra.budget.core.BudgetService;
+import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
+import org.kuali.coeus.common.budget.framework.query.QueryList;
+import org.kuali.coeus.common.budget.framework.calculator.RateClassType;
+import org.kuali.coeus.common.budget.framework.query.operator.And;
+import org.kuali.coeus.common.budget.framework.query.operator.Equals;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetParent;
+import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.budget.rates.BudgetRate;
-import org.kuali.kra.budget.rates.RateType;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
+import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
-import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
+import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -534,7 +534,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
 
     /**
      * Copies budget version from previous one
-     * @see org.kuali.kra.budget.core.BudgetCommonService#copyBudgetVersion(org.kuali.kra.budget.document.BudgetDocument)
+     * @see org.kuali.coeus.common.budget.framework.core.BudgetCommonService#copyBudgetVersion(org.kuali.kra.budget.document.BudgetDocument)
      */
     public BudgetDocument<Award> copyBudgetVersion(BudgetDocument<Award> budgetDocument) throws WorkflowException {
         return copyBudgetVersion(budgetDocument, false);

@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="PropPerDocType" parent="PropPerDocType-parentBean"/>
   <bean abstract="true" id="PropPerDocType-parentBean" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.PropPerDocType"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.person.attachment.PropPerDocType"/>
 		<property name="objectLabel" value="Prop Per Doc Type"/>
     <property name="inquiryDefinition">
       <ref bean="PropPerDocType-inquiryDefinition"/>
@@ -10,10 +10,10 @@
     <property name="lookupDefinition">
       <ref bean="PropPerDocType-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="documentTypeCode"/>
+    <property name="titleAttribute" value="code"/>
     <property name="attributes">
       <list>
-        <ref bean="PropPerDocType-documentTypeCode"/>
+        <ref bean="PropPerDocType-code"/>
         <ref bean="PropPerDocType-description"/>
         <ref bean="PropPerDocType-versionNumber"/>
       </list>
@@ -23,10 +23,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="PropPerDocType-documentTypeCode" parent="PropPerDocType-documentTypeCode-parentBean"/>
+  <bean id="PropPerDocType-code" parent="PropPerDocType-code-parentBean"/>
 
-  <bean abstract="true" id="PropPerDocType-documentTypeCode-parentBean" parent="AttributeDefinition">
-    <property name="name" value="documentTypeCode"/>
+  <bean abstract="true" id="PropPerDocType-code-parentBean" parent="AttributeDefinition">
+    <property name="name" value="code"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Person Document Type Code"/>
     <property name="shortLabel" value="Person Document Type Code"/>
@@ -86,7 +86,7 @@
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
             <list>
-              <bean p:attributeName="documentTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="code" p:forceInquiry="true" parent="FieldDefinition"/>
               <bean p:attributeName="description" parent="FieldDefinition"/>
             </list>
           </property>
@@ -97,7 +97,7 @@
 
   <bean id="PropPerDocType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Proposal Person Document Type Code"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.PropPerDocType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.person.attachment.PropPerDocType"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -105,7 +105,7 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="documentTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="code" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
             </list>
           </property>
@@ -128,20 +128,20 @@
     </property>         
     <property name="lookupFields">
       <list>
-        <bean p:attributeName="documentTypeCode" parent="FieldDefinition"/>
+        <bean p:attributeName="code" parent="FieldDefinition"/>
         <bean p:attributeName="description" parent="FieldDefinition"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:attributeName="documentTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+        <bean p:attributeName="code" p:forceInquiry="true" parent="FieldDefinition"/>
         <bean p:attributeName="description" parent="FieldDefinition"/>
       </list>
     </property>
   </bean>
 
   <bean id="PropPerDocType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.PropPerDocType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.person.attachment.PropPerDocType"/>
     <property name="headerText" value="Person Document Type Code Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">
@@ -156,13 +156,13 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="documentTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="documentTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="code" parent="Uif-DataField"/>
         <bean p:propertyName="description" parent="Uif-DataField"/>
       </list>
     </property>

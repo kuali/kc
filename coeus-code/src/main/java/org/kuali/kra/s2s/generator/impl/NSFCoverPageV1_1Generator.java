@@ -244,10 +244,10 @@ public class NSFCoverPageV1_1Generator extends NSFCoverPageBaseGenerator {
         for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
             if (proposalPerson.getProposalPersonRoleId() != null
                     && proposalPerson.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR)
-                    || proposalPerson.getProposalPersonRoleId().equals(PI_C0_INVESTIGATOR)) {
+                    || PI_C0_INVESTIGATOR.equals(proposalPerson.getProposalPersonRoleId())) {
                 for (ProposalPersonYnq personYnq : proposalPerson.getProposalPersonYnqs()) {
                     if (personYnq != null) {
-                        if (personYnq.getQuestionId() != null && personYnq.getQuestionId().equals(PROPOSAL_YNQ_LOBBYING_ACTIVITIES)) {
+                        if (personYnq.getQuestionId() != null && personYnq.getQuestionId().equals(PROPOSAL_YNQ_LOBBYING_ACTIVITIES.toString())) {
                             if (personYnq.getAnswer() != null && personYnq.getAnswer().equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
                                 return YesNoDataType.Y_YES;
                             }
@@ -281,7 +281,6 @@ public class NSFCoverPageV1_1Generator extends NSFCoverPageBaseGenerator {
      */
 	private AttachedFileDataType[] getAttachedFileDataTypes() {
 		List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
-		AttachedFileDataType attachedFileDataType = null;
 		for (NarrativeContract narrative : pdDoc.getDevelopmentProposal()
 				.getNarratives()) {
 			if (narrative.getNarrativeType().getCode() != null) {
@@ -289,7 +288,7 @@ public class NSFCoverPageV1_1Generator extends NSFCoverPageBaseGenerator {
 				if (narrativeTypeCode == PERSONAL_DATA
 						|| narrativeTypeCode == PROPRIETARY_INFORMATION 
 						|| narrativeTypeCode == SINGLE_COPY_DOCUMENT) {
-					attachedFileDataType = getAttachedFileType(narrative);
+                    AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
 					if(attachedFileDataType != null){
 						attachedFileDataTypeList.add(attachedFileDataType);
 					}

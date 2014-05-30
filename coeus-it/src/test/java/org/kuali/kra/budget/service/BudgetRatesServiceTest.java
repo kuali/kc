@@ -17,16 +17,23 @@ package org.kuali.kra.budget.service;
 
 
 import org.junit.*;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
+import org.kuali.coeus.common.budget.framework.rate.RateClass;
+import org.kuali.coeus.common.budget.framework.rate.RateType;
+import org.kuali.coeus.common.budget.framework.rate.AbstractBudgetRate;
+import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
+import org.kuali.coeus.common.budget.impl.rate.BudgetRatesServiceImpl;
+import org.kuali.coeus.common.budget.framework.rate.RateClassType;
 import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.budget.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
-import org.kuali.kra.budget.rates.*;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
@@ -386,7 +393,7 @@ public class BudgetRatesServiceTest extends KcIntegrationTestBase {
     }
     
     private void testViewLocation(List budgetRates) throws Exception {
-        List<AbstractBudgetRate> abstractBudgetRates = (List<AbstractBudgetRate>) budgetRates; 
+        List<AbstractBudgetRate> abstractBudgetRates = (List<AbstractBudgetRate>) budgetRates;
         testViewLocation_DisplayLocation(abstractBudgetRates, TRACK_AFFECTED_PERIOD_1, 2, false);
         testViewLocation_DisplayLocation(abstractBudgetRates, TRACK_AFFECTED_PERIOD_2, 2, true);        
     }

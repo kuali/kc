@@ -115,7 +115,7 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
         for (int i = 0;i < answerHeaders.size();i++) {
             AnswerHeader header = answerHeaders.get(i);
             QuestionnaireUsage usage = header.getQuestionnaire().getHighestVersionUsageFor(header.getModuleItemCode(), header.getModuleSubItemCode());
-            if ((usage != null) && (usage.isMandatory()) && (!header.getCompleted()) && (header.isActiveQuestionnaire())) {
+            if ((usage != null) && (usage.isMandatory()) && (!header.isCompleted()) && (header.isActiveQuestionnaire())) {
                 isValid = false;
                 addAuditError(messageKey + "[" + i + "]", KeyConstants.ERROR_COI_QUESTIONNAIRE_MANDATORY, usage.getQuestionnaireLabel());
             }

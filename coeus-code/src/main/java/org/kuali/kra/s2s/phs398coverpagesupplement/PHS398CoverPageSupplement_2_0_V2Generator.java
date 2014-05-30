@@ -28,17 +28,14 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
+import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.kra.questionnaire.answer.Answer;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -68,7 +65,7 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
     protected static final String PROPOSAL_YNQ_QUESTION_120 = "120";
     protected static final int PROJECT_INCOME_DESCRIPTION_MAX_LENGTH = 150;
 
-    List<AnswerHeader> answerHeaders;
+    List<? extends AnswerHeaderContract> answerHeaders;
     private static final Log LOG = LogFactory
             .getLog(PHS398CoverPageSupplement_2_0_V2Generator.class);
     Enum ynqAnswer;
@@ -85,7 +82,7 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
 				.newInstance();
 		PHS398CoverPageSupplement20 coverPageSupplement = PHS398CoverPageSupplement20.Factory
 				.newInstance();
-		answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
+		answerHeaders = getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber());
 		coverPageSupplement.setFormVersion(S2SConstants.FORMVERSION_2_0);
 		coverPageSupplement.setPDPI(getPDPI());
 		coverPageSupplement.setClinicalTrial(getClinicalTrial());
@@ -140,12 +137,12 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
         ClinicalTrial clinicalTrial = ClinicalTrial.Factory.newInstance();
         String answer = null;
         String subAnswer = null;
-          answer = getAnswer(IS_CLINICAL_TRIAL);
+          answer = getAnswer(IS_CLINICAL_TRIAL,answerHeaders);
         if (answer != null) {
             if (!answer.equals(NOT_ANSWERED)) {
                 if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
                     clinicalTrial.setIsClinicalTrial(YesNoDataType.Y_YES);
-                    subAnswer = getAnswer(PHASE_III_CLINICAL_TRIAL);
+                    subAnswer = getAnswer(PHASE_III_CLINICAL_TRIAL,answerHeaders);
                         if (subAnswer != null && !subAnswer.equals(NOT_ANSWERED)) {
                             if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subAnswer)) {
                                 clinicalTrial.setIsPhaseIIIClinicalTrial(YesNoDataType.Y_YES);   
@@ -168,14 +165,14 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
      */
     private void setIsInventionsAndPatentsAndIsPreviouslyReported(
             PHS398CoverPageSupplement20 coverPageSupplement) {
-        String answer = getAnswer(PROPOSAL_YNQ_QUESTION_118);
+        String answer = getAnswer(PROPOSAL_YNQ_QUESTION_118,answerHeaders);
         if (answer != null && !answer.equals(NOT_ANSWERED)) {
             if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
-                String explanation = getAnswer(PROPOSAL_YNQ_QUESTION_119);
+                String explanation = getAnswer(PROPOSAL_YNQ_QUESTION_119,answerHeaders);
                 if(explanation != null && !explanation.equals(NOT_ANSWERED)) {
                     if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(explanation)) {
                         coverPageSupplement.setIsInventionsAndPatents(YesNoDataType.Y_YES);
-                        String subQuestionExplanation = getAnswer(PROPOSAL_YNQ_QUESTION_120);
+                        String subQuestionExplanation = getAnswer(PROPOSAL_YNQ_QUESTION_120,answerHeaders);
                         if (subQuestionExplanation != null && !subQuestionExplanation.equals(NOT_ANSWERED)) {
                             if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subQuestionExplanation)) {
                                 coverPageSupplement.setIsPreviouslyReported(YesNoDataType.Y_YES);  
@@ -201,8 +198,8 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
      * based on condition
      */
     private void setFormerPDNameAndIsChangeOfPDPI(PHS398CoverPageSupplement20 coverPageSupplement) {
-        String answer = getAnswer(PROPOSAL_YNQ_QUESTION_114);
-        String explanation = getAnswer(PROPOSAL_YNQ_QUESTION_115);
+        String answer = getAnswer(PROPOSAL_YNQ_QUESTION_114,answerHeaders);
+        String explanation = getAnswer(PROPOSAL_YNQ_QUESTION_115,answerHeaders);
         if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
             coverPageSupplement.setIsChangeOfPDPI(YesNoDataType.Y_YES);
             if (explanation != null) {
@@ -230,8 +227,8 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
      */
     private void setFormerInstitutionNameAndChangeOfInstitution(
             PHS398CoverPageSupplement20 coverPageSupplement) {
-        String answer = getAnswer(PROPOSAL_YNQ_QUESTION_116);
-        String explanation = getAnswer(PROPOSAL_YNQ_QUESTION_117);
+        String answer = getAnswer(PROPOSAL_YNQ_QUESTION_116,answerHeaders);
+        String explanation = getAnswer(PROPOSAL_YNQ_QUESTION_117,answerHeaders);
         
         if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
             coverPageSupplement.setIsChangeOfInstitution(YesNoDataType.Y_YES);
@@ -326,18 +323,18 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
 	    StemCells stemCells = StemCells.Factory.newInstance();  
 	    Enum answers = YesNoDataType.N_NO;
 	    String childAnswer = null;  
-	    String answer = getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED);
+	    String answer = getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED,answerHeaders);
 	    if (answer != null) {
 	        if (!answer.equals(NOT_ANSWERED)) {
-	            answers = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED)) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
+	            answers = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED,answerHeaders)) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
 	            if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
 	                stemCells.setIsHumanStemCellsInvolved(YesNoDataType.Y_YES);
-	                String subAnswer = getAnswer(SPECIFIC_STEM_CELL_LINE);
+	                String subAnswer = getAnswer(SPECIFIC_STEM_CELL_LINE,answerHeaders);
 	                if (subAnswer != null) {
 	                    if(!subAnswer.equals(NOT_ANSWERED)) {
 	                        if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subAnswer)) {
 	                            stemCells.setStemCellsIndicator(YesNoDataType.N_NO);
-	                            childAnswer = getAnswers(REGISTRATION_NUMBER);
+	                            childAnswer = getAnswers(REGISTRATION_NUMBER,answerHeaders);
 	                        }
 	                        else {
 	                            stemCells.setStemCellsIndicator(YesNoDataType.Y_YES);
@@ -367,7 +364,7 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
      */
     private YesNoDataType.Enum getYNQAnswer(String questionID) {
         YesNoDataType.Enum answerType = null;
-        String answer = getAnswer(questionID);
+        String answer = getAnswer(questionID,answerHeaders);
         if (answer != null && !answer.equals(NOT_ANSWERED)) {
             answerType = "Y".equals(answer) ? YesNoDataType.Y_YES
                 : YesNoDataType.N_NO;
@@ -375,53 +372,6 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
         } else {
             return null;
         }
-    }
-
-    /*
-     * This method will get the Answer for sub question
-     */
-    private String getAnswer(String questionId) {
-
-        String answer = null;
-        if (answerHeaders != null && !answerHeaders.isEmpty()) {
-            for (AnswerHeader answerHeader : answerHeaders) {
-                List<Answer> answerDetails = answerHeader.getAnswers();
-                for (Answer answers : answerDetails) {
-                    if (questionId.equals(answers.getQuestion().getQuestionId())) {
-                        answer = answers.getAnswer();
-                    }
-                }
-            }
-        }
-        return answer;   
-    }
-
-    /*
-     * This method will get the childAnswer for sub question
-     */
-    private String getAnswers(String questionId) {
-
-        String answer = null;
-        String childAnswer = null;
-        StringBuilder stringBuilder = new StringBuilder();
-        if (answerHeaders != null && !answerHeaders.isEmpty()) {
-            for (AnswerHeader answerHeader : answerHeaders) {
-                List<Answer> answerDetails = answerHeader.getAnswers();
-                for (Answer answers : answerDetails) {
-                    if (questionId.equals(answers.getQuestion().getQuestionId())) {
-                        answer = answers.getAnswer();
-                        if (answer != null) {
-                            if (!answer.equals(NOT_ANSWERED)) {
-                                stringBuilder.append(answer);
-                                stringBuilder.append(",");
-                            }
-                        }
-                        childAnswer = stringBuilder.toString();
-                    }
-                }
-            }
-        }
-        return childAnswer;
     }
 	
 	/**

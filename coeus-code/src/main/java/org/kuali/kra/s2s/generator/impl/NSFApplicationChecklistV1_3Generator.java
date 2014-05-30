@@ -21,8 +21,8 @@ import gov.grants.apply.forms.nsfApplicationChecklist13V13.NSFApplicationCheckli
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoNotApplicableDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.question.AnswerContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -40,7 +40,7 @@ public class NSFApplicationChecklistV1_3Generator extends NSFApplicationChecklis
 
 	private static String QUESTIONNAIRE_ANSWER_YES = "Y";
 	private static String QUESTIONNAIRE_ANSWER_NO = "N";
-	private static String QUESTIONNAIRE_ANSWER_X = "X";;
+	private static String QUESTIONNAIRE_ANSWER_X = "X";
 
 	/**
 	 * 
@@ -85,15 +85,14 @@ public class NSFApplicationChecklistV1_3Generator extends NSFApplicationChecklis
 	/**
 	 * Setting the Coversheet and ProjectNarrative details according the
 	 * Questionnaire Answers.
-	 * 
-	 * @param coverSheet
-	 * @param projectNarrative
+	 *
 	 */
 	private void setQuestionnaireAnswers(CoverSheet coverSheet,
 			ProjectNarrative projectNarrative) {
-		List<Answer> answers = s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(),getNamespace(),getFormName());
-		for (Answer answer : answers) {
-			switch (answer.getQuestion().getQuestionIdAsInteger()) {
+		List<? extends AnswerContract> answers = getPropDevQuestionAnswerService().getQuestionnaireAnswers(pdDoc.getDevelopmentProposal().getProposalNumber(),getNamespace(),getFormName());
+		for (AnswerContract answer : answers) {
+			Integer seqId = Integer.valueOf(getQuestionAnswerService().findQuestionById(answer.getQuestionId()).getQuestionSeqId());
+            switch (seqId) {
 			case PRELIMINARY:
 				YesNoNotApplicableDataType.Enum yesNoNotApplicableDataType = YesNoNotApplicableDataType.N_NO;
 				if (QUESTIONNAIRE_ANSWER_YES.equals(answer.getAnswer())) {
@@ -145,7 +144,7 @@ public class NSFApplicationChecklistV1_3Generator extends NSFApplicationChecklis
 				 * HR Info that is mandatory for renwals from academic
 				 * institutions.
 				 */
-				if (QUESTIONNAIRE_ANSWER_NO.equals(answer)) {
+				if (QUESTIONNAIRE_ANSWER_NO.equals(answer.getAnswer())) {
 					projectNarrative
 							.setCheckHRInfo(YesNoNotApplicableDataType.N_NO);
 				}
@@ -155,7 +154,7 @@ public class NSFApplicationChecklistV1_3Generator extends NSFApplicationChecklis
 				 * HR Info that is mandatory for renwals from academic
 				 * institutions.
 				 */
-				if (QUESTIONNAIRE_ANSWER_YES.equals(answer)) {
+				if (QUESTIONNAIRE_ANSWER_YES.equals(answer.getAnswer())) {
 					projectNarrative
 							.setCheckHRInfo(YesNoNotApplicableDataType.Y_YES);
 				}

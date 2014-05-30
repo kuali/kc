@@ -25,15 +25,15 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.question.AnswerContract;
+import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
+import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.kra.questionnaire.answer.Answer;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.math.BigDecimal;
@@ -56,7 +56,7 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	private static final String YNQANSWER_121 = "121";
 	private static final Log LOG = LogFactory
 			.getLog(PHS398ChecklistV1_3Generator.class);
-	List<AnswerHeader> answerHeaders;	
+	List<? extends AnswerHeaderContract> answerHeaders;
 	Enum ynqAnswer;
 	/*
 	 * This method returns PHS398ChecklistDocument object based on proposal
@@ -71,7 +71,7 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 		PHS398Checklist13Document phsChecklistDocument = PHS398Checklist13Document.Factory
 				.newInstance();
 		PHS398Checklist13 phsChecklist = PHS398Checklist13.Factory.newInstance();
-		answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
+		answerHeaders = getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber());
 		setPhsCheckListBasicProperties(phsChecklist);
 		setFormerPDNameAndIsChangeOfPDPI(phsChecklist);
 		setFormerInstitutionNameAndChangeOfInstitution(phsChecklist);
@@ -188,14 +188,14 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	 */
 	private void setIsInventionsAndPatentsAndIsPreviouslyReported(
 	        PHS398Checklist13 phsChecklist) {
-	    String answer = getAnswer(PROPOSAL_YNQ_QUESTION_118);
+	    String answer = getAnswer(PROPOSAL_YNQ_QUESTION_118,answerHeaders);
 	    if (answer != null && !answer.equals(NOT_ANSWERED)) {
 	        if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
-	            String explanation = getAnswer(PROPOSAL_YNQ_QUESTION_119);
+	            String explanation = getAnswer(PROPOSAL_YNQ_QUESTION_119,answerHeaders);
 	            if(explanation != null && !explanation.equals(NOT_ANSWERED)) {
 	                if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(explanation)) {
 	                    phsChecklist.setIsInventionsAndPatents(YesNoDataType.Y_YES);
-	                    String subQuestionExplanation = getAnswer(PROPOSAL_YNQ_QUESTION_120);
+	                    String subQuestionExplanation = getAnswer(PROPOSAL_YNQ_QUESTION_120,answerHeaders);
 	                    if (subQuestionExplanation != null && !subQuestionExplanation.equals(NOT_ANSWERED)) {
 	                        if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subQuestionExplanation)) {
 	                            phsChecklist.setIsPreviouslyReported(YesNoDataType.Y_YES);  
@@ -222,8 +222,8 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	 */
 	private void setFormerInstitutionNameAndChangeOfInstitution(
 			PHS398Checklist13 phsChecklist) {
-	    String answer = getAnswer(PROPOSAL_YNQ_QUESTION_116);
-        String explanation = getAnswer(PROPOSAL_YNQ_QUESTION_117);
+	    String answer = getAnswer(PROPOSAL_YNQ_QUESTION_116,answerHeaders);
+        String explanation = getAnswer(PROPOSAL_YNQ_QUESTION_117,answerHeaders);
         
         if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
             phsChecklist.setIsChangeOfInstitution(YesNoDataType.Y_YES);
@@ -243,8 +243,8 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	 * based on condition
 	 */
 	private void setFormerPDNameAndIsChangeOfPDPI(PHS398Checklist13 phsChecklist) {
-		String answer = getAnswer(PROPOSAL_YNQ_QUESTION_114);
-	    String explanation = getAnswer(PROPOSAL_YNQ_QUESTION_115);
+		String answer = getAnswer(PROPOSAL_YNQ_QUESTION_114,answerHeaders);
+	    String explanation = getAnswer(PROPOSAL_YNQ_QUESTION_115,answerHeaders);
 	    if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
             phsChecklist.setIsChangeOfPDPI(YesNoDataType.Y_YES);
             if (explanation != null) {
@@ -271,7 +271,7 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	 */
 	private YesNoDataType.Enum getYNQAnswer(String questionID) {
 	    YesNoDataType.Enum answerType = null;
-	    String answer = getAnswer(questionID);
+	    String answer = getAnswer(questionID,answerHeaders);
 	    if (answer != null && !answer.equals(NOT_ANSWERED)) {
 	        answerType = "Y".equals(answer) ? YesNoDataType.Y_YES
                 : YesNoDataType.N_NO;
@@ -280,32 +280,6 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
             return null;
         }
 	}
-	
-	/**
-     * 
-     * This method is used to get the answer for a particular Questionnaire question
-     * question based on the question id.
-     * 
-     * @param questionId
-     *            the question id to be passed.              
-     * @return returns the answer for a particular
-     *         question based on the question id passed.
-     */
-	private String getAnswer(String questionId) {
-        String answer = null;
-        if (answerHeaders != null && !answerHeaders.isEmpty()) {
-            for (AnswerHeader answerHeader : answerHeaders) {
-                List<Answer> answerDetails = answerHeader.getAnswers();
-                for (Answer answers : answerDetails) {
-                    if (questionId.equals(answers.getQuestion().getQuestionId())) {
-                        answer = answers.getAnswer();
-                        return answer;
-                    }
-                }
-            }
-        }
-        return answer;        
-    }
 
 	/**
 	 * This method creates {@link XmlObject} of type

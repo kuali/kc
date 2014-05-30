@@ -15,8 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.budget.subaward;
 
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 
 import java.util.List;
 

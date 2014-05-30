@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.personnel;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.budget.core.CostElement;
+import org.kuali.coeus.common.budget.framework.core.CostElement;
 
 public class ValidCeJobCode extends KcPersistableBusinessObjectBase {
 

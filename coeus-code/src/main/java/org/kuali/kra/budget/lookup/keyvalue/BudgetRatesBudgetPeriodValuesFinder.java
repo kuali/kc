@@ -17,7 +17,7 @@ package org.kuali.kra.budget.lookup.keyvalue;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.rates.BudgetRatesService;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
