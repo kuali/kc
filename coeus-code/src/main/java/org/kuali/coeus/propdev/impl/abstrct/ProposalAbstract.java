@@ -20,6 +20,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.propdev.api.abstrct.ProposalAbstractContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -40,9 +41,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "EPS_PROP_ABSTRACT")
 @IdClass(ProposalAbstract.ProposalAbstractId.class)
-public class ProposalAbstract extends KcPersistableBusinessObjectBase {
-
-    ;
+public class ProposalAbstract extends KcPersistableBusinessObjectBase implements ProposalAbstractContract {
 
     /**
      * Each Abstract is associated with one and only one proposal
@@ -99,6 +98,7 @@ public class ProposalAbstract extends KcPersistableBusinessObjectBase {
 	 * @return the proposal number this abstract is associated with; 
 	 *         null if not associated with any proposal.
 	 */
+    @Override
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -132,6 +132,7 @@ public class ProposalAbstract extends KcPersistableBusinessObjectBase {
 	 * Gets the Details for this abstract.  
 	 * @return the abstract's details.
 	 */
+    @Override
     public String getAbstractDetails() {
         return abstractDetails;
     }
@@ -159,6 +160,7 @@ public class ProposalAbstract extends KcPersistableBusinessObjectBase {
      * Gets the AbstractType for this abstract.
      * @return the abstract's AbstractType.
      */
+    @Override
     public AbstractType getAbstractType() {
         return abstractType;
     }
@@ -169,9 +171,10 @@ public class ProposalAbstract extends KcPersistableBusinessObjectBase {
      */
     public void setAbstractType(AbstractType abstractType) {
         this.abstractType = abstractType;
-        this.abstractTypeCode = abstractType != null ? abstractType.getAbstractTypeCode() : null;
+        this.abstractTypeCode = abstractType != null ? abstractType.getCode() : null;
     }
 
+    @Override
     public Timestamp getTimestampDisplay() {
         return timestampDisplay;
     }
@@ -207,6 +210,7 @@ public class ProposalAbstract extends KcPersistableBusinessObjectBase {
         }
     }
 
+    @Override
     public String getUploadUserDisplay() {
         return uploadUserDisplay;
     }

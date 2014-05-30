@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
+import org.kuali.coeus.propdev.api.abstrct.ProposalAbstractContract;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 
 /**
@@ -39,8 +39,8 @@ public abstract class NSFSuggestedReviewersBaseGenerator extends S2SBaseFormGene
     protected String getAbstractText(String abstractType) {
 
         String abstractText = null;
-        for (ProposalAbstract proposalAbstract : pdDoc.getDevelopmentProposal().getProposalAbstracts()) {
-            if (proposalAbstract.getAbstractTypeCode() != null && proposalAbstract.getAbstractTypeCode().equals(abstractType)) {
+        for (ProposalAbstractContract proposalAbstract : pdDoc.getDevelopmentProposal().getProposalAbstracts()) {
+            if (proposalAbstract.getAbstractType().getCode() != null && proposalAbstract.getAbstractType().getCode().equals(abstractType)) {
                 abstractText = proposalAbstract.getAbstractDetails();
                 break;
             }

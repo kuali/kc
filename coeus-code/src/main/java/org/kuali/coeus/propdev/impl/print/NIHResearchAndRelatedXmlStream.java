@@ -373,7 +373,7 @@ public class NIHResearchAndRelatedXmlStream extends
                     abstractType.setAbstractText(proposalAbstract
                             .getAbstractDetails());
                     abstractTypeCode = new BigInteger(proposalAbstract
-                            .getAbstractType().getAbstractTypeCode());
+                            .getAbstractType().getCode());
                     abstractType.setAbstractTypeCode(abstractTypeCode);
                     abstractType.setAbstractTypeDesc(proposalAbstract
                             .getAbstractType().getDescription());

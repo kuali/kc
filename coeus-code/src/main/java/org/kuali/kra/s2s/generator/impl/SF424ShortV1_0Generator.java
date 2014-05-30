@@ -24,8 +24,8 @@ import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.type.OrganizationType;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
+import org.kuali.coeus.propdev.api.abstrct.ProposalAbstractContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
@@ -169,9 +169,9 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
 
         sf424Short.setProjectTitle(pdDoc.getDevelopmentProposal().getTitle());
 
-        for (ProposalAbstract proposalAbstract : pdDoc.getDevelopmentProposal().getProposalAbstracts()) {
-            if (proposalAbstract.getAbstractTypeCode() != null
-                    && proposalAbstract.getAbstractTypeCode().equals(ABSTRACT_TYPE_PROJECT_DESCRIPTION)) {
+        for (ProposalAbstractContract proposalAbstract : pdDoc.getDevelopmentProposal().getProposalAbstracts()) {
+            if (proposalAbstract.getAbstractType().getCode() != null
+                    && proposalAbstract.getAbstractType().getCode().equals(ABSTRACT_TYPE_PROJECT_DESCRIPTION)) {
                 if (proposalAbstract.getAbstractDetails().length() > ABSTRACT_TYPE_CODE_MAX_LENGTH) {
                     sf424Short.setProjectDescription(proposalAbstract.getAbstractDetails().substring(0,
                             ABSTRACT_TYPE_CODE_MAX_LENGTH));
