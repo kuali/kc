@@ -120,7 +120,7 @@ public class MedusaBean implements Serializable{
         Collections.sort(nodes, new MedusaNodeComparator());
         for(MedusaNode mNode: nodes){
             if(!mNode.getChildNodes().isEmpty()){
-                sortNodes(mNode.getChildNodes());
+            	sortNodes((List<MedusaNode>) mNode.getChildNodes());
             }
         }
     }
