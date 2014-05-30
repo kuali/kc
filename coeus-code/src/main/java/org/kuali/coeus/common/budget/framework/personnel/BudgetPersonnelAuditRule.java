@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.personnel;
 
+import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;

@@ -13,16 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.framework.personnel;
+package org.kuali.coeus.common.budget.impl.personnel;
 
+import org.kuali.coeus.common.budget.framework.personnel.JobCode;
+import org.kuali.coeus.common.budget.framework.personnel.JobCodeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Component("jobCodeService")
 public class JobCodeServiceImpl implements JobCodeService {
-    
+
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;    
 
     /**

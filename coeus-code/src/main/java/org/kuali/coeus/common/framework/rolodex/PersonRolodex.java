@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.framework.personnel;
+package org.kuali.coeus.common.framework.rolodex;
 
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.kra.award.home.ContactRole;

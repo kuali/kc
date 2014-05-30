@@ -13,9 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.framework.personnel;
+package org.kuali.coeus.common.budget.impl.personnel;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.attr.PersonAppointment;
@@ -28,6 +32,9 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -35,13 +42,20 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class implements methods specified by <code>{@link BudgetPersonService}</code> interface
+ * This class implements methods specified by <code>{@link org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService}</code> interface
  */
+@Component("budgetPersonService")
 public class BudgetPersonServiceImpl implements BudgetPersonService {
     
 
+    @Autowired
+    @Qualifier("parameterService")
     private ParameterService parameterService;
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+    @Autowired
+    @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
     
     
@@ -194,6 +208,8 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         }
     }
 
+    public ParameterService getParameterService() { return parameterService;}
+
     /**
      * Sets the ParameterService.
      * @param parameterService the parameter service. 
@@ -201,6 +217,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
+
 
     @SuppressWarnings("unchecked")
     @Override
