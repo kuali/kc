@@ -401,10 +401,10 @@
       <bean parent="AlphaNumericPatternConstraint"/>
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetPersonValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.budget.lookup.keyvalue.BudgetPersonValuesFinder"/>
+      <bean class="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>

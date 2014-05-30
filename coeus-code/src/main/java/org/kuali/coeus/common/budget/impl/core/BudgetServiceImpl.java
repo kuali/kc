@@ -33,7 +33,7 @@ import org.kuali.coeus.common.budget.framework.query.operator.Equals;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder;
+import org.kuali.coeus.common.budget.framework.core.CostElementValuesFinder;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;

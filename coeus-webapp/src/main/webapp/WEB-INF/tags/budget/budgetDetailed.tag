@@ -162,7 +162,7 @@
 					<td valign="middle" class="darkInfoline" nowrap="true">
 	                	<div align="center">
 	                	<html:select property="newBudgetLineItems[${catCodes}].costElement" tabindex="0" >
-	                    <c:forEach items="${krafn:getOptionList('org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder', paramMap)}" var="option">
+	                    <c:forEach items="${krafn:getOptionList('org.kuali.coeus.common.budget.framework.core.CostElementValuesFinder', paramMap)}" var="option">
 	                    <c:choose>                    	
 	                    	<c:when test="${KualiForm.newBudgetLineItems[catCodes].costElement == option.key}">
 	                        <option value="${option.key}" selected="true">${option.value}</option>
