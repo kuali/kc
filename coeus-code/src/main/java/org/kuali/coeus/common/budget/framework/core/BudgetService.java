@@ -21,7 +21,7 @@ import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.personnel.ValidCeJobCode;
+import org.kuali.coeus.common.budget.framework.personnel.ValidCeJobCode;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.rice.kew.api.exception.WorkflowException;

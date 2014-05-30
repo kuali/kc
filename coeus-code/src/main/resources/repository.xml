@@ -81,10 +81,10 @@
         <reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit"  auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="unitNumber" />
         </reference-descriptor>
-        <reference-descriptor name="appointmentType" class-ref="org.kuali.kra.budget.personnel.AppointmentType"  auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="appointmentType" class-ref="org.kuali.coeus.common.budget.framework.personnel.AppointmentType"  auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="typeCode" />
         </reference-descriptor>
-        <reference-descriptor name="jobCodeRef" class-ref="org.kuali.kra.budget.personnel.JobCode"  auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="jobCodeRef" class-ref="org.kuali.coeus.common.budget.framework.personnel.JobCode"  auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="jobCode" />
         </reference-descriptor>
         

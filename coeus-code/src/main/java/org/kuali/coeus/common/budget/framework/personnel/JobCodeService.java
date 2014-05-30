@@ -13,19 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.personnel;
-
-import org.kuali.coeus.common.framework.sponsor.Sponsorable;
-import org.kuali.kra.award.home.ContactRole;
+package org.kuali.coeus.common.budget.framework.personnel;
 
 
-public interface PersonRolodex {
-    public String getPersonId();
-    public Integer getRolodexId();
-    public String getFullName();
-    public boolean isOtherSignificantContributorFlag();
-    public String getProjectRole();
-    public ContactRole getContactRole();
-    public Sponsorable getParent();
-    public String getInvestigatorRoleDescription();
+public interface JobCodeService {
+
+    /**
+     * 
+     * This method provides the appropriate JobCode Title
+     * for a particular jobCode string.
+     * 
+     * @param JobCode
+     * @return
+     */
+    public String findJobCodeTitle(String JobCode);
+    
+    /**
+     * 
+     * This method provides the appropriate JobCode object
+     * for a particular jobCode string.
+     * 
+     * @param JobCode
+     * @return
+     */
+    public JobCode findJobCodeRef(String jobCode);
+    
 }

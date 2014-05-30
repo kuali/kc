@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.budget.framework.nonpersonnel;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 
 import java.sql.Date;

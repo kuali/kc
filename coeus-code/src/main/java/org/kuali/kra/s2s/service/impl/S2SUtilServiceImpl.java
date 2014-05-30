@@ -40,7 +40,7 @@ import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.s2s.CitizenshipTypes;
 import org.kuali.kra.s2s.ConfigurationConstants;
@@ -426,7 +426,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * @param budgetPersonnelDetails person from BudgetPersonnelDetails
      * @return true if persons match, false otherwise
      * @see org.kuali.kra.s2s.service.S2SUtilService#keyPersonEqualsBudgetPerson(org.kuali.kra.s2s.generator.bo.KeyPersonInfo,
-     *      org.kuali.kra.budget.personnel.BudgetPersonnelDetails)
+     *      org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails)
      */
     public boolean keyPersonEqualsBudgetPerson(KeyPersonInfo keyPersonInfo, BudgetPersonnelDetails budgetPersonnelDetails) {
         boolean equal = false;

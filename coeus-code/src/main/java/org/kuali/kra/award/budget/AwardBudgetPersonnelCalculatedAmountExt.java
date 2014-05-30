@@ -16,7 +16,7 @@
 package org.kuali.kra.award.budget;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculatedAmount;
 
 
 public class AwardBudgetPersonnelCalculatedAmountExt extends BudgetPersonnelCalculatedAmount {

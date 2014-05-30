@@ -13,76 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.personnel;
+package org.kuali.coeus.common.budget.framework.personnel;
 
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.AbstractBudgetRateAndBase;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 
-public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
+public class BudgetPersonnelCalculatedAmount extends AbstractBudgetCalculatedAmount {
 
 
-    private static final long serialVersionUID = -3822394019599765292L;
+    private static final long serialVersionUID = 3100896964798965084L;
+
+    private Integer personNumber;
 
     @DeepCopyIgnore
-    private Long budgetPersonnelRateAndBaseId;
-
     private Long budgetPersonnelCalculatedAmountId;
 
     private Long budgetPersonnelLineItemId;
 
-    private String personId;
-
-    private Integer personNumber;
-
-    private ScaleTwoDecimal salaryRequested;
-
-    /**
-     * Gets the salaryRequested attribute. 
-     * @return Returns the salaryRequested.
-     */
-    public ScaleTwoDecimal getSalaryRequested() {
-        return salaryRequested;
-    }
-
-    /**
-     * Sets the salaryRequested attribute value.
-     * @param salaryRequested The salaryRequested to set.
-     */
-    public void setSalaryRequested(ScaleTwoDecimal salaryRequested) {
-        this.salaryRequested = salaryRequested;
-    }
-
-    /**
-     * Gets the personNumber attribute. 
-     * @return Returns the personNumber.
-     */
     public Integer getPersonNumber() {
         return personNumber;
     }
 
-    /**
-     * Sets the personNumber attribute value.
-     * @param personNumber The personNumber to set.
-     */
     public void setPersonNumber(Integer personNumber) {
         this.personNumber = personNumber;
-    }
-
-    /**
-     * Gets the personId attribute. 
-     * @return Returns the personId.
-     */
-    public String getPersonId() {
-        return personId;
-    }
-
-    /**
-     * Sets the personId attribute value.
-     * @param personId The personId to set.
-     */
-    public void setPersonId(String personId) {
-        this.personId = personId;
     }
 
     /**
@@ -115,21 +68,5 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
      */
     public void setBudgetPersonnelLineItemId(Long budgetPersonnelLineItemId) {
         this.budgetPersonnelLineItemId = budgetPersonnelLineItemId;
-    }
-
-    /**
-     * Gets the budgetPersonnelRateAndBaseId attribute. 
-     * @return Returns the budgetPersonnelRateAndBaseId.
-     */
-    public Long getBudgetPersonnelRateAndBaseId() {
-        return budgetPersonnelRateAndBaseId;
-    }
-
-    /**
-     * Sets the budgetPersonnelRateAndBaseId attribute value.
-     * @param budgetPersonnelRateAndBaseId The budgetPersonnelRateAndBaseId to set.
-     */
-    public void setBudgetPersonnelRateAndBaseId(Long budgetPersonnelRateAndBaseId) {
-        this.budgetPersonnelRateAndBaseId = budgetPersonnelRateAndBaseId;
     }
 }

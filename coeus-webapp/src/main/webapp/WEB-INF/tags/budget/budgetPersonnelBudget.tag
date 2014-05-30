@@ -78,7 +78,7 @@
         </div></br>
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Personnel Budget</h2></span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.personnel.BudgetPersonnelDetails" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails" altText="help"/></span>
         </div>
         <table cellpadding=0 cellspacing=0 summary="">
           	<tr>
