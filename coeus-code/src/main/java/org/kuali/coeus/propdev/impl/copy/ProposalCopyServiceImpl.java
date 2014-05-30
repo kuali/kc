@@ -37,6 +37,7 @@ import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyAttachment;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.*;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
@@ -55,6 +56,9 @@ import org.kuali.coeus.propdev.impl.hierarchy.HierarchyStatusConstants;
 import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentModuleQuestionnaireBean;
 import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
 import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormAtt;
+import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormAttFile;
+import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormFile;
+import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormService;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sModuleQuestionnaireBean;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
@@ -189,6 +193,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 	@Autowired
     @Qualifier("dateTimeService")
 	private DateTimeService dateTimeService;
+	
+	@Autowired
+	@Qualifier("s2sUserAttachedFormService")
+	private S2sUserAttachedFormService s2sUserAttachedFormService;
 	    
 
     /**
@@ -207,7 +215,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
     }
 
-    @Override
     public String copyProposal(ProposalDevelopmentDocument doc, ProposalCopyCriteria criteria) throws Exception {
         String newDocNbr = null;
         LOG.info("STARTING PROPOSAL COPY");
@@ -534,6 +541,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
 
         fixProposalNumbers(newDoc, newDoc.getDevelopmentProposal().getProposalNumber(), list);
+        fixOwnedByUnitNumber(newDoc, srcDoc.getDevelopmentProposal().getOwnedByUnitNumber(), criteria.getLeadUnitNumber());
         fixKeyPersonnel(newDoc, srcDoc.getDevelopmentProposal().getOwnedByUnitNumber(), criteria.getLeadUnitNumber());
         fixCongressionalDistricts(newDoc);
         fixS2sUserAttachedForms(newDoc);
@@ -561,9 +569,23 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         for (S2sUserAttachedForm s2sUserAttachedForm : userAttachedForms) {
             s2sUserAttachedForm.refresh();
             s2sUserAttachedForm.setId(null);
+            List<S2sUserAttachedFormFile> userAttachedFormFiles = s2sUserAttachedForm.getS2sUserAttachedFormFileList();
+            for (S2sUserAttachedFormFile s2sUserAttachedFormFile : userAttachedFormFiles) {
+                s2sUserAttachedFormFile.setId(null);
+            }
             List<S2sUserAttachedFormAtt> attachments = s2sUserAttachedForm.getS2sUserAttachedFormAtts();
             for (S2sUserAttachedFormAtt s2sUserAttachedFormAtt : attachments) {
+                List<S2sUserAttachedFormAttFile> userAttachedFormAttFiles = s2sUserAttachedFormAtt.getS2sUserAttachedFormAttFileList();
+                if(userAttachedFormAttFiles.isEmpty()){
+                    S2sUserAttachedFormAttFile attachedFile = (S2sUserAttachedFormAttFile) getS2sUserAttachedFormService().findUserAttachedFormAttFile(s2sUserAttachedFormAtt);
+                    if(attachedFile!=null){
+                        userAttachedFormAttFiles.add(attachedFile);
+                    }
+                }
                 s2sUserAttachedFormAtt.setId(null);
+                for (S2sUserAttachedFormAttFile s2sUserAttachedFormAttFile : userAttachedFormAttFiles) {
+                    s2sUserAttachedFormAttFile.setId(null);
+                }
             }
         }
         
@@ -651,6 +673,13 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         return false;
     }
 
+    protected void fixOwnedByUnitNumber(ProposalDevelopmentDocument newDoc, String oldLeadUnitNumber, String newLeadUnitNumber) {
+        DevelopmentProposal devProposal = newDoc.getDevelopmentProposal();
+        Unit newLeadUnit = getUnitService().getUnit(newLeadUnitNumber);
+        devProposal.setOwnedByUnitNumber(newLeadUnitNumber);
+        devProposal.setOwnedByUnit(newLeadUnit);
+    }
+    
     /**
      * Fix the Key Personnel.
      * @param doc the proposal development document
@@ -1254,5 +1283,13 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
         this.budgetSummaryService = budgetSummaryService;
     }
-    
+
+	protected S2sUserAttachedFormService getS2sUserAttachedFormService() {
+		return s2sUserAttachedFormService;
+	}
+
+	public void setS2sUserAttachedFormService(
+			S2sUserAttachedFormService s2sUserAttachedFormService) {
+		this.s2sUserAttachedFormService = s2sUserAttachedFormService;
+	}
 }

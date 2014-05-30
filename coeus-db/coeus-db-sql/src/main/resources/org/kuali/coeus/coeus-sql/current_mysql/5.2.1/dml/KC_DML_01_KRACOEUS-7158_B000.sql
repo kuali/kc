@@ -28,7 +28,7 @@ insert into QUESTION_EXPLANATION (QUESTION_EXPLANATION_ID, QUESTION_REF_ID_FK, E
 UPDATE_USER, VER_NBR, OBJ_ID)  values
 ((SELECT (MAX(ID)) FROM SEQ_QUESTIONNAIRE_REF_ID),
 (select QUESTION_REF_ID from QUESTION where QUESTION = 'Does this project have an actual or potential impact - positive or negative - on the environment?'
- AND SEQUENCE_STATUS = 'C'),'E','If yes, Enter explanation of the actual or potential impact on the environment in the following question. Supports RR Other Project Information form.'
+ AND SEQUENCE_STATUS = 'C'),'E','If yes, Enter explanation of the actual or potential impact on the environment in the following question. Supports RR Other Project Information form.',
  NOW(), 'admin', '1', uuid())
 /
  
@@ -38,11 +38,11 @@ UPDATE_USER, VER_NBR, OBJ_ID)  values
  
  Insert into QUESTIONNAIRE_QUESTIONS (QUESTIONNAIRE_QUESTIONS_ID,QUESTIONNAIRE_REF_ID_FK,QUESTION_REF_ID_FK,
  QUESTION_NUMBER,PARENT_QUESTION_NUMBER,CONDITION_FLAG,CONDITION_TYPE,CONDITION_VALUE,UPDATE_TIMESTAMP,
- UPDATE_USER,QUESTION_SEQ_NUMBER,VER_NBR,OBJ_ID) 
+ UPDATE_USER,QUESTION_SEQ_NUMBER,VER_NBR,OBJ_ID,RULE_ID) 
  VALUES ((SELECT (MAX(ID)) FROM SEQ_QUESTIONNAIRE_REF_ID),
 (select max(QUESTIONNAIRE_REF_ID) from QUESTIONNAIRE  where QUESTIONNAIRE_ID=5 and SEQUENCE_NUMBER=1),
 (SELECT max(QUESTION_REF_ID) FROM QUESTION WHERE QUESTION_ID=123 AND SEQUENCE_STATUS = 'C'),
-291,0,'N','4',null,NOW(), 'admin',13,1,UUID())
+291,0,'N','4',null,NOW(), 'admin',13,1,UUID(),'KC149')
 /
 
 -- Delete the duplicate appearance of ID 132 (NIH new investigator)

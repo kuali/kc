@@ -981,7 +981,7 @@ public final class KeyConstants {
     public static final String ERROR_INVALID_SITEINVESTIGATOR_ID = "error.invalid.siteinvestigator.id";
     public static final String ERROR_INVALID_REQUISITIONER = "error.invalid.requisitioner";
     public static final String ERROR_SUBAWARD_INVOICE_AMOUNT_RELEASED_ZERO = "subaward.error.amount.released.zero";
-    public static final String ERROR_PERIOD_OF_PERFORMANCE_START_DATE_SHOULD_BE_GREATER_THAN_ERROR_PERIOD_OF_PERFORMANCE_END_DATE = "period.of.performance.startdate.should.greater.than.period.of.performance.enddate";
+    public static final String ERROR_PERIOD_OF_PERFORMANCE_START_DATE_SHOULD_BE_GREATER_THAN_ERROR_PERIOD_OF_PERFORMANCE_END_DATE = "subaward.error.period.of.performance.startdate.should.greater.than.period.of.performance.enddate";
     public static final String SUBAWARD_ATTACHMENT_TYPE_CODE_REQUIRED = "error.Subaward.attachment.typeRequired";
     public static final String SUBAWARD_ATTACHMENT_FILE_REQUIRED = "error.Subaward.attachment.fileRequired";
     public static final String SUBAWARD_ATTACHMENT_DESCRIPTION_REQUIRED = "error.Subaward.attachment.descriptionRequired";
@@ -990,7 +990,8 @@ public final class KeyConstants {
     public static final String ERROR_CONTACT_TYPE_NOT_EXISTS = "error.contact.type.not.exists";
     public static final String ERROR_MODULE_NOT_EXISTS = "error.module.not.exists";
     public static final String ERROR_CONTACT_TYPE_MODULE_EXISTS = "error.contacttypemodule.exists";
-    public static final String ERROR_REQUIRED_SUBAWARD_PRINT_FUNDING = "error.required.subaward.print.funding";
+    public static final String SUBAWARD_ERROR_INVALID_FILE_TYPE = "error.subaward.invalid.file.type";
+
     
     //negotiations
     public static final String NEGOTIATION_STATUS_USED = "error.negotiations.codeAlreadyUsed";

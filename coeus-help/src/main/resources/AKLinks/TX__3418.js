@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3418", [["Documents/generatedbatchcorrespondence.htm", "right", "Generated Batch Correspondence"],["Documents/generatedbatchcorrespondence1.htm", "right", "Generated Batch Correspondence"]]);

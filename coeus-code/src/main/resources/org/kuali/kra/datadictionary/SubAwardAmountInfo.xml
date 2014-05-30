@@ -132,12 +132,13 @@
     <property name="shortLabel" value="Obligated Change" />
     <property name="maxLength" value="12" />
     <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern" p:precision="10" p:scale="2"/>
+      <bean parent="FixedPointValidationPattern" p:precision="10" p:scale="2" p:allowNegative="true"/>
     </property>
     <property name="validCharactersConstraint">
       <bean parent="FixedPointPatternConstraint">
         <property name="precision" value="10"/>
         <property name="scale" value="2"/>
+        <property name="allowNegative" value="true" />
       </bean>
     </property>
     <property name="required" value="true" />
@@ -187,10 +188,10 @@
     <property name="shortLabel" value="Anticipated Change" />
     <property name="maxLength" value="12" />
     <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern" p:precision="10" p:scale="2"/>
+      <bean parent="FixedPointValidationPattern" p:precision="10" p:scale="2" p:allowNegative="true" />
     </property>
     <property name="validCharactersConstraint">
-      <bean parent="FixedPointPatternConstraint">
+      <bean parent="FixedPointPatternConstraint" p:allowNegative="true" >
         <property name="precision" value="10"/>
         <property name="scale" value="2"/>
       </bean>
@@ -292,7 +293,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Mime Type" />
     <property name="shortLabel" value="Mime Type" />
-    <property name="maxLength" value="100" />
+    <property name="maxLength" value="4000" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern"
                 p:allowWhitespace="true" />
@@ -331,21 +332,9 @@
     <property name="description" value="Modification Effective Date " />    
   </bean>
   
-   <bean id="SubAwardAmountInfo-modificationID" parent="SubAwardAmountInfo-modificationID-parentBean" />
-  
-  <bean id="SubAwardAmountInfo-modificationID-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="modificationID" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Modification ID" />
-    <property name="shortLabel" value="Modification ID" />
-    <property name="maxLength" value="4000" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
-    <property name="summary" value="Modification ID" />
-    <property name="description" value="Modification ID" />    
+  <bean id="SubAwardAmountInfo-modificationID" parent="SubAwardAmountInfo-modificationID-parentBean" />
+  <bean id="SubAwardAmountInfo-modificationID-parentBean" abstract="true" parent="SubAward-modificationId">
+      <property name="name" value="modificationID" />
   </bean> 
   
   <bean id="SubAwardAmountInfo-periodofPerformanceStartDate" parent="SubAwardAmountInfo-periodofPerformanceStartDate-parentBean" />

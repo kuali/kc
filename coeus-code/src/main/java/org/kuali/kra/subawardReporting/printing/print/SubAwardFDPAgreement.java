@@ -15,21 +15,58 @@
  */
 package org.kuali.kra.subawardReporting.printing.print;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
 
 import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.subaward.bo.SubAwardForms;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
+import org.kuali.kra.subaward.reporting.printing.service.SubAwardPrintingService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class SubAwardFDPAgreement extends AbstractPrint {
     
-    public List<Source> getXSLTemplates() {
+    private BusinessObjectService businessObjectService;
+    
+    /**
+     * Gets the businessObjectService attribute. 
+     * @return Returns the businessObjectService.
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return KcServiceLocator.getService(BusinessObjectService.class);
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+    
+    /*public List<Source> getXSLTemplates() {
         ArrayList<Source> sourceList = PrintingUtils
                 .getXSLTforReport(SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE.getSubAwardPrintType());
         return sourceList;
+    }*/
+    public Map<String,Source> getXSLTemplateWithBookmarks() {
+        Map<String,Source> sourceMap = new LinkedHashMap<String,Source>(); 
+        List<SubAwardForms> printFormTemplates = (List<SubAwardForms>)getReportParameters().get(SubAwardPrintingService.SELECTED_TEMPLATES);
+        for (SubAwardForms sponsorFormTemplate : printFormTemplates) {
+            SubAwardForms sponsorTemplate = (SubAwardForms) getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, 
+                    sponsorFormTemplate.getFormId());
+            sourceMap.put(sponsorFormTemplate.getDescription(),new StreamSource(new ByteArrayInputStream(sponsorTemplate.getAttachmentContent())));
+        }
+        
+        return sourceMap;
     }
 
 }

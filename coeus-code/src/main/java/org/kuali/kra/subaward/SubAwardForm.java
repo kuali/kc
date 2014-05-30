@@ -48,6 +48,7 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -78,23 +79,27 @@ implements PermissionsForm, AuditableForm, CustomDataDocumentForm {
     private SubAwardAttachmentFormBean subAwardAttachmentFormBean;
     private SubAwardReports newSubAwardReport;
     private SubAwardPrintAgreement subAwardPrintAgreement;
-    private List<SponsorFormTemplateList> sponsorFormTemplates;
+    private SubAwardForms subAwardForms;
+    
+   
+    
+
     
 
     /**
-     * Gets the sponsorFormTemplates attribute. 
-     * @return Returns the sponsorFormTemplates.
+     * Gets the subAwardForms attribute. 
+     * @return Returns the subAwardForms.
      */
-    public List<SponsorFormTemplateList> getSponsorFormTemplates() {
-        return sponsorFormTemplates;
+    public SubAwardForms getSubAwardForms() {
+        return subAwardForms;
     }
 
     /**
-     * Sets the sponsorFormTemplates attribute value.
-     * @param sponsorFormTemplates The sponsorFormTemplates to set.
+     * Sets the subAwardForms attribute value.
+     * @param subAwardForms The subAwardForms to set.
      */
-    public void setSponsorFormTemplates(List<SponsorFormTemplateList> sponsorFormTemplates) {
-        this.sponsorFormTemplates = sponsorFormTemplates;
+    public void setSubAwardForms(SubAwardForms subAwardForms) {
+        this.subAwardForms = subAwardForms;
     }
 
     /**

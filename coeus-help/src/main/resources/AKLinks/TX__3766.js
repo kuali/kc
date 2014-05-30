@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3766", [["Documents/entitytype.htm", "right", "Entity Type"],["Documents/gloss_entitytype1.htm", "d2hWnd_SecondaryPopup", "Entity Type"]]);

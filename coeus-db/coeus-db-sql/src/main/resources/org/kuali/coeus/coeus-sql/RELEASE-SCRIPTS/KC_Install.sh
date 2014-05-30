@@ -52,7 +52,7 @@ fi
 
 dbtype=`getChoice 'Enter Database Type' ORACLE MYSQL`
 
-version=`getChoice 'Enter Currently Installed Version' NEW 3.1.1 5.0 5.0.1 5.1 5.1.1`
+version=`getChoice 'Enter Currently Installed Version' NEW 3.1.1 5.0 5.0.1 5.1 5.1.1 5.2`
 
 un=`getAnswer 'Enter KC Database Username'`
 
@@ -103,6 +103,12 @@ fi
 
 case "${dbtype}" in
 	"ORACLE")
+	
+		cd KC-RELEASE-0_0_0-SCRIPT
+        sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-0_0_0-Upgrade-ORACLE.sql
+        mv *.log ../LOGS/
+        cd ..
+        
         cd KC-RELEASE-3_0-CLEAN/oracle
 		
 		if [ "${version}" = "NEW" ]
@@ -319,6 +325,15 @@ case "${dbtype}" in
             cd ..
 		fi
 		
+		if [ "${version}" = "5.2" ] || [ "${version}" = "5.1.1" ] || [ "${version}" = "5.1" ] || [ "${version}" = "5.0.1" ] || [ "${version}" = "5.0" ] || [ "${version}" = '3.1.1' ] || [ "${version}" = "NEW" ]
+        then
+            cd KC-RELEASE-5_2_1-SCRIPT
+            sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-RELEASE-5_2_1-Upgrade-ORACLE.sql
+            sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-5_2_1-Upgrade-ORACLE.sql
+            mv *.log ../LOGS/
+            cd ..
+		fi
+		
 	cd KC-RELEASE-99_9_9-SCRIPT
 	sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-99_9_9-Upgrade-ORACLE.sql
 	mv *.log ../LOGS/
@@ -333,6 +348,7 @@ case "${dbtype}" in
 	
 		cd KC-RELEASE-0_0_0-SCRIPT
         mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-RELEASE-0_0_0-Upgrade-MYSQL.sql > KC-RELEASE-0_0_0-Upgrade-MYSQL-Install.log 2>&1
+        mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < KR-RELEASE-0_0_0-Upgrade-MYSQL.sql > KR-RELEASE-0_0_0-Upgrade-MYSQL-Install.log 2>&1
         mv *.log ../LOGS/
         cd ..
 	
@@ -551,7 +567,16 @@ case "${dbtype}" in
             mv *.log ../LOGS/
             cd ..
         fi
-        
+  
+        if [ "${version}" = "5.2" ] || [ "${version}" = "5.1.1" ] || [ "${version}" = "5.1" ] || [ "${version}" = "5.0.1" ] || [ "${version}" = "5.0" ] || [ "${version}" = '3.1.1' ] || [ "${version}" = "NEW" ]
+        then
+            cd KC-RELEASE-5_2_1-SCRIPT
+            mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-RELEASE-5_2_1-Upgrade-MYSQL.sql > KC-RELEASE-5_2_1-Upgrade-MYSQL-Install.log 2>&1
+            mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < KR-RELEASE-5_2_1-Upgrade-MYSQL.sql > KR-RELEASE-5_2_1-Upgrade-MYSQL-Install.log 2>&1
+            mv *.log ../LOGS/
+            cd ..
+        fi
+              
 		cd KC-RELEASE-99_9_9-SCRIPT
 		mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < KR-RELEASE-99_9_9-Upgrade-MYSQL.sql > KR-RELEASE-99_9_9-Upgrade-MYSQL-Install.log 2>&1
 		mv *.log ../LOGS/

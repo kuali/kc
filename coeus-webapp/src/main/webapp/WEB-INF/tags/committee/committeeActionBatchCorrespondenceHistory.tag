@@ -6,7 +6,7 @@
 
 <h3>
     <span class="subhead-left">Batch Correspondence History</span>
-    <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.correspondence.BatchCorrespondence" altText="help"/></span>
+    <span class="subhead-right"><kul:help parameterNamespace="KC-COMMITTEE" parameterDetailType="Document" parameterName="committeeBatchCorrespondenceHistoryHelpUrl" altText="help"/></span>
 </h3>
 
 <table cellpadding="0" cellspacing="0">
@@ -94,7 +94,7 @@
                                       attributeEntry="${batchCorrespondenceDetailAttributes.batchCorrespondenceTypeCode}" 
                                       readOnly="true" />
         </span>
-        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.committee.bo.CommitteeBatchCorrespondence" altText="help" /></span>
+        <span class="subhead-right"><kul:help parameterNamespace="KC-COMMITTEE" parameterDetailType="Document" parameterName="committeeBatchCorrespondenceHelpUrl" altText="help"/></span>
     </h3>
     
     <c:if test="${not empty KualiForm.committeeHelper.batchCorrespondenceHistory}">

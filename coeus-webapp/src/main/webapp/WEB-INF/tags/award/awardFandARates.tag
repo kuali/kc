@@ -111,7 +111,6 @@
 	            </tr>
 	            </tbody>
 	            </c:if>
-	            <c:set var="total" value="0.0" />
 	        	<c:forEach var="awardFandaRate" items="${KualiForm.document.awardList[0].awardFandaRate}" varStatus="status">
 		             <tr>
 						<th width="5%" class="infoline">
@@ -171,7 +170,6 @@
 						  <c:if test="${readOnly}">&nbsp;</c:if>
 						</div>
 						</td>
-							<c:set var="total" value="${total + KualiForm.document.awardList[0].awardFandaRate[status.index].underrecoveryOfIndirectCostLongValue}" />
 		            </tr>
 	        	</c:forEach>
 	        	<c:if test="${not empty KualiForm.document.awardList[0].awardFandaRate}" >
@@ -185,8 +183,8 @@
 						</div>
 						</td>
 						<td valign="middle" class="infoline">
-						<div align="center">                		
-	                		<fmt:formatNumber type="CURRENCY" value="${total}" />
+						<div align="center">   
+	                		<fmt:formatNumber type="CURRENCY" value="${KualiForm.document.awardList[0].fandATotals}" />  	                		            		
 						</div>
 						</td>
 						<td valign="middle" colspan="2" class="infoline">

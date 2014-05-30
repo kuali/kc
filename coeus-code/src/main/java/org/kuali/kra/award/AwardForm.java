@@ -1450,14 +1450,13 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     public List<Award>getAwardsForHistoryDisplay() {
         List<Award>results = new ArrayList<Award>();
         List<Award>rawList = getAwardDocument().getAward().getAwardVersions();
-        for (int i=0; i<rawList.size();i++) {
-            Award award = rawList.get(i);
-            if (award.getSequenceNumber().compareTo(getAwardDocument().getAward().getSequenceNumber()) > 0) {
-                break;
-            } else {
-                results.add(0,award);  // need reverse order
+        int sequenceNumber = getAwardDocument().getAward().getSequenceNumber();
+        for (Award award : rawList) {
+            if (award.getSequenceNumber() <= sequenceNumber) {
+                results.add(award);
             }
         }
+        Collections.reverse(results);
         return results;
     }
 }
