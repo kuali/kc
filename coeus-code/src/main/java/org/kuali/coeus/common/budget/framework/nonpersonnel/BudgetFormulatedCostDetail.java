@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.nonpersonnel;
+package org.kuali.coeus.common.budget.framework.nonpersonnel;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;

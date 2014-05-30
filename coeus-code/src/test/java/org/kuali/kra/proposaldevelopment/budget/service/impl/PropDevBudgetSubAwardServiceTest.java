@@ -29,7 +29,7 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.impl.core.BudgetServiceImpl;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;

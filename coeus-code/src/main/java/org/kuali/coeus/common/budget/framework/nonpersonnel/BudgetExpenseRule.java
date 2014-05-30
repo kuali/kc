@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.nonpersonnel;
+package org.kuali.coeus.common.budget.framework.nonpersonnel;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -103,7 +103,6 @@ public class BudgetExpenseRule {
      */
     public boolean processCheckLineItemDates(BudgetDocument budgetDocument) {
         boolean valid = true;
-        // TODO - put budget expense validation rules here.
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
         int numLineItems = 0;
         for (BudgetPeriod budgetPeriod : budgetPeriods) {

@@ -21,7 +21,7 @@ import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.coeus.common.budget.framework.core.BudgetAssociate;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetNumberOfMonthsService;
 
