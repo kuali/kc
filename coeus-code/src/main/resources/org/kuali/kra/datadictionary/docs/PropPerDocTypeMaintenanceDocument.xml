@@ -3,7 +3,7 @@
   <bean id="PropPerDocTypeMaintenanceDocument" parent="PropPerDocTypeMaintenanceDocument-parentBean"/>
 
   <bean id="PropPerDocTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.PropPerDocType"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.person.attachment.PropPerDocType"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
@@ -12,9 +12,11 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>documentTypeCode</value>
+        <value>code</value>
       </list>
-    </property>	<property name="allowsRecordDeletion" value="true" />	
+    </property>
+	<property name="allowsRecordDeletion" value="true" />
+	
     
     
     
@@ -35,7 +37,7 @@
     <property name="title" value="Edit Person Document Type"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="documentTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>

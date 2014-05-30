@@ -21,7 +21,7 @@ import org.junit.Test;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalDevelopmentPersonnelAttachmentRule;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.PropPerDocType;
+import org.kuali.coeus.propdev.impl.person.attachment.PropPerDocType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.AddPersonnelAttachmentEvent;
@@ -168,7 +168,7 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
      */
     private ProposalPersonBiography createNewProposalPersonBiography() {
         ProposalPersonBiography proposalPersonBiography = new ProposalPersonBiography();
-        proposalPersonBiography.setDocumentTypeCode(documentTypes.get(1).getDocumentTypeCode());
+        proposalPersonBiography.setDocumentTypeCode(documentTypes.get(1).getCode());
         proposalPersonBiography.setDescription("description");
         proposalPersonBiography.setName("test.dat");
         proposalPersonBiography.setProposalPersonNumber(new Integer(2));
@@ -197,6 +197,6 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
     
 
     private String findOtherDocumentTypeCode() {
-        return findDocumentTypeForDescription(ProposalDevelopmentPersonnelAttachmentRule.OTHER_DOCUMENT_TYPE_DESCRIPTION).getDocumentTypeCode();
+        return findDocumentTypeForDescription(ProposalDevelopmentPersonnelAttachmentRule.OTHER_DOCUMENT_TYPE_DESCRIPTION).getCode();
     }
 }
