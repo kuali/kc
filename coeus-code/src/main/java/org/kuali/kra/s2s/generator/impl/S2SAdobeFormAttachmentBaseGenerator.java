@@ -192,6 +192,9 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
         }        
         if (attachmentCount>1 && !attachmentList.contains(attachmentName.toString())) {
             attachmentList.add(attachmentName.toString());
+            if(attachmentName.length() > 49){
+                attachmentName.delete(49, attachmentName.length());               
+             }
             attachmentName.append(1);
             hasSameFileName = true;                
         } else {
@@ -203,6 +206,9 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
         }            
         if (attachmentList.contains(attachmentName.toString()) && !hasSameFileName) {
             attachmentList.add(attachmentName.toString());
+            if(attachmentName.length() > 49){
+                attachmentName.delete(49, attachmentName.length());               
+             }
             attachmentName.append(suffix);
         } else {
             attachmentList.add(attachmentName.toString());             

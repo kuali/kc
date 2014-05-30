@@ -37,8 +37,6 @@
                 <ref bean="S2sUserAttachedForm-namespace" />
                 <ref bean="S2sUserAttachedForm-formName" />
                 <ref bean="S2sUserAttachedForm-formFileName" />
-                <ref bean="S2sUserAttachedForm-formFile" />
-                <ref bean="S2sUserAttachedForm-xmlFile" />
                 <ref bean="S2sUserAttachedForm-description" />
                 <ref bean="S2sUserAttachedForm-versionNumber" />
             </list>
@@ -137,38 +135,6 @@
         <property name="description" value="Form File Name" />
     </bean>
 
-    <bean id="S2sUserAttachedForm-formFile" parent="S2sUserAttachedForm-formFile-parentBean" />
-    <bean id="S2sUserAttachedForm-formFile-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="formFile" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Form File" />
-        <property name="shortLabel" value="Form File" />
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Form File" />
-        <property name="description" value="Form File" />
-    </bean>
-
-    <bean id="S2sUserAttachedForm-xmlFile" parent="S2sUserAttachedForm-xmlFile-parentBean" />
-    <bean id="S2sUserAttachedForm-xmlFile-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="xmlFile" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Xml File" />
-        <property name="shortLabel" value="Xml File" />
-        <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
-        </property>
-        <property name="control" >
-            <bean parent="TextareaControlDefinition"
-                p:rows="3"
-                p:cols="20" />
-        </property>
-        <property name="summary" value="Xml File" />
-        <property name="description" value="Xml File" />
-    </bean>
-
     <bean id="S2sUserAttachedForm-description" parent="S2sUserAttachedForm-description-parentBean" />
     <bean id="S2sUserAttachedForm-description-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="description" />
@@ -214,10 +180,6 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="formFileName" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="formFile" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="xmlFile" />
-                            <bean parent="FieldDefinition"
                                 p:attributeName="description" />
                         </list>
                     </property>
@@ -249,10 +211,6 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="formFileName" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="formFile" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="xmlFile" />
-                <bean parent="FieldDefinition"
                     p:attributeName="description" />
             </list>
         </property>
@@ -269,10 +227,6 @@
                     p:attributeName="formName" />
                 <bean parent="FieldDefinition"
                     p:attributeName="formFileName" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="formFile" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="xmlFile" />
                 <bean parent="FieldDefinition"
                     p:attributeName="description" />
             </list>

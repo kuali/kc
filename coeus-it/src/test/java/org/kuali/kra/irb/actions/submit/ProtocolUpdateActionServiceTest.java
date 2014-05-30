@@ -114,7 +114,7 @@ public class ProtocolUpdateActionServiceTest extends ProtocolActionServiceTestBa
         }
 
         ProtocolSubmissionStatus protocolSubmissionStatus = new ProtocolSubmissionStatus();
-        protocolSubmissionStatus.setProtocolSubmissionStatusCode("xyz");        
+        protocolSubmissionStatus.setProtocolSubmissionStatusCode(ProtocolSubmissionStatus.PENDING);        
         ProtocolSubmission protocolSubmission = new ProtocolSubmission(){
             // Protocol instantiated in updateProtocolRules can't use this constructor.
             @Override
@@ -127,9 +127,10 @@ public class ProtocolUpdateActionServiceTest extends ProtocolActionServiceTestBa
                 }
             };
         protocolSubmission.setSubmissionStatus(protocolSubmissionStatus);
-        
+        protocolSubmission.setSubmissionStatusCode(protocolSubmissionStatus.getProtocolSubmissionStatusCode());
         ProtocolSubmissionType protocolSubmissionType = new ProtocolSubmissionType();
         protocolSubmission.setProtocolSubmissionType(protocolSubmissionType);
+        protocolSubmission.setSubmissionTypeCode(protocolSubmissionType.getSubmissionTypeCode());
         
         
         protocolSubmission.setSubmissionNumber(1);
