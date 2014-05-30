@@ -249,7 +249,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
                 {
                     RateType type = new RateType();
                     RateClass rClass = new RateClass();
-                    rClass.setRateClassType("cdf");
+                    rClass.setRateClassTypeCode("cdf");
                     type.setRateClass(rClass);
                     rateTypes.add(type);
                 }
@@ -300,7 +300,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
                 {
                     RateType type = new RateType();
                     RateClass rClass = new RateClass();
-                    rClass.setRateClassType("cdf");
+                    rClass.setRateClassTypeCode("cdf");
                     type.setRateClass(rClass);
                     rateTypes.add(type);
                 }
@@ -351,7 +351,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
                 {
                     RateType type = new RateType();
                     RateClass rClass = new RateClass();
-                    rClass.setRateClassType("abc");
+                    rClass.setRateClassTypeCode("abc");
                     type.setRateClass(rClass);
                     rateTypes.add(type);
                 }
@@ -402,7 +402,7 @@ public class InstituteRateRateTypeRateClassRuleTest {
                 {
                     RateType type = new RateType();
                     RateClass rClass = new RateClass();
-                    rClass.setRateClassType("abc");
+                    rClass.setRateClassTypeCode("abc");
                     type.setRateClass(rClass);
                     rateTypes.add(type);
                 }

@@ -88,7 +88,6 @@
 		<c:set var="tabErrorKeyString4" value="document.budget.budgetPeriods[${budgetPeriod - 1}].numberOfParticipants"/>
 	</c:if>
 
-	<%--<c:set var="budgetExpensePanelReadOnly" value="${KualiForm.document.parentDocument.developmentProposalList[0].budgetVersionOverviews[KualiForm.document.budget.budgetVersionNumber-1].finalVersionFlag}" /> --%>
 	<c:if test="${! empty budgetLineItemSize}">
   		<c:set var="tabItemCount" value="${budgetLineItemSize} line item" />
   		<c:if test="${budgetLineItemSize > 1}">

@@ -206,8 +206,8 @@ public class BreakupIntervalServiceTest  extends KcIntegrationTestBase {
 
     private RateClass getRateClass(String rateClassCode,String rateClassType) {
         RateClass rc = new RateClass();
-        rc.setRateClassCode(rateClassCode);
-        rc.setRateClassType(rateClassType);
+        rc.setCode(rateClassCode);
+        rc.setRateClassTypeCode(rateClassType);
         return rc;
     }
 

@@ -16,6 +16,7 @@
 package org.kuali.kra.s2s.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.budget.api.rate.RateClassContract;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
@@ -30,7 +31,6 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.budget.personnel.*;
-import org.kuali.coeus.common.budget.framework.rate.RateClass;
 
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
@@ -181,7 +181,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                 for (BudgetLineItemCalculatedAmount lineItemCalAmt : lineItem.getBudgetLineItemCalculatedAmounts()) {
                     lineItemCalAmt.refreshReferenceObject("rateClass");
                     if (canBudgetLineItemCostSharingInclude(budget, lineItem)) {
-                        if (lineItemCalAmt.getRateClass().getRateClassType().equals(RateClassType.OVERHEAD.getRateClassType())) {
+                        if (lineItemCalAmt.getRateClass().getRateClassTypeCode().equals(RateClassType.OVERHEAD.getRateClassType())) {
                             totalIndirectCostSharing = totalIndirectCostSharing.add(lineItemCalAmt.getCalculatedCostSharing());
                         }
                         else {
@@ -209,7 +209,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                     }
                     if (lineItemCalAmt
                             .getRateClass()
-                            .getRateClassType()
+                            .getRateClassTypeCode()
                             .equals(s2SConfigurationService.getValueAsString(
                                     ConfigurationConstants.S2SBUDGET_RATE_CLASS_TYPE_LAB_ALLOCATION_SALARIES))) {
                         budgetDetailsCost = budgetDetailsCost.add(lineItemCalAmt.getCalculatedCost());
@@ -220,13 +220,13 @@ public class S2SBudgetCalculatorServiceImpl implements
                     }
                     if ((lineItemCalAmt
                             .getRateClass()
-                            .getRateClassType()
+                            .getRateClassTypeCode()
                             .equals(s2SConfigurationService.getValueAsString(
                                     ConfigurationConstants.S2SBUDGET_RATE_CLASS_TYPE_EMPLOYEE_BENEFITS)) && lineItemCalAmt.getRateTypeCode()
                             .equals(rateTypeSupportStaffSalaries))
                             || (lineItemCalAmt
                                     .getRateClass()
-                                    .getRateClassType()
+                                    .getRateClassTypeCode()
                                     .equals(s2SConfigurationService.getValueAsString(
                                             ConfigurationConstants.S2SBUDGET_RATE_CLASS_TYPE_VACATION)) && lineItemCalAmt.getRateTypeCode()
                                     .equals(rateTypeAdministrativeSalaries))) {
@@ -519,7 +519,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                     for (BudgetLineItemCalculatedAmount lineItemCalculatedAmt : lineItem.getBudgetLineItemCalculatedAmounts()) {
                         lineItemCalculatedAmt.refreshReferenceObject("rateClass");
                         if (lineItem.getSubmitCostSharingFlag()) {
-                            if (lineItemCalculatedAmt.getRateClass().getRateClassType()
+                            if (lineItemCalculatedAmt.getRateClass().getRateClassTypeCode()
                                     .equals(RateClassType.OVERHEAD.getRateClassType())) {
                                 totalIndirectCostSharing = totalIndirectCostSharing.add(lineItemCalculatedAmt
                                         .getCalculatedCostSharing());
@@ -758,7 +758,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                         .getBudgetLineItemCalculatedAmounts()) {
                     if (lineItemCalculatedAmount
                             .getRateClass()
-                            .getRateClassType()
+                            .getRateClassTypeCode()
                             .equals(s2SConfigurationService.getValueAsString(
                                     ConfigurationConstants.S2SBUDGET_RATE_CLASS_TYPE_LAB_ALLOCATION_SALARIES))) {
                         mrLaCost = mrLaCost.add(lineItemCalculatedAmount.getCalculatedCost());
@@ -771,14 +771,14 @@ public class S2SBudgetCalculatorServiceImpl implements
                     // Calculate the fringe
                     if ((lineItemCalculatedAmount
                             .getRateClass()
-                            .getRateClassType()
+                            .getRateClassTypeCode()
                             .equals(s2SConfigurationService.getValueAsString(
                                     ConfigurationConstants.S2SBUDGET_RATE_CLASS_TYPE_EMPLOYEE_BENEFITS)) && lineItemCalculatedAmount
                                     .getRateTypeCode().equals(
                                             rateTypeSupportStaffSalaries))
                                             || (lineItemCalculatedAmount
                                                     .getRateClass()
-                                                    .getRateClassType()
+                                                    .getRateClassTypeCode()
                                                     .equals(s2SConfigurationService.getValueAsString(
                                                             ConfigurationConstants.S2SBUDGET_RATE_CLASS_TYPE_VACATION)) && lineItemCalculatedAmount
                                                             .getRateTypeCode().equals(
@@ -905,7 +905,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                                 lineItemCalculatedAmount.refreshReferenceObject("rateClass");
 
                                 // Calculate fringe cost
-                                if (lineItemCalculatedAmount.getRateClass().getRateClassType().equalsIgnoreCase("E")) {
+                                if (lineItemCalculatedAmount.getRateClass().getRateClassTypeCode().equalsIgnoreCase("E")) {
                                     fringeCost = fringeCost.add(lineItemCalculatedAmount.getCalculatedCost());
                                 }
                                 if ((lineItemCalculatedAmount.getRateClassCode().equals(
@@ -1014,9 +1014,9 @@ public class S2SBudgetCalculatorServiceImpl implements
             Map<String, IndirectCostDetails> costDetailsMap = new HashMap<String, IndirectCostDetails>();
             for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
                 for (BudgetRateAndBase rateBase : lineItem.getBudgetRateAndBaseList()) {
-                    RateClass rateClass = rateBase.getRateClass();
-                    if (rateClass.getRateClassType().equals(RateClassType.OVERHEAD.getRateClassType())) {
-                        String rateClassCode = rateClass.getRateClassCode();
+                    RateClassContract rateClass = rateBase.getRateClass();
+                    if (rateClass.getRateClassType().getCode().equals(RateClassType.OVERHEAD.getRateClassType())) {
+                        String rateClassCode = rateClass.getCode();
                         String rateTypeCode = rateBase.getRateTypeCode();
                         appliedRate = rateBase.getAppliedRate();
                         StringBuilder keyBuilder = new StringBuilder();
@@ -1141,7 +1141,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                 lineItemCalculatedAmt.refreshReferenceObject("rateClass");
                 if (lineItemCalculatedAmt
                         .getRateClass()
-                        .getRateClassType()
+                        .getRateClassTypeCode()
                         .equals(s2SConfigurationService.getValueAsString(
                                 ConfigurationConstants.S2SBUDGET_RATE_CLASS_TYPE_SALARIES_MS))) {
                     totalCost = totalCost.add(lineItemCalculatedAmt.getCalculatedCost());
@@ -1897,7 +1897,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                         personCalculatedAmt.refreshReferenceObject("rateClass");
                         if ((personCalculatedAmt
                                 .getRateClass()
-                                .getRateClassType()
+                                .getRateClassTypeCode()
                                 .equals(s2SConfigurationService.getValueAsString(
                                         ConfigurationConstants.S2SBUDGET_RATE_CLASS_TYPE_EMPLOYEE_BENEFITS)) && !personCalculatedAmt
                                 .getRateTypeCode().equals(
@@ -1905,7 +1905,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                                                 ConfigurationConstants.S2SBUDGET_RATE_TYPE_SUPPORT_STAFF_SALARIES)))
                                 || (personCalculatedAmt
                                         .getRateClass()
-                                        .getRateClassType()
+                                        .getRateClassTypeCode()
                                         .equals(s2SConfigurationService.getValueAsString(
                                                 ConfigurationConstants.S2SBUDGET_RATE_CLASS_TYPE_VACATION)) && !personCalculatedAmt
                                         .getRateTypeCode().equals(

@@ -38,39 +38,39 @@ public class CustomAttributeDocumentTestUtilities {
     public static Map<String, CustomAttributeDocument> setupTestCustomAttributeDocuments() {
         Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
 
-        CustomAttribute customAttribute = buildCustomAttribute(1, "billingElement", "Billing Element", "1", new Integer(40), GROUP_NAME_1);
+        CustomAttribute customAttribute = buildCustomAttribute(1L, "billingElement", "Billing Element", "1", new Integer(40), GROUP_NAME_1);
         CustomAttributeDocument customAttributeDocument = buildCustomAttributeDocument("PRDV", true, customAttribute);
         customAttributeDocuments.put("1", customAttributeDocument);
 
-        customAttribute = buildCustomAttribute(2, "costSharingBudget", "Cost Sharing Budget", "1", new Integer(30), GROUP_NAME_1);
+        customAttribute = buildCustomAttribute(2L, "costSharingBudget", "Cost Sharing Budget", "1", new Integer(30), GROUP_NAME_1);
         customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
         customAttributeDocuments.put("2", customAttributeDocument);
 
-        customAttribute = buildCustomAttribute(3, "numberOfTrainees", "# of Trainees", "2", new Integer(6), GROUP_NAME_1);
+        customAttribute = buildCustomAttribute(3L, "numberOfTrainees", "# of Trainees", "2", new Integer(6), GROUP_NAME_1);
         customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
         customAttributeDocuments.put("3", customAttributeDocument);
 
-        customAttribute = buildCustomAttribute(4, "graduateStudentCount", "Graduate Student Count", "2", new Integer(6), GROUP_NAME_2);
+        customAttribute = buildCustomAttribute(4L, "graduateStudentCount", "Graduate Student Count", "2", new Integer(6), GROUP_NAME_2);
         customAttributeDocument = buildCustomAttributeDocument("PRDV", true, customAttribute);
         customAttributeDocuments.put("4", customAttributeDocument);
 
-        customAttribute = buildCustomAttribute(5, "tenured", "Tenured", "1", new Integer(30), GROUP_NAME_2, "org.kuali.kra.bo.KcPerson", "userName");
+        customAttribute = buildCustomAttribute(5L, "tenured", "Tenured", "1", new Integer(30), GROUP_NAME_2, "org.kuali.kra.bo.KcPerson", "userName");
         customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
         customAttributeDocuments.put("5", customAttributeDocument);
 
-        customAttribute = buildCustomAttribute(6, "exportControls", "Export Controls", "1", new Integer(30), GROUP_NAME_3);
+        customAttribute = buildCustomAttribute(6L, "exportControls", "Export Controls", "1", new Integer(30), GROUP_NAME_3);
         customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
         customAttributeDocuments.put("6", customAttributeDocument);
 
-        customAttribute = buildCustomAttribute(7, "inventions", "Inventions", "1", new Integer(30), GROUP_NAME_3, "org.kuali.kra.bo.KcPerson", "userName");
+        customAttribute = buildCustomAttribute(7L, "inventions", "Inventions", "1", new Integer(30), GROUP_NAME_3, "org.kuali.kra.bo.KcPerson", "userName");
         customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
         customAttributeDocuments.put("7", customAttributeDocument);
 
-        customAttribute = buildCustomAttribute(8, "localReviewDate", "Local Review Date", "3", new Integer(10), GROUP_NAME_1);
+        customAttribute = buildCustomAttribute(8L, "localReviewDate", "Local Review Date", "3", new Integer(10), GROUP_NAME_1);
         customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
         customAttributeDocuments.put("8", customAttributeDocument);
 
-        customAttribute = buildCustomAttribute(11, "ARRA_FUNDING", "ARRA Funding", "1", new Integer(3), GROUP_NAME_4,"org.kuali.coeus.common.framework.custom.arg.ArgValueLookup","yes_no_flag");
+        customAttribute = buildCustomAttribute(11L, "ARRA_FUNDING", "ARRA Funding", "1", new Integer(3), GROUP_NAME_4,"org.kuali.coeus.common.framework.custom.arg.ArgValueLookup","yes_no_flag");
         customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
         customAttributeDocuments.put("9", customAttributeDocument);
         
@@ -79,7 +79,7 @@ public class CustomAttributeDocumentTestUtilities {
 
     private static CustomAttributeDocument buildCustomAttributeDocument(String documentTypeCode, boolean required, CustomAttribute customAttribute) {
         CustomAttributeDocument customAttributeDocument = new CustomAttributeDocument();
-        customAttributeDocument.setCustomAttributeId(customAttribute.getId());
+        customAttributeDocument.setId(customAttribute.getId());
         customAttributeDocument.setDocumentTypeName(documentTypeCode);
         customAttributeDocument.setRequired(required);
 
@@ -87,11 +87,11 @@ public class CustomAttributeDocumentTestUtilities {
         return customAttributeDocument;
     }
 
-    private static CustomAttribute buildCustomAttribute(Integer id, String name, String label, String dataTypeCode, Integer dataLength, String groupName) {
+    private static CustomAttribute buildCustomAttribute(Long id, String name, String label, String dataTypeCode, Integer dataLength, String groupName) {
         return buildCustomAttribute(id, name, label, dataTypeCode, dataLength, groupName, null, null);
     }
 
-    private static CustomAttribute buildCustomAttribute(Integer id, String name, String label, String dataTypeCode, Integer dataLength, String groupName, String lookupClass, String lookupReturn) {
+    private static CustomAttribute buildCustomAttribute(Long id, String name, String label, String dataTypeCode, Integer dataLength, String groupName, String lookupClass, String lookupReturn) {
         CustomAttribute customAttribute = new CustomAttribute();
 
         customAttribute.setId(id);

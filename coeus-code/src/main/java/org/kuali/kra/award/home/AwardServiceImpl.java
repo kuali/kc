@@ -111,9 +111,9 @@ public class AwardServiceImpl implements AwardService {
             Map<String, CustomAttributeDocument> customAttributeDocuments = oldAward.getAwardDocument().getCustomAttributeDocuments();
             for (Map.Entry<String, CustomAttributeDocument> entry : customAttributeDocuments.entrySet()) {
                 CustomAttributeDocument customAttributeDocument = entry.getValue();
-                if(!availableCustomAttributes.contains(customAttributeDocument.getCustomAttributeId())) {
+                if(!availableCustomAttributes.contains(customAttributeDocument.getId())) {
                     AwardCustomData awardCustomData = new AwardCustomData();
-                    awardCustomData.setCustomAttributeId((long) customAttributeDocument.getCustomAttributeId());
+                    awardCustomData.setCustomAttributeId((long) customAttributeDocument.getId());
                     awardCustomData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
                     awardCustomData.setValue(customAttributeDocument.getCustomAttribute().getDefaultValue());
                     awardCustomData.setAward(newAward);

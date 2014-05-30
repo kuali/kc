@@ -77,12 +77,12 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         }
         for(CustomAttributeDocument customAttributeDocument:customAttributeDocumentList) {
             boolean customAttributeExists = false;
-            if (!customIds.isEmpty() && customIds.contains(customAttributeDocument.getCustomAttributeId().longValue())) {
+            if (!customIds.isEmpty() && customIds.contains(customAttributeDocument.getId().longValue())) {
                 customAttributeExists = true;
             }
 
             if (customAttributeDocument.isActive() || customAttributeExists) {
-                customAttributeDocuments.put(customAttributeDocument.getCustomAttributeId().toString(), customAttributeDocument);
+                customAttributeDocuments.put(customAttributeDocument.getId().toString(), customAttributeDocument);
             }
         }
         return customAttributeDocuments;
@@ -122,7 +122,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
 
         if (StringUtils.isNotEmpty(dataTypeCode)) {
             return (CustomAttributeDataType) dataObjectService.findUnique(CustomAttributeDataType.class,
-            		QueryByCriteria.Builder.forAttribute("dataTypeCode", dataTypeCode).build());
+            		QueryByCriteria.Builder.forAttribute("code", dataTypeCode).build());
         }
         return null;
         

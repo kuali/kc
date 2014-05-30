@@ -52,7 +52,7 @@
 				</th>
 				<td width="45%">
 				<c:forEach var="customAttribute" items="${customDataList}" varStatus="status"> 
-					<c:if test="${customAttribute.customAttributeId == customAttributeDocument.customAttributeId}">
+					<c:if test="${customAttribute.id == customAttributeDocument.id}">
 						<c:set var="customAttributeIndex" value="${status.index}" />
 						<c:set var="customAttributeValue" value="${customAttribute.value}" />
 						<c:set var="customAttributeId" value="${customDataListPrefix}[${customAttributeIndex}].value" />

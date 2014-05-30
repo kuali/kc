@@ -15,36 +15,39 @@
  */
 package org.kuali.coeus.common.budget.framework.rate;
 
+import org.kuali.coeus.budget.api.rate.RateClassContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "RATE_CLASS")
-public class RateClass extends KcPersistableBusinessObjectBase {
+public class RateClass extends KcPersistableBusinessObjectBase implements RateClassContract {
 
     @Id
     @Column(name = "RATE_CLASS_CODE")
-    private String rateClassCode;
+    private String code;
 
     @Column(name = "DESCRIPTION")
     private String description;
 
     @Column(name = "RATE_CLASS_TYPE")
-    private String rateClassType;
+    private String rateClassTypeCode;
 
     @ManyToOne(cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "RATE_CLASS_TYPE", referencedColumnName = "RATE_CLASS_TYPE", insertable = false, updatable = false)
-    private RateClassType rateClassTypeT;
+    @JoinColumn(insertable = false, updatable = false)
+    private RateClassType rateClassType;
 
-    public String getRateClassCode() {
-        return rateClassCode;
+    @Override
+    public String getCode() {
+        return code;
     }
 
-    public void setRateClassCode(String rateClassCode) {
-        this.rateClassCode = rateClassCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -53,19 +56,20 @@ public class RateClass extends KcPersistableBusinessObjectBase {
         this.description = description;
     }
 
-    public String getRateClassType() {
+    public String getRateClassTypeCode() {
+        return rateClassTypeCode;
+    }
+
+    public void setRateClassTypeCode(String rateClassTypeCode) {
+        this.rateClassTypeCode = rateClassTypeCode;
+    }
+
+    @Override
+    public RateClassType getRateClassType() {
         return rateClassType;
     }
 
-    public void setRateClassType(String rateClassType) {
+    public void setRateClassType(RateClassType rateClassType) {
         this.rateClassType = rateClassType;
-    }
-
-    public RateClassType getRateClassTypeT() {
-        return rateClassTypeT;
-    }
-
-    public void setRateClassTypeT(RateClassType rateClassTypeT) {
-        this.rateClassTypeT = rateClassTypeT;
     }
 }

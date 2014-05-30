@@ -19,7 +19,7 @@ import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 
 
 public interface DocumentCustomData {
-    
+
     public Long getCustomAttributeId();
 
     public void setCustomAttributeId(Long customAttributeId);

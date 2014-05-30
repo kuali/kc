@@ -137,7 +137,7 @@ public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectB
     }
 
     public String getRateClassType() {
-        return rateClass.getRateClassType();
+        return rateClass.getRateClassTypeCode();
     }
 
     public int compareTo(AbstractInstituteRate abstractInstituteRate) {
