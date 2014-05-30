@@ -17,35 +17,36 @@
  */
 -->
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <bean id="LookupableDevelopmentProposal" parent="LookupableDevelopmentProposal-parentBean" />
-    <bean id="LookupableDevelopmentProposal-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <bean id="LookupableDevelopmentProposalEnroute" parent="LookupableDevelopmentProposalEnroute-parentBean" />
+    <bean id="LookupableDevelopmentProposalEnroute-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.core.LookupableDevelopmentProposal" />
 		<property name="objectLabel" value="Lookupable Development Proposal" />
         <property name="lookupDefinition" >
-            <ref bean="LookupableDevelopmentProposal-lookupDefinition" />
+            <ref bean="LookupableDevelopmentProposalEnroute-lookupDefinition" />
         </property>
-        <property name="titleAttribute" value="LookupableDevelopmentProposalNumber" />
+        <property name="titleAttribute" value="LookupableDevelopmentProposalEnrouteNumber" />
 
         <property name="attributes" >
             <list>
-                <ref bean="LookupableDevelopmentProposal-proposalNumber" />
-                <ref bean="LookupableDevelopmentProposal-title" />
-				<ref bean="LookupableDevelopmentProposal-sponsorCode" />
-                <ref bean="LookupableDevelopmentProposal-ownedByUnitNumber" />
-				<ref bean="LookupableDevelopmentProposal-ownedByUnitName" />
-				<ref bean="LookupableDevelopmentProposal-proposalTypeCode" />
-				<ref bean="LookupableDevelopmentProposal-proposalTypeDescription" />
-				<ref bean="LookupableDevelopmentProposal-deadlineDate" />
-				<ref bean="LookupableDevelopmentProposal-investigator" />
-				<ref bean="LookupableDevelopmentProposal-documentNumber" />
-				<ref bean="LookupableDevelopmentProposal-sponsor.sponsorName" />
+                <ref bean="LookupableDevelopmentProposalEnroute-proposalNumber" />
+                <ref bean="LookupableDevelopmentProposalEnroute-title" />
+				<ref bean="LookupableDevelopmentProposalEnroute-sponsorCode" />
+                <ref bean="LookupableDevelopmentProposalEnroute-ownedByUnitNumber" />
+				<ref bean="LookupableDevelopmentProposalEnroute-ownedByUnitName" />
+				<ref bean="LookupableDevelopmentProposalEnroute-proposalTypeCode" />
+				<ref bean="LookupableDevelopmentProposalEnroute-proposalTypeDescription" />
+				<ref bean="LookupableDevelopmentProposalEnroute-deadlineDate" />
+				<ref bean="LookupableDevelopmentProposalEnroute-investigator" />
+				<ref bean="LookupableDevelopmentProposalEnroute-documentNumber" />
+				<ref bean="LookupableDevelopmentProposalEnroute-sponsor.sponsorName" />
+				<ref bean="LookupableDevelopmentProposalEnroute-statusCode" />
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
-    <bean id="LookupableDevelopmentProposal-proposalNumber" parent="LookupableDevelopmentProposal-proposalNumber-parentBean" />
-    <bean id="LookupableDevelopmentProposal-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="LookupableDevelopmentProposalEnroute-proposalNumber" parent="LookupableDevelopmentProposalEnroute-proposalNumber-parentBean" />
+    <bean id="LookupableDevelopmentProposalEnroute-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="proposalNumber" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Proposal Number" />
@@ -67,8 +68,8 @@
         <property name="description" value="Proposal Number" />
     </bean>
     
-    <bean id="LookupableDevelopmentProposal-documentNumber" parent="LookupableDevelopmentProposal-documentNumber-parentBean" />
-    <bean id="LookupableDevelopmentProposal-documentNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="LookupableDevelopmentProposalEnroute-documentNumber" parent="LookupableDevelopmentProposalEnroute-documentNumber-parentBean" />
+    <bean id="LookupableDevelopmentProposalEnroute-documentNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="documentNumber" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Document Number" />
@@ -90,8 +91,8 @@
         <property name="description" value="Document Number" />
     </bean>
     
-    <bean id="LookupableDevelopmentProposal-title" parent="LookupableDevelopmentProposal-title-parentBean" />
-    <bean id="LookupableDevelopmentProposal-title-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="LookupableDevelopmentProposalEnroute-title" parent="LookupableDevelopmentProposalEnroute-title-parentBean" />
+    <bean id="LookupableDevelopmentProposalEnroute-title-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="title" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Proposal Title" />
@@ -113,8 +114,8 @@
         <property name="description" value="Proposal Title" />
     </bean>
     
-	<bean id="LookupableDevelopmentProposal-sponsorCode" parent="LookupableDevelopmentProposal-sponsorCode-parentBean" />
-  <bean id="LookupableDevelopmentProposal-sponsorCode-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="LookupableDevelopmentProposalEnroute-sponsorCode" parent="LookupableDevelopmentProposalEnroute-sponsorCode-parentBean" />
+  <bean id="LookupableDevelopmentProposalEnroute-sponsorCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="sponsorCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Sponsor Code" />
@@ -137,8 +138,8 @@
     <property name="description" value="The identification number of the organization or agency that is providing support for the sponsored project."/>
 	</bean>
 
-	<bean id="LookupableDevelopmentProposal-ownedByUnitNumber" parent="LookupableDevelopmentProposal-ownedByUnitNumber-parentBean" />
-	<bean id="LookupableDevelopmentProposal-ownedByUnitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
+	<bean id="LookupableDevelopmentProposalEnroute-ownedByUnitNumber" parent="LookupableDevelopmentProposalEnroute-ownedByUnitNumber-parentBean" />
+	<bean id="LookupableDevelopmentProposalEnroute-ownedByUnitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
 		<property name="name" value="ownedByUnitNumber" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Lead Unit" />
@@ -155,8 +156,8 @@
     <property name="description" value="The proposal's fixed home unit that will be used for routing and business rule purposes. AKA Owned by Unit."/>
 	</bean>
 	
-	<bean id="LookupableDevelopmentProposal-ownedByUnitName" parent="LookupableDevelopmentProposal-ownedByUnitName-parentBean" />
-  <bean id="LookupableDevelopmentProposal-ownedByUnitName-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="LookupableDevelopmentProposalEnroute-ownedByUnitName" parent="LookupableDevelopmentProposalEnroute-ownedByUnitName-parentBean" />
+  <bean id="LookupableDevelopmentProposalEnroute-ownedByUnitName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="ownedByUnitName" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Lead Unit Name" />
@@ -180,8 +181,8 @@
     <property name="description" value="The proposal's fixed home unit that will be used for routing and business rule purposes. AKA Owned by Unit."/>
 	</bean>
 
-	<bean id="LookupableDevelopmentProposal-proposalTypeCode" parent="LookupableDevelopmentProposal-proposalTypeCode-parentBean" />
-  <bean id="LookupableDevelopmentProposal-proposalTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="LookupableDevelopmentProposalEnroute-proposalTypeCode" parent="LookupableDevelopmentProposalEnroute-proposalTypeCode-parentBean" />
+  <bean id="LookupableDevelopmentProposalEnroute-proposalTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="proposalTypeCode" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Proposal Type" />
@@ -211,9 +212,33 @@
 		<property name="summary" value="The Types that the Proposal Could be." />
 		<property name="description" value="The type of the proposal." />
 	</bean>
+	
+	
+	
+	<bean id="LookupableDevelopmentProposalEnroute-statusCode" parent="LookupableDevelopmentProposalEnroute-statusCode-parentBean" />
+  <bean id="LookupableDevelopmentProposalEnroute-statusCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="statusCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Proposal State" />
+		<property name="shortLabel" value="Proposal State" />
+		<property name="maxLength" value="3" />
+		<!-- <property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property> -->
+	<!-- 	<property name="control">
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.propdev.impl.state.ProposalState" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="stateTypeCode" p:labelAttribute="description"/>
+    </property> -->
+		<property name="summary" value="Proposal State" />
+    <property name="description" value="The Proposal State for this Proposal Development Document"/>
+	</bean>
 
-	<bean id="LookupableDevelopmentProposal-proposalTypeDescription" parent="LookupableDevelopmentProposal-proposalTypeDescription-parentBean" />
-  <bean id="LookupableDevelopmentProposal-proposalTypeDescription-parentBean" abstract="true" parent="ProposalType-description">
+
+
+	<bean id="LookupableDevelopmentProposalEnroute-proposalTypeDescription" parent="LookupableDevelopmentProposalEnroute-proposalTypeDescription-parentBean" />
+  <bean id="LookupableDevelopmentProposalEnroute-proposalTypeDescription-parentBean" abstract="true" parent="ProposalType-description">
 		<property name="name" value="proposalTypeDescription" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Proposal Type" />
@@ -223,8 +248,8 @@
 		<property name="description" value="The type of the proposal." />
 	</bean>
 
-	<bean id="LookupableDevelopmentProposal-deadlineDate" parent="LookupableDevelopmentProposal-deadlineDate-parentBean" />
-  <bean id="LookupableDevelopmentProposal-deadlineDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+	<bean id="LookupableDevelopmentProposalEnroute-deadlineDate" parent="LookupableDevelopmentProposalEnroute-deadlineDate-parentBean" />
+  <bean id="LookupableDevelopmentProposalEnroute-deadlineDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
 		<property name="name" value="deadlineDate" />
 		<property name="label" value="Sponsor Deadline Date" />
 		<property name="shortLabel" value="Sponsor Deadline Date" />
@@ -233,8 +258,8 @@
     <property name="description" value="The date in which the proposal is due to the sponsoring agency.  Additional deadlines may be set by the office authorized to submit proposals on behalf of the institution (e.g. sponsored programs, etc.)."/>
 	</bean>
 	
- 	<bean id="LookupableDevelopmentProposal-investigator" parent="LookupableDevelopmentProposal-investigator-parentBean" />
-	<bean id="LookupableDevelopmentProposal-investigator-parentBean" abstract="true" parent="AttributeDefinition" >
+ 	<bean id="LookupableDevelopmentProposalEnroute-investigator" parent="LookupableDevelopmentProposalEnroute-investigator-parentBean" />
+	<bean id="LookupableDevelopmentProposalEnroute-investigator-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="investigator" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Investigator" />
@@ -258,20 +283,19 @@
 		<property name="description" value="Investigator" />
 	</bean>
 
-    <bean id="LookupableDevelopmentProposal-sponsor.sponsorName" parent="LookupableDevelopmentProposal-sponsor.sponsorName-parentBean" />
-    <bean id="LookupableDevelopmentProposal-sponsor.sponsorName-parentBean" abstract="true" parent="Sponsor-sponsorName">
+    <bean id="LookupableDevelopmentProposalEnroute-sponsor.sponsorName" parent="LookupableDevelopmentProposalEnroute-sponsor.sponsorName-parentBean" />
+    <bean id="LookupableDevelopmentProposalEnroute-sponsor.sponsorName-parentBean" abstract="true" parent="Sponsor-sponsorName">
         <property name="name" value="sponsor.sponsorName" />
         <property name="label" value="Sponsor Name" />
         <property name="shortLabel" value="Sponsor Name" />
         <property name="required" value="false" />    
-    </bean> 
-
+    </bean>
     
-    <bean id="LookupableDevelopmentProposal-lookupDefinition" parent="LookupableDevelopmentProposal-lookupDefinition-parentBean" />
-  <bean id="LookupableDevelopmentProposal-LookupView" parent="LookupableDevelopmentProposal-LookupView-parentBean"/>
-    <bean id="LookupableDevelopmentProposal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" 	>
-      <property name="title" value="Proposal Development Document Lookup" />
-      <property name="lookupableID" value="lookupableDevelopmentProposalLookupable" />
+    <bean id="LookupableDevelopmentProposalEnroute-lookupDefinition" parent="LookupableDevelopmentProposalEnroute-lookupDefinition-parentBean" />
+  <bean id="LookupableDevelopmentProposalEnroute-LookupView"   parent="LookupableDevelopmentProposalEnroute-LookupView-parentBean"/>
+    <bean id="LookupableDevelopmentProposalEnroute-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" 	>
+      <property name="title" value="Proposal Development Enroute Document Lookup" />
+      <property name="lookupableID" value="LookupableDevelopmentProposalEnrouteLookupable" />
       <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
       <property name="defaultSort" >
       <bean parent="SortDefinition"/>
@@ -302,10 +326,10 @@
       <property name="resultSetLimit" value="50" />
     </bean>
 
-  <bean id="LookupableDevelopmentProposal-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-   <property name="headerText" value="Proposal Development Document Lookup"/>
-   <property name="viewName" value="LookupableDevelopmentProposal-LookupView12"/>
+  <bean id="LookupableDevelopmentProposalEnroute-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+  	<property name="viewName" value="LookupableDevelopmentProposalEnroute-LookupViewName"/>
     <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.core.LookupableDevelopmentProposal"/>
+      <property name="headerText" value="Proposal Development Document Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">
         <property name="items">
@@ -324,7 +348,8 @@
         <bean p:propertyName="investigator" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="ownedByUnitNumber" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="proposalTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="proposalTypeCode" parent="Uif-LookupCriteriaInputField" />
+        <bean p:propertyName="proposalStateTypeCode" parent="Uif-LookupCriteriaInputField" p:defaultValue="2" p:hidden="true"/>
         <bean p:propertyName="deadlineDate" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
@@ -337,9 +362,13 @@
         <bean p:propertyName="sponsorCode" parent="Uif-DataField"/>
         <bean p:propertyName="ownedByUnitNumber" parent="Uif-DataField"/>
         <bean p:propertyName="proposalTypeDescription" parent="Uif-DataField"/>
+        <!--  <bean p:propertyName="statusCode" parent="Uif-DataField" />-->
         <bean p:propertyName="deadlineDate" parent="Uif-DataField"/>
+         
       </list>
     </property>
   </bean>
   
- </beans>
+ 
+  
+  </beans>

@@ -57,6 +57,8 @@ public class LookupableDevelopmentProposal extends KcPersistableBusinessObjectBa
     private ProposalType proposalType;
 
     private Date deadlineDate;
+    
+    private String statusCode;
 
     private List<ProposalPerson> proposalPersons;
 
@@ -178,7 +180,18 @@ public class LookupableDevelopmentProposal extends KcPersistableBusinessObjectBa
     public List<ProposalPerson> getProposalPersons() {
         return this.proposalPersons;
     }
+    
+    public String
+    getStatusCode()
+    {
+    	return statusCode;
+    }
 
+    public void
+    setStatusCode(String statusCode)
+    {
+    	this.statusCode = statusCode;
+    }
 public String toString() {
     return "Proposal: sponsorCode = " + sponsorCode
     + ", proposalNumber = " + proposalNumber
@@ -188,4 +201,6 @@ public String toString() {
     + ", type = " + proposalTypeCode
     + ", deadline = " + deadlineDate;
 }
+
+
 }
