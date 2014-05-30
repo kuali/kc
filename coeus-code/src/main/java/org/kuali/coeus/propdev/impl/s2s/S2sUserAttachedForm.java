@@ -30,7 +30,6 @@ import javax.persistence.*;
 @Table(name = "S2S_USER_ATTACHED_FORM")
 public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase implements S2sUserAttachedFormContract {
     
-    private static final long serialVersionUID = 1L;
 
     @PortableSequenceGenerator(name = "SEQ_S2S_USER_ATTD_FORM_ID")
     @GeneratedValue(generator = "SEQ_S2S_USER_ATTD_FORM_ID")
@@ -41,6 +40,10 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase impleme
     @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
     
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    private DevelopmentProposal developmentProposal;
+    
     @Column(name = "NAMESPACE")
     private String namespace; 
     
@@ -50,16 +53,6 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase impleme
     @Column(name = "FORM_FILE_NAME")
     private String formFileName;
     
-    @Column(name = "FORM_FILE")
-    @Basic(fetch = FetchType.LAZY)
-    @Lob
-    private byte[] formFile;
-    
-    @Column(name = "XML_FILE")
-    @Basic(fetch = FetchType.LAZY)
-    @Lob
-    private String xmlFile; 
-    
     @Column(name = "DESCRIPTION")
     private String description; 
     
@@ -67,30 +60,22 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase impleme
     @JoinColumn(name = "S2S_USER_ATTACHED_FORM_ID", referencedColumnName = "S2S_USER_ATTACHED_FORM_ID")
     private List<S2sUserAttachedFormAtt> s2sUserAttachedFormAtts;
 
-    @ManyToOne(cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "PROPOSAL_NUMBER", insertable = false, updatable = false)
-    private DevelopmentProposal developmentProposal;
-
-    @Transient
-    private Integer userAttachedFormNumber;
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "S2S_USER_ATTACHED_FORM_ID", referencedColumnName = "S2S_USER_ATTACHED_FORM_ID")
+    private List<S2sUserAttachedFormFile> s2sUserAttachedFormFileList;
 
     @Transient
     private transient boolean edit = false;
     
     @Transient
     private transient FormFile newFormFile;
-    
+
     @Transient
-    private transient boolean newFormFileError = false;
-    
-    @Transient
-    private boolean xmlDataExists;
-    
-    @Transient
-    private boolean formFileDataExists;
+    private transient byte[] newFormFileBytes;
         
     public S2sUserAttachedForm() { 
         s2sUserAttachedFormAtts = new ArrayList<S2sUserAttachedFormAtt>();
+        s2sUserAttachedFormFileList = new ArrayList<S2sUserAttachedFormFile>();
     }
 
     @Override
@@ -109,14 +94,6 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase impleme
 
     public void setProposalNumber(String proposalNumber) {
         this.proposalNumber = proposalNumber;
-    }
-
-    public Integer getUserAttachedFormNumber() {
-        return userAttachedFormNumber;
-    }
-
-    public void setUserAttachedFormNumber(Integer userAttachedFormNumber) {
-        this.userAttachedFormNumber = userAttachedFormNumber;
     }
 
     @Override
@@ -146,25 +123,6 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase impleme
         this.formFileName = formFileName;
     }
 
-    @Override
-    public byte[] getFormFile() {
-        return formFile;
-    }
-
-    public void setFormFile(byte[] formFile) {
-        this.formFile = formFile;
-    }
-
-    @Override
-    public String getXmlFile() {
-        return xmlFile;
-    }
-
-    public void setXmlFile(String xmlFile) {
-        this.xmlFile = xmlFile;
-    }
-
-    @Override
     public String getDescription() {
         return description;
     }
@@ -206,58 +164,9 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase impleme
     }
 
     /**
-     * Gets the newFormFileError attribute. 
-     * @return Returns the newFormFileError.
-     */
-    public boolean isNewFormFileError() {
-        return newFormFileError;
-    }
-
-    /**
-     * Sets the newFormFileError attribute value.
-     * @param newFormFileError The newFormFileError to set.
-     */
-    public void setNewFormFileError(boolean newFormFileError) {
-        this.newFormFileError = newFormFileError;
-    }
-
-    /**
-     * Gets the xmlDataExists attribute. 
-     * @return Returns the xmlDataExists.
-     */
-    public boolean isXmlDataExists() {
-        return xmlDataExists;
-    }
-
-    /**
-     * Sets the xmlDataExists attribute value.
-     * @param xmlDataExists The xmlDataExists to set.
-     */
-    public void setXmlDataExists(boolean xmlDataExists) {
-        this.xmlDataExists = xmlDataExists;
-    }
-
-    /**
-     * Gets the formFileDataExists attribute. 
-     * @return Returns the formFileDataExists.
-     */
-    public boolean isFormFileDataExists() {
-        return formFileDataExists;
-    }
-
-    /**
-     * Sets the formFileDataExists attribute value.
-     * @param formFileDataExists The formFileDataExists to set.
-     */
-    public void setFormFileDataExists(boolean formFileDataExists) {
-        this.formFileDataExists = formFileDataExists;
-    }
-
-    /**
      * Gets the s2sUserAttachedFormAtts attribute. 
      * @return Returns the s2sUserAttachedFormAtts.
      */
-    @Override
     public List<S2sUserAttachedFormAtt> getS2sUserAttachedFormAtts() {
         return s2sUserAttachedFormAtts;
     }
@@ -270,6 +179,39 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase impleme
         this.s2sUserAttachedFormAtts = s2sUserAttachedFormAtts;
     }
 
+    /**
+     * Gets the s2sUserAttachedFormFileList attribute. 
+     * @return Returns the s2sUserAttachedFormFileList.
+     */
+    public List<S2sUserAttachedFormFile> getS2sUserAttachedFormFileList() {
+        return s2sUserAttachedFormFileList;
+    }
+
+    /**
+     * Sets the s2sUserAttachedFormFileList attribute value.
+     * @param s2sUserAttachedFormFileList The s2sUserAttachedFormFileList to set.
+     */
+    public void setS2sUserAttachedFormFileList(List<S2sUserAttachedFormFile> s2sUserAttachedFormFileList) {
+        this.s2sUserAttachedFormFileList = s2sUserAttachedFormFileList;
+    }
+
+    /**
+     * Gets the newFormFileBytes attribute. 
+     * @return Returns the newFormFileBytes.
+     */
+
+    public byte[] getNewFormFileBytes() {
+        return newFormFileBytes;
+    }
+
+    /**
+     * Sets the newFormFileBytes attribute value.
+     * @param newFormFileBytes The newFormFileBytes to set.
+     */
+    public void setNewFormFileBytes(byte[] newFormFileBytes) {
+        this.newFormFileBytes = newFormFileBytes;
+    }
+
 	public DevelopmentProposal getDevelopmentProposal() {
 		return developmentProposal;
 	}
@@ -277,4 +219,5 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase impleme
 	public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
 		this.developmentProposal = developmentProposal;
 	}
+
 }

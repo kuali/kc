@@ -619,3 +619,4 @@ insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID, NM, DESC_TXT, TYP, FUNC_ID, SEQ_NO)
 	values (CONCAT('KC', (SELECT (MAX(ID)) FROM KRMS_FUNC_PARM_S)), 'DevelopmentProposal', 'Development Proposal', 'org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal', 
 	(select FUNC_ID from KRMS_FUNC_T where  NM='piAppointmentTypeRule' and NMSPC_CD='KC-PD'), 1)
 /
+DELIMITER ;
