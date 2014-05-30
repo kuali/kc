@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.version;
 
-import org.kuali.coeus.budget.api.version.BudgetVersionOverviewContract;
+import org.kuali.coeus.budget.api.core.BudgetVersionOverviewContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
