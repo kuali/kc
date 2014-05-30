@@ -40,7 +40,7 @@ public abstract class NSFSuggestedReviewersBaseGenerator extends S2SBaseFormGene
 
         String abstractText = null;
         for (ProposalAbstractContract proposalAbstract : pdDoc.getDevelopmentProposal().getProposalAbstracts()) {
-            if (proposalAbstract.getAbstractType().getCode() != null && proposalAbstract.getAbstractType().getCode().equals(abstractType)) {
+            if (proposalAbstract.getAbstractType() != null && proposalAbstract.getAbstractType().getCode().equals(abstractType)) {
                 abstractText = proposalAbstract.getAbstractDetails();
                 break;
             }

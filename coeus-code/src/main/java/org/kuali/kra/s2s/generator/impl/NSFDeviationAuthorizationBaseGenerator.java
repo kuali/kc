@@ -38,7 +38,7 @@ public abstract class NSFDeviationAuthorizationBaseGenerator extends S2SBaseForm
 
         String abstractText = null;
         for (ProposalAbstractContract proposalAbstract : pdDoc.getDevelopmentProposal().getProposalAbstracts()) {
-            if (proposalAbstract.getAbstractType().getCode() != null && proposalAbstract.getAbstractType().getCode().equals(abstractType)) {
+            if (proposalAbstract.getAbstractType() != null && proposalAbstract.getAbstractType().getCode().equals(abstractType)) {
                 abstractText = proposalAbstract.getAbstractDetails();
                 break;
             }

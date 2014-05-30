@@ -137,7 +137,7 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 		case 3: {
 			for (ProposalYnqContract proYnq : pdDoc.getDevelopmentProposal()
 					.getProposalYnqs()) {
-				if (proYnq.getYnq().getQuestionId() != null
+				if (proYnq.getYnq() != null
 						&& proYnq.getYnq().getQuestionId().equals(
 								PROPOSAL_YNQ_QUESTION_21)) {
 					String ynqAnswer = proYnq.getAnswer();
@@ -370,7 +370,7 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 		case 30: {
 			for (ProposalAbstractContract proAbstract : pdDoc.getDevelopmentProposal()
 					.getProposalAbstracts()) {
-				if (proAbstract.getAbstractType().getCode() != null
+				if (proAbstract.getAbstractType() != null
 						&& proAbstract.getAbstractType().getCode().equals(
 								ABSTRACT_TYPE_DEVIATION_AUTH)) {
 					answer = ANSWER_YES;
@@ -388,7 +388,7 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 		case 32: {
 			for (ProposalAbstractContract proAbstract : pdDoc.getDevelopmentProposal()
 					.getProposalAbstracts()) {
-				if (proAbstract.getAbstractType().getCode() != null
+				if (proAbstract.getAbstractType() != null
 						&& (proAbstract.getAbstractType().getCode().equals(
 								ABSTRACT_TYPE_CODE_SUGGESTED_REVIEWERS) || proAbstract
 								.getAbstractType().getCode().equals(
