@@ -24,11 +24,11 @@ import gov.grants.apply.forms.phs398CoverPageSupplement13V13.PHS398CoverPageSupp
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.question.AnswerContract;
+import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.kra.questionnaire.answer.Answer;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -44,7 +44,7 @@ import java.util.List;
 public class PHS398CoverPageSupplementV1_3Generator extends
 		PHS398CoverPageSupplementBaseGenerator {
     
-    List<AnswerHeader> answerHeaders;
+    List<? extends AnswerHeaderContract> answerHeaders;
 	/**
 	 * 
 	 * This method gives information of Cover Page Supplement such as PDPI
@@ -58,7 +58,7 @@ public class PHS398CoverPageSupplementV1_3Generator extends
 				.newInstance();
 		PHS398CoverPageSupplement13 coverPageSupplement = PHS398CoverPageSupplement13.Factory
 				.newInstance();
-		answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
+		answerHeaders = getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber());
 		coverPageSupplement.setFormVersion(S2SConstants.FORMVERSION_1_3);
 		coverPageSupplement.setPDPI(getPDPI());
 		coverPageSupplement.setClinicalTrial(getClinicalTrial());
@@ -108,12 +108,12 @@ public class PHS398CoverPageSupplementV1_3Generator extends
         ClinicalTrial clinicalTrial = ClinicalTrial.Factory.newInstance();
         String answer = null;
         String subAnswer = null;
-        answer = getAnswer(IS_CLINICAL_TRIAL);
+        answer = getAnswer(IS_CLINICAL_TRIAL,answerHeaders);
         if (answer != null) {
             if (!answer.equals(NOT_ANSWERED)) {
                 if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
                     clinicalTrial.setIsClinicalTrial(YesNoDataType.Y_YES);
-                    subAnswer = getAnswer(PHASE_III_CLINICAL_TRIAL);
+                    subAnswer = getAnswer(PHASE_III_CLINICAL_TRIAL,answerHeaders);
                         if (subAnswer != null && !subAnswer.equals(NOT_ANSWERED)) {
                             if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subAnswer)) {
                                 clinicalTrial.setIsPhaseIIIClinicalTrial(YesNoDataType.Y_YES);   
@@ -174,18 +174,18 @@ public class PHS398CoverPageSupplementV1_3Generator extends
 	    StemCells stemCells = StemCells.Factory.newInstance();  
 	    Enum answers = YesNoDataType.N_NO;
 	    String childAnswer = null;  
-	    String answer = getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED);
+	    String answer = getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED,answerHeaders);
 	    if (answer != null) {
 	        if (!answer.equals(NOT_ANSWERED)) {
-	            answers = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED)) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
+	            answers = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED,answerHeaders)) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
 	            if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
 	                stemCells.setIsHumanStemCellsInvolved(YesNoDataType.Y_YES);
-	                String subAnswer = getAnswer(SPECIFIC_STEM_CELL_LINE);
+	                String subAnswer = getAnswer(SPECIFIC_STEM_CELL_LINE,answerHeaders);
 	                if (subAnswer != null) {
 	                    if(!subAnswer.equals(NOT_ANSWERED)) {
 	                        if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subAnswer)) {
 	                            stemCells.setStemCellsIndicator(YesNoDataType.N_NO);
-	                            childAnswer = getAnswers(REGISTRATION_NUMBER);
+	                            childAnswer = getAnswers(REGISTRATION_NUMBER,answerHeaders);
 	                        }
 	                        else {
 	                            stemCells.setStemCellsIndicator(YesNoDataType.Y_YES);
@@ -210,53 +210,6 @@ public class PHS398CoverPageSupplementV1_3Generator extends
 	    return stemCells;
 	}
 
-
-    /*
-     * This method will get the Answer for sub question
-     */
-    private String getAnswer(String questionId) {
-
-        String answer = null;
-        if (answerHeaders != null && !answerHeaders.isEmpty()) {
-            for (AnswerHeader answerHeader : answerHeaders) {
-                List<Answer> answerDetails = answerHeader.getAnswers();
-                for (Answer answers : answerDetails) {
-                    if (questionId.equals(answers.getQuestion().getQuestionId())) {
-                        answer = answers.getAnswer();
-                    }
-                }
-            }
-        }
-        return answer;   
-    }
-
-    /*
-     * This method will get the childAnswer for sub question
-     */
-    private String getAnswers(String questionId) {
-
-        String answer = null;
-        String childAnswer = null;
-        StringBuilder stringBuilder = new StringBuilder();
-        if (answerHeaders != null && !answerHeaders.isEmpty()) {
-            for (AnswerHeader answerHeader : answerHeaders) {
-                List<Answer> answerDetails = answerHeader.getAnswers();
-                for (Answer answers : answerDetails) {
-                    if (questionId.equals(answers.getQuestion().getQuestionId())) {
-                        answer = answers.getAnswer();
-                        if (answer != null) {
-                            if (!answer.equals(NOT_ANSWERED)) {
-                                stringBuilder.append(answer);
-                                stringBuilder.append(",");
-                            }
-                        }
-                        childAnswer = stringBuilder.toString();
-                    }
-                }
-            }
-        }
-        return childAnswer;
-    }
 	/**
 	 * This method creates {@link XmlObject} of type
 	 * {@link PHS398CoverPageSupplement13Document} by populating data from the

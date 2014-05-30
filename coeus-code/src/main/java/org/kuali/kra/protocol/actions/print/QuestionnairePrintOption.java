@@ -25,8 +25,8 @@ import java.io.Serializable;
 public class QuestionnairePrintOption implements Serializable {
 
     private static final long serialVersionUID = -2388949517675336400L;
-    private Long questionnaireRefId;
-    private Integer questionnaireId; 
+    private Long questionnaireId;
+    private Integer questionnaireSeqId;
     private String label;
     private String questionnaireName;
     private String itemKey;
@@ -36,12 +36,12 @@ public class QuestionnairePrintOption implements Serializable {
     private boolean questionnaireActive;
 
     
-    public Long getQuestionnaireRefId() {
-        return questionnaireRefId;
+    public Long getQuestionnaireId() {
+        return questionnaireId;
     }
 
-    public void setQuestionnaireRefId(Long questionnaireRefId) {
-        this.questionnaireRefId = questionnaireRefId;
+    public void setQuestionnaireId(Long questionnaireId) {
+        this.questionnaireId = questionnaireId;
     }
 
     public String getLabel() {
@@ -84,12 +84,12 @@ public class QuestionnairePrintOption implements Serializable {
         this.subItemCode = subItemCode;
     }
 
-    public Integer getQuestionnaireId() {
-        return questionnaireId;
+    public Integer getQuestionnaireSeqId() {
+        return questionnaireSeqId;
     }
 
-    public void setQuestionnaireId(Integer questionnaireId) {
-        this.questionnaireId = questionnaireId;
+    public void setQuestionnaireSeqId(Integer questionnaireSeqId) {
+        this.questionnaireSeqId = questionnaireSeqId;
     }
 
     public String getQuestionnaireName() {

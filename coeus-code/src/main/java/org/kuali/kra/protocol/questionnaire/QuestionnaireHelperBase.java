@@ -97,7 +97,7 @@ public abstract class QuestionnaireHelperBase extends org.kuali.kra.questionnair
             List <AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
             ModuleQuestionnaireBean moduleBean = getAmendModuleBean();
             answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleBean);
-            if (!answerHeaders.isEmpty() && answerHeaders.get(0).getAnswerHeaderId() == null){
+            if (!answerHeaders.isEmpty() && answerHeaders.get(0).getId() == null){
                 // this is based on usage association, and it is not saved qn answer.
                 answerHeaders = new ArrayList<AnswerHeader>();
             }
@@ -168,10 +168,10 @@ public abstract class QuestionnaireHelperBase extends org.kuali.kra.questionnair
             ProtocolBase protocol = getProtocol();
             for (AnswerHeader answerHeader : answerHeaders) {
                 for (Answer answer : answerHeader.getAnswers()) {
-                    answer.setAnswerHeaderIdFk(null);
+                    answer.setAnswerHeaderId(null);
                     answer.setId(null);
                 }
-                answerHeader.setAnswerHeaderId(null);
+                answerHeader.setId(null);
                 answerHeader.setModuleItemKey(protocol.getProtocolNumber());
                 answerHeader.setModuleSubItemKey(protocol.getSequenceNumber().toString());
             }
@@ -268,7 +268,7 @@ public abstract class QuestionnaireHelperBase extends org.kuali.kra.questionnair
             List <AnswerHeader> printAnswerHeaders = new ArrayList<AnswerHeader>();
             ModuleQuestionnaireBean moduleBean = getAmendModuleBean();
             printAnswerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleBean);
-            if (!printAnswerHeaders.isEmpty() && printAnswerHeaders.get(0).getAnswerHeaderId() == null){
+            if (!printAnswerHeaders.isEmpty() && printAnswerHeaders.get(0).getId() == null){
                 // this is based on usage association, and it is not saved qn answer.
                 printAnswerHeaders = new ArrayList<AnswerHeader>();
             }

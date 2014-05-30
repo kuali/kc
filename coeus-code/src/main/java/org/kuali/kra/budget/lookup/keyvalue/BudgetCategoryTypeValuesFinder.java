@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.lookup.keyvalue;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.core.BudgetCategoryType;
+import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;

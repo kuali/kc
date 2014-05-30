@@ -3,17 +3,19 @@ package org.kuali.kra.s2s.depend;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.api.question.QuestionAnswerService;
+import org.kuali.coeus.common.api.question.QuestionContract;
+import org.kuali.coeus.common.api.question.QuestionnaireContract;
 import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
+import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.question.Question;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service("questionAnswerService")
 public class QuestionAnswerServiceImpl implements QuestionAnswerService {
@@ -61,6 +63,24 @@ public class QuestionAnswerServiceImpl implements QuestionAnswerService {
         criteria.put("question.lookupClass", SUPPORTED_LOOKUP_CLASS);
 
         return businessObjectService.countMatching(Answer.class, criteria) > 0;
+    }
+
+    @Override
+    public QuestionnaireContract findQuestionnaireById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("id is null");
+        }
+
+        return businessObjectService.findByPrimaryKey(Questionnaire.class, Collections.singletonMap("id", id));
+    }
+
+    @Override
+    public QuestionContract findQuestionById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("id is null");
+        }
+
+        return businessObjectService.findByPrimaryKey(Question.class, Collections.singletonMap("id", id));
     }
 
     public BusinessObjectService getBusinessObjectService() {

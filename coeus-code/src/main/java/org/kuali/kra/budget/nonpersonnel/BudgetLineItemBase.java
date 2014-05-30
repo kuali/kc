@@ -17,10 +17,10 @@ package org.kuali.kra.budget.nonpersonnel;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.core.BudgetAssociate;
-import org.kuali.kra.budget.core.BudgetCategory;
-import org.kuali.kra.budget.core.BudgetService;
-import org.kuali.kra.budget.core.CostElement;
+import org.kuali.coeus.common.budget.framework.core.BudgetAssociate;
+import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
+import org.kuali.coeus.common.budget.framework.core.BudgetService;
+import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.rice.krad.util.ObjectUtils;

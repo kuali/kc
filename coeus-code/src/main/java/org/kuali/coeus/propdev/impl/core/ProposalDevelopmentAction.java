@@ -38,18 +38,19 @@ import org.kuali.coeus.propdev.impl.person.CoPiInfoDO;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
+import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.NonCancellingRecallQuestion;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
-import org.kuali.kra.budget.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.rates.BudgetRate;
-import org.kuali.kra.budget.rates.RateClassType;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
+import org.kuali.coeus.common.budget.framework.rate.RateClassType;
+import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
 import org.kuali.kra.budget.web.struts.action.BudgetTDCValidator;
 import org.kuali.kra.infrastructure.Constants;
@@ -122,7 +123,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     private KeyPersonnelService keyPersonnelService;
     private PersonEditableService personEditableService;
     private PrintService printService; 
-    private S2SService s2SService;
+    private S2sSubmissionService s2sSubmissionService;
     private BusinessObjectService businessObjectService;
        
     private BudgetPrintService budgetPrintService;
@@ -680,10 +681,10 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         return printService;
     }   
     
-    protected S2SService getS2SService(){
-        if (s2SService == null)
-        	s2SService =KcServiceLocator.getService(S2SService.class);
-        return s2SService;
+    protected S2sSubmissionService getS2sSubmissionService(){
+        if (s2sSubmissionService == null)
+            s2sSubmissionService =KcServiceLocator.getService(S2sSubmissionService.class);
+        return s2sSubmissionService;
     }   
    
     protected ProposalPersonBiographyService getProposalPersonBiographyService() {
@@ -774,7 +775,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             return mapping.findForward(Constants.GRANTS_GOV_PAGE);
         }
         if (proposalDevelopmentDocument.getDevelopmentProposal().getGrantsGovSelectFlag()) {
-            File grantsGovXmlDirectoryFile = getS2SService().getGrantsGovSavedFile(proposalDevelopmentDocument);
+            File grantsGovXmlDirectoryFile = getS2sSubmissionService().getGrantsGovSavedFile(proposalDevelopmentDocument);
             byte[] bytes = new byte[(int) grantsGovXmlDirectoryFile.length()];
             FileInputStream fileInputStream = new FileInputStream(grantsGovXmlDirectoryFile);
             fileInputStream.read(bytes);

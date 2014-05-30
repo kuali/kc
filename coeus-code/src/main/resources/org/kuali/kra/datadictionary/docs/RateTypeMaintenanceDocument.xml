@@ -3,7 +3,7 @@
   <bean id="RateTypeMaintenanceDocument" parent="RateTypeMaintenanceDocument-parentBean"/>
 
   <bean id="RateTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.budget.rates.RateType"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.rate.RateType"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
     <property name="maintainableSections">
       <list>

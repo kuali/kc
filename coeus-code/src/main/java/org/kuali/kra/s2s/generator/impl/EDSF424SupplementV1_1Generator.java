@@ -23,6 +23,8 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoNotApplicableDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.question.AnswerContract;
+import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
@@ -31,8 +33,6 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
-import org.kuali.kra.questionnaire.answer.Answer;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.service.S2SUtilService;
@@ -83,13 +83,14 @@ public class EDSF424SupplementV1_1Generator extends
 		edsf424Supplement.setProjectDirector(globLibV20Generator
 				.getContactPersonDataType(pi));
 		String answer = null;
-		List<AnswerHeader> answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
+		List<? extends AnswerHeaderContract> answerHeaders = getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber());
 		if (answerHeaders != null && !answerHeaders.isEmpty()) {
-            for (AnswerHeader answerHeader : answerHeaders) {
-                List<Answer> answerDetails = answerHeader.getAnswers();
-                for (Answer answers : answerDetails) {                   
-                    if (answers.getQuestion().getQuestionId() != null
-                            && answers.getQuestion().getQuestionId().equals(
+            for (AnswerHeaderContract answerHeader : answerHeaders) {
+                List<? extends AnswerContract> answerDetails = answerHeader.getAnswers();
+                for (AnswerContract answers : answerDetails) {
+                    String seqId = getQuestionAnswerService().findQuestionById(answers.getQuestionId()).getQuestionSeqId();
+                    if (seqId != null
+                            && seqId.equals(
                                     PROPOSAL_YNQ_NOVICE_APPLICANT)) {
                         if (answers.getAnswer() != null) {
                             answer = answers.getAnswer();

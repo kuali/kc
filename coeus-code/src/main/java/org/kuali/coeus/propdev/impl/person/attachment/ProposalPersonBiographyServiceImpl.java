@@ -18,7 +18,6 @@ package org.kuali.coeus.propdev.impl.person.attachment;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
-import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.attachment.AttachmentDao;
@@ -70,7 +69,7 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
             proposalPersonBiography.setPersonId(proposalPerson.getPersonId());
             proposalPersonBiography.setRolodexId(proposalPerson.getRolodexId());
         }
-        proposalPersonBiography.getPropPerDocType().setDocumentTypeCode(proposalPersonBiography.getDocumentTypeCode());
+        proposalPersonBiography.getPropPerDocType().setCode(proposalPersonBiography.getDocumentTypeCode());
         proposalPersonBiography.refreshReferenceObject("propPerDocType");
         FormFile personnelAttachmentFile = proposalPersonBiography.getPersonnelAttachmentFile();
         if (personnelAttachmentFile != null) {

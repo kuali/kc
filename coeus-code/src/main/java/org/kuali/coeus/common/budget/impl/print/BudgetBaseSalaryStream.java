@@ -19,13 +19,13 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.printing.schema.BudgetPeriodData;
 import org.kuali.kra.printing.schema.BudgetSalaryDocument.BudgetSalary;
 import org.kuali.kra.printing.schema.SalaryType;
-import org.kuali.kra.budget.calculator.RateClassType;
-import org.kuali.kra.budget.core.BudgetCategory;
-import org.kuali.kra.budget.core.BudgetParent;
+import org.kuali.coeus.common.budget.framework.calculator.RateClassType;
+import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
+import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.rates.RateClass;
+import org.kuali.coeus.common.budget.framework.rate.RateClass;
 
 import java.util.*;
 

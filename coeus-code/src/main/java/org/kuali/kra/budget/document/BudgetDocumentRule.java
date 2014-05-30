@@ -16,26 +16,31 @@
 package org.kuali.kra.budget.document;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.common.budget.impl.period.*;
+import org.kuali.coeus.common.budget.framework.distribution.*;
+import org.kuali.coeus.common.budget.framework.period.*;
+import org.kuali.coeus.common.budget.framework.income.AddBudgetProjectIncomeEvent;
+import org.kuali.coeus.common.budget.framework.income.AddBudgetProjectIncomeRule;
+import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
+import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncomeRuleImpl;
+import org.kuali.coeus.common.budget.impl.distribution.BudgetCostShareRuleImpl;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandAAuditRule;
 import org.kuali.coeus.common.framework.custom.KcDocumentBaseAuditRule;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.budget.AwardBudgeCostTotalAuditRule;
 import org.kuali.kra.award.budget.AwardBudgetBudgetTypeAuditRule;
 import org.kuali.kra.award.budget.AwardBudgetCostLimitAuditRule;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
-import org.kuali.kra.budget.core.BudgetParent;
-import org.kuali.kra.budget.distributionincome.*;
+import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.kra.budget.nonpersonnel.BudgetExpensesAuditRule;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.personnel.BudgetPersonnelAuditRule;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.personnel.BudgetPersonnelRule;
-import org.kuali.kra.budget.rates.BudgetLaRate;
-import org.kuali.kra.budget.rates.BudgetRate;
-import org.kuali.kra.budget.rates.BudgetRateAuditRule;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRateAuditRule;
+import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.framework.costshare.CostShareRuleResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -56,7 +61,7 @@ import java.util.List;
 public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implements AddBudgetPeriodRule, AddBudgetCostShareRule, AddBudgetProjectIncomeRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule, GenerateBudgetPeriodRule, DocumentAuditRule, SyncModularBudgetRule {
 
     /** 
-     * @see org.kuali.kra.budget.distributionincome.AddBudgetCostShareRule#processAddBudgetCostShareBusinessRules(org.kuali.kra.budget.distributionincome.AddBudgetCostShareEvent)
+     * @see org.kuali.coeus.common.budget.framework.distribution.AddBudgetCostShareRule#processAddBudgetCostShareBusinessRules(org.kuali.coeus.common.budget.framework.distribution.AddBudgetCostShareEvent)
      */
     public boolean processAddBudgetCostShareBusinessRules(AddBudgetCostShareEvent addBudgetCostShareEvent) {
         return new BudgetCostShareRuleImpl().processAddBudgetCostShareBusinessRules(addBudgetCostShareEvent);

@@ -40,7 +40,7 @@
 		<!-- GENERATE NEXT VALUE -->
 
 	</class-descriptor>
-    <class-descriptor class="org.kuali.kra.budget.versions.BudgetDocumentVersion" table="BUDGET_DOCUMENT">			
+    <class-descriptor class="org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion" table="BUDGET_DOCUMENT">
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />		
 		<field-descriptor name="parentDocumentKey" column="PARENT_DOCUMENT_KEY" jdbc-type="VARCHAR"/>
 		<field-descriptor name="parentDocumentTypeCode" column="PARENT_DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
@@ -49,7 +49,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 
-    	<collection-descriptor name="budgetVersionOverviews" proxy="true" element-class-ref="org.kuali.kra.budget.versions.BudgetVersionOverview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    	<collection-descriptor name="budgetVersionOverviews" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="documentNumber" />
     	</collection-descriptor>
 	</class-descriptor>
@@ -60,7 +60,7 @@
 	</class-descriptor>
 <!-- Factory definitions end -->
 
-    <class-descriptor class="org.kuali.kra.budget.core.Budget" table="BUDGET" >
+    <class-descriptor class="org.kuali.coeus.common.budget.framework.core.Budget" table="BUDGET" >
     	<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_BUDGET_ID" />
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="budgetVersionNumber" column="VERSION_NUMBER" jdbc-type="INTEGER" />
@@ -89,11 +89,11 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     	<field-descriptor name="submitCostSharingFlag" column="SUBMIT_COST_SHARING" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
     	
-		<collection-descriptor name="budgetRates" proxy="true" element-class-ref="org.kuali.kra.budget.rates.BudgetRate" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="budgetRates" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.rate.BudgetRate" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="budgetId"/>
 		</collection-descriptor>
 
-		<collection-descriptor name="budgetLaRates" proxy="true" element-class-ref="org.kuali.kra.budget.rates.BudgetLaRate" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="budgetLaRates" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.rate.BudgetLaRate" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="budgetId"/>
 		</collection-descriptor>
 		
@@ -101,7 +101,7 @@
 			<inverse-foreignkey field-ref="budgetId"/>
 		</collection-descriptor>
 
-        <collection-descriptor name="budgetCostShares" proxy="true" element-class-ref="org.kuali.kra.budget.distributionincome.BudgetCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="budgetCostShares" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="projectPeriod" sort="ASC" /> 
 			<inverse-foreignkey field-ref="budgetId"/>
 			<query-customizer
@@ -113,12 +113,12 @@
 	       </query-customizer>
 		</collection-descriptor>
 		
-		<collection-descriptor name="budgetProjectIncomes" proxy="true" element-class-ref="org.kuali.kra.budget.distributionincome.BudgetProjectIncome" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="budgetProjectIncomes" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="budgetPeriodNumber" sort="ASC" /> 
 			<inverse-foreignkey field-ref="budgetId"/>
 		</collection-descriptor>
 		
-		<collection-descriptor name="budgetUnrecoveredFandAs" proxy="true" element-class-ref="org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="budgetUnrecoveredFandAs" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="fiscalYear" sort="ASC" /> 
 			<inverse-foreignkey field-ref="budgetId"/>
 			<query-customizer
@@ -138,17 +138,17 @@
         <reference-descriptor name="budgetDocument" class-ref="org.kuali.kra.budget.document.BudgetDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="documentNumber" />
         </reference-descriptor>
-		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="ohRateClassCode"/> 
 		</reference-descriptor> 
-		<reference-descriptor name="urRateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="urRateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="urRateClassCode"/> 
 		</reference-descriptor> 
 		
 	</class-descriptor>
 	
 	<!-- Shared Tables -->
-	<class-descriptor class="org.kuali.kra.budget.versions.BudgetVersionOverview" table="BUDGET">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview" table="BUDGET">
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_BUDGET_ID" />
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="budgetVersionNumber" column="VERSION_NUMBER" jdbc-type="INTEGER" />
@@ -175,15 +175,15 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     	<field-descriptor name="submitCostSharingFlag" column="SUBMIT_COST_SHARING" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 
-		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="ohRateClassCode"/> 
 		</reference-descriptor>
-		<reference-descriptor name="urRateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="urRateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="urRateClassCode"/> 
 		</reference-descriptor> 
 		
     </class-descriptor>
-	<class-descriptor class="org.kuali.kra.budget.core.BudgetCategory" table="BUDGET_CATEGORY">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.core.category.BudgetCategory" table="BUDGET_CATEGORY">
 		<field-descriptor name="code" column="BUDGET_CATEGORY_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="budgetCategoryTypeCode" column="CATEGORY_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
@@ -191,11 +191,11 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="budgetCategoryType" class-ref="org.kuali.kra.budget.core.BudgetCategoryType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="budgetCategoryType" class-ref="org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetCategoryTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.budget.core.BudgetCategoryType" table="BUDGET_CATEGORY_TYPE">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType" table="BUDGET_CATEGORY_TYPE">
 		<field-descriptor name="code" column="BUDGET_CATEGORY_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER"/>
@@ -204,7 +204,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.budget.core.BudgetCategoryMap" table="BUDGET_CATEGORY_MAPS">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryMap" table="BUDGET_CATEGORY_MAPS">
 		<field-descriptor name="mappingName" column="MAPPING_NAME" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="targetCategoryCode" column="TARGET_CATEGORY_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="categoryType" column="CATEGORY_TYPE" jdbc-type="CHAR"/>
@@ -213,12 +213,12 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<collection-descriptor name="budgetCategoryMappings" proxy="true" element-class-ref="org.kuali.kra.budget.core.BudgetCategoryMapping" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="budgetCategoryMappings" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryMapping" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="mappingName"/>
 			<inverse-foreignkey field-ref="targetCategoryCode"/>
 		</collection-descriptor>
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.budget.core.BudgetCategoryMapping" table="BUDGET_CATEGORY_MAPPING">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryMapping" table="BUDGET_CATEGORY_MAPPING">
 		<field-descriptor name="budgetCategoryCode" column="COEUS_CATEGORY_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="mappingName" column="MAPPING_NAME" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="targetCategoryCode" column="TARGET_CATEGORY_CODE" jdbc-type="VARCHAR" primarykey="true"/>
@@ -226,7 +226,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="budgetCategory" class-ref="org.kuali.kra.budget.core.BudgetCategory" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="budgetCategory" class-ref="org.kuali.coeus.common.budget.framework.core.category.BudgetCategory" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetCategoryCode"/>
 		</reference-descriptor>
 	</class-descriptor>
@@ -255,15 +255,15 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" /><!--
 
-		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="budget" class-ref="org.kuali.coeus.common.budget.framework.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
 
 		-->
-		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/> 
 		</reference-descriptor><!--
-		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.rates.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateType" class-ref="org.kuali.coeus.common.budget.framework.rate.RateType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/> 
 			<foreignkey field-ref="rateTypeCode"/> 
 		</reference-descriptor>
@@ -312,10 +312,10 @@
 		<collection-descriptor name="budgetFormulatedCosts" proxy="true" element-class-ref="org.kuali.kra.budget.nonpersonnel.BudgetFormulatedCostDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="budgetLineItemId"/>
 		</collection-descriptor>
-		<reference-descriptor name="budgetCategory" class-ref="org.kuali.kra.budget.core.BudgetCategory" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="budgetCategory" class-ref="org.kuali.coeus.common.budget.framework.core.category.BudgetCategory" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetCategoryCode"/> 
 		</reference-descriptor>
-		<reference-descriptor name="costElementBO" class-ref="org.kuali.kra.budget.core.CostElement" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="costElementBO" class-ref="org.kuali.coeus.common.budget.framework.core.CostElement" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="costElement"/> 
 		</reference-descriptor>
 		<reference-descriptor name="budgetPeriodBO" class-ref="org.kuali.coeus.common.budget.framework.period.BudgetPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -353,12 +353,12 @@
 		<collection-descriptor name="budgetLineItems" proxy="true" element-class-ref="org.kuali.kra.budget.nonpersonnel.BudgetLineItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="budgetPeriodId"/> 
 		</collection-descriptor>
-		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="budget" class-ref="org.kuali.coeus.common.budget.framework.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.budget.distributionincome.BudgetCostShare" table="EPS_PROP_COST_SHARING">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare" table="EPS_PROP_COST_SHARING">
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"  primarykey="true" /> 	
 		<field-descriptor name="documentComponentId" column="COST_SHARE_ID" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="projectPeriod" column="PROJECT_PERIOD" jdbc-type="INTEGER" />
@@ -370,7 +370,7 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<!--		
-		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="budget" class-ref="org.kuali.coeus.common.budget.framework.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
 		-->
@@ -378,7 +378,7 @@
 		<field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.budget.distributionincome.BudgetProjectIncome" table="BUDGET_PROJECT_INCOME">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome" table="BUDGET_PROJECT_INCOME">
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"  primarykey="true" /> 	
 		<field-descriptor name="documentComponentId" column="PROJECT_INCOME_ID" jdbc-type="INTEGER" primarykey="true"/>
 
@@ -397,7 +397,7 @@
 			<foreignkey field-ref="budgetPeriodId"/> 
 		</reference-descriptor>
 		<!--
-		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="budget" class-ref="org.kuali.coeus.common.budget.framework.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
 		-->
@@ -406,7 +406,7 @@
 	</class-descriptor>
 
 	
-	<class-descriptor class="org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA" table="EPS_PROP_IDC_RATE">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA" table="EPS_PROP_IDC_RATE">
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" /> 	
 		<field-descriptor name="documentComponentId" column="UNRECOVERED_FNA_ID" jdbc-type="INTEGER" primarykey="true"/>
 
@@ -421,7 +421,7 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<!--		
-		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="budget" class-ref="org.kuali.coeus.common.budget.framework.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
 		-->
@@ -452,10 +452,10 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
 		
-		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="false" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/>
 		</reference-descriptor><!--
-		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="budget" class-ref="org.kuali.coeus.common.budget.framework.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
 
@@ -541,10 +541,10 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/>
 		</reference-descriptor><!--
-		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="budget" class-ref="org.kuali.coeus.common.budget.framework.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
 
@@ -579,16 +579,16 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/>
 		</reference-descriptor>
 		<!--
-		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="budget" class-ref="org.kuali.coeus.common.budget.framework.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
 
 	--></class-descriptor>
-	<class-descriptor class="org.kuali.kra.budget.core.CostElement" table="COST_ELEMENT">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.core.CostElement" table="COST_ELEMENT">
 		<field-descriptor name="costElement" column="COST_ELEMENT" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="budgetCategoryCode" column="BUDGET_CATEGORY_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
@@ -602,7 +602,7 @@
 		<!--  <collection-descriptor name="costElementGroups" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.budget.bo.CostElementGroups" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="costElement"/>
 		</collection-descriptor>-->
-		<collection-descriptor name="validCeRateTypes" proxy="true" element-class-ref="org.kuali.kra.budget.rates.ValidCeRateType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<collection-descriptor name="validCeRateTypes" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.rate.ValidCeRateType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="none" auto-delete="none">
 			<inverse-foreignkey field-ref="costElement"/>
 			<query-customizer
       			class="org.kuali.coeus.sys.framework.persistence.KcQueryCustomizerDefaultImpl">
@@ -612,12 +612,12 @@
 	          />
       		</query-customizer>
 		</collection-descriptor>
-		<reference-descriptor name="budgetCategory" class-ref="org.kuali.kra.budget.core.BudgetCategory" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="budgetCategory" class-ref="org.kuali.coeus.common.budget.framework.core.category.BudgetCategory" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetCategoryCode"/> 
 		</reference-descriptor>
 	</class-descriptor>	
 	
-	<class-descriptor class="org.kuali.kra.budget.rates.BudgetRate" table="EPS_PROP_RATES">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.rate.BudgetRate" table="EPS_PROP_RATES">
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"  primarykey="true" /> 	
 		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="CHAR" primarykey="true" conversion="org.kuali.kra.infrastructure.OjbOnOffCampusFlagFieldConversion"/>
@@ -632,15 +632,15 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/> 
 		</reference-descriptor>
 
-		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.rates.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateType" class-ref="org.kuali.coeus.common.budget.framework.rate.RateType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/> 
 			<foreignkey field-ref="rateTypeCode"/> 
 		</reference-descriptor><!--
-		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="budget" class-ref="org.kuali.coeus.common.budget.framework.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
 
@@ -658,11 +658,11 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.rates.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateType" class-ref="org.kuali.coeus.common.budget.framework.rate.RateType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/> 
 			<foreignkey field-ref="rateTypeCode"/> 
 		</reference-descriptor>
-		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/> 
 		</reference-descriptor>
 		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -684,11 +684,11 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.rates.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateType" class-ref="org.kuali.coeus.common.budget.framework.rate.RateType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/> 
 			<foreignkey field-ref="rateTypeCode"/> 
 		</reference-descriptor>
-		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/> 
 		</reference-descriptor>
 		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -709,11 +709,11 @@
 		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR"/>
 		
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.rates.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateType" class-ref="org.kuali.coeus.common.budget.framework.rate.RateType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/> 
 			<foreignkey field-ref="rateTypeCode"/> 
 		</reference-descriptor>
-		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/> 
 		</reference-descriptor>
 		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -731,7 +731,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.budget.rates.RateClass" table="RATE_CLASS">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.rate.RateClass" table="RATE_CLASS">
 		<field-descriptor id="1" name="rateClassCode" column="RATE_CLASS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="rateClassType" column="RATE_CLASS_TYPE" jdbc-type="CHAR"/>
@@ -740,11 +740,11 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="rateClassTypeT" class-ref="org.kuali.kra.budget.rates.RateClassType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateClassTypeT" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClassType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassType"/> 
 		</reference-descriptor>
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.budget.rates.RateClassType" table="RATE_CLASS_TYPE">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.rate.RateClassType" table="RATE_CLASS_TYPE">
 		<field-descriptor name="rateClassType" column="RATE_CLASS_TYPE" jdbc-type="CHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="prefixActivityType" column="PREFIX_ACTIVITY_TYPE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
@@ -754,7 +754,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.budget.rates.RateType" table="RATE_TYPE">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.rate.RateType" table="RATE_TYPE">
 		<field-descriptor name="rateClassCode" column="RATE_CLASS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
@@ -762,15 +762,15 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<!-- <collection-descriptor name="ValidCeRateTypes" proxy="true" element-class-ref="org.kuali.kra.budget.rates.ValidCeRateType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<!-- <collection-descriptor name="ValidCeRateTypes" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.rate.ValidCeRateType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="none" auto-delete="none">
 			<inverse-foreignkey field-ref="rateClassCode"/>
 			<inverse-foreignkey field-ref="rateTypeCode"/>
 		</collection-descriptor> -->
-		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/> 
 		</reference-descriptor>
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.budget.rates.TrainingStipendRate" table="TRAINING_STIPEND_RATES">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.rate.TrainingStipendRate" table="TRAINING_STIPEND_RATES">
 		<field-descriptor name="id" column="TRAINING_STIPEND_RATES_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_TRAINING_STIPEND_RATES_ID" />
 		<field-descriptor name="careerLevel" column="CAREER_LEVEL" jdbc-type="VARCHAR" primarykey="false"/>
 		<field-descriptor name="experienceLevel" column="EXPERIENCE_LEVEL" jdbc-type="INTEGER" primarykey="false"/>
@@ -782,7 +782,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.budget.calculator.ValidCalcType" table="VALID_CALC_TYPES">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.calculator.ValidCalcType" table="VALID_CALC_TYPES">
 		<field-descriptor name="calcTypeId" column="CALC_TYPE_ID" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="dependentSeqNumber" column="DEPENDENT_SEQ_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="rateClassType" column="RATE_CLASS_TYPE" jdbc-type="CHAR" primarykey="true" />
@@ -793,16 +793,16 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="rateClassTypeRef" class-ref="org.kuali.kra.budget.rates.RateClassType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateClassTypeRef" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClassType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassType"/>
 		</reference-descriptor>
-		<reference-descriptor name="dependentRateClassTypeRef" class-ref="org.kuali.kra.budget.rates.RateClassType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="dependentRateClassTypeRef" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClassType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="dependentRateClassType"/>
 		</reference-descriptor>
-		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.rates.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateType" class-ref="org.kuali.coeus.common.budget.framework.rate.RateType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/>
 			<foreignkey field-ref="rateTypeCode"/>
 		</reference-descriptor>
@@ -815,7 +815,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 
-		<reference-descriptor name="costElementReference" class-ref="org.kuali.kra.budget.core.CostElement" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="costElementReference" class-ref="org.kuali.coeus.common.budget.framework.core.CostElement" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="costElement"/> 
 		</reference-descriptor>
 		<reference-descriptor name="jobCodeReference" class-ref="org.kuali.kra.budget.personnel.JobCode" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -823,7 +823,7 @@
 		</reference-descriptor>
 
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.budget.rates.ValidCeRateType" table="VALID_CE_RATE_TYPES">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.rate.ValidCeRateType" table="VALID_CE_RATE_TYPES">
 		<field-descriptor name="costElement" column="COST_ELEMENT" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="rateClassCode" column="RATE_CLASS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
@@ -832,20 +832,20 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/> 
 		</reference-descriptor>
 		
-		<reference-descriptor name="costElementBo" class-ref="org.kuali.kra.budget.core.CostElement" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="costElementBo" class-ref="org.kuali.coeus.common.budget.framework.core.CostElement" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="costElement"/> 
 		</reference-descriptor>
 		
-		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.rates.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateType" class-ref="org.kuali.coeus.common.budget.framework.rate.RateType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/> 
 			<foreignkey field-ref="rateTypeCode"/> 
 		</reference-descriptor>
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.budget.rates.BudgetLaRate" table="EPS_PROP_LA_RATES">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.rate.BudgetLaRate" table="EPS_PROP_LA_RATES">
 		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="CHAR" primarykey="true"/>
 		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="CHAR" primarykey="true" conversion="org.kuali.kra.infrastructure.OjbOnOffCampusFlagFieldConversion"/>
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT"  primarykey="true" access="anonymous" /> 	
@@ -859,15 +859,15 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/> 
 		</reference-descriptor>
 
-		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.rates.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateType" class-ref="org.kuali.coeus.common.budget.framework.rate.RateType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/> 
 			<foreignkey field-ref="rateTypeCode"/> 
 		</reference-descriptor><!--
-		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="budget" class-ref="org.kuali.coeus.common.budget.framework.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
 
@@ -917,7 +917,7 @@
 			<foreignkey field-ref="budgetId"/>
 			<foreignkey field-ref="personSequenceNumber"/> 
 		</reference-descriptor><!--
-		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="budget" class-ref="org.kuali.coeus.common.budget.framework.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
 
@@ -953,7 +953,7 @@
     	<collection-descriptor name="budgetModularIdcs" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
     		<inverse-foreignkey field-ref="budgetPeriodId"/>
 		</collection-descriptor><!--
-		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="budget" class-ref="org.kuali.coeus.common.budget.framework.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
 
@@ -975,10 +975,10 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     	
-    	<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.rates.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+    	<reference-descriptor name="rateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-id-ref="1"/>
 		</reference-descriptor><!--
-		<reference-descriptor name="budget" class-ref="org.kuali.kra.budget.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="budget" class-ref="org.kuali.coeus.common.budget.framework.core.Budget" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetId"/> 
 		</reference-descriptor>
 
@@ -1077,7 +1077,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<reference-descriptor name="super" class-ref="org.kuali.kra.budget.core.Budget">
+		<reference-descriptor name="super" class-ref="org.kuali.coeus.common.budget.framework.core.Budget">
 			<foreignkey field-ref="budgetId"/>
 		</reference-descriptor>
 		<collection-descriptor name="budgetPeriods" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.period.BudgetPeriod" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -1141,7 +1141,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="budgetInitiator" column="BUDGET_INITIATOR" jdbc-type="VARCHAR" />
-		<reference-descriptor name="super" class-ref="org.kuali.kra.budget.core.Budget">
+		<reference-descriptor name="super" class-ref="org.kuali.coeus.common.budget.framework.core.Budget">
 			<foreignkey field-ref="budgetId"/>
 		</reference-descriptor>
 		
@@ -1173,7 +1173,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="budgetInitiator" column="BUDGET_INITIATOR" jdbc-type="VARCHAR" />
-		<reference-descriptor name="super" class-ref="org.kuali.kra.budget.versions.BudgetVersionOverview">
+		<reference-descriptor name="super" class-ref="org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview">
 			<foreignkey field-ref="budgetId"/>
 		</reference-descriptor>
 		<reference-descriptor name="awardBudgetStatus" class-ref="org.kuali.kra.award.budget.AwardBudgetStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -1316,11 +1316,11 @@
 		<reference-descriptor name="budgetPeriod" class-ref="org.kuali.kra.award.budget.AwardBudgetPeriodExt" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="budgetPeriodId"/>
 		</reference-descriptor>
-		<reference-descriptor name="costElement" class-ref="org.kuali.kra.budget.core.CostElement" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="costElement" class-ref="org.kuali.coeus.common.budget.framework.core.CostElement" auto-retrieve="false" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="costElement"/>
 		</reference-descriptor> 
 	</class-descriptor>	
-	<class-descriptor class="org.kuali.kra.budget.rates.RateClassBaseExclusion" table="RATE_CLASS_BASE_EXCLUSION">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.rate.RateClassBaseExclusion" table="RATE_CLASS_BASE_EXCLUSION">
 		<field-descriptor name="rateClassBaseExclusionId" column="RATE_CLASS_BASE_EXCL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_RATE_CLASS_BASE_EXCL_ID"/>
 		<field-descriptor name="rateClassCode" column="RATE_CLASS_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR" />
@@ -1330,16 +1330,16 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.rates.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateType" class-ref="org.kuali.coeus.common.budget.framework.rate.RateType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/>
 			<foreignkey field-ref="rateTypeCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="rateTypeExclusion" class-ref="org.kuali.kra.budget.rates.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateTypeExclusion" class-ref="org.kuali.coeus.common.budget.framework.rate.RateType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCodeExcl"/>
 			<foreignkey field-ref="rateTypeCodeExcl"/>
 		</reference-descriptor>
 	</class-descriptor>	
-	<class-descriptor class="org.kuali.kra.budget.rates.RateClassBaseInclusion" table="RATE_CLASS_BASE_INCLUSION">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.rate.RateClassBaseInclusion" table="RATE_CLASS_BASE_INCLUSION">
 		<field-descriptor name="rateClassBaseInclusionId" column="RATE_CLASS_BASE_INCL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_RATE_CLASS_BASE_INCL_ID"/>
 		<field-descriptor name="rateClassCode" column="RATE_CLASS_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR" />
@@ -1349,16 +1349,16 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.rates.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateType" class-ref="org.kuali.coeus.common.budget.framework.rate.RateType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCode"/>
 			<foreignkey field-ref="rateTypeCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="rateTypeInclusion" class-ref="org.kuali.kra.budget.rates.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateTypeInclusion" class-ref="org.kuali.coeus.common.budget.framework.rate.RateType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="rateClassCodeIncl"/>
 			<foreignkey field-ref="rateTypeCodeIncl"/>
 		</reference-descriptor>
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.budget.rates.FormulatedType" table="FORMULATED_TYPE">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.rate.FormulatedType" table="FORMULATED_TYPE">
 		<field-descriptor name="formulatedTypeCode" column="FORMULATED_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -1366,7 +1366,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>	
-	<class-descriptor class="org.kuali.kra.budget.rates.UnitFormulatedCost" table="UNIT_FORMULATED_COST">
+	<class-descriptor class="org.kuali.coeus.common.budget.impl.rate.UnitFormulatedCost" table="UNIT_FORMULATED_COST">
 		<field-descriptor name="unitFormulatedCostId" column="UNIT_FORMULATED_COST_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_UNIT_FORMULATED_COST_ID"/>
 		<field-descriptor name="formulatedTypeCode" column="FORMULATED_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" />
@@ -1378,7 +1378,7 @@
 		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="unitNumber"/>
 		</reference-descriptor>
-		<reference-descriptor name="formulatedType" class-ref="org.kuali.kra.budget.rates.FormulatedType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="formulatedType" class-ref="org.kuali.coeus.common.budget.framework.rate.FormulatedType" auto-retrieve="false" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="formulatedTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>	

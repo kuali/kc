@@ -17,11 +17,16 @@ package org.kuali.kra.budget.calculator;
 
 
 import org.junit.Test;
+import org.kuali.coeus.common.budget.framework.calculator.*;
+import org.kuali.coeus.common.budget.framework.query.QueryList;
+import org.kuali.coeus.common.budget.impl.calculator.Boundary;
+import org.kuali.coeus.common.budget.impl.calculator.BreakUpInterval;
+import org.kuali.coeus.common.budget.impl.calculator.RateAndCost;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.rates.BudgetLaRate;
-import org.kuali.kra.budget.rates.BudgetRate;
-import org.kuali.kra.budget.rates.RateClass;
+import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
+import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.text.ParseException;
@@ -37,7 +42,7 @@ import static org.junit.Assert.fail;
 public class BreakupIntervalServiceTest  extends KcIntegrationTestBase {
 
     /**
-     * Test method for {@link org.kuali.kra.budget.calculator.BreakupIntervalService#calculate(org.kuali.kra.budget.calculator.BreakUpInterval)}.
+     * Test method for {@link org.kuali.coeus.common.budget.framework.calculator.BreakupIntervalService#calculate(org.kuali.coeus.common.budget.impl.calculator.BreakUpInterval)}.
      */
     @Test
     public void testCalculate() {
@@ -86,7 +91,7 @@ public class BreakupIntervalServiceTest  extends KcIntegrationTestBase {
         validateResults(rateAndCost6,5,1,250,50);
     }
     /**
-     * Test method for {@link org.kuali.kra.budget.calculator.BreakupIntervalService#calculate(org.kuali.kra.budget.calculator.BreakUpInterval)}.
+     * Test method for {@link org.kuali.coeus.common.budget.framework.calculator.BreakupIntervalService#calculate(org.kuali.coeus.common.budget.impl.calculator.BreakUpInterval)}.
      */
     @Test
     public void testCalculateOverrecovery() {

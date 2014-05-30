@@ -51,7 +51,7 @@
                                         
                 <c:if test="${!readOnly}">
                     <kul:lookup boClassName="org.kuali.kra.questionnaire.question.QuestionCategory" 
-                                fieldConversions="categoryTypeCode:document.newMaintainableObject.businessObject.categoryTypeCode,categoryName:document.newMaintainableObject.businessObject.questionCategory.categoryName" />
+                                fieldConversions="categoryTypeCode:document.newMaintainableObject.businessObject.categoryTypeCode,name:document.newMaintainableObject.businessObject.questionCategory.name" />
                     <c:forEach items="${ErrorPropertyList}" var="key">
                         <c:if test="${key eq 'document.newMaintainableObject.businessObject.categoryTypeCode'}">
                             <kul:fieldShowErrorIcon />

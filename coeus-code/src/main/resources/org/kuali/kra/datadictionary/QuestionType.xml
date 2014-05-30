@@ -25,20 +25,20 @@
         <property name="lookupDefinition">
             <ref bean="QuestionType-lookupDefinition"/>
         </property>
-        <property name="titleAttribute" value="questionTypeId"/>
+        <property name="titleAttribute" value="id"/>
         <property name="attributes">
             <list>
-                <ref bean="QuestionType-questionTypeId"/>
-                <ref bean="QuestionType-questionTypeName"/>
+                <ref bean="QuestionType-id"/>
+                <ref bean="QuestionType-name"/>
                 <ref bean="QuestionType-versionNumber"/>
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
-    <bean id="QuestionType-questionTypeId" parent="QuestionType-questionTypeId-parentBean"/>
-    <bean abstract="true" id="QuestionType-questionTypeId-parentBean" parent="AttributeDefinition">
-        <property name="name" value="questionTypeId"/>
+    <bean id="QuestionType-id" parent="QuestionType-id-parentBean"/>
+    <bean abstract="true" id="QuestionType-id-parentBean" parent="AttributeDefinition">
+        <property name="name" value="id"/>
         <property name="forceUppercase" value="false"/>
         <property name="label" value="Question Type Id"/>
         <property name="shortLabel" value="Question Type Id"/>
@@ -59,9 +59,9 @@
         <property name="description" value="Question Type Id"/>
     </bean>
 
-    <bean id="QuestionType-questionTypeName" parent="QuestionType-questionTypeName-parentBean"/>
-    <bean abstract="true" id="QuestionType-questionTypeName-parentBean" parent="AttributeDefinition">
-        <property name="name" value="questionTypeName"/>
+    <bean id="QuestionType-name" parent="QuestionType-name-parentBean"/>
+    <bean abstract="true" id="QuestionType-name-parentBean" parent="AttributeDefinition">
+        <property name="name" value="name"/>
         <property name="forceUppercase" value="false"/>
         <property name="label" value="Question Type Name"/>
         <property name="shortLabel" value="Question Type Name"/>
@@ -98,8 +98,8 @@
                     <property name="numberOfColumns" value="1"/>
                     <property name="inquiryFields">
                         <list>
-                            <bean p:attributeName="questionTypeId" p:forceInquiry="true" parent="FieldDefinition"/>
-                            <bean p:attributeName="questionTypeName" parent="FieldDefinition"/>
+                            <bean p:attributeName="id" p:forceInquiry="true" parent="FieldDefinition"/>
+                            <bean p:attributeName="name" parent="FieldDefinition"/>
                         </list>
                     </property>
                 </bean>
@@ -117,8 +117,8 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="questionTypeId" parent="Uif-DataField"/>
-              <bean p:propertyName="questionTypeName" parent="Uif-DataField"/>
+              <bean p:propertyName="id" parent="Uif-DataField"/>
+              <bean p:propertyName="name" parent="Uif-DataField"/>
             </list>
           </property>
         </bean>
@@ -137,14 +137,14 @@
         </property>
         <property name="lookupFields">
             <list>
-                <bean p:attributeName="questionTypeId" p:forceInquiry="true" parent="FieldDefinition"/>
-                <bean p:attributeName="questionTypeName" parent="FieldDefinition"/>
+                <bean p:attributeName="id" p:forceInquiry="true" parent="FieldDefinition"/>
+                <bean p:attributeName="name" parent="FieldDefinition"/>
             </list>
         </property>
         <property name="resultFields">
             <list>
-                <bean p:attributeName="questionTypeId" p:forceInquiry="true" parent="FieldDefinition"/>
-                <bean p:attributeName="questionTypeName" parent="FieldDefinition"/>
+                <bean p:attributeName="id" p:forceInquiry="true" parent="FieldDefinition"/>
+                <bean p:attributeName="name" parent="FieldDefinition"/>
             </list>
         </property>
     </bean>
@@ -165,14 +165,14 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="questionTypeId" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="questionTypeName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="name" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="questionTypeId" parent="Uif-DataField"/>
-        <bean p:propertyName="questionTypeName" parent="Uif-DataField"/>
+        <bean p:propertyName="id" parent="Uif-DataField"/>
+        <bean p:propertyName="name" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>

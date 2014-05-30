@@ -106,7 +106,7 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
     private void saveQuestionnaire(ProtocolRequestBean requestBean, Integer submissionNumber) {
         List<AnswerHeader> saveHeaders = new ArrayList<AnswerHeader>();
         for (AnswerHeader answerHeader : requestBean.getQuestionnaireHelper().getAnswerHeaders()) {
-            if (answerHeader.getAnswerHeaderId() != null) {
+            if (answerHeader.getId() != null) {
                 answerHeader.setModuleSubItemKey(submissionNumber.toString());
                 //remove any trailing characters from the protocol number to avoid linking to an amendment or renewal or whatever T means.
                 if (answerHeader.getModuleItemKey().matches(".*[A-Z]$")) {

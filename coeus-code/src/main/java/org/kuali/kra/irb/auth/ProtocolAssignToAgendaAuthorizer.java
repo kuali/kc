@@ -50,5 +50,13 @@ public class ProtocolAssignToAgendaAuthorizer extends ProtocolAuthorizer {
         ProtocolSubmission ps = findSubmission(protocol);
         return ps != null && ps.getCommitteeSchedule() != null && ps.getCommitteeSchedule().getScheduledDate() != null;
     }
+    
+    public KcWorkflowService getKraWorkflowService() {
+        return kraWorkflowService;
+    }
+
+    public void setKraWorkflowService(KcWorkflowService kraWorkflowService) {
+        this.kraWorkflowService = kraWorkflowService;
+    }
 
 }

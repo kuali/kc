@@ -28,10 +28,10 @@ import java.util.*;
  */
 public class QuestionServiceImpl implements QuestionService {
 
-    private static final String QUESTION_REF_ID = "questionRefId";
-    private static final String QUESTION_ID = "questionId";
-    private static final String QUESTION_QUESTION_ID = "questionnaireQuestions.question.questionId";
-    private static final String QUESTIONNAIRE_ID = "questionnaireId";
+    private static final String QUESTION_REF_ID = "id";
+    private static final String QUESTION_ID = "questionSeqId";
+    private static final String QUESTION_QUESTION_ID = "questionnaireQuestions.question.questionSeqId";
+    private static final String QUESTIONNAIRE_ID = "questionnaireSeqId";
 
     private BusinessObjectService businessObjectService;
 
@@ -98,11 +98,11 @@ public class QuestionServiceImpl implements QuestionService {
     @SuppressWarnings("unchecked")
     protected boolean isActiveQuestionnaire(Questionnaire questionnaire) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(QUESTIONNAIRE_ID, questionnaire.getQuestionnaireId());
+        fieldValues.put(QUESTIONNAIRE_ID, questionnaire.getQuestionnaireSeqId());
         Collection<Questionnaire> questionnaires = businessObjectService.findMatching(Questionnaire.class, fieldValues);
         if (questionnaires.size() > 0) {
             Questionnaire maxQuestionnaire = (Questionnaire) Collections.max(questionnaires);
-            if (maxQuestionnaire.getQuestionnaireRefId().equals(questionnaire.getQuestionnaireRefId())) {
+            if (maxQuestionnaire.getId().equals(questionnaire.getId())) {
                 return true;
             }
         }

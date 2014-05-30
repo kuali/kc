@@ -21,7 +21,7 @@
     
     
     <property name="documentTypeName" value="BudgetColumnsToAlterMaintenanceDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kra.budget.rules.BudgetColumnsToAlterMaintenanceDocumentRule"/>
+    <property name="businessRulesClass" value="org.kuali.coeus.common.budget.impl.editable.BudgetColumnsToAlterMaintenanceDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     
     <property name="webScriptFiles">

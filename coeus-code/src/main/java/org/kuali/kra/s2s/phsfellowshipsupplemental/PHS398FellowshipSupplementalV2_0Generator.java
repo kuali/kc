@@ -23,6 +23,7 @@ import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupple
 import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.*;
 import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.AdditionalInformation.*;
 import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ApplicationType.TypeOfApplication;
+import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Budget;
 import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Budget.FederalStipendRequested;
 import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Budget.InstitutionalBaseSalary;
 import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Budget.InstitutionalBaseSalary.AcademicPeriod;
@@ -36,6 +37,7 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.question.*;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -47,11 +49,6 @@ import org.kuali.kra.s2s.CitizenshipTypes;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
-import org.kuali.kra.questionnaire.Questionnaire;
-import org.kuali.kra.questionnaire.QuestionnaireQuestion;
-import org.kuali.kra.questionnaire.answer.Answer;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.impl.PHS398FellowshipSupplementalBaseGenerator;
@@ -130,12 +127,12 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
         setQuestionnaireData(phsFellowshipSupplemental);
         return phsFellowshipSupplementalDocument;
     }
-    private List<Answer> getAnswers(QuestionnaireQuestion questionnaireQuestion, AnswerHeader answerHeader) {
-        List<Answer> returnAnswers = new ArrayList<Answer>();
+    private List<AnswerContract> getAnswers(QuestionnaireQuestionContract questionnaireQuestion, AnswerHeaderContract answerHeader) {
+        List<AnswerContract> returnAnswers = new ArrayList<AnswerContract>();
         if (answerHeader != null) {
-            List<Answer> answers = answerHeader.getAnswers();
-            for (Answer answer : answers) {
-                if (answer.getQuestionnaireQuestionsIdFk().equals(questionnaireQuestion.getQuestionnaireQuestionsId())) {               
+            List<? extends AnswerContract> answers = answerHeader.getAnswers();
+            for (AnswerContract answer : answers) {
+                if (answer.getQuestionnaireQuestionsId().equals(questionnaireQuestion.getId())) {
                     returnAnswers.add(answer);
                 }
             }
@@ -144,7 +141,7 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
     }
     private void setQuestionnaireData(PHSFellowshipSupplemental20 phsFellowshipSupplemental) {
         Map<Integer, String> hmBudgetQuestions = new HashMap<Integer, String>();
-        List<AnswerHeader> answers = findQuestionnaireWithAnswers(pdDoc.getDevelopmentProposal());
+        List<? extends AnswerHeaderContract> answers = findQuestionnaireWithAnswers(pdDoc.getDevelopmentProposal());
         ResearchTrainingPlan researchTrainingPlan = phsFellowshipSupplemental.addNewResearchTrainingPlan();
         setHumanSubjectInvolvedAndVertebrateAnimalUsed(researchTrainingPlan);
         setNarrativeDataForResearchTrainingPlan(phsFellowshipSupplemental, researchTrainingPlan);
@@ -152,16 +149,16 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
         GraduateDegreeSought graduateDegreeSought = GraduateDegreeSought.Factory.newInstance();
         StemCells stemCellstype = StemCells.Factory.newInstance();
         List<KirschsteinBean> cvKirsch = new ArrayList<KirschsteinBean>();
-        for (AnswerHeader answerHeader : answers) {
-            Questionnaire questionnaire = answerHeader.getQuestionnaire();
-            List<QuestionnaireQuestion> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
-            for (QuestionnaireQuestion questionnaireQuestion : questionnaireQuestions) {
-                Answer answerBO = getAnswer(questionnaireQuestion, answerHeader);
+        for (AnswerHeaderContract answerHeader : answers) {
+            QuestionnaireContract questionnaire = questionAnswerService.findQuestionnaireById(answerHeader.getQuestionnaireId());
+            List<? extends QuestionnaireQuestionContract> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
+            for (QuestionnaireQuestionContract questionnaireQuestion : questionnaireQuestions) {
+                AnswerContract answerBO = getAnswer(questionnaireQuestion, answerHeader);
                 String answer = answerBO.getAnswer();
-                Question question = questionnaireQuestion.getQuestion();
+                QuestionContract question = questionnaireQuestion.getQuestion();
                 Integer questionNumber = questionnaireQuestion.getQuestionNumber();
                 Integer parentQuestionNumber = questionnaireQuestion.getParentQuestionNumber();
-                Integer questionId = question.getQuestionIdAsInteger();
+                Integer questionId = Integer.valueOf(question.getQuestionSeqId());
                 if (answer != null) {
                         if( !answer .equalsIgnoreCase(ANSWER_YES) || !answer.equalsIgnoreCase(ANSWER_NO)) {
                     switch (questionId) {
@@ -195,8 +192,8 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
                                     : YesNoDataType.N_NO);
                             break;
                         case STEMCELLLINES:
-                            List<Answer> answerList = getAnswers(questionnaireQuestion,answerHeader);                      
-                            for (Answer questionnaireAnswerBO: answerList) {
+                            List<? extends AnswerContract> answerList = getAnswers(questionnaireQuestion,answerHeader);
+                            for (AnswerContract questionnaireAnswerBO: answerList) {
                                 String questionnaireSubAnswer =  questionnaireAnswerBO.getAnswer();
                                 if(questionnaireSubAnswer!=null){
                                     stemCellstype.addCellLines(questionnaireAnswerBO.getAnswer());
@@ -547,7 +544,7 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
         FederalStipendRequested federalStipendRequested = FederalStipendRequested.Factory.newInstance();
         BudgetDocument budgetDoc = getBudgetDocument();
         if (budgetDoc != null) {
-            org.kuali.kra.budget.core.Budget pBudget = budgetDoc.getBudget();
+            org.kuali.coeus.common.budget.framework.core.Budget pBudget = budgetDoc.getBudget();
             ScaleTwoDecimal sumOfLineItemCost = ScaleTwoDecimal.ZERO;
             ScaleTwoDecimal numberOfMonths = ScaleTwoDecimal.ZERO;
             for (BudgetPeriod budgetPeriod : pBudget.getBudgetPeriods()) {
@@ -777,7 +774,7 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
         }
     }
 
-    private List<AnswerHeader> findQuestionnaireWithAnswers(DevelopmentProposal developmentProposal) {
+    private List<? extends AnswerHeaderContract> findQuestionnaireWithAnswers(DevelopmentProposal developmentProposal) {
         ProposalDevelopmentS2sQuestionnaireService questionnaireAnswerService = getProposalDevelopmentS2sQuestionnaireService();
         return questionnaireAnswerService.getProposalAnswerHeaderForForm(developmentProposal,
                 "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_2_0-V2.0", "PHS_Fellowship_Supplemental_2_0");
@@ -787,10 +784,10 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
         return KcServiceLocator.getService(ProposalDevelopmentS2sQuestionnaireService.class);
     }
 
-    private Answer getAnswer(QuestionnaireQuestion questionnaireQuestion, AnswerHeader answerHeader) {
-        List<Answer> answers = answerHeader.getAnswers();
-        for (Answer answer : answers) {
-            if (answer.getQuestionnaireQuestionsIdFk().equals(questionnaireQuestion.getQuestionnaireQuestionsId())) {
+    private AnswerContract getAnswer(QuestionnaireQuestionContract questionnaireQuestion, AnswerHeaderContract answerHeader) {
+        List<? extends AnswerContract> answers = answerHeader.getAnswers();
+        for (AnswerContract answer : answers) {
+            if (answer.getQuestionnaireQuestionsId().equals(questionnaireQuestion.getId())) {
                 return answer;
             }
         }

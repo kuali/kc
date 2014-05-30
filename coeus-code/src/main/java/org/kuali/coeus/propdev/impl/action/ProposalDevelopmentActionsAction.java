@@ -34,6 +34,7 @@ import org.kuali.coeus.propdev.impl.copy.ProposalCopyService;
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
 import org.kuali.coeus.propdev.impl.editable.ProposalOverview;
+import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.propdev.impl.state.ProposalStateService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
@@ -44,10 +45,10 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.SpecialReviewType;
-import org.kuali.kra.budget.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
 import org.kuali.kra.infrastructure.Constants;
@@ -1077,8 +1078,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      * @throws Exception
      */
     private void submitS2sApplication(ProposalDevelopmentDocument proposalDevelopmentDocument) throws Exception{
-        S2SService s2sService = ((S2SService) KcServiceLocator.getService(S2SService.class));
-        s2sService.submitApplication(proposalDevelopmentDocument);
+        S2sSubmissionService s2sSubmissionService = KcServiceLocator.getService(S2sSubmissionService.class);
+        s2sSubmissionService.submitApplication(proposalDevelopmentDocument);
     }
     
     /**

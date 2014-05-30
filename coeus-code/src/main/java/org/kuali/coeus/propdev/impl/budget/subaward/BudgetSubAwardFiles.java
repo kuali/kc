@@ -16,7 +16,7 @@
 package org.kuali.coeus.propdev.impl.budget.subaward;
 
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardFilesContract;
-import org.kuali.kra.budget.core.BudgetAssociate;
+import org.kuali.coeus.common.budget.framework.core.BudgetAssociate;
 
 public class BudgetSubAwardFiles extends BudgetAssociate implements BudgetSubAwardFilesContract {
 

@@ -59,24 +59,6 @@
         <property name="serviceName" value="dataObjectService" />
     </bean>
 
-	<bean id="budgetRatesServiceImpl" abstract="true">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="unitService">
-			<ref bean="unitService" />
-		</property>
-	</bean>
-	
-	<bean id="budgetRatesService" class="org.kuali.kra.budget.rates.BudgetRateServiceDecorator" parent="budgetRatesServiceImpl">
-		<property name="parameterService">
-			<ref bean="parameterService"/>
-		</property>
-		<property name="budgetCalculationService">
-			<ref bean="budgetCalculationService" />
-		</property>
-	</bean>
-
 	<bean id="budgetPersonService" class="org.kuali.kra.budget.personnel.BudgetPersonServiceImpl">
 		<property name="parameterService">
 			<ref bean="parameterService"/>
@@ -97,34 +79,7 @@
 			<ref bean="budgetCalculationService"/>
 		</property>
 	</bean>
-      			
-    <bean id="budgetService" class="org.kuali.kra.budget.core.BudgetServiceImpl">
-		<property name="documentService">
-			<ref bean="documentService"/>
-		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService"/>
-		</property>
-		<property name="parameterService">
-			<ref bean="parameterService"/>
-		</property>
-		<property name="budgetRatesService">
-			<ref bean="budgetRatesService"/>
-		</property>
-		<property name="pessimisticLockService">
-			<ref bean="pessimisticLockService"/>
-		</property>
-		<property name="budgetVersionRule">
-			<ref bean="budgetVersionRule"/>
-		</property>
-		<property name="budgetSummaryService">
-			<ref bean="budgetSummaryService"/>
-		</property>
-		<property name="fiscalYearMonthService">
-			<ref bean="fiscalYearMonthService"/>
-		</property>
-	</bean>
-	
+
     <bean id="pessimisticLockService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="pessimisticLockService" />
     </bean>
@@ -134,27 +89,6 @@
 			<ref bean="businessObjectService" />
 		</property>
  	</bean>
-
-	<bean id="budgetVersionRule" class="org.kuali.kra.budget.versions.BudgetVersionRule" scope="prototype" />
-
-	<bean id="budgetCalculationService" class="org.kuali.kra.budget.calculator.BudgetCalculationServiceImpl">
-		<property name="businessObjectService" >
-  			<ref bean="businessObjectService"/>
-  		</property>
-  		<property name="budgetDistributionAndIncomeService" >
-  			<ref bean="budgetDistributionAndIncomeService"/>
-  		</property>
-  		
-	</bean>
-
-	<bean id="budgetDistributionAndIncomeService" class="org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeServiceImpl">
-		<property name="parameterService">
-			<ref bean="parameterService"/>
-		</property>
-		<property name="costShareService">
-			<ref bean="costShareService"/>
-		</property>
-	</bean>
 
 	<bean id="budgetModularService" class="org.kuali.coeus.propdev.impl.budget.modular.BudgetModularServiceImpl">
 		<property name="parameterService">
@@ -169,11 +103,7 @@
   		<property name="lookupableHelperService">
     		<ref bean="budgetExpenseLookupableHelperService" />
   		</property>  		
-	</bean>	
-
-	<bean id="budgetExpenseLookupableHelperService" class="org.kuali.kra.budget.lookup.BudgetExpenseLookupableHelperServiceImpl"
- 		scope="prototype" parent="parentLookupableHelperService">
-  	</bean>
+	</bean>
   	
 	<bean id="objectCodeToBudgetCategoryCodeService" class="org.kuali.kra.service.impl.ObjectCodeToBudgetCategoryCodeServiceImpl">
 		<property name="businessObjectService">
@@ -208,10 +138,6 @@
     		<ref bean="budgetPeriodLookupableHelperService" />
   		</property>  		
 	</bean>	
-	<bean id="budgetPeriodLookupableHelperService" class="org.kuali.kra.budget.lookup.BudgetPeriodLookupableHelperServiceImpl"
- 		scope="prototype" parent="parentLookupableHelperService" lazy-init="true"> 
- 		<property name="awardBudgetService" ref="awardBudgetService"/>
-  	</bean>		
   	
   	<!-- Budget adjustment client -->
   	<bean id="budgetAdjustmentClient" class= "org.kuali.kra.budget.external.budget.BudgetAdjustmentClientFactoryBean">
@@ -258,8 +184,5 @@
 				p:jaxWsService="true" />
 		</property>
 	</bean>
-	
-	<bean id="breakupIntervalService" class="org.kuali.kra.budget.calculator.BreakupIntervalServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
-	</bean>	
+
 </beans>

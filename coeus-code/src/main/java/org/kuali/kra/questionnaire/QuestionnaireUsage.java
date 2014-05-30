@@ -16,6 +16,7 @@
 package org.kuali.kra.questionnaire;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.kuali.coeus.common.api.question.QuestionnaireUsageContract;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
@@ -27,17 +28,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class QuestionnaireUsage extends KcPersistableBusinessObjectBase implements Comparable<QuestionnaireUsage>, SequenceAssociate<Questionnaire> {
+public class QuestionnaireUsage extends KcPersistableBusinessObjectBase implements Comparable<QuestionnaireUsage>, SequenceAssociate<Questionnaire>, QuestionnaireUsageContract {
 
     private static final long serialVersionUID = -5676341963373665440L;
 
-    private Long questionnaireUsageId;
+    private Long id;
 
     private String moduleItemCode;
 
     private String moduleSubItemCode;
 
-    private String questionnaireRefIdFk;
+    private Long questionnaireId;
 
     private String ruleId;
 
@@ -57,17 +58,16 @@ public class QuestionnaireUsage extends KcPersistableBusinessObjectBase implemen
     
     private transient boolean delete;
 
-    public QuestionnaireUsage() {
+    @Override
+    public Long getId() {
+        return id;
     }
 
-    public Long getQuestionnaireUsageId() {
-        return questionnaireUsageId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setQuestionnaireUsageId(Long questionnaireUsageId) {
-        this.questionnaireUsageId = questionnaireUsageId;
-    }
-
+    @Override
     public String getModuleItemCode() {
         return moduleItemCode;
     }
@@ -76,6 +76,7 @@ public class QuestionnaireUsage extends KcPersistableBusinessObjectBase implemen
         this.moduleItemCode = moduleItemCode;
     }
 
+    @Override
     public String getModuleSubItemCode() {
         return moduleSubItemCode;
     }
@@ -84,14 +85,16 @@ public class QuestionnaireUsage extends KcPersistableBusinessObjectBase implemen
         this.moduleSubItemCode = moduleSubItemCode;
     }
 
-    public String getQuestionnaireRefIdFk() {
-        return questionnaireRefIdFk;
+    @Override
+    public Long getQuestionnaireId() {
+        return questionnaireId;
     }
 
-    public void setQuestionnaireRefIdFk(String questionnaireRefIdFk) {
-        this.questionnaireRefIdFk = questionnaireRefIdFk;
+    public void setQuestionnaireId(Long questionnaireId) {
+        this.questionnaireId = questionnaireId;
     }
 
+    @Override
     public String getRuleId() {
         return ruleId;
     }
@@ -100,6 +103,7 @@ public class QuestionnaireUsage extends KcPersistableBusinessObjectBase implemen
         this.ruleId = ruleId;
     }
 
+    @Override
     public String getQuestionnaireLabel() {
         return questionnaireLabel;
     }
@@ -137,7 +141,7 @@ public class QuestionnaireUsage extends KcPersistableBusinessObjectBase implemen
 
     @Override
     public void resetPersistenceState() {
-        this.setQuestionnaireUsageId(null);
+        this.setId(null);
     }
 
     public Integer getSequenceNumber() {
@@ -153,8 +157,8 @@ public class QuestionnaireUsage extends KcPersistableBusinessObjectBase implemen
     }
 
     public int compareTo(QuestionnaireUsage argQuestionnaireUsage) {
-        if (ObjectUtils.equals(this.getQuestionnaire().getQuestionnaireId(), argQuestionnaireUsage.getQuestionnaire().getQuestionnaireId())) {
-            if (ObjectUtils.equals(this.getQuestionnaireRefIdFk(), argQuestionnaireUsage.getQuestionnaireRefIdFk())) {
+        if (ObjectUtils.equals(this.getQuestionnaire().getQuestionnaireSeqId(), argQuestionnaireUsage.getQuestionnaire().getQuestionnaireSeqId())) {
+            if (ObjectUtils.equals(this.getQuestionnaireId(), argQuestionnaireUsage.getQuestionnaireId())) {
                 return argQuestionnaireUsage.getQuestionnaireSequenceNumber().compareTo(this.getQuestionnaireSequenceNumber());
             } else {
                 // compare refid is not good : 1. it's a string now, so '753' > '1001'. 2. the proposalpersonqn has high refid 6111.
@@ -163,10 +167,11 @@ public class QuestionnaireUsage extends KcPersistableBusinessObjectBase implemen
                 return argQuestionnaireUsage.getQuestionnaire().getSequenceNumber().compareTo(this.getQuestionnaire().getSequenceNumber());
             }
         } else {
-            return this.getQuestionnaire().getQuestionnaireIdAsInteger().compareTo(argQuestionnaireUsage.getQuestionnaire().getQuestionnaireIdAsInteger());
+            return this.getQuestionnaire().getQuestionnaireSeqIdAsInteger().compareTo(argQuestionnaireUsage.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
         }
     }
 
+    @Override
     public boolean isMandatory() {
         return mandatory;
     }

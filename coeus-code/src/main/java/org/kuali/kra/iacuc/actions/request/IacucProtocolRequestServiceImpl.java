@@ -102,7 +102,7 @@ public class IacucProtocolRequestServiceImpl implements IacucProtocolRequestServ
     private void saveQuestionnaire(IacucProtocolRequestBean requestBean, Integer submissionNumber) {
         List<AnswerHeader> saveHeaders = new ArrayList<AnswerHeader>();
         for (AnswerHeader answerHeader : requestBean.getAnswerHeaders()) {
-            if (answerHeader.getAnswerHeaderId() != null) {
+            if (answerHeader.getId() != null) {
                 answerHeader.setModuleSubItemKey(submissionNumber.toString());
                 answerHeader.setModuleItemKey(answerHeader.getModuleItemKey().substring(0,
                         answerHeader.getModuleItemKey().length() - 1));

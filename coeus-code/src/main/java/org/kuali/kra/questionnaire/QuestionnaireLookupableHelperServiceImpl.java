@@ -72,8 +72,8 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         List<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
         int qId = 0;
         for (BusinessObject questionnaire : searchResults) {
-            if (qId != ((Questionnaire) questionnaire).getQuestionnaireIdAsInteger()) {
-                qId = ((Questionnaire) questionnaire).getQuestionnaireIdAsInteger();
+            if (qId != ((Questionnaire) questionnaire).getQuestionnaireSeqIdAsInteger()) {
+                qId = ((Questionnaire) questionnaire).getQuestionnaireSeqIdAsInteger();
                 if (isCurrent((Questionnaire) questionnaire)) {
                     questionnaires.add((Questionnaire) questionnaire);
                 }
@@ -93,8 +93,8 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
      * search results is indeed the current version.
      */
     private boolean isCurrent(Questionnaire questionnaire) {
-        Questionnaire currentQnaire = getQuestionnaireById(questionnaire.getQuestionnaireId());
-        return questionnaire.getQuestionnaireRefId().equals(currentQnaire.getQuestionnaireRefId());
+        Questionnaire currentQnaire = getQuestionnaireById(questionnaire.getQuestionnaireSeqId());
+        return questionnaire.getId().equals(currentQnaire.getId());
     }
     
     // TODO : Maybe we need a versioning history for Questionnaire, so we don't have to do this.
@@ -123,13 +123,13 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         boolean hasModifyPermission = questionnaireAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE);
         boolean hasViewPermission = hasModifyPermission
                 || questionnaireAuthorizationService.hasPermission(PermissionConstants.VIEW_QUESTIONNAIRE);
-        if (hasModifyPermission && questionnaire.getQuestionnaireId() != null
-                && (CollectionUtils.isEmpty(questionnaireIds) || !questionnaireIds.contains(questionnaire.getQuestionnaireId()))) {
+        if (hasModifyPermission && questionnaire.getQuestionnaireSeqId() != null
+                && (CollectionUtils.isEmpty(questionnaireIds) || !questionnaireIds.contains(questionnaire.getQuestionnaireSeqId()))) {
             htmlDataList.add(getHtmlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
         }
         if (hasModifyPermission
-                && (questionnaire.getQuestionnaireId() == null || (!CollectionUtils.isEmpty(questionnaireIds) && questionnaireIds
-                        .contains(questionnaire.getQuestionnaireId())))) {
+                && (questionnaire.getQuestionnaireSeqId() == null || (!CollectionUtils.isEmpty(questionnaireIds) && questionnaireIds
+                        .contains(questionnaire.getQuestionnaireSeqId())))) {
             AnchorHtmlData htmlData = (AnchorHtmlData) getHtmlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL,
                     pkNames);
             String workflowUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY);
@@ -137,10 +137,10 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
             htmlData.setDisplayText("resume edit");
             htmlDataList.add(htmlData);
         }
-        if (hasViewPermission && questionnaire.getQuestionnaireId() != null) {
+        if (hasViewPermission && questionnaire.getQuestionnaireSeqId() != null) {
             htmlDataList.add(getViewLink(businessObject, pkNames));
         }
-        if (hasModifyPermission && questionnaire.getQuestionnaireId() != null) {
+        if (hasModifyPermission && questionnaire.getQuestionnaireSeqId() != null) {
             htmlDataList.add(getHtmlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
             
             htmlDataList.add(getHtmlData(businessObject, KRADConstants.MAINTENANCE_DELETE_METHOD_TO_CALL, pkNames));
@@ -154,11 +154,11 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
      */
     private String getDocumentNumber (Questionnaire questionnaire) {
         String docNumber = null;
-        if (questionnaire.getQuestionnaireId() == null) {
+        if (questionnaire.getQuestionnaireSeqId() == null) {
             docNumber = questionnaire.getDocumentNumber();
         } else {
             for (MaintenanceDocumentBase doc : questionnaireMaintenanceDocs) {
-                if (((Questionnaire) doc.getNewMaintainableObject().getDataObject()).getQuestionnaireId().equals(questionnaire.getQuestionnaireId())) {
+                if (((Questionnaire) doc.getNewMaintainableObject().getDataObject()).getQuestionnaireSeqId().equals(questionnaire.getQuestionnaireSeqId())) {
                     docNumber = doc.getDocumentNumber();
                 }
             }
@@ -217,7 +217,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
                 MaintenanceDocumentBase doc = (MaintenanceDocumentBase) documentService.getByDocumentHeaderId(docHeader
                         .getDocumentId().toString());
                 if (doc.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
-                    questionnaireIds.add(((Questionnaire) doc.getNewMaintainableObject().getDataObject()).getQuestionnaireId());
+                    questionnaireIds.add(((Questionnaire) doc.getNewMaintainableObject().getDataObject()).getQuestionnaireSeqId());
                     questionnaireMaintenanceDocs.add(doc);
                 } else if (doc.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION)) {
                     // new questionnaire which is not approved yet.

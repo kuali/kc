@@ -6,7 +6,7 @@
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
         <property name="lockingKeys" >
             <list>
-                <value>questionnaireId</value>
+                <value>questionnaireSeqId</value>
             </list>
         </property>
         <property name="allowsRecordDeletion" value="true" />

@@ -36,7 +36,7 @@ import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.*;
-import org.kuali.kra.budget.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;

@@ -36,6 +36,7 @@ import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.CoPiInfoDO;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
+import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
@@ -43,12 +44,12 @@ import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.DocumentNextvalue;
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.core.BudgetService;
-import org.kuali.kra.budget.distributionincome.BudgetCostShare;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetService;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
+import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -63,7 +64,6 @@ import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
@@ -124,8 +124,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     @Qualifier("roleService")
     private RoleService roleService;
     @Autowired
-    @Qualifier("s2SService")
-    private S2SService s2SService;
+    @Qualifier("s2sSubmissionService")
+    private S2sSubmissionService s2sSubmissionService;
     @Autowired
     @Qualifier("sponsorHierarchyService")
     private SponsorHierarchyService sponsorHierarchyService;
@@ -745,7 +745,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
         if(s2sOpportunity.getSchemaUrl()!=null){
             try{
-            	s2sOppForms = getS2SService().parseOpportunityForms(s2sOpportunity);
+            	s2sOppForms = getS2sSubmissionService().parseOpportunityForms(s2sOpportunity);
             }catch(S2SException ex){
             	if(ex.getErrorKey().equals(KeyConstants.ERROR_GRANTSGOV_NO_FORM_ELEMENT)) {
             		ex.setMessage(s2sOpportunity.getOpportunityId());
@@ -1234,13 +1234,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         this.roleService = roleService;
     }
 
-    protected S2SService getS2SService() {
-        return s2SService;
-    }
-
-    public void setS2SService(S2SService s2SService) {
-        this.s2SService = s2SService;
-    }
     public KeyPersonnelService getKeyPersonnelService() {
         return keyPersonnelService;
     }
@@ -1286,5 +1279,17 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {
         this.sponsorHierarchyService = sponsorHierarchyService;
+    }
+
+    public S2sSubmissionService getS2sSubmissionService() {
+        return s2sSubmissionService;
+    }
+
+    public void setS2sSubmissionService(S2sSubmissionService s2sSubmissionService) {
+        s2sSubmissionService = s2sSubmissionService;
+    }
+
+    public UnitAuthorizationService getUnitAuthorizationService() {
+        return unitAuthorizationService;
     }
 }

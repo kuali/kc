@@ -31,6 +31,10 @@ import java.util.*;
 public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     private static final String PARAM_NAME = "associateModuleQuestionnairePermission";
+    public static final String MODULE_ITEM_CODE = "moduleItemCode";
+    public static final String MODULE_SUB_ITEM_CODE = "moduleSubItemCode";
+    public static final String QUESTIONNAIRE_SEQ_ID = "questionnaireSeqId";
+    public static final String NAME = "name";
     private BusinessObjectService businessObjectService;
     private UnitAuthorizationService unitAuthorizationService;
     private ParameterService parameterService;
@@ -38,17 +42,10 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     public QuestionnaireServiceImpl() {
         super();
-        /*
-         * TODO : permissionModuleMap is probably for initial release 2. See more comments on getAssociateModules method.
-         */
         permissionModuleMap = new HashMap<String, String>();
         permissionModuleMap.put(AwardPermissionConstants.MODIFY_AWARD.getAwardPermission() + ":" + Constants.MODULE_NAMESPACE_AWARD_BUDGET, "1");
         permissionModuleMap.put(PermissionConstants.EDIT_INSTITUTE_PROPOSAL + ":" + Constants.INSTITUTIONAL_PROPOSAL_NAMESPACE,"2");
         permissionModuleMap.put(PermissionConstants.MAINTAIN_QUESTIONNAIRE_USAGE + ":" + Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, "3");
-        //permissionModuleMap.put(PermissionConstants.MODIFY_PROPOSAL + ":" + "KC-PD", "3");
-        // permissionModuleMap.put(PermissionConstants.SUBCONTRACT,"4");
-        // permissionModuleMap.put(PermissionConstants.NEGOTIATION,"5");
-        // permissionModuleMap.put(PermissionConstants.MODIFY_PERSON,"6");
         permissionModuleMap.put(PermissionConstants.MODIFY_PROTOCOL + ":" + "KC-PROTOCOL", "7");
         permissionModuleMap.put(PermissionConstants.MAINTAIN_QUESTIONNAIRE_USAGE + ":" + Constants.MODULE_NAMESPACE_PROTOCOL, "7");
         permissionModuleMap.put(PermissionConstants.MAINTAIN_QUESTIONNAIRE_USAGE + ":" + Constants.MODULE_NAMESPACE_COIDISCLOSURE, "8");
@@ -59,12 +56,12 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     @SuppressWarnings("unchecked")
     public boolean isQuestionnaireNameExist(String questionnaireId, String name) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("name", name);
+        fieldValues.put(NAME, name);
         boolean isExist = false;
         List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatching(Questionnaire.class,
                 fieldValues);
         for (Questionnaire questionnaire : questionnaires) {
-            if (questionnaireId == null || !questionnaire.getQuestionnaireId().equals(questionnaireId)) {
+            if (questionnaireId == null || !questionnaire.getQuestionnaireSeqId().equals(questionnaireId)) {
                 isExist = true;
                 break;
             }
@@ -89,15 +86,15 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     protected void copyQuestionnaireLists(Questionnaire src, Questionnaire dest) {
         dest.setQuestionnaireQuestions(src.getQuestionnaireQuestions());
         dest.setQuestionnaireUsages(src.getQuestionnaireUsages());
-        dest.setQuestionnaireId(null);
+        dest.setQuestionnaireSeqId(null);
         for (QuestionnaireQuestion question : dest.getQuestionnaireQuestions()) {
-            question.setQuestionnaireRefIdFk(null);
-            question.setQuestionnaireQuestionsId(null);
+            question.setQuestionnaireId(null);
+            question.setId(null);
             question.setVersionNumber(new Long(1));
         }
         for (QuestionnaireUsage usage : dest.getQuestionnaireUsages()) {
-            usage.setQuestionnaireRefIdFk(null);
-            usage.setQuestionnaireUsageId(null);
+            usage.setQuestionnaireId(null);
+            usage.setId(null);
             usage.setVersionNumber(new Long(1));
         }
 
@@ -105,11 +102,6 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     @Override
     public List<String> getAssociateModules() {
-        /*
-         * TODO : (kcirb-378)this is a temporary (for release 2) to get questionnaire modules association list based on permission
-         * When integrated with KIM, this should be able to utilize KIM permission and permission attributes to accomplish this
-         * task. The permission attributes could be a combination of module doce & coeus permission right
-         */
 
         Set<String> modules = new HashSet<String>();
         Collection<String> parameters = this.parameterService.getParameterValuesAsString(Constants.PARAMETER_MODULE_QUESTIONNAIRE, Constants.PARAMETER_COMPONENT_PERMISSION, PARAM_NAME);
@@ -141,11 +133,11 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     @Override
     public boolean isUniqueUsage(Questionnaire questionnaire, QuestionnaireUsage usage) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("moduleItemCode", usage.getCoeusModule().getModuleCode());
-        fieldValues.put("moduleSubItemCode", usage.getCoeusSubModule().getSubModuleCode());
+        fieldValues.put(MODULE_ITEM_CODE, usage.getCoeusModule().getModuleCode());
+        fieldValues.put(MODULE_SUB_ITEM_CODE, usage.getCoeusSubModule().getSubModuleCode());
         List<QuestionnaireUsage> usages = (List<QuestionnaireUsage>) businessObjectService.findMatching(QuestionnaireUsage.class, fieldValues);
         for (QuestionnaireUsage curUsage : usages) {
-            if (!StringUtils.equals(questionnaire.getQuestionnaireId(), curUsage.getQuestionnaire().getQuestionnaireId())
+            if (!StringUtils.equals(questionnaire.getQuestionnaireSeqId(), curUsage.getQuestionnaire().getQuestionnaireSeqId())
                     && curUsage.getQuestionnaire().isActive() && isCurrentQuestionnaire(curUsage.getQuestionnaire())) {
                 return false;
             }
@@ -155,9 +147,9 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     
     public boolean isCurrentQuestionnaire(Questionnaire questionnaire) {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("questionnaireId", questionnaire.getQuestionnaireId());
+        fieldValues.put(QUESTIONNAIRE_SEQ_ID, questionnaire.getQuestionnaireSeqId());
         List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatchingOrderBy(Questionnaire.class, fieldValues, "sequenceNumber", false);
-        return questionnaire.getQuestionnaireRefId().equals(questionnaires.get(0).getQuestionnaireRefId());
+        return questionnaire.getId().equals(questionnaires.get(0).getId());
     }
 
 

@@ -18,13 +18,14 @@ package org.kuali.kra.questionnaire.answer;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.question.Question;
+import org.kuali.coeus.common.api.question.AnswerContract;
 
 import java.util.List;
 
 /**
  * Holds a single answer for a {@link Question Question}.
  */
-public class Answer extends KcPersistableBusinessObjectBase {
+public class Answer extends KcPersistableBusinessObjectBase implements AnswerContract {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,15 +37,15 @@ public class Answer extends KcPersistableBusinessObjectBase {
 
     private String answer;
 
-    private Long answerHeaderIdFk;
+    private Long answerHeaderId;
 
-    private AnswerHeader answerHeader;
+    private Long questionId;
 
-    private Long questionRefIdFk;
+    private Long questionnaireQuestionsId;
 
     private Question question;
 
-    private Long questionnaireQuestionsIdFk;
+    private AnswerHeader answerHeader;
 
     private QuestionnaireQuestion questionnaireQuestion;
 
@@ -53,148 +54,85 @@ public class Answer extends KcPersistableBusinessObjectBase {
     
     private boolean ruleMatched = false;
 
-    private List<Answer> parentAnswer;
+    private List<Answer> parentAnswers;
 
-    /**
-     * Gets the id attribute.
-     * 
-     * @return Returns the id.
-     */
+    @Override
     public Long getId() {
         return this.id;
     }
 
-    /**
-     * Sets the id attribute value.
-     * 
-     * @param id The questionnaireAnswersId to set.
-     */
     public void setId(Long id) {
         this.id = id;
     }
 
-    /**
-     * Gets the questionId attribute.
-     * 
-     * @return Returns the questionId.
-     */
-    public Long getQuestionRefIdFk() {
-        return this.questionRefIdFk;
+    @Override
+    public Long getQuestionId() {
+        return this.questionId;
     }
 
-    /**
-     * Sets the questionId attribute value.
-     * 
-     * @param questionRefIdFk The questionId to set.
-     */
-    public void setQuestionRefIdFk(Long questionRefIdFk) {
-        this.questionRefIdFk = questionRefIdFk;
+    public void setQuestionId(Long questionId) {
+        this.questionId = questionId;
     }
 
-    /**
-     * Gets the questionNumber attribute.
-     * 
-     * @return Returns the questionNumber.
-     */
+    @Override
     public Integer getQuestionNumber() {
         return this.questionNumber;
     }
 
-    /**
-     * Sets the questionNumber attribute value.
-     * 
-     * @param questionNumber The questionNumber to set.
-     */
     public void setQuestionNumber(Integer questionNumber) {
         this.questionNumber = questionNumber;
     }
 
-    /**
-     * Gets the answerNumber attribute.
-     * 
-     * @return Returns the answerNumber.
-     */
+    @Override
     public Integer getAnswerNumber() {
         return this.answerNumber;
     }
 
-    /**
-     * Sets the answerNumber attribute value.
-     * 
-     * @param answerNumber The answerNumber to set.
-     */
     public void setAnswerNumber(Integer answerNumber) {
         this.answerNumber = answerNumber;
     }
 
-    /**
-     * Gets the answer attribute.
-     * 
-     * @return Returns the answer.
-     */
+    @Override
     public String getAnswer() {
         return this.answer;
     }
 
-    /**
-     * Sets the answer attribute value.
-     * 
-     * @param answer The answer to set.
-     */
     public void setAnswer(String answer) {
         this.answer = answer;
     }
 
-    /**
-     * Gets the questionnaireAnsHeader attribute.
-     * 
-     * @return Returns the questionnaireAnsHeader.
-     */
     public AnswerHeader getAnswerHeader() {
         return this.answerHeader;
     }
 
-    /**
-     * Sets the answerHeader attribute value.
-     * 
-     * @param answerHeader The answerHeader to set.
-     */
     public void setAnswerHeader(AnswerHeader answerHeader) {
         this.answerHeader = answerHeader;
     }
 
-    /**
-     * Gets the question attribute.
-     * 
-     * @return Returns the question.
-     */
     public Question getQuestion() {
         return this.question;
     }
 
-    /**
-     * Sets the question attribute value.
-     * 
-     * @param question The question to set.
-     */
     public void setQuestion(Question question) {
         this.question = question;
     }
 
-    public Long getAnswerHeaderIdFk() {
-        return answerHeaderIdFk;
+    @Override
+    public Long getAnswerHeaderId() {
+        return answerHeaderId;
     }
 
-    public void setAnswerHeaderIdFk(Long answerHeaderIdFk) {
-        this.answerHeaderIdFk = answerHeaderIdFk;
+    public void setAnswerHeaderId(Long answerHeaderId) {
+        this.answerHeaderId = answerHeaderId;
     }
 
-    public Long getQuestionnaireQuestionsIdFk() {
-        return questionnaireQuestionsIdFk;
+    @Override
+    public Long getQuestionnaireQuestionsId() {
+        return questionnaireQuestionsId;
     }
 
-    public void setQuestionnaireQuestionsIdFk(Long questionnaireQuestionsIdFk) {
-        this.questionnaireQuestionsIdFk = questionnaireQuestionsIdFk;
+    public void setQuestionnaireQuestionsId(Long questionnaireQuestionsId) {
+        this.questionnaireQuestionsId = questionnaireQuestionsId;
     }
 
     public QuestionnaireQuestion getQuestionnaireQuestion() {
@@ -215,18 +153,17 @@ public class Answer extends KcPersistableBusinessObjectBase {
         return matchedChild;
     }
 
-    /**
-     */
     public void setMatchedChild(String matchedChild) {
         this.matchedChild = matchedChild;
     }
 
-    public List<Answer> getParentAnswer() {
-        return parentAnswer;
+    @Override
+    public List<Answer> getParentAnswers() {
+        return parentAnswers;
     }
 
-    public void setParentAnswer(List<Answer> parentAnswer) {
-        this.parentAnswer = parentAnswer;
+    public void setParentAnswers(List<Answer> parentAnswers) {
+        this.parentAnswers = parentAnswers;
     }
 
     public boolean isRuleMatched() {

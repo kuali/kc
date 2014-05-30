@@ -126,7 +126,7 @@ public interface Constants {
     public static final String PRIME_SPONSOR_KEY = "document.developmentProposalList[0].primeSponsorCode";
     public static final String PROJECT_TITLE_KEY = "document.developmentProposalList[0].title";
 
-    public static final String AUDIT_ERRORS = "Validation Errors";
+    public static final String AUDIT_ERRORS = "Error";
     public static final String AUDIT_WARNINGS = "Warnings";
     public static final String GRANTSGOV_ERRORS= "Grants.Gov Errors";
     
@@ -157,11 +157,14 @@ public interface Constants {
     public static final String PROPOSAL_NUMBER = "proposalNumber";
     public static final String BUDGET_VERSION_PANEL_NAME = "Budget Versions";
 
+    public static final String PROPOSAL_DEVELOPMENT_CREATE_IACUC_PROTOCOL_ENABLED_PARAMETER = "ENABLE_CREATE_PROPOSAL_TO_IACUC_PROTOCOL";
+    public static final String PROPOSAL_DEVELOPMENT_CREATE_IRB_PROTOCOL_ENABLED_PARAMETER = "ENABLE_CREATE_PROPOSAL_TO_IRB_PROTOCOL";
+    
     // Key Personnel Mojo
-    public static final String KEY_PERSONNEL_PAGE = "keyPersonnel";
+    public static final String KEY_PERSONNEL_PAGE = "PropDev-PersonnelPage";
     public static final String PROPOSAL_PERSON_INVESTIGATOR = "investigator";
-    public static final String KEY_PERSONNEL_PANEL_ANCHOR = "KeyPersonnel";
-    public static final String KEY_PERSONNEL_PANEL_NAME = "Key Personnel Information";
+    public static final String KEY_PERSONNEL_PANEL_ANCHOR = "PropDev-PersonnelPage-Section";
+    public static final String KEY_PERSONNEL_PANEL_NAME = "Key Personnel";
     public static final String PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY = "document.newMaintainableObject.fieldName";
     public static final String INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY = "invCreditTypeCode";
     public static final String EMPTY_STRING = "";
@@ -657,12 +660,12 @@ public interface Constants {
     public static final String QUESTION_AFFIRMATIVE_QUESTION_CONVERSION = "A";
     public static final String QUESTION_NEGATIVE_QUESTION_CONVERSION = "N";
     
-    public static final int QUESTION_RESPONSE_TYPE_YES_NO = 1;
-    public static final int QUESTION_RESPONSE_TYPE_YES_NO_NA = 2;
-    public static final int QUESTION_RESPONSE_TYPE_NUMBER = 3;
-    public static final int QUESTION_RESPONSE_TYPE_DATE = 4;
-    public static final int QUESTION_RESPONSE_TYPE_TEXT = 5;
-    public static final int QUESTION_RESPONSE_TYPE_LOOKUP = 6;
+    public static final long QUESTION_RESPONSE_TYPE_YES_NO = 1L;
+    public static final long QUESTION_RESPONSE_TYPE_YES_NO_NA = 2L;
+    public static final long QUESTION_RESPONSE_TYPE_NUMBER = 3L;
+    public static final long QUESTION_RESPONSE_TYPE_DATE = 4L;
+    public static final long QUESTION_RESPONSE_TYPE_TEXT = 5L;
+    public static final long QUESTION_RESPONSE_TYPE_LOOKUP = 6L;
     
     public static final String QUESTION_DOCUMENT_FIELD_QUESTION_TYPE_ID = "document.newMaintainableObject.businessObject.questionTypeId";
     public static final String QUESTION_DOCUMENT_FIELD_STATUS = "document.newMaintainableObject.businessObject.status";

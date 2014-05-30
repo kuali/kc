@@ -42,6 +42,10 @@
     <bean id="awardService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="awardService" />
     </bean>
+    
+    <bean id="dataObjectService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dataObjectService" />
+    </bean>
 
     <bean id="kcDocumentRejectionService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kcDocumentRejectionService" />
@@ -172,6 +176,7 @@
             <list>
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="modifyProtocol" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ViewProtocolAuthorizer" parent="parentProtocolAuthorizer">
@@ -364,10 +369,12 @@
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignToAgendaAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignToAgenda" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignToAgendaUnavailableAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignToAgendaUnavailable" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignCmtSchedAuthorizer" parent="parentProtocolAuthorizer">
@@ -382,10 +389,12 @@
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignReviewersAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignReviewers" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignReviewersUnavailableAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAssignReviewersUnavailable" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 
                 <bean class="org.kuali.kra.irb.auth.ProtocolAssignReviewersCmtSelAuthorizer" parent="parentProtocolAuthorizer">
@@ -718,6 +727,7 @@
         <property name="protocolActionService" ref="protocolActionService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolAssignReviewersService" ref="protocolAssignReviewersService" />
+        <property name="dataObjectService" ref="dataObjectService" />
     </bean>
     
     

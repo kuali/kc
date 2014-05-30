@@ -37,12 +37,12 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
-import org.kuali.kra.budget.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.budget.personnel.AppointmentType;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.service.impl.KcKrmsJavaFunctionTermServiceBase;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -931,7 +931,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
                 new ProposalPersonModuleQuestionnaireBean(developmentProposal, person);
             List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
             for (AnswerHeader ah : answerHeaders) {
-                if (!ah.getCompleted()) {
+                if (!ah.isCompleted()) {
                     return FALSE;
                 }
             }

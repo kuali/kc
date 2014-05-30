@@ -1463,7 +1463,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<AnswerHeader> newAnswerHeaders = new ArrayList<AnswerHeader>();
         for (AnswerHeader answerHeader : retrieveAnswerHeaders(coiDisclosure)) {
                AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(answerHeader);
-                copiedAnswerHeader.setAnswerHeaderId(null);
+                copiedAnswerHeader.setId(null);
                 for (Answer answer : copiedAnswerHeader.getAnswers()) {
                     answer.setId(null);
                 }

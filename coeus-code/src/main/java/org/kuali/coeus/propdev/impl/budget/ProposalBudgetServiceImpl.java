@@ -15,18 +15,18 @@
  */
 package org.kuali.coeus.propdev.impl.budget;
 
-import org.kuali.kra.budget.calculator.BudgetCalculationService;
-import org.kuali.kra.budget.calculator.QueryList;
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.core.BudgetParent;
-import org.kuali.kra.budget.core.BudgetService;
+import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
+import org.kuali.coeus.common.budget.framework.query.QueryList;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetParent;
+import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
-import org.kuali.kra.budget.versions.BudgetVersionRule;
+import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
+import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
+import org.kuali.coeus.common.budget.impl.version.BudgetVersionRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
@@ -215,7 +215,7 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
 
     /**
      * Do nothing for proposal budget
-     * @see org.kuali.kra.budget.core.BudgetCommonService#removeBudgetSummaryPeriodCalcAmounts(org.kuali.coeus.common.budget.framework.period.BudgetPeriod)
+     * @see org.kuali.coeus.common.budget.framework.core.BudgetCommonService#removeBudgetSummaryPeriodCalcAmounts(org.kuali.coeus.common.budget.framework.period.BudgetPeriod)
      */
     public void removeBudgetSummaryPeriodCalcAmounts(BudgetPeriod budgetPeriod) {
     }

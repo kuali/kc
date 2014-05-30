@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.budget;
 
-import org.kuali.kra.budget.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 
 /**
  * This class is just to hold the ProposalDevelopmentBudget. We should move PD Budget stuffs to this class later. 

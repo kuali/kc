@@ -200,7 +200,9 @@
 				<bean parent="Uif-MenuAction" p:actionLabel="Proposals Enroute"
 					p:order="20" />
 				<bean parent="Uif-MenuAction" p:actionLabel="All My Proposals"
-					p:order="30" />
+					 p:actionUrl.viewId="LookupableDevelopmentProposal-LookupView"
+                      p:actionUrl.controllerMapping="/lookup"					
+					p:order="30" />									
 				<bean parent="Uif-MenuAction" p:actionLabel="Create Proposal For S2S Opportunity"
 					p:order="40" />
 				<bean parent="Uif-SimpleHeaderFour" p:headerText="Lists"

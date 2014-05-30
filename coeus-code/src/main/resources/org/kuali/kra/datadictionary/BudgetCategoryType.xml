@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="BudgetCategoryType" parent="BudgetCategoryType-parentBean" />
   <bean id="BudgetCategoryType-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.budget.core.BudgetCategoryType" />
+    <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType" />
 		<property name="objectLabel" value="Budget Category Type" />
     <property name="inquiryDefinition" >
       <ref bean="BudgetCategoryType-inquiryDefinition" />
@@ -99,7 +99,7 @@
 
   <bean id="BudgetCategoryType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Budget Category Type"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.budget.core.BudgetCategoryType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -142,7 +142,7 @@
   </bean>
 
   <bean id="BudgetCategoryType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.budget.core.BudgetCategoryType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType"/>
     <property name="headerText" value="Budget Category Type Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

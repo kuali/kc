@@ -16,18 +16,17 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Document;
-import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Document.RROtherProjectInfo12;
 import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Document.RROtherProjectInfo12.*;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.question.AnswerContract;
+import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
-import org.kuali.kra.questionnaire.answer.Answer;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -46,7 +45,7 @@ import java.util.List;
 public class RROtherProjectInfoV1_2Generator extends
 		RROtherProjectInfoBaseGenerator {
 	private static final String HISTORIC_DESTIONATION_YNQ = "125";
-	List<AnswerHeader> answerHeaders;
+	List<? extends AnswerHeaderContract> answerHeaders;
 
 	/*
 	 * This method gives information about RROtherProjectInfo of proposal
@@ -61,7 +60,7 @@ public class RROtherProjectInfoV1_2Generator extends
 		rrOtherProjectInfo.setFormVersion(S2SConstants.FORMVERSION_1_2);
 		rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.N_NO);
 		rrOtherProjectInfo.setVertebrateAnimalsIndicator(YesNoDataType.N_NO);
-		answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
+		answerHeaders = getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber());
 		Organization organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
 		setHumanSubjAndVertebrateAnimals(rrOtherProjectInfo, organization);
@@ -79,11 +78,11 @@ public class RROtherProjectInfoV1_2Generator extends
 	 */
 	private void setHistoricDestionation(
 		RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo) {
-	    String historicDestinationAnswer = getAnswers(HISTORIC_DESTIONATION_YNQ);
+	    String historicDestinationAnswer = getAnswer(HISTORIC_DESTIONATION_YNQ, answerHeaders);
 	    if (historicDestinationAnswer != null && !historicDestinationAnswer.equals(NOT_ANSWERED)) {
-    		YesNoDataType.Enum answer = getAnswers(HISTORIC_DESTIONATION_YNQ).equals("Y") ? YesNoDataType.Y_YES
+    		YesNoDataType.Enum answer = getAnswer(HISTORIC_DESTIONATION_YNQ, answerHeaders).equals("Y") ? YesNoDataType.Y_YES
     				: YesNoDataType.N_NO;
-    		String answerExplanation = getChildQuestionAnswer(HISTORIC_DESTIONATION_YNQ, EXPLANATION);
+    		String answerExplanation = getChildQuestionAnswer(HISTORIC_DESTIONATION_YNQ, EXPLANATION, answerHeaders);
     		rrOtherProjectInfo.setHistoricDesignation(answer);
     		if (answerExplanation != null) {
     			if (answerExplanation.trim().length() > EXPLANATION_MAX_LENGTH) {
@@ -110,7 +109,7 @@ public class RROtherProjectInfoV1_2Generator extends
 	private void setProprietaryInformationIndicator(
 			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo) {
 		YesNoDataType.Enum answer = null;
-		String propertyInformationAnswer = getAnswers(PROPRIETARY_INFORMATION_INDICATOR);
+		String propertyInformationAnswer = getAnswer(PROPRIETARY_INFORMATION_INDICATOR, answerHeaders);
 		if (propertyInformationAnswer != null && !propertyInformationAnswer.equals(NOT_ANSWERED)) {
     		answer = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(
     		        propertyInformationAnswer) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
@@ -139,12 +138,12 @@ public class RROtherProjectInfoV1_2Generator extends
 	private void setEnvironmentalImpactIndicatorAndExplanation(
 			EnvironmentalImpact environmentalImpact) {
 		String answerExplanation = null;
-		String environmentalImpactAnswer = getAnswers(ENVIRONMENTAL_IMPACT_YNQ);
+		String environmentalImpactAnswer = getAnswer(ENVIRONMENTAL_IMPACT_YNQ, answerHeaders);
 		if (environmentalImpactAnswer != null && !environmentalImpactAnswer.equals(NOT_ANSWERED)) {
     	    YesNoDataType.Enum answer = S2SConstants.PROPOSAL_YNQ_ANSWER_Y
     					.equals(environmentalImpactAnswer) ? YesNoDataType.Y_YES
     					: YesNoDataType.N_NO;
-    		answerExplanation = getChildQuestionAnswer(ENVIRONMENTAL_IMPACT_YNQ, EXPLANATION);
+    		answerExplanation = getChildQuestionAnswer(ENVIRONMENTAL_IMPACT_YNQ, EXPLANATION, answerHeaders);
     		environmentalImpact.setEnvironmentalImpactIndicator(answer);
     		if (answerExplanation != null) {
     			if (answerExplanation.trim().length() > EXPLANATION_MAX_LENGTH) {
@@ -197,8 +196,8 @@ public class RROtherProjectInfoV1_2Generator extends
 			EnvironmentalImpact environmentalImpact) {
 		YesNoDataType.Enum answer = null;
 		String answerExplanation;
-		answerExplanation = getChildQuestionAnswer(ENVIRONMENTAL_EXEMPTION_YNQ, EXPLANATION);
-	    String ynqAnswer = getAnswers(ENVIRONMENTAL_EXEMPTION_YNQ);
+		answerExplanation = getChildQuestionAnswer(ENVIRONMENTAL_EXEMPTION_YNQ, EXPLANATION, answerHeaders);
+	    String ynqAnswer = getAnswer(ENVIRONMENTAL_EXEMPTION_YNQ, answerHeaders);
 		if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(ynqAnswer)) {
 			answer = YesNoDataType.Y_YES;
 		} else {
@@ -245,11 +244,11 @@ public class RROtherProjectInfoV1_2Generator extends
 				.newInstance();
 		YesNoDataType.Enum answer = null;
 		String answerExplanation;
-		String internationalActivitiesAnswer = getAnswers(INTERNATIONAL_ACTIVITIES_YNQ);
+		String internationalActivitiesAnswer = getAnswer(INTERNATIONAL_ACTIVITIES_YNQ, answerHeaders);
 		if (internationalActivitiesAnswer != null && !internationalActivitiesAnswer.equals(NOT_ANSWERED)) {
     		answer = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(
     		        internationalActivitiesAnswer) ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
-    		answerExplanation = getAnswers(INTERNATIONAL_ACTIVITIES_EXPL);
+    		answerExplanation = getAnswer(INTERNATIONAL_ACTIVITIES_EXPL, answerHeaders);
     		internationalActivities.setInternationalActivitiesIndicator(answer);
     		if (answerExplanation != null) {
     			if (answerExplanation.trim().length() > EXPLANATION_MAX_LENGTH) {
@@ -263,8 +262,8 @@ public class RROtherProjectInfoV1_2Generator extends
     								.trim());
     					
     			}
-    			if (getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ, EXPLANATION) != null) {
-    			    internationalActivities.setInternationalActivitiesExplanation(getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ, EXPLANATION));
+    			if (getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ, EXPLANATION, answerHeaders) != null) {
+    			    internationalActivities.setInternationalActivitiesExplanation(getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ, EXPLANATION, answerHeaders));
     			}
     		} else if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(internationalActivitiesAnswer)) {
                 internationalActivities.setActivitiesPartnershipsCountries(answerExplanation);
@@ -465,67 +464,10 @@ public class RROtherProjectInfoV1_2Generator extends
 	 */
 	private void setOtherAttachments(
 			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo) {
-		OtherAttachments otherAttachments = OtherAttachments.Factory
-				.newInstance();
-		otherAttachments.setOtherAttachmentArray(getAttachedFileDataTypes());
-		rrOtherProjectInfo.setOtherAttachments(otherAttachments);
-	}
-	
-	/**
-     * 
-     * This method is used to get the answer for a particular Questionnaire question
-     * question based on the question id.
-     * 
-     * @param questionId
-     *            the question id to be passed.              
-     * @return returns the answer for a particular
-     *         question based on the question id passed.
-     */
-    private String getAnswers(String questionId) {
-        String answer = null;
-        if (answerHeaders != null && !answerHeaders.isEmpty()) {
-            for (AnswerHeader answerHeader : answerHeaders) {
-                List<Answer> answerDetails = answerHeader.getAnswers();
-                for (Answer answers : answerDetails) {
-                    if (questionId.equals(answers.getQuestion().getQuestionId())) {
-                        answer = answers.getAnswer();
-                        return answer;
-                    }
-                }
-            }
-        }
-        return answer;        
-    }
-    
-    /**
-     * 
-     * This method is used to get the answer for a particular Questionnaire question
-     * question based on the question id and parentQuestionId.
-     * 
-     * @param questionId
-     *            the question id to be passed.
-     * @param parentQuestionId
-     *            the parentQuestionId to be passed.
-     * @return returns the answer for a particular
-     *         question based on the question id passed.
-     */
-    private String getChildQuestionAnswer(String parentQuestionId,String questionId) {
-        String answer = null;
-        for (AnswerHeader answerHeader:answerHeaders) {            
-            List<Answer> answerDetails = answerHeader.getAnswers();
-            for (Answer answers:answerDetails) {
-                if (answers.getParentAnswer() != null) {
-                    Answer parentAnswer =  answers.getParentAnswer().get(0);
-                    if (questionId.equals(answers.getQuestion().getQuestionId()) && parentAnswer.getQuestion().getQuestionId().equals(parentQuestionId)) {
-                        answer = answers.getAnswer();
-                        return answer;
-                    }
-                }
-            }
-        }
-        
-        return answer;
-        
+        OtherAttachments otherAttachments = OtherAttachments.Factory
+                .newInstance();
+        otherAttachments.setOtherAttachmentArray(getAttachedFileDataTypes());
+        rrOtherProjectInfo.setOtherAttachments(otherAttachments);
     }
 
 	/*
@@ -534,7 +476,6 @@ public class RROtherProjectInfoV1_2Generator extends
 	 * NarrativeAttachment
 	 */
 	private AttachedFileDataType[] getAttachedFileDataTypes() {
-		AttachedFileDataType attachedFileDataType = null;
 		List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
 		DevelopmentProposal developmentProposal = pdDoc
 				.getDevelopmentProposal();
@@ -542,7 +483,7 @@ public class RROtherProjectInfoV1_2Generator extends
 			if (narrative.getNarrativeType().getCode() != null
 					&& (Integer.parseInt(narrative.getNarrativeType().getCode()) == OTHER_ATTACHMENT || Integer
 							.parseInt(narrative.getNarrativeType().getCode()) == SUPPLIMENTARY_ATTACHMENT)) {
-				attachedFileDataType= getAttachedFileType(narrative);
+                AttachedFileDataType attachedFileDataType= getAttachedFileType(narrative);
 				if(attachedFileDataType != null){
 					attachedFileDataTypeList.add(attachedFileDataType);
 				}

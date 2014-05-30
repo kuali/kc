@@ -40,7 +40,7 @@ import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
+import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
@@ -309,7 +309,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 		budget.setFederalEstimatedAmount(BigDecimal.ZERO);
 		budget.setTotalEstimatedAmount(BigDecimal.ZERO);
 
-        org.kuali.kra.budget.core.Budget budgetDoc = null;
+        org.kuali.coeus.common.budget.framework.core.Budget budgetDoc = null;
         try {
             budgetDoc = proposalBudgetService
                     .getFinalBudgetVersion(pdDoc).getBudget();

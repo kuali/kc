@@ -17,6 +17,7 @@ package org.kuali.kra.questionnaire;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.common.api.question.QuestionnaireContract;
 import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
@@ -25,13 +26,13 @@ import org.springframework.util.AutoPopulatingList;
 
 import java.util.List;
 
-public class Questionnaire extends KcPersistableBusinessObjectBase implements Comparable<Questionnaire>, SequenceOwner<Questionnaire>, MutableInactivatable, PersistableAttachment {
+public class Questionnaire extends KcPersistableBusinessObjectBase implements Comparable<Questionnaire>, SequenceOwner<Questionnaire>, MutableInactivatable, PersistableAttachment, QuestionnaireContract {
 
     private static final long serialVersionUID = 8679896046435777084L;
 
-    private String questionnaireRefId;
+    private Long id;
 
-    private String questionnaireId;
+    private String questionnaireSeqId;
 
     private String name;
 
@@ -43,13 +44,13 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
 
     private String documentNumber;
 
-    private List<QuestionnaireQuestion> questionnaireQuestions;
-
-    private List<QuestionnaireUsage> questionnaireUsages;
-
     private String fileName;
 
     private byte[] template;
+
+    private List<QuestionnaireQuestion> questionnaireQuestions;
+
+    private List<QuestionnaireUsage> questionnaireUsages;
 
     private transient FormFile templateFile;
 
@@ -59,30 +60,32 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
         questionnaireUsages = new AutoPopulatingList<QuestionnaireUsage>(QuestionnaireUsage.class);
     }
 
-    public String getQuestionnaireId() {
-        return questionnaireId;
+    @Override
+    public String getQuestionnaireSeqId() {
+        return questionnaireSeqId;
     }
 
-    public Integer getQuestionnaireIdAsInteger() {
+    public Integer getQuestionnaireSeqIdAsInteger() {
         Integer retVal = null;
-        if (this.questionnaireId != null) {
-            retVal = Integer.valueOf(this.questionnaireId);
+        if (this.questionnaireSeqId != null) {
+            retVal = Integer.valueOf(this.questionnaireSeqId);
         }
         return retVal;
     }
 
-    public void setQuestionnaireId(String questionnaireId) {
-        this.questionnaireId = questionnaireId;
+    public void setQuestionnaireSeqId(String questionnaireSeqId) {
+        this.questionnaireSeqId = questionnaireSeqId;
     }
 
-    public void setQuestionnaireIdFromInteger(Integer questionnaireIdAsInteger) {
-        if (questionnaireIdAsInteger != null) {
-            this.questionnaireId = questionnaireIdAsInteger.toString();
+    public void setQuestionnaireSeqIdFromInteger(Integer questionnaireSeqIdAsInteger) {
+        if (questionnaireSeqIdAsInteger != null) {
+            this.questionnaireSeqId = questionnaireSeqIdAsInteger.toString();
         } else {
-            this.questionnaireId = null;
+            this.questionnaireSeqId = null;
         }
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -91,6 +94,7 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
         this.name = name;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -99,6 +103,7 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
         this.description = description;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -107,6 +112,7 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
         this.active = active;
     }
 
+    @Override
     public List<QuestionnaireQuestion> getQuestionnaireQuestions() {
         return questionnaireQuestions;
     }
@@ -122,6 +128,7 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
         return getQuestionnaireQuestions().get(index);
     }
 
+    @Override
     public List<QuestionnaireUsage> getQuestionnaireUsages() {
         return questionnaireUsages;
     }
@@ -142,7 +149,7 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
     }
 
     public String getVersionNameField() {
-        return "questionnaireId";
+        return "questionnaireSeqId";
     }
 
     public void incrementSequenceNumber() {
@@ -169,28 +176,30 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
 
     public Long getQuestionnaireRefIdAsLong() {
         Long retVal = null;
-        if (this.questionnaireRefId != null) {
-            retVal = Long.valueOf(this.questionnaireRefId);
+        if (this.id != null) {
+            retVal = Long.valueOf(this.id);
         }
         return retVal;
     }
 
-    public String getQuestionnaireRefId() {
-        return questionnaireRefId;
+    @Override
+    public Long getId() {
+        return id;
     }
 
-    public void setQuestionnaireRefId(String questionnaireRefId) {
-        this.questionnaireRefId = questionnaireRefId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setQuestionnaireRefIdFromLong(Long questionnaireRefIdAsLong) {
         if (questionnaireRefIdAsLong != null) {
-            this.questionnaireRefId = questionnaireRefIdAsLong.toString();
+            this.id = questionnaireRefIdAsLong;
         } else {
-            this.questionnaireRefId = null;
+            this.id = null;
         }
     }
 
+    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
@@ -200,13 +209,14 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
     }
 
     public int compareTo(Questionnaire argQuestionnaire) {
-        if (ObjectUtils.equals(this.getQuestionnaireId(), argQuestionnaire.getQuestionnaireId())) {
+        if (ObjectUtils.equals(this.getQuestionnaireSeqId(), argQuestionnaire.getQuestionnaireSeqId())) {
             return this.getSequenceNumber().compareTo(argQuestionnaire.getSequenceNumber());
         } else {
-            return this.getQuestionnaireIdAsInteger().compareTo(argQuestionnaire.getQuestionnaireIdAsInteger());
+            return this.getQuestionnaireSeqIdAsInteger().compareTo(argQuestionnaire.getQuestionnaireSeqIdAsInteger());
         }
     }
 
+    @Override
     public String getFileName() {
         return fileName;
     }
@@ -215,6 +225,7 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
         this.fileName = fileName;
     }
 
+    @Override
     public byte[] getTemplate() {
         return template;
     }

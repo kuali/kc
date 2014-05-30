@@ -36,10 +36,9 @@ public abstract class PHS398CoverPageSupplementBaseGenerator extends
 	public static final String IS_CLINICAL_TRIAL = "2";
 	public static final String PHASE_III_CLINICAL_TRIAL = "3";
 	public static final String IS_HUMAN_STEM_CELLS_INVOLVED = "5";
-	public static final String SPECIFIC_STEM_CELL_LINE = "6"; 
+	public static final String SPECIFIC_STEM_CELL_LINE = "6";
 	public static final String REGISTRATION_NUMBER = "7";
 	public static final String IS_NEW_INVESTIGATOR = "13";
-	public static final String NOT_ANSWERED = "No";
 
 	protected S2SUtilService s2sUtilService;
     protected ProposalBudgetService proposalBudgetService;
@@ -64,11 +63,10 @@ public abstract class PHS398CoverPageSupplementBaseGenerator extends
 	 * @return proposalYnq corresponding to the question id.
 	 */
 	protected ProposalYnq getProposalYnQ(String questionId) {
-		String question = null;
 		ProposalYnq ynQ = null;
 		for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal()
 				.getProposalYnqs()) {
-			question = proposalYnq.getQuestionId();
+            String question = proposalYnq.getQuestionId();
 			if (question != null && question.equals(questionId)) {
 				ynQ = proposalYnq;
 			}
@@ -85,13 +83,12 @@ public abstract class PHS398CoverPageSupplementBaseGenerator extends
 	 * @return {@link List}
 	 */
 	protected List<String> getCellLines(String explanation) {
-		String cellLine = null;
 		int startPos = 0;
 		List<String> cellLines = new ArrayList<String>();
 		for (int commaPos = 0; commaPos > -1;) {
 			commaPos = explanation.indexOf(",", startPos);
 			if (commaPos >= 0) {
-				cellLine = (explanation.substring(startPos, commaPos).trim());
+                String cellLine = (explanation.substring(startPos, commaPos).trim());
 				explanation = explanation.substring(commaPos + 1);
 				if (cellLine.length() > 0) {
 					cellLines.add(cellLine);
