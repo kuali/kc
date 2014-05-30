@@ -17,6 +17,7 @@ package org.kuali.kra.budget.nonpersonnel;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationWrapper;
 
 import java.sql.Date;
 

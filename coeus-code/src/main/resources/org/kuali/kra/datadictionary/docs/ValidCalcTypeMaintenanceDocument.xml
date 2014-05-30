@@ -23,7 +23,7 @@
     
     
     <property name="documentTypeName" value="ValidCalcTypeMaintenanceDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kra.budget.nonpersonnel.ValidCalcTypeMaintenanceDocumentRule"/>
+    <property name="businessRulesClass" value="org.kuali.coeus.common.budget.framework.nonpersonnel.ValidCalcTypeMaintenanceDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     
     
