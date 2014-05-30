@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.framework.custom.attr;
 
+import org.kuali.coeus.common.api.custom.attr.CustomAttributeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
@@ -22,13 +23,13 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "CUSTOM_ATTRIBUTE")
-public class CustomAttribute extends KcPersistableBusinessObjectBase {
+public class CustomAttribute extends KcPersistableBusinessObjectBase implements CustomAttributeContract {
 
     @PortableSequenceGenerator(name = "SEQ_CUSTOM_ATTRIBUTE")
     @GeneratedValue(generator = "SEQ_CUSTOM_ATTRIBUTE")
     @Id
     @Column(name = "ID")
-    private Integer id;
+    private Long id;
 
     @Column(name = "DATA_LENGTH")
     private Integer dataLength;
@@ -66,14 +67,16 @@ public class CustomAttribute extends KcPersistableBusinessObjectBase {
         groupName = "General";
     }
 
-    public Integer getId() {
+    @Override
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
+    @Override
     public Integer getDataLength() {
         return dataLength;
     }
@@ -82,6 +85,7 @@ public class CustomAttribute extends KcPersistableBusinessObjectBase {
         this.dataLength = dataLength;
     }
 
+    @Override
     public String getDataTypeCode() {
         return dataTypeCode;
     }
@@ -90,6 +94,7 @@ public class CustomAttribute extends KcPersistableBusinessObjectBase {
         this.dataTypeCode = dataTypeCode;
     }
 
+    @Override
     public String getDefaultValue() {
         return defaultValue;
     }
@@ -98,6 +103,7 @@ public class CustomAttribute extends KcPersistableBusinessObjectBase {
         this.defaultValue = defaultValue;
     }
 
+    @Override
     public String getGroupName() {
         return groupName;
     }
@@ -106,6 +112,7 @@ public class CustomAttribute extends KcPersistableBusinessObjectBase {
         this.groupName = groupName;
     }
 
+    @Override
     public String getLabel() {
         return label;
     }
@@ -114,6 +121,7 @@ public class CustomAttribute extends KcPersistableBusinessObjectBase {
         this.label = label;
     }
 
+    @Override
     public String getLookupClass() {
         return lookupClass;
     }
@@ -122,6 +130,7 @@ public class CustomAttribute extends KcPersistableBusinessObjectBase {
         this.lookupClass = lookupClass;
     }
 
+    @Override
     public String getLookupReturn() {
         return lookupReturn;
     }
@@ -130,6 +139,7 @@ public class CustomAttribute extends KcPersistableBusinessObjectBase {
         this.lookupReturn = lookupReturn;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -150,6 +160,7 @@ public class CustomAttribute extends KcPersistableBusinessObjectBase {
      * Gets the customAttributeDataType attribute.
      * @return Returns the customAttributeDataType.
      */
+    @Override
     public CustomAttributeDataType getCustomAttributeDataType() {
         return customAttributeDataType;
     }

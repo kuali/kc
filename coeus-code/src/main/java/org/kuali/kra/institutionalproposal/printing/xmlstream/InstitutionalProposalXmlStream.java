@@ -184,7 +184,7 @@ public class InstitutionalProposalXmlStream extends
                     
                     otherGroup.setGroupName(customAttributeDocuments.get(custData.getCustomAttributeId().toString()).getCustomAttribute().getGroupName());
                     otherGroupDetails.setColumnValue(custData.getValue());                  
-                    otherGroupDetails.setColumnName(customAttributeDocuments.get(custData.getCustomAttributeId().toString()).getCustomAttribute().getLabel());                                       
+                    otherGroupDetails.setColumnName(customAttributeDocuments.get(custData.getCustomAttributeId().toString()).getCustomAttribute().getLabel());
                     otherGroupDetailsTypesList.add(otherGroupDetails);
                     break;
                 }

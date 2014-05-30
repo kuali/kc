@@ -21,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
 import org.kuali.coeus.propdev.impl.state.ProposalStateService;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
@@ -82,7 +83,7 @@ import java.util.Map;
 @COMPONENT(component = ParameterConstants.DOCUMENT_COMPONENT)
 @Entity
 @Table(name = "EPS_PROPOSAL_DOCUMENT")
-public class ProposalDevelopmentDocument extends BudgetParentDocument<DevelopmentProposal> implements Copyable, SessionDocument, Permissionable, KrmsRulesContext {
+public class ProposalDevelopmentDocument extends BudgetParentDocument<DevelopmentProposal> implements Copyable, SessionDocument, Permissionable, KrmsRulesContext, ProposalDevelopmentDocumentContract {
 
     private static Log LOG = LogFactory.getLog(ProposalDevelopmentDocument.class);
 
@@ -159,7 +160,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         budgetDocumentVersions = new ArrayList<BudgetDocumentVersion>();
         customDataList = new ArrayList<CustomAttributeDocValue>();
     }
-
+    @Override
     public DevelopmentProposal getDevelopmentProposal() {
         return developmentProposal;
     }
@@ -352,8 +353,8 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public String getFinalrateClassCode() {
         String retVal = "";
         Budget finalBudget = getFinalBudgetForThisProposal();
-        if (finalBudget != null && finalBudget.getRateClass().getRateClassCode() != null) {
-            retVal = finalBudget.getRateClass().getRateClassCode();
+        if (finalBudget != null && finalBudget.getRateClass().getCode() != null) {
+            retVal = finalBudget.getRateClass().getCode();
         }
         return retVal;
     }
@@ -451,10 +452,8 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         this.budgetDocumentVersions = budgetDocumentVersions;
     }
 
-    /**
-     * Gets the budgetDocumentVersions attribute. 
-     * @return Returns the budgetDocumentVersions.
-     */
+
+    @Override
     public List<BudgetDocumentVersion> getBudgetDocumentVersions() {
         return budgetDocumentVersions;
     }
@@ -493,11 +492,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         return returnToProposalButton;
     }
 
-    /**
-     * This method does what its name says
-     * @param buttonFileName
-     * @return
-     */
     private String buildExtraButtonSourceURI(String buttonFileName) {
         return getKualiConfigurationService().getPropertyValueAsString(KRA_EXTERNALIZABLE_IMAGES_URI_KEY) + buttonFileName;
     }
@@ -591,6 +585,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         return isComplete;
     }
 
+    @Override
     public boolean isProposalDeleted() {
         return proposalDeleted;
     }
@@ -624,11 +619,11 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         getDocumentHeader().setDocumentDescription(desc);
     }
 
-    @Override
     public List<? extends DocumentCustomData> getDocumentCustomData() {
         return getCustomDataList();
     }
 
+    @Override
     public List<CustomAttributeDocValue> getCustomDataList() {
         return customDataList;
     }

@@ -226,7 +226,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         MessageMap errorMap = GlobalVariables.getMessageMap();
         int i = 0;
         for (BudgetRate budgetRate : budgetDocument.getBudget().getBudgetRates()) {
-            String rateClassType = budgetRate.getRateClass().getRateClassTypeT().getDescription();
+            String rateClassType = budgetRate.getRateClass().getRateClassType().getDescription();
             String errorPath = "budgetProposalRate[" + rateClassType + "][" + i + "]";
             errorMap.addToErrorPath(errorPath);
             /* look for applicable rate */
@@ -256,8 +256,8 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         i = 0;
         for (BudgetLaRate budgetLaRate : budgetDocument.getBudget().getBudgetLaRates()) {
             String rateClassType = "";
-            if (ObjectUtils.isNotNull(budgetLaRate.getRateClass()) && ObjectUtils.isNotNull(budgetLaRate.getRateClass().getRateClassTypeT())) {
-                rateClassType = budgetLaRate.getRateClass().getRateClassTypeT().getDescription();
+            if (ObjectUtils.isNotNull(budgetLaRate.getRateClass()) && ObjectUtils.isNotNull(budgetLaRate.getRateClass().getRateClassType())) {
+                rateClassType = budgetLaRate.getRateClass().getRateClassType().getDescription();
             }
             String errorPath = "budgetRate[" + rateClassType + "][" + i + "]";
             errorMap.addToErrorPath(errorPath);

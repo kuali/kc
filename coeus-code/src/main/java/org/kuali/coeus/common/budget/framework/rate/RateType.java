@@ -58,7 +58,7 @@ public class RateType extends KcPersistableBusinessObjectBase implements Compara
      */
     public String getRateClassPrefix() {
         this.refreshReferenceObject("rateClass");
-        RateClassType rateClassType = getRateClass().getRateClassTypeT();
+        RateClassType rateClassType = getRateClass().getRateClassType();
         return rateClassType.getDescription();
     }
 
@@ -81,6 +81,6 @@ public class RateType extends KcPersistableBusinessObjectBase implements Compara
     public int compareTo(RateType rateType) {
         rateType.refreshReferenceObject("rateClass");
         this.refreshReferenceObject("rateClass");
-        return this.rateClass.getRateClassCode().compareTo(rateType.rateClass.getRateClassCode());
+        return this.rateClass.getCode().compareTo(rateType.rateClass.getCode());
     }
 }

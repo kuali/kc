@@ -12,7 +12,7 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>rateClassCode</value>
+        <value>code</value>
       </list>
     </property>
 	<property name="allowsRecordDeletion" value="true" />
@@ -39,8 +39,8 @@
     <property name="title" value="Edit Rate Class"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="rateClassCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="rateClassType" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="rateClassTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>

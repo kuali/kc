@@ -424,14 +424,14 @@
 		   <c:set var="firstCellRowSpan" value="0" />
 		   <c:set var="directExpenseCounter" value="0" /> 
 		   <c:forEach var="calculatedExpenseTotal" items="${KualiForm.document.budget.personnelCalculatedExpenseTotals}" >
-		   		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassType && calculatedExpenseTotal.key.rateClass.rateClassType ne 'O'}">
+		   		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassTypeCode && calculatedExpenseTotal.key.rateClass.rateClassTypeCode ne 'O'}">
 		   			<c:set var="firstCellRowSpan" value="${firstCellRowSpan + 1}" />
 		   		</c:if>
 		   </c:forEach>
 			
 		   <tbody id="G${anchorIndex}" style="display: none;">			            
 	           <c:forEach var="calculatedExpenseTotal" items="${KualiForm.document.budget.personnelCalculatedExpenseTotals}" >
-	           		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassType && calculatedExpenseTotal.key.rateClass.rateClassType eq 'O'}">
+	           		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassTypeCode && calculatedExpenseTotal.key.rateClass.rateClassTypeCode eq 'O'}">
 		                <c:forEach var="periodTotal" items="${calculatedExpenseTotal.value}" varStatus="status">
 		                	<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
 		                	<c:set target="${indirectCostMap}" property="calculatedIndirectExpense${status.index}" value="0.00" />
@@ -445,7 +445,7 @@
 				             </c:forEach> 
 			             </c:if>
 	           		</c:if>
-	           		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassType && calculatedExpenseTotal.key.rateClass.rateClassType ne 'O'}">
+	           		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassTypeCode && calculatedExpenseTotal.key.rateClass.rateClassTypeCode ne 'O'}">
 			        	<tr>
 				        	<c:if test="${directExpenseCounter == 0}">
 			        	 		<td width="5%" rowspan="${firstCellRowSpan}">&nbsp;</td>
@@ -608,7 +608,7 @@
 		   <c:set var="firstCellRowSpan" value="0" />
 		   <c:set var="directExpenseCounter" value="0" /> 
 		   <c:forEach var="calculatedExpenseTotal" items="${KualiForm.document.budget.nonPersonnelCalculatedExpenseTotals}" >
-		   		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassType && calculatedExpenseTotal.key.rateClass.rateClassType ne 'O'}">
+		   		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassTypeCode && calculatedExpenseTotal.key.rateClass.rateClassTypeCode ne 'O'}">
 		   			<c:set var="firstCellRowSpan" value="${firstCellRowSpan + 1}" />
 		   		</c:if>
 		   </c:forEach>
@@ -616,7 +616,7 @@
 		   <tbody id="G${anchorIndex}" style="display: none;">	
 		   				            
 	           <c:forEach var="calculatedExpenseTotal" items="${KualiForm.document.budget.nonPersonnelCalculatedExpenseTotals}" >
-	           		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassType && calculatedExpenseTotal.key.rateClass.rateClassType eq 'O'}">
+	           		<c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassTypeCode && calculatedExpenseTotal.key.rateClass.rateClassTypeCode eq 'O'}">
 		               <c:forEach var="periodTotal" items="${calculatedExpenseTotal.value}" varStatus="status">
 		               		<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
 		               		<c:set target="${indirectCostMap}" property="calculatedIndirectExpense${status.index}" value="${0.00 + indirectCostMap[calculatedIndirectExpenseVar] + periodTotal}" />
@@ -628,7 +628,7 @@
 				             </c:forEach> 
 			             </c:if> 
 	           		</c:if>
-		           <c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassType && calculatedExpenseTotal.key.rateClass.rateClassType ne 'O'}"> 
+		           <c:if test="${not empty calculatedExpenseTotal.key.rateClass.rateClassTypeCode && calculatedExpenseTotal.key.rateClass.rateClassTypeCode ne 'O'}">
 			        	<tr>
 			                <c:if test="${directExpenseCounter == 0}">
 			        	 		<td width="5%" rowspan="${firstCellRowSpan}">&nbsp;</td>

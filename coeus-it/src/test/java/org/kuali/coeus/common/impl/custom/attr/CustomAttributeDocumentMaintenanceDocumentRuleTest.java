@@ -19,7 +19,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
-import org.kuali.coeus.common.impl.custom.attr.CustomAttributeDocumentMaintenanceDocumentRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
@@ -53,7 +52,7 @@ public class CustomAttributeDocumentMaintenanceDocumentRuleTest extends Maintena
     public void testOK() throws Exception {
 
         CustomAttributeDocument customAttributeDocument = new CustomAttributeDocument();
-        customAttributeDocument.setCustomAttributeId(new Integer(1));
+        customAttributeDocument.setId(1L);
         customAttributeDocument.setActive(true);
         MaintenanceDocument customAttributeDocumentMaintDoc = newMaintDoc(customAttributeDocument);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(customAttributeDocumentMaintDoc));
@@ -69,7 +68,7 @@ public class CustomAttributeDocumentMaintenanceDocumentRuleTest extends Maintena
     public void testOkToInactivate() throws Exception {
 
         CustomAttributeDocument customAttributeDocument = new CustomAttributeDocument();
-        customAttributeDocument.setCustomAttributeId(new Integer(8));
+        customAttributeDocument.setId(8L);
         MaintenanceDocument customAttributeDocumentMaintDoc = newMaintDoc(customAttributeDocument);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(customAttributeDocumentMaintDoc));
 
@@ -82,7 +81,7 @@ public class CustomAttributeDocumentMaintenanceDocumentRuleTest extends Maintena
     public void testInvalidCustomAttributeId() throws Exception {
 
         CustomAttributeDocument customAttributeDocument = new CustomAttributeDocument();
-        customAttributeDocument.setCustomAttributeId(new Integer(99));
+        customAttributeDocument.setId(99L);
         MaintenanceDocument customAttributeDocumentMaintDoc = newMaintDoc(customAttributeDocument);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(customAttributeDocumentMaintDoc));
         List errors = GlobalVariables.getMessageMap().getMessages(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_CUSTOM_ATTRIBUTE_ID);

@@ -129,12 +129,12 @@ public class BudgetLimitSummaryHelper implements Serializable {
     public Set<RateType> getCombinedPersonnelCalculatedExpenseRates() {
         TreeSet<RateType> result = new TreeSet<RateType>();
         for (RateType type : getCurrentBudget().getPersonnelCalculatedExpenseTotals().keySet()) {
-            if (type.getRateClass().getRateClassType() != null && !StringUtils.equals(type.getRateClass().getRateClassType(), "O")) {
+            if (type.getRateClass().getRateClassTypeCode() != null && !StringUtils.equals(type.getRateClass().getRateClassTypeCode(), "O")) {
                 result.add(type);
             }
         }
         for (RateType type : getPreviousBudget().getPersonnelCalculatedExpenseTotals().keySet()) {
-            if (type.getRateClass().getRateClassType() != null && !StringUtils.equals(type.getRateClass().getRateClassType(), "O")) {
+            if (type.getRateClass().getRateClassTypeCode() != null && !StringUtils.equals(type.getRateClass().getRateClassTypeCode(), "O")) {
                 result.add(type);
             }
         }
@@ -166,12 +166,12 @@ public class BudgetLimitSummaryHelper implements Serializable {
     public Set<RateType> getCombinedNonPersonnelCalculatedExpenseRates() {
         TreeSet<RateType> result = new TreeSet<RateType>();
         for (RateType type : getCurrentBudget().getNonPersonnelCalculatedExpenseTotals().keySet()) {
-            if (type.getRateClass().getRateClassType() != null && !StringUtils.equals(type.getRateClass().getRateClassType(), "O")) {
+            if (type.getRateClass().getRateClassTypeCode() != null && !StringUtils.equals(type.getRateClass().getRateClassTypeCode(), "O")) {
                 result.add(type);
             }
         }
         for (RateType type : getPreviousBudget().getNonPersonnelCalculatedExpenseTotals().keySet()) {
-            if (type.getRateClass().getRateClassType() != null && !StringUtils.equals(type.getRateClass().getRateClassType(), "O")) {
+            if (type.getRateClass().getRateClassTypeCode() != null && !StringUtils.equals(type.getRateClass().getRateClassTypeCode(), "O")) {
                 result.add(type);
             }
         }

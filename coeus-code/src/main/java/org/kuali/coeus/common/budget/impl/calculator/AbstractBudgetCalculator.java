@@ -201,7 +201,7 @@ public abstract class AbstractBudgetCalculator {
             calcAmts.addAll(budgetLineItem.getBudgetCalculatedAmounts());
             for (AbstractBudgetCalculatedAmount calcAmt : calcAmts) {
                 calcAmt.refreshReferenceObject("rateClass");
-                calcAmt.setRateClassType(calcAmt.getRateClass().getRateClassType());
+                calcAmt.setRateClassType(calcAmt.getRateClass().getRateClassTypeCode());
             }
             NotEquals notEqualsOH = new NotEquals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
             Equals equalsOH = new Equals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
@@ -292,7 +292,7 @@ public abstract class AbstractBudgetCalculator {
                             if (personnelCalAmt.getRateClass() == null) {
                                 personnelCalAmt.refreshReferenceObject("rateClass");
                             }
-                            if (!personnelCalAmt.getRateClass().getRateClassType().equals("O")) {
+                            if (!personnelCalAmt.getRateClass().getRateClassTypeCode().equals("O")) {
                                 directCost = directCost.add(personnelCalAmt.getCalculatedCost());
                             } else {
                                 indirectCost = indirectCost.add(personnelCalAmt.getCalculatedCost());
@@ -424,7 +424,7 @@ public abstract class AbstractBudgetCalculator {
                     // form the rate not available message
                     // These two statements have to move to the populate method of calculatedAmount later.
                     budgetLineItemCalculatedAmount.refreshReferenceObject("rateClass");
-                    rateClassType = budgetLineItemCalculatedAmount.getRateClass().getRateClassType();
+                    rateClassType = budgetLineItemCalculatedAmount.getRateClass().getRateClassTypeCode();
                     // end block to be moved
                     message = messageTemplate + budgetLineItemCalculatedAmount.getRateClass().getDescription()
                             + "\'  Rate Type - \'" + budgetLineItemCalculatedAmount.getRateTypeDescription()
@@ -723,14 +723,14 @@ public abstract class AbstractBudgetCalculator {
 
         for (ValidCeRateType validCeRateType : rateTypes) {
             validCeRateType.refreshNonUpdateableReferences();
-            String rateClassType = validCeRateType.getRateClass().getRateClassType();
+            String rateClassType = validCeRateType.getRateClass().getRateClassTypeCode();
             if(rateClassType.equals(RateClassType.OVERHEAD.getRateClassType()) && 
                     !Boolean.valueOf(budget.getBudgetDocument().getProposalBudgetFlag())){
                 addOHBudgetLineItemCalculatedAmountForAward( validCeRateType.getRateClassCode(), validCeRateType.getRateType(), 
-                        validCeRateType.getRateClass().getRateClassType());
+                        validCeRateType.getRateClass().getRateClassTypeCode());
             }else{
                 addBudgetLineItemCalculatedAmount( validCeRateType.getRateClassCode(), validCeRateType.getRateType(), 
-                                            validCeRateType.getRateClass().getRateClassType());
+                                            validCeRateType.getRateClass().getRateClassTypeCode());
             }
         }
     }

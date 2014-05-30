@@ -133,30 +133,30 @@
 			property="budgetToSummarize.rateClassTypes[${gps.index}].description" />
 
 		<c:if
-			test="${KualiForm.budgetToSummarize.rateClassTypes[gps.index].rateClassType == 'O'}">
+			test="${KualiForm.budgetToSummarize.rateClassTypes[gps.index].code == 'O'}">
 
 			<kul:innerTab tabTitle="${rateClass}" parentTab=""
 				defaultOpen="false" auditCluster="" tabAuditKey="">
 				<c:if
-			test="${KualiForm.budgetToSummarize.rateClassTypes[gps.index].rateClassType != null}">
+			test="${KualiForm.budgetToSummarize.rateClassTypes[gps.index].code != null}">
 			
 					<table cellpadding=0 cellspacing="0" class="result-table"
 						summary="">
 						<c:if test="${KualiForm.document.budgetDocumentVersions[0]!=null}">
 							<c:if
-								test="${KualiForm.document.budgetDocumentVersions[0].budgetVersionOverviews[0].rateClass.rateClassTypeT!=null}">
+								test="${KualiForm.document.budgetDocumentVersions[0].budgetVersionOverview.rateClass.rateClassType!=null}">
 							
 								<bean:define id="rateClass" name="KualiForm"
 									property="budgetToSummarize.rateClassTypes[0].description" />
 								<bean:define id="rateClassType" name="KualiForm"
-									property="budgetToSummarize.rateClassTypes[0].rateClassType" />
+									property="budgetToSummarize.rateClassTypes[0].code" />
 								<c:set var="tabKey" value="budgetToSummarize.budgetRate[0]" />
 								<bean:define id="budgetRates" name="KualiForm"
 									property="budgetToSummarize.budgetRates" />
 								<c:forEach items="${budgetRates}" var="proposalRates"
 									varStatus="status">
 									<bean:define id="irateClassType" name="KualiForm"
-										property="budgetToSummarize.budgetRates[${status.index}].rateClass.rateClassType" />
+										property="budgetToSummarize.budgetRates[${status.index}].rateClass.rateClassTypeCode" />
 									<bean:define id="displayRow" name="KualiForm"
 										property="budgetToSummarize.budgetRates[${status.index}].displayLocation" />
 									<c:if
@@ -213,7 +213,7 @@
 
 	</c:forEach>
 	<c:if
-		test="${KualiForm.budgetToSummarize.rateClassTypes[0].rateClassType == null}">
+		test="${KualiForm.budgetToSummarize.rateClassTypes[0].code == null}">
 		<kul:innerTab tabTitle="Budget F&A Rates" parentTab=""
 			defaultOpen="false" auditCluster="" tabAuditKey="">
 		No F&A Rates available

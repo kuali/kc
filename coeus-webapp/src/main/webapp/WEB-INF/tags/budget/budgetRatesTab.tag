@@ -20,7 +20,7 @@
 <%@ attribute name="styleClass" description="style class to validate applicable rate " required="true" %>
 <c:set var="budgetRatesAttributes" value="${DataDictionary.BudgetRate.attributes}" />
 <c:set var="action" value="budgetRates" />
-				  <bean:define id="irateClassType" name="KualiForm" property="${budgetRate}.rateClass.rateClassType"/>
+				  <bean:define id="irateClassType" name="KualiForm" property="${budgetRate}.rateClass.rateClassTypeCode"/>
 				  <bean:define id="displayRow" name="KualiForm" property="${budgetRate}.displayLocation"/>
 				  <bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
     			  <c:if test="${irateClassType == rateClassType && displayRow == 'Yes'}">
