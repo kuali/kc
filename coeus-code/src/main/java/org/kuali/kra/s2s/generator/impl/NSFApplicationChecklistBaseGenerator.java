@@ -17,7 +17,7 @@ package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.coeus.propdev.api.abstrct.ProposalAbstractContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
-import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
+import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
@@ -135,10 +135,10 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 			break;
 		}
 		case 3: {
-			for (ProposalYnq proYnq : pdDoc.getDevelopmentProposal()
+			for (ProposalYnqContract proYnq : pdDoc.getDevelopmentProposal()
 					.getProposalYnqs()) {
-				if (proYnq.getQuestionId() != null
-						&& proYnq.getQuestionId().equals(
+				if (proYnq.getYnq().getQuestionId() != null
+						&& proYnq.getYnq().getQuestionId().equals(
 								PROPOSAL_YNQ_QUESTION_21)) {
 					String ynqAnswer = proYnq.getAnswer();
 					if (ynqAnswer != null
@@ -171,10 +171,10 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 			break;
 		}
 		case 5: {
-			for (ProposalYnq proYnq : pdDoc.getDevelopmentProposal()
+			for (ProposalYnqContract proYnq : pdDoc.getDevelopmentProposal()
 					.getProposalYnqs()) {
-				if (proYnq.getQuestionId() != null
-						&& proYnq.getQuestionId().equals(
+				if (proYnq.getYnq() != null
+						&& proYnq.getYnq().getQuestionId().equals(
 								PROPOSAL_YNQ_QUESTION_FG)) {
 					String ynqAnswer = proYnq.getAnswer();
 					if (ynqAnswer != null

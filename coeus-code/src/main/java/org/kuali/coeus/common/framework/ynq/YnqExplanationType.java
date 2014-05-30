@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.framework.ynq;
 
+import org.kuali.coeus.common.api.ynq.YnqExplanationTypeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.Column;
@@ -24,7 +25,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "YNQ_EXPLANATION_TYPE")
-public class YnqExplanationType extends KcPersistableBusinessObjectBase {
+public class YnqExplanationType extends KcPersistableBusinessObjectBase implements YnqExplanationTypeContract {
 
     @Id
     @Column(name = "EXPLANATION_TYPE")
@@ -37,6 +38,7 @@ public class YnqExplanationType extends KcPersistableBusinessObjectBase {
         super();
     }
 
+    @Override
     public String getExplanationType() {
         return explanationType;
     }
@@ -45,6 +47,7 @@ public class YnqExplanationType extends KcPersistableBusinessObjectBase {
         this.explanationType = explanationType;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
