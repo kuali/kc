@@ -18,14 +18,14 @@ package org.kuali.coeus.propdev.impl.person;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 
 
 /**
  * Event class for actions that trigger modification of a <code>{@link ProposalPerson}</code> added to a <code>{@link ProposalDevelopmentDocument}</code>
  * 
  */
-public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDocumentEvent {
+public class ChangeKeyPersonEvent extends KeyPersonEventBase implements DocumentEvent {
     
     private BusinessObject source;
     private int index;

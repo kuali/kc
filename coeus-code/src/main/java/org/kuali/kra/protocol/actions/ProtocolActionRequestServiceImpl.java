@@ -43,7 +43,7 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -84,7 +84,7 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
     protected static final String ACTION_NAME_WITHDRAW = "Withdraw";
     protected static final String ACTION_NAME_RECORD_COMMITTEE_DECISION = "Record Committee Decision";
 
-    protected final boolean applyRules(KualiDocumentEvent event) {
+    protected final boolean applyRules(DocumentEvent event) {
         return getKualiRuleService().applyRules(event);
     }
 
