@@ -303,6 +303,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
             }
             else if (rolodexId != null && proposalPersonBiography.getRolodexId() != null
                     && proposalPersonBiography.getRolodexId().toString().equals(rolodexId.toString())
+                    && proposalPersonBiography.getPropPerDocType() != null
                     && documentType.equals(proposalPersonBiography.getPropPerDocType().getCode())) {
                 personBiographyFound = true;
             }

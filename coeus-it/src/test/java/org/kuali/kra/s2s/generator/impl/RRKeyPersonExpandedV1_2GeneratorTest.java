@@ -23,6 +23,7 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.attachment.PropPerDocType;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyAttachment;
 import org.kuali.kra.s2s.generator.S2STestBase;
@@ -80,6 +81,10 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
 		piBiography.setRolodexId(proposalPerson.getRolodexId());
 		piBiography.setProposalPersonNumber(1001);
 		piBiography.setDocumentTypeCode("1");
+        PropPerDocType p = new PropPerDocType();
+        p.setCode("1");
+        p.setDescription("a description");
+        piBiography.setPropPerDocType(p);
 		piBiography.setName("Bio Attachment");
         piBiography.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
 		ProposalPersonBiographyAttachment piAttachment = new ProposalPersonBiographyAttachment();
