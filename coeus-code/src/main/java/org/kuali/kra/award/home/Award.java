@@ -64,7 +64,7 @@ import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.bo.*;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
-import org.kuali.coeus.common.budget.framework.personnel.PersonRolodex;
+import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;

@@ -23,6 +23,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.budget.framework.core.*;
 import org.kuali.coeus.common.budget.framework.personnel.*;
+import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;

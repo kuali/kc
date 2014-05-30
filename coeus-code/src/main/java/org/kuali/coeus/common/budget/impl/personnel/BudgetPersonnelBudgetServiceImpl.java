@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.framework.personnel;
+package org.kuali.coeus.common.budget.impl.personnel;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
@@ -21,6 +21,7 @@ import org.apache.commons.beanutils.converters.SqlDateConverter;
 import org.apache.commons.beanutils.converters.SqlTimestampConverter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.budget.framework.personnel.*;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -36,6 +37,9 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -45,14 +49,19 @@ import java.util.Iterator;
 import java.util.List;
 
 
-
+@Component("budgetPersonnelBudgetService")
 public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetService {
 
     private static final Log LOG = LogFactory.getLog(BudgetPersonnelBudgetServiceImpl.class);
     public static final int BUDGET_PERIOD_1 = 1;
 
+    @Autowired
+    @Qualifier("budgetPersonService")
     private BudgetPersonService budgetPersonService;
+    @Autowired
+    @Qualifier("budgetCalculationService")
     private BudgetCalculationService budgetCalculationService;
+
     @Override
     public void addBudgetPersonnelDetails(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails) {
         try {

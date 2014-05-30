@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.personnel;
+package org.kuali.coeus.common.budget.impl.personnel;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonServiceImpl;
+import org.kuali.coeus.common.budget.impl.personnel.BudgetPersonServiceImpl;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.attr.PersonAppointment;
