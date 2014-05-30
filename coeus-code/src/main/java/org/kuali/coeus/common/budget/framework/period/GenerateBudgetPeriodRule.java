@@ -21,7 +21,7 @@ public interface GenerateBudgetPeriodRule  extends BusinessRule {
     
     /**
      * Rule invoked upon generating budget period 
-     * <code>{@link org.kuali.kra.budget.document.BudgetDocument}</code>
+     * <code>{@link org.kuali.coeus.common.budget.framework.core.BudgetDocument}</code>
      *
      * @return boolean
      */

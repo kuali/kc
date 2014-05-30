@@ -17,7 +17,7 @@ package org.kuali.kra.award.budget.document.authorization;
 
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.kra.budget.document.authorization.BudgetDocumentAuthorizer;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.kew.api.WorkflowDocument;

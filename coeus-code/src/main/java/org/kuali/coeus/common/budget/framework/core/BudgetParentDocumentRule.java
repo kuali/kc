@@ -1,4 +1,4 @@
-package org.kuali.kra.budget.document;
+package org.kuali.coeus.common.budget.framework.core;
 
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;

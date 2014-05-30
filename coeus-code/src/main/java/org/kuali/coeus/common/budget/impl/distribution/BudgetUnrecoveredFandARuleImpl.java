@@ -19,7 +19,7 @@ import org.kuali.coeus.common.budget.framework.distribution.AddBudgetUnrecovered
 import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetValidationUnrecoveredFandARule;
 import org.kuali.coeus.common.budget.impl.core.ValidationHelper;
-import org.kuali.kra.budget.document.BudgetDocumentContainer;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocumentContainer;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.util.GlobalVariables;

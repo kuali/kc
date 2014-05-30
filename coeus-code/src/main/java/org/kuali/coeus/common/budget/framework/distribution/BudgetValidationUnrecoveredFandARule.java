@@ -22,7 +22,7 @@ public interface BudgetValidationUnrecoveredFandARule  extends BusinessRule {
     
     /**
      * Rule invoked upon validating a budget 
-     * <code>{@link org.kuali.kra.budget.document.BudgetDocument}</code>
+     * <code>{@link org.kuali.coeus.common.budget.framework.core.BudgetDocument}</code>
      *
      * @return boolean
      */

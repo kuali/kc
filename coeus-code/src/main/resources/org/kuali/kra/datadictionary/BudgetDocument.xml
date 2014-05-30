@@ -8,8 +8,8 @@
     <property name="useWorkflowPessimisticLocking" value="false"/>
     
     <property name="documentTypeName" value="BudgetDocument"/>
-    <property name="documentClass" value="org.kuali.kra.budget.document.BudgetDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kra.budget.document.BudgetDocumentRule"/>
+    <property name="documentClass" value="org.kuali.coeus.common.budget.framework.core.BudgetDocument"/>
+    <property name="businessRulesClass" value="org.kuali.coeus.common.budget.framework.core.BudgetDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kra.budget.document.authorization.BudgetDocumentAuthorizer"/>
     
     <property name="allowsCopy" value="true"/>

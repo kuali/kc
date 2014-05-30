@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.opensource.org/licenses/ecl1.php
+ * http://www.osedu.org/licenses/ECL-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,17 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.document;
+package org.kuali.coeus.common.budget.framework.core;
+
+
+import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 
 /**
- * 
- * This interface is to check whether the budget is of Proposal or Award
+ * This interface was created primarily to allow easy mocking of BudgetForm to remove Spring context dependency imposed by KualiDocumentFormBase  
  */
-public interface BudgetDocumentTypeChecker {
-    /**
-     * 
-     * This method returns 'Y' if its a proposal budget
-     * @return
+public interface BudgetDocumentContainer {
+
+    /** 
+     * This method returns a BudgetDocument
+     * @return The BudgetDocument
      */
-    public abstract String getProposalBudgetFlag();
+    public BudgetDocument getBudgetDocument();
+  
 }

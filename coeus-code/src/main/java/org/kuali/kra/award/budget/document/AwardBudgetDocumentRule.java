@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.budget.document;
 
-import org.kuali.kra.budget.document.BudgetDocumentRule;
-import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocumentRule;
+import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 
 /**
  * This class is for handling all rules related to AwardBudgetDocument.
