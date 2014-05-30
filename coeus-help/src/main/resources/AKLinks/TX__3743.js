@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3743", [["Documents/namespace.htm", "right", "Namespace"],["Documents/gloss_namespace1.htm", "d2hWnd_SecondaryPopup", "Namespace"]]);
