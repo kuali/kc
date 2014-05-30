@@ -544,7 +544,7 @@ public class RROtherProjectInfo_1_3_V1Generator extends
                             abstractAttachments.setAbstractAttachment(attachedFileDataType);
                         }
                     break;
-                    case(NSF_DATAMGMNT_ATTAACHMENT):
+                    case(OTHER_ATTACHMENT):
                         isOtherAttachmentsExists = true;
                     break;
                 }
@@ -581,7 +581,7 @@ public class RROtherProjectInfo_1_3_V1Generator extends
 				.getDevelopmentProposal();
 		for (NarrativeContract narrative : developmentProposal.getNarratives()) {
 			if (narrative.getNarrativeType().getCode() != null
-					&& (Integer.parseInt(narrative.getNarrativeType().getCode()) == NSF_DATAMGMNT_ATTAACHMENT)) {
+					&& (Integer.parseInt(narrative.getNarrativeType().getCode()) == OTHER_ATTACHMENT)) {
 				attachedFileDataType= getAttachedFileType(narrative);
 				if(attachedFileDataType != null){
 					attachedFileDataTypeList.add(attachedFileDataType);
