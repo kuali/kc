@@ -233,7 +233,7 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
             CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
             primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
-            primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
+            primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getId());
 
             CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) KcServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
             if (customAttributeDocValue != null) {

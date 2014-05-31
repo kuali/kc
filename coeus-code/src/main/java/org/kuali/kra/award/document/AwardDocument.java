@@ -539,15 +539,12 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         AwardBudgetVersionOverviewExt budget = new AwardBudgetVersionOverviewExt();
         List<AwardBudgetDocumentVersion> awardBudgetDocuments = getBudgetDocumentVersions();
         for (AwardBudgetDocumentVersion budgetDocumentVersion : awardBudgetDocuments) {
-            List budgetVersionOverviews = budgetDocumentVersion.getBudgetVersionOverviews();
-            for (int i = 0; i < budgetVersionOverviews.size(); i++) {
-                AwardBudgetVersionOverviewExt budgetVersionOverview = (AwardBudgetVersionOverviewExt)budgetVersionOverviews.get(i);
+                AwardBudgetVersionOverviewExt budgetVersionOverview = (AwardBudgetVersionOverviewExt) budgetDocumentVersion.getBudgetVersionOverview();
                 if (budgetVersionOverview != null
                         && (budget.getBudgetVersionNumber() == null || 
                             (budget.getBudgetVersionNumber() != null && budgetVersionOverview.getBudgetVersionNumber() > budget.getBudgetVersionNumber()))) {
                     budget = budgetVersionOverview;
                 }
-            }
         }
         return budget;
     }

@@ -20,22 +20,28 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardCloseout;
 import org.kuali.kra.subaward.bo.SubAwardContact;
+import org.kuali.kra.subaward.bo.SubAwardForms;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -53,6 +59,15 @@ private static final String SUBAWARD_VERSION_EDITPENDING_PROMPT_KEY = "message.s
             throws Exception {
         ActionForward actionForward =
         super.execute(mapping, form, request, response);
+        SubAwardForm subAwardForm = (SubAwardForm) form;
+        List<SubAwardForms> subAwardList = new ArrayList<SubAwardForms>();
+        Collection<SubAwardForms> subAwardForms = (Collection<SubAwardForms>) KcServiceLocator.getService(BusinessObjectService.class).findAll(SubAwardForms.class);
+        for(SubAwardForms subAwardFormValues : subAwardForms){
+        if(subAwardFormValues.getTemplateTypeCode().equals(2)){
+            subAwardList.add(subAwardFormValues);
+        }
+        }
+        subAwardForm.getSubAward().setSubAwardForms(subAwardList);
         return actionForward;
     }
 
@@ -443,5 +458,17 @@ public ActionForward deleteCloseout(ActionMapping mapping,
 //        this.getBusinessObjectService().delete(subAwardCloseout); // let save() do this
         return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
     }
+
+public ActionForward selectAllSubAwardPrintNoticeItems(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    SubAwardForm subAwardForm = (SubAwardForm)form;
+    subAwardForm.getSubAwardPrintAgreement().selectAllItems();
+    return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
+}
+
+public ActionForward deselectAllSubAwardPrintNoticeItems(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    SubAwardForm subAwardForm = (SubAwardForm)form;
+    subAwardForm.getSubAwardPrintAgreement().deselectAllItems();
+    return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
+}
 
 }

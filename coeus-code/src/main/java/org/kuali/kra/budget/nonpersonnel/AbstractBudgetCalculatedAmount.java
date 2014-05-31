@@ -199,10 +199,10 @@ public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
     
     public boolean getAddToFringeRate() {
         //employee benefits, research rate (not EB on LA)
-        boolean isEmployee = StringUtils.equalsIgnoreCase(this.getRateClass().getRateClassType(), 
+        boolean isEmployee = StringUtils.equalsIgnoreCase(this.getRateClass().getRateClassTypeCode(),
                 RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
         //vacation, vacation (not vacation LA)
-        boolean isGoodVacation = StringUtils.equalsIgnoreCase(this.getRateClass().getRateClassType(), 
+        boolean isGoodVacation = StringUtils.equalsIgnoreCase(this.getRateClass().getRateClassTypeCode(),
                 RateClassType.VACATION.getRateClassType());
 
         

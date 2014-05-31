@@ -33,7 +33,7 @@ public class PersonCustomDataRuleBase extends KcTransactionalDocumentRuleBase {
         Collection<CustomAttributeDocument> customAttributeDocumentList = getBusinessObjectService().findMatching(CustomAttributeDocument.class, fieldValues);
         for (CustomAttributeDocument customAttributeDocument : customAttributeDocumentList) {
             if (customAttributeDocument.isActive()) {
-                customAttributeDocuments.put(customAttributeDocument.getCustomAttributeId().toString(), customAttributeDocument);
+                customAttributeDocuments.put(customAttributeDocument.getId().toString(), customAttributeDocument);
             }
         }
         

@@ -10,10 +10,10 @@
     <property name="lookupDefinition">
       <ref bean="CustomAttributeDocument-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="customAttributeId"/>
+    <property name="titleAttribute" value="id"/>
     <property name="attributes">
       <list>
-        <ref bean="CustomAttributeDocument-customAttributeId"/>
+        <ref bean="CustomAttributeDocument-id"/>
         <ref bean="CustomAttributeDocument-documentTypeName"/>
         <ref bean="CustomAttributeDocument-required"/>
         <ref bean="CustomAttributeDocument-typeName"/>
@@ -27,7 +27,7 @@
           <property name="objectAttributeName" value="customAttribute"/>
           <property name="primitiveAttributes">
             <list>
-              <bean p:sourceName="customAttributeId" p:targetName="id" parent="PrimitiveAttributeDefinition"/>
+              <bean p:sourceName="id" p:targetName="id" parent="PrimitiveAttributeDefinition"/>
             </list>
           </property>
         </bean>
@@ -38,10 +38,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="CustomAttributeDocument-customAttributeId" parent="CustomAttributeDocument-customAttributeId-parentBean"/>
+  <bean id="CustomAttributeDocument-id" parent="CustomAttributeDocument-id-parentBean"/>
 
-  <bean abstract="true" id="CustomAttributeDocument-customAttributeId-parentBean" parent="CustomAttribute-id">
-    <property name="name" value="customAttributeId"/>
+  <bean abstract="true" id="CustomAttributeDocument-id-parentBean" parent="CustomAttribute-id">
+    <property name="name" value="id"/>
     <property name="label" value="Custom Attribute ID"/>
     <property name="shortLabel" value="Custom Attribute ID"/>
     <property name="summary" value="Custom Attribute ID"/>
@@ -131,7 +131,7 @@
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
             <list>
-              <bean p:attributeName="customAttributeId" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="id" p:forceInquiry="true" parent="FieldDefinition"/>
               <bean p:attributeName="documentTypeName" p:forceInquiry="true" parent="FieldDefinition"/>
               <bean p:attributeName="required" parent="FieldDefinition"/>
               <bean p:attributeName="typeName" parent="FieldDefinition"/>
@@ -153,7 +153,7 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="customAttributeId" parent="Uif-DataField"/>
+              <bean p:propertyName="id" parent="Uif-DataField"/>
               <bean p:propertyName="documentTypeName" parent="Uif-DataField"/>
               <bean p:propertyName="required" parent="Uif-DataField"/>
               <bean p:propertyName="typeName" parent="Uif-DataField"/>
@@ -177,7 +177,7 @@
     </property>
     <property name="lookupFields">
       <list>
-        <bean p:attributeName="customAttributeId" parent="FieldDefinition"/>
+        <bean p:attributeName="id" parent="FieldDefinition"/>
         <bean p:attributeName="documentTypeName" parent="FieldDefinition"/>
         <bean p:attributeName="required" parent="FieldDefinition"/>
         <bean p:attributeName="typeName" parent="FieldDefinition"/>
@@ -186,7 +186,7 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean p:attributeName="customAttributeId" p:forceInquiry="true" parent="FieldDefinition"/>
+        <bean p:attributeName="id" p:forceInquiry="true" parent="FieldDefinition"/>
         <bean p:attributeName="documentTypeName" p:forceInquiry="true" parent="FieldDefinition"/>
         <bean p:attributeName="required" parent="FieldDefinition"/>
         <bean p:attributeName="typeName" parent="FieldDefinition"/>
@@ -211,7 +211,7 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="customAttributeId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="documentTypeName" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="required" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="typeName" parent="Uif-LookupCriteriaInputField"/>
@@ -220,7 +220,7 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="customAttributeId" parent="Uif-DataField"/>
+        <bean p:propertyName="id" parent="Uif-DataField"/>
         <bean p:propertyName="documentTypeName" parent="Uif-DataField"/>
         <bean p:propertyName="required" parent="Uif-DataField"/>
         <bean p:propertyName="typeName" parent="Uif-DataField"/>

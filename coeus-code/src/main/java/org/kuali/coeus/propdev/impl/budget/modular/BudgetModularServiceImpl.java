@@ -127,7 +127,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                     String fnaRateClassType = this.parameterService.getParameterValueAsString(
                             BudgetDocument.class, Constants.PARAMETER_FNA_RATE_CLASS_TYPE);
                   
-                    if (budgetRateAndBase.getRateClass().getRateClassType().equals(fnaRateClassType)) {
+                    if (budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(fnaRateClassType)) {
                         BudgetModularIdc budgetModularIdc = new BudgetModularIdc();
                         budgetModularIdc.setRateNumber(budget.getBudgetDocument().getHackedDocumentNextValue(RATE_NUMBER_PROPERTY_NAME));
                         budgetModularIdc.setDescription(budgetRateAndBase.getRateClassCode());

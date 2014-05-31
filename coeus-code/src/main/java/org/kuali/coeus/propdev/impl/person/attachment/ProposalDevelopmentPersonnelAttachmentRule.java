@@ -21,7 +21,6 @@ import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -159,7 +158,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
     private boolean checkForDescriptionWhenTypeIsOther(ProposalPersonBiography proposalPersonBiography) {
         boolean rulePassed = true;
         
-        if(findPropPerDocTypeForOther().getDocumentTypeCode().equalsIgnoreCase(proposalPersonBiography.getDocumentTypeCode())) {
+        if(findPropPerDocTypeForOther().getCode().equalsIgnoreCase(proposalPersonBiography.getDocumentTypeCode())) {
             rulePassed = !StringUtils.isBlank(proposalPersonBiography.getDescription());
             if(!rulePassed) {
                 reportError(buildErrorPath(DOC_TYPE_DESCRIPTION), KeyConstants.ERROR_PERSONNEL_ATTACHMENT_DESCRIPTION_REQUIRED);

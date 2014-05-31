@@ -95,17 +95,6 @@
 	                		<div style="display: ${(not empty KualiForm.document.developmentProposalList[0].s2sUserAttachedForms[status.index].formFileName) ? 'block' : 'none'}">
 	                			<kul:htmlControlAttribute property="document.developmentProposalList[0].s2sUserAttachedForms[${status.index}].formFileName" attributeEntry="${s2sUserAttachedFormAttributes.formFileName}" readOnly="true"/>
 	                		</div>
-	                		<div style="display: ${KualiForm.document.developmentProposalList[0].s2sUserAttachedForms[status.index].newFormFileError or empty KualiForm.document.developmentProposalList[0].s2sUserAttachedForms[status.index].formFileName ? 'block' : 'none'}">
-		                		<html:file property="document.developmentProposalList[0].s2sUserAttachedForms[${status.index}].newFormFile" /> 
-		                		<c:if test="${KualiForm.document.developmentProposalList[0].s2sUserAttachedForms[status.index].newFormFileError}">
-	                                <kul:fieldShowErrorIcon />
-	                            </c:if>
-	                            <c:if test="${not empty KualiForm.document.developmentProposalList[0].s2sUserAttachedForms[status.index].formFileName }">
-	                            	<a href="#" onclick="jQuery(this).parent().hide(); jQuery(this).parent().siblings('div').show(); return false;"><img src="${ConfigProperties.kra.externalizable.images.url}tinybutton-cancel.gif" styleClass="tinybutton" /></a>
-	                            </c:if>
-	                			<html:image property="methodToCall.updateBudgetAttachment.line${status.index}.anchor${currentTabIndex}" 
-	                				src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton" />	                            
-	                        </div>
 	                	</div>
 				  </td>
                   <td align="left" valign="middle">

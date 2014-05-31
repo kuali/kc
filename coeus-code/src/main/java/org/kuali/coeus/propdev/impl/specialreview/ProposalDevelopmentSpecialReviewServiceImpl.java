@@ -38,9 +38,6 @@ import org.springframework.stereotype.Component;
 @Component("proposalDevelopmentSpecialReviewService")
 public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDevelopmentSpecialReviewService {
     
-    private static final String PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER = "irb.protocol.development.proposal.linking.enabled";
-    private static final String IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER = "iacuc.protocol.proposal.development.linking.enabled";
-    
     @Autowired
     @Qualifier("proposalDevelopmentProtocolDocumentService")
     private ProposalDevelopmentProtocolDocumentService proposalDevelopmentProtocolDocumentService;
@@ -63,7 +60,7 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
 	@Override
     public boolean createProtocol(ProposalSpecialReview specialReview, ProposalDevelopmentDocument document) throws Exception {
         if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
-            if (isIrbLinkingEnabled()) {
+            if (isCreateIrbProtocolEnabled()) {
                 ProposalDevelopmentProtocolDocumentService service = getProposalDevelopmentProtocolDocumentService(); 
                 ProtocolDocument protocolDocument = service.createProtocolDocument(document);
                 if (protocolDocument != null )
@@ -86,7 +83,7 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
                 }
             }
         } else if (SpecialReviewType.ANIMAL_USAGE.equals(specialReview.getSpecialReviewTypeCode())) {
-            if (isIacucLinkingEnabled()) {
+            if (isCreateIacucProtocolEnabled()) {
                 IacucProtocolProposalDevelopmentProtocolDocumentService service = getIacucProtocolProposalDevelopmentProtocolDocumentService(); 
                 ProtocolDocumentBase protocolDocument = service.createProtocolDocument(document);
                 if (protocolDocument != null) {
@@ -129,16 +126,43 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
         }
     }
 
+    public boolean isCreateIrbProtocolEnabled() {
+    	return isIrbLinkingEnabled() &&	isCreateProtocolFromProposalEnabled(Constants.PROPOSAL_DEVELOPMENT_CREATE_IRB_PROTOCOL_ENABLED_PARAMETER);
+    }
+
+    public boolean isCreateIacucProtocolEnabled() {
+    	return isIacucLinkingEnabled() && isCreateProtocolFromProposalEnabled(Constants.PROPOSAL_DEVELOPMENT_CREATE_IACUC_PROTOCOL_ENABLED_PARAMETER);
+    }
+    
     @Override
     public boolean isIrbLinkingEnabled() {
-        return getParameterService().getParameterValueAsBoolean(ProtocolDocument.class, PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
+    	return isProtocolLinkEnabled(Constants.MODULE_NAMESPACE_PROTOCOL, Constants.PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
     }
 
     @Override
     public boolean isIacucLinkingEnabled() {
-        return getParameterService().getParameterValueAsBoolean(IacucProtocolDocument.class, IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER);
+    	return isProtocolLinkEnabled(Constants.MODULE_NAMESPACE_IACUC, Constants.IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER);
     }
 
+    /**
+     * Method to check proposal to protocol link is enabled
+     * @param moduleNameSpace
+     * @param proposalLinkParam
+     * @return
+     */
+    private boolean isProtocolLinkEnabled(String moduleNameSpace, String proposalLinkParam) {
+    	return getParameterService().getParameterValueAsBoolean(moduleNameSpace, Constants.PARAMETER_COMPONENT_DOCUMENT, proposalLinkParam);
+    }
+
+    /**
+     * Method to check create protocol from proposal is enabled
+     * @param protocolLinkParam
+     * @return
+     */
+    private boolean isCreateProtocolFromProposalEnabled(String protocolLinkParam) {
+    	return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, protocolLinkParam);
+    }
+    
     @Override
     public boolean canCreateIrbProtocol(ProposalDevelopmentDocument document) {
         return getProposalDevelopmentProtocolDocumentService().isAuthorizedCreateProtocol(document); 

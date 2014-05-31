@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.fop.apps.FOPException;
+import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
@@ -34,6 +35,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.xml.transform.*;
 import javax.xml.transform.sax.SAXResult;
@@ -91,8 +93,11 @@ public class PrintingServiceImpl implements PrintingService {
                 for (Source source : printableArtifact.getXSLTemplates()) {
                     xslCount++;
                     StreamSource xslt = (StreamSource) source;
-                    createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt, printableArtifact);
-
+                    if(xslt.getInputStream()==null || xslt.getInputStream().available()<=0){
+                        LOG.error("Stylesheet is not available");
+                    }else{
+                        createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt, printableArtifact);
+                    }
                 }
             }
             else if (printableArtifact.getXSLTemplateWithBookmarks() != null) {
@@ -123,6 +128,10 @@ public class PrintingServiceImpl implements PrintingService {
             LOG.error(e.getMessage(), e);
             throw new PrintingException(e.getMessage(), e);
         }
+        catch (IOException e) {
+            LOG.error(e.getMessage(), e);
+            throw new PrintingException(e.getMessage(), e);
+        }
 
     }
 
@@ -136,11 +145,15 @@ public class PrintingServiceImpl implements PrintingService {
             TransformerException {
         TransformerFactory factory = TransformerFactory.newInstance();
         Transformer transformer = factory.newTransformer(xslt);
+        String applicationUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY);
+        FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
+        foUserAgent.setBaseURL(applicationUrl);      
         for (Map.Entry<String, byte[]> xmlData : streamMap.entrySet()) {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             ByteArrayInputStream inputStream = new ByteArrayInputStream(xmlData.getValue());
             Source src = new StreamSource(inputStream);
-            Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, outputStream);
+            //Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, outputStream);
+            Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, outputStream);
             Result res = new SAXResult(fop.getDefaultHandler());
             transformer.transform(src, res);
             byte[] pdfBytes = outputStream.toByteArray();
@@ -149,6 +162,8 @@ public class PrintingServiceImpl implements PrintingService {
                 pdfByteMap.put(pdfMapKey, pdfBytes);
             }
         }
+        
+        
     }
 
 

@@ -556,7 +556,6 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
 
     /**
      * This method is to update custom data list grouped by species
-     * @param newProcedureCustomDataList
      */
     private void synchronizeProcedureCustomDataList(List<IacucProtocolStudyCustomData> newProtocolStudyCustomDataList, IacucProtocolStudyGroup iacucProtocolStudyGroup) {
         for(IacucProtocolStudyCustomData newIacucProtocolStudyCustomData : newProtocolStudyCustomDataList) {
@@ -592,7 +591,6 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
      * This method is to get a list of new protocol study groups.
      * @param protocol
      * @param protocolSpeciesAndGroups
-     * @param iacucProtocolStudyGroupBean
      * @return a new set of protocol study groups based on selected group and species
      */
     private List<IacucProtocolStudyGroup> getNewProtocolStudyGroups(List<String> protocolSpeciesAndGroups, 
@@ -713,10 +711,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
     }
     
     /**
-     * This method is to set study group reference
-     * @param newIacucProtocolStudyGroupLocation
-     * @param protocolStudyGroup
-     * @param protocol
+     * This method is to set study group reference.
      */
     private void updateAttributesForNewProcedureLocation(IacucProtocolStudyGroupLocation newIacucProtocolStudyGroupLocation, 
             IacucProtocol protocol) { 

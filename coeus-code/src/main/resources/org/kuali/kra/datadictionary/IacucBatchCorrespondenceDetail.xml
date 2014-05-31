@@ -97,8 +97,8 @@
     <bean id="IacucBatchCorrespondenceDetail-protoCorrespTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="protoCorrespTypeCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Protocol Correspodence Type Code" />
-        <property name="shortLabel" value="Protocol Correspodence Type Code" />
+        <property name="label" value="Protocol Correspondence Type Code" />
+        <property name="shortLabel" value="Protocol Correspondence Type Code" />
         <property name="maxLength" value="3" />
         <property name="required" value="true" />
         <property name="validationPattern" >
@@ -122,8 +122,8 @@
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
         </property>
-        <property name="summary" value="Protocol Correspodence Type Code" />
-        <property name="description" value="Protocol Correspodence Type Code" />
+        <property name="summary" value="Protocol Correspondence Type Code" />
+        <property name="description" value="Protocol Correspondence Type Code" />
     </bean>
 
     <bean id="IacucBatchCorrespondenceDetail-daysToEvent" parent="IacucBatchCorrespondenceDetail-daysToEvent-parentBean" />

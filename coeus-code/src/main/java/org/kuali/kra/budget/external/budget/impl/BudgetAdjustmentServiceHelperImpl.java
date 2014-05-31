@@ -97,7 +97,7 @@ public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServic
         for (BudgetLineItem lineItem : currentLineItems) {
             for (BudgetLineItemCalculatedAmount lineItemCalculatedAmount : lineItem.getBudgetLineItemCalculatedAmounts()) {
                 lineItemCalculatedAmount.refreshReferenceObject("rateClass");
-                if (lineItemCalculatedAmount.getRateClass().getRateClassType().equalsIgnoreCase("O")) {
+                if (lineItemCalculatedAmount.getRateClass().getRateClassTypeCode().equalsIgnoreCase("O")) {
                     RateClassRateType currentKey = new RateClassRateType(lineItemCalculatedAmount.getRateClassCode(), 
                                                                          lineItemCalculatedAmount.getRateTypeCode());
                     if (currentIndirectTotals.containsKey(currentKey)) {
@@ -130,7 +130,7 @@ public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServic
         Map<RateClassRateType, ScaleTwoDecimal> netCost = new HashMap<RateClassRateType, ScaleTwoDecimal>();
         for (RateType rate : currentTotals.keySet()) {
             // For some reason indirect cost shows up in this, remove it.
-            if (!StringUtils.equalsIgnoreCase(rate.getRateClass().getRateClassType(), "O")) {
+            if (!StringUtils.equalsIgnoreCase(rate.getRateClass().getRateClassTypeCode(), "O")) {
                 LOG.info("Rate Class: " + rate.getRateClassCode() + "RateType: " + rate.getRateTypeCode() + "");
                 currentCost.put(new RateClassRateType(rate.getRateClassCode(), rate.getRateTypeCode()), currentTotals.get(rate).get(period));
             }
@@ -182,7 +182,7 @@ public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServic
                         for (BudgetLineItemCalculatedAmount lineItemCalculatedAmount : lineItem.getBudgetLineItemCalculatedAmounts()) {
                             lineItemCalculatedAmount.refreshReferenceObject("rateClass");
                             //Check for Employee Benefits RateClassType
-                            if (lineItemCalculatedAmount.getRateClass().getRateClassType().equalsIgnoreCase("E")) {
+                            if (lineItemCalculatedAmount.getRateClass().getRateClassTypeCode().equalsIgnoreCase("E")) {
                                 RateClassRateType currentKey = new RateClassRateType(lineItemCalculatedAmount.getRateClassCode(), 
                                                                             lineItemCalculatedAmount.getRateTypeCode());
                                 if (fringeTotals.containsKey(currentKey)) {

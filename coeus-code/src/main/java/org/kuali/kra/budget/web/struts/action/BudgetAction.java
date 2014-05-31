@@ -236,7 +236,7 @@ public class BudgetAction extends BudgetActionBase {
             documentVersion.refreshReferenceObject("documentHeader");
             BudgetVersionOverview version = documentVersion.getBudgetVersionOverview();
             if (budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
-                documentVersion.refreshReferenceObject("budgetVersionOverviews");
+                documentVersion.refreshReferenceObject("budgetVersionOverview");
             }
         }
     }

@@ -88,8 +88,8 @@ public class ValidCalcTypeMaintenanceDocumentRule extends KcMaintenanceDocumentR
     private boolean validateRateClassType(final String rateClassType) {
         
         final Map<String, String> pkMap = new HashMap<String, String>();
-        pkMap.put("rateClassType", rateClassType);
-        return checkExistenceFromTable(RateClassType.class, pkMap, "rateClassType", "Rate Class Type");
+        pkMap.put("code", rateClassType);
+        return checkExistenceFromTable(RateClassType.class, pkMap, "code", "Rate Class Type");
     }
     
     /**
@@ -101,7 +101,7 @@ public class ValidCalcTypeMaintenanceDocumentRule extends KcMaintenanceDocumentR
 
         if (StringUtils.isNotBlank(dependantRateClassType)) {
             final Map<String, String> pkMap = new HashMap<String, String>();
-            pkMap.put("rateClassType", dependantRateClassType);
+            pkMap.put("code", dependantRateClassType);
             return checkExistenceFromTable(RateClassType.class,pkMap, "dependentRateClassType", "Dependent Rate Class Type");
         }
         return true;

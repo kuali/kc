@@ -66,7 +66,7 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
     protected void setCustomAttributeValue(ProposalDevelopmentDocument document, CustomAttributeDocument customAttribute, String value) {
         CustomAttributeDocValue newValue = new CustomAttributeDocValue();
         newValue.setCustomAttribute(customAttribute.getCustomAttribute());
-        newValue.setCustomAttributeId(customAttribute.getCustomAttributeId().longValue());
+        newValue.setId(customAttribute.getId().longValue());
         newValue.setValue(value);
         document.getCustomDataList().add(newValue);
     }

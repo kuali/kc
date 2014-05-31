@@ -111,11 +111,11 @@
 			          		</tr>
 			          					          						          			
 			          		<c:forEach items="${budgetLineItem.budgetLineItemCalculatedAmounts}" varStatus="status">
-			          			<c:if test="${budgetLineItem.budgetLineItemCalculatedAmounts[status.index].rateClass.rateClassType == 'O'}" >
+			          			<c:if test="${budgetLineItem.budgetLineItemCalculatedAmounts[status.index].rateClass.rateClassTypeCode == 'O'}" >
 									<c:set var="overheadIndex" value="${overheadIndex},${status.index}" />
 								</c:if>
 																		
-				          		<c:if test="${budgetLineItem.budgetLineItemCalculatedAmounts[status.index].rateClass.rateClassType ne 'O'}" >
+				          		<c:if test="${budgetLineItem.budgetLineItemCalculatedAmounts[status.index].rateClass.rateClassTypeCode ne 'O'}" >
 									<tr>		
 										<td><div align="center">
 											<kul:htmlControlAttribute property="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${status.index}].rateClassCode" attributeEntry="${budgetLineItemCalculatedAmountAttributes.rateClassCode}" />

@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__1973", [["Documents/proposalsummary.htm", "right", "Proposal Summary"],["Documents/proposalsummary1.htm", "right", "Proposal Summary"]]);

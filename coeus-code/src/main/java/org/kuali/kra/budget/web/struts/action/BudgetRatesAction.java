@@ -102,7 +102,7 @@ public class BudgetRatesAction extends BudgetAction {
             BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
             Budget budget = budgetDocument.getBudget();
             RateClassType rateClassT = budget.getRateClassTypes().get(getSelectedLine(request));
-            String rateClassType = rateClassT.getRateClassType();
+            String rateClassType = rateClassT.getCode();
             budget.getBudgetRatesService().resetBudgetRatesForRateClassType(rateClassType, budget);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -143,7 +143,7 @@ public class BudgetRatesAction extends BudgetAction {
             BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
             Budget budget = budgetDocument.getBudget();
             RateClassType rateClassT = budget.getRateClassTypes().get(getSelectedLine(request));
-            String rateClassType = rateClassT.getRateClassType();
+            String rateClassType = rateClassT.getCode();
             getBudgetRatesService().syncBudgetRatesForRateClassType(rateClassType, budgetDocument);
             budget.setRateClassTypesReloaded(false);
             if (rateClassType.equals("O")) {
