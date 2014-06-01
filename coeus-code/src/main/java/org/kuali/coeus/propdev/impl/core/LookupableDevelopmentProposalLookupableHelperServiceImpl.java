@@ -50,7 +50,7 @@ import org.springframework.stereotype.Component;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class LookupableDevelopmentProposalLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl{
 
-    private static final List <String> VALID_LOOKUP_FIELDS = Arrays.asList("proposalNumber","title","sponsorCode","ownedByUnitNumber","ownedByUnitName","proposalTypeCode");
+    private static final List <String> VALID_LOOKUP_FIELDS = Arrays.asList("proposalNumber","title","sponsorCode","ownedByUnitNumber","ownedByUnitName","proposalTypeCode", "proposalStateTypeCode");
 
     private static final Log LOG = LogFactory.getLog(LookupableDevelopmentProposalLookupableHelperServiceImpl.class);
 
