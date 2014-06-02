@@ -78,7 +78,7 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
-import org.kuali.kra.budget.web.struts.form.BudgetVersionFormBase;
+import org.kuali.coeus.common.budget.framework.core.BudgetVersionFormBase;
 import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;

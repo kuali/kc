@@ -32,7 +32,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.budget.web.struts.form.BudgetVersionFormBase;
+import org.kuali.coeus.common.budget.framework.core.BudgetVersionFormBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiForm;

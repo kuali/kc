@@ -26,7 +26,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
-import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.core.api.CoreApiServiceLocator;

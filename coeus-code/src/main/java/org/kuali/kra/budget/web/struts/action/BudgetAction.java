@@ -48,7 +48,7 @@ import org.kuali.coeus.common.budget.framework.lock.BudgetLockService;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
-import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;

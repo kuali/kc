@@ -45,7 +45,7 @@ import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.rate.ValidCeRateType;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
-import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;

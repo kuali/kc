@@ -20,7 +20,7 @@ import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.auth.task.WebTaskFactoryBase;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
-import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.kra.infrastructure.TaskGroupName;
 
 import javax.servlet.http.HttpServletRequest;

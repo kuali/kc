@@ -37,7 +37,7 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemBase;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
