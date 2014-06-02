@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.document.authorization;
+package org.kuali.coeus.propdev.impl.budget.auth.task;
 
 import org.apache.struts.action.ActionForm;
+import org.kuali.coeus.common.budget.framework.auth.task.BudgetTask;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.auth.task.WebTaskFactoryBase;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
@@ -29,7 +30,7 @@ import javax.servlet.http.HttpServletRequest;
  * The Budget Task Factory will create a Budget Task with its
  * task name and the budget document contained within the form.
  */
-public class BudgetTaskFactory extends WebTaskFactoryBase {
+public class ProposalBudgetTaskFactory extends WebTaskFactoryBase {
 
     private String taskGroupName = TaskGroupName.PROPOSAL_BUDGET;
     @Override

@@ -79,12 +79,12 @@
         <property name="mappings">
             <map>
                 <entry key="save">
-                    <bean class="org.kuali.kra.budget.document.authorization.BudgetTaskFactory">
+                    <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ProposalBudgetTaskFactory">
                         <property name="taskName" value="modifyBudget" />
                     </bean>
                 </entry>
                 <entry key="reject">
-                    <bean class="org.kuali.kra.budget.document.authorization.BudgetTaskFactory">
+                    <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ProposalBudgetTaskFactory">
                         <property name="taskName" value="rejectBudget" />
                     </bean>
                 </entry>

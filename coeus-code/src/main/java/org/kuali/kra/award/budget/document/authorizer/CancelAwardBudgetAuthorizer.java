@@ -20,8 +20,8 @@ package org.kuali.kra.award.budget.document.authorizer;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.kra.budget.document.authorization.BudgetTask;
-import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
+import org.kuali.coeus.common.budget.framework.auth.task.BudgetTask;
+import org.kuali.coeus.common.budget.framework.auth.task.BudgetAuthorizer;
 import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
