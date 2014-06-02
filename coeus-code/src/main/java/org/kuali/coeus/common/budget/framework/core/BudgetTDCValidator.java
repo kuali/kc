@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.web.struts.action;
+package org.kuali.coeus.common.budget.framework.core;
 
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularTotalDirectCostRule;

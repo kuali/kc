@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.web.struts.action;
+package org.kuali.coeus.common.budget.impl.distribution;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.budget.framework.core.BudgetAction;
 import org.kuali.coeus.common.budget.framework.distribution.AddBudgetCostShareEvent;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.income.AddBudgetProjectIncomeEvent;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetDistributionService;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
-import org.kuali.coeus.common.budget.impl.distribution.AddBudgetUnrecoveredFandAEvent;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;

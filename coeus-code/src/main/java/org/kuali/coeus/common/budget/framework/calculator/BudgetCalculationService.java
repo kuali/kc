@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.calculator;
 
-import org.kuali.kra.budget.BudgetException;
+import org.kuali.coeus.common.budget.framework.core.BudgetException;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;

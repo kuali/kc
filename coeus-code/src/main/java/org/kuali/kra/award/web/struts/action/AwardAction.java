@@ -62,7 +62,7 @@ import org.kuali.kra.award.service.AwardDirectFandADistributionService;
 import org.kuali.kra.award.service.AwardReportsService;
 import org.kuali.kra.award.service.AwardSponsorTermService;
 import org.kuali.kra.award.version.service.AwardVersionService;
-import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
+import org.kuali.coeus.common.budget.framework.core.BudgetParentActionBase;
 import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.award.infrastructure.AwardRoleConstants;
 import org.kuali.kra.infrastructure.Constants;

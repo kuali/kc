@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget;
+package org.kuali.coeus.common.budget.framework.core;
 
+import org.kuali.coeus.common.budget.framework.core.BudgetAction;
 
-public class BudgetException extends RuntimeException {
+public class BudgetProposalHierarchyAction extends BudgetAction {
+
 
 }

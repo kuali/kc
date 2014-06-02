@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.web.struts.action;
+package org.kuali.coeus.common.budget.framework.core;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -39,15 +39,11 @@ import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.budget.BudgetException;
-import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationService;
 import org.kuali.coeus.common.budget.impl.nonpersonnel.BudgetJustificationServiceImpl;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationWrapper;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.kra.budget.external.budget.BudgetAdjustmentClient;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -122,7 +118,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
 
     /**
      * Override to set the update time and user, then convert to String 
-     * @see org.kuali.kra.budget.web.struts.action.BudgetAction#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see BudgetAction#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -224,7 +220,6 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         }else{
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
-//        downloadFile(form, request, response, subAward.getSubAwardXfdFileData(), subAward.getSubAwardXfdFileName(), CONTENT_TYPE_PDF);
         return null;
     }
     
@@ -235,7 +230,6 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             BudgetSubAwardFiles subAwardFiles = subAward.getBudgetSubAwardFiles().get(0);
             downloadFile(form, request, response, subAwardFiles.getSubAwardXmlFileData().getBytes(), createXMLFileName(subAward), CONTENT_TYPE_XML);
         }
-//        downloadFile(form, request, response, new String(subAward.getSubAwardXmlFileData()).getBytes(), createXMLFileName(subAward), CONTENT_TYPE_XML);
         return null;
     }
     
@@ -538,7 +532,6 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     public ActionForward disapprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm)form).getAwardBudgetDocument();
-       // boolean success = isValidForSubmission(awardBudgetDocument);
         boolean auditPassed = new AuditActionHelper().auditUnconditionally(awardBudgetDocument);
         getAwardBudgetService().processDisapproval(awardBudgetDocument);   
         return super.disapprove(mapping, form, request, response);

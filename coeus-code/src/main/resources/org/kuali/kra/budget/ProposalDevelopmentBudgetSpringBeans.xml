@@ -75,7 +75,7 @@
     </bean>
     
     <bean id="budgetWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.kra.budget.web.struts.action.BudgetAction" />
+        <property name="classname" value="org.kuali.coeus.common.budget.framework.core.BudgetAction" />
         <property name="mappings">
             <map>
                 <entry key="save">
@@ -93,7 +93,7 @@
     </bean>
     
     <bean id="budgetVersionsWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.kra.budget.web.struts.action.BudgetVersionsAction" />
+        <property name="classname" value="org.kuali.coeus.common.budget.framework.version.BudgetVersionsAction" />
         <property name="mappings">
             <map>
                 <entry key="addBudgetVersion">
@@ -116,7 +116,7 @@
     </bean>
     
     <bean id="budgetActionsWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.kra.budget.web.struts.action.BudgetActionsAction" />
+        <property name="classname" value="org.kuali.coeus.common.budget.framework.core.BudgetActionsAction" />
         <property name="mappings">
             <map>
                 <entry key="printBudgetForm">

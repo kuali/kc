@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.web.struts.action;
+package org.kuali.coeus.common.budget.framework.version;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +22,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.budget.framework.core.*;
+import org.kuali.coeus.common.budget.framework.core.BudgetAction;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
@@ -31,18 +33,9 @@ import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
-import org.kuali.coeus.common.budget.framework.core.BudgetParent;
-import org.kuali.coeus.common.budget.framework.core.BudgetService;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
-import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarcyActionHelper;

@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.web.struts.action;
+package org.kuali.coeus.common.budget.impl.period;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.common.budget.framework.core.BudgetAction;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetPeriodExt;
-import org.kuali.kra.award.budget.AwardBudgetService;
-import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -75,12 +73,7 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
         }
         return super.save(mapping, form, request, response);
     }
-    private AwardBudgetService getAwardBudgetService() {
-        return KcServiceLocator.getService(AwardBudgetService.class);
-    }
-    private BudgetCalculationService getBudgetCalaculationService() {
-        return KcServiceLocator.getService(BudgetCalculationService.class);
-    }
+
     public ActionForward previousPeriodSet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         if(StringUtils.isNotEmpty(request.getParameter("periodStartIndex")) && 
                 StringUtils.isNotEmpty(request.getParameter("periodEndIndex"))) {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.web.struts.action;
+package org.kuali.coeus.propdev.impl.budget.modular;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -24,12 +24,9 @@ import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.core.BudgetForm;
+import org.kuali.coeus.common.budget.framework.core.BudgetAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
-import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
-import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularService;
-import org.kuali.coeus.propdev.impl.budget.modular.SyncModularBudgetEvent;
 import org.kuali.rice.krad.service.KualiRuleService;
 
 import javax.servlet.http.HttpServletRequest;
