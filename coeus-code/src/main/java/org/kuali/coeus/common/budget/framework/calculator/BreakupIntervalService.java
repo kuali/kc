@@ -18,7 +18,7 @@ package org.kuali.coeus.common.budget.framework.calculator;
 import org.kuali.coeus.common.budget.impl.calculator.BreakUpInterval;
 
 /**
- * This class is to calcuate breakup interval, the basic unit used for budget calculation
+ * This class is to calculate breakup interval, the basic unit used for budget calculation
  */
 public interface BreakupIntervalService {
     public void calculate(BreakUpInterval breakupInterval);
