@@ -30,13 +30,13 @@
 	<bean id="PropDev-MedusaSection-TabGroup" parent="PropDev-MedusaSection-TabGroup-parentBean"/>
 	<bean id="PropDev-MedusaSection-TabGroup-parentBean" abstract="true" parent="Uif-TabGroup">
 		<property name="items"><list>
-			<bean parent="PropDev-MedusaSection-TabItem" p:headerText="Proposal > Award"/>
-			<bean parent="PropDev-MedusaSection-TabItem" p:headerText="Award > Proposal"/>
+			<bean parent="PropDev-MedusaPropAwardSection-TabItem" p:headerText="Proposal > Award"/>
+			<bean parent="PropDev-MedusaAwardPropSection-TabItem" p:headerText="Award > Proposal"/>
 		</list></property>
 	</bean>
 
-	<bean id="PropDev-MedusaSection-TabItem" parent="PropDev-MedusaSection-TabItem-parentBean"/>
-	<bean id="PropDev-MedusaSection-TabItem-parentBean" abstract="true" parent="Uif-TreeSection"
+	<bean id="PropDev-MedusaPropAwardSection-TabItem" parent="PropDev-MedusaPropAwardSection-TabItem-parentBean"/>
+	<bean id="PropDev-MedusaPropAwardSection-TabItem-parentBean" abstract="true" parent="Uif-TreeSection"
 		p:propertyName="medusaTreeView">
 	  <property name="nodePrototypeMap">            
       <map key-type="java.lang.Class">        
@@ -63,7 +63,37 @@
 		</entry>
 	</map>
 	</property>
-	</bean>          
+	</bean>   
+	
+	<bean id="PropDev-MedusaAwardPropSection-TabItem" parent="PropDev-MedusaAwardPropSection-TabItem-parentBean"/>
+	<bean id="PropDev-MedusaAwardPropSection-TabItem-parentBean" abstract="true" parent="Uif-TreeSection"
+		p:propertyName="medusaTreeView">
+	  <property name="nodePrototypeMap">            
+      <map key-type="java.lang.Class">
+      	<entry key="#{ T(org.kuali.kra.award.home.Award)}">
+			<bean parent="Proposal-MedusaSection-AwardSummary"/>
+		</entry>        
+        <entry key="#{ T(org.kuali.coeus.propdev.impl.core.DevelopmentProposal) }">        
+		 <bean parent="Proposal-MedusaSection-PropDevSummary"/>
+		</entry>
+		<entry key="#{ T(org.kuali.kra.institutionalproposal.home.InstitutionalProposal)}">
+			<bean parent="Proposal-MedusaSection-InstPropSummary"/>
+		</entry>
+		<entry key="#{ T(org.kuali.kra.institutionalproposal.proposallog.ProposalLog)}">
+			<bean parent="Proposal-MedusaSection-ProposalLogSummary"/>
+		</entry>
+		<entry key="#{ T(org.kuali.kra.irb.Protocol)}">
+			<bean parent="Proposal-MedusaSection-IRBSummary"/>
+		</entry>
+		<entry key="#{ T(org.kuali.kra.iacuc.IacucProtocol)}">
+			<bean parent="Proposal-MedusaSection-IacucSummary"/>
+		</entry>
+		<entry key="#{ T(org.kuali.kra.negotiations.bo.Negotiation)}">
+			<bean parent="Proposal-MedusaSection-NegotiationSummary"/>
+		</entry>
+	</map>
+	</property>
+	</bean>        
        
       <!-- our custom node prototype -->         
       <bean id="Proposal-MedusaSection-PropDevSummary" class="org.kuali.rice.krad.uif.container.NodePrototype">           
