@@ -13,58 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.web.struts.action;
+package org.kuali.coeus.common.budget.framework.core;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.kuali.coeus.propdev.impl.lock.ProposalLockService;
+import org.kuali.coeus.common.budget.framework.core.*;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
-import org.kuali.coeus.common.budget.framework.core.BudgetCommonServiceFactory;
-import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.coeus.common.budget.framework.core.BudgetVersionFormBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.PessimisticLockService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
  * This class contains methods common to ProposalDevelopment and Budget actions.
  */
-public class BudgetActionBase extends KcTransactionalDocumentActionBase {
+public class BudgetParentActionBase extends KcTransactionalDocumentActionBase {
     
-    @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        
-        final BudgetVersionFormBase proposalForm = (BudgetVersionFormBase) form;
-        ActionForward forward = super.save(mapping, form, request, response);
-        
-        return forward;
-    }
 
     protected static final String COPY_BUDGET_PERIOD_QUESTION = "copyBudgetQuestion";
     protected static final String QUESTION_TYPE = "copyPeriodsQuestion";
     protected static final String QUESTION_TEXT = "A new version of the budget will be created based on version ";
+    
+    private BudgetService budgetService;
     
     /**
      * This method looks at the list of budgetVersions for the final version, then returns the version number.
@@ -99,21 +74,12 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
      * This method sets the budget status of the 'final' budget version (if it exists) to the proposal budget status
      * as indicated in the proposal development document.
      * 
-     * @param proposalDevelopmentDocument
+     * @param parentDocument
+     * @deprecated use BudgetService.setBudgetStatuses
      */
-    protected void setBudgetStatuses(BudgetParentDocument proposalDevelopmentDocument) {
-        
-        for (BudgetDocumentVersion budgetDocumentVersion: proposalDevelopmentDocument.getBudgetDocumentVersions()) {
-            BudgetVersionOverview budgetVersion =  budgetDocumentVersion.getBudgetVersionOverview();
-            if (budgetVersion.isFinalVersionFlag()) {
-                budgetVersion.setBudgetStatus(proposalDevelopmentDocument.getBudgetParent().getBudgetStatus());
-            }
-            else {
-                String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
-                        BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
-                budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
-            }
-        }
+    @Deprecated
+    protected void setBudgetStatuses(BudgetParentDocument parentDocument) {
+        getBudgetService().setBudgetStatuses(parentDocument);
     }
     
     /**
@@ -123,11 +89,13 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
      * @param budgetToCopy
      * @param copyPeriodOneOnly if only the first budget period is to be copied
      */
+    @SuppressWarnings("unchecked")
     protected void copyBudget(BudgetParentDocument budgetParentDocument, BudgetVersionOverview budgetToCopy, boolean copyPeriodOneOnly) 
     throws WorkflowException {
         DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocToCopy = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
         Budget budget = budgetDocToCopy.getBudget();
+
         BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budgetParentDocument);
         BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocToCopy, copyPeriodOneOnly);
         budgetParentDocument.refreshBudgetDocumentVersions();
@@ -147,33 +115,24 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
      * @param parentBudgetDocument
      * @return
      */
-    protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParentDocument parentBudgetDocument) {
+    private BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParentDocument parentBudgetDocument) {
         return BudgetCommonServiceFactory.createInstance(parentBudgetDocument);
     }
 
     protected void populateTabState(KualiForm form, String tabTitle) {
         form.getTabStates().put(WebUtils.generateTabKey(tabTitle), "OPEN");
     }
-    
-    @Override
-    protected PessimisticLockService getPessimisticLockService() {
-        return KcServiceLocator.getService(ProposalLockService.class);
+
+    public BudgetService getBudgetService() {
+        if (budgetService == null) {
+            budgetService = KcServiceLocator.getService(BudgetService.class);
+        }
+        return budgetService;
+    }
+
+    public void setBudgetService(BudgetService budgetService) {
+        this.budgetService = budgetService;
     }
     
-    @Override
-    protected void setupPessimisticLockMessages(Document document, HttpServletRequest request) {
-        super.setupPessimisticLockMessages(document, request);
-        List<String> lockMessages = (List<String>)request.getAttribute(KRADConstants.PESSIMISTIC_LOCK_MESSAGES);
-        BudgetDocument budgetDoc = (BudgetDocument)document;
-        for (PessimisticLock lock : budgetDoc.getParentDocument().getPessimisticLocks()) {
-            if (StringUtils.contains(lock.getLockDescriptor(), KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET) 
-                    && !lock.isOwnedByUser(GlobalVariables.getUserSession().getPerson())) {
-                String message = generatePessimisticLockMessage(lock);
-                if (!lockMessages.contains(message)) {
-                    lockMessages.add(message);
-                }
-            }
-        }
-        request.setAttribute(KRADConstants.PESSIMISTIC_LOCK_MESSAGES, lockMessages);
-    }  
+    
 }

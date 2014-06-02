@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.web.struts.action;
+package org.kuali.coeus.common.budget.impl.personnel;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +21,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.budget.framework.personnel.*;
+import org.kuali.coeus.common.budget.impl.personnel.BudgetExpensesAction;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
@@ -219,8 +220,6 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
                     newBudgetLineItem.setStartDate(newBudgetLineItem.getStartDate());
                     newBudgetLineItem.setEndDate(newBudgetLineItem.getEndDate());
                     
-//                    newBudgetLineItem.setProposalNumber(budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getProposalNumber());
-//                    newBudgetLineItem.setBudgetVersionNumber(budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getBudgetVersionNumber());
                     newBudgetLineItem.setBudgetId(budget.getBudgetId());
                     newBudgetLineItem.setLineItemNumber(budgetForm.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER));
                     newBudgetLineItem.setApplyInRateFlag(true);
@@ -743,7 +742,6 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
     private boolean checkForDeletedPerson(BudgetDocument budgetDocument, BudgetPersonnelDetails budgetPersonnelDetails) {
         Budget budget = budgetDocument.getBudget();
         for(BudgetPerson person : budget.getBudgetPersons()) {
-            //if(person.isDuplicatePerson(budgetPersonnelDetails.getBudgetPerson())) {
             if(person.getPersonSequenceNumber().intValue() == budgetPersonnelDetails.getPersonSequenceNumber().intValue()) {
                return false;
             }

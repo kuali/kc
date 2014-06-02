@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.nonpersonnel;
 
-import org.kuali.kra.budget.BudgetException;
+import org.kuali.coeus.common.budget.framework.core.BudgetException;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 
 public interface BudgetJustificationService {
