@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.web.struts.form;
+package org.kuali.coeus.common.budget.framework.core;
 
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.coeus.sys.framework.model.AuditableForm;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
