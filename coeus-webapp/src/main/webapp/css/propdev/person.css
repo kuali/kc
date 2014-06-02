@@ -38,3 +38,19 @@
 .kc-personnel-table .uif-verticalRadioFieldset > span {
     margin: 0;
 }
+
+.credit-allocation .investigator {
+    font-weight: bold;
+}
+
+.credit-allocation .unit {
+    color: #999999;
+}
+
+.credit-allocation .investigator-total {
+    font-weight: bold;
+}
+
+.credit-allocation .unit-total {
+    font-weight: bold
+}
