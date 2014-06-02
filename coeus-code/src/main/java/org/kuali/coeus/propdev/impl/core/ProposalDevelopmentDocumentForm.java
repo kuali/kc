@@ -20,6 +20,7 @@ import org.kuali.coeus.common.framework.medusa.MedusaNode;
 import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
+import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelAddWizardHelper;
@@ -52,6 +53,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private String selectedCustomDataGroup;
     private List<ProposalDevelopmentDataValidationItem> dataValidationItems;
     private boolean validateData;
+    private List<ProposalCreditSplitListDto> creditSplitListItems;
 
     public ProposalDevelopmentDocumentForm() {
         super();
@@ -72,6 +74,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         customDataHelper = new ProposalDevelopmentCustomDataHelper(this.getProposalDevelopmentDocument());
 
         dataValidationItems = new ArrayList<ProposalDevelopmentDataValidationItem>();
+
+        creditSplitListItems = new ArrayList<ProposalCreditSplitListDto>();
     }
 
     public int findIndexOfPageId(List<Action> actions) {
@@ -188,7 +192,15 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     public void setValidateData(boolean validateData) {
         this.validateData = validateData;
     }
-    
+
+    public List<ProposalCreditSplitListDto> getCreditSplitListItems() {
+        return creditSplitListItems;
+    }
+
+    public void setCreditSplitListItems(List<ProposalCreditSplitListDto> creditSplitListItems) {
+        this.creditSplitListItems = creditSplitListItems;
+    }
+
     public Tree<Object, String> getMedusaTreeView() {
     	 Tree<Object, String> tree = new Tree<Object, String>();
     	 MedusaNode rootNode = new MedusaNode();
