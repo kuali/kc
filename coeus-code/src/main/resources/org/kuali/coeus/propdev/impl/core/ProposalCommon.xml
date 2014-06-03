@@ -34,9 +34,9 @@
 	<bean id="PropDev-Attachment-Collection-parentBean" abstract="true"
 		parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.attachment.Narrative"
 		p:propertyName="narratives"
-        p:addViaLightBox="true">
-        <property name="addViaLightBoxAction">
-            <bean parent="Uif-AddViaLightBoxAction" p:actionLabel="Add entry" p:iconClass="icon-plus"/>
+        p:addWithDialog="true">
+        <property name="addWithDialogAction">
+            <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add entry" p:iconClass="icon-plus"/>
         </property>
         <property name="addLineActions">
             <list>
