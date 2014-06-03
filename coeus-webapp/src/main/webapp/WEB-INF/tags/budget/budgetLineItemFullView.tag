@@ -16,7 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <%@ attribute name="budgetLineItemNumber" description="Budget Line Item Number" required="true" %>
-<%@ attribute name="budgetLineItem" description="Budget Line Item" required="true" type="org.kuali.kra.budget.nonpersonnel.BudgetLineItem" %>
+<%@ attribute name="budgetLineItem" description="Budget Line Item" required="true" type="org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem" %>
 <%@ attribute name="innerTabParent" description="Inner Tab Parent Name" required="true" %>
 <%@ attribute name="budgetCategoryTypeCode" description="Budget Category Type Codes" required="true" %>
 <%@ attribute name="budgetExpensePanelReadOnly" description="Budget Expense Panel Read Only" required="true" %>

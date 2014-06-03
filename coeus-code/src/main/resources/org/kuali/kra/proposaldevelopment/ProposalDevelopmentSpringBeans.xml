@@ -299,7 +299,7 @@
         <property name="serviceName" value="sponsorHierarchyService"/>
     </bean>
 
-    <bean id="budgetPersonnelBudgetService" class="org.kuali.kra.budget.personnel.BudgetPersonnelBudgetServiceImpl">
+    <bean id="budgetPersonnelBudgetService" class="org.kuali.coeus.common.budget.impl.personnel.BudgetPersonnelBudgetServiceImpl">
         <property name="budgetPersonService">
             <ref bean="budgetPersonService"/>
         </property>

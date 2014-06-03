@@ -3,7 +3,7 @@
   <bean id="TbnPersonMaintenanceDocument" parent="TbnPersonMaintenanceDocument-parentBean"/>
 
   <bean id="TbnPersonMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.budget.personnel.TbnPerson"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.personnel.TbnPerson"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
@@ -14,7 +14,9 @@
       <list>
         <value>tbnId</value>
       </list>
-    </property>	<property name="allowsRecordDeletion" value="true" />	
+    </property>
+	<property name="allowsRecordDeletion" value="true" />
+	
     
     
     

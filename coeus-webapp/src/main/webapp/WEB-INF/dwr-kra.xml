@@ -30,7 +30,7 @@
         <convert converter="bean" match="org.kuali.coeus.common.api.sponsor.SponsorContract">
             <param name="include" value="sponsorCode,sponsorName,rolodexId" />
         </convert>
-		<convert converter="bean" match="org.kuali.kra.budget.personnel.JobCode">
+		<convert converter="bean" match="org.kuali.coeus.common.budget.framework.personnel.JobCode">
 			<param name="include" value="jobCode" />
 		</convert>		
 		<convert converter="bean" match="org.kuali.coeus.common.framework.person.KcPerson">
