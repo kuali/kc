@@ -43,12 +43,12 @@
 	<bean id="PropDev-PersonnelPage-AddButton-parentBean" abstract="true"
 		parent="Uif-PrimaryActionButton" p:actionLabel="Add Personnel"
 		p:refreshId="PropDev-PersonnelPage-Wizard" p:methodToCall="refresh"
-		p:successCallback="showLightboxComponent('PropDev-PersonnelPage-Wizard');"
+		p:successCallback="showDialog('PropDev-PersonnelPage-Wizard');"
 		p:actionParameters="PropDev-PersonnelPage-Wizard.step:0" p:iconClass="icon-user" />
 
 	<bean id="PropDev-PersonnelPage-Wizard" parent="PropDev-PersonnelPage-Wizard-parentBean" />
 	<bean id="PropDev-PersonnelPage-Wizard-parentBean" abstract="true"
-		parent="Uif-VerticalBoxGroup" class="org.kuali.rice.contrib.uif.element.WizardGroup"
+		parent="Uif-DialogGroup" class="org.kuali.rice.contrib.uif.element.WizardGroup"
 		p:fieldBindingObjectPath="addKeyPersonHelper" p:resetDataOnRefresh="true"
 		p:retrieveViaAjax="true">
 		<property name="header">
@@ -71,7 +71,7 @@
 	<bean id="PropDev-PersonnelPage-WizardButton-Continue" parent="PropDev-PersonnelPage-WizardButton-Continue-parentBean" />
 	<bean id="PropDev-PersonnelPage-WizardButton-Continue-parentBean"
 		abstract="true" parent="PropDev-PersonnelPage-WizardButton"
-		p:actionLabel="Continue..." p:preSubmitCall="return Kc.PropDev.Personnel.validateWizard('PropDev-PersonnelPage-Wizard');"/>
+		p:actionLabel="Continue..."/>
 
 	<bean id="PropDev-PersonnelPage-WizardButton-Back" parent="PropDev-PersonnelPage-WizardButton-Back-parentBean" />
 	<bean id="PropDev-PersonnelPage-WizardButton-Back-parentBean"
@@ -256,7 +256,7 @@
 						<bean parent="PropDev-PersonnelPage-WizardButton-Continue"
 							p:actionParameters="PropDev-PersonnelPage-Wizard.step:2"
 							p:actionLabel="Add Person" p:refreshId="PropDev-PersonnelPage-Section"
-							p:methodToCall="addPerson" p:successCallback="closeLightbox();"
+							p:methodToCall="addPerson" p:successCallback="dismissDialog('PropDev-PersonnelPage-Wizard');"
 							p:order="20" />
 					</list>
 				</property>
