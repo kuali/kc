@@ -339,5 +339,181 @@
       </list>
     </property>
   </bean>
+  
+  
+<bean id="LookupableDevelopmentProposalAll-LookupView" parent="LookupableDevelopmentProposalAll-LookupView-parentBean"/>
+  <bean id="LookupableDevelopmentProposalAll-LookupView-parentBean" abstract="true" parent="Uif-LookupView" >
+    	<property name="viewName" value="LookupableDevelopmentProposalAll-LookupViewName"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.core.LookupableDevelopmentProposal"/>
+    <property name="headerText" value="Proposal Development Document Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="proposalNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="title" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="investigator" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="ownedByUnitNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="proposalTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="deadlineDate" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="documentNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="title" parent="Uif-DataField"/>
+        <bean p:propertyName="investigator" parent="Uif-DataField"/>
+        <bean p:propertyName="sponsorCode" parent="Uif-DataField"/>
+        <bean p:propertyName="ownedByUnitNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="proposalTypeDescription" parent="Uif-DataField"/>
+        <bean p:propertyName="deadlineDate" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+
+
+<<<<<<< HEAD
+<bean id="LookupableDevelopmentSearchProposal-LookupView" parent="LookupableDevelopmentSearchProposal-LookupView-parentBean"/>
+  <bean id="LookupableDevelopmentSearchProposal-LookupView-parentBean" abstract="true" parent="Uif-LookupView" >
+    	<property name="viewName" value="LookupableDevelopmentSearchProposal-LookupViewName"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.core.LookupableDevelopmentProposal"/>
+    <property name="headerText" value="Proposal Development Document Lookup"/>
+    <property name="page.header.lowerGroup">
+      <bean parent="Uif-HeaderLowerGroup">
+        <property name="items">
+          <list merge="true">
+            <bean parent="Uif-Message">
+              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="proposalNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="title" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="investigator" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="ownedByUnitNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="proposalTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="deadlineDate" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="documentNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="title" parent="Uif-DataField"/>
+        <bean p:propertyName="investigator" parent="Uif-DataField"/>
+        <bean p:propertyName="sponsorCode" parent="Uif-DataField"/>
+        <bean p:propertyName="ownedByUnitNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="proposalTypeDescription" parent="Uif-DataField"/>
+        <bean p:propertyName="deadlineDate" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean>
+<bean id="LookupableDevelopmentProposal-LookupView-parentBean"
+		abstract="true" parent="Uif-LookupView">
+		<property name="dataObjectClassName"
+			value="org.kuali.coeus.propdev.impl.core.LookupableDevelopmentProposal" p:headerText="Proposal Development Document Lookup" />
+			<property name="page.header.lowerGroup">
+=======
+	<bean id="LookupableDevelopmentProposal-lookupDefinition"
+		parent="LookupableDevelopmentProposal-lookupDefinition-parentBean" />
+	<bean id="LookupableDevelopmentProposal-LookupView" parent="LookupableDevelopmentProposal-LookupView-parentBean" />
+	<bean id="LookupableDevelopmentProposal-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="title" value="Proposal Development Document Lookup" />
+		<property name="lookupableID" value="lookupableDevelopmentProposalLookupable" />
+		<property name="menubar"
+			value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+		<property name="defaultSort">
+			<bean parent="SortDefinition" />
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
+				<bean parent="FieldDefinition" p:attributeName="title" />
+				<bean parent="FieldDefinition" p:attributeName="investigator" />
+				<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
+				<bean parent="FieldDefinition" p:attributeName="ownedByUnitNumber" />
+				<bean parent="FieldDefinition" p:attributeName="proposalTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="deadlineDate" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="proposalNumber"
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="title" />
+				<bean parent="FieldDefinition" p:attributeName="investigator" />
+				<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
+				<bean parent="FieldDefinition" p:attributeName="ownedByUnitNumber" />
+				<bean parent="FieldDefinition" p:attributeName="proposalTypeDescription" />
+				<bean parent="FieldDefinition" p:attributeName="deadlineDate" />
+			</list>
+		</property>
+		<property name="resultSetLimit" value="50" />
+	</bean>
+
+	<bean id="LookupableDevelopmentProposal-LookupView-parentBean"
+		abstract="true" parent="Uif-LookupView" p:headerText="Proposal Development Document Lookup" p:dataObjectClassName="org.kuali.coeus.propdev.impl.core.LookupableDevelopmentProposal">
+		<property name="page.header.lowerGroup">
+			<bean parent="Uif-HeaderLowerGroup">
+				<property name="items">
+					<list merge="true">
+						<bean parent="Uif-Message">
+							<property name="messageText"
+								value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]" />
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="criteriaFields">
+			<list>
+				<bean p:propertyName="proposalNumber" parent="Uif-LookupCriteriaInputField" />
+				<bean p:propertyName="title" parent="Uif-LookupCriteriaInputField" />
+				<bean p:propertyName="investigator" parent="Uif-LookupCriteriaInputField" />
+				<bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField" />
+				<bean p:propertyName="ownedByUnitNumber" parent="Uif-LookupCriteriaInputField" />
+				<bean p:propertyName="proposalTypeCode" parent="Uif-LookupCriteriaInputField" />
+				<bean p:propertyName="deadlineDate" parent="Uif-LookupCriteriaInputField" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean p:propertyName="proposalNumber" parent="Uif-DataField" />
+				<bean p:propertyName="documentNumber" parent="Uif-DataField" />
+				<bean p:propertyName="title" parent="Uif-DataField" />
+				<bean p:propertyName="investigator" parent="Uif-DataField" />
+				<bean p:propertyName="sponsorCode" parent="Uif-DataField" />
+				<bean p:propertyName="ownedByUnitNumber" parent="Uif-DataField" />
+				<bean p:propertyName="proposalTypeDescription" parent="Uif-DataField" />
+				<bean p:propertyName="deadlineDate" parent="Uif-DataField" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="AllDevelopmentProposals-LookupViewId" parent="AllDevelopmentProposals-lookupView-parentBean" />
+	<bean id="AllDevelopmentProposals-lookupView-parentBean" abstract="true" parent="LookupableDevelopmentProposal-LookupView" p:viewName="AllLookupableDevelopmentProposals-LookupViewName" 
+		p:headerText="All Proposal Development Document Lookup"/>
+	<bean id="SearchDevelopmentProposals-LookupViewId" parent="SearchDevelopmentProposals-lookupView-parentBean" />
+	<bean id="SearchDevelopmentProposals-lookupView-parentBean"  abstract="true" parent="LookupableDevelopmentProposal-LookupView"
+		p:viewName="SearchLookupableDevelopmentProposals-LookupViewName" 
+		p:headerText="Search Proposal Development Document Lookup"/>
 
 </beans>
