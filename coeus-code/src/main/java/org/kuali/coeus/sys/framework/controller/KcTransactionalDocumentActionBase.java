@@ -52,6 +52,7 @@ import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.ken.util.NotificationConstants;
@@ -70,6 +71,7 @@ import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.exception.AuthorizationException;
@@ -402,10 +404,10 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
     }
     
     private List<PessimisticLock> findMatchingLocksWithGivenDescriptor(String lockDescriptor) {
-        BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
+        DataObjectService dataObjectService = KcServiceLocator.getService(DataObjectService.class);
         Map fieldValues = new HashMap();
         fieldValues.put("lockDescriptor", lockDescriptor);
-        List<PessimisticLock> matchingLocks = (List<PessimisticLock>) boService.findMatching(PessimisticLock.class, fieldValues);
+        List<PessimisticLock> matchingLocks = (List<PessimisticLock>) dataObjectService.findMatching(PessimisticLock.class, QueryByCriteria.Builder.andAttributes(fieldValues).build());
         return matchingLocks;
     }
     

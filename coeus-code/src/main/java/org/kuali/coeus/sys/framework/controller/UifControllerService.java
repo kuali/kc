@@ -86,9 +86,6 @@ public interface UifControllerService extends KcCommonControllerService {
     AttributeQueryResult performFieldQuery(UifFormBase form, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response);
 
-    ModelAndView returnFromLightbox(UifFormBase form, BindingResult result,
-                                           HttpServletRequest request, HttpServletResponse response);
-
     ModelAndView retrieveCollectionPage(UifFormBase form, BindingResult result,
                                                HttpServletRequest request, HttpServletResponse response) throws Exception;
 
@@ -98,21 +95,6 @@ public interface UifControllerService extends KcCommonControllerService {
     //protected methods
 
     UifFormBase createInitialForm(HttpServletRequest request);
-
-    boolean hasDialogBeenDisplayed(String dialogId, UifFormBase form);
-
-    boolean hasDialogBeenAnswered(String dialogId, UifFormBase form);
-
-    void resetDialogStatus(String dialogId, UifFormBase form);
-
-    boolean getBooleanDialogResponse(String dialogId, UifFormBase form, HttpServletRequest request,
-                                     HttpServletResponse response);
-
-    String getStringDialogResponse(String dialogId, UifFormBase form, HttpServletRequest request,
-                                   HttpServletResponse response);
-
-    ModelAndView showDialog(String dialogId, UifFormBase form, HttpServletRequest request,
-                            HttpServletResponse response);
 
     ModelAndView performRedirect(UifFormBase form, String baseUrl, Properties urlParameters);
 

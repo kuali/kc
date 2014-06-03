@@ -16,12 +16,12 @@
 package org.kuali.kra.iacuc.species.rule;
 
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 
 /**
  * This interface is hook to Kuali Event Notification
  */
-public interface ProtocolSpeciesEvent extends KualiDocumentEvent {    
+public interface ProtocolSpeciesEvent extends DocumentEvent {    
 
     public IacucProtocolSpecies getProtocolSpecies();
     

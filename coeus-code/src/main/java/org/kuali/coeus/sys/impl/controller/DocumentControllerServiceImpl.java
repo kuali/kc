@@ -44,39 +44,6 @@ public class DocumentControllerServiceImpl extends DocumentControllerBase implem
     }
 
     @Override
-    public boolean hasDialogBeenDisplayed(String dialogId, UifFormBase form) {
-        return super.hasDialogBeenDisplayed(dialogId, form);
-    }
-
-    @Override
-    public boolean hasDialogBeenAnswered(String dialogId, UifFormBase form) {
-        return super.hasDialogBeenAnswered(dialogId, form);
-    }
-
-    @Override
-    public void resetDialogStatus(String dialogId, UifFormBase form) {
-        super.resetDialogStatus(dialogId, form);
-    }
-
-    @Override
-    public boolean getBooleanDialogResponse(String dialogId, UifFormBase form, HttpServletRequest request,
-                                            HttpServletResponse response) {
-        return super.getBooleanDialogResponse(dialogId, form, request, response);
-    }
-
-    @Override
-    public String getStringDialogResponse(String dialogId, UifFormBase form, HttpServletRequest request,
-                                          HttpServletResponse response) {
-        return super.getStringDialogResponse(dialogId, form, request, response);
-    }
-
-    @Override
-    public ModelAndView showDialog(String dialogId, UifFormBase form, HttpServletRequest request,
-                                   HttpServletResponse response) {
-        return super.showDialog(dialogId, form, request, response);
-    }
-
-    @Override
     public ModelAndView performRedirect(UifFormBase form, String baseUrl, Properties urlParameters) {
         return super.performRedirect(form, baseUrl, urlParameters);
     }
@@ -119,20 +86,6 @@ public class DocumentControllerServiceImpl extends DocumentControllerBase implem
     @Override
     public void createDocument(DocumentFormBase form) throws WorkflowException {
         super.createDocument(form);
-    }
-
-    @Override
-    public void performWorkflowAction(DocumentFormBase form, UifConstants.WorkflowAction action, boolean checkSensitiveData) {
-        super.performWorkflowAction(form, action, checkSensitiveData);
-    }
-
-    @Override
-    public String checkAndWarnAboutSensitiveData(DocumentFormBase form, HttpServletRequest request,
-                                          HttpServletResponse response, String fieldName, String fieldValue, String caller,
-                                          String context) throws Exception {
-        return super.checkAndWarnAboutSensitiveData(form, request,
-                response, fieldName, fieldValue, caller,
-                context);
     }
 
     @Override

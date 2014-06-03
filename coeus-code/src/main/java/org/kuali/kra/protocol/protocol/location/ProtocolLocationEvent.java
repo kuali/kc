@@ -16,14 +16,14 @@
 package org.kuali.kra.protocol.protocol.location;
 
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 
 /**
  * Event triggered when a protocol location state is modified on a 
  * <code>{@link ProtocolDocumentBase}</code>
  *
  */
-public interface ProtocolLocationEvent extends KualiDocumentEvent {
+public interface ProtocolLocationEvent extends DocumentEvent {
     /**
      * @return <code>{@link ProtocolLocationBase}</code> that triggered this event.
      */

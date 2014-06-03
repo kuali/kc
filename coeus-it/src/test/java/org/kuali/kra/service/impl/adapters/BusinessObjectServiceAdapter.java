@@ -36,7 +36,7 @@ public class BusinessObjectServiceAdapter implements BusinessObjectService {
     public void delete(List<? extends PersistableBusinessObject> boList) {
     }
 
-    public void delete(PersistableBusinessObject bo) {
+    public void delete(Object bo) {
     }
 
     public void deleteMatching(Class clazz, Map<String, ?> fieldValues) {
@@ -79,17 +79,14 @@ public class BusinessObjectServiceAdapter implements BusinessObjectService {
         return null;
     }
 
-    public void linkUserFields(List<PersistableBusinessObject> bos) {
-    }
-
-    public void linkUserFields(PersistableBusinessObject bo) {
+    public void linkUserFields(Object bo) {
     }
 
     public PersistableBusinessObject manageReadOnly(PersistableBusinessObject bo) {
         return null;
     }
 
-    public PersistableBusinessObject retrieve(PersistableBusinessObject object) {
+    public PersistableBusinessObject retrieve(Object object) {
         return null;
     }
 
