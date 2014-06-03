@@ -176,6 +176,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
             // get Organzation assoc. w/ Lead Unit, set applicant org
             applicantOrganization = createProposalSite(applicantOrganizationId, getNextSiteNumber(proposalDevelopmentDocument));
+            applicantOrganization.setDevelopmentProposal(developmentProposal);
             developmentProposal.setApplicantOrganization(applicantOrganization);
         }
 
@@ -185,8 +186,82 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
                 && developmentProposal.getOwnedByUnitNumber() != null) {
             String performingOrganizationId = developmentProposal.getOwnedByUnit().getOrganizationId();
             performingOrganization = createProposalSite(performingOrganizationId, getNextSiteNumber(proposalDevelopmentDocument));
+            performingOrganization.setDevelopmentProposal(developmentProposal);
             developmentProposal.setPerformingOrganization(performingOrganization);
         }
+    }
+    
+    public void initializeProposalSites(ProposalDevelopmentDocument developmentDocument){
+    	DevelopmentProposal developmentProposal = null;
+		developmentProposal = developmentDocument.getDevelopmentProposal();
+		if (!StringUtils.isEmpty(developmentProposal.getProposalNumber())) {
+			List<ProposalSite> proposalSites = null;
+			proposalSites = developmentProposal.getProposalSites();
+			List<ProposalSite> newProposalSites = new ArrayList<ProposalSite>();
+			int locationTypeCode = 0;
+			for (ProposalSite proposalSite : proposalSites) {
+				locationTypeCode = proposalSite.getLocationTypeCode();
+				if (locationTypeCode == 1) {
+					proposalSite.setLocationTypeCode(ProposalSite.PROPOSAL_SITE_APPLICANT_ORGANIZATION);
+					proposalSite.setDevelopmentProposal(developmentProposal);
+					newProposalSites.add(proposalSite);
+				} else if (locationTypeCode == 2) {
+					String previousOrgId = proposalSite.getOrganizationId();
+					String currentOrgId = proposalSite.getOrganization().getOrganizationId();
+					if (!currentOrgId.equals(previousOrgId)) {
+						int previousSiteNo = proposalSite.getSiteNumber();
+						int currentSiteNo = previousSiteNo + 1;
+						ProposalSite performingOrganization = null;
+						performingOrganization = createProposalSite(proposalSite.getOrganization().getOrganizationId(), currentSiteNo);
+						performingOrganization.setRolodexId(proposalSite.getOrganization().getRolodex().getRolodexId());
+						performingOrganization.setRolodex(proposalSite.getOrganization().getRolodex());
+						performingOrganization.setSiteNumber(currentSiteNo);
+						performingOrganization.setDevelopmentProposal(developmentProposal);
+						developmentProposal.setPerformingOrganization(performingOrganization);
+						newProposalSites.add(performingOrganization);
+					} else {
+						newProposalSites.add(proposalSite);
+					}
+				} else if (locationTypeCode == 3) {
+					if(proposalSite.getOrganization().getOrganizationId() != null){
+						ProposalSite otherOrganization = null;
+						int siteNo = getNextSiteNumber(developmentDocument);
+						siteNo = siteNo + 2;
+						otherOrganization = createProposalSite(proposalSite.getOrganization().getOrganizationId(), siteNo);
+						otherOrganization.setSiteNumber(siteNo);
+						otherOrganization.setLocationName(proposalSite.getOrganization().getOrganizationName());
+						otherOrganization.setLocationTypeCode(ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);
+						otherOrganization.setOrganizationId(proposalSite.getOrganization().getOrganizationId());
+						otherOrganization.setRolodexId(otherOrganization.getOrganization().getRolodex().getRolodexId());
+						otherOrganization.setRolodex(otherOrganization.getOrganization().getRolodex());
+						otherOrganization.setDevelopmentProposal(developmentProposal);
+						newProposalSites.add(otherOrganization);
+					}
+				} else {
+					ProposalSite performanceSite = new ProposalSite();
+					int siteNo = getNextSiteNumber(developmentDocument);
+					siteNo = siteNo + 2;
+					if(proposalSite.getRolodexId() != null){
+						performanceSite = createProposalSite(proposalSite.getRolodex().getOwnedByUnit(), siteNo);
+						performanceSite.setSiteNumber(siteNo);
+						performanceSite.setLocationName(proposalSite.getLocationName());
+						performanceSite.setLocationTypeCode(ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE);
+						performanceSite.setRolodexId(proposalSite.getRolodexId());
+					} else {
+						performanceSite.setSiteNumber(siteNo);
+						performanceSite.setLocationName(proposalSite.getRolodex().getOrganization());
+						performanceSite.setLocationTypeCode(ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE);
+						proposalSite.getRolodex().setOwnedByUnit("000001");
+						performanceSite.setRolodex(proposalSite.getRolodex());
+						performanceSite.getRolodex().setOwnedByUnit(proposalSite.getRolodex().getOwnedByUnit());
+					}
+					performanceSite.setDevelopmentProposal(developmentProposal);
+					newProposalSites.add(performanceSite);
+				}
+			}
+			developmentProposal.getProposalSites().clear();
+			developmentProposal.setProposalSites(newProposalSites);
+		}
     }
 
     /**
@@ -210,10 +285,14 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     // see interface for Javadoc
     public void initializeProposalSiteNumbers(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        for (ProposalSite proposalSite : proposalDevelopmentDocument.getDevelopmentProposal().getProposalSites())
+        for (ProposalSite proposalSite : proposalDevelopmentDocument.getDevelopmentProposal().getProposalSites()){
             if (proposalSite.getSiteNumber() == null) {
                 proposalSite.setSiteNumber(getNextSiteNumber(proposalDevelopmentDocument));
             }
+        	if (proposalSite.getDevelopmentProposal() == null) {
+        		proposalSite.setDevelopmentProposal(proposalDevelopmentDocument.getDevelopmentProposal());
+        	}
+        }   
     }
 
     public List<Unit> getDefaultModifyProposalUnitsForUser(String userId) {

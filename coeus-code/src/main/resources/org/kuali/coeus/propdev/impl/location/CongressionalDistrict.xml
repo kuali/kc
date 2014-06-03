@@ -7,8 +7,6 @@
     <property name="titleAttribute" value="CongressionalDistrict" />
     <property name="attributes" >
       <list>
-        <ref bean="CongressionalDistrict-proposalNumber" />
-        <ref bean="CongressionalDistrict-siteNumber" />
         <ref bean="CongressionalDistrict-congressionalDistrict" />
         <ref bean="CongressionalDistrict-newState" />
         <ref bean="CongressionalDistrict-newDistrictNumber" />
@@ -18,52 +16,6 @@
 
   <!-- Attribute Definitions -->
 
-  <bean id="CongressionalDistrict-proposalNumber" parent="CongressionalDistrict-proposalNumber-parentBean" />
-  <bean id="CongressionalDistrict-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Proposal Number" />
-    <property name="shortLabel" value="Proposal Number" />
-    <property name="maxLength" value="8" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10" />
-    </property>
-    <property name="controlField">
-      <bean p:size="10" parent="Uif-TextControl"/>
-    </property>
-    <property name="summary" value="Proposal Number" />
-    <property name="description" value="Proposal Number" />
-  </bean>
-  
-  <bean id="CongressionalDistrict-siteNumber" parent="CongressionalDistrict-siteNumber-parentBean" />
-  <bean id="CongressionalDistrict-siteNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="siteNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Site Number" />
-    <property name="shortLabel" value="Site Number" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10" />
-    </property>
-    <property name="controlField">
-      <bean p:size="10" parent="Uif-TextControl"/>
-    </property>
-    <property name="summary" value="Proposal Site Number" />
-    <property name="description" value="Proposal Site Number" />
-  </bean>
-  
   <bean id="CongressionalDistrict-congressionalDistrict" parent="CongressionalDistrict-congressionalDistrict-parentBean" />
   <bean id="CongressionalDistrict-congressionalDistrict-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="congressionalDistrict" />
@@ -95,7 +47,7 @@
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.propdev.impl.location.CongDistrictStateCodeValuesFinder"/>
     </property>
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
     </property>
@@ -113,7 +65,7 @@
     <property name="validCharactersConstraint">
       <bean parent="NumericPatternConstraint"/>
     </property>
-    <property name="required" value="true" />
+    <property name="required" value="false" />
     <property name="controlField">
       <bean p:size="3" parent="Uif-TextControl"/>
     </property>

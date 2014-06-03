@@ -27,6 +27,7 @@ import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnai
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
+import org.kuali.coeus.propdev.impl.location.OrganizationAddWizardHelper;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelAddWizardHelper;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.sys.framework.validation.Auditable;
@@ -64,6 +65,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private AddBudgetDto copyBudgetDto;
     private ProposalCopyCriteria proposalCopyCriteria;
     private ProposalDevelopmentAttachmentHelper proposalDevelopmentAttachmentHelper;
+    private OrganizationAddWizardHelper addOrganizationHelper;
 
     public ProposalDevelopmentDocumentForm() {
         super();
@@ -92,6 +94,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         proposalDevelopmentAttachmentHelper = new ProposalDevelopmentAttachmentHelper();
 
         ProposalCopyCriteria proposalCopyCriteria1= new ProposalCopyCriteria(getProposalDevelopmentDocument());
+
+        addOrganizationHelper = new OrganizationAddWizardHelper();
     }
 
     public int findIndexOfPageId(List<Action> actions) {
@@ -202,6 +206,10 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     public void setDataValidationItems(List<ProposalDevelopmentDataValidationItem> dataValidationItems) {
         this.dataValidationItems = dataValidationItems;
     }
+    
+    public OrganizationAddWizardHelper getAddOrganizationHelper() {
+		return addOrganizationHelper;
+	}
 
     public List<ProposalCreditSplitListDto> getCreditSplitListItems() {
         return creditSplitListItems;
@@ -210,6 +218,11 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     public void setCreditSplitListItems(List<ProposalCreditSplitListDto> creditSplitListItems) {
         this.creditSplitListItems = creditSplitListItems;
     }
+
+	public void setAddOrganizationHelper(
+			OrganizationAddWizardHelper addOrganizationHelper) {
+		this.addOrganizationHelper = addOrganizationHelper;
+	}
 
     public Tree<Object, String> getMedusaTreeView() {
     	 Tree<Object, String> tree = new Tree<Object, String>();

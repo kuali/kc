@@ -21,6 +21,7 @@ import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
@@ -33,6 +34,8 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
 
     private static final long serialVersionUID = -278526635683595863L;
 
+    @PortableSequenceGenerator(name = "SEQ_ROLODEX_ID")
+    @GeneratedValue(generator = "SEQ_ROLODEX_ID")
     @Id
     @Column(name = "ROLODEX_ID")
     private Integer rolodexId;

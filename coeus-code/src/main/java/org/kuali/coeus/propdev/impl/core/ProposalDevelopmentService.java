@@ -142,4 +142,6 @@ public interface ProposalDevelopmentService {
      * @return the list of units the user has this permission in
      */
     public List<Unit> getUnitsForCreateProposal(String userId);
+
+    public void initializeProposalSites(ProposalDevelopmentDocument developmentDocument);
 }

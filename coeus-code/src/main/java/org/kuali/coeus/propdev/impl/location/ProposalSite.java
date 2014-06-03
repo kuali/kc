@@ -23,6 +23,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.*;
@@ -51,8 +52,9 @@ public class ProposalSite extends KcPersistableBusinessObjectBase implements Pro
     public static final int PROPOSAL_SITE_PERFORMANCE_SITE = 4;
 
     @Id
-    @Column(name = "PROPOSAL_NUMBER")
-    private String proposalNumber;
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROPOSAL_NUMBER")
+    private DevelopmentProposal developmentProposal;
 
     @Id
     @Column(name = "SITE_NUMBER")
@@ -78,31 +80,12 @@ public class ProposalSite extends KcPersistableBusinessObjectBase implements Pro
     @JoinColumn(name = "ROLODEX_ID", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
     private Rolodex rolodex;
 
-    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @JoinColumn(name = "SITE_NUMBER", referencedColumnName = "SITE_NUMBER") })
-    @OrderBy("siteNumber")
+    @OneToMany(mappedBy = "proposalSite", orphanRemoval = true, cascade = { CascadeType.ALL })
+    @OrderBy("proposalSite")
     private List<CongressionalDistrict> congressionalDistricts;
 
     public ProposalSite() {
         congressionalDistricts = new ArrayList<CongressionalDistrict>();
-    }
-
-    public void setProposalNumber(String proposalNumber) {
-        this.proposalNumber = proposalNumber;
-    }
-
-    @Override
-    public String getProposalNumber() {
-        return proposalNumber;
-    }
-
-    public void setSiteNumber(Integer siteNumber) {
-        this.siteNumber = siteNumber;
-    }
-
-    @Override
-    public Integer getSiteNumber() {
-        return siteNumber;
     }
 
     public void setLocationName(String locationName) {
@@ -216,7 +199,6 @@ public class ProposalSite extends KcPersistableBusinessObjectBase implements Pro
      * or an empty string if there is none.
      * @return
      */
-    @Override
     public String getFirstCongressionalDistrictName() {
         CongressionalDistrict firstDistrict = getDefaultCongressionalDistrict();
         if (firstDistrict == null) {
@@ -236,8 +218,7 @@ public class ProposalSite extends KcPersistableBusinessObjectBase implements Pro
             congressionalDistricts.clear();
             CongressionalDistrict defaultDistrict = new CongressionalDistrict();
             defaultDistrict.setCongressionalDistrict(districtIdentifier);
-            defaultDistrict.setProposalNumber(proposalNumber);
-            defaultDistrict.setSiteNumber(siteNumber);
+            defaultDistrict.setProposalSite(this);
             setDefaultCongressionalDistrict(defaultDistrict);
         }
     }
@@ -258,19 +239,12 @@ public class ProposalSite extends KcPersistableBusinessObjectBase implements Pro
         }
     }
 
+    @Embeddable
     public static final class ProposalSiteId implements Serializable, Comparable<ProposalSiteId> {
 
-        private String proposalNumber;
-
+    	private String developmentProposal;
+    	
         private Integer siteNumber;
-
-        public String getProposalNumber() {
-            return this.proposalNumber;
-        }
-
-        public void setProposalNumber(String proposalNumber) {
-            this.proposalNumber = proposalNumber;
-        }
 
         public Integer getSiteNumber() {
             return this.siteNumber;
@@ -282,7 +256,7 @@ public class ProposalSite extends KcPersistableBusinessObjectBase implements Pro
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this).append("proposalNumber", this.proposalNumber).append("siteNumber", this.siteNumber).toString();
+        	return new ToStringBuilder(this).append("developmentProposal", this.developmentProposal).append("siteNumber", this.siteNumber).toString();
         }
 
         @Override
@@ -294,17 +268,58 @@ public class ProposalSite extends KcPersistableBusinessObjectBase implements Pro
             if (other.getClass() != this.getClass())
                 return false;
             final ProposalSiteId rhs = (ProposalSiteId) other;
-            return new EqualsBuilder().append(this.proposalNumber, rhs.proposalNumber).append(this.siteNumber, rhs.siteNumber).isEquals();
+            return new EqualsBuilder().append(this.developmentProposal, rhs.developmentProposal).append(this.siteNumber, rhs.siteNumber).isEquals();
         }
 
         @Override
         public int hashCode() {
-            return new HashCodeBuilder(17, 37).append(this.proposalNumber).append(this.siteNumber).toHashCode();
+        	return new HashCodeBuilder(17, 37).append(this.developmentProposal).append(this.siteNumber).toHashCode();
         }
 
         @Override
         public int compareTo(ProposalSiteId other) {
-            return new CompareToBuilder().append(this.proposalNumber, other.proposalNumber).append(this.siteNumber, other.siteNumber).toComparison();
+        	return new CompareToBuilder().append(this.developmentProposal, other.developmentProposal).append(this.siteNumber, other.siteNumber).toComparison();
         }
+
+		public String getDevelopmentProposal() {
+			return developmentProposal;
+		}
+
+		public void setDevelopmentProposal(String developmentProposal) {
+			this.developmentProposal = developmentProposal;
+		}
+    }
+
+	public DevelopmentProposal getDevelopmentProposal() {
+		return developmentProposal;
+	}
+
+	public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
+		this.developmentProposal = developmentProposal;
+	}
+
+	public Integer getSiteNumber() {
+		return siteNumber;
+	}
+
+	/**
+     * 
+     * This method returns the concatation of proposalNumber + "|" + proposalPersonNumber.
+     * Those two fields are the combined primary key on the table.
+     * @return
+     */
+    public String getUniqueId() {
+        return this.getDevelopmentProposal().getProposalNumber() + "|" + this.getSiteNumber();
+    }
+    
+	public void setSiteNumber(Integer siteNumber) {
+		this.siteNumber = siteNumber;
+	}
+
+    public String getProposalNumber(){
+        if (getDevelopmentProposal() != null){
+            return getDevelopmentProposal().getProposalNumber();
+        }
+        return null;
     }
 }
