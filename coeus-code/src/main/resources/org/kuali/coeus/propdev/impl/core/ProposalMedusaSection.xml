@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/util
+                    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+                    
+	<bean id="PropDev-MedusaSection" parent="PropDev-MedusaSection-parentBean"/>
+	<bean id="PropDev-MedusaSection-parentBean" abstract="true" parent="Uif-VerticalBoxSection"
+		p:headerText="Medusa">
+		<property name="items"><list>
+		<bean parent="Uif-FieldGroupBase" p:order="10">
+			<property name="group">
+			<bean parent="PropDev-MedusaSection-TabGroup"/>
+			</property>
+		</bean>
+		</list></property>
+	</bean>
+
+	<bean id="PropDev-MedusaSection-TabGroup" parent="PropDev-MedusaSection-TabGroup-parentBean"/>
+	<bean id="PropDev-MedusaSection-TabGroup-parentBean" abstract="true" parent="Uif-TabGroup">
+		<property name="items"><list>
+			<bean parent="PropDev-MedusaPropAwardSection-TabItem" p:headerText="Proposal > Award"/>
+			<bean parent="PropDev-MedusaAwardPropSection-TabItem" p:headerText="Award > Proposal"/>
+		</list></property>
+	</bean>
+
+	<bean id="PropDev-MedusaPropAwardSection-TabItem" parent="PropDev-MedusaPropAwardSection-TabItem-parentBean"/>
+	<bean id="PropDev-MedusaPropAwardSection-TabItem-parentBean" abstract="true" parent="Uif-TreeSection"
+		p:propertyName="medusaTreeView">
+	  <property name="nodePrototypeMap">            
+      <map key-type="java.lang.Class">        
+        <entry key="#{ T(org.kuali.coeus.propdev.impl.core.DevelopmentProposal) }">        
+		 <bean parent="Proposal-MedusaSection-PropDevSummary"/>
+		</entry>
+		<entry key="#{ T(org.kuali.kra.institutionalproposal.home.InstitutionalProposal)}">
+			<bean parent="Proposal-MedusaSection-InstPropSummary"/>
+		</entry>
+		<entry key="#{ T(org.kuali.kra.institutionalproposal.proposallog.ProposalLog)}">
+			<bean parent="Proposal-MedusaSection-ProposalLogSummary"/>
+		</entry>
+		<entry key="#{ T(org.kuali.kra.award.home.Award)}">
+			<bean parent="Proposal-MedusaSection-AwardSummary"/>
+		</entry>
+		<entry key="#{ T(org.kuali.kra.irb.Protocol)}">
+			<bean parent="Proposal-MedusaSection-IRBSummary"/>
+		</entry>
+		<entry key="#{ T(org.kuali.kra.iacuc.IacucProtocol)}">
+			<bean parent="Proposal-MedusaSection-IacucSummary"/>
+		</entry>
+		<entry key="#{ T(org.kuali.kra.negotiations.bo.Negotiation)}">
+			<bean parent="Proposal-MedusaSection-NegotiationSummary"/>
+		</entry>
+	</map>
+	</property>
+	</bean>   
+	
+	<bean id="PropDev-MedusaAwardPropSection-TabItem" parent="PropDev-MedusaAwardPropSection-TabItem-parentBean"/>
+	<bean id="PropDev-MedusaAwardPropSection-TabItem-parentBean" abstract="true" parent="Uif-TreeSection"
+		p:propertyName="medusaTreeView">
+	  <property name="nodePrototypeMap">            
+      <map key-type="java.lang.Class">
+      	<entry key="#{ T(org.kuali.kra.award.home.Award)}">
+			<bean parent="Proposal-MedusaSection-AwardSummary"/>
+		</entry>        
+        <entry key="#{ T(org.kuali.coeus.propdev.impl.core.DevelopmentProposal) }">        
+		 <bean parent="Proposal-MedusaSection-PropDevSummary"/>
+		</entry>
+		<entry key="#{ T(org.kuali.kra.institutionalproposal.home.InstitutionalProposal)}">
+			<bean parent="Proposal-MedusaSection-InstPropSummary"/>
+		</entry>
+		<entry key="#{ T(org.kuali.kra.institutionalproposal.proposallog.ProposalLog)}">
+			<bean parent="Proposal-MedusaSection-ProposalLogSummary"/>
+		</entry>
+		<entry key="#{ T(org.kuali.kra.irb.Protocol)}">
+			<bean parent="Proposal-MedusaSection-IRBSummary"/>
+		</entry>
+		<entry key="#{ T(org.kuali.kra.iacuc.IacucProtocol)}">
+			<bean parent="Proposal-MedusaSection-IacucSummary"/>
+		</entry>
+		<entry key="#{ T(org.kuali.kra.negotiations.bo.Negotiation)}">
+			<bean parent="Proposal-MedusaSection-NegotiationSummary"/>
+		</entry>
+	</map>
+	</property>
+	</bean>        
+       
+      <!-- our custom node prototype -->         
+      <bean id="Proposal-MedusaSection-PropDevSummary" class="org.kuali.rice.krad.uif.container.NodePrototype">           
+       <property name="labelPrototype">             
+         <bean parent="Uif-Message" p:renderWrapperTag="false"/>           
+      </property>
+      <property name="dataGroupPrototype">              
+        <bean parent="Uif-CssGridSection-1FieldLabelColumn">                
+           <property name="items">
+                <list>
+                	<bean parent="Uif-DataField" p:propertyName="proposalNumber" 
+                	    p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                	<bean parent="Uif-DataField" p:propertyName="ownedByUnitNumber" 
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                </list>
+           </property>
+        </bean>
+      </property>
+	</bean>
+    <bean id="Proposal-MedusaSection-InstPropSummary" class="org.kuali.rice.krad.uif.container.NodePrototype">           
+       <property name="labelPrototype">             
+         <bean parent="Uif-Message" p:renderWrapperTag="false"/>           
+      </property>
+      <property name="dataGroupPrototype">              
+        <bean parent="Uif-CssGridSection-1FieldLabelColumn">                
+           <property name="items">
+                <list>
+                	<bean parent="Uif-DataField" p:propertyName="proposalNumber" 
+                	    p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+                	<bean parent="Uif-DataField" p:propertyName="unitNumber" 
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+                </list>
+           </property>
+        </bean>
+      </property>
+	</bean>
+	
+	<bean id="Proposal-MedusaSection-ProposalLogSummary" class="org.kuali.rice.krad.uif.container.NodePrototype">           
+       <property name="labelPrototype">             
+         <bean parent="Uif-Message" p:renderWrapperTag="false"/>           
+      </property>
+      <property name="dataGroupPrototype">              
+        <bean parent="Uif-CssGridSection-1FieldLabelColumn">                
+           <property name="items">
+                <list>
+                	<bean parent="Uif-DataField" p:propertyName="proposalNumber" 
+                	    p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
+                	<bean parent="Uif-DataField" p:propertyName="unitNumber" 
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
+                </list>
+           </property>
+        </bean>
+      </property>
+	</bean>
+	<bean id="Proposal-MedusaSection-AwardSummary" class="org.kuali.rice.krad.uif.container.NodePrototype">           
+       <property name="labelPrototype">             
+         <bean parent="Uif-Message" p:renderWrapperTag="false"/>           
+      </property>
+      <property name="dataGroupPrototype">              
+        <bean parent="Uif-CssGridSection-1FieldLabelColumn">                
+           <property name="items">
+                <list>
+                	<bean parent="Uif-DataField" p:propertyName="awardNumber" 
+                	    p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" />
+                	<bean parent="Uif-DataField" p:propertyName="unitNumber" 
+                		p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" />
+                </list>
+           </property>
+        </bean>
+      </property>
+	</bean>
+	<bean id="Proposal-MedusaSection-IRBSummary" class="org.kuali.rice.krad.uif.container.NodePrototype">           
+       <property name="labelPrototype">             
+         <bean parent="Uif-Message" p:renderWrapperTag="false"/>           
+      </property>
+      <property name="dataGroupPrototype">              
+        <bean parent="Uif-CssGridSection-1FieldLabelColumn">                
+           <property name="items">
+                <list>
+                	<bean parent="Uif-DataField" p:propertyName="protocolNumber" 
+                	    p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />
+                	<bean parent="Uif-DataField" p:propertyName="leadUnitNumber" 
+                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />
+                </list>
+           </property>
+        </bean>
+      </property>
+	</bean>
+	<bean id="Proposal-MedusaSection-IacucSummary" class="org.kuali.rice.krad.uif.container.NodePrototype">           
+       <property name="labelPrototype">             
+         <bean parent="Uif-Message" p:renderWrapperTag="false"/>           
+      </property>
+      <property name="dataGroupPrototype">              
+        <bean parent="Uif-CssGridSection-1FieldLabelColumn">                
+           <property name="items">
+                <list>
+                	<bean parent="Uif-DataField" p:propertyName="protocolNumber" 
+                	    p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
+                	<bean parent="Uif-DataField" p:propertyName="leadUnitNumber" 
+                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
+                </list>
+           </property>
+        </bean>
+      </property>
+	</bean>
+	<bean id="Proposal-MedusaSection-NegotiationSummary" class="org.kuali.rice.krad.uif.container.NodePrototype">           
+       <property name="labelPrototype">             
+         <bean parent="Uif-Message" p:renderWrapperTag="false"/>           
+      </property>
+      <property name="dataGroupPrototype">              
+        <bean parent="Uif-CssGridSection-1FieldLabelColumn">                
+           <property name="items">
+                <list>
+                	<bean parent="Uif-DataField" p:propertyName="negotiationId" 
+                	    p:dictionaryObjectEntry="org.kuali.kra.negotiations.bo.Negotiation" />
+                	<bean parent="Uif-DataField" p:propertyName="negotiatorName" 
+                		p:dictionaryObjectEntry="org.kuali.kra.negotiations.bo.Negotiation" />
+                </list>
+           </property>
+        </bean>
+      </property>
+	</bean>
+
+</beans>
