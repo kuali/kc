@@ -51,36 +51,8 @@ public class UifControllerServiceImpl extends UifControllerBase implements UifCo
     }
 
     @Override
-    public boolean hasDialogBeenDisplayed(String dialogId, UifFormBase form) {
-        return super.hasDialogBeenDisplayed(dialogId, form);
-    }
-
-    @Override
-    public boolean hasDialogBeenAnswered(String dialogId, UifFormBase form) {
-        return super.hasDialogBeenAnswered(dialogId, form);
-    }
-
-    @Override
-    public void resetDialogStatus(String dialogId, UifFormBase form) {
-        super.resetDialogStatus(dialogId, form);
-    }
-
-    @Override
-    public boolean getBooleanDialogResponse(String dialogId, UifFormBase form, HttpServletRequest request,
-                                     HttpServletResponse response) {
-        return super.getBooleanDialogResponse(dialogId, form, request, response);
-    }
-
-    @Override
-    public String getStringDialogResponse(String dialogId, UifFormBase form, HttpServletRequest request,
-                                   HttpServletResponse response) {
-        return super.getStringDialogResponse(dialogId, form, request, response);
-    }
-
-    @Override
-    public ModelAndView showDialog(String dialogId, UifFormBase form, HttpServletRequest request,
-                            HttpServletResponse response) {
-        return super.showDialog(dialogId, form, request, response);
+    public ModelAndView showDialog(String dialogId, boolean confirmation, UifFormBase form) {
+        return super.showDialog(dialogId, confirmation, form);
     }
 
     @Override

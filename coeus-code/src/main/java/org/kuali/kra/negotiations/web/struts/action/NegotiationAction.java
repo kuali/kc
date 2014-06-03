@@ -29,7 +29,7 @@ import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 
@@ -95,7 +95,7 @@ public class NegotiationAction extends KcTransactionalDocumentActionBase {
         return actionForward;
     }
     
-    protected final boolean applyRules(KualiDocumentEvent event) {
+    protected final boolean applyRules(DocumentEvent event) {
         return getKualiRuleService().applyRules(event);
     }
     

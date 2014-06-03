@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.committee.impl.rule.event;
 
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 
 /**
 *
@@ -24,7 +24,7 @@ import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 *
 * @author Kuali Research Administration Team (kc.dev@kuali.org)
 */
-public interface CommitteeMembershipEvent extends KualiDocumentEvent {
+public interface CommitteeMembershipEvent extends DocumentEvent {
     /**
      * 
      * Get the <code>{@link CommitteeMembershipBase}</code> of this event.

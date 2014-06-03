@@ -17,14 +17,14 @@ package org.kuali.coeus.common.budget.framework.period;
 
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 
 /**
  * Event triggered when a budget Period is modified on a 
  * <code>{@link BudgetDocument}</code>
  *
  */
-public interface BudgetPeriodEvent extends KualiDocumentEvent{
+public interface BudgetPeriodEvent extends DocumentEvent{
 
     /**
      * @return <code>{@link org.kuali.coeus.common.budget.framework.period.BudgetPeriod}</code> that triggered this event.

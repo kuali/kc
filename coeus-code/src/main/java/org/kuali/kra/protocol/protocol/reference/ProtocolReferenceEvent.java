@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.protocol.protocol.reference;
 
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 
 /**
  * This interface is hook to Kuali Event Notification
  */
-public interface ProtocolReferenceEvent extends KualiDocumentEvent {    
+public interface ProtocolReferenceEvent extends DocumentEvent {    
     public ProtocolReferenceBeanBase getProtocolReferenceBean();
     
 }

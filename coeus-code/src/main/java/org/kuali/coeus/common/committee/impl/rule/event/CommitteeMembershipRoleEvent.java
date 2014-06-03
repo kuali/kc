@@ -16,9 +16,9 @@
 package org.kuali.coeus.common.committee.impl.rule.event;
 
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipRole;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 
-public interface CommitteeMembershipRoleEvent extends KualiDocumentEvent {
+public interface CommitteeMembershipRoleEvent extends DocumentEvent {
 
     /**
      * Get the <code>{@link CommitteeMembershipRole}</code> of this event.

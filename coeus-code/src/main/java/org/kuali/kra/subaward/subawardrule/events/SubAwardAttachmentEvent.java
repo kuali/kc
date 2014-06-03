@@ -16,9 +16,9 @@
 package org.kuali.kra.subaward.subawardrule.events;
 
 
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 import org.kuali.kra.subaward.bo.SubAwardAttachments;
 
-public interface SubAwardAttachmentEvent extends KualiDocumentEvent {
+public interface SubAwardAttachmentEvent extends DocumentEvent {
     public SubAwardAttachments getSubAwardAttachments();
 }

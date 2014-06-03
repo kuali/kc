@@ -31,14 +31,14 @@ public class AddSubAwardAttachmentEvent extends SubAwardAttachmentEventBase {
         // TODO Auto-generated constructor stub
     }
    /**
-    * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+    * @see org.kuali.rice.krad.rules.rule.event.DocumentEvent#getRuleInterfaceClass()
     */
    public Class getRuleInterfaceClass() {
        return AddSubAwardAttachmentRule.class;
    }
 
    /**
-    * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
+    * @see org.kuali.rice.krad.rules.rule.event.DocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
     */
    public boolean invokeRuleMethod(BusinessRule rule) {
        return ((AddSubAwardAttachmentRule) rule).processsAddSubawardAttachmentRule(this);

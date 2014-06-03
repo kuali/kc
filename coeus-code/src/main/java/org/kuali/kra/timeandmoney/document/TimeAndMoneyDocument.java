@@ -436,5 +436,5 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
     public String getDocumentBoNumber() {
       return "TIME AND MONEY-" + getAwardNumber();
     }
-    
+
 }
