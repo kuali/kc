@@ -48,7 +48,6 @@ public abstract class BudgetVersionFormBase extends KcTransactionalDocumentFormB
     /**
      * The type of result returned by the multi-value lookup
      *
-     * TODO: to be persisted in the lookup results service instead? See https://test.kuali.org/confluence/display/KULRNE/Using+multiple+value+lookups
      */
     private String lookupResultsBOClassName;
     

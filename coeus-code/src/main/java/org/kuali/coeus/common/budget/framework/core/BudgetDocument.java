@@ -117,8 +117,7 @@ public class BudgetDocument<T extends BudgetParent> extends KcTransactionalDocum
                 documentNextvalue.setNextValue(propNextValue + 1);
             }
         }
-        //TODO: need to solve the refresh issue. 
-        //workaround till then
+
         /*****BEGIN BLOCK *****/
         if(propNextValue==1){
             BusinessObjectService bos = KcServiceLocator.getService(BusinessObjectService.class);

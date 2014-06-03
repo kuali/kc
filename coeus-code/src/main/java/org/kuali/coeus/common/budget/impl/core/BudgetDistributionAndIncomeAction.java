@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.impl.distribution;
+package org.kuali.coeus.common.budget.impl.core;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,6 +27,7 @@ import org.kuali.coeus.common.budget.framework.income.AddBudgetProjectIncomeEven
 import org.kuali.coeus.common.budget.framework.distribution.BudgetDistributionService;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
+import org.kuali.coeus.common.budget.impl.distribution.AddBudgetUnrecoveredFandAEvent;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;

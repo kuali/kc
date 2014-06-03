@@ -471,7 +471,6 @@ public class BudgetSummaryAction extends BudgetAction {
     }
 
     private void updateThisBudgetVersion(BudgetDocument budgetDocument) {
-//        BudgetDocument budgetDocument = budget.getBudgetDocument();
         Document parentDocument = budgetDocument.getParentDocument();
         if(parentDocument==null){
             budgetDocument.refreshReferenceObject("parentDocument");
