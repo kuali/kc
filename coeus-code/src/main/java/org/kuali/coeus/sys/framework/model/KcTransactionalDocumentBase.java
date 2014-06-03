@@ -415,10 +415,12 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
         this.customAttributeService = customAttributeService;
     }
     
+    @Override
     public PersistableBusinessObjectExtension getExtension() {
     	return (PersistableBusinessObjectExtension) super.getExtension();
     }
     
+    @Override 
     public void setExtension(PersistableBusinessObjectExtension extension) {
     	super.setExtension(extension);
     }
@@ -427,7 +429,6 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
 	public void afterDelete(PersistenceBroker arg0)
 			throws PersistenceBrokerException {
 		postPersist();
-		
 	}
 
 	@Override
@@ -435,16 +436,22 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
 			throws PersistenceBrokerException {
 		postLoad();
 	}
+	
+	@PostUpdate
+	public void postUpdate() { }
 
 	@Override
 	public void afterUpdate(PersistenceBroker arg0)
 			throws PersistenceBrokerException {
-		//postUpdate();
+		postUpdate();
 	}
+	
+	@PreRemove
+	public void preRemove() { }
 
 	@Override
 	public void beforeDelete(PersistenceBroker arg0)
 			throws PersistenceBrokerException {
-		//preRemove();
+		preRemove();
 	}
 }
