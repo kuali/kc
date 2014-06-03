@@ -270,17 +270,6 @@ public class BudgetAction extends BudgetActionBase {
         HttpServletRequest request, HttpServletResponse response)
         throws Exception {
         final ActionForward forward = super.reload(mapping, form, request, response);
-//        final BudgetForm budgetForm = (BudgetForm) form;
-//        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-//        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
-//
-//        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(parentDocument.getBudgetDocumentVersions()));
-//        setBudgetStatuses(budgetDocument.getParentDocument());
-//
-//        final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
-//        tdcValidator.validateGeneratingWarnings(budgetDocument.getParentDocument());
-//
-//        populateBudgetPrintForms(budgetDocument.getBudget());
         updateBudgetAttributes(form, request);
         return forward;
     }
@@ -313,7 +302,6 @@ public class BudgetAction extends BudgetActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
-//        proposal.refreshReferenceObject("budgetDocumentVersions");
         budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(parentDocument.getBudgetDocumentVersions()));
         setBudgetStatuses(parentDocument);
         return mapping.findForward(Constants.BUDGET_VERSIONS_PAGE);

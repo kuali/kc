@@ -30,7 +30,7 @@ public final class BudgetTask extends Task {
     /**
      * Constructs a BudgetTask.
      * @param taskName the name of the task
-     * @param doc the Proposal Development Document
+     * @param taskGroupName the name of the task group
      * @param budgetDocument the Budget Document
      */
     public BudgetTask(String taskGroupName, String taskName, BudgetDocument budgetDocument) {

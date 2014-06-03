@@ -109,9 +109,6 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         if(Boolean.valueOf(budgetDocument.getParentDocument().getProposalBudgetFlag())){
             valid &= processBudgetVersionsBusinessRule(budgetDocument.getParentDocument(), true);
         } 
-//        else {
-//            valid &= processBudgetTypeBusinessRules(budgetDocument);
-//        }
         GlobalVariables.getMessageMap().removeFromErrorPath("parentDocument");
         
         GlobalVariables.getMessageMap().addToErrorPath("budget"); 
@@ -195,23 +192,6 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         
         return valid;
     }
-
-    // change to audit rule
-//    protected boolean processBudgetTypeBusinessRules(BudgetDocument budgetDocument) {
-//        boolean valid = true;
-//        MessageMap errorMap = GlobalVariables.getMessageMap();
-//        errorMap.removeFromErrorPath("parentDocument");
-//        errorMap.removeFromErrorPath("document");
-//        
-//        AwardBudgetExt awardBudget = (AwardBudgetExt)budgetDocument.getBudget();
-//        if ("2".equals(awardBudget.getAwardBudgetTypeCode()) && StringUtils.isBlank(awardBudget.getComments())) {
-//            errorMap.putError("document.budget.comments", KeyConstants.ERROR_REQUIRED, "Comments(Comments)");
-//            valid = false;
-//        }
-//        GlobalVariables.getMessageMap().addToErrorPath("document");        
-//        GlobalVariables.getMessageMap().addToErrorPath("parentDocument");
-//        return valid;
-//    }
 
     /**
     *
@@ -324,7 +304,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
      */
     protected boolean processBudgetExpenseBusinessRules(BudgetDocument budgetDocument) {
         boolean valid = true;
-        //TODO - put budget expense validation rules here.
+
         MessageMap errorMap = GlobalVariables.getMessageMap();
         
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
@@ -342,22 +322,11 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
                     errorMap.putError("budgetCategoryTypes[" + budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode() + "].budgetPeriods[" + i +"].budgetLineItems[" + j + "].endDate",KeyConstants.ERROR_LINEITEM_ENDDATE_AFTER_PERIOD_ENDDATE);
                     valid = false;
                 }
-//                if (budgetLineItem!=null && budgetLineItem.getCostSharingAmount() != null && budgetLineItem.getCostSharingAmount().isNegative()) {
-//                    errorMap.putError("budgetPeriod[" + i +"].budgetLineItem[" + j + "].costSharingAmount", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Cost Sharing");
-//                    valid = false;
-//                }
+
                 if (budgetLineItem!=null && budgetLineItem.getQuantity() != null && budgetLineItem.getQuantity().intValue()<0) {
                     errorMap.putError("budgetPeriod[" + i +"].budgetLineItem[" + j + "].quantity", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Quantity");
                     valid = false;
                 }
-//                if (budgetLineItem!=null && budgetLineItem.getLineItemCost() != null && budgetLineItem.getLineItemCost().isNegative()) {
-//                    errorMap.putError("budgetPeriod[" + i +"].budgetLineItem[" + j + "].lineItemCost", KeyConstants.ERROR_NEGATIVE_AMOUNT,"Total Base Cost");
-//                    valid = false;
-//                }
-//                if(budgetLineItem.getEndDate().compareTo(budgetLineItem.getStartDate()) <=0 ) {                        
-//                        errorMap.putError("budgetPeriod["+i+"].budgetLineItem["+j+"].endDate", KeyConstants.ERROR_LINE_ITEM_DATES);
-//                        return false;
-//                }
          
                 j++;
             }
