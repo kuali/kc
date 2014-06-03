@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="BudgetPersonnelDetails" parent="BudgetPersonnelDetails-parentBean" />
   <bean id="BudgetPersonnelDetails-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.budget.personnel.BudgetPersonnelDetails" />
+    <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails" />
 		<property name="objectLabel" value="Budget Personnel Details" />
     <property name="inquiryDefinition" >
       <ref bean="BudgetPersonnelDetails-inquiryDefinition" />
@@ -488,13 +488,13 @@
         </bean>
       </list>
     </property>
-    <property name="inquirableClass" value="org.kuali.kra.budget.personnel.BudgetPersonnelDetailsInquirable" />
+    <property name="inquirableClass" value="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetailsInquirable" />
   </bean>
 
   <bean id="BudgetPersonnelDetails-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Personnel Budget Details"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.budget.personnel.BudgetPersonnelDetails"/>
-    <property name="viewHelperServiceClass" value="org.kuali.kra.budget.personnel.BudgetPersonnelDetailsInquirable"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails"/>
+    <property name="viewHelperServiceClass" value="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetailsInquirable"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -574,7 +574,7 @@
   </bean>
 
   <bean id="BudgetPersonnelDetails-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.budget.personnel.BudgetPersonnelDetails"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails"/>
     <property name="headerText" value="Budget Personnel Details Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

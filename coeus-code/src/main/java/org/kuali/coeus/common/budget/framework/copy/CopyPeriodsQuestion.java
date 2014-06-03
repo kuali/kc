@@ -16,9 +16,11 @@
 package org.kuali.coeus.common.budget.framework.copy;
 
 import org.kuali.rice.kns.question.QuestionBase;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
+@Component("CopyPeriodsQuestion")
 public class CopyPeriodsQuestion extends QuestionBase {
     
     public static final String ONE = "1";

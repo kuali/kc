@@ -23,10 +23,9 @@ import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
-import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
