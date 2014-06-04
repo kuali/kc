@@ -180,6 +180,12 @@
                 		p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" />
                 	<bean parent="Uif-DataField" p:propertyName="awardStatus.description" 
                 		p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" />
+                	<bean parent="Uif-DataField" p:propertyName="ospAdministratorName" 
+                		p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" />
+                	<bean parent="Uif-DataField" p:propertyName="principalInvestigatorName" 
+                		p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" />
+                	<bean parent="Uif-DataField" p:propertyName="sponsorName" 
+                		p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" />
                 </list>
            </property>
         </bean>
