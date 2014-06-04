@@ -32,12 +32,13 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.framework.ynq.Ynq;
+import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
 import org.kuali.kra.bo.KraSortablePersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "EPS_PROP_YNQ")
 @IdClass(ProposalYnq.ProposalYnqId.class)
-public class ProposalYnq extends KraSortablePersistableBusinessObjectBase implements Comparable<ProposalYnq> {
+public class ProposalYnq extends KraSortablePersistableBusinessObjectBase implements Comparable<ProposalYnq>, ProposalYnqContract {
 
     @Id
     @Column(name = "PROPOSAL_NUMBER")
@@ -76,6 +77,7 @@ public class ProposalYnq extends KraSortablePersistableBusinessObjectBase implem
     @Transient
     private String reviewDateRequiredDescription;
 
+    @Override
     public Ynq getYnq() {
         return ynq;
     }
@@ -84,10 +86,7 @@ public class ProposalYnq extends KraSortablePersistableBusinessObjectBase implem
         this.ynq = ynq;
     }
 
-    public ProposalYnq() {
-        super();
-    }
-
+    @Override
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -104,6 +103,7 @@ public class ProposalYnq extends KraSortablePersistableBusinessObjectBase implem
         this.questionId = questionId;
     }
 
+    @Override
     public String getAnswer() {
         return answer;
     }
@@ -112,6 +112,7 @@ public class ProposalYnq extends KraSortablePersistableBusinessObjectBase implem
         this.answer = answer;
     }
 
+    @Override
     public String getExplanation() {
         return explanation;
     }
@@ -120,6 +121,7 @@ public class ProposalYnq extends KraSortablePersistableBusinessObjectBase implem
         this.explanation = explanation;
     }
 
+    @Override
     public Date getReviewDate() {
         return reviewDate;
     }

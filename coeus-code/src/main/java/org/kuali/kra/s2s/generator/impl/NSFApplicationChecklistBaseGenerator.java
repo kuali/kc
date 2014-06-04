@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.kuali.coeus.propdev.api.abstrct.ProposalAbstractContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
-import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
+import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
-import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -135,10 +135,10 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 			break;
 		}
 		case 3: {
-			for (ProposalYnq proYnq : pdDoc.getDevelopmentProposal()
+			for (ProposalYnqContract proYnq : pdDoc.getDevelopmentProposal()
 					.getProposalYnqs()) {
-				if (proYnq.getQuestionId() != null
-						&& proYnq.getQuestionId().equals(
+				if (proYnq.getYnq() != null
+						&& proYnq.getYnq().getQuestionId().equals(
 								PROPOSAL_YNQ_QUESTION_21)) {
 					String ynqAnswer = proYnq.getAnswer();
 					if (ynqAnswer != null
@@ -171,10 +171,10 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 			break;
 		}
 		case 5: {
-			for (ProposalYnq proYnq : pdDoc.getDevelopmentProposal()
+			for (ProposalYnqContract proYnq : pdDoc.getDevelopmentProposal()
 					.getProposalYnqs()) {
-				if (proYnq.getQuestionId() != null
-						&& proYnq.getQuestionId().equals(
+				if (proYnq.getYnq() != null
+						&& proYnq.getYnq().getQuestionId().equals(
 								PROPOSAL_YNQ_QUESTION_FG)) {
 					String ynqAnswer = proYnq.getAnswer();
 					if (ynqAnswer != null
@@ -368,10 +368,10 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 			break;
 		}
 		case 30: {
-			for (ProposalAbstract proAbstract : pdDoc.getDevelopmentProposal()
+			for (ProposalAbstractContract proAbstract : pdDoc.getDevelopmentProposal()
 					.getProposalAbstracts()) {
-				if (proAbstract.getAbstractTypeCode() != null
-						&& proAbstract.getAbstractTypeCode().equals(
+				if (proAbstract.getAbstractType() != null
+						&& proAbstract.getAbstractType().getCode().equals(
 								ABSTRACT_TYPE_DEVIATION_AUTH)) {
 					answer = ANSWER_YES;
 				} else {
@@ -386,12 +386,12 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 			break;
 		}
 		case 32: {
-			for (ProposalAbstract proAbstract : pdDoc.getDevelopmentProposal()
+			for (ProposalAbstractContract proAbstract : pdDoc.getDevelopmentProposal()
 					.getProposalAbstracts()) {
-				if (proAbstract.getAbstractTypeCode() != null
-						&& (proAbstract.getAbstractTypeCode().equals(
+				if (proAbstract.getAbstractType() != null
+						&& (proAbstract.getAbstractType().getCode().equals(
 								ABSTRACT_TYPE_CODE_SUGGESTED_REVIEWERS) || proAbstract
-								.getAbstractTypeCode().equals(
+								.getAbstractType().getCode().equals(
 										ABSTRACT_TYPE_REVIEWERS_NOT_TO_INCLUDE))) {
 					answer = ANSWER_YES;
 					break;

@@ -62,7 +62,7 @@ public class AbstractTypeValuesFinder extends FormViewAwareUifKeyValuesFinderBas
         keyValues.add(new ConcreteKeyValue("", "select"));
         for (AbstractType abstractType : abstractTypes) {
             if (!hasAbstract(doc, abstractType)) {
-                keyValues.add(new ConcreteKeyValue(abstractType.getAbstractTypeCode(), abstractType.getDescription()));
+                keyValues.add(new ConcreteKeyValue(abstractType.getCode(), abstractType.getDescription()));
             }
         }
         return keyValues;
@@ -79,7 +79,7 @@ public class AbstractTypeValuesFinder extends FormViewAwareUifKeyValuesFinderBas
         if (doc != null) {
             List<ProposalAbstract> proposalAbstracts = doc.getDevelopmentProposal().getProposalAbstracts();
             for (ProposalAbstract proposalAbstract : proposalAbstracts) {
-                if (proposalAbstract.getAbstractTypeCode().equals(abstractType.getAbstractTypeCode())) {
+                if (proposalAbstract.getAbstractTypeCode().equals(abstractType.getCode())) {
                     return true;
                 }
             }

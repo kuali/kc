@@ -26,11 +26,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.kuali.coeus.common.api.ynq.YnqContract;
 import org.kuali.kra.bo.KraSortablePersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "YNQ")
-public class Ynq extends KraSortablePersistableBusinessObjectBase {
+public class Ynq extends KraSortablePersistableBusinessObjectBase implements YnqContract {
 
     @Id
     @Column(name = "QUESTION_ID")
@@ -69,6 +70,7 @@ public class Ynq extends KraSortablePersistableBusinessObjectBase {
         ynqExplanations = new ArrayList<YnqExplanation>();
     }
 
+    @Override
     public String getQuestionId() {
         return questionId;
     }
@@ -77,6 +79,7 @@ public class Ynq extends KraSortablePersistableBusinessObjectBase {
         this.questionId = questionId;
     }
 
+    @Override
     public String getDateRequiredFor() {
         return dateRequiredFor;
     }
@@ -85,6 +88,7 @@ public class Ynq extends KraSortablePersistableBusinessObjectBase {
         this.dateRequiredFor = dateRequiredFor;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -93,6 +97,7 @@ public class Ynq extends KraSortablePersistableBusinessObjectBase {
         this.description = description;
     }
 
+    @Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -101,6 +106,7 @@ public class Ynq extends KraSortablePersistableBusinessObjectBase {
         this.effectiveDate = effectiveDate;
     }
 
+    @Override
     public String getExplanationRequiredFor() {
         return explanationRequiredFor;
     }
@@ -109,6 +115,7 @@ public class Ynq extends KraSortablePersistableBusinessObjectBase {
         this.explanationRequiredFor = explanationRequiredFor;
     }
 
+    @Override
     public String getGroupName() {
         return groupName;
     }
@@ -117,6 +124,7 @@ public class Ynq extends KraSortablePersistableBusinessObjectBase {
         this.groupName = groupName;
     }
 
+    @Override
     public Integer getNoOfAnswers() {
         return noOfAnswers;
     }
@@ -125,6 +133,7 @@ public class Ynq extends KraSortablePersistableBusinessObjectBase {
         this.noOfAnswers = noOfAnswers;
     }
 
+    @Override
     public String getQuestionType() {
         return questionType;
     }
@@ -133,6 +142,7 @@ public class Ynq extends KraSortablePersistableBusinessObjectBase {
         this.questionType = questionType;
     }
 
+    @Override
     public String getStatus() {
         return status;
     }
@@ -141,6 +151,7 @@ public class Ynq extends KraSortablePersistableBusinessObjectBase {
         this.status = status;
     }
 
+    @Override
     public List<YnqExplanation> getYnqExplanations() {
         return ynqExplanations;
     }

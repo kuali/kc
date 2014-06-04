@@ -205,7 +205,7 @@ public class QuestionMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase
         question.setQuestionTypeId(Constants.QUESTION_RESPONSE_TYPE_LOOKUP);
         question.setStatus("A");
         question.setLookupClass("org.kuali.coeus.propdev.impl.abstrct.AbstractType");
-        question.setLookupReturn("abstractTypeCode");
+        question.setLookupReturn("code");
         question.setMaxAnswers(1);
         MaintenanceDocument questionMaintenanceDocument = newMaintDoc(question, question);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(questionMaintenanceDocument));

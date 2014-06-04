@@ -35,7 +35,7 @@ import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
-import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
+import org.kuali.coeus.propdev.api.abstrct.ProposalAbstractContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
@@ -138,10 +138,10 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		}
 		rrsf424.setProjectTitle(devProp.getTitle());
 		if (devProp.getProposalAbstracts() != null) {   
-           List<ProposalAbstract> proposalAbstractList = devProp.getProposalAbstracts(); 
+           List<? extends ProposalAbstractContract> proposalAbstractList = devProp.getProposalAbstracts();
            String state="";     
-           for (ProposalAbstract proposalAbstract : proposalAbstractList) {
-               if( proposalAbstract.getAbstractTypeCode().equals(AREAS_AFFECTED_ABSTRACT_TYPE_CODE))           
+           for (ProposalAbstractContract proposalAbstract : proposalAbstractList) {
+               if( proposalAbstract.getAbstractType().getCode().equals(AREAS_AFFECTED_ABSTRACT_TYPE_CODE))
                    state = proposalAbstract.getAbstractDetails();  
                }
            rrsf424.setLocation(state);
