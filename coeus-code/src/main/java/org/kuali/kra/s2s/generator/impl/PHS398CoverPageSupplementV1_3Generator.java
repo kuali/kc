@@ -24,10 +24,9 @@ import gov.grants.apply.forms.phs398CoverPageSupplement13V13.PHS398CoverPageSupp
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.api.question.AnswerContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
+import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -84,14 +83,14 @@ public class PHS398CoverPageSupplementV1_3Generator extends
 		// Set default values for mandatory fields
 		pdpi.setIsNewInvestigator(YesNoDataType.N_NO);
 
-		ProposalYnq proposalYnq = getProposalYnQ(IS_NEW_INVESTIGATOR);
+		ProposalYnqContract proposalYnq = getProposalYnQ(IS_NEW_INVESTIGATOR);
 		if (proposalYnq != null && proposalYnq.getAnswer() != null) {
 			pdpi.setIsNewInvestigator(getProposalYnQAnswer(proposalYnq));
 		}
 		return pdpi;
 	}
 
-	private YesNoDataType.Enum getProposalYnQAnswer(ProposalYnq proposalYnq) {
+	private YesNoDataType.Enum getProposalYnQAnswer(ProposalYnqContract proposalYnq) {
 		return proposalYnq.getAnswer().equals(
 				S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
 				: YesNoDataType.N_NO;

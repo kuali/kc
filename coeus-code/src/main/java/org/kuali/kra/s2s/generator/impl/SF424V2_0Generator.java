@@ -32,6 +32,7 @@ import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.common.framework.org.type.OrganizationType;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.propdev.api.abstrct.ProposalAbstractContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -42,7 +43,6 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
@@ -264,9 +264,9 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             sf424V2.setFundingOpportunityTitle(null);
         }
         String areasAffected = null;
-        for (ProposalAbstract proposalAbstract : pdDoc.getDevelopmentProposal().getProposalAbstracts()) {
-            if (proposalAbstract.getAbstractTypeCode() != null
-                    && Integer.parseInt(proposalAbstract.getAbstractTypeCode()) == ABSTRACTTYPE_CODE_AREAS_AFFECTED) {
+        for (ProposalAbstractContract proposalAbstract : pdDoc.getDevelopmentProposal().getProposalAbstracts()) {
+            if (proposalAbstract.getAbstractType().getCode() != null
+                    && Integer.parseInt(proposalAbstract.getAbstractType().getCode()) == ABSTRACTTYPE_CODE_AREAS_AFFECTED) {
                 areasAffected = proposalAbstract.getAbstractDetails();
                 if (areasAffected != null && areasAffected.length() > AREAS_AFFECTED_MAX_LENGTH) {
                     sf424V2.setAffectedAreas(areasAffected.substring(0, AREAS_AFFECTED_MAX_LENGTH));
