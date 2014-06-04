@@ -30,68 +30,34 @@
 	<bean id="PropDev-MedusaSection-TabGroup" parent="PropDev-MedusaSection-TabGroup-parentBean"/>
 	<bean id="PropDev-MedusaSection-TabGroup-parentBean" abstract="true" parent="Uif-TabGroup">
 		<property name="items"><list>
-			<bean parent="PropDev-MedusaPropAwardSection-TabItem" p:headerText="Proposal > Award"/>
-			<bean parent="PropDev-MedusaAwardPropSection-TabItem" p:headerText="Award > Proposal"/>
+			<bean parent="PropDev-MedusaSection-TabItem" p:headerText="Proposal > Award"/>
+			<bean parent="PropDev-MedusaSection-TabItem" p:headerText="Award > Proposal"/>
 		</list></property>
 	</bean>
 
-	<bean id="PropDev-MedusaPropAwardSection-TabItem" parent="PropDev-MedusaPropAwardSection-TabItem-parentBean"/>
-	<bean id="PropDev-MedusaPropAwardSection-TabItem-parentBean" abstract="true" parent="Uif-TreeSection"
-		p:propertyName="medusaTreeView">
+	<bean id="PropDev-MedusaSection-TabItem" parent="PropDev-MedusaSection-TabItem-parentBean"/>
+	<bean id="PropDev-MedusaSection-TabItem-parentBean" abstract="true" parent="Uif-TreeSection" p:propertyName="medusaTreeView">
 	  <property name="nodePrototypeMap">            
-      <map key-type="java.lang.Class">        
-        <entry key="#{ T(org.kuali.coeus.propdev.impl.core.DevelopmentProposal) }">        
-		 <bean parent="Proposal-MedusaSection-PropDevSummary"/>
-		</entry>
-		<entry key="#{ T(org.kuali.kra.institutionalproposal.home.InstitutionalProposal)}">
-			<bean parent="Proposal-MedusaSection-InstPropSummary"/>
-		</entry>
-		<entry key="#{ T(org.kuali.kra.institutionalproposal.proposallog.ProposalLog)}">
-			<bean parent="Proposal-MedusaSection-ProposalLogSummary"/>
-		</entry>
-		<entry key="#{ T(org.kuali.kra.award.home.Award)}">
-			<bean parent="Proposal-MedusaSection-AwardSummary"/>
-		</entry>
-		<entry key="#{ T(org.kuali.kra.irb.Protocol)}">
-			<bean parent="Proposal-MedusaSection-IRBSummary"/>
-		</entry>
-		<entry key="#{ T(org.kuali.kra.iacuc.IacucProtocol)}">
-			<bean parent="Proposal-MedusaSection-IacucSummary"/>
-		</entry>
-		<entry key="#{ T(org.kuali.kra.negotiations.bo.Negotiation)}">
-			<bean parent="Proposal-MedusaSection-NegotiationSummary"/>
-		</entry>
-	</map>
-	</property>
-	</bean>   
-	
-	<bean id="PropDev-MedusaAwardPropSection-TabItem" parent="PropDev-MedusaAwardPropSection-TabItem-parentBean"/>
-	<bean id="PropDev-MedusaAwardPropSection-TabItem-parentBean" abstract="true" parent="Uif-TreeSection"
-		p:propertyName="medusaTreeView">
-	  <property name="nodePrototypeMap">            
-      <map key-type="java.lang.Class">
-      	<entry key="#{ T(org.kuali.kra.award.home.Award)}">
-			<bean parent="Proposal-MedusaSection-AwardSummary"/>
-		</entry>        
-        <entry key="#{ T(org.kuali.coeus.propdev.impl.core.DevelopmentProposal) }">        
-		 <bean parent="Proposal-MedusaSection-PropDevSummary"/>
-		</entry>
-		<entry key="#{ T(org.kuali.kra.institutionalproposal.home.InstitutionalProposal)}">
-			<bean parent="Proposal-MedusaSection-InstPropSummary"/>
-		</entry>
-		<entry key="#{ T(org.kuali.kra.institutionalproposal.proposallog.ProposalLog)}">
-			<bean parent="Proposal-MedusaSection-ProposalLogSummary"/>
-		</entry>
-		<entry key="#{ T(org.kuali.kra.irb.Protocol)}">
-			<bean parent="Proposal-MedusaSection-IRBSummary"/>
-		</entry>
-		<entry key="#{ T(org.kuali.kra.iacuc.IacucProtocol)}">
-			<bean parent="Proposal-MedusaSection-IacucSummary"/>
-		</entry>
-		<entry key="#{ T(org.kuali.kra.negotiations.bo.Negotiation)}">
-			<bean parent="Proposal-MedusaSection-NegotiationSummary"/>
-		</entry>
-	</map>
+	      <map key-type="java.lang.Class">        
+	        <entry key="#{ T(org.kuali.coeus.propdev.impl.core.DevelopmentProposal) }">        
+			 <bean parent="Proposal-MedusaSection-PropDevSummary"/>			 
+			</entry>
+			<entry key="#{ T(org.kuali.kra.institutionalproposal.home.InstitutionalProposal)}">
+				<bean parent="Proposal-MedusaSection-InstPropSummary"/>
+			</entry>
+			<entry key="#{ T(org.kuali.kra.institutionalproposal.proposallog.ProposalLog)}">
+				<bean parent="Proposal-MedusaSection-ProposalLogSummary"/>
+			</entry>
+			<entry key="#{ T(org.kuali.kra.award.home.Award)}">
+				<bean parent="Proposal-MedusaSection-AwardSummary"/>
+			</entry>
+			<entry key="#{ T(org.kuali.kra.irb.Protocol)}">
+				<bean parent="Proposal-MedusaSection-IRBSummary"/>
+			</entry>
+			<entry key="#{ T(org.kuali.kra.iacuc.IacucProtocol)}">
+				<bean parent="Proposal-MedusaSection-IacucSummary"/>
+			</entry>
+		</map>
 	</property>
 	</bean>        
        
@@ -106,7 +72,29 @@
                 <list>
                 	<bean parent="Uif-DataField" p:propertyName="proposalNumber" 
                 	    p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                	<bean parent="Uif-DataField" p:propertyName="proposalState.description" 
+                	    p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
                 	<bean parent="Uif-DataField" p:propertyName="ownedByUnitNumber" 
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                	<bean parent="Uif-DataField" p:propertyName="requestedStartDateInitial" 
+                	    p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                	<bean parent="Uif-DataField" p:propertyName="requestedEndDateInitial" 
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                	<bean parent="Uif-DataField" p:propertyName="title" 
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                	<bean parent="Uif-DataField" p:propertyName="nsfCode" 
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                	<bean parent="Uif-DataField" p:propertyName="sponsorName" 
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                	<bean parent="Uif-DataField" p:propertyName="primeSponsorCode" 
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                	<bean parent="Uif-DataField" p:propertyName="sponsorProposalNumber" 
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                	<bean parent="Uif-DataField" p:propertyName="programAnnouncementTitle" 
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                	<bean parent="Uif-DataField" p:propertyName="activityType.description" 
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                	<bean parent="Uif-DataField" p:propertyName="noticeOfOpportunityCode" 
                 		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
                 </list>
            </property>
@@ -124,6 +112,20 @@
                 	<bean parent="Uif-DataField" p:propertyName="proposalNumber" 
                 	    p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
                 	<bean parent="Uif-DataField" p:propertyName="unitNumber" 
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+                	<bean parent="Uif-DataField" p:propertyName="requestedStartDateInitial" 
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+                	<bean parent="Uif-DataField" p:propertyName="requestedEndDateInitial" 
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+                	<bean parent="Uif-DataField" p:propertyName="requestedStartDateTotal" 
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+                	<bean parent="Uif-DataField" p:propertyName="requestedEndDateTotal" 
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+                	<bean parent="Uif-DataField" p:propertyName="title" 
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+                	<bean parent="Uif-DataField" p:propertyName="sponsor.sponsorName" 
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+                	<bean parent="Uif-DataField" p:propertyName="sponsorName" 
                 		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
                 </list>
            </property>
@@ -143,6 +145,22 @@
                 	    p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
                 	<bean parent="Uif-DataField" p:propertyName="unitNumber" 
                 		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
+                	<bean parent="Uif-DataField" p:propertyName="title" 
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
+                	<bean parent="Uif-DataField" p:propertyName="piName" 
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
+                	<bean parent="Uif-DataField" p:propertyName="sponsorName" 
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
+                	<bean parent="Uif-DataField" p:propertyName="logStatus" 
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
+                	<bean parent="Uif-DataField" p:propertyName="fiscalMonth" 
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
+                	<bean parent="Uif-DataField" p:propertyName="fiscalYear" 
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
+                	<bean parent="Uif-DataField" p:propertyName="proposalType.description" 
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
+                	<bean parent="Uif-DataField" p:propertyName="instProposalNumber" 
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
                 </list>
            </property>
         </bean>
@@ -160,6 +178,8 @@
                 	    p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" />
                 	<bean parent="Uif-DataField" p:propertyName="unitNumber" 
                 		p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" />
+                	<bean parent="Uif-DataField" p:propertyName="awardStatus.description" 
+                		p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" />
                 </list>
            </property>
         </bean>
@@ -176,6 +196,20 @@
                 	<bean parent="Uif-DataField" p:propertyName="protocolNumber" 
                 	    p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />
                 	<bean parent="Uif-DataField" p:propertyName="leadUnitNumber" 
+                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />	
+                	<bean parent="Uif-DataField" p:propertyName="active" 
+                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />
+                	<bean parent="Uif-DataField" p:propertyName="title" 
+                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />
+                	<bean parent="Uif-DataField" p:propertyName="description" 
+                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />
+                	<bean parent="Uif-DataField" p:propertyName="approvalDate" 
+                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />
+                	<bean parent="Uif-DataField" p:propertyName="expirationDate" 
+                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />
+                	<bean parent="Uif-DataField" p:propertyName="protocolStatus.description" 
+                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />
+                	<bean parent="Uif-DataField" p:propertyName="protocolType.description" 
                 		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />
                 </list>
            </property>
@@ -194,27 +228,23 @@
                 	    p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
                 	<bean parent="Uif-DataField" p:propertyName="leadUnitNumber" 
                 		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
+                	<bean parent="Uif-DataField" p:propertyName="active" 
+                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
+                	<bean parent="Uif-DataField" p:propertyName="title" 
+                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
+                	<bean parent="Uif-DataField" p:propertyName="description" 
+                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
+                	<bean parent="Uif-DataField" p:propertyName="approvalDate" 
+                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
+                	<bean parent="Uif-DataField" p:propertyName="expirationDate" 
+                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
+                	<bean parent="Uif-DataField" p:propertyName="protocolStatus.description" 
+                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
+                	<bean parent="Uif-DataField" p:propertyName="protocolType.description" 
+                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
                 </list>
            </property>
         </bean>
       </property>
 	</bean>
-	<bean id="Proposal-MedusaSection-NegotiationSummary" class="org.kuali.rice.krad.uif.container.NodePrototype">           
-       <property name="labelPrototype">             
-         <bean parent="Uif-Message" p:renderWrapperTag="false"/>           
-      </property>
-      <property name="dataGroupPrototype">              
-        <bean parent="Uif-CssGridSection-1FieldLabelColumn">                
-           <property name="items">
-                <list>
-                	<bean parent="Uif-DataField" p:propertyName="negotiationId" 
-                	    p:dictionaryObjectEntry="org.kuali.kra.negotiations.bo.Negotiation" />
-                	<bean parent="Uif-DataField" p:propertyName="negotiatorName" 
-                		p:dictionaryObjectEntry="org.kuali.kra.negotiations.bo.Negotiation" />
-                </list>
-           </property>
-        </bean>
-      </property>
-	</bean>
-
 </beans>
