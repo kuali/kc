@@ -2,7 +2,7 @@ package org.kuali.kra.s2s.depend;
 
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.budget.api.person.BudgetPersonSalaryService;
+import org.kuali.coeus.common.budget.api.person.BudgetPersonSalaryService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonSalaryDetails;
 import org.kuali.rice.krad.service.BusinessObjectService;

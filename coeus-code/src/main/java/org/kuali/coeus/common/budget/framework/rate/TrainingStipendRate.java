@@ -17,7 +17,7 @@ package org.kuali.coeus.common.budget.framework.rate;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.budget.api.rate.TrainingStipendRateContract;
+import org.kuali.coeus.common.budget.api.rate.TrainingStipendRateContract;
 
 import java.sql.Date;
 

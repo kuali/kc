@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.budget.api.core;
+package org.kuali.coeus.common.budget.api.core;
 
 public interface IdentifiableBudget {
     Long getBudgetId();
