@@ -30,8 +30,8 @@
 	<bean id="PropDev-MedusaSection-TabGroup" parent="PropDev-MedusaSection-TabGroup-parentBean"/>
 	<bean id="PropDev-MedusaSection-TabGroup-parentBean" abstract="true" parent="Uif-TabGroup">
 		<property name="items"><list>
-			<bean parent="PropDev-MedusaSection-TabItem" p:headerText="Proposal > Award"/>
-			<bean parent="PropDev-MedusaSection-TabItem" p:headerText="Award > Proposal"/>
+			<bean parent="PropDev-MedusaSection-TabItem" p:headerText="Proposal > Award" p:order="10"/>
+			<bean parent="PropDev-MedusaSection-TabItem" p:headerText="Award > Proposal" p:order="20"/>
 		</list></property>
 	</bean>
 
