@@ -229,7 +229,6 @@
                 <value>classpath:org/kuali/kra/datadictionary/CommScheduleActItem.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CommScheduleMinuteDoc.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/location/CongressionalDistrict.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/location/CongressionalDistrictHelper.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ContactType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/Correspondent.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CorrespondentType.xml</value>
