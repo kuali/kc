@@ -1,8 +1,7 @@
-package org.kuali.coeus.budget.api.rate;
+package org.kuali.coeus.common.budget.api.rate;
 
 
 import java.util.Date;
-import java.util.List;
 
 public interface TrainingStipendRateService {
 

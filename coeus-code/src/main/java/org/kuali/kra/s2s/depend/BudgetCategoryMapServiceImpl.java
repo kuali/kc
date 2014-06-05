@@ -2,9 +2,9 @@ package org.kuali.kra.s2s.depend;
 
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.budget.api.category.BudgetCategoryMapContract;
-import org.kuali.coeus.budget.api.category.BudgetCategoryMapService;
-import org.kuali.coeus.budget.api.category.BudgetCategoryMappingContract;
+import org.kuali.coeus.common.budget.api.category.BudgetCategoryMapContract;
+import org.kuali.coeus.common.budget.api.category.BudgetCategoryMapService;
+import org.kuali.coeus.common.budget.api.category.BudgetCategoryMappingContract;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryMap;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryMapping;
 import org.kuali.rice.krad.bo.BusinessObject;

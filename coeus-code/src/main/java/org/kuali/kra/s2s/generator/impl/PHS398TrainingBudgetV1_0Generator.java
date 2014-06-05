@@ -15,7 +15,7 @@ import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetYearDa
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.budget.api.rate.TrainingStipendRateContract;
+import org.kuali.coeus.common.budget.api.rate.TrainingStipendRateContract;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -37,7 +37,7 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.coeus.budget.api.rate.TrainingStipendRateService;
+import org.kuali.coeus.common.budget.api.rate.TrainingStipendRateService;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.IndirectCostDetails;

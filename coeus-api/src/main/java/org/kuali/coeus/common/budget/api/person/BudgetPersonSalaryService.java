@@ -1,4 +1,4 @@
-package org.kuali.coeus.budget.api.person;
+package org.kuali.coeus.common.budget.api.person;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 

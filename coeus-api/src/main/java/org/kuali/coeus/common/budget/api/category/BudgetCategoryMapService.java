@@ -1,4 +1,4 @@
-package org.kuali.coeus.budget.api.category;
+package org.kuali.coeus.common.budget.api.category;
 
 
 import java.util.List;
