@@ -33,7 +33,9 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.kuali.kra.infrastructure.Constants.*;
 
@@ -48,6 +50,18 @@ public abstract class PropAwardPersonRoleValuesFinder extends UifKeyValuesFinder
     }
     
     protected abstract String getSponsorCodeFromModel(ViewModel model);
+    
+    @Override
+   	public Map<String, String> getKeyLabelMap() {
+           Map<String, String> keyLabelMap = new HashMap<String, String>();
+           List<KeyValue> keyLabels = getKeyValues();
+           if (keyLabels != null) {
+        	   for (KeyValue keyLabel : keyLabels) {
+        		   keyLabelMap.put(keyLabel.getKey(), keyLabel.getValue());
+        	   }
+           }
+           return keyLabelMap;
+     }
     
     @Override
     public List<KeyValue> getKeyValues(ViewModel model, InputField field){
