@@ -15,38 +15,37 @@
  */
 package org.kuali.coeus.common.framework.medusa;
 
-import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.rice.core.api.util.tree.Node;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MedusaNode implements Serializable {
+public class MedusaNode extends Node<Object, String> implements Serializable {
     private static final long serialVersionUID = 6899695450845010658L;
     
-    private BusinessObject bo;
-    private String type;
     private Object extraInfo;
-    private List<MedusaNode> childNodes = new ArrayList<MedusaNode>();
     
-    public BusinessObject getBo() {
-        return bo;
+    public Object getBo() {
+        return getData();
     }
-    public void setBo(BusinessObject bo) {
-        this.bo = bo;
+    public void setBo(Object bo) {
+    	setData(bo);
     }
     public String getType() {
-        return type;
+        return getNodeType();
     }
     public void setType(String type) {
-        this.type = type;
+    	setNodeType(type);
     }
-    public List<MedusaNode> getChildNodes() {
-        return childNodes;
+    public List<? super MedusaNode> getChildNodes() {
+    	return getChildren();
     }
-    public void setChildNodes(List<MedusaNode> childNodes) {
-        this.childNodes = childNodes;
+    public void setChildNodes(List<? extends Node<Object, String>> childNodes) {
+    	setChildren((List<Node<Object, String>>) childNodes);
     }
     public Object getExtraInfo() {
         return extraInfo;
@@ -54,4 +53,18 @@ public class MedusaNode implements Serializable {
     public void setExtraInfo(Object extraInfo) {
         this.extraInfo = extraInfo;
     }   
+    public void addChildNode(MedusaNode node) {
+    	getChildren().add(node);
+    }
+    public String getNodeLabel() {
+    	if (getData() instanceof DevelopmentProposal) {
+    		return "Development Proposal " + ((DevelopmentProposal) getData()).getProposalNumber();
+    	} else if (getData() instanceof InstitutionalProposal) {
+    		return "Institutional Proposal " + ((InstitutionalProposal) getData()).getProposalNumber();
+    	} else {
+    		return "---";
+    	}
+    }
+    
+    
 }     

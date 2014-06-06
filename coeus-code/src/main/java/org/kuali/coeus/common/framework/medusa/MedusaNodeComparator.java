@@ -34,11 +34,10 @@ public class MedusaNodeComparator implements Comparator<MedusaNode> {
 
     private String getNodeValue(MedusaNode m){             
         String nodeType = m.getType();  
-        BusinessObject mBo = m.getBo();
+        Object mBo = m.getBo();
         if(!StringUtils.isNotBlank(nodeType) || mBo == null){
             return "medusa: unknown medusa node type";
-        }
-        else{
+        } else {
             if(StringUtils.equals(nodeType, "award")){
                 return nodeType + ((Award)mBo).getAwardNumber();
             }
