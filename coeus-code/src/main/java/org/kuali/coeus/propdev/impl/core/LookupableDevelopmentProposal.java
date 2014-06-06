@@ -23,6 +23,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;
@@ -57,7 +58,13 @@ public class LookupableDevelopmentProposal extends KcPersistableBusinessObjectBa
     private ProposalType proposalType;
 
     private Date deadlineDate;
-
+    
+    private String status_Code;
+    
+    private String proposalStateTypeCode;
+    
+    private ProposalState proposalState;
+    
     private List<ProposalPerson> proposalPersons;
 
     public String getSponsorCode() {
@@ -178,7 +185,33 @@ public class LookupableDevelopmentProposal extends KcPersistableBusinessObjectBa
     public List<ProposalPerson> getProposalPersons() {
         return this.proposalPersons;
     }
+    
+    public String getStatus_Code(){
+    	return status_Code;
+    }
 
+    public void setStatus_Code(String statusCode){
+    	this.status_Code = statusCode;
+    }
+    
+    public String getProposalStateTypeCode(){
+    	return proposalStateTypeCode;
+    }
+
+    public void setProposalStateTypeCode(String stateTypeCode){
+    	proposalStateTypeCode = stateTypeCode;
+    }
+    
+    public ProposalState
+    getProposalState(String proposalStateTypeCode)
+    {
+    	if (proposalState == null && proposalStateTypeCode != null) {
+            proposalState = KcServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(ProposalState.class, proposalStateTypeCode);
+        }
+        return proposalState;
+
+    }
+    
 public String toString() {
     return "Proposal: sponsorCode = " + sponsorCode
     + ", proposalNumber = " + proposalNumber

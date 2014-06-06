@@ -197,12 +197,18 @@
 					p:actionUrl.controllerMapping="/proposalDevelopment"
 					p:actionUrl.methodToCall="docHandler"
 					p:actionUrl.requestParameters="command:initiate" p:order="10" />
+					
 				<bean parent="Uif-MenuAction" p:actionLabel="Proposals Enroute"
+				 p:actionUrl.viewId="LookupableDevelopmentProposalEnroute-LookupView"
+					 p:actionParameters="viewName:LookupableDevelopmentProposalEnroute-LookupViewName,status_Code:2"
+					   p:actionUrl.controllerMapping="/lookup"
 					p:order="20" />
 				<bean parent="Uif-MenuAction" p:actionLabel="All My Proposals"
-					 p:actionUrl.viewId="LookupableDevelopmentProposal-LookupView"
+					 p:actionUrl.viewId="LookupableDevelopmentProposalAll-LookupView"
+					 p:actionParameters="viewName:LookupableDevelopmentProposalAll-LookupViewName" 
                       p:actionUrl.controllerMapping="/lookup"					
 					p:order="30" />									
+					
 				<bean parent="Uif-MenuAction" p:actionLabel="Create Proposal For S2S Opportunity"
 					p:order="40" />
 				<bean parent="Uif-SimpleHeaderFour" p:headerText="Lists"
