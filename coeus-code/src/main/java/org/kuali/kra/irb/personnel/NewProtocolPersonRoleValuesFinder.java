@@ -22,13 +22,24 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class NewProtocolPersonRoleValuesFinder extends UifKeyValuesFinderBase {
-    
+
+
+    @Override
+    public Map<String, String> getKeyLabelMap() {
+        Map<String, String> keyLabelMap = new HashMap<String, String>();
+
+        List<KeyValue> keyLabels = getKeyValues();
+        if (keyLabels != null) {
+            for (KeyValue keyLabel : keyLabels) {
+                keyLabelMap.put(keyLabel.getKey(), keyLabel.getValue());
+            }
+        }
+        return keyLabelMap;
+    }
+
     /**
      * Constructs the list of Protocol Person Roles.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
