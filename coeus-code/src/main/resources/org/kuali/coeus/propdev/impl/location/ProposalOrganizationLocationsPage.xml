@@ -127,8 +127,8 @@
 	<bean id="PropDev-CongressionalDistricts-Section-parentBean" abstract="true"
 		parent="PropDev-Attachment-Collection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.location.CongressionalDistrict"
 		p:propertyName="congressionalDistricts" p:layoutManager.summaryTitle="@{#lp.congressionalDistrict}">
-		<property name="addViaLightBoxAction">
-            <bean parent="Uif-AddViaLightBoxAction" p:actionLabel="Add Congressioanl District" p:iconClass="icon-plus"/>
+		<property name="addWithDialogAction">
+            <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Congressioanl District" p:iconClass="icon-plus"/>
         </property>	
 		<property name="lineActions">
             <list>
@@ -209,8 +209,8 @@
 	<bean id="PropDev-OtherOrganizationsPage-CongressionalDistricts-parentBean" abstract="true" parent="PropDev-Attachment-Collection" 
 		p:collectionObjectClass="org.kuali.coeus.propdev.impl.location.CongressionalDistrict" p:propertyName="congressionalDistricts"
 		p:layoutManager.summaryTitle="@{#lp.congressionalDistrict}" >
-		<property name="addViaLightBoxAction">
-            <bean parent="Uif-AddViaLightBoxAction" p:actionLabel="Add Congressioanl District" p:iconClass="icon-plus"/>
+		<property name="addWithDialogAction">
+            <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Congressioanl District" p:iconClass="icon-plus"/>
         </property>	
 		<property name="lineActions">
             <list>                
