@@ -40,6 +40,7 @@ import org.kuali.coeus.common.framework.medusa.MedusaNode;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
@@ -319,20 +320,8 @@ public class MedusaServiceImpl implements MedusaService {
         }        
     }
     
-    protected void buildGraph(HashMap<Object, List<Object>> graph, Protocol protocol) {
+    protected void buildGraph(HashMap<Object, List<Object>> graph, ProtocolBase protocol) {
         for (ProtocolFundingSourceBase fundingSource : protocol.getProtocolFundingSources()) {
-            if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.AWARD)) {
-                addToGraph(graph, getAward(fundingSource.getFundingSourceNumber()), protocol);
-            } else if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.INSTITUTIONAL_PROPOSAL)) {
-                addToGraph(graph, getInstitutionalProposal(fundingSource.getFundingSourceNumber()), protocol);
-            } else if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.PROPOSAL_DEVELOPMENT)) {
-                addToGraph(graph, getDevelopmentProposal(fundingSource.getFundingSourceNumber()), protocol);
-            }
-        }       
-    }
-    
-    protected void buildGraph(HashMap<Object, List<Object>> graph, IacucProtocol protocol) {
-        for (org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase fundingSource : protocol.getProtocolFundingSources()) {
             if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.AWARD)) {
                 addToGraph(graph, getAward(fundingSource.getFundingSourceNumber()), protocol);
             } else if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.INSTITUTIONAL_PROPOSAL)) {

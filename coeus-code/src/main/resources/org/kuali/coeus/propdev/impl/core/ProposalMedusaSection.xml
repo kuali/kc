@@ -92,8 +92,6 @@
                 		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
                 	<bean parent="Uif-DataField" p:propertyName="programAnnouncementTitle" 
                 		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
-                	<bean parent="Uif-DataField" p:propertyName="activityType.description" 
-                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
                 	<bean parent="Uif-DataField" p:propertyName="noticeOfOpportunityCode" 
                 		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
                 </list>
@@ -156,8 +154,6 @@
                 	<bean parent="Uif-DataField" p:propertyName="fiscalMonth" 
                 		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
                 	<bean parent="Uif-DataField" p:propertyName="fiscalYear" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
-                	<bean parent="Uif-DataField" p:propertyName="proposalType.description" 
                 		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
                 	<bean parent="Uif-DataField" p:propertyName="instProposalNumber" 
                 		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
