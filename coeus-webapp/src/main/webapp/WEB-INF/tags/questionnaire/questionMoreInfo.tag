@@ -3,7 +3,7 @@
 <%@ attribute name="question" required="true" type="org.kuali.kra.questionnaire.question.Question" %>
 <div class="Qmoreinfodiv">
     <span class="Qmoreinfo">
-        ${question.questionId} :  ${question.question} </br>
+        ${question.questionSeqId} :  ${question.question} </br>
         <c:if test="${fn:length(question.questionExplanations) > 0}" >
             <c:forEach items="${question.questionExplanations}" var="questionExplanation" varStatus="status">
                 <c:choose>
