@@ -27,13 +27,13 @@ import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType;
 import org.kuali.coeus.common.budget.framework.core.*;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetDistributionService;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
-import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetRateAndBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculatedAmount;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
@@ -192,7 +192,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                         if (personnelCalAmt.getRateClass() == null) {
                             personnelCalAmt.refreshReferenceObject("rateClass");
                         }
-                        if (!personnelCalAmt.getRateClass().getRateClassType().equals("O")) {
+                        if (!personnelCalAmt.getRateClass().getRateClassTypeCode().equals(RateClassType.OVERHEAD.getRateClassType())) {
                             calcDirectCost = calcDirectCost.add(personnelCalAmt.getCalculatedCost());
                         } else {
                             calcIndirectCost = calcIndirectCost.add(personnelCalAmt.getCalculatedCost());
@@ -554,7 +554,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                                     for(BudgetPersonnelCalculatedAmount calcExpenseAmount : personOccurrence.getBudgetPersonnelCalculatedAmounts()) {
                                         calcExpenseAmount.refreshReferenceObject("rateClass");
                                         //Check for Employee Benefits RateClassType
-                                        if(calcExpenseAmount.getRateClass().getRateClassType().equalsIgnoreCase("E")) {
+                                        if(calcExpenseAmount.getRateClass().getRateClassTypeCode().equalsIgnoreCase("E")) {
                                             personFringeTotalsForCurrentPeriod = personFringeTotalsForCurrentPeriod.add(calcExpenseAmount.getCalculatedCost());
                                         }
                                     }
@@ -593,7 +593,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                             for(BudgetLineItemCalculatedAmount lineItemCalculatedAmount : matchingLineItem.getBudgetLineItemCalculatedAmounts()) {
                                 lineItemCalculatedAmount.refreshReferenceObject("rateClass");
                                 //Check for Employee Benefits RateClassType
-                                if(lineItemCalculatedAmount.getRateClass().getRateClassType().equalsIgnoreCase("E")) {
+                                if(lineItemCalculatedAmount.getRateClass().getRateClassTypeCode().equalsIgnoreCase("E")) {
                                     summaryFringeTotalsForCurrentPeriod = summaryFringeTotalsForCurrentPeriod.add(lineItemCalculatedAmount.getCalculatedCost());
                                 }
                             }
@@ -707,7 +707,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                             rateClass = rateType.getRateClass();
                         }
                         
-                        if (((personnelFlag && rateClass != null && !StringUtils.equals(rateClass.getRateClassType(), "E")) || !personnelFlag) && !rateTypes.contains(rateType)) {
+                        if (((personnelFlag && rateClass != null && !StringUtils.equals(rateClass.getRateClassTypeCode(), "E")) || !personnelFlag) && !rateTypes.contains(rateType)) {
                             rateTypes.add(rateType);
                             Equals equalsRC = new Equals("rateClassCode", budgetLineItemCalculatedAmount.getRateClassCode());
                             Equals equalsRT = new Equals("rateTypeCode", budgetLineItemCalculatedAmount.getRateTypeCode());
@@ -722,7 +722,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                             }
                             calculatedExpenseTotals.get(rateType).set(budgetPeriod.getBudgetPeriod() - 1,((ScaleTwoDecimal)calculatedExpenseTotals.get(rateType).get(budgetPeriod.getBudgetPeriod() - 1)).add(rateTypeTotalInThisPeriod));
                             
-                            if(!StringUtils.equals(rateClass.getRateClassType(), "O")) {
+                            if(!StringUtils.equals(rateClass.getRateClassTypeCode(), RateClassType.OVERHEAD.getRateClassType())) {
                                 budget.getBudgetSummaryTotals().get(totalsMapKey).set(budgetPeriod.getBudgetPeriod() - 1, ((ScaleTwoDecimal) (budget.getBudgetSummaryTotals().get(totalsMapKey).get(budgetPeriod.getBudgetPeriod() - 1))).add(rateTypeTotalInThisPeriod));
                             }
                             

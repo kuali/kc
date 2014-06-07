@@ -17,7 +17,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="BudgetFormulatedCostDetail" parent="BudgetFormulatedCostDetail-parentBean" />
     <bean id="BudgetFormulatedCostDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.budget.nonpersonnel.BudgetFormulatedCostDetail" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetFormulatedCostDetail" />
         <property name="objectLabel" value="Budget Formulated Cost Details" />
         <property name="inquiryDefinition" >
             <ref bean="BudgetFormulatedCostDetail-inquiryDefinition" />
@@ -246,7 +246,7 @@
 
   <bean id="BudgetFormulatedCostDetail-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Bud Formulated Cost Detail Id"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.budget.nonpersonnel.BudgetFormulatedCostDetail"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetFormulatedCostDetail"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -305,7 +305,7 @@
   </bean>
 
   <bean id="BudgetFormulatedCostDetail-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.budget.nonpersonnel.BudgetFormulatedCostDetail"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetFormulatedCostDetail"/>
     <property name="headerText" value="Bud Formulated Cost Detail Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">

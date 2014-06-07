@@ -19,6 +19,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.api.custom.attr.CustomAttributeDocValueContract;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
@@ -28,11 +29,11 @@ import java.io.Serializable;
 @Entity
 @Table(name = "CUSTOM_ATTRIBUTE_DOC_VALUE")
 @IdClass(CustomAttributeDocValue.CustomAttributeDocValueId.class)
-public class CustomAttributeDocValue extends KcPersistableBusinessObjectBase implements DocumentCustomData {
+public class CustomAttributeDocValue extends KcPersistableBusinessObjectBase implements DocumentCustomData, CustomAttributeDocValueContract {
 
     @Id
     @Column(name = "CUSTOM_ATTRIBUTE_ID")
-    private Long customAttributeId;
+    private Long id;
 
     @Id
     @Column(name = "DOCUMENT_NUMBER")
@@ -45,14 +46,16 @@ public class CustomAttributeDocValue extends KcPersistableBusinessObjectBase imp
     @JoinColumn(name = "CUSTOM_ATTRIBUTE_ID", referencedColumnName = "ID", insertable = false, updatable = false)
     private CustomAttribute customAttribute;
 
-    public Long getCustomAttributeId() {
-        return customAttributeId;
+    @Override
+    public Long getId() {
+        return id;
     }
 
-    public void setCustomAttributeId(Long customAttributeId) {
-        this.customAttributeId = customAttributeId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
+    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
@@ -61,6 +64,17 @@ public class CustomAttributeDocValue extends KcPersistableBusinessObjectBase imp
         this.documentNumber = documentNumber;
     }
 
+    @Override
+    public Long getCustomAttributeId() {
+        return getId();
+    }
+
+    @Override
+    public void setCustomAttributeId(Long customAttributeId) {
+        setId(customAttributeId);
+    }
+
+    @Override
     public String getValue() {
         return value;
     }
@@ -69,18 +83,11 @@ public class CustomAttributeDocValue extends KcPersistableBusinessObjectBase imp
         this.value = value;
     }
 
-    /**
-     * Sets the customAttribute attribute value.
-     * @param customAttribute The customAttribute to set.
-     */
     public void setCustomAttribute(CustomAttribute customAttribute) {
         this.customAttribute = customAttribute;
     }
 
-    /**
-     * Gets the customAttribute attribute.
-     * @return Returns the customAttribute.
-     */
+    @Override
     public CustomAttribute getCustomAttribute() {
         return customAttribute;
     }
@@ -89,7 +96,7 @@ public class CustomAttributeDocValue extends KcPersistableBusinessObjectBase imp
 
         private String documentNumber;
 
-        private Long customAttributeId;
+        private Long id;
 
         public String getDocumentNumber() {
             return this.documentNumber;
@@ -99,17 +106,17 @@ public class CustomAttributeDocValue extends KcPersistableBusinessObjectBase imp
             this.documentNumber = documentNumber;
         }
 
-        public Long getCustomAttributeId() {
-            return this.customAttributeId;
+        public Long getId() {
+            return this.id;
         }
 
-        public void setCustomAttributeId(Long customAttributeId) {
-            this.customAttributeId = customAttributeId;
+        public void setId(Long id) {
+            this.id = id;
         }
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this).append("documentNumber", this.documentNumber).append("customAttributeId", this.customAttributeId).toString();
+            return new ToStringBuilder(this).append("documentNumber", this.documentNumber).append("id", this.id).toString();
         }
 
         @Override
@@ -121,17 +128,17 @@ public class CustomAttributeDocValue extends KcPersistableBusinessObjectBase imp
             if (other.getClass() != this.getClass())
                 return false;
             final CustomAttributeDocValueId rhs = (CustomAttributeDocValueId) other;
-            return new EqualsBuilder().append(this.documentNumber, rhs.documentNumber).append(this.customAttributeId, rhs.customAttributeId).isEquals();
+            return new EqualsBuilder().append(this.documentNumber, rhs.documentNumber).append(this.id, rhs.id).isEquals();
         }
 
         @Override
         public int hashCode() {
-            return new HashCodeBuilder(17, 37).append(this.documentNumber).append(this.customAttributeId).toHashCode();
+            return new HashCodeBuilder(17, 37).append(this.documentNumber).append(this.id).toHashCode();
         }
 
         @Override
         public int compareTo(CustomAttributeDocValueId other) {
-            return new CompareToBuilder().append(this.documentNumber, other.documentNumber).append(this.customAttributeId, other.customAttributeId).toComparison();
+            return new CompareToBuilder().append(this.documentNumber, other.documentNumber).append(this.id, other.id).toComparison();
         }
     }
 }

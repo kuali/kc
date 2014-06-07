@@ -16,14 +16,14 @@
 package org.kuali.kra.protocol.personnel;
 
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 
 /**
  * Event triggered when a protocol unit state is modified on a 
  * <code>{@link ProtocolDocumentBase}</code>
  *
  */
-public interface ProtocolUnitEvent extends KualiDocumentEvent {
+public interface ProtocolUnitEvent extends DocumentEvent {
     /**
      * @return <code>{@link ProtocolUnitBase}</code> that triggered this event.
      */

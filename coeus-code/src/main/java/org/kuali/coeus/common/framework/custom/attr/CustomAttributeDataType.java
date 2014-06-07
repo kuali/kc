@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.framework.custom.attr;
 
+import org.kuali.coeus.common.api.custom.attr.CustomAttributeDataTypeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.Column;
@@ -24,23 +25,25 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "CUSTOM_ATTRIBUTE_DATA_TYPE")
-public class CustomAttributeDataType extends KcPersistableBusinessObjectBase {
+public class CustomAttributeDataType extends KcPersistableBusinessObjectBase implements CustomAttributeDataTypeContract {
 
     @Id
     @Column(name = "DATA_TYPE_CODE")
-    private String dataTypeCode;
+    private String code;
 
     @Column(name = "DESCRIPTION")
     private String description;
 
-    public String getDataTypeCode() {
-        return dataTypeCode;
+    @Override
+    public String getCode() {
+        return code;
     }
 
-    public void setDataTypeCode(String dataTypeCode) {
-        this.dataTypeCode = dataTypeCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }

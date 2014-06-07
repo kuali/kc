@@ -16,6 +16,7 @@
 package org.kuali.kra.committee.lookup.keyvalue;
 
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
+import org.kuali.coeus.common.committee.impl.bo.CommitteeType;
 import org.kuali.coeus.common.committee.impl.lookup.keyvalue.CommitteeIdValuesFinderBase;
 import org.kuali.kra.committee.bo.Committee;
 
@@ -31,6 +32,11 @@ public class CommitteeIdValuesFinder extends CommitteeIdValuesFinderBase {
     @Override
     protected Class<? extends CommitteeBase> getCommitteeBOClassHook() {
         return Committee.class;
+    }
+
+    @Override
+    protected String getCommitteeTypeCodeHook() {
+        return CommitteeType.IRB_TYPE_CODE;
     }
 
 }

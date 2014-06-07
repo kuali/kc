@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.abstrct;
 
+import org.kuali.coeus.propdev.api.abstrct.AbstractTypeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.Column;
@@ -24,23 +25,25 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ABSTRACT_TYPE")
-public class AbstractType extends KcPersistableBusinessObjectBase {
+public class AbstractType extends KcPersistableBusinessObjectBase implements AbstractTypeContract {
 
     @Id
     @Column(name = "ABSTRACT_TYPE_CODE")
-    private String abstractTypeCode;
+    private String code;
 
     @Column(name = "DESCRIPTION")
     private String description;
 
-    public String getAbstractTypeCode() {
-        return abstractTypeCode;
+    @Override
+    public String getCode() {
+        return code;
     }
 
-    public void setAbstractTypeCode(String abstractTypeCode) {
-        this.abstractTypeCode = abstractTypeCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }

@@ -216,7 +216,7 @@ public class AwardHierarchyTest {
             }
 
             @Override
-            public PersistableBusinessObject retrieve(PersistableBusinessObject object) {
+            public PersistableBusinessObject retrieve(Object object) {
                 return null;
             }
 
@@ -246,7 +246,7 @@ public class AwardHierarchyTest {
             }
 
             @Override
-            public void delete(PersistableBusinessObject bo) {
+            public void delete(Object bo) {
 
             }
 
@@ -266,12 +266,7 @@ public class AwardHierarchyTest {
             }
 
             @Override
-            public void linkUserFields(PersistableBusinessObject bo) {
-
-            }
-
-            @Override
-            public void linkUserFields(List<PersistableBusinessObject> bos) {
+            public void linkUserFields(Object bo) {
 
             }
 

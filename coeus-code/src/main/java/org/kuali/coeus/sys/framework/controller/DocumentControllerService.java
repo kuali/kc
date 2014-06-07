@@ -86,12 +86,6 @@ public interface DocumentControllerService extends UifControllerService, KcCommo
     void loadDocument(DocumentFormBase form) throws WorkflowException;
 
     void createDocument(DocumentFormBase form) throws WorkflowException;
-
-    void performWorkflowAction(DocumentFormBase form, UifConstants.WorkflowAction action, boolean checkSensitiveData);
-
-    String checkAndWarnAboutSensitiveData(DocumentFormBase form, HttpServletRequest request,
-                                                    HttpServletResponse response, String fieldName, String fieldValue, String caller,
-                                                    String context) throws Exception;
     
     List<AdHocRouteRecipient> combineAdHocRecipients(DocumentFormBase form);
     

@@ -18,14 +18,14 @@ package org.kuali.kra.s2s.generator.impl;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculatedAmount;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
-import org.kuali.coeus.budget.api.category.BudgetCategoryMapContract;
-import org.kuali.coeus.budget.api.category.BudgetCategoryMappingContract;
+import org.kuali.coeus.common.budget.api.category.BudgetCategoryMapContract;
+import org.kuali.coeus.common.budget.api.category.BudgetCategoryMappingContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
@@ -117,7 +117,7 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
             for (BudgetLineItemCalculatedAmount budgetLineItemCalAmount : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                 budgetLineItemCalAmount.refreshNonUpdateableReferences();
                 if (budgetLineItemCalAmount.getRateClass()!=null && 
-                            RATE_CLASS_TYPE_OTHER.equals(budgetLineItemCalAmount.getRateClass().getRateClassType())) {
+                            RATE_CLASS_TYPE_OTHER.equals(budgetLineItemCalAmount.getRateClass().getRateClassTypeCode())) {
                     indirectCS = indirectCS.add(budgetLineItemCalAmount.getCalculatedCostSharing());
                 }
             }
@@ -151,10 +151,10 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
                 for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersonnelDetails
                         .getBudgetPersonnelCalculatedAmounts()) {
                     budgetPersonnelCalculatedAmount.refreshReferenceObject("rateClass");
-                    if ((budgetPersonnelCalculatedAmount.getRateClass().getRateClassType()
+                    if ((budgetPersonnelCalculatedAmount.getRateClass().getRateClassTypeCode()
                             .equals(RATE_CLASS_TYPE_EMPLOYEE_BENEFITS) && Integer.parseInt(budgetPersonnelCalculatedAmount
                             .getRateTypeCode()) != RATE_TYPE_SUPPORT_STAFF_SALARIES)
-                            || ((budgetPersonnelCalculatedAmount.getRateClass().getRateClassType().equals(RATE_CLASS_TYPE_VACATION) && Integer
+                            || ((budgetPersonnelCalculatedAmount.getRateClass().getRateClassTypeCode().equals(RATE_CLASS_TYPE_VACATION) && Integer
                                     .parseInt(budgetPersonnelCalculatedAmount.getRateTypeCode()) != RATE_TYPE_ADMINISTRATIVE_SALARIES))) {
 
                         categoryCostFringe = categoryCostFringe.add(budgetPersonnelCalculatedAmount.getCalculatedCost());
@@ -191,7 +191,7 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
         for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
             for (BudgetLineItemCalculatedAmount budgetLineItemCalAmount : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                 budgetLineItemCalAmount.refreshReferenceObject("rateClass");
-                if (!budgetLineItemCalAmount.getRateClass().getRateClassType().equals(RATE_CLASS_TYPE_OTHER)) {
+                if (!budgetLineItemCalAmount.getRateClass().getRateClassTypeCode().equals(RATE_CLASS_TYPE_OTHER)) {
                     otherCost = otherCost.add(budgetLineItemCalAmount.getCalculatedCost());
                     otherCostCS = otherCostCS.add(budgetLineItemCalAmount.getCalculatedCostSharing());
                 }

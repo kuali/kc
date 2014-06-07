@@ -84,7 +84,7 @@ public class ProposalDevelopmentAbstractsRule extends KcTransactionalDocumentRul
     private boolean isInvalid(String abstractTypeCode) {
         if (abstractTypeCode != null) {
             Map<String,String> fieldValues = new HashMap<String,String>();
-            fieldValues.put("abstractTypeCode", abstractTypeCode);
+            fieldValues.put("code", abstractTypeCode);
             if (getDataObjectService().findMatching(AbstractType.class,
                     QueryByCriteria.Builder.andAttributes(fieldValues).setCountFlag(CountFlag.ONLY).build()).getTotalRowCount() == 1) {
                 return false;

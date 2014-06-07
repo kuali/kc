@@ -92,14 +92,14 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
     protected void addToCustomDataList(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry) {
         T newCustomData = getNewCustomData();
         newCustomData.setCustomAttribute(customAttributeDocumentEntry.getValue().getCustomAttribute());
-        newCustomData.setCustomAttributeId(customAttributeDocumentEntry.getValue().getCustomAttributeId().longValue());
+        newCustomData.setCustomAttributeId(customAttributeDocumentEntry.getValue().getId().longValue());
         newCustomData.setValue(customAttributeDocumentEntry.getValue().getCustomAttribute().getDefaultValue());
         getCustomDataList().add(newCustomData);    
     }
     
     protected boolean alreadyExists(List<CustomAttributeDocument> entriesInCurrentGroup, Entry<String, CustomAttributeDocument> customAttributeDocumentEntry) {
         for ( CustomAttributeDocument entry : entriesInCurrentGroup) {
-            if (entry.getCustomAttributeId() == Integer.parseInt(customAttributeDocumentEntry.getKey())) {
+            if (entry.getId() == Integer.parseInt(customAttributeDocumentEntry.getKey())) {
                 return true;
             }
         }
@@ -116,7 +116,7 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
         }
 
     protected boolean isMatch(T documentCustomData, Entry<String, CustomAttributeDocument> customAttributeDocumentEntry) {
-        return documentCustomData.getCustomAttributeId() == ((long)customAttributeDocumentEntry.getValue().getCustomAttributeId());
+        return documentCustomData.getCustomAttributeId() == ((long)customAttributeDocumentEntry.getValue().getId());
     }
 
     /**
@@ -140,7 +140,7 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
                 customAttributeGroups.put(groupName, customAttributeDocumentList);
                 
             }
-            customAttributeDocumentList.add(getCustomAttributeDocuments().get(customAttributeDocumentEntry.getValue().getCustomAttributeId().toString()));
+            customAttributeDocumentList.add(getCustomAttributeDocuments().get(customAttributeDocumentEntry.getValue().getId().toString()));
             Collections.sort(customAttributeDocumentList, new LabelComparator());
         }
     }

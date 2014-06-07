@@ -30,9 +30,9 @@ import org.kuali.coeus.common.budget.framework.query.operator.Or;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -87,7 +87,6 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         for (AwardFandaRate awardFnARate : awardFnARates) {
             InstituteRate awardRate = createAwardFnAInstitueRate(awardFnARate,award,instituteRates);
             instituteRatesForAward.add(awardRate);
-//            budgetDocument.getBudget().setOhRateClassCode(awardRate.getRateClassCode());
         }
         if(!instituteRatesForAward.isEmpty()){
             QueryList<InstituteRate> qlInstituteRates = new QueryList<InstituteRate>(instituteRatesForAward);

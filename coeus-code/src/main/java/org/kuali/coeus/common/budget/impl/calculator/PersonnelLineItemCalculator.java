@@ -21,11 +21,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
-import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.budget.personnel.BudgetPersonnelRateAndBase;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.AbstractBudgetCalculatedAmount;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemBase;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculatedAmount;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelRateAndBase;
 
 import java.util.ArrayList;
 import java.util.HashMap;

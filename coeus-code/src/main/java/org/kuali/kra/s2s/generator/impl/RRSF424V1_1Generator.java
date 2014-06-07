@@ -35,7 +35,7 @@ import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
-import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
+import org.kuali.coeus.propdev.api.abstrct.ProposalAbstractContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
@@ -44,8 +44,8 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.kra.s2s.S2SException;
@@ -138,10 +138,10 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		}
 		rrsf424.setProjectTitle(devProp.getTitle());
 		if (devProp.getProposalAbstracts() != null) {   
-           List<ProposalAbstract> proposalAbstractList = devProp.getProposalAbstracts(); 
+           List<? extends ProposalAbstractContract> proposalAbstractList = devProp.getProposalAbstracts();
            String state="";     
-           for (ProposalAbstract proposalAbstract : proposalAbstractList) {
-               if( proposalAbstract.getAbstractTypeCode().equals(AREAS_AFFECTED_ABSTRACT_TYPE_CODE))           
+           for (ProposalAbstractContract proposalAbstract : proposalAbstractList) {
+               if( proposalAbstract.getAbstractType().getCode().equals(AREAS_AFFECTED_ABSTRACT_TYPE_CODE))
                    state = proposalAbstract.getAbstractDetails();  
                }
            rrsf424.setLocation(state);

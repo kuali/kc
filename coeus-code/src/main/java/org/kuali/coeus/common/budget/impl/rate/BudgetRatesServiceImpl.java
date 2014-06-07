@@ -34,7 +34,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.personnel.BudgetPerson;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -179,15 +179,15 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
                 rateClassType.setPrefixActivityType(false);
                 /* set in proposal rates reference */
                 for(BudgetRate budgetRate: budgetRates) {
-                    RateClassType BPRateClassType = budgetRate.getRateClass().getRateClassTypeT();
-                    if(rateClassType.getRateClassType().equalsIgnoreCase(BPRateClassType.getRateClassType())) {
+                    RateClassType BPRateClassType = budgetRate.getRateClass().getRateClassType();
+                    if(rateClassType.getCode().equalsIgnoreCase(BPRateClassType.getCode())) {
                         BPRateClassType.setDescription(newRateClassTypeDescription);
                     }
                 }
                 /* set in proposal LA rates reference */
                 for(BudgetLaRate budgetLaRate: budgetLaRates) {
-                    RateClassType BPLRateClassType = budgetLaRate.getRateClass().getRateClassTypeT();
-                    if(rateClassType.getRateClassType().equalsIgnoreCase(BPLRateClassType.getRateClassType())) {
+                    RateClassType BPLRateClassType = budgetLaRate.getRateClass().getRateClassType();
+                    if(rateClassType.getCode().equalsIgnoreCase(BPLRateClassType.getCode())) {
                         BPLRateClassType.setDescription(newRateClassTypeDescription);
                     }
                 }
@@ -407,7 +407,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * */
     protected Date getRateEffectiveStartDate(Budget budget, AbstractInstituteRate rate, Date personEffectiveDate) {
         Date effectiveDate = budget.getStartDate();
-        if(rate.getRateClass().getRateClassType().equalsIgnoreCase(Constants.RATE_CLASS_TYPE_FOR_INFLATION) 
+        if(rate.getRateClass().getRateClassTypeCode().equalsIgnoreCase(Constants.RATE_CLASS_TYPE_FOR_INFLATION)
                 && personEffectiveDate != null 
                 && personEffectiveDate.compareTo(effectiveDate) < 0) {
             effectiveDate = personEffectiveDate;
@@ -536,9 +536,9 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         List<AbstractBudgetRate> abstractBudgetRates = (List<AbstractBudgetRate>) budgetRates;
         
         for(RateClass rateClass: rateClasses) {
-            if(rateClass.getRateClassType().equalsIgnoreCase(rateClassType)) {
+            if(rateClass.getRateClassTypeCode().equalsIgnoreCase(rateClassType)) {
                 for(AbstractBudgetRate abstractBudgetRate: abstractBudgetRates) {
-                    if(abstractBudgetRate.getRateClassCode().equalsIgnoreCase(rateClass.getRateClassCode())) {
+                    if(abstractBudgetRate.getRateClassCode().equalsIgnoreCase(rateClass.getCode())) {
                         abstractBudgetRate.setApplicableRate(abstractBudgetRate.getExternalApplicableRate()); 
                     }
                 }
@@ -599,7 +599,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     protected Map<String, RateClassType> populateExistingRateClassTypeMap(List<RateClassType> rateClassTypes) {
         Map<String, RateClassType> existingRateClassTypeMap = new HashMap<String, RateClassType>();        
         for(RateClassType rateClassType: rateClassTypes) {
-            existingRateClassTypeMap.put(rateClassType.getRateClassType(), rateClassType);
+            existingRateClassTypeMap.put(rateClassType.getCode(), rateClassType);
         }
         return existingRateClassTypeMap;
     }
@@ -705,7 +705,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         Iterator<RateClass> iter = budgetRateClasses.iterator();
         while(iter.hasNext()) {
             RateClass rateClass = iter.next();
-            if(rateClassType.equals(rateClass.getRateClassType())) {
+            if(rateClassType.equals(rateClass.getRateClassTypeCode())) {
                 iter.remove();
             }
         }
@@ -718,8 +718,8 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
                 RateClass rateClass = abstractInstituteRate.getRateType().getRateClass();
                 if(rateClass==null) abstractInstituteRate.getRateType().refreshNonUpdateableReferences();
                 rateClass = abstractInstituteRate.getRateType().getRateClass();
-                if(rateClass.getRateClassType().equals(rateClassType) && mapOfMatchingRateClasses.get(rateClass.getRateClassCode()) == null) {
-                    mapOfMatchingRateClasses.put(rateClass.getRateClassCode(), rateClass);
+                if(rateClass.getRateClassTypeCode().equals(rateClassType) && mapOfMatchingRateClasses.get(rateClass.getCode()) == null) {
+                    mapOfMatchingRateClasses.put(rateClass.getCode(), rateClass);
                 }
             }
         }
@@ -753,7 +753,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         for(AbstractInstituteRate abstractInstituteRate: instituteRates) {
             if(abstractInstituteRate.getRateType() != null) {
                 RateClass rateClass = abstractInstituteRate.getRateType().getRateClass();                
-                if(rateClassType.equals(rateClass.getRateClassType())) {
+                if(rateClassType.equals(rateClass.getRateClassTypeCode())) {
                     AbstractBudgetRate newBudgetRate = generateBudgetRate(budgetDocument, abstractInstituteRate);
                     String hKey = abstractInstituteRate.getRateKeyAsString();
                     AbstractBudgetRate existingBudgetRate = existingBudgetRateMap.get(hKey);
@@ -771,7 +771,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         Iterator<AbstractBudgetRate> iter = abstractBudgetRates.iterator();
         while(iter.hasNext()) {
             AbstractBudgetRate budgetRate = iter.next();
-            if(rateClassType.equals(budgetRate.getRateClass().getRateClassType())) {
+            if(rateClassType.equals(budgetRate.getRateClass().getRateClassTypeCode())) {
                 iter.remove();
             }
         }
@@ -780,7 +780,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     protected Map<String, AbstractBudgetRate> preservePersistedBudgetRatesForRateClassType(String rateClassType, List<AbstractBudgetRate> abstractBudgetRates) {
         Map<String, AbstractBudgetRate> existingBudgetRateMap = new HashMap<String, AbstractBudgetRate>();        
         for(AbstractBudgetRate abstractBudgetRate: abstractBudgetRates) {
-            if(rateClassType.equals(abstractBudgetRate.getRateClass().getRateClassType())) {
+            if(rateClassType.equals(abstractBudgetRate.getRateClass().getRateClassTypeCode())) {
                 existingBudgetRateMap.put(abstractBudgetRate.getRateKeyAsString(), abstractBudgetRate);
             }
         }
@@ -806,9 +806,9 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         Map<String, RateClassType> rateClassTypeMap = new HashMap<String, RateClassType>();
         for(AbstractInstituteRate abstractInstituteRate: instituteRates) {
             if(abstractInstituteRate.getRateClass() != null) {
-                String rateClassType = abstractInstituteRate.getRateClass().getRateClassType();
+                String rateClassType = abstractInstituteRate.getRateClass().getRateClassTypeCode();
                 if(existingRateClassTypeMap.get(rateClassType) == null) {
-                    rateClassTypeMap.put(rateClassType, abstractInstituteRate.getRateClass().getRateClassTypeT());
+                    rateClassTypeMap.put(rateClassType, abstractInstituteRate.getRateClass().getRateClassType());
                 }
             }
         }
@@ -864,7 +864,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         Map<String, RateClass> retval = new HashMap<String, RateClass>();
 
         for (RateClass rateClass : getBudgetRateClasses(rateClassType)) {
-            retval.put(rateClass.getRateClassCode(), rateClass);
+            retval.put(rateClass.getCode(), rateClass);
         }
 
         return retval;
@@ -925,7 +925,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         
             if (!isRateMatched) {
                 matched = false;
-                String rateClassType = budgetRate.getRateClass().getRateClassTypeT().getDescription();
+                String rateClassType = budgetRate.getRateClass().getRateClassType().getDescription();
                 String errorPath = "document.budgetProposalRate[" + rateClassType + "]";
                 boolean isNewError = true;
                 for (AuditError auditError : getAuditErrors()) {

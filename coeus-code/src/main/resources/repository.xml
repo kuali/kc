@@ -81,10 +81,10 @@
         <reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit"  auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="unitNumber" />
         </reference-descriptor>
-        <reference-descriptor name="appointmentType" class-ref="org.kuali.kra.budget.personnel.AppointmentType"  auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="appointmentType" class-ref="org.kuali.coeus.common.budget.framework.personnel.AppointmentType"  auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="typeCode" />
         </reference-descriptor>
-        <reference-descriptor name="jobCodeRef" class-ref="org.kuali.kra.budget.personnel.JobCode"  auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="jobCodeRef" class-ref="org.kuali.coeus.common.budget.framework.personnel.JobCode"  auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="jobCode" />
         </reference-descriptor>
         
@@ -259,7 +259,7 @@
     </class-descriptor>
     
 	<class-descriptor class="org.kuali.coeus.propdev.impl.abstrct.AbstractType" table="ABSTRACT_TYPE">
-		<field-descriptor name="abstractTypeCode" column="ABSTRACT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="code" column="ABSTRACT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -903,7 +903,7 @@
 		<!-- Custom Attributes: start -->
 
 	<class-descriptor class="org.kuali.coeus.common.framework.custom.attr.CustomAttribute" table="CUSTOM_ATTRIBUTE">
-		<field-descriptor name="id" column="ID" jdbc-type="INTEGER" primarykey="true"  sequence-name="SEQ_CUSTOM_ATTRIBUTE" autoincrement="true" />
+		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true"  sequence-name="SEQ_CUSTOM_ATTRIBUTE" autoincrement="true" />
 		<field-descriptor name="dataLength" column="DATA_LENGTH" jdbc-type="INTEGER"/>
 		<field-descriptor name="dataTypeCode" column="DATA_TYPE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="defaultValue" column="DEFAULT_VALUE" jdbc-type="VARCHAR"/>
@@ -922,7 +922,7 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDataType" table="CUSTOM_ATTRIBUTE_DATA_TYPE">
-		<field-descriptor name="dataTypeCode" column="DATA_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="code" column="DATA_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
@@ -931,7 +931,7 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument" table="CUSTOM_ATTRIBUTE_DOCUMENT">
-		<field-descriptor name="customAttributeId" column="CUSTOM_ATTRIBUTE_ID" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="id" column="CUSTOM_ATTRIBUTE_ID" jdbc-type="BIGINT" primarykey="true"/>
 		<field-descriptor name="documentTypeName" column="DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="required" column="IS_REQUIRED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
@@ -941,20 +941,20 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<reference-descriptor name="customAttribute" class-ref="org.kuali.coeus.common.framework.custom.attr.CustomAttribute" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="customAttributeId"/>
+			<foreignkey field-ref="id"/>
 		</reference-descriptor>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue" table="CUSTOM_ATTRIBUTE_DOC_VALUE">
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="customAttributeId" column="CUSTOM_ATTRIBUTE_ID" jdbc-type="BIGINT" primarykey="true"/>
+		<field-descriptor name="id" column="CUSTOM_ATTRIBUTE_ID" jdbc-type="BIGINT" primarykey="true"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="value" column="VALUE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<reference-descriptor name="customAttribute" class-ref="org.kuali.coeus.common.framework.custom.attr.CustomAttribute" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="customAttributeId"/>
+			<foreignkey field-ref="id"/>
 		</reference-descriptor>
 	</class-descriptor>
 
@@ -1213,14 +1213,6 @@
 	<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-
-   	<reference-descriptor name="developmentProposal" class-ref="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="devProposalNumber" />
-	</reference-descriptor>
-	
-	<reference-descriptor name="institutionalProposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-		<foreignkey field-ref="instProposalId"/> 
-	</reference-descriptor>
 </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.bo.MessageOfTheDay" table="MSG_OF_THE_DAY">
@@ -1496,14 +1488,15 @@
 		<field-descriptor name="namespace" column="NAMESPACE" jdbc-type="VARCHAR" />
 		<field-descriptor name="formName" column="FORM_NAME" jdbc-type="VARCHAR" />
 		<field-descriptor name="formFileName" column="FORM_FILE_NAME" jdbc-type="VARCHAR" />
-		<field-descriptor name="formFile" column="FORM_FILE" jdbc-type="BINARY" />
-		<field-descriptor name="xmlFile" column="XML_FILE" jdbc-type="VARCHAR" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<collection-descriptor name="s2sUserAttachedFormAtts" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormAtt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<collection-descriptor name="s2sUserAttachedFormAtts" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormAtt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="s2sUserAttachedFormId"/>
+		</collection-descriptor>
+		<collection-descriptor name="s2sUserAttachedFormFileList" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormFile" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="s2sUserAttachedFormId"/>
 		</collection-descriptor>
 	</class-descriptor>
@@ -1514,6 +1507,27 @@
 		<field-descriptor name="contentType" column="CONTENT_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
 		<field-descriptor name="contentId" column="CONTENT_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<collection-descriptor name="s2sUserAttachedFormAttFileList" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormAttFile" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="s2sUserAttachedFormAttId"/>
+		</collection-descriptor>
+	</class-descriptor>		
+	<class-descriptor class="org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormFile" table="S2S_USER_ATTACHED_FORM_FILE">
+		<field-descriptor name="id" column="S2S_USER_ATTACHED_FORM_FILE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_S2S_USER_ATTD_FORM_FILE_ID" autoincrement="true" />
+		<field-descriptor name="s2sUserAttachedFormId" column="S2S_USER_ATTACHED_FORM_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="formFile" column="FORM_FILE" jdbc-type="BINARY" />
+		<field-descriptor name="xmlFile" column="XML_FILE" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>		
+	<class-descriptor class="org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormAttFile" table="S2S_USER_ATTD_FORM_ATT_FILE">
+		<field-descriptor name="s2sUserAttachedFormAttFileId" column="S2S_USER_ATTD_FORM_ATT_FILE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_S2S_USR_ATD_FRM_ATT_FLE_ID" autoincrement="true" />
+		<field-descriptor name="s2sUserAttachedFormAttId" column="S2S_USER_ATTACHED_FORM_ATT_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="attachment" column="ATTACHMENT" jdbc-type="BINARY" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />

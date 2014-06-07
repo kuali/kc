@@ -23,12 +23,15 @@ import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBas
 import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KeyValuesService;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides a value finder for the Notification Type Recipient Role Namespace and Role name combination.
@@ -38,12 +41,26 @@ public class NotificationTypeRecipientRoleNameValuesFinder extends FormViewAware
     private KeyValuesService keyValuesService;
 
     @Override
+   	public Map<String, String> getKeyLabelMap() {
+           Map<String, String> keyLabelMap = new HashMap<String, String>();
+
+           List<KeyValue> keyLabels = getKeyValues();
+           if (keyLabels != null) {
+            for (KeyValue keyLabel : keyLabels) {
+           	    keyLabelMap.put(keyLabel.getKey(), keyLabel.getValue());
+            }
+           }
+           return keyLabelMap;
+     }
+    
+    @Override
     public List<KeyValue> getKeyValues() {
 
         String moduleCode = null;
 
         Document doc = getDocument();
-        if (doc != null) {
+        
+        if (doc != null && doc instanceof MaintenanceDocumentBase) {
             NotificationType notificationType = (NotificationType) doc.getNoteTarget();
             if (notificationType != null) {
                 moduleCode = notificationType.getModuleCode();

@@ -20,9 +20,9 @@ import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
@@ -152,7 +152,7 @@ public class AwardBudgetExt extends Budget {
     /**
      * Sets the obligatedTotal attribute value -  which should actually be the BudgetTotalCostLimit which is
      * the lesser of the obligated distributable amount and the award total cost budget limit.
-     * @param obligatedTotal The obligatedTotal to set.
+     * @param obligatedAmount The obligatedTotal to set.
      */
     public void setObligatedTotal(ScaleTwoDecimal obligatedAmount) {
         this.obligatedTotal = obligatedAmount;
@@ -210,15 +210,15 @@ public class AwardBudgetExt extends Budget {
         if (prevBudget == null && this.getBudgetDocument() != null) {
             Integer version = 0;
             for (BudgetDocumentVersion budgetDocumentVersion : this.getBudgetDocument().getParentDocument().getBudgetDocumentVersions()) {
-                for (BudgetVersionOverview budgetVersionOverview : budgetDocumentVersion.getBudgetVersionOverviews()) {
-                    if (budgetVersionOverview != null && budgetVersionOverview.getBudgetVersionNumber() > version 
-                    		&& getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED).equals(
-                    				((AwardBudgetVersionOverviewExt) budgetVersionOverview).getAwardBudgetStatusCode()) 
-                    		&& budgetVersionOverview.getBudgetVersionNumber() < this.getBudgetVersionNumber()) {
-                        version = budgetVersionOverview.getBudgetVersionNumber();
-                        prevBudget = budgetVersionOverview;
-                    }
+                BudgetVersionOverview budgetVersionOverview = budgetDocumentVersion.getBudgetVersionOverview();
+                if (budgetVersionOverview != null && budgetVersionOverview.getBudgetVersionNumber() > version
+                        && getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED).equals(
+                                ((AwardBudgetVersionOverviewExt) budgetVersionOverview).getAwardBudgetStatusCode())
+                        && budgetVersionOverview.getBudgetVersionNumber() < this.getBudgetVersionNumber()) {
+                    version = budgetVersionOverview.getBudgetVersionNumber();
+                    prevBudget = budgetVersionOverview;
                 }
+
             }
             if (prevBudget == null) {
                 prevBudget = new BudgetVersionOverview();
@@ -237,12 +237,11 @@ public class AwardBudgetExt extends Budget {
         if (firstBudget == null && this.getBudgetDocument() != null) {
             Integer version = 0;
             for (BudgetDocumentVersion budgetDocumentVersion : this.getBudgetDocument().getParentDocument().getBudgetDocumentVersions()) {
-                for (BudgetVersionOverview budgetVersionOverview : budgetDocumentVersion.getBudgetVersionOverviews()) {
-                    if (budgetVersionOverview != null && getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED).equals(
-                                    ((AwardBudgetVersionOverviewExt)budgetVersionOverview).getAwardBudgetStatusCode())) {
-                        firstBudget = budgetVersionOverview;
-                        return firstBudget;
-                    }
+                BudgetVersionOverview budgetVersionOverview = budgetDocumentVersion.getBudgetVersionOverview();
+                if (budgetVersionOverview != null && getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED).equals(
+                                ((AwardBudgetVersionOverviewExt)budgetVersionOverview).getAwardBudgetStatusCode())) {
+                    firstBudget = budgetVersionOverview;
+                    return firstBudget;
                 }
             }
             if (firstBudget == null) {

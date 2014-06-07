@@ -128,7 +128,7 @@
 		p:toggleCaretClass="">
 		<property name="menuGroup">
 			<bean parent="Uif-AppMenuGroup"
-				p:layoutManager.defaultItemColSpan="3">
+				p:layoutManager.defaultItemSize="3">
 				<property name="items">
 					<list>
 						<bean parent="Kc-Header-Researcher-Group1" p:order="10" />
@@ -383,7 +383,7 @@
 		parent="Uif-DropdownToggleMenu" p:toggleCaretClass="">
 		<property name="menuGroup">
 			<bean parent="Uif-AppMenuGroup"
-				p:layoutManager.defaultItemColSpan="3">
+				p:layoutManager.defaultItemSize="3">
 				<property name="items">
 					<list>
 						<bean parent="Kc-Header-SampleGroup" />

@@ -74,6 +74,15 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
 
     }
 
+
+    @MethodAccessible
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=navigateToError")
+    public ModelAndView navigateToError(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+        form.setAjaxReturnType("update-page");
+        return getTransactionalDocumentControllerService().navigate(form,result,request,response);
+    }
+
     private List<ProposalDevelopmentDataValidationItem> createDataValidationItems(ProposalDevelopmentDocument document, ViewIndex viewIndex) {
         List<ProposalDevelopmentDataValidationItem> dataValidationItems = new ArrayList<ProposalDevelopmentDataValidationItem>();
         KNSGlobalVariables.getAuditErrorMap().clear();

@@ -29,7 +29,7 @@ import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.DocumentBase;
 import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase;
+import org.kuali.rice.krad.rules.rule.event.DocumentEventBase;
 import org.kuali.rice.krad.service.AttachmentService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
@@ -145,7 +145,7 @@ public abstract class ProposalDevelopmentControllerBase {
      }
 
      public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
-             HttpServletRequest request, HttpServletResponse response, Class<? extends KualiDocumentEventBase> eventClazz) throws Exception {
+             HttpServletRequest request, HttpServletResponse response, Class<? extends DocumentEventBase> eventClazz) throws Exception {
          ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
          ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
          proposalDevelopmentService.initializeUnitOrganizationLocation(
@@ -168,7 +168,7 @@ public abstract class ProposalDevelopmentControllerBase {
          return view;
      }
      
-     protected void performCustomSave(DocumentBase document, Class<? extends KualiDocumentEventBase> eventClazz) {
+     protected void performCustomSave(DocumentBase document, Class<? extends DocumentEventBase> eventClazz) {
          try {
              getDocumentService().saveDocument(document, eventClazz);
              GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.MESSAGE_SAVED);

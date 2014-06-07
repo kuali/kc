@@ -39,7 +39,7 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -507,7 +507,7 @@ public abstract class PermissionsActionHelperBase implements Serializable {
     /*
      * Use the Kuali Rule Service to apply the rules for the given event.
      */
-    protected final boolean applyRules(KualiDocumentEvent event) {
+    protected final boolean applyRules(DocumentEvent event) {
         return getKualiRuleService().applyRules(event);
     }
 

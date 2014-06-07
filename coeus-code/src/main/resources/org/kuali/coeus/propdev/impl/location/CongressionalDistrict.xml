@@ -10,6 +10,8 @@
         <ref bean="CongressionalDistrict-proposalNumber" />
         <ref bean="CongressionalDistrict-siteNumber" />
         <ref bean="CongressionalDistrict-congressionalDistrict" />
+        <ref bean="CongressionalDistrict-newState" />
+        <ref bean="CongressionalDistrict-newDistrictNumber" />
       </list>
     </property>
   </bean>
@@ -85,6 +87,38 @@
     </property>
     <property name="summary" value="State code plus congressional district number" />
     <property name="description" value="State code plus congressional district number" />
+  </bean>
+  
+  <bean id="CongressionalDistrict-newState" parent="CongressionalDistrict-newState-parentBean" />
+  <bean id="CongressionalDistrict-newState-parentBean" abstract="true" parent="KraAttributeReferenceDummy-state">
+    <property name="name" value="newState" />
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.propdev.impl.location.CongDistrictStateCodeValuesFinder"/>
+    </property>
+    <property name="required" value="true" />
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
+    </property>
+    <property name="summary" value="State code, e.g. AZ" />
+    <property name="description" value="State code, e.g. AZ" />
+  </bean>
+  
+  <bean id="CongressionalDistrict-newDistrictNumber" parent="CongressionalDistrict-newDistrictNumber-parentBean" />
+  <bean id="CongressionalDistrict-newDistrictNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="newDistrictNumber" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="District Number" />
+    <property name="shortLabel" value="District Number" />
+    <property name="maxLength" value="3" />
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
+    <property name="required" value="true" />
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
+    </property>
+    <property name="summary" value="District Number" />
+    <property name="description" value="District Number" />
   </bean>
   
 </beans>

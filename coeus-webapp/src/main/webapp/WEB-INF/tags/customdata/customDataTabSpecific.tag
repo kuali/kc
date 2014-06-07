@@ -46,7 +46,7 @@
   
 	   	<c:forEach items="${customAttributeGroup.value}" var="customAttributeDocument" varStatus="status">
 	   		<c:forEach var="customAttribute" items="${customDataList}" varStatus="status"> 
-				<c:if test="${customAttribute.customAttributeId == customAttributeDocument.customAttributeId}">
+				<c:if test="${customAttribute.id == customAttributeDocument.id}">
 					<c:set var="customAttributeId" value="${customDataListPrefix}[${status.index}].value" />
 				</c:if>
 			</c:forEach>

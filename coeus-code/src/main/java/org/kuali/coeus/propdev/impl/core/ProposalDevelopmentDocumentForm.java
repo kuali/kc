@@ -16,12 +16,16 @@
 package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.medusa.MedusaNode;
+import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelAddWizardHelper;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.ToggleMenu;
@@ -42,6 +46,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private ProposalDevelopmentQuestionnaireHelper questionnaireHelper;
     private KeyPersonnelAddWizardHelper addKeyPersonHelper;
     private S2sOpportunity newS2sOpportunity;
+    private transient MedusaService medusaService;
     private Map<String,List<String>> editableAttachments;
     private ProposalDevelopmentCustomDataHelper customDataHelper;
     private String selectedCustomDataGroup;
@@ -191,5 +196,25 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     public void setValidateData(boolean validateData) {
         this.validateData = validateData;
+    }
+    
+    public Tree<Object, String> getMedusaTreeView() {
+    	 Tree<Object, String> tree = new Tree<Object, String>();
+    	 MedusaNode rootNode = new MedusaNode();
+    	 rootNode.setNodeLabel("Medusa Tree");
+    	 tree.setRootElement(rootNode);
+    	 rootNode.setChildNodes(getMedusaService().getMedusaByProposal("DP", Long.valueOf(getDevelopmentProposal().getProposalNumber())));
+    	 return tree;
+    }
+    
+    protected MedusaService getMedusaService() {
+    	if (medusaService == null) {
+    		medusaService = KcServiceLocator.getService(MedusaService.class);
+    	}
+    	return medusaService;
+    }
+    
+    public void setMedusaService(MedusaService medusaService) {
+    	this.medusaService = medusaService;
     }
 }

@@ -310,7 +310,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
             LOG.info("NonPersonnel calculated direct cost: " + rateType.getRateTypeCode() + "-" + rateType.getRateClassCode() + " = " + netExpense.get(rateType));
 
             // check if rate class type is O instead
-            if (!rateType.getRateClass().getRateClassType().equalsIgnoreCase("O")) {
+            if (!rateType.getRateClass().getRateClassTypeCode().equalsIgnoreCase("O")) {
                 List<ScaleTwoDecimal> expenses = currentNonPersonnelCalcDirectCost.get(rateType);
                 Details details = new Details();
                 details.setCurrentAmount(netExpense.get(rateType).toString());

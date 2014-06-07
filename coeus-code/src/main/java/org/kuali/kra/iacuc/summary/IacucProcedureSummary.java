@@ -234,7 +234,7 @@ public class IacucProcedureSummary implements Serializable {
         }
     }
     
-    public IacucProcedureCustomDataSummary findProcedureCustomDataSummary(Integer id) {
+    public IacucProcedureCustomDataSummary findProcedureCustomDataSummary(Long id) {
         for (IacucProcedureCustomDataSummary customDataSummary : customDataSummaries) {
             if (customDataSummary.getId().equals(id)) {
                 return customDataSummary;

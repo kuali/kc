@@ -36,6 +36,7 @@
         <property name="allowsRecordDeletion" value="true" />
         <property name="documentTypeName" value="SubAwardFormsMaintenanceDocument" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+        <property name="businessRulesClass" value="org.kuali.kra.subaward.subawardrule.SubAwardFormsMaintenanceDocumentRule"/>
     </bean>
 
     <!-- Maintenance Section Definitions -->
@@ -53,9 +54,11 @@
                     p:name="description"
                     p:required="true" /> 				
                 <bean parent="MaintainableFieldDefinition" 
-                    p:name="templateFile"/>
+                    p:name="templateFile"
+                    p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" 
-                    p:name="templateTypeCode"/>
+                    p:name="templateTypeCode"
+                    p:required="true"/>
             </list>
         </property>
     </bean>

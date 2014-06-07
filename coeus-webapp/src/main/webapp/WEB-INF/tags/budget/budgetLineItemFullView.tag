@@ -16,7 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <%@ attribute name="budgetLineItemNumber" description="Budget Line Item Number" required="true" %>
-<%@ attribute name="budgetLineItem" description="Budget Line Item" required="true" type="org.kuali.kra.budget.nonpersonnel.BudgetLineItem" %>
+<%@ attribute name="budgetLineItem" description="Budget Line Item" required="true" type="org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem" %>
 <%@ attribute name="innerTabParent" description="Inner Tab Parent Name" required="true" %>
 <%@ attribute name="budgetCategoryTypeCode" description="Budget Category Type Codes" required="true" %>
 <%@ attribute name="budgetExpensePanelReadOnly" description="Budget Expense Panel Read Only" required="true" %>
@@ -111,11 +111,11 @@
 			          		</tr>
 			          					          						          			
 			          		<c:forEach items="${budgetLineItem.budgetLineItemCalculatedAmounts}" varStatus="status">
-			          			<c:if test="${budgetLineItem.budgetLineItemCalculatedAmounts[status.index].rateClass.rateClassType == 'O'}" >
+			          			<c:if test="${budgetLineItem.budgetLineItemCalculatedAmounts[status.index].rateClass.rateClassTypeCode == 'O'}" >
 									<c:set var="overheadIndex" value="${overheadIndex},${status.index}" />
 								</c:if>
 																		
-				          		<c:if test="${budgetLineItem.budgetLineItemCalculatedAmounts[status.index].rateClass.rateClassType ne 'O'}" >
+				          		<c:if test="${budgetLineItem.budgetLineItemCalculatedAmounts[status.index].rateClass.rateClassTypeCode ne 'O'}" >
 									<tr>		
 										<td><div align="center">
 											<kul:htmlControlAttribute property="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${status.index}].rateClassCode" attributeEntry="${budgetLineItemCalculatedAmountAttributes.rateClassCode}" />

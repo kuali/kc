@@ -88,5 +88,7 @@ public interface AwardService {
      */
     public void synchNewCustomAttributes(Award newAward, Award oldAward);
     
+    public Award getAwardAssociatedWithDocument(String docNumber);
+    
     
 }

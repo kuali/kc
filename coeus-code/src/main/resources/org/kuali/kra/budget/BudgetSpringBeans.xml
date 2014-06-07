@@ -59,45 +59,9 @@
         <property name="serviceName" value="dataObjectService" />
     </bean>
 
-	<bean id="budgetPersonService" class="org.kuali.kra.budget.personnel.BudgetPersonServiceImpl">
-		<property name="parameterService">
-			<ref bean="parameterService"/>
-		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService"/>
-		</property>
-		<property name="kcPersonService">
-			<ref bean="kcPersonService"/>
-		</property>
-	</bean>
-	
-	<bean id="budgetPersonnelBudgetService" class="org.kuali.kra.budget.personnel.BudgetPersonnelBudgetServiceImpl">
-		<property name="budgetPersonService">
-			<ref bean="budgetPersonService"/>
-		</property>
-		<property name="budgetCalculationService">
-			<ref bean="budgetCalculationService"/>
-		</property>
-	</bean>
-
     <bean id="pessimisticLockService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="pessimisticLockService" />
     </bean>
-	
-	<bean id="jobCodeService" class="org.kuali.kra.budget.personnel.JobCodeServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
- 	</bean>
-
-	<bean id="budgetModularService" class="org.kuali.coeus.propdev.impl.budget.modular.BudgetModularServiceImpl">
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
-		<property name="budgetCalculationService">
-			<ref bean="budgetCalculationService" />
-		</property>
-	</bean>
 	
 	<bean id="budgetExpenseLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
   		<property name="lookupableHelperService">
@@ -130,8 +94,6 @@
 	<bean id="activeFlagLookupableHelperServiceImpl" class="org.kuali.kra.lookup.ActiveFlagLookupableHelperServiceImpl" 
  		scope="prototype" parent="parentLookupableHelperService">
   	</bean>
-  	
-  	<bean id="copyPeriodsQuestion" class="org.kuali.coeus.common.budget.framework.copy.CopyPeriodsQuestion" scope="prototype" />
     
     <bean id="budgetPeriodLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" lazy-init="true">
   		<property name="lookupableHelperService">

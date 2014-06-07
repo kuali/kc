@@ -43,11 +43,11 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.budget.api.category.BudgetCategoryMapContract;
-import org.kuali.coeus.budget.api.category.BudgetCategoryMappingContract;
+import org.kuali.coeus.common.budget.api.category.BudgetCategoryMapContract;
+import org.kuali.coeus.common.budget.api.category.BudgetCategoryMappingContract;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
@@ -171,8 +171,8 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
             for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : budgetLineItem
                     .getBudgetLineItemCalculatedAmounts()) {
                 budgetLineItemCalculatedAmount.refreshReferenceObject("rateClass");
-                if (budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RATE_CLASS_TYPE_EMPLOYEE_BENEFITS)
-                        || budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RATE_CLASS_TYPE_EMPLOYEE_BENEFITS)) {
+                if (budgetLineItemCalculatedAmount.getRateClass().getRateClassTypeCode().equals(RATE_CLASS_TYPE_EMPLOYEE_BENEFITS)
+                        || budgetLineItemCalculatedAmount.getRateClass().getRateClassTypeCode().equals(RATE_CLASS_TYPE_EMPLOYEE_BENEFITS)) {
                     calculatedCost = calculatedCost.add(budgetLineItemCalculatedAmount.getCalculatedCost());
                 }
             }

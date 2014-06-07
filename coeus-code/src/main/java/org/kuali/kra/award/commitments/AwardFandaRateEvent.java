@@ -56,7 +56,7 @@ public abstract class AwardFandaRateEvent extends KcDocumentEventBase {
     }
 
     /**
-    * @see org.kuali.core.rule.event.KualiDocumentEvent#validate()
+    * @see org.kuali.core.rule.event.DocumentEvent#validate()
     */
     public void validate() {
         super.validate();

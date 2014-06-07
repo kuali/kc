@@ -19,33 +19,38 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetRateAndBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Component("budgetModularService")
 public class BudgetModularServiceImpl implements BudgetModularService {
     
     private static final String RATE_CLASS_PROPERTY_NAME = "rateClass";
     private static final String RATE_NUMBER_PROPERTY_NAME = "rateNumber";
     private static final ScaleTwoDecimal TDC_NEXT_INCREMENT = new ScaleTwoDecimal(25000);
-    
+
+    @Autowired
+    @Qualifier("budgetCalculationService")
     private BudgetCalculationService budgetCalculationService;
+    @Autowired
+    @Qualifier("parameterService")
     private ParameterService parameterService;
     
     public void generateModularPeriod(BudgetPeriod budgetPeriod) {
 
         if (ObjectUtils.isNull(budgetPeriod.getBudgetModular())) {
-            // Modular period not initialized yet - create
-//            BudgetModular budgetModular = 
-//                new BudgetModular(budgetPeriod.getProposalNumber(), budgetPeriod.getBudgetVersionNumber(), budgetPeriod.getBudgetPeriod());
-            BudgetModular budgetModular = 
+            BudgetModular budgetModular =
                 new BudgetModular(budgetPeriod.getBudgetId(), budgetPeriod.getBudgetPeriod());
             budgetModular.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
             budgetPeriod.setBudgetModular(budgetModular);
@@ -85,7 +90,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
         
         return modularSummary;
     }
-    
+
     public void synchModularBudget(Budget budget) {
         
         if (budget == null) {
@@ -98,7 +103,6 @@ public class BudgetModularServiceImpl implements BudgetModularService {
             
             if (ObjectUtils.isNull(budgetPeriod.getBudgetModular())) {
                 // Modular period not initialized yet - create
-//                BudgetModular tmpBudgetModular = new BudgetModular(budgetPeriod.getProposalNumber(), budgetPeriod.getBudgetVersionNumber(), budgetPeriod.getBudgetPeriod());
                 BudgetModular tmpBudgetModular = new BudgetModular(budgetPeriod.getBudgetId(), budgetPeriod.getBudgetPeriod());
                 tmpBudgetModular.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
                 budgetPeriod.setBudgetModular(tmpBudgetModular);
@@ -127,7 +131,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                     String fnaRateClassType = this.parameterService.getParameterValueAsString(
                             BudgetDocument.class, Constants.PARAMETER_FNA_RATE_CLASS_TYPE);
                   
-                    if (budgetRateAndBase.getRateClass().getRateClassType().equals(fnaRateClassType)) {
+                    if (budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(fnaRateClassType)) {
                         BudgetModularIdc budgetModularIdc = new BudgetModularIdc();
                         budgetModularIdc.setRateNumber(budget.getBudgetDocument().getHackedDocumentNextValue(RATE_NUMBER_PROPERTY_NAME));
                         budgetModularIdc.setDescription(budgetRateAndBase.getRateClassCode());
@@ -148,6 +152,10 @@ public class BudgetModularServiceImpl implements BudgetModularService {
             budgetModular.setConsortiumFna(consortiumFna);
             budgetModular.calculateAllTotals();
         }
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
     }
 
     /**

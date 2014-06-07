@@ -12,13 +12,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
+import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.printing.GenericPrintable;
@@ -106,9 +106,8 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 			personId = "" + proposalPerson.getRolodexId();
 		}
 
-		for (ProposalPersonBiography personBiography : getPernonnelAttachments(
+		for (ProposalPersonBiographyContract personBiography : getPernonnelAttachments(
 				pdDoc, proposalPerson, docType)) {
-			personBiography.refreshReferenceObject("personnelAttachment");
 			byte[] content = personBiography.getPersonnelAttachment().getData();
 			if (content != null && content.length > 0) {
 				dataList.add(content);
@@ -220,26 +219,25 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 		}
 		return null;
 	}
-	private List<ProposalPersonBiography> getPernonnelAttachments(
+	private List<ProposalPersonBiographyContract> getPernonnelAttachments(
 			ProposalDevelopmentDocument pdDoc, ProposalPerson proposalPerson,
 			String documentType) {
-		List<ProposalPersonBiography> result = new ArrayList<ProposalPersonBiography>();
-		for (ProposalPersonBiography proposalPersonBiography : pdDoc
+		List<ProposalPersonBiographyContract> result = new ArrayList<ProposalPersonBiographyContract>();
+		for (ProposalPersonBiographyContract proposalPersonBiography : pdDoc
 				.getDevelopmentProposal().getPropPersonBios()) {
 			String personId = proposalPerson.getPersonId();
 			Integer rolodexId = proposalPerson.getRolodexId();
 			if (personId != null
 					&& proposalPersonBiography.getPersonId() != null
 					&& proposalPersonBiography.getPersonId().equals(personId)
-					&& documentType.equals(proposalPersonBiography
-							.getDocumentTypeCode())) {
+					&& documentType.equals(proposalPersonBiography.getPropPerDocType().getCode())) {
 				result.add(proposalPersonBiography);
 			} else if (rolodexId != null
 					&& proposalPersonBiography.getRolodexId() != null
 					&& proposalPersonBiography.getRolodexId().toString()
 							.equals(rolodexId.toString())
 					&& documentType.equals(proposalPersonBiography
-							.getDocumentTypeCode())) {
+							.getPropPerDocType().getCode())) {
 				result.add(proposalPersonBiography);
 			}
 		}

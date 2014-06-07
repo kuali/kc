@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.rule.event;
 import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 
-public interface AwardAttachmentEvent extends KualiDocumentEvent {
+public interface AwardAttachmentEvent extends DocumentEvent {
     public AwardAttachment getAwardAttachment();
 }

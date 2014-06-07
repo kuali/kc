@@ -31,6 +31,8 @@ import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.assignreviewers.IacucProtocolAssignReviewersService;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
+import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -47,6 +49,8 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
     private ProtocolActionService protocolActionService;
     private BusinessObjectService businessObjectService;
     private IacucProtocolAssignReviewersService iacucProtocolAssignReviewersService;
+
+	private DataObjectService dataObjectService;
     
     /**
      * Set the Document Service.
@@ -144,7 +148,14 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
         if (submission.getScheduleIdFk() != null) {
             updateDefaultSchedule(submission);
         }
-        businessObjectService.delete(protocol.getProtocolDocument().getPessimisticLocks());
+
+        List<PessimisticLock> locks = protocol.getProtocolDocument().getPessimisticLocks();
+        if (locks != null) {
+        	for(PessimisticLock lock : locks) {
+        		dataObjectService.delete(lock);
+        	}
+        }
+        
         protocol.getProtocolDocument().getPessimisticLocks().clear();
         documentService.saveDocument(protocol.getProtocolDocument());
 
@@ -217,4 +228,11 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
         this.iacucProtocolAssignReviewersService = iacucProtocolAssignReviewersService;
     }
 
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+    
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
 }

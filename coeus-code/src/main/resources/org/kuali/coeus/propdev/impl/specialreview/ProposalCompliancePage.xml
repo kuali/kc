@@ -48,9 +48,9 @@
 		parent="Uif-Disclosure-StackedCollectionSection" p:title="Compliance" p:propertyName="propSpecialReviews"
 		p:collectionObjectClass="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview"
 		p:layoutManager.summaryTitle="@{#line.specialReviewType.description} @{#line.approvalType.description} @{#line.protocolNumber}"
-		p:addViaLightBox="true">
-		<property name="addViaLightBoxAction">
-			<bean parent="Uif-AddViaLightBoxAction" p:actionLabel="Add compliance entry" p:iconClass="icon-plus"/>
+		p:addWithDialog="true">
+		<property name="addWithDialogAction">
+			<bean parent="Uif-AddWithDialogAction" p:actionLabel="Add compliance entry" p:iconClass="icon-plus"/>
 		</property>
 		<property name="items">
 			<list>

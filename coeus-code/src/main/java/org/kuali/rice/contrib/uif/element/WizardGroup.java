@@ -16,6 +16,7 @@
 package org.kuali.rice.contrib.uif.element;
 
 import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.container.DialogGroup;
 import org.kuali.rice.krad.uif.container.GroupBase;
 import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -23,7 +24,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WizardGroup extends GroupBase {
+public class WizardGroup extends DialogGroup {
 
     @Override
     public void performApplyModel(Object model, LifecycleElement parent) {

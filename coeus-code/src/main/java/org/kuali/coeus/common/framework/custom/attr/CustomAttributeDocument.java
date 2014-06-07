@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.framework.custom.attr;
 
+import org.kuali.coeus.common.api.custom.attr.CustomAttributeDocumentContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
@@ -23,9 +24,9 @@ import org.kuali.rice.kew.doctype.bo.DocumentType;
  * 
  * This class bo of CustomAttributeDocument.
  */
-public class CustomAttributeDocument extends KcPersistableBusinessObjectBase implements MutableInactivatable {
+public class CustomAttributeDocument extends KcPersistableBusinessObjectBase implements MutableInactivatable, CustomAttributeDocumentContract {
 
-    private Integer customAttributeId;
+    private Long id;
 
     private String documentTypeName;
 
@@ -43,30 +44,25 @@ public class CustomAttributeDocument extends KcPersistableBusinessObjectBase imp
         super();
     }
 
-    public Integer getCustomAttributeId() {
-        return customAttributeId;
+    @Override
+    public Long getId() {
+        return id;
     }
 
-    public void setCustomAttributeId(Integer customAttributeId) {
-        this.customAttributeId = customAttributeId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    /**
-     * Sets the documentTypeName attribute value.
-     * @param documentTypeName The documentTypeName to set.
-     */
     public void setDocumentTypeName(String documentTypeName) {
         this.documentTypeName = documentTypeName;
     }
 
-    /**
-     * Gets the documentTypeCode attribute.
-     * @return Returns the documentTypeCode.
-     */
+    @Override
     public String getDocumentTypeName() {
         return documentTypeName;
     }
 
+    @Override
     public boolean isRequired() {
         return required;
     }
@@ -75,6 +71,7 @@ public class CustomAttributeDocument extends KcPersistableBusinessObjectBase imp
         this.required = required;
     }
 
+    @Override
     public String getTypeName() {
         return typeName;
     }
@@ -83,22 +80,16 @@ public class CustomAttributeDocument extends KcPersistableBusinessObjectBase imp
         this.typeName = typeName;
     }
 
-    /**
-     * Sets the customAttribute attribute value.
-     * @param customAttribute The customAttribute to set.
-     */
     public void setCustomAttribute(CustomAttribute customAttribute) {
         this.customAttribute = customAttribute;
     }
 
-    /**
-     * Gets the customAttribute attribute.
-     * @return Returns the customAttribute.
-     */
+    @Override
     public CustomAttribute getCustomAttribute() {
         return customAttribute;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -107,18 +98,10 @@ public class CustomAttributeDocument extends KcPersistableBusinessObjectBase imp
         this.active = active;
     }
 
-    /**
-     * Gets the documentType attribute. 
-     * @return Returns the documentType.
-     */
     public DocumentType getDocumentType() {
         return documentType;
     }
 
-    /**
-     * Sets the documentType attribute value.
-     * @param documentType The documentType to set.
-     */
     public void setDocumentType(DocumentType documentType) {
         this.documentType = documentType;
     }

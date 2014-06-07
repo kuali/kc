@@ -31,7 +31,7 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
+import static org.kuali.kra.infrastructure.Constants.KNS_AUDIT_ERRORS;
 
 /**
  * Validate a protocol submission to the IRB for review.
@@ -73,7 +73,7 @@ public class IacucProtocolSubmitActionRule extends ProtocolSubmitActionRuleBase 
             auditErrors.add(new AuditError(PROTOCOL_ALT_SEARCH_PROPERTY_KEY , KeyConstants.IACUC_PROTOCOL_ALT_SEARCH_DATA_NOT_ENTERED, PRINCIPLES_PANEL_NAME + "." + PRINCIPLES_ANCHOR_NAME));
         }
         if (auditErrors.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put(PRINCIPLES_CLUSTER_NAME, new AuditCluster(PRINCIPLES_ANCHOR_NAME, auditErrors, AUDIT_ERRORS));
+            KNSGlobalVariables.getAuditErrorMap().put(PRINCIPLES_CLUSTER_NAME, new AuditCluster(PRINCIPLES_ANCHOR_NAME, auditErrors, KNS_AUDIT_ERRORS));
             return false;
         } else {
             return true;

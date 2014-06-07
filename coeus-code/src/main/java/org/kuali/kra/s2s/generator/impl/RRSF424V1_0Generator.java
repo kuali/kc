@@ -34,15 +34,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
+import org.kuali.coeus.common.api.ynq.YnqContract;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
+import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
@@ -419,7 +420,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 				}
 			}
 		}
-		ProposalYnq proposalYnq = getAnswer(
+		ProposalYnqContract proposalYnq = getAnswer(
 				PROPOSAL_YNQ_OTHER_AGENCY_SUBMISSION, pdDoc);
 		Enum answer = YesNoDataType.NO;
 		if (proposalYnq != null && proposalYnq.getAnswer() != null) {
@@ -756,15 +757,15 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 	 *            for which the proposalYnq has to be found.
 	 * @return proposalYnq corresponding to the questionId.
 	 */
-	private ProposalYnq getAnswer(String questionId,
+	private ProposalYnqContract getAnswer(String questionId,
 			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		String question;
-		ProposalYnq ynQ = null;
-		for (ProposalYnq proposalYnq : proposalDevelopmentDocument
+		YnqContract question;
+		ProposalYnqContract ynQ = null;
+		for (ProposalYnqContract proposalYnq : proposalDevelopmentDocument
 				.getDevelopmentProposal().getProposalYnqs()) {
-			question = proposalYnq.getQuestionId();
+			question = proposalYnq.getYnq();
 
-			if (question != null && question.equals(questionId)) {
+			if (question != null && question.getQuestionId().equals(questionId)) {
 				ynQ = proposalYnq;
 				break;
 			}

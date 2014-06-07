@@ -31,11 +31,11 @@ import org.kuali.kra.award.budget.AwardBudgetBudgetTypeAuditRule;
 import org.kuali.kra.award.budget.AwardBudgetCostLimitAuditRule;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
-import org.kuali.kra.budget.nonpersonnel.BudgetExpensesAuditRule;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.budget.personnel.BudgetPersonnelAuditRule;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.budget.personnel.BudgetPersonnelRule;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetExpensesAuditRule;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelAuditRule;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelRule;
 import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRateAuditRule;
@@ -226,7 +226,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         MessageMap errorMap = GlobalVariables.getMessageMap();
         int i = 0;
         for (BudgetRate budgetRate : budgetDocument.getBudget().getBudgetRates()) {
-            String rateClassType = budgetRate.getRateClass().getRateClassTypeT().getDescription();
+            String rateClassType = budgetRate.getRateClass().getRateClassType().getDescription();
             String errorPath = "budgetProposalRate[" + rateClassType + "][" + i + "]";
             errorMap.addToErrorPath(errorPath);
             /* look for applicable rate */
@@ -256,8 +256,8 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         i = 0;
         for (BudgetLaRate budgetLaRate : budgetDocument.getBudget().getBudgetLaRates()) {
             String rateClassType = "";
-            if (ObjectUtils.isNotNull(budgetLaRate.getRateClass()) && ObjectUtils.isNotNull(budgetLaRate.getRateClass().getRateClassTypeT())) {
-                rateClassType = budgetLaRate.getRateClass().getRateClassTypeT().getDescription();
+            if (ObjectUtils.isNotNull(budgetLaRate.getRateClass()) && ObjectUtils.isNotNull(budgetLaRate.getRateClass().getRateClassType())) {
+                rateClassType = budgetLaRate.getRateClass().getRateClassType().getDescription();
             }
             String errorPath = "budgetRate[" + rateClassType + "][" + i + "]";
             errorMap.addToErrorPath(errorPath);

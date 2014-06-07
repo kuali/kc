@@ -16,7 +16,7 @@
 package org.kuali.coeus.sys.framework.rule;
 
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase;
+import org.kuali.rice.krad.rules.rule.event.DocumentEventBase;
 
 
 /**
@@ -25,7 +25,7 @@ import org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase;
  * @author $Author: gmcgrego $
  * @version $Revision: 1.2 $
  */
-public abstract class KcDocumentEventBase extends KualiDocumentEventBase {
+public abstract class KcDocumentEventBase extends DocumentEventBase {
 
     protected KcDocumentEventBase(String description, String errorPathPrefix, Document document) {
         super(description, errorPathPrefix, document);

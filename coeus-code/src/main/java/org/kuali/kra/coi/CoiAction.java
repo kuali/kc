@@ -33,7 +33,7 @@ import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -141,7 +141,7 @@ public abstract class CoiAction extends KcTransactionalDocumentActionBase {
      * @return true if success; false if there was a validation error
      */
     @SuppressWarnings("deprecation")
-    protected final boolean applyRules(KualiDocumentEvent event) {
+    protected final boolean applyRules(DocumentEvent event) {
         return getKualiRuleService().applyRules(event);
     }
     

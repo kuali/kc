@@ -103,15 +103,13 @@ public class KRAS2SServiceImpl implements S2SService {
 			}
 			List<AttachmentData> formAttList = new ArrayList<AttachmentData>();
 			S2SBaseFormGenerator s2sFormGenerator = null;
-			try {
-				FormMappingInfo info = new FormMappingLoader().getFormInfo(opportunityForm.getOppNameSpace());
-				s2sFormGenerator = (S2SBaseFormGenerator)s2SFormGeneratorService.getS2SGenerator(developmentProposal.getProposalNumber(),info.getNameSpace());
-			    s2sFormGenerator.setAuditErrors(auditErrors);
-			    s2sFormGenerator.setAttachments(formAttList);
-			    s2sFormGenerator.setNamespace(info.getNameSpace());
-			} catch (S2SException e) {
-				continue;
-			}
+            FormMappingInfo info = new FormMappingLoader().getFormInfo(developmentProposal.getProposalNumber(),opportunityForm.getOppNameSpace());
+            if(info==null) continue;
+			String namespace = info.getNameSpace();
+            s2sFormGenerator = (S2SBaseFormGenerator)s2SFormGeneratorService.getS2SGenerator(developmentProposal.getProposalNumber(),namespace);
+		    s2sFormGenerator.setAuditErrors(auditErrors);
+		    s2sFormGenerator.setAttachments(formAttList);
+		    s2sFormGenerator.setNamespace(info.getNameSpace());
 			try {
 				XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
 				if (s2SValidatorService.validate(formObject, auditErrors)) {

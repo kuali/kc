@@ -31,12 +31,12 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.commitments.FandaRateType;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
-import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
-import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.AbstractBudgetCalculatedAmount;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemBase;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculatedAmount;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
@@ -201,7 +201,7 @@ public abstract class AbstractBudgetCalculator {
             calcAmts.addAll(budgetLineItem.getBudgetCalculatedAmounts());
             for (AbstractBudgetCalculatedAmount calcAmt : calcAmts) {
                 calcAmt.refreshReferenceObject("rateClass");
-                calcAmt.setRateClassType(calcAmt.getRateClass().getRateClassType());
+                calcAmt.setRateClassType(calcAmt.getRateClass().getRateClassTypeCode());
             }
             NotEquals notEqualsOH = new NotEquals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
             Equals equalsOH = new Equals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
@@ -292,7 +292,7 @@ public abstract class AbstractBudgetCalculator {
                             if (personnelCalAmt.getRateClass() == null) {
                                 personnelCalAmt.refreshReferenceObject("rateClass");
                             }
-                            if (!personnelCalAmt.getRateClass().getRateClassType().equals("O")) {
+                            if (!personnelCalAmt.getRateClass().getRateClassTypeCode().equals("O")) {
                                 directCost = directCost.add(personnelCalAmt.getCalculatedCost());
                             } else {
                                 indirectCost = indirectCost.add(personnelCalAmt.getCalculatedCost());
@@ -424,7 +424,7 @@ public abstract class AbstractBudgetCalculator {
                     // form the rate not available message
                     // These two statements have to move to the populate method of calculatedAmount later.
                     budgetLineItemCalculatedAmount.refreshReferenceObject("rateClass");
-                    rateClassType = budgetLineItemCalculatedAmount.getRateClass().getRateClassType();
+                    rateClassType = budgetLineItemCalculatedAmount.getRateClass().getRateClassTypeCode();
                     // end block to be moved
                     message = messageTemplate + budgetLineItemCalculatedAmount.getRateClass().getDescription()
                             + "\'  Rate Type - \'" + budgetLineItemCalculatedAmount.getRateTypeDescription()
@@ -723,14 +723,14 @@ public abstract class AbstractBudgetCalculator {
 
         for (ValidCeRateType validCeRateType : rateTypes) {
             validCeRateType.refreshNonUpdateableReferences();
-            String rateClassType = validCeRateType.getRateClass().getRateClassType();
+            String rateClassType = validCeRateType.getRateClass().getRateClassTypeCode();
             if(rateClassType.equals(RateClassType.OVERHEAD.getRateClassType()) && 
                     !Boolean.valueOf(budget.getBudgetDocument().getProposalBudgetFlag())){
                 addOHBudgetLineItemCalculatedAmountForAward( validCeRateType.getRateClassCode(), validCeRateType.getRateType(), 
-                        validCeRateType.getRateClass().getRateClassType());
+                        validCeRateType.getRateClass().getRateClassTypeCode());
             }else{
                 addBudgetLineItemCalculatedAmount( validCeRateType.getRateClassCode(), validCeRateType.getRateType(), 
-                                            validCeRateType.getRateClass().getRateClassType());
+                                            validCeRateType.getRateClass().getRateClassTypeCode());
             }
         }
     }

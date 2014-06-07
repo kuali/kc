@@ -63,6 +63,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalDocumentView.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalInitiatePage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalInitiateView.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalMedusaSection.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalSummarySection.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/ProposalOpportunitySearchPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/deliver/ProposalDeliveryInfoPage.xml</value>
@@ -299,7 +300,7 @@
         <property name="serviceName" value="sponsorHierarchyService"/>
     </bean>
 
-    <bean id="budgetPersonnelBudgetService" class="org.kuali.kra.budget.personnel.BudgetPersonnelBudgetServiceImpl">
+    <bean id="budgetPersonnelBudgetService" class="org.kuali.coeus.common.budget.impl.personnel.BudgetPersonnelBudgetServiceImpl">
         <property name="budgetPersonService">
             <ref bean="budgetPersonService"/>
         </property>

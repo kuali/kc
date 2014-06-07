@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__3493", [["Documents/figure70medusaatabbedsectioninproposalawarddisplayexample.htm", "right", "Figure 70  Medusa – a tabbed section in Proposal > Award display (Example)"],["Documents/figure70medusaatabbedsectioninproposalawarddisplayexample1.htm", "right", "Figure 70  Medusa – a tabbed section in Proposal > Award display (Example)"]]);

@@ -26,7 +26,7 @@ import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeHomeHelper
 import org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeViewHelper;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -98,7 +98,7 @@ public class PersonMassChangeAction extends KcTransactionalDocumentActionBase {
         return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
     }
     
-    public final boolean applyRules(KualiDocumentEvent event) {
+    public final boolean applyRules(DocumentEvent event) {
         return getKualiRuleService().applyRules(event);
     }
         

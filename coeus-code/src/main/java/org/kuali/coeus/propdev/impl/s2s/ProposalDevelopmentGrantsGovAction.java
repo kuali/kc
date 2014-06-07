@@ -32,6 +32,8 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.s2s.S2sOppFormsContract;
+import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormAttFileContract;
+import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormFileContract;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -298,15 +300,15 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
-        S2sUserAttachedForm s2sUserAttachedForm = proposalDevelopmentForm.getNewS2sUserAttachedForm();
-        FormFile userAttachedFormFile = s2sUserAttachedForm.getNewFormFile();
-        s2sUserAttachedForm.setFormFile(userAttachedFormFile.getFileData());
-        s2sUserAttachedForm.setFormFileName(userAttachedFormFile.getFileName());
-        s2sUserAttachedForm.setProposalNumber(developmentProposal.getProposalNumber());
+        S2sUserAttachedForm newS2sUserAttachedForm = proposalDevelopmentForm.getNewS2sUserAttachedForm();
+        FormFile userAttachedFormFile = newS2sUserAttachedForm.getNewFormFile();
+        newS2sUserAttachedForm.setNewFormFileBytes(userAttachedFormFile.getFileData());
+        newS2sUserAttachedForm.setFormFileName(userAttachedFormFile.getFileName());
+        newS2sUserAttachedForm.setProposalNumber(developmentProposal.getProposalNumber());
         List<S2sUserAttachedForm> userAttachedForms = new ArrayList<S2sUserAttachedForm>();
         try{
             userAttachedForms = getS2SUserAttachedFormService().
-                                                extractNSaveUserAttachedForms(developmentProposal,s2sUserAttachedForm);
+                                                extractNSaveUserAttachedForms(developmentProposal,newS2sUserAttachedForm);
             developmentProposal.getS2sUserAttachedForms().addAll(userAttachedForms);
             proposalDevelopmentForm.setNewS2sUserAttachedForm(new S2sUserAttachedForm());
         }catch(S2SException ex){
@@ -337,13 +339,16 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
         List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
-        if(selectedForm.getXmlFile()==null){
-            selectedForm = getBusinessObjectService().
-                        findBySinglePrimaryKey(S2sUserAttachedForm.class, selectedForm.getId());
+
+        S2sUserAttachedFormFileContract userAttachedFormFile = getS2SUserAttachedFormService().findUserAttachedFormFile(selectedForm);
+        if(userAttachedFormFile!=null){
+            streamToResponse(userAttachedFormFile.getXmlFile().getBytes(), selectedForm.getFormName()+".xml", CONTENT_TYPE_XML, response);
+        }else{
+            return mapping.findForward(Constants.MAPPING_BASIC);
         }
-        streamToResponse(selectedForm.getXmlFile().getBytes(), selectedForm.getFormName()+".xml", CONTENT_TYPE_XML, response);
         return null;
     }
+
     /**
      * 
      * This method enable the ability to save the generated system to system XML
@@ -360,11 +365,12 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
         List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
-        if(selectedForm.getFormFile()==null || selectedForm.getFormFile().length==0){
-            selectedForm = getBusinessObjectService().
-                        findBySinglePrimaryKey(S2sUserAttachedForm.class, selectedForm.getId());
+        S2sUserAttachedFormFileContract userAttachedFormFile = getS2SUserAttachedFormService().findUserAttachedFormFile(selectedForm);
+        if(userAttachedFormFile!=null){
+            streamToResponse(userAttachedFormFile.getFormFile(), selectedForm.getFormFileName(), CONTENT_TYPE_PDF, response);
+        }else{
+            return mapping.findForward(Constants.MAPPING_BASIC);
         }
-        streamToResponse(selectedForm.getFormFile(), selectedForm.getFormFileName(), CONTENT_TYPE_PDF, response);
         return null;
     }
     /**
@@ -384,11 +390,13 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
         S2sUserAttachedFormAtt attachment = selectedForm.getS2sUserAttachedFormAtts().get(getParameterForToken(request, "attIndex"));
-        if(attachment.getData()==null || attachment.getData().length==0){
-            attachment = getBusinessObjectService().
-                        findBySinglePrimaryKey(S2sUserAttachedFormAtt.class, attachment.getId());
+        S2sUserAttachedFormAttFileContract userAttachedFormFile = getS2SUserAttachedFormService().findUserAttachedFormAttFile(attachment);
+        if(userAttachedFormFile!=null){
+            streamToResponse(userAttachedFormFile.getAttachment(), attachment.getName(), attachment.getType(), response);
+        }else{
+            return mapping.findForward(Constants.MAPPING_BASIC);
         }
-        streamToResponse(attachment.getData(), attachment.getName(), attachment.getType(), response);
+
         return null;
     }
     protected int getParameterForToken(HttpServletRequest request,String token) {

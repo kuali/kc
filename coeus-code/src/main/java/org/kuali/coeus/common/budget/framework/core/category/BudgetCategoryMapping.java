@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.budget.framework.core.category;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.budget.api.category.BudgetCategoryMappingContract;
+import org.kuali.coeus.common.budget.api.category.BudgetCategoryMappingContract;
 
 public class BudgetCategoryMapping extends KcPersistableBusinessObjectBase implements BudgetCategoryMappingContract {
 

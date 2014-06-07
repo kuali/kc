@@ -18,6 +18,10 @@ package org.kuali.coeus.sys.framework.model;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerAware;
+import org.apache.ojb.broker.PersistenceBrokerException;
+import org.eclipse.persistence.internal.weaving.RelationshipInfo;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
@@ -33,27 +37,31 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectExtension;
 import org.kuali.rice.krad.data.jpa.DisableVersioning;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
 import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 import org.kuali.rice.krad.service.DocumentHeaderService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.LegacyDataFramework;
 
 import javax.persistence.*;
+
 import java.sql.Timestamp;
 import java.util.*;
 
 @DisableVersioning
 @MappedSuperclass
 @AttributeOverride(name="documentNumber", column = @Column(name = "DOCUMENT_NUMBER",length=14) )
-public abstract class KcTransactionalDocumentBase extends TransactionalDocumentBase implements SimpleBooleanSplitNodeAware, KcDataObject {
+public abstract class KcTransactionalDocumentBase extends TransactionalDocumentBase implements SimpleBooleanSplitNodeAware, KcDataObject, PersistableBusinessObject, PersistenceBrokerAware {
 
     private static final long serialVersionUID = -1879382692835231633L;
 
     private static final Log LOG = LogFactory.getLog(KcTransactionalDocumentBase.class);
-
+    
     @Column(name = "UPDATE_USER")
     private String updateUser;
 
@@ -97,17 +105,29 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
         documentHeader = getDocumentHeaderService().saveDocumentHeader(documentHeader);
     }
 
+    @LegacyDataFramework
+    public final void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        //setObjectId(UUID.randomUUID().toString());
+        setObjectId(null);
+        prePersist();
+    }
+    
     @Override
+    @PrePersist
     protected void prePersist() {
         //do not call super to remove the call to  DocumentHeaderService.saveDocumentHeader(documentHeader)
         getKcDataObjectService().initVersionNumberForPersist(this);
         getKcDataObjectService().initUpdateFieldsForPersist(this);
         getKcDataObjectService().initObjectIdForPersist(this);
     }
+    
+    @LegacyDataFramework
+    public final void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+    	postPersist();
+    }
 
-    @Override
+    @PostPersist
     protected void postPersist() {
-        super.postPersist();
         DocumentHeader temp = getDocumentHeaderService().getDocumentHeaderById(documentNumber);
         if (temp != null && temp.getWorkflowDocument() != null) {
             documentHeader = temp;
@@ -115,15 +135,21 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
     }
 
     @Override
-    public void postProcessSave(KualiDocumentEvent event) {
+    public void postProcessSave(DocumentEvent event) {
         super.postProcessSave(event);
         DocumentHeader temp =  getDocumentHeaderService().getDocumentHeaderById(documentNumber);
         if (temp != null && temp.getWorkflowDocument() != null) {
             documentHeader = temp;
         }
     }
+    
+    @LegacyDataFramework
+    public final void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+    	preUpdate();
+    }
 
     @Override
+    @PreUpdate
     protected void preUpdate() {
         getKcDataObjectService().initObjectIdForUpdate(this);
         getKcDataObjectService().initVersionNumberForUpdate(this);
@@ -137,7 +163,7 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
      * @param event
      */
     @Override
-    public void validateBusinessRules(KualiDocumentEvent event) {
+    public void validateBusinessRules(DocumentEvent event) {
         try {
             super.validateBusinessRules(event);
         } catch (ValidationException e) {
@@ -388,4 +414,44 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
     void setCustomAttributeService(CustomAttributeService customAttributeService) {
         this.customAttributeService = customAttributeService;
     }
+    
+    @Override
+    public PersistableBusinessObjectExtension getExtension() {
+    	return (PersistableBusinessObjectExtension) super.getExtension();
+    }
+    
+    @Override 
+    public void setExtension(PersistableBusinessObjectExtension extension) {
+    	super.setExtension(extension);
+    }
+
+	@Override
+	public void afterDelete(PersistenceBroker arg0)
+			throws PersistenceBrokerException {
+		postPersist();
+	}
+
+	@Override
+	public void afterLookup(PersistenceBroker arg0)
+			throws PersistenceBrokerException {
+		postLoad();
+	}
+	
+	@PostUpdate
+	public void postUpdate() { }
+
+	@Override
+	public void afterUpdate(PersistenceBroker arg0)
+			throws PersistenceBrokerException {
+		postUpdate();
+	}
+	
+	@PreRemove
+	public void preRemove() { }
+
+	@Override
+	public void beforeDelete(PersistenceBroker arg0)
+			throws PersistenceBrokerException {
+		preRemove();
+	}
 }

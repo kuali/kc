@@ -167,7 +167,7 @@ public final class InstituteRateRateTypeRateClassRuleImpl implements InstituteRa
         assert rateTypes != null : "the rateTypes is null";
         
         for (RateType rateType : rateTypes) {
-            if (validClassTypes.contains(rateType.getRateClass().getRateClassType())) {
+            if (validClassTypes.contains(rateType.getRateClass().getRateClassTypeCode())) {
                 return true;
             }
         }

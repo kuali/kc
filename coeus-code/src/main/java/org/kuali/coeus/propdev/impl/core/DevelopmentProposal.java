@@ -30,6 +30,7 @@ import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.ynq.YnqGroupName;
 import org.kuali.coeus.common.framework.ynq.YnqService;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
@@ -56,7 +57,7 @@ import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.*;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsContextBo;
@@ -84,7 +85,7 @@ import java.util.*;
 @Entity
 @Table(name = "EPS_PROPOSAL")
 @Customizer(DevelopmentProposal.DevelopmentProposalCustomizer.class)
-public class DevelopmentProposal extends KcPersistableBusinessObjectBase implements BudgetParent, Sponsorable, Disclosurable, KcKrmsContextBo {
+public class DevelopmentProposal extends KcPersistableBusinessObjectBase implements BudgetParent, Sponsorable, Disclosurable, KcKrmsContextBo, DevelopmentProposalContract {
 
     private static final long serialVersionUID = -9211313487776934111L;
 
@@ -104,10 +105,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     @Column(name = "PROPOSAL_TYPE_CODE")
     private String proposalTypeCode;
-
-    @ManyToOne(targetEntity = ProposalType.class, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "PROPOSAL_TYPE_CODE", referencedColumnName = "PROPOSAL_TYPE_CODE", insertable = false, updatable = false)
-    private ProposalType proposalType;
 
     @Column(name = "CONTINUED_FROM")
     private String continuedFrom;
@@ -142,19 +139,11 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @Column(name = "NOTICE_OF_OPPORTUNITY_CODE")
     private String noticeOfOpportunityCode;
 
-    @ManyToOne(targetEntity = NoticeOfOpportunity.class, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "NOTICE_OF_OPPORTUNITY_CODE", referencedColumnName = "NOTICE_OF_OPPORTUNITY_CODE", insertable = false, updatable = false)
-    private NoticeOfOpportunity noticeOfOpportunity;
-
     @Column(name = "DEADLINE_TYPE")
     private String deadlineType;
 
     @Column(name = "ANTICIPATED_AWARD_TYPE_CODE")
     private Integer anticipatedAwardTypeCode;
-
-    @ManyToOne(targetEntity = AwardType.class, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "ANTICIPATED_AWARD_TYPE_CODE", referencedColumnName = "AWARD_TYPE_CODE", insertable = false, updatable = false)
-    private AwardType anticipatedAwardType;
 
     @Column(name = "CFDA_NUMBER")
     private String cfdaNumber;
@@ -170,9 +159,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     @Column(name = "NSF_CODE")
     private String nsfCode;
-
-    @Transient
-    private NsfCode nsfCodeBo;
 
     @Column(name = "SUBCONTRACT_FLAG")
     @Convert(converter = BooleanYNConverter.class)
@@ -208,20 +194,84 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @Column(name = "STATUS_CODE")
     private String proposalStateTypeCode;
 
+    @Column(name = "CREATION_STATUS_CODE")
+    private String creationStatusCode;
+
+    @Column(name = "SUBMIT_FLAG")
+    @Convert(converter = BooleanYNConverter.class)
+    private Boolean submitFlag = Boolean.FALSE;
+
+    @Column(name = "IS_HIERARCHY")
+    private String hierarchyStatus;
+
+    @Column(name = "HIERARCHY_ORIG_CHILD_PROP_NBR")
+    private String hierarchyOriginatingChildProposalNumber;
+
+    @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
+    private String hierarchyParentProposalNumber;
+
+    @Column(name = "HIERARCHY_HASH_CODE")
+    private Integer hierarchyLastSyncHashCode;
+
+    @Column(name = "HIERARCHY_BUDGET_TYPE")
+    private String hierarchyBudgetType;
+
+    @Column(name = "HIERARCHY_LAST_BUDGET_DOC_NBR")
+    private String lastSyncedBudgetDocumentNumber;
+
+    @Column(name = "PROPOSALNUMBER_GG")
+    private String proposalNumberForGG;
+
+    @Column(name = "OPPORTUNITYID_GG")
+    private String opportunityIdForGG;
+
+    @Column(name = "AGENCY_ROUTING_IDENTIFIER")
+    private String agencyRoutingIdentifier;
+    
+    @Column(name = "PREV_GG_TRACKID")
+    private String prevGrantsGovTrackingID;
+
+    @ManyToOne(targetEntity = ProposalType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROPOSAL_TYPE_CODE", referencedColumnName = "PROPOSAL_TYPE_CODE", insertable = false, updatable = false)
+    private ProposalType proposalType;
+
+    @ManyToOne(targetEntity = NoticeOfOpportunity.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "NOTICE_OF_OPPORTUNITY_CODE", referencedColumnName = "NOTICE_OF_OPPORTUNITY_CODE", insertable = false, updatable = false)
+    private NoticeOfOpportunity noticeOfOpportunity;
+
+    @ManyToOne(targetEntity = AwardType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "ANTICIPATED_AWARD_TYPE_CODE", referencedColumnName = "AWARD_TYPE_CODE", insertable = false, updatable = false)
+    private AwardType anticipatedAwardType;
+
     @ManyToOne(targetEntity = ProposalState.class, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "STATUS_CODE", referencedColumnName = "STATE_TYPE_CODE", insertable = false, updatable = false)
     private ProposalState proposalState;
+
+    @ManyToOne(targetEntity = Rolodex.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "MAILING_ADDRESS_ID", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
+    private Rolodex rolodex;
+
+    @ManyToOne(targetEntity = Sponsor.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "SPONSOR_CODE", referencedColumnName = "SPONSOR_CODE", insertable = false, updatable = false)
+    private Sponsor sponsor;
+
+    @ManyToOne(targetEntity = Unit.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "OWNED_BY_UNIT", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
+    private Unit ownedByUnit;
+
+    @ManyToOne(targetEntity = Sponsor.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PRIME_SPONSOR_CODE", referencedColumnName = "SPONSOR_CODE", insertable = false, updatable = false)
+    private Sponsor primeSponsor;
+
+    @ManyToOne(targetEntity = ActivityType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "ACTIVITY_TYPE_CODE", referencedColumnName = "ACTIVITY_TYPE_CODE", insertable = false, updatable = false)
+    private ActivityType activityType;
 
     //@OneToMany(targetEntity = ProposalSite.class, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
     //@JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     //@OrderBy("siteNumber")
     @Transient //Transient for now because this mapping is messed up
     private List<ProposalSite> proposalSites;
-
-    // TODO: just for delivery panel. not a real reference   
-    @ManyToOne(targetEntity = Rolodex.class, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "MAILING_ADDRESS_ID", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
-    private Rolodex rolodex;
 
     @OneToMany(mappedBy="developmentProposal", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<ProposalSpecialReview> propSpecialReviews;
@@ -237,34 +287,27 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<S2sOppForms> s2sOppForms;
 
-    @OneToOne(mappedBy = "developmentProposal", cascade = CascadeType.ALL)
-    private S2sOpportunity s2sOpportunity;
-
     @OneToMany(targetEntity = S2sAppSubmission.class, fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<S2sAppSubmission> s2sAppSubmission;
 
     @OneToMany(mappedBy="developmentProposal", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
     private List<S2sUserAttachedForm> s2sUserAttachedForms;
-    
-    @Transient
-    private String newScienceKeywordCode;
 
-    @Transient
-    private String newDescription;
+    @OneToMany(targetEntity = ProposalYnq.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    @OrderBy("sortId")
+    private List<ProposalYnq> proposalYnqs;
 
-    @ManyToOne(targetEntity = Sponsor.class, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "SPONSOR_CODE", referencedColumnName = "SPONSOR_CODE", insertable = false, updatable = false)
-    private Sponsor sponsor;
+    @OneToMany(targetEntity = ProposalChangedData.class, fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    @OrderBy("columnName DESC, changeNumber DESC")
+    private List<ProposalChangedData> proposalChangedDataList;
 
-    @Transient
-    private Integer nextProposalPersonNumber;
-
-    @Transient
-    private String budgetStatus;
-
-    @Transient
-    private String budgetStatusDescription;
+    @OneToMany(targetEntity = BudgetChangedData.class, fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    @OrderBy("columnName DESC, changeNumber DESC")
+    private List<BudgetChangedData> budgetChangedDataList;
 
     @OneToMany(targetEntity = Narrative.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
     @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
@@ -282,47 +325,39 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private List<ProposalPersonBiography> propPersonBios;
 
+    @OneToOne(mappedBy = "developmentProposal", cascade = CascadeType.ALL)
+    private S2sOpportunity s2sOpportunity;
+
+    @OneToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = true, updatable = true)
+    private ProposalDevelopmentDocument proposalDocument;
+
+    @Transient
+    private NsfCode nsfCodeBo;
+
+    @Transient
+    private String newScienceKeywordCode;
+
+    @Transient
+    private String newDescription;
+
+    @Transient
+    private Integer nextProposalPersonNumber;
+
+    @Transient
+    private String budgetStatus;
+
+    @Transient
+    private String budgetStatusDescription;
+
     @Transient
     private List<ProposalPerson> investigators;
 
     @Transient
     private Collection<InvestigatorCreditType> investigatorCreditTypes;
 
-    @ManyToOne(targetEntity = Unit.class, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "OWNED_BY_UNIT", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
-    private Unit ownedByUnit;
-
-    @Transient
-    private transient LegacyNarrativeService narrativeService;
-
-    @Transient
-    private transient ProposalPersonBiographyService proposalPersonBiographyService;
-
-    @ManyToOne(targetEntity = ActivityType.class, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "ACTIVITY_TYPE_CODE", referencedColumnName = "ACTIVITY_TYPE_CODE", insertable = false, updatable = false)
-    private ActivityType activityType;
-
-    @OneToMany(targetEntity = ProposalYnq.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
-    @OrderBy("sortId")
-    private List<ProposalYnq> proposalYnqs;
-
     @Transient
     private List<YnqGroupName> ynqGroupNames;
-
-    //    private List<BudgetDocumentVersion> budgetDocumentVersions;   
-    @Column(name = "CREATION_STATUS_CODE")
-    private String creationStatusCode;
-
-    @OneToMany(targetEntity = ProposalChangedData.class, fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
-    @OrderBy("columnName DESC, changeNumber DESC")
-    private List<ProposalChangedData> proposalChangedDataList;
-
-    @OneToMany(targetEntity = BudgetChangedData.class, fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
-    @OrderBy("columnName DESC, changeNumber DESC")
-    private List<BudgetChangedData> budgetChangedDataList;
 
     @Transient
     private Map<String, List<ProposalChangedData>> proposalChangeHistory;
@@ -330,37 +365,11 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @Transient
     private Map<String, List<BudgetChangedData>> budgetChangeHistory;
 
-    @Column(name = "SUBMIT_FLAG")
-    @Convert(converter = BooleanYNConverter.class)
-    private Boolean submitFlag = Boolean.FALSE;
-
     @Transient
     private Boolean grantsGovSelectFlag = Boolean.FALSE;
 
-    @OneToOne(cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = true, updatable = true)
-    private ProposalDevelopmentDocument proposalDocument;
-
-    @Column(name = "IS_HIERARCHY")
-    private String hierarchyStatus;
-
     @Transient
     private String hierarchyStatusName;
-
-    @Column(name = "HIERARCHY_ORIG_CHILD_PROP_NBR")
-    private String hierarchyOriginatingChildProposalNumber;
-
-    @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
-    private String hierarchyParentProposalNumber;
-
-    @Column(name = "HIERARCHY_HASH_CODE")
-    private Integer hierarchyLastSyncHashCode;
-
-    @Column(name = "HIERARCHY_BUDGET_TYPE")
-    private String hierarchyBudgetType;
-
-    @Column(name = "HIERARCHY_LAST_BUDGET_DOC_NBR")
-    private String lastSyncedBudgetDocumentNumber;
 
     @Transient
     private transient ParameterService parameterService;
@@ -371,21 +380,12 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @Transient
     private transient KeyPersonnelService keyPersonnelService;
 
-    @ManyToOne(targetEntity = Sponsor.class, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "PRIME_SPONSOR_CODE", referencedColumnName = "SPONSOR_CODE", insertable = false, updatable = false)
-    private Sponsor primeSponsor;
+    @Transient
+    private transient LegacyNarrativeService narrativeService;
 
-    @Column(name = "PROPOSALNUMBER_GG")
-    private String proposalNumberForGG;
+    @Transient
+    private transient ProposalPersonBiographyService proposalPersonBiographyService;
 
-    @Column(name = "OPPORTUNITYID_GG")
-    private String opportunityIdForGG;
-
-    @Column(name = "AGENCY_ROUTING_IDENTIFIER")
-    private String agencyRoutingIdentifier;
-    
-    @Column(name = "PREV_GG_TRACKID")
-    private String prevGrantsGovTrackingID;
     /**
      * Gets the proposalNumberForGG attribute. 
      * @return Returns the proposalNumberForGG.

@@ -22,8 +22,8 @@ import org.kuali.kra.printing.schema.SalaryType;
 import org.kuali.coeus.common.budget.framework.calculator.RateClassType;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
 
@@ -358,8 +358,8 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 			RateClass rateClass) {
 		String costElementDesc = null;
 		if (budgetLineItemCalcAmount.getRateTypeDescription() != null) {
-			if (rateClass != null&& rateClass.getRateClassType() != null
-			                && rateClass.getRateClassType().equals(
+			if (rateClass != null&& rateClass.getRateClassTypeCode() != null
+			                && rateClass.getRateClassTypeCode().equals(
 							RateClassType.OVERHEAD.getRateClassType())) {
 				costElementDesc = new StringBuilder(OVERHEAD_RATE_PREFIX).append(
 								budgetLineItemCalcAmount.getRateTypeDescription()).toString();

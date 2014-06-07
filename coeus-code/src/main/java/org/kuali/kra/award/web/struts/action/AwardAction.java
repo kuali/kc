@@ -92,7 +92,7 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -602,7 +602,7 @@ public class AwardAction extends BudgetParentActionBase {
      * @param event the event to process
      * @return true if success; false if there was a validation error
      */
-    protected final boolean applyRules(KualiDocumentEvent event) {
+    protected final boolean applyRules(DocumentEvent event) {
         return getKualiRuleService().applyRules(event);
     }
 
@@ -974,55 +974,23 @@ public class AwardAction extends BudgetParentActionBase {
         return KcServiceLocator.getService(AwardVersionService.class);
     }
     
-    /*
-     * This method retrieves the pending award version.
-     * 
-     * @param doc
-     * @param goToAwardNumber
-     */
-//    @SuppressWarnings("unchecked")
-//    public Award getPendingAwardVersion(String goToAwardNumber) {
-//        
-//        Award award = null;
-//        BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
-//        List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(goToAwardNumber), "sequenceNumber", true);
-//        if(!(awards.size() == 0)) {
-//            award = awards.get(awards.size() - 1);
-//        }
-//      
-//        return award;
-//    }
-    
     public ActionForward openWindow(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         String documentNumber = request.getParameter("awardDocumentNumber");
         String awardNumber = request.getParameter("awardNumber");
-        Award award = getActiveAwardVersion(awardNumber);
         AwardForm awardForm = (AwardForm)form;
-        awardForm.setCurrentAwardNumber(awardNumber);
-        awardForm.setCurrentSeqNumber(award.getSequenceNumber().toString());
+        
         DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         AwardDocument awardDocument = (AwardDocument)documentService.getByDocumentHeaderId(documentNumber);
+        Award award = getAwardService().getAwardAssociatedWithDocument(awardDocument.getDocumentNumber());
+        awardForm.setCurrentAwardNumber(awardNumber);
+        awardForm.setCurrentSeqNumber(award.getSequenceNumber().toString());
         awardDocument.setAward(award);
         awardForm.setDocument(awardDocument);
         populateAwardHierarchy(awardForm);
         return mapping.findForward("basic");
     }  
    
-    protected Award getActiveAwardVersion(String goToAwardNumber) {
-        VersionHistoryService vhs = KcServiceLocator.getService(VersionHistoryService.class);
-        VersionHistory vh = vhs.findActiveVersion(Award.class, goToAwardNumber);
-        Award award = null;
-        
-        if(vh!=null){
-            award = (Award) vh.getSequenceOwner();
-        }else{
-            BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
-            award = ((List<Award>)businessObjectService.findMatching(Award.class, getHashMapToFindActiveAward(goToAwardNumber))).get(0);              
-        }
-        return award;
-    }
-
     private Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
         Map<String, String> map = new HashMap<String,String>();
         map.put("awardNumber", goToAwardNumber);

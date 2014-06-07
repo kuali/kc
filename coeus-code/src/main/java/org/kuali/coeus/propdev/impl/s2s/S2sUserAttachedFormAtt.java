@@ -15,6 +15,9 @@
  */
 package org.kuali.coeus.propdev.impl.s2s;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -48,14 +51,15 @@ public class S2sUserAttachedFormAtt extends KcPersistableBusinessObjectBase impl
     @Column(name = "CONTENT_ID")
     private String contentId;
     
-    @Column(name = "ATTACHMENT")
-    @Basic(fetch = FetchType.LAZY)
-    @Lob
-    private byte[] data;
-    
     @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "S2S_USER_ATTACHED_FORM_ID", insertable = false, updatable = false)
     private S2sUserAttachedForm s2sUserAttachedForm;
+    
+    private List<S2sUserAttachedFormAttFile> s2sUserAttachedFormAttFileList;
+    
+    public S2sUserAttachedFormAtt() { 
+        s2sUserAttachedFormAttFileList = new ArrayList<S2sUserAttachedFormAttFile>();
+    } 
 
     @Override
     public Long getId() {
@@ -111,21 +115,26 @@ public class S2sUserAttachedFormAtt extends KcPersistableBusinessObjectBase impl
         this.contentId = contentId;
     }
 
-    @Override
-    public byte[] getData() {
-        return data;
-    }
-
-    public void setData(byte[] data) {
-        this.data = data;
-    }
-
     public S2sUserAttachedForm getS2sUserAttachedForm() {
         return s2sUserAttachedForm;
     }
-
-    public void setS2sUserAttachedForm(S2sUserAttachedForm s2sUserAttachedForm) {
-        this.s2sUserAttachedForm = s2sUserAttachedForm;
+        
+    public List<S2sUserAttachedFormAttFile> getS2sUserAttachedFormAttFileList() {
+        return s2sUserAttachedFormAttFileList;
     }
+
+    /**
+     * Sets the s2sUserAttachedFormAttFileList attribute value.
+     * @param s2sUserAttachedFormAttFileList The s2sUserAttachedFormAttFileList to set.
+     */
+    public void setS2sUserAttachedFormAttFileList(List<S2sUserAttachedFormAttFile> s2sUserAttachedFormAttFileList) {
+        this.s2sUserAttachedFormAttFileList = s2sUserAttachedFormAttFileList;
+    }
+
+	@Override
+	public byte[] getData() {
+		return getS2sUserAttachedFormAttFileList().get(0).getAttachment();
+	}
+
     
 }

@@ -96,7 +96,7 @@ public class KcDocumentBaseAuditRuleTest extends KcIntegrationTestBase {
             }
             CustomAttributeDocValue newValue = new CustomAttributeDocValue();
             newValue.setCustomAttribute(customAttributeDocument.getCustomAttribute());
-            newValue.setCustomAttributeId(customAttributeDocument.getCustomAttributeId().longValue());
+            newValue.setId(customAttributeDocument.getId().longValue());
             newValue.setValue(null);
             document.getCustomDataList().add(newValue);          
         }
@@ -115,7 +115,7 @@ public class KcDocumentBaseAuditRuleTest extends KcIntegrationTestBase {
             AuditError auditError = (AuditError) auditCluster.getAuditErrorList().get(0);
             int index = 0;
             for (CustomAttributeDocValue value : document.getCustomDataList()) {
-                if (value.getCustomAttributeId().longValue() == customAttribute.getId().longValue()) {
+                if (value.getId().longValue() == customAttribute.getId().longValue()) {
                     break;
                 }
                 index++;

@@ -150,9 +150,31 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
     private List<SubAwardReports> subAwardReportList;
     private List<SubAwardTemplateInfo> subAwardTemplateInfo;
     private List<SubAwardPrintAgreement> subAwardPrintAgreement;
+    private List<SubAwardForms> subAwardForms;
     
     
     
+    /**
+     * Gets the subAwardForms attribute. 
+     * @return Returns the subAwardForms.
+     */
+    public List<SubAwardForms> getSubAwardForms() {
+        return subAwardForms;
+    }
+
+    /**
+     * Sets the subAwardForms attribute value.
+     * @param subAwardForms The subAwardForms to set.
+     */
+    public void setSubAwardForms(List<SubAwardForms> subAwardForms) {
+        this.subAwardForms = subAwardForms;
+    }
+    
+    public void addForms(SubAwardForms subAwardForms) {
+        this.getSubAwardForms().add(subAwardForms);
+       
+    }
+
     /**
      * Gets the subAwardPrintAgreement attribute. 
      * @return Returns the subAwardPrintAgreement.

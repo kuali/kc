@@ -92,7 +92,7 @@ public class ValidCeRateType extends KcPersistableBusinessObjectBase implements 
     }
 
     public String getRateClassType() {
-        return rateClass.getRateClassType();
+        return rateClass.getRateClassTypeCode();
     }
 
     public CostElement getCostElementBo() {

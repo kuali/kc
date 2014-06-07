@@ -27,9 +27,9 @@ import org.kuali.coeus.common.api.question.AnswerContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.api.question.QuestionAnswerService;
 import org.kuali.coeus.propdev.api.PropDevQuestionAnswerService;
+import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyContract;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
@@ -161,7 +161,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
         return index;
     }
 
-    public String createContentId(ProposalPersonBiography biography) {
+    public String createContentId(ProposalPersonBiographyContract biography) {
         String retVal = "B-" + biography.getProposalPersonNumber() + "_" + biography.getBiographyNumber();
         if(biography.getPropPerDocType() != null) 
             retVal += "_" + biography.getPropPerDocType().getDescription().trim();
@@ -295,15 +295,16 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     protected AttachedFileDataType getPernonnelAttachments(ProposalDevelopmentDocument pdDoc, String personId, Integer rolodexId,
             String documentType) {
         boolean personBiographyFound = false;
-        for (ProposalPersonBiography proposalPersonBiography : pdDoc.getDevelopmentProposal().getPropPersonBios()) {
+        for (ProposalPersonBiographyContract proposalPersonBiography : pdDoc.getDevelopmentProposal().getPropPersonBios()) {
             if (personId != null && proposalPersonBiography.getPersonId() != null
                     && proposalPersonBiography.getPersonId().equals(personId)
-                    && documentType.equals(proposalPersonBiography.getDocumentTypeCode())) {
+                    && documentType.equals(proposalPersonBiography.getPropPerDocType().getCode())) {
                 personBiographyFound = true;
             }
             else if (rolodexId != null && proposalPersonBiography.getRolodexId() != null
                     && proposalPersonBiography.getRolodexId().toString().equals(rolodexId.toString())
-                    && documentType.equals(proposalPersonBiography.getDocumentTypeCode())) {
+                    && proposalPersonBiography.getPropPerDocType() != null
+                    && documentType.equals(proposalPersonBiography.getPropPerDocType().getCode())) {
                 personBiographyFound = true;
             }
             if (personBiographyFound) {

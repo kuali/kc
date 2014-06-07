@@ -33,7 +33,7 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.personnel.BudgetPerson;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
@@ -269,8 +269,8 @@ public class BudgetRatesServiceTest extends KcIntegrationTestBase {
 
     private RateClass generateRateClass(String rateClassType, String rateClassCode) {
         RateClass rateClass = new RateClass();
-        rateClass.setRateClassType(rateClassType);
-        rateClass.setRateClassCode(rateClassCode);
+        rateClass.setRateClassTypeCode(rateClassType);
+        rateClass.setCode(rateClassCode);
         return rateClass;
     }
     
@@ -331,11 +331,11 @@ public class BudgetRatesServiceTest extends KcIntegrationTestBase {
         instituteRate.setRateClassCode(rateClassCode);
         RateClass rateClass = new RateClass();
         RateClassType rateClassType = new RateClassType();
-        rateClassType.setRateClassType("O");
+        rateClassType.setCode("O");
         rateClassType.setPrefixActivityType(false);
         rateClassType.setSortId(1);
-        rateClass.setRateClassType("O");
-        rateClass.setRateClassTypeT(rateClassType);
+        rateClass.setRateClassTypeCode("O");
+        rateClass.setRateClassType(rateClassType);
         instituteRate.setRateClass(rateClass);
         instituteRate.setRateTypeCode(rateTypeCode);
         RateType rateType = new RateType();
@@ -373,7 +373,7 @@ public class BudgetRatesServiceTest extends KcIntegrationTestBase {
     private void checkApplicableRateEqualsInstituteRateForRateClass(String rateClassType, List rates) {
         List<AbstractBudgetRate> abstractBudgetRates = (List<AbstractBudgetRate>) rates; 
         for(AbstractBudgetRate budgetRate: abstractBudgetRates) {
-            if(budgetRate.getRateClass().getRateClassType().equals(rateClassType)) {
+            if(budgetRate.getRateClass().getRateClassTypeCode().equals(rateClassType)) {
                 Assert.assertEquals(budgetRate.getInstituteRate(), budgetRate.getApplicableRate());
             } else {
                 Assert.assertEquals(OLD_APPLICABLE_RATE, budgetRate.getApplicableRate().doubleValue(), DOUBLE_VALUE_ERROR_LIMIT);
@@ -388,7 +388,7 @@ public class BudgetRatesServiceTest extends KcIntegrationTestBase {
             budgetRate.setApplicableRate(new ScaleTwoDecimal(OLD_APPLICABLE_RATE));
             budgetRate.setInstituteRate(new ScaleTwoDecimal(INSTITUTE_RATE));
             budgetRate.setRateClass(rateClasses.get(Integer.valueOf(budgetRate.getRateClassCode()) - 1));
-            budgetRate.setRateClassCode(rateClasses.get(Integer.valueOf(budgetRate.getRateClassCode()) - 1).getRateClassCode());
+            budgetRate.setRateClassCode(rateClasses.get(Integer.valueOf(budgetRate.getRateClassCode()) - 1).getCode());
         }
     }
     

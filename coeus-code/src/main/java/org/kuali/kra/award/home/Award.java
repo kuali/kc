@@ -64,7 +64,7 @@ import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.bo.*;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
-import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -79,6 +79,7 @@ import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
 import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.role.Role;
@@ -3378,14 +3379,24 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         this.projectPersons = projectPersons;
     }
 
-    /**
-     * Looks up and returns the KcPersonService.
-     * @return the person service.
-     */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
             this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
+    }
+
+    /*
+     * This method is used by the tag file to display the F&A rate totals.
+     * Needed to convert to KualiDecimal to avoid rounding issues.
+     */
+    public KualiDecimal getFandATotals() {
+       KualiDecimal total = new KualiDecimal(0);
+        for (AwardFandaRate currentRate : getAwardFandaRate()) {
+            if (currentRate.getUnderrecoveryOfIndirectCost() != null) {
+                total = total.add(new KualiDecimal(currentRate.getUnderrecoveryOfIndirectCost().bigDecimalValue()));
+            }
+        }
+        return total;
     }
 }

@@ -20,7 +20,7 @@ import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBas
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.personnel.BudgetPerson;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.service.KNSServiceLocator;

@@ -75,9 +75,9 @@
                </td>
              </tr>
              <tr>
-               <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.subExemptFromReportingComp}" /></div></th>
+               <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.parentCongressionalDistrict}" /></div></th>
                 <td>
-                   <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].subExemptFromReportingComp" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.subExemptFromReportingComp}"  />
+                   <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].parentCongressionalDistrict" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.parentCongressionalDistrict}" />
                </td>
                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.parentDunsNumber}" /></div></th>
                 <td>
@@ -85,9 +85,9 @@
                </td>
              </tr>
              <tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.parentCongressionalDistrict}" /></div></th>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.copyRightType}" /></div></th>
                 <td>
-                   <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].parentCongressionalDistrict" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.parentCongressionalDistrict}" />
+                   <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].copyRightType" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.copyRightType}" />
                </td>
                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.exemptFromRprtgExecComp}" /></div></th>
                 <td>
@@ -95,9 +95,9 @@
                </td>
              </tr>
              <tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.copyRightType}" /></div></th>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.carryForwardRequestsSentTo}" /></div></th>
                 <td>
-                   <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].copyRightType" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.copyRightType}" />
+                   <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].carryForwardRequestsSentTo" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.carryForwardRequestsSentTo}" />
                </td>
                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.automaticCarryForward}" /></div></th>
                 <td>
@@ -105,9 +105,9 @@
                </td>
              </tr>
              <tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.carryForwardRequestsSentTo}" /></div></th>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.applicableProgramRegulations}" /></div></th>
                 <td>
-                   <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].carryForwardRequestsSentTo" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.carryForwardRequestsSentTo}" />
+                   <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].applicableProgramRegulations" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.applicableProgramRegulations}" />
                </td>
                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.treatmentPrgmIncomeAdditive}" /></div></th>
                 <td>
@@ -115,13 +115,12 @@
                </td>
              </tr>
              <tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.applicableProgramRegulations}" /></div></th>
-                <td>
-                   <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].applicableProgramRegulations" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.applicableProgramRegulations}" />
-               </td>
                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardTemplateInfoAttributes.applicableProgramRegsDate}" /></div></th>
                 <td>
                    <kul:htmlControlAttribute property="document.subAwardList[0].subAwardTemplateInfo[0].applicableProgramRegsDate" readOnly="${readOnly}" attributeEntry="${subAwardTemplateInfoAttributes.applicableProgramRegsDate}"  datePicker="true"  />
+                </td>
+                <th colspan=2><div/></div></th>
+             </tr>   
          		</table>
    			</div>
 	</kul:tabTop>

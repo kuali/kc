@@ -79,12 +79,12 @@ import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryMapping;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
-import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetRateAndBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.personnel.BudgetPerson;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
@@ -373,7 +373,7 @@ public class NIHResearchAndRelatedXmlStream extends
                     abstractType.setAbstractText(proposalAbstract
                             .getAbstractDetails());
                     abstractTypeCode = new BigInteger(proposalAbstract
-                            .getAbstractType().getAbstractTypeCode());
+                            .getAbstractType().getCode());
                     abstractType.setAbstractTypeCode(abstractTypeCode);
                     abstractType.setAbstractTypeDesc(proposalAbstract
                             .getAbstractType().getDescription());
@@ -891,13 +891,13 @@ public class NIHResearchAndRelatedXmlStream extends
                 List<BudgetRateAndBase> budgetRateAndBases = budgetLineItem.getBudgetRateAndBaseList();
                 for (BudgetRateAndBase budgetRateAndBase : budgetRateAndBases) {
                     String key = budgetRateAndBase.getRateClassCode()+budgetRateAndBase.getRateTypeCode();
-                    if(budgetRateAndBase.getRateClass().getRateClassType().equals(RateClassType.OVERHEAD.getRateClassType())){
+                    if(budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(RateClassType.OVERHEAD.getRateClassType())){
                         if(ohAmountsMap.get(key)==null){
                             IndirectCostDetailsBean indcost = new IndirectCostDetailsBean();
                             indcost.rate = budgetRateAndBase.getAppliedRate();
                             indcost.baseAmount = budgetRateAndBase.getBaseCost().add(budgetRateAndBase.getBaseCostSharing());
                             indcost.fund = budgetRateAndBase.getCalculatedCost().add(budgetRateAndBase.getCalculatedCostSharing());
-                            indcost.rateTypeDescription = budgetRateAndBase.getRateClass().getRateClassTypeT().getDescription();
+                            indcost.rateTypeDescription = budgetRateAndBase.getRateClass().getRateClassType().getDescription();
                             ohAmountsMap.put(key, indcost);
                         }else{
                             IndirectCostDetailsBean indcost = ohAmountsMap.get(key);
@@ -979,7 +979,7 @@ public class NIHResearchAndRelatedXmlStream extends
             List<BudgetLineItemCalculatedAmount> calcAmounts = budgetLineItem.getBudgetCalculatedAmounts();
             for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calcAmounts) {
                 budgetLineItemCalculatedAmount.refreshNonUpdateableReferences();
-                if(budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RateClassType.LAB_ALLOCATION.getRateClassType())){
+                if(budgetLineItemCalculatedAmount.getRateClass().getRateClassTypeCode().equals(RateClassType.LAB_ALLOCATION.getRateClassType())){
                     amount = amount.add(budgetLineItemCalculatedAmount.getCalculatedCost());
                 }
             }
@@ -1074,7 +1074,7 @@ public class NIHResearchAndRelatedXmlStream extends
             List<BudgetLineItemCalculatedAmount> calcAmounts = budgetLineItem.getBudgetLineItemCalculatedAmounts();
             for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calcAmounts) {
                 budgetLineItemCalculatedAmount.refreshNonUpdateableReferences();
-                if(RateClassType.LA_SALARIES.getRateClassType().equals(budgetLineItemCalculatedAmount.getRateClass().getRateClassType())){
+                if(RateClassType.LA_SALARIES.getRateClassType().equals(budgetLineItemCalculatedAmount.getRateClass().getRateClassTypeCode())){
                     laAmount = laAmount.add(budgetLineItemCalculatedAmount.getCalculatedCost());
                 }
             }
@@ -1168,12 +1168,12 @@ public class NIHResearchAndRelatedXmlStream extends
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
             List<BudgetLineItemCalculatedAmount> budgetLineItemCalcAmounts = budgetLineItem.getBudgetCalculatedAmounts();
             for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : budgetLineItemCalcAmounts) {
-                if(budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RateClassType.LA_SALARIES.getRateClassType())){
+                if(budgetLineItemCalculatedAmount.getRateClass().getRateClassTypeCode().equals(RateClassType.LA_SALARIES.getRateClassType())){
                     salaryRequested = salaryRequested.add(budgetLineItemCalculatedAmount.getCalculatedCost());
                 }
-                if((budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RateClassType.EMPLOYEE_BENEFITS.getRateClassType()) && 
+                if((budgetLineItemCalculatedAmount.getRateClass().getRateClassTypeCode().equals(RateClassType.EMPLOYEE_BENEFITS.getRateClassType()) &&
                         budgetLineItemCalculatedAmount.getRateTypeCode().equals("3")) || 
-                        (budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RateClassType.VACATION.getRateClassType())) && 
+                        (budgetLineItemCalculatedAmount.getRateClass().getRateClassTypeCode().equals(RateClassType.VACATION.getRateClassType())) &&
                         budgetLineItemCalculatedAmount.getRateTypeCode().equals("2")){
                     fringe = fringe.add(budgetLineItemCalculatedAmount.getCalculatedCost());
                 }

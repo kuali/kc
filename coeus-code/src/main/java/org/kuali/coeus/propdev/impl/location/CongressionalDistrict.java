@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.location;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
@@ -46,6 +47,12 @@ public class CongressionalDistrict extends KcPersistableBusinessObjectBase {
 
     @Column(name = "CONG_DISTRICT")
     private String congressionalDistrict;
+    
+    @Transient
+    private String newState;
+    
+    @Transient
+    private String newDistrictNumber;
 
     public void setCongressionalDistrictId(Long congressionalDistrictId) {
         this.congressionalDistrictId = congressionalDistrictId;
@@ -82,4 +89,24 @@ public class CongressionalDistrict extends KcPersistableBusinessObjectBase {
     public void setCongressionalDistrict(String congressionalDistrict) {
         this.congressionalDistrict = congressionalDistrict;
     }
+
+	public String getNewState() {
+		return newState;
+	}
+
+	public void setNewState(String newState) {
+		this.newState = newState;
+	}
+
+	public String getNewDistrictNumber() {
+		if (StringUtils.isNumeric(newDistrictNumber)) {
+            newDistrictNumber = StringUtils.leftPad(newDistrictNumber, CongressionalDistrict.DISTRICT_NUMBER_LENGTH, "0");
+        }
+		return newDistrictNumber;
+	}
+
+	public void setNewDistrictNumber(String newDistrictNumber) {
+		this.newDistrictNumber = newDistrictNumber;
+	}
+    
 }
