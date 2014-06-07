@@ -22,7 +22,7 @@
 <kul:tab tabTitle="Unrecovered F&A" 
 		tabItemCount="${KualiForm.document.budget.budgetUnrecoveredFandACount}" 
 		defaultOpen="false" 
-		tabErrorKey="newUnrecoveredFandA*,document.unrecoveredFandA*,document.budgetUnrecoveredFandA*,document.budgets[0].budgetUnrecoveredFandA*" 
+		tabErrorKey="newUnrecoveredFandA*,document.unrecoveredFandA*,document.budgetUnrecoveredFandA*,document.budget.budgetUnrecoveredFandA*"
 		auditCluster="budgetUnrecoveredFandAAuditErrors,budgetUnrecoveredFandAAuditWarnings" 
 		tabAuditKey="document.budget.budgetUnrecoveredFandA*"
 		useRiceAuditMode="true">
@@ -102,7 +102,7 @@
 			        			
 			            		<td><div align="center">
 			            			<%--<fmt:formatNumber value="${unrecoveredFandA.applicableRate}" type="percent" pattern="##0.000" />%  --%>
-									<kul:htmlControlAttribute property="document.budgets[0].budgetUnrecoveredFandAs[${status.index}].applicableRate" attributeEntry="${ufaAttributes.applicableRate}" />            				
+									<kul:htmlControlAttribute property="document.budget.budgetUnrecoveredFandAs[${status.index}].applicableRate" attributeEntry="${ufaAttributes.applicableRate}" />
 			    				</div></td>
 			            		
 			            		<td><div align="center">

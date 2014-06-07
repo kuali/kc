@@ -26,10 +26,9 @@ public class OjbToJpaConversionDriver {
     private static final Log LOG = LogFactory.getLog(OjbToJpaConversionDriver.class);
 
 
-
     private static void setupConfig() {
         ConversionConfig cfg = ConversionConfig.getInstance();
-        cfg.setProjectHomeDir("/Users/Travis/Documents/idea/ws/kuali/kc/trunk_s2s/trunk/coeus-code");
+        cfg.setProjectHomeDir("/Users/Travis/Documents/idea/ws/kuali/kc/kc/coeus-code");
         cfg.setProjectResourceDir("/src/main/resources");
         cfg.setProjectSourceDir("/src/main/java");
 
@@ -101,16 +100,15 @@ public class OjbToJpaConversionDriver {
 
             //if (ojbMappedClass.endsWith("CongressionalDistrict") || ojbMappedClass.endsWith("S2sAppAttachments")) {
             //if (ojbMappedClass.endsWith("InstitutionalProposalComment") || ojbMappedClass.endsWith("InstitutionalProposalNotepad")) {
-            if (OjbUtil.getMappedTree("org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument", drs).contains(ojbMappedClass)) {
+            if (OjbUtil.getMappedTree("org.kuali.kra.budget.document.BudgetDocument", drs).contains(ojbMappedClass)) {
                 //if (ojbMappedClass.endsWith("ProposalDevelopmentDocument")) {
-                    //System.out.println(ojbMappedClass);
-                    //visit(ojbMappedClass, ojbMappedClass, drs);
+                    System.out.println(ojbMappedClass);
+                    visit(ojbMappedClass, ojbMappedClass, drs);
 
                     final Collection<String> superClasses = OjbUtil.getSuperClasses(ojbMappedClass, "org.kuali.rice");
-                    //allSuperClasses.addAll(superClasses);
                     for (String superClass : superClasses) {
                         allSuperClasses.add(superClass);
-                        //visit(superClass, ojbMappedClass, drs);
+                        visit(superClass, ojbMappedClass, drs);
 
                     }
                 //}
@@ -126,11 +124,14 @@ public class OjbToJpaConversionDriver {
 
     private static void visit(String clazz, String mappedClazz, Collection<DescriptorRepository> drs) throws Exception {
         final String clazzFile = toFilePath(ConversionConfig.getInstance(), clazz);
-        final CompilationUnit unit = JavaParser.parse(new File(clazzFile));
-        new EntityVisitor(drs, ConversionConfig.getInstance().getConverters(), true, true).visit(unit, mappedClazz);
-        //throw new RuntimeException();
-        FileUtils.write(new File(clazzFile), unit.toString(), false);
-       // LOG.error(unit.toString());
+        System.err.println("PROCESSING: " + clazzFile);
+        if (clazzFile.endsWith("/org/kuali/coeus/common/budget/framework/core/Budget.java")) {
+            final CompilationUnit unit = JavaParser.parse(new File(clazzFile));
+            new EntityVisitor(drs, ConversionConfig.getInstance().getConverters(), true, true).visit(unit, mappedClazz);
+            //throw new RuntimeException();
+            FileUtils.write(new File(clazzFile), unit.toString(), false);
+            // LOG.error(unit.toString());
+        }
     }
 
     private static String toFilePath(ConversionConfig cfg, String mappedClass) {

@@ -15,12 +15,21 @@
  */
 package org.kuali.coeus.common.budget.framework.personnel;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
+@Entity
+@Table(name = "JOB_CODE")
 public class JobCode extends KcPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "JOB_CODE")
     private String jobCode;
 
+    @Column(name = "JOB_TITLE")
     private String jobTitle;
 
     public String getJobCode() {

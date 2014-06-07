@@ -37,7 +37,6 @@ import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
-import org.kuali.coeus.common.budget.framework.core.BudgetAssociate;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
@@ -787,11 +786,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                     files.setBudgetId(parentBudget.getBudgetId());
                     files.setVersionNumber(null);
                 }
-                List<BudgetAssociate> listToBeSaved = new ArrayList<BudgetAssociate>();
-                listToBeSaved.add(newSubAwards);
-                listToBeSaved.addAll(newSubAwards.getBudgetSubAwardFiles());
-                listToBeSaved.addAll(newSubAwards.getBudgetSubAwardAttachments());
-                businessObjectService.save(listToBeSaved);
+                businessObjectService.save(newSubAwards);
                 parentBudget.getBudgetSubAwards().add(newSubAwards);
             }
             
@@ -852,7 +847,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         
                         parentLineItem.setBudgetLineItemId(null);
                         parentLineItem.setBudgetId(budgetId);
-                        parentLineItem.setBudgetPeriodId(budgetPeriodId);
                         parentLineItem.setBudgetPeriod(budgetPeriod);
                         parentLineItem.setLineItemNumber(lineItemNumber);
                         parentLineItem.setVersionNumber(null);
@@ -862,7 +856,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                             calAmt.setBudgetLineItemCalculatedAmountId(null);
                             calAmt.setBudgetLineItemId(null);
                             calAmt.setBudgetId(budgetId);
-                            calAmt.setBudgetPeriodId(budgetPeriodId);
+
                             calAmt.setBudgetPeriod(budgetPeriod);
                             calAmt.setLineItemNumber(lineItemNumber);
                             calAmt.setVersionNumber(null);
@@ -879,7 +873,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
                             details.setBudgetPersonnelLineItemId(null);
                             details.setBudgetId(budgetId);
-                            details.setBudgetPeriodId(budgetPeriodId);
                             details.setBudgetPeriod(budgetPeriod);
                             details.setLineItemNumber(lineItemNumber);
                             details.setVersionNumber(null);
@@ -889,7 +882,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                                 calAmt.setBudgetPersonnelCalculatedAmountId(null);
                                 calAmt.setBudgetLineItemId(null);
                                 calAmt.setBudgetId(budgetId);
-                                calAmt.setBudgetPeriodId(budgetPeriodId);
+
                                 calAmt.setBudgetPeriod(budgetPeriod);
                                 calAmt.setLineItemNumber(lineItemNumber);
                                 calAmt.setVersionNumber(null);
@@ -914,7 +907,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         parentLineItem.setStartDate(parentPeriod.getStartDate());
                         parentLineItem.setEndDate(parentPeriod.getEndDate());
                         parentLineItem.setBudgetId(budgetId);
-                        parentLineItem.setBudgetPeriodId(budgetPeriodId);
                         parentLineItem.setBudgetPeriod(budgetPeriod);
                         parentLineItem.setVersionNumber(null);
                         lineItemNumber = parentBudget.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER);
@@ -939,7 +931,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         parentLineItem.setStartDate(parentPeriod.getStartDate());
                         parentLineItem.setEndDate(parentPeriod.getEndDate());
                         parentLineItem.setBudgetId(budgetId);
-                        parentLineItem.setBudgetPeriodId(budgetPeriodId);
                         parentLineItem.setBudgetPeriod(budgetPeriod);
                         parentLineItem.setVersionNumber(null);
                         lineItemNumber = parentBudget.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER);

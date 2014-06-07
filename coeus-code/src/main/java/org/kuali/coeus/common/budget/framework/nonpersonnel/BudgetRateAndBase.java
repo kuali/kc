@@ -15,21 +15,38 @@
  */
 package org.kuali.coeus.common.budget.framework.nonpersonnel;
 
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
+@Entity
+@Table(name = "BUDGET_RATE_AND_BASE")
 public class BudgetRateAndBase extends AbstractBudgetRateAndBase {
-
 
     private static final long serialVersionUID = -6003003851261499575L;
 
+    @Column(name = "BASE_COST")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal baseCost;
 
     @DeepCopyIgnore
+    @PortableSequenceGenerator(name = "SEQ_BUDGET_RATE_AND_BASE_ID")
+    @GeneratedValue(generator = "SEQ_BUDGET_RATE_AND_BASE_ID")
+    @Id
+    @Column(name = "BUDGET_RATE_AND_BASE_ID")
     private Long budgetRateAndBaseId;
 
+    @Column(name = "BUDGET_DETAILS_CAL_AMTS_ID")
     private Long budgetLineItemCalculatedAmountId;
 
+    @Column(name = "BUDGET_DETAILS_ID")
     private Long budgetLineItemId;
 
     public ScaleTwoDecimal getBaseCost() {

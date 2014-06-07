@@ -35,7 +35,7 @@ public class RateClass extends KcPersistableBusinessObjectBase implements RateCl
     private String rateClassTypeCode;
 
     @ManyToOne(cascade = { CascadeType.REFRESH })
-    @JoinColumn(insertable = false, updatable = false)
+    @JoinColumn(name = "RATE_CLASS_TYPE", referencedColumnName = "RATE_CLASS_TYPE", insertable = false, updatable = false)
     private RateClassType rateClassType;
 
     @Override

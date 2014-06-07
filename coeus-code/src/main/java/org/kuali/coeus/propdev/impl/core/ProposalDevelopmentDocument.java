@@ -595,8 +595,8 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
 
     public void refreshBudgetDocumentVersions() {
-        final List<BudgetDocumentVersion> v = getDataObjectService().findMatching(BudgetDocumentVersion.class,
-                QueryByCriteria.Builder.andAttributes(Collections.singletonMap("parentDocumentKey",documentNumber)).build()).getResults();
+        final List<BudgetDocumentVersion> v = new ArrayList<BudgetDocumentVersion>(getDataObjectService().findMatching(BudgetDocumentVersion.class,
+                QueryByCriteria.Builder.andAttributes(Collections.singletonMap("parentDocumentKey",documentNumber)).build()).getResults());
         budgetDocumentVersions = v;
     }
 

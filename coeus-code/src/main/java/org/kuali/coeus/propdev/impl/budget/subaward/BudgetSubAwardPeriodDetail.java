@@ -15,40 +15,66 @@
  */
 package org.kuali.coeus.propdev.impl.budget.subaward;
 
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.apache.commons.lang3.ObjectUtils;
+import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardPeriodDetailContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetAssociate;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
-public class BudgetSubAwardPeriodDetail extends BudgetAssociate implements BudgetSubAwardPeriodDetailContract {
+@Entity
+@Table(name = "BUDGET_SUB_AWARD_PERIOD_DETAIL")
+public class BudgetSubAwardPeriodDetail extends KcPersistableBusinessObjectBase implements BudgetSubAwardPeriodDetailContract {
 
     private static final long serialVersionUID = 2327612798304765405L;
-    
+
     @DeepCopyIgnore
+    @PortableSequenceGenerator(name = "SEQ_BUDGET_SUBAWARD_PER_DET")
+    @GeneratedValue(generator = "SEQ_BUDGET_SUBAWARD_PER_DET")
+    @Id
+    @Column(name = "SUBAWARD_PERIOD_DETAIL_ID")
     private Long id;
-    
+
+    @Column(name = "SUBAWARD_NUMBER")
     private Integer subAwardNumber;
-    
+
+    @Column(name = "BUDGET_ID")
     private Long budgetId;
 
+    @Column(name = "BUDGET_PERIOD")
     private Integer budgetPeriod;
-    
+
+    @Column(name = "DIRECT_COST")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal directCost = ScaleTwoDecimal.ZERO;
-    
+
+    @Column(name = "INDIRECT_COST")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal indirectCost = ScaleTwoDecimal.ZERO;
-    
+
+    @Column(name = "COST_SHARING_AMOUNT")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal costShare = ScaleTwoDecimal.ZERO;
-    
+
+    @Column(name = "TOTAL_COST")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal totalCost = ScaleTwoDecimal.ZERO;
-    
+
+    @Transient
     private transient boolean amountsModified = false;
 
     public BudgetSubAwardPeriodDetail() {
-        
     }
-    
+
     public BudgetSubAwardPeriodDetail(BudgetSubAwards subAward, BudgetPeriod period) {
         this.subAwardNumber = subAward.getSubAwardNumber();
         this.budgetId = period.getBudgetId();
@@ -93,7 +119,7 @@ public class BudgetSubAwardPeriodDetail extends BudgetAssociate implements Budge
     public void setIndirectCost(ScaleTwoDecimal indirectCost) {
         if (!ObjectUtils.equals(this.indirectCost, indirectCost)) {
             amountsModified = true;
-        }        
+        }
         this.indirectCost = indirectCost;
     }
 
@@ -105,11 +131,10 @@ public class BudgetSubAwardPeriodDetail extends BudgetAssociate implements Budge
     public void setCostShare(ScaleTwoDecimal costShare) {
         if (!ObjectUtils.equals(this.costShare, costShare)) {
             amountsModified = true;
-        }        
+        }
         this.costShare = costShare;
     }
 
-    @Override
     public Long getBudgetId() {
         return budgetId;
     }
@@ -135,7 +160,7 @@ public class BudgetSubAwardPeriodDetail extends BudgetAssociate implements Budge
     public void setSubAwardNumber(Integer subAwardNumber) {
         this.subAwardNumber = subAwardNumber;
     }
-    
+
     public void computeTotal() {
         ScaleTwoDecimal total = getDirectCost() == null ? ScaleTwoDecimal.ZERO : getDirectCost();
         total = total.add(getIndirectCost() == null ? ScaleTwoDecimal.ZERO : getIndirectCost());

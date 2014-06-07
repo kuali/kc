@@ -73,7 +73,25 @@
         <value>org.kuali.coeus.common.framework.sponsor</value>
         <value>org.kuali.coeus.common.framework.unit</value>
         <value>org.kuali.coeus.common.framework.ynq</value>
-        <value>org.kuali.coeus.common.budget</value>
+        <value>org.kuali.coeus.common.budget.framework.calculator</value>
+        <value>org.kuali.coeus.common.budget.framework.copy</value>
+        <value>org.kuali.coeus.common.budget.framework.nonpersonnel</value>
+        <value>org.kuali.coeus.common.budget.framework.personnel</value>
+        <value>org.kuali.coeus.common.budget.framework.summary</value>
+        <value>org.kuali.coeus.common.budget.framework.version</value>
+        <value>org.kuali.kra.budget.nonpersonnel</value>
+        <value>org.kuali.coeus.common.budget.framework.rate</value>
+        <value>org.kuali.kra.budget.personnel</value>
+        <value>org.kuali.coeus.common.budget.framework.core</value>
+        <value>org.kuali.coeus.common.budget.framework.core.category</value>
+        <value>org.kuali.coeus.common.budget.framework.distribution</value>
+        <value>org.kuali.kra.budget.document</value>
+        <value>org.kuali.coeus.propdev.impl.budget.modular</value>
+        <value>org.kuali.coeus.common.budget.framework.period</value>
+        <value>org.kuali.coeus.common.budget.framework.income</value>
+        <value>org.kuali.coeus.propdev.impl.budget.subaward</value>
+        <value>org.kuali.coeus.common.budget.framework.version</value>
+        <value>org.kuali.coeus.propdev.impl.budget</value>
         <!--converters -->
         <value>org.kuali.coeus.sys.framework.persistence</value>
         <value>org.kuali.rice.krad.data.jpa.converters</value>

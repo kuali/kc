@@ -15,29 +15,77 @@
  */
 package org.kuali.coeus.common.budget.framework.income;
 
-import org.kuali.coeus.common.budget.framework.core.BudgetDistributionAndIncomeComponent;
+import javax.persistence.*;
+
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
-public class BudgetProjectIncome extends BudgetDistributionAndIncomeComponent implements HierarchyMaintainable {
+import java.io.Serializable;
+
+@Entity
+@Table(name = "BUDGET_PROJECT_INCOME")
+@IdClass(BudgetProjectIncome.BudgetProjectIncomeId.class)
+public class BudgetProjectIncome extends KcPersistableBusinessObjectBase implements HierarchyMaintainable {
 
     private static final long serialVersionUID = 8999969227018875501L;
 
     public static final String DOCUMENT_COMPONENT_ID_KEY = "BUDGET_PROJECT_INCOME_KEY";
 
+    @Id
+    @Column(name = "PROJECT_INCOME_ID")
+    private Integer documentComponentId;
+
+    @Id
+    @Column(name = "BUDGET_ID")
+    private Long budgetId;
+
+    public Integer getDocumentComponentId() {
+        return documentComponentId;
+    }
+
+    public void setDocumentComponentId(Integer costShareId) {
+        this.documentComponentId = costShareId;
+    }
+
+    public Long getBudgetId() {
+        return budgetId;
+    }
+
+    public void setBudgetId(Long budgetId) {
+        this.budgetId = budgetId;
+    }
+
+    @Column(name = "BUDGET_PERIOD_NUMBER")
     private Long budgetPeriodId;
 
+    @ManyToOne(targetEntity = BudgetPeriod.class)
+    @JoinColumns(value = {@JoinColumn(name = "BUDGET_PERIOD_NUMBER", referencedColumnName = "BUDGET_PERIOD_NUMBER", insertable = false, updatable = false),
+            @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)})
     private BudgetPeriod budgetPeriod;
 
+    @Column(name = "BUDGET_PERIOD")
     private Integer budgetPeriodNumber;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "AMOUNT")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal projectIncome;
 
+    @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
 
+    @Column(name = "HIDE_IN_HIERARCHY")
+    @Convert(converter = BooleanYNConverter.class)
     private boolean hiddenInHierarchy;
 
     public Integer getBudgetPeriodNumber() {
@@ -64,7 +112,6 @@ public class BudgetProjectIncome extends BudgetDistributionAndIncomeComponent im
         this.projectIncome = income;
     }
 
-    @Override
     public String getDocumentComponentIdKey() {
         return DOCUMENT_COMPONENT_ID_KEY;
     }
@@ -99,5 +146,55 @@ public class BudgetProjectIncome extends BudgetDistributionAndIncomeComponent im
 
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
+    }
+
+    public static final class BudgetProjectIncomeId implements Serializable, Comparable<BudgetProjectIncomeId> {
+
+        private Integer documentComponentId;
+
+        private Long budgetId;
+
+        public Integer getDocumentComponentId() {
+            return documentComponentId;
+        }
+
+        public void setDocumentComponentId(Integer documentComponentId) {
+            this.documentComponentId = documentComponentId;
+        }
+
+        public Long getBudgetId() {
+            return budgetId;
+        }
+
+        public void setBudgetId(Long budgetId) {
+            this.budgetId = budgetId;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("budgetId", this.budgetId).append("documentComponentId", this.documentComponentId).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final BudgetProjectIncomeId rhs = (BudgetProjectIncomeId) other;
+            return new EqualsBuilder().append(this.budgetId, rhs.budgetId).append(this.documentComponentId, rhs.documentComponentId).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.budgetId).append(this.documentComponentId).toHashCode();
+        }
+
+        @Override
+        public int compareTo(BudgetProjectIncomeId other) {
+            return new CompareToBuilder().append(this.budgetId, other.budgetId).append(this.documentComponentId, other.documentComponentId).toComparison();
+        }
     }
 }
