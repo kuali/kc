@@ -171,8 +171,6 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
             i++;
         }
         //check project income for values that are not greater than 0
-        GlobalVariables.getMessageMap().removeFromErrorPath("budget");
-        GlobalVariables.getMessageMap().addToErrorPath("budgets[0]"); 
         i = 0;
         for (BudgetProjectIncome budgetProjectIncome : budgetDocument.getBudget().getBudgetProjectIncomes()) {
             String errorPath = "budgetProjectIncomes[" + i + "]";
@@ -184,8 +182,6 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
             errorMap.removeFromErrorPath(errorPath);
             i++;
         }
-        GlobalVariables.getMessageMap().removeFromErrorPath("budgets[0]");
-        GlobalVariables.getMessageMap().addToErrorPath("budget");
         
         return valid;
     }

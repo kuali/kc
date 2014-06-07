@@ -169,7 +169,7 @@ public class BudgetPeriodCalculator {
                 budgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
                 //budgetLineItem.setStartDate(budgetPeriod.getStartDate());
                 //budgetLineItem.setEndDate(budgetPeriod.getEndDate());
-                
+
                 boolean isLeapDateInPeriod = KcServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(prevBudgetLineItem.getStartDate(), prevBudgetLineItem.getEndDate()) ;
                 gap= KcServiceLocator.getService(DateTimeService.class).dateDiff(currentBudgetPeriod.getStartDate(), currentBudgetLineItem.getStartDate(), false);
                 boolean isLeapDayInGap = KcServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(currentBudgetPeriod.getStartDate(), currentBudgetLineItem.getStartDate());
@@ -335,7 +335,7 @@ public class BudgetPeriodCalculator {
             }
         }
     }
-    
+
     public void syncToPeriodDirectCostLimit(Budget budget, BudgetPeriod budgetPeriodBean, BudgetLineItem budgetDetailBean) {
         // If total_cost equals total_cost_limit, disp msg "Cost limit and total cost for this period is already in sync."
         ScaleTwoDecimal directCostLimit = budgetPeriodBean.getDirectCostLimit();
@@ -365,7 +365,7 @@ public class BudgetPeriodCalculator {
         QueryList<BudgetLineItemCalculatedAmount> vecCalAmts = new QueryList<BudgetLineItemCalculatedAmount>(budgetDetailBean
                 .getBudgetLineItemCalculatedAmounts());
 
-        resetRateClassTypeIfNeeded(vecCalAmts); 
+        resetRateClassTypeIfNeeded(vecCalAmts);
 
         ScaleTwoDecimal totalNOHCalcAmount = vecCalAmts.sumObjects("calculatedCost", new NotEquals("rateClassType",
             RateClassType.OVERHEAD.getRateClassType()));
@@ -423,7 +423,7 @@ public class BudgetPeriodCalculator {
         QueryList<BudgetLineItemCalculatedAmount> vecCalAmts = new QueryList<BudgetLineItemCalculatedAmount>(budgetDetailBean
                 .getBudgetLineItemCalculatedAmounts());
 
-        resetRateClassTypeIfNeeded(vecCalAmts); 
+        resetRateClassTypeIfNeeded(vecCalAmts);
 
         ScaleTwoDecimal totalNOHCalcAmount = vecCalAmts.sumObjects("calculatedCost", new NotEquals("rateClassType",
             RateClassType.OVERHEAD.getRateClassType()));

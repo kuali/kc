@@ -537,7 +537,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     protected void deleteProposalBudget(String budgetDocumentNumber, ProposalDevelopmentDocument parentDocument) {
         try {
             BudgetDocument<DevelopmentProposal> document = (BudgetDocument<DevelopmentProposal>) getDocumentService().getByDocumentHeaderId(budgetDocumentNumber);
-            document.getBudgets().clear();
+            document.setBudget(null);
             // make sure the budget points to this instance of the pdd as other deleted budgets
             // must be removed so they don't fail document validation.
             document.setParentDocument(parentDocument);

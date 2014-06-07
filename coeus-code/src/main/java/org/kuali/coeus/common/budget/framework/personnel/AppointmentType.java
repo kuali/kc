@@ -15,6 +15,10 @@
  */
 package org.kuali.coeus.common.budget.framework.personnel;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
@@ -22,12 +26,18 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
  *
  * AppointmentType.java
  */
+@Entity
+@Table(name = "APPOINTMENT_TYPE")
 public class AppointmentType extends KcPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "APPOINTMENT_TYPE_CODE")
     private String appointmentTypeCode;
 
+    @Column(name = "DURATION")
     private Integer duration;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
     /**

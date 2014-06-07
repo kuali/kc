@@ -18,7 +18,6 @@ package org.kuali.coeus.common.budget.framework.period;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.DateUtils;
-import org.kuali.coeus.common.budget.framework.core.BudgetAssociate;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
@@ -29,65 +28,118 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import javax.persistence.*;
 
-public class BudgetPeriod extends BudgetAssociate {
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
+
+@Entity
+@Table(name = "BUDGET_PERIODS")
+public class BudgetPeriod extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -7318331486891820078L;
 
     @DeepCopyIgnore
+    @PortableSequenceGenerator(name = "SEQ_BUDGET_PERIOD_NUMBER")
+    @GeneratedValue(generator = "SEQ_BUDGET_PERIOD_NUMBER")
+    @Id
+    @Column(name = "BUDGET_PERIOD_NUMBER")
     private Long budgetPeriodId;
 
+    @Column(name = "BUDGET_ID")
+    private Long budgetId;
+
+    @Column(name = "BUDGET_PERIOD")
     private Integer budgetPeriod;
 
+    @Column(name = "COMMENTS")
+    @Lob
     private String comments;
 
+    @Column(name = "COST_SHARING_AMOUNT")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal costSharingAmount;
 
+    @Column(name = "END_DATE")
     private Date endDate;
 
+    @Column(name = "START_DATE")
     private Date startDate;
 
+    @Column(name = "TOTAL_COST")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal totalCost;
 
+    @Column(name = "TOTAL_COST_LIMIT")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal totalCostLimit;
 
+    @Column(name = "TOTAL_DIRECT_COST")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal totalDirectCost;
 
+    @Column(name = "TOTAL_INDIRECT_COST")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal totalIndirectCost;
 
+    @Column(name = "UNDERRECOVERY_AMOUNT")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal underrecoveryAmount;
 
+    @OneToMany(mappedBy = "budgetPeriodBO")
     private List<BudgetLineItem> budgetLineItems;
-    
+
+    @Column(name = "NUM_PARTICIPANTS")
     private Integer numberOfParticipants;
 
-    // expences total for 'totals' page 
-    // if 'totalCost' is intended for 'totals' page, then this is not needed 
+    // expences total for 'totals' page  
+    // if 'totalCost' is intended for 'totals' page, then this is not needed  
+    @Transient
     private ScaleTwoDecimal expenseTotal;
 
+    @Transient
     private Date oldEndDate;
 
+    @Transient
     private Date oldStartDate;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_PERIOD_NUMBER", referencedColumnName = "BUDGET_PERIOD_NUMBER", insertable = false, updatable = false)
     private BudgetModular budgetModular;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
     private Budget budget;
 
-    //this is for lookup from award budget 
+    //this is for lookup from award budget  
+    @Transient
     private String budgetParentId;
 
+    @Transient
     private String institutionalProposalNumber;
 
+    @Transient
     private Integer institutionalProposalVersion;
 
+    @Column(name = "TOTAL_DIRECT_COST_LIMIT")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal directCostLimit;
-    
 
-    // This is a BO and hence will not be shared between threads. dateFormatter here is thread safe. 
+    // This is a BO and hence will not be shared between threads. dateFormatter here is thread safe.  
+    @Transient
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
 
     public BudgetPeriod() {
         budgetLineItems = new ArrayList<BudgetLineItem>();
+    }
+
+    public Long getBudgetId() {
+        return budgetId;
+    }
+
+    public void setBudgetId(Long budgetId) {
+        this.budgetId = budgetId;
     }
 
     /**
@@ -234,7 +286,7 @@ public class BudgetPeriod extends BudgetAssociate {
      * @return
      */
     public boolean isReadOnly() {
-        //return (budgetPeriod != null && budgetPeriod == 1) || budgetLineItems.size() > 0; 
+        //return (budgetPeriod != null && budgetPeriod == 1) || budgetLineItems.size() > 0;  
         return budgetLineItems != null && budgetLineItems.size() > 0;
     }
 
@@ -451,11 +503,11 @@ public class BudgetPeriod extends BudgetAssociate {
     public void setDirectCostLimit(ScaleTwoDecimal directCostLimit) {
         this.directCostLimit = directCostLimit;
     }
-    
+
     public String getNumberOfMonths() {
         return String.valueOf(this.getProposalBudgetNumberOfMonthsService().getNumberOfMonth(this.getStartDate(), this.getEndDate()));
     }
-    
+
     protected ProposalBudgetNumberOfMonthsService getProposalBudgetNumberOfMonthsService() {
         return KcServiceLocator.getService(ProposalBudgetNumberOfMonthsService.class);
     }

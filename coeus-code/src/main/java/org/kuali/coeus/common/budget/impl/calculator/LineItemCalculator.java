@@ -157,7 +157,6 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
                 budgetRateBase.setBaseCostSharing(rateAndCost.getBaseCostSharingAmount());
                 budgetRateBase.setBaseCost(rateAndCost.getBaseAmount());
                 
-                budgetRateBase.setBudgetPeriodId(bli.getBudgetPeriodId());
                 budgetRateBase.setBudgetPeriod(bli.getBudgetPeriod());
                 budgetRateBase.setCalculatedCost(calculatedCost);
                 budgetRateBase.setCalculatedCostSharing(calculatedCostSharing);

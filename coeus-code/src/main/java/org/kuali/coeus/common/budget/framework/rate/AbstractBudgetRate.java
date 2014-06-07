@@ -15,36 +15,54 @@
  */
 package org.kuali.coeus.common.budget.framework.rate;
 
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.coeus.common.budget.api.core.IdentifiableBudget;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.coeus.common.budget.framework.calculator.RateClassType;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 
+@MappedSuperclass
 public abstract class AbstractBudgetRate extends AbstractInstituteRate implements IdentifiableBudget {
-
 
     private static final long serialVersionUID = -7152006670699620080L;
 
+    @Id
+    @Column(name = "BUDGET_ID")
     private Long budgetId;
 
+    @Transient
     private Budget budget;
 
+    @Column(name = "APPLICABLE_RATE")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal applicableRate;
 
+    @Transient
     private ScaleTwoDecimal oldApplicableRate;
 
+    @Transient
     private boolean rateChanged;
 
+    @Transient
     private String viewLocation;
 
+    @Transient
     private boolean displayLocation = true;
 
+    @Transient
     private String budgetPeriod;
 
+    @Transient
     private String affectedBudgetPeriod;
 
+    @Transient
     private String trackAffectedPeriod;
 
     public AbstractBudgetRate() {
@@ -205,35 +223,55 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!super.equals(obj)) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
         AbstractBudgetRate other = (AbstractBudgetRate) obj;
         if (affectedBudgetPeriod == null) {
-            if (other.affectedBudgetPeriod != null) return false;
-        } else if (!affectedBudgetPeriod.equals(other.affectedBudgetPeriod)) return false;
+            if (other.affectedBudgetPeriod != null)
+                return false;
+        } else if (!affectedBudgetPeriod.equals(other.affectedBudgetPeriod))
+            return false;
         if (applicableRate == null) {
-            if (other.applicableRate != null) return false;
-        } else if (!applicableRate.equals(other.applicableRate)) return false;
+            if (other.applicableRate != null)
+                return false;
+        } else if (!applicableRate.equals(other.applicableRate))
+            return false;
         if (budget == null) {
-            if (other.budget != null) return false;
-        } else if (!budget.equals(other.budget)) return false;
+            if (other.budget != null)
+                return false;
+        } else if (!budget.equals(other.budget))
+            return false;
         if (budgetId == null) {
-            if (other.budgetId != null) return false;
-        } else if (!budgetId.equals(other.budgetId)) return false;
+            if (other.budgetId != null)
+                return false;
+        } else if (!budgetId.equals(other.budgetId))
+            return false;
         if (budgetPeriod == null) {
-            if (other.budgetPeriod != null) return false;
-        } else if (!budgetPeriod.equals(other.budgetPeriod)) return false;
-        if (displayLocation != other.displayLocation) return false;
+            if (other.budgetPeriod != null)
+                return false;
+        } else if (!budgetPeriod.equals(other.budgetPeriod))
+            return false;
+        if (displayLocation != other.displayLocation)
+            return false;
         if (oldApplicableRate == null) {
-            if (other.oldApplicableRate != null) return false;
-        } else if (!oldApplicableRate.equals(other.oldApplicableRate)) return false;
+            if (other.oldApplicableRate != null)
+                return false;
+        } else if (!oldApplicableRate.equals(other.oldApplicableRate))
+            return false;
         if (trackAffectedPeriod == null) {
-            if (other.trackAffectedPeriod != null) return false;
-        } else if (!trackAffectedPeriod.equals(other.trackAffectedPeriod)) return false;
+            if (other.trackAffectedPeriod != null)
+                return false;
+        } else if (!trackAffectedPeriod.equals(other.trackAffectedPeriod))
+            return false;
         if (viewLocation == null) {
-            if (other.viewLocation != null) return false;
-        } else if (!viewLocation.equals(other.viewLocation)) return false;
+            if (other.viewLocation != null)
+                return false;
+        } else if (!viewLocation.equals(other.viewLocation))
+            return false;
         return true;
     }
 

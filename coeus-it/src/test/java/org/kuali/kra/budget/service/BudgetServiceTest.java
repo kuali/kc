@@ -144,7 +144,7 @@ public class BudgetServiceTest extends KcIntegrationTestBase {
         proposalDevelopmentService.initializeUnitOrganizationLocation(pdDocument);
         proposalDevelopmentService.initializeProposalSiteNumbers(pdDocument);
 
-        KRADServiceLocatorWeb.getDocumentService().saveDocument(pdDocument);
+        pdDocument = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().saveDocument(pdDocument);
         
         pdDocument.getDevelopmentProposal().refreshReferenceObject("ownedByUnit");
         

@@ -86,8 +86,8 @@ public class AwardBudgetVersionOverviewExt extends BudgetVersionOverview {
     }
 
     /**
-     * Sets the obligatedAmount attribute value.
-     * @param obligatedAmount The obligatedAmount to set.
+     * Sets the obligatedChangeAmount attribute value.
+     * @param obligatedChangeAmount The obligatedChangeAmount to set.
      */
     public void setObligatedAmount(ScaleTwoDecimal obligatedChangeAmount) {
         this.obligatedAmount = obligatedChangeAmount;
