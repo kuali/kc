@@ -339,5 +339,11 @@
       </list>
     </property>
   </bean>
-
+<bean id="AllDevelopmentProposals-LookupViewId" parent="AllDevelopmentProposals-lookupView-parentBean" />
+	<bean id="AllDevelopmentProposals-lookupView-parentBean" abstract="true" parent="LookupableDevelopmentProposal-LookupView" p:viewName="AllLookupableDevelopmentProposals-LookupViewName" 
+	p:headerText="All Proposal Development Document Lookup"/>
+	<bean id="SearchDevelopmentProposals-LookupViewId" parent="SearchDevelopmentProposals-lookupView-parentBean" />
+	<bean id="SearchDevelopmentProposals-lookupView-parentBean"  abstract="true" parent="LookupableDevelopmentProposal-LookupView"
+	p:viewName="SearchLookupableDevelopmentProposals-LookupViewName" 
+	p:headerText="Search Proposal Development Document Lookup"/>
 </beans>
