@@ -100,10 +100,10 @@
       <bean parent="NumericPatternConstraint"/>
     </property>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.budget.framework.core.BudgetRateTypeValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.budget.impl.core.BudgetRateTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.coeus.common.budget.framework.core.BudgetRateTypeValuesFinder"/>
+      <bean class="org.kuali.coeus.common.budget.impl.core.BudgetRateTypeValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -222,10 +222,10 @@
       <bean parent="NumericPatternConstraint"/>
     </property>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.budget.framework.core.BudgetRateTypeValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.budget.impl.core.BudgetRateTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.coeus.common.budget.framework.core.BudgetRateTypeValuesFinder"/>
+      <bean class="org.kuali.coeus.common.budget.impl.core.BudgetRateTypeValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -323,10 +323,10 @@
       <bean parent="AlphaNumericPatternConstraint"/>
     </property>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.budget.framework.core.BudgetOnOffCampusValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.budget.impl.core.BudgetOnOffCampusValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.coeus.common.budget.framework.core.BudgetOnOffCampusValuesFinder"/>
+      <bean class="org.kuali.coeus.common.budget.impl.core.BudgetOnOffCampusValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>

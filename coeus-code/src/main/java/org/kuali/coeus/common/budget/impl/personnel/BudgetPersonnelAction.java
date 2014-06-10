@@ -21,7 +21,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.budget.framework.personnel.*;
-import org.kuali.coeus.common.budget.impl.personnel.BudgetExpensesAction;
+import org.kuali.coeus.common.budget.impl.nonpersonnel.BudgetExpensesAction;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
