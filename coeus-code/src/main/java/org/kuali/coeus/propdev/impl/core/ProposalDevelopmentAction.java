@@ -405,7 +405,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         s2sOpportunity=proposalDevelopmentForm.getS2sOpportunity();
         if(s2sOpportunity!=null) {
             doc.getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
-            s2sOpportunity.setProposalNumber(doc.getDevelopmentProposal().getProposalNumber());
+            s2sOpportunity.setDevelopmentProposal(doc.getDevelopmentProposal());
             getBusinessObjectService().save(s2sOpportunity);
             proposalDevelopmentForm.setS2sOpportunity(null);
         }
