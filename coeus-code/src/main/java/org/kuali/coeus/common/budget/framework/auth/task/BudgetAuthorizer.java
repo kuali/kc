@@ -19,7 +19,6 @@ import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
-import org.kuali.coeus.common.budget.framework.auth.task.BudgetTask;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;

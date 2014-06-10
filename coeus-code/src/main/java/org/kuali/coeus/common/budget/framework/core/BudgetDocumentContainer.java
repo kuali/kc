@@ -15,9 +15,6 @@
  */
 package org.kuali.coeus.common.budget.framework.core;
 
-
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-
 /**
  * This interface was created primarily to allow easy mocking of BudgetForm to remove Spring context dependency imposed by KualiDocumentFormBase  
  */

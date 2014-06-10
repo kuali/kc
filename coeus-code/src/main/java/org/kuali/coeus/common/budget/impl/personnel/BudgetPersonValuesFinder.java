@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.framework.personnel;
+package org.kuali.coeus.common.budget.impl.personnel;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;

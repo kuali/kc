@@ -128,7 +128,7 @@
 							</c:choose>
 	                	
 		                	<html:select property="newBudgetLineItems[${catCodes}].costElement" tabindex="0" style="${textStyle}"  >
-		                    <c:forEach items="${krafn:getOptionList('org.kuali.coeus.common.budget.framework.core.CostElementValuesFinder', paramMap)}" var="option">
+		                    <c:forEach items="${krafn:getOptionList('org.kuali.coeus.common.budget.impl.core.CostElementValuesFinder', paramMap)}" var="option">
 		                    <c:choose>                    	
 		                    	<c:when test="${KualiForm.newBudgetLineItems[catCodes].costElement == option.key}">
 		                        <option value="${option.key}" selected>${option.value}</option>
