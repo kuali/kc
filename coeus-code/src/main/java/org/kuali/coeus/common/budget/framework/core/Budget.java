@@ -32,14 +32,12 @@ import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.coeus.sys.api.model.ScaleThreeDecimal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetFormulatedCostDetail;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
@@ -184,7 +182,7 @@ public class Budget extends BudgetVersionOverview {
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KcServiceLocator.getService(ParameterService.class);
+            this.parameterService = getService(ParameterService.class);
         }
         return this.parameterService;
     }
@@ -1571,7 +1569,7 @@ public class Budget extends BudgetVersionOverview {
     }
     
     protected ProposalBudgetNumberOfMonthsService getProposalBudgetNumberOfMonthsService() {
-        return KcServiceLocator.getService(ProposalBudgetNumberOfMonthsService.class);
+        return getService(ProposalBudgetNumberOfMonthsService.class);
     }
 }
 

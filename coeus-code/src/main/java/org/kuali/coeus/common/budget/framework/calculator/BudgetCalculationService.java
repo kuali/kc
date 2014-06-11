@@ -15,14 +15,14 @@
  */
 package org.kuali.coeus.common.budget.framework.calculator;
 
-import org.kuali.kra.budget.BudgetException;
+import org.kuali.coeus.common.budget.framework.core.BudgetException;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 /**
  * 
  * This class is for serving all calculations for a proposal budget.

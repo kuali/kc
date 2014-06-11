@@ -83,10 +83,10 @@
       <bean parent="NumericPatternConstraint"/>
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetExpensePeriodValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.budget.impl.period.BudgetExpensePeriodValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.budget.lookup.keyvalue.BudgetExpensePeriodValuesFinder"/>
+      <bean class="org.kuali.coeus.common.budget.impl.period.BudgetExpensePeriodValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>

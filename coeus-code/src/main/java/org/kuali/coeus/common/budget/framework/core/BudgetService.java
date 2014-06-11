@@ -16,8 +16,6 @@
 package org.kuali.coeus.common.budget.framework.core;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;

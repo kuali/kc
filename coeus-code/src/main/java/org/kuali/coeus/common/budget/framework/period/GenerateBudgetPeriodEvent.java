@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 package org.kuali.coeus.common.budget.framework.period;
-import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 

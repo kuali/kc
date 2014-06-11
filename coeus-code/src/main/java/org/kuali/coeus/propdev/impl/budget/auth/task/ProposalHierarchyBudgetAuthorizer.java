@@ -16,9 +16,9 @@
 package org.kuali.coeus.propdev.impl.budget.auth.task;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.document.authorization.BudgetTask;
-import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.auth.task.BudgetTask;
+import org.kuali.coeus.common.budget.framework.auth.task.BudgetAuthorizer;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 

@@ -15,9 +15,8 @@
  */
 package org.kuali.coeus.common.budget.framework.period;
 
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 
 /**
  * Event triggered when a budget Period is modified on a 

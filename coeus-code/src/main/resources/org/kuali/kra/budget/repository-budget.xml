@@ -17,7 +17,7 @@
 
     <!-- Budget tables -->
     
-    <class-descriptor class="org.kuali.kra.budget.document.BudgetDocument" table="BUDGET_DOCUMENT">			
+    <class-descriptor class="org.kuali.coeus.common.budget.framework.core.BudgetDocument" table="BUDGET_DOCUMENT">
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />		
 		<field-descriptor name="parentDocumentKey" column="PARENT_DOCUMENT_KEY" jdbc-type="VARCHAR"/>
 		<field-descriptor name="parentDocumentTypeCode" column="PARENT_DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
@@ -26,7 +26,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<reference-descriptor name="parentDocument" class-ref="org.kuali.kra.budget.document.BudgetParentDocument" 
+		<reference-descriptor name="parentDocument" class-ref="org.kuali.coeus.common.budget.framework.core.BudgetParentDocument"
 							auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="parentDocumentKey"/>
 	    </reference-descriptor>
@@ -54,7 +54,7 @@
         </reference-descriptor>
 	</class-descriptor>
 <!-- Factory definitions start -->
-	<class-descriptor class="org.kuali.kra.budget.document.BudgetParentDocument">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.core.BudgetParentDocument">
 	    <extent-class class-ref="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument"/>
 	    <extent-class class-ref="org.kuali.kra.award.document.AwardDocument"/>
 	</class-descriptor>
@@ -135,7 +135,7 @@
 			<inverse-foreignkey field-ref="budgetId"/>
 		</collection-descriptor>
 
-        <reference-descriptor name="budgetDocument" class-ref="org.kuali.kra.budget.document.BudgetDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="budgetDocument" class-ref="org.kuali.coeus.common.budget.framework.core.BudgetDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="documentNumber" />
         </reference-descriptor>
 		<reference-descriptor name="rateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1074,7 +1074,7 @@
 			<orderby name="budgetPeriod" sort="ASC" /> 
 			<inverse-foreignkey field-ref="budgetId"/>
 		</collection-descriptor>
-        <reference-descriptor name="budgetDocument" class-ref="org.kuali.kra.budget.document.BudgetDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="budgetDocument" class-ref="org.kuali.coeus.common.budget.framework.core.BudgetDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="documentNumber" />
         </reference-descriptor>
 	</class-descriptor>
@@ -1087,7 +1087,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<reference-descriptor name="parentDocument" class-ref="org.kuali.kra.budget.document.BudgetParentDocument" 
+		<reference-descriptor name="parentDocument" class-ref="org.kuali.coeus.common.budget.framework.core.BudgetParentDocument"
 							auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="parentDocumentKey"/>
 	    </reference-descriptor>
@@ -1110,7 +1110,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 
-		<reference-descriptor name="parentDocument" class-ref="org.kuali.kra.budget.document.BudgetParentDocument" 
+		<reference-descriptor name="parentDocument" class-ref="org.kuali.coeus.common.budget.framework.core.BudgetParentDocument"
 							auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="parentDocumentKey"/>
 	    </reference-descriptor>    	
