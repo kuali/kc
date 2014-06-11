@@ -816,4 +816,14 @@
             </map>
         </property>
     </bean>
+    
+    <bean id="exemptionTypeValuesFinder" class="org.kuali.coeus.sys.framework.keyvalue.DataObjectValuesFinder">
+        <property name="dataObjectClass" value="org.kuali.coeus.common.framework.compliance.exemption.ExemptionType"/>
+        <property name="keyAttributeName" value="code"/>
+        <property name="labelAttributeName" value="description"/>
+        <property name="addBlankOption" value="false"/>
+    </bean>
+    
+    <bean id="proposalSpecialReviewApprovalTypeValuesFinder" class="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewApprovalTypeValuesFinder"/>
+    
 </beans>

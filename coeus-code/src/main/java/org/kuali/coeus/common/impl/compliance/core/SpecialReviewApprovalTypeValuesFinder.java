@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.impl.compliance.core;
 
+import org.kuali.coeus.sys.framework.keyvalue.DataObjectValuesFinder;
 import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
 import org.kuali.coeus.sys.framework.keyvalue.SortedValuesFinder;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType;
@@ -23,49 +24,32 @@ import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * See {@link #getKeyValues()}.
  */
-public class SpecialReviewApprovalTypeValuesFinder extends UifKeyValuesFinderBase {
-    
-    private final KeyValuesFinder finder;
-    
-    /**
-     * Creates the SpecialReviewApprovalTypeValuesFinder setting any internal dependencies to defaults
-     */
-    public SpecialReviewApprovalTypeValuesFinder() {
-        PersistableBusinessObjectValuesFinder boFinder = new PersistableBusinessObjectValuesFinder();
-        boFinder.setBusinessObjectClass(SpecialReviewApprovalType.class);
-        boFinder.setKeyAttributeName("approvalTypeCode");
-        boFinder.setLabelAttributeName("description");
-        this.finder = new PrefixValuesFinder(new SortedValuesFinder(boFinder));
-    }
-    
-    /**
-     * Creates the SpecialReviewApprovalTypeValuesFinder setting the wrapped finder.
-     * @param aFinder the finder
-     * @throws NullPointerException if the finder is null
-     */
-    SpecialReviewApprovalTypeValuesFinder(final KeyValuesFinder aFinder) {
-        if (aFinder == null) {
-            throw new NullPointerException("the finder is null");
-        }
-        
-        this.finder = aFinder;
-    }
+public class SpecialReviewApprovalTypeValuesFinder extends DataObjectValuesFinder {
     
     /**
      * Gets the keyvalue pair for {@link SpecialReviewApprovalType SpecialReviewApprovalType}.
-     * The key is the exemptionTypeCode and the value is the description.
+     * The key is the specialReviewApprovalTypeCode and the value is the description.
      * 
      * @return a list of {@link KeyValue KeyValue}
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        @SuppressWarnings("unchecked")
-        final List<KeyValue> exemptionTypes = this.finder.getKeyValues();
-        return exemptionTypes;
+    	setKeyValueAttributes();
+        final List<KeyValue> specialReviewApprovalTypes = super.getKeyValues();
+        return specialReviewApprovalTypes;
     }
+
+    protected void setKeyValueAttributes() {
+        setDataObjectClass(SpecialReviewApprovalType.class);
+        setKeyAttributeName("approvalTypeCode");
+        setLabelAttributeName("description");
+    }
+    
 }

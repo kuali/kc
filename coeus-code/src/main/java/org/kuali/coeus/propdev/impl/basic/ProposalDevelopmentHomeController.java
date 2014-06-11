@@ -86,19 +86,6 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        return sponsor;
    }
    
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=linkProtocol")
-   public ModelAndView linkProtocol(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
-           HttpServletRequest request, HttpServletResponse response) throws Exception {
-       ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-       ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
-       for (ProposalSpecialReview specialReview : proposalDevelopmentDocument.getDevelopmentProposal().getPropSpecialReviews()) {
-           if (!specialReview.isLinkedToProtocol()) {
-               pdForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
-           }
-       }
-       return getTransactionalDocumentControllerService().getUIFModelAndView(form);
-   }
-   
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveDetails")
    public ModelAndView saveDetails(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -166,7 +153,6 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    @InitBinder
    protected void initBinder(WebDataBinder binder) throws Exception {
 	   binder.registerCustomEditor(List.class, "document.developmentProposal.propScienceKeywords", new PropScienceKeywordEditor());
-	   binder.registerCustomEditor(List.class, "document.developmentProposal.propSpecialReviews.specialReviewExemptions", new PropSpecialReviewExemptionTypeEditor());
    }
    	  
    protected class PropScienceKeywordEditor extends CustomCollectionEditor {
@@ -184,23 +170,6 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    
    protected ScienceKeyword getScienceKeyword(Object element) {
 	   return getDataObjectService().findUnique(ScienceKeyword.class, QueryByCriteria.Builder.forAttribute("code", element).build());
-   }
-
-   protected class PropSpecialReviewExemptionTypeEditor extends CustomCollectionEditor {
-		public PropSpecialReviewExemptionTypeEditor() {
-			super(List.class);
-		}
-
-		protected Object convertElement(Object element) {
-			if (element instanceof String) {
-				return new ProposalSpecialReviewExemption(null, getExemptionType(element));
-			}
-			return null;
-		}
-	}
-   
-   protected ExemptionType getExemptionType(Object element) {
-	   return getDataObjectService().findUnique(ExemptionType.class, QueryByCriteria.Builder.forAttribute("code", element).build());
    }
    
 }
