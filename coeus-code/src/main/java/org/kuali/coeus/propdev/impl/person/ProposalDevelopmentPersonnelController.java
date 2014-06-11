@@ -21,6 +21,8 @@ import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
+import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
@@ -34,6 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -62,16 +65,14 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     }    
 
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveProposalPersonnel")
-   public ModelAndView savePersonnel(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+   public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-       ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
-       for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
-           for (AnswerHeader answerHeader : person.getQuestionnaireHelper().getAnswerHeaders()) {
-               getLegacyDataAdapter().save(answerHeader);
-           }
-       }
-       return super.save(pdForm, result, request, response);
+       saveAnswerHeaders(pdForm);
+       ModelAndView mv =  super.save(pdForm, result, request, response);
+       //rebuild the questionnaire, and other non-JPAed docs so it displays correctly
+       refreshPersonCertificaitonAnswerHeaders(pdForm);
+	   return mv;
    }
    
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=performPersonnelSearch")
@@ -118,8 +119,47 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        newProposalPerson.setProjectRole(form.getAddKeyPersonHelper().getKeyPersonProjectRole());
        getKeyPersonnelService().addProposalPerson(newProposalPerson, form.getProposalDevelopmentDocument());
        form.getAddKeyPersonHelper().reset();
+       refreshPersonCertificaitonAnswerHeaders(form);
        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
    }
+   
+   @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=clearAnswers")
+   public ModelAndView clearAnswers(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+           HttpServletRequest request, HttpServletResponse response) throws Exception {
+	   ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
+	   String personNumber = pdForm.getActionParamaterValue("personNumber");
+	   for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+		   if (StringUtils.equals(personNumber, person.getProposalPersonNumber().toString())) {
+			   //get the certification questions
+			   AnswerHeader ah = person.getQuestionnaireHelper().getAnswerHeaders().get(0);
+			   for (Answer answer : ah.getAnswers()) {
+				   answer.setAnswer(null);
+			   }
+		   }
+	   }
+	   saveAnswerHeaders(pdForm);
+	   ModelAndView mv = this.save(pdForm, result, request, response);
+	   return mv;
+   }
+   
+   public void saveAnswerHeaders(ProposalDevelopmentDocumentForm pdForm) {
+		for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+			if (person.getQuestionnaireHelper() != null && person.getQuestionnaireHelper().getAnswerHeaders() != null 
+					&& !person.getQuestionnaireHelper().getAnswerHeaders().isEmpty()) {
+				for (AnswerHeader answerHeader : person.getQuestionnaireHelper().getAnswerHeaders()) {
+					getLegacyDataAdapter().save(answerHeader);
+		        }
+			}
+	    }
+	}
+	
+	public void refreshPersonCertificaitonAnswerHeaders(ProposalDevelopmentDocumentForm pdForm) {
+		for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+			ProposalPersonQuestionnaireHelper qh = new ProposalPersonQuestionnaireHelper(person);
+			qh.populateAnswers();
+			person.setQuestionnaireHelper(qh);
+	    }
+	}
    
 
     protected LookupableHelperService getKcPersonLookupableHelperService() {
