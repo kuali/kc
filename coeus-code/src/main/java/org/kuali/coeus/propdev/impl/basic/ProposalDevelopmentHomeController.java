@@ -73,6 +73,20 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 	   //return mv;
    }
    
+   @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=saveAndContinue")
+   public ModelAndView saveAndContinue(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+           HttpServletRequest request, HttpServletResponse response) throws Exception {
+       List<Action> actions = form.getOrderedNavigationActions();
+       int indexOfCurrentAction = form.findIndexOfPageId(actions);
+       if (indexOfCurrentAction == -1) {
+           indexOfCurrentAction = 0;
+       }
+       if (indexOfCurrentAction < actions.size()-1) {
+           form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, actions.get(indexOfCurrentAction+1).getNavigateToPageId());
+       }
+       return save(form, result, request, response);
+   }
+   
    @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=navigate")
    public ModelAndView navigate(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
 		   HttpServletRequest request, HttpServletResponse response) throws Exception {
