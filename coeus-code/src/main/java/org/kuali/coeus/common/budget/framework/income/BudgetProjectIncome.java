@@ -66,7 +66,7 @@ public class BudgetProjectIncome extends KcPersistableBusinessObjectBase impleme
     @Column(name = "BUDGET_PERIOD_NUMBER")
     private Long budgetPeriodId;
 
-    @ManyToOne(targetEntity = BudgetPeriod.class)
+    @ManyToOne
     @JoinColumns(value = {@JoinColumn(name = "BUDGET_PERIOD_NUMBER", referencedColumnName = "BUDGET_PERIOD_NUMBER", insertable = false, updatable = false),
             @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)})
     private BudgetPeriod budgetPeriod;
