@@ -66,20 +66,19 @@ public class ProposalSite extends KcPersistableBusinessObjectBase {
     @Column(name = "ORGANIZATION_ID")
     private String organizationId;
 
-    @ManyToOne(targetEntity = Organization.class, fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
     private Organization organization;
 
     @Column(name = "ROLODEX_ID")
     private Integer rolodexId;
 
-    @ManyToOne(targetEntity = Rolodex.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "ROLODEX_ID", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
     private Rolodex rolodex;
 
-    @OneToMany(targetEntity = CongressionalDistrict.class, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-
-    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "SITE_NUMBER", referencedColumnName = "SITE_NUMBER", insertable = false, updatable = false) })
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @JoinColumn(name = "SITE_NUMBER", referencedColumnName = "SITE_NUMBER") })
     @OrderBy("siteNumber")
     private List<CongressionalDistrict> congressionalDistricts;
 

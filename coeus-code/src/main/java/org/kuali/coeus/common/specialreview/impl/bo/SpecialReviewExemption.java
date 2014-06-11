@@ -34,7 +34,7 @@ public abstract class SpecialReviewExemption extends KcPersistableBusinessObject
     @Column(name = "EXEMPTION_TYPE_CODE")
     private String exemptionTypeCode;
 
-    @ManyToOne(targetEntity = ExemptionType.class)
+    @ManyToOne
     @JoinColumn(name = "EXEMPTION_TYPE_CODE", referencedColumnName = "EXEMPTION_TYPE_CODE", insertable = false, updatable = false)
     private ExemptionType exemptionType;
 

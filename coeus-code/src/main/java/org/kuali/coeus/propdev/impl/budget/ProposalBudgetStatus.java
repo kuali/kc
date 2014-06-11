@@ -37,7 +37,7 @@ public class ProposalBudgetStatus extends KcPersistableBusinessObjectBase {
     @Column(name = "BUDGET_STATUS_CODE")
     private String budgetStatusCode;
 
-    @ManyToOne(targetEntity = BudgetStatus.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "BUDGET_STATUS_CODE", referencedColumnName = "BUDGET_STATUS_CODE", insertable = false, updatable = false)
     private BudgetStatus budgetStatus;
 

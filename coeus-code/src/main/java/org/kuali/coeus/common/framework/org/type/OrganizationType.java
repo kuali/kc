@@ -37,7 +37,7 @@ public class OrganizationType extends KcPersistableBusinessObjectBase {
     @Column(name = "ORGANIZATION_TYPE_CODE")
     private Integer organizationTypeCode;
 
-    @ManyToOne(targetEntity = OrganizationTypeList.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "ORGANIZATION_TYPE_CODE", referencedColumnName = "ORGANIZATION_TYPE_CODE", insertable = false, updatable = false)
     private OrganizationTypeList organizationTypeList;
 

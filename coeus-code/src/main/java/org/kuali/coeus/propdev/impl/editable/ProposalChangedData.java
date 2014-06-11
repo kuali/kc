@@ -54,7 +54,7 @@ public class ProposalChangedData extends KcPersistableBusinessObjectBase impleme
     @Column(name = "OLD_DISPLAY_VALUE")
     private String oldDisplayValue;
 
-    @ManyToOne(targetEntity = ProposalColumnsToAlter.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "COLUMN_NAME", referencedColumnName = "COLUMN_NAME", insertable = false, updatable = false)
     private ProposalColumnsToAlter editableColumn;
 

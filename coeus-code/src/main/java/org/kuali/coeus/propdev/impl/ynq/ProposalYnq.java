@@ -58,7 +58,7 @@ public class ProposalYnq extends KraSortablePersistableBusinessObjectBase implem
     @Column(name = "REVIEW_DATE")
     private Date reviewDate;
 
-    @ManyToOne(targetEntity = Ynq.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "QUESTION_ID", referencedColumnName = "QUESTION_ID", insertable = false, updatable = false)
     private Ynq ynq;
 

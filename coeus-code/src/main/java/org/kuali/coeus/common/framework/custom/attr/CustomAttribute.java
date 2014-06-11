@@ -58,7 +58,7 @@ public class CustomAttribute extends KcPersistableBusinessObjectBase implements 
     @Transient
     private String value;
 
-    @ManyToOne(targetEntity = CustomAttributeDataType.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "DATA_TYPE_CODE", referencedColumnName = "DATA_TYPE_CODE", insertable = false, updatable = false)
     private CustomAttributeDataType customAttributeDataType;
 

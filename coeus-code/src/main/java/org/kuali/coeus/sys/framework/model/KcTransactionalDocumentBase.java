@@ -68,8 +68,8 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
     @Column(name = "UPDATE_TIMESTAMP")
     private Timestamp updateTimestamp;
 
-    @OneToMany(targetEntity = DocumentNextvalue.class, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER")
     private List<DocumentNextvalue> documentNextvalues;
 
     @Transient

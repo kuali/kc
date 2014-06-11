@@ -98,7 +98,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     @Column(name = "PROP_PERSON_ROLE_ID")
     private String proposalPersonRoleId;
 
-    @OneToOne(targetEntity = ProposalInvestigatorCertification.class, cascade = { CascadeType.REFRESH })
+    @OneToOne(cascade = { CascadeType.REFRESH })
     @PrimaryKeyJoinColumns({ @PrimaryKeyJoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @PrimaryKeyJoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER") })
     private ProposalInvestigatorCertification certification;
 

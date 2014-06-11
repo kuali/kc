@@ -83,15 +83,15 @@ public class Sponsor extends KcPersistableBusinessObjectBase implements SponsorC
     @Convert(converter = BooleanYNConverter.class)
     private boolean active;
 
-    @ManyToOne(targetEntity = SponsorType.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "SPONSOR_TYPE_CODE", referencedColumnName = "SPONSOR_TYPE_CODE", insertable = false, updatable = false)
     private SponsorType sponsorType;
 
-    @ManyToOne(targetEntity = Unit.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "OWNED_BY_UNIT", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
     private Unit unit;
 
-    @ManyToOne(targetEntity = Rolodex.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "ROLODEX_ID", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
     private Rolodex rolodex;
 

@@ -115,11 +115,11 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
     @Convert(converter = BooleanYNConverter.class)
     private boolean active;
 
-    @ManyToOne(targetEntity = Unit.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "OWNED_BY_UNIT", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
     private Unit unit;
 
-    @ManyToOne(targetEntity = Sponsor.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "SPONSOR_CODE", referencedColumnName = "SPONSOR_CODE", insertable = false, updatable = false)
     private Sponsor sponsor;
 

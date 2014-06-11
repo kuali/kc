@@ -70,7 +70,7 @@ public class ProposalAbstract extends KcPersistableBusinessObjectBase implements
 	 * refers to.  It is stored here to make it easy for a JSP page to
 	 * access the abstract type's description.
 	 */
-    @ManyToOne(targetEntity = AbstractType.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "ABSTRACT_TYPE_CODE", referencedColumnName = "ABSTRACT_TYPE_CODE", insertable = false, updatable = false)
     private AbstractType abstractType;
 

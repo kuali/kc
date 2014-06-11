@@ -53,7 +53,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
     @Column(name = "COGNIZANT_AUDITOR")
     private Integer cognizantAuditor;
 
-    @ManyToOne(targetEntity = Rolodex.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "COGNIZANT_AUDITOR", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
     private Rolodex cognizantAuditorRolodex;
 
@@ -111,7 +111,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
     @Column(name = "ONR_RESIDENT_REP")
     private Integer onrResidentRep;
 
-    @ManyToOne(targetEntity = Rolodex.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "ONR_RESIDENT_REP", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
     private Rolodex onrResidentRepRolodex;
 
@@ -130,24 +130,24 @@ public class Organization extends KcPersistableBusinessObjectBase {
     @Column(name = "VENDOR_CODE")
     private String vendorCode;
 
-    @ManyToOne(targetEntity = Rolodex.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "CONTACT_ADDRESS_ID", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
     private Rolodex rolodex;
 
     @OneToMany(mappedBy = "organization")
-    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID")
     private List<OrganizationYnq> organizationYnqs;
 
-    @OneToMany(targetEntity = OrganizationType.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID")
     private List<OrganizationType> organizationTypes;
 
     @OneToMany(mappedBy = "organization")
-    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID")
     private List<OrganizationIndirectcost> organizationIdcs;
 
     @OneToMany(mappedBy = "organization")
-    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID")
     private List<OrganizationAudit> organizationAudits;
 
     @SuppressWarnings("unchecked")
