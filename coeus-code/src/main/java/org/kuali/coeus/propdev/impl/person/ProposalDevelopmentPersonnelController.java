@@ -70,7 +70,11 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
        saveAnswerHeaders(pdForm);
+<<<<<<< HEAD
        ModelAndView mv = super.save(pdForm, result, request, response);
+=======
+       ModelAndView mv =  super.save(pdForm, result, request, response);
+>>>>>>> KRACOEUS-7012 certification responses can be saved, showing
        //rebuild the questionnaire, and other non-JPAed docs so it displays correctly
        refreshPersonCertificaitonAnswerHeaders(pdForm);
 	   return mv;
@@ -160,6 +164,28 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 	   return mv;
    }
    
+<<<<<<< HEAD
+=======
+   @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=clearAnswers")
+   public ModelAndView clearAnswers(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+           HttpServletRequest request, HttpServletResponse response) throws Exception {
+	   ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
+	   String personNumber = pdForm.getActionParamaterValue("personNumber");
+	   for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+		   if (StringUtils.equals(personNumber, person.getProposalPersonNumber().toString())) {
+			   //get the certification questions
+			   AnswerHeader ah = person.getQuestionnaireHelper().getAnswerHeaders().get(0);
+			   for (Answer answer : ah.getAnswers()) {
+				   answer.setAnswer(null);
+			   }
+		   }
+	   }
+	   saveAnswerHeaders(pdForm);
+	   ModelAndView mv = this.save(pdForm, result, request, response);
+	   return mv;
+   }
+   
+>>>>>>> KRACOEUS-7012 certification responses can be saved, showing
    public void saveAnswerHeaders(ProposalDevelopmentDocumentForm pdForm) {
 		for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
 			if (person.getQuestionnaireHelper() != null && person.getQuestionnaireHelper().getAnswerHeaders() != null 
@@ -178,6 +204,10 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 			person.setQuestionnaireHelper(qh);
 	    }
 	}
+<<<<<<< HEAD
+=======
+   
+>>>>>>> KRACOEUS-7012 certification responses can be saved, showing
 
     protected LookupableHelperService getKcPersonLookupableHelperService() {
         return kcPersonLookupableHelperService;
