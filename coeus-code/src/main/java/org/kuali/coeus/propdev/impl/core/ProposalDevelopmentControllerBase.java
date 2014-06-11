@@ -21,9 +21,11 @@ import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
+import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.TransactionalDocumentControllerService;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -263,4 +265,24 @@ public abstract class ProposalDevelopmentControllerBase {
 	public void setDataObjectService(DataObjectService dataObjectService) {
 		this.dataObjectService = dataObjectService;
 	}
+	
+	public void saveAnswerHeaders(ProposalDevelopmentDocumentForm pdForm) {
+		for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+			if (person.getQuestionnaireHelper() != null && person.getQuestionnaireHelper().getAnswerHeaders() != null 
+					&& !person.getQuestionnaireHelper().getAnswerHeaders().isEmpty()) {
+				for (AnswerHeader answerHeader : person.getQuestionnaireHelper().getAnswerHeaders()) {
+					getLegacyDataAdapter().save(answerHeader);
+		        }
+			}
+	    }
+	}
+	
+	public void refreshPersonCertificaitonAnswerHeaders(ProposalDevelopmentDocumentForm pdForm) {
+		for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+			ProposalPersonQuestionnaireHelper qh = new ProposalPersonQuestionnaireHelper(person);
+			qh.populateAnswers();
+			person.setQuestionnaireHelper(qh);
+	    }
+	}
+	
 }
