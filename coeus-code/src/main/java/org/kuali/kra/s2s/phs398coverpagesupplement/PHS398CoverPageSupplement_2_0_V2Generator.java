@@ -34,7 +34,7 @@ import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
-import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;

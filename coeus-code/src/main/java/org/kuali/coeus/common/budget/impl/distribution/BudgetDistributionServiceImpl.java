@@ -22,7 +22,7 @@ import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFan
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.Budget.FiscalYearSummary;
-import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.framework.costshare.CostShareService;

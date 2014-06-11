@@ -19,7 +19,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.budget.BudgetException;
+import org.kuali.coeus.common.budget.framework.core.BudgetException;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationService;

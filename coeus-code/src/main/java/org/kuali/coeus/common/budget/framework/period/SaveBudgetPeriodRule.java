@@ -21,7 +21,7 @@ public interface SaveBudgetPeriodRule  extends BusinessRule {
     
     /**
      * Rule invoked upon adding a budget period 
-     * <code>{@link org.kuali.kra.budget.document.BudgetDocument}</code>
+     * <code>{@link org.kuali.coeus.common.budget.framework.core.BudgetDocument}</code>
      *
      * @return boolean
      */

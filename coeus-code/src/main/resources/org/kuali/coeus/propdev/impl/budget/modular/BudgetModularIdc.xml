@@ -87,10 +87,10 @@
       </bean>
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetModularIDCRateTypeValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIDCRateTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.budget.lookup.keyvalue.BudgetModularIDCRateTypeValuesFinder"/>
+      <bean class="org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIDCRateTypeValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>

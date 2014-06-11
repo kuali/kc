@@ -42,7 +42,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
-import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;

@@ -20,7 +20,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
-import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;

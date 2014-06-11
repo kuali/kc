@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyPostProcessor;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.stereotype.Component;

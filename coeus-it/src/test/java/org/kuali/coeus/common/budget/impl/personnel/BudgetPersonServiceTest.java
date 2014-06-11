@@ -20,14 +20,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
-import org.kuali.coeus.common.budget.impl.personnel.BudgetPersonServiceImpl;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.attr.PersonAppointment;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.sql.Date;

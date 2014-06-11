@@ -24,7 +24,7 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
-import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.personnel.AppointmentType;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;

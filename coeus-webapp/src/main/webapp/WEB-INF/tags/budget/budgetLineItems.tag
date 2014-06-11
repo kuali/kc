@@ -64,7 +64,7 @@
     <td  width="38%" valign="middle" nowrap="true" >
 		<div align="center">
 			<c:set var="costElementOptions" value="" />
-			<c:forEach items="${krafn:getOptionList('org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder', paramMap)}" var="option">
+			<c:forEach items="${krafn:getOptionList('org.kuali.coeus.common.budget.impl.core.CostElementValuesFinder', paramMap)}" var="option">
 				<c:choose>
 					<c:when test="${budgetLineItem.costElement == option.key}">
 						<c:set var="costElementOptions" value="${costElementOptions}${'<option value=\"'}${option.key}${'\" selected=\"selected\">'}${option.value}${'</option>'}" />

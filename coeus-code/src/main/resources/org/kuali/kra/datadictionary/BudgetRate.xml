@@ -93,10 +93,10 @@
       <bean parent="AlphaNumericPatternConstraint"/>
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetRatesLocationValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.budget.impl.rate.BudgetRatesLocationValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.budget.lookup.keyvalue.BudgetRatesLocationValuesFinder"/>
+      <bean class="org.kuali.coeus.common.budget.impl.rate.BudgetRatesLocationValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -136,10 +136,10 @@
       <bean parent="AlphaNumericPatternConstraint"/>
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetRatesBudgetPeriodValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.budget.impl.rate.BudgetRatesBudgetPeriodValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.budget.lookup.keyvalue.BudgetRatesBudgetPeriodValuesFinder"/>
+      <bean class="org.kuali.coeus.common.budget.impl.rate.BudgetRatesBudgetPeriodValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>

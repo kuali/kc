@@ -16,8 +16,8 @@
 package org.kuali.coeus.propdev.impl.budget;
 
 import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
@@ -25,7 +25,7 @@ public interface ProposalBudgetService extends BudgetCommonService<DevelopmentPr
 
     /**
      *
-     * This method returns the final version of {@link org.kuali.kra.budget.document.BudgetDocument} for a given {@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}
+     * This method returns the final version of {@link org.kuali.coeus.common.budget.framework.core.BudgetDocument} for a given {@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}
      *
      * @param parentDocument The parent document that has the budget.
      * @return parentDocument final version of budget corresponding to the parentDocument object.

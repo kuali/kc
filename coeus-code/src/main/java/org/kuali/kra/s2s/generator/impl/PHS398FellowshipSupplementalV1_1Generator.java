@@ -40,7 +40,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.question.*;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.s2s.CitizenshipTypes;
