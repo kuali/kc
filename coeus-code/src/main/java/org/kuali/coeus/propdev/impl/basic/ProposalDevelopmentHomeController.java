@@ -69,7 +69,11 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=save")
    public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
-       return super.save(form, result, request, response);
+	   saveAnswerHeaders((ProposalDevelopmentDocumentForm) form);
+	   ModelAndView mv = super.save(form, result, request, response);
+	   //rebuild the questionnaire, and other non-JPAed docs so it displays correctly
+	   return getTransactionalDocumentControllerService().refresh(form, result, request, response);
+	   //return mv;
    }
    
    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=saveAndContinue")
