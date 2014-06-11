@@ -23,6 +23,7 @@ import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -46,6 +47,10 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
     @Autowired
     @Qualifier("s2sSubmissionService")
     private S2sSubmissionService s2sSubmissionService;
+    
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=refresh", "refreshCaller=S2sOpportunity-LookupView"})
    public ModelAndView refresh(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)
@@ -55,11 +60,12 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
        if(form.getNewS2sOpportunity() != null 
                && StringUtils.isNotEmpty(form.getNewS2sOpportunity().getOpportunityId())) {
            proposal.setS2sOpportunity(form.getNewS2sOpportunity());
-           proposal.getS2sOpportunity().setProposalNumber(proposal.getProposalNumber());
+           proposal.getS2sOpportunity().setDevelopmentProposal(proposal);
            form.setNewS2sOpportunity(new S2sOpportunity());
        }
 
        S2sOpportunity s2sOpportunity = proposal.getS2sOpportunity();
+       s2sOpportunity.setS2sProvider(dataObjectService.find(S2sProvider.class, s2sOpportunity.getProviderCode()));
        Boolean mandatoryFormNotAvailable = false;
        List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
        try {
@@ -116,4 +122,12 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
     public void setS2sSubmissionService(S2sSubmissionService s2sSubmissionService) {
         this.s2sSubmissionService = s2sSubmissionService;
     }
+    
+    public DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
 }

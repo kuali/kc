@@ -28,9 +28,10 @@ import java.util.List;
 @Table(name = "S2S_OPPORTUNITY")
 public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S2sOpportunityContract {
 
-    @Id
-    @Column(name = "PROPOSAL_NUMBER")
-    private String proposalNumber;
+	@Id
+	@ManyToOne(cascade = { CascadeType.REFRESH })
+	@JoinColumn(name = "PROPOSAL_NUMBER")
+	private DevelopmentProposal developmentProposal;
 
     @Column(name = "CFDA_NUMBER")
     private String cfdaNumber;
@@ -104,18 +105,6 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
     @ManyToOne(targetEntity = S2sProvider.class, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "PROVIDER", referencedColumnName = "CODE", insertable = false, updatable = false)
     private S2sProvider s2sProvider;
-
-    @OneToOne(targetEntity = DevelopmentProposal.class, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
-    private DevelopmentProposal developmentProposal;
-
-    public String getProposalNumber() {
-        return proposalNumber;
-    }
-
-    public void setProposalNumber(String proposalNumber) {
-        this.proposalNumber = proposalNumber;
-    }
 
     public String getCfdaNumber() {
         return cfdaNumber;
@@ -299,5 +288,10 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
 
     public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
         this.developmentProposal = developmentProposal;
+    }
+    
+    @Override
+    public String getProposalNumber() {
+    	return this.getDevelopmentProposal().getProposalNumber();
     }
 }

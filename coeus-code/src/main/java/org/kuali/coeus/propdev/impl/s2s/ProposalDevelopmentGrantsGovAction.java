@@ -72,7 +72,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         if(developmentProposal.getS2sOpportunity()!=null){
                 proposalDevelopmentForm.setGrantsGovSelectFlag(true);
             if(developmentProposal.getS2sOpportunity().getProposalNumber()==null){
-                developmentProposal.getS2sOpportunity().setProposalNumber(developmentProposal.getProposalNumber());                
+                developmentProposal.getS2sOpportunity().setDevelopmentProposal(developmentProposal);                
             }            
             if(developmentProposal.getS2sOpportunity().getOpportunityId()!=null){
                 developmentProposal.setProgramAnnouncementNumber(developmentProposal.getS2sOpportunity().getOpportunityId());                
@@ -109,7 +109,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         }
 
         S2sOpportunity s2sOpportunity = developmentProposal.getS2sOpportunity();
-        s2sOpportunity.setProposalNumber(developmentProposal.getProposalNumber());
+        s2sOpportunity.setDevelopmentProposal(developmentProposal);
         try {
             List<String> mandatoryForms = new ArrayList<String>();
             if (s2sOpportunity != null && s2sOpportunity.getSchemaUrl() != null) {
