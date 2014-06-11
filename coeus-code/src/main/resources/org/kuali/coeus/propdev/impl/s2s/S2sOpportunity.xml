@@ -425,7 +425,7 @@
   <bean id="S2sOpportunity-LookupView" parent="S2sOpportunity-LookupView-parentBean"/>
   <bean id="S2sOpportunity-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Opportunity Lookup" />
-    <property name="lookupableID" value="s2sOpportunityLookupable" /><property name="defaultSort" >
+    <property name="lookupableID" value="legacyS2sOpportunityLookupable" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >

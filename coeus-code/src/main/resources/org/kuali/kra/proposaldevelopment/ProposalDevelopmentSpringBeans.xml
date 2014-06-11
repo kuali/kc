@@ -786,7 +786,7 @@
  			<property name="labelAttributeName" value="description"/>
  	</bean>
  	
-    <bean id="s2sOpportunityLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    <bean id="legacyS2sOpportunityLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="s2sOpportunityLookupableHelperService"/>
     </bean>
 

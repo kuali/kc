@@ -16,7 +16,8 @@
 	<bean id="S2sOpportunity-LookupView-parentBean" abstract="true"
 		parent="Uif-LookupView" p:header.headerText="Opportunity Search"
 		p:dataObjectClassName="org.kuali.coeus.propdev.impl.s2s.S2sOpportunity"
-		p:viewHelperServiceClass="org.kuali.coeus.propdev.impl.s2s.S2sOpportunityLookupable">
+		p:viewHelperServiceClass="org.kuali.coeus.propdev.impl.s2s.S2sOpportunityLookupable"
+		p:viewHelperService="@{T(org.kuali.rice.contrib.krad.SpringMethods).retrieveSpringBean('s2sOpportunityLookupable')}">
 
 		<property name="criteriaFields">
 			<list>
@@ -41,18 +42,22 @@
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="Uif-DataField" p:propertyName="opportunityTitle"
+				<bean parent="Uif-DataField" p:propertyName="cfdaNumber"
 					p:order="10" />
-				<bean parent="Uif-DataField" p:propertyName="opportunityId"
+				<bean parent="Uif-DataField" p:propertyName="openingDate"
 					p:order="20" />
-				<bean parent="Uif-DataField" p:propertyName="instructionUrl"
-					p:order="30" />
-				<bean parent="Uif-DataField" p:propertyName="schemaUrl"
-					p:order="40" />
-				<bean parent="Uif-DataField" p:propertyName="competetionId"
-					p:order="50" />
 				<bean parent="Uif-DataField" p:propertyName="closingDate"
-					p:order="60" />
+					p:order="30" />
+				<bean parent="Uif-DataField" p:propertyName="competetionId"
+					p:order="40" />
+				<bean parent="Uif-DataField" p:propertyName="opportunityId"
+					p:order="50" />
+				<bean parent="Uif-DataField" p:propertyName="opportunityTitle"
+					p:order="60" />	
+				<bean parent="Uif-DataField" p:propertyName="schemaUrl"
+					p:order="70" />
+				<bean parent="Uif-DataField" p:propertyName="instructionUrl"
+					p:order="80" />		
 			</list>
 		</property>
 	</bean>
