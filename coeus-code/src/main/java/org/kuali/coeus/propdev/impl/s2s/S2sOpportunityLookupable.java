@@ -21,14 +21,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-/*
-   todo in xml from s2sOpportunityLookupableHelperService :
-   format urls as href
-   conditionally display return link
-   create link
-
-   GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, Constants.GRANTS_GOV_LINK);
- */
 @Component("s2sOpportunityLookupable")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class S2sOpportunityLookupable extends LookupableImpl {
@@ -90,11 +82,15 @@ public class S2sOpportunityLookupable extends LookupableImpl {
         }
     }
 
-    public S2sSubmissionService getS2sSubmissionService() {
+    protected S2sSubmissionService getS2sSubmissionService() {
         if (s2sSubmissionService == null) {
             s2sSubmissionService = KcServiceLocator.getService(S2sSubmissionService.class);
         }
 
         return s2sSubmissionService;
     }
+
+	public void setS2sSubmissionService(S2sSubmissionService s2sSubmissionService) {
+		this.s2sSubmissionService = s2sSubmissionService;
+	}
 }
