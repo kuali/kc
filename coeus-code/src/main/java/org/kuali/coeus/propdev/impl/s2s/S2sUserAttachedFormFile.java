@@ -15,12 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.s2s;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormFileContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -39,8 +34,9 @@ public class S2sUserAttachedFormFile extends KcPersistableBusinessObjectBase imp
     private Long id;
     
     @Column(name = "S2S_USER_ATTACHED_FORM_ID")
-    private Long s2sUserAttachedFormId; 
-    
+    private Long s2sUserAttachedFormId;
+
+    @Basic(fetch = FetchType.LAZY)
     @Lob
     @Column(name = "FORM_FILE")
     private byte[] formFile;

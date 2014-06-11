@@ -68,7 +68,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     @Column(name = "CONTENT_TYPE")
     private String type;
 
-    @ManyToOne(targetEntity = PropPerDocType.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "DOCUMENT_TYPE_CODE", referencedColumnName = "DOCUMENT_TYPE_CODE", insertable = false, updatable = false)
     private PropPerDocType propPerDocType;
 

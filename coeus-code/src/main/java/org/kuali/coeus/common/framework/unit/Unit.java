@@ -56,15 +56,14 @@ public class Unit extends KcPersistableBusinessObjectBase implements MutableInac
     @Convert(converter = BooleanYNConverter.class)
     private boolean active;
 
-    @ManyToOne(targetEntity = Unit.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "PARENT_UNIT_NUMBER", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
     private Unit parentUnit;
 
     @OneToMany(mappedBy = "unit")
-    @JoinColumn(name = "UNIT_NUMBER", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
     private List<UnitAdministrator> unitAdministrators;
 
-    @ManyToOne(targetEntity = Organization.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
     private Organization organization;
 

@@ -74,7 +74,7 @@ public class ProposalPersonDegree extends KcPersistableBusinessObjectBase {
     @Column(name = "SCHOOL_ID")
     private String schoolId;
 
-    @ManyToOne(targetEntity = DegreeType.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "DEGREE_CODE", referencedColumnName = "DEGREE_CODE", insertable = false, updatable = false)
     private DegreeType degreeType;
 

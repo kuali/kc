@@ -42,7 +42,7 @@ public class YnqExplanation extends KcPersistableBusinessObjectBase implements Y
     @Lob
     private String explanation;
 
-    @ManyToOne(targetEntity = YnqExplanationType.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "EXPLANATION_TYPE", referencedColumnName = "EXPLANATION_TYPE", insertable = false, updatable = false)
     private YnqExplanationType ynqExplanationType;
 

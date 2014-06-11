@@ -61,8 +61,8 @@ public class Ynq extends KraSortablePersistableBusinessObjectBase implements Ynq
     @Column(name = "STATUS")
     private String status;
 
-    @OneToMany(targetEntity = YnqExplanation.class, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-    @JoinColumn(name = "QUESTION_ID", referencedColumnName = "QUESTION_ID", insertable = false, updatable = false)
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "QUESTION_ID", referencedColumnName = "QUESTION_ID")
     private List<YnqExplanation> ynqExplanations;
 
     public Ynq() {

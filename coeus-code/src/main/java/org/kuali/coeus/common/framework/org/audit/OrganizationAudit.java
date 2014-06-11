@@ -46,7 +46,7 @@ public class OrganizationAudit extends KcPersistableBusinessObjectBase {
     @Column(name = "AUDIT_COMMENT")
     private String auditComment;
 
-    @ManyToOne(targetEntity = Organization.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
     private Organization organization;
 

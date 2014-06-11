@@ -91,16 +91,16 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     @Convert(converter = BooleanYNConverter.class)
     private boolean hiddenInHierarchy;
 
-    @ManyToOne(targetEntity = NarrativeType.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "NARRATIVE_TYPE_CODE", referencedColumnName = "NARRATIVE_TYPE_CODE", insertable = false, updatable = false)
     private NarrativeType narrativeType;
 
-    @ManyToOne(targetEntity = NarrativeStatus.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "MODULE_STATUS_CODE", referencedColumnName = "NARRATIVE_STATUS_CODE", insertable = false, updatable = false)
     private NarrativeStatus narrativeStatus;
 
-    @OneToMany(targetEntity = NarrativeUserRights.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "MODULE_NUMBER", referencedColumnName = "MODULE_NUMBER", insertable = false, updatable = false) })
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @JoinColumn(name = "MODULE_NUMBER", referencedColumnName = "MODULE_NUMBER") })
     private List<NarrativeUserRights> narrativeUserRights;
 
     @OneToOne(mappedBy = "narrative", cascade = CascadeType.ALL)

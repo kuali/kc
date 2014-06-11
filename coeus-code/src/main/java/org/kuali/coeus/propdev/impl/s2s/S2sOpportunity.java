@@ -90,22 +90,23 @@ public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S
     @Column(name = "PROVIDER")
     private String providerCode;
 
-    @OneToMany(targetEntity = S2sOppForms.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER")
     private List<S2sOppForms> s2sOppForms;
 
-    @ManyToOne(targetEntity = S2sSubmissionType.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "S2S_SUBMISSION_TYPE_CODE", referencedColumnName = "S2S_SUBMISSION_TYPE_CODE", insertable = false, updatable = false)
     private S2sSubmissionType s2sSubmissionType;
 
-    @ManyToOne(targetEntity = S2sRevisionType.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "REVISION_CODE", referencedColumnName = "S2S_REVISION_TYPE_CODE", insertable = false, updatable = false)
     private S2sRevisionType s2sRevisionType;
 
-    @ManyToOne(targetEntity = S2sProvider.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "PROVIDER", referencedColumnName = "CODE", insertable = false, updatable = false)
     private S2sProvider s2sProvider;
 
+    @OneToOne(cascade = { CascadeType.REFRESH })
     public String getCfdaNumber() {
         return cfdaNumber;
     }

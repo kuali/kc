@@ -48,11 +48,11 @@ public class OrganizationYnq extends KcPersistableBusinessObjectBase {
     @Column(name = "REVIEW_DATE")
     private Date reviewDate;
 
-    @ManyToOne(targetEntity = Organization.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
     private Organization organization;
 
-    @ManyToOne(targetEntity = Ynq.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "QUESTION_ID", referencedColumnName = "QUESTION_ID", insertable = false, updatable = false)
     private Ynq ynq;
 
