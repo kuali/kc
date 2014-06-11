@@ -54,6 +54,9 @@
 		<property name="header">
 			<bean parent="Uif-HeaderOne" p:headerText="Add Personnel" />
 		</property>
+		<property name="layoutManager">
+			<bean parent="Uif-VerticalBoxLayout"/>
+		</property>
 		<property name="items">
 			<list>
 				<bean parent="PropDev-PersonnelPage-WizardPage1" p:order="10" />
