@@ -119,7 +119,7 @@
 			<list>
 				<bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-DetailsPage"
 					p:actionLabel="Proposal Details" p:order="10" />
-				<bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-OpportunitySearchPage"
+				<bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-OpportunityPage"
 					p:actionLabel="S2S Opportunity Search" p:order="20" />
 				<bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-DeliveryInfoPage"
 					p:actionLabel="Delivery Info" p:order="30" />
