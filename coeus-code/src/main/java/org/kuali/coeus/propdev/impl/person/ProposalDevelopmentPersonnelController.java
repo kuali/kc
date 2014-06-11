@@ -66,12 +66,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
    public ModelAndView savePersonnel(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-       ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
-       for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
-           for (AnswerHeader answerHeader : person.getQuestionnaireHelper().getAnswerHeaders()) {
-               getLegacyDataAdapter().save(answerHeader);
-           }
-       }
+       saveAnswerHeaders(pdForm);
        return super.save(pdForm, result, request, response);
    }
    
