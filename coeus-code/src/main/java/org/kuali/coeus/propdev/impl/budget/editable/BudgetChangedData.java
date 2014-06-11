@@ -54,7 +54,7 @@ public class BudgetChangedData extends KcPersistableBusinessObjectBase implement
     @Column(name = "OLD_DISPLAY_VALUE")
     private String oldDisplayValue;
 
-    @ManyToOne(targetEntity = BudgetColumnsToAlter.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "COLUMN_NAME", referencedColumnName = "COLUMN_NAME", insertable = false, updatable = false)
     private BudgetColumnsToAlter editableColumn;
 

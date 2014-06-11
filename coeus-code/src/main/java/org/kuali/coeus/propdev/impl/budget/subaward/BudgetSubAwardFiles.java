@@ -48,6 +48,7 @@ public class BudgetSubAwardFiles extends KcPersistableBusinessObjectBase impleme
     private String subAwardXfdFileName;
 
     @Column(name = "SUB_AWARD_XML_FILE")
+    @Basic(fetch = FetchType.LAZY)
     @Lob
     private String subAwardXmlFileData;
 

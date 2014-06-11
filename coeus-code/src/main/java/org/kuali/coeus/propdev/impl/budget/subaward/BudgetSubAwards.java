@@ -106,16 +106,16 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
     @Column(name = "FORM_NAME")
     private String formName;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false), @JoinColumn(name = "SUB_AWARD_NUMBER", referencedColumnName = "SUB_AWARD_NUMBER", insertable = false, updatable = false) })
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID"), @JoinColumn(name = "SUB_AWARD_NUMBER", referencedColumnName = "SUB_AWARD_NUMBER") })
     private List<BudgetSubAwardAttachment> budgetSubAwardAttachments;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false), @JoinColumn(name = "SUB_AWARD_NUMBER", referencedColumnName = "SUB_AWARD_NUMBER", insertable = false, updatable = false) })
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID"), @JoinColumn(name = "SUB_AWARD_NUMBER", referencedColumnName = "SUB_AWARD_NUMBER") })
     private List<BudgetSubAwardFiles> budgetSubAwardFiles;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false), @JoinColumn(name = "SUB_AWARD_NUMBER", referencedColumnName = "SUBAWARD_NUMBER", insertable = false, updatable = false) })
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID"), @JoinColumn(name = "SUB_AWARD_NUMBER", referencedColumnName = "SUBAWARD_NUMBER") })
     private List<BudgetSubAwardPeriodDetail> budgetSubAwardPeriodDetails;
 
     @Column(name = "HIERARCHY_PROPOSAL_NUMBER")

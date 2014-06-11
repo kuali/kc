@@ -91,7 +91,7 @@ public class Budget extends AbstractBudget {
     private static final Log LOG = LogFactory.getLog(Budget.class);
 
     @OneToOne(cascade = { CascadeType.REFRESH })
-    @JoinColumn(insertable = false, updatable = false)
+    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
     private BudgetDocument budgetDocument;
 
     @Column(name = "BUDGET_JUSTIFICATION")
@@ -102,30 +102,30 @@ public class Budget extends AbstractBudget {
     @JoinColumn(name = "OH_RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
     private RateClass rateClass;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private List<BudgetRate> budgetRates;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private List<BudgetLaRate> budgetLaRates;
 
     @Transient
     private List<BudgetPeriod> budgetPeriods;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     @OrderBy("budgetPeriodNumber")
     private List<BudgetProjectIncome> budgetProjectIncomes;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     @OrderBy("projectPeriod")
     @FilterGenerator(attributeName = "hiddenInHierarchy", attributeValue = "false")
     private List<BudgetCostShare> budgetCostShares;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     @OrderBy("fiscalYear")
     @FilterGenerator(attributeName = "hiddenInHierarchy", attributeValue = "false")
     private List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs;
@@ -145,8 +145,8 @@ public class Budget extends AbstractBudget {
     @Transient
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private List<BudgetPerson> budgetPersons;
 
     @Transient
@@ -200,8 +200,8 @@ public class Budget extends AbstractBudget {
     @Transient
     private List<BudgetPrintForm> budgetPrintForms;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     @OrderBy("subAwardNumber")
     private List<BudgetSubAwards> budgetSubAwards;
 

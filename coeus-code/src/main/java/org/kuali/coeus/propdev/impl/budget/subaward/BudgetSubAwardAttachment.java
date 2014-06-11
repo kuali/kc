@@ -15,11 +15,8 @@
  */
 package org.kuali.coeus.propdev.impl.budget.subaward;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardAttachmentContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
@@ -31,6 +28,8 @@ public class BudgetSubAwardAttachment extends KcPersistableBusinessObjectBase im
     private static final long serialVersionUID = -2467480179750426256L;
 
     @Column(name = "ATTACHMENT")
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
     private byte[] data;
 
     @Column(name = "CONTENT_ID")

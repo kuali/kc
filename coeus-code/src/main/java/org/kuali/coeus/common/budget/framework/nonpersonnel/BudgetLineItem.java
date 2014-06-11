@@ -115,23 +115,23 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     @Column(name = "IS_FORMULATED_COST_ELELMENT")
     private Boolean formulatedCostElementFlag;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
+    @OneToMany(cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
+    @OneToMany(cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
 
     @Transient
     private boolean budgetPersonnelLineItemDeleted;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
+    @OneToMany(cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private List<BudgetRateAndBase> budgetRateAndBaseList;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
+    @OneToMany(cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private List<BudgetFormulatedCostDetail> budgetFormulatedCosts; 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH})
