@@ -2111,7 +2111,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
             site.setProposalNumber(proposalNumber);
         }
         if (s2sOpportunity != null) {
-            s2sOpportunity.setProposalNumber(proposalNumber);
             this.proposalNumberForGG = proposalNumber;
         }
     }

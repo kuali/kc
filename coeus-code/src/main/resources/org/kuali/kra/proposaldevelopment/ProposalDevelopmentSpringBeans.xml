@@ -773,7 +773,20 @@
            <property name="labelAttributeName" value="description"/>
    </bean>
 
-
+	<bean id="s2sSubmissionTypeValueFinder" class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"> 
+ 		   <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.s2s.S2sSubmissionType"/>
+ 		   <property name="includeKeyInDescription" value="false"/>
+ 		   <property name="keyAttributeName" value="code"/>
+ 		   <property name="labelAttributeName" value="description"/>
+    </bean>
+    
+    <bean id="s2sRevisionTypeValueFinder" class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"> 
+ 			<property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.s2s.S2sRevisionType"/>
+ 			<property name="includeKeyInDescription" value="false"/>
+ 			<property name="keyAttributeName" value="code"/>
+ 			<property name="labelAttributeName" value="description"/>
+ 	</bean>
+ 	
     <bean id="s2sOpportunityLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="s2sOpportunityLookupableHelperService"/>
     </bean>
