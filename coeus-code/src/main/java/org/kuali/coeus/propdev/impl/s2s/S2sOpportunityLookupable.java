@@ -7,14 +7,18 @@ import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.lookup.LookupForm;
+import org.kuali.rice.krad.lookup.LookupView;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.UrlFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 /*
    todo in xml from s2sOpportunityLookupableHelperService :
@@ -30,7 +34,8 @@ public class S2sOpportunityLookupable extends LookupableImpl {
     private static final Log LOG = LogFactory.getLog(S2sOpportunityLookupable.class);
 
     private S2sSubmissionService s2sSubmissionService;
-
+    private DateTimeService dateTimeService;
+    
     @Override
     public List<?> performSearch(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
 
@@ -81,7 +86,43 @@ public class S2sOpportunityLookupable extends LookupableImpl {
             return s2sOpportunity;
         }
     }
+    
+    @Override
+    protected String getReturnUrl(LookupView lookupView, LookupForm lookupForm, Object dataObject) {
+    	List<S2sOpportunity> s2sOpportunityList  = (List<S2sOpportunity>) lookupForm.getLookupResults();
+    	Properties props = getReturnUrlParameters(lookupView, lookupForm, dataObject);
+    	if (s2sOpportunityList!= null){
+            for (int i=0; i<s2sOpportunityList.size(); i++ ){   
+           	 	S2sOpportunity opp = s2sOpportunityList.get(i);
+           	 	props.put("newS2sOpportunity.cfdaNumber", opp.getCfdaNumber() != null ? opp.getCfdaNumber() : "");
+           	 	props.put("newS2sOpportunity.opportunityId", opp.getOpportunityId() != null ? opp.getOpportunityId() : "");
+           	 	props.put("newS2sOpportunity.opportunityTitle", opp.getOpportunityTitle() != null ? opp.getOpportunityTitle() : "");
+           	 	props.put("newS2sOpportunity.closingDate", opp.getClosingDate() != null ? getDateTimeService().toDateTimeString(opp.getClosingDate().getTime()) : "");
+           	 	props.put("newS2sOpportunity.openingDate", opp.getOpeningDate() != null ? getDateTimeService().toDateTimeString(opp.getOpeningDate().getTime()) : "");
+           	 	props.put("newS2sOpportunity.instructionUrl", opp.getInstructionUrl() != null ? opp.getInstructionUrl() : "");
+           	 	props.put("newS2sOpportunity.competetionId", opp.getCompetetionId() != null ? opp.getCompetetionId() : "");
+           	 	props.put("newS2sOpportunity.schemaUrl", opp.getSchemaUrl() != null ? opp.getSchemaUrl() : "");
+           	 	props.put("newS2sOpportunity.providerCode", opp.getProviderCode());
+            }
+    	}
+        String href = "";
+        if (StringUtils.isNotBlank(lookupForm.getReturnLocation())) {
+            href = UrlFactory.parameterizeUrl(lookupForm.getReturnLocation(), props);
+        }
+        return href;
+    }
+    
+    protected DateTimeService getDateTimeService() {
+        if (dateTimeService == null) {
+            dateTimeService = KcServiceLocator.getService(DateTimeService.class);
+        }
+        return dateTimeService;
+    }
 
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+    
     public S2sSubmissionService getS2sSubmissionService() {
         if (s2sSubmissionService == null) {
             s2sSubmissionService = KcServiceLocator.getService(S2sSubmissionService.class);
