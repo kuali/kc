@@ -239,6 +239,8 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-MenuAction" p:actionLabel="All My Negotiations"
+				    p:actionUrl.viewId="Negotiation-LookupView"
+				    p:actionUrl.controllerMapping="/lookup"
 					p:order="10" />
 			</list>
 		</property>
