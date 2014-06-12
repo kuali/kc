@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.question.framework;
+package org.kuali.coeus.common.question.framework.print;
 
 import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;

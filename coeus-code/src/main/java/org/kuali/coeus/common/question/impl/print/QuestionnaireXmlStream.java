@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire.print;
+package org.kuali.coeus.common.question.impl.print;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
