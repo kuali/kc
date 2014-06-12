@@ -107,7 +107,7 @@
 		p:actionUrl.controllerMapping="/landingPage" />
 
 	<bean id="Kc-Header-IframeView" parent="Kc-Header-IframeView-parentBean" />
-	<bean id="Kc-Header-IframeView-parentBean" abstract="true"
+	<bean id="Kc-Header-IframeView-parentBean" abstract="true" class="org.kuali.kra.web.krad.CustomHrefIframeView"
 		parent="Uif-IframeView" p:location.baseUrl="@{#ConfigProperties['application.url']}" />
 
 	<bean id="Kc-Header-ActionListView" parent="Kc-Header-ActionListView-parentBean" />
@@ -260,8 +260,11 @@
 					p:order="50" />
 				<bean parent="Uif-SimpleHeaderFour" p:headerText="Lists"
 					p:order="60" />
-				<bean parent="Uif-MenuAction" p:actionLabel="Pending Protocols"
-					p:order="70" />
+				<bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Pending Protocols" p:order="70">
+					<property name="actionUrl.requestParameters">
+						<map><entry key="href" value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.irb.Protocol&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true"/></map>
+					</property>
+				</bean>
 				<bean parent="Uif-MenuAction" p:actionLabel="Protocols Pending PI Action"
 					p:order="80" />
 				<bean parent="Uif-MenuAction" p:actionLabel="Protocols Pending Committee Action"
