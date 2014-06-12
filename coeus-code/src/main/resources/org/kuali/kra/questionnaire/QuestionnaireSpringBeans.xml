@@ -33,13 +33,6 @@
             </list>
         </property>
     </bean>
-    
-    <!-- Questionnaire Services -->
-    
-    <!-- Questionnaire Task Authorizers -->
-
-
-
 		
     <bean id="questionnaireLookupable" class="org.kuali.kra.questionnaire.QuestionnaireLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
@@ -109,7 +102,7 @@
 	
 		<!--  questionnaire print -->
       <bean id="questionnaireXmlStream"
-            class="org.kuali.kra.questionnaire.print.QuestionnaireXmlStream" scope="prototype">
+            class="org.kuali.coeus.common.question.impl.print.QuestionnaireXmlStream" scope="prototype">
             <property name="businessObjectService">
                 <ref bean="businessObjectService" />
             </property>
@@ -133,25 +126,14 @@
             </property>
     </bean>
     <bean id="questionnairePrint"
-           class="org.kuali.kra.questionnaire.print.QuestionnairePrint" scope="prototype">
+           class="org.kuali.coeus.common.question.framework.print.QuestionnairePrint" scope="prototype">
            <property name="xmlStream" ref="questionnaireXmlStream" />
     </bean>
     
     <bean id="correspondencePrint"
-    	class="org.kuali.coeus.common.question.impl.CorrespondencePrint" scope="prototype">
+    	class="org.kuali.coeus.common.question.framework.print.CorrespondencePrint" scope="prototype">
     	<property name="xmlStream" ref="correspondenceXmlStream" />
     </bean>
-
-	<bean id="questionnairePrintingService" class="org.kuali.kra.questionnaire.print.QuestionnairePrintingServiceImpl">
-		<property name="printingService">
-			<ref bean="printingService" />
-		</property>
-        <property name="questionnairePrint" ref="questionnairePrint" />
-        <property name="businessObjectService">
-                <ref bean="businessObjectService" />
- 		</property>
-                
-	</bean>
 	
 	
 </beans>

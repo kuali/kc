@@ -23,7 +23,7 @@ import org.kuali.coeus.common.committee.impl.meeting.*;
 import org.kuali.coeus.common.committee.impl.print.service.CommitteePrintingServiceBase;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.question.framework.CorrespondencePrintingService;
+import org.kuali.coeus.common.question.framework.print.CorrespondencePrintingService;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.print.service.IacucCommitteePrintingService;
