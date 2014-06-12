@@ -15,20 +15,25 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.web.struts.form.InquiryForm;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
-import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.web.form.InquiryForm;
 
-import java.util.*;
 
-
-public class ProposalLogStatusValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
+public class ProposalLogStatusValuesFinder extends UifKeyValuesFinderBase {
 
     /**
      * Returns valid status choices based on the current ProposalLog's Type.  Choices are selected as follows:<br />
@@ -47,19 +52,18 @@ public class ProposalLogStatusValuesFinder extends FormViewAwareUifKeyValuesFind
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @Override
-    public List<KeyValue> getKeyValues() {
+    public List<KeyValue> getKeyValues(ViewModel model)  {
         List<KeyValue> retval = new ArrayList<KeyValue>(); 
         KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
         Collection<ProposalLogStatus> statuses = keyValuesService.findAll(ProposalLogStatus.class);
         Set<String> validStatuses = new HashSet<String>();
-        Object form = getFormOrView();
         retval.add(new ConcreteKeyValue("", "select"));
         boolean filterResults = true;
-        if (form instanceof LookupForm || form instanceof InquiryForm) {
+        if (model instanceof LookupForm || model instanceof InquiryForm) {
             filterResults = false;
         }
         else {
-            ProposalLog proposalLog = (ProposalLog)(((KualiMaintenanceForm)form).getDocument().getNoteTarget());
+            ProposalLog proposalLog = (ProposalLog)(((KualiMaintenanceForm)model).getDocument().getNoteTarget());
             
             if (proposalLog == null || proposalLog.getProposalLogType() == null) {
                 filterResults = false;
