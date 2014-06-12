@@ -37,6 +37,7 @@ import org.kuali.rice.krad.document.DocumentPresentationController;
 import org.kuali.rice.krad.exception.DocumentAuthorizationException;
 import org.kuali.rice.krad.service.DocumentDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
@@ -115,7 +116,8 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
         fieldValues.clear();
         fieldValues.put(KEWPropertyConstants.DOCUMENT_TYPE_ID, docTypeIds);
         fieldValues.put(DOC_ROUTE_STATUS, KewApiConstants.ROUTE_HEADER_FINAL_CD);
-        List<DocumentRouteHeaderValue> docHeaders = (List<DocumentRouteHeaderValue>) getBusinessObjectService().findMatching(DocumentRouteHeaderValue.class, fieldValues);
+        LegacyDataAdapter boService = KcServiceLocator.getService(LegacyDataAdapter.class);
+        List<DocumentRouteHeaderValue> docHeaders = (List<DocumentRouteHeaderValue>) boService.findMatching(DocumentRouteHeaderValue.class, fieldValues);
         for (DocumentRouteHeaderValue docHeader : docHeaders) {
             try {
                 MaintenanceDocumentBase doc = (MaintenanceDocumentBase) documentService.getByDocumentHeaderId(docHeader.getDocumentId());
