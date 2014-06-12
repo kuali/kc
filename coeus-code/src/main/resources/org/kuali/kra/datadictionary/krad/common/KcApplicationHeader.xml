@@ -213,8 +213,10 @@
 					p:actionUrl.controllerMapping="/lookup" 
 					p:order="60" />
 				<bean parent="Uif-MenuAction" p:actionLabel="Search Proposal Log"
-					p:order="70" />
-				<bean parent="Uif-MenuAction" p:actionLabel="Search Institutional Proposals"
+					p:actionUrl.viewId="ProposalLog-LookupView"
+                    p:actionUrl.controllerMapping="/lookup"	
+					p:order="70" /> 
+				<bean parent="Uif-MenuAction" p:actionLabel="Search Institutional Proposals" 
 					p:order="80" />
 			</list>
 		</property>
