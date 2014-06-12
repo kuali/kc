@@ -59,7 +59,7 @@
 		
 	<bean id="PropDev-SponsorProgramInfo-SubawardSection" parent="PropDev-SponsorProgramInfo-SubawardSection-parentBean" />
 	<bean id="PropDev-SponsorProgramInfo-SubawardSection-parentBean"
-		abstract="true" parent="Uif-CssGridFieldGroup" p:label="Subawards" p:required="true">
+		abstract="true" parent="Uif-CssGridFieldGroup" p:label="Subawards" p:required="false">
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="subcontracts"
@@ -76,7 +76,7 @@
 	<bean id="PropDev-SponsorProgramInfo-DateSection" parent="PropDev-SponsorProgramInfo-DateSection-parentBean" />
 	<bean id="PropDev-SponsorProgramInfo-DateSection-parentBean"
 		abstract="true" parent="Uif-CssGridFieldGroup" p:label="Sponsor deadline"
-		p:required="true">
+		p:required="false">
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="deadlineDate"
