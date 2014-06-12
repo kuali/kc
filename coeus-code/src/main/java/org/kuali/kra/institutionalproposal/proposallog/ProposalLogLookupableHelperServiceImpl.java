@@ -58,6 +58,8 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     private boolean isLookupForProposalCreation;
     private DocumentService documentService;
     private LegacyDataAdapter legacyDataAdapter;
+    private KcPersonService kcPersonService;
+    private DocumentDictionaryService documentDictionaryService;
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
@@ -244,10 +246,8 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
             Person user = GlobalVariables.getUserSession().getPerson();
             String instPropDocName = "InstitutionalProposalDocument";
             // get the authorization
-            DocumentAuthorizer documentAuthorizer = 
-                KcServiceLocator.getService(DocumentDictionaryService.class).getDocumentAuthorizer(instPropDocName);
-            DocumentPresentationController documentPresentationController =
-                KcServiceLocator.getService(DocumentDictionaryService.class).getDocumentPresentationController(instPropDocName);
+            DocumentAuthorizer documentAuthorizer = getDocumentDictionaryService().getDocumentAuthorizer(instPropDocName);
+            DocumentPresentationController documentPresentationController = getDocumentDictionaryService().getDocumentPresentationController(instPropDocName);
             // make sure this person is authorized to initiate
             LOG.debug("calling canInitiate from getNewDocument()");
             if (!documentPresentationController.canInitiate(instPropDocName) ||
@@ -280,9 +280,22 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
         return legacyDataAdapter;
     }
 
-    protected KcPersonService getKcPersonService() {
-        return KcServiceLocator.getService(KcPersonService.class);
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
     }
+
+    public KcPersonService getKcPersonService() {
+        return kcPersonService;
+    }
+
+    public DocumentDictionaryService getDocumentDictionaryService() {
+        return documentDictionaryService;
+    }
+
+    public void setDocumentDictionaryService(DocumentDictionaryService documentDictionaryService) {
+        this.documentDictionaryService = documentDictionaryService;
+    }
+
     
-        }
+}
     
