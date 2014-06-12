@@ -57,7 +57,8 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     
     private boolean isLookupForProposalCreation;
     private DocumentService documentService;
-    
+    private LegacyDataAdapter legacyDataAdapter;
+
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
@@ -116,8 +117,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
         fieldValues.clear();
         fieldValues.put(KEWPropertyConstants.DOCUMENT_TYPE_ID, docTypeIds);
         fieldValues.put(DOC_ROUTE_STATUS, KewApiConstants.ROUTE_HEADER_FINAL_CD);
-        LegacyDataAdapter boService = KcServiceLocator.getService(LegacyDataAdapter.class);
-        List<DocumentRouteHeaderValue> docHeaders = (List<DocumentRouteHeaderValue>) boService.findMatching(DocumentRouteHeaderValue.class, fieldValues);
+        List<DocumentRouteHeaderValue> docHeaders = (List<DocumentRouteHeaderValue>) getLegacyDataAdapter().findMatching(DocumentRouteHeaderValue.class, fieldValues);
         for (DocumentRouteHeaderValue docHeader : docHeaders) {
             try {
                 MaintenanceDocumentBase doc = (MaintenanceDocumentBase) documentService.getByDocumentHeaderId(docHeader.getDocumentId());
@@ -271,7 +271,15 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
             htmlDataList.remove(editLinkIndex);
         }
     }
-    
+
+    public void setLegacyDataAdapter(LegacyDataAdapter legacyDataAdapter) {
+        this.legacyDataAdapter = legacyDataAdapter;
+    }
+
+    public LegacyDataAdapter getLegacyDataAdapter() {
+        return legacyDataAdapter;
+    }
+
     protected KcPersonService getKcPersonService() {
         return KcServiceLocator.getService(KcPersonService.class);
     }

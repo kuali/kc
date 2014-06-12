@@ -158,6 +158,7 @@
     <bean id="proposalLogLookupableHelperService" class="org.kuali.kra.institutionalproposal.proposallog.ProposalLogLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype">
         <property name="documentService" ref="documentService" />
+        <property name="legacyDataAdapter" ref="legacyDataAdapter" />
     </bean>
 
     <bean id="proposalLogPiDerivedRoleTypeService" 
