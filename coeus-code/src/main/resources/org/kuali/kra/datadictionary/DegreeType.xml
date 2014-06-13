@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="DegreeType" parent="DegreeType-parentBean"/>
   <bean abstract="true" id="DegreeType-parentBean" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.DegreeType"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.person.attr.DegreeType"/>
 		<property name="objectLabel" value="Degree Type"/>
     <property name="inquiryDefinition">
       <ref bean="DegreeType-inquiryDefinition"/>
@@ -10,10 +10,10 @@
     <property name="lookupDefinition">
       <ref bean="DegreeType-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="degreeCode"/>
+    <property name="titleAttribute" value="code"/>
     <property name="attributes">
       <list>
-        <ref bean="DegreeType-degreeCode"/>
+        <ref bean="DegreeType-code"/>
         <ref bean="DegreeType-degreeLevel"/>
         <ref bean="DegreeType-description"/>
         <ref bean="DegreeType-versionNumber"/>
@@ -24,10 +24,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="DegreeType-degreeCode" parent="DegreeType-degreeCode-parentBean"/>
+  <bean id="DegreeType-code" parent="DegreeType-code-parentBean"/>
 
-  <bean abstract="true" id="DegreeType-degreeCode-parentBean" parent="AttributeDefinition">
-    <property name="name" value="degreeCode"/>
+  <bean abstract="true" id="DegreeType-code-parentBean" parent="AttributeDefinition">
+    <property name="name" value="code"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Degree Code"/>
     <property name="shortLabel" value="Degree Code"/>
@@ -87,7 +87,7 @@
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
             <list>
-              <bean p:attributeName="degreeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="code" p:forceInquiry="true" parent="FieldDefinition"/>
               <bean p:attributeName="degreeLevel" parent="FieldDefinition"/>
               <bean p:attributeName="description" parent="FieldDefinition"/>
             </list>
@@ -99,7 +99,7 @@
 
   <bean id="DegreeType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Degree Type"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.DegreeType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.person.attr.DegreeType"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -107,7 +107,7 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="degreeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="code" parent="Uif-DataField"/>
               <bean p:propertyName="degreeLevel" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
             </list>
@@ -131,14 +131,14 @@
     </property>    
     <property name="lookupFields">
       <list>
-        <bean p:attributeName="degreeCode" parent="FieldDefinition"/>
+        <bean p:attributeName="code" parent="FieldDefinition"/>
         <bean p:attributeName="degreeLevel" parent="FieldDefinition"/>
         <bean p:attributeName="description" parent="FieldDefinition"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:attributeName="degreeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+        <bean p:attributeName="code" p:forceInquiry="true" parent="FieldDefinition"/>
         <bean p:attributeName="degreeLevel" parent="FieldDefinition"/>
         <bean p:attributeName="description" parent="FieldDefinition"/>
       </list>
@@ -146,7 +146,7 @@
   </bean>
 
   <bean id="DegreeType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.DegreeType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.person.attr.DegreeType"/>
     <property name="headerText" value="Degree Type Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">
@@ -161,14 +161,14 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="degreeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="degreeLevel" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="degreeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="code" parent="Uif-DataField"/>
         <bean p:propertyName="degreeLevel" parent="Uif-DataField"/>
         <bean p:propertyName="description" parent="Uif-DataField"/>
       </list>

@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.framework.type;
 
+import org.kuali.coeus.common.api.type.InvestigatorCreditTypeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
@@ -30,13 +31,13 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "INV_CREDIT_TYPE")
-public class InvestigatorCreditType extends KcPersistableBusinessObjectBase implements MutableInactivatable {
+public class InvestigatorCreditType extends KcPersistableBusinessObjectBase implements MutableInactivatable, InvestigatorCreditTypeContract {
 
     private static final long serialVersionUID = 2881039955568764530L;
 
     @Id
     @Column(name = "INV_CREDIT_TYPE_CODE")
-    private String invCreditTypeCode;
+    private String code;
 
     @Column(name = "ADDS_TO_HUNDRED")
     @Convert(converter = BooleanYNConverter.class)
@@ -53,89 +54,50 @@ public class InvestigatorCreditType extends KcPersistableBusinessObjectBase impl
     public InvestigatorCreditType() {
     }
 
-    public InvestigatorCreditType(String invCreditTypeCode, String description) {
-        this.invCreditTypeCode = invCreditTypeCode;
+    public InvestigatorCreditType(String code, String description) {
+        this.code = code;
         this.description = description;
         this.active = true;
         this.addsToHundred = true;
     }
 
-    /**
-     * Retrieves the description attribute
-     * 
-     * @return String
-     */
+    @Override
     public String getDescription() {
         return description;
     }
 
-    /**
-     * Assigns the description attribute
-     *
-     * @param description
-     */
     public void setDescription(String description) {
         this.description = description;
     }
 
-    /**
-     * Retrieves the description attribute
-     * 
-     * @return Boolean
-     */
     public Boolean addsToHundred() {
         return getAddsToHundred();
     }
 
-    /**
-     * Retrieves the description attribute
-     * 
-     * @return Boolean
-     */
+    @Override
     public Boolean getAddsToHundred() {
         return addsToHundred;
     }
 
-    /**
-     * Assigns the description attribute
-     *
-     * @param argAddsToHundred
-     */
+
     public void setAddsToHundred(Boolean argAddsToHundred) {
         this.addsToHundred = argAddsToHundred;
     }
 
-    /**
-     * Gets the value of invCreditTypeCode
-     *
-     * @return the value of invCreditTypeCode
-     */
-    public String getInvCreditTypeCode() {
-        return invCreditTypeCode;
+    @Override
+    public String getCode() {
+        return code;
     }
 
-    /**
-     * Sets the value of invCreditTypeCode
-     *
-     * @param argInvCreditTypeCode Value to assign to this.invCreditTypeCode
-     */
-    public void setInvCreditTypeCode(String argInvCreditTypeCode) {
-        invCreditTypeCode = argInvCreditTypeCode;
+    public void setCode(String argInvCreditTypeCode) {
+        code = argInvCreditTypeCode;
     }
 
-    /**
-     * Read access to the active flag
-     * @return Boolean
-     */
+    @Override
     public boolean isActive() {
         return active;
     }
 
-    /**
-     * Write access to the active flag
-     * 
-     * @param active
-     */
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -144,7 +106,7 @@ public class InvestigatorCreditType extends KcPersistableBusinessObjectBase impl
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + ((invCreditTypeCode == null) ? 0 : invCreditTypeCode.hashCode());
+        result = PRIME * result + ((code == null) ? 0 : code.hashCode());
         return result;
     }
 
@@ -160,11 +122,11 @@ public class InvestigatorCreditType extends KcPersistableBusinessObjectBase impl
             return false;
         }
         InvestigatorCreditType other = (InvestigatorCreditType) obj;
-        if (invCreditTypeCode == null) {
-            if (other.invCreditTypeCode != null) {
+        if (code == null) {
+            if (other.code != null) {
                 return false;
             }
-        } else if (!invCreditTypeCode.equals(other.invCreditTypeCode)) {
+        } else if (!code.equals(other.code)) {
             return false;
         }
         return true;

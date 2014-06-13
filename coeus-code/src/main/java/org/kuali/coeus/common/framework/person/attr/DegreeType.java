@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.coeus.common.framework.person.attr;
 
+import org.kuali.coeus.common.api.person.attr.DegreeTypeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.*;
@@ -26,11 +27,11 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "DEGREE_TYPE")
-public class DegreeType extends KcPersistableBusinessObjectBase {
+public class DegreeType extends KcPersistableBusinessObjectBase implements DegreeTypeContract {
 
     @Id
     @Column(name = "DEGREE_CODE")
-    private String degreeCode;
+    private String code;
 
     @Transient
     private Integer degreeLevel;
@@ -38,56 +39,28 @@ public class DegreeType extends KcPersistableBusinessObjectBase {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    /**
-     * Retrieves the description attribute
-     * 
-     * @return String
-     */
+    @Override
     public String getDescription() {
         return description;
     }
 
-    /**
-     * Assigns the description attribute
-     *
-     * @param description
-     */
     public void setDescription(String description) {
         this.description = description;
     }
 
-    /**
-     * Retrieves the degree code attribute from the degree type bo
-     *
-     * @return String
-     */
-    public String getDegreeCode() {
-        return degreeCode;
+    @Override
+    public String getCode() {
+        return code;
     }
 
-    /**
-     * Assigns the degree code attribute to the degree type bo
-     *
-     * @param degreeCode
-     */
-    public void setDegreeCode(String degreeCode) {
-        this.degreeCode = degreeCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    /**
-     * Gets the value of degreeLevel
-     *
-     * @return the value of degreeLevel
-     */
     public Integer getDegreeLevel() {
         return this.degreeLevel;
     }
 
-    /**
-     * Sets the value of degreeLevel
-     *
-     * @param argDegreeLevel Value to assign to this.degreeLevel
-     */
     public void setDegreeLevel(Integer argDegreeLevel) {
         this.degreeLevel = argDegreeLevel;
     }

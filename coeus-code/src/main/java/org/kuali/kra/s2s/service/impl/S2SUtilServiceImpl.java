@@ -636,7 +636,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
                 citizenShip = proposalPerson.getPerson().getExtendedAttributes().getCitizenshipType();
             }
             CitizenshipTypes retVal = null;
-            String citizenShipCode = String.valueOf(citizenShip.getCitizenshipTypeCode());
+            String citizenShipCode = String.valueOf(citizenShip.getCode());
             if (citizenShipCode.equals(s2SConfigurationService.getValueAsString(
                     ConfigurationConstants.NON_US_CITIZEN_WITH_TEMPORARY_VISA_TYPE_CODE))) {
                 return CitizenshipTypes.NON_US_CITIZEN_WITH_TEMPORARY_VISA;

@@ -17,7 +17,6 @@ package org.kuali.coeus.common.framework.person.attr;
 
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.DegreeType;
 
 /**
  * Business Object representation of a PersonDegree. A <code>{@link Person}</code> may have many degrees. This represents the relationship

@@ -38,7 +38,7 @@ public final class AwardPersonUnitCreditSplit extends KcPersistableBusinessObjec
 
     private static final long serialVersionUID = 7370393791601182821L;
 
-    private static final String INV_CREDIT_TYPE_CODE_FIELD_NAME = "invCreditTypeCode";
+    private static final String INV_CREDIT_TYPE_CODE_FIELD_NAME = "code";
 
     private Long awardPersonUnitCreditSplitId;
 
@@ -129,7 +129,7 @@ public final class AwardPersonUnitCreditSplit extends KcPersistableBusinessObjec
      */
     public void setInvestigatorCreditType(InvestigatorCreditType investigatorCreditType) {
         this.investigatorCreditType = investigatorCreditType;
-        this.invCreditTypeCode = investigatorCreditType != null ? investigatorCreditType.getInvCreditTypeCode() : null;
+        this.invCreditTypeCode = investigatorCreditType != null ? investigatorCreditType.getCode() : null;
     }
 
     /**
@@ -175,7 +175,7 @@ public final class AwardPersonUnitCreditSplit extends KcPersistableBusinessObjec
      * This method lazy-loads the InvestigatorCreditType
      */
     private void refreshInvestigatorCreditTypeIfNeeded() {
-        if (invCreditTypeCode != null && (investigatorCreditType == null || !invCreditTypeCode.equals(investigatorCreditType.getInvCreditTypeCode()))) {
+        if (invCreditTypeCode != null && (investigatorCreditType == null || !invCreditTypeCode.equals(investigatorCreditType.getCode()))) {
             Map<String, Object> keyMap = new HashMap<String, Object>();
             keyMap.put(INV_CREDIT_TYPE_CODE_FIELD_NAME, invCreditTypeCode);
             investigatorCreditType = (InvestigatorCreditType) getBusinessObjectService().findByPrimaryKey(InvestigatorCreditType.class, keyMap);

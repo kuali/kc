@@ -20,6 +20,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.propdev.api.person.ProposalPersonUnitContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitable;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
@@ -44,7 +45,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @Entity
 @Table(name = "EPS_PROP_PERSON_UNITS")
 @IdClass(ProposalPersonUnit.ProposalPersonUnitId.class)
-public class ProposalPersonUnit extends KcPersistableBusinessObjectBase implements CreditSplitable {
+public class ProposalPersonUnit extends KcPersistableBusinessObjectBase implements CreditSplitable, ProposalPersonUnitContract {
 
     @Id
     @ManyToOne
@@ -75,38 +76,20 @@ public class ProposalPersonUnit extends KcPersistableBusinessObjectBase implemen
         creditSplits = new ArrayList<ProposalUnitCreditSplit>();
     }
 
-    /**
-     * Gets the value of creditSplits
-     *
-     * @return the value of creditSplits
-     */
+    @Override
     public List<ProposalUnitCreditSplit> getCreditSplits() {
         return this.creditSplits;
     }
 
-    /**
-     * Sets the value of creditSplits
-     *
-     * @param argCreditSplits Value to assign to this.creditSplits
-     */
     public void setCreditSplits(List<ProposalUnitCreditSplit> argCreditSplits) {
         this.creditSplits = argCreditSplits;
     }
 
-    /**
-     * Gets the value of unitNumber
-     *
-     * @return the value of unitNumber
-     */
+    @Override
     public final String getUnitNumber() {
         return this.unitNumber;
     }
 
-    /**
-     * Sets the value of unitNumber
-     *
-     * @param argUnitNumber Value to assign to this.unitNumber
-     */
     public final void setUnitNumber(String argUnitNumber) {
         this.unitNumber = argUnitNumber;
         if (isBlank(unitNumber)) {
@@ -116,48 +99,23 @@ public class ProposalPersonUnit extends KcPersistableBusinessObjectBase implemen
         }
     }
 
-    /**
-     * Gets the value of leadUnit
-     *
-     * @return the value of leadUnit
-     */
+    @Override
     public final boolean isLeadUnit() {
         return this.leadUnit;
     }
 
-    /**
-     * Sets the value of leadUnit
-     *
-     * @param argLeadUnit Value to assign to this.leadUnit
-     */
     public final void setLeadUnit(boolean argLeadUnit) {
         this.leadUnit = argLeadUnit;
     }
 
-    /**
-     * Gets a unit that this object refers to
-     *
-     * @return Unit
-     */
     public final Unit getUnit() {
         return unit;
     }
 
-    /**
-     * Assigns a reference to a <code>{@link Unit}</code> instance
-     *
-     * @param u to refer to
-     */
     public final void setUnit(Unit u) {
         unit = u;
     }
 
-    /**
-     * Gets index i from the creditSplits list.
-     * 
-     * @param index
-     * @return Question at index i
-     */
     public ProposalUnitCreditSplit getCreditSplit(int index) {
         while (getCreditSplits().size() <= index) {
             getCreditSplits().add(new ProposalUnitCreditSplit());
@@ -169,22 +127,22 @@ public class ProposalPersonUnit extends KcPersistableBusinessObjectBase implemen
         return getUnitNumber();
     }
 
-    /**
-     * Flag to tag for deletion
-     * 
-     * @return true or false
-     */
     public boolean isDelete() {
         return delete;
     }
 
-    /**
-     * Flag to tag for deletion
-     * 
-     * @param delete
-     */
     public void setDelete(boolean delete) {
         this.delete = delete;
+    }
+
+    @Override
+    public String getProposalNumber() {
+        return getProposalPerson().getDevelopmentProposal().getProposalNumber();
+    }
+
+    @Override
+    public Integer getProposalPersonNumber() {
+        return getProposalPerson().getProposalPersonNumber();
     }
 
     public static final class ProposalPersonUnitId implements Serializable, Comparable<ProposalPersonUnitId> {

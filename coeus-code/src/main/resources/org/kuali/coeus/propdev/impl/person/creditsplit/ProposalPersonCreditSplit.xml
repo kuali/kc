@@ -20,7 +20,9 @@
 <!-- Attribute Definitions -->
 
   <bean id="ProposalPersonCreditSplit-invCreditTypeCode" parent="ProposalPersonCreditSplit-invCreditTypeCode-parentBean"/>
-  <bean id="ProposalPersonCreditSplit-invCreditTypeCode-parentBean" abstract="true" parent="InvestigatorCreditType-invCreditTypeCode"/>
+  <bean id="ProposalPersonCreditSplit-invCreditTypeCode-parentBean" abstract="true" parent="InvestigatorCreditType-code">
+      <property name="name" value="invCreditTypeCode" />
+  </bean>
   <bean id="ProposalPersonCreditSplit-credit" parent="ProposalPersonCreditSplit-credit-parentBean" />
   <bean id="ProposalPersonCreditSplit-credit-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="credit" />
