@@ -60,7 +60,7 @@ public class S2sAppSubmission extends KcPersistableBusinessObjectBase implements
     @Column(name = "STATUS")
     private String status;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
     @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
     private S2sApplication s2sApplication;
 
