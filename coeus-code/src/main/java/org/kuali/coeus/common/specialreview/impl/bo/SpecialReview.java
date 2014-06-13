@@ -79,7 +79,6 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kc
     // These need to be initialized here so the syncing algorithms below can handle multiple calls to afterLookup during page load and not erase the already   
     // synced data.  
     @OneToMany(mappedBy = "proposalSpecialReview")
-    @JoinColumn(name = "PROPOSAL_SPECIAL_REVIEW_ID", referencedColumnName = "PROPOSAL_SPECIAL_REVIEW_ID")
     private List<T> specialReviewExemptions = new ArrayList<T>();
 
     @Transient

@@ -134,20 +134,16 @@ public class Organization extends KcPersistableBusinessObjectBase {
     @JoinColumn(name = "CONTACT_ADDRESS_ID", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
     private Rolodex rolodex;
 
-    @OneToMany(mappedBy = "organization")
-    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID")
-    private List<OrganizationYnq> organizationYnqs;
-
-    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID")
+    @OneToMany(mappedBy = "organization", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<OrganizationType> organizationTypes;
 
-    @OneToMany(mappedBy = "organization")
-    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID")
+    @OneToMany(mappedBy = "organization", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<OrganizationYnq> organizationYnqs;
+
+    @OneToMany(mappedBy = "organization", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<OrganizationIndirectcost> organizationIdcs;
 
-    @OneToMany(mappedBy = "organization")
-    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID")
+    @OneToMany(mappedBy = "organization", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<OrganizationAudit> organizationAudits;
 
     @SuppressWarnings("unchecked")

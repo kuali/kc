@@ -19,6 +19,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.*;
@@ -40,6 +41,10 @@ public class OrganizationType extends KcPersistableBusinessObjectBase {
     @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "ORGANIZATION_TYPE_CODE", referencedColumnName = "ORGANIZATION_TYPE_CODE", insertable = false, updatable = false)
     private OrganizationTypeList organizationTypeList;
+
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
+    private Organization organization;
 
     public OrganizationType() {
         super();
@@ -67,6 +72,14 @@ public class OrganizationType extends KcPersistableBusinessObjectBase {
 
     public void setOrganizationTypeList(OrganizationTypeList organizationTypeList) {
         this.organizationTypeList = organizationTypeList;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
 
     public static final class OrganizationTypeId implements Serializable, Comparable<OrganizationTypeId> {
