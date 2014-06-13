@@ -19,6 +19,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.api.org.OrganizationIndirectcostContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
@@ -30,7 +31,7 @@ import java.sql.Date;
 @Entity
 @Table(name = "ORGANIZATION_IDC")
 @IdClass(OrganizationIndirectcost.OrganizationIndirectcostId.class)
-public class OrganizationIndirectcost extends KcPersistableBusinessObjectBase {
+public class OrganizationIndirectcost extends KcPersistableBusinessObjectBase implements OrganizationIndirectcostContract {
 
     @Id
     @Column(name = "IDC_NUMBER")
@@ -63,10 +64,7 @@ public class OrganizationIndirectcost extends KcPersistableBusinessObjectBase {
     @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
     private Organization organization;
 
-    public OrganizationIndirectcost() {
-        super();
-    }
-
+    @Override
     public Integer getIdcNumber() {
         return idcNumber;
     }
@@ -75,6 +73,7 @@ public class OrganizationIndirectcost extends KcPersistableBusinessObjectBase {
         this.idcNumber = idcNumber;
     }
 
+    @Override
     public String getOrganizationId() {
         return organizationId;
     }
@@ -83,6 +82,7 @@ public class OrganizationIndirectcost extends KcPersistableBusinessObjectBase {
         this.organizationId = organizationId;
     }
 
+    @Override
     public ScaleTwoDecimal getApplicableIndirectcostRate() {
         return applicableIndirectcostRate;
     }
@@ -91,6 +91,7 @@ public class OrganizationIndirectcost extends KcPersistableBusinessObjectBase {
         this.applicableIndirectcostRate = applicableIndirectcostRate;
     }
 
+    @Override
     public Date getEndDate() {
         return endDate;
     }
@@ -99,6 +100,7 @@ public class OrganizationIndirectcost extends KcPersistableBusinessObjectBase {
         this.endDate = endDate;
     }
 
+    @Override
     public String getIdcComment() {
         return idcComment;
     }
@@ -107,6 +109,7 @@ public class OrganizationIndirectcost extends KcPersistableBusinessObjectBase {
         this.idcComment = idcComment;
     }
 
+    @Override
     public Integer getIdcRateTypeCode() {
         return idcRateTypeCode;
     }
@@ -115,6 +118,7 @@ public class OrganizationIndirectcost extends KcPersistableBusinessObjectBase {
         this.idcRateTypeCode = idcRateTypeCode;
     }
 
+    @Override
     public Date getRequestedDate() {
         return requestedDate;
     }
@@ -123,6 +127,7 @@ public class OrganizationIndirectcost extends KcPersistableBusinessObjectBase {
         this.requestedDate = requestedDate;
     }
 
+    @Override
     public Date getStartDate() {
         return startDate;
     }

@@ -162,7 +162,7 @@ public class CreditSplitValidator {
         }
         
         CreditSplit creditSplit = creditSplit_it.next();
-        if (creditType.getInvCreditTypeCode().equals(creditSplit.getInvCreditTypeCode())) {
+        if (creditType.getCode().equals(creditSplit.getInvCreditTypeCode())) {
             lesserCummulative.add(creditSplit.getCredit());
             LOG.info("Credit split is " + creditSplit.getCredit());
             return isCreditSplitValid(creditSplit.getCredit());

@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.framework.org;
 
+import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.framework.org.audit.OrganizationAudit;
 import org.kuali.coeus.common.framework.org.type.OrganizationType;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
@@ -27,7 +28,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "ORGANIZATION")
-public class Organization extends KcPersistableBusinessObjectBase {
+public class Organization extends KcPersistableBusinessObjectBase implements OrganizationContract {
 
     private static final long serialVersionUID = 2010946634885248282L;
 
@@ -155,6 +156,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         organizationAudits = new ArrayList<OrganizationAudit>();
     }
 
+    @Override
     public String getOrganizationId() {
         return organizationId;
     }
@@ -163,6 +165,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.organizationId = organizationId;
     }
 
+    @Override
     public String getAddress() {
         return address;
     }
@@ -171,6 +174,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.address = address;
     }
 
+    @Override
     public String getAgencySymbol() {
         return agencySymbol;
     }
@@ -179,6 +183,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.agencySymbol = agencySymbol;
     }
 
+    @Override
     public String getAnimalWelfareAssurance() {
         return animalWelfareAssurance;
     }
@@ -187,6 +192,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.animalWelfareAssurance = animalWelfareAssurance;
     }
 
+    @Override
     public String getCableAddress() {
         return cableAddress;
     }
@@ -195,6 +201,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.cableAddress = cableAddress;
     }
 
+    @Override
     public String getCageNumber() {
         return cageNumber;
     }
@@ -203,6 +210,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.cageNumber = cageNumber;
     }
 
+    @Override
     public Integer getCognizantAuditor() {
         return cognizantAuditor;
     }
@@ -211,6 +219,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.cognizantAuditor = cognizantAuditor;
     }
 
+    @Override
     public String getComGovEntityCode() {
         return comGovEntityCode;
     }
@@ -219,6 +228,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.comGovEntityCode = comGovEntityCode;
     }
 
+    @Override
     public String getCongressionalDistrict() {
         return congressionalDistrict;
     }
@@ -227,6 +237,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.congressionalDistrict = congressionalDistrict;
     }
 
+    @Override
     public Integer getContactAddressId() {
         return contactAddressId;
     }
@@ -235,6 +246,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.contactAddressId = contactAddressId;
     }
 
+    @Override
     public String getCounty() {
         return county;
     }
@@ -243,6 +255,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.county = county;
     }
 
+    @Override
     public String getDodacNumber() {
         return dodacNumber;
     }
@@ -251,6 +264,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.dodacNumber = dodacNumber;
     }
 
+    @Override
     public String getDunsNumber() {
         return dunsNumber;
     }
@@ -259,6 +273,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.dunsNumber = dunsNumber;
     }
 
+    @Override
     public String getDunsPlusFourNumber() {
         return dunsPlusFourNumber;
     }
@@ -267,6 +282,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.dunsPlusFourNumber = dunsPlusFourNumber;
     }
 
+    @Override
     public String getFederalEmployerId() {
         return federalEmployerId;
     }
@@ -275,6 +291,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.federalEmployerId = federalEmployerId;
     }
 
+    @Override
     public String getHumanSubAssurance() {
         return humanSubAssurance;
     }
@@ -283,6 +300,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.humanSubAssurance = humanSubAssurance;
     }
 
+    @Override
     public Date getIncorporatedDate() {
         return incorporatedDate;
     }
@@ -291,6 +309,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.incorporatedDate = incorporatedDate;
     }
 
+    @Override
     public String getIncorporatedIn() {
         return incorporatedIn;
     }
@@ -299,6 +318,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.incorporatedIn = incorporatedIn;
     }
 
+    @Override
     public String getIndirectCostRateAgreement() {
         return indirectCostRateAgreement;
     }
@@ -307,6 +327,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.indirectCostRateAgreement = indirectCostRateAgreement;
     }
 
+    @Override
     public String getIrsTaxExemption() {
         return irsTaxExemption;
     }
@@ -315,6 +336,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.irsTaxExemption = irsTaxExemption;
     }
 
+    @Override
     public String getStateEmployeeClaim() {
         return stateEmployeeClaim;
     }
@@ -323,6 +345,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.stateEmployeeClaim = stateEmployeeClaim;
     }
 
+    @Override
     public String getStateTaxExemptNum() {
         return stateTaxExemptNum;
     }
@@ -331,6 +354,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.stateTaxExemptNum = stateTaxExemptNum;
     }
 
+    @Override
     public String getNsfInstitutionalCode() {
         return nsfInstitutionalCode;
     }
@@ -339,6 +363,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.nsfInstitutionalCode = nsfInstitutionalCode;
     }
 
+    @Override
     public Integer getNumberOfEmployees() {
         return numberOfEmployees;
     }
@@ -347,6 +372,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.numberOfEmployees = numberOfEmployees;
     }
 
+    @Override
     public Integer getOnrResidentRep() {
         return onrResidentRep;
     }
@@ -355,6 +381,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.onrResidentRep = onrResidentRep;
     }
 
+    @Override
     public String getOrganizationName() {
         return organizationName;
     }
@@ -363,6 +390,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.organizationName = organizationName;
     }
 
+    @Override
     public String getPhsAccount() {
         return phsAccount;
     }
@@ -371,6 +399,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.phsAccount = phsAccount;
     }
 
+    @Override
     public Date getScienceMisconductComplDate() {
         return scienceMisconductComplDate;
     }
@@ -379,6 +408,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.scienceMisconductComplDate = scienceMisconductComplDate;
     }
 
+    @Override
     public String getTelexNumber() {
         return telexNumber;
     }
@@ -387,6 +417,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.telexNumber = telexNumber;
     }
 
+    @Override
     public String getVendorCode() {
         return vendorCode;
     }
@@ -403,6 +434,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         this.rolodex = rolodex;
     }
 
+    @Override
     public List<OrganizationYnq> getOrganizationYnqs() {
         return organizationYnqs;
     }
@@ -418,6 +450,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         return (OrganizationYnq) getOrganizationYnqs().get(index);
     }
 
+    @Override
     public List<OrganizationType> getOrganizationTypes() {
         return organizationTypes;
     }
@@ -433,6 +466,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         return (OrganizationType) getOrganizationTypes().get(index);
     }
 
+    @Override
     public List<OrganizationIndirectcost> getOrganizationIdcs() {
         return organizationIdcs;
     }
@@ -448,6 +482,7 @@ public class Organization extends KcPersistableBusinessObjectBase {
         return (OrganizationIndirectcost) getOrganizationIdcs().get(index);
     }
 
+    @Override
     public List<OrganizationAudit> getOrganizationAudits() {
         return organizationAudits;
     }
@@ -463,12 +498,13 @@ public class Organization extends KcPersistableBusinessObjectBase {
         return (OrganizationAudit) getOrganizationAudits().get(index);
     }
 
+
     public String getFedralEmployerId() {
-        return federalEmployerId;
+        return getFederalEmployerId();
     }
 
     public void setFedralEmployerId(String federalEmployerId) {
-        this.federalEmployerId = federalEmployerId;
+        setFederalEmployerId(federalEmployerId);
     }
 
     public Rolodex getCognizantAuditorRolodex() {

@@ -10,6 +10,11 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,11 +29,14 @@ import java.util.Map;
 
    GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, Constants.GRANTS_GOV_LINK);
  */
-
+@Component("s2sOpportunityLookupable")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class S2sOpportunityLookupable extends LookupableImpl {
 
     private static final Log LOG = LogFactory.getLog(S2sOpportunityLookupable.class);
 
+    @Autowired
+    @Qualifier("s2sSubmissionService")
     private S2sSubmissionService s2sSubmissionService;
 
     @Override

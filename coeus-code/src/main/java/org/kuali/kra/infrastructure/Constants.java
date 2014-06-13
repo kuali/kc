@@ -167,7 +167,7 @@ public interface Constants {
     public static final String KEY_PERSONNEL_PANEL_ANCHOR = "PropDev-PersonnelPage-Section";
     public static final String KEY_PERSONNEL_PANEL_NAME = "Key Personnel";
     public static final String PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY = "document.newMaintainableObject.fieldName";
-    public static final String INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY = "invCreditTypeCode";
+    public static final String INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY = "code";
     public static final String EMPTY_STRING = "";
     public static final String PRINCIPAL_INVESTIGATOR_KEY = "newProposalPerson";
     public static final String CREDIT_SPLIT_KEY = "document.developmentProposalList[0].creditSplit";

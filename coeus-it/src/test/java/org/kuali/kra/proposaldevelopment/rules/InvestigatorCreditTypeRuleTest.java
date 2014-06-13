@@ -94,7 +94,7 @@ enum InvestigatorCreditTypeFixture {
      */
     private InvestigatorCreditTypeFixture(String invCreditTypeCode, boolean active) {
         setInstance(new InvestigatorCreditType());
-        getInstance().setInvCreditTypeCode(invCreditTypeCode);
+        getInstance().setCode(invCreditTypeCode);
         getInstance().setActive(active);
     }
 

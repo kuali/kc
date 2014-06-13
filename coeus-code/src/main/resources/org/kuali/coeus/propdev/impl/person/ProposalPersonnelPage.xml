@@ -532,7 +532,7 @@
 		-->
 		<property name="items">
 			<list>
-  				<bean parent="Uif-InputField" p:propertyName="degreeCode" 
+  				<bean parent="Uif-InputField" p:propertyName="code"
 					p:enableAutoQuickfinder="false" p:order="10" >
   					<property name="inquiry">
                     	<bean parent="Uif-Inquiry" p:render="false" />

@@ -99,7 +99,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
             for (ProposalPerson person : document.getDevelopmentProposal().getInvestigators()) {
                 for(ProposalPersonCreditSplit creditSplit : person.getCreditSplits()){
                     for(InvestigatorCreditType currentCreditType : availableCreditTypes){
-                        if(currentCreditType.getInvCreditTypeCode().equals(creditSplit.getInvCreditTypeCode())){
+                        if(currentCreditType.getCode().equals(creditSplit.getInvCreditTypeCode())){
                             usedCreditTypes.add(currentCreditType);
                         }
                     }
@@ -134,7 +134,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
             for(InvestigatorCreditType invcredtype:invcrdttype){
                 boolean creditTypeFound = false;
                 for(ProposalPersonCreditSplit proposalpersoncrdt:person.getCreditSplits()){
-                    if((invcredtype.getInvCreditTypeCode().equals(proposalpersoncrdt.getInvCreditTypeCode()))){
+                    if((invcredtype.getCode().equals(proposalpersoncrdt.getInvCreditTypeCode()))){
                         creditTypeFound = true;
                         break;
                     }
@@ -142,7 +142,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                 if (!creditTypeFound ) {
                     ProposalPersonCreditSplit creditSplit = new ProposalPersonCreditSplit();
                     creditSplit.setProposalPerson(person);
-                    creditSplit.setInvCreditTypeCode(invcredtype.getInvCreditTypeCode());
+                    creditSplit.setInvCreditTypeCode(invcredtype.getCode());
                     creditSplit.setCredit(new ScaleTwoDecimal(0));
                     person.getCreditSplits().add(creditSplit);
                 }
@@ -151,7 +151,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                 for(InvestigatorCreditType invcrdtype:invcrdttype){
                     boolean creditTypeFound = false;
                     for(ProposalUnitCreditSplit unitcreditsplit:unitsplit.getCreditSplits()){
-                        if((invcrdtype.getInvCreditTypeCode().equals(unitcreditsplit.getInvCreditTypeCode()))){
+                        if((invcrdtype.getCode().equals(unitcreditsplit.getInvCreditTypeCode()))){
                             creditTypeFound = true;
                             break;
                         }
@@ -159,7 +159,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                     if (!creditTypeFound ) {
                         ProposalUnitCreditSplit creditSplit = new ProposalUnitCreditSplit();
                         creditSplit.setProposalPerson(person);
-                        creditSplit.setInvCreditTypeCode(invcrdtype.getInvCreditTypeCode());
+                        creditSplit.setInvCreditTypeCode(invcrdtype.getCode());
                         creditSplit.setCredit(new ScaleTwoDecimal(0));
                         unitsplit.getCreditSplits().add(creditSplit);
                     }
@@ -308,7 +308,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         for (InvestigatorCreditType creditType : (Collection<InvestigatorCreditType>) getInvestigatorCreditTypes()) {
             ProposalPersonCreditSplit creditSplit = new ProposalPersonCreditSplit();
             creditSplit.setProposalPerson(person);
-            creditSplit.setInvCreditTypeCode(creditType.getInvCreditTypeCode());
+            creditSplit.setInvCreditTypeCode(creditType.getCode());
             creditSplit.setCredit(new ScaleTwoDecimal(0));
             person.getCreditSplits().add(creditSplit);
         }
@@ -382,22 +382,22 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
             // Initialize everything to zero
             for (InvestigatorCreditType creditType : creditTypes) {                
-                ScaleTwoDecimal totalCredit = creditTypeTotals.get(creditType.getInvCreditTypeCode());
+                ScaleTwoDecimal totalCredit = creditTypeTotals.get(creditType.getCode());
 
                 if (totalCredit == null) {
                     totalCredit = new ScaleTwoDecimal(0);
-                    creditTypeTotals.put(creditType.getInvCreditTypeCode(), totalCredit);
+                    creditTypeTotals.put(creditType.getCode(), totalCredit);
                 }
-                ScaleTwoDecimal investigatorTotalCredit = investigatorCreditTypeTotals.get(creditType.getInvCreditTypeCode());
+                ScaleTwoDecimal investigatorTotalCredit = investigatorCreditTypeTotals.get(creditType.getCode());
 
                 if (investigatorTotalCredit == null) {
                     investigatorTotalCredit = new ScaleTwoDecimal(0);
-                    investigatorCreditTypeTotals.put(creditType.getInvCreditTypeCode(), investigatorTotalCredit);
+                    investigatorCreditTypeTotals.put(creditType.getCode(), investigatorTotalCredit);
                 }
                 // set investigator credit total 
                 for (CreditSplit creditSplit : investigator.getCreditSplits()) {
-                    if (creditSplit.getInvCreditTypeCode().equals(creditType.getInvCreditTypeCode())) {
-                        investigatorCreditTypeTotals.put(creditType.getInvCreditTypeCode(), investigatorTotalCredit.add(creditSplit.getCredit()));
+                    if (creditSplit.getInvCreditTypeCode().equals(creditType.getCode())) {
+                        investigatorCreditTypeTotals.put(creditType.getCode(), investigatorTotalCredit.add(creditSplit.getCredit()));
                     }
                 }
             }
@@ -486,7 +486,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
             ProposalUnitCreditSplit creditSplit = new ProposalUnitCreditSplit();
             creditSplit.setProposalPerson(person);
             creditSplit.setUnitNumber(unitId);
-            creditSplit.setInvCreditTypeCode(creditType.getInvCreditTypeCode());
+            creditSplit.setInvCreditTypeCode(creditType.getCode());
             creditSplit.setCredit(new ScaleTwoDecimal(0));
             retval.getCreditSplits().add(creditSplit);
         }

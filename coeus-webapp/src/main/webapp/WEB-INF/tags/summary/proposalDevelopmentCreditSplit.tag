@@ -55,7 +55,7 @@
 							<c:set var="personCreditSplit"
 								value="${investigatorProperty}.creditSplits[${splitStatus.index}]" />
 							<c:if
-								test="${personcreditsplit.invCreditTypeCode == invType.invCreditTypeCode}">
+								test="${personcreditsplit.invCreditTypeCode == invType.code}">
 
 								<td>
 									<div align="right"><strong>
@@ -83,7 +83,7 @@
 								<c:set var="unitCreditSplit"
 									value="${unitProperty}.creditSplits[${splitStatus.index}]" />
 								<c:if
-									test="${unitcreditsplit.invCreditTypeCode == invType.invCreditTypeCode}">
+									test="${unitcreditsplit.invCreditTypeCode == invType.code}">
 								
 								<td>
 					<div align="right"> <bean:write name="KualiForm"
@@ -104,7 +104,7 @@
 							items="${KualiForm.document.developmentProposalList[0].investigatorCreditTypes}"
 							var="invType">
 							<td class="infoline"><div align="right">
-									<strong>${totalMap[invType.invCreditTypeCode]}</strong>
+									<strong>${totalMap[invType.code]}</strong>
 								</div>
 							</td>
 						</c:forEach>
@@ -124,7 +124,7 @@
 					items="${KualiForm.document.developmentProposalList[0].investigatorCreditTypes}"
 					var="invType">
 					<td class="infoline"><div align="right">
-							<strong>${totalMap[invType.invCreditTypeCode]}</strong>
+							<strong>${totalMap[invType.code]}</strong>
 						</div>
 					</td>
 				</c:forEach>

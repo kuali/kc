@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.framework.person.attr;
 
+import org.kuali.coeus.common.api.person.attr.CitizenshipTypeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
@@ -24,11 +25,11 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "CITIZENSHIP_TYPE_T")
-public class CitizenshipType extends KcPersistableBusinessObjectBase implements MutableInactivatable {
+public class CitizenshipType extends KcPersistableBusinessObjectBase implements MutableInactivatable, CitizenshipTypeContract {
 
     @Id
     @Column(name = "CITIZENSHIP_TYPE_CODE")
-    private Integer citizenshipTypeCode;
+    private Integer code;
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -37,19 +38,16 @@ public class CitizenshipType extends KcPersistableBusinessObjectBase implements 
     @Convert(converter = BooleanYNConverter.class)
     private boolean active;
 
-
-    public CitizenshipType() {
-        super();
+    @Override
+    public Integer getCode() {
+        return code;
     }
 
-    public Integer getCitizenshipTypeCode() {
-        return citizenshipTypeCode;
+    public void setCode(Integer citizenTypeCode) {
+        this.code = citizenTypeCode;
     }
 
-    public void setCitizenshipTypeCode(Integer citizenTypeCode) {
-        this.citizenshipTypeCode = citizenTypeCode;
-    }
-
+    @Override
     public String getDescription() {
         return description;
     }
@@ -58,6 +56,7 @@ public class CitizenshipType extends KcPersistableBusinessObjectBase implements 
         this.description = description;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }

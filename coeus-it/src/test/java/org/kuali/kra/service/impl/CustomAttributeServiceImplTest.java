@@ -182,10 +182,10 @@ public class CustomAttributeServiceImplTest extends KcIntegrationTestBase {
     
     @Test public void testGetLookupReturns() throws Exception {
         List<String> properties = new ArrayList<String>();
-        properties.add("degreeCode");
+        properties.add("code");
         properties.add("degreeLevel");
         properties.add("description");
-        List lookupReturnFields = customAttributeService.getLookupReturns("org.kuali.kra.bo.DegreeType");
+        List lookupReturnFields = customAttributeService.getLookupReturns("org.kuali.coeus.common.framework.person.attr.DegreeType");
         assertEquals(properties.size(), lookupReturnFields.size());
 
         for(Object returnField : lookupReturnFields) {
@@ -195,8 +195,8 @@ public class CustomAttributeServiceImplTest extends KcIntegrationTestBase {
     
     @Test
     public void testGetLookupReturnsForAjaxCall() throws Exception {
-        String properties = ",degreeCode;Degree Code,degreeLevel;Degree Level,description;Description";
-        String lookupReturnFields = customAttributeService.getLookupReturnsForAjaxCall("org.kuali.kra.bo.DegreeType");
+        String properties = ",code;Degree Code,degreeLevel;Degree Level,description;Description";
+        String lookupReturnFields = customAttributeService.getLookupReturnsForAjaxCall("org.kuali.coeus.common.framework.person.attr.DegreeType");
         assertEquals(properties,lookupReturnFields);
     }
 

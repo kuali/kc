@@ -19,6 +19,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.api.org.type.OrganizationTypeContract;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
@@ -28,7 +29,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "ORGANIZATION_TYPE")
 @IdClass(OrganizationType.OrganizationTypeId.class)
-public class OrganizationType extends KcPersistableBusinessObjectBase {
+public class OrganizationType extends KcPersistableBusinessObjectBase implements OrganizationTypeContract {
 
     @Id
     @Column(name = "ORGANIZATION_ID")
@@ -50,6 +51,7 @@ public class OrganizationType extends KcPersistableBusinessObjectBase {
         super();
     }
 
+    @Override
     public String getOrganizationId() {
         return organizationId;
     }
@@ -66,6 +68,7 @@ public class OrganizationType extends KcPersistableBusinessObjectBase {
         this.organizationTypeCode = organizationTypeCode;
     }
 
+    @Override
     public OrganizationTypeList getOrganizationTypeList() {
         return organizationTypeList;
     }

@@ -19,6 +19,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.api.org.OrganizationYnqContract;
 import org.kuali.coeus.common.framework.ynq.Ynq;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
@@ -29,7 +30,7 @@ import java.sql.Date;
 @Entity
 @Table(name = "ORGANIZATION_YNQ")
 @IdClass(OrganizationYnq.OrganizationYnqId.class)
-public class OrganizationYnq extends KcPersistableBusinessObjectBase {
+public class OrganizationYnq extends KcPersistableBusinessObjectBase implements OrganizationYnqContract {
 
     @Id
     @Column(name = "ORGANIZATION_ID")
@@ -56,10 +57,7 @@ public class OrganizationYnq extends KcPersistableBusinessObjectBase {
     @JoinColumn(name = "QUESTION_ID", referencedColumnName = "QUESTION_ID", insertable = false, updatable = false)
     private Ynq ynq;
 
-    public OrganizationYnq() {
-        super();
-    }
-
+    @Override
     public String getOrganizationId() {
         return organizationId;
     }
@@ -68,6 +66,7 @@ public class OrganizationYnq extends KcPersistableBusinessObjectBase {
         this.organizationId = organizationId;
     }
 
+    @Override
     public String getQuestionId() {
         return questionId;
     }
@@ -76,6 +75,7 @@ public class OrganizationYnq extends KcPersistableBusinessObjectBase {
         this.questionId = questionId;
     }
 
+    @Override
     public String getAnswer() {
         return answer;
     }
@@ -84,6 +84,7 @@ public class OrganizationYnq extends KcPersistableBusinessObjectBase {
         this.answer = answer;
     }
 
+    @Override
     public String getExplanation() {
         return explanation;
     }
@@ -92,6 +93,7 @@ public class OrganizationYnq extends KcPersistableBusinessObjectBase {
         this.explanation = explanation;
     }
 
+    @Override
     public Date getReviewDate() {
         return reviewDate;
     }
@@ -107,6 +109,7 @@ public class OrganizationYnq extends KcPersistableBusinessObjectBase {
     public void setOrganization(Organization organization) {
         this.organization = organization;
     }
+
 
     public Ynq getYnq() {
         return ynq;
