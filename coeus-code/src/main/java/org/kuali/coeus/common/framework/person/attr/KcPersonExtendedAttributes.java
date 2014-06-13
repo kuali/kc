@@ -144,7 +144,7 @@ public class KcPersonExtendedAttributes extends KcPersistableBusinessObjectBase 
     @Transient
     private List<PersonCustomData> personCustomDataList = new ArrayList<PersonCustomData>();
 
-    @ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.PERSIST })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "CITIZENSHIP_TYPE_CODE", referencedColumnName = "CITIZENSHIP_TYPE_CODE", insertable = false, updatable = false)
     private CitizenshipType citizenshipType;
 
