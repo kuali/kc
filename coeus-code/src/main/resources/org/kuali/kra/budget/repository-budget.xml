@@ -1067,7 +1067,7 @@
 	    </reference-descriptor>
         <reference-descriptor name="budget" class-ref="org.kuali.kra.award.budget.AwardBudgetExt"
                               auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="documentNumber"/>
+            <foreignkey field-ref="budgetId"/>
         </reference-descriptor>
 
 		<!-- GENERATE NEXT VALUE -->
