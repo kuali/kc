@@ -76,6 +76,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalDataValidationSection.xml</value>
                 
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetView.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetIncomePage.xml</value>
             </list>
        </property>     
     </bean>
