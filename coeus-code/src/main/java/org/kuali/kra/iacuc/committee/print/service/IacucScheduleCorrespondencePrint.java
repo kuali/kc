@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.print.service;
 
-import org.kuali.coeus.common.question.framework.print.CorrespondencePrintingService;
+import org.kuali.coeus.common.questionnaire.framework.print.CorrespondencePrintingService;
 
 public interface IacucScheduleCorrespondencePrint extends CorrespondencePrintingService {
 

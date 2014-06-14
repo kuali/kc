@@ -40,7 +40,7 @@ import org.kuali.kra.protocol.questionnaire.SaveProtocolQuestionnaireEvent;
 import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerEvent;
-import org.kuali.coeus.common.question.framework.print.QuestionnairePrintingService;
+import org.kuali.coeus.common.questionnaire.framework.print.QuestionnairePrintingService;
 import org.kuali.kra.service.UnitAclLoadService;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;

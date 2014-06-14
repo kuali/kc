@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.questionnaire.print;
 
-import org.kuali.coeus.common.question.framework.print.CorrespondencePrintingServiceImpl;
+import org.kuali.coeus.common.questionnaire.framework.print.CorrespondencePrintingServiceImpl;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.protocol.ProtocolBase;
