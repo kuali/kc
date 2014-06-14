@@ -29,7 +29,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.committee.service.ScheduleCorrespondencePrint;
-import org.kuali.coeus.common.question.framework.print.CorrespondencePrintingService;
+import org.kuali.coeus.common.questionnaire.framework.print.CorrespondencePrintingService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.correspondence.AbstractProtocolActionsCorrespondence;

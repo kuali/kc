@@ -23,7 +23,7 @@
                            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <context:annotation-config />
-    <context:component-scan base-package="org.kuali.coeus.common.question"/>
+    <context:component-scan base-package="org.kuali.coeus.common.questionnaire"/>
 
     <bean id="questionnaireModuleConfiguration" parent="questionnaireModuleConfiguration-parentBean" />
     <bean id="questionnaireModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
