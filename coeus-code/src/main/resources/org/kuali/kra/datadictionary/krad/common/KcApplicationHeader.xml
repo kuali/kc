@@ -258,14 +258,26 @@
 			<list>
 				<bean parent="Uif-SimpleHeaderFour" p:headerText="Actions"
 					p:order="10" />
-				<bean parent="Uif-MenuAction" p:actionLabel="Create IRB Protocol"
-					p:order="20" />
-				<bean parent="Uif-MenuAction" p:actionLabel="Amend or Renew IRB Protocol"
-					p:order="30" />
-				<bean parent="Uif-MenuAction" p:actionLabel="Notify IRB on a Protocol"
-					p:order="40" />
-				<bean parent="Uif-MenuAction" p:actionLabel="Request a Status Change on a IRB Protocol"
-					p:order="50" />
+				<bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Create IRB Protocol" p:order="20">
+				      <property name="actionUrl.requestParameters">
+                         <map><entry key="href" value="@{#ConfigProperties['application.url']}/protocolProtocol.do?methodToCall=docHandler&amp;command=initiate&amp;docFormKey=88888888&amp;docTypeName=ProtocolDocument"/></map>
+                      </property>
+			    </bean>	
+			    <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Amend or Renew IRB Protocol" p:order="30">
+				      <property name="actionUrl.requestParameters">
+                         <map><entry key="href" value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.irb.Protocol&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupActionAmendRenewProtocol=true"/></map>
+                      </property>
+			    </bean>	
+			    <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Notify IRB on a Protocol" p:order="40">
+				      <property name="actionUrl.requestParameters">
+                         <map><entry key="href" value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.irb.Protocol&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupActionNotifyIRBProtocol=true"/></map>
+                      </property>
+			    </bean>	
+			    <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Request a Status Change on a IRB Protocol" p:order="50">
+				      <property name="actionUrl.requestParameters">
+                         <map><entry key="href" value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.irb.Protocol&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupActionRequestProtocol=true"/></map>
+                      </property>
+			    </bean>	
 				<bean parent="Uif-SimpleHeaderFour" p:headerText="Lists"
 					p:order="60" />
 				<bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Pending Protocols" p:order="70">
