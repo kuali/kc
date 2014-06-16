@@ -61,6 +61,9 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
                && StringUtils.isNotEmpty(form.getNewS2sOpportunity().getOpportunityId())) {
            proposal.setS2sOpportunity(form.getNewS2sOpportunity());
            proposal.getS2sOpportunity().setDevelopmentProposal(proposal);
+
+           //Set Opportunity Title in the Sponsor & Program Information section
+           proposal.setProgramAnnouncementTitle(form.getNewS2sOpportunity().getOpportunityTitle());
            form.setNewS2sOpportunity(new S2sOpportunity());
        }
 
