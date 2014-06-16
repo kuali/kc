@@ -231,10 +231,16 @@
 		parent="Uif-MenuList" p:headerText="Awards">
 		<property name="items">
 			<list>
-				<bean parent="Uif-MenuAction" p:actionLabel="Awards in Progress"
-					p:order="10" />
-				<bean parent="Uif-MenuAction" p:actionLabel="All my Awards"
-					p:order="20" />
+				<bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Awards in Progress" p:order="10">
+					<property name="actionUrl.requestParameters">
+						<map><entry key="href" value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.award.home.Award&amp;statusCode=1&amp;docFormKey=88888888&amp;includeCustomActionUrls=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/></map>
+					</property>
+				</bean>
+				<bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="All my Awards" p:order="20">
+					<property name="actionUrl.requestParameters">
+						<map><entry key="href" value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.award.home.Award&amp;docFormKey=88888888&amp;includeCustomActionUrls=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/></map>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>
