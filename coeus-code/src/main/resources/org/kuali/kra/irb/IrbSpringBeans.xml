@@ -137,7 +137,7 @@
     </bean>
 
 
-	<bean id="protocolNotepadService" class="org.kuali.kra.irb.noteattachment.ProtocolNotepadServiceImpl">
+	<bean id="irbProtocolNotepadService" class="org.kuali.kra.irb.noteattachment.IrbProtocolNotepadServiceImpl">
         <property name = "personService" ref = "personService"/>
     </bean>
 

@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.personnel;
 
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentPersonnelBase;
 
 /**
  * Event triggered when a protocol attachment personnel is modified on a

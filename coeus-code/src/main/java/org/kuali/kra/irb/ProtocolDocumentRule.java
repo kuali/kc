@@ -58,7 +58,7 @@ import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolDocumentRuleBase;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecisionRuleBase;
-import org.kuali.kra.protocol.noteattachment.SubmitProtocolAttachmentProtocolRuleImplBase;
+import org.kuali.coeus.common.protocol.framework.attachment.SubmitProtocolAttachmentProtocolRuleImplBase;
 import org.kuali.kra.protocol.personnel.SaveProtocolPersonnelEventBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceAuditRuleBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceRuleBase;

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentStatusBase;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentStatusBase;
 
 public class IacucProtocolAttachmentStatus extends ProtocolAttachmentStatusBase {
 

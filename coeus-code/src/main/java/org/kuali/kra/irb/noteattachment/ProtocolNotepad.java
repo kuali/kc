@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.noteattachment;
 
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.protocol.noteattachment.ProtocolNotepadBase;
+import org.kuali.coeus.common.protocol.framework.note.ProtocolNotepadBase;
 
 /**
  * The Protocol Notepad class.

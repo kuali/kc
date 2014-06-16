@@ -25,7 +25,7 @@ import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewalBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolModuleBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionTypeBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentProtocolBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;

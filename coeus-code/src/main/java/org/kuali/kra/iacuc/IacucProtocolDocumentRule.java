@@ -60,7 +60,7 @@ import org.kuali.kra.protocol.ProtocolDocumentRuleBase;
 import org.kuali.kra.protocol.actions.decision.ExecuteCommitteeDecisionAbstainerRule;
 import org.kuali.kra.protocol.actions.decision.ExecuteCommitteeDecisionRecuserRule;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRuleBase;
-import org.kuali.kra.protocol.noteattachment.SubmitProtocolAttachmentProtocolRuleImplBase;
+import org.kuali.coeus.common.protocol.framework.attachment.SubmitProtocolAttachmentProtocolRuleImplBase;
 import org.kuali.kra.protocol.personnel.ProtocolAttachmentPersonnelRuleBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelAuditRuleBase;
 import org.kuali.kra.protocol.personnel.ProtocolUnitRuleBase;

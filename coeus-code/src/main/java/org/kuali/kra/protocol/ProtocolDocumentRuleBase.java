@@ -30,7 +30,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.actions.decision.*;
 import org.kuali.kra.protocol.actions.submit.ExecuteProtocolSubmitActionRule;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
-import org.kuali.kra.protocol.noteattachment.SubmitProtocolAttachmentProtocolRuleImplBase;
+import org.kuali.coeus.common.protocol.framework.attachment.SubmitProtocolAttachmentProtocolRuleImplBase;
 import org.kuali.kra.protocol.permission.ProtocolPermissionsRule;
 import org.kuali.kra.protocol.personnel.*;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceAuditRuleBase;

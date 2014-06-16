@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.noteattachment;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
@@ -24,7 +24,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
  * This class contains methods to "help" in validating ProtocolAttachmentBase.
  */
 @SuppressWarnings("deprecation")
-class ProtocolAttachmentBaseRuleHelper extends org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBaseRuleHelper {
+class ProtocolAttachmentBaseRuleHelper extends org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentBaseRuleHelper {
 
     protected ProtocolAttachmentBaseRuleHelper(String aPropertyPrefix) {
         super(aPropertyPrefix, KcServiceLocator.getService(ProtocolAttachmentService.class), KNSServiceLocator.getKNSDictionaryValidationService());

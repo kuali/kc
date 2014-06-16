@@ -26,7 +26,7 @@ import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentBase;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;

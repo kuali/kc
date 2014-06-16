@@ -53,7 +53,7 @@ import org.kuali.kra.protocol.actions.print.ProtocolSummaryPrintOptions;
 import org.kuali.kra.protocol.actions.print.ProtocolSummaryXmlStreamBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolNotepadBase;
+import org.kuali.coeus.common.protocol.framework.note.ProtocolNotepadBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRoleBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;

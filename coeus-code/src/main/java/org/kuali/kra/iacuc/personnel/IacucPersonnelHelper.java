@@ -25,7 +25,7 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentPersonnelBase;
 import org.kuali.kra.protocol.personnel.PersonnelHelperBase;
 import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
 

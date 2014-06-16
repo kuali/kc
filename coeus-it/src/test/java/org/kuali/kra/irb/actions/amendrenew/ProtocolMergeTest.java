@@ -30,7 +30,7 @@ import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentPersonnelBase;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.sql.Date;

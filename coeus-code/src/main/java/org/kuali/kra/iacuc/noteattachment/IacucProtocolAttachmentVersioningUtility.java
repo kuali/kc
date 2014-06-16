@@ -18,9 +18,9 @@ package org.kuali.kra.iacuc.noteattachment;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.protocol.ProtocolFormBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentVersioningUtilityBase;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentProtocolBase;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentService;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentVersioningUtilityBase;
 
 public class IacucProtocolAttachmentVersioningUtility extends ProtocolAttachmentVersioningUtilityBase {
 

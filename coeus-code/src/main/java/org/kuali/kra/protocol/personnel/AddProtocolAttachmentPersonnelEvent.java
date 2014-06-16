@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.personnel;
 
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentPersonnelBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 

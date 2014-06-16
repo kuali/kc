@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
+import org.kuali.coeus.common.protocol.framework.attachment.*;
+import org.kuali.coeus.common.protocol.framework.note.ProtocolNotepadBase;
+import org.kuali.coeus.common.protocol.framework.note.ProtocolNotepadService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -28,7 +31,6 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
-import org.kuali.kra.protocol.noteattachment.*;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;

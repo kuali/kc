@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.noteattachment;
 
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentPersonnelBase;
 
 /**
  * This class represents the Protocol Attachment Personnel.

@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.protocol;
 
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
-import org.kuali.kra.protocol.noteattachment.TypedAttachment;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentBase;
+import org.kuali.coeus.common.protocol.framework.attachment.TypedAttachment;
 
 import java.sql.Date;
 import java.util.List;

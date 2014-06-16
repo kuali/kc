@@ -19,6 +19,6 @@ package org.kuali.kra.irb.noteattachment;
 /**
  * Contains the methods used for Protocol Notes and Attachments.
  */
-public interface ProtocolAttachmentService extends org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService {
+public interface ProtocolAttachmentService extends org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentService {
 
 }

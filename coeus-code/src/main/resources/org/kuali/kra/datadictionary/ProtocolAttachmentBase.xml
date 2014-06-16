@@ -17,7 +17,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="ProtocolAttachmentBase" abstract="true" parent="ProtocolAttachmentBase-parentBean" />
 	<bean id="ProtocolAttachmentBase-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase" />
+		<property name="businessObjectClass" value="org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentBase" />
 		<property name="objectLabel" value="Protocol Attachment Base" />
 		<property name="inquiryDefinition" >
 			<ref bean="ProtocolAttachmentBase-inquiryDefinition" />
@@ -139,7 +139,7 @@
 
   <bean id="ProtocolAttachmentBase-InquiryView-parentBean" abstract="true" parent="ProtocolAssociate-InquiryView">
     <property name="headerText" value="Id"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentBase"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -184,7 +184,7 @@
   </bean>
 
   <bean id="ProtocolAttachmentBase-LookupView-parentBean" abstract="true" parent="ProtocolAssociate-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentBase"/>
     <property name="headerText" value="Protocol AttachmentLookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">
