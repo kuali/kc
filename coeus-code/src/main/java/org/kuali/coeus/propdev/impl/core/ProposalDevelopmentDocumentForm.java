@@ -20,7 +20,7 @@ import org.kuali.coeus.common.framework.medusa.MedusaNode;
 import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
-import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentQuestionnaireHelper;
+import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelAddWizardHelper;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;

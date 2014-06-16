@@ -6,7 +6,7 @@ import org.kuali.coeus.common.api.question.AnswerContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.propdev.api.PropDevQuestionAnswerService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentModuleQuestionnaireBean;
+import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
