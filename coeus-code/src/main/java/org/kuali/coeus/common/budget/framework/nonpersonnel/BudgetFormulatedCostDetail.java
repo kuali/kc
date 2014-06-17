@@ -15,32 +15,62 @@
  */
 package org.kuali.coeus.common.budget.framework.nonpersonnel;
 
-import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.rate.FormulatedType;
+import javax.persistence.*;
 
+import org.kuali.coeus.common.budget.framework.rate.FormulatedType;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
+
+@Entity
+@Table(name = "BUD_FORMULATED_COST_DETAIL")
 public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase {
-    
 
     private static final long serialVersionUID = -7218113007594733976L;
-    private Long budgetFormulatedCostDetailId; 
-    private Long budgetLineItemId; 
-    private Integer formulatedNumber; 
-    private String formulatedTypeCode; 
+
+    @PortableSequenceGenerator(name = "SEQ_BUD_FRMLTD_COST_DETAIL_ID")
+    @GeneratedValue(generator = "SEQ_BUD_FRMLTD_COST_DETAIL_ID")
+    @Id
+    @Column(name = "BUD_FORMULATED_COST_DETAIL_ID")
+    private Long budgetFormulatedCostDetailId;
+
+    @Column(name = "BUDGET_DETAILS_ID")
+    private Long budgetLineItemId;
+
+    @Column(name = "FORMULATED_NUMBER")
+    private Integer formulatedNumber;
+
+    @Column(name = "FORMULATED_TYPE_CODE")
+    private String formulatedTypeCode;
+
+    @Column(name = "UNIT_COST")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal unitCost;
-    private Integer count; 
-    private Integer frequency; 
+
+    @Column(name = "COUNT")
+    private Integer count;
+
+    @Column(name = "FREQUENCY")
+    private Integer frequency;
+
+    @Column(name = "CALCULATED_EXPENSES")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal calculatedExpenses;
-    
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "FORMULATED_TYPE_CODE", referencedColumnName = "FORMULATED_TYPE_CODE", insertable = false, updatable = false)
     private FormulatedType formulatedType;
-    
+
+    @Transient
     private transient int budgetLineItemNumber;
+
+    @Transient
     private transient int budgetPeriod;
 
-    public BudgetFormulatedCostDetail() { 
+    public BudgetFormulatedCostDetail() {
+    }
 
-    } 
-    
     public Long getBudgetFormulatedCostDetailId() {
         return budgetFormulatedCostDetailId;
     }
@@ -74,7 +104,7 @@ public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase 
     }
 
     public ScaleTwoDecimal getUnitCost() {
-        return unitCost==null? ScaleTwoDecimal.ZERO:unitCost;
+        return unitCost == null ? ScaleTwoDecimal.ZERO : unitCost;
     }
 
     public void setUnitCost(ScaleTwoDecimal unitCost) {
@@ -82,7 +112,7 @@ public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase 
     }
 
     public Integer getCount() {
-        return count==null?0:count;
+        return count == null ? 0 : count;
     }
 
     public void setCount(Integer count) {
@@ -90,7 +120,7 @@ public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase 
     }
 
     public Integer getFrequency() {
-        return frequency==null?0:frequency;
+        return frequency == null ? 0 : frequency;
     }
 
     public void setFrequency(Integer frequency) {

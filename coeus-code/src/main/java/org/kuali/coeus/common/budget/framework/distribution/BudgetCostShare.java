@@ -15,29 +15,65 @@
  */
 package org.kuali.coeus.common.budget.framework.distribution;
 
-import org.kuali.coeus.common.budget.framework.core.BudgetDistributionAndIncomeComponent;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
+import javax.persistence.*;
 
-public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implements HierarchyMaintainable {
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+
+import java.io.Serializable;
+
+@Entity
+@Table(name = "EPS_PROP_COST_SHARING")
+@IdClass(BudgetCostShare.BudgetCostShareId.class)
+public class BudgetCostShare extends KcPersistableBusinessObjectBase implements HierarchyMaintainable {
+
     private static final long serialVersionUID = 6199797319981907016L;
 
     public static final String DOCUMENT_COMPONENT_ID_KEY = "BUDGET_COST_SHARE_KEY";
-    
+
+    @Id
+    @Column(name = "PROJECT_INCOME_ID")
+    private Integer documentComponentId;
+
+    @Id
+    @Column(name = "BUDGET_ID")
+    private Long budgetId;
+
+    @Column(name = "PROJECT_PERIOD")
     private Integer projectPeriod;
+
+    @Column(name = "AMOUNT")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal shareAmount;
+
+    @Column(name = "COST_SHARING_PERCENTAGE")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal sharePercentage;
+
+    @Column(name = "SOURCE_ACCOUNT")
     private String sourceAccount;
+
+    @Transient
     private String sourceUnit;
 
+    @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
-    private boolean hiddenInHierarchy;
 
+    @Column(name = "HIDE_IN_HIERARCHY")
+    @Convert(converter = BooleanYNConverter.class)
+    private boolean hiddenInHierarchy;
 
     public BudgetCostShare() {
         super();
     }
-    
+
     /**
      * 
      * Constructs a BudgetCostShare.java.
@@ -54,6 +90,22 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
         this.sourceAccount = sourceAccount;
     }
 
+    public Integer getDocumentComponentId() {
+        return documentComponentId;
+    }
+
+    public void setDocumentComponentId(Integer costShareId) {
+        this.documentComponentId = costShareId;
+    }
+
+    public Long getBudgetId() {
+        return budgetId;
+    }
+
+    public void setBudgetId(Long budgetId) {
+        this.budgetId = budgetId;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -66,25 +118,21 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
         if (projectPeriod == null) {
             if (other.projectPeriod != null)
                 return false;
-        }
-        else if (!projectPeriod.equals(other.projectPeriod))
+        } else if (!projectPeriod.equals(other.projectPeriod))
             return false;
         if (shareAmount == null) {
             if (other.shareAmount != null)
                 return false;
-        }
-        else if (!shareAmount.equals(other.shareAmount))
+        } else if (!shareAmount.equals(other.shareAmount))
             return false;
         if (sourceAccount == null) {
             if (other.sourceAccount != null)
                 return false;
-        }
-        else if (!sourceAccount.equals(other.sourceAccount))
+        } else if (!sourceAccount.equals(other.sourceAccount))
             return false;
         return true;
     }
 
-    @Override
     public String getDocumentComponentIdKey() {
         return DOCUMENT_COMPONENT_ID_KEY;
     }
@@ -94,7 +142,7 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     }
 
     public ScaleTwoDecimal getShareAmount() {
-         return ScaleTwoDecimal.returnZeroIfNull(shareAmount);
+        return ScaleTwoDecimal.returnZeroIfNull(shareAmount);
     }
 
     public ScaleTwoDecimal getSharePercentage() {
@@ -104,8 +152,6 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     public String getSourceAccount() {
         return sourceAccount;
     }
-    
-    
 
     @Override
     public int hashCode() {
@@ -132,7 +178,7 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     public void setSourceAccount(String sourceAcocunt) {
         this.sourceAccount = sourceAcocunt;
     }
-    
+
     public String getSourceUnit() {
         return sourceUnit;
     }
@@ -140,7 +186,7 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     public void setSourceUnit(String sourceUnit) {
         this.sourceUnit = sourceUnit;
     }
- 
+
     public String getHierarchyProposalNumber() {
         return hierarchyProposalNumber;
     }
@@ -155,5 +201,55 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
 
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
+    }
+
+    public static final class BudgetCostShareId implements Serializable, Comparable<BudgetCostShareId> {
+
+        private Integer documentComponentId;
+
+        private Long budgetId;
+
+        public Integer getDocumentComponentId() {
+            return documentComponentId;
+        }
+
+        public void setDocumentComponentId(Integer documentComponentId) {
+            this.documentComponentId = documentComponentId;
+        }
+
+        public Long getBudgetId() {
+            return budgetId;
+        }
+
+        public void setBudgetId(Long budgetId) {
+            this.budgetId = budgetId;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("budgetId", this.budgetId).append("documentComponentId", this.documentComponentId).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final BudgetCostShareId rhs = (BudgetCostShareId) other;
+            return new EqualsBuilder().append(this.budgetId, rhs.budgetId).append(this.documentComponentId, rhs.documentComponentId).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.budgetId).append(this.documentComponentId).toHashCode();
+        }
+
+        @Override
+        public int compareTo(BudgetCostShareId other) {
+            return new CompareToBuilder().append(this.budgetId, other.budgetId).append(this.documentComponentId, other.documentComponentId).toComparison();
+        }
     }
 }

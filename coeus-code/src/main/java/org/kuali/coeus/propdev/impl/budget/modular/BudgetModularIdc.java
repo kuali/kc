@@ -15,35 +15,70 @@
  */
 package org.kuali.coeus.propdev.impl.budget.modular;
 
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetAssociate;
+import java.io.Serializable;
+import javax.persistence.*;
+
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 
-public class BudgetModularIdc extends BudgetAssociate {
-
+@Entity
+@Table(name = "BUDGET_MODULAR_IDC")
+@IdClass(BudgetModularIdc.BudgetModularIdcId.class)
+public class BudgetModularIdc extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 9162516694202776979L;
 
+    @Id
+    @Column(name = "BUDGET_PERIOD_NUMBER")
     private Long budgetPeriodId;
 
+    @Column(name = "BUDGET_PERIOD")
     private Integer budgetPeriod;
 
+    @Id
+    @Column(name = "RATE_NUMBER")
     private Integer rateNumber;
 
+    @Column(name = "BUDGET_ID")
+    private Long budgetId;
+
+    @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "IDC_RATE")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal idcRate;
 
+    @Column(name = "IDC_BASE")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal idcBase;
 
+    @Column(name = "FUNDS_REQUESTED")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal fundsRequested;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "DESCRIPTION", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
     private RateClass rateClass;
 
     public BudgetModularIdc() {
         idcRate = new ScaleTwoDecimal(0.0);
         idcBase = new ScaleTwoDecimal(0.0);
         fundsRequested = new ScaleTwoDecimal(0.0);
+    }
+
+    public Long getBudgetId() {
+        return budgetId;
+    }
+
+    public void setBudgetId(Long budgetId) {
+        this.budgetId = budgetId;
     }
 
     public Integer getBudgetPeriod() {
@@ -116,5 +151,55 @@ public class BudgetModularIdc extends BudgetAssociate {
 
     public void setBudgetPeriodId(Long budgetPeriodId) {
         this.budgetPeriodId = budgetPeriodId;
+    }
+
+    public static final class BudgetModularIdcId implements Serializable, Comparable<BudgetModularIdcId> {
+
+        private Long budgetPeriodId;
+
+        private Integer rateNumber;
+
+        public Long getBudgetPeriodId() {
+            return this.budgetPeriodId;
+        }
+
+        public void setBudgetPeriodId(Long budgetPeriodId) {
+            this.budgetPeriodId = budgetPeriodId;
+        }
+
+        public Integer getRateNumber() {
+            return this.rateNumber;
+        }
+
+        public void setRateNumber(Integer rateNumber) {
+            this.rateNumber = rateNumber;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("budgetPeriodId", this.budgetPeriodId).append("rateNumber", this.rateNumber).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final BudgetModularIdcId rhs = (BudgetModularIdcId) other;
+            return new EqualsBuilder().append(this.budgetPeriodId, rhs.budgetPeriodId).append(this.rateNumber, rhs.rateNumber).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.budgetPeriodId).append(this.rateNumber).toHashCode();
+        }
+
+        @Override
+        public int compareTo(BudgetModularIdcId other) {
+            return new CompareToBuilder().append(this.budgetPeriodId, other.budgetPeriodId).append(this.rateNumber, other.rateNumber).toComparison();
+        }
     }
 }

@@ -15,81 +15,138 @@
  */
 package org.kuali.coeus.propdev.impl.budget.subaward;
 
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.struts.upload.FormFile;
-import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
-import org.kuali.coeus.common.framework.org.Organization;
-import org.kuali.coeus.common.budget.framework.core.BudgetAssociate;
-import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
-
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.*;
+
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
+import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 /**
  * 
  * This class maintains the attributes needed for a subaward budget line.
  */
-public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintainable, Comparable<BudgetSubAwards>, BudgetSubAwardsContract {
-
+@Entity
+@Table(name = "BUDGET_SUB_AWARDS")
+@IdClass(BudgetSubAwards.BudgetSubAwardsId.class)
+public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements HierarchyMaintainable, Comparable<BudgetSubAwards>, BudgetSubAwardsContract {
 
     private static final long serialVersionUID = -857485535655759499L;
 
+    @Transient
     private String proposalNumber;
 
+    @Column(name = "BUDGET_ID")
+    @Id
+    private Long budgetId;
+
+    @Id
+    @Column(name = "SUB_AWARD_NUMBER")
     private Integer subAwardNumber;
 
+    @Transient
     private Integer budgetVersionNumber;
 
+    @Column(name = "COMMENTS")
     private String comments;
 
+    @Column(name = "ORGANIZATION_ID")
     private String organizationId;
-    
+
+    @Column(name = "ORGANIZATION_NAME")
     private String organizationName;
-    
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(insertable = false, updatable = false)
     private Organization organization;
 
+    @Column(name = "SUB_AWARD_STATUS_CODE")
     private Integer subAwardStatusCode;
 
+    @Column(name = "SUB_AWARD_XFD_FILE")
     private byte[] subAwardXfdFileData;
 
+    @Column(name = "SUB_AWARD_XFD_FILE_NAME")
     private String subAwardXfdFileName;
 
+    @Column(name = "SUB_AWARD_XML_FILE")
+    @Lob
     private String subAwardXmlFileData;
 
+    @Column(name = "TRANSLATION_COMMENTS")
     private String translationComments;
 
+    @Column(name = "XFD_UPDATE_TIMESTAMP")
     private Timestamp xfdUpdateTimestamp;
 
+    @Column(name = "XFD_UPDATE_USER")
     private String xfdUpdateUser;
 
+    @Column(name = "XML_UPDATE_TIMESTAMP")
     private Timestamp xmlUpdateTimestamp;
 
+    @Column(name = "XML_UPDATE_USER")
     private String xmlUpdateUser;
 
+    @Column(name = "NAMESPACE")
     private String namespace;
 
+    @Column(name = "FORM_NAME")
     private String formName;
 
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID"), @JoinColumn(name = "SUB_AWARD_NUMBER", referencedColumnName = "SUB_AWARD_NUMBER") })
     private List<BudgetSubAwardAttachment> budgetSubAwardAttachments;
 
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID"), @JoinColumn(name = "SUB_AWARD_NUMBER", referencedColumnName = "SUB_AWARD_NUMBER") })
     private List<BudgetSubAwardFiles> budgetSubAwardFiles;
-    
+
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID"), @JoinColumn(name = "SUB_AWARD_NUMBER", referencedColumnName = "SUBAWARD_NUMBER") })
     private List<BudgetSubAwardPeriodDetail> budgetSubAwardPeriodDetails;
 
+    @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
 
+    @Column(name = "HIDE_IN_HIERARCHY")
+    @Convert(converter = BooleanYNConverter.class)
     private boolean hiddenInHierarchy;
-    
+
+    @Transient
     private transient boolean edit = false;
+
+    @Transient
     private transient FormFile newSubAwardFile;
+
+    @Transient
     private transient boolean newSubAwardFileError = false;
 
     public BudgetSubAwards() {
         budgetSubAwardAttachments = new ArrayList<BudgetSubAwardAttachment>();
         budgetSubAwardFiles = new ArrayList<BudgetSubAwardFiles>();
         budgetSubAwardPeriodDetails = new ArrayList<BudgetSubAwardPeriodDetail>();
+    }
+
+    @Override
+    public Long getBudgetId() {
+        return budgetId;
+    }
+
+    public void setBudgetId(Long budgetId) {
+        this.budgetId = budgetId;
     }
 
     @Override
@@ -407,13 +464,13 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
     public void setOrganization(Organization organization) {
         this.organization = organization;
     }
-    
+
     public void computePeriodDetails() {
         for (BudgetSubAwardPeriodDetail detail : getBudgetSubAwardPeriodDetails()) {
             detail.computeTotal();
         }
     }
-    
+
     public boolean hasModifiedAmounts() {
         for (BudgetSubAwardPeriodDetail detail : getBudgetSubAwardPeriodDetails()) {
             if (detail.isAmountsModified()) {
@@ -423,4 +480,53 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
         return false;
     }
 
+    public static final class BudgetSubAwardsId implements Serializable, Comparable<BudgetSubAwardsId> {
+
+        private Integer subAwardNumber;
+
+        private Long budgetId;
+
+        public Integer getSubAwardNumber() {
+            return subAwardNumber;
+        }
+
+        public void setSubAwardNumber(Integer subAwardNumber) {
+            this.subAwardNumber = subAwardNumber;
+        }
+
+        public Long getBudgetId() {
+            return budgetId;
+        }
+
+        public void setBudgetId(Long budgetId) {
+            this.budgetId = budgetId;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("budgetId", this.budgetId).append("subAwardNumber", this.subAwardNumber).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final BudgetSubAwardsId rhs = (BudgetSubAwardsId) other;
+            return new EqualsBuilder().append(this.budgetId, rhs.budgetId).append(this.subAwardNumber, rhs.subAwardNumber).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.budgetId).append(this.subAwardNumber).toHashCode();
+        }
+
+        @Override
+        public int compareTo(BudgetSubAwardsId other) {
+            return new CompareToBuilder().append(this.budgetId, other.budgetId).append(this.subAwardNumber, other.subAwardNumber).toComparison();
+        }
+    }
 }

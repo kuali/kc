@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.budget;
 
+import org.kuali.coeus.common.budget.framework.core.AbstractBudget;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 
 /**

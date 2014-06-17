@@ -110,20 +110,20 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     public String getDocumentTypeCode() {
         return AWARD_BUDGET_DOCUMENT_TYPE_CODE;
     }
-
+    
     /**
-     * 
+     *
      * This method returns Budget object. Creates new budget instance if the budgets list is empty
      * @return Budget
      */
     public Budget getBudget(){
-        if(getBudgets().isEmpty()){
-            getBudgets().add(new AwardBudgetExt());
+        if(super.getBudget() == null){
+            setBudget(new AwardBudgetExt());
         }
-        Budget budget = getBudgets().get(0);
-        return budget; 
+
+        return super.getBudget();
     }
-    
+
     private void populateBudgetRateTypes(Budget budget,List<BudgetRate> budgetRates) {
         for (BudgetRate budgetRate : budgetRates) {
             if(RateClassType.OVERHEAD.getRateClassType().equals(budgetRate.getRateClassType())){
@@ -162,8 +162,8 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     }
 
     /**
-     * Sets the obligatedAmount attribute value.
-     * @param obligatedAmount The obligatedAmount to set.
+     * Sets the obligatedTotal attribute value.
+     * @param obligatedTotal The obligatedTotal to set.
      */
     public void setObligatedTotal(ScaleTwoDecimal obligatedTotal) {
         this.obligatedTotal = obligatedTotal;

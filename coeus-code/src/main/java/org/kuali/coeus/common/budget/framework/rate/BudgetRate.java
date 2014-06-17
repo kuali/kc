@@ -15,15 +15,20 @@
  */
 package org.kuali.coeus.common.budget.framework.rate;
 
-import org.kuali.kra.bo.InstituteRate;
-import org.kuali.coeus.common.budget.framework.core.DateSortable;
-
 import java.sql.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import org.kuali.coeus.common.budget.framework.core.DateSortable;
+import org.kuali.kra.bo.InstituteRate;
 
+@Entity
+@Table(name = "EPS_PROP_RATES")
 public class BudgetRate extends AbstractBudgetRate implements DateSortable {
 
-
     private static final long serialVersionUID = 6843344277997293690L;
+
+    @Column(name = "ACTIVITY_TYPE_CODE")
     private String activityTypeCode;
 
     public BudgetRate() {
@@ -53,13 +58,18 @@ public class BudgetRate extends AbstractBudgetRate implements DateSortable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!super.equals(obj)) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
         BudgetRate other = (BudgetRate) obj;
         if (activityTypeCode == null) {
-            if (other.activityTypeCode != null) return false;
-        } else if (!activityTypeCode.equals(other.activityTypeCode)) return false;
+            if (other.activityTypeCode != null)
+                return false;
+        } else if (!activityTypeCode.equals(other.activityTypeCode))
+            return false;
         return true;
     }
 

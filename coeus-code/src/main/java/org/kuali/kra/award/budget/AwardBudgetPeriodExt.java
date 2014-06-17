@@ -66,8 +66,6 @@ public class AwardBudgetPeriodExt extends BudgetPeriod {
     }
     /**
      * This method returns the query list after filtering all eb rates
-     * @param AwardBudgetPeriodSummaryCalculatedAmounts
-     * @return
      */
     private QueryList<AwardBudgetPeriodSummaryCalculatedAmount> filterEBRates() {
         QueryList<AwardBudgetPeriodSummaryCalculatedAmount> qlAwardBudgetPeriodSummaryCalculatedAmounts = 
@@ -126,8 +124,8 @@ public class AwardBudgetPeriodExt extends BudgetPeriod {
         this.awardBudgetPeriodFnAAmounts = awardBudgetPeriodFnAAmounts;
     }
     /**
-     * Sets the isSummaryCalcAmountsChanged attribute value.
-     * @param isSummaryCalcAmountsChanged The isSummaryCalcAmountsChanged to set.
+     * Sets the rateOverrideFlag attribute value.
+     * @param rateOverrideFlag The rateOverrideFlag to set.
      */
     public void setRateOverrideFlag(boolean rateOverrideFlag) {
         this.rateOverrideFlag = rateOverrideFlag;

@@ -989,7 +989,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         
         budgetDocument.toCopy();
         budgetDocument.setVersionNumber(null);
-        if(budgetDocument.getBudgets().isEmpty()) return;
+        if(budgetDocument.getBudget() == null) return;
         budgetDocument.getBudget().setBudgetVersionNumber(budgetVersionNumber);
         Map<String, Object> objectMap = new HashMap<String, Object>();
         fixNumericProperty(budgetDocument, "setBudgetId", Long.class, null, objectMap);

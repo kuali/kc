@@ -15,42 +15,65 @@
  */
 package org.kuali.coeus.common.budget.framework.nonpersonnel;
 
+import javax.persistence.*;
+
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.calculator.RateClassType;
-import org.kuali.coeus.common.budget.framework.core.BudgetAssociate;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
-public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
-
+@MappedSuperclass
+public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 4346953317701218299L;
 
+    @Column(name = "BUDGET_ID")
+    private Long budgetId;
+
+    @Column(name = "BUDGET_PERIOD")
     private Integer budgetPeriod;
 
+    @Column(name = "LINE_ITEM_NUMBER")
     private Integer lineItemNumber;
 
+    @Column(name = "RATE_CLASS_CODE")
     private String rateClassCode;
 
+    @Column(name = "RATE_TYPE_CODE")
     private String rateTypeCode;
 
+    @Column(name = "APPLY_RATE_FLAG")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean applyRateFlag;
 
+    @Column(name = "CALCULATED_COST")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal calculatedCost;
 
+    @Column(name = "CALCULATED_COST_SHARING")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal calculatedCostSharing;
 
+    @Transient
     private String rateClassType;
 
+    @Transient
     private Integer rateNumber;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
     private RateClass rateClass;
 
+    @Column(name = "RATE_TYPE_DESCRIPTION")
     private String rateTypeDescription;
 
-    //	private RateType rateType; 
+    @Transient
     private Long budgetPeriodId;
 
+    @Column(name = "BUDGET_DETAILS_ID")
     private Long budgetLineItemId;
 
     public Long getBudgetPeriodId() {
@@ -59,6 +82,14 @@ public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
 
     public void setBudgetPeriodId(Long budgetPeriodId) {
         this.budgetPeriodId = budgetPeriodId;
+    }
+
+    public Long getBudgetId() {
+        return budgetId;
+    }
+
+    public void setBudgetId(Long budgetId) {
+        this.budgetId = budgetId;
     }
 
     /**
@@ -134,7 +165,7 @@ public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
     }
 
     /**
-     * Gets the rateClassType attribute. 
+     * Gets the rateClassType attribute.
      * @return Returns the rateClassType.
      */
     public String getRateClassType() {
@@ -150,7 +181,7 @@ public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
     }
 
     /**
-     * Gets the rateNumber attribute. 
+     * Gets the rateNumber attribute.
      * @return Returns the rateNumber.
      */
     public Integer getRateNumber() {
@@ -166,7 +197,7 @@ public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
     }
 
     /**
-     * Gets the budgetLineItemId attribute. 
+     * Gets the budgetLineItemId attribute.
      * @return Returns the budgetLineItemId.
      */
     public Long getBudgetLineItemId() {
@@ -196,16 +227,12 @@ public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
     public void setRateTypeDescription(String rateTypeDescription) {
         this.rateTypeDescription = rateTypeDescription;
     }
-    
-    public boolean getAddToFringeRate() {
-        //employee benefits, research rate (not EB on LA)
-        boolean isEmployee = StringUtils.equalsIgnoreCase(this.getRateClass().getRateClassTypeCode(),
-                RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
-        //vacation, vacation (not vacation LA)
-        boolean isGoodVacation = StringUtils.equalsIgnoreCase(this.getRateClass().getRateClassTypeCode(),
-                RateClassType.VACATION.getRateClassType());
 
-        
+    public boolean getAddToFringeRate() {
+        //employee benefits, research rate (not EB on LA)  
+        boolean isEmployee = StringUtils.equalsIgnoreCase(this.getRateClass().getRateClassTypeCode(), RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
+        //vacation, vacation (not vacation LA)  
+        boolean isGoodVacation = StringUtils.equalsIgnoreCase(this.getRateClass().getRateClassTypeCode(), RateClassType.VACATION.getRateClassType());
         return isEmployee || isGoodVacation;
     }
 }

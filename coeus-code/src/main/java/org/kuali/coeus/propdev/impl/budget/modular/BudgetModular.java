@@ -15,30 +15,58 @@
  */
 package org.kuali.coeus.propdev.impl.budget.modular;
 
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetAssociate;
-
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 
-public class BudgetModular extends BudgetAssociate {
+@Entity
+@Table(name = "BUDGET_MODULAR")
+public class BudgetModular extends KcPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "BUDGET_PERIOD_NUMBER")
     private Long budgetPeriodId;
 
+    @Column(name = "BUDGET_ID")
+    private Long budgetId;
+
+    @Column(name = "BUDGET_PERIOD")
     private Integer budgetPeriod;
 
+    @Column(name = "DIRECT_COST_LESS_CONSOR_FNA")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal directCostLessConsortiumFna;
 
+    @Column(name = "CONSORTIUM_FNA")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal consortiumFna;
 
+    @Column(name = "TOTAL_DIRECT_COST")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal totalDirectCost;
 
-    // Derived properties 
+    @OneToMany(cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_PERIOD_NUMBER", referencedColumnName = "BUDGET_PERIOD_NUMBER")
+    private List<BudgetModularIdc> budgetModularIdcs;
+
+    // Derived properties
+    @Transient
     private ScaleTwoDecimal totalRequestedCost;
 
+    @Transient
     private ScaleTwoDecimal totalFnaRequested;
-
-    private List<BudgetModularIdc> budgetModularIdcs;
 
     public BudgetModular() {
         super();
@@ -51,9 +79,17 @@ public class BudgetModular extends BudgetAssociate {
     public BudgetModular(Long budgetId, Integer budgetPeriod) {
         this();
         this.setBudgetId(budgetId);
-        //        this.setProposalNumber(proposalNumber); 
-        //        this.setBudgetVersionNumber(budgetVersionNumber); 
+        //        this.setProposalNumber(proposalNumber);  
+        //        this.setBudgetVersionNumber(budgetVersionNumber);  
         this.setBudgetPeriod(budgetPeriod);
+    }
+
+    public Long getBudgetId() {
+        return budgetId;
+    }
+
+    public void setBudgetId(Long budgetId) {
+        this.budgetId = budgetId;
     }
 
     public Integer getBudgetPeriod() {

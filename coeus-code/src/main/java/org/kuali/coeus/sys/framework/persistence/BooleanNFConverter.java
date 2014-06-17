@@ -20,6 +20,6 @@ public class BooleanNFConverter implements AttributeConverter<Boolean, String> {
         if (dataValue == null) {
             return Boolean.FALSE;
         }
-        return dataValue.equals("T");
+        return dataValue.equals("N");
     }
 }

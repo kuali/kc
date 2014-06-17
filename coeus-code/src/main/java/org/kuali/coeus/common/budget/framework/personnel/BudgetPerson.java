@@ -15,91 +15,138 @@
  */
 package org.kuali.coeus.common.budget.framework.personnel;
 
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.DateSortable;
-import org.kuali.coeus.common.budget.framework.core.BudgetAssociate;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
-import org.kuali.rice.krad.service.BusinessObjectService;
-
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import javax.persistence.*;
+
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.core.DateSortable;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * BudgetPerson business object
  */
-public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainable,DateSortable{
+@Entity
+@Table(name = "BUDGET_PERSONS")
+public class BudgetPerson extends KcPersistableBusinessObjectBase implements HierarchyMaintainable, DateSortable {
 
-    private static final long serialVersionUID = 1L;    
+    private static final long serialVersionUID = 1L;
 
+    @Column(name = "BUDGET_ID")
+    @Id
+    private Long budgetId;
+
+    @Column(name = "EFFECTIVE_DATE")
     private Date effectiveDate;
 
+    @Column(name = "JOB_CODE")
     private String jobCode;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "JOB_CODE", referencedColumnName = "JOB_CODE", insertable = false, updatable = false)
     private JobCode jobCodeRef;
 
+    @Column(name = "NON_EMPLOYEE_FLAG")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean nonEmployeeFlag;
 
+    @Column(name = "PERSON_ID")
     private String personId;
 
+    @Column(name = "ROLODEX_ID")
     private Integer rolodexId;
 
+    @Column(name = "TBN_ID")
     private String tbnId;
 
+    @Column(name = "APPOINTMENT_TYPE_CODE")
     private String appointmentTypeCode;
 
+    @Column(name = "CALCULATION_BASE")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal calculationBase;
 
+    @Column(name = "PERSON_NAME")
     private String personName;
 
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "APPOINTMENT_TYPE_CODE", referencedColumnName = "APPOINTMENT_TYPE_CODE", insertable = false, updatable = false)
     private AppointmentType appointmentType;
 
+    @Id
+    @Column(name = "PERSON_SEQUENCE_NUMBER")
     private Integer personSequenceNumber;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "ROLODEX_ID", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
     private Rolodex rolodex;
 
+    @Transient
     private String role;
+
+    @Column(name = "SALARY_ANNIVERSARY_DATE")
     private Date salaryAnniversaryDate;
 
+    @Transient
     private transient KcPersonService kcPersonService;
 
+    @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
 
+    @Column(name = "HIDE_IN_HIERARCHY")
+    @Convert(converter = BooleanYNConverter.class)
     private boolean hiddenInHierarchy;
-    
-    private BudgetPersonSalaryDetails personSalaryDetails;
-    
-    private List<BudgetPersonSalaryDetails>budgetPersonSalaryDetails;
 
+    @Transient
+    private BudgetPersonSalaryDetails personSalaryDetails;
+
+    @Transient
+    private List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "TBN_ID", referencedColumnName = "TBN_ID", insertable = false, updatable = false)
     private TbnPerson tbnPerson;
 
     public List<BudgetPersonSalaryDetails> getBudgetPersonSalaryDetails() {
         BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
         List<BudgetPersonSalaryDetails> salaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
-        if(this.budgetPersonSalaryDetails == null || this.budgetPersonSalaryDetails.isEmpty()) {            
+        if (this.budgetPersonSalaryDetails == null || this.budgetPersonSalaryDetails.isEmpty()) {
             HashMap budgetMap = new HashMap();
             budgetMap.put("budgetId", getBudgetId());
             Collection<BudgetPeriod> periods = boService.findMatching(BudgetPeriod.class, budgetMap);
-            for(BudgetPeriod budgetPeriod : periods){
+            for (BudgetPeriod budgetPeriod : periods) {
                 salaryDetails.add(new BudgetPersonSalaryDetails());
             }
-            this.budgetPersonSalaryDetails = salaryDetails; 
+            this.budgetPersonSalaryDetails = salaryDetails;
         }
         return budgetPersonSalaryDetails;
     }
 
     public void setBudgetPersonSalaryDetails(List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails) {
         this.budgetPersonSalaryDetails = budgetPersonSalaryDetails;
+    }
+
+    public Long getBudgetId() {
+        return budgetId;
+    }
+
+    public void setBudgetId(Long budgetId) {
+        this.budgetId = budgetId;
     }
 
     public Date getEffectiveDate() {
@@ -112,9 +159,8 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
 
     public BudgetPerson() {
         super();
-        budgetPersonSalaryDetails= new ArrayList<BudgetPersonSalaryDetails>();
+        budgetPersonSalaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
         personSalaryDetails = new BudgetPersonSalaryDetails();
-      
     }
 
     public BudgetPerson(KcPerson person) {
@@ -331,8 +377,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
      * @return boolean
      */
     public boolean isDuplicatePerson(BudgetPerson budgetPerson) {
-        if (!StringUtils.equals(this.getJobCode(), budgetPerson.getJobCode())
-                || !ObjectUtils.equals(this.getEffectiveDate(), budgetPerson.getEffectiveDate())) {
+        if (!StringUtils.equals(this.getJobCode(), budgetPerson.getJobCode()) || !ObjectUtils.equals(this.getEffectiveDate(), budgetPerson.getEffectiveDate())) {
             return false;
         }
         if (this.getNonEmployeeFlag() != null && this.getNonEmployeeFlag() && budgetPerson.getNonEmployeeFlag() != null && budgetPerson.getNonEmployeeFlag()) {
@@ -345,7 +390,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
         } else if (this.getNonEmployeeFlag() != null && !this.getNonEmployeeFlag() && budgetPerson.getNonEmployeeFlag() != null && !budgetPerson.getNonEmployeeFlag()) {
             return this.getPersonId().equals(budgetPerson.getPersonId());
         }
-        // else non-employee vs. employee 
+        // else non-employee vs. employee  
         return false;
     }
 
@@ -360,7 +405,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
         } else if (!this.getNonEmployeeFlag() && !budgetPerson.getNonEmployeeFlag()) {
             return this.getPersonId().equals(budgetPerson.getPersonId());
         }
-        // else non-employee vs. employee 
+        // else non-employee vs. employee  
         return false;
     }
 
@@ -370,8 +415,8 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     }
 
     public String getJobTitle() {
-        // Note, since we aren't persisting the jobTitle in the BudgetPersons table, we need to grab the title  
-        // for each BudgetPerson.jobCode via svc call below. 
+        // Note, since we aren't persisting the jobTitle in the BudgetPersons table, we need to grab the title   
+        // for each BudgetPerson.jobCode via svc call below.  
         getJobTitleFromJobCode();
         String ret = null;
         if (jobCodeRef != null) {
@@ -390,8 +435,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     }
 
     private void getJobTitleFromJobCode() {
-        if (StringUtils.isNotBlank(getJobCode()) && 
-                (this.jobCodeRef == null || !StringUtils.isNotBlank(this.jobCodeRef.getJobTitle())) ) { 
+        if (StringUtils.isNotBlank(getJobCode()) && (this.jobCodeRef == null || !StringUtils.isNotBlank(this.jobCodeRef.getJobTitle()))) {
             JobCodeService jcService = KcServiceLocator.getService(JobCodeService.class);
             this.jobCodeRef = jcService.findJobCodeRef(getJobCode());
         }
@@ -458,14 +502,12 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
         if (getBudgetId() == null) {
             if (other.getBudgetId() != null)
                 return false;
-        }
-        else if (!getBudgetId().equals(other.getBudgetId()))
+        } else if (!getBudgetId().equals(other.getBudgetId()))
             return false;
         if (personSequenceNumber == null) {
             if (other.personSequenceNumber != null)
                 return false;
-        }
-        else if (!personSequenceNumber.equals(other.personSequenceNumber))
+        } else if (!personSequenceNumber.equals(other.personSequenceNumber))
             return false;
         return true;
     }

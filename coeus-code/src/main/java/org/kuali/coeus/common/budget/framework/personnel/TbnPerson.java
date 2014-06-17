@@ -15,19 +15,29 @@
  */
 package org.kuali.coeus.common.budget.framework.personnel;
 
+import javax.persistence.*;
+
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * To Be Named person business object
  */
+@Entity
+@Table(name = "TBN")
 public class TbnPerson extends KcPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "TBN_ID")
     private String tbnId;
 
+    @Column(name = "PERSON_NAME")
     private String personName;
 
+    @Column(name = "JOB_CODE")
     private String jobCode;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "JOB_CODE", referencedColumnName = "JOB_CODE", insertable = false, updatable = false)
     private JobCode jobCodeReference;
 
     public String getJobCode() {
