@@ -21,11 +21,14 @@ import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+<<<<<<< HEAD
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 <<<<<<< HEAD
 import org.kuali.kra.questionnaire.answer.Answer;
 =======
 >>>>>>> b98d036... Saving stuff, will revert
+=======
+>>>>>>> 3df6dac... Revert "Saving stuff, will revert"
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
@@ -39,7 +42,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -71,7 +73,6 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
    public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-       ModelAndView mv=  super.save(pdForm, result, request, response);
        saveAnswerHeaders(pdForm);
        ModelAndView mv =  super.save(pdForm, result, request, response);
        //rebuild the questionnaire, and other non-JPAed docs so it displays correctly
