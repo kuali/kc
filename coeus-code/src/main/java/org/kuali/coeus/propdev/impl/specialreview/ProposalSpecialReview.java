@@ -18,6 +18,7 @@ package org.kuali.coeus.propdev.impl.specialreview;
 import java.util.List;
 
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
+import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
@@ -30,7 +31,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "EPS_PROP_SPECIAL_REVIEW")
-public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewExemption> implements HierarchyMaintainable {
+public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewExemption> implements HierarchyMaintainable, ProposalSpecialReviewContract {
 
     private static final long serialVersionUID = 4616138222389685155L;
 
@@ -58,10 +59,12 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         this.proposalSpecialReviewId = proposalSpecialReviewId;
     }
 
+    @Override
     public Long getProposalSpecialReviewId() {
         return proposalSpecialReviewId;
     }
 
+    @Override
     public String getHierarchyProposalNumber() {
         return hierarchyProposalNumber;
     }
@@ -70,6 +73,7 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         this.hierarchyProposalNumber = hierarchyProposalNumber;
     }
 
+    @Override
     public boolean isHiddenInHierarchy() {
         return hiddenInHierarchy;
     }
@@ -152,6 +156,7 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         }
     }
 
+    @Override
     public List<ProposalSpecialReviewExemption> getSpecialReviewExemptions() {
 		return specialReviewExemptions;
 	}
@@ -175,4 +180,8 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
 		this.developmentProposal = developmentProposal;
 	}
 
+    @Override
+    public String getProposalNumber() {
+        return getDevelopmentProposal().getProposalNumber();
+    }
 }

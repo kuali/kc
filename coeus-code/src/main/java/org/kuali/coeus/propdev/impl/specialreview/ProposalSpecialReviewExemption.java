@@ -26,6 +26,7 @@ import javax.persistence.Table;
 
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
 import org.kuali.coeus.common.framework.exemption.ExemptionType;
+import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewExemptionContract;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
 /**
@@ -33,7 +34,7 @@ import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
  */
 @Entity
 @Table(name = "EPS_PROP_EXEMPT_NUMBER")
-public class ProposalSpecialReviewExemption extends SpecialReviewExemption {
+public class ProposalSpecialReviewExemption extends SpecialReviewExemption implements ProposalSpecialReviewExemptionContract {
 
     private static final long serialVersionUID = -2309851480480819783L;
 
@@ -55,7 +56,8 @@ public class ProposalSpecialReviewExemption extends SpecialReviewExemption {
         setExemptionType(exemptionType);
         setExemptionTypeCode(exemptionType.getCode());
     }
-    
+
+    @Override
     public Long getId() {
         return id;
     }
