@@ -23,6 +23,7 @@
                            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <context:annotation-config />
+    <context:component-scan base-package="org.kuali.coeus.common.questionnaire"/>
 
     <bean id="questionnaireModuleConfiguration" parent="questionnaireModuleConfiguration-parentBean" />
     <bean id="questionnaireModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
@@ -33,13 +34,6 @@
             </list>
         </property>
     </bean>
-    
-    <!-- Questionnaire Services -->
-    
-    <!-- Questionnaire Task Authorizers -->
-
-
-
 		
     <bean id="questionnaireLookupable" class="org.kuali.kra.questionnaire.QuestionnaireLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
@@ -106,52 +100,5 @@
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kcPersonService" ref="kcPersonService" />
     </bean>
-	
-		<!--  questionnaire print -->
-      <bean id="questionnaireXmlStream"
-            class="org.kuali.kra.questionnaire.print.QuestionnaireXmlStream" scope="prototype">
-            <property name="businessObjectService">
-                <ref bean="businessObjectService" />
-            </property>
-            <property name="dateTimeService">
-                <ref bean="dateTimeService" />
-            </property>
-            <property name="documentService">
-                <ref bean="documentService" />
-            </property>
-            <property name="questionnaireService">
-                <ref bean="questionnaireService" />
-            </property>
-            <property name="questionService">
-                <ref bean="questionService" />
-            </property>
-            <property name="questionnaireAnswerService">
-                <ref bean="questionnaireAnswerService" />
-            </property>
-            <property name="kcPersonService">
-                <ref bean="kcPersonService" />
-            </property>
-    </bean>
-    <bean id="questionnairePrint"
-           class="org.kuali.kra.questionnaire.print.QuestionnairePrint" scope="prototype">
-           <property name="xmlStream" ref="questionnaireXmlStream" />
-    </bean>
-    
-    <bean id="correspondencePrint"
-    	class="org.kuali.coeus.common.question.impl.CorrespondencePrint" scope="prototype">
-    	<property name="xmlStream" ref="correspondenceXmlStream" />
-    </bean>
 
-	<bean id="questionnairePrintingService" class="org.kuali.kra.questionnaire.print.QuestionnairePrintingServiceImpl">
-		<property name="printingService">
-			<ref bean="printingService" />
-		</property>
-        <property name="questionnairePrint" ref="questionnairePrint" />
-        <property name="businessObjectService">
-                <ref bean="businessObjectService" />
- 		</property>
-                
-	</bean>
-	
-	
 </beans>

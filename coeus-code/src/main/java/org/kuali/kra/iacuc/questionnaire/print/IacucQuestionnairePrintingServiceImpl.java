@@ -19,7 +19,6 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
-import org.kuali.kra.questionnaire.printing.QuestionnairePrintingServiceImpl;
 
 public class IacucQuestionnairePrintingServiceImpl extends QuestionnairePrintingServiceImpl implements IacucQuestionnairePrintingService{
 

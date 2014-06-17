@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire.print;
+package org.kuali.coeus.common.questionnaire.impl.print;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -82,6 +82,11 @@ public class QuestionnaireXmlStream implements XmlStream {
     public static final String COEUS_MODULE_SUB_ITEM_CODE = "coeusModuleSubItemCode";
     public static final String QUESTION = "question";
     public static final String PERSON_ID = "personId";
+    private static final Log LOG = LogFactory.getLog(QuestionnaireXmlStream.class);
+    private static final int QUESTION_TYPE_INT = 3;
+
+    List<QuestionnaireQuestion> sortedQuestionnaireQuestions;
+
     @Autowired
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
@@ -110,13 +115,7 @@ public class QuestionnaireXmlStream implements XmlStream {
     @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
 
-
-    private static final Log LOG = LogFactory.getLog(QuestionnaireXmlStream.class);
-    List<QuestionnaireQuestion> sortedQuestionnaireQuestions;
-
-    private static final int QUESTION_TYPE_INT = 3;
-    
-    /**
+   /**
      * This method generates XML committee report. It uses data passed in
      * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The XMl once
      * generated is returned as {@link XmlObject}

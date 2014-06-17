@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.question.impl;
+package org.kuali.coeus.common.questionnaire.framework.print;
 
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.print.PrintingService;
-import org.kuali.coeus.common.question.framework.CorrespondencePrintingService;
-import org.kuali.coeus.common.question.impl.CorrespondencePrint;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;

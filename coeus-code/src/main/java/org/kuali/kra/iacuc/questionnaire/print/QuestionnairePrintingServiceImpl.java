@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire.printing;
+package org.kuali.kra.iacuc.questionnaire.print;
 
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.framework.print.AbstractPrint;
@@ -24,7 +24,7 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.questionnaire.Questionnaire;
-import org.kuali.kra.questionnaire.print.QuestionnairePrint;
+import org.kuali.coeus.common.questionnaire.framework.print.QuestionnairePrint;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.ArrayList;
@@ -59,7 +59,6 @@ public abstract class QuestionnairePrintingServiceImpl implements QuestionnaireP
         List<Printable> printables = new ArrayList<Printable>();
         for (QuestionnairePrintOption printOption : questionnairesToPrints) {
             if (printOption.isSelected()) {
-                //   AbstractPrint printable = getQuestionnairePrint();
                 AbstractPrint printable =  new QuestionnairePrint();
                 printable.setXmlStream(getQuestionnairePrint().getXmlStream());
                 Map<String, Object> reportParameters = new HashMap<String, Object>();

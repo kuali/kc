@@ -37,7 +37,7 @@ import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireH
 import org.kuali.coeus.propdev.impl.person.creditsplit.CalculateCreditSplitEvent;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
+import org.kuali.coeus.common.questionnaire.framework.print.QuestionnairePrintingService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;

@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire.print;
+package org.kuali.coeus.common.questionnaire.impl.print;
 
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
+import org.kuali.coeus.common.questionnaire.framework.print.QuestionnairePrint;
+import org.kuali.coeus.common.questionnaire.framework.print.QuestionnairePrintingService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
@@ -28,29 +30,33 @@ import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component("questionnairePrintingService")
 public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingService {
 
     private static final String PROTOCOL_NUMBER = "protocolNumber";
     private static final String SUBMISSION_NUMBER = "submissionNumber";
+    @Autowired
+    @Qualifier("printingService")
     private PrintingService printingService;
+    @Autowired
+    @Qualifier("questionnairePrint")
     private QuestionnairePrint questionnairePrint;
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
-
 
     public AttachmentDataSource printQuestionnaire(
             KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters)
             throws PrintingException {
-        /* TODO : Questionnaire is a maintenance document.  questionnaireId is generated when document is approved and
-        *   saved to DB. so, pk is not in doc xml content, and passing questionnaireid will not work.
-        *   Therefore, passing documentNumber, questionnaire can be retrieved from xml content by loaddocument.
-        *   This is what I think how offshore team can get questionnaire data to generate pdf.
-        */   
         AttachmentDataSource source = null;
         AbstractPrint printable = getQuestionnairePrint();
         if (printable != null) {
@@ -164,5 +170,8 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
         this.businessObjectService = businessObjectService;
     }
 
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
 
 }
