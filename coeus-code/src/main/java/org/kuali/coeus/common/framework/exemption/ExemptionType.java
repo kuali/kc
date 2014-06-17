@@ -15,13 +15,14 @@
  */
 package org.kuali.coeus.common.framework.exemption;
 
+import org.kuali.coeus.common.api.exemption.ExemptionTypeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "EXEMPTION_TYPE")
-public class ExemptionType extends KcPersistableBusinessObjectBase implements Comparable<ExemptionType> {
+public class ExemptionType extends KcPersistableBusinessObjectBase implements Comparable<ExemptionType>, ExemptionTypeContract {
 
     @Id
     @Column(name = "EXEMPTION_TYPE_CODE")
@@ -34,6 +35,7 @@ public class ExemptionType extends KcPersistableBusinessObjectBase implements Co
     @Lob
     private String detailedDescription;
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -42,6 +44,7 @@ public class ExemptionType extends KcPersistableBusinessObjectBase implements Co
         this.description = description;
     }
 
+    @Override
     public String getCode() {
         return code;
     }
@@ -50,6 +53,7 @@ public class ExemptionType extends KcPersistableBusinessObjectBase implements Co
         this.code = code;
     }
 
+    @Override
     public String getDetailedDescription() {
         return detailedDescription;
     }
@@ -58,6 +62,7 @@ public class ExemptionType extends KcPersistableBusinessObjectBase implements Co
         this.detailedDescription = detailedDescription;
     }
 
+    @Override
     public int compareTo(ExemptionType o) {
         return this.description.compareTo(o.description);
     }
