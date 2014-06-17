@@ -59,7 +59,7 @@ public class OrganizationIndirectcost extends KcPersistableBusinessObjectBase {
     @Column(name = "START_DATE")
     private Date startDate;
 
-    @ManyToOne(targetEntity = Organization.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
     private Organization organization;
 

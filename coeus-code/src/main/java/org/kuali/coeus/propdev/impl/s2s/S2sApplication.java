@@ -33,8 +33,8 @@ public class S2sApplication extends KcPersistableBusinessObjectBase implements S
     @Lob
     private String application;
 
-    @OneToMany(targetEntity = S2sAppAttachments.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER")
     private List<S2sAppAttachments> s2sAppAttachmentList;
 
     @Override

@@ -46,11 +46,11 @@ public class UnitAdministrator extends KcPersistableBusinessObjectBase implement
     @Column(name = "UNIT_NUMBER")
     private String unitNumber;
 
-    @ManyToOne(targetEntity = Unit.class)
+    @ManyToOne
     @JoinColumn(name = "UNIT_NUMBER", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
     private Unit unit;
 
-    @ManyToOne(targetEntity = UnitAdministratorType.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "UNIT_ADMINISTRATOR_TYPE_CODE", referencedColumnName = "UNIT_ADMINISTRATOR_TYPE_CODE", insertable = false, updatable = false)
     private UnitAdministratorType unitAdministratorType;
 

@@ -133,7 +133,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     private DevelopmentProposal developmentProposal;
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "PARENT_DOCUMENT_KEY", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
+    @JoinColumn(name = "PARENT_DOCUMENT_KEY", referencedColumnName = "DOCUMENT_NUMBER")
     private List<BudgetDocumentVersion> budgetDocumentVersions;
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
