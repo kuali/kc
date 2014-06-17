@@ -105,7 +105,7 @@
 			<bean
 				class="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" 
 				p:businessObjectClass="org.kuali.kra.bo.ExemptionType"
-				p:keyAttributeName="exemptionTypeCode"
+				p:keyAttributeName="code"
 				p:labelAttributeName="description"/>
 		</property>
 	</bean>

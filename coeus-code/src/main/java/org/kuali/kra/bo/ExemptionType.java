@@ -25,7 +25,7 @@ public class ExemptionType extends KcPersistableBusinessObjectBase implements Co
 
     @Id
     @Column(name = "EXEMPTION_TYPE_CODE")
-    private String exemptionTypeCode;
+    private String code;
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -42,12 +42,12 @@ public class ExemptionType extends KcPersistableBusinessObjectBase implements Co
         this.description = description;
     }
 
-    public String getExemptionTypeCode() {
-        return exemptionTypeCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setExemptionTypeCode(String exemptionTypeCode) {
-        this.exemptionTypeCode = exemptionTypeCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getDetailedDescription() {
