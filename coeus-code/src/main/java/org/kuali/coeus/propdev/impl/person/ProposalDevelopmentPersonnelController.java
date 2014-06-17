@@ -35,7 +35,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -68,17 +67,8 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
    public ModelAndView savePersonnel(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-       ModelAndView mv=  super.save(pdForm, result, request, response);
        saveAnswerHeaders(pdForm);
-       
-       //just needed until questionnaire gets JPAed	   
-	   for (ProposalPerson person : ((ProposalDevelopmentDocumentForm) form).getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
-		   ProposalPersonQuestionnaireHelper qh = new ProposalPersonQuestionnaireHelper(person);
-		   qh.populateAnswers();
-		   //person.setQuestionnaireHelper(qh);
-	   }
-       
-       return mv;
+       return super.save(pdForm, result, request, response);
    }
    
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=performPersonnelSearch")
