@@ -32,6 +32,11 @@ input[type="text"], .uif-textAreaControl {
     width: 1%;
 }
 
+.input-range-msg {
+    width: 1%;
+    font-size: 14px;
+}
+
 .input-group {
     width: 100%;
 }
