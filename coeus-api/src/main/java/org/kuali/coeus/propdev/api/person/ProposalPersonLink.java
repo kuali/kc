@@ -2,9 +2,7 @@ package org.kuali.coeus.propdev.api.person;
 
 import org.kuali.coeus.propdev.api.core.NumberedProposal;
 
-public interface ProposalPersoned extends NumberedProposal {
-
-    String getProposalNumber();
+public interface ProposalPersonLink extends NumberedProposal {
 
     Integer getProposalPersonNumber();
 }

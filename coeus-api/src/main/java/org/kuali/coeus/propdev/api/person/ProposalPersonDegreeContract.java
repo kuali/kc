@@ -2,7 +2,7 @@ package org.kuali.coeus.propdev.api.person;
 
 import org.kuali.coeus.common.api.person.attr.DegreeTypeContract;
 
-public interface ProposalPersonDegreeContract extends ProposalPersoned {
+public interface ProposalPersonDegreeContract extends ProposalPersonLink {
 
     Integer getDegreeSequenceNumber();
 
