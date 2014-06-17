@@ -41,7 +41,7 @@ public class ProposalSpecialReviewExemption extends SpecialReviewExemption {
     @GeneratedValue(generator = "SEQ_EPS_PROP_EXEMPT_NUMBER_ID")
     @Id
     @Column(name = "PROPOSAL_EXEMPT_NUMBER_ID")
-    private Long proposalSpecialReviewExemptionId;
+    private Long id;
 
     @ManyToOne(cascade = { CascadeType.REFRESH } )
     @JoinColumn(name = "PROPOSAL_SPECIAL_REVIEW_ID")
@@ -56,12 +56,12 @@ public class ProposalSpecialReviewExemption extends SpecialReviewExemption {
         setExemptionTypeCode(exemptionType.getCode());
     }
     
-    public Long getProposalSpecialReviewExemptionId() {
-        return proposalSpecialReviewExemptionId;
+    public Long getId() {
+        return id;
     }
 
-    public void setProposalSpecialReviewExemptionId(Long proposalSpecialReviewExemptionId) {
-        this.proposalSpecialReviewExemptionId = proposalSpecialReviewExemptionId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public ProposalSpecialReview getProposalSpecialReview() {
