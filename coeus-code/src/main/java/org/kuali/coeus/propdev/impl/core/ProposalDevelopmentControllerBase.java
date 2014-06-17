@@ -21,6 +21,7 @@ import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
+import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.TransactionalDocumentControllerService;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -273,4 +274,13 @@ public abstract class ProposalDevelopmentControllerBase {
 			}
 	    }
 	}
+	
+	public void refreshAnswerHeaders(ProposalDevelopmentDocumentForm pdForm) {
+		for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+			ProposalPersonQuestionnaireHelper qh = new ProposalPersonQuestionnaireHelper(person);
+			qh.populateAnswers();
+			person.setQuestionnaireHelper(qh);
+	    }
+	}
+	
 }

@@ -76,7 +76,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        saveAnswerHeaders(pdForm);
        ModelAndView mv =  super.save(pdForm, result, request, response);
        //rebuild the questionnaire, and other non-JPAed docs so it displays correctly
-       refreshPersonCertificaitonAnswerHeaders(pdForm);
+	   refreshAnswerHeaders(pdForm);
 	   return mv;
    }
    
