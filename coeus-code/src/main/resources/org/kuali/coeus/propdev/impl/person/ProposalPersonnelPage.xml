@@ -13,7 +13,7 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="PropDev-PersonnelPage" parent="PropDev-PersonnelPage-parentBean" />
-	<bean id="PropDev-PersonnelPage-parentBean" parent="Uif-DocumentPage">
+	<bean id="PropDev-PersonnelPage-parentBean" parent="PropDev-DocumentPage">
 		<property name="items">
 			<list>
 				<ref bean="PropDev-PersonnelPage-Section" />
@@ -21,9 +21,6 @@
 		</property>
 		<property name="header">
 			<bean parent="Uif-PageHeader" />
-		</property>
-		<property name="footer">
-			<null />
 		</property>
 	</bean>
 

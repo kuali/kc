@@ -110,12 +110,6 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 	}
 
 	@MethodAccessible
-	@RequestMapping(value = "/proposalDevelopment", params="methodToCall=navigate")
-	public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-		return super.navigate(form, result, request, response);
-	}
-
-	@MethodAccessible
 	@RequestMapping(value = "/proposalDevelopment", params="methodToCall=refresh")
 	public ModelAndView refresh(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {

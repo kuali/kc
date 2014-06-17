@@ -14,7 +14,7 @@
 
 
 	<bean id="PropDev-OrganizationLocationsPage" parent="PropDev-OrganizationLocationsPage-parentBean" />
-	<bean id="PropDev-OrganizationLocationsPage-parentBean" parent="Uif-DocumentPage">
+	<bean id="PropDev-OrganizationLocationsPage-parentBean" parent="PropDev-DocumentPage">
 		<property name="items">
 			<list>
 				<bean parent="PropDev-OrganizationLocationsPage-Group" p:order="10" />
