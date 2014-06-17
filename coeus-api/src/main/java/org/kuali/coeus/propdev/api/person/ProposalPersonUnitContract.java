@@ -4,7 +4,7 @@ import org.kuali.coeus.propdev.api.person.creditsplit.ProposalUnitCreditSplitCon
 
 import java.util.List;
 
-public interface ProposalPersonUnitContract extends ProposalPersoned {
+public interface ProposalPersonUnitContract extends ProposalPersonLink {
 
     String getUnitNumber();
 

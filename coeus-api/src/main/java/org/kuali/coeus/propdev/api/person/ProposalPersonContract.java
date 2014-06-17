@@ -7,7 +7,7 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import java.util.Date;
 import java.util.List;
 
-public interface ProposalPersonContract extends ProposalPersoned {
+public interface ProposalPersonContract extends ProposalPersonLink {
     
     boolean getConflictOfInterestFlag();
 

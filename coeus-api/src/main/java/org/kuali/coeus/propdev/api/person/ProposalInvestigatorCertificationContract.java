@@ -2,7 +2,7 @@ package org.kuali.coeus.propdev.api.person;
 
 import java.util.Date;
 
-public interface ProposalInvestigatorCertificationContract extends ProposalPersoned {
+public interface ProposalInvestigatorCertificationContract extends ProposalPersonLink {
 
     Boolean isCertified();
 
