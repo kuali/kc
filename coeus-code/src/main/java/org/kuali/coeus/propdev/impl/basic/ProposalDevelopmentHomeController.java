@@ -21,6 +21,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.specialreview.impl.rule.event.SaveDocumentSpecialReviewEvent;
@@ -29,9 +30,12 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption;
 import org.kuali.kra.bo.ExemptionType;
+import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.contrib.krad.web.bind.UifCalendarEditor;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -64,6 +68,25 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        //setting to null so the previous page id(PropDev-InitiatePage) doesn't override the default 
        form.setPageId(null);
        return getTransactionalDocumentControllerService().getUIFModelAndViewWithInit(form, PROPDEV_DEFAULT_VIEW_ID);
+   }
+   
+   @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=clearAnswers")
+   public ModelAndView clearAnswers(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+           HttpServletRequest request, HttpServletResponse response) throws Exception {
+	   ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
+	   String personNumber = pdForm.getActionParamaterValue("personNumber");
+	   for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+		   if (StringUtils.equals(personNumber, person.getProposalPersonNumber().toString())) {
+			   //get the certification questions
+			   AnswerHeader ah = person.getQuestionnaireHelper().getAnswerHeaders().get(0);
+			   for (Answer answer : ah.getAnswers()) {
+				   answer.setAnswer(null);
+			   }
+		   }
+	   }
+	   saveAnswerHeaders(pdForm);
+	   ModelAndView mv = this.save(pdForm, result, request, response);
+	   return mv;
    }
    
    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=save")
