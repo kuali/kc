@@ -68,7 +68,10 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
        saveAnswerHeaders(pdForm);
-       return super.save(pdForm, result, request, response);
+       ModelAndView mv =  super.save(pdForm, result, request, response);
+       //rebuild the questionnaire, and other non-JPAed docs so it displays correctly
+	   refreshAnswerHeaders(pdForm);
+	   return mv;
    }
    
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=performPersonnelSearch")
