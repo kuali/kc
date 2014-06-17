@@ -43,7 +43,7 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
     @GeneratedValue(generator = "SEQ_EPS_PROP_SPECIAL_REVIEW_ID")
     @Id
     @Column(name = "PROPOSAL_SPECIAL_REVIEW_ID")
-    private Long proposalSpecialReviewId;
+    private Long id;
 
     @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
@@ -55,13 +55,13 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
     @OneToMany(mappedBy="proposalSpecialReview", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<ProposalSpecialReviewExemption> specialReviewExemptions;
     
-	public void setProposalSpecialReviewId(Long proposalSpecialReviewId) {
-        this.proposalSpecialReviewId = proposalSpecialReviewId;
+	public void setId(Long id) {
+        this.id = id;
     }
 
     @Override
-    public Long getProposalSpecialReviewId() {
-        return proposalSpecialReviewId;
+    public Long getId() {
+        return id;
     }
 
     @Override
@@ -105,7 +105,7 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         result = prime * result + (hiddenInHierarchy ? 1231 : 1237);
         result = prime * result + ((hierarchyProposalNumber == null) ? 0 : hierarchyProposalNumber.hashCode());
         result = prime * result + ((getDevelopmentProposal().getProposalNumber() == null) ? 0 : getDevelopmentProposal().getProposalNumber().hashCode());
-        result = prime * result + ((proposalSpecialReviewId == null) ? 0 : proposalSpecialReviewId.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
 
@@ -138,18 +138,18 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         } else if (!getDevelopmentProposal().getProposalNumber().equals(other.getDevelopmentProposal().getProposalNumber())) {
             return false;
         }
-        if (proposalSpecialReviewId == null) {
-            if (other.proposalSpecialReviewId != null) {
+        if (id == null) {
+            if (other.id != null) {
                 return false;
             }
-        } else if (!proposalSpecialReviewId.equals(other.proposalSpecialReviewId)) {
+        } else if (!id.equals(other.id)) {
             return false;
         }
         return true;
     }
 
     public void resetPersistenceState() {
-        proposalSpecialReviewId = null;
+        id = null;
         for (ProposalSpecialReviewExemption exemption : getSpecialReviewExemptions()) {
             exemption.setId(null);
             exemption.setProposalSpecialReview(null);

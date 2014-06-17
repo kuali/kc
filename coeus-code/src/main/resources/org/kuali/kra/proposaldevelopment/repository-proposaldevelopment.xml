@@ -611,7 +611,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview" table="EPS_PROP_SPECIAL_REVIEW">
-        <field-descriptor name="proposalSpecialReviewId" column="PROPOSAL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_EPS_PROP_SPECIAL_REVIEW_ID" />
+        <field-descriptor name="id" column="PROPOSAL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_EPS_PROP_SPECIAL_REVIEW_ID" />
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />

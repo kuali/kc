@@ -30,10 +30,10 @@
         <property name="helpDefinition" >
             <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentSpecialReviewHelpUrl" p:parameterDetailType="Document" />
         </property>
-        <property name="titleAttribute" value="proposalSpecialReviewId" />
+        <property name="titleAttribute" value="id" />
         <property name="attributes" >
             <list>
-                <ref bean="ProposalSpecialReview-proposalSpecialReviewId" />
+                <ref bean="ProposalSpecialReview-id" />
                 <ref bean="ProposalSpecialReview-specialReviewNumber" />
                 <ref bean="ProposalSpecialReview-specialReviewTypeCode" />
                 <ref bean="ProposalSpecialReview-approvalTypeCode" />
@@ -49,9 +49,9 @@
 
     <!-- Attribute Definitions -->
 
-    <bean id="ProposalSpecialReview-proposalSpecialReviewId" parent="ProposalSpecialReview-proposalSpecialReviewId-parentBean" />
-    <bean id="ProposalSpecialReview-proposalSpecialReviewId-parentBean" abstract="true" parent="AttributeDefinition">
-	    <property name="name" value="proposalSpecialReviewId" />
+    <bean id="ProposalSpecialReview-id" parent="ProposalSpecialReview-id-parentBean" />
+    <bean id="ProposalSpecialReview-id-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="id" />
 	    <property name="forceUppercase" value="false" />
 	    <property name="label" value="Proposal Special Review Id" />
 	    <property name="shortLabel" value="Proposal Special Review Id" />
@@ -113,7 +113,7 @@
 	                <property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
-              <bean parent="FieldDefinition" p:attributeName="proposalSpecialReviewId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="specialReviewNumber"/>
               <bean parent="FieldDefinition" p:attributeName="specialReviewTypeCode"/>
               <bean parent="FieldDefinition" p:attributeName="approvalTypeCode"/>
@@ -139,7 +139,7 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="proposalSpecialReviewId" parent="Uif-DataField"/>
+              <bean p:propertyName="id" parent="Uif-DataField"/>
               <bean p:propertyName="specialReviewNumber" parent="Uif-DataField"/>
               <bean p:propertyName="specialReviewTypeCode" parent="Uif-DataField"/>
               <bean p:propertyName="approvalTypeCode" parent="Uif-DataField"/>
@@ -166,7 +166,7 @@
 		</property>
 		<property name="lookupFields" >
 			<list>
-        <bean parent="FieldDefinition" p:attributeName="proposalSpecialReviewId"/>
+        <bean parent="FieldDefinition" p:attributeName="id"/>
         <bean parent="FieldDefinition" p:attributeName="specialReviewNumber"/>
         <bean parent="FieldDefinition" p:attributeName="specialReviewTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="approvalTypeCode"/>
@@ -179,7 +179,7 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="proposalSpecialReviewId" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="specialReviewNumber"/>
         <bean parent="FieldDefinition" p:attributeName="specialReviewTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="approvalTypeCode"/>
@@ -208,7 +208,7 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="proposalSpecialReviewId" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="specialReviewNumber" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="specialReviewTypeCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="approvalTypeCode" parent="Uif-LookupCriteriaInputField"/>
@@ -221,7 +221,7 @@
 		</property>
 		<property name="resultFields" >
             <list>
-        <bean p:propertyName="proposalSpecialReviewId" parent="Uif-DataField"/>
+        <bean p:propertyName="id" parent="Uif-DataField"/>
         <bean p:propertyName="specialReviewNumber" parent="Uif-DataField"/>
         <bean p:propertyName="specialReviewTypeCode" parent="Uif-DataField"/>
         <bean p:propertyName="approvalTypeCode" parent="Uif-DataField"/>
