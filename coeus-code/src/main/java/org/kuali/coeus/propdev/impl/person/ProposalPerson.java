@@ -28,6 +28,7 @@ import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
 import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -59,7 +60,7 @@ import java.util.List;
 @Entity
 @Table(name = "EPS_PROP_PERSON")
 @IdClass(ProposalPerson.ProposalPersonId.class)
-public class ProposalPerson extends KcPersistableBusinessObjectBase implements CreditSplitable, PersonRolodex, PersonEditable, AbstractProjectPerson {
+public class ProposalPerson extends KcPersistableBusinessObjectBase implements CreditSplitable, PersonRolodex, PersonEditable, AbstractProjectPerson, ProposalPersonContract {
 
     private static final long serialVersionUID = -4110005875629288373L;
 
@@ -447,7 +448,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     /**
      * Set a <code>{@link List}</code> of credit splits
      *
-     * @param creditSplits
+     * @param creditSplit
      */
     public void setCreditSplits(List<ProposalPersonCreditSplit> creditSplit) {
         this.creditSplits = creditSplit;
@@ -2254,4 +2255,10 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 			PropAwardPersonRoleService propAwardPersonRoleService) {
 		this.propAwardPersonRoleService = propAwardPersonRoleService;
 	}
+
+    @Override
+    public String getProposalNumber() {
+        return getDevelopmentProposal().getProposalNumber();
+    }
+
 }

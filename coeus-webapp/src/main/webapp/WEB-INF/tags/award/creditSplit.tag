@@ -69,7 +69,7 @@
                             <%-- This var is a JSTL hack to get a string that will later be evaluated--%>
                             <c:set var="personCreditSplitMacro" value="${projectPersonProperty}.creditSplits[${personSplitStatus.index}]" />
                             
-                            <c:if test="${personCreditSplit.invCreditTypeCode == invType.invCreditTypeCode}">
+                            <c:if test="${personCreditSplit.invCreditTypeCode == invType.code}">
                                 <td class="tab-subhead">
                                     <div id="${projectPerson.fullName}_${invType.description}_${personSplitStatus.count}" align="right">
                                         <strong>
@@ -98,7 +98,7 @@
                     <c:forEach items="${investigatorCreditTypes}" var="invType">
                         <c:forEach items="${personUnit.creditSplits}" var="unitCreditSplit" varStatus="personUnitSplitStatus" >
                             <c:set var="unitCreditSplitMacro" value="${unitProperty}.creditSplits[${personUnitSplitStatus.index}]" />
-                            <c:if test="${unitCreditSplit.invCreditTypeCode == invType.invCreditTypeCode}">
+                            <c:if test="${unitCreditSplit.invCreditTypeCode == invType.code}">
                             <td>
                                 <div align="right">
                                     <kul:htmlControlAttribute property="${unitCreditSplitMacro}.credit" 
@@ -122,7 +122,7 @@
                     <c:forEach items="${investigatorCreditTypes}" var="invType" >
                         <td class="infoline">
                             <div align="right">
-                                <strong>${unitTotalMap[invType.invCreditTypeCode]}</strong>
+                                <strong>${unitTotalMap[invType.code]}</strong>
                             </div>
                         </td>
                     </c:forEach>
@@ -146,7 +146,7 @@
                 <c:forEach items="${investigatorCreditTypes}" var="invType" >
                     <td class="infoline">
                         <div align="right">
-                            <strong>${personsTotalsMap[invType.invCreditTypeCode]}</strong>
+                            <strong>${personsTotalsMap[invType.code]}</strong>
                         </div>
                     </td>
                 </c:forEach>

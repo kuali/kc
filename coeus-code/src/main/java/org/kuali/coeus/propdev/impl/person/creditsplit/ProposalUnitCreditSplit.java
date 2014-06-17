@@ -21,6 +21,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.propdev.api.person.creditsplit.ProposalUnitCreditSplitContract;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -39,7 +40,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "EPS_PROP_UNIT_CREDIT_SPLIT")
 @IdClass(ProposalUnitCreditSplit.ProposalUnitCreditSplitId.class)
-public final class ProposalUnitCreditSplit extends KcPersistableBusinessObjectBase implements CreditSplit {
+public final class ProposalUnitCreditSplit extends KcPersistableBusinessObjectBase implements CreditSplit, ProposalUnitCreditSplitContract {
 
     @Id
     @ManyToOne
@@ -65,89 +66,59 @@ public final class ProposalUnitCreditSplit extends KcPersistableBusinessObjectBa
     @JoinColumn(name = "INV_CREDIT_TYPE_CODE", referencedColumnName = "INV_CREDIT_TYPE_CODE", insertable = false, updatable = false)
     private InvestigatorCreditType investigatorCreditType;
 
-    /**
-     * Gets the value of invCreditType
-     *
-     * @return the value of invCreditType
-     */
+    @Override
     public InvestigatorCreditType getInvestigatorCreditType() {
         return this.investigatorCreditType;
     }
 
-    /**
-     * Sets the value of invCreditType
-     *
-     * @param argInvCreditType Value to assign to this.invCreditType
-     */
     public void setInvestigatorCreditType(InvestigatorCreditType argInvCreditType) {
         this.investigatorCreditType = argInvCreditType;
     }
 
-    /**
-     * Gets the value of unitNumber
-     *
-     * @return the value of unitNumber
-     */
+    @Override
     public String getUnitNumber() {
         return this.unitNumber;
     }
 
-    /**
-     * Sets the value of unitNumber
-     *
-     * @param argUnitNumber Value to assign to this.unitNumber
-     */
     public void setUnitNumber(String argUnitNumber) {
         this.unitNumber = argUnitNumber;
     }
 
-    /**
-     * Gets the value of invCreditTypeCode
-     *
-     * @return the value of invCreditTypeCode
-     */
+    @Override
     public String getInvCreditTypeCode() {
         return this.invCreditTypeCode;
     }
 
-    /**
-     * Sets the value of invCreditTypeCode
-     *
-     * @param argInvCreditTypeCode Value to assign to this.invCreditTypeCode
-     */
+    @Override
     public void setInvCreditTypeCode(String argInvCreditTypeCode) {
         this.invCreditTypeCode = argInvCreditTypeCode;
     }
 
-    /**
-     * Gets the value of credit
-     *
-     * @return the value of credit
-     */
+    @Override
     public ScaleTwoDecimal getCredit() {
         return this.credit == null ? new ScaleTwoDecimal(0) : this.credit;
     }
 
-    /**
-     * Sets the value of credit
-     *
-     * @param argCredit Value to assign to this.credit
-     */
     public void setCredit(ScaleTwoDecimal argCredit) {
         this.credit = argCredit;
     }
 
-    /**
-     * Sets the value of unit
-     *
-     * @param argUnit Value to assign to this.unit
-     */
     public void setUnit(Unit argUnit) {
         this.unit = argUnit;
     }
 
     public Unit getUnit() {
         return unit;
+    }
+
+    @Override
+    public String getProposalNumber() {
+        return getProposalPerson().getDevelopmentProposal().getProposalNumber();
+    }
+
+    @Override
+    public Integer getProposalPersonNumber() {
+        return getProposalPerson().getProposalPersonNumber();
     }
 
     public static final class ProposalUnitCreditSplitId implements Serializable, Comparable<ProposalUnitCreditSplitId> {

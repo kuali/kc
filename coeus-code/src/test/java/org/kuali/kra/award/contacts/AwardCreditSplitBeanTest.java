@@ -67,7 +67,7 @@ public class AwardCreditSplitBeanTest {
         Map<String, Map<String, ScaleTwoDecimal>> results = bean.calculateCreditSplitTotals();
         Map<String, ScaleTwoDecimal> personCreditSplitTotalsByCreditSplitType = results.get(AwardCreditSplitBean.PERSON_TOTALS_KEY);
         for(InvestigatorCreditType creditSplitType: bean.loadInvestigatorCreditTypes()) {
-            String creditTypeCode = creditSplitType.getInvCreditTypeCode();
+            String creditTypeCode = creditSplitType.getCode();
             ScaleTwoDecimal total = personCreditSplitTotalsByCreditSplitType.get(creditTypeCode);
             ScaleTwoDecimal expectedTotal = expectedTotals.get(creditTypeCode);
             Assert.assertEquals(createInvalidTotalMessage(creditSplitType.getDescription()), expectedTotal.doubleValue(), total.doubleValue(), DELTA);
@@ -163,7 +163,7 @@ public class AwardCreditSplitBeanTest {
                 AwardPersonCreditSplit personCreditSplit = new AwardPersonCreditSplit(creditType, creditSplitValue);
                 p.add(personCreditSplit);
             }
-            expectedTotals.put(creditType.getInvCreditTypeCode(), MAX_VALUE);
+            expectedTotals.put(creditType.getCode(), MAX_VALUE);
         }
         return expectedTotals;
     }
@@ -182,7 +182,7 @@ public class AwardCreditSplitBeanTest {
                         apu.add(new AwardPersonUnitCreditSplit(creditType, creditSplitValue));
                     }
                 }
-                expectedPersonUnitCreditSplitTotals.put(creditType.getInvCreditTypeCode(), MAX_VALUE);
+                expectedPersonUnitCreditSplitTotals.put(creditType.getCode(), MAX_VALUE);
             }
             personMapOfUnitCreditSplitTotals.put(p.getFullName(), expectedPersonUnitCreditSplitTotals);
         }
@@ -203,7 +203,7 @@ public class AwardCreditSplitBeanTest {
             String fullName = p.getFullName();
             Map<String, ScaleTwoDecimal> personUnitCreditSplitTotalsByCreditSplitType = results.get(fullName);
             for(InvestigatorCreditType creditSplitType: bean.loadInvestigatorCreditTypes()) {
-                String invCreditTypeCode = creditSplitType.getInvCreditTypeCode();
+                String invCreditTypeCode = creditSplitType.getCode();
                 ScaleTwoDecimal total = personUnitCreditSplitTotalsByCreditSplitType.get(invCreditTypeCode);
                 ScaleTwoDecimal expectedValue = expectedPersonUnitCreditSplitTotals.get(fullName).get(invCreditTypeCode);
                 Assert.assertEquals(createErrorMessage(p, creditSplitType), expectedValue.doubleValue(), total.doubleValue(), DELTA);

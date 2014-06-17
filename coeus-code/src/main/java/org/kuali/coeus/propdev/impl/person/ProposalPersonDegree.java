@@ -19,8 +19,9 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.propdev.api.person.ProposalPersonDegreeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.DegreeType;
+import org.kuali.coeus.common.framework.person.attr.DegreeType;
 
 import javax.persistence.*;
 
@@ -39,7 +40,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @Entity
 @Table(name = "EPS_PROP_PERSON_DEGREE")
 @IdClass(ProposalPersonDegree.ProposalPersonDegreeId.class)
-public class ProposalPersonDegree extends KcPersistableBusinessObjectBase {
+public class ProposalPersonDegree extends KcPersistableBusinessObjectBase implements ProposalPersonDegreeContract {
 
     @Id
     @ManyToOne
@@ -78,38 +79,19 @@ public class ProposalPersonDegree extends KcPersistableBusinessObjectBase {
     @JoinColumn(name = "DEGREE_CODE", referencedColumnName = "DEGREE_CODE", insertable = false, updatable = false)
     private DegreeType degreeType;
 
-    /**
-     * Gets the value of graduationYear
-     *
-     * @return the value of graduationYear
-     */
+    @Override
     public final String getGraduationYear() {
         return this.graduationYear;
     }
 
-    /**
-     * Sets the value of graduationYear
-     *
-     * @param argGraduationYear Value to assign to this.graduationYear
-     */
     public final void setGraduationYear(String argGraduationYear) {
         this.graduationYear = argGraduationYear;
     }
 
-    /**
-     * Gets the value of degreeCode
-     *
-     * @return the value of degreeCode
-     */
     public final String getDegreeCode() {
         return this.degreeCode;
     }
 
-    /**
-     * Sets the value of degreeCode
-     *
-     * @param argDegreeCode Value to assign to this.degreeCode
-     */
     public final void setDegreeCode(String argDegreeCode) {
         this.degreeCode = argDegreeCode;
         if (isBlank(degreeCode)) {
@@ -119,132 +101,80 @@ public class ProposalPersonDegree extends KcPersistableBusinessObjectBase {
         }
     }
 
-    /**
-     * Gets the value of degree
-     *
-     * @return the value of degree
-     */
+    @Override
     public String getDegree() {
         return this.degree;
     }
 
-    /**
-     * Sets the value of degree
-     *
-     * @param argDegree Value to assign to this.degree
-     */
     public void setDegree(String argDegree) {
         this.degree = argDegree;
     }
 
-    /**
-     * Gets the value of fieldOfStudy
-     *
-     * @return the value of fieldOfStudy
-     */
+    @Override
     public final String getFieldOfStudy() {
         return this.fieldOfStudy;
     }
 
-    /**
-     * Sets the value of fieldOfStudy
-     *
-     * @param argFieldOfStudy Value to assign to this.fieldOfStudy
-     */
     public final void setFieldOfStudy(String argFieldOfStudy) {
         this.fieldOfStudy = argFieldOfStudy;
     }
 
-    /**
-     * Gets the value of specialization
-     *
-     * @return the value of specialization
-     */
+    @Override
     public final String getSpecialization() {
         return this.specialization;
     }
 
-    /**
-     * Sets the value of specialization
-     *
-     * @param argSpecialization Value to assign to this.specialization
-     */
     public final void setSpecialization(String argSpecialization) {
         this.specialization = argSpecialization;
     }
 
-    /**
-     * Gets the value of school
-     *
-     * @return the value of school
-     */
+    @Override
     public final String getSchool() {
         return this.school;
     }
 
-    /**
-     * Sets the value of school
-     *
-     * @param argSchool Value to assign to this.school
-     */
     public final void setSchool(String argSchool) {
         this.school = argSchool;
     }
 
-    /**
-     * Gets the value of schoolIdCode
-     *
-     * @return the value of schoolIdCode
-     */
+    @Override
     public final String getSchoolIdCode() {
         return this.schoolIdCode;
     }
 
-    /**
-     * Sets the value of schoolIdCode
-     *
-     * @param argSchoolIdCode Value to assign to this.schoolIdCode
-     */
     public final void setSchoolIdCode(String argSchoolIdCode) {
         this.schoolIdCode = argSchoolIdCode;
     }
 
-    /**
-     * Gets the value of schoolId
-     *
-     * @return the value of schoolId
-     */
+    @Override
     public final String getSchoolId() {
         return this.schoolId;
     }
 
-    /**
-     * Sets the value of schoolId
-     *
-     * @param argSchoolId Value to assign to this.schoolId
-     */
     public final void setSchoolId(String argSchoolId) {
         this.schoolId = argSchoolId;
     }
 
-    /**
-     * Assign a reference to <code>{@link DegreeType}</code>
-     *
-     * @param type to reference
-     */
     public final void setDegreeType(DegreeType type) {
         degreeType = type;
     }
 
-    /**
-     * Retrieve a reference to <code>{@link DegreeType}</code>
-     *
-     * @return DegreeType
-     */
+    @Override
     public final DegreeType getDegreeType() {
         return degreeType;
     }
 
+    @Override
+    public String getProposalNumber() {
+        return getProposalPerson().getDevelopmentProposal().getProposalNumber();
+    }
+
+    @Override
+    public Integer getProposalPersonNumber() {
+        return getProposalPerson().getProposalPersonNumber();
+    }
+
+    @Override
     public Integer getDegreeSequenceNumber() {
         return degreeSequenceNumber;
     }

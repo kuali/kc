@@ -12,7 +12,7 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>invCreditTypeCode</value>
+        <value>code</value>
       </list>
     </property>
 	<property name="allowsRecordDeletion" value="true" />
@@ -39,7 +39,7 @@
     <property name="title" value="Specify the Credit Type"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="invCreditTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active"/>
         <bean parent="MaintainableFieldDefinition" p:name="description"/>
         <bean parent="MaintainableFieldDefinition" p:name="addsToHundred"/>

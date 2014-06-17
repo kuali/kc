@@ -481,7 +481,7 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
         if (developmentProposal.getInvestigatorCreditTypes() != null) {
             investigatorCreditTypes = developmentProposal.getInvestigatorCreditTypes();
             for (InvestigatorCreditType investigatorCreditType : investigatorCreditTypes) {
-                String invCreditTypeCode = investigatorCreditType.getInvCreditTypeCode();
+                String invCreditTypeCode = investigatorCreditType.getCode();
                 String invCreditDescription = investigatorCreditType.getDescription();
                 if (invCreditTypeCode.equals("0")) {
                     proposalCreditSplitColumns.setColumnName1(invCreditDescription);

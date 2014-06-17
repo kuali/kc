@@ -19,6 +19,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.api.org.audit.OrganizationAuditContract;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
@@ -29,7 +30,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "ORGANIZATION_AUDIT")
 @IdClass(OrganizationAudit.OrganizationAuditId.class)
-public class OrganizationAudit extends KcPersistableBusinessObjectBase {
+public class OrganizationAudit extends KcPersistableBusinessObjectBase implements OrganizationAuditContract {
 
     @Id
     @Column(name = "FISCAL_YEAR")
@@ -50,10 +51,7 @@ public class OrganizationAudit extends KcPersistableBusinessObjectBase {
     @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
     private Organization organization;
 
-    public OrganizationAudit() {
-        super();
-    }
-
+    @Override
     public String getFiscalYear() {
         return fiscalYear;
     }
@@ -62,6 +60,7 @@ public class OrganizationAudit extends KcPersistableBusinessObjectBase {
         this.fiscalYear = fiscalYear;
     }
 
+    @Override
     public String getOrganizationId() {
         return organizationId;
     }
@@ -70,6 +69,7 @@ public class OrganizationAudit extends KcPersistableBusinessObjectBase {
         this.organizationId = organizationId;
     }
 
+    @Override
     public boolean getAuditAccepted() {
         return auditAccepted;
     }
@@ -78,6 +78,7 @@ public class OrganizationAudit extends KcPersistableBusinessObjectBase {
         this.auditAccepted = auditAccepted;
     }
 
+    @Override
     public String getAuditComment() {
         return auditComment;
     }

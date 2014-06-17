@@ -13,16 +13,16 @@
     <property name="titleAttribute" value="abstractTypeCode" />
     <property name="attributes" >
       <list>
-        <ref bean="CitizenshipType-citizenshipTypeCode" />
+        <ref bean="CitizenshipType-code" />
         <ref bean="CitizenshipType-description" />
         <ref bean="CitizenshipType-active" />
       </list>
     </property>
   </bean>
   
-  <bean id="CitizenshipType-citizenshipTypeCode" parent="CitizenshipType-citizenshipTypeCode-parentBean" />
-  <bean id="CitizenshipType-citizenshipTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="citizenshipTypeCode" />
+  <bean id="CitizenshipType-code" parent="CitizenshipType-code-parentBean" />
+  <bean id="CitizenshipType-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Citizenship Type" />
     <property name="shortLabel" value="Citizenship Type Code" />
@@ -93,7 +93,7 @@
           <property name="numberOfColumns" value="3" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition" p:attributeName="citizenshipTypeCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="description"/>
               <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
@@ -113,7 +113,7 @@
           <property name="layoutManager.numberOfColumns" value="6"/>
           <property name="items">
             <list>
-              <bean p:propertyName="citizenshipTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="code" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
               <bean p:propertyName="active" parent="Uif-DataField"/>
             </list>
@@ -134,14 +134,14 @@
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition" p:attributeName="citizenshipTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="citizenshipTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
@@ -164,14 +164,14 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="citizenshipTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean p:propertyName="citizenshipTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="code" parent="Uif-DataField"/>
         <bean p:propertyName="description" parent="Uif-DataField"/>
         <bean p:propertyName="active" parent="Uif-DataField"/>
       </list>

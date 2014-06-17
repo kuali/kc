@@ -97,9 +97,9 @@ public class NSFCoverPageV1_1Generator extends NSFCoverPageBaseGenerator {
         if (PI != null) {
             for (ProposalPersonDegree personDegree : PI.getProposalPersonDegrees()) {
                 DegreeTypeDataType.Enum degreeType = DEFAULT_DEGREE_TYPE;
-                if (personDegree.getDegreeType() != null && personDegree.getDegreeType().getDegreeCode() != null) {
+                if (personDegree.getDegreeType() != null && personDegree.getDegreeType().getCode() != null) {
                     StringBuilder degreeTypeDetail = new StringBuilder();
-                    degreeTypeDetail.append(personDegree.getDegreeType().getDegreeCode());
+                    degreeTypeDetail.append(personDegree.getDegreeType().getCode());
                     degreeTypeDetail.append(": ");
                     degreeTypeDetail.append(personDegree.getDegreeType().getDescription());
                     degreeType = DegreeTypeDataType.Enum.forString(degreeTypeDetail.toString());
@@ -149,9 +149,9 @@ public class NSFCoverPageV1_1Generator extends NSFCoverPageBaseGenerator {
                 coPI.setName(globLibV20Generator.getHumanNameDataType(coInvestigator));
                 for (ProposalPersonDegree personDegree : coInvestigator.getProposalPersonDegrees()) {
                     DegreeTypeDataType.Enum degreeType = DEFAULT_DEGREE_TYPE;
-                    if (personDegree!=null && personDegree.getDegreeType() != null && personDegree.getDegreeType().getDegreeCode() != null) {
+                    if (personDegree!=null && personDegree.getDegreeType() != null && personDegree.getDegreeType().getCode() != null) {
                         StringBuilder degreeTypeDetail = new StringBuilder();
-                        degreeTypeDetail.append(personDegree.getDegreeType().getDegreeCode());
+                        degreeTypeDetail.append(personDegree.getDegreeType().getCode());
                         degreeTypeDetail.append(": ");
                         degreeTypeDetail.append(personDegree.getDegreeType().getDescription());
                         degreeType = DegreeTypeDataType.Enum.forString(degreeTypeDetail.toString());

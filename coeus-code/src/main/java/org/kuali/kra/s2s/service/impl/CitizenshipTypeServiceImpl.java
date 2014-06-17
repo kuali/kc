@@ -41,7 +41,7 @@ public class CitizenshipTypeServiceImpl implements CitizenshipTypeService {
     @Override
     public Enum getEnumValueOfCitizenshipType(CitizenshipType citizenshipType) throws IllegalArgumentException {
         Enum retVal = null;
-        switch(citizenshipType.getCitizenshipTypeCode()){
+        switch(citizenshipType.getCode()){
             case CitizenshipDataType.INT_NON_U_S_CITIZEN_WITH_TEMPORARY_VISA : {
                 retVal = CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA;
                 break;
