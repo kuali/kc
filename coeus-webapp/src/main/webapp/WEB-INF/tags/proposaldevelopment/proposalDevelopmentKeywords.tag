@@ -58,7 +58,7 @@
                 <td>
                 	 ${KualiForm.document.developmentProposalList[0].propScienceKeywords[ctr].scienceKeyword.description}
 					<kul:lookup boClassName="org.kuali.coeus.common.framework.keyword.ScienceKeyword" 
-					fieldConversions="scienceKeywordCode:document.developmentProposalList[0].propScienceKeyword[${ctr}].scienceKeywordCode,description:document.developmentProposalList[0].propScienceKeyword[${ctr}].scienceKeyword.description"
+					fieldConversions="code:document.developmentProposalList[0].propScienceKeyword[${ctr}].scienceKeywordCode,description:document.developmentProposalList[0].propScienceKeyword[${ctr}].scienceKeyword.description"
 					lookupParameters="" hideReturnLink="false" />
                 </td>
                 <td><div align="center">

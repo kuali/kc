@@ -173,7 +173,7 @@ public class PropScienceKeyword extends KcPersistableBusinessObjectBase implemen
      */
     public String toString() {
         if (scienceKeyword != null) { 
-        	return scienceKeyword.getScienceKeywordCode();
+        	return scienceKeyword.getCode();
         } else {
         	return super.toString();
         }

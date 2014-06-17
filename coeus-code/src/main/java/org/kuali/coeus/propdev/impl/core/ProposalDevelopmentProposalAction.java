@@ -377,7 +377,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     private boolean isDuplicateKeyword(String newScienceKeywordCode, List<PropScienceKeyword> keywords) {
         for (Iterator<PropScienceKeyword> iter = keywords.iterator(); iter.hasNext();) {
             PropScienceKeyword propScienceKeyword = (PropScienceKeyword) iter.next();
-            String scienceKeywordCode = propScienceKeyword.getScienceKeyword().getScienceKeywordCode();
+            String scienceKeywordCode = propScienceKeyword.getScienceKeyword().getCode();
             if (scienceKeywordCode.equalsIgnoreCase(newScienceKeywordCode)) {
                 // duplicate keyword
                 return true;
@@ -682,7 +682,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
                         ScienceKeyword scienceKeyword = (ScienceKeyword) iter.next();
                         PropScienceKeyword propScienceKeyword = new PropScienceKeyword(developmentProposal, scienceKeyword);
                         // ignore / drop duplicates
-                        if (!isDuplicateKeyword(propScienceKeyword.getScienceKeyword().getScienceKeywordCode(), developmentProposal.getPropScienceKeywords())) {
+                        if (!isDuplicateKeyword(propScienceKeyword.getScienceKeyword().getCode(), developmentProposal.getPropScienceKeywords())) {
                             developmentProposal.addPropScienceKeyword(propScienceKeyword);
                         }
                     }
