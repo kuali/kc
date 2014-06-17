@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.framework.keyword;
 
+import org.kuali.coeus.common.api.keyword.ScienceKeywordContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.Column;
@@ -24,7 +25,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "SCIENCE_KEYWORD")
-public class ScienceKeyword extends KcPersistableBusinessObjectBase {
+public class ScienceKeyword extends KcPersistableBusinessObjectBase implements ScienceKeywordContract {
 
 
     private static final long serialVersionUID = 7064465474079964486L;
@@ -36,6 +37,7 @@ public class ScienceKeyword extends KcPersistableBusinessObjectBase {
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -44,6 +46,7 @@ public class ScienceKeyword extends KcPersistableBusinessObjectBase {
         this.description = description;
     }
 
+    @Override
     public String getCode() {
         return code;
     }
