@@ -30,7 +30,7 @@
 		<property name="titleAttribute" value="exemptionTypeCode" />
 		<property name="attributes" >
 		<list>
-			<ref bean="ProposalSpecialReviewExemption-proposalSpecialReviewExemptionId" />
+			<ref bean="ProposalSpecialReviewExemption-id" />
 			<ref bean="ProposalSpecialReviewExemption-exemptionTypeCode" />
 			<ref bean="ProposalSpecialReviewExemption-versionNumber" />
 		</list>
@@ -39,9 +39,9 @@
 
     <!-- Attribute Definitions -->
 
-    <bean id="ProposalSpecialReviewExemption-proposalSpecialReviewExemptionId" parent="ProposalSpecialReviewExemption-proposalSpecialReviewExemptionId-parentBean" />
-    <bean id="ProposalSpecialReviewExemption-proposalSpecialReviewExemptionId-parentBean" abstract="true" parent="AttributeDefinition">
-	    <property name="name" value="proposalSpecialReviewExemptionId" />
+    <bean id="ProposalSpecialReviewExemption-id" parent="ProposalSpecialReviewExemption-id-parentBean" />
+    <bean id="ProposalSpecialReviewExemption-id-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="id" />
 	    <property name="forceUppercase" value="false" />
 	    <property name="label" value="Proposal Special Review Exemption Id" />
 	    <property name="shortLabel" value="Proposal Special Review Exemption Id" />
@@ -78,7 +78,7 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
-              <bean parent="FieldDefinition" p:attributeName="proposalSpecialReviewExemptionId" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="exemptionTypeCode"/>
 						</list>
 					</property>
@@ -97,7 +97,7 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="proposalSpecialReviewExemptionId" parent="Uif-DataField"/>
+              <bean p:propertyName="id" parent="Uif-DataField"/>
               <bean p:propertyName="exemptionTypeCode" parent="Uif-DataField"/>
             </list>
           </property>

@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.propdev.impl.specialreview;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
@@ -148,7 +147,7 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
     public void resetPersistenceState() {
         proposalSpecialReviewId = null;
         for (ProposalSpecialReviewExemption exemption : getSpecialReviewExemptions()) {
-            exemption.setProposalSpecialReviewExemptionId(null);
+            exemption.setId(null);
             exemption.setProposalSpecialReview(null);
         }
     }

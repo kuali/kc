@@ -643,7 +643,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption" table="EPS_PROP_EXEMPT_NUMBER">
-        <field-descriptor name="proposalSpecialReviewExemptionId" column="PROPOSAL_EXEMPT_NUMBER_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_EPS_PROP_EXEMPT_NUMBER_ID"/>
+        <field-descriptor name="id" column="PROPOSAL_EXEMPT_NUMBER_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_EPS_PROP_EXEMPT_NUMBER_ID"/>
         <field-descriptor name="proposalSpecialReviewId" column="PROPOSAL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" access="anonymous" />
         <field-descriptor name="exemptionTypeCode" column="EXEMPTION_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
