@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.iacuc.questionnaire.print;
 
-import org.kuali.kra.questionnaire.printing.QuestionnairePrintingService;
-
 public interface IacucQuestionnairePrintingService extends QuestionnairePrintingService {
 
 }

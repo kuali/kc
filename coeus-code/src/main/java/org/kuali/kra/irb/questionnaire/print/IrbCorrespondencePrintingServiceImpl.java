@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.questionnaire.print;
 
-import org.kuali.coeus.common.question.impl.CorrespondencePrintingServiceImpl;
+import org.kuali.coeus.common.questionnaire.framework.print.CorrespondencePrintingServiceImpl;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.ProtocolBase;
