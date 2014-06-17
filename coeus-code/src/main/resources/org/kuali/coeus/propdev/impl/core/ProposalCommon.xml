@@ -12,9 +12,34 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+	<bean id="PropDev-DocumentPage" parent="PropDev-DocumentPage-parentBean"/>
+	<bean id="PropDev-DocumentPage-parentBean" abstract="true" parent="Uif-DocumentPage">
+		<property name="footer" ref="PropDev-DocumentFooter"/>
+	</bean>
+
+	<bean id="PropDev-DocumentFooter" parent="PropDev-DocumentFooter-parentBean" />
+	<bean id="PropDev-DocumentFooter-parentBean" abstract="true" p:dataAttributes="sticky_footer:true"
+		parent="Uif-FooterBase">
+		<property name="items">
+			<list>
+				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
+					p:performClientSideValidation="true" p:methodToCall="navigate" 
+					p:actionLabel="Back" p:finalizeMethodToCall="finalizeNavigationLinks"
+					p:finalizeMethodAdditionalArguments="previous" p:order="10" />				
+				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
+					p:performClientSideValidation="true" p:methodToCall="save"
+					p:actionLabel="Save" p:order="20" />
+				<bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true"
+					p:performClientSideValidation="true" p:methodToCall="navigate"
+					p:actionLabel="Save and Continue" p:finalizeMethodToCall="finalizeNavigationLinks"
+					p:finalizeMethodAdditionalArguments="next" p:order="30" />
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="PropDev-UnderDevelopmentPage" parent="PropDev-UnderDevelopmentPage-parentBean" />
 	<bean id="PropDev-UnderDevelopmentPage-parentBean" abstract="true"
-		parent="Uif-DocumentPage">
+		parent="PropDev-DocumentPage">
 		<property name="items">
 			<list merge="false">
 				<bean parent="Uif-HeaderOne" p:headerText="Under Construction" />

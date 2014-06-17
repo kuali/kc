@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.specialreview.impl.rule.event.SaveDocumentSpecialReviewEvent;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
@@ -35,7 +34,6 @@ import org.kuali.kra.bo.ExemptionType;
 import org.kuali.rice.contrib.krad.web.bind.UifCalendarEditor;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
@@ -72,30 +70,12 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        return super.save(form, result, request, response);
    }
    
-   @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=saveAndContinue")
-   public ModelAndView saveAndContinue(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-           HttpServletRequest request, HttpServletResponse response) throws Exception {
-       List<Action> actions = form.getOrderedNavigationActions();
-       int indexOfCurrentAction = form.findIndexOfPageId(actions);
-       if (indexOfCurrentAction == -1) {
-           indexOfCurrentAction = 0;
-       }
-       if (indexOfCurrentAction < actions.size()-1) {
-           form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, actions.get(indexOfCurrentAction+1).getNavigateToPageId());
-       }
-       return save(form, result, request, response);
+   @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=navigate")
+   public ModelAndView navigate(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+		   HttpServletRequest request, HttpServletResponse response) throws Exception {
+	   return super.navigate(form, result, request, response);
    }
-   
-   @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=previousPage")
-   public ModelAndView previousPage(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-           HttpServletRequest request, HttpServletResponse response) throws Exception {
-       List<Action> actions = form.getOrderedNavigationActions();
-       int indexOfCurrentAction = form.findIndexOfPageId(actions);
-       if (indexOfCurrentAction != -1 && indexOfCurrentAction > 0) {
-           form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, actions.get(indexOfCurrentAction-1).getNavigateToPageId());
-       }
-       return navigate(form, result, request, response);
-   }
+		   
    
    @MethodAccessible
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=getSponsor")
