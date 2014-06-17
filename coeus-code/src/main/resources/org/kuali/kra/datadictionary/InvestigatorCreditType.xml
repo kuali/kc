@@ -10,13 +10,13 @@
     <property name="lookupDefinition">
       <ref bean="InvestigatorCreditType-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="invCreditTypeCode"/>
+    <property name="titleAttribute" value="code"/>
     <property name="helpDefinition">
       <bean p:parameterDetailType="Document" p:parameterName="proposalDevelopmentCreditSplitHelpUrl" p:parameterNamespace="KC-PD" parent="HelpDefinition"/>
     </property>
     <property name="attributes">
       <list>
-        <ref bean="InvestigatorCreditType-invCreditTypeCode"/>
+        <ref bean="InvestigatorCreditType-code"/>
         <ref bean="InvestigatorCreditType-description"/>
         <ref bean="InvestigatorCreditType-addsToHundred"/>
         <ref bean="InvestigatorCreditType-active"/>
@@ -28,10 +28,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="InvestigatorCreditType-invCreditTypeCode" parent="InvestigatorCreditType-invCreditTypeCode-parentBean"/>
+  <bean id="InvestigatorCreditType-code" parent="InvestigatorCreditType-code-parentBean"/>
 
-  <bean abstract="true" id="InvestigatorCreditType-invCreditTypeCode-parentBean" parent="AttributeReferenceDummy-genericSystemId">
-    <property name="name" value="invCreditTypeCode"/>
+  <bean abstract="true" id="InvestigatorCreditType-code-parentBean" parent="AttributeReferenceDummy-genericSystemId">
+    <property name="name" value="code"/>
     <property name="label" value="Investigator Credit Type Code"/>
     <property name="shortLabel" value="Inv Cred Typ Cd"/>
     <property name="summary" value="Investigator Credit Type Code"/>
@@ -76,7 +76,7 @@
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
             <list>
-              <bean p:attributeName="invCreditTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="code" p:forceInquiry="true" parent="FieldDefinition"/>
               <bean p:attributeName="description" parent="FieldDefinition"/>
               <bean p:attributeName="addsToHundred" parent="FieldDefinition"/>
               <bean p:attributeName="active" parent="FieldDefinition"/>
@@ -97,7 +97,7 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="invCreditTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="code" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
               <bean p:propertyName="addsToHundred" parent="Uif-DataField"/>
               <bean p:propertyName="active" parent="Uif-DataField"/>
@@ -119,14 +119,14 @@
     </property>
     <property name="lookupFields">
       <list>
-        <bean p:attributeName="invCreditTypeCode" parent="FieldDefinition"/>
+        <bean p:attributeName="code" parent="FieldDefinition"/>
         <bean p:attributeName="description" parent="FieldDefinition"/>
         <bean p:attributeName="active" parent="FieldDefinition"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:attributeName="invCreditTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+        <bean p:attributeName="code" p:forceInquiry="true" parent="FieldDefinition"/>
         <bean p:attributeName="description" parent="FieldDefinition"/>
         <bean p:attributeName="active" parent="FieldDefinition"/>
       </list>
@@ -149,14 +149,14 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="invCreditTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="invCreditTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="code" parent="Uif-DataField"/>
         <bean p:propertyName="description" parent="Uif-DataField"/>
         <bean p:propertyName="active" parent="Uif-DataField"/>
       </list>

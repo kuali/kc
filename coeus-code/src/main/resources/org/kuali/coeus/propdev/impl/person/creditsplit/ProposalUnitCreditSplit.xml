@@ -50,8 +50,10 @@
     <property name="description" value="Credit" />
   </bean>
 
-  <bean id="ProposalUnitCreditSplit-invCreditTypeCode" parent="ProposalUnitCreditSplit-invCreditTypeCode-parentBean"/>
-  <bean id="ProposalUnitCreditSplit-invCreditTypeCode-parentBean" abstract="true" parent="InvestigatorCreditType-invCreditTypeCode"/>
+  <bean id="ProposalUnitCreditSplit-invCreditTypeCode" parent="ProposalUnitCreditSplit-invCreditTypeCode-parentBean">
+      <property name="name" value="invCreditTypeCode" />
+  </bean>
+  <bean id="ProposalUnitCreditSplit-invCreditTypeCode-parentBean" abstract="true" parent="InvestigatorCreditType-code"/>
   <bean id="ProposalUnitCreditSplit-versionNumber" parent="ProposalUnitCreditSplit-versionNumber-parentBean" />
   <bean id="ProposalUnitCreditSplit-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 </beans>

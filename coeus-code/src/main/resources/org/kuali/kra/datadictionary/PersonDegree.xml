@@ -74,14 +74,14 @@
     <property name="shortLabel" value="Degree Type"/>
     <property name="maxLength" value="6"/>
     <property name="control">
-      <bean p:businessObjectClass="org.kuali.kra.bo.DegreeType" p:includeBlankRow="false" p:includeKeyInLabel="false" p:keyAttribute="degreeCode" p:labelAttribute="description" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" parent="SelectControlDefinition"/>
+      <bean p:businessObjectClass="org.kuali.coeus.common.framework.person.attr.DegreeType" p:includeBlankRow="false" p:includeKeyInLabel="false" p:keyAttribute="code" p:labelAttribute="description" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" parent="SelectControlDefinition"/>
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.bo.DegreeType"/>
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.person.attr.DegreeType"/>
         <property name="includeBlankRow" value="false"/>
         <property name="includeKeyInDescription" value="false"/>
-        <property name="keyAttributeName" value="degreeCode"/>
+        <property name="keyAttributeName" value="code"/>
         <property name="labelAttributeName" value="description"/>
       </bean>
     </property>

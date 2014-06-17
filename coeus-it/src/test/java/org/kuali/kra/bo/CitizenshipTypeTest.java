@@ -54,7 +54,7 @@ public class CitizenshipTypeTest extends KcIntegrationTestBase {
     @Test
     public void makeNewCitizenshipType() throws Exception {
         CitizenshipType ct = new CitizenshipType();
-        ct.setCitizenshipTypeCode(TEST_CODE);
+        ct.setCode(TEST_CODE);
         ct.setDescription(TEST_DESCRIPTION);
         ct.setActive(true);
         assertNull(ct.getObjectId());
@@ -109,7 +109,7 @@ public class CitizenshipTypeTest extends KcIntegrationTestBase {
     @Test
     public void testGetEnumValueOfCitizenshipType4() throws Exception {
         CitizenshipType testType = new CitizenshipType();
-        testType.setCitizenshipTypeCode(-101);
+        testType.setCode(-101);
         testType.setDescription("super awesome cool description");
         try {
             Enum result = citizenshipService.getEnumValueOfCitizenshipType(testType);

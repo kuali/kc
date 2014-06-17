@@ -106,13 +106,13 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 
-        <reference-descriptor name="degreeType" class-ref="org.kuali.kra.bo.DegreeType"  auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="degreeType" class-ref="org.kuali.coeus.common.framework.person.attr.DegreeType"  auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="degreeCode" />
         </reference-descriptor>
     </class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.bo.DegreeType" table="DEGREE_TYPE">
-		<field-descriptor name="degreeCode" column="DEGREE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+	<class-descriptor class="org.kuali.coeus.common.framework.person.attr.DegreeType" table="DEGREE_TYPE">
+		<field-descriptor name="code" column="DEGREE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -211,7 +211,7 @@
     </class-descriptor>
 
 	<class-descriptor class="org.kuali.coeus.common.framework.type.InvestigatorCreditType" table="INV_CREDIT_TYPE">
-		<field-descriptor name="invCreditTypeCode" column="INV_CREDIT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="code" column="INV_CREDIT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="addsToHundred" column="ADDS_TO_HUNDRED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -961,7 +961,7 @@
 <!-- Custom Attributes:end -->
 	<!-- additional oraganization related tables -->
 	<class-descriptor class="org.kuali.coeus.common.framework.org.type.OrganizationTypeList" table="ORGANIZATION_TYPE_LIST">
-		<field-descriptor name="organizationTypeCode" column="ORGANIZATION_TYPE_CODE" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="code" column="ORGANIZATION_TYPE_CODE" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
@@ -1240,7 +1240,7 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.coeus.common.framework.person.attr.CitizenshipType" table="CITIZENSHIP_TYPE_T">
-        <field-descriptor name="citizenshipTypeCode" column="CITIZENSHIP_TYPE_CODE" jdbc-type="INTEGER" primarykey="true"/>
+        <field-descriptor name="code" column="CITIZENSHIP_TYPE_CODE" jdbc-type="INTEGER" primarykey="true"/>
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />

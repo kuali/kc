@@ -19,23 +19,6 @@
         <ref bean="OrganizationType-versionNumber" />
       </list>
     </property>
-    <property name="relationships" >
-      <list>
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="organizationTypeList" />
-          <property name="primitiveAttributes" >
-            <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="organizationTypeCode" p:targetName="organizationTypeCode"/>
-            </list>
-          </property>
-          <property name="supportAttributes" >
-            <list>
-              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="organizationTypeList.description" p:targetName="description"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
   </bean>
 
 <!-- Attribute Definitions -->

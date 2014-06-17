@@ -22,12 +22,13 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.framework.ynq.Ynq;
+import org.kuali.coeus.propdev.api.person.ProposalPersonYnqContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "EPS_PROP_PERS_YNQ")
 @IdClass(ProposalPersonYnq.ProposalPersonYnqId.class)
-public class ProposalPersonYnq extends KcPersistableBusinessObjectBase{
+public class ProposalPersonYnq extends KcPersistableBusinessObjectBase implements ProposalPersonYnqContract {
 
 	private static final long serialVersionUID = 5035080261199085203L;
 
@@ -92,6 +93,16 @@ public class ProposalPersonYnq extends KcPersistableBusinessObjectBase{
 
     public void setDummyAnswer(String dummyAnswer) {
         this.dummyAnswer = dummyAnswer;
+    }
+
+    @Override
+    public String getProposalNumber() {
+        return getProposalPerson().getDevelopmentProposal().getProposalNumber();
+    }
+
+    @Override
+    public Integer getProposalPersonNumber() {
+        return getProposalPerson().getProposalPersonNumber();
     }
 
     public static final class ProposalPersonYnqId implements Serializable, Comparable<ProposalPersonYnqId> {

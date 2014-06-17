@@ -25,7 +25,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
-import org.kuali.kra.bo.DegreeType;
+import org.kuali.coeus.common.framework.person.attr.DegreeType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CalculateCreditSplitRule;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -381,7 +381,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
             return false;
         }
         
-        if (isNotBlank(source.getDegreeCode()) && isInvalid(DegreeType.class, keyValue("degreeCode", source.getDegreeCode()))) {
+        if (isNotBlank(source.getDegreeCode()) && isInvalid(DegreeType.class, keyValue("code", source.getDegreeCode()))) {
             retval = false;
         }
         if(StringUtils.isBlank(source.getDegreeCode())){

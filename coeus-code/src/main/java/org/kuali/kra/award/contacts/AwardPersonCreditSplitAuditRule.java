@@ -165,7 +165,7 @@ public class AwardPersonCreditSplitAuditRule implements DocumentAuditRule {
      */
     private void calculatePersonTotalForCreditSplitType(AwardPerson projectPerson, InvestigatorCreditType creditType, 
                                                             Map<String, ScaleTwoDecimal> personCreditSplitTotalMap) {
-        String creditTypeCode = creditType.getInvCreditTypeCode();
+        String creditTypeCode = creditType.getCode();
         ScaleTwoDecimal personsTotalCredit = personCreditSplitTotalMap.get(creditTypeCode);
 
         if (personsTotalCredit == null) {
@@ -209,7 +209,7 @@ public class AwardPersonCreditSplitAuditRule implements DocumentAuditRule {
             }
 
             for (InvestigatorCreditType creditType : creditTypes) {                
-                String creditTypeCode = creditType.getInvCreditTypeCode();
+                String creditTypeCode = creditType.getCode();
                 ScaleTwoDecimal totalCredit = personUnitCreditTotals.get(creditTypeCode);
                 personUnitCreditTotals.put(creditTypeCode, totalCredit != null ? totalCredit : ZERO_VALUE);
             }
@@ -246,7 +246,7 @@ public class AwardPersonCreditSplitAuditRule implements DocumentAuditRule {
     private void handleKeyPersonWithNoUnits(Map<String, ScaleTwoDecimal> personUnitCreditTotals) {
         Collection<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
         for(InvestigatorCreditType creditType: creditTypes) {
-            personUnitCreditTotals.put(creditType.getInvCreditTypeCode(), MAX_VALUE);
+            personUnitCreditTotals.put(creditType.getCode(), MAX_VALUE);
         }
     }
 
@@ -254,7 +254,7 @@ public class AwardPersonCreditSplitAuditRule implements DocumentAuditRule {
         int errorCount = 0; 
         for(InvestigatorCreditType creditType: loadInvestigatorCreditTypes()) {
             if(creditType.addsToHundred()) {
-                ScaleTwoDecimal value = totalsMap.get(PERSON_TOTALS_KEY).get(creditType.getInvCreditTypeCode());
+                ScaleTwoDecimal value = totalsMap.get(PERSON_TOTALS_KEY).get(creditType.getCode());
                 if(value == null) {
                     break;   // value may not have been initialized yet, so we don't want to block save
                 }
@@ -277,7 +277,7 @@ public class AwardPersonCreditSplitAuditRule implements DocumentAuditRule {
             Map<String, ScaleTwoDecimal> totalsByCreditSplitType = totalsMap.get(getPersonKey(person));
             for(InvestigatorCreditType creditType: loadInvestigatorCreditTypes()) {
                 if(creditType.addsToHundred()) {
-                    ScaleTwoDecimal value = totalsByCreditSplitType.get(creditType.getInvCreditTypeCode());
+                    ScaleTwoDecimal value = totalsByCreditSplitType.get(creditType.getCode());
                     if(value == null) {
                         break;   // value may not have been initialized yet, so we don't want to block save
                     }

@@ -213,7 +213,7 @@ public class InstitutionalProposalCreditSplitBean implements Serializable {
      */
     private void calculatePersonTotalForCreditSplitType(InstitutionalProposalPerson projectPerson, InvestigatorCreditType creditType, 
                                                             Map<String, ScaleTwoDecimal> personCreditSplitTotalMap) {
-        String creditTypeCode = creditType.getInvCreditTypeCode();
+        String creditTypeCode = creditType.getCode();
         ScaleTwoDecimal personsTotalCredit = personCreditSplitTotalMap.get(creditTypeCode);
 
         if (personsTotalCredit == null) {
@@ -257,7 +257,7 @@ public class InstitutionalProposalCreditSplitBean implements Serializable {
             }
 
             for (InvestigatorCreditType creditType : creditTypes) {                
-                String creditTypeCode = creditType.getInvCreditTypeCode();
+                String creditTypeCode = creditType.getCode();
                 ScaleTwoDecimal totalCredit = personUnitCreditTotals.get(creditTypeCode);
                 personUnitCreditTotals.put(creditTypeCode, totalCredit != null ? totalCredit : ZERO_VALUE);
             }
@@ -294,7 +294,7 @@ public class InstitutionalProposalCreditSplitBean implements Serializable {
     private void handleKeyPersonWithNoUnits(Map<String, ScaleTwoDecimal> personUnitCreditTotals) {
         Collection<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
         for(InvestigatorCreditType creditType: creditTypes) {
-            personUnitCreditTotals.put(creditType.getInvCreditTypeCode(), MAX_VALUE);
+            personUnitCreditTotals.put(creditType.getCode(), MAX_VALUE);
         }
     }
 

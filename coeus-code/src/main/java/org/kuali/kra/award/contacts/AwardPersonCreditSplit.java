@@ -33,7 +33,7 @@ import java.util.Map;
  */
 public final class AwardPersonCreditSplit extends KcPersistableBusinessObjectBase implements CreditSplit, SequenceAssociate<Award> {
 
-    private static final String INV_CREDIT_TYPE_CODE_FIELD_NAME = "invCreditTypeCode";
+    private static final String INV_CREDIT_TYPE_CODE_FIELD_NAME = "code";
 
     private static final long serialVersionUID = -6999442247404810830L;
 
@@ -161,7 +161,7 @@ public final class AwardPersonCreditSplit extends KcPersistableBusinessObjectBas
      */
     public void setInvestigatorCreditType(InvestigatorCreditType investigatorCreditType) {
         this.investigatorCreditType = investigatorCreditType;
-        this.invCreditTypeCode = investigatorCreditType != null ? investigatorCreditType.getInvCreditTypeCode() : null;
+        this.invCreditTypeCode = investigatorCreditType != null ? investigatorCreditType.getCode() : null;
     }
 
 
@@ -173,7 +173,7 @@ public final class AwardPersonCreditSplit extends KcPersistableBusinessObjectBas
      * This method lazy-loads the InvestigatorCreditType
      */
     private void refreshInvestigatorCreditTypeIfNeeded() {
-        if (invCreditTypeCode != null && (investigatorCreditType == null || !invCreditTypeCode.equals(investigatorCreditType.getInvCreditTypeCode()))) {
+        if (invCreditTypeCode != null && (investigatorCreditType == null || !invCreditTypeCode.equals(investigatorCreditType.getCode()))) {
             Map<String, Object> keyMap = new HashMap<String, Object>();
             keyMap.put(INV_CREDIT_TYPE_CODE_FIELD_NAME, invCreditTypeCode);
             investigatorCreditType = (InvestigatorCreditType) getBusinessObjectService().findByPrimaryKey(InvestigatorCreditType.class, keyMap);

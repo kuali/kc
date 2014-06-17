@@ -35,7 +35,7 @@ public class InstitutionalProposalPersonCreditSplitRuleImpl extends KcTransactio
         boolean retval = true; 
         for(InvestigatorCreditType creditType: loadInvestigatorCreditTypes()) {
             if(creditType.addsToHundred()) {
-                ScaleTwoDecimal value = event.getTotalsByCreditSplitType().get(creditType.getInvCreditTypeCode());
+                ScaleTwoDecimal value = event.getTotalsByCreditSplitType().get(creditType.getCode());
                 if(value == null) {
                     break;   // value may not have been initialized yet, so we don't want to block save
                 }

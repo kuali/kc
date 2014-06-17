@@ -19,6 +19,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.propdev.api.person.ProposalInvestigatorCertificationContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
@@ -37,7 +38,7 @@ import java.sql.Date;
 @Entity
 @Table(name = "PROPOSAL_INV_CERTIFICATION")
 @IdClass(ProposalInvestigatorCertification.ProposalInvestigatorCertificationId.class)
-public class ProposalInvestigatorCertification extends KcPersistableBusinessObjectBase {
+public class ProposalInvestigatorCertification extends KcPersistableBusinessObjectBase implements ProposalInvestigatorCertificationContract {
 
     @Id
     @Column(name = "PROP_PERSON_NUMBER")
@@ -57,92 +58,47 @@ public class ProposalInvestigatorCertification extends KcPersistableBusinessObje
     @Column(name = "DATE_RECEIVED_BY_OSP")
     private Date dateReceivedByOsp;
 
-    /**
-     * Gets the value of proposalPersonNumber
-     *
-     * @return the value of proposalPersonNumber
-     */
+    @Override
     public final Integer getProposalPersonNumber() {
         return this.proposalPersonNumber;
     }
 
-    /**
-     * Sets the value of proposalPersonNumber
-     *
-     * @param argProposalPersonNumber Value to assign to this.proposalPersonNumber
-     */
     public final void setProposalPersonNumber(Integer argProposalPersonNumber) {
         this.proposalPersonNumber = argProposalPersonNumber;
     }
 
-    /**
-     * Gets the value of proposalNumber
-     *
-     * @return the value of proposalNumber
-     */
+    @Override
     public final String getProposalNumber() {
         return this.proposalNumber;
     }
 
-    /**
-     * Sets the value of proposalNumber
-     *
-     * @param argProposalNumber Value to assign to this.proposalNumber
-     */
     public final void setProposalNumber(String argProposalNumber) {
         this.proposalNumber = argProposalNumber;
     }
 
-    /**
-     * Gets the value of certified
-     *
-     * @return the value of certified
-     */
+    @Override
     public final Boolean isCertified() {
         return this.certified;
     }
 
-    /**
-     * Sets the value of certified
-     *
-     * @param argCertified Value to assign to this.certified
-     */
     public final void setCertified(Boolean argCertified) {
         this.certified = argCertified;
     }
 
-    /**
-     * Gets the value of dateCertified
-     *
-     * @return the value of dateCertified
-     */
+    @Override
     public final Date getDateCertified() {
         return this.dateCertified;
     }
 
-    /**
-     * Sets the value of dateCertified
-     *
-     * @param argDateCertified Value to assign to this.dateCertified
-     */
     public final void setDateCertified(Date argDateCertified) {
         this.dateCertified = argDateCertified;
     }
 
-    /**
-     * Gets the value of dateReceivedByOsp
-     *
-     * @return the value of dateReceivedByOsp
-     */
+    @Override
     public final Date getDateReceivedByOsp() {
         return this.dateReceivedByOsp;
     }
 
-    /**
-     * Sets the value of dateReceivedByOsp
-     *
-     * @param argDateReceivedByOsp Value to assign to this.dateReceivedByOsp
-     */
     public final void setDateReceivedByOsp(Date argDateReceivedByOsp) {
         this.dateReceivedByOsp = argDateReceivedByOsp;
     }

@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.framework.org.type;
 
+import org.kuali.coeus.common.api.org.type.OrganizationTypeListContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.Column;
@@ -24,27 +25,25 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ORGANIZATION_TYPE_LIST")
-public class OrganizationTypeList extends KcPersistableBusinessObjectBase {
+public class OrganizationTypeList extends KcPersistableBusinessObjectBase implements OrganizationTypeListContract {
 
     @Id
     @Column(name = "ORGANIZATION_TYPE_CODE")
-    private Integer organizationTypeCode;
+    private Integer code;
 
     @Column(name = "DESCRIPTION")
     private String description;
 
-    public OrganizationTypeList() {
-        super();
+    @Override
+    public Integer getCode() {
+        return code;
     }
 
-    public Integer getOrganizationTypeCode() {
-        return organizationTypeCode;
+    public void setCode(Integer code) {
+        this.code = code;
     }
 
-    public void setOrganizationTypeCode(Integer organizationTypeCode) {
-        this.organizationTypeCode = organizationTypeCode;
-    }
-
+    @Override
     public String getDescription() {
         return description;
     }
