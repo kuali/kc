@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.specialreview.impl.bo;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.bo.ExemptionType;
+import org.kuali.coeus.common.framework.exemption.ExemptionType;
 
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
