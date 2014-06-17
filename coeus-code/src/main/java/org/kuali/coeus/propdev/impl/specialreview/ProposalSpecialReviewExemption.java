@@ -53,7 +53,7 @@ public class ProposalSpecialReviewExemption extends SpecialReviewExemption {
     public ProposalSpecialReviewExemption(ProposalSpecialReview proposalSpecialReview, ExemptionType exemptionType) {
         this.proposalSpecialReview = proposalSpecialReview;
         setExemptionType(exemptionType);
-        setExemptionTypeCode(exemptionType.getExemptionTypeCode());
+        setExemptionTypeCode(exemptionType.getCode());
     }
     
     public Long getProposalSpecialReviewExemptionId() {
