@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.propdev.impl.basic;
 
-import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,9 +29,8 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption;
-import org.kuali.kra.bo.ExemptionType;
+import org.kuali.coeus.common.framework.exemption.ExemptionType;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
@@ -185,7 +183,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 	}
    
    protected ScienceKeyword getScienceKeyword(Object element) {
-	   return (ScienceKeyword) getDataObjectService().findUnique(ScienceKeyword.class, QueryByCriteria.Builder.forAttribute("code", element).build());
+	   return getDataObjectService().findUnique(ScienceKeyword.class, QueryByCriteria.Builder.forAttribute("code", element).build());
    }
 
    protected class PropSpecialReviewExemptionTypeEditor extends CustomCollectionEditor {
@@ -202,7 +200,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 	}
    
    protected ExemptionType getExemptionType(Object element) {
-	   return (ExemptionType) getDataObjectService().findUnique(ExemptionType.class, QueryByCriteria.Builder.forAttribute("exemptionTypeCode", element).build());
+	   return getDataObjectService().findUnique(ExemptionType.class, QueryByCriteria.Builder.forAttribute("code", element).build());
    }
    
 }

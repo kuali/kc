@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.specialreview.impl.lookup.keyvalue;
 
 import org.kuali.coeus.sys.framework.keyvalue.SortedValuesFinder;
-import org.kuali.kra.bo.ExemptionType;
+import org.kuali.coeus.common.framework.exemption.ExemptionType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
