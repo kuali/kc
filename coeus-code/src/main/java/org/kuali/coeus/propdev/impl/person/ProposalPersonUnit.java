@@ -59,13 +59,12 @@ public class ProposalPersonUnit extends KcPersistableBusinessObjectBase implemen
     @Convert(converter = BooleanYNConverter.class)
     private boolean leadUnit;
 
-    @ManyToOne(targetEntity = Unit.class, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "UNIT_NUMBER", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
     private Unit unit;
 
-    @OneToMany(targetEntity = ProposalUnitCreditSplit.class, fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-
-    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "UNIT_NUMBER", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false) })
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER"), @JoinColumn(name = "UNIT_NUMBER", referencedColumnName = "UNIT_NUMBER") })
     private List<ProposalUnitCreditSplit> creditSplits;
 
     @Transient

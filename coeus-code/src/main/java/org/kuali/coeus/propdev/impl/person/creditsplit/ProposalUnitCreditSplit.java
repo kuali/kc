@@ -61,7 +61,7 @@ public final class ProposalUnitCreditSplit extends KcPersistableBusinessObjectBa
     @Transient
     private Unit unit;
 
-    @ManyToOne(targetEntity = InvestigatorCreditType.class)
+    @ManyToOne
     @JoinColumn(name = "INV_CREDIT_TYPE_CODE", referencedColumnName = "INV_CREDIT_TYPE_CODE", insertable = false, updatable = false)
     private InvestigatorCreditType investigatorCreditType;
 

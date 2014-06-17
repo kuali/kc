@@ -56,11 +56,11 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase impleme
     @Column(name = "DESCRIPTION")
     private String description; 
     
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.ALL })
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "S2S_USER_ATTACHED_FORM_ID", referencedColumnName = "S2S_USER_ATTACHED_FORM_ID")
     private List<S2sUserAttachedFormAtt> s2sUserAttachedFormAtts;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = { CascadeType.ALL })
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "S2S_USER_ATTACHED_FORM_ID", referencedColumnName = "S2S_USER_ATTACHED_FORM_ID")
     private List<S2sUserAttachedFormFile> s2sUserAttachedFormFileList;
 
