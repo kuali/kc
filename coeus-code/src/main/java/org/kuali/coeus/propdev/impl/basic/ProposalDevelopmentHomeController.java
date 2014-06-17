@@ -29,6 +29,8 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption;
 import org.kuali.kra.bo.ExemptionType;
@@ -69,11 +71,17 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=save")
    public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
-	   saveAnswerHeaders((ProposalDevelopmentDocumentForm) form);
 	   ModelAndView mv = super.save(form, result, request, response);
-	   //rebuild the questionnaire, and other non-JPAed docs so it displays correctly
-	   return getTransactionalDocumentControllerService().refresh(form, result, request, response);
-	   //return mv;
+	   saveAnswerHeaders((ProposalDevelopmentDocumentForm) form);
+	   
+	   //just needed until questionnaire gets JPAed	   
+	   for (ProposalPerson person : ((ProposalDevelopmentDocumentForm) form).getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+		   ProposalPersonQuestionnaireHelper qh = new ProposalPersonQuestionnaireHelper(person);
+		   qh.populateAnswers();
+		   //person.setQuestionnaireHelper(qh);
+	   }
+	   
+	   return mv;
    }
    
    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=saveAndContinue")

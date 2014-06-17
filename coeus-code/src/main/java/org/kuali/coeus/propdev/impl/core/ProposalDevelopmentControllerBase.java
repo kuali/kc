@@ -264,12 +264,25 @@ public abstract class ProposalDevelopmentControllerBase {
 	}
 	
 	public void saveAnswerHeaders(ProposalDevelopmentDocumentForm pdForm) {
+		Exception e = new Exception("saveAnswerHeaders");
 		for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+			System.err.println("person.getFullName(): " + person.getFullName());
+			System.err.println("  person.getQuestionnaireHelper() != null: " + (person.getQuestionnaireHelper() != null));
+			if (person.getQuestionnaireHelper() != null) {
+				System.err.println("  person.getQuestionnaireHelper().getAnswerHeaders() != null: " + (person.getQuestionnaireHelper().getAnswerHeaders() != null));
+				if (person.getQuestionnaireHelper().getAnswerHeaders() != null) {
+					System.err.println("  !person.getQuestionnaireHelper().getAnswerHeaders().isEmpty(): " + (!person.getQuestionnaireHelper().getAnswerHeaders().isEmpty()));
+				}
+			}
 			if (person.getQuestionnaireHelper() != null && person.getQuestionnaireHelper().getAnswerHeaders() != null 
 					&& !person.getQuestionnaireHelper().getAnswerHeaders().isEmpty()) {
+				System.err.println("  saving answer headers");
 				for (AnswerHeader answerHeader : person.getQuestionnaireHelper().getAnswerHeaders()) {
+					System.err.println("    answerHeader.getLabel(): " + answerHeader.getLabel());
 					getLegacyDataAdapter().save(answerHeader);
 		        }
+			} else {
+				System.err.println("  NOT saving answer headers");
 			}
 	    }
 	}
