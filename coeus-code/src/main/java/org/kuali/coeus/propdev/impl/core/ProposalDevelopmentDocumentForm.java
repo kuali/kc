@@ -85,16 +85,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
                 return i;
             }
         }
-        return -1;
-    }
-    
-    public boolean canGoBack() {
-        return findIndexOfPageId(getOrderedNavigationActions()) > 0;
-    }
-    
-    public boolean canGoForward() {
-        List<Action> actions = getOrderedNavigationActions();
-        return findIndexOfPageId(actions) < actions.size();
+        return 0;
     }
     
     public List<Action> getOrderedNavigationActions() {

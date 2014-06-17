@@ -16,7 +16,7 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<bean id="PropDev-AttachmentsPage" parent="PropDev-AttachmentsPage-parentBean" />
-	<bean id="PropDev-AttachmentsPage-parentBean" parent="Uif-DocumentPage">
+	<bean id="PropDev-AttachmentsPage-parentBean" parent="PropDev-DocumentPage">
 		<property name="items">
 			<list>
 				<bean parent="PropDev-AttachmentsPage-TabGroup" p:order="10"/>
@@ -25,9 +25,6 @@
         <property name="header">
             <bean parent="Uif-PageHeader" p:headerText="Attachments" />
         </property>
-		<property name="footer">
-			<null />
-		</property>
     </bean>
 
     <bean id="PropDev-AttachmentsPage-TabGroup" parent="PropDev-AttachmentsPage-TabGroup-parentBean"/>

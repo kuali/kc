@@ -17,7 +17,7 @@
 
 	<!-- Proposal Compliance Page -->
 	<bean id="PropDev-CompliancePage" parent="PropDev-CompliancePage-parentBean" />
-	<bean id="PropDev-CompliancePage-parentBean" parent="Uif-DocumentPage">
+	<bean id="PropDev-CompliancePage-parentBean" parent="PropDev-DocumentPage">
 		<property name="items">
 			<list>
 				<ref bean="PropDev-CompliancePage-Section" />
@@ -25,9 +25,6 @@
 		</property>
 		<property name="header">
 			<bean parent="Uif-PageHeader" />
-		</property>
-		<property name="footer">
-			<null />
 		</property>
 	</bean>
 
