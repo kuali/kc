@@ -185,8 +185,10 @@ public abstract class ProposalDevelopmentControllerBase {
          }
      }
      
-     protected ModelAndView navigate(ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-    	 return getTransactionalDocumentControllerService().navigate(form, result, request, response);
+     protected ModelAndView navigate(DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		form.setPageId(form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID));
+		form.setDirtyForm(false);
+		return save(form, result, request, response);
      }
 
     protected KcAuthorizationService getKraAuthorizationService() {

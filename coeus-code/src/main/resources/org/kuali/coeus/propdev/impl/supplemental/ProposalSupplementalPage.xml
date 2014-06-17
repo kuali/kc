@@ -13,7 +13,7 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="PropDev-SupplementalPage" parent="PropDev-SupplementalPage-parentBean" />
-    <bean id="PropDev-SupplementalPage-parentBean" parent="Uif-DocumentPage">
+    <bean id="PropDev-SupplementalPage-parentBean" parent="PropDev-DocumentPage">
         <property name="items">
             <list>
                 <bean parent="PropDev-Supplemental-Collection"></bean>
@@ -21,9 +21,6 @@
         </property>
         <property name="header">
             <bean parent="Uif-PageHeader" p:headerText="Supplemental Info" />
-        </property>
-        <property name="footer">
-            <null />
         </property>
     </bean>
 

@@ -19,10 +19,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
@@ -33,15 +31,15 @@ import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.location.AddProposalCongressionalDistrictEvent;
 import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
-import org.kuali.rice.krad.data.DataObjectWrapper;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.ViewModel;
@@ -94,6 +92,22 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         }
     }
 
+    public void finalizeNavigationLinks(Action action, Object model, String direction) {
+   	 ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) model;
+   	 List<Action> actions = pdForm.getOrderedNavigationActions();
+   	 int indexOfCurrentAction = pdForm.findIndexOfPageId(actions);
+   	 if (StringUtils.equals(direction, ProposalDevelopmentConstants.KradConstants.PREVIOUS_PAGE_ARG)) {
+   		 action.setRender(indexOfCurrentAction > 0);
+   		 if (indexOfCurrentAction > 0) {
+   			 action.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, pdForm.getOrderedNavigationActions().get(indexOfCurrentAction-1).getNavigateToPageId());
+   		 }
+   	 } else if (StringUtils.equals(direction, ProposalDevelopmentConstants.KradConstants.NEXT_PAGE_ARG)) {
+   		 action.setRender(indexOfCurrentAction < actions.size());
+   		 if (indexOfCurrentAction < actions.size()) {
+   			 action.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, pdForm.getOrderedNavigationActions().get(indexOfCurrentAction+1).getNavigateToPageId());
+   		 }
+   	 }
+    }    
 
     @Override   
     protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId,
