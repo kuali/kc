@@ -71,7 +71,7 @@ class KeywordsDataFeedCommand extends ProposalDataFeedCommandBase {
         ScienceKeyword keyword = ipKeyWord.getScienceKeyword();
         if(keyword == null) {
             keyword = new ScienceKeyword();
-            keyword.setScienceKeywordCode(ipKeyWord.getScienceKeywordCode());
+            keyword.setCode(ipKeyWord.getScienceKeywordCode());
             keyword.setDescription(ipKeyWord.getScienceKeywordDescription());
         }
         

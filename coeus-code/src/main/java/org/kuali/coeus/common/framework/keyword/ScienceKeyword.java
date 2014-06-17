@@ -31,7 +31,7 @@ public class ScienceKeyword extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "SCIENCE_KEYWORD_CODE")
-    private String scienceKeywordCode;
+    private String code;
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -44,11 +44,11 @@ public class ScienceKeyword extends KcPersistableBusinessObjectBase {
         this.description = description;
     }
 
-    public String getScienceKeywordCode() {
-        return scienceKeywordCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setScienceKeywordCode(String scienceCode) {
-        this.scienceKeywordCode = scienceCode;
+    public void setCode(String scienceCode) {
+        this.code = scienceCode;
     }
 }

@@ -24,7 +24,7 @@ public class DbTransactionTest extends KcIntegrationTestBase {
     public void rollbackTest(String newMessage, String oldMessage) {
         BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
         ScienceKeyword newKeyword = new ScienceKeyword();
-        newKeyword.setScienceKeywordCode(newMessage);
+        newKeyword.setCode(newMessage);
         newKeyword.setDescription(newMessage);
         boService.save(newKeyword);
         ScienceKeyword keyword = boService.findBySinglePrimaryKey(ScienceKeyword.class, newMessage);
