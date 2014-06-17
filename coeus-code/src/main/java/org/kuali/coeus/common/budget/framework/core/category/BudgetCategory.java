@@ -18,14 +18,24 @@ package org.kuali.coeus.common.budget.framework.core.category;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.common.budget.api.category.BudgetCategoryContract;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "BUDGET_CATEGORY")
 public class BudgetCategory extends KcPersistableBusinessObjectBase implements BudgetCategoryContract {
 
+    @Id
+    @Column(name = "BUDGET_CATEGORY_CODE")
     private String code;
 
+    @Column(name = "CATEGORY_TYPE")
     private String budgetCategoryTypeCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "CATEGORY_TYPE", referencedColumnName = "BUDGET_CATEGORY_TYPE_CODE", insertable = false, updatable = false)
     private BudgetCategoryType budgetCategoryType;
 
     @Override

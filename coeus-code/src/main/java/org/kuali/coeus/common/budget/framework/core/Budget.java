@@ -18,6 +18,9 @@ package org.kuali.coeus.common.budget.framework.core;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.persistence.annotations.ClassExtractor;
+import org.eclipse.persistence.sessions.Record;
+import org.eclipse.persistence.sessions.Session;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
@@ -26,12 +29,15 @@ import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.coeus.common.budget.impl.print.BudgetPrintForm;
 import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
 import org.kuali.coeus.common.budget.framework.rate.RateClassType;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardAttachment;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardFiles;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.coeus.sys.api.model.ScaleThreeDecimal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
@@ -55,101 +61,154 @@ import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetNumberOfMonthsService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.data.jpa.FilterGenerator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.*;
 
-import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
 /**
  * This class represent Budget BO
  */
-public class Budget extends BudgetVersionOverview {
+@Entity
+@Table(name = "BUDGET")
+@Inheritance(strategy=InheritanceType.JOINED)
+@ClassExtractor(Budget.BudgetExtractor.class)
+public class Budget extends AbstractBudget {
 
     private static final String PARAM_VALUE_ENABLED = "1";
 
-
     private static final long serialVersionUID = -252470308729741085L;
-
 
     private static final String FALSE_FLAG = "N";
 
     private static final String TRUE_FLAG = "Y";
 
-
     private static final Log LOG = LogFactory.getLog(Budget.class);
 
+    @OneToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
     private BudgetDocument budgetDocument;
 
+    @Column(name = "BUDGET_JUSTIFICATION")
+    @Lob
     private String budgetJustification;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "OH_RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
     private RateClass rateClass;
 
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private List<BudgetRate> budgetRates;
 
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private List<BudgetLaRate> budgetLaRates;
 
+    @Transient
     private List<BudgetPeriod> budgetPeriods;
 
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
+    @OrderBy("budgetPeriodNumber")
     private List<BudgetProjectIncome> budgetProjectIncomes;
 
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
+    @OrderBy("projectPeriod")
+    @FilterGenerator(attributeName = "hiddenInHierarchy", attributeValue = "false")
     private List<BudgetCostShare> budgetCostShares;
 
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
+    @OrderBy("fiscalYear")
+    @FilterGenerator(attributeName = "hiddenInHierarchy", attributeValue = "false")
     private List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs;
 
+    @Transient
     private String activityTypeCode = "x";
 
+    @Transient
     private boolean budgetLineItemDeleted;
 
+    @Transient
     private boolean rateClassTypesReloaded = false;
+
+    @Column(name = "BUDGET_ADJUSTMENT_DOC_NBR")
     private String budgetAdjustmentDocumentNumber;
 
-
+    @Transient
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
 
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private List<BudgetPerson> budgetPersons;
 
+    @Transient
     private Date summaryPeriodStartDate;
 
+    @Transient
     private Date summaryPeriodEndDate;
 
+    @Transient
     private List<InstituteRate> instituteRates;
 
+    @Transient
     private List<InstituteLaRate> instituteLaRates;
 
+    @Transient
     private List<RateClass> rateClasses;
 
+    @Transient
     private List<RateClassType> rateClassTypes;
 
+    @Transient
     private SortedMap<CostElement, List<ScaleTwoDecimal>> objectCodeTotals;
 
+    @Transient
     private SortedMap<RateType, List<ScaleTwoDecimal>> calculatedExpenseTotals;
 
+    @Transient
     private SortedMap<RateType, List<ScaleTwoDecimal>> personnelCalculatedExpenseTotals;
 
+    @Transient
     private SortedMap<RateType, List<ScaleTwoDecimal>> nonPersonnelCalculatedExpenseTotals;
 
+    @Transient
     private List<KeyValue> budgetCategoryTypeCodes;
 
+    @Transient
     private SortedMap<BudgetCategoryType, List<CostElement>> objectCodeListByBudgetCategoryType;
 
+    @Transient
     private SortedMap<CostElement, List<BudgetPersonnelDetails>> objectCodePersonnelList;
 
+    @Transient
     private SortedMap<String, List<ScaleTwoDecimal>> objectCodePersonnelSalaryTotals;
 
+    @Transient
     private SortedMap<String, List<ScaleTwoDecimal>> objectCodePersonnelFringeTotals;
 
+    @Transient
     private SortedMap<String, List<ScaleTwoDecimal>> budgetSummaryTotals;
 
+    @Transient
     private List<BudgetPrintForm> budgetPrintForms;
 
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
+    @OrderBy("subAwardNumber")
     private List<BudgetSubAwards> budgetSubAwards;
 
+    @Transient
     private boolean rateSynced;
 
+    @Transient
     private transient ParameterService parameterService;
 
     public Budget() {
@@ -182,7 +241,7 @@ public class Budget extends BudgetVersionOverview {
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = getService(ParameterService.class);
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
@@ -237,7 +296,7 @@ public class Budget extends BudgetVersionOverview {
      * an empty {@link Collection Collection}
      */
     private Collection<BudgetPeriod> getPersistedBudgetPeriods() {
-        final BusinessObjectService service = getService(BusinessObjectService.class);
+        final BusinessObjectService service = KcServiceLocator.getService(BusinessObjectService.class);
         final Map<String, Object> matchCriteria = new HashMap<String, Object>();
         matchCriteria.put("budgetId", this.getBudgetId());
         @SuppressWarnings("unchecked") final Collection<BudgetPeriod> periods = service.findMatching(BudgetPeriod.class, matchCriteria);
@@ -252,7 +311,7 @@ public class Budget extends BudgetVersionOverview {
         if (periodIds.isEmpty()) {
             return;
         }
-        final BusinessObjectService service = getService(BusinessObjectService.class);
+        final BusinessObjectService service = KcServiceLocator.getService(BusinessObjectService.class);
         final Map<String, Collection<Long>> matchCriteria = new HashMap<String, Collection<Long>>();
         matchCriteria.put("budgetPeriodId", periodIds);
         service.deleteMatching(BudgetProjectIncome.class, matchCriteria);
@@ -283,12 +342,10 @@ public class Budget extends BudgetVersionOverview {
         return findProjectIncomeTotalsForBudgetPeriods(incomes);
     }
 
-
     public List<FiscalYearSummary> getFiscalYearCostShareTotals() {
         Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears = mapBudgetPeriodsToFiscalYears();
         return findCostShareTotalsForBudgetPeriods(budgetPeriodFiscalYears);
     }
-
 
     public List<FiscalYearSummary> getFiscalYearUnrecoveredFandATotals() {
         Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears = mapBudgetPeriodsToFiscalYears();
@@ -338,7 +395,6 @@ public class Budget extends BudgetVersionOverview {
         return (getAvailableUnrecoveredFandA().doubleValue() > 0.00);
     }
 
-
     public ScaleTwoDecimal getAllocatedCostSharing() {
         ScaleTwoDecimal costShareTotal = new ScaleTwoDecimal(0.0);
         for (BudgetCostShare budgetCostShare : getBudgetCostShares()) {
@@ -349,7 +405,6 @@ public class Budget extends BudgetVersionOverview {
         return costShareTotal;
     }
 
-
     public ScaleTwoDecimal getAllocatedUnrecoveredFandA() {
         ScaleTwoDecimal allocatedUnrecoveredFandA = ScaleTwoDecimal.ZERO;
         for (BudgetUnrecoveredFandA unrecoveredFandA : getBudgetUnrecoveredFandAs()) {
@@ -359,7 +414,6 @@ public class Budget extends BudgetVersionOverview {
         }
         return allocatedUnrecoveredFandA;
     }
-
 
     public ScaleTwoDecimal getProjectIncomeTotal() {
         ScaleTwoDecimal projectIncomeTotal = new ScaleTwoDecimal(0.0);
@@ -399,7 +453,7 @@ public class Budget extends BudgetVersionOverview {
      * @return Returns the BudgetSummary.
      */
     public BudgetSummaryService getBudgetSummaryService() {
-        return getService(BudgetSummaryService.class);
+        return KcServiceLocator.getService(BudgetSummaryService.class);
     }
 
     public void setBudgetPeriods(List<BudgetPeriod> budgetPeriods) {
@@ -441,9 +495,9 @@ public class Budget extends BudgetVersionOverview {
                 }
             }
         }
-        //        for (BudgetPeriod budgetPeriod: getBudgetPeriods()) { 
-        //            managedLists.addAll(budgetPeriod.buildListOfDeletionAwareLists()); 
-        //        } 
+        //        for (BudgetPeriod budgetPeriod: getBudgetPeriods()) {  
+        //            managedLists.addAll(budgetPeriod.buildListOfDeletionAwareLists());  
+        //        }  
         List<BudgetSubAwardFiles> subAwardFiles = new ArrayList<BudgetSubAwardFiles>();
         List<BudgetSubAwardAttachment> subAwardAttachments = new ArrayList<BudgetSubAwardAttachment>();
         List<BudgetSubAwardPeriodDetail> subAwardPeriodDetails = new ArrayList<BudgetSubAwardPeriodDetail>();
@@ -580,7 +634,7 @@ public class Budget extends BudgetVersionOverview {
      * @return Returns the BudgetRates.
      */
     public BudgetRatesService getBudgetRatesService() {
-        return getService(BudgetRatesService.class);
+        return KcServiceLocator.getService(BudgetRatesService.class);
     }
 
     public List<RateClass> getRateClasses() {
@@ -609,7 +663,6 @@ public class Budget extends BudgetVersionOverview {
         this.rateClassTypes = rateClassTypes;
     }
 
-
     public int getBudgetProjectIncomeCount() {
         return getCollectionSize(budgetProjectIncomes);
     }
@@ -634,7 +687,13 @@ public class Budget extends BudgetVersionOverview {
      * @param budgetCostShare
      */
     public void add(BudgetCostShare budgetCostShare) {
-        addBudgetDistributionAndIncomeComponent(getBudgetCostShares(), budgetCostShare);
+        if (budgetCostShare != null) {
+            budgetCostShare.setBudgetId(getBudgetId());
+            budgetCostShare.setDocumentComponentId(getHackedDocumentNextValue(budgetCostShare.getDocumentComponentIdKey()));
+            budgetCostShares.add(budgetCostShare);
+        } else {
+            LOG.warn("Attempt to add null budgetCostShare was ignored.");
+        }
     }
 
     /**
@@ -642,12 +701,21 @@ public class Budget extends BudgetVersionOverview {
      * @param budgetProjectIncome
      */
     public void add(BudgetProjectIncome budgetProjectIncome) {
-        budgetProjectIncome.setBudgetPeriodId(getBudgetPeriodId(budgetProjectIncome));
-        addBudgetDistributionAndIncomeComponent(getBudgetProjectIncomes(), budgetProjectIncome);
+
+
+        if (budgetProjectIncome != null) {
+            budgetProjectIncome.setBudgetId(getBudgetId());
+            budgetProjectIncome.setDocumentComponentId(getHackedDocumentNextValue(budgetProjectIncome.getDocumentComponentIdKey()));
+            budgetProjectIncomes.add(budgetProjectIncome);
+
+            budgetProjectIncome.setBudgetPeriodId(getBudgetPeriodId(budgetProjectIncome));
+        } else {
+            LOG.warn("Attempt to add null budgetProjectIncome was ignored.");
+        }
     }
 
     private Long getBudgetPeriodId(BudgetProjectIncome budgetProjectIncome) {
-        //BudgetPeriod budgetPeriod = getBudgetPeriod(budgetProjectIncome.getBudgetPeriodNumber()); 
+        //BudgetPeriod budgetPeriod = getBudgetPeriod(budgetProjectIncome.getBudgetPeriodNumber());  
         List<BudgetPeriod> bPeriods = getBudgetPeriods();
         if (bPeriods != null && bPeriods.size() > 0) {
             for (BudgetPeriod bPeriod : bPeriods) {
@@ -684,7 +752,13 @@ public class Budget extends BudgetVersionOverview {
      * @return
      */
     public void add(BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
-        addBudgetDistributionAndIncomeComponent(getBudgetUnrecoveredFandAs(), budgetUnrecoveredFandA);
+        if (budgetUnrecoveredFandA != null) {
+            budgetUnrecoveredFandA.setBudgetId(getBudgetId());
+            budgetUnrecoveredFandA.setDocumentComponentId(getHackedDocumentNextValue(budgetUnrecoveredFandA.getDocumentComponentIdKey()));
+            budgetUnrecoveredFandAs.add(budgetUnrecoveredFandA);
+        } else {
+            LOG.warn("Attempt to add null budgetUnrecoveredFandA was ignored.");
+        }
     }
 
     public List<BudgetPerson> getBudgetPersons() {
@@ -766,7 +840,6 @@ public class Budget extends BudgetVersionOverview {
         return budgetCostShares;
     }
 
-
     public int getBudgetCostShareCount() {
         return getCollectionSize(budgetCostShares);
     }
@@ -778,18 +851,16 @@ public class Budget extends BudgetVersionOverview {
         return getBudgetUnrecoveredFandAs().get(index);
     }
 
-
     public List<BudgetUnrecoveredFandA> getBudgetUnrecoveredFandAs() {
         return budgetUnrecoveredFandAs;
     }
-
 
     public int getBudgetUnrecoveredFandACount() {
         return getCollectionSize(budgetUnrecoveredFandAs);
     }
 
     public void getBudgetTotals() {
-        getService(BudgetCalculationService.class).calculateBudgetSummaryTotals(this);
+        KcServiceLocator.getService(BudgetCalculationService.class).calculateBudgetSummaryTotals(this);
     }
 
     public SortedMap<CostElement, List<ScaleTwoDecimal>> getObjectCodeTotals() {
@@ -808,7 +879,6 @@ public class Budget extends BudgetVersionOverview {
         this.calculatedExpenseTotals = calculatedExpenseTotals;
     }
 
-
     public ScaleTwoDecimal getAvailableCostSharing() {
         ScaleTwoDecimal availableCostShare = ScaleTwoDecimal.ZERO;
         for (BudgetPeriod budgetPeriod : getBudgetPeriods()) {
@@ -818,7 +888,6 @@ public class Budget extends BudgetVersionOverview {
         }
         return availableCostShare;
     }
-
 
     public ScaleTwoDecimal getAvailableUnrecoveredFandA() {
         ScaleTwoDecimal availableUnrecoveredFandA = ScaleTwoDecimal.ZERO;
@@ -871,11 +940,11 @@ public class Budget extends BudgetVersionOverview {
     public Date loadFiscalYearStart() {
         return createDateFromString(getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR));
     }
-    
-    public boolean getSalaryInflationEnabled(){
+
+    public boolean getSalaryInflationEnabled() {
         return getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.ENABLE_SALARY_INFLATION_ANNIV_DATE).equals(PARAM_VALUE_ENABLED);
     }
-    
+
     /**
      * This method loads the cost sharing applicability flag from the database. Protected to allow mocking out service call
      * @return
@@ -919,27 +988,11 @@ public class Budget extends BudgetVersionOverview {
             return null;
         }
         String[] dateParts = budgetFiscalYearStart.split("/");
-        // mm/dd/yyyy 
-        // using Calendar her because org.kuali.core.util.DateUtils.newdate(...) has hour value in time fields (UT?) 
+        // mm/dd/yyyy  
+        // using Calendar her because org.kuali.core.util.DateUtils.newdate(...) has hour value in time fields (UT?)  
         Calendar calendar = Calendar.getInstance();
         calendar.set(Integer.valueOf(dateParts[2]), Integer.valueOf(dateParts[0]) - 1, Integer.valueOf(dateParts[1]), 0, 0, 0);
         return new Date(calendar.getTimeInMillis());
-    }
-
-    /**
-     * This method adds a BudgetDistributionAndIncomeComponent to the specified list after setting its key field values
-     * @param distributionAndIncomeComponents
-     * @param distributionAndIncomeComponent
-     */
-    @SuppressWarnings("unchecked")
-    private void addBudgetDistributionAndIncomeComponent(List distributionAndIncomeComponents, BudgetDistributionAndIncomeComponent distributionAndIncomeComponent) {
-        if (distributionAndIncomeComponent != null) {
-            distributionAndIncomeComponent.setBudgetId(getBudgetId());
-            distributionAndIncomeComponent.setDocumentComponentId(getHackedDocumentNextValue(distributionAndIncomeComponent.getDocumentComponentIdKey()));
-            distributionAndIncomeComponents.add(distributionAndIncomeComponent);
-        } else {
-            LOG.warn("Attempt to add null distributionAndIncomeComponent was ignored.");
-        }
     }
 
     public Integer getHackedDocumentNextValue(String documentComponentIdKey) {
@@ -1051,7 +1104,6 @@ public class Budget extends BudgetVersionOverview {
         return parmValue.equalsIgnoreCase(TRUE_FLAG);
     }
 
-
     private Map<Integer, ScaleTwoDecimal> mapProjectIncomeTotalsToBudgetPeriodNumbers() {
         Map<Integer, ScaleTwoDecimal> budgetPeriodProjectIncomeMap = new TreeMap<Integer, ScaleTwoDecimal>();
         for (BudgetProjectIncome budgetProjectIncome : budgetProjectIncomes) {
@@ -1062,7 +1114,6 @@ public class Budget extends BudgetVersionOverview {
         }
         return budgetPeriodProjectIncomeMap;
     }
-
 
     private Map<Integer, List<BudgetPeriod>> mapBudgetPeriodsToFiscalYears() {
         Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears = new TreeMap<Integer, List<BudgetPeriod>>();
@@ -1456,103 +1507,169 @@ public class Budget extends BudgetVersionOverview {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!super.equals(obj)) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
         Budget other = (Budget) obj;
         if (activityTypeCode == null) {
-            if (other.activityTypeCode != null) return false;
-        } else if (!activityTypeCode.equals(other.activityTypeCode)) return false;
+            if (other.activityTypeCode != null)
+                return false;
+        } else if (!activityTypeCode.equals(other.activityTypeCode))
+            return false;
         if (budgetCategoryTypeCodes == null) {
-            if (other.budgetCategoryTypeCodes != null) return false;
-        } else if (!budgetCategoryTypeCodes.equals(other.budgetCategoryTypeCodes)) return false;
+            if (other.budgetCategoryTypeCodes != null)
+                return false;
+        } else if (!budgetCategoryTypeCodes.equals(other.budgetCategoryTypeCodes))
+            return false;
         if (budgetCostShares == null) {
-            if (other.budgetCostShares != null) return false;
-        } else if (!budgetCostShares.equals(other.budgetCostShares)) return false;
+            if (other.budgetCostShares != null)
+                return false;
+        } else if (!budgetCostShares.equals(other.budgetCostShares))
+            return false;
         if (budgetDocument == null) {
-            if (other.budgetDocument != null) return false;
-        } else if (!budgetDocument.equals(other.budgetDocument)) return false;
+            if (other.budgetDocument != null)
+                return false;
+        } else if (!budgetDocument.equals(other.budgetDocument))
+            return false;
         if (budgetJustification == null) {
-            if (other.budgetJustification != null) return false;
-        } else if (!budgetJustification.equals(other.budgetJustification)) return false;
+            if (other.budgetJustification != null)
+                return false;
+        } else if (!budgetJustification.equals(other.budgetJustification))
+            return false;
         if (budgetLaRates == null) {
-            if (other.budgetLaRates != null) return false;
-        } else if (!budgetLaRates.equals(other.budgetLaRates)) return false;
-        if (budgetLineItemDeleted != other.budgetLineItemDeleted) return false;
+            if (other.budgetLaRates != null)
+                return false;
+        } else if (!budgetLaRates.equals(other.budgetLaRates))
+            return false;
+        if (budgetLineItemDeleted != other.budgetLineItemDeleted)
+            return false;
         if (budgetPeriods == null) {
-            if (other.budgetPeriods != null) return false;
-        } else if (!budgetPeriods.equals(other.budgetPeriods)) return false;
+            if (other.budgetPeriods != null)
+                return false;
+        } else if (!budgetPeriods.equals(other.budgetPeriods))
+            return false;
         if (budgetPersonnelDetailsList == null) {
-            if (other.budgetPersonnelDetailsList != null) return false;
-        } else if (!budgetPersonnelDetailsList.equals(other.budgetPersonnelDetailsList)) return false;
+            if (other.budgetPersonnelDetailsList != null)
+                return false;
+        } else if (!budgetPersonnelDetailsList.equals(other.budgetPersonnelDetailsList))
+            return false;
         if (budgetPersons == null) {
-            if (other.budgetPersons != null) return false;
-        } else if (!budgetPersons.equals(other.budgetPersons)) return false;
+            if (other.budgetPersons != null)
+                return false;
+        } else if (!budgetPersons.equals(other.budgetPersons))
+            return false;
         if (budgetPrintForms == null) {
-            if (other.budgetPrintForms != null) return false;
-        } else if (!budgetPrintForms.equals(other.budgetPrintForms)) return false;
+            if (other.budgetPrintForms != null)
+                return false;
+        } else if (!budgetPrintForms.equals(other.budgetPrintForms))
+            return false;
         if (budgetProjectIncomes == null) {
-            if (other.budgetProjectIncomes != null) return false;
-        } else if (!budgetProjectIncomes.equals(other.budgetProjectIncomes)) return false;
+            if (other.budgetProjectIncomes != null)
+                return false;
+        } else if (!budgetProjectIncomes.equals(other.budgetProjectIncomes))
+            return false;
         if (budgetRates == null) {
-            if (other.budgetRates != null) return false;
-        } else if (!budgetRates.equals(other.budgetRates)) return false;
+            if (other.budgetRates != null)
+                return false;
+        } else if (!budgetRates.equals(other.budgetRates))
+            return false;
         if (budgetSubAwards == null) {
-            if (other.budgetSubAwards != null) return false;
-        } else if (!budgetSubAwards.equals(other.budgetSubAwards)) return false;
+            if (other.budgetSubAwards != null)
+                return false;
+        } else if (!budgetSubAwards.equals(other.budgetSubAwards))
+            return false;
         if (budgetSummaryTotals == null) {
-            if (other.budgetSummaryTotals != null) return false;
-        } else if (!budgetSummaryTotals.equals(other.budgetSummaryTotals)) return false;
+            if (other.budgetSummaryTotals != null)
+                return false;
+        } else if (!budgetSummaryTotals.equals(other.budgetSummaryTotals))
+            return false;
         if (budgetUnrecoveredFandAs == null) {
-            if (other.budgetUnrecoveredFandAs != null) return false;
-        } else if (!budgetUnrecoveredFandAs.equals(other.budgetUnrecoveredFandAs)) return false;
+            if (other.budgetUnrecoveredFandAs != null)
+                return false;
+        } else if (!budgetUnrecoveredFandAs.equals(other.budgetUnrecoveredFandAs))
+            return false;
         if (calculatedExpenseTotals == null) {
-            if (other.calculatedExpenseTotals != null) return false;
-        } else if (!calculatedExpenseTotals.equals(other.calculatedExpenseTotals)) return false;
+            if (other.calculatedExpenseTotals != null)
+                return false;
+        } else if (!calculatedExpenseTotals.equals(other.calculatedExpenseTotals))
+            return false;
         if (instituteLaRates == null) {
-            if (other.instituteLaRates != null) return false;
-        } else if (!instituteLaRates.equals(other.instituteLaRates)) return false;
+            if (other.instituteLaRates != null)
+                return false;
+        } else if (!instituteLaRates.equals(other.instituteLaRates))
+            return false;
         if (instituteRates == null) {
-            if (other.instituteRates != null) return false;
-        } else if (!instituteRates.equals(other.instituteRates)) return false;
+            if (other.instituteRates != null)
+                return false;
+        } else if (!instituteRates.equals(other.instituteRates))
+            return false;
         if (nonPersonnelCalculatedExpenseTotals == null) {
-            if (other.nonPersonnelCalculatedExpenseTotals != null) return false;
-        } else if (!nonPersonnelCalculatedExpenseTotals.equals(other.nonPersonnelCalculatedExpenseTotals)) return false;
+            if (other.nonPersonnelCalculatedExpenseTotals != null)
+                return false;
+        } else if (!nonPersonnelCalculatedExpenseTotals.equals(other.nonPersonnelCalculatedExpenseTotals))
+            return false;
         if (objectCodeListByBudgetCategoryType == null) {
-            if (other.objectCodeListByBudgetCategoryType != null) return false;
-        } else if (!objectCodeListByBudgetCategoryType.equals(other.objectCodeListByBudgetCategoryType)) return false;
+            if (other.objectCodeListByBudgetCategoryType != null)
+                return false;
+        } else if (!objectCodeListByBudgetCategoryType.equals(other.objectCodeListByBudgetCategoryType))
+            return false;
         if (objectCodePersonnelFringeTotals == null) {
-            if (other.objectCodePersonnelFringeTotals != null) return false;
-        } else if (!objectCodePersonnelFringeTotals.equals(other.objectCodePersonnelFringeTotals)) return false;
+            if (other.objectCodePersonnelFringeTotals != null)
+                return false;
+        } else if (!objectCodePersonnelFringeTotals.equals(other.objectCodePersonnelFringeTotals))
+            return false;
         if (objectCodePersonnelList == null) {
-            if (other.objectCodePersonnelList != null) return false;
-        } else if (!objectCodePersonnelList.equals(other.objectCodePersonnelList)) return false;
+            if (other.objectCodePersonnelList != null)
+                return false;
+        } else if (!objectCodePersonnelList.equals(other.objectCodePersonnelList))
+            return false;
         if (objectCodePersonnelSalaryTotals == null) {
-            if (other.objectCodePersonnelSalaryTotals != null) return false;
-        } else if (!objectCodePersonnelSalaryTotals.equals(other.objectCodePersonnelSalaryTotals)) return false;
+            if (other.objectCodePersonnelSalaryTotals != null)
+                return false;
+        } else if (!objectCodePersonnelSalaryTotals.equals(other.objectCodePersonnelSalaryTotals))
+            return false;
         if (objectCodeTotals == null) {
-            if (other.objectCodeTotals != null) return false;
-        } else if (!objectCodeTotals.equals(other.objectCodeTotals)) return false;
+            if (other.objectCodeTotals != null)
+                return false;
+        } else if (!objectCodeTotals.equals(other.objectCodeTotals))
+            return false;
         if (personnelCalculatedExpenseTotals == null) {
-            if (other.personnelCalculatedExpenseTotals != null) return false;
-        } else if (!personnelCalculatedExpenseTotals.equals(other.personnelCalculatedExpenseTotals)) return false;
+            if (other.personnelCalculatedExpenseTotals != null)
+                return false;
+        } else if (!personnelCalculatedExpenseTotals.equals(other.personnelCalculatedExpenseTotals))
+            return false;
         if (rateClass == null) {
-            if (other.rateClass != null) return false;
-        } else if (!rateClass.equals(other.rateClass)) return false;
+            if (other.rateClass != null)
+                return false;
+        } else if (!rateClass.equals(other.rateClass))
+            return false;
         if (rateClassTypes == null) {
-            if (other.rateClassTypes != null) return false;
-        } else if (!rateClassTypes.equals(other.rateClassTypes)) return false;
-        if (rateClassTypesReloaded != other.rateClassTypesReloaded) return false;
+            if (other.rateClassTypes != null)
+                return false;
+        } else if (!rateClassTypes.equals(other.rateClassTypes))
+            return false;
+        if (rateClassTypesReloaded != other.rateClassTypesReloaded)
+            return false;
         if (rateClasses == null) {
-            if (other.rateClasses != null) return false;
-        } else if (!rateClasses.equals(other.rateClasses)) return false;
-        if (rateSynced != other.rateSynced) return false;
+            if (other.rateClasses != null)
+                return false;
+        } else if (!rateClasses.equals(other.rateClasses))
+            return false;
+        if (rateSynced != other.rateSynced)
+            return false;
         if (summaryPeriodEndDate == null) {
-            if (other.summaryPeriodEndDate != null) return false;
-        } else if (!summaryPeriodEndDate.equals(other.summaryPeriodEndDate)) return false;
+            if (other.summaryPeriodEndDate != null)
+                return false;
+        } else if (!summaryPeriodEndDate.equals(other.summaryPeriodEndDate))
+            return false;
         if (summaryPeriodStartDate == null) {
-            if (other.summaryPeriodStartDate != null) return false;
-        } else if (!summaryPeriodStartDate.equals(other.summaryPeriodStartDate)) return false;
+            if (other.summaryPeriodStartDate != null)
+                return false;
+        } else if (!summaryPeriodStartDate.equals(other.summaryPeriodStartDate))
+            return false;
         return true;
     }
 
@@ -1563,23 +1680,35 @@ public class Budget extends BudgetVersionOverview {
     public boolean isCostSharingSubmissionEnabled() {
         return getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.ENABLE_COST_SHARE_SUBMIT).equals(PARAM_VALUE_ENABLED);
     }
-    
+
     public String getSummaryNumberOfMonths() {
         return String.valueOf(this.getProposalBudgetNumberOfMonthsService().getNumberOfMonth(this.getSummaryPeriodStartDate(), this.getSummaryPeriodEndDate()));
     }
-    
+
     protected ProposalBudgetNumberOfMonthsService getProposalBudgetNumberOfMonthsService() {
-        return getService(ProposalBudgetNumberOfMonthsService.class);
+        return KcServiceLocator.getService(ProposalBudgetNumberOfMonthsService.class);
     }
-}
 
-class RateClassTypeComparator implements Comparator<RateClassType>, Serializable {
+    public static class BudgetExtractor extends org.eclipse.persistence.descriptors.ClassExtractor {
 
-    private static final long serialVersionUID = 8230902362851330642L;
+        @Override
+        public Class extractClassFromRow(Record databaseRow, Session session) {
+            if (databaseRow.containsKey("HIERARCHY_HASH_CODE")) {
+                return ProposalDevelopmentBudgetExt.class;
+            } else if (databaseRow.containsKey("AWARD_BUDGET_STATUS_CODE")) {
+                return AwardBudgetExt.class;
+            } else {
+                return Budget.class; // this should never happen
+            }
+        }
+    }
 
-    public int compare(RateClassType rateClassType1, RateClassType rateClassType2) {
-        RateClassType r1 = rateClassType1;
-        RateClassType r2 = rateClassType2;
-        return r1.getSortId().compareTo(r2.getSortId());
+    private static class RateClassTypeComparator implements Comparator<RateClassType>, Serializable {
+
+        private static final long serialVersionUID = 8230902362851330642L;
+
+        public int compare(RateClassType rateClassType1, RateClassType rateClassType2) {
+            return rateClassType1.getSortId().compareTo(rateClassType2.getSortId());
+        }
     }
 }

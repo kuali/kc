@@ -91,7 +91,6 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
            //Save applyRateFlag to set it back on the new Calculated Amounts
            applyRateFlags = saveApplyRateFlagsForReset();
            
-           budgetPersonnelLineItem.setBudgetPersonnelCalculatedAmounts(new ArrayList<BudgetPersonnelCalculatedAmount>());
            setCalculatedAmounts(budget,budgetPersonnelLineItem);
            
            for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts()) {
@@ -157,7 +156,6 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
                 budgetRateBase.setSalaryRequested(rateAndCost.getBaseAmount());
                 budgetRateBase.setBaseCostSharing(rateAndCost.getBaseCostSharingAmount());
                 
-                budgetRateBase.setBudgetPeriodId(budgetPersonnelLineItem.getBudgetPeriodId());
                 budgetRateBase.setBudgetPeriod(budgetPersonnelLineItem.getBudgetPeriod());
                 budgetRateBase.setCalculatedCost(calculatedCost);
                 budgetRateBase.setCalculatedCostSharing(calculatedCostSharing);

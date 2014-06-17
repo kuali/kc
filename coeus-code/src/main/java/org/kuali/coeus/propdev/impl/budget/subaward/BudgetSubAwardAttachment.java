@@ -15,26 +15,52 @@
  */
 package org.kuali.coeus.propdev.impl.budget.subaward;
 
+import javax.persistence.*;
+
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardAttachmentContract;
-import org.kuali.coeus.common.budget.framework.core.BudgetAssociate;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
-public class BudgetSubAwardAttachment extends BudgetAssociate implements BudgetSubAwardAttachmentContract {
-
+@Entity
+@Table(name = "BUDGET_SUB_AWARD_ATT")
+public class BudgetSubAwardAttachment extends KcPersistableBusinessObjectBase implements BudgetSubAwardAttachmentContract {
 
     private static final long serialVersionUID = -2467480179750426256L;
 
+    @Column(name = "ATTACHMENT")
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
     private byte[] data;
 
+    @Column(name = "CONTENT_ID")
     private String name;
 
+    @Column(name = "CONTENT_TYPE")
     private String type;
 
+    @Column(name = "SUB_AWARD_NUMBER")
     private Integer subAwardNumber;
 
+    @PortableSequenceGenerator(name = "SEQ_SUB_AWD_BGT_ATT_ID")
+    @GeneratedValue(generator = "SEQ_SUB_AWD_BGT_ATT_ID")
+    @Id
+    @Column(name = "SUB_AWARD_ATTACHMENT_ID")
     private Long id;
+
+    @Column(name = "BUDGET_ID")
+    private Long budgetId;
 
     public BudgetSubAwardAttachment() {
         super();
+    }
+
+    @Override
+    public Long getBudgetId() {
+        return budgetId;
+    }
+
+    public void setBudgetId(Long budgetId) {
+        this.budgetId = budgetId;
     }
 
     @Override

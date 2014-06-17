@@ -15,24 +15,49 @@
  */
 package org.kuali.coeus.common.budget.framework.rate;
 
-import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.common.budget.framework.core.CostElement;
-import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import java.io.Serializable;
+import javax.persistence.*;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.budget.framework.core.CostElement;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+
+@Entity
+@Table(name = "VALID_CE_RATE_TYPES")
+@IdClass(ValidCeRateType.ValidCeRateTypeId.class)
 public class ValidCeRateType extends KcPersistableBusinessObjectBase implements MutableInactivatable {
 
+    @Id
+    @Column(name = "COST_ELEMENT")
     private String costElement;
 
+    @Id
+    @Column(name = "RATE_CLASS_CODE")
     private String rateClassCode;
 
+    @Id
+    @Column(name = "RATE_TYPE_CODE")
     private String rateTypeCode;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
     private RateClass rateClass;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumns({ @JoinColumn(name = "RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false), @JoinColumn(name = "RATE_TYPE_CODE", referencedColumnName = "RATE_TYPE_CODE", insertable = false, updatable = false) })
     private RateType rateType;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "COST_ELEMENT", referencedColumnName = "COST_ELEMENT", insertable = false, updatable = false)
     private CostElement costElementBo;
 
+    @Column(name = "ACTIVE_FLAG")
+    @Convert(converter = BooleanYNConverter.class)
     private boolean active;
 
     /**
@@ -101,5 +126,65 @@ public class ValidCeRateType extends KcPersistableBusinessObjectBase implements 
 
     public void setCostElementBo(CostElement costElementBo) {
         this.costElementBo = costElementBo;
+    }
+
+    public static final class ValidCeRateTypeId implements Serializable, Comparable<ValidCeRateTypeId> {
+
+        private String costElement;
+
+        private String rateClassCode;
+
+        private String rateTypeCode;
+
+        public String getCostElement() {
+            return this.costElement;
+        }
+
+        public void setCostElement(String costElement) {
+            this.costElement = costElement;
+        }
+
+        public String getRateClassCode() {
+            return this.rateClassCode;
+        }
+
+        public void setRateClassCode(String rateClassCode) {
+            this.rateClassCode = rateClassCode;
+        }
+
+        public String getRateTypeCode() {
+            return this.rateTypeCode;
+        }
+
+        public void setRateTypeCode(String rateTypeCode) {
+            this.rateTypeCode = rateTypeCode;
+        }
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("costElement", this.costElement).append("rateClassCode", this.rateClassCode).append("rateTypeCode", this.rateTypeCode).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final ValidCeRateTypeId rhs = (ValidCeRateTypeId) other;
+            return new EqualsBuilder().append(this.costElement, rhs.costElement).append(this.rateClassCode, rhs.rateClassCode).append(this.rateTypeCode, rhs.rateTypeCode).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.costElement).append(this.rateClassCode).append(this.rateTypeCode).toHashCode();
+        }
+
+        @Override
+        public int compareTo(ValidCeRateTypeId other) {
+            return new CompareToBuilder().append(this.costElement, other.costElement).append(this.rateClassCode, other.rateClassCode).append(this.rateTypeCode, other.rateTypeCode).toComparison();
+        }
     }
 }

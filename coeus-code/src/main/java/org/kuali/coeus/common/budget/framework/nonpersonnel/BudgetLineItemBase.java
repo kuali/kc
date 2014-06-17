@@ -15,373 +15,177 @@
  */
 package org.kuali.coeus.common.budget.framework.nonpersonnel;
 
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.budget.framework.core.BudgetAssociate;
-import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
-import org.kuali.coeus.common.budget.framework.core.BudgetService;
-import org.kuali.coeus.common.budget.framework.core.CostElement;
-import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.rice.krad.util.ObjectUtils;
-
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BudgetLineItemBase extends BudgetAssociate {
+import org.kuali.coeus.common.budget.framework.core.BudgetService;
+import org.kuali.coeus.common.budget.framework.core.CostElement;
+import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
+import javax.persistence.Transient;
+
+public abstract class BudgetLineItemBase extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 8356817148151906918L;
 
-    @DeepCopyIgnore
-    private Long budgetLineItemId;
-
-    private Long budgetPeriodId;
-
-    private Integer budgetPeriod;
-
-    private Integer lineItemNumber;
-
-    private Boolean applyInRateFlag;
-
-    private String budgetJustification;
-
-    private String costElement;
-
-    private ScaleTwoDecimal costSharingAmount = ScaleTwoDecimal.ZERO;
-
-    private Date endDate;
-
-    private ScaleTwoDecimal lineItemCost = ScaleTwoDecimal.ZERO;
-
-    private String lineItemDescription;
-
-    private Boolean onOffCampusFlag;
-
-    private Date startDate;
-
-    private ScaleTwoDecimal underrecoveryAmount = ScaleTwoDecimal.ZERO;
-
-    private String budgetCategoryCode;
-
-    private Integer basedOnLineItem;
-
-    private Integer quantity;
-
+    @Transient
     private ScaleTwoDecimal directCost;
 
+    @Transient
     private ScaleTwoDecimal indirectCost;
 
-    private BudgetCategory budgetCategory;
+    @Transient
+    private transient BudgetService budgetService;
 
-    private Integer lineItemSequence;
-
-    private Boolean submitCostSharingFlag = Boolean.TRUE;
-
-    private CostElement costElementBO;
-
-    private ScaleTwoDecimal totalCostSharingAmount;
-
-    private boolean validToApplyInRate;
-
-    private String groupName;
-    
-    private Boolean formulatedCostElementFlag;
-    
-    private List<BudgetFormulatedCostDetail> budgetFormulatedCosts;
-
-    //ignore the budget period bo during deep copy as any link up the budget object graph
-    //will cause generateAllPeriods to consume large amounts of memory
-    @DeepCopyIgnore
-    private BudgetPeriod budgetPeriodBO;
-
-    public String getGroupName() {
-        return groupName;
-    }
+    public abstract String getGroupName();
 
     public String getCostElementName() {
-        if (costElementBO != null) {
-            return costElementBO.getDescription();
+        if (getCostElementBO() != null) {
+            return getCostElementBO().getDescription();
         } else {
             return "";
         }
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
-
-    public BudgetLineItemBase() {
-        budgetFormulatedCosts = new ArrayList<BudgetFormulatedCostDetail>();
-    }
+    public abstract void setGroupName(String groupName);
 
     public abstract List getBudgetCalculatedAmounts();
 
-    /**
-     * Gets the directCost attribute. 
-     * @return Returns the directCost.
-     */
     public ScaleTwoDecimal getDirectCost() {
         return ScaleTwoDecimal.returnZeroIfNull(directCost);
     }
 
-    /**
-     * Sets the directCost attribute value.
-     * @param directCost The directCost to set.
-     */
     public void setDirectCost(ScaleTwoDecimal directCost) {
         this.directCost = directCost;
     }
 
-    /**
-     * Gets the indirectCost attribute. 
-     * @return Returns the indirectCost.
-     */
     public ScaleTwoDecimal getIndirectCost() {
         return ScaleTwoDecimal.returnZeroIfNull(indirectCost);
     }
 
-    /**
-     * Sets the indirectCost attribute value.
-     * @param indirectCost The indirectCost to set.
-     */
     public void setIndirectCost(ScaleTwoDecimal indirectCost) {
         this.indirectCost = indirectCost;
     }
 
-    public Integer getBudgetPeriod() {
-        return budgetPeriod;
-    }
+    public abstract Integer getBudgetPeriod();
 
-    public void setBudgetPeriod(Integer budgetPeriod) {
-        this.budgetPeriod = budgetPeriod;
-    }
+    public abstract void setBudgetPeriod(Integer budgetPeriod);
 
-    public Integer getLineItemNumber() {
-        return lineItemNumber;
-    }
+    public abstract Integer getLineItemNumber();
 
-    public void setLineItemNumber(Integer lineItemNumber) {
-        this.lineItemNumber = lineItemNumber;
-    }
+    public abstract void setLineItemNumber(Integer lineItemNumber);
 
-    public Boolean getApplyInRateFlag() {
-        return applyInRateFlag;
-    }
+    public abstract Boolean getApplyInRateFlag();
 
-    public void setApplyInRateFlag(Boolean applyInRateFlag) {
-        this.applyInRateFlag = applyInRateFlag;
-    }
+    public abstract void setApplyInRateFlag(Boolean applyInRateFlag);
 
-    public Integer getBasedOnLineItem() {
-        return basedOnLineItem;
-    }
+    public abstract Integer getBasedOnLineItem();
 
-    public void setBasedOnLineItem(Integer basedOnLineItem) {
-        this.basedOnLineItem = basedOnLineItem;
-    }
+    public abstract void setBasedOnLineItem(Integer basedOnLineItem);
 
-    public String getBudgetCategoryCode() {
-        return budgetCategoryCode;
-    }
+    public abstract String getBudgetCategoryCode();
 
-    public void setBudgetCategoryCode(String budgetCategoryCode) {
-        this.budgetCategoryCode = budgetCategoryCode;
-    }
+    public abstract void setBudgetCategoryCode(String budgetCategoryCode) ;
 
-    public String getBudgetJustification() {
-        return budgetJustification;
-    }
+    public abstract String getBudgetJustification();
 
-    public void setBudgetJustification(String budgetJustification) {
-        this.budgetJustification = budgetJustification;
-    }
+    public abstract void setBudgetJustification(String budgetJustification);
 
-    public String getCostElement() {
-        return costElement;
-    }
+    public abstract String getCostElement();
 
-    public void setCostElement(String costElement) {
-        this.costElement = costElement;
-    }
+    public abstract void setCostElement(String costElement);
 
-    public ScaleTwoDecimal getCostSharingAmount() {
-        return ScaleTwoDecimal.returnZeroIfNull(costSharingAmount);
-    }
+    public abstract ScaleTwoDecimal getCostSharingAmount();
 
-    public void setCostSharingAmount(ScaleTwoDecimal costSharingAmount) {
-        this.costSharingAmount = costSharingAmount;
-    }
+    public abstract void setCostSharingAmount(ScaleTwoDecimal costSharingAmount);
 
-    public Date getEndDate() {
-        return endDate;
-    }
+    public abstract Date getEndDate();
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
+    public abstract void setEndDate(Date endDate);
 
-    public ScaleTwoDecimal getLineItemCost() {
-        return ScaleTwoDecimal.returnZeroIfNull(lineItemCost);
-    }
+    public abstract ScaleTwoDecimal getLineItemCost();
 
-    public void setLineItemCost(ScaleTwoDecimal lineItemCost) {
-        this.lineItemCost = lineItemCost;
-    }
+    public abstract void setLineItemCost(ScaleTwoDecimal lineItemCost);
 
-    public String getLineItemDescription() {
-        return lineItemDescription;
-    }
+    public abstract String getLineItemDescription();
 
-    public void setLineItemDescription(String lineItemDescription) {
-        this.lineItemDescription = lineItemDescription;
-    }
+    public abstract void setLineItemDescription(String lineItemDescription);
 
-    public Integer getLineItemSequence() {
-        return lineItemSequence;
-    }
+    public abstract Integer getLineItemSequence();
 
-    public void setLineItemSequence(Integer lineItemSequence) {
-        this.lineItemSequence = lineItemSequence;
-    }
+    public abstract void setLineItemSequence(Integer lineItemSequence);
 
-    public Boolean getOnOffCampusFlag() {
-        return onOffCampusFlag;
-    }
+    public abstract Boolean getOnOffCampusFlag();
 
-    public void setOnOffCampusFlag(Boolean onOffCampusFlag) {
-        this.onOffCampusFlag = onOffCampusFlag;
-    }
+    public abstract void setOnOffCampusFlag(Boolean onOffCampusFlag);
 
-    public Integer getQuantity() {
-        return quantity;
-    }
+    public abstract Integer getQuantity();
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
+    public abstract void setQuantity(Integer quantity);
 
-    public Date getStartDate() {
-        return startDate;
-    }
+    public abstract Date getStartDate();
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
+    public abstract void setStartDate(Date startDate);
 
-    public ScaleTwoDecimal getUnderrecoveryAmount() {
-        return ScaleTwoDecimal.returnZeroIfNull(underrecoveryAmount);
-    }
+    public abstract ScaleTwoDecimal getUnderrecoveryAmount();
 
-    public void setUnderrecoveryAmount(ScaleTwoDecimal underrecoveryAmount) {
-        this.underrecoveryAmount = underrecoveryAmount;
-    }
+    public abstract void setUnderrecoveryAmount(ScaleTwoDecimal underrecoveryAmount);
 
-    public BudgetCategory getBudgetCategory() {
-        return budgetCategory;
-    }
+    public abstract BudgetCategory getBudgetCategory();
 
-    public void setBudgetCategory(BudgetCategory budgetCategory) {
-        this.budgetCategory = budgetCategory;
-    }
+    public abstract void setBudgetCategory(BudgetCategory budgetCategory);
 
-    public CostElement getCostElementBO() {
-        return costElementBO;
-    }
+    public abstract CostElement getCostElementBO();
 
-    public void setCostElementBO(CostElement costElementBO) {
-        this.costElementBO = costElementBO;
-    }
+    public abstract void setCostElementBO(CostElement costElementBO);
 
-    public ScaleTwoDecimal getTotalCostSharingAmount() {
-        return ScaleTwoDecimal.returnZeroIfNull(totalCostSharingAmount);
-    }
+    public abstract ScaleTwoDecimal getTotalCostSharingAmount();
 
-    public void setTotalCostSharingAmount(ScaleTwoDecimal totalCostSharingAmount) {
-        this.totalCostSharingAmount = totalCostSharingAmount;
-    }
-
-    public Long getBudgetPeriodId() {
-        return budgetPeriodId;
-    }
-
-    public void setBudgetPeriodId(Long budgetPeriodId) {
-        this.budgetPeriodId = budgetPeriodId;
-    }
+    public abstract void setTotalCostSharingAmount(ScaleTwoDecimal totalCostSharingAmount);
 
     public boolean isValidToApplyInRate() {
-        return KcServiceLocator.getService(BudgetService.class).ValidInflationCeRate(this);
+        return getBudgetService().ValidInflationCeRate(this);
     }
 
-    public void setValidToApplyInRate(boolean validToApplyInRate) {
-        this.validToApplyInRate = validToApplyInRate;
-    }
+    public abstract Long getBudgetLineItemId();
 
-    /**
-     * Gets the budgetLineItemId attribute. 
-     * @return Returns the budgetLineItemId.
-     */
-    public Long getBudgetLineItemId() {
-        return budgetLineItemId;
-    }
+    public abstract void setBudgetLineItemId(Long budgetLineItemId);
 
-    /**
-     * Sets the budgetLineItemId attribute value.
-     * @param budgetLineItemId The budgetLineItemId to set.
-     */
-    public void setBudgetLineItemId(Long budgetLineItemId) {
-        this.budgetLineItemId = budgetLineItemId;
-    }
+    public abstract void setSubmitCostSharingFlag(Boolean submitCostSharingFlag);
 
-    /**
-     * Sets the submitCostSharingFlag attribute value.
-     * @param submitCostSharingFlag The submitCostSharingFlag to set.
-     */
-    public void setSubmitCostSharingFlag(Boolean submitCostSharingFlag) {
-        this.submitCostSharingFlag = submitCostSharingFlag;
-    }
-
-    /**
-     * Gets the submitCostSharingFlag attribute. 
-     * @return Returns the submitCostSharingFlag.
-     */
-    public Boolean getSubmitCostSharingFlag() {
-        if (ObjectUtils.isNull(budgetPeriodBO)) { 
-            this.refreshReferenceObject("budgetPeriodBO");
-        }
-        return (getBudgetPeriodBO() != null && getBudgetPeriodBO().getBudget().getSubmitCostSharingFlag()) ? submitCostSharingFlag : false;
-    }
-
+    public abstract Boolean getSubmitCostSharingFlag();
     /**
      * Gets the budgetPeriodBO attribute. 
      * @return Returns the budgetPeriodBO.
      */
-    public BudgetPeriod getBudgetPeriodBO() {
-        return budgetPeriodBO;
-    }
+    public abstract BudgetPeriod getBudgetPeriodBO();
 
-    /**
-     * Sets the budgetPeriodBO attribute value.
-     * @param budgetPeriodBO The budgetPeriodBO to set.
-     */
-    public void setBudgetPeriodBO(BudgetPeriod budgetPeriodBO) {
-        this.budgetPeriodBO = budgetPeriodBO;
-    }
+    public abstract void setBudgetPeriodBO(BudgetPeriod budgetPeriodBO);
 
-    public Boolean getFormulatedCostElementFlag() {
-        return formulatedCostElementFlag==null?Boolean.FALSE:formulatedCostElementFlag;
-    }
+    public abstract Boolean getFormulatedCostElementFlag();
 
-    public void setFormulatedCostElementFlag(Boolean formulatedCostElementFlag) {
-        this.formulatedCostElementFlag = formulatedCostElementFlag;
-    }
+    public abstract void setFormulatedCostElementFlag(Boolean formulatedCostElementFlag);
 
-    public List<BudgetFormulatedCostDetail> getBudgetFormulatedCosts() {
-        return budgetFormulatedCosts;
-    }
+    public abstract List<BudgetFormulatedCostDetail> getBudgetFormulatedCosts();
 
-    public void setBudgetFormulatedCosts(List<BudgetFormulatedCostDetail> budgetFormulatedCosts) {
-        this.budgetFormulatedCosts = budgetFormulatedCosts;
+    public abstract void setBudgetFormulatedCosts(List<BudgetFormulatedCostDetail> budgetFormulatedCosts);
+
+    public abstract Long getBudgetId();
+
+    public abstract void setBudgetId(Long budgetId);
+
+    public abstract Long getBudgetPeriodId();
+
+    public abstract void setBudgetPeriodId(Long budgetPeriodId);
+
+    public BudgetService getBudgetService() {
+        if (budgetService == null) {
+            budgetService = KcServiceLocator.getService(BudgetService.class);
+        }
+        return budgetService;
     }
 }

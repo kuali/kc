@@ -15,45 +15,71 @@
  */
 package org.kuali.kra.bo;
 
-import org.kuali.coeus.common.framework.unit.Unit;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import java.sql.Date;
+import javax.persistence.*;
+
 import org.kuali.coeus.common.budget.framework.rate.AbstractBudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
+import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.persistence.BooleanNFConverter;
+import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-import java.sql.Date;
-
+@MappedSuperclass
 public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectBase implements Comparable<AbstractInstituteRate>, AbstractInstituteRateKey, MutableInactivatable {
 
     private static final long serialVersionUID = -2136003574701633349L;
 
+    @Id
+    @Column(name = "FISCAL_YEAR")
     private String fiscalYear;
 
+    @Id
+    @Column(name = "ON_OFF_CAMPUS_FLAG")
+    @Convert(converter = BooleanNFConverter.class)
     private Boolean onOffCampusFlag;
 
+    @Id
+    @Column(name = "RATE_CLASS_CODE")
     private String rateClassCode;
 
+    @Id
+    @Column(name = "RATE_TYPE_CODE")
     private String rateTypeCode;
 
+    @Id
+    @Column(name = "START_DATE")
     private Date startDate;
 
+    @Transient
     private String unitNumber;
 
+    @Column(name = "INSTITUTE_RATE")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal instituteRate;
-    
+
+    @Transient
     private ScaleTwoDecimal externalApplicableRate;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(insertable = false, updatable = false)
     private RateClass rateClass;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumns({ @JoinColumn(name = "RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false), @JoinColumn(name = "RATE_TYPE_CODE", referencedColumnName = "RATE_TYPE_CODE", insertable = false, updatable = false) })
     private RateType rateType;
 
+    @Transient
     private Unit unit;
 
+    @Transient
     private Boolean active = Boolean.TRUE;
 
+    @Transient
     private boolean nonEditableRateFlag;
 
     public final boolean isActive() {
@@ -179,8 +205,8 @@ public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectB
      * Sets the nonEditableRateFlag attribute value.
      * @param nonEditableRateFlag The nonEditableRateFlag to set.
      */
-    public void setNonEditableRateFlag(boolean flatRateCalculation) {
-        this.nonEditableRateFlag = flatRateCalculation;
+    public void setNonEditableRateFlag(boolean nonEditableRateFlag) {
+        this.nonEditableRateFlag = nonEditableRateFlag;
     }
 
     @Override
@@ -203,43 +229,68 @@ public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectB
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
         AbstractInstituteRate other = (AbstractInstituteRate) obj;
         if (active == null) {
-            if (other.active != null) return false;
-        } else if (!active.equals(other.active)) return false;
+            if (other.active != null)
+                return false;
+        } else if (!active.equals(other.active))
+            return false;
         if (fiscalYear == null) {
-            if (other.fiscalYear != null) return false;
-        } else if (!fiscalYear.equals(other.fiscalYear)) return false;
+            if (other.fiscalYear != null)
+                return false;
+        } else if (!fiscalYear.equals(other.fiscalYear))
+            return false;
         if (instituteRate == null) {
-            if (other.instituteRate != null) return false;
-        } else if (!instituteRate.equals(other.instituteRate)) return false;
+            if (other.instituteRate != null)
+                return false;
+        } else if (!instituteRate.equals(other.instituteRate))
+            return false;
         if (onOffCampusFlag == null) {
-            if (other.onOffCampusFlag != null) return false;
-        } else if (!onOffCampusFlag.equals(other.onOffCampusFlag)) return false;
+            if (other.onOffCampusFlag != null)
+                return false;
+        } else if (!onOffCampusFlag.equals(other.onOffCampusFlag))
+            return false;
         if (rateClass == null) {
-            if (other.rateClass != null) return false;
-        } else if (!rateClass.equals(other.rateClass)) return false;
+            if (other.rateClass != null)
+                return false;
+        } else if (!rateClass.equals(other.rateClass))
+            return false;
         if (rateClassCode == null) {
-            if (other.rateClassCode != null) return false;
-        } else if (!rateClassCode.equals(other.rateClassCode)) return false;
+            if (other.rateClassCode != null)
+                return false;
+        } else if (!rateClassCode.equals(other.rateClassCode))
+            return false;
         if (rateType == null) {
-            if (other.rateType != null) return false;
-        } else if (!rateType.equals(other.rateType)) return false;
+            if (other.rateType != null)
+                return false;
+        } else if (!rateType.equals(other.rateType))
+            return false;
         if (rateTypeCode == null) {
-            if (other.rateTypeCode != null) return false;
-        } else if (!rateTypeCode.equals(other.rateTypeCode)) return false;
+            if (other.rateTypeCode != null)
+                return false;
+        } else if (!rateTypeCode.equals(other.rateTypeCode))
+            return false;
         if (startDate == null) {
-            if (other.startDate != null) return false;
-        } else if (!startDate.equals(other.startDate)) return false;
+            if (other.startDate != null)
+                return false;
+        } else if (!startDate.equals(other.startDate))
+            return false;
         if (unit == null) {
-            if (other.unit != null) return false;
-        } else if (!unit.equals(other.unit)) return false;
+            if (other.unit != null)
+                return false;
+        } else if (!unit.equals(other.unit))
+            return false;
         if (unitNumber == null) {
-            if (other.unitNumber != null) return false;
-        } else if (!unitNumber.equals(other.unitNumber)) return false;
+            if (other.unitNumber != null)
+                return false;
+        } else if (!unitNumber.equals(other.unitNumber))
+            return false;
         return true;
     }
 
@@ -248,7 +299,7 @@ public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectB
      * @return Returns the externalApplicableRate.
      */
     public ScaleTwoDecimal getExternalApplicableRate() {
-        return externalApplicableRate==null?getInstituteRate():externalApplicableRate;
+        return externalApplicableRate == null ? getInstituteRate() : externalApplicableRate;
     }
 
     /**

@@ -191,7 +191,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     }
     
 
-    protected void saveBudgetDocument(BudgetDocument<T> budgetDocument) throws WorkflowException {
+    protected BudgetDocument saveBudgetDocument(BudgetDocument<T> budgetDocument) throws WorkflowException {
         Budget budget = budgetDocument.getBudget();
         BudgetParentDocument<T> parentDocument = budgetDocument.getParentDocument(); 
         boolean isProposalBudget = new Boolean(parentDocument.getProposalBudgetFlag()).booleanValue();
@@ -203,8 +203,9 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             documentService.saveDocument(budgetDocument);
         }else{
             documentService.saveDocument(budgetDocument);
-            documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
+            return (BudgetDocument) documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
         }
+        return null;
     }
     
     @Override
@@ -586,7 +587,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         budgetDocument.toCopy();
         budgetDocument.getParentDocument().getDocumentHeader().setDocumentNumber(parentDocumentNumber);
         budgetDocument.getParentDocument().setDocumentNumber(parentDocumentNumber);
-        if(budgetDocument.getBudgets().isEmpty()) { 
+        if(budgetDocument.getBudget() == null) {
             throw new RuntimeException("Not able to find any Budget Version associated with this document");
         }
         Budget budget = budgetDocument.getBudget();
@@ -649,7 +650,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             fixProperty(budgetDocument, "setFinalVersionFlag", Boolean.class, Boolean.FALSE, objectMap);
             objectMap.clear();
             
-            ObjectUtils.materializeAllSubObjects(budgetDocument);
+
         }catch (Exception e) {
             LOG.error(e.getMessage(), e);
             throw new RuntimeException(e);
@@ -672,7 +673,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         budgetDocument.getBudget().setBudgetAdjustmentDocumentNumber(null);
         List<BudgetProjectIncome> projectIncomes = budgetDocument.getBudget().getBudgetProjectIncomes();
         budgetDocument.getBudget().setBudgetProjectIncomes(new ArrayList<BudgetProjectIncome>());
-        documentService.saveDocument(budgetDocument);
+        budgetDocument = (BudgetDocument) documentService.saveDocument(budgetDocument);
         if (projectIncomes != null && !projectIncomes.isEmpty()) {
             updateProjectIncomes(budgetDocument, projectIncomes);
         }
@@ -684,8 +685,8 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
                 tmpBudgetPeriod.setBudgetModular(tmpBudgetModular);
             }
         }
-        
-        saveBudgetDocument(budgetDocument);
+
+        budgetDocument = (BudgetDocument) saveBudgetDocument(budgetDocument);
         budgetDocument.getParentDocument().refreshBudgetDocumentVersions();
         return budgetDocument;
     }

@@ -15,44 +15,78 @@
  */
 package org.kuali.coeus.common.budget.framework.nonpersonnel;
 
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetAssociate;
-import org.kuali.coeus.common.budget.framework.rate.RateClass;
-
 import java.sql.Date;
+import javax.persistence.*;
 
-public abstract class AbstractBudgetRateAndBase extends BudgetAssociate {
+import org.kuali.coeus.common.budget.framework.rate.RateClass;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.persistence.BooleanNFConverter;
+import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 
+@MappedSuperclass
+public abstract class AbstractBudgetRateAndBase extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 5786156490914012479L;
 
+    @Column(name = "BUDGET_ID")
+    private Long budgetId;
+
+    @Transient
     private Long budgetPeriodId;
 
+    @Column(name = "BUDGET_PERIOD")
     private Integer budgetPeriod;
 
+    @Column(name = "LINE_ITEM_NUMBER")
     private Integer lineItemNumber;
 
+    @Column(name = "RATE_CLASS_CODE")
     private String rateClassCode;
 
+    @Column(name = "RATE_NUMBER")
     private Integer rateNumber;
 
+    @Column(name = "RATE_TYPE_CODE")
     private String rateTypeCode;
 
+    @Column(name = "APPLIED_RATE")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal appliedRate;
 
+    @Column(name = "BASE_COST_SHARING")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal baseCostSharing;
 
+    @Column(name = "CALCULATED_COST")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal calculatedCost;
 
+    @Column(name = "CALCULATED_COST_SHARING")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal calculatedCostSharing;
 
+    @Column(name = "END_DATE")
     private Date endDate;
 
+    @Column(name = "ON_OFF_CAMPUS_FLAG")
+    @Convert(converter = BooleanNFConverter.class)
     private Boolean onOffCampusFlag;
 
+    @Column(name = "START_DATE")
     private Date startDate;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
     private RateClass rateClass;
+
+    public Long getBudgetId() {
+        return budgetId;
+    }
+
+    public void setBudgetId(Long budgetId) {
+        this.budgetId = budgetId;
+    }
 
     public Integer getBudgetPeriod() {
         return budgetPeriod;
@@ -159,7 +193,7 @@ public abstract class AbstractBudgetRateAndBase extends BudgetAssociate {
     }
 
     /**
-     * Gets the budgetPeriodId attribute. 
+     * Gets the budgetPeriodId attribute.
      * @return Returns the budgetPeriodId.
      */
     public Long getBudgetPeriodId() {

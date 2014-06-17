@@ -15,13 +15,24 @@
  */
 package org.kuali.coeus.common.budget.framework.nonpersonnel;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
+@Entity
+@Table(name = "BUDGET_DETAILS_CAL_AMTS")
 public class BudgetLineItemCalculatedAmount extends AbstractBudgetCalculatedAmount {
 
     @DeepCopyIgnore
+    @PortableSequenceGenerator(name = "SEQ_BUDGET_DETAILS_CAL_AMTS_ID")
+    @GeneratedValue(generator = "SEQ_BUDGET_DETAILS_CAL_AMTS_ID")
+    @Id
+    @Column(name = "BUDGET_DETAILS_CAL_AMTS_ID")
     private Long budgetLineItemCalculatedAmountId;
-
 
     private static final long serialVersionUID = -1755216989884993632L;
 

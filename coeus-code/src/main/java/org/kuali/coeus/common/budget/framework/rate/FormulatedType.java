@@ -17,12 +17,22 @@ package org.kuali.coeus.common.budget.framework.rate;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class FormulatedType extends KcPersistableBusinessObjectBase {
-    
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "FORMULATED_TYPE")
+public class FormulatedType extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 8085064744469084409L;
-    private String formulatedTypeCode; 
+
+    @Id
+    @Column(name = "FORMULATED_TYPE_CODE")
+    private String formulatedTypeCode;
+
+    @Column(name = "DESCRIPTION")
     private String description; 
     
     public FormulatedType() { 

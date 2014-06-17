@@ -15,11 +15,11 @@
  */
 package org.kuali.coeus.common.budget.impl.distribution;
 
-import org.kuali.coeus.common.budget.framework.core.BudgetDistributionAndIncomeComponent;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocumentContainer;
 import org.kuali.coeus.common.budget.framework.distribution.AddBudgetCostShareEvent;
 import org.kuali.coeus.common.budget.framework.distribution.AddBudgetCostShareRule;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShareAllocationRule;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocumentContainer;
 import org.kuali.coeus.common.framework.costshare.CostShareRuleResearchDocumentBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -51,7 +51,7 @@ public class BudgetCostShareRuleImpl extends CostShareRuleResearchDocumentBase i
      * @param testBudgetCostShare
      * @return
      */
-    private boolean areDuplicatesPresent(BudgetDistributionAndIncomeComponent testBudgetCostShare) {
+    private boolean areDuplicatesPresent(BudgetCostShare testBudgetCostShare) {
         boolean duplicate = false;
 
         if (testBudgetCostShare == null) {
@@ -62,7 +62,7 @@ public class BudgetCostShareRuleImpl extends CostShareRuleResearchDocumentBase i
         if (form instanceof BudgetDocumentContainer) {
             BudgetDocumentContainer budgetContainerForm = (BudgetDocumentContainer) form;
 
-            for (BudgetDistributionAndIncomeComponent budgetCostShare : budgetContainerForm.getBudgetDocument().getBudget()
+            for (BudgetCostShare budgetCostShare : budgetContainerForm.getBudgetDocument().getBudget()
                     .getBudgetCostShares()) {
                 duplicate = checkForDuplicateFields(testBudgetCostShare, budgetCostShare);
                 if (duplicate) {
@@ -81,8 +81,8 @@ public class BudgetCostShareRuleImpl extends CostShareRuleResearchDocumentBase i
      * @param budgetCostShare
      * @return
      */
-    private boolean checkForDuplicateFields(BudgetDistributionAndIncomeComponent testBudgetCostShare,
-            BudgetDistributionAndIncomeComponent budgetCostShare) {
+    private boolean checkForDuplicateFields(BudgetCostShare testBudgetCostShare,
+                                            BudgetCostShare budgetCostShare) {
         boolean duplicate = testBudgetCostShare.equals(budgetCostShare);
         if (duplicate) {
             GlobalVariables.getMessageMap().putError("newCostShare.*", ADD_ERROR_KEY,

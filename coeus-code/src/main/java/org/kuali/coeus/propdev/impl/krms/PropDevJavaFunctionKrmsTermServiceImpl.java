@@ -313,19 +313,17 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
             if (bdv.getVersionNumber().equals(versionNumberLong)) {
                 try {
                     BudgetDocument budgetDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(bdv.getDocumentNumber());
-                    List<Budget> budgets = budgetDocument.getBudgets();
-                    for (Budget budget : budgets) {
-                        if (budget.getVersionNumber().equals(versionNumberLong)) {
-                            for (BudgetPeriod period : budget.getBudgetPeriods()) {
-                                float costElementTotal = 0;
-                                for (BudgetLineItem item : period.getBudgetLineItems()) {
-                                    if (StringUtils.equalsIgnoreCase(costElementName, item.getCostElementName())) {
-                                        costElementTotal = costElementTotal + item.getLineItemCost().floatValue();
-                                    }
+                    Budget budget = budgetDocument.getBudget();
+                    if (budget.getVersionNumber().equals(versionNumberLong)) {
+                        for (BudgetPeriod period : budget.getBudgetPeriods()) {
+                            float costElementTotal = 0;
+                            for (BudgetLineItem item : period.getBudgetLineItems()) {
+                                if (StringUtils.equalsIgnoreCase(costElementName, item.getCostElementName())) {
+                                    costElementTotal = costElementTotal + item.getLineItemCost().floatValue();
                                 }
-                                if (costElementTotal > limitLong) {
-                                    return TRUE;
-                                }
+                            }
+                            if (costElementTotal > limitLong) {
+                                return TRUE;
                             }
                         }
                     }
@@ -379,13 +377,11 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         for (BudgetDocumentVersion bdv : developmentProposal.getProposalDocument().getBudgetDocumentVersions()) {
             try {
                 BudgetDocument budgetDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(bdv.getDocumentNumber());
-                List<Budget> budgets = budgetDocument.getBudgets();
-                for (Budget budget : budgets) {
-                    if (budget.isFinalVersionFlag()) {
-                        for (BudgetSubAwards bsa : budget.getBudgetSubAwards()) {
-                            if (StringUtils.equals(FALSE, specialCharacterRule(bsa.getOrganizationName()))) {
-                                return FALSE;
-                            }
+                Budget budget = budgetDocument.getBudget();
+                if (budget.isFinalVersionFlag()) {
+                    for (BudgetSubAwards bsa : budget.getBudgetSubAwards()) {
+                        if (StringUtils.equals(FALSE, specialCharacterRule(bsa.getOrganizationName()))) {
+                            return FALSE;
                         }
                     }
                 }
@@ -899,13 +895,11 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
             if (bdv.getVersionNumber().equals(versionNumberLong)) {
                 try {
                     BudgetDocument budgetDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(bdv.getDocumentNumber());
-                    List<Budget> budgets = budgetDocument.getBudgets();
-                    for (Budget budget : budgets) {
-                        if (budget.getVersionNumber().equals(versionNumberLong)) {
-                            for (BudgetPeriod period : budget.getBudgetPeriods()) {
-                                for (BudgetLineItem item : period.getBudgetLineItems()) {
-                                    return TRUE;
-                                }
+                    Budget budget = budgetDocument.getBudget();
+                    if (budget.getVersionNumber().equals(versionNumberLong)) {
+                        for (BudgetPeriod period : budget.getBudgetPeriods()) {
+                            for (BudgetLineItem item : period.getBudgetLineItems()) {
+                                return TRUE;
                             }
                         }
                     }

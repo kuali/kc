@@ -17,16 +17,26 @@ package org.kuali.coeus.common.budget.framework.core.category;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.common.budget.api.category.BudgetCategoryTypeContract;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Class representation of the BudgetCategory Type Business Object
  */
+@Entity
+@Table(name = "BUDGET_CATEGORY_TYPE")
 public class BudgetCategoryType extends KcPersistableBusinessObjectBase implements Comparable<BudgetCategoryType>, BudgetCategoryTypeContract {
 
+    @Id
+    @Column(name = "BUDGET_CATEGORY_TYPE_CODE")
     private String code;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "SORT_ID")
     private Integer sortId;
 
     @Override

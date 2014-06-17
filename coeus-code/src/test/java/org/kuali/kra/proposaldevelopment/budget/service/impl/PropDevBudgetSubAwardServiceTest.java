@@ -248,13 +248,13 @@ public class PropDevBudgetSubAwardServiceTest {
             index++;
         }
     }
-    
+
     protected void assertCostShare(long costShareAmount) {
         for (BudgetPeriod period : budget.getBudgetPeriods()) {
             Collections.sort(period.getBudgetLineItems(), new Comparator<BudgetLineItem>() {
                 public int compare(BudgetLineItem arg0, BudgetLineItem arg1) {
                     return arg0.getLineItemNumber().compareTo(arg1.getLineItemNumber());
-                }                
+                }
             });
             Assert.assertEquals(new ScaleTwoDecimal(costShareAmount), period.getBudgetLineItems().get(0).getCostSharingAmount());
             for (int i = 1; i < budget.getBudgetPeriods().size(); i++) {
