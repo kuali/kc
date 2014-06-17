@@ -72,7 +72,7 @@
 
 	<bean id="PropDev-DetailsPage-ProjectDatesField" parent="PropDev-DetailsPage-ProjectDatesField-parentBean" />
 	<bean id="PropDev-DetailsPage-ProjectDatesField-parentBean"
-		abstract="true" parent="Uif-CssGridFieldGroup" p:label="Project dates"
+		abstract="true" parent="Uif-CssGridFieldGroup" p:label="Project Dates" 
 		p:required="true">
 		<property name="items">
 			<list>
@@ -82,9 +82,8 @@
 						<bean parent="Uif-DateControlOnFocus" p:watermarkText="mm/dd/yyyy" />
 					</property>
 					<property name="postInputAddons">
-						<list>
-							<bean parent="Uif-Message" p:messageText="to"
-								p:wrapperCssClasses="input-group-msg" />
+						<list>																		
+							<bean parent="Uif-Message" p:additionalCssClasses="input-range-msg" p:messageText="to"  />
 						</list>
 					</property>
 				</bean>
