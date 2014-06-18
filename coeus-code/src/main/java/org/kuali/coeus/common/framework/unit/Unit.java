@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.framework.unit;
 
+import org.kuali.coeus.common.api.unit.UnitContract;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -31,7 +32,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "UNIT")
-public class Unit extends KcPersistableBusinessObjectBase implements MutableInactivatable {
+public class Unit extends KcPersistableBusinessObjectBase implements MutableInactivatable, UnitContract {
 
     private static final long serialVersionUID = 7170184898996866958L;
 
@@ -72,6 +73,7 @@ public class Unit extends KcPersistableBusinessObjectBase implements MutableInac
         unitAdministrators = new ArrayList<UnitAdministrator>();
     }
 
+    @Override
     public String getUnitNumber() {
         return unitNumber;
     }
@@ -93,6 +95,7 @@ public class Unit extends KcPersistableBusinessObjectBase implements MutableInac
      * 
      * @return an organization id in the hierarchy
      */
+    @Override
     public String getOrganizationId() {
         if (organizationId == null && this.getParentUnit() != null && this.getParentUnit().getUnitNumber() != null) {
             return this.getParentUnit().getOrganizationId();
@@ -104,6 +107,7 @@ public class Unit extends KcPersistableBusinessObjectBase implements MutableInac
         this.organizationId = organizationId;
     }
 
+    @Override
     public String getUnitName() {
         return unitName;
     }
@@ -120,6 +124,7 @@ public class Unit extends KcPersistableBusinessObjectBase implements MutableInac
         this.code = code;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -145,6 +150,7 @@ public class Unit extends KcPersistableBusinessObjectBase implements MutableInac
         this.organization = organization;
     }
 
+    @Override
     public Unit getParentUnit() {
         return parentUnit;
     }
@@ -153,6 +159,7 @@ public class Unit extends KcPersistableBusinessObjectBase implements MutableInac
         this.parentUnit = parentUnit;
     }
 
+    @Override
     public List<UnitAdministrator> getUnitAdministrators() {
         //KRACOEUS-5499 - Sort the List for better grouping. 
         if (unitAdministrators != null) {

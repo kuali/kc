@@ -20,6 +20,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.api.unit.admin.UnitAdministratorContract;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.unit.Unit;
@@ -32,7 +33,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "UNIT_ADMINISTRATOR")
 @IdClass(UnitAdministrator.UnitAdministratorId.class)
-public class UnitAdministrator extends KcPersistableBusinessObjectBase implements AbstractUnitAdministrator, Comparable<UnitAdministrator> {
+public class UnitAdministrator extends KcPersistableBusinessObjectBase implements AbstractUnitAdministrator, Comparable<UnitAdministrator>, UnitAdministratorContract {
 
     @Id
     @Column(name = "PERSON_ID")
@@ -57,10 +58,7 @@ public class UnitAdministrator extends KcPersistableBusinessObjectBase implement
     @Transient
     private transient KcPersonService kcPersonService;
 
-    public UnitAdministrator() {
-        super();
-    }
-
+    @Override
     public String getPersonId() {
         return personId;
     }
@@ -77,6 +75,7 @@ public class UnitAdministrator extends KcPersistableBusinessObjectBase implement
         this.unitAdministratorTypeCode = unitAdministratorTypeCode;
     }
 
+    @Override
     public String getUnitNumber() {
         return unitNumber;
     }
@@ -100,6 +99,7 @@ public class UnitAdministrator extends KcPersistableBusinessObjectBase implement
         return this.kcPersonService;
     }
 
+    @Override
     public UnitAdministratorType getUnitAdministratorType() {
         return unitAdministratorType;
     }
