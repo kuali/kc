@@ -28,7 +28,7 @@ public class ActivityType extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "ACTIVITY_TYPE_CODE")
-    private String activityTypeCode;
+    private String code;
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -44,12 +44,12 @@ public class ActivityType extends KcPersistableBusinessObjectBase {
         this.higherEducationFunctionCode = higherEducationFunctionCode;
     }
 
-    public String getActivityTypeCode() {
-        return activityTypeCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setActivityTypeCode(String activityTypeCode) {
-        this.activityTypeCode = activityTypeCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getDescription() {

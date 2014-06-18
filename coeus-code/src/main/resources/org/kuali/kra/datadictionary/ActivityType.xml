@@ -10,10 +10,10 @@
     <property name="lookupDefinition" >
       <ref bean="ActivityType-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="activityTypeCode" />
+    <property name="titleAttribute" value="code" />
     <property name="attributes" >
       <list>
-        <ref bean="ActivityType-activityTypeCode" />
+        <ref bean="ActivityType-code" />
         <ref bean="ActivityType-description" />
         <ref bean="ActivityType-higherEducationFunctionCode" />
         <ref bean="ActivityType-versionNumber" />
@@ -24,10 +24,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ActivityType-activityTypeCode" parent="ActivityType-activityTypeCode-parentBean" />
+  <bean id="ActivityType-code" parent="ActivityType-code-parentBean" />
 
-  <bean id="ActivityType-activityTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="activityTypeCode" />
+  <bean id="ActivityType-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Activity Type" />
     <property name="shortLabel" value="Activity Type" />
@@ -87,7 +87,7 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition" p:attributeName="activityTypeCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="description"/>
               <bean parent="FieldDefinition" p:attributeName="higherEducationFunctionCode"/>
             </list>
@@ -107,7 +107,7 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="activityTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="code" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
               <bean p:propertyName="higherEducationFunctionCode" parent="Uif-DataField"/>
             </list>
@@ -128,14 +128,14 @@
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition" p:attributeName="activityTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="code"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
         <bean parent="FieldDefinition" p:attributeName="higherEducationFunctionCode"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition" p:attributeName="activityTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
         <bean parent="FieldDefinition" p:attributeName="higherEducationFunctionCode"/>
       </list>
@@ -158,14 +158,14 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="activityTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="higherEducationFunctionCode" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="activityTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="code" parent="Uif-DataField"/>
         <bean p:propertyName="description" parent="Uif-DataField"/>
         <bean p:propertyName="higherEducationFunctionCode" parent="Uif-DataField"/>
       </list>
