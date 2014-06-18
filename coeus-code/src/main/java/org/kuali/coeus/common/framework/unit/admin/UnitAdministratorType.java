@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.framework.unit.admin;
 
+import org.kuali.coeus.common.api.unit.admin.UnitAdministratorTypeContract;
 import org.kuali.coeus.common.framework.unit.UnitContactType;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.ContactRole;
@@ -27,7 +28,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "UNIT_ADMINISTRATOR_TYPE")
-public class UnitAdministratorType extends KcPersistableBusinessObjectBase implements ContactRole {
+public class UnitAdministratorType extends KcPersistableBusinessObjectBase implements ContactRole, UnitAdministratorTypeContract {
 
     public static final String ADMINISTRATIVE_OFFICER_TYPE_CODE = "1";
 
@@ -65,10 +66,7 @@ public class UnitAdministratorType extends KcPersistableBusinessObjectBase imple
     @Transient
     private UnitContactType unitContactType;
 
-    public UnitAdministratorType() {
-        super();
-    }
-
+    @Override
     public String getCode() {
         return code;
     }
@@ -77,6 +75,7 @@ public class UnitAdministratorType extends KcPersistableBusinessObjectBase imple
         this.code = code;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
