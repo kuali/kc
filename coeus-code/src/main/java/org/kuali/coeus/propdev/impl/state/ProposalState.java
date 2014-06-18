@@ -57,7 +57,7 @@ public class ProposalState extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "STATE_TYPE_CODE")
-    private String stateTypeCode;
+    private String code;
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -66,16 +66,16 @@ public class ProposalState extends KcPersistableBusinessObjectBase {
 	 * Get the State Type Code.
 	 * @return the state type code
 	 */
-    public String getStateTypeCode() {
-        return stateTypeCode;
+    public String getCode() {
+        return code;
     }
 
     /**
 	 * Set the State Type Code
-	 * @param stateTypeCode the new state type code
+	 * @param code the new state type code
 	 */
-    public void setStateTypeCode(String stateTypeCode) {
-        this.stateTypeCode = stateTypeCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     /**
