@@ -1479,7 +1479,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         if (activityType == null) {
             if (activityTypeCode != null) {
                 Map<String, Object> identifiers = new HashMap<String, Object>();
-                identifiers.put("activityTypeCode", activityTypeCode);
+                identifiers.put("code", activityTypeCode);
                 activityType = (ActivityType) getBusinessObjectService().findByPrimaryKey(ActivityType.class, identifiers);
             }
         }

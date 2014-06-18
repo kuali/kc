@@ -99,7 +99,7 @@ public class FinancialObjectCodeMappingDocumentRule extends KcMaintenanceDocumen
         if (StringUtils.isNotEmpty(((FinancialObjectCodeMapping) newMapping).getActivityTypeCode())) {
             if (newMapping instanceof FinancialObjectCodeMapping) {
                 Map<String, String> pkMap1 = new HashMap<String, String>();
-                pkMap1.put("activityTypeCode", ((FinancialObjectCodeMapping) newMapping).getActivityTypeCode());
+                pkMap1.put("code", ((FinancialObjectCodeMapping) newMapping).getActivityTypeCode());
                 valid &= checkExistenceFromTable(ActivityType.class,pkMap1,"activityTypeCode", "Activity Type");
             }
         }
