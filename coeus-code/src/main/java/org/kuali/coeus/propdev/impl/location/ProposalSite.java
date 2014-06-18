@@ -22,6 +22,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.*;
@@ -36,7 +37,7 @@ import java.util.List;
 @Entity
 @Table(name = "EPS_PROP_SITES")
 @IdClass(ProposalSite.ProposalSiteId.class)
-public class ProposalSite extends KcPersistableBusinessObjectBase {
+public class ProposalSite extends KcPersistableBusinessObjectBase implements ProposalSiteContract {
 
     private static final long serialVersionUID = -1657749549230077805L;
 
@@ -90,6 +91,7 @@ public class ProposalSite extends KcPersistableBusinessObjectBase {
         this.proposalNumber = proposalNumber;
     }
 
+    @Override
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -98,6 +100,7 @@ public class ProposalSite extends KcPersistableBusinessObjectBase {
         this.siteNumber = siteNumber;
     }
 
+    @Override
     public Integer getSiteNumber() {
         return siteNumber;
     }
@@ -106,10 +109,7 @@ public class ProposalSite extends KcPersistableBusinessObjectBase {
         this.locationName = locationName;
     }
 
-    /**
-     * This method returns the name of the Proposal Site
-     * @return 
-     */
+    @Override
     public String getLocationName() {
         return locationName;
     }
@@ -118,6 +118,7 @@ public class ProposalSite extends KcPersistableBusinessObjectBase {
         this.locationTypeCode = locationTypeCode;
     }
 
+    @Override
     public Integer getLocationTypeCode() {
         return locationTypeCode;
     }
@@ -134,6 +135,7 @@ public class ProposalSite extends KcPersistableBusinessObjectBase {
         this.organization = organization;
     }
 
+    @Override
     public Organization getOrganization() {
         return organization;
     }
@@ -155,6 +157,7 @@ public class ProposalSite extends KcPersistableBusinessObjectBase {
         this.rolodex = rolodex;
     }
 
+    @Override
     public Rolodex getRolodex() {
         return rolodex;
     }
