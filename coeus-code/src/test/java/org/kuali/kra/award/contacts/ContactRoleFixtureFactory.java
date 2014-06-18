@@ -42,7 +42,7 @@ public final class ContactRoleFixtureFactory {
     
     private static ContactRole getUnitAdministratorType(String code, String description, UnitContactType unitContactType) {
         UnitAdministratorType type = new UnitAdministratorType();
-        type.setUnitAdministratorTypeCode(code);
+        type.setCode(code);
         type.setDescription(description);
         type.setUnitContactType(unitContactType);
         return type;

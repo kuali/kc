@@ -40,7 +40,7 @@ public class AwardUnitContactTypeValuesFinder extends UifKeyValuesFinderBase {
         Collection<UnitAdministratorType> types = getBusinessObjectService().findMatching(UnitAdministratorType.class, values);
         for (UnitAdministratorType type : types) {
             ConcreteKeyValue pair = new ConcreteKeyValue();
-            pair.setKey(type.getUnitAdministratorTypeCode());
+            pair.setKey(type.getCode());
             pair.setValue(type.getDescription());
             result.add(pair);
         }
