@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.framework.type;
 
+import org.kuali.coeus.common.api.type.ProposalTypeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.Column;
@@ -24,7 +25,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "PROPOSAL_TYPE")
-public class ProposalType extends KcPersistableBusinessObjectBase {
+public class ProposalType extends KcPersistableBusinessObjectBase implements ProposalTypeContract {
 
     public static final String RESUBMISSION_TYPE_CODE = "2";
 
@@ -42,6 +43,7 @@ public class ProposalType extends KcPersistableBusinessObjectBase {
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -50,6 +52,7 @@ public class ProposalType extends KcPersistableBusinessObjectBase {
         this.description = description;
     }
 
+    @Override
     public String getCode() {
         return code;
     }
