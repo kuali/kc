@@ -213,7 +213,7 @@ public class BudgetRatesServiceTest extends KcIntegrationTestBase {
 
     private static ActivityType generateMinimalActivityType(String activityTypeCode, String description) {
         ActivityType activityType = new ActivityType();
-        activityType.setActivityTypeCode(activityTypeCode);
+        activityType.setCode(activityTypeCode);
         activityType.setDescription(description);
         return activityType;
     }

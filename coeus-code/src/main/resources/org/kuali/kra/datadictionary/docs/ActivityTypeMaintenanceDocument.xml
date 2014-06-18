@@ -12,9 +12,11 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>activityTypeCode</value>
+        <value>code</value>
       </list>
-    </property>	<property name="allowsRecordDeletion" value="true" />	
+    </property>
+	<property name="allowsRecordDeletion" value="true" />
+	
     
     
     
@@ -37,7 +39,7 @@
     <property name="title" value="Edit Activity Types"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="activityTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="higherEducationFunctionCode" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
