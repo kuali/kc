@@ -27,7 +27,7 @@ import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.krms.UnitAgendaTypeService;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
-import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentModuleQuestionnaireBean;
+import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sModuleQuestionnaireBean;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonModuleQuestionnaireBean;
 import org.kuali.kra.protocol.ProtocolBase;
