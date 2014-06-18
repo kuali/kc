@@ -37,7 +37,7 @@ public class CongressionalDistrict extends KcPersistableBusinessObjectBase {
     @GeneratedValue(generator = "SEQ_CONG_DISTRICT_ID_KRA")
     @Id
     @Column(name = "CONG_DISTRICT_ID")
-    private Long congressionalDistrictId;
+    private Long id;
 
     @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
@@ -54,12 +54,12 @@ public class CongressionalDistrict extends KcPersistableBusinessObjectBase {
     @Transient
     private String newDistrictNumber;
 
-    public void setCongressionalDistrictId(Long congressionalDistrictId) {
-        this.congressionalDistrictId = congressionalDistrictId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Long getCongressionalDistrictId() {
-        return congressionalDistrictId;
+    public Long getId() {
+        return id;
     }
 
     public void setProposalNumber(String proposalNumber) {

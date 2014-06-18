@@ -37,7 +37,6 @@ import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyAttachment;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.*;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
@@ -699,7 +698,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     protected void fixCongressionalDistricts(ProposalDevelopmentDocument doc) {
         for (ProposalSite proposalSite: doc.getDevelopmentProposal().getProposalSites()) {
             for (CongressionalDistrict district: proposalSite.getCongressionalDistricts()) {
-                district.setCongressionalDistrictId(null);
+                district.setId(null);
             }
         }
     }
