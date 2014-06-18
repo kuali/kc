@@ -23,6 +23,7 @@ import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.api.person.creditsplit.ProposalUnitCreditSplitContract;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
@@ -44,12 +45,8 @@ public final class ProposalUnitCreditSplit extends KcPersistableBusinessObjectBa
 
     @Id
     @ManyToOne
-    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER") })
-    private ProposalPerson proposalPerson;
-
-    @Id
-    @Column(name = "UNIT_NUMBER")
-    private String unitNumber;
+    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER"), @JoinColumn(name = "UNIT_NUMBER", referencedColumnName = "UNIT_NUMBER") })
+    private ProposalPersonUnit proposalPersonUnit;
 
     @Id
     @Column(name = "INV_CREDIT_TYPE_CODE")
@@ -71,20 +68,11 @@ public final class ProposalUnitCreditSplit extends KcPersistableBusinessObjectBa
         return this.investigatorCreditType;
     }
 
+
     public void setInvestigatorCreditType(InvestigatorCreditType argInvCreditType) {
         this.investigatorCreditType = argInvCreditType;
     }
 
-    @Override
-    public String getUnitNumber() {
-        return this.unitNumber;
-    }
-
-    public void setUnitNumber(String argUnitNumber) {
-        this.unitNumber = argUnitNumber;
-    }
-
-    @Override
     public String getInvCreditTypeCode() {
         return this.invCreditTypeCode;
     }
@@ -113,28 +101,31 @@ public final class ProposalUnitCreditSplit extends KcPersistableBusinessObjectBa
 
     @Override
     public String getProposalNumber() {
-        return getProposalPerson().getDevelopmentProposal().getProposalNumber();
+        return getProposalPersonUnit().getProposalPerson().getDevelopmentProposal().getProposalNumber();
     }
 
     @Override
     public Integer getProposalPersonNumber() {
-        return getProposalPerson().getProposalPersonNumber();
+        return getProposalPersonUnit().getProposalPersonNumber();
+    }
+
+    @Override
+    public String getUnitNumber() {
+        return getProposalPersonUnit().getUnitNumber();
     }
 
     public static final class ProposalUnitCreditSplitId implements Serializable, Comparable<ProposalUnitCreditSplitId> {
 
-        private ProposalPerson.ProposalPersonId proposalPerson;
+        private ProposalPersonUnit.ProposalPersonUnitId proposalPersonUnit;
 
         private String invCreditTypeCode;
-
-        private String unitNumber;
         
-        public ProposalPerson.ProposalPersonId getProposalPerson() {
-			return proposalPerson;
+        public ProposalPersonUnit.ProposalPersonUnitId getProposalPersonUnit() {
+			return proposalPersonUnit;
 		}
 
-		public void setProposalPerson(ProposalPerson.ProposalPersonId proposalPerson) {
-			this.proposalPerson = proposalPerson;
+		public void setProposalPersonUnit(ProposalPersonUnit.ProposalPersonUnitId proposalPersonUnit) {
+			this.proposalPersonUnit = proposalPersonUnit;
 		}
 
         public String getInvCreditTypeCode() {
@@ -145,17 +136,9 @@ public final class ProposalUnitCreditSplit extends KcPersistableBusinessObjectBa
             this.invCreditTypeCode = invCreditTypeCode;
         }
 
-        public String getUnitNumber() {
-            return this.unitNumber;
-        }
-
-        public void setUnitNumber(String unitNumber) {
-            this.unitNumber = unitNumber;
-        }
-
         @Override
         public String toString() {
-            return new ToStringBuilder(this).append("proposalPerson", this.proposalPerson).append("invCreditTypeCode", this.invCreditTypeCode).append("unitNumber", this.unitNumber).toString();
+            return new ToStringBuilder(this).append("proposalPersonUnit", this.proposalPersonUnit).append("invCreditTypeCode", this.invCreditTypeCode).toString();
         }
 
         @Override
@@ -167,25 +150,25 @@ public final class ProposalUnitCreditSplit extends KcPersistableBusinessObjectBa
             if (other.getClass() != this.getClass())
                 return false;
             final ProposalUnitCreditSplitId rhs = (ProposalUnitCreditSplitId) other;
-            return new EqualsBuilder().append(this.proposalPerson, rhs.proposalPerson).append(this.invCreditTypeCode, rhs.invCreditTypeCode).append(this.unitNumber, rhs.unitNumber).isEquals();
+            return new EqualsBuilder().append(this.proposalPersonUnit, rhs.proposalPersonUnit).append(this.invCreditTypeCode, rhs.invCreditTypeCode).isEquals();
         }
 
         @Override
         public int hashCode() {
-            return new HashCodeBuilder(17, 37).append(this.proposalPerson).append(this.invCreditTypeCode).append(this.unitNumber).toHashCode();
+            return new HashCodeBuilder(17, 37).append(this.proposalPersonUnit).append(this.invCreditTypeCode).toHashCode();
         }
 
         @Override
         public int compareTo(ProposalUnitCreditSplitId other) {
-            return new CompareToBuilder().append(this.proposalPerson, other.proposalPerson).append(this.invCreditTypeCode, other.invCreditTypeCode).append(this.unitNumber, other.unitNumber).toComparison();
+            return new CompareToBuilder().append(this.proposalPersonUnit, other.proposalPersonUnit).append(this.invCreditTypeCode, other.invCreditTypeCode).toComparison();
         }
     }
 
-	public ProposalPerson getProposalPerson() {
-		return proposalPerson;
+	public ProposalPersonUnit getProposalPersonUnit() {
+		return proposalPersonUnit;
 	}
 
-	public void setProposalPerson(ProposalPerson proposalPerson) {
-		this.proposalPerson = proposalPerson;
+	public void setProposalPersonUnit(ProposalPersonUnit proposalPersonUnit) {
+		this.proposalPersonUnit = proposalPersonUnit;
 	}
 }

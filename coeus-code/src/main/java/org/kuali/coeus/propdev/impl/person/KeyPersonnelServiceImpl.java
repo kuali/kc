@@ -31,6 +31,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyAttachment;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit;
+import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 import org.kuali.kra.infrastructure.Constants;
@@ -158,7 +159,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                     }
                     if (!creditTypeFound ) {
                         ProposalUnitCreditSplit creditSplit = new ProposalUnitCreditSplit();
-                        creditSplit.setProposalPerson(person);
+                        creditSplit.setProposalPersonUnit(unitsplit);
                         creditSplit.setInvCreditTypeCode(invcrdtype.getCode());
                         creditSplit.setCredit(new ScaleTwoDecimal(0));
                         unitsplit.getCreditSplits().add(creditSplit);
@@ -484,8 +485,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
         for (InvestigatorCreditType creditType : getInvestigatorCreditTypes()) {
             ProposalUnitCreditSplit creditSplit = new ProposalUnitCreditSplit();
-            creditSplit.setProposalPerson(person);
-            creditSplit.setUnitNumber(unitId);
+            creditSplit.setProposalPersonUnit(retval);
             creditSplit.setInvCreditTypeCode(creditType.getCode());
             creditSplit.setCredit(new ScaleTwoDecimal(0));
             retval.getCreditSplits().add(creditSplit);
@@ -547,4 +547,65 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 	public void setPersonEditableService(PersonEditableService personEditableService) {
 		this.personEditableService = personEditableService;
 	}
+
+    @Override
+    public List<ProposalCreditSplitListDto> createCreditSplitListItems(List<ProposalPerson> investigators) {
+        List<ProposalCreditSplitListDto> creditSplitListItems = new ArrayList<ProposalCreditSplitListDto>();
+        Map<String,ProposalPersonCreditSplit> totalInvestigatorSplits = new HashMap<String,ProposalPersonCreditSplit>();
+        for (ProposalPerson investigator : investigators) {
+            ProposalCreditSplitListDto investigatorLine = new ProposalCreditSplitListDto();
+            investigatorLine.setDescription(investigator.getFullName());
+            investigatorLine.setLineType("investigator");
+            investigatorLine.getCreditSplits().addAll(investigator.getCreditSplits());
+            creditSplitListItems.add(investigatorLine);
+            for(ProposalPersonCreditSplit invesitgatorCreditSplit : investigator.getCreditSplits()){
+                if (totalInvestigatorSplits.containsKey(invesitgatorCreditSplit.getInvCreditTypeCode())) {
+                    ProposalPersonCreditSplit creditSplit = totalInvestigatorSplits.get(invesitgatorCreditSplit.getInvCreditTypeCode());
+                    creditSplit.setCredit(creditSplit.getCredit().add(invesitgatorCreditSplit.getCredit()));
+                } else {
+                    ProposalPersonCreditSplit creditSplit = new ProposalPersonCreditSplit();
+                    creditSplit.setCredit(invesitgatorCreditSplit.getCredit());
+                    totalInvestigatorSplits.put(invesitgatorCreditSplit.getInvCreditTypeCode(),creditSplit);
+                }
+            }
+
+            Map<String,ProposalUnitCreditSplit> totalUnitSplits = new HashMap<String,ProposalUnitCreditSplit>();
+            for(ProposalPersonUnit unit : investigator.getUnits()) {
+                ProposalCreditSplitListDto unitLine = new ProposalCreditSplitListDto();
+                unitLine.setDescription(unit.getUnitNumber() + " - " + unit.getUnit().getUnitName());
+                unitLine.getCreditSplits().addAll(unit.getCreditSplits());
+                unitLine.setLineType("unit");
+                creditSplitListItems.add(unitLine);
+                for(ProposalUnitCreditSplit unitCreditSplit : unit.getCreditSplits()){
+                    if (totalUnitSplits.containsKey(unitCreditSplit.getInvCreditTypeCode())) {
+                        ProposalUnitCreditSplit creditSplit = totalUnitSplits.get(unitCreditSplit.getInvCreditTypeCode());
+                        creditSplit.setCredit(creditSplit.getCredit().add(unitCreditSplit.getCredit()));
+                    } else {
+                        ProposalUnitCreditSplit creditSplit = new ProposalUnitCreditSplit();
+                        creditSplit.setCredit(unitCreditSplit.getCredit());
+                        totalUnitSplits.put(unitCreditSplit.getInvCreditTypeCode(),creditSplit);
+                    }
+                }
+            }
+
+            ProposalCreditSplitListDto unitTotalLine = new ProposalCreditSplitListDto();
+            unitTotalLine.setDescription("Unit Total:");
+            unitTotalLine.setLineType("unit-total");
+            for (Map.Entry<String,ProposalUnitCreditSplit> entry : totalUnitSplits.entrySet()) {
+                unitTotalLine.getCreditSplits().add(0,entry.getValue());
+            }
+            creditSplitListItems.add(unitTotalLine);
+        }
+
+
+        ProposalCreditSplitListDto investigatorTotalLine = new ProposalCreditSplitListDto();
+        investigatorTotalLine.setDescription("Investigator Total:");
+        investigatorTotalLine.setLineType("investigator-total");
+        for (Map.Entry<String,ProposalPersonCreditSplit> entry : totalInvestigatorSplits.entrySet()) {
+            investigatorTotalLine.getCreditSplits().add(0,entry.getValue());
+        }
+        creditSplitListItems.add(investigatorTotalLine);
+
+        return creditSplitListItems;
+    }
 }
