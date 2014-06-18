@@ -198,6 +198,8 @@
 					p:actionUrl.methodToCall="docHandler"
 					p:actionUrl.requestParameters="command:initiate" p:order="10" />
 				<bean parent="Uif-MenuAction" p:actionLabel="Proposals Enroute"
+					p:actionUrl.viewId="EnrouteDevelopmentProposals-LookupViewId"
+					p:actionUrl.controllerMapping="/lookup"
 					p:order="20" />
 				<bean parent="Uif-MenuAction" p:actionLabel="All My Proposals"
 					 p:actionUrl.viewId="AllDevelopmentProposals-LookupViewId"
