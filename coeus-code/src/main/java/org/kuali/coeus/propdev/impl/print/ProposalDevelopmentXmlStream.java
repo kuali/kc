@@ -406,7 +406,7 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
         
         if(developmentProposal.getNoticeOfOpportunity()!=null){
             NOTICEOFOPPORTUNITY noticeOfOpportunity = NOTICEOFOPPORTUNITY.Factory.newInstance();
-            noticeOfOpportunity.setNOTICEOFOPPORTUNITYCODE(getCode(developmentProposal.getNoticeOfOpportunity().getNoticeOfOpportunityCode()));
+            noticeOfOpportunity.setNOTICEOFOPPORTUNITYCODE(getCode(developmentProposal.getNoticeOfOpportunity().getCode()));
             noticeOfOpportunity.setDESCRIPTION(developmentProposal.getNoticeOfOpportunity().getDescription());
             proposalmaster.setNOTICEOFOPPORTUNITY(noticeOfOpportunity);
         }

@@ -19,6 +19,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.persistence.annotations.Customizer;
 import org.eclipse.persistence.config.DescriptorCustomizer;
+import org.kuali.coeus.common.framework.noo.NoticeOfOpportunity;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;

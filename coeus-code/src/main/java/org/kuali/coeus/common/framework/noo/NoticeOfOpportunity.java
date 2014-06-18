@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.coeus.common.framework.noo;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
@@ -31,7 +31,7 @@ public class NoticeOfOpportunity extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "NOTICE_OF_OPPORTUNITY_CODE")
-    private String noticeOfOpportunityCode;
+    private String code;
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -55,19 +55,19 @@ public class NoticeOfOpportunity extends KcPersistableBusinessObjectBase {
     }
 
     /**
-     * Retrieves the noticeOfOpportunityCode attribute
+     * Retrieves the code attribute
      *
      * @return String
      */
-    public String getNoticeOfOpportunityCode() {
-        return noticeOfOpportunityCode;
+    public String getCode() {
+        return code;
     }
 
     /**
-     * Assigns the noticeOfOpportunityCode attribute
-     * @param noticeOfOpportunityCode
+     * Assigns the code attribute
+     * @param code
      */
-    public void setNoticeOfOpportunityCode(String noticeOfOpportunityCode) {
-        this.noticeOfOpportunityCode = noticeOfOpportunityCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 }
