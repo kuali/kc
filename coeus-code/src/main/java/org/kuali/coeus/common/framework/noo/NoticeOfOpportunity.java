@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.framework.noo;
 
+import org.kuali.coeus.common.api.noo.NoticeOfOpportunityContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.Column;
@@ -27,7 +28,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "NOTICE_OF_OPPORTUNITY")
-public class NoticeOfOpportunity extends KcPersistableBusinessObjectBase {
+public class NoticeOfOpportunity extends KcPersistableBusinessObjectBase implements NoticeOfOpportunityContract {
 
     @Id
     @Column(name = "NOTICE_OF_OPPORTUNITY_CODE")
@@ -36,37 +37,20 @@ public class NoticeOfOpportunity extends KcPersistableBusinessObjectBase {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    /**
-     * Retrieves the description attribute
-     *
-     * @return String
-     */
+    @Override
     public String getDescription() {
         return description;
     }
 
-    /**
-     * Assigns the description attribute
-     *
-     * @param description
-     */
     public void setDescription(String description) {
         this.description = description;
     }
 
-    /**
-     * Retrieves the code attribute
-     *
-     * @return String
-     */
+    @Override
     public String getCode() {
         return code;
     }
 
-    /**
-     * Assigns the code attribute
-     * @param code
-     */
     public void setCode(String code) {
         this.code = code;
     }
