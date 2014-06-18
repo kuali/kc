@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.home;
 
+import org.kuali.coeus.award.api.core.AwardTypeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.Column;
@@ -29,7 +30,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "AWARD_TYPE")
-public class AwardType extends KcPersistableBusinessObjectBase {
+public class AwardType extends KcPersistableBusinessObjectBase implements AwardTypeContract {
 
     private static final long serialVersionUID = 1652576733758069217L;
 
@@ -40,9 +41,7 @@ public class AwardType extends KcPersistableBusinessObjectBase {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    public AwardType() {
-    }
-
+    @Override
     public Integer getCode() {
         return code;
     }
@@ -51,6 +50,7 @@ public class AwardType extends KcPersistableBusinessObjectBase {
         this.code = code;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
