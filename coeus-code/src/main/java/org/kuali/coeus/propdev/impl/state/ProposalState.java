@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.state;
 
+import org.kuali.coeus.propdev.api.state.ProposalStateContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.Column;
@@ -27,7 +28,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "PROPOSAL_STATE")
-public class ProposalState extends KcPersistableBusinessObjectBase {
+public class ProposalState extends KcPersistableBusinessObjectBase implements ProposalStateContract {
 
     public static final String IN_PROGRESS = "1";
 
@@ -62,34 +63,20 @@ public class ProposalState extends KcPersistableBusinessObjectBase {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    /**
-	 * Get the State Type Code.
-	 * @return the state type code
-	 */
+    @Override
     public String getCode() {
         return code;
     }
 
-    /**
-	 * Set the State Type Code
-	 * @param code the new state type code
-	 */
     public void setCode(String code) {
         this.code = code;
     }
 
-    /**
-	 * Get the human-readable description of the status.
-	 * @return the textual description
-	 */
+    @Override
     public String getDescription() {
         return description;
     }
 
-    /**
-	 * Set the textual description.
-	 * @param description the new description
-	 */
     public void setDescription(String description) {
         this.description = description;
     }
