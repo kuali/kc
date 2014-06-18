@@ -25,10 +25,10 @@
 		<property name="lookupDefinition">
 			<ref bean="AwardType-lookupDefinition"/>
 		</property>
-		<property name="titleAttribute" value="awardTypeCode"/>
+		<property name="titleAttribute" value="code"/>
 		<property name="attributes">
 			<list>
-				<ref bean="AwardType-awardTypeCode"/>
+				<ref bean="AwardType-code"/>
 				<ref bean="AwardType-description"/>
 				<ref bean="AwardType-versionNumber"/>
 			</list>
@@ -36,9 +36,9 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-	<bean id="AwardType-awardTypeCode" parent="AwardType-awardTypeCode-parentBean"/>
-	<bean abstract="true" id="AwardType-awardTypeCode-parentBean" parent="AttributeDefinition">
-		<property name="name" value="awardTypeCode"/>
+	<bean id="AwardType-code" parent="AwardType-code-parentBean"/>
+	<bean abstract="true" id="AwardType-code-parentBean" parent="AttributeDefinition">
+		<property name="name" value="code"/>
 		<property name="forceUppercase" value="false"/>
 		<property name="label" value="Award Type Code"/>
 		<property name="shortLabel" value="Award Type Code"/>
@@ -98,7 +98,7 @@
 					<property name="numberOfColumns" value="1"/>
 					<property name="inquiryFields">
 						<list>
-							<bean p:attributeName="awardTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+							<bean p:attributeName="code" p:forceInquiry="true" parent="FieldDefinition"/>
 							<bean p:attributeName="description" parent="FieldDefinition"/>
 						</list>
 					</property>
@@ -117,7 +117,7 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="awardTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="code" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
             </list>
           </property>
@@ -140,13 +140,13 @@
     	</property>   				
 		<property name="lookupFields">
 			<list>
-				<bean p:attributeName="awardTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+				<bean p:attributeName="code" p:forceInquiry="true" parent="FieldDefinition"/>
 				<bean p:attributeName="description" parent="FieldDefinition"/>
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean p:attributeName="awardTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+				<bean p:attributeName="code" p:forceInquiry="true" parent="FieldDefinition"/>
 				<bean p:attributeName="description" parent="FieldDefinition"/>
 			</list>
 		</property>
@@ -168,13 +168,13 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="awardTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="awardTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="code" parent="Uif-DataField"/>
         <bean p:propertyName="description" parent="Uif-DataField"/>
       </list>
     </property>
