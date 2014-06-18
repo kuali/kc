@@ -356,7 +356,7 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
         proposalmaster.setPROPOSALNUMBER(developmentProposal.getProposalNumber());
         PROPOSALTYPE proposaltype = PROPOSALTYPE.Factory.newInstance();
         if (developmentProposal.getProposalType() != null) {
-            proposaltype.setPROPOSALTYPECODE(getCode(developmentProposal.getProposalType().getProposalTypeCode()));
+            proposaltype.setPROPOSALTYPECODE(getCode(developmentProposal.getProposalType().getCode()));
             proposaltype.setDESCRIPTION(developmentProposal.getProposalType().getDescription());
         }        
         ACTIVITYTYPE activityType = ACTIVITYTYPE.Factory.newInstance();

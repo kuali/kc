@@ -37,7 +37,7 @@ public class ProposalType extends KcPersistableBusinessObjectBase {
 
     @Id
     @Column(name = "PROPOSAL_TYPE_CODE")
-    private String proposalTypeCode;
+    private String code;
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -50,11 +50,11 @@ public class ProposalType extends KcPersistableBusinessObjectBase {
         this.description = description;
     }
 
-    public String getProposalTypeCode() {
-        return proposalTypeCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setProposalTypeCode(String proposalTypeCode) {
-        this.proposalTypeCode = proposalTypeCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 }
