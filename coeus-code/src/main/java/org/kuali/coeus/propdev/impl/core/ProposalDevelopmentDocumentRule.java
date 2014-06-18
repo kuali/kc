@@ -47,7 +47,7 @@ import org.kuali.coeus.propdev.impl.person.AddKeyPersonRule;
 import org.kuali.coeus.propdev.impl.person.ChangeKeyPersonRule;
 import org.kuali.coeus.propdev.impl.person.ProposalDevelopmentKeyPersonsRule;
 import org.kuali.coeus.propdev.impl.person.SaveKeyPersonRule;
-import org.kuali.coeus.propdev.impl.question.ProposalDevelopmentQuestionnaireAuditRule;
+import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireAuditRule;
 import org.kuali.coeus.propdev.impl.resubmit.ProposalDevelopmentResubmissionPromptRule;
 import org.kuali.coeus.propdev.impl.resubmit.ResubmissionPromptRule;
 import org.kuali.coeus.propdev.impl.resubmit.ResubmissionRuleEvent;
