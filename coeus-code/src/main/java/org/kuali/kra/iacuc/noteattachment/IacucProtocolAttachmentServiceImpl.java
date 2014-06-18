@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
+import org.kuali.coeus.common.protocol.framework.attachment.*;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDao;
-import org.kuali.kra.protocol.noteattachment.*;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

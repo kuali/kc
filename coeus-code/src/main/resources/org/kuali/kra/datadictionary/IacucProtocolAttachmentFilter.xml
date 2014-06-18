@@ -52,10 +52,10 @@
         <property name="description" value="Sort By" />
         <property name="maxLength" value="4" />
         <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.protocol.noteattachment.SortByValuesFinder"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.iacuc.noteattachment.SortByValuesFinder"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.protocol.noteattachment.SortByValuesFinder"/>
+      <bean class="org.kuali.kra.iacuc.noteattachment.SortByValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>

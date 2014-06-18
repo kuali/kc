@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import org.kuali.kra.protocol.noteattachment.AddProtocolAttachmentProtocolRuleImplBase;
+import org.kuali.coeus.common.protocol.framework.attachment.AddProtocolAttachmentProtocolRuleImplBase;
 
 /**
  * Implementation of {@link AddProtocolAttachmentProtocolRule AddProtocolAttachmentProtocolRule}.

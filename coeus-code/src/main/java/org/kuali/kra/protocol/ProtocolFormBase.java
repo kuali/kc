@@ -28,7 +28,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.medusa.MedusaBean;
 import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelperBase;
-import org.kuali.kra.protocol.noteattachment.NotesAttachmentsHelperBase;
+import org.kuali.coeus.common.protocol.framework.attachment.NotesAttachmentsHelperBase;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelperBase;
 import org.kuali.kra.protocol.permission.PermissionsHelperBase;

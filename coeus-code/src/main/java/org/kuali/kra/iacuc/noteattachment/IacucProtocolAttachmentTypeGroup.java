@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentGroupBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentTypeBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentTypeGroupBase;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentGroupBase;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentTypeBase;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentTypeGroupBase;
 
 public class IacucProtocolAttachmentTypeGroup extends ProtocolAttachmentTypeGroupBase {
 

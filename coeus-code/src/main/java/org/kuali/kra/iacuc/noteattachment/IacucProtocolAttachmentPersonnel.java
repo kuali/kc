@@ -16,7 +16,7 @@
 package org.kuali.kra.iacuc.noteattachment;
 
 import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentPersonnelBase;
 
 public class IacucProtocolAttachmentPersonnel extends ProtocolAttachmentPersonnelBase {
 

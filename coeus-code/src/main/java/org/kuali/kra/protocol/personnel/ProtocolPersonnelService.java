@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.personnel;
 
 import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentPersonnelBase;
 
 import java.util.List;
 

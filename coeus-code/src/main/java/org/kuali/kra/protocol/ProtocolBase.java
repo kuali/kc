@@ -22,6 +22,8 @@ import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
+import org.kuali.coeus.common.protocol.framework.attachment.*;
+import org.kuali.coeus.common.protocol.framework.note.ProtocolNotepadBase;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -36,7 +38,6 @@ import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewalBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatusBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionTypeBase;
-import org.kuali.kra.protocol.noteattachment.*;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
@@ -163,7 +164,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     private transient SequenceAccessorService sequenceAccessorService;
     
     //Used to filter protocol attachments
-    private transient ProtocolAttachmentFilterBase protocolAttachmentFilter;    
+    private transient ProtocolAttachmentFilterBase protocolAttachmentFilter;
 
     // passed in req param submissionid.  used to check if irb ack is needed
     // this link is from protocosubmission or notify irb message

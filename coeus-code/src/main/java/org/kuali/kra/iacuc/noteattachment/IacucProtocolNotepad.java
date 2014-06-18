@@ -16,7 +16,7 @@
 package org.kuali.kra.iacuc.noteattachment;
 
 import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolNotepadBase;
+import org.kuali.coeus.common.protocol.framework.note.ProtocolNotepadBase;
 
 public class IacucProtocolNotepad extends ProtocolNotepadBase {
 

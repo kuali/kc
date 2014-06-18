@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentGroupBase;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentGroupBase;
 
 /**
  * This class represents the Protocol Attachment Group.

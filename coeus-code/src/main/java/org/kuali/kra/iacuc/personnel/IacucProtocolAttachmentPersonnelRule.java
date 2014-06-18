@@ -16,7 +16,7 @@
 package org.kuali.kra.iacuc.personnel;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentService;
 import org.kuali.kra.protocol.personnel.ProtocolAttachmentPersonnelRuleBase;
 
 public class IacucProtocolAttachmentPersonnelRule extends ProtocolAttachmentPersonnelRuleBase {

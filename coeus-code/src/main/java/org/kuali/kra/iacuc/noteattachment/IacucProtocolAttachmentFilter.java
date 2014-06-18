@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentFilterBase;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentFilterBase;
 
 public class IacucProtocolAttachmentFilter extends ProtocolAttachmentFilterBase {
 

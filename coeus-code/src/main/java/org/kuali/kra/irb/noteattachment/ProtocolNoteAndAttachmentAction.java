@@ -24,6 +24,7 @@ import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.print.watermark.WatermarkConstants;
 import org.kuali.coeus.common.framework.print.watermark.WatermarkService;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentBase;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
@@ -33,8 +34,8 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.print.ProtocolPrintingService;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolNotepadBase;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentProtocolBase;
+import org.kuali.coeus.common.protocol.framework.note.ProtocolNotepadBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -127,7 +128,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     public ActionForward deleteAttachmentProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         int selection = this.getSelectedLine(request);
-        org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase attachment = ((ProtocolForm) form).getNotesAttachmentsHelper().retrieveExistingAttachmentByType(
+        ProtocolAttachmentBase attachment = ((ProtocolForm) form).getNotesAttachmentsHelper().retrieveExistingAttachmentByType(
                 selection, ProtocolAttachmentProtocol.class);
         if (isValidContactData(attachment, ATTACHMNENT_PATH + selection + "]")) {
             return confirmDeleteAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentProtocol.class);
@@ -139,7 +140,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     /*
      * add this check, so to prevent the situation that data is not editable after deletion.
      */
-    private boolean isValidContactData(org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase attachment, String errorPath) {
+    private boolean isValidContactData(ProtocolAttachmentBase attachment, String errorPath) {
         MessageMap errorMap = GlobalVariables.getMessageMap();
         errorMap.addToErrorPath(errorPath);
         getDictionaryValidationService().validateBusinessObject(attachment);
@@ -195,10 +196,10 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      * @throws Exception if there is a problem executing the request.
      */
     private ActionForward confirmDeleteAttachment(ActionMapping mapping, ProtocolForm form, HttpServletRequest request,
-            HttpServletResponse response, Class<? extends org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase> attachmentType) throws Exception {
+            HttpServletResponse response, Class<? extends ProtocolAttachmentBase> attachmentType) throws Exception {
         
         final int selection = this.getSelectedLine(request);
-        final org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase attachment = form.getNotesAttachmentsHelper().retrieveExistingAttachmentByType(selection, attachmentType);
+        final ProtocolAttachmentBase attachment = form.getNotesAttachmentsHelper().retrieveExistingAttachmentByType(selection, attachmentType);
        
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
@@ -228,7 +229,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      * @throws Exception if there is a problem executing the request.
      */
     private ActionForward deleteAttachment(ActionMapping mapping, ProtocolForm form, HttpServletRequest request,
-            HttpServletResponse response, Class<? extends org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase> attachmentType) throws Exception {
+            HttpServletResponse response, Class<? extends ProtocolAttachmentBase> attachmentType) throws Exception {
         
         final int selection = this.getSelectedLine(request);
         

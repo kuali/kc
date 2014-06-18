@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolRuleHelperBase;
+import org.kuali.coeus.common.protocol.framework.attachment.ProtocolAttachmentProtocolRuleHelperBase;
 
 public class IacucProtocolAttachmentProtocolRuleHelper extends ProtocolAttachmentProtocolRuleHelperBase {
 

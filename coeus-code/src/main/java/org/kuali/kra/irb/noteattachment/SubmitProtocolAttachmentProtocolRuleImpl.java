@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import org.kuali.kra.protocol.noteattachment.SubmitProtocolAttachmentProtocolRuleImplBase;
+import org.kuali.coeus.common.protocol.framework.attachment.SubmitProtocolAttachmentProtocolRuleImplBase;
 
 /**
  * Class handles rules for submitting a {@link ProtocolAttachmentProtocol ProtocolAttachmentProtocol}.
