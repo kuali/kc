@@ -39,6 +39,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+
 @Controller
 public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentControllerBase {
    
@@ -103,7 +104,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        }
        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
    }
-   
+
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addPerson")
    public ModelAndView addPerson(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -120,7 +121,23 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        form.getAddKeyPersonHelper().reset();
        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
    }
-   
+
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-CreditAllocationPage"})
+    public ModelAndView navigateToCreditAllocation(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
+        getKeyPersonnelService().populateDocument(form.getProposalDevelopmentDocument());
+        form.setCreditSplitListItems(getKeyPersonnelService().createCreditSplitListItems(form.getDevelopmentProposal().getInvestigators()));
+        return getTransactionalDocumentControllerService().navigate(form, result, request, response);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=save", "pageId=PropDev-CreditAllocationPage"})
+    public ModelAndView creditAllocationSave(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+                                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ModelAndView retVal = super.save(form, result, request, response);
+        getKeyPersonnelService().populateDocument(form.getProposalDevelopmentDocument());
+        return retVal;
+    }
 
     protected LookupableHelperService getKcPersonLookupableHelperService() {
         return kcPersonLookupableHelperService;
