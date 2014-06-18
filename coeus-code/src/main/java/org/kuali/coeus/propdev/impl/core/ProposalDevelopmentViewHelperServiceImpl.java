@@ -154,7 +154,8 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         values.put("sponsorCode", sponsorCode + "*");
         allSponsors.addAll(getLookupService().findCollectionBySearchHelper(Sponsor.class, values, Collections.EMPTY_LIST, false, 10));
         values.clear();
-        values.put("acronym", sponsorCode + "*");
+        //Search by sponsor name and place any results with the results from the previous search.
+        values.put("sponsorName", sponsorCode + "*");
         allSponsors.addAll(getLookupService().findCollectionBySearchHelper(Sponsor.class, values, Collections.EMPTY_LIST, false, 10));
         
         for (Sponsor sponsor : allSponsors) {

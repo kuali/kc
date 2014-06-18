@@ -190,16 +190,16 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Sponsor" />
 		<property name="shortLabel" value="Sponsor" />
-		<property name="maxLength" value="6" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint"/>
-    </property>
+		<property name="maxLength" value="200" />
+        <property name="validationPattern">
+            <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true" />
+        </property>
 		<property name="required" value="true" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="12" />
+			<bean parent="TextControlDefinition" p:size="20" />
 		</property>
     <property name="controlField">
       <bean p:size="12" parent="Uif-TextControl"/>
@@ -499,19 +499,20 @@
     <property name="description" value="Anticipated Award Type" />
   </bean>
 
+
 	<bean id="DevelopmentProposal-primeSponsorCode" parent="DevelopmentProposal-primeSponsorCode-parentBean" />
   <bean id="DevelopmentProposal-primeSponsorCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="primeSponsorCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Prime Sponsor ID" />
-		<property name="shortLabel" value="Prime Sponsor ID" />
-		<property name="maxLength" value="6" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint"/>
-    </property>
+		<property name="label" value="Prime Sponsor Code" />
+		<property name="shortLabel" value="Prime Sponsor Code" />
+		<property name="maxLength" value="200" />
+        <property name="validationPattern">
+            <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true" />
+        </property>
 		<property name="required" value="false" />
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="20" />
