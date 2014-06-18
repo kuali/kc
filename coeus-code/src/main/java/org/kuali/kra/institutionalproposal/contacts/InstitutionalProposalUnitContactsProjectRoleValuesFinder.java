@@ -37,7 +37,7 @@ public class InstitutionalProposalUnitContactsProjectRoleValuesFinder extends Ui
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (UnitAdministratorType aType: types) {
             if ( aType.getDefaultGroupFlag().equals(Constants.UNIT_CONTACTS_DEFAULT_GROUP_FLAG)) {    // only get Unit Contacts
-                keyValues.add(new ConcreteKeyValue(aType.getUnitAdministratorTypeCode(), aType.getDescription()));
+                keyValues.add(new ConcreteKeyValue(aType.getCode(), aType.getDescription()));
             }
         }
         keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));    

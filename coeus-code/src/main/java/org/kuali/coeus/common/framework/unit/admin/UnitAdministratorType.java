@@ -50,7 +50,7 @@ public class UnitAdministratorType extends KcPersistableBusinessObjectBase imple
 
     @Id
     @Column(name = "UNIT_ADMINISTRATOR_TYPE_CODE")
-    private String unitAdministratorTypeCode;
+    private String code;
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -69,12 +69,12 @@ public class UnitAdministratorType extends KcPersistableBusinessObjectBase imple
         super();
     }
 
-    public String getUnitAdministratorTypeCode() {
-        return unitAdministratorTypeCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setUnitAdministratorTypeCode(String unitAdministratorTypeCode) {
-        this.unitAdministratorTypeCode = unitAdministratorTypeCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getDescription() {
@@ -86,7 +86,7 @@ public class UnitAdministratorType extends KcPersistableBusinessObjectBase imple
     }
 
     public String getRoleCode() {
-        return getUnitAdministratorTypeCode();
+        return getCode();
     }
 
     public String getRoleDescription() {

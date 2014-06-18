@@ -71,7 +71,7 @@ public class UnitAdministratorMaintenanceDocumentRule extends KcMaintenanceDocum
             Collection<UnitAdministrator> unitAdministrators = getBusinessObjectService().findMatching(UnitAdministrator.class, fieldValues);
             
             for (UnitAdministrator unitAdministrator : unitAdministrators) {
-                if (StringUtils.equals(newUnitAdministratorType.getUnitAdministratorTypeCode(), unitAdministrator.getUnitAdministratorTypeCode())) {
+                if (StringUtils.equals(newUnitAdministratorType.getCode(), unitAdministrator.getUnitAdministratorTypeCode())) {
                     isValid = false;
                     GlobalVariables.getMessageMap().putError("document.newMaintainableObject.unitAdministratorTypeCode", 
                             KeyConstants.UNIT_ADMINISTRATOR_MULTIPLE_TYPES_NOT_ALLOWED, newUnitAdministratorType.getDescription());
