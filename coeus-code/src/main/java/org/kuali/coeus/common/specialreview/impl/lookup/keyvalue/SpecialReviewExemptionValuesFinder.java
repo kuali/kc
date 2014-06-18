@@ -39,7 +39,7 @@ public class SpecialReviewExemptionValuesFinder extends UifKeyValuesFinderBase {
     public SpecialReviewExemptionValuesFinder() {
         PersistableBusinessObjectValuesFinder boFinder = new PersistableBusinessObjectValuesFinder();
         boFinder.setBusinessObjectClass(ExemptionType.class);
-        boFinder.setKeyAttributeName("exemptionTypeCode");
+        boFinder.setKeyAttributeName("code");
         boFinder.setLabelAttributeName("description");
         
         this.finder = new SortedValuesFinder(boFinder);
