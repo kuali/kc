@@ -44,7 +44,7 @@ public class CoiDisclosureProjectsProjectTypeValuesFinder extends UifKeyValuesFi
         List<ProposalType> proposalTypes = (List<ProposalType>) getBusinessObjectService().findAll(ProposalType.class);
         if (CollectionUtils.isNotEmpty(proposalTypes)) {
             for (ProposalType proposalType : proposalTypes) {
-                keyValues.add(new ConcreteKeyValue(proposalType.getProposalTypeCode(), proposalType.getDescription()));
+                keyValues.add(new ConcreteKeyValue(proposalType.getCode(), proposalType.getDescription()));
             }
         }
         
