@@ -22,7 +22,7 @@ import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.coi.questionnaire.DisclProjectQuestionnaireHelper;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 
 import java.io.Serializable;
 import java.sql.Date;

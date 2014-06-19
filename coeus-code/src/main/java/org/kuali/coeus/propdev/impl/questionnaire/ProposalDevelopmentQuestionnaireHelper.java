@@ -21,7 +21,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 
 public class ProposalDevelopmentQuestionnaireHelper extends QuestionnaireHelperBase {
 

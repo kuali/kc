@@ -16,7 +16,7 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 	<bean id="Questionnaire-Collection" parent="Questionnaire-Collection-parentBean" />
 	<bean id="Questionnaire-Collection-parentBean" abstract="true"
-		parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.kra.questionnaire.answer.AnswerHeader"
+		parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader"
 		p:propertyName="questionnaireHelper.answerHeaders"
 		p:layoutManager.summaryTitle="@{#lp.label} (@{#lp.completed ? 'Complete' : 'Incomplete'})"
 		p:renderAddLine="false" p:showInactiveLines="false"
@@ -78,7 +78,7 @@
 
 	<bean id="Questionnaire-SubCollection" parent="Questionnaire-SubCollection-parentBean" />
 	<bean id="Questionnaire-SubCollection-parentBean" abstract="true"
-		parent="Uif-ListCollectionSubSection" p:collectionObjectClass="org.kuali.kra.questionnaire.answer.Answer"
+		parent="Uif-ListCollectionSubSection" p:collectionObjectClass="org.kuali.coeus.common.questionnaire.framework.answer.Answer"
 		p:propertyName="answers" p:renderAddLine="false" p:renderLineActions="false">
 		<property name="items">
 			<list>

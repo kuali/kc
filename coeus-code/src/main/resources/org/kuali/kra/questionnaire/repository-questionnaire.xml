@@ -88,7 +88,7 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
         
-    <class-descriptor class="org.kuali.kra.questionnaire.answer.AnswerHeader" table="QUESTIONNAIRE_ANSWER_HEADER">
+    <class-descriptor class="org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader" table="QUESTIONNAIRE_ANSWER_HEADER">
 		<field-descriptor name="id" column="QUESTIONNAIRE_ANSWER_HEADER_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
 		<field-descriptor name="moduleItemCode" column="MODULE_ITEM_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="moduleItemKey" column="MODULE_ITEM_KEY" jdbc-type="VARCHAR" />
@@ -103,12 +103,12 @@
 		<reference-descriptor name="questionnaire" class-ref="org.kuali.kra.questionnaire.Questionnaire" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="questionnaireId"/>
 		</reference-descriptor>
-		<collection-descriptor name="answers" proxy="true" element-class-ref="org.kuali.kra.questionnaire.answer.Answer" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
+		<collection-descriptor name="answers" proxy="true" element-class-ref="org.kuali.coeus.common.questionnaire.framework.answer.Answer" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
 			<inverse-foreignkey field-ref="answerHeaderId"/>
 		</collection-descriptor>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.questionnaire.answer.Answer" table="QUESTIONNAIRE_ANSWER">
+	<class-descriptor class="org.kuali.coeus.common.questionnaire.framework.answer.Answer" table="QUESTIONNAIRE_ANSWER">
 		<field-descriptor name="id" column="QUESTIONNAIRE_ANSWER_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
 		<field-descriptor name="answerHeaderId" column="QUESTIONNAIRE_AH_ID_FK" jdbc-type="BIGINT" />
 		<field-descriptor name="questionId" column="QUESTION_REF_ID_FK" jdbc-type="BIGINT" />
@@ -120,7 +120,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="answerHeader" class-ref="org.kuali.kra.questionnaire.answer.AnswerHeader" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="answerHeader" class-ref="org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="answerHeaderId"/>
 		</reference-descriptor>
 		<reference-descriptor name="question" class-ref="org.kuali.kra.questionnaire.question.Question" auto-retrieve="true" auto-update="none" auto-delete="none"> 

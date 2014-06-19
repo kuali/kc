@@ -17,7 +17,7 @@ package org.kuali.kra.coi.questionnaire;
 
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 
 public class ScreeningQuestionnaireHelper extends DisclosureQuestionnaireHelper {
 

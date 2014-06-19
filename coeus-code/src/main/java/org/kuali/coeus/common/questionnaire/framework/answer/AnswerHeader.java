@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire.answer;
+package org.kuali.coeus.common.questionnaire.framework.answer;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Holds additional information related to a series of {@link Answer Answers}.
+ * Holds additional information related to a series of {@link org.kuali.coeus.common.questionnaire.framework.answer.Answer Answers}.
  */
 public class AnswerHeader extends KcPersistableBusinessObjectBase implements Inactivatable, AnswerHeaderContract {
 
