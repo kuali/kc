@@ -7,7 +7,6 @@
     <property name="titleAttribute" value="invCreditTypeCode" />
     <property name="attributes" >
       <list>
-        <ref bean="ProposalUnitCreditSplit-unitNumber" />
         <ref bean="ProposalUnitCreditSplit-credit" />
         <ref bean="ProposalUnitCreditSplit-invCreditTypeCode" />
         <ref bean="ProposalUnitCreditSplit-versionNumber" />
@@ -16,14 +15,6 @@
   </bean>
 
 <!-- Attribute Definitions -->
-
-  <bean id="ProposalUnitCreditSplit-unitNumber" parent="ProposalUnitCreditSplit-unitNumber-parentBean"/>
-  <bean id="ProposalUnitCreditSplit-unitNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
-    <property name="name" value="unitNumber" />
-    <property name="label" value="Unit Number" />
-    <property name="summary" value="Unit Number" />
-    <property name="description" value="Unit Number" />
-  </bean>
 
   <bean id="ProposalUnitCreditSplit-credit" parent="ProposalUnitCreditSplit-credit-parentBean"/>
   <bean id="ProposalUnitCreditSplit-credit-parentBean" abstract="true" parent="AttributeDefinition">

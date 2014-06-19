@@ -53,7 +53,7 @@
 				<ref bean="PropDev-QuestionnairePage" />
 				<ref bean="PropDev-SponsorProgramInfoPage" />
 				<ref bean="PropDev-DeliveryInfoPage" />
-				<bean id="PropDev-CreditAllocation" parent="PropDev-UnderDevelopmentPage" />
+				<ref bean="PropDev-CreditAllocationPage"  />
 				<bean id="PropDev-Budget-Summary" parent="PropDev-UnderDevelopmentPage" />
 				<bean id="PropDev-Budget-Parameters" parent="PropDev-UnderDevelopmentPage" />
 				<bean id="PropDev-Budget-Rates" parent="PropDev-UnderDevelopmentPage" />
@@ -119,7 +119,7 @@
 			<list>
 				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-PersonnelPage"
 					p:actionLabel="Personnel" p:order="10" />
-				<bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-CreditAllocation"
+				<bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-CreditAllocationPage"
 					p:actionLabel="Credit Allocation" p:order="20" />
 			</list>
 		</property>

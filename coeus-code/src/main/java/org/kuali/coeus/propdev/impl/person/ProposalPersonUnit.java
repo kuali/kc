@@ -64,8 +64,7 @@ public class ProposalPersonUnit extends KcPersistableBusinessObjectBase implemen
     @JoinColumn(name = "UNIT_NUMBER", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
     private Unit unit;
 
-    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER"), @JoinColumn(name = "UNIT_NUMBER", referencedColumnName = "UNIT_NUMBER") })
+    @OneToMany(mappedBy="proposalPersonUnit", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<ProposalUnitCreditSplit> creditSplits;
 
     @Transient
