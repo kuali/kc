@@ -40,7 +40,7 @@ public class AttachmentsV1_1GeneratorTest extends S2STestBase<AttachmentsV1_1Gen
 
         Narrative narrative = new Narrative();
         List<Narrative> naList = new ArrayList<Narrative>();
-        narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+        narrative.setDevelopmentProposal(document.getDevelopmentProposal());
         narrative.setModuleNumber(1);
         narrative.setModuleSequenceNumber(1);
         narrative.setModuleStatusCode("C");

@@ -16,7 +16,10 @@
 package org.kuali.coeus.sys.framework.controller;
 
 import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,5 +31,4 @@ public interface TransactionalDocumentControllerService extends DocumentControll
     //from TransactionalDocumentControllerBase
     public ModelAndView copy(TransactionalDocumentFormBase form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception;
-
 }

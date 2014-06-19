@@ -114,7 +114,7 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
 
 		Narrative narrative = new Narrative();
 		List<Narrative> naList = new ArrayList<Narrative>();
-		narrative.setProposalNumber(developmentProposal.getProposalNumber());
+		narrative.setDevelopmentProposal(developmentProposal);
 		narrative.setModuleNumber(1);
 		narrative.setModuleSequenceNumber(1);
 		narrative.setModuleStatusCode("C");

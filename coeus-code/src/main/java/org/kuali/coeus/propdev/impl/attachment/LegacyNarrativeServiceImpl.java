@@ -226,7 +226,6 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         Narrative narrative = narratives.get(lineToDelete);
         getBusinessObjectService().delete(narrative);
         NarrativeAttachment narrAtt = new NarrativeAttachment();
-        narrAtt.setProposalNumber(narrative.getProposalNumber());
         narrAtt.setModuleNumber(narrative.getModuleNumber());
         narrative.setNarrativeAttachment(narrAtt);
 
@@ -248,7 +247,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
     }
     
     public void prepareNarrative(ProposalDevelopmentDocument document, Narrative narrative) {
-        narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+    	narrative.setDevelopmentProposal(document.getDevelopmentProposal());
         narrative.setModuleNumber(getNextModuleNumber(document));
         narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(document));
         narrative.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
