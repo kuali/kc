@@ -84,11 +84,11 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolSubmitAct
 				                        <c:forEach items="${KualiForm.actionHelper.submitActionCommitteeIdByUnitKeyValues}" var="option">   
 				                            <c:choose>                      
 				                                <c:when test="${KualiForm.actionHelper.iacucProtocolSubmitAction.committeeId == option.key}">
-				                                    <option value="${option.key}" selected="selected">${option.value}</option>
+				                                    <option value="${option.key}" selected="selected">${fn:escapeXml(option.value)}</option>
 				                                </c:when>
 				                                <c:otherwise>                               
 				                                    <c:out value="${option.value}"/>
-				                                    <option value="${option.key}">${option.value}</option>
+				                                    <option value="${option.key}">${fn:escapeXml(option.value)}</option>
 				                                </c:otherwise>
 				                            </c:choose>                                                
 				                        </c:forEach>
