@@ -94,7 +94,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 	   saveAnswerHeaders(pdForm);
 	   ModelAndView mv = super.save(form, result, request, response);
 	   //rebuild the questionnaire, and other non-JPAed docs so it displays correctly
-	   refreshAnswerHeaders(pdForm);
+	   refreshPersonCertificaitonAnswerHeaders(pdForm);
 	   return mv;
    }
    

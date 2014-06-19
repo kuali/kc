@@ -70,7 +70,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        saveAnswerHeaders(pdForm);
        ModelAndView mv =  super.save(pdForm, result, request, response);
        //rebuild the questionnaire, and other non-JPAed docs so it displays correctly
-	   refreshAnswerHeaders(pdForm);
+       refreshPersonCertificaitonAnswerHeaders(pdForm);
 	   return mv;
    }
    
@@ -118,6 +118,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        newProposalPerson.setProjectRole(form.getAddKeyPersonHelper().getKeyPersonProjectRole());
        getKeyPersonnelService().addProposalPerson(newProposalPerson, form.getProposalDevelopmentDocument());
        form.getAddKeyPersonHelper().reset();
+       refreshPersonCertificaitonAnswerHeaders(form);
        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
    }
 

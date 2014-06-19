@@ -277,7 +277,7 @@ public abstract class ProposalDevelopmentControllerBase {
 	    }
 	}
 	
-	public void refreshAnswerHeaders(ProposalDevelopmentDocumentForm pdForm) {
+	public void refreshPersonCertificaitonAnswerHeaders(ProposalDevelopmentDocumentForm pdForm) {
 		for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
 			ProposalPersonQuestionnaireHelper qh = new ProposalPersonQuestionnaireHelper(person);
 			qh.populateAnswers();
