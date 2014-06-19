@@ -68,7 +68,7 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
     private PropDevBudgetSubAwardService propDevBudgetSubAwardService;
     
 
-    public BudgetDocument<DevelopmentProposal> getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,
+    public Budget getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,
             String documentDescription) throws WorkflowException {
         BudgetDocument<DevelopmentProposal> budgetDocument;
         Integer budgetVersionNumber = parentDocument.getNextBudgetVersionNumber();
@@ -81,7 +81,7 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
         
         Budget budget = budgetDocument.getBudget();
         budget.setBudgetVersionNumber(budgetVersionNumber);
-        budget.setBudgetDocument(budgetDocument);
+//        budget.setBudgetDocument(budgetDocument);
         
         BudgetParent budgetParent = parentDocument.getBudgetParent();
         budget.setStartDate(budgetParent.getRequestedStartDateInitial());

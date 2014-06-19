@@ -223,6 +223,13 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
+    
+    @Override
+    public Budget getNewBudgetVersion(BudgetParent parent, String documentDescription){
+    	BudgetParentDocument parentBudgetDocument = parent.getDocument();
+    	BudgetDocument<Award> budgetDocument = getNewBudgetVersion(parentBudgetDocument, documentDescription);
+    	return budgetDocument;
+    }
 
 
     @Override

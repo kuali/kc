@@ -30,7 +30,7 @@ public interface BudgetCommonService<T extends BudgetParent> {
      * @return BudgetDocument
      * @throws WorkflowException
      */
-    public BudgetDocument<T> getNewBudgetVersion(BudgetParent parent, String documentDescription) throws WorkflowException;
+    public Budget getNewBudgetVersion(BudgetParent parent, String documentDescription);
     /**
      * Returns a new finalized BudgetDocument with the data from the given BudgetDocument copied over.
      * @param budgetDocument
