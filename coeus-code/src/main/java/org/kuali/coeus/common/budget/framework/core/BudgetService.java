@@ -41,7 +41,7 @@ public interface BudgetService<T extends BudgetParent>  {
      * @param document instance to add {@link BudgetVersionOverview} to
      * @param versionName of the {@link BudgetVersionOverview}
      */
-    public BudgetDocument<T> addBudgetVersion(BudgetParentDocument<T> document, String versionName) throws WorkflowException;
+    public Budget addBudgetVersion(BudgetParent budgetParent, String versionName) throws WorkflowException;
     
     public void updateDocumentDescription(BudgetVersionOverview budgetVersion);
     
@@ -51,7 +51,7 @@ public interface BudgetService<T extends BudgetParent>  {
      * @param budget
      * @return
      */
-    public boolean checkActivityTypeChange(BudgetParentDocument<T> pdDoc, Budget budget);
+    public boolean checkActivityTypeChange(Budget budget);
   
     /**
      * 

@@ -38,6 +38,7 @@ import org.kuali.coeus.sys.api.model.ScaleThreeDecimal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
@@ -78,7 +79,7 @@ import java.util.*;
 @Table(name = "BUDGET")
 @Inheritance(strategy=InheritanceType.JOINED)
 @ClassExtractor(Budget.BudgetExtractor.class)
-public class Budget extends AbstractBudget {
+public abstract class Budget extends AbstractBudget {
 
     private static final String PARAM_VALUE_ENABLED = "1";
 
@@ -90,9 +91,9 @@ public class Budget extends AbstractBudget {
 
     private static final Log LOG = LogFactory.getLog(Budget.class);
 
-    @OneToOne(cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
-    private BudgetDocument budgetDocument;
+//    @OneToOne(cascade = { CascadeType.REFRESH })
+//    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
+//    private BudgetDocument budgetDocument;
 
     @Column(name = "BUDGET_JUSTIFICATION")
     @Lob
@@ -647,13 +648,13 @@ public class Budget extends AbstractBudget {
 
     public List<RateClassType> getRateClassTypes() {
         if (rateClassTypes.isEmpty() && !rateClassTypesReloaded && (!this.getBudgetRates().isEmpty() || !this.getBudgetLaRates().isEmpty())) {
-            getBudgetRatesService().syncBudgetRateCollectionsToExistingRates(this.rateClassTypes, getBudgetDocument());
+            getBudgetRatesService().syncBudgetRateCollectionsToExistingRates(this.rateClassTypes, this);
         } else if (rateClassTypesReloaded) {
             if (!rateClassTypes.isEmpty()) {
                 rateClassTypes.clear();
             }
             rateClassTypesReloaded = false;
-            getBudgetRatesService().getBudgetRates(this.rateClassTypes, getBudgetDocument());
+            getBudgetRatesService().getBudgetRates(this.rateClassTypes, this);
         }
         Collections.sort(rateClassTypes, new RateClassTypeComparator());
         return rateClassTypes;
@@ -696,7 +697,11 @@ public class Budget extends AbstractBudget {
         }
     }
 
-    /**
+    public abstract Integer getHackedDocumentNextValue(String documentComponentIdKey);
+    public String getProposalBudgetFlag() {
+        return getBudgetParent().getProposalBudgetFlag();
+    }
+	/**
      * This method adds an item to its collection
      * @param budgetProjectIncome
      */
@@ -993,10 +998,6 @@ public class Budget extends AbstractBudget {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Integer.valueOf(dateParts[2]), Integer.valueOf(dateParts[0]) - 1, Integer.valueOf(dateParts[1]), 0, 0, 0);
         return new Date(calendar.getTimeInMillis());
-    }
-
-    public Integer getHackedDocumentNextValue(String documentComponentIdKey) {
-        return budgetDocument.getHackedDocumentNextValue(documentComponentIdKey);
     }
 
     /**
@@ -1420,22 +1421,22 @@ public class Budget extends AbstractBudget {
         return amount;
     }
 
-    /**
-     * Gets the budgetDocument attribute. 
-     * @return Returns the budgetDocument.
-     */
-    public BudgetDocument getBudgetDocument() {
-        return budgetDocument;
-    }
-
-    /**
-     * Sets the budgetDocument attribute value.
-     * @param budgetDocument The budgetDocument to set.
-     */
-    public void setBudgetDocument(BudgetDocument budgetDocument) {
-        setDocumentNumber(budgetDocument.getDocumentNumber());
-        this.budgetDocument = budgetDocument;
-    }
+//    /**
+//     * Gets the budgetDocument attribute. 
+//     * @return Returns the budgetDocument.
+//     */
+//    public BudgetDocument getBudgetDocument() {
+//        return budgetDocument;
+//    }
+//
+//    /**
+//     * Sets the budgetDocument attribute value.
+//     * @param budgetDocument The budgetDocument to set.
+//     */
+//    public void setBudgetDocument(BudgetDocument budgetDocument) {
+//        setDocumentNumber(budgetDocument.getDocumentNumber());
+//        this.budgetDocument = budgetDocument;
+//    }
 
     /**
      * Gets the ohRatesNonEditable attribute. 
@@ -1462,7 +1463,7 @@ public class Budget extends AbstractBudget {
     }
 
     public BudgetParent getBudgetParent() {
-        return getBudgetDocument().getParentDocument().getBudgetParent();
+        return getBudgetParent();
     }
 
     @Override
@@ -1472,7 +1473,6 @@ public class Budget extends AbstractBudget {
         result = prime * result + ((activityTypeCode == null) ? 0 : activityTypeCode.hashCode());
         result = prime * result + ((budgetCategoryTypeCodes == null) ? 0 : budgetCategoryTypeCodes.hashCode());
         result = prime * result + ((budgetCostShares == null) ? 0 : budgetCostShares.hashCode());
-        result = prime * result + ((budgetDocument == null) ? 0 : budgetDocument.hashCode());
         result = prime * result + ((budgetJustification == null) ? 0 : budgetJustification.hashCode());
         result = prime * result + ((budgetLaRates == null) ? 0 : budgetLaRates.hashCode());
         result = prime * result + (budgetLineItemDeleted ? 1231 : 1237);
@@ -1528,11 +1528,6 @@ public class Budget extends AbstractBudget {
             if (other.budgetCostShares != null)
                 return false;
         } else if (!budgetCostShares.equals(other.budgetCostShares))
-            return false;
-        if (budgetDocument == null) {
-            if (other.budgetDocument != null)
-                return false;
-        } else if (!budgetDocument.equals(other.budgetDocument))
             return false;
         if (budgetJustification == null) {
             if (other.budgetJustification != null)

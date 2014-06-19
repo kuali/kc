@@ -18,6 +18,7 @@ package org.kuali.coeus.common.budget.framework.core;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 
 /**
@@ -33,8 +34,8 @@ public final class BudgetCommonServiceFactory {
      * Creates an instance of BudgetCommonService by looking at the classname.
      * @return
      */
-    public static BudgetCommonService createInstance(BudgetParentDocument parentBudgetDocument) {
-        if (parentBudgetDocument.getClass().equals(AwardDocument.class)) {
+    public static BudgetCommonService createInstance(BudgetParent parentBudget) {
+        if (parentBudget.getClass().equals(Award.class)) {
             return KcServiceLocator.getService(AwardBudgetService.class);
         } else {
             return KcServiceLocator.getService(ProposalBudgetService.class);
