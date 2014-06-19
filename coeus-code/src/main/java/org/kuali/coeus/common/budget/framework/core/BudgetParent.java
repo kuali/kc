@@ -18,7 +18,9 @@ package org.kuali.coeus.common.budget.framework.core;
 import org.kuali.coeus.common.framework.type.ActivityType;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.award.home.ContactRole;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 
 import java.sql.Date;
 import java.util.List;
@@ -48,5 +50,8 @@ public interface BudgetParent {
     public String getIsOwnedByUnit();
     public Integer getParentInvestigatorFlag(String personId, Integer flag);
     public String  getParentTypeName();
+	public String getProposalBudgetFlag();
+	
+	public BudgetParentDocument<? extends BudgetParent> getDocument();
  
 }

@@ -59,26 +59,26 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
     private BudgetCalculationService budgetCalculationService;
 
     @Override
-    protected Collection<InstituteRate> getInstituteRates(BudgetDocument<T> budgetDocument){
-        Collection<InstituteRate> institueRates = super.getInstituteRates(budgetDocument);
-        if(isAwardBudget(budgetDocument)){
-            return syncRatesIfAward(budgetDocument,institueRates);
+    protected Collection<InstituteRate> getInstituteRates(Budget budget){
+        Collection<InstituteRate> institueRates = super.getInstituteRates(budget);
+        if(isAwardBudget(budget)){
+            return syncRatesIfAward(budget,institueRates);
         }else{
             return institueRates;
         }
     }
 
 
-    private boolean isAwardBudget(BudgetDocument<T> budgetDocument) {
-        return budgetDocument.getParentDocument().getClass().equals(AwardDocument.class);
+    private boolean isAwardBudget(Budget budget) {
+        return budget.getBudgetParent().getDocument().getClass().equals(AwardDocument.class);
     }
     
-    private Collection<InstituteRate> syncRatesIfAward(BudgetDocument<T> budgetDocument, Collection<InstituteRate> institueRates) {
-        Award award = (Award)budgetDocument.getParentDocument().getBudgetParent();
-        return filterInstituteRatesForAward(budgetDocument,award,institueRates);
+    private Collection<InstituteRate> syncRatesIfAward(Budget budget, Collection<InstituteRate> institueRates) {
+        Award award = (Award)budget.getBudgetParent();
+        return filterInstituteRatesForAward(budget,award,institueRates);
     }
 
-    private Collection<InstituteRate> filterInstituteRatesForAward(BudgetDocument<T> budgetDocument,Award award, Collection<InstituteRate> instituteRates) {
+    private Collection<InstituteRate> filterInstituteRatesForAward(Budget budget,Award award, Collection<InstituteRate> instituteRates) {
         List<AwardFandaRate> awardFnARates = award.getAwardFandaRate();
         Collection<InstituteRate> instituteRatesForAward = new ArrayList<InstituteRate>();  
         List<InstituteRate> awardEbRates = createAwardEBInstituteRates(award);
@@ -202,30 +202,29 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         return rateType;
     }
 
-    public void syncAllBudgetRates(BudgetDocument<T> budgetDocument) {
-        if(isAwardBudget(budgetDocument) ){
-            if(isOutOfSyncAwardRates(budgetDocument.getBudget())){
-                super.syncAllBudgetRates(budgetDocument);
-                repopulateAllCalcAmounts(budgetDocument);
+    public void syncAllBudgetRates(Budget budget) {
+        if(isAwardBudget(budget) ){
+            if(isOutOfSyncAwardRates(budget)){
+                super.syncAllBudgetRates(budget);
+                repopulateAllCalcAmounts(budget);
             }
         }else{
-            super.syncAllBudgetRates(budgetDocument);
+            super.syncAllBudgetRates(budget);
         }
     }
     
-    public void syncParentDocumentRates(BudgetDocument<T> budgetDocument) {
-        if (isAwardBudget(budgetDocument)) {
-            if (!hasNoRatesFromParent(budgetDocument.getBudget())
-                    && isOutOfSyncAwardRates((Award)budgetDocument.getParentDocument().getBudgetParent(),budgetDocument.getBudget())) {
+    public void syncParentDocumentRates(Budget budget) {
+        if (isAwardBudget(budget)) {
+            if (!hasNoRatesFromParent(budget)
+                    && isOutOfSyncAwardRates((Award)budget.getBudgetParent(),budget)) {
                 //need to sync just budget specific rates now
-                syncBudgetRatesForRateClassType(RateClassType.OVERHEAD.getRateClassType(), budgetDocument);
-                syncBudgetRatesForRateClassType(RateClassType.EMPLOYEE_BENEFITS.getRateClassType(), budgetDocument);
-                repopulateAllCalcAmounts(budgetDocument);
+                syncBudgetRatesForRateClassType(RateClassType.OVERHEAD.getRateClassType(), budget);
+                syncBudgetRatesForRateClassType(RateClassType.EMPLOYEE_BENEFITS.getRateClassType(), budget);
+                repopulateAllCalcAmounts(budget);
             }
         }
     }
-    private void repopulateAllCalcAmounts(BudgetDocument budgetDocument) {
-        Budget budget = budgetDocument.getBudget();
+    private void repopulateAllCalcAmounts(Budget budget) {
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
@@ -241,7 +240,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
     }
 
     private boolean hasNoRatesFromParent(Budget budget) {
-        Award award = (Award)budget.getBudgetDocument().getParentDocument().getBudgetParent();
+        Award award = (Award)budget.getBudgetParent();
         return award.getAwardFandaRate().isEmpty() && award.getSpecialEbRateOffCampus()==null && award.getSpecialEbRateOnCampus()==null;
     }
 
@@ -250,9 +249,9 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
 //    }
     
     private boolean isOutOfSyncAwardRates(Budget budget) {
-        Award award = (Award)budget.getBudgetDocument().getParentDocument().getBudgetParent();
+        Award award = (Award)budget.getBudgetParent();
         if(budget.getInstituteRates().isEmpty()){
-            populateInstituteRates(budget.getBudgetDocument());
+            populateInstituteRates(budget);
         }
         if(hasNoRatesFromParent(budget)){
             return isOutOfSync(budget);
@@ -315,8 +314,8 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
     }
 
     @Override
-    public boolean performSyncFlag(BudgetDocument<T> budgetDocument) {
-        return isAwardBudget(budgetDocument) && isOutOfSyncAwardRates(budgetDocument.getBudget());
+    public boolean performSyncFlag(Budget budget) {
+        return isAwardBudget(budget) && isOutOfSyncAwardRates(budget);
     }
     /**
      * Gets the parameterService attribute. 
