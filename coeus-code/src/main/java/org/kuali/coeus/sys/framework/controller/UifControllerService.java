@@ -19,6 +19,8 @@ import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.uif.field.AttributeQueryResult;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -110,4 +112,12 @@ public interface UifControllerService extends KcCommonControllerService {
 
     ModelAndView getUIFModelAndView(UifFormBase form, Map<String, Object> additionalViewAttributes);
 
+    public ModelAndView addFileUploadLine(UifFormBase uifForm, BindingResult result,
+                                          MultipartHttpServletRequest request, HttpServletResponse response) throws Exception;
+
+    public ModelAndView deleteFileUploadLine(UifFormBase uifForm,
+                                             BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+    public void getFileFromLine(UifFormBase uifForm, BindingResult result,
+                                HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

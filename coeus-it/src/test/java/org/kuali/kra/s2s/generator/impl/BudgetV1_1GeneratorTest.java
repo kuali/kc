@@ -53,14 +53,12 @@ public class BudgetV1_1GeneratorTest extends S2STestBase<BudgetV1_1Generator> {
         BufferedInputStream bis = new BufferedInputStream(inStream);
         byte[] narrativePdf = new byte[bis.available()];
         narrativeAttachment.setData(narrativePdf);
-        narrativeAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
         narrativeAttachment.setModuleNumber(1);
         narrativeAttachment.setName("exercise1");
-        saveBO(narrativeAttachment);
 
         Narrative narrative = new Narrative();
         List<Narrative> naList = new ArrayList<Narrative>();
-        narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+        narrative.setDevelopmentProposal(document.getDevelopmentProposal());
         narrative.setModuleNumber(1);
         narrative.setModuleSequenceNumber(1);
         narrative.setModuleStatusCode("C");

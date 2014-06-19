@@ -53,7 +53,7 @@ public class PHS398ResearchPlanV1_1GeneratorTest extends S2STestBase<PHS398Resea
         byte[] narrativePdf = new byte[bis.available()];
         narrativeAttachment.setData(narrativePdf);
 
-        narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+        narrative.setDevelopmentProposal(document.getDevelopmentProposal());
         narrative.setModuleNumber(1);
         narrative.setModuleSequenceNumber(1);
         narrative.setModuleStatusCode("C");
