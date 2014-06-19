@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
-import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 
 public class QuestionDTO implements Serializable {
 
