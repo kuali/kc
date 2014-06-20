@@ -68,34 +68,15 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        return getTransactionalDocumentControllerService().getUIFModelAndViewWithInit(form, PROPDEV_DEFAULT_VIEW_ID);
    }
    
-   @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=clearAnswers")
-   public ModelAndView clearAnswers(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
-           HttpServletRequest request, HttpServletResponse response) throws Exception {
-	   ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-	   String personNumber = pdForm.getActionParamaterValue("personNumber");
-	   for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
-		   if (StringUtils.equals(personNumber, person.getProposalPersonNumber().toString())) {
-			   //get the certification questions
-			   AnswerHeader ah = person.getQuestionnaireHelper().getAnswerHeaders().get(0);
-			   for (Answer answer : ah.getAnswers()) {
-				   answer.setAnswer(null);
-			   }
-		   }
-	   }
-	   saveAnswerHeaders(pdForm);
-	   ModelAndView mv = this.save(pdForm, result, request, response);
-	   return mv;
-   }
-   
    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=save")
    public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
-	   ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-	   saveAnswerHeaders(pdForm);
-	   ModelAndView mv = super.save(form, result, request, response);
+	   //ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
+	   //saveAnswerHeaders(pdForm);
+	   //ModelAndView mv = super.save(form, result, request, response);
 	   //rebuild the questionnaire, and other non-JPAed docs so it displays correctly
-	   refreshPersonCertificaitonAnswerHeaders(pdForm);
-	   return mv;
+	   //refreshPersonCertificaitonAnswerHeaders(pdForm);
+	   return super.save(form, result, request, response);
    }
    
    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=saveAndContinue")
