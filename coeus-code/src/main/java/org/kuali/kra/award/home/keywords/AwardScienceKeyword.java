@@ -47,7 +47,7 @@ public class AwardScienceKeyword extends AbstractScienceKeyword implements Seque
     public AwardScienceKeyword(Long awardId, ScienceKeyword scienceKeyword) {
         super();
         setScienceKeywordDescription(scienceKeyword.getDescription());
-        setScienceKeywordCode(scienceKeyword.getScienceKeywordCode());
+        setScienceKeywordCode(scienceKeyword.getCode());
         setScienceKeyword(scienceKeyword);
         setVersionNumber(getVersionNumber() == null ? 1 : getVersionNumber());
     }

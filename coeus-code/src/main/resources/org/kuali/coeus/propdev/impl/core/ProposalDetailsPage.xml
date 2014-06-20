@@ -65,7 +65,7 @@
 			<bean
 				class="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" 
 				p:businessObjectClass="org.kuali.coeus.common.framework.keyword.ScienceKeyword"
-				p:keyAttributeName="scienceKeywordCode"
+				p:keyAttributeName="code"
 				p:labelAttributeName="description"/>
 		</property>
 	</bean>

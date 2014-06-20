@@ -53,7 +53,7 @@
                 	 ${KualiForm.document.award.keywords[status.index].scienceKeyword.description}
                 	 <c:if test="${!readOnly}">
 					<kul:lookup boClassName="org.kuali.coeus.common.framework.keyword.ScienceKeyword" 
-						fieldConversions="scienceKeywordCode:document.award.keyword[${status.index}].scienceKeywordCode,description:document.award.keyword[${status.index}].scienceKeyword.description"
+						fieldConversions="code:document.award.keyword[${status.index}].scienceKeywordCode,description:document.award.keyword[${status.index}].scienceKeyword.description"
 						lookupParameters="" hideReturnLink="false" />
 					</c:if>
                 </td>

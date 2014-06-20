@@ -20,6 +20,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
+import org.kuali.coeus.propdev.api.keyword.PropScienceKeywordContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
@@ -32,7 +33,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "EPS_PROP_SCIENCE_KEYWORD")
 @IdClass(PropScienceKeyword.PropScienceKeywordId.class)
-public class PropScienceKeyword extends KcPersistableBusinessObjectBase implements HierarchyMaintainable {
+public class PropScienceKeyword extends KcPersistableBusinessObjectBase implements HierarchyMaintainable, PropScienceKeywordContract {
 
 	@Id
     @ManyToOne(cascade = { CascadeType.REFRESH })
@@ -61,6 +62,7 @@ public class PropScienceKeyword extends KcPersistableBusinessObjectBase implemen
         this.scienceKeyword = scienceKeyword;
     }
 
+    @Override
 	public ScienceKeyword getScienceKeyword() {
         return scienceKeyword;
     }
@@ -77,36 +79,27 @@ public class PropScienceKeyword extends KcPersistableBusinessObjectBase implemen
         this.selectKeyword = selectKeyword;
     }
 
-    /**
-     * Gets the hierarchyProposalNumber attribute. 
-     * @return Returns the hierarchyProposalNumber.
-     */
+    @Override
     public String getHierarchyProposalNumber() {
         return hierarchyProposalNumber;
     }
 
-    /**
-     * Sets the hierarchyProposalNumber attribute value.
-     * @param hierarchyProposalNumber The hierarchyProposalNumber to set.
-     */
     public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
         this.hierarchyProposalNumber = hierarchyProposalNumber;
     }
 
-    /**
-     * Gets the hiddenInHierarchy attribute. 
-     * @return Returns the hiddenInHierarchy.
-     */
+    @Override
     public boolean isHiddenInHierarchy() {
         return hiddenInHierarchy;
     }
 
-    /**
-     * Sets the hiddenInHierarchy attribute value.
-     * @param hiddenInHierarchy The hiddenInHierarchy to set.
-     */
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
+    }
+
+    @Override
+    public String getProposalNumber() {
+        return getDevelopmentProposal().getProposalNumber();
     }
 
     public static final class PropScienceKeywordId implements Serializable, Comparable<PropScienceKeywordId> {
@@ -173,7 +166,7 @@ public class PropScienceKeyword extends KcPersistableBusinessObjectBase implemen
      */
     public String toString() {
         if (scienceKeyword != null) { 
-        	return scienceKeyword.getScienceKeywordCode();
+        	return scienceKeyword.getCode();
         } else {
         	return super.toString();
         }
