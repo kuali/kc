@@ -1129,7 +1129,7 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.award.home.AwardType" table="AWARD_TYPE">
-		<field-descriptor name="awardTypeCode" column="AWARD_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="code" column="AWARD_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />

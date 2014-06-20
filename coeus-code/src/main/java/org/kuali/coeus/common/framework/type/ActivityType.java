@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.framework.type;
 
+import org.kuali.coeus.common.api.type.ActivityTypeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.Column;
@@ -24,11 +25,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ACTIVITY_TYPE")
-public class ActivityType extends KcPersistableBusinessObjectBase {
+public class ActivityType extends KcPersistableBusinessObjectBase implements ActivityTypeContract {
 
     @Id
     @Column(name = "ACTIVITY_TYPE_CODE")
-    private String activityTypeCode;
+    private String code;
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -36,6 +37,7 @@ public class ActivityType extends KcPersistableBusinessObjectBase {
     @Column(name = "HIGHER_EDUCATION_FUNCTION_CODE")
     private String higherEducationFunctionCode;
 
+    @Override
     public String getHigherEducationFunctionCode() {
         return higherEducationFunctionCode;
     }
@@ -44,14 +46,16 @@ public class ActivityType extends KcPersistableBusinessObjectBase {
         this.higherEducationFunctionCode = higherEducationFunctionCode;
     }
 
-    public String getActivityTypeCode() {
-        return activityTypeCode;
+    @Override
+    public String getCode() {
+        return code;
     }
 
-    public void setActivityTypeCode(String activityTypeCode) {
-        this.activityTypeCode = activityTypeCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }

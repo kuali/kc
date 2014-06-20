@@ -35,7 +35,7 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.coeus.common.framework.type.ActivityType" table="ACTIVITY_TYPE">
-		<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="code" column="ACTIVITY_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="higherEducationFunctionCode" column="HIGHER_EDUCATION_FUNCTION_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -250,7 +250,7 @@
 	</class-descriptor>
 
     <class-descriptor class="org.kuali.coeus.propdev.impl.state.ProposalState" table="PROPOSAL_STATE">
-        <field-descriptor name="stateTypeCode" column="STATE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="code" column="STATE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -331,7 +331,7 @@
         </reference-descriptor>
     </class-descriptor>
 	<class-descriptor class="org.kuali.coeus.common.framework.type.ProposalType" table="PROPOSAL_TYPE">
-		<field-descriptor name="proposalTypeCode" column="PROPOSAL_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="code" column="PROPOSAL_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />

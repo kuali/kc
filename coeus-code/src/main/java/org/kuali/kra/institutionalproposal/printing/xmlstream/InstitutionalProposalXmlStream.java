@@ -876,9 +876,9 @@ public class InstitutionalProposalXmlStream extends
 					.getActivityType();
 			ActivityType activityTypeXmlObject = ActivityType.Factory
 					.newInstance();
-			if (activityType.getActivityTypeCode() != null) {
+			if (activityType.getCode() != null) {
 				activityTypeXmlObject.setActivityTypeCode(Integer
-						.valueOf(activityType.getActivityTypeCode()));
+						.valueOf(activityType.getCode()));
 			}
 			if (activityType.getDescription() != null) {
 				activityTypeXmlObject.setActivityTypeDesc(activityType

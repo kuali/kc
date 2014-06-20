@@ -281,7 +281,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
         ProposalDevelopmentDocument proposalDocument = (ProposalDevelopmentDocument) document;
         String proposalStateTypeCode = "";
         if (proposalDocument.getDevelopmentProposal().getProposalState() != null){
-            proposalStateTypeCode = proposalDocument.getDevelopmentProposal().getProposalState().getStateTypeCode();
+            proposalStateTypeCode = proposalDocument.getDevelopmentProposal().getProposalState().getCode();
         }
         if(proposalStateTypeCode.equalsIgnoreCase(ProposalState.CANCELED) || proposalStateTypeCode.equalsIgnoreCase(ProposalState.DISAPPROVED)){
             return false;

@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.home;
 
+import org.kuali.coeus.award.api.core.AwardTypeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.Column;
@@ -29,28 +30,27 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "AWARD_TYPE")
-public class AwardType extends KcPersistableBusinessObjectBase {
+public class AwardType extends KcPersistableBusinessObjectBase implements AwardTypeContract {
 
     private static final long serialVersionUID = 1652576733758069217L;
 
     @Id
     @Column(name = "AWARD_TYPE_CODE")
-    private Integer awardTypeCode;
+    private Integer code;
 
     @Column(name = "DESCRIPTION")
     private String description;
 
-    public AwardType() {
+    @Override
+    public Integer getCode() {
+        return code;
     }
 
-    public Integer getAwardTypeCode() {
-        return awardTypeCode;
+    public void setCode(Integer code) {
+        this.code = code;
     }
 
-    public void setAwardTypeCode(Integer awardTypeCode) {
-        this.awardTypeCode = awardTypeCode;
-    }
-
+    @Override
     public String getDescription() {
         return description;
     }
@@ -63,7 +63,7 @@ public class AwardType extends KcPersistableBusinessObjectBase {
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + ((awardTypeCode == null) ? 0 : awardTypeCode.hashCode());
+        result = PRIME * result + ((code == null) ? 0 : code.hashCode());
         result = PRIME * result + ((description == null) ? 0 : description.hashCode());
         return result;
     }
@@ -77,10 +77,10 @@ public class AwardType extends KcPersistableBusinessObjectBase {
         if (getClass() != obj.getClass())
             return false;
         final AwardType other = (AwardType) obj;
-        if (awardTypeCode == null) {
-            if (other.awardTypeCode != null)
+        if (code == null) {
+            if (other.code != null)
                 return false;
-        } else if (!awardTypeCode.equals(other.awardTypeCode))
+        } else if (!code.equals(other.code))
             return false;
         if (description == null) {
             if (other.description != null)

@@ -10,13 +10,13 @@
     <property name="lookupDefinition" >
       <ref bean="ProposalType-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="proposalTypeCode" />
+    <property name="titleAttribute" value="code" />
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentProposalTypeHelpUrl" p:parameterDetailType="Document"/>
     </property>
     <property name="attributes" >
       <list>
-        <ref bean="ProposalType-proposalTypeCode" />
+        <ref bean="ProposalType-code" />
         <ref bean="ProposalType-description" />
         <ref bean="ProposalType-versionNumber" />
       </list>
@@ -26,10 +26,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ProposalType-proposalTypeCode" parent="ProposalType-proposalTypeCode-parentBean" />
+  <bean id="ProposalType-code" parent="ProposalType-code-parentBean" />
 
-  <bean id="ProposalType-proposalTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalTypeCode" />
+  <bean id="ProposalType-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Proposal Type Code" />
     <property name="shortLabel" value="Proposal Type Code" />
@@ -66,7 +66,7 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition" p:attributeName="proposalTypeCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="description"/>
             </list>
           </property>
@@ -85,7 +85,7 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="proposalTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="code" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
             </list>
           </property>
@@ -105,13 +105,13 @@
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition" p:attributeName="proposalTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="code"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="proposalTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="code" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
       </list>
     </property>
@@ -133,13 +133,13 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="proposalTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean p:propertyName="proposalTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="code" parent="Uif-DataField"/>
         <bean p:propertyName="description" parent="Uif-DataField"/>
       </list>
     </property>
