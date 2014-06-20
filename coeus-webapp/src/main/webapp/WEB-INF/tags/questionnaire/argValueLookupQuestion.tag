@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<%@ attribute name="question" required="true" type="org.kuali.kra.questionnaire.question.Question" %>
+<%@ attribute name="question" required="true" type="org.kuali.coeus.common.questionnaire.framework.question.Question" %>
 <%@ attribute name="answer" required="true" type="org.kuali.coeus.common.questionnaire.framework.answer.Answer" %>
 
 <%@ attribute name="answerHeaderIndex" required="true" %>

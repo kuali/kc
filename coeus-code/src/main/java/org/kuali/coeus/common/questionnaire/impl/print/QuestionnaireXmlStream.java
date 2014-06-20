@@ -41,7 +41,7 @@ import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
-import org.kuali.kra.questionnaire.question.QuestionService;
+import org.kuali.coeus.common.questionnaire.framework.question.QuestionService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;

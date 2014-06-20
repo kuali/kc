@@ -8,7 +8,7 @@ import org.kuali.coeus.common.api.question.QuestionnaireContract;
 import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
-import org.kuali.kra.questionnaire.question.Question;
+import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

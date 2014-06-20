@@ -23,6 +23,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.questionnaire.framework.question.Question;
+import org.kuali.coeus.common.questionnaire.framework.question.QuestionAuthorizationService;
+import org.kuali.coeus.common.questionnaire.impl.question.QuestionLookupableHelperServiceImpl;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
@@ -158,9 +161,9 @@ public class QuestionLookupableHelperServiceTest extends KcIntegrationTestBase {
         String docNumber = maintDocument.getDocumentNumber();
         List<HtmlData> htmldata = questionLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);
         Assert.assertEquals(4, htmldata.size());
-        Assert.assertEquals("../maintenanceQ.do?businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=edit&id="+question.getId(), ((AnchorHtmlData)htmldata.get(0)).getHref());
-        Assert.assertEquals("../maintenanceQ.do?businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=copy&id="+question.getId(), ((AnchorHtmlData)htmldata.get(1)).getHref());
-        Assert.assertEquals("../maintenanceQ.do?businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=delete&id="+question.getId(), ((AnchorHtmlData)htmldata.get(2)).getHref());
+        Assert.assertEquals("../maintenanceQ.do?businessObjectClassName=org.kuali.coeus.common.questionnaire.framework.question.Question&methodToCall=edit&id="+question.getId(), ((AnchorHtmlData)htmldata.get(0)).getHref());
+        Assert.assertEquals("../maintenanceQ.do?businessObjectClassName=org.kuali.coeus.common.questionnaire.framework.question.Question&methodToCall=copy&id="+question.getId(), ((AnchorHtmlData)htmldata.get(1)).getHref());
+        Assert.assertEquals("../maintenanceQ.do?businessObjectClassName=org.kuali.coeus.common.questionnaire.framework.question.Question&methodToCall=delete&id="+question.getId(), ((AnchorHtmlData)htmldata.get(2)).getHref());
         Assert.assertEquals(getTailOfUrl(((AnchorHtmlData)htmldata.get(3)).getHref()), "DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+docNumber);
     }
 

@@ -21,7 +21,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.questionnaire.question.Question;
+import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.bo.BusinessObject;

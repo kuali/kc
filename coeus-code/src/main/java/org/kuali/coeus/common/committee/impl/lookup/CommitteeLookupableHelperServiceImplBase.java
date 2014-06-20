@@ -25,7 +25,7 @@ import org.kuali.coeus.common.committee.impl.document.CommitteeDocumentBase;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
-import org.kuali.kra.questionnaire.question.Question;
+import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kns.lookup.HtmlData;

@@ -47,7 +47,7 @@
 	</bean>
 	<bean id="Questionnaire-QuestionsGroup" parent="Questionnaire-QuestionsGroup-parentBean" />
 	<bean id="Questionnaire-QuestionsGroup-parentBean" abstract="true"
-		parent="Uif-ListCollectionGroup" p:collectionObjectClass="org.kuali.kra.questionnaire.question.QuestionDTO"
+		parent="Uif-ListCollectionGroup" p:collectionObjectClass="org.kuali.coeus.common.questionnaire.impl.question.QuestionDTO"
 		p:propertyName="questions" p:renderAddLine="false"
 		p:renderLineActions="false" p:additionalCssClasses="questionnaireContent">
 		<property name="subCollections">
