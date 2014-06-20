@@ -456,7 +456,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             newSite.setVersionNumber(null);
             for (CongressionalDistrict cd : newSite.getCongressionalDistricts()) {
                 cd.setProposalNumber(null);
-                cd.setCongressionalDistrictId(null);
+                cd.setId(null);
                 cd.setVersionNumber(null);
             }
             hierarchyProposal.addProposalSite(newSite);

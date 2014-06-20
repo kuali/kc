@@ -698,7 +698,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     protected void fixCongressionalDistricts(ProposalDevelopmentDocument doc) {
         for (ProposalSite proposalSite: doc.getDevelopmentProposal().getProposalSites()) {
             for (CongressionalDistrict district: proposalSite.getCongressionalDistricts()) {
-                district.setCongressionalDistrictId(null);
+                district.setId(null);
             }
         }
     }

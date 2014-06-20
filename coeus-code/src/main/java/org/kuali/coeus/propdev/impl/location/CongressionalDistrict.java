@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.location;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.propdev.api.location.CongressionalDistrictContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
@@ -27,7 +28,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "EPS_PROP_CONG_DISTRICT")
-public class CongressionalDistrict extends KcPersistableBusinessObjectBase {
+public class CongressionalDistrict extends KcPersistableBusinessObjectBase implements CongressionalDistrictContract {
 
     public static final int DISTRICT_NUMBER_LENGTH = 3;
 
@@ -37,7 +38,7 @@ public class CongressionalDistrict extends KcPersistableBusinessObjectBase {
     @GeneratedValue(generator = "SEQ_CONG_DISTRICT_ID_KRA")
     @Id
     @Column(name = "CONG_DISTRICT_ID")
-    private Long congressionalDistrictId;
+    private Long id;
 
     @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
@@ -54,18 +55,20 @@ public class CongressionalDistrict extends KcPersistableBusinessObjectBase {
     @Transient
     private String newDistrictNumber;
 
-    public void setCongressionalDistrictId(Long congressionalDistrictId) {
-        this.congressionalDistrictId = congressionalDistrictId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Long getCongressionalDistrictId() {
-        return congressionalDistrictId;
+    @Override
+    public Long getId() {
+        return id;
     }
 
     public void setProposalNumber(String proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
 
+    @Override
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -74,10 +77,12 @@ public class CongressionalDistrict extends KcPersistableBusinessObjectBase {
         this.siteNumber = siteNumber;
     }
 
+    @Override
     public Integer getSiteNumber() {
         return siteNumber;
     }
 
+    @Override
     public String getCongressionalDistrict() {
         return congressionalDistrict;
     }
