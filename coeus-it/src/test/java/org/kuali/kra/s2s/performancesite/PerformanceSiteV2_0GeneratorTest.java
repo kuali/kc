@@ -59,7 +59,7 @@ public class PerformanceSiteV2_0GeneratorTest extends S2STestBase<PerformanceSit
 	    performingOrganization.setLocationName(organization.getOrganizationName());
 	   
 	    CongressionalDistrict congressionalDistrict = 	new CongressionalDistrict();
-	    congressionalDistrict.setCongressionalDistrictId((long) 001111111);
+	    congressionalDistrict.setId((long) 001111111);
 	    congressionalDistrict.setCongressionalDistrict("MA-008");
 	    congressionalDistrict.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
 	    congressionalDistrict.setSiteNumber(++siteNumber);
