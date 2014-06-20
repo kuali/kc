@@ -97,7 +97,7 @@
         <reference-descriptor name="proposalType" class-ref="org.kuali.coeus.common.framework.type.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="proposalTypeCode"/>
         </reference-descriptor>
-        <reference-descriptor name="noticeOfOpportunity" class-ref="org.kuali.kra.bo.NoticeOfOpportunity" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="noticeOfOpportunity" class-ref="org.kuali.coeus.common.framework.noo.NoticeOfOpportunity" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="noticeOfOpportunityCode"/>
         </reference-descriptor>
         
