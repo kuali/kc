@@ -18,7 +18,7 @@ package org.kuali.kra.protocol.questionnaire;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 
 public abstract class ProtocolModuleQuestionnaireBeanBase extends ModuleQuestionnaireBean {
 

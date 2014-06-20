@@ -20,7 +20,7 @@ import org.junit.Test;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.questionnaire.SaveProtocolQuestionnaireEvent;
 import org.kuali.kra.irb.questionnaire.SaveProtocolQuestionnaireRule;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.kra.rules.TemplateRuleTest;
 
 import java.util.ArrayList;
