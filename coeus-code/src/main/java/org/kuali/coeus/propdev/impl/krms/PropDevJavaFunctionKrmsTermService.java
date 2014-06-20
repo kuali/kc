@@ -81,4 +81,8 @@ public interface PropDevJavaFunctionKrmsTermService {
     public String deadlineDateRule(DevelopmentProposal developmentProposal, String deadlineDate);
     public String routingSequenceRule(DevelopmentProposal developmentProposal);
     
+    public String checkProposalPersonIsKeyPerson(DevelopmentProposal developmentProposal);
+    public String checkProposalPersonIsCoi(DevelopmentProposal developmentProposal);
+    public String checkProposalPersonIsPi(DevelopmentProposal developmentProposal);
+    
 }
