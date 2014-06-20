@@ -225,10 +225,6 @@
         <property name="serviceName" value="questionnaireService" />
     </bean>
     
-    <bean id="questionService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="questionService" />
-    </bean>
-    
     <bean id="questionnaireAnswerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="questionnaireAnswerService" />
     </bean>
