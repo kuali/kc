@@ -311,7 +311,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.coeus.propdev.impl.location.CongressionalDistrict" table="EPS_PROP_CONG_DISTRICT">
-        <field-descriptor name="congressionalDistrictId" column="CONG_DISTRICT_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_CONG_DISTRICT_ID_KRA" autoincrement="true"/>
+        <field-descriptor name="id" column="CONG_DISTRICT_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_CONG_DISTRICT_ID_KRA" autoincrement="true"/>
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR"/>
         <field-descriptor name="siteNumber" column="SITE_NUMBER" jdbc-type="INTEGER"/>
         <field-descriptor name="congressionalDistrict" column="CONG_DISTRICT" jdbc-type="VARCHAR"/>
