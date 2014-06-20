@@ -17,7 +17,6 @@ package org.kuali.coeus.common.questionnaire.impl.question;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
-import org.kuali.coeus.common.questionnaire.framework.question.QuestionAuthorizationService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;

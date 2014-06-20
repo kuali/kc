@@ -20,7 +20,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
-import org.kuali.coeus.common.questionnaire.framework.question.QuestionService;
+import org.kuali.coeus.common.questionnaire.impl.question.QuestionService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.maintenance.Maintainable;

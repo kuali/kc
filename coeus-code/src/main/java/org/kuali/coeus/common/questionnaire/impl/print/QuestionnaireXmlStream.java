@@ -41,7 +41,6 @@ import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
-import org.kuali.coeus.common.questionnaire.framework.question.QuestionService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
@@ -102,10 +101,6 @@ public class QuestionnaireXmlStream implements XmlStream {
     @Autowired
     @Qualifier("questionnaireService")
     private QuestionnaireService questionnaireService;
-
-    @Autowired
-    @Qualifier("questionService")
-    private QuestionService questionService;
 
     @Autowired
     @Qualifier("questionnaireAnswerService")
@@ -879,22 +874,6 @@ public class QuestionnaireXmlStream implements XmlStream {
      */
     public void setQuestionnaireService(QuestionnaireService questionnaireService) {
         this.questionnaireService = questionnaireService;
-    }
-
-    /**
-     * Gets the questionService attribute. 
-     * @return Returns the questionService.
-     */
-    public QuestionService getQuestionService() {
-        return questionService;
-    }
-
-    /**
-     * Sets the questionService attribute value.
-     * @param questionService The questionService to set.
-     */
-    public void setQuestionService(QuestionService questionService) {
-        this.questionService = questionService;
     }
 
     /**

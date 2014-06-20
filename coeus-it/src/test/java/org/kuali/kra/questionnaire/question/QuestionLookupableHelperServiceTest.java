@@ -24,7 +24,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
-import org.kuali.coeus.common.questionnaire.framework.question.QuestionAuthorizationService;
+import org.kuali.coeus.common.questionnaire.impl.question.QuestionAuthorizationService;
 import org.kuali.coeus.common.questionnaire.impl.question.QuestionLookupableHelperServiceImpl;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;

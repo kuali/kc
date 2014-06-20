@@ -16,7 +16,6 @@
 package org.kuali.coeus.common.questionnaire.impl.question;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.questionnaire.framework.question.QuestionAuthorizationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.lookup.keyvalue.LookupReturnValuesFinder;
