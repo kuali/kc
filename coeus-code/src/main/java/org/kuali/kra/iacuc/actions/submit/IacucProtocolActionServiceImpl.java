@@ -28,7 +28,7 @@ import org.kuali.kra.protocol.actions.submit.ActionRightMapping;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionMappingBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionServiceImplBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionUpdateMapping;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 
 import java.util.HashMap;
 import java.util.List;

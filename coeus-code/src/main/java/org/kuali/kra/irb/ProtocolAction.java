@@ -48,7 +48,7 @@ import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.notification.ProtocolNotification;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.print.QuestionnairePrintingService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.document.Document;

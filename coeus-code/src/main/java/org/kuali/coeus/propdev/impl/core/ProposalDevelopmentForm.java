@@ -74,7 +74,7 @@ import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireH
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
 import org.kuali.kra.questionnaire.MultiQuestionableFormInterface;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;

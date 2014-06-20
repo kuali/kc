@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire.answer;
+package org.kuali.coeus.common.questionnaire.impl.answer;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
+import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
+import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
 import org.kuali.kra.coi.questionnaire.DisclosureModuleQuestionnaireBean;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.infrastructure.Constants;
@@ -36,10 +38,15 @@ import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.QuestionnaireService;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
+import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
+import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.question.QuestionDTO;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -50,6 +57,7 @@ import java.util.*;
  * This class implemented the questionnaire answer related methods.
  */
 
+@Component("questionnaireAnswerService")
 public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerService {
 
     private static final String MODULE_ITEM_CODE = "moduleItemCode";
@@ -58,12 +66,29 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     private static final String MODULE_SUB_ITEM_KEY = "moduleSubItemKey";
     public static final String QUESTIONNAIRE_SEQ_ID = "questionnaireSeqId";
     public static final String SEQUENCE_NUMBER = "sequenceNumber";
+
+    @Autowired()
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+    @Autowired
+    @Qualifier("protocolFinderDao")
     private ProtocolFinderDao protocolFinderDao;
+    @Autowired
+    @Qualifier("questionnaireService")
     private QuestionnaireService questionnaireService;
+    @Autowired
+    @Qualifier("krmsRulesExecutionService")
     private KrmsRulesExecutionService krmsRulesExecutionService;
 
-    
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public ProtocolFinderDao getProtocolFinderDao() {
+        return protocolFinderDao;
+    }
+
+
     /*
      * Get the questionnaire that is 'final' for the specified module.
      */
@@ -149,7 +174,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
     /**
      * 
-     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#getNewVersionAnswerHeader(org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean,
+     * @see org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService#getNewVersionAnswerHeader(org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean,
      *      org.kuali.kra.questionnaire.Questionnaire)
      */
     public AnswerHeader getNewVersionAnswerHeader(ModuleQuestionnaireBean moduleQuestionnaireBean, Questionnaire questionnaire) {
@@ -215,7 +240,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /**
      * This will be called when 'questionnaire' page is clicked.
      * 
-     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#getQuestionnaireAnswer(org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean)
+     * @see org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService#getQuestionnaireAnswer(org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean)
      */
     public List<AnswerHeader> getQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
         Map<String, AnswerHeader> answerHeaderMap = new HashMap<String, AnswerHeader>();
@@ -294,8 +319,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
     /**
      * 
-     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#copyAnswerToNewVersion(org.kuali.kra.questionnaire.answer.AnswerHeader,
-     *      org.kuali.kra.questionnaire.answer.AnswerHeader)
+     * @see org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService#copyAnswerToNewVersion(org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader,
+     *      org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader)
      */
     public void copyAnswerToNewVersion(AnswerHeader oldAnswerHeader, AnswerHeader newAnswerHeader) {
         List<List<Answer>> oldParentAnswers = setupParentAnswers(oldAnswerHeader.getAnswers());
@@ -332,8 +357,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
 
     /**
-     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#copyAnswerHeaders(org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean,
-     *      org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean)
+     * @see org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService#copyAnswerHeaders(org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean,
+     *      org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean)
      */
     public List<AnswerHeader> copyAnswerHeaders(ModuleQuestionnaireBean srcModuleQuestionnaireBean,
             ModuleQuestionnaireBean destModuleQuestionnaireBean) {
@@ -802,7 +827,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         }
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(MODULE_ITEM_CODE, moduleQuestionnaireBean.getModuleItemCode());
-        //fieldValues.put(MODULE_ITEM_KEY, getProtocolNumbers(originalProtocolNumber));
         fieldValues.put(MODULE_ITEM_KEY, protocolNumber);
         List<AnswerHeader> answerHeaders = (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
         if (isAmendmentOrRenewal) {
@@ -840,8 +864,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 if (!(CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode()) && answerHeader
                         .getModuleItemKey().equals(originalProtocolNumber))
                         && answerHeader.getModuleItemKey().equals(protocolNumber)) {
-                    // && (CoeusSubModule.ZERO_SUBMODULE.equals(answerHeader.getModuleSubItemCode()) ||
-                    // answerHeader.getModuleItemKey().equals(protocolNumber))) {
                     headers.add(answerHeader);
                 }
             }

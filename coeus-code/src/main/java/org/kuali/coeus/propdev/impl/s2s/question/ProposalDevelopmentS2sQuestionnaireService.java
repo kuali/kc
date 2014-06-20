@@ -17,7 +17,7 @@ package org.kuali.coeus.propdev.impl.s2s.question;
 
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 
 import java.util.List;
 

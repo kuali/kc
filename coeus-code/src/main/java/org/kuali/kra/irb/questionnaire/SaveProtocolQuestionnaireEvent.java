@@ -17,7 +17,7 @@ package org.kuali.kra.irb.questionnaire;
 
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
