@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire.question;
+package org.kuali.coeus.common.questionnaire.framework.question;
 
-import org.kuali.coeus.common.api.question.QuestionTypeContract;
+import org.kuali.coeus.common.api.question.QuestionCategoryContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class QuestionType extends KcPersistableBusinessObjectBase implements QuestionTypeContract {
+public class QuestionCategory extends KcPersistableBusinessObjectBase implements QuestionCategoryContract {
 
     private static final long serialVersionUID = 1L;
 

@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire.question;
+package org.kuali.coeus.common.questionnaire.impl.question;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.questionnaire.framework.question.Question;
+import org.kuali.coeus.common.questionnaire.framework.question.QuestionAuthorizationService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -23,6 +25,11 @@ import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +38,8 @@ import java.util.Map;
 /**
  * Question specific lookupable helper service methods.
  */
+@Component("questionLookupableHelperService")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static final long serialVersionUID = 7936563894902841571L;
@@ -41,7 +50,8 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
     private static final String SEQUENCE_STATUS_CURRENT = "C";
     private static final String DOCHANDLER_LINK = "%s/DocHandler.do?command=displayDocSearchView&docId=%s";
 
-    
+    @Autowired
+    @Qualifier("questionAuthorizationService")
     private transient QuestionAuthorizationService questionAuthorizationService;
     
 
@@ -128,5 +138,8 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
         this.questionAuthorizationService = questionAuthorizationService;
     }
 
+    public QuestionAuthorizationService getQuestionAuthorizationService() {
+        return questionAuthorizationService;
+    }
 
 }

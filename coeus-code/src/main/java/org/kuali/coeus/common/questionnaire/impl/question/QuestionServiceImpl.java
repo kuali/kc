@@ -13,19 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire.question;
+package org.kuali.coeus.common.questionnaire.impl.question;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.questionnaire.framework.question.Question;
+import org.kuali.coeus.common.questionnaire.framework.question.QuestionService;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 /**
  * Implementation of the various Question services.
  * 
- * @see org.kuali.kra.questionnaire.question.QuestionService
+ * @see org.kuali.coeus.common.questionnaire.framework.question.QuestionService
  */
+@Component("questionService")
 public class QuestionServiceImpl implements QuestionService {
 
     private static final String QUESTION_REF_ID = "id";
@@ -33,6 +39,8 @@ public class QuestionServiceImpl implements QuestionService {
     private static final String QUESTION_QUESTION_ID = "questionnaireQuestions.question.questionSeqId";
     private static final String QUESTIONNAIRE_ID = "questionnaireSeqId";
 
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
 
     /**
@@ -42,6 +50,9 @@ public class QuestionServiceImpl implements QuestionService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
     }
 
     @Override

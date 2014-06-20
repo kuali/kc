@@ -17,7 +17,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="Question" parent="Question-parentBean" />
     <bean id="Question-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.Question" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.questionnaire.framework.question.Question" />
 		<property name="objectLabel" value="Question" />
         <property name="inquiryDefinition" >
             <ref bean="Question-inquiryDefinition" />
@@ -242,11 +242,11 @@
       <bean parent="NumericPatternConstraint"/>
     </property>
          <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.questionnaire.question.QuestionCategory" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="id" p:labelAttribute="name"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.questionnaire.framework.question.QuestionCategory" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="id" p:labelAttribute="name"/>
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.QuestionCategory"/>
+        <property name="businessObjectClass" value="org.kuali.coeus.common.questionnaire.framework.question.QuestionCategory"/>
         <property name="includeKeyInDescription" value="false"/>
         <property name="includeBlankRow" value="false"/>
         <property name="keyAttributeName" value="id"/>
@@ -275,11 +275,11 @@
       <bean parent="NumericPatternConstraint"/>
     </property>
         <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.questionnaire.question.QuestionType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="id" p:labelAttribute="name"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.questionnaire.framework.question.QuestionType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="id" p:labelAttribute="name"/>
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.question.QuestionType"/>
+        <property name="businessObjectClass" value="org.kuali.coeus.common.questionnaire.framework.question.QuestionType"/>
         <property name="includeKeyInDescription" value="false"/>
         <property name="includeBlankRow" value="false"/>
         <property name="keyAttributeName" value="id"/>
@@ -579,7 +579,7 @@
 
   <bean id="Question-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Question Id"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.questionnaire.question.Question"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.questionnaire.framework.question.Question"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -648,7 +648,7 @@
   </bean>
 
   <bean id="Question-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.questionnaire.question.Question"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.questionnaire.framework.question.Question"/>
     <property name="headerText" value="Question Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">
