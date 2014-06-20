@@ -3,7 +3,7 @@
 <div class="tab-container" align="center">
     <h3>
         <span class="subhead-left"> Question </span>
-        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.questionnaire.question.Question" altText="help"/> </span>
+        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.coeus.common.questionnaire.framework.question.Question" altText="help"/> </span>
     </h3>
         
     <table id="response-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
@@ -50,7 +50,7 @@
                                           attributeEntry="${DataDictionary.Question.attributes.categoryTypeCode}"/>
                                         
                 <c:if test="${!readOnly}">
-                    <kul:lookup boClassName="org.kuali.kra.questionnaire.question.QuestionCategory" 
+                    <kul:lookup boClassName="org.kuali.coeus.common.questionnaire.framework.question.QuestionCategory"
                                 fieldConversions="categoryTypeCode:document.newMaintainableObject.businessObject.categoryTypeCode,name:document.newMaintainableObject.businessObject.questionCategory.name" />
                     <c:forEach items="${ErrorPropertyList}" var="key">
                         <c:if test="${key eq 'document.newMaintainableObject.businessObject.categoryTypeCode'}">

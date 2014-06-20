@@ -22,6 +22,8 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.coeus.common.questionnaire.framework.question.Question;
+import org.kuali.coeus.common.questionnaire.impl.question.QuestionServiceImpl;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.ArrayList;
