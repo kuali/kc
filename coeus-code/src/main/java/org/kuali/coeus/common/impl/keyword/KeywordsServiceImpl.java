@@ -22,11 +22,8 @@ import org.kuali.coeus.common.framework.keyword.KeywordsService;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.sys.framework.model.MultiLookupForm;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -51,7 +48,7 @@ public class KeywordsServiceImpl implements KeywordsService {
 
     @Override
     public void addKeyword(KeywordsManager document, ScienceKeyword scienceKeyword) {
-        if (!isDuplicateKeyword(scienceKeyword.getScienceKeywordCode(), document.getKeywords())) {
+        if (!isDuplicateKeyword(scienceKeyword.getCode(), document.getKeywords())) {
             document.addKeyword(scienceKeyword);
         }
     }

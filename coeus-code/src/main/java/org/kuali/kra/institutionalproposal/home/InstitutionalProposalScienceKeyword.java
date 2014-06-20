@@ -45,7 +45,7 @@ public class InstitutionalProposalScienceKeyword extends AbstractScienceKeyword 
     public InstitutionalProposalScienceKeyword(InstitutionalProposal institutionalProposal, ScienceKeyword scienceKeyword) {
         setInstitutionalProposal(institutionalProposal);
         setScienceKeywordDescription(scienceKeyword.getDescription());
-        setScienceKeywordCode(scienceKeyword.getScienceKeywordCode());
+        setScienceKeywordCode(scienceKeyword.getCode());
         setScienceKeyword(scienceKeyword);
     }
 

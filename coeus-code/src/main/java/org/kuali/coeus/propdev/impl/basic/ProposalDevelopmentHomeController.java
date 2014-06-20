@@ -185,7 +185,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 	}
    
    protected ScienceKeyword getScienceKeyword(Object element) {
-	   return (ScienceKeyword) getDataObjectService().findUnique(ScienceKeyword.class, QueryByCriteria.Builder.forAttribute("scienceKeywordCode", element).build());
+	   return (ScienceKeyword) getDataObjectService().findUnique(ScienceKeyword.class, QueryByCriteria.Builder.forAttribute("code", element).build());
    }
 
    protected class PropSpecialReviewExemptionTypeEditor extends CustomCollectionEditor {

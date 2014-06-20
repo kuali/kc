@@ -10,13 +10,13 @@
     <property name="lookupDefinition">
       <ref bean="ScienceKeyword-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="scienceKeywordCode"/>
+    <property name="titleAttribute" value="code"/>
     <property name="helpDefinition">
       <bean p:parameterDetailType="Document" p:parameterName="proposalDevelopmentKeywordsHelpUrl" p:parameterNamespace="KC-PD" parent="HelpDefinition"/>
     </property>
     <property name="attributes">
       <list>
-        <ref bean="ScienceKeyword-scienceKeywordCode"/>
+        <ref bean="ScienceKeyword-code"/>
         <ref bean="ScienceKeyword-description"/>
         <ref bean="ScienceKeyword-versionNumber"/>
       </list>
@@ -26,10 +26,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="ScienceKeyword-scienceKeywordCode" parent="ScienceKeyword-scienceKeywordCode-parentBean"/>
+  <bean id="ScienceKeyword-code" parent="ScienceKeyword-code-parentBean"/>
 
-  <bean abstract="true" id="ScienceKeyword-scienceKeywordCode-parentBean" parent="AttributeDefinition">
-    <property name="name" value="scienceKeywordCode"/>
+  <bean abstract="true" id="ScienceKeyword-code-parentBean" parent="AttributeDefinition">
+    <property name="name" value="code"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Keyword Code"/>
     <property name="shortLabel" value="Science Keyword Code"/>
@@ -89,7 +89,7 @@
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
             <list>
-              <bean p:attributeName="scienceKeywordCode" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="code" p:forceInquiry="true" parent="FieldDefinition"/>
               <bean p:attributeName="description" parent="FieldDefinition"/>
             </list>
           </property>
@@ -108,7 +108,7 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="scienceKeywordCode" parent="Uif-DataField"/>
+              <bean p:propertyName="code" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
             </list>
           </property>
@@ -128,13 +128,13 @@
     </property>
     <property name="lookupFields">
       <list>
-        <bean p:attributeName="scienceKeywordCode" parent="FieldDefinition"/>
+        <bean p:attributeName="code" parent="FieldDefinition"/>
         <bean p:attributeName="description" parent="FieldDefinition"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:attributeName="scienceKeywordCode" p:forceInquiry="true" parent="FieldDefinition"/>
+        <bean p:attributeName="code" p:forceInquiry="true" parent="FieldDefinition"/>
         <bean p:attributeName="description" parent="FieldDefinition"/>
       </list>
     </property>
@@ -156,13 +156,13 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="scienceKeywordCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="scienceKeywordCode" parent="Uif-DataField"/>
+        <bean p:propertyName="code" parent="Uif-DataField"/>
         <bean p:propertyName="description" parent="Uif-DataField"/>
       </list>
     </property>

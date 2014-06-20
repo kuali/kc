@@ -1456,7 +1456,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             result = prime * result + narrative.hierarchyHashCode();
         }
         for (PropScienceKeyword keyword : proposal.getPropScienceKeywords()) {
-            result = prime * result + keyword.getScienceKeyword().getScienceKeywordCode().hashCode();
+            result = prime * result + keyword.getScienceKeyword().getCode().hashCode();
         }
         for (ProposalSpecialReview review : proposal.getPropSpecialReviews()) {
             result = prime * result + review.hierarchyHashCode();
