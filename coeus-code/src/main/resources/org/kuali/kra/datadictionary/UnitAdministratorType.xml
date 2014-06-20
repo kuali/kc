@@ -10,10 +10,10 @@
     <property name="lookupDefinition">
       <ref bean="UnitAdministratorType-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="unitAdministratorTypeCode"/>
+    <property name="titleAttribute" value="code"/>
     <property name="attributes">
       <list>
-        <ref bean="UnitAdministratorType-unitAdministratorTypeCode"/>
+        <ref bean="UnitAdministratorType-code"/>
         <ref bean="UnitAdministratorType-description"/>
         <ref bean="UnitAdministratorType-versionNumber"/>
         <ref bean="UnitAdministratorType-defaultGroupFlag"/>
@@ -25,10 +25,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="UnitAdministratorType-unitAdministratorTypeCode" parent="UnitAdministratorType-unitAdministratorTypeCode-parentBean"/>
+  <bean id="UnitAdministratorType-code" parent="UnitAdministratorType-code-parentBean"/>
 
-  <bean abstract="true" id="UnitAdministratorType-unitAdministratorTypeCode-parentBean" parent="AttributeDefinition">
-    <property name="name" value="unitAdministratorTypeCode"/>
+  <bean abstract="true" id="UnitAdministratorType-code-parentBean" parent="AttributeDefinition">
+    <property name="name" value="code"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Unit Administrator Type Code"/>
     <property name="shortLabel" value="Unit Administrator Type Code"/>
@@ -139,7 +139,7 @@
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
             <list>
-              <bean p:attributeName="unitAdministratorTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="code" p:forceInquiry="true" parent="FieldDefinition"/>
               <bean p:attributeName="description" parent="FieldDefinition"/>
               <bean p:attributeName="defaultGroupFlag" parent="FieldDefinition"/>
               <bean p:attributeName="multiplesFlag" parent="FieldDefinition"/>
@@ -160,7 +160,7 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="unitAdministratorTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="code" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
               <bean p:propertyName="defaultGroupFlag" parent="Uif-DataField"/>
               <bean p:propertyName="multiplesFlag" parent="Uif-DataField"/>
@@ -182,7 +182,7 @@
     </property>
     <property name="lookupFields">
       <list>
-        <bean p:attributeName="unitAdministratorTypeCode" parent="FieldDefinition"/>
+        <bean p:attributeName="code" parent="FieldDefinition"/>
         <bean p:attributeName="description" parent="FieldDefinition"/>
         <bean p:attributeName="defaultGroupFlag" parent="FieldDefinition"/>
         <bean p:attributeName="multiplesFlag" parent="FieldDefinition"/>
@@ -190,7 +190,7 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean p:attributeName="unitAdministratorTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+        <bean p:attributeName="code" p:forceInquiry="true" parent="FieldDefinition"/>
         <bean p:attributeName="description" parent="FieldDefinition"/>
         <bean p:attributeName="defaultGroupFlag" parent="FieldDefinition"/>
         <bean p:attributeName="multiplesFlag" parent="FieldDefinition"/>
@@ -214,7 +214,7 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="unitAdministratorTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="defaultGroupFlag" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="multiplesFlag" parent="Uif-LookupCriteriaInputField"/>
@@ -222,7 +222,7 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="unitAdministratorTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="code" parent="Uif-DataField"/>
         <bean p:propertyName="description" parent="Uif-DataField"/>
         <bean p:propertyName="defaultGroupFlag" parent="Uif-DataField"/>
         <bean p:propertyName="multiplesFlag" parent="Uif-DataField"/>

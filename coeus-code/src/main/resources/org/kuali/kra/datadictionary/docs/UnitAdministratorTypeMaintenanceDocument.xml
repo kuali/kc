@@ -12,9 +12,11 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>unitAdministratorTypeCode</value>
+        <value>code</value>
       </list>
-    </property>	<property name="allowsRecordDeletion" value="true" />	
+    </property>
+	<property name="allowsRecordDeletion" value="true" />
+	
     
     
     
@@ -35,7 +37,7 @@
     <property name="title" value="Edit UnitAdministratorType"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="unitAdministratorTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="multiplesFlag" p:required="true"/>

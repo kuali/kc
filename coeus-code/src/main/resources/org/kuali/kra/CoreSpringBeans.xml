@@ -1356,14 +1356,14 @@
     			<entry key="KC-WKFLW:Unit Administrator">
     				<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
     					<property name="businessObjectClass" value="org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType" />
-    					<property name="keyAttributeName" value="unitAdministratorTypeCode"/>
+    					<property name="keyAttributeName" value="code"/>
     					<property name="labelAttributeName" value="description"/>
     				</bean>
     			</entry>  
     			<entry key="KC-PD:All Unit Administrators">
     				<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
     					<property name="businessObjectClass" value="org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType" />
-    					<property name="keyAttributeName" value="unitAdministratorTypeCode"/>
+    					<property name="keyAttributeName" value="code"/>
     					<property name="labelAttributeName" value="description"/>
     				</bean>
     			</entry>
@@ -1373,7 +1373,7 @@
     			<entry key="KC-IP:All Unit Administrators">
     				<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
     					<property name="businessObjectClass" value="org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType" />
-    					<property name="keyAttributeName" value="unitAdministratorTypeCode"/>
+    					<property name="keyAttributeName" value="code"/>
     					<property name="labelAttributeName" value="description"/>
     				</bean>    				
     			</entry>
@@ -1383,7 +1383,7 @@
     			<entry key="KC-AWARD:All Unit Administrators">
     				<bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
     					<property name="businessObjectClass" value="org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType" />
-    					<property name="keyAttributeName" value="unitAdministratorTypeCode"/>
+    					<property name="keyAttributeName" value="code"/>
     					<property name="labelAttributeName" value="description"/>
     				</bean>    				
     			</entry>    			
