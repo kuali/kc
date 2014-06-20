@@ -112,7 +112,7 @@ public class InstituteRateMaintenanceDocumentRule extends KcMaintenanceDocumentR
 
         if (newInstituteRate instanceof InstituteRate) {
             Map<String, String> pkMap1 = new HashMap<String, String>();
-            pkMap1.put("activityTypeCode", ((InstituteRate)newInstituteRate).getActivityTypeCode());
+            pkMap1.put("code", ((InstituteRate)newInstituteRate).getActivityTypeCode());
             valid&=checkExistenceFromTable(ActivityType.class,pkMap1,"activityTypeCode", "Activity Type");
         }
         

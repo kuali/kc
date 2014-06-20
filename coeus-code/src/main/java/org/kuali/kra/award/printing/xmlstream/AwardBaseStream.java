@@ -105,7 +105,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	protected static final String SIGNATURE_REQUIRED = "signatureRequired";
 	protected static final String COMMENT_TYPE_CODE_PARAMETER = "commentTypeCode";
 	protected static final String AWARD_TYPE_CODE_PARAMETER = "awardTypeCode";
-	protected static final String ACTIVITY_TYPE_CODE_PARAMETER = "activityTypeCode";
+	protected static final String ACTIVITY_TYPE_CODE_PARAMETER = "code";
 	protected static final String ACCOUNT_TYPE_CODE_PARAMETER = "accountTypeCode";
 	protected static final String REQUIRED = "1";
 	protected static final String NOT_REQUIRED = "0";

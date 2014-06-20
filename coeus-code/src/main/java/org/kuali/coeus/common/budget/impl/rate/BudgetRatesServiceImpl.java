@@ -217,7 +217,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
 
             if (activityTypeCode != null) {
                 Map pkMap = new HashMap();
-                pkMap.put("activityTypeCode",activityTypeCode);
+                pkMap.put("code",activityTypeCode);
                 ActivityType activityType = getBusinessObjectService().findByPrimaryKey(ActivityType.class, pkMap);
                 if (activityType == null) {
                     return "";

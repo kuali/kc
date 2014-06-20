@@ -54,9 +54,9 @@ public class ValidAwardBasisPaymentMaintenanceDocumentRule extends KcMaintenance
     private boolean validateUniqueueCodes(final AwardType awardType, final AwardBasisOfPayment basisOfPayment) {
         
         boolean valid = true;
-        if (awardType != null && basisOfPayment != null &&StringUtils.isNotBlank(awardType.getAwardTypeCode().toString()) && StringUtils.isNotBlank(basisOfPayment.getBasisOfPaymentCode())) {
+        if (awardType != null && basisOfPayment != null &&StringUtils.isNotBlank(awardType.getCode().toString()) && StringUtils.isNotBlank(basisOfPayment.getBasisOfPaymentCode())) {
             final Map<String, String> pkMap = new HashMap<String, String>();
-            pkMap.put("awardTypeCode", awardType.getAwardTypeCode().toString());
+            pkMap.put("awardTypeCode", awardType.getCode().toString());
             pkMap.put("basisOfPaymentCode", basisOfPayment.getBasisOfPaymentCode());
             final int matchingCount = KcServiceLocator.getService(BusinessObjectService.class).countMatching(ValidAwardBasisPayment.class, pkMap);
             

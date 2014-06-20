@@ -768,7 +768,7 @@
     <bean id="proposalTypeValuesFinder" class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
            <property name="businessObjectClass" value="org.kuali.coeus.common.framework.type.ProposalType"/>
            <property name="includeKeyInDescription" value="false"/>
-           <property name="keyAttributeName" value="proposalTypeCode"/>
+           <property name="keyAttributeName" value="code"/>
            <property name="labelAttributeName" value="description"/>
    </bean>
 
