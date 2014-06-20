@@ -22,7 +22,7 @@
                 <!-- ELEMENT HEAD: Label Here -->
 <h3>
     <span class="subhead-left">Questionnaire Update Status: Update Required </span>
- 	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.questionnaire.question.Question" altText="help"/></span>
+ 	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.coeus.common.questionnaire.framework.question.Question" altText="help"/></span>
 </h3>
         
         <!-- CONTENT: Label Here -->

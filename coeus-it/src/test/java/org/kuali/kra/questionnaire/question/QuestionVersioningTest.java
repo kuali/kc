@@ -20,6 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.common.impl.version.VersioningServiceImpl;
+import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import static org.junit.Assert.assertEquals;

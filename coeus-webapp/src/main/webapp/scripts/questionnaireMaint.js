@@ -78,7 +78,7 @@ function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, 
 	    linkNewQ.click(function() {
 		    var idx = jQuery(this).attr("id").substring(5);
 	        newQuestionWindow = window.open(extractUrlBase() +
-	    	                               "/kr/directInquiry.do?businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=start" +
+	    	                               "/kr/directInquiry.do?businessObjectClassName=org.kuali.coeus.common.questionnaire.framework.question.Question&methodToCall=start" +
 	    	                               "&id=" + newqn[idx] ,
 	    	                               "_blank", "width=640, height=600, scrollbars=yes");
 	    });

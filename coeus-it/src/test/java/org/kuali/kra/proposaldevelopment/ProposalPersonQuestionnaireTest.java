@@ -37,7 +37,7 @@ import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
-import org.kuali.kra.questionnaire.question.Question;
+import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.data.DataObjectService;

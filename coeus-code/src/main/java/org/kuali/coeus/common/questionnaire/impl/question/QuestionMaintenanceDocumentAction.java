@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire.question;
+package org.kuali.coeus.common.questionnaire.impl.question;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +23,8 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.common.impl.version.VersioningServiceImpl;
+import org.kuali.coeus.common.questionnaire.framework.question.Question;
+import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;

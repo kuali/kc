@@ -13,18 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire.question;
+package org.kuali.coeus.common.questionnaire.impl.question;
 
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
-
+@Component("questionAuthorizationService")
 public class QuestionAuthorizationServiceImpl implements QuestionAuthorizationService {
 
+    @Autowired
+    @Qualifier("unitAuthorizationService")
     private UnitAuthorizationService unitAuthorizationService;
-    
+    @Autowired
+    @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
 
     public boolean hasPermission(String permissionName) {
@@ -42,6 +48,14 @@ public class QuestionAuthorizationServiceImpl implements QuestionAuthorizationSe
 
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
+    }
+
+    public UnitAuthorizationService getUnitAuthorizationService() {
+        return unitAuthorizationService;
+    }
+
+    public KcPersonService getKcPersonService() {
+        return kcPersonService;
     }
 
 }
