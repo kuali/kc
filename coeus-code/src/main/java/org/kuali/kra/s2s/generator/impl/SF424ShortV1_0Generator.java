@@ -20,8 +20,8 @@ import gov.grants.apply.forms.sf424ShortV10.SF424ShortDocument.SF424Short;
 import gov.grants.apply.system.globalLibraryV20.ApplicantTypeCodeDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.org.Organization;
-import org.kuali.coeus.common.framework.org.type.OrganizationType;
+import org.kuali.coeus.common.api.org.OrganizationContract;
+import org.kuali.coeus.common.api.org.type.OrganizationTypeContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
 import org.kuali.coeus.propdev.api.abstrct.ProposalAbstractContract;
@@ -126,7 +126,7 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
             }
         }
 
-        Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
+        OrganizationContract organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         if (organization.getOrganizationName() != null) {
             sf424Short.setOrganizationName(organization.getOrganizationName());
         }
@@ -135,7 +135,7 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
         if (rolodex != null) {
             sf424Short.setAddress(globLibV20Generator.getAddressDataType(rolodex));
         }
-        List<OrganizationType> organizationTypes = organization
+        List<? extends OrganizationTypeContract> organizationTypes = organization
 				.getOrganizationTypes();
 		ApplicantTypeCodeDataType.Enum applicantTypeCode = getApplicantType(
 				organizationTypes, APPLICANT_TYPE_1_INDEX);
@@ -155,7 +155,7 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
         if (applicantTypeOtherSpecify != null && !applicantTypeOtherSpecify.equals("")) {
             sf424Short.setApplicantTypeOtherSpecify(applicantTypeOtherSpecify);
         }
-        sf424Short.setEmployerTaxpayerIdentificationNumber(organization.getFedralEmployerId());
+        sf424Short.setEmployerTaxpayerIdentificationNumber(organization.getFederalEmployerId());
         sf424Short.setDUNSNumber(organization.getDunsNumber());
         String congressionalDistrict = organization.getCongressionalDistrict() == null ? S2SConstants.VALUE_UNKNOWN : organization
                 .getCongressionalDistrict();
@@ -247,11 +247,11 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
      * @param index (int)
      * @return appTypeCodeDataType(ApplicantTypeCodeDataType.Enum) applicant type corresponding to the applicant type code.
      */
-    private ApplicantTypeCodeDataType.Enum getApplicantType(List<OrganizationType> organizationTypes, int index) {
+    private ApplicantTypeCodeDataType.Enum getApplicantType(List<? extends OrganizationTypeContract> organizationTypes, int index) {
     	
 		if (index < organizationTypes.size()){
-        	OrganizationType orgType = organizationTypes.get(index);
-        	int orgTypeCode = orgType.getOrganizationTypeCode();
+        	OrganizationTypeContract orgType = organizationTypes.get(index);
+        	int orgTypeCode = orgType.getOrganizationTypeList().getCode();
         	ApplicantTypeCodeDataType.Enum applicantTypeCode = null;
         	
         	switch (orgTypeCode) {

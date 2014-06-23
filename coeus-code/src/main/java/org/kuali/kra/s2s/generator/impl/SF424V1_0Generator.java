@@ -476,7 +476,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 		if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
 			organization.setEmployerID(pdDoc.getDevelopmentProposal()
 					.getApplicantOrganization().getOrganization()
-					.getFedralEmployerId());
+					.getFederalEmployerId());
 		}
 		OrganizationIdentifyingInformation orgIdentifyingInformation = OrganizationIdentifyingInformation.Factory
 				.newInstance();

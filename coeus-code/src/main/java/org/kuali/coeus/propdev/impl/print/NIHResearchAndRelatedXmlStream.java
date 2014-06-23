@@ -1464,8 +1464,8 @@ public class NIHResearchAndRelatedXmlStream extends
                 .getDunsNumber() == null ? DEFAULT_VALUE_UNKNOWN : organization
                         .getDunsNumber());
         applicantOrganizationType.setOrganizationEIN(organization
-                .getFedralEmployerId() == null ? DEFAULT_VALUE_UNKNOWN
-                        : ("1"+organization.getFedralEmployerId())+"A1");
+                .getFederalEmployerId() == null ? DEFAULT_VALUE_UNKNOWN
+                        : ("1"+organization.getFederalEmployerId())+"A1");
         if (organization.getPhsAccount() != null) {
             applicantOrganizationType.setPHSAccountID(organization
                     .getPhsAccount());
