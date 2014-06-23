@@ -401,8 +401,8 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 				.getDunsNumber() == null ? DEFAULT_VALUE_UNKNOWN : organization
 				.getDunsNumber());
 		applicantOrganizationType.setOrganizationEIN(organization
-				.getFedralEmployerId() == null ? DEFAULT_VALUE_UNKNOWN
-				: organization.getFedralEmployerId());
+				.getFederalEmployerId() == null ? DEFAULT_VALUE_UNKNOWN
+				: organization.getFederalEmployerId());
 		if (organization.getPhsAccount() != null) {
 			applicantOrganizationType.setPHSAccountID(organization
 					.getPhsAccount());

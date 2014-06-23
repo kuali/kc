@@ -32,8 +32,8 @@ import gov.grants.apply.system.universalCodesV20.CountryCodeDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
-import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
@@ -266,7 +266,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 				.getApplicantOrganization().getOrganization().getRolodex();
 		orgType.setAddress(globLibV20Generator.getAddressDataType(rolodex));
 
-		Organization organization = pdDoc.getDevelopmentProposal()
+		OrganizationContract organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
 		if (organization != null) {
 			orgType.setOrganizationName(organization.getOrganizationName());
@@ -760,7 +760,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
             }else{
 
                 employerId = applicantOrganization.getOrganization()
-                        .getFedralEmployerId();
+                        .getFederalEmployerId();
             }
         }
 

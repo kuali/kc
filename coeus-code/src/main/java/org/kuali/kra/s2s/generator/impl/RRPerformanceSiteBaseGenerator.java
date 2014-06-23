@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.kuali.coeus.common.api.rolodex.RolodexService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 
 /**
@@ -29,6 +31,12 @@ public abstract class RRPerformanceSiteBaseGenerator extends S2SBaseFormGenerato
     protected static final int PERFORMING_ORG_LOCATION_TYPE_CODE = 2;
     protected static final int OTHER_ORG_LOCATION_TYPE_CODE = 3;
     protected static final int PERFORMANCE_SITE_LOCATION_TYPE_CODE = 4;
+
+    protected RolodexService rolodexService;
+
+    public RRPerformanceSiteBaseGenerator() {
+        rolodexService = KcServiceLocator.getService(RolodexService.class);
+    }
 
 
     /**

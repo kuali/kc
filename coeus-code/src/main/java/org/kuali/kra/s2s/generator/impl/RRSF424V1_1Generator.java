@@ -30,8 +30,9 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
-import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
@@ -49,6 +50,7 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
@@ -71,7 +73,15 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 
 	private DepartmentalPerson departmentalPerson;
     private List<? extends AnswerHeaderContract> answerHeaders;
-	/**
+
+    private RolodexService rolodexService;
+
+    public RRSF424V1_1Generator() {
+        rolodexService = KcServiceLocator.getService(RolodexService.class);
+    }
+
+
+    /**
 	 * 
 	 * This method gives information of applications that are used in RRSF424
 	 * 
@@ -92,11 +102,14 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 							.getS2sSubmissionType().getDescription()));
 		}
 		rrsf424.setSubmittedDate(Calendar.getInstance());
-		Organization applicantOrganization = devProp.getApplicantOrganization()
+		OrganizationContract applicantOrganization = devProp.getApplicantOrganization()
 				.getOrganization();
+
+        final RolodexContract rolodex = rolodexService.getRolodex(applicantOrganization.getContactAddressId());
+
 		if (applicantOrganization != null
-				&& applicantOrganization.getRolodex() != null) {
-			String state = applicantOrganization.getRolodex().getState();
+				&& rolodex != null) {
+			String state = rolodex.getState();
 			rrsf424.setStateID(state);
 		}
 		String federalId = proposalDevelopmentService.getFederalId(pdDoc);
@@ -115,7 +128,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
             if (applicantOrganization.getPhsAccount() != null && isNih) {
                 rrsf424.setEmployerID(applicantOrganization.getPhsAccount());
             } else {
-                rrsf424.setEmployerID(applicantOrganization.getFedralEmployerId());
+                rrsf424.setEmployerID(applicantOrganization.getFederalEmployerId());
             }
         }
 		SponsorContract sponsor = devProp.getSponsor();
@@ -306,7 +319,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
         RolodexContract rolodex = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization().getRolodex();
 		orgType.setAddress(globLibV20Generator.getAddressDataType(rolodex));
-		Organization organization = pdDoc.getDevelopmentProposal()
+		OrganizationContract organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
 		if (organization != null) {
 			orgType.setOrganizationName(organization.getOrganizationName());

@@ -28,9 +28,9 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.org.Organization;
-import org.kuali.coeus.common.framework.org.OrganizationYnq;
-import org.kuali.coeus.common.framework.org.type.OrganizationType;
+import org.kuali.coeus.common.api.org.OrganizationContract;
+import org.kuali.coeus.common.api.org.OrganizationYnqContract;
+import org.kuali.coeus.common.api.org.type.OrganizationTypeContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.api.abstrct.ProposalAbstractContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
@@ -179,11 +179,11 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         	sf424V2.setFederalEntityIdentifier(federalId);
 		}
 
-        Organization organization = null;
+        OrganizationContract organization = null;
         organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         if (organization != null) {
             sf424V2.setOrganizationName(organization.getOrganizationName());
-            sf424V2.setEmployerTaxpayerIdentificationNumber(organization.getFedralEmployerId());
+            sf424V2.setEmployerTaxpayerIdentificationNumber(organization.getFederalEmployerId());
             sf424V2.setDUNSNumber(organization.getDunsNumber());
             sf424V2.setOrganizationAffiliation(organization.getOrganizationName());
         }
@@ -385,9 +385,9 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             sf424V2.setStateReviewAvailableDate(reviewDate);
         }
         YesNoDataType.Enum yesNo = YesNoDataType.N_NO;
-        Organization applicantOrganization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
+        OrganizationContract applicantOrganization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         if (applicantOrganization != null) {
-            for (OrganizationYnq orgYnq : applicantOrganization.getOrganizationYnqs()) {
+            for (OrganizationYnqContract orgYnq : applicantOrganization.getOrganizationYnqs()) {
                 if (orgYnq.getQuestionId() != null && orgYnq.getQuestionId().equals(PROPOSAL_YNQ_FEDERAL_DEBTS)) {
                     String orgYnqanswer = orgYnq.getAnswer();
                     if (orgYnqanswer != null) {
@@ -428,19 +428,17 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
     }
 
     private void setApplicatTypeCodes(SF424 sf424V2) {
-        Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
-        if (organization.getOrganizationTypes() == null) {
-            organization.refreshReferenceObject("organizationTypes");
-        }
-        List<OrganizationType> organizationTypes = organization.getOrganizationTypes();
+        OrganizationContract organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
+
+        List<? extends OrganizationTypeContract> organizationTypes = organization.getOrganizationTypes();
         if (organizationTypes.isEmpty()) {
             sf424V2.setApplicantTypeCode1(null);
             return;
         }
         for (int i = 0; i < organizationTypes.size() && i < 3; i++) {
-            OrganizationType orgType = organizationTypes.get(i);
+            OrganizationTypeContract orgType = organizationTypes.get(i);
             ApplicantTypeCodeDataType.Enum applicantTypeCode = ApplicantTypeCodeDataType.X_OTHER_SPECIFY;
-            switch (orgType.getOrganizationTypeCode()) {
+            switch (orgType.getOrganizationTypeList().getCode()) {
                 case 1:
                     applicantTypeCode = ApplicantTypeCodeDataType.C_CITY_OR_TOWNSHIP_GOVERNMENT;
                     break;

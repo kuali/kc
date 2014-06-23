@@ -21,12 +21,14 @@ import gov.grants.apply.forms.performanceSite13V13.SiteLocationDataType;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.org.Organization;
-import org.kuali.coeus.common.framework.org.OrganizationYnq;
+import org.kuali.coeus.common.api.org.OrganizationContract;
+import org.kuali.coeus.common.api.org.OrganizationYnqContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -47,6 +49,12 @@ public class PerformanceSiteV1_3Generator extends S2SBaseFormGenerator {
     private static final int OTHER_ORG_LOCATION_TYPE_CODE = 3;
     private static final int PERFORMANCE_SITE_LOCATION_TYPE_CODE = 4;
 
+    private RolodexService rolodexService;
+
+    public PerformanceSiteV1_3Generator() {
+        rolodexService = KcServiceLocator.getService(RolodexService.class);
+    }
+
 	private XmlObject getPerformanceSite() {
 		PerformanceSite13Document performanceSite13Document = PerformanceSite13Document.Factory
 				.newInstance();
@@ -64,10 +72,10 @@ public class PerformanceSiteV1_3Generator extends S2SBaseFormGenerator {
 
 
 	private void setSiteLocationDataType(
-			SiteLocationDataType siteLocationDataType, Organization organization) {
+			SiteLocationDataType siteLocationDataType, OrganizationContract organization) {
 		if (organization.getOrganizationYnqs() != null
 				&& !organization.getOrganizationYnqs().isEmpty()) {
-			for (OrganizationYnq organizationYnq : organization
+			for (OrganizationYnqContract organizationYnq : organization
 					.getOrganizationYnqs()) {
 				if (organizationYnq.getQuestionId().equals(
 						QUESTION_ID_FOR_INDIVIDUAL_YNQ)) {
@@ -83,7 +91,7 @@ public class PerformanceSiteV1_3Generator extends S2SBaseFormGenerator {
     private void setOtherSites(PerformanceSite13  performanceSite) {
         List<ProposalSite> proposalSites = pdDoc.getDevelopmentProposal().getProposalSites();
         if (proposalSites != null) {
-            Organization organization = null;
+            OrganizationContract organization = null;
             RolodexContract rolodex = null;
             SiteLocationDataType siteLocationDataType = null;
             for (ProposalSite proposalSite : proposalSites) {
@@ -92,11 +100,11 @@ public class PerformanceSiteV1_3Generator extends S2SBaseFormGenerator {
                         siteLocationDataType = performanceSite.addNewPrimarySite();
                         organization = proposalSite.getOrganization();
                         setSiteLocationDataType(siteLocationDataType, organization);
-                        rolodex = organization.getRolodex();
+                        rolodex = rolodexService.getRolodex(organization.getContactAddressId());
                         break;
                     case(OTHER_ORG_LOCATION_TYPE_CODE):
                         organization = proposalSite.getOrganization();
-                        rolodex = organization.getRolodex();
+                        rolodex = rolodexService.getRolodex(organization.getContactAddressId());
                         siteLocationDataType = performanceSite.addNewOtherSite();
                         break;
                     case(PERFORMANCE_SITE_LOCATION_TYPE_CODE):

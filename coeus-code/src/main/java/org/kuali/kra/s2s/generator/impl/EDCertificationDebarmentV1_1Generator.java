@@ -19,7 +19,7 @@ import gov.grants.apply.forms.edCertificationDebarmentV11.CertificationDebarment
 import gov.grants.apply.forms.edCertificationDebarmentV11.CertificationDebarmentDocument.CertificationDebarment;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
@@ -58,7 +58,7 @@ public class EDCertificationDebarmentV1_1Generator extends S2SBaseFormGenerator 
         CertificationDebarmentDocument certificationDebarmentDocument = CertificationDebarmentDocument.Factory.newInstance();
         CertificationDebarment certificationDebarment = CertificationDebarment.Factory.newInstance();
         certificationDebarment.setFormVersion(S2SConstants.FORMVERSION_1_1);
-        Organization organization = null;
+        OrganizationContract organization = null;
         if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
             organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         }
