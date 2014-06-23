@@ -611,7 +611,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview" table="EPS_PROP_SPECIAL_REVIEW">
-        <field-descriptor name="proposalSpecialReviewId" column="PROPOSAL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_EPS_PROP_SPECIAL_REVIEW_ID" />
+        <field-descriptor name="id" column="PROPOSAL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_EPS_PROP_SPECIAL_REVIEW_ID" />
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
@@ -643,7 +643,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption" table="EPS_PROP_EXEMPT_NUMBER">
-        <field-descriptor name="proposalSpecialReviewExemptionId" column="PROPOSAL_EXEMPT_NUMBER_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_EPS_PROP_EXEMPT_NUMBER_ID"/>
+        <field-descriptor name="id" column="PROPOSAL_EXEMPT_NUMBER_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_EPS_PROP_EXEMPT_NUMBER_ID"/>
         <field-descriptor name="proposalSpecialReviewId" column="PROPOSAL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" access="anonymous" />
         <field-descriptor name="exemptionTypeCode" column="EXEMPTION_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
@@ -651,7 +651,7 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         
-        <reference-descriptor name="exemptionType" class-ref="org.kuali.kra.bo.ExemptionType" auto-retrieve="false" auto-update="none" auto-delete="none">
+        <reference-descriptor name="exemptionType" class-ref="org.kuali.coeus.common.framework.exemption.ExemptionType" auto-retrieve="false" auto-update="none" auto-delete="none">
             <foreignkey field-ref="exemptionTypeCode"/>
         </reference-descriptor>
         <reference-descriptor name="proposalSpecialReview" class-ref="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none">

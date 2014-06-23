@@ -104,8 +104,8 @@
 		<property name="optionsFinder">
 			<bean
 				class="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" 
-				p:businessObjectClass="org.kuali.kra.bo.ExemptionType"
-				p:keyAttributeName="exemptionTypeCode"
+				p:businessObjectClass="org.kuali.coeus.common.framework.exemption.ExemptionType"
+				p:keyAttributeName="code"
 				p:labelAttributeName="description"/>
 		</property>
 	</bean>

@@ -613,7 +613,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     protected void synchronizeSpecialReviews(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) {
         for (ProposalSpecialReview review : childProposal.getPropSpecialReviews()) {
             ProposalSpecialReview newReview = (ProposalSpecialReview) ObjectUtils.deepCopy(review);
-            newReview.setProposalSpecialReviewId(null);
+            newReview.setId(null);
             newReview.setDevelopmentProposal(hierarchyProposal);
             newReview.setSpecialReviewNumber(hierarchyProposal.getProposalDocument().getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));            
             newReview.setVersionNumber(null);

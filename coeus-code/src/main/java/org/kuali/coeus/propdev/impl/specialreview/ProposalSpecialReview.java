@@ -15,10 +15,10 @@
  */
 package org.kuali.coeus.propdev.impl.specialreview;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
+import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
@@ -31,7 +31,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "EPS_PROP_SPECIAL_REVIEW")
-public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewExemption> implements HierarchyMaintainable {
+public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewExemption> implements HierarchyMaintainable, ProposalSpecialReviewContract {
 
     private static final long serialVersionUID = 4616138222389685155L;
 
@@ -43,7 +43,7 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
     @GeneratedValue(generator = "SEQ_EPS_PROP_SPECIAL_REVIEW_ID")
     @Id
     @Column(name = "PROPOSAL_SPECIAL_REVIEW_ID")
-    private Long proposalSpecialReviewId;
+    private Long id;
 
     @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
@@ -55,14 +55,16 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
     @OneToMany(mappedBy="proposalSpecialReview", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<ProposalSpecialReviewExemption> specialReviewExemptions;
     
-	public void setProposalSpecialReviewId(Long proposalSpecialReviewId) {
-        this.proposalSpecialReviewId = proposalSpecialReviewId;
+	public void setId(Long id) {
+        this.id = id;
     }
 
-    public Long getProposalSpecialReviewId() {
-        return proposalSpecialReviewId;
+    @Override
+    public Long getId() {
+        return id;
     }
 
+    @Override
     public String getHierarchyProposalNumber() {
         return hierarchyProposalNumber;
     }
@@ -71,6 +73,7 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         this.hierarchyProposalNumber = hierarchyProposalNumber;
     }
 
+    @Override
     public boolean isHiddenInHierarchy() {
         return hiddenInHierarchy;
     }
@@ -102,7 +105,7 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         result = prime * result + (hiddenInHierarchy ? 1231 : 1237);
         result = prime * result + ((hierarchyProposalNumber == null) ? 0 : hierarchyProposalNumber.hashCode());
         result = prime * result + ((getDevelopmentProposal().getProposalNumber() == null) ? 0 : getDevelopmentProposal().getProposalNumber().hashCode());
-        result = prime * result + ((proposalSpecialReviewId == null) ? 0 : proposalSpecialReviewId.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
 
@@ -135,24 +138,25 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         } else if (!getDevelopmentProposal().getProposalNumber().equals(other.getDevelopmentProposal().getProposalNumber())) {
             return false;
         }
-        if (proposalSpecialReviewId == null) {
-            if (other.proposalSpecialReviewId != null) {
+        if (id == null) {
+            if (other.id != null) {
                 return false;
             }
-        } else if (!proposalSpecialReviewId.equals(other.proposalSpecialReviewId)) {
+        } else if (!id.equals(other.id)) {
             return false;
         }
         return true;
     }
 
     public void resetPersistenceState() {
-        proposalSpecialReviewId = null;
+        id = null;
         for (ProposalSpecialReviewExemption exemption : getSpecialReviewExemptions()) {
-            exemption.setProposalSpecialReviewExemptionId(null);
+            exemption.setId(null);
             exemption.setProposalSpecialReview(null);
         }
     }
 
+    @Override
     public List<ProposalSpecialReviewExemption> getSpecialReviewExemptions() {
 		return specialReviewExemptions;
 	}
@@ -176,4 +180,8 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
 		this.developmentProposal = developmentProposal;
 	}
 
+    @Override
+    public String getProposalNumber() {
+        return getDevelopmentProposal().getProposalNumber();
+    }
 }
