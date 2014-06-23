@@ -36,6 +36,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
+import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitNameInfo;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitable;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -46,6 +47,7 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -1675,5 +1677,14 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     public String getProposalNumber() {
         return getDevelopmentProposal().getProposalNumber();
     }
-
+    
+    public boolean isQuestionnairesCompleted() {
+    	 boolean retVal = true;
+    	 if (this.getQuestionnaireHelper() != null && this.getQuestionnaireHelper().getAnswerHeaders() != null) {
+    		 for (AnswerHeader ah : getQuestionnaireHelper().getAnswerHeaders()) {
+    			 retVal &= ah.isCompleted();
+    		 }
+    	 }
+    	 return retVal;
+    }
 }
