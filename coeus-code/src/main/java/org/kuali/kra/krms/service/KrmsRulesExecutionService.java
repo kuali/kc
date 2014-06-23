@@ -21,9 +21,11 @@ import java.util.List;
 import java.util.Map;
 
 public interface KrmsRulesExecutionService {
-    
+
     List<String> processUnitValidations(String unitNumber, KrmsRulesContext rulesContext);
-    
+
+    List<Map<String,String>> processUnitKcValidations(String unitNumber, KrmsRulesContext rulesContext);
+
     Map<String, Boolean> runApplicableRules(List<String> ruleIds, KrmsRulesContext rulesContext, String agendaTypeId);
 
 }
