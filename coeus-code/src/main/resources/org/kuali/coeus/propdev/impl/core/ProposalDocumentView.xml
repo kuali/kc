@@ -205,10 +205,19 @@
 			<bean parent="Uif-ActionBar">
 				<property name="items">
 					<list>
-						<bean parent="Uif-ActionLink" p:methodToCall="validateData"
-                            p:actionLabel="Data Validation"
-                            p:iconClass="icon-ok" p:order="10"
-                            p:successCallback="retrieveComponent('PropDev-DataValidationSection');showLightboxComponent('PropDev-DataValidationSection');" />
+                        <bean parent="Uif-Message" p:renderWrapperTag="false" p:refreshWhenChangedPropertyNames="validateData" p:order="10">
+                            <property name="messageText" value="[0] @{validateData?'[color=#090](on)[/color]':'[color=red](off)[/color]'}"/>
+                            <property name="inlineComponents">
+                                <list>
+                                    <bean parent="Uif-ActionLink" p:methodToCall="validateData"
+                                          p:actionLabel="Data Validation"
+                                          p:iconClass="icon-ok"
+                                          p:successCallback="retrieveComponent('PropDev-DataValidationSection');showLightboxComponent('PropDev-DataValidationSection');"
+                                          p:style="padding-left:0px;margin-right:0px"
+                                          p:order="10"  />
+                                </list>
+                            </property>
+                        </bean>
 						<bean parent="Uif-ActionLink" p:methodToCall="noop"
 							p:actionLabel="Print" p:iconClass="icon-print" p:order="20" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Copy"
