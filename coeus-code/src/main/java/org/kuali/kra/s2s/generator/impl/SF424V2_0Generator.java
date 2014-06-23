@@ -34,6 +34,8 @@ import org.kuali.coeus.common.framework.org.type.OrganizationType;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.api.abstrct.ProposalAbstractContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
+import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
+import org.kuali.coeus.propdev.api.s2s.S2sSubmissionTypeContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -45,8 +47,6 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalcul
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
-import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
-import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionType;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
@@ -107,10 +107,9 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         SF424 sf424V2 = SF424.Factory.newInstance();
         sf424V2.setFormVersion(S2SConstants.FORMVERSION_2_0);
         boolean hasBudgetLineItem = false;
-        S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
-        if (s2sOpportunity != null && s2sOpportunity.getS2sSubmissionTypeCode() != null) {
-            s2sOpportunity.refreshNonUpdateableReferences();
-            S2sSubmissionType submissionType = s2sOpportunity.getS2sSubmissionType();
+        S2sOpportunityContract s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
+        if (s2sOpportunity != null && s2sOpportunity.getS2sSubmissionType() != null) {
+            S2sSubmissionTypeContract submissionType = s2sOpportunity.getS2sSubmissionType();
             SubmissionType.Enum subEnum = SubmissionType.Enum.forInt(Integer.parseInt(submissionType.getCode()));
             sf424V2.setSubmissionType(subEnum);
             ApplicationType.Enum applicationTypeEnum = null;
@@ -134,7 +133,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
                 }
             }
             sf424V2.setApplicationType(applicationTypeEnum);
-            String revisionType = s2sOpportunity.getRevisionCode();
+            String revisionType = s2sOpportunity.getS2sRevisionType().getCode();
             if (revisionType != null) {
                 RevisionType.Enum revType = null;
                 if (revisionType.equals(INCREASE_AWARD_CODE)) {

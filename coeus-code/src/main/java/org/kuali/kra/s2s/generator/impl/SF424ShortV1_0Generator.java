@@ -25,9 +25,9 @@ import org.kuali.coeus.common.framework.org.type.OrganizationType;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
 import org.kuali.coeus.propdev.api.abstrct.ProposalAbstractContract;
+import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -113,9 +113,8 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
             }
         }
         sf424Short.setDateReceived(Calendar.getInstance());
-        S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
+        S2sOpportunityContract s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
         if (s2sOpportunity != null) {
-            s2sOpportunity.refreshNonUpdateableReferences();
             if (s2sOpportunity.getOpportunityId().length() > OPPORTUNITY_ID_MAX_LENGTH) {
                 sf424Short.setFundingOpportunityNumber(s2sOpportunity.getOpportunityId().substring(0, OPPORTUNITY_ID_MAX_LENGTH));
             }
