@@ -17,6 +17,7 @@ package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.specialreview.impl.rule.event.SaveDocumentSpecialReviewEvent;
+import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentService;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -71,6 +72,10 @@ public abstract class ProposalDevelopmentControllerBase {
     @Autowired
     @Qualifier("attachmentService")
     private AttachmentService attachmentService;
+
+    @Autowired
+    @Qualifier("proposalDevelopmentAttachmentService")
+    private ProposalDevelopmentAttachmentService proposalDevelopmentAttachmentService;
 
     @Autowired
     @Qualifier("legacyDataAdapter")
@@ -131,6 +136,8 @@ public abstract class ProposalDevelopmentControllerBase {
                  proposalDevelopmentDocument);
          proposalDevelopmentService.initializeProposalSiteNumbers(
                  proposalDevelopmentDocument);
+
+         getProposalDevelopmentAttachmentService().standardizeAttachments(pdForm.getDevelopmentProposal());
          getTransactionalDocumentControllerService().save(form, result, request, response);
          
          initializeProposalUsers(proposalDevelopmentDocument);
@@ -213,6 +220,14 @@ public abstract class ProposalDevelopmentControllerBase {
 
     public void setAttachmentService(AttachmentService attachmentService) {
         this.attachmentService = attachmentService;
+    }
+
+    public ProposalDevelopmentAttachmentService getProposalDevelopmentAttachmentService() {
+        return proposalDevelopmentAttachmentService;
+    }
+
+    public void setProposalDevelopmentAttachmentService(ProposalDevelopmentAttachmentService proposalDevelopmentAttachmentService) {
+        this.proposalDevelopmentAttachmentService = proposalDevelopmentAttachmentService;
     }
 
     protected TransactionalDocumentControllerService getTransactionalDocumentControllerService() {
