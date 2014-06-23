@@ -236,9 +236,7 @@
   <bean id="BudgetPerson-lookupDefinition" parent="BudgetPerson-lookupDefinition-parentBean" />
   <bean id="BudgetPerson-LookupView" parent="BudgetPerson-LookupView-parentBean"/>
   <bean id="BudgetPerson-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Budget Persons Lookup" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+    <property name="title" value="Budget Persons Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
@@ -272,17 +270,6 @@
   <bean id="BudgetPerson-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson"/>
     <property name="headerText" value="Budget Persons Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="effectiveDate" parent="Uif-LookupCriteriaInputField"/>

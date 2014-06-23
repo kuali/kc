@@ -246,9 +246,7 @@
 	<bean id="ProtocolUnit-lookupDefinition" parent="ProtocolUnit-lookupDefinition-parentBean" />
   <bean id="ProtocolUnit-LookupView" parent="ProtocolUnit-LookupView-parentBean"/>
 	<bean id="ProtocolUnit-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Protocol Units Lookup" />
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="defaultSort" >
+		<property name="title" value="Protocol Units Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields" >
@@ -276,17 +274,6 @@
   <bean id="ProtocolUnit-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.irb.personnel.ProtocolUnit"/>
     <property name="headerText" value="Protocol Units Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-			</list>
-		</property>
-	</bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="protocolUnitsId" parent="Uif-LookupCriteriaInputField"/>

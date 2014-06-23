@@ -114,9 +114,7 @@
   <bean id="ExemptStudiesCheckListItem-lookupDefinition" parent="ExemptStudiesCheckListItem-lookupDefinition-parentBean" />
   <bean id="ExemptStudiesCheckListItem-LookupView" parent="ExemptStudiesCheckListItem-LookupView-parentBean"/>
   <bean id="ExemptStudiesCheckListItem-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Exempt Studies Check List" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+    <property name="title" value="Exempt Studies Check List" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
@@ -136,17 +134,6 @@
   <bean id="ExemptStudiesCheckListItem-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.irb.actions.submit.ExemptStudiesCheckListItem"/>
     <property name="headerText" value="Exempt Studies Check List"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="exemptStudiesCheckListCode" parent="Uif-LookupCriteriaInputField"/>

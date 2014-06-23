@@ -120,9 +120,7 @@
 	<bean id="coiReviewType-lookupDefinition" parent="coiReviewType-lookupDefinition-parentBean" />
   <bean id="coiReviewType-LookupView" parent="coiReviewType-LookupView-parentBean"/>
 	<bean id="coiReviewType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="COI Review Type Lookup" />
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="defaultSort" >
+		<property name="title" value="COI Review Type Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields" >
@@ -142,17 +140,6 @@
   <bean id="coiReviewType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.coi.CoiReviewType"/>
     <property name="headerText" value="COI Review Type Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="reviewTypeCode" parent="Uif-LookupCriteriaInputField"/>

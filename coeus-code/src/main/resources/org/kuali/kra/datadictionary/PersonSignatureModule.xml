@@ -164,9 +164,7 @@
   <bean id="PersonSignatureModule-lookupDefinition" parent="PersonSignatureModule-lookupDefinition-parentBean" />
   <bean id="PersonSignatureModule-LookupView" parent="PersonSignatureModule-LookupView-parentBean"/>
   <bean id="PersonSignatureModule-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Person Signature Module Lookup" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+    <property name="title" value="Person Signature Module Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
@@ -191,17 +189,6 @@
   <bean id="PersonSignatureModule-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.person.signature.PersonSignatureModule"/>
     <property name="headerText" value="Person Signature Module Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="personSignatureModuleId" parent="Uif-LookupCriteriaInputField"/>

@@ -379,9 +379,7 @@
     <bean id="PendingTransaction-lookupDefinition" parent="PendingTransaction-lookupDefinition-parentBean" />
   <bean id="PendingTransaction-LookupView" parent="PendingTransaction-LookupView-parentBean"/>
     <bean id="PendingTransaction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Award Amount Transaction Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="Award Amount Transaction Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -421,17 +419,6 @@
   <bean id="PendingTransaction-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.timeandmoney.transactions.PendingTransaction"/>
     <property name="headerText" value="Award Amount Transaction Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="transactionId" parent="Uif-LookupCriteriaInputField"/>

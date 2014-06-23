@@ -205,9 +205,7 @@
   <bean id="KcNotification-LookupView" parent="KcNotification-LookupView-parentBean"/>
     <bean id="KcNotification-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Notification Lookup" />
-        <property name="lookupableID" value="notificationLookupable" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="lookupableID" value="notificationLookupable" /><property name="defaultSort" >
             <bean parent="SortDefinition" />
         </property>
         <property name="lookupFields" >
@@ -233,17 +231,6 @@
   <bean id="KcNotification-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.common.notification.impl.bo.KcNotification"/>
     <property name="headerText" value="Notification Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="notificationId" parent="Uif-LookupCriteriaInputField"/>

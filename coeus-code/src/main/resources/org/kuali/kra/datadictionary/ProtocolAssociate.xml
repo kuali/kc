@@ -103,9 +103,7 @@ reference this file within there spring beans definition.
   <bean id="ProtocolAssociate-LookupView" parent="ProtocolAssociate-LookupView-parentBean"/>
 	<bean id="ProtocolAssociate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Protocol Associate Lookup" />
-        <property name="lookupableID" value="ProtocolAssociateLookupable" />
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="defaultSort" >
+        <property name="lookupableID" value="ProtocolAssociateLookupable" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields" >
@@ -131,17 +129,6 @@ reference this file within there spring beans definition.
   <bean id="ProtocolAssociate-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.protocol.ProtocolAssociateBase"/>
     <property name="headerText" value="Protocol Associate Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="protocolNumber" parent="Uif-LookupCriteriaInputField"/>

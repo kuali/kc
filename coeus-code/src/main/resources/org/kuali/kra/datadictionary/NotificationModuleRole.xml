@@ -170,9 +170,7 @@
     <bean id="NotificationModuleRole-lookupDefinition" parent="NotificationModuleRole-lookupDefinition-parentBean" />
   <bean id="NotificationModuleRole-LookupView" parent="NotificationModuleRole-LookupView-parentBean"/>
     <bean id="NotificationModuleRole-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Notification Module Role Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="Notification Module Role Lookup" /><property name="defaultSort" >
             <bean parent="SortDefinition" />
         </property>
         <property name="lookupFields" >
@@ -194,17 +192,6 @@
   <bean id="NotificationModuleRole-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.common.notification.impl.bo.NotificationModuleRole"/>
     <property name="headerText" value="Notification Module Role Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="notificationModuleRoleId" parent="Uif-LookupCriteriaInputField"/>

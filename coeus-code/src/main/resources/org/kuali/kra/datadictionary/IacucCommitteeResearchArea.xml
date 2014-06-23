@@ -136,9 +136,7 @@
     <bean id="IacucCommitteeResearchArea-lookupDefinition" parent="IacucCommitteeResearchArea-lookupDefinition-parentBean" />
   <bean id="IacucCommitteeResearchArea-LookupView" parent="IacucCommitteeResearchArea-LookupView-parentBean"/>
     <bean id="IacucCommitteeResearchArea-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Protocol Research Areas Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="Protocol Research Areas Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -160,17 +158,6 @@
   <bean id="IacucCommitteeResearchArea-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.iacuc.committee.bo.IacucCommitteeResearchArea"/>
     <property name="headerText" value="Protocol Research Areas Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>

@@ -96,9 +96,7 @@
   <bean id="IacucProtocolReviewerType-lookupDefinition" parent="IacucProtocolReviewerType-lookupDefinition-parentBean" />
   <bean id="IacucProtocolReviewerType-LookupView" parent="IacucProtocolReviewerType-LookupView-parentBean"/>
   <bean id="IacucProtocolReviewerType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="IACUC Reviewer Type" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="lookupableID" value="iacucProtocolReviewerTypeLookupable" />
+    <property name="title" value="IACUC Reviewer Type" /><property name="lookupableID" value="iacucProtocolReviewerTypeLookupable" />
     <property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
@@ -119,17 +117,6 @@
   <bean id="IacucProtocolReviewerType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType"/>
     <property name="headerText" value="IACUC Reviewer Type"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="reviewerTypeCode" parent="Uif-LookupCriteriaInputField"/>

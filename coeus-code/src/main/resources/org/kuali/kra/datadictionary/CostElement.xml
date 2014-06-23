@@ -250,9 +250,7 @@
   <bean id="CostElement-LookupView" parent="CostElement-LookupView-parentBean"/>
   <bean id="CostElement-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Object Code Lookup" />
-    <property name="lookupableID" value="budgetExpenseLookupable" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+    <property name="lookupableID" value="budgetExpenseLookupable" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
     <property name="helpDefinition" >
@@ -284,17 +282,6 @@
   <bean id="CostElement-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.core.CostElement"/>
     <property name="headerText" value="Object Code Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="costElement" parent="Uif-LookupCriteriaInputField"/>

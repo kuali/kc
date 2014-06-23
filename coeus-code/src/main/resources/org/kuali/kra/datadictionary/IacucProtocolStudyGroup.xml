@@ -183,9 +183,7 @@
 	<bean id="IacucProtocolStudyGroup-lookupDefinition" parent="IacucProtocolStudyGroup-lookupDefinition-parentBean" />
   <bean id="IacucProtocolStudyGroup-LookupView" parent="IacucProtocolStudyGroup-LookupView-parentBean"/>
 	<bean id="IacucProtocolStudyGroup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Protocol Study Group Lookup" />
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="defaultSort" >
+		<property name="title" value="Protocol Study Group Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields" >
@@ -203,17 +201,6 @@
   <bean id="IacucProtocolStudyGroup-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup"/>
     <property name="headerText" value="Protocol Study Group Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="iacucProtocolStudyGroupId" parent="Uif-LookupCriteriaInputField"/>

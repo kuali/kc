@@ -235,9 +235,7 @@
     <bean id="ProtocolAction-lookupDefinition" parent="ProtocolAction-lookupDefinition-parentBean" />
   <bean id="ProtocolAction-LookupView" parent="ProtocolAction-LookupView-parentBean"/>
     <bean id="ProtocolAction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Protocol Actions Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="Protocol Actions Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -267,17 +265,6 @@
   <bean id="ProtocolAction-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.irb.actions.ProtocolAction"/>
     <property name="headerText" value="Protocol Actions Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-            </list>
-        </property>
-    </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="actionId" parent="Uif-LookupCriteriaInputField"/>

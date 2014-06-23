@@ -311,9 +311,7 @@
     <bean id="IacucProtocolAction-lookupDefinition" parent="IacucProtocolAction-lookupDefinition-parentBean" />
   <bean id="IacucProtocolAction-LookupView" parent="IacucProtocolAction-LookupView-parentBean"/>
     <bean id="IacucProtocolAction-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Ac Protocol Actions Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="Ac Protocol Actions Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -349,17 +347,6 @@
   <bean id="IacucProtocolAction-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.iacuc.actions.IacucProtocolAction"/>
     <property name="headerText" value="Ac Protocol Actions Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="protocolActionId" parent="Uif-LookupCriteriaInputField"/>

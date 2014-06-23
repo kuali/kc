@@ -137,10 +137,7 @@
     <!-- Business Object Lookup Definition -->
     <bean id="ContactUsage-lookupDefinition" parent="ContactUsage-lookupDefinition-parentBean"/>
     <bean abstract="true" id="ContactUsage-lookupDefinition-parentBean" parent="LookupDefinition">
-        <property name="title" value="Contact Usage Lookup"/>
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-
-        <property name="defaultSort">
+        <property name="title" value="Contact Usage Lookup"/><property name="defaultSort">
             <bean parent="SortDefinition">
         </bean>
         </property>

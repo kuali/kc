@@ -244,9 +244,7 @@
   <bean id="BudgetColumnsToAlter-LookupView" parent="BudgetColumnsToAlter-LookupView-parentBean"/>
   <bean id="BudgetColumnsToAlter-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Budget Columns To Alter Lookup" />
-    <property name="lookupableID" value="customLookupable" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+    <property name="lookupableID" value="customLookupable" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
@@ -276,17 +274,6 @@
   <bean id="BudgetColumnsToAlter-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.budget.editable.BudgetColumnsToAlter"/>
     <property name="headerText" value="Budget Columns To Alter Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="columnName" parent="Uif-LookupCriteriaInputField"/>

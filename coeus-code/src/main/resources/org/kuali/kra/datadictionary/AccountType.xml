@@ -110,9 +110,7 @@
 	<bean id="AccountType-lookupDefinition" parent="AccountType-lookupDefinition-parentBean" />
   <bean id="AccountType-LookupView" parent="AccountType-LookupView-parentBean"/>
 	<bean id="AccountType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Account Type Lookup" />
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="defaultSort" >
+		<property name="title" value="Account Type Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
 		</property>
 	    <property name="helpDefinition" >
@@ -135,17 +133,6 @@
   <bean id="AccountType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.bo.AccountType"/>
     <property name="headerText" value="Account Type Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="accountTypeCode" parent="Uif-LookupCriteriaInputField"/>

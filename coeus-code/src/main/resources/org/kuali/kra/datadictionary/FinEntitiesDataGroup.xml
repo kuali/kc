@@ -156,9 +156,7 @@
     <bean id="FinEntitiesDataGroup-lookupDefinition" parent="FinEntitiesDataGroup-lookupDefinition-parentBean" />
   <bean id="FinEntitiesDataGroup-LookupView" parent="FinEntitiesDataGroup-LookupView-parentBean"/>
     <bean id="FinEntitiesDataGroup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Fin Entities Data Groups Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="Fin Entities Data Groups Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -180,17 +178,6 @@
   <bean id="FinEntitiesDataGroup-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.coi.personfinancialentity.FinEntitiesDataGroup"/>
     <property name="headerText" value="Fin Entities Data Groups Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="dataGroupId" parent="Uif-LookupCriteriaInputField"/>

@@ -96,9 +96,7 @@
   <bean id="S2sSubmissionType-lookupDefinition" parent="S2sSubmissionType-lookupDefinition-parentBean" />
   <bean id="S2sSubmissionType-LookupView" parent="S2sSubmissionType-LookupView-parentBean"/>
   <bean id="S2sSubmissionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Submission Type Lookup" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+    <property name="title" value="Submission Type Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
 	<property name="helpDefinition" >
@@ -121,17 +119,6 @@
   <bean id="S2sSubmissionType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.s2s.S2sSubmissionType"/>
     <property name="headerText" value="Submission Type Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>

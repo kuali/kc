@@ -658,9 +658,7 @@
   <bean id="SponsorHierarchy-lookupDefinition" parent="SponsorHierarchy-lookupDefinition-parentBean" />
   <bean id="SponsorHierarchy-LookupView" parent="SponsorHierarchy-LookupView-parentBean"/>
   <bean id="SponsorHierarchy-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Sponsor Hierarchy Lookup" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+    <property name="title" value="Sponsor Hierarchy Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
@@ -720,17 +718,6 @@
   <bean id="SponsorHierarchy-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy"/>
     <property name="headerText" value="Sponsor Hierarchy Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="hierarchyName" parent="Uif-LookupCriteriaInputField"/>

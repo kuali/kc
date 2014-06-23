@@ -264,9 +264,7 @@
   <bean id="ProposalPersonDegree-lookupDefinition" parent="ProposalPersonDegree-lookupDefinition-parentBean" />
   <bean id="ProposalPersonDegree-LookupView" parent="ProposalPersonDegree-LookupView-parentBean"/>
   <bean id="ProposalPersonDegree-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Proposal Person Degree" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+    <property name="title" value="Proposal Person Degree" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
@@ -293,17 +291,6 @@
   <bean id="ProposalPersonDegree-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.person.ProposalPersonDegree"/>
     <property name="headerText" value="Proposal Person Degree"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="graduationYear" parent="Uif-LookupCriteriaInputField"/>
