@@ -66,6 +66,7 @@
     <bean id="ynqService" parent="grlImporter" p:serviceName="ynqService" />
     <bean id="personEditableService" parent="grlImporter" p:serviceName="personEditableService" />
     <bean id="sponsorHierarchyService" parent="grlImporter" p:serviceName="sponsorHierarchyService" />
+    <bean id="kcAttachmentService" parent="grlImporter" p:serviceName="kcAttachmentService"/>
 
     <!-- S2S -->
 
