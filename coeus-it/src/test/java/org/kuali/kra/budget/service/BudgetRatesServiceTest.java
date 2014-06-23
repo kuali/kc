@@ -116,7 +116,7 @@ public class BudgetRatesServiceTest extends KcIntegrationTestBase {
     @Test
     public void testSyncAllBudgetRates_ChangingRatesNotProposalActivityType() throws Exception {
         changeInstituteRates();        
-        budgetRatesService.syncAllBudgetRates(budgetDocument);
+        budgetRatesService.syncAllBudgetRates(budgetDocument.getBudget());
         String activityTypeCode = budgetDocument.getParentDocument().getBudgetParent().getActivityTypeCode();
         Assert.assertEquals(countInstituteRatesForActivityTypeCode(activityTypeCode), budgetDocument.getBudget().getBudgetRates().size());
         checkSyncedRates();        
@@ -126,7 +126,7 @@ public class BudgetRatesServiceTest extends KcIntegrationTestBase {
     public void testSyncAllBudgetRates_ChangeProposalActivityType() throws Exception {
         ((ProposalDevelopmentDocument)budgetDocument.getParentDocument()).getDevelopmentProposal().setActivityTypeCode(INSTRUCTION_ACTIVITY_CODE);
         changeInstituteRates();
-        budgetRatesService.syncAllBudgetRates(budgetDocument);
+        budgetRatesService.syncAllBudgetRates(budgetDocument.getBudget());
         String activityTypeCode = budgetDocument.getParentDocument().getBudgetParent().getActivityTypeCode();
         Assert.assertEquals(countInstituteRatesForActivityTypeCode(activityTypeCode), budgetDocument.getBudget().getBudgetRates().size());
         checkSyncedRates();        
@@ -136,7 +136,7 @@ public class BudgetRatesServiceTest extends KcIntegrationTestBase {
     public void testSyncAllBudgetRates_ChangeProposalActivityType2Other() throws Exception {
         ((ProposalDevelopmentDocument)budgetDocument.getParentDocument()).getDevelopmentProposal().setActivityTypeCode(OTHER_ACTIVITY_CODE);
         changeInstituteRates();
-        budgetRatesService.syncAllBudgetRates(budgetDocument);
+        budgetRatesService.syncAllBudgetRates(budgetDocument.getBudget());
         String activityTypeCode = budgetDocument.getParentDocument().getBudgetParent().getActivityTypeCode();
         Assert.assertEquals(countInstituteRatesForActivityTypeCode(activityTypeCode), budgetDocument.getBudget().getBudgetRates().size());
         checkSyncedRates();        
@@ -167,7 +167,7 @@ public class BudgetRatesServiceTest extends KcIntegrationTestBase {
         budgetDocument = new BudgetDocument();
         Budget budget = budgetDocument.getBudget();
         budget.setBudgetVersionNumber(1);
-        budget.setBudgetDocument(budgetDocument);
+//        budget.setBudgetDocument(budgetDocument);
         budgetDocument.setParentDocument(initializeProposalDevelopmentDocument());
         budget.setStartDate(budgetDocument.getParentDocument().getBudgetParent().getRequestedStartDateInitial());
         budget.setEndDate(budgetDocument.getParentDocument().getBudgetParent().getRequestedEndDateInitial());

@@ -37,6 +37,7 @@ import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeStatus;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
@@ -57,9 +58,11 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.*;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.infrastructure.Constants;
@@ -82,6 +85,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import javax.persistence.*;
+
 import java.sql.Date;
 import java.util.*;
 
@@ -333,7 +337,20 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = true, updatable = true)
     private ProposalDevelopmentDocument proposalDocument;
 
-    @Transient
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PARENT_DOCUMENT_KEY")
+    private List<BudgetVersionOverview> budgetVersionOverviews;
+
+    public List<BudgetVersionOverview> getBudgetVersionOverviews() {
+		return budgetVersionOverviews;
+	}
+
+	public void setBudgetVersionOverviews(
+			List<BudgetVersionOverview> budgetVersionOverviews) {
+		this.budgetVersionOverviews = budgetVersionOverviews;
+	}
+
+	@Transient
     private NsfCode nsfCodeBo;
 
     @Transient
@@ -2473,4 +2490,15 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
 	public BudgetParentDocument<DevelopmentProposal> getDocument() {
 		return getProposalDocument();
 	}
+
+	@Override
+	public Budget getNewBudget() {
+		return new ProposalDevelopmentBudgetExt();
+	}
+
+	@Override
+	public Integer getNextBudgetVersionNumber() {
+		return getDocument().getNextBudgetVersionNumber();
+	}
+	
 }

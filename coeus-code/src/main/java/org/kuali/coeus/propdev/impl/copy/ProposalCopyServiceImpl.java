@@ -1040,10 +1040,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         
         List<BudgetProjectIncome> srcProjectIncomeList = budget.getBudgetProjectIncomes();
         budget.setBudgetProjectIncomes(new ArrayList<BudgetProjectIncome>());
-        budget.setBudgetDocument(budgetDocument);
-        budget.setDocumentNumber(budgetDocument.getDocumentNumber());
+//        budget.setBudgetDocument(budgetDocument);
+//        budget.setDocumentNumber(budgetDocument.getDocumentNumber());
         
-        getDocumentService().saveDocument(budgetDocument);
+//        getDocumentService().saveDocument(budgetDocument);
         
         for(BudgetPeriod tmpBudgetPeriod: budget.getBudgetPeriods()) {
             BudgetModular tmpBudgetModular = tmpBudgetModulars.get(tmpBudgetPeriod);

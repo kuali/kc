@@ -73,7 +73,7 @@ public class BudgetSummaryAction extends BudgetAction {
         getBudgetSummaryService().setupOldStartEndDate(
                 budget, false);
         if (StringUtils.isNotBlank(budgetForm.getSyncBudgetRate()) && budgetForm.getSyncBudgetRate().equals("Y")) {
-            getBudgetRatesService().syncAllBudgetRates(budgetDocument);
+            getBudgetRatesService().syncAllBudgetRates(budget);
             budgetForm.setSyncBudgetRate("");
             getBudgetSummaryService().calculateBudget(budget);
         }
@@ -111,7 +111,7 @@ public class BudgetSummaryAction extends BudgetAction {
             updateThisBudgetVersion(budgetDocument);
             if (budgetForm.isUpdateFinalVersion()) {
                 reconcileFinalBudgetFlags(budgetForm);
-                setBudgetStatuses(budget.getBudgetDocument().getParentDocument());
+                setBudgetStatuses(budget.getBudgetParent());
             }
 
             if (isBudgetPeriodDateChanged(budget) && isLineItemErrorOnly()) {
@@ -127,7 +127,7 @@ public class BudgetSummaryAction extends BudgetAction {
                             budget.getOnOffCampusFlag());
                 }
                 if (budget.getFinalVersionFlag()) {
-                    budget.getBudgetDocument().getParentDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
+                    budget.getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
                 }
                 updateBudgetPeriodDbVersion(budget);
                 return super.save(mapping, form, request, response);
@@ -146,7 +146,7 @@ public class BudgetSummaryAction extends BudgetAction {
         updateThisBudgetVersion(budgetForm.getBudgetDocument());
         if (budgetForm.isUpdateFinalVersion()) {
             reconcileFinalBudgetFlags(budgetForm);
-            setBudgetStatuses(budget.getBudgetDocument().getParentDocument());
+            setBudgetStatuses(budget.getBudgetParent());
         }
         boolean rulePassed = getKualiRuleService().applyRules(
                 new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
@@ -158,7 +158,7 @@ public class BudgetSummaryAction extends BudgetAction {
                         budget.getOnOffCampusFlag());
             }
             if (budget.getFinalVersionFlag()) {
-                budget.getBudgetDocument().getParentDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
+                budget.getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
             }
             updateBudgetPeriodDbVersion(budget);
             return super.save(mapping, form, request, response);
@@ -174,7 +174,7 @@ public class BudgetSummaryAction extends BudgetAction {
         updateThisBudgetVersion(budgetForm.getBudgetDocument());
         if (budgetForm.isUpdateFinalVersion()) {
             reconcileFinalBudgetFlags(budgetForm);
-            setBudgetStatuses(budget.getBudgetDocument().getParentDocument());
+            setBudgetStatuses(budget.getBudgetParent());
         }
         budget.getBudgetSummaryService().adjustStartEndDatesForLineItems(budget);
         boolean rulePassed = getKualiRuleService().applyRules(
@@ -187,7 +187,7 @@ public class BudgetSummaryAction extends BudgetAction {
                         budget.getOnOffCampusFlag());
             }
             if (budget.getFinalVersionFlag()) {
-                budget.getBudgetDocument().getParentDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
+                budget.getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
             }
             updateBudgetPeriodDbVersion(budget);
             return super.save(mapping, form, request, response);
@@ -414,8 +414,7 @@ public class BudgetSummaryAction extends BudgetAction {
         Budget budget = budgetDocument.getBudget();
         if (budget.getFinalVersionFlag()) {
             // This version has been marked as final - update other versions.
-            for (BudgetDocumentVersion documentVersion : budget.getBudgetDocument().getParentDocument().getBudgetDocumentVersions()) {
-                BudgetVersionOverview version = documentVersion.getBudgetVersionOverview();
+            for (BudgetVersionOverview version : budget.getBudgetParent().getBudgetVersionOverviews()) {
                 if (!budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
                     version.setFinalVersionFlag(false);
                 }

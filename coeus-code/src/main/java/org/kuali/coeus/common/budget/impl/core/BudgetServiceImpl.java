@@ -123,20 +123,20 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      * @param versionName of the {@link BudgetVersionOverview}
      */
     @Override
-    public Budget addBudgetVersion(BudgetParent budgetParent, String versionName) throws WorkflowException {
-        if (!isBudgetVersionNameValid(budgetParent.getDocument(), versionName)) {
+    public Budget addBudgetVersion(BudgetParentDocument budgetParentDocument, String versionName) throws WorkflowException {
+        if (!isBudgetVersionNameValid(budgetParentDocument, versionName)) {
             LOG.debug("Buffered Version not Valid");
             return null;
         }
 
-        Budget newBudgetDoc = getNewBudgetVersion(budgetParent, versionName);
+        Budget newBudgetDoc = getNewBudgetVersion(budgetParentDocument, versionName);
         if(newBudgetDoc==null) return null;
         
         return newBudgetDoc;
     }
 
-    protected Budget getNewBudgetVersion(BudgetParent parent, String versionName) throws WorkflowException {
-        BudgetCommonService<T> budgetCommonService = BudgetCommonServiceFactory.createInstance(parent);
+    protected Budget getNewBudgetVersion(BudgetParentDocument parent, String versionName) throws WorkflowException {
+        BudgetCommonService<T> budgetCommonService = BudgetCommonServiceFactory.createInstance(parent.getBudgetParent());
         return budgetCommonService.getNewBudgetVersion(parent, versionName);
     }
 
@@ -192,7 +192,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     }
     
 
-    protected BudgetDocument saveBudgetDocument(BudgetDocument<T> budgetDocument) throws WorkflowException {
+    protected BudgetDocument saveBudgetDocument(BudgetDocument budgetDocument) throws WorkflowException {
         Budget budget = budgetDocument.getBudget();
         BudgetParentDocument<T> parentDocument = budgetDocument.getParentDocument(); 
         boolean isProposalBudget = new Boolean(parentDocument.getProposalBudgetFlag()).booleanValue();
@@ -574,16 +574,12 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         return getKualiRuleService().applyRules(new DocumentAuditEvent(budgetDocument));
 
     }
-    
     /**
-     * @throws NoSuchMethodException 
-     * @throws InvocationTargetException 
-     * @throws IllegalAccessException 
-     * @throws FormatException
+     * Need to move this to AwardBudgetService service
      */
     @SuppressWarnings("unchecked")
     @Override
-    public BudgetDocument copyBudgetVersion(BudgetDocument budgetDocument, boolean onlyOnePeriod) throws WorkflowException {
+    public BudgetDocument copyBudgetVersion(AwardBudgetDocument budgetDocument, boolean onlyOnePeriod) throws WorkflowException {
         String parentDocumentNumber = budgetDocument.getParentDocument().getDocumentNumber();
         budgetDocument.toCopy();
         budgetDocument.getParentDocument().getDocumentHeader().setDocumentNumber(parentDocumentNumber);
@@ -592,7 +588,22 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             throw new RuntimeException("Not able to find any Budget Version associated with this document");
         }
         Budget budget = budgetDocument.getBudget();
-        
+        Budget copiedBudget = copyBudgetVersion(budget,onlyOnePeriod);
+        budgetDocument.setBudget(copiedBudget);
+        budgetDocument = (AwardBudgetDocument) documentService.saveDocument(budgetDocument);
+        budgetDocument = (AwardBudgetDocument) saveBudgetDocument(budgetDocument);
+        budgetDocument.getParentDocument().refreshBudgetDocumentVersions();
+    	return budgetDocument;
+    }
+    /**
+     * @throws NoSuchMethodException 
+     * @throws InvocationTargetException 
+     * @throws IllegalAccessException 
+     * @throws FormatException
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public Budget copyBudgetVersion(Budget budget, boolean onlyOnePeriod){
         if (onlyOnePeriod) {
             //Copy full first version, then include empty periods for remainder
             List<BudgetPeriod> oldBudgetPeriods = budget.getBudgetPeriods(); 
@@ -625,30 +636,30 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             }
         }
         
-        budget.setBudgetVersionNumber(budgetDocument.getParentDocument().getNextBudgetVersionNumber());
+        budget.setBudgetVersionNumber(budget.getBudgetParent().getNextBudgetVersionNumber());
         try {
             Map<String, Object> objectMap = new HashMap<String, Object>();
-            fixProperty(budgetDocument, "setBudgetId", Long.class, null, objectMap);
+            fixProperty(budget, "setBudgetId", Long.class, null, objectMap);
             objectMap.clear();
-            fixProperty(budgetDocument, "setBudgetPeriodId", Long.class, null, objectMap);
+            fixProperty(budget, "setBudgetPeriodId", Long.class, null, objectMap);
             objectMap.clear();
-            fixProperty(budgetDocument, "setBudgetLineItemId", Long.class, null, objectMap);
+            fixProperty(budget, "setBudgetLineItemId", Long.class, null, objectMap);
             objectMap.clear();
-            fixProperty(budgetDocument, "setBudgetLineItemCalculatedAmountId", Long.class, null, objectMap);
+            fixProperty(budget, "setBudgetLineItemCalculatedAmountId", Long.class, null, objectMap);
             objectMap.clear();
-            fixProperty(budgetDocument, "setBudgetPersonnelLineItemId", Long.class, null, objectMap);
+            fixProperty(budget, "setBudgetPersonnelLineItemId", Long.class, null, objectMap);
             objectMap.clear();
-            fixProperty(budgetDocument, "setBudgetPersonnelCalculatedAmountId", Long.class, null, objectMap);
+            fixProperty(budget, "setBudgetPersonnelCalculatedAmountId", Long.class, null, objectMap);
             objectMap.clear();
-            fixProperty(budgetDocument, "setBudgetPersonnelRateAndBaseId", Long.class, null, objectMap);
+            fixProperty(budget, "setBudgetPersonnelRateAndBaseId", Long.class, null, objectMap);
             objectMap.clear();
-            fixProperty(budgetDocument, "setBudgetRateAndBaseId", Long.class, null, objectMap);
+            fixProperty(budget, "setBudgetRateAndBaseId", Long.class, null, objectMap);
             objectMap.clear();
-            fixProperty(budgetDocument, "setVersionNumber", Integer.class, null, objectMap);
+            fixProperty(budget, "setVersionNumber", Integer.class, null, objectMap);
             objectMap.clear();
-            fixProperty(budgetDocument, "setAwardBudgetPeriodSummaryCalculatedAmountId", Long.class, null, objectMap);
+            fixProperty(budget, "setAwardBudgetPeriodSummaryCalculatedAmountId", Long.class, null, objectMap);
             objectMap.clear();
-            fixProperty(budgetDocument, "setFinalVersionFlag", Boolean.class, Boolean.FALSE, objectMap);
+            fixProperty(budget, "setFinalVersionFlag", Boolean.class, Boolean.FALSE, objectMap);
             objectMap.clear();
             
 
@@ -659,7 +670,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         
         //Work around for 1-to-1 Relationship between BudgetPeriod & BudgetModular
         Map<String, BudgetModular> tmpBudgetModulars = new HashMap<String, BudgetModular>(); 
-        for(BudgetPeriod budgetPeriod: budgetDocument.getBudget().getBudgetPeriods()) {
+        for(BudgetPeriod budgetPeriod: budget.getBudgetPeriods()) {
             BudgetModular tmpObject = null;
             if(budgetPeriod.getBudgetModular() != null) {
                 tmpObject = (BudgetModular) ObjectUtils.deepCopy(budgetPeriod.getBudgetModular());
@@ -668,18 +679,17 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             budgetPeriod.setBudgetModular(null);
         }
 
-        copyLineItemToPersonnelDetails(budgetDocument);
-        budgetDocument.setVersionNumber(null);
+        copyLineItemToPersonnelDetails(budget);
+        budget.setVersionNumber(null);
         // setting this to null so copied budget can be posted.
-        budgetDocument.getBudget().setBudgetAdjustmentDocumentNumber(null);
-        List<BudgetProjectIncome> projectIncomes = budgetDocument.getBudget().getBudgetProjectIncomes();
-        budgetDocument.getBudget().setBudgetProjectIncomes(new ArrayList<BudgetProjectIncome>());
-        budgetDocument = (BudgetDocument) documentService.saveDocument(budgetDocument);
+        budget.setBudgetAdjustmentDocumentNumber(null);
+        List<BudgetProjectIncome> projectIncomes = budget.getBudgetProjectIncomes();
+        budget.setBudgetProjectIncomes(new ArrayList<BudgetProjectIncome>());
         if (projectIncomes != null && !projectIncomes.isEmpty()) {
-            updateProjectIncomes(budgetDocument, projectIncomes);
+            updateProjectIncomes(budget, projectIncomes);
         }
         getBudgetCommonService(budget.getBudgetParent()).calculateBudgetOnSave(budget);
-        for(BudgetPeriod tmpBudgetPeriod: budgetDocument.getBudget().getBudgetPeriods()) {
+        for(BudgetPeriod tmpBudgetPeriod: budget.getBudgetPeriods()) {
             BudgetModular tmpBudgetModular = tmpBudgetModulars.get(""+tmpBudgetPeriod.getBudget().getVersionNumber() + tmpBudgetPeriod.getBudgetPeriod());
             if(tmpBudgetModular != null) {
                 tmpBudgetModular.setBudgetPeriodId(tmpBudgetPeriod.getBudgetPeriodId());
@@ -687,9 +697,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             }
         }
 
-        budgetDocument = (BudgetDocument) saveBudgetDocument(budgetDocument);
-        budgetDocument.getParentDocument().refreshBudgetDocumentVersions();
-        return budgetDocument;
+        return budget;
     }
     
     protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParent budgetParent) {
@@ -704,19 +712,19 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      * @param budgetDocument
      * @param projectIncomes
      */
-    protected void updateProjectIncomes(BudgetDocument budgetDocument, List<BudgetProjectIncome> projectIncomes) {
+    protected void updateProjectIncomes(Budget budget, List<BudgetProjectIncome> projectIncomes) {
         List<BudgetProjectIncome> budgetProjectIncomes = new ArrayList<BudgetProjectIncome>();
-        for (BudgetPeriod budgetPeriod : budgetDocument.getBudget().getBudgetPeriods()) {
+        for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
             for (BudgetProjectIncome projectIncome : projectIncomes) {
                 if (budgetPeriod.getBudgetPeriod().equals(projectIncome.getBudgetPeriodNumber())) {
-                    projectIncome.setBudgetId(budgetDocument.getBudget().getBudgetId());
+                    projectIncome.setBudgetId(budget.getBudgetId());
                     projectIncome.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
                     budgetProjectIncomes.add(projectIncome);
                 }
             }
         }
-        businessObjectService.save(budgetProjectIncomes);
-        budgetDocument.getBudget().refreshReferenceObject("budgetProjectIncomes");
+//        businessObjectService.save(budgetProjectIncomes);
+//        budget.refreshReferenceObject("budgetProjectIncomes");
 
     }
     /**
@@ -724,8 +732,8 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      * Do this so that new personnel details(or copied ones) can be calculated
      * @param budgetDocument
      */
-    protected void copyLineItemToPersonnelDetails(BudgetDocument budgetDocument) {
-        for (BudgetPeriod budgetPeriod : budgetDocument.getBudget().getBudgetPeriods()) {
+    protected void copyLineItemToPersonnelDetails(Budget budget) {
+        for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
             if (budgetPeriod.getBudgetLineItems() != null && !budgetPeriod.getBudgetLineItems().isEmpty()) {
                 for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {        
                     if (budgetLineItem.getBudgetPersonnelDetailsList() != null && !budgetLineItem.getBudgetPersonnelDetailsList().isEmpty()) {

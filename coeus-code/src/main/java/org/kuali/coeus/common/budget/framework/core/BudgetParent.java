@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.core;
 
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.framework.type.ActivityType;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.award.home.ContactRole;
@@ -53,5 +54,10 @@ public interface BudgetParent {
 	public String getProposalBudgetFlag();
 	
 	public BudgetParentDocument<? extends BudgetParent> getDocument();
- 
+	
+	public List<BudgetVersionOverview> getBudgetVersionOverviews();
+	public Budget getNewBudget();
+	public Integer getNextBudgetVersionNumber();
+
+	
 }

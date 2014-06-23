@@ -97,7 +97,7 @@ public class BudgetPrintingServiceImpl implements BudgetPrintService {
 			throws PrintingException {
 		AttachmentDataSource attachmentDataSource = null;
 		AbstractPrint printable = null;
-		String fileName = reportName+"-"+((Budget)budget).getBudgetDocument().getParentDocumentKey()+Constants.PDF_FILE_EXTENSION;
+		String fileName = reportName+"-"+((Budget)budget).getParentDocumentKey()+Constants.PDF_FILE_EXTENSION;
 		if (reportName.equals(BudgetPrintType.BUDGET_SUMMARY_REPORT
 				.getBudgetPrintType())) {
 			printable = getBudgetSummaryPrint();

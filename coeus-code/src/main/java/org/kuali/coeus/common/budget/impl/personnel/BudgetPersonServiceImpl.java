@@ -87,8 +87,8 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
 
     @Override
     public void synchBudgetPersonsToProposal(Budget budget) {
-        budget.getBudgetDocument().refreshReferenceObject("documentNextvalues");
-        BudgetParent budgetParent = budget.getBudgetDocument().getParentDocument().getBudgetParent();
+        budget.refreshReferenceObject("documentNextvalues");
+        BudgetParent budgetParent = budget.getBudgetParent();
         for (PersonRolodex proposalPerson: budgetParent.getPersonRolodexList()) {
             if (!proposalPerson.isOtherSignificantContributorFlag()) {
                 boolean present = false;
@@ -136,7 +136,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
                 newBudgetPerson.setJobTitle(appointment.getJobTitle());
                 newBudgetPerson.setCalculationBase(appointment.getSalary());
                 // use budget start date instead of appointment start date to prepopulate effective date
-                BudgetParent proposal = budget.getBudgetDocument().getParentDocument().getBudgetParent();
+                BudgetParent proposal = budget.getBudgetParent();
                 budgetPerson.setEffectiveDate(proposal.getRequestedStartDateInitial());
                 newBudgetPerson.setAppointmentType(appointment.getAppointmentType());
                 newBudgetPerson.setAppointmentTypeCode(appointment.getTypeCode());
@@ -190,7 +190,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     }
     
     protected void populatePersonDefaultDataIfEmpty(Budget budget, BudgetPerson budgetPerson) {
-        BudgetParent proposal = budget.getBudgetDocument().getParentDocument().getBudgetParent();
+        BudgetParent proposal = budget.getBudgetParent();
         if (proposal != null && ObjectUtils.isNull(budgetPerson.getEffectiveDate())) {
             budgetPerson.setEffectiveDate(proposal.getRequestedStartDateInitial());
         }

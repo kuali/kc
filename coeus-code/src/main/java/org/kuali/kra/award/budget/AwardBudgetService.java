@@ -20,6 +20,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
@@ -137,5 +138,7 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      */
     public boolean checkRateChange(Collection<BudgetRate> allPropRates,Award award);
     
+    public BudgetDocument<Award> getNewBudgetVersionDocument(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription)
+    	    throws WorkflowException;    
     
 }

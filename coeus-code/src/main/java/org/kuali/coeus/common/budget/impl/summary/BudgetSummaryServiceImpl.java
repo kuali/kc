@@ -293,11 +293,11 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     /* call budget calculation service to calculate budget */
     @Override
     public void calculateBudget(Budget budget) {
-        getBudgetCommonService(budget.getBudgetDocument().getParentDocument()).recalculateBudget(budget);
+        getBudgetCommonService(budget.getBudgetParent()).recalculateBudget(budget);
     }
 
-    protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParentDocument parentBudgetDocument) {
-        return BudgetCommonServiceFactory.createInstance(parentBudgetDocument);
+    protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParent parentBudget) {
+        return BudgetCommonServiceFactory.createInstance(parentBudget);
     }
     @Override
     public void deleteBudgetPeriod(Budget budget, int delPeriod) {

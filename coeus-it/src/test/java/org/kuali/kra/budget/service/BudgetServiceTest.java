@@ -19,9 +19,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -83,15 +85,15 @@ public class BudgetServiceTest extends KcIntegrationTestBase {
         
         pdDocument.addPessimisticLock(lock);
         
-        BudgetDocument budgetDocument = budgetCommonService.getNewBudgetVersion(pdDocument, testDocumentDescription);
+        Budget budget = budgetCommonService.getNewBudgetVersion(pdDocument, testDocumentDescription);
         
         // Verify that status is final
-        assertTrue(budgetDocument.getDocumentHeader().getWorkflowDocument().isApproved());
+//        assertTrue(budgetDocument.getDocumentHeader().getWorkflowDocument().isApproved());
         //assertEquals(KRADConstants.DocumentStatusCodes.APPROVED, budgetDocument.getDocumentHeader().getDocumentStatusCode());
         
         // Verify that fields were set properly
-        assertEquals(((ProposalDevelopmentDocument)budgetDocument.getParentDocument()).getDevelopmentProposal().getProposalNumber(), testProposalNumber);
-        assertEquals(budgetDocument.getDocumentHeader().getDocumentDescription(), testDocumentDescription);
+        assertEquals(((DevelopmentProposal)budget.getBudgetParent()).getProposalNumber(), testProposalNumber);
+//        assertEquals(budgetDocument.getDocumentHeader().getDocumentDescription(), testDocumentDescription);
     }
     
     /**
@@ -107,17 +109,17 @@ public class BudgetServiceTest extends KcIntegrationTestBase {
         String testProposalNumber = pdDocument.getDevelopmentProposal().getProposalNumber();
         String testDocumentDescription = "Test Copy Budget Doc";
         
-        BudgetDocument budgetDocument = budgetCommonService.getNewBudgetVersion(pdDocument, testDocumentDescription);
+        Budget budgetDocument = budgetCommonService.getNewBudgetVersion(pdDocument, testDocumentDescription);
         
-        BudgetDocument copyBudgetDocument = budgetCommonService.copyBudgetVersion(budgetDocument);
+        Budget copyBudgetDocument = budgetCommonService.copyBudgetVersion(budgetDocument);
         
 //      //Verify that status is final
-        assertTrue(budgetDocument.getDocumentHeader().getWorkflowDocument().isApproved());
+//        assertTrue(budgetDocument.getDocumentHeader().getWorkflowDocument().isApproved());
         //assertEquals(KRADConstants.DocumentStatusCodes.APPROVED, budgetDocument.getDocumentHeader().getDocumentStatus());
         
         // Verify that fields were set properly
-        assertEquals(((ProposalDevelopmentDocument)copyBudgetDocument.getParentDocument()).getDevelopmentProposal().getProposalNumber(), testProposalNumber);
-        assertEquals(copyBudgetDocument.getDocumentHeader().getDocumentDescription(), testDocumentDescription);
+        assertEquals(((DevelopmentProposal)copyBudgetDocument.getBudgetParent()).getProposalNumber(), testProposalNumber);
+//        assertEquals(copyBudgetDocument.getDocumentHeader().getDocumentDescription(), testDocumentDescription);
     }
     
     /**

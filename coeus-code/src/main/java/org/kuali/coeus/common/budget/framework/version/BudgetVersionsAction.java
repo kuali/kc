@@ -119,7 +119,7 @@ public class BudgetVersionsAction extends BudgetAction {
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
         BudgetParent budgetParent = parentDocument.getBudgetParent();
         budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(parentDocument.getBudgetDocumentVersions()));
-        setBudgetStatuses(parentDocument);
+        setBudgetStatuses(budgetParent);
         AwardBudgetService awardBudgetService = KcServiceLocator.getService(AwardBudgetService.class);
         BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
         Collection<BudgetRate> savedBudgetRates = budgetService.getSavedBudgetRates(budget);
@@ -162,7 +162,12 @@ public class BudgetVersionsAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
-        BudgetDocument newBudgetDoc = getBudgetService().addBudgetVersion(parentDocument, budgetForm.getNewBudgetVersionName());
+        
+        //Need some work
+        BudgetParent budgetParent = budgetDocument.getBudget().getBudgetParent();
+        
+        
+        getBudgetService().addBudgetVersion(parentDocument, budgetForm.getNewBudgetVersionName());
         budgetForm.setNewBudgetVersionName("");
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -212,7 +217,7 @@ public class BudgetVersionsAction extends BudgetAction {
         
         
         Collection<BudgetRate> allPropRates = budgetService.getSavedBudgetRates(budgetOpen);
-        if(getBudgetRateService().performSyncFlag(budgetDocument)){
+        if(getBudgetRateService().performSyncFlag(budgetOpen)){
             budget.setRateClassTypesReloaded(true);
         }
         if (budgetService.checkActivityTypeChange(allPropRates, budgetParent.getActivityTypeCode())) {
@@ -304,7 +309,8 @@ public class BudgetVersionsAction extends BudgetAction {
       BudgetForm budgetForm = (BudgetForm) form;
       BudgetVersionOverview versionToCopy = getSelectedVersion(budgetForm, request);
       BudgetParentDocument parentDocument = budgetForm.getBudgetDocument().getParentDocument();
-      BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(parentDocument);
+      BudgetParent budgetParent = budgetForm.getBudgetDocument().getBudget().getBudgetParent();
+      BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budgetParent);
       if (!budgetService.validateAddingNewBudget(parentDocument)) {
           return mapping.findForward(Constants.MAPPING_BASIC);
       }
@@ -392,7 +398,7 @@ public class BudgetVersionsAction extends BudgetAction {
         updateThisBudget(budgetDocument);
         setBudgetParentStatus(parentDocument);
         ActionForward forward = super.save(mapping, form, request, response);
-        setBudgetStatuses(parentDocument);
+        setBudgetStatuses(budgetDocument.getBudget().getBudgetParent());
         return forward;
     }
     

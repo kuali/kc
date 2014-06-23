@@ -75,7 +75,7 @@ public class BudgetParametersAction extends BudgetAction {
         getBudgetSummaryService().setupOldStartEndDate(budget, false);
         if (StringUtils.isNotBlank(budgetForm.getSyncBudgetRate()) && budgetForm.getSyncBudgetRate().equals("Y")) {
             budget.setRateClassTypesReloaded(true);
-            getBudgetRatesService().syncAllBudgetRates(budgetDocument);
+            getBudgetRatesService().syncAllBudgetRates(budget);
             budget.setRateSynced(true);
             budgetForm.setSyncBudgetRate("");
             // jira-1848 : force to calc budget after sync
@@ -113,7 +113,7 @@ public class BudgetParametersAction extends BudgetAction {
             updateThisBudgetVersion(budgetDocument);
             if (budgetForm.isUpdateFinalVersion()) {
                 reconcileFinalBudgetFlags(budgetForm);
-                setBudgetStatuses(budgetDocument.getParentDocument());
+                setBudgetStatuses(budget.getBudgetParent());
             }
             if (isBudgetPeriodDateChanged(budget) && isLineItemErrorOnly()) {
                 GlobalVariables.setMessageMap(new MessageMap());
@@ -204,7 +204,7 @@ public class BudgetParametersAction extends BudgetAction {
         updateThisBudgetVersion(budgetDocument);
         if (budgetForm.isUpdateFinalVersion()) {
             reconcileFinalBudgetFlags(budgetForm);
-            setBudgetStatuses(budgetDocument.getParentDocument());
+            setBudgetStatuses(budget.getBudgetParent());
         }
         boolean rulePassed = getKualiRuleService().applyRules(
             new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetDocument));
@@ -238,7 +238,7 @@ public class BudgetParametersAction extends BudgetAction {
         updateThisBudgetVersion(budgetDocument);
         if (budgetForm.isUpdateFinalVersion()) {
             reconcileFinalBudgetFlags(budgetForm);
-            setBudgetStatuses(budgetDocument.getParentDocument());
+            setBudgetStatuses(budget.getBudgetParent());
         }
         getBudgetSummaryService().adjustStartEndDatesForLineItems(budget);
         boolean rulePassed = getKualiRuleService().applyRules(

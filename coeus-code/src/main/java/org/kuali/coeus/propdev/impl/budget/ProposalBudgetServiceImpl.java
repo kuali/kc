@@ -67,23 +67,21 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
     @Qualifier("propDevBudgetSubAwardService")
     private PropDevBudgetSubAwardService propDevBudgetSubAwardService;
     
-
-    public Budget getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,
-            String documentDescription) throws WorkflowException {
-        BudgetDocument<DevelopmentProposal> budgetDocument;
+    public Budget getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,String documentDescription){
+//        BudgetDocument<DevelopmentProposal> budgetDocument;
         Integer budgetVersionNumber = parentDocument.getNextBudgetVersionNumber();
-        budgetDocument = (BudgetDocument) documentService.getNewDocument(BudgetDocument.class);
+//        budgetDocument = (BudgetDocument) documentService.getNewDocument(BudgetDocument.class);
+        DevelopmentProposal budgetParent = parentDocument.getBudgetParent();
+		Budget budget = budgetParent.getNewBudget();
+        budget.setBudgetParent(budgetParent);
+        budget.setParentDocumentKey(parentDocument.getDocumentNumber());
+        budget.setParentDocumentTypeCode(parentDocument.getDocumentTypeCode());
+//        budgetDocument.getDocumentHeader().setDocumentDescription(documentDescription);
         
-        budgetDocument.setParentDocument(parentDocument);
-        budgetDocument.setParentDocumentKey(parentDocument.getDocumentNumber());
-        budgetDocument.setParentDocumentTypeCode(parentDocument.getDocumentTypeCode());
-        budgetDocument.getDocumentHeader().setDocumentDescription(documentDescription);
-        
-        Budget budget = budgetDocument.getBudget();
+//        Budget budget = budgetDocument.getBudget();
         budget.setBudgetVersionNumber(budgetVersionNumber);
 //        budget.setBudgetDocument(budgetDocument);
         
-        BudgetParent budgetParent = parentDocument.getBudgetParent();
         budget.setStartDate(budgetParent.getRequestedStartDateInitial());
         budget.setEndDate(budgetParent.getRequestedEndDateInitial());
         budget.setOhRateTypeCode(this.parameterService.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));
@@ -91,16 +89,21 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
         budget.setUrRateClassCode(this.parameterService.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
         budget.setModularBudgetFlag(this.parameterService.getParameterValueAsBoolean(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
         budget.setBudgetStatus(this.parameterService.getParameterValueAsString(BudgetDocument.class, budgetParent.getDefaultBudgetStatusParameter()));
-        boolean success = new BudgetVersionRule().processAddBudgetVersion(new AddBudgetVersionEvent("document.parentDocument.budgetDocumentVersion",budgetDocument.getParentDocument(),budget));
+        boolean success;
+		try {
+			success = new BudgetVersionRule().processAddBudgetVersion(new AddBudgetVersionEvent("document.parentDocument.budgetDocumentVersion",parentDocument,budget));
+		} catch (WorkflowException e) {
+			throw new RuntimeException(e);
+		}
         if(!success)
             return null;
 
         //Rates-Refresh Scenario-1
         budget.setRateClassTypesReloaded(true);
 
-        budgetDocument = saveBudgetDocument(budgetDocument);
-        parentDocument.refreshBudgetDocumentVersions();
-        return budgetDocument;
+//        budget = saveBudgetDocument(budgetDocument);
+//        parentDocument.refreshBudgetDocumentVersions();
+        return budget;
     }
 
     @Override
@@ -166,13 +169,11 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    public BudgetDocument<DevelopmentProposal> copyBudgetVersion(BudgetDocument<DevelopmentProposal> budgetDocument)
-            throws WorkflowException {
-        return copyBudgetVersion(budgetDocument, false);
+    public Budget copyBudgetVersion(Budget budget){
+        return copyBudgetVersion(budget, false);
     }
-    public BudgetDocument<DevelopmentProposal> copyBudgetVersion(BudgetDocument<DevelopmentProposal> budgetDocument, boolean onlyOnePeriod)
-            throws WorkflowException {
-        return getBudgetService().copyBudgetVersion(budgetDocument, onlyOnePeriod);
+    public Budget copyBudgetVersion(Budget budget, boolean onlyOnePeriod){
+        return getBudgetService().copyBudgetVersion(budget, onlyOnePeriod);
     }
     /**
      * Sets the budgetService attribute value.
