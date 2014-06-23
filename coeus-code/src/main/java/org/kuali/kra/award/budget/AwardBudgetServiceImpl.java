@@ -225,15 +225,20 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     }
     
     @Override
-    public Budget getNewBudgetVersion(BudgetParent parent, String documentDescription){
-    	BudgetParentDocument parentBudgetDocument = parent.getDocument();
-    	BudgetDocument<Award> budgetDocument = getNewBudgetVersion(parentBudgetDocument, documentDescription);
-    	return budgetDocument;
+    public Budget getNewBudgetVersion(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription){
+//    	BudgetParentDocument parentBudgetDocument = parent.getDocument();
+    	BudgetDocument<Award> budgetDocument;
+		try {
+			budgetDocument = getNewBudgetVersionDocument(parentBudgetDocument, documentDescription);
+		} catch (WorkflowException e) {
+			throw new RuntimeException(e);
+		}
+    	return budgetDocument.getBudget();
     }
 
 
     @Override
-    public BudgetDocument<Award> getNewBudgetVersion(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription)
+    public BudgetDocument<Award> getNewBudgetVersionDocument(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription)
     throws WorkflowException {
         
         if (checkForOutstandingBudgets(parentBudgetDocument)) {
@@ -514,7 +519,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
                 	currentBudgetPerson = new BudgetPerson();
                 	BeanUtils.copyProperties(oldBudgetPerson, currentBudgetPerson, new String[]{"budgetId", "personSequenceNumber"});
                 	currentBudgetPerson.setBudgetId(awardBudgetPeriod.getBudgetId());
-                	currentBudgetPerson.setPersonSequenceNumber(awardBudgetPeriod.getBudget().getBudgetDocument().getHackedDocumentNextValue(Constants.PERSON_SEQUENCE_NUMBER));
+                	currentBudgetPerson.setPersonSequenceNumber(awardBudgetPeriod.getBudget().getHackedDocumentNextValue(Constants.PERSON_SEQUENCE_NUMBER));
                 	awardBudgetPeriod.getBudget().getBudgetPersons().add(currentBudgetPerson);
                 }
                 awardBudgetPerDetails.setBudgetPerson(currentBudgetPerson);
@@ -550,11 +555,21 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     public BudgetDocument<Award> copyBudgetVersion(BudgetDocument<Award> budgetDocument, boolean onlyOnePeriod) throws WorkflowException {
         //clear awardbudgetlimits before copy as they should always be copied from
         //award document
+    	AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument)budgetDocument;
         ((AwardBudgetExt) budgetDocument.getBudget()).getAwardBudgetLimits().clear();
-        BudgetDocument<Award> newBudgetDocument = getBudgetService().copyBudgetVersion(budgetDocument, onlyOnePeriod);
+        BudgetDocument newBudgetDocument = getBudgetService().copyBudgetVersion(awardBudgetDocument, onlyOnePeriod);
         setBudgetLimits((AwardBudgetDocument) newBudgetDocument, (AwardDocument) newBudgetDocument.getParentDocument());
         return newBudgetDocument;        
     }
+	@Override
+	public Budget copyBudgetVersion(Budget budget) {
+		return copyBudgetVersion(budget, false);
+	}
+
+	@Override
+	public Budget copyBudgetVersion(Budget budget, boolean onlyOnePeriod) {
+		return getBudgetService().copyBudgetVersion(budget, onlyOnePeriod);
+	}            
 
     /**
      * Sets the budgetService attribute value.
@@ -595,7 +610,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
             BudgetPeriod proposalPeriod = (BudgetPeriod)iter.next();
             copyProposalBudgetLineItemsToAwardBudget(awardBudgetPeriod, proposalPeriod);
         }
-        getDocumentService().saveDocument(awardBudgetPeriod.getBudget().getBudgetDocument());        
+        getDocumentService().saveDocument(((AwardBudgetExt)awardBudgetPeriod.getBudget()).getBudgetDocument());        
         getBudgetSummaryService().calculateBudget(awardBudgetPeriod.getBudget());
     }
     
@@ -977,6 +992,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
 
     public void setAwardService(AwardService awardService) {
         this.awardService = awardService;
-    }            
+    }
+
 
 }

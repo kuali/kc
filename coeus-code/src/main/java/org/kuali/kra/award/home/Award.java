@@ -44,6 +44,7 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncStatus;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
+import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetLimit;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
@@ -65,8 +66,10 @@ import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApp
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.bo.*;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.infrastructure.Constants;
@@ -92,6 +95,10 @@ import org.springframework.util.AutoPopulatingList;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
+
+import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 /**
  * 
@@ -3412,4 +3419,26 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 	public BudgetParentDocument<Award> getDocument() {
 		return getAwardDocument();
 	}
+
+	@Override
+	public Budget getNewBudget() {
+		return new AwardBudgetExt();
+	}
+    private List<BudgetVersionOverview> budgetVersionOverviews;
+
+    public List<BudgetVersionOverview> getBudgetVersionOverviews() {
+		return budgetVersionOverviews;
+	}
+
+	public void setBudgetVersionOverviews(
+			List<BudgetVersionOverview> budgetVersionOverviews) {
+		this.budgetVersionOverviews = budgetVersionOverviews;
+	}
+
+	@Override
+	public Integer getNextBudgetVersionNumber() {
+		return getAwardDocument().getNextBudgetVersionNumber();
+	}
+
+	
 }

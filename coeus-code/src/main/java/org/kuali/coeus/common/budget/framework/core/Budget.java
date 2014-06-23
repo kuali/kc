@@ -67,6 +67,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.*;
@@ -95,7 +96,29 @@ public abstract class Budget extends AbstractBudget {
 //    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
 //    private BudgetDocument budgetDocument;
 
-    @Column(name = "BUDGET_JUSTIFICATION")
+    @Column(name = "PARENT_DOCUMENT_KEY")
+    private String parentDocumentKey;
+
+    public String getParentDocumentKey() {
+		return parentDocumentKey;
+	}
+
+	public void setParentDocumentKey(String parentDocumentKey) {
+		this.parentDocumentKey = parentDocumentKey;
+	}
+
+	@Column(name = "PARENT_DOCUMENT_TYPE_CODE")
+    private String parentDocumentTypeCode;
+
+    public String getParentDocumentTypeCode() {
+		return parentDocumentTypeCode;
+	}
+
+	public void setParentDocumentTypeCode(String parentDocumentTypeCode) {
+		this.parentDocumentTypeCode = parentDocumentTypeCode;
+	}
+
+	@Column(name = "BUDGET_JUSTIFICATION")
     @Lob
     private String budgetJustification;
 
@@ -118,6 +141,11 @@ public abstract class Budget extends AbstractBudget {
     @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     @OrderBy("budgetPeriodNumber")
     private List<BudgetProjectIncome> budgetProjectIncomes;
+    
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
+    private List<DocumentNextvalue> documentNextvalues;
+    
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
@@ -201,7 +229,18 @@ public abstract class Budget extends AbstractBudget {
     @Transient
     private List<BudgetPrintForm> budgetPrintForms;
 
-    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @Transient
+    private BudgetParent budgetParent;
+
+    public BudgetParent getBudgetParent() {
+		return budgetParent;
+	}
+
+	public void setBudgetParent(BudgetParent budgetParent) {
+		this.budgetParent = budgetParent;
+	}
+
+	@OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     @OrderBy("subAwardNumber")
     private List<BudgetSubAwards> budgetSubAwards;
@@ -697,8 +736,6 @@ public abstract class Budget extends AbstractBudget {
         }
     }
 
-    private List<DocumentNextvalue> documentNextvalues;
-    
     public void setDocumentNextvalues(List<DocumentNextvalue> documentNextvalues) {
         this.documentNextvalues = documentNextvalues;
     }
@@ -1520,10 +1557,6 @@ public abstract class Budget extends AbstractBudget {
 
     public BudgetLineItem getNewBudgetLineItem() {
         return new BudgetLineItem();
-    }
-
-    public BudgetParent getBudgetParent() {
-        return getBudgetParent();
     }
 
     @Override

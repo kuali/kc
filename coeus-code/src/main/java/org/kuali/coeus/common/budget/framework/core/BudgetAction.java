@@ -119,8 +119,8 @@ public class BudgetAction extends BudgetActionBase {
         }
         
         if (isAwardBudget(budgetDocument) && StringUtils.isNotBlank(budgetForm.getSyncBudgetRate()) && budgetForm.getSyncBudgetRate().equals("Y")) {
-            getBudgetRatesService().syncParentDocumentRates(budgetDocument);
-            getBudgetCommonService(budgetDocument.getParentDocument()).recalculateBudget(budget);
+            getBudgetRatesService().syncParentDocumentRates(budget);
+            getBudgetCommonService(budget.getBudgetParent()).recalculateBudget(budget);
         }
         
         reconcileBudgetStatus(budgetForm);
@@ -204,7 +204,7 @@ public class BudgetAction extends BudgetActionBase {
         final BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
         fixDocHeaderVersion(budgetDoc);
         Budget budget = budgetDoc.getBudget();
-        getBudgetCommonService(budgetDoc.getParentDocument()).calculateBudgetOnSave(budget);
+        getBudgetCommonService(budget.getBudgetParent()).calculateBudgetOnSave(budget);
         ActionForward forward = super.save(mapping, form, request, response);
         BudgetForm savedBudgetForm = (BudgetForm) form;
         BudgetDocument savedBudgetDoc = savedBudgetForm.getBudgetDocument();
@@ -290,7 +290,7 @@ public class BudgetAction extends BudgetActionBase {
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
 
         budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(parentDocument.getBudgetDocumentVersions()));
-        setBudgetStatuses(budgetDocument.getParentDocument());
+        setBudgetStatuses(budgetDocument.getBudget().getBudgetParent());
 
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
         tdcValidator.validateGeneratingWarnings(budgetDocument.getParentDocument());
@@ -303,7 +303,7 @@ public class BudgetAction extends BudgetActionBase {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
         budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(parentDocument.getBudgetDocumentVersions()));
-        setBudgetStatuses(parentDocument);
+        setBudgetStatuses(budgetDocument.getBudget().getBudgetParent());
         return mapping.findForward(Constants.BUDGET_VERSIONS_PAGE);
     }
 
@@ -357,7 +357,7 @@ public class BudgetAction extends BudgetActionBase {
             budgetForm.setHierarchyPersonnelSummaries(getHierarchyHelper().getHierarchyPersonnelSummaries(proposalNumber));
             for (HierarchyPersonnelSummary hierarchyPersonnelSummary : budgetForm.getHierarchyPersonnelSummaries()) {
                 for (Budget budget : hierarchyPersonnelSummary.getHierarchyBudgets()) {
-                    reconcilePersonnelRoles(budget.getBudgetDocument());
+                    reconcilePersonnelRoles(budgetForm.getBudgetDocument());
                 }
             }
         }
@@ -606,7 +606,7 @@ public class BudgetAction extends BudgetActionBase {
     public void reconcilePersonnelRoles(BudgetDocument budgetDocument) {
 //      Populate the person's proposal roles, if they exist
         Budget budget = budgetDocument.getBudget();
-        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
+        BudgetParent budgetParent = budget.getBudgetParent();
         List<BudgetPerson> budgetPersons = budget.getBudgetPersons();
         
         for (BudgetPerson budgetPerson: budgetPersons) {
@@ -728,8 +728,8 @@ public class BudgetAction extends BudgetActionBase {
         }
         return forward;
     }
-    protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParentDocument parentBudgetDocument) {
-        return BudgetCommonServiceFactory.createInstance(parentBudgetDocument);
+    protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParent budgetParent) {
+        return BudgetCommonServiceFactory.createInstance(budgetParent);
     }
     /**
      * This method is to recalculate the budget period
@@ -738,7 +738,7 @@ public class BudgetAction extends BudgetActionBase {
      * @param budgetPeriod
      */
     protected void recalculateBudgetPeriod(BudgetForm budgetForm, Budget budget, BudgetPeriod budgetPeriod) {
-        getBudgetCommonService(budgetForm.getBudgetDocument().getParentDocument()).recalculateBudgetPeriod(budget, budgetPeriod);
+        getBudgetCommonService(budget.getBudgetParent()).recalculateBudgetPeriod(budget, budgetPeriod);
     }  
 
     protected void calculateBudgetPeriod(Budget budget, BudgetPeriod budgetPeriod) {

@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -61,19 +62,19 @@ public class ProposalDevelopmentServiceTest extends KcIntegrationTestBase {
     
     @Test @Ignore("KCINFR-996")
     public void testDeleteProposalWithBudget() throws WorkflowException {
-        BudgetDocument<DevelopmentProposal> budget1 = budgetService.addBudgetVersion(document, "Ver1");
-        BudgetDocument<DevelopmentProposal> budget2 = budgetService.addBudgetVersion(document, "Ver2 With Long Name");
+        Budget budget1 = budgetService.addBudgetVersion(document, "Ver1");
+        Budget budget2 = budgetService.addBudgetVersion(document, "Ver2 With Long Name");
         document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
         document = proposalDevelopmentService.deleteProposal(document);
         document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
         assertTrue(document.isProposalDeleted());
         assertTrue(document.getDevelopmentProposal() == null);
-        budget1 = (BudgetDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(budget1.getDocumentNumber());
-        budget2 = (BudgetDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(budget2.getDocumentNumber());
-        assertTrue(budget1.isBudgetDeleted());
-        assertTrue(budget2.isBudgetDeleted());
-        assertTrue(budget1.getBudget().getName() == null);
-        assertTrue(budget2.getBudget().getName() == null);
+//        budget1 = (BudgetDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(budget1.getDocumentNumber());
+//        budget2 = (BudgetDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(budget2.getDocumentNumber());
+//        assertTrue(budget1.isBudgetDeleted());
+//        assertTrue(budget2.isBudgetDeleted());
+        assertTrue(budget1.getName() == null);
+        assertTrue(budget2.getName() == null);
     }
 
 }

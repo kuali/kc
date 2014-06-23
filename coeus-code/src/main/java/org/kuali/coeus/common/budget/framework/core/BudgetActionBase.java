@@ -101,12 +101,11 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
      * 
      * @param proposalDevelopmentDocument
      */
-    protected void setBudgetStatuses(BudgetParentDocument proposalDevelopmentDocument) {
+    protected void setBudgetStatuses(BudgetParent budgetParent) {
         
-        for (BudgetDocumentVersion budgetDocumentVersion: proposalDevelopmentDocument.getBudgetDocumentVersions()) {
-            BudgetVersionOverview budgetVersion =  budgetDocumentVersion.getBudgetVersionOverview();
+        for (BudgetVersionOverview budgetVersion: budgetParent.getBudgetVersionOverviews()) {
             if (budgetVersion.isFinalVersionFlag()) {
-                budgetVersion.setBudgetStatus(proposalDevelopmentDocument.getBudgetParent().getBudgetStatus());
+                budgetVersion.setBudgetStatus(budgetParent.getBudgetStatus());
             }
             else {
                 String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
@@ -128,8 +127,8 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
         DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocToCopy = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
         Budget budget = budgetDocToCopy.getBudget();
-        BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budgetParentDocument);
-        BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocToCopy, copyPeriodOneOnly);
+        BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budget.getBudgetParent());
+        Budget newBudget = budgetService.copyBudgetVersion(budget, copyPeriodOneOnly);
         budgetParentDocument.refreshBudgetDocumentVersions();
         List<BudgetDocumentVersion> budgetVersions = budgetParentDocument.getBudgetDocumentVersions();
         for (BudgetDocumentVersion budgetDocumentVersion : budgetVersions) {
@@ -147,8 +146,8 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
      * @param parentBudgetDocument
      * @return
      */
-    protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParentDocument parentBudgetDocument) {
-        return BudgetCommonServiceFactory.createInstance(parentBudgetDocument);
+    protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParent budgetParent) {
+        return BudgetCommonServiceFactory.createInstance(budgetParent);
     }
 
     protected void populateTabState(KualiForm form, String tabTitle) {
