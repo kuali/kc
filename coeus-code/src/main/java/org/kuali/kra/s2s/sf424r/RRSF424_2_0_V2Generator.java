@@ -37,6 +37,7 @@ import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
+import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
@@ -50,7 +51,6 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalcul
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.impl.RRSF424BaseGenerator;
@@ -729,12 +729,11 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 
 	private String getSubmissionTypeCode() {
 		String submissionTypeCode = null;
-		S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal()
+		S2sOpportunityContract s2sOpportunity = pdDoc.getDevelopmentProposal()
 				.getS2sOpportunity();
 		if (s2sOpportunity != null
-				&& s2sOpportunity.getS2sSubmissionTypeCode() != null) {
-			s2sOpportunity.refreshNonUpdateableReferences();
-			submissionTypeCode = s2sOpportunity.getS2sSubmissionTypeCode();
+				&& s2sOpportunity.getS2sSubmissionType() != null) {
+			submissionTypeCode = s2sOpportunity.getS2sSubmissionType().getCode();
 		}
 		return submissionTypeCode;
 	}
