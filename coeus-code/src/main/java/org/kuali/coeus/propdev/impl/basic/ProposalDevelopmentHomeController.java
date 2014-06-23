@@ -21,17 +21,23 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
+import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.specialreview.impl.rule.event.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
+import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption;
 import org.kuali.kra.bo.ExemptionType;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
@@ -63,10 +69,48 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        return getTransactionalDocumentControllerService().getUIFModelAndViewWithInit(form, PROPDEV_DEFAULT_VIEW_ID);
    }
    
+   @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=clearAnswers")
+   public ModelAndView clearAnswers(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+           HttpServletRequest request, HttpServletResponse response) throws Exception {
+	   ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
+	   String personNumber = pdForm.getActionParamaterValue("personNumber");
+	   for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+		   if (StringUtils.equals(personNumber, person.getProposalPersonNumber().toString())) {
+			   //get the certification questions
+			   AnswerHeader ah = person.getQuestionnaireHelper().getAnswerHeaders().get(0);
+			   for (Answer answer : ah.getAnswers()) {
+				   answer.setAnswer(null);
+			   }
+		   }
+	   }
+	   saveAnswerHeaders(pdForm);
+	   ModelAndView mv = this.save(pdForm, result, request, response);
+	   return mv;
+   }
+   
    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=save")
    public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
-       return super.save(form, result, request, response);
+	   ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
+	   saveAnswerHeaders(pdForm);
+	   ModelAndView mv = super.save(form, result, request, response);
+	   //rebuild the questionnaire, and other non-JPAed docs so it displays correctly
+	   refreshPersonCertificaitonAnswerHeaders(pdForm);
+	   return mv;
+   }
+   
+   @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=saveAndContinue")
+   public ModelAndView saveAndContinue(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+           HttpServletRequest request, HttpServletResponse response) throws Exception {
+       List<Action> actions = form.getOrderedNavigationActions();
+       int indexOfCurrentAction = form.findIndexOfPageId(actions);
+       if (indexOfCurrentAction == -1) {
+           indexOfCurrentAction = 0;
+       }
+       if (indexOfCurrentAction < actions.size()-1) {
+           form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, actions.get(indexOfCurrentAction+1).getNavigateToPageId());
+       }
+       return save(form, result, request, response);
    }
    
    @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=navigate")
