@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
   <bean id="ExemptionType" parent="ExemptionType-parentBean"/>
   <bean abstract="true" id="ExemptionType-parentBean" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.ExemptionType"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.exemption.ExemptionType"/>
 		<property name="objectLabel" value="Exemption Type"/>
     <property name="inquiryDefinition">
       <ref bean="ExemptionType-inquiryDefinition"/>
@@ -10,11 +10,11 @@
     <property name="lookupDefinition">
       <ref bean="ExemptionType-lookupDefinition"/>
     </property>
-    <property name="titleAttribute" value="exemptionTypeCode"/>
+    <property name="titleAttribute" value="code"/>
     <property name="attributes">
       <list>
         <ref bean="ExemptionType-detailedDescription"/>
-        <ref bean="ExemptionType-exemptionTypeCode"/>
+        <ref bean="ExemptionType-code"/>
         <ref bean="ExemptionType-description"/>
         <ref bean="ExemptionType-versionNumber"/>
       </list>
@@ -50,9 +50,9 @@
     <property name="description" value="This is the detailed description of the exemption number.  Source is 45cfr46.101(b)."/>
   </bean>
 
-  <bean id="ExemptionType-exemptionTypeCode" parent="ExemptionType-exemptionTypeCode-parentBean"/>
-  <bean abstract="true" id="ExemptionType-exemptionTypeCode-parentBean" parent="AttributeDefinition">
-    <property name="name" value="exemptionTypeCode"/>
+  <bean id="ExemptionType-code" parent="ExemptionType-code-parentBean"/>
+  <bean abstract="true" id="ExemptionType-code-parentBean" parent="AttributeDefinition">
+    <property name="name" value="code"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Exemption Type"/>
     <property name="shortLabel" value="Exemption Type"/>
@@ -112,7 +112,7 @@
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
             <list>
-              <bean p:attributeName="exemptionTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+              <bean p:attributeName="code" p:forceInquiry="true" parent="FieldDefinition"/>
               <bean p:attributeName="description" p:forceInquiry="true" parent="FieldDefinition"/>
               <bean p:attributeName="detailedDescription" parent="FieldDefinition"/>
             </list>
@@ -124,7 +124,7 @@
 
   <bean id="ExemptionType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Exemption Type"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.ExemptionType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.exemption.ExemptionType"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -132,7 +132,7 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="exemptionTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="code" parent="Uif-DataField"/>
               <bean p:propertyName="description" parent="Uif-DataField"/>
               <bean p:propertyName="detailedDescription" parent="Uif-DataField"/>
             </list>
@@ -153,14 +153,14 @@
     </property>
     <property name="lookupFields">
       <list>
-        <bean p:attributeName="exemptionTypeCode" parent="FieldDefinition"/>
+        <bean p:attributeName="code" parent="FieldDefinition"/>
         <bean p:attributeName="description" parent="FieldDefinition"/>
         <bean p:attributeName="detailedDescription" parent="FieldDefinition"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:attributeName="exemptionTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
+        <bean p:attributeName="code" p:forceInquiry="true" parent="FieldDefinition"/>
         <bean p:attributeName="description" p:forceInquiry="true" parent="FieldDefinition"/>
         <bean p:attributeName="detailedDescription" parent="FieldDefinition"/>
       </list>
@@ -168,7 +168,7 @@
   </bean>
 
   <bean id="ExemptionType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.bo.ExemptionType"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.exemption.ExemptionType"/>
     <property name="headerText" value="Exemption Type Lookup"/>
     <property name="page.header.lowerGroup">
       <bean parent="Uif-HeaderLowerGroup">
@@ -183,14 +183,14 @@
     </property>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="exemptionTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="detailedDescription" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean p:propertyName="exemptionTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="code" parent="Uif-DataField"/>
         <bean p:propertyName="description" parent="Uif-DataField"/>
         <bean p:propertyName="detailedDescription" parent="Uif-DataField"/>
       </list>

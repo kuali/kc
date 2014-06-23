@@ -25,7 +25,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
-import org.kuali.kra.bo.ExemptionType;
+import org.kuali.coeus.common.framework.exemption.ExemptionType;
+import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewExemptionContract;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
 /**
@@ -33,7 +34,7 @@ import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
  */
 @Entity
 @Table(name = "EPS_PROP_EXEMPT_NUMBER")
-public class ProposalSpecialReviewExemption extends SpecialReviewExemption {
+public class ProposalSpecialReviewExemption extends SpecialReviewExemption implements ProposalSpecialReviewExemptionContract {
 
     private static final long serialVersionUID = -2309851480480819783L;
 
@@ -41,7 +42,7 @@ public class ProposalSpecialReviewExemption extends SpecialReviewExemption {
     @GeneratedValue(generator = "SEQ_EPS_PROP_EXEMPT_NUMBER_ID")
     @Id
     @Column(name = "PROPOSAL_EXEMPT_NUMBER_ID")
-    private Long proposalSpecialReviewExemptionId;
+    private Long id;
 
     @ManyToOne(cascade = { CascadeType.REFRESH } )
     @JoinColumn(name = "PROPOSAL_SPECIAL_REVIEW_ID")
@@ -53,15 +54,16 @@ public class ProposalSpecialReviewExemption extends SpecialReviewExemption {
     public ProposalSpecialReviewExemption(ProposalSpecialReview proposalSpecialReview, ExemptionType exemptionType) {
         this.proposalSpecialReview = proposalSpecialReview;
         setExemptionType(exemptionType);
-        setExemptionTypeCode(exemptionType.getExemptionTypeCode());
-    }
-    
-    public Long getProposalSpecialReviewExemptionId() {
-        return proposalSpecialReviewExemptionId;
+        setExemptionTypeCode(exemptionType.getCode());
     }
 
-    public void setProposalSpecialReviewExemptionId(Long proposalSpecialReviewExemptionId) {
-        this.proposalSpecialReviewExemptionId = proposalSpecialReviewExemptionId;
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public ProposalSpecialReview getProposalSpecialReview() {
