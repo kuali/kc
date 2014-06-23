@@ -503,8 +503,8 @@
   <bean id="DevelopmentProposal-primeSponsorCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="primeSponsorCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Prime Sponsor ID" />
-		<property name="shortLabel" value="Prime Sponsor ID" />
+		<property name="label" value="Prime Sponsor Code" />
+		<property name="shortLabel" value="Prime Sponsor Code" />
 		<property name="maxLength" value="6" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern" />
