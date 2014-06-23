@@ -2,9 +2,10 @@ package org.kuali.kra.s2s.depend;
 
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormContract;
-import org.kuali.coeus.propdev.api.s2s.UserAttachedFormService;
+import org.kuali.coeus.propdev.api.s2s.*;
 import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
+import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormAttFile;
+import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormFile;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,48 @@ public class UserAttachedFormServiceImpl implements UserAttachedFormService {
         fieldMap.put("proposalNumber", proposalNumber);
         return ListUtils.emptyIfNull(dataObjectService.findMatching(S2sUserAttachedForm.class,
                 QueryByCriteria.Builder.andAttributes(fieldMap).build()).getResults());
+    }
+
+    @Override
+    public S2sUserAttachedFormFileContract findUserAttachedFormFile(S2sUserAttachedFormContract selectedForm) {
+        if (selectedForm == null) {
+            throw new IllegalArgumentException("selectedForm is null");
+        }
+
+        List<? extends S2sUserAttachedFormFileContract> selectedFormFiles = selectedForm.getS2sUserAttachedFormFileList();
+        S2sUserAttachedFormFileContract userAttachedFormFile = null;
+        if(selectedFormFiles.isEmpty() || selectedFormFiles.get(0).getXmlFile()==null){
+            selectedFormFiles = getDataObjectService().
+                    findMatching(S2sUserAttachedFormFile.class,
+                            QueryByCriteria.Builder.andAttributes(Collections.singletonMap("s2sUserAttachedFormId", selectedForm.getId())).build()).getResults();
+            if(!selectedFormFiles.isEmpty()){
+                userAttachedFormFile = selectedFormFiles.get(0);
+            }
+        }else{
+            userAttachedFormFile = selectedFormFiles.get(0);
+        }
+        return userAttachedFormFile;
+    }
+
+    @Override
+    public S2sUserAttachedFormAttFileContract findUserAttachedFormAttFile(S2sUserAttachedFormAttContract selectedFormAtt) {
+        if (selectedFormAtt == null) {
+            throw new IllegalArgumentException("selectedFormAtt is null");
+        }
+
+        List<? extends S2sUserAttachedFormAttFileContract> selectedFormAttFiles = selectedFormAtt.getS2sUserAttachedFormAttFiles();
+        S2sUserAttachedFormAttFileContract userAttachedFormFile = null;
+        if(selectedFormAttFiles.isEmpty() ){
+            selectedFormAttFiles = getDataObjectService().
+                    findMatching(S2sUserAttachedFormAttFile.class,
+                            QueryByCriteria.Builder.andAttributes(Collections.singletonMap("s2sUserAttachedFormAttId", selectedFormAtt.getId())).build()).getResults();
+            if(!selectedFormAttFiles.isEmpty()){
+                userAttachedFormFile = selectedFormAttFiles.get(0);
+            }
+        }else{
+            userAttachedFormFile = selectedFormAttFiles.get(0);
+        }
+        return userAttachedFormFile;
     }
 
     public DataObjectService getDataObjectService() {

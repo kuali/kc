@@ -17,17 +17,29 @@ package org.kuali.coeus.propdev.impl.s2s;
 
 import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormAttFileContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "S2S_USER_ATTD_FORM_ATT_FILE")
 public class S2sUserAttachedFormAttFile extends KcPersistableBusinessObjectBase implements S2sUserAttachedFormAttFileContract { 
 
     private static final long serialVersionUID = 435752267453958277L;
-    private Long id; 
-    private Long s2sUserAttachedFormAttId; 
-    private byte[] attachment; 
-    
-    public S2sUserAttachedFormAttFile() { 
 
-    }
+    @PortableSequenceGenerator(name = "SEQ_S2S_USR_ATD_FRM_ATT_FLE_ID")
+    @GeneratedValue(generator = "SEQ_S2S_USR_ATD_FRM_ATT_FLE_ID")
+    @Id
+    @Column(name = "S2S_USER_ATTD_FORM_ATT_FILE_ID")
+    private Long id;
+
+    @Column(name = "S2S_USER_ATTACHED_FORM_ATT_ID")
+    private Long s2sUserAttachedFormAttId;
+
+    @Column(name = "ATTACHMENT")
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] attachment;
 
     public Long getS2sUserAttachedFormAttId() {
         return s2sUserAttachedFormAttId;
@@ -37,6 +49,7 @@ public class S2sUserAttachedFormAttFile extends KcPersistableBusinessObjectBase 
         this.s2sUserAttachedFormAttId = s2sUserAttachedFormAttId;
     }
 
+    @Override
     public byte[] getAttachment() {
         return attachment;
     }
@@ -45,6 +58,7 @@ public class S2sUserAttachedFormAttFile extends KcPersistableBusinessObjectBase 
         this.attachment = attachment;
     }
 
+    @Override
 	public Long getId() {
 		return id;
 	}

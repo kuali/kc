@@ -15,14 +15,14 @@
  */
 package org.kuali.coeus.propdev.impl.s2s;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.*;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormAttContract;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "S2S_USER_ATTACHED_FORM_ATT")
@@ -54,12 +54,14 @@ public class S2sUserAttachedFormAtt extends KcPersistableBusinessObjectBase impl
     @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "S2S_USER_ATTACHED_FORM_ID", insertable = false, updatable = false)
     private S2sUserAttachedForm s2sUserAttachedForm;
-    
-    private List<S2sUserAttachedFormAttFile> s2sUserAttachedFormAttFileList;
-    
-    public S2sUserAttachedFormAtt() { 
-        s2sUserAttachedFormAttFileList = new ArrayList<S2sUserAttachedFormAttFile>();
-    } 
+
+    @OneToMany(cascade = { CascadeType.ALL })
+    @JoinColumn(name = "S2S_USER_ATTACHED_FORM_ATT_ID", referencedColumnName = "S2S_USER_ATTACHED_FORM_ATT_ID")
+    private List<S2sUserAttachedFormAttFile> s2sUserAttachedFormAttFiles;
+
+    public S2sUserAttachedFormAtt() {
+        s2sUserAttachedFormAttFiles = new ArrayList<S2sUserAttachedFormAttFile>();
+    }
 
     @Override
     public Long getId() {
@@ -118,22 +120,19 @@ public class S2sUserAttachedFormAtt extends KcPersistableBusinessObjectBase impl
     public S2sUserAttachedForm getS2sUserAttachedForm() {
         return s2sUserAttachedForm;
     }
-        
-    public List<S2sUserAttachedFormAttFile> getS2sUserAttachedFormAttFileList() {
-        return s2sUserAttachedFormAttFileList;
+
+    @Override
+    public List<S2sUserAttachedFormAttFile> getS2sUserAttachedFormAttFiles() {
+        return s2sUserAttachedFormAttFiles;
     }
 
-    /**
-     * Sets the s2sUserAttachedFormAttFileList attribute value.
-     * @param s2sUserAttachedFormAttFileList The s2sUserAttachedFormAttFileList to set.
-     */
-    public void setS2sUserAttachedFormAttFileList(List<S2sUserAttachedFormAttFile> s2sUserAttachedFormAttFileList) {
-        this.s2sUserAttachedFormAttFileList = s2sUserAttachedFormAttFileList;
+    public void setS2sUserAttachedFormAttFiles(List<S2sUserAttachedFormAttFile> s2sUserAttachedFormAttFiles) {
+        this.s2sUserAttachedFormAttFiles = s2sUserAttachedFormAttFiles;
     }
 
 	@Override
 	public byte[] getData() {
-		return getS2sUserAttachedFormAttFileList().get(0).getAttachment();
+		return getS2sUserAttachedFormAttFiles().get(0).getAttachment();
 	}
 
     

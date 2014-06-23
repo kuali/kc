@@ -42,12 +42,9 @@ public class S2sUserAttachedFormFile extends KcPersistableBusinessObjectBase imp
     private byte[] formFile;
     
     @Column(name = "XML_FILE")
-    private String xmlFile; 
-       
-    public S2sUserAttachedFormFile() { 
+    private String xmlFile;
 
-    }
-
+    @Override
     public Long getS2sUserAttachedFormId() {
         return s2sUserAttachedFormId;
     }
@@ -56,38 +53,25 @@ public class S2sUserAttachedFormFile extends KcPersistableBusinessObjectBase imp
         this.s2sUserAttachedFormId = s2sUserAttachedFormId;
     }
 
-    /**
-     * Gets the formFile attribute. 
-     * @return Returns the formFile.
-     */
+    @Override
     public byte[] getFormFile() {
         return formFile;
     }
 
-    /**
-     * Sets the formFile attribute value.
-     * @param formFile The formFile to set.
-     */
     public void setFormFile(byte[] formFile) {
         this.formFile = formFile;
     }
 
-    /**
-     * Gets the xmlFile attribute. 
-     * @return Returns the xmlFile.
-     */
+    @Override
     public String getXmlFile() {
         return xmlFile;
     }
 
-    /**
-     * Sets the xmlFile attribute value.
-     * @param xmlFile The xmlFile to set.
-     */
     public void setXmlFile(String xmlFile) {
         this.xmlFile = xmlFile;
     }
 
+    @Override
 	public Long getId() {
 		return id;
 	}
