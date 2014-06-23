@@ -15,11 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.rate;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.coeus.common.budget.api.core.IdentifiableBudget;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -34,10 +30,11 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
     private static final long serialVersionUID = -7152006670699620080L;
 
     @Id
-    @Column(name = "BUDGET_ID")
+    @Column(name = "BUDGET_ID", insertable = false, updatable = false)
     private Long budgetId;
 
-    @Transient
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private Budget budget;
 
     @Column(name = "APPLICABLE_RATE")

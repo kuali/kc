@@ -30,6 +30,7 @@
 
     <!-- SYS -->
     <bean id="transactionalDocumentControllerService" parent="grlImporter" p:serviceName="transactionalDocumentControllerService" />
+    <bean id="uifControllerService" parent="grlImporter" p:serviceName="uifControllerService" />
     <bean id="uifExportControllerService" parent="grlImporter" p:serviceName="uifExportControllerService" />
     <bean id="kcAuthorizationService" parent="grlImporter" p:serviceName="kcAuthorizationService" />
     <bean id="kcDocumentRejectionService" parent="grlImporter" p:serviceName="kcDocumentRejectionService" />

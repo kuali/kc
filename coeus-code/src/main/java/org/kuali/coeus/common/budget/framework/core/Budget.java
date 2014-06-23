@@ -126,12 +126,10 @@ public abstract class Budget extends AbstractBudget {
     @JoinColumn(name = "OH_RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
     private RateClass rateClass;
 
-    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
+    @OneToMany(mappedBy="budget", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetRate> budgetRates;
 
-    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
+    @OneToMany(mappedBy="budget", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetLaRate> budgetLaRates;
 
     @Transient
