@@ -1483,7 +1483,7 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm" table="S2S_USER_ATTACHED_FORM">
-		<field-descriptor name="s2sUserAttachedFormId" column="S2S_USER_ATTACHED_FORM_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_S2S_USER_ATTD_FORM_ID" autoincrement="true"/>
+		<field-descriptor name="id" column="S2S_USER_ATTACHED_FORM_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_S2S_USER_ATTD_FORM_ID" autoincrement="true"/>
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="namespace" column="NAMESPACE" jdbc-type="VARCHAR" />
 		<field-descriptor name="formName" column="FORM_NAME" jdbc-type="VARCHAR" />
@@ -1501,7 +1501,7 @@
 		</collection-descriptor>
 	</class-descriptor>
 	<class-descriptor class="org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormAtt" table="S2S_USER_ATTACHED_FORM_ATT">
-		<field-descriptor name="s2sUserAttachedFormAttId" column="S2S_USER_ATTACHED_FORM_ATT_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_S2S_USER_ATTD_FORM_ATT_ID" autoincrement="true" />
+		<field-descriptor name="id" column="S2S_USER_ATTACHED_FORM_ATT_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_S2S_USER_ATTD_FORM_ATT_ID" autoincrement="true" />
 		<field-descriptor name="s2sUserAttachedFormId" column="S2S_USER_ATTACHED_FORM_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="contentType" column="CONTENT_TYPE" jdbc-type="VARCHAR" />
@@ -1511,7 +1511,7 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<collection-descriptor name="s2sUserAttachedFormAttFileList" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormAttFile" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="object" auto-delete="object">
+		<collection-descriptor name="s2sUserAttachedFormAttFiles" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormAttFile" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="s2sUserAttachedFormAttId"/>
 		</collection-descriptor>
 	</class-descriptor>		
@@ -1526,7 +1526,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>		
 	<class-descriptor class="org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormAttFile" table="S2S_USER_ATTD_FORM_ATT_FILE">
-		<field-descriptor name="s2sUserAttachedFormAttFileId" column="S2S_USER_ATTD_FORM_ATT_FILE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_S2S_USR_ATD_FRM_ATT_FLE_ID" autoincrement="true" />
+		<field-descriptor name="id" column="S2S_USER_ATTD_FORM_ATT_FILE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_S2S_USR_ATD_FRM_ATT_FLE_ID" autoincrement="true" />
 		<field-descriptor name="s2sUserAttachedFormAttId" column="S2S_USER_ATTACHED_FORM_ATT_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="attachment" column="ATTACHMENT" jdbc-type="BINARY" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />

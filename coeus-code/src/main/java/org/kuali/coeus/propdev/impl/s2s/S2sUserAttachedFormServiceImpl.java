@@ -36,10 +36,6 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xpath.XPathAPI;
-import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormAttContract;
-import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormAttFileContract;
-import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormContract;
-import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormFileContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.s2s.S2SException;
@@ -526,7 +522,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
             S2sUserAttachedFormAtt userAttachedFormAttachment = new S2sUserAttachedFormAtt();
             S2sUserAttachedFormAttFile userAttachedFormAttachmentFile = new S2sUserAttachedFormAttFile();
             userAttachedFormAttachmentFile.setAttachment(fileBytes);
-            userAttachedFormAttachment.getS2sUserAttachedFormAttFileList().add(userAttachedFormAttachmentFile);
+            userAttachedFormAttachment.getS2sUserAttachedFormAttFiles().add(userAttachedFormAttachmentFile);
             userAttachedFormAttachment.setContentId(contentId);
             userAttachedFormAttachment.setName(fileName);
             
@@ -571,50 +567,6 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
                 }
             }
         }
-    }
-    /**
-     * 
-     * This method is to fetch user attached form file from database
-     * @param selectedForm
-     * @return
-     */
-    public S2sUserAttachedFormFileContract findUserAttachedFormFile(S2sUserAttachedFormContract selectedForm) {
-        List<? extends S2sUserAttachedFormFileContract> selectedFormFiles = selectedForm.getS2sUserAttachedFormFileList();
-        S2sUserAttachedFormFileContract userAttachedFormFile = null;
-        if(selectedFormFiles.isEmpty() || selectedFormFiles.get(0).getXmlFile()==null){
-            Map<String,Long> params = new HashMap<String,Long>();
-            params.put("s2sUserAttachedFormId", selectedForm.getId());
-            selectedFormFiles = (List<S2sUserAttachedFormFile>) getBusinessObjectService().
-                        findMatching(S2sUserAttachedFormFile.class, params);
-            if(!selectedFormFiles.isEmpty()){
-                userAttachedFormFile = selectedFormFiles.get(0);
-            }
-        }else{
-            userAttachedFormFile = selectedFormFiles.get(0);
-        }
-        return userAttachedFormFile;
-    }
-    /**
-     * 
-     * This method is to fetch user attached form attachment file from database
-     * @param selectedForm
-     * @return
-     */
-    public S2sUserAttachedFormAttFileContract findUserAttachedFormAttFile(S2sUserAttachedFormAttContract selectedFormAtt) {
-        List<? extends S2sUserAttachedFormAttFileContract> selectedFormAttFiles = selectedFormAtt.getS2sUserAttachedFormAttFileList();
-        S2sUserAttachedFormAttFileContract userAttachedFormFile = null;
-        if(selectedFormAttFiles.isEmpty() ){
-            Map<String,Long> params = new HashMap<String,Long>();
-            params.put("s2sUserAttachedFormAttId", selectedFormAtt.getId());
-            selectedFormAttFiles = (List<S2sUserAttachedFormAttFile>) getBusinessObjectService().
-                        findMatching(S2sUserAttachedFormAttFile.class, params);
-            if(!selectedFormAttFiles.isEmpty()){
-                userAttachedFormFile = selectedFormAttFiles.get(0);
-            }
-        }else{
-            userAttachedFormFile = selectedFormAttFiles.get(0);
-        }
-        return userAttachedFormFile;
     }
 
 }
