@@ -271,9 +271,7 @@
     <bean id="CommitteeScheduleAttendance-lookupDefinition" parent="CommitteeScheduleAttendance-lookupDefinition-parentBean" />
   <bean id="CommitteeScheduleAttendance-LookupView" parent="CommitteeScheduleAttendance-LookupView-parentBean"/>
     <bean id="CommitteeScheduleAttendance-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Comm Schedule Attendance Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="Comm Schedule Attendance Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -305,17 +303,6 @@
   <bean id="CommitteeScheduleAttendance-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.meeting.CommitteeScheduleAttendance"/>
     <property name="headerText" value="Comm Schedule Attendance Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-            </list>
-        </property>
-    </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="commScheduleAttendanceId" parent="Uif-LookupCriteriaInputField"/>

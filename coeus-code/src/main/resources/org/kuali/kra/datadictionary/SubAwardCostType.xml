@@ -64,10 +64,7 @@
    <bean id="SubAwardCostType-lookupDefinition" parent="SubAwardCostType-lookupDefinition-parentBean" />
 
   <bean id="SubAwardCostType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Subaward Cost Type Lookup" />
-     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
-    <property name="defaultSort" >
+    <property name="title" value="Subaward Cost Type Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition">
       </bean>
     </property>

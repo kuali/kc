@@ -310,9 +310,7 @@
 	<bean id="CoiDisclosureAttachment-lookupDefinition" parent="CoiDisclosureAttachment-lookupDefinition-parentBean" />
   <bean id="CoiDisclosureAttachment-LookupView" parent="CoiDisclosureAttachment-LookupView-parentBean"/>
 	<bean id="CoiDisclosureAttachment-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="CoiDisclosure Attachment Lookup" />
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="lookupFields" >
+		<property name="title" value="CoiDisclosure Attachment Lookup" /><property name="lookupFields" >
 			<list merge="true">
         <bean parent="FieldDefinition" p:attributeName="description"/>
 			</list>
@@ -327,17 +325,6 @@
   <bean id="CoiDisclosureAttachment-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment"/>
     <property name="headerText" value="CoiDisclosure Attachment Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>

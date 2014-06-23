@@ -155,9 +155,7 @@
     <bean id="IacucCommitteeMembershipExpertise-lookupDefinition" parent="IacucCommitteeMembershipExpertise-lookupDefinition-parentBean" />
   <bean id="IacucCommitteeMembershipExpertise-LookupView" parent="IacucCommitteeMembershipExpertise-LookupView-parentBean"/>
     <bean id="IacucCommitteeMembershipExpertise-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Committee Membership Expertise Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="Committee Membership Expertise Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -179,17 +177,6 @@
   <bean id="IacucCommitteeMembershipExpertise-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.iacuc.committee.bo.IacucCommitteeMembershipExpertise"/>
     <property name="headerText" value="Committee Membership Expertise Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="committeeMembershipExpertiseId" parent="Uif-LookupCriteriaInputField"/>

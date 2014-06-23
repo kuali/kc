@@ -162,9 +162,7 @@
   <bean id="ProtocolAttachmentBase-LookupView" parent="ProtocolAttachmentBase-LookupView-parentBean"/>
 	<bean id="ProtocolAttachmentBase-lookupDefinition-parentBean" abstract="true" parent="ProtocolAssociate-lookupDefinition">
 		<property name="title" value="Protocol AttachmentLookup" />
-        <property name="lookupableID" value="ProtocolAttachmentBaseLookupable" />
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="defaultSort" >
+        <property name="lookupableID" value="ProtocolAttachmentBaseLookupable" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields" >
@@ -186,17 +184,6 @@
   <bean id="ProtocolAttachmentBase-LookupView-parentBean" abstract="true" parent="ProtocolAssociate-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase"/>
     <property name="headerText" value="Protocol AttachmentLookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-			</list>
-		</property>
-	</bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>

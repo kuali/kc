@@ -137,9 +137,7 @@
 	<bean id="CustRptTypeDocument-lookupDefinition" parent="CustRptTypeDocument-lookupDefinition-parentBean" />
   <bean id="CustRptTypeDocument-LookupView" parent="CustRptTypeDocument-LookupView-parentBean"/>
   <bean id="CustRptTypeDocument-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Custom Report Type Document Lookup" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-		<property name="defaultSort">
+		<property name="title" value="Custom Report Type Document Lookup" /><property name="defaultSort">
       <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields">
@@ -160,17 +158,6 @@
   <bean id="CustRptTypeDocument-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.reporting.bo.CustRptTypeDocument"/>
     <property name="headerText" value="Custom Report Type Document Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="reportTypeCode" parent="Uif-LookupCriteriaInputField"/>

@@ -157,9 +157,7 @@
   <bean id="ValidCeRateType-LookupView" parent="ValidCeRateType-LookupView-parentBean"/>
   <bean id="ValidCeRateType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Valid Ce Rate Types Lookup" />
-       <property name="lookupableID" value="noEditLookupable" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+       <property name="lookupableID" value="noEditLookupable" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
 	<property name="helpDefinition" >
@@ -186,17 +184,6 @@
   <bean id="ValidCeRateType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.rate.ValidCeRateType"/>
     <property name="headerText" value="Valid Ce Rate Types Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="costElement" parent="Uif-LookupCriteriaInputField"/>

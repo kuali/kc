@@ -130,9 +130,7 @@
 	<bean id="SponsorTermType-lookupDefinition" parent="SponsorTermType-lookupDefinition-parentBean"/>
   <bean id="SponsorTermType-LookupView" parent="SponsorTermType-LookupView-parentBean"/>
 	<bean abstract="true" id="SponsorTermType-lookupDefinition-parentBean" parent="LookupDefinition">
-		<property name="title" value="Sponsor Term Type Lookup"/>
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-		<property name="defaultSort">
+		<property name="title" value="Sponsor Term Type Lookup"/><property name="defaultSort">
       <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields">
@@ -152,17 +150,6 @@
   <bean id="SponsorTermType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.sponsor.term.SponsorTermType"/>
     <property name="headerText" value="Sponsor Term Type Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="sponsorTermTypeCode" parent="Uif-LookupCriteriaInputField"/>

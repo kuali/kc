@@ -170,9 +170,7 @@
 		<bean id="IacucValidProtoSubRevType-lookupDefinition" parent="IacucValidProtoSubRevType-lookupDefinition-parentBean" />
   <bean id="IacucValidProtoSubRevType-LookupView" parent="IacucValidProtoSubRevType-LookupView-parentBean"/>
   <bean id="IacucValidProtoSubRevType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-			<property name="title" value="IACUC Valid Protocol Submission Review Type Lookup" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-			<property name="defaultSort">
+			<property name="title" value="IACUC Valid Protocol Submission Review Type Lookup" /><property name="defaultSort">
       <bean parent="SortDefinition"/>
 			</property>
 			<property name="lookupFields">
@@ -193,17 +191,6 @@
   <bean id="IacucValidProtoSubRevType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.iacuc.actions.submit.IacucValidProtoSubRevType"/>
     <property name="headerText" value="IACUC Valid Protocol Submission Review Type Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="submissionTypeCode" parent="Uif-LookupCriteriaInputField"/>

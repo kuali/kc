@@ -127,9 +127,7 @@
   <bean id="CitizenshipType-lookupDefinition" parent="CitizenshipType-lookupDefinition-parentBean" />
   <bean id="CitizenshipType-LookupView" parent="CitizenshipType-LookupView-parentBean"/>
   <bean id="CitizenshipType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Citizenship Type Lookup" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+    <property name="title" value="Citizenship Type Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
@@ -151,17 +149,6 @@
   <bean id="CitizenshipType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.person.attr.CitizenshipType"/>
     <property name="headerText" value="Citizenship Type Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>

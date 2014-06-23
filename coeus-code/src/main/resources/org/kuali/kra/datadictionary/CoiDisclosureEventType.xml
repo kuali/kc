@@ -1029,9 +1029,7 @@
   <bean id="CoiDisclosureEventType-LookupView" parent="CoiDisclosureEventType-LookupView-parentBean"/>
 	<bean id="CoiDisclosureEventType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="COI Event Type Lookup" />
-		<property name="lookupableID" value="coiDisclosureEventTypeLookupable" />
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="defaultSort" >
+		<property name="lookupableID" value="coiDisclosureEventTypeLookupable" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
 		</property>
 		<property name="lookupFields" >
@@ -1057,17 +1055,6 @@
   <bean id="CoiDisclosureEventType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.coi.CoiDisclosureEventType"/>
     <property name="headerText" value="COI Event Type Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="eventTypeCode" parent="Uif-LookupCriteriaInputField"/>

@@ -427,10 +427,7 @@
   <bean id="Negotiation-LookupView" parent="Negotiation-LookupView-parentBean"/>
   	<bean id="Negotiation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Negotiation Lookup" />
-		<property name="lookupableID" value="negotiationLookupable" />
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
-		<property name="defaultSort" >
+		<property name="lookupableID" value="negotiationLookupable" /><property name="defaultSort" >
 		  <bean parent="SortDefinition">
 		  	<property name="attributeNames">
 		  		<list>
@@ -485,17 +482,6 @@
   <bean id="Negotiation-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.negotiations.bo.Negotiation"/>
     <property name="headerText" value="Negotiation Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="defaultSortAttributeNames">
       <list>
         <value>negotiationId</value>

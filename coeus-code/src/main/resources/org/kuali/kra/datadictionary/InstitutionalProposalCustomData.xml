@@ -226,9 +226,7 @@
     <bean id="ProposalCustomData-lookupDefinition" parent="ProposalCustomData-lookupDefinition-parentBean" />
   <bean id="ProposalCustomData-LookupView" parent="ProposalCustomData-LookupView-parentBean"/>
     <bean id="ProposalCustomData-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Proposal Custom Data Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="Proposal Custom Data Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -254,17 +252,6 @@
   <bean id="ProposalCustomData-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData"/>
     <property name="headerText" value="Proposal Custom Data Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-            </list>
-        </property>
-    </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="proposalCustomDataId" parent="Uif-LookupCriteriaInputField"/>

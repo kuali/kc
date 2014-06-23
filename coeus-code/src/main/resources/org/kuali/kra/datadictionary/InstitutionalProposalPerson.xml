@@ -236,9 +236,7 @@
 	<bean id="InstitutionalProposalPerson-lookupDefinition" parent="InstitutionalProposalPerson-lookupDefinition-parentBean" />
   <bean id="InstitutionalProposalPerson-LookupView" parent="InstitutionalProposalPerson-LookupView-parentBean"/>
   	<bean id="InstitutionalProposalPerson-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="InstitutionalProposal Person Lookup" />
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="defaultSort" >
+		<property name="title" value="InstitutionalProposal Person Lookup" /><property name="defaultSort" >
 		  <bean parent="SortDefinition" />
 		</property>
 		<property name="lookupFields" >
@@ -261,17 +259,6 @@
   <bean id="InstitutionalProposalPerson-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson"/>
     <property name="headerText" value="InstitutionalProposal Person Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="proposalNumber" parent="Uif-LookupCriteriaInputField"/>

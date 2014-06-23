@@ -135,9 +135,7 @@
   <bean id="CoiDisclosureReviews-LookupView" parent="CoiDisclosureReviews-LookupView-parentBean"/>
     <bean id="CoiDisclosureReviews-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="My Coi Disclosure Reviews Lookup" />
-        <property name="lookupableID" value="coiDisclosureReviewsLookupable" />        
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="lookupableID" value="coiDisclosureReviewsLookupable" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -170,17 +168,6 @@
   <bean id="CoiDisclosureReviews-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.coi.CoiDisclosureReviews"/>
     <property name="headerText" value="My Coi Disclosure Reviews Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="coiDisclosureNumber" parent="Uif-LookupCriteriaInputField"/>

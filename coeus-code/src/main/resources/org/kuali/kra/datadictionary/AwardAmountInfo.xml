@@ -661,9 +661,7 @@
     <bean id="AwardAmountInfo-lookupDefinition" parent="AwardAmountInfo-lookupDefinition-parentBean" />
   <bean id="AwardAmountInfo-LookupView" parent="AwardAmountInfo-LookupView-parentBean"/>
     <bean id="AwardAmountInfo-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Award Amount Info Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="Award Amount Info Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -725,17 +723,6 @@
   <bean id="AwardAmountInfo-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.award.home.AwardAmountInfo"/>
     <property name="headerText" value="Award Amount Info Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="awardAmountInfoId" parent="Uif-LookupCriteriaInputField"/>

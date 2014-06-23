@@ -244,9 +244,7 @@
   <bean id="ProposalColumnsToAlter-LookupView" parent="ProposalColumnsToAlter-LookupView-parentBean"/>
   <bean id="ProposalColumnsToAlter-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Proposal Columns To Alter Lookup" />
-    <property name="lookupableID" value="customLookupable" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+    <property name="lookupableID" value="customLookupable" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
 	<property name="helpDefinition" >
@@ -279,17 +277,6 @@
   <bean id="ProposalColumnsToAlter-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.editable.ProposalColumnsToAlter"/>
     <property name="headerText" value="Proposal Columns To Alter Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="columnName" parent="Uif-LookupCriteriaInputField"/>

@@ -105,9 +105,7 @@
   <bean id="Correspondent-LookupView" abstract="true" parent="Correspondent-LookupView-parentBean"/>
     <bean id="Correspondent-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Correspondent Lookup" />
-	    <property name="lookupableID" value="correspondentLookupable" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+	    <property name="lookupableID" value="correspondentLookupable" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -120,17 +118,6 @@
 
   <bean id="Correspondent-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="headerText" value="Correspondent Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-            </list>
-        </property>
-    </bean>
-    </property>
     <property name="criteriaFields">
       <list/>
     </property>

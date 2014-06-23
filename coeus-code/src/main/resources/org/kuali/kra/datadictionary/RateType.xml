@@ -126,9 +126,7 @@
   <bean id="RateType-lookupDefinition" parent="RateType-lookupDefinition-parentBean" />
   <bean id="RateType-LookupView" parent="RateType-LookupView-parentBean"/>
   <bean id="RateType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Rate Type Lookup" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+    <property name="title" value="Rate Type Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
 	<property name="helpDefinition" >
@@ -153,17 +151,6 @@
   <bean id="RateType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.rate.RateType"/>
     <property name="headerText" value="Rate Type Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="rateClassCode" parent="Uif-LookupCriteriaInputField"/>

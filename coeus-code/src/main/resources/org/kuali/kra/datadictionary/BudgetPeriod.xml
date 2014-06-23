@@ -341,9 +341,7 @@
   <bean id="BudgetPeriod-LookupView" parent="BudgetPeriod-LookupView-parentBean"/>
   <bean id="BudgetPeriod-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Budget Periods Lookup" />
-    <property name="lookupableID" value="budgetPeriodLookupable" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+    <property name="lookupableID" value="budgetPeriodLookupable" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
@@ -380,17 +378,6 @@
   <bean id="BudgetPeriod-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.period.BudgetPeriod"/>
     <property name="headerText" value="Budget Periods Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-      </list>
-    </property>
-  </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="institutionalProposalNumber" parent="Uif-LookupCriteriaInputField"/>
