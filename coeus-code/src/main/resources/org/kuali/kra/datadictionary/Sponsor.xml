@@ -34,7 +34,6 @@
         <ref bean="Sponsor-countryCode" />
         <ref bean="Sponsor-versionNumber" />
         <ref bean="Sponsor-active" />
-      <!-- <value>updateTimestamp</value> -->
       </list>
     </property>
     <property name="relationships" >
@@ -506,7 +505,6 @@
         <bean parent="FieldDefinition" p:attributeName="auditReportSentForFy" />
         <bean parent="FieldDefinition" p:attributeName="ownedByUnit" />
         <bean parent="FieldDefinition" p:attributeName="rolodexId" />
-        <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -520,7 +518,6 @@
         <bean parent="FieldDefinition" p:attributeName="cageNumber" />
         <bean parent="FieldDefinition" p:attributeName="state" />
         <bean parent="FieldDefinition" p:attributeName="countryCode" />
-        <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
     <property name="resultSetLimit" value="8000" />
@@ -551,7 +548,6 @@
         <bean p:propertyName="auditReportSentForFy" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="ownedByUnit" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="rolodexId" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
@@ -565,7 +561,6 @@
         <bean p:propertyName="cageNumber" parent="Uif-DataField"/>
         <bean p:propertyName="state" parent="Uif-DataField"/>
         <bean p:propertyName="countryCode" parent="Uif-DataField"/>
-        <bean p:propertyName="active" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>
