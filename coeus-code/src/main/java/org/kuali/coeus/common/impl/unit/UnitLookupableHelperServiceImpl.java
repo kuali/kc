@@ -21,7 +21,7 @@ import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.multicampus.MultiCampusConstants;
+import org.kuali.coeus.common.framework.multicampus.MultiCampusConstants;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;

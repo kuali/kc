@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.multicampus.MultiCampusConstants;
+import org.kuali.coeus.common.framework.multicampus.MultiCampusConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;

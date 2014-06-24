@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.multicampus;
+package org.kuali.coeus.common.impl.multicampus;
 
+import org.kuali.coeus.common.framework.multicampus.MultiCampusConstants;
+import org.kuali.coeus.common.framework.multicampus.MultiCampusIdentityService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.Principal;

@@ -1,4 +1,4 @@
-package org.kuali.kra.multicampus;
+package org.kuali.coeus.common.framework.multicampus;
 
 public final class MultiCampusConstants {
     public static final String PARAMETER_MULTI_CAMPUS_ENABLED = "MULTI_CAMPUS_ENABLED";
