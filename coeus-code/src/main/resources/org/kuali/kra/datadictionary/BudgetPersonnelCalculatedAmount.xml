@@ -285,9 +285,7 @@
   <bean id="BudgetPersonnelCalculatedAmount-lookupDefinition" parent="BudgetPersonnelCalculatedAmount-lookupDefinition-parentBean" />
   <bean id="BudgetPersonnelCalculatedAmount-LookupView" parent="BudgetPersonnelCalculatedAmount-LookupView-parentBean"/>
   <bean id="BudgetPersonnelCalculatedAmount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Budget Personnel Cal Amts Lookup" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+    <property name="title" value="Budget Personnel Cal Amts Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
@@ -321,17 +319,6 @@
   <bean id="BudgetPersonnelCalculatedAmount-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculatedAmount"/>
     <property name="headerText" value="Budget Personnel Cal Amts Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="budgetPeriod" parent="Uif-LookupCriteriaInputField"/>

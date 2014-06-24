@@ -96,9 +96,7 @@
   <bean id="ProtocolReviewerType-lookupDefinition" parent="ProtocolReviewerType-lookupDefinition-parentBean" />
   <bean id="ProtocolReviewerType-LookupView" parent="ProtocolReviewerType-LookupView-parentBean"/>
   <bean id="ProtocolReviewerType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Reviewer Type" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+    <property name="title" value="Reviewer Type" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
@@ -118,17 +116,6 @@
   <bean id="ProtocolReviewerType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.irb.actions.submit.ProtocolReviewerType"/>
     <property name="headerText" value="Reviewer Type"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="reviewerTypeCode" parent="Uif-LookupCriteriaInputField"/>

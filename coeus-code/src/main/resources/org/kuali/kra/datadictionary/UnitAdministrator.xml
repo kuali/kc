@@ -163,10 +163,7 @@
   <bean id="UnitAdministrator-LookupView" parent="UnitAdministrator-LookupView-parentBean"/>
   <bean id="UnitAdministrator-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Unit Administrator Lookup" />
-    <property name="lookupableID" value="unitAdministratorLookupable" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
-    <property name="defaultSort" >
+    <property name="lookupableID" value="unitAdministratorLookupable" /><property name="defaultSort" >
       <bean parent="SortDefinition">
       	<property name="attributeNames">
           <list> 
@@ -195,17 +192,6 @@
   <bean id="UnitAdministrator-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.unit.admin.UnitAdministrator"/>
     <property name="headerText" value="Unit Administrator Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="defaultSortAscending" value="true"/>
     <property name="defaultSortAttributeNames">
       <list>

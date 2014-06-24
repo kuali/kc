@@ -234,9 +234,7 @@
     <bean id="InstitutionalProposalComment-lookupDefinition" parent="InstitutionalProposalComment-lookupDefinition-parentBean" />
   <bean id="InstitutionalProposalComment-LookupView" parent="InstitutionalProposalComment-LookupView-parentBean"/>
     <bean id="InstitutionalProposalComment-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Proposal Comments Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="Proposal Comments Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -264,17 +262,6 @@
   <bean id="InstitutionalProposalComment-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalComment"/>
     <property name="headerText" value="Proposal Comments Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-            </list>
-        </property>
-    </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="proposalCommentsId" parent="Uif-LookupCriteriaInputField"/>

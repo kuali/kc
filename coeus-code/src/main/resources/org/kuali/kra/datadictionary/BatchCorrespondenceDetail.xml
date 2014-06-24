@@ -198,9 +198,7 @@
     <bean id="BatchCorrespondenceDetail-lookupDefinition" parent="BatchCorrespondenceDetail-lookupDefinition-parentBean" />
   <bean id="BatchCorrespondenceDetail-LookupView" parent="BatchCorrespondenceDetail-LookupView-parentBean"/>
     <bean id="BatchCorrespondenceDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value=" Batch Correspondence Detail Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value=" Batch Correspondence Detail Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -222,17 +220,6 @@
   <bean id="BatchCorrespondenceDetail-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetail"/>
     <property name="headerText" value=" Batch Correspondence Detail Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-            </list>
-        </property>
-    </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="batchCorrespondenceDetailId" parent="Uif-LookupCriteriaInputField"/>

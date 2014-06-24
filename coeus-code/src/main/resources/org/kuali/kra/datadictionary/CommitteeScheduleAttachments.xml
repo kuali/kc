@@ -162,9 +162,7 @@
         <bean id="CommitteeScheduleAttachments-lookupDefinition" parent="CommitteeScheduleAttachments-lookupDefinition-parentBean" />
   <bean id="CommitteeScheduleAttachments-LookupView" parent="CommitteeScheduleAttachments-LookupView-parentBean"/>
         <bean id="CommitteeScheduleAttachments-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        	<property name="title" value="Committee Schedule Attachment Lookup" />
-        	<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a$gt;" />
-        	<property name="lookupFields" >
+        	<property name="title" value="Committee Schedule Attachment Lookup" /><property name="lookupFields" >
         		<list>
         <bean parent="FieldDefinition" p:attributeName="attachmentsTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
@@ -183,17 +181,6 @@
   <bean id="CommitteeScheduleAttachments-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.meeting.CommitteeScheduleAttachments"/>
     <property name="headerText" value="Committee Schedule Attachment Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a$gt;]"/>
-            </bean>
-				</list>
-			</property>
-        </bean>	
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="attachmentsTypeCode" parent="Uif-LookupCriteriaInputField"/>

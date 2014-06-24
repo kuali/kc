@@ -130,9 +130,7 @@
     <bean id="IndirectcostRateType-lookupDefinition" parent="IndirectcostRateType-lookupDefinition-parentBean"/>
   <bean id="IndirectcostRateType-LookupView" parent="IndirectcostRateType-LookupView-parentBean"/>
     <bean abstract="true" id="IndirectcostRateType-lookupDefinition-parentBean" parent="LookupDefinition">
-        <property name="title" value="Indirectcost Rate Type Lookup"/>
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-        <property name="defaultSort">
+        <property name="title" value="Indirectcost Rate Type Lookup"/><property name="defaultSort">
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields">
@@ -152,17 +150,6 @@
   <bean id="IndirectcostRateType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.institutionalproposal.IndirectcostRateType"/>
     <property name="headerText" value="Indirectcost Rate Type Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="indirectcostRateTypeCode" parent="Uif-LookupCriteriaInputField"/>

@@ -131,9 +131,7 @@
     <bean id="IacucAlternateSearchDatabase-lookupDefinition" parent="IacucAlternateSearchDatabase-lookupDefinition-parentBean"/>
   <bean id="IacucAlternateSearchDatabase-LookupView" parent="IacucAlternateSearchDatabase-LookupView-parentBean"/>
     <bean abstract="true" id="IacucAlternateSearchDatabase-lookupDefinition-parentBean" parent="LookupDefinition">
-        <property name="title" value="IACUC Alternate Search Database Lookup"/>
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-        <property name="defaultSort">
+        <property name="title" value="IACUC Alternate Search Database Lookup"/><property name="defaultSort">
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields">
@@ -153,17 +151,6 @@
   <bean id="IacucAlternateSearchDatabase-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.iacuc.threers.IacucAlternateSearchDatabase"/>
     <property name="headerText" value="IACUC Alternate Search Database Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="alternateSearchDbCode" parent="Uif-LookupCriteriaInputField"/>

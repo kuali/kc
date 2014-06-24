@@ -688,9 +688,7 @@
   <bean id="Rolodex-lookupDefinition" parent="Rolodex-lookupDefinition-parentBean"/>
   <bean id="Rolodex-LookupView" parent="Rolodex-LookupView-parentBean"/>
   <bean abstract="true" id="Rolodex-lookupDefinition-parentBean" parent="LookupDefinition">
-    <property name="title" value="Address Book Lookup"/>
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-    <property name="defaultSort">
+    <property name="title" value="Address Book Lookup"/><property name="defaultSort">
       <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields">
@@ -741,17 +739,6 @@
   <bean id="Rolodex-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.rolodex.Rolodex"/>
     <property name="headerText" value="Address Book Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="rolodexId" parent="Uif-LookupCriteriaInputField"/>

@@ -184,9 +184,7 @@
     <bean id="ArgValueLookup-lookupDefinition" parent="ArgValueLookup-lookupDefinition-parentBean" />
   <bean id="ArgValueLookup-LookupView" parent="ArgValueLookup-LookupView-parentBean"/>
     <bean id="ArgValueLookup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Arg Value Lookup Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="Arg Value Lookup Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -210,17 +208,6 @@
   <bean id="ArgValueLookup-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.custom.arg.ArgValueLookup"/>
     <property name="headerText" value="Arg Value Lookup Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>

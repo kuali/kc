@@ -122,9 +122,7 @@
   <bean id="BudgetRateAndBase-lookupDefinition" parent="BudgetRateAndBase-lookupDefinition-parentBean" />
   <bean id="BudgetRateAndBase-LookupView" parent="BudgetRateAndBase-LookupView-parentBean"/>
   <bean id="BudgetRateAndBase-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Budget Rate and Base" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+    <property name="title" value="Budget Rate and Base" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
@@ -166,17 +164,6 @@
   <bean id="BudgetRateAndBase-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetRateAndBase"/>
     <property name="headerText" value="Budget Rate and Base"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="budgetPeriod" parent="Uif-LookupCriteriaInputField"/>

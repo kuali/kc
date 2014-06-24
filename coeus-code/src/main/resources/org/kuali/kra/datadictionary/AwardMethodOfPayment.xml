@@ -110,9 +110,7 @@
 	<bean id="AwardMethodOfPayment-lookupDefinition" parent="AwardMethodOfPayment-lookupDefinition-parentBean"/>
   <bean id="AwardMethodOfPayment-LookupView" parent="AwardMethodOfPayment-LookupView-parentBean"/>
 	<bean abstract="true" id="AwardMethodOfPayment-lookupDefinition-parentBean" parent="LookupDefinition">
-		<property name="title" value="Method Of Payment Lookup"/>
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-		<property name="defaultSort">
+		<property name="title" value="Method Of Payment Lookup"/><property name="defaultSort">
       <bean parent="SortDefinition"/>
 		</property>
 		<property name="helpDefinition" >
@@ -135,17 +133,6 @@
   <bean id="AwardMethodOfPayment-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.award.home.AwardMethodOfPayment"/>
     <property name="headerText" value="Method Of Payment Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="methodOfPaymentCode" parent="Uif-LookupCriteriaInputField"/>

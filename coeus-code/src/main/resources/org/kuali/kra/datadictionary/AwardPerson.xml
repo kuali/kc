@@ -220,10 +220,7 @@
   <bean id="AwardPerson-LookupView" parent="AwardPerson-LookupView-parentBean"/>
   	<bean id="AwardPerson-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Award Person Lookup" />
-		<property name="lookupableID" value="awardPersonLookupable" />
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-
-		<property name="defaultSort" >
+		<property name="lookupableID" value="awardPersonLookupable" /><property name="defaultSort" >
 		  <bean parent="SortDefinition" />
 		</property>
 		<property name="lookupFields" >
@@ -244,17 +241,6 @@
   <bean id="AwardPerson-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.award.contacts.AwardPerson"/>
     <property name="headerText" value="Award Person Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="awardNumber" parent="Uif-LookupCriteriaInputField"/>

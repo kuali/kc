@@ -115,9 +115,7 @@
   <bean id="UnitCorrespondent-LookupView" parent="UnitCorrespondent-LookupView-parentBean"/>
     <bean id="UnitCorrespondent-lookupDefinition-parentBean" abstract="true" parent="Correspondent-lookupDefinition">
         <property name="title" value="Unit Correspondent Lookup" />
-	    <property name="lookupableID" value="unitCorrespondentLookupable" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+	    <property name="lookupableID" value="unitCorrespondentLookupable" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -142,17 +140,6 @@
   <bean id="UnitCorrespondent-LookupView-parentBean" abstract="true" parent="Correspondent-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.unit.crrspndnt.UnitCorrespondent"/>
     <property name="headerText" value="Unit Correspondent Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="person.userName" parent="Uif-LookupCriteriaInputField"/>

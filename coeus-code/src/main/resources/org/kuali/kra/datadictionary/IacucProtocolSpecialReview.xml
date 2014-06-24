@@ -159,9 +159,7 @@
 	<bean id="IacucProtocolSpecialReview-lookupDefinition" parent="IacucProtocolSpecialReview-lookupDefinition-parentBean" />
   <bean id="IacucProtocolSpecialReview-LookupView" parent="IacucProtocolSpecialReview-LookupView-parentBean"/>
 	<bean id="IacucProtocolSpecialReview-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="IACUC Protocol Special Review Lookup" />
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-		<property name="defaultSort" >
+		<property name="title" value="IACUC Protocol Special Review Lookup" /><property name="defaultSort" >
 			<bean parent="SortDefinition" />
 		</property>
 		<property name="lookupFields" >
@@ -195,17 +193,6 @@
   <bean id="IacucProtocolSpecialReview-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReview"/>
     <property name="headerText" value="IACUC Protocol Special Review Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="protocolSpecialReviewId" parent="Uif-LookupCriteriaInputField"/>

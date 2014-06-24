@@ -158,9 +158,7 @@
 	<bean id="Report-lookupDefinition" parent="Report-lookupDefinition-parentBean"/>
   <bean id="Report-LookupView" parent="Report-LookupView-parentBean"/>
 	<bean abstract="true" id="Report-lookupDefinition-parentBean" parent="LookupDefinition">
-		<property name="title" value="Report Lookup"/>
-		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-		<property name="defaultSort">
+		<property name="title" value="Report Lookup"/><property name="defaultSort">
       <bean parent="SortDefinition"/>
 		</property>
 		<property name="helpDefinition" >
@@ -187,17 +185,6 @@
   <bean id="Report-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.award.paymentreports.Report"/>
     <property name="headerText" value="Report Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="reportCode" parent="Uif-LookupCriteriaInputField"/>

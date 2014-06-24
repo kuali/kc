@@ -191,9 +191,7 @@
     <!-- Business Object Lookup Definition -->
     <bean id="S2sUserAttachedForm-lookupDefinition" parent="S2sUserAttachedForm-lookupDefinition-parentBean" />
     <bean id="S2sUserAttachedForm-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="S2s User Attached Form Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="S2s User Attached Form Lookup" /><property name="defaultSort" >
             <bean parent="SortDefinition" >
         </bean>
         </property>

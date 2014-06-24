@@ -244,9 +244,7 @@
   <bean id="SubAwardFundingSource-lookupDefinition" parent="SubAwardFundingSource-lookupDefinition-parentBean" />
   <bean id="SubAwardFundingSource-LookupView" parent="SubAwardFundingSource-LookupView-parentBean"/>
   <bean id="SubAwardFundingSource-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Subaward Funding Source Lookup" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+    <property name="title" value="Subaward Funding Source Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
@@ -266,17 +264,6 @@
   <bean id="SubAwardFundingSource-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.subaward.bo.SubAwardFundingSource"/>
     <property name="headerText" value="Subaward Funding Source Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="subAwardFundingSourceId" parent="Uif-LookupCriteriaInputField"/>

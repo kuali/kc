@@ -112,9 +112,7 @@
     <bean id="IacucProtocolAttachmentStatus-lookupDefinition" parent="IacucProtocolAttachmentStatus-lookupDefinition-parentBean"/>
   <bean id="IacucProtocolAttachmentStatus-LookupView" parent="IacucProtocolAttachmentStatus-LookupView-parentBean"/>
     <bean abstract="true" id="IacucProtocolAttachmentStatus-lookupDefinition-parentBean" parent="LookupDefinition">
-        <property name="title" value="IACUC Protocol Attachment Status Lookup"/>
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-        <property name="defaultSort">
+        <property name="title" value="IACUC Protocol Attachment Status Lookup"/><property name="defaultSort">
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields">
@@ -134,17 +132,6 @@
   <bean id="IacucProtocolAttachmentStatus-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentStatus"/>
     <property name="headerText" value="IACUC Protocol Attachment Status Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField"/>

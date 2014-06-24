@@ -219,9 +219,7 @@
     <bean id="ProtocolVoteAbstainee-lookupDefinition" parent="ProtocolVoteAbstainee-lookupDefinition-parentBean" />
   <bean id="ProtocolVoteAbstainee-LookupView" parent="ProtocolVoteAbstainee-LookupView-parentBean"/>
     <bean id="ProtocolVoteAbstainee-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Protocol Vote Abstainees Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="Protocol Vote Abstainees Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -249,17 +247,6 @@
   <bean id="ProtocolVoteAbstainee-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.meeting.ProtocolVoteAbstainee"/>
     <property name="headerText" value="Protocol Vote Abstainees Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="protocolVoteAbstaineesId" parent="Uif-LookupCriteriaInputField"/>

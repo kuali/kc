@@ -79,9 +79,7 @@
   <bean id="ProposalPersonUnit-lookupDefinition" parent="ProposalPersonUnit-lookupDefinition-parentBean" />
   <bean id="ProposalPersonUnit-LookupView" parent="ProposalPersonUnit-LookupView-parentBean"/>
   <bean id="ProposalPersonUnit-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Proposal Person Unit" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+    <property name="title" value="Proposal Person Unit" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
@@ -101,17 +99,6 @@
   <bean id="ProposalPersonUnit-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.person.ProposalPersonUnit"/>
     <property name="headerText" value="Proposal Person Unit"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="unitNumber" parent="Uif-LookupCriteriaInputField"/>

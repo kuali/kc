@@ -295,9 +295,7 @@
     <bean id="IacucProtocolSubmissionDoc-lookupDefinition" parent="IacucProtocolSubmissionDoc-lookupDefinition-parentBean" />
   <bean id="IacucProtocolSubmissionDoc-LookupView" parent="IacucProtocolSubmissionDoc-LookupView-parentBean"/>
     <bean id="IacucProtocolSubmissionDoc-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="IACUC Protocol Submission Doc Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="IACUC Protocol Submission Doc Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -329,17 +327,6 @@
   <bean id="IacucProtocolSubmissionDoc-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.iacuc.actions.IacucProtocolSubmissionDoc"/>
     <property name="headerText" value="IACUC Protocol Submission Doc Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="submissionDocId" parent="Uif-LookupCriteriaInputField"/>
