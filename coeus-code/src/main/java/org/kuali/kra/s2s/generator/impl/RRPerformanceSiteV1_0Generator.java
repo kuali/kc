@@ -22,7 +22,7 @@ import gov.grants.apply.forms.rrPerformanceSiteV10.SiteLocationDataType.Address;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.universalCodesV10.CountryCodeType;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
@@ -53,7 +53,7 @@ public class RRPerformanceSiteV1_0Generator extends RRPerformanceSiteBaseGenerat
         
         List<ProposalSite> propsoalSites = pdDoc.getDevelopmentProposal().getProposalSites();
         SiteLocationDataType siteLocation = null;
-        Organization organization = null;
+        OrganizationContract organization = null;
         RolodexContract rolodex = null;
         
         for (ProposalSite proposalSite : propsoalSites) {
@@ -61,12 +61,12 @@ public class RRPerformanceSiteV1_0Generator extends RRPerformanceSiteBaseGenerat
                 case(PERFORMING_ORG_LOCATION_TYPE_CODE):
                     siteLocation = rrPerformanceSite.addNewPrimarySite();
                     organization = proposalSite.getOrganization();
-                    rolodex = organization.getRolodex();
+                    rolodex = rolodexService.getRolodex(organization.getContactAddressId());
                     break;
                 case(OTHER_ORG_LOCATION_TYPE_CODE):
                     siteLocation = rrPerformanceSite.addNewOtherSite();
                     organization = proposalSite.getOrganization();
-                    rolodex = organization.getRolodex();
+                    rolodex = rolodexService.getRolodex(organization.getContactAddressId());
                     break;
                 case(PERFORMANCE_SITE_LOCATION_TYPE_CODE):
                     siteLocation = rrPerformanceSite.addNewOtherSite();

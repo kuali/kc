@@ -24,9 +24,8 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.api.question.AnswerContract;
+import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
-import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
@@ -234,7 +233,7 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
 	 */
 	private void setHumanSubjAndVertebrateAnimals(
 			RROtherProjectInfoDocument.RROtherProjectInfo rrOtherProjectInfo) {
-		Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
+		OrganizationContract organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.N_NO);
         rrOtherProjectInfo.setVertebrateAnimalsIndicator(YesNoDataType.N_NO);
         for (ProposalSpecialReview proposalSpecialReview : pdDoc.getDevelopmentProposal().getPropSpecialReviews()) {

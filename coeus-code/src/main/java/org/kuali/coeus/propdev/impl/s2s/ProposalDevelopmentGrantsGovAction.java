@@ -20,6 +20,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.propdev.api.s2s.UserAttachedFormService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -55,7 +56,8 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
 
     private S2sSubmissionService s2sSubmissionService;
     private S2sUserAttachedFormService s2SUserAttachedFormService;
-    
+    private UserAttachedFormService userAttachedFormService;
+
 	/**
      *  
      * @see org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -340,7 +342,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
 
-        S2sUserAttachedFormFileContract userAttachedFormFile = getS2SUserAttachedFormService().findUserAttachedFormFile(selectedForm);
+        S2sUserAttachedFormFileContract userAttachedFormFile = getUserAttachedFormService().findUserAttachedFormFile(selectedForm);
         if(userAttachedFormFile!=null){
             streamToResponse(userAttachedFormFile.getXmlFile().getBytes(), selectedForm.getFormName()+".xml", CONTENT_TYPE_XML, response);
         }else{
@@ -365,7 +367,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
         List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
-        S2sUserAttachedFormFileContract userAttachedFormFile = getS2SUserAttachedFormService().findUserAttachedFormFile(selectedForm);
+        S2sUserAttachedFormFileContract userAttachedFormFile = getUserAttachedFormService().findUserAttachedFormFile(selectedForm);
         if(userAttachedFormFile!=null){
             streamToResponse(userAttachedFormFile.getFormFile(), selectedForm.getFormFileName(), CONTENT_TYPE_PDF, response);
         }else{
@@ -390,7 +392,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(getSelectedLine(request));
         S2sUserAttachedFormAtt attachment = selectedForm.getS2sUserAttachedFormAtts().get(getParameterForToken(request, "attIndex"));
-        S2sUserAttachedFormAttFileContract userAttachedFormFile = getS2SUserAttachedFormService().findUserAttachedFormAttFile(attachment);
+        S2sUserAttachedFormAttFileContract userAttachedFormFile = getUserAttachedFormService().findUserAttachedFormAttFile(attachment);
         if(userAttachedFormFile!=null){
             streamToResponse(userAttachedFormFile.getAttachment(), attachment.getName(), attachment.getType(), response);
         }else{
@@ -436,6 +438,12 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         if (s2SUserAttachedFormService == null)
             s2SUserAttachedFormService = KcServiceLocator.getService(S2sUserAttachedFormService.class);
         return s2SUserAttachedFormService;
+    }
+
+    protected UserAttachedFormService getUserAttachedFormService() {
+        if (userAttachedFormService == null)
+            userAttachedFormService = KcServiceLocator.getService(UserAttachedFormService.class);
+        return userAttachedFormService;
     }
 
     protected S2sSubmissionService getS2sSubmissionService() {

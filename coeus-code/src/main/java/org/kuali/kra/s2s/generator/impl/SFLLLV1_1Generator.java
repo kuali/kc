@@ -27,7 +27,7 @@ import gov.grants.apply.system.globalLibraryV20.HumanNameDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.universalCodesV20.StateCodeDataType;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -200,7 +200,7 @@ public class SFLLLV1_1Generator extends SFLLLBaseGenerator {
         reportEntity.setReportEntityType(ReportEntityDataType.PRIME);
         reportEntity.setReportEntityIsPrime(YesNoDataType.Y_YES);
         Prime prime = Prime.Factory.newInstance();
-        Organization organization = null;
+        OrganizationContract organization = null;
         organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
 
         if (organization != null) {

@@ -18,9 +18,9 @@ package org.kuali.kra.s2s.generator.impl;
 import gov.grants.apply.forms.faithBasedSurveyOnEEOV10.SurveyOnEEODocument;
 import gov.grants.apply.forms.faithBasedSurveyOnEEOV10.SurveyOnEEODocument.SurveyOnEEO;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.api.org.OrganizationContract;
+import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -46,7 +46,7 @@ public class FaithBasedSurveyOnEEOV1_0Generator extends S2SBaseFormGenerator {
         SurveyOnEEO surveyOnEEO = SurveyOnEEO.Factory.newInstance();
         surveyOnEEO.setFormVersion(S2SConstants.FORMVERSION_1_0);
 
-        Organization organization = null;
+        OrganizationContract organization = null;
         if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
             organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         }
@@ -68,10 +68,9 @@ public class FaithBasedSurveyOnEEOV1_0Generator extends S2SBaseFormGenerator {
                 }
             }
         }
-        S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
+        S2sOpportunityContract s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
         String opportunityTitle = "";
         if (s2sOpportunity != null) {
-            s2sOpportunity.refreshNonUpdateableReferences();
             opportunityTitle = s2sOpportunity.getOpportunityTitle();
             surveyOnEEO.setCFDANumber(s2sOpportunity.getCfdaNumber());
         }

@@ -23,7 +23,7 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoNotApplicableDataType;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
@@ -91,7 +91,7 @@ public class EDSF424SupplementV1_0Generator extends
 			}
 		}
 		edsf424Supplement.setIsHumanResearch(YesNoDataType.NO);
-		Organization organization = pdDoc.getDevelopmentProposal()
+		OrganizationContract organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
 		for (ProposalSpecialReview specialReview : pdDoc
 				.getDevelopmentProposal().getPropSpecialReviews()) {

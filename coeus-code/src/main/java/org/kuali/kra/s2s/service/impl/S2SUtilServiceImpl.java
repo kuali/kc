@@ -19,12 +19,13 @@ package org.kuali.kra.s2s.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.api.country.CountryContract;
 import org.kuali.coeus.common.api.country.KcCountryService;
+import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.question.AnswerContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.api.question.QuestionAnswerService;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.api.state.KcStateService;
 import org.kuali.coeus.common.api.state.StateContract;
-import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
@@ -83,7 +84,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     private KcStateService stateService;
     private QuestionAnswerService questionAnswerService;
     private PropDevQuestionAnswerService propDevQuestionAnswerService;
-    
+    private RolodexService rolodexService;
     /**
      * This method creates and returns Map of submission details like submission type, description and Revision code
      *
@@ -128,8 +129,8 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         if (count < 1) {
             // Proposal has not been submitted
 
-            Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
-            RolodexContract rolodex = organization == null ? null : organization.getRolodex();
+            OrganizationContract organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
+            RolodexContract rolodex = organization == null ? null : rolodexService.getRolodex(organization.getContactAddressId());
             if (rolodex != null) {
                 depPerson.setFirstName(rolodex.getFirstName());
                 depPerson.setMiddleName(rolodex.getMiddleName());
@@ -735,5 +736,21 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 
     public void setQuestionAnswerService(QuestionAnswerService questionAnswerService) {
         this.questionAnswerService = questionAnswerService;
+    }
+
+    public PropDevQuestionAnswerService getPropDevQuestionAnswerService() {
+        return propDevQuestionAnswerService;
+    }
+
+    public void setPropDevQuestionAnswerService(PropDevQuestionAnswerService propDevQuestionAnswerService) {
+        this.propDevQuestionAnswerService = propDevQuestionAnswerService;
+    }
+
+    public RolodexService getRolodexService() {
+        return rolodexService;
+    }
+
+    public void setRolodexService(RolodexService rolodexService) {
+        this.rolodexService = rolodexService;
     }
 }

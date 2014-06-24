@@ -28,7 +28,6 @@ import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.api.question.QuestionAnswerService;
 import org.kuali.coeus.propdev.api.PropDevQuestionAnswerService;
 import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyContract;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
@@ -247,17 +246,17 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     protected AttachedFileDataType[] getAttachedFileDataTypes(String narrativeTypeCode) {
 
         int size = 0;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && narrative.getNarrativeTypeCode().equals(narrativeTypeCode)) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType() != null
+                    && narrative.getNarrativeType().getCode().equals(narrativeTypeCode)) {
                 size++;
             }
         }
         AttachedFileDataType[] attachedFileDataTypes = new AttachedFileDataType[size];
         int attachments = 0;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && narrative.getNarrativeTypeCode().equals(narrativeTypeCode)) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType() != null
+                    && narrative.getNarrativeType().getCode().equals(narrativeTypeCode)) {
                 attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
                 attachments++;
             }
@@ -272,9 +271,9 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
      */
     protected AttachedFileDataType getAttachedFileDataType(String narrativeTypeCode) {
 
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && narrative.getNarrativeTypeCode().equals(narrativeTypeCode)) {
+        for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrative.getNarrativeType() != null
+                    && narrative.getNarrativeType().getCode().equals(narrativeTypeCode)) {
                 return getAttachedFileType(narrative);
             }
         }

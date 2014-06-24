@@ -15,8 +15,8 @@ import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetYearDa
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.budget.api.rate.TrainingStipendRateContract;
-import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
@@ -988,7 +988,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     private void setOrganizationData(PHS398TrainingBudget trainingBudgetType, DevelopmentProposal developmentProposal) {
         ProposalSite applicantOrgSite = developmentProposal.getApplicantOrganization();
         if (applicantOrgSite != null) {
-            Organization organization = applicantOrgSite.getOrganization();
+            OrganizationContract organization = applicantOrgSite.getOrganization();
             if (organization != null) {
                 String dunsNumber = organization.getDunsNumber();
                 if (dunsNumber != null) {

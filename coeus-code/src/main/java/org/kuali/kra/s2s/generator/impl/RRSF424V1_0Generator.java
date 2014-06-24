@@ -33,12 +33,13 @@ import gov.grants.apply.system.globalLibraryV10.YesNoDataType.Enum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.api.ynq.YnqContract;
-import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
+import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -51,7 +52,6 @@ import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -86,11 +86,10 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 		RRSF424Document rrSF424Document = RRSF424Document.Factory.newInstance();
 		RRSF424 rrsf424 = RRSF424.Factory.newInstance();
 		rrsf424.setFormVersion(S2SConstants.FORMVERSION_1_0);
-		S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal()
+		S2sOpportunityContract s2sOpportunity = pdDoc.getDevelopmentProposal()
 				.getS2sOpportunity();
 		if (s2sOpportunity != null
-				&& s2sOpportunity.getS2sSubmissionTypeCode() != null) {
-			s2sOpportunity.refreshNonUpdateableReferences();
+				&& s2sOpportunity.getS2sSubmissionType() != null) {
 			rrsf424.setSubmissionTypeCode(SubmissionTypeDataType.Enum
 					.forString(pdDoc.getDevelopmentProposal()
 							.getS2sOpportunity().getS2sSubmissionType()
@@ -113,14 +112,14 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 		rrsf424.setApplicantInfo(getApplicationInfo());
 		rrsf424.setApplicantType(getApplicantType());
 		rrsf424.setApplicationType(getApplicationType());
-		Organization organization = pdDoc.getDevelopmentProposal()
+		OrganizationContract organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
 		boolean isNih  = isSponsorInHierarchy(pdDoc.getDevelopmentProposal(), SPONSOR_GROUPS,SPONSOR_NIH);
 		if (organization != null) {
 		    if (organization.getPhsAccount() != null  && isNih) {
                 rrsf424.setEmployerID(organization.getPhsAccount());
             } else {
-                rrsf424.setEmployerID(organization.getFedralEmployerId());
+                rrsf424.setEmployerID(organization.getFederalEmployerId());
             }
 		}
 		SponsorContract sponsor = pdDoc.getDevelopmentProposal().getSponsor();
@@ -296,7 +295,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 		orgType.setAddress(globLibV10Generator
 				.getAddressRequireCountryDataType(rolodex));
 
-		Organization organization = pdDoc.getDevelopmentProposal()
+		OrganizationContract organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
 		if (organization != null) {
 			orgType.setOrganizationName(organization.getOrganizationName());
@@ -476,13 +475,13 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 	 *         and Project.
 	 */
 	private RRSF424.CongressionalDistrict getCongDistrict() {
-		Organization organization = pdDoc.getDevelopmentProposal()
+		OrganizationContract organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
 
 		// get the organization property of the Performing Organization
 		ProposalSite performingOrgSite = pdDoc.getDevelopmentProposal()
 				.getPerformingOrganization();
-		Organization performingOrganization = null;
+		OrganizationContract performingOrganization = null;
 		if (performingOrgSite != null) {
 			performingOrganization = performingOrgSite.getOrganization();
 		}
@@ -523,7 +522,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 			if (PRINCIPAL_INVESTIGATOR.equals(proposalPerson
 					.getProposalPersonRoleId())) {
 				PI = proposalPerson;
-				Organization organization = pdDoc.getDevelopmentProposal()
+				OrganizationContract organization = pdDoc.getDevelopmentProposal()
 						.getApplicantOrganization().getOrganization();
 				PDPI.setName(globLibV10Generator.getHumanNameDataType(PI));
 				PDPI.setPhone(PI.getOfficePhone());
@@ -577,7 +576,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 	 * @return aorInfoType(AORInfoType) Authorized representative information.
 	 */
 	private AORInfoType getAORInfoType() {
-		Organization organization = pdDoc.getDevelopmentProposal()
+		OrganizationContract organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
 		AORInfoType aorInfoType = AORInfoType.Factory.newInstance();
 		if (departmentalPerson != null) {

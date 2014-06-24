@@ -20,7 +20,7 @@ import gov.grants.apply.forms.sf424BV11.AssuranceType;
 import gov.grants.apply.forms.sf424BV11.AssurancesDocument;
 import gov.grants.apply.forms.sf424BV11.AuthorizedRepresentativeDocument.AuthorizedRepresentative;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -61,7 +61,7 @@ public class SF424BV1_1Generator extends SF424BaseGenerator {
         assuranceType.setProgramType(PROGRAM_TYPE);
         assuranceType.setCoreSchemaVersion(S2SConstants.CORE_SCHEMA_VERSION_1_1);
         assuranceType.setAuthorizedRepresentative(getAuthorizedRepresentative());
-        Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
+        OrganizationContract organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         assuranceType.setApplicantOrganizationName(organization.getOrganizationName());
 
         return assuranceType;

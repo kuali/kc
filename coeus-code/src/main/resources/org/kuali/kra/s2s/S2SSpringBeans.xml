@@ -105,6 +105,8 @@
         <property name="countryService" ref="kcCountryService" />
         <property name="stateService" ref="kcStateService" />
         <property name="questionAnswerService" ref="questionAnswerService" />
+        <property name="propDevQuestionAnswerService" ref="propDevQuestionAnswerService" />
+        <property name="rolodexService" ref="rolodexService" />
 	</bean>
 
     <bean id="s2SBudgetCalculatorService"

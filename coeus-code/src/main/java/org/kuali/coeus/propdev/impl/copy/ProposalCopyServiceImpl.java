@@ -22,6 +22,7 @@ import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
+import org.kuali.coeus.propdev.api.s2s.UserAttachedFormService;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights;
@@ -57,7 +58,6 @@ import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
 import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormAtt;
 import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormAttFile;
 import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormFile;
-import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedFormService;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sModuleQuestionnaireBean;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
@@ -194,8 +194,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 	private DateTimeService dateTimeService;
 	
 	@Autowired
-	@Qualifier("s2sUserAttachedFormService")
-	private S2sUserAttachedFormService s2sUserAttachedFormService;
+	@Qualifier("userAttachedFormService")
+	private UserAttachedFormService userAttachedFormService;
 	    
 
     /**
@@ -574,9 +574,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             }
             List<S2sUserAttachedFormAtt> attachments = s2sUserAttachedForm.getS2sUserAttachedFormAtts();
             for (S2sUserAttachedFormAtt s2sUserAttachedFormAtt : attachments) {
-                List<S2sUserAttachedFormAttFile> userAttachedFormAttFiles = s2sUserAttachedFormAtt.getS2sUserAttachedFormAttFileList();
+                List<S2sUserAttachedFormAttFile> userAttachedFormAttFiles = s2sUserAttachedFormAtt.getS2sUserAttachedFormAttFiles();
                 if(userAttachedFormAttFiles.isEmpty()){
-                    S2sUserAttachedFormAttFile attachedFile = (S2sUserAttachedFormAttFile) getS2sUserAttachedFormService().findUserAttachedFormAttFile(s2sUserAttachedFormAtt);
+                    S2sUserAttachedFormAttFile attachedFile = (S2sUserAttachedFormAttFile) getUserAttachedFormService().findUserAttachedFormAttFile(s2sUserAttachedFormAtt);
                     if(attachedFile!=null){
                         userAttachedFormAttFiles.add(attachedFile);
                     }
@@ -1283,12 +1283,12 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         this.budgetSummaryService = budgetSummaryService;
     }
 
-	protected S2sUserAttachedFormService getS2sUserAttachedFormService() {
-		return s2sUserAttachedFormService;
+	protected UserAttachedFormService getUserAttachedFormService() {
+		return userAttachedFormService;
 	}
 
-	public void setS2sUserAttachedFormService(
-			S2sUserAttachedFormService s2sUserAttachedFormService) {
-		this.s2sUserAttachedFormService = s2sUserAttachedFormService;
+	public void setUserAttachedFormService(
+			UserAttachedFormService userAttachedFormService) {
+		this.userAttachedFormService = userAttachedFormService;
 	}
 }

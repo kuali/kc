@@ -18,7 +18,7 @@ package org.kuali.kra.s2s.generator.impl;
 import gov.grants.apply.forms.ggLobbyingFormV10.LobbyingFormDocument;
 import gov.grants.apply.forms.ggLobbyingFormV10.LobbyingFormDocument.LobbyingForm;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -45,7 +45,7 @@ public class GGLobbyingFormV1_0Generator extends GGLobbyingFormBaseGenerator {
         LobbyingFormDocument lobbyingFormDocument = LobbyingFormDocument.Factory.newInstance();
         LobbyingForm lobbyingForm = LobbyingForm.Factory.newInstance();
         lobbyingForm.setFormVersion(S2SConstants.FORMVERSION_1_0);
-        Organization organization = null;
+        OrganizationContract organization = null;
         String applicantName = EMPTY_STRING;
         String authorizedRepresentativeTitle = EMPTY_STRING;
         String authorizedRepresentativeSignature = EMPTY_STRING;
