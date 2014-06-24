@@ -13,5 +13,5 @@ public interface S2sUserAttachedFormAttContract extends IdentifiableNumeric, KcF
 
     String getContentId();
 
-	List<? extends S2sUserAttachedFormAttFileContract> getS2sUserAttachedFormAttFileList();
+	List<? extends S2sUserAttachedFormAttFileContract> getS2sUserAttachedFormAttFiles();
 }

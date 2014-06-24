@@ -20,9 +20,8 @@ import gov.grants.apply.forms.rrOtherProjectInfo12V12.RROtherProjectInfo12Docume
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.api.question.AnswerContract;
+import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
-import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -61,7 +60,7 @@ public class RROtherProjectInfoV1_2Generator extends
 		rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.N_NO);
 		rrOtherProjectInfo.setVertebrateAnimalsIndicator(YesNoDataType.N_NO);
 		answerHeaders = getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber());
-		Organization organization = pdDoc.getDevelopmentProposal()
+		OrganizationContract organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
 		setHumanSubjAndVertebrateAnimals(rrOtherProjectInfo, organization);
 		setProprietaryInformationIndicator(rrOtherProjectInfo);
@@ -170,7 +169,7 @@ public class RROtherProjectInfoV1_2Generator extends
 	 */
 	private void setHumanSubjAndVertebrateAnimals(
 			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo,
-			Organization organization) {
+			OrganizationContract organization) {
 		rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.N_NO); 
 		rrOtherProjectInfo.setVertebrateAnimalsIndicator(YesNoDataType.N_NO); 
 		for (ProposalSpecialReview proposalSpecialReview : pdDoc
@@ -279,7 +278,7 @@ public class RROtherProjectInfoV1_2Generator extends
 	 */
 	private void setVertebrateAnimalsSupplementDetails(
 			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo,
-			Organization organization,
+			OrganizationContract organization,
 			ProposalSpecialReview proposalSpecialReview) {
 		rrOtherProjectInfo.setVertebrateAnimalsIndicator(YesNoDataType.Y_YES);
 		VertebrateAnimalsSupplement vertebrateAnimalsSupplement = VertebrateAnimalsSupplement.Factory
@@ -300,7 +299,7 @@ public class RROtherProjectInfoV1_2Generator extends
 	 */
 	private void setHumaSubjectSupplementDetails(
 			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo,
-			Organization organization,
+			OrganizationContract organization,
 			ProposalSpecialReview proposalSpecialReview) {
 		rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.Y_YES);
 		HumanSubjectsSupplement humanSubjectsSupplement = HumanSubjectsSupplement.Factory

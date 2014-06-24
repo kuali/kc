@@ -42,7 +42,7 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -337,9 +337,9 @@ public class PHS398ModularBudgetV1_0Generator extends
 		periods.setDirectCost(directCost);
 
 		// CognizantFederalAgency
-		Organization organization = pdDoc.getDevelopmentProposal()
+		OrganizationContract organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
-		RolodexContract rolodex = organization.getCognizantAuditorRolodex();
+		RolodexContract rolodex = rolodexService.getRolodex(organization.getCognizantAuditor());
 
 		if (rolodex != null) {
 			indirectCost
@@ -477,10 +477,10 @@ public class PHS398ModularBudgetV1_0Generator extends
 		periods2.setDirectCost2(directCost2);
 
 		// CognizantFederalAgency
-		Organization organization = pdDoc.getDevelopmentProposal()
+		OrganizationContract organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
 		if (organization != null) {
-			RolodexContract rolodex = organization.getCognizantAuditorRolodex();
+			RolodexContract rolodex = rolodexService.getRolodex(organization.getCognizantAuditor());
 			if (rolodex != null) {
 				indirectCost2
 						.setCognizantFederalAgency2(getCognizantFederalAgency(rolodex));
@@ -619,9 +619,9 @@ public class PHS398ModularBudgetV1_0Generator extends
 		periods3.setDirectCost3(directCost3);
 
 		// CognizantFederalAgency
-		Organization organization = pdDoc.getDevelopmentProposal()
+		OrganizationContract organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
-		RolodexContract rolodex = organization.getRolodex();
+		RolodexContract rolodex = rolodexService.getRolodex(organization.getContactAddressId());
 
 		if (rolodex != null) {
 			indirectCost3
@@ -757,10 +757,10 @@ public class PHS398ModularBudgetV1_0Generator extends
 		periods4.setDirectCost4(directCost4);
 
 		// CognizantFederalAgency
-		Organization organization = pdDoc.getDevelopmentProposal()
+		OrganizationContract organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
 		if (organization != null) {
-			RolodexContract rolodex = organization.getRolodex();
+			RolodexContract rolodex = rolodexService.getRolodex(organization.getContactAddressId());
 			if (rolodex != null) {
 				indirectCost4
 						.setCognizantFederalAgency4(getCognizantFederalAgency(rolodex));
@@ -898,10 +898,10 @@ public class PHS398ModularBudgetV1_0Generator extends
 		indirectCost5.setIndirectCostItems5Array(indirectCostItems5Array);
 
 		// CognizantFederalAgency
-		Organization organization = pdDoc.getDevelopmentProposal()
+		OrganizationContract organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
 		if (organization != null) {
-			RolodexContract rolodex = organization.getRolodex();
+			RolodexContract rolodex = rolodexService.getRolodex(organization.getContactAddressId());
 			if (rolodex != null) {
 				indirectCost5
 						.setCognizantFederalAgency5(getCognizantFederalAgency(rolodex));

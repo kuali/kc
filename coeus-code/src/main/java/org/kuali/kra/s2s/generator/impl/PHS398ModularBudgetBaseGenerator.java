@@ -16,6 +16,7 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
@@ -36,7 +37,9 @@ public abstract class PHS398ModularBudgetBaseGenerator extends
 	private static final String COMMA_SEPERATOR = ",";
 	protected S2SUtilService s2sUtilService;
 	protected ProposalBudgetService proposalBudgetService;
-	protected static final int PERSONNEL_JUSTIFICATION_CODE = 35;
+	protected RolodexService rolodexService;
+
+    protected static final int PERSONNEL_JUSTIFICATION_CODE = 35;
 	protected static final int CONSORTIUM_JUSTIFICATION_CODE = 36;
 	protected static final int NARRATIVE_JUSTIFICATION_CODE = 37;
 
@@ -48,6 +51,7 @@ public abstract class PHS398ModularBudgetBaseGenerator extends
 		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
         proposalBudgetService = KcServiceLocator
 				.getService(ProposalBudgetService.class);
+        rolodexService = KcServiceLocator.getService(RolodexService.class);
 	}
 
 	/**

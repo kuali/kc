@@ -27,7 +27,7 @@ import org.kuali.coeus.propdev.api.s2s.*;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.coeus.propdev.impl.s2s.*;
+
 import org.kuali.coeus.propdev.api.attachment.NarrativeService;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
@@ -89,7 +89,7 @@ public class KRAS2SServiceImpl implements S2SService {
 			List<AttachmentData> attList, ProposalDevelopmentDocument pdDoc) throws S2SException {
 		boolean validationSucceeded = true;
 		DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
-		List<S2sOppForms> opportunityForms = developmentProposal.getS2sOppForms();
+		List<? extends S2sOppFormsContract> opportunityForms = developmentProposal.getS2sOppForms();
 
 		if (attList == null) {
 		    attList = new ArrayList<AttachmentData>();

@@ -37,4 +37,23 @@ public interface UserAttachedFormService {
      * @throws java.lang.IllegalArgumentException if either proposalNumber.
      */
     List<String> findFormNamespaces(String proposalNumber);
+
+    /**
+     * This method finds a user attached form file from a user attached form.  The selectedForm cannot be null.
+     *
+     * @param selectedForm the user attached form or null
+     * @return the user attached form file or null
+     * @throws java.lang.IllegalArgumentException if the selectedForm is null
+     */
+    S2sUserAttachedFormFileContract findUserAttachedFormFile(S2sUserAttachedFormContract selectedForm);
+
+    /**
+     * This method finds a user attached attachment form file from a user attached form attachment.
+     * The selectedFormAtt cannot be null.
+     *
+     * @param selectedFormAtt the user attached form attachment or null
+     * @return the user attached form attachment file or null
+     * @throws java.lang.IllegalArgumentException if the selectedFormAtt is null
+     */
+    S2sUserAttachedFormAttFileContract findUserAttachedFormAttFile(S2sUserAttachedFormAttContract selectedFormAtt);
 }

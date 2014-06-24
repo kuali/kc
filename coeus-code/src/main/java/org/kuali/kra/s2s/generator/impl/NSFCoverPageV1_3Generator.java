@@ -24,10 +24,10 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin1Max100DataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.org.OrganizationContract;
+import org.kuali.coeus.common.api.org.OrganizationYnqContract;
 import org.kuali.coeus.common.api.question.AnswerContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
-import org.kuali.coeus.common.framework.org.Organization;
-import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -197,10 +197,9 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
   
 			}
 		}
-		Organization organization = getOrganizationFromDevelopmentProposal(pdDoc.getDevelopmentProposal());
+		OrganizationContract organization = getOrganizationFromDevelopmentProposal(pdDoc.getDevelopmentProposal());
 		if (organization != null) {
-            List<OrganizationYnq> organizationYnqs = organization.getOrganizationYnqs();
-            for (OrganizationYnq organizationYnq : organizationYnqs) {
+            for (OrganizationYnqContract organizationYnq : organization.getOrganizationYnqs()) {
                 if (organizationYnq.getQuestionId().equals(LOBBYING_QUESTION_ID)) {
                     if(getAnswerFromOrganizationYnq(organizationYnq)){
                         return YesNoDataType.Y_YES;
@@ -215,15 +214,15 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
     /*
      * This method return true if question is answered otherwise false .
      */
-    protected boolean getAnswerFromOrganizationYnq(OrganizationYnq organizationYnq) {
+    protected boolean getAnswerFromOrganizationYnq(OrganizationYnqContract organizationYnq) {
         return organizationYnq.getAnswer().equals(ANSWER_INDICATOR_VALUE);
     }
 
 	/*
      * This method will get the Organization from the Development proposal.
      */
-	    private Organization getOrganizationFromDevelopmentProposal(DevelopmentProposal developmentProposal) {
-	        Organization organization = null;
+	    private OrganizationContract getOrganizationFromDevelopmentProposal(DevelopmentProposal developmentProposal) {
+	        OrganizationContract organization = null;
 	        ProposalSite proposalSite = developmentProposal.getApplicantOrganization();
 	        if (proposalSite != null) {
 	            organization = proposalSite.getOrganization();

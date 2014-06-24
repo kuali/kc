@@ -21,12 +21,9 @@ import gov.grants.apply.forms.rrOtherProjectInfoV10.RROtherProjectInfoDocument.R
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType.Enum;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.api.question.AnswerContract;
+import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
-import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
@@ -44,7 +41,6 @@ import java.util.List;
  */
 public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGenerator {
 
-    private static final Log LOG = LogFactory.getLog(RROtherProjectInfoV1_0Generator.class);
     List<? extends AnswerHeaderContract> answerHeaders;
 
 
@@ -57,10 +53,9 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
      */
     private RROtherProjectInfoDocument getRROtherProjectInfo() {
 
-        LOG.info("Inside RROtherProjectInfo");
         RROtherProjectInfoDocument rrOtherProjectInfoDocument = RROtherProjectInfoDocument.Factory.newInstance();
         RROtherProjectInfo rrOtherProjectInfo = RROtherProjectInfo.Factory.newInstance();
-        Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
+        OrganizationContract organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         rrOtherProjectInfo.setFormVersion(S2SConstants.FORMVERSION_1_0);
 
         answerHeaders = getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber());
@@ -318,7 +313,6 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
      * @return attachedFileDataTypes(AttachedFileDataType[]) Array of other attachments based on narrative type code.
      */
     private AttachedFileDataType[] getAttachedFileDataTypes() {
-        LOG.info("Getting AttachedFileDataType ");
         List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
         AttachedFileDataType attachedFileDataType = null;
         for (NarrativeContract narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
@@ -328,7 +322,6 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
             	if(attachedFileDataType != null){
             		attachedFileDataTypeList.add(attachedFileDataType);
             	}
-                LOG.info("Attachmentcount" + attachedFileDataTypeList.size());
             }
         }
         return attachedFileDataTypeList.toArray(new AttachedFileDataType[0]);

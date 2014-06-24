@@ -24,10 +24,6 @@ import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormFileContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 
 public interface S2sUserAttachedFormService {
-    public List<S2sUserAttachedForm> extractNSaveUserAttachedForms(DevelopmentProposal developmentProposal, S2sUserAttachedForm s2sUserAttachedForm) throws Exception;
-    public void resetFormAvailability(DevelopmentProposal developmentProposal, String namespace);
-    
-    public S2sUserAttachedFormFileContract findUserAttachedFormFile(S2sUserAttachedFormContract selectedForm);
-    
-    public S2sUserAttachedFormAttFileContract findUserAttachedFormAttFile(S2sUserAttachedFormAttContract selectedFormAtt);
+    List<S2sUserAttachedForm> extractNSaveUserAttachedForms(DevelopmentProposal developmentProposal, S2sUserAttachedForm s2sUserAttachedForm) throws Exception;
+    void resetFormAvailability(DevelopmentProposal developmentProposal, String namespace);
 }

@@ -32,11 +32,12 @@ import gov.grants.apply.system.universalCodesV20.CountryCodeDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
-import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
+import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -50,7 +51,6 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -262,7 +262,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 				.getApplicantOrganization().getOrganization().getRolodex();
 		orgType.setAddress(globLibV20Generator.getAddressDataType(rolodex));
 
-		Organization organization = pdDoc.getDevelopmentProposal()
+		OrganizationContract organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
 		if (organization != null) {
 			orgType.setOrganizationName(organization.getOrganizationName());
@@ -726,12 +726,11 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 
 	private String getSubmissionTypeCode() {
 		String submissionTypeCode = null;
-		S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal()
+		S2sOpportunityContract s2sOpportunity = pdDoc.getDevelopmentProposal()
 				.getS2sOpportunity();
 		if (s2sOpportunity != null
-				&& s2sOpportunity.getS2sSubmissionTypeCode() != null) {
-			s2sOpportunity.refreshNonUpdateableReferences();
-			submissionTypeCode = s2sOpportunity.getS2sSubmissionTypeCode();
+				&& s2sOpportunity.getS2sSubmissionType() != null) {
+			submissionTypeCode = s2sOpportunity.getS2sSubmissionType().getCode();
 		}
 		return submissionTypeCode;
 	}
@@ -754,7 +753,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
             if (applicantOrganization.getOrganization().getPhsAccount() != null && isNih) {
                 employerId = applicantOrganization.getOrganization().getPhsAccount();
             } else {
-                employerId = applicantOrganization.getOrganization().getFedralEmployerId();
+                employerId = applicantOrganization.getOrganization().getFederalEmployerId();
             }
         }
 
