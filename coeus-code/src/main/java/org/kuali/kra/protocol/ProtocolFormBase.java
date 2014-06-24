@@ -38,7 +38,7 @@ import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBeanBase;
 import org.kuali.kra.protocol.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewHelperBase;
-import org.kuali.kra.questionnaire.QuestionableFormInterface;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionableFormInterface;
 import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;

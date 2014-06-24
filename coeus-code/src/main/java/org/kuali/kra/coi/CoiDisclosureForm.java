@@ -32,7 +32,7 @@ import org.kuali.kra.coi.questionnaire.DisclosureQuestionnaireHelper;
 import org.kuali.kra.coi.questionnaire.ScreeningQuestionnaireHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.questionnaire.QuestionableFormInterface;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionableFormInterface;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
