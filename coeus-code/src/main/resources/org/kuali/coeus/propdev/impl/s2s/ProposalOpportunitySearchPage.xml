@@ -168,6 +168,16 @@
 					p:fieldLabel.labelText="PDF" />
 			</list>
 		</property>
+		<property name="footer">
+ 			<bean parent="Uif-FooterBase" p:align="right">
+ 				<property name="items">
+ 					<list>
+ 						<bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create PDF"
+ 							p:methodToCall="printForms" />
+ 					</list>
+ 				</property>
+ 			</bean>
+ 		</property>
 	</bean>
 	<bean id="PropDev-OpportunityPage-SubmissionDetails" parent="PropDev-OpportunityPage-SubmissionDetails-parentBean" />
 	<bean id="PropDev-OpportunityPage-SubmissionDetails-parentBean"
