@@ -154,9 +154,7 @@
     <bean id="IacucProtocolAttachmentTypeGroup-lookupDefinition" parent="IacucProtocolAttachmentTypeGroup-lookupDefinition-parentBean" />
   <bean id="IacucProtocolAttachmentTypeGroup-LookupView" parent="IacucProtocolAttachmentTypeGroup-LookupView-parentBean"/>
     <bean id="IacucProtocolAttachmentTypeGroup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="IACUC Protocol Attachment Type Group Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="IACUC Protocol Attachment Type Group Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -178,17 +176,6 @@
   <bean id="IacucProtocolAttachmentTypeGroup-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentTypeGroup"/>
     <property name="headerText" value="IACUC Protocol Attachment Type Group Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>

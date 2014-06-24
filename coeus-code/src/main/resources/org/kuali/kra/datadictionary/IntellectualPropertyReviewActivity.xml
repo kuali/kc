@@ -259,9 +259,7 @@
     <bean id="IntellectualPropertyReviewActivity-lookupDefinition" parent="IntellectualPropertyReviewActivity-lookupDefinition-parentBean" />
   <bean id="IntellectualPropertyReviewActivity-LookupView" parent="IntellectualPropertyReviewActivity-LookupView-parentBean"/>
     <bean id="IntellectualPropertyReviewActivity-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Proposal Ip Rev Activity Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="Proposal Ip Rev Activity Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -291,17 +289,6 @@
   <bean id="IntellectualPropertyReviewActivity-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivity"/>
     <property name="headerText" value="Proposal Ip Rev Activity Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="proposalIpReviewActivityId" parent="Uif-LookupCriteriaInputField"/>

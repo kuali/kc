@@ -125,9 +125,7 @@
   <bean id="S2sOppFormQuestionnaire-lookupDefinition" parent="S2sOppFormQuestionnaire-lookupDefinition-parentBean" />
   <bean id="S2sOppFormQuestionnaire-LookupView" parent="S2sOppFormQuestionnaire-LookupView-parentBean"/>
   <bean id="S2sOppFormQuestionnaire-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="S2S Opportunity Form to Questionnaire Mapping Lookup" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+    <property name="title" value="S2S Opportunity Form to Questionnaire Mapping Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
@@ -149,17 +147,6 @@
   <bean id="S2sOppFormQuestionnaire-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.s2s.question.S2sOppFormQuestionnaire"/>
     <property name="headerText" value="S2S Opportunity Form to Questionnaire Mapping Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="oppNameSpace" parent="Uif-LookupCriteriaInputField"/>

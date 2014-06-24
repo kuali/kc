@@ -109,9 +109,7 @@
     <bean id="FandaRateType-lookupDefinition" parent="FandaRateType-lookupDefinition-parentBean" />
   <bean id="FandaRateType-LookupView" parent="FandaRateType-LookupView-parentBean"/>
     <bean id="FandaRateType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="F&amp;A Rate Type Code" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="F&amp;A Rate Type Code" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -131,17 +129,6 @@
   <bean id="FandaRateType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.award.commitments.FandaRateType"/>
     <property name="headerText" value="F&amp;A Rate Type Code"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="fandaRateTypeCode" parent="Uif-LookupCriteriaInputField"/>

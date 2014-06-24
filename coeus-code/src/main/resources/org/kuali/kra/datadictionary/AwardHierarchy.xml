@@ -142,9 +142,7 @@
     <bean id="AwardHierarchy-lookupDefinition" parent="AwardHierarchy-lookupDefinition-parentBean" />
   <bean id="AwardHierarchy-LookupView" parent="AwardHierarchy-LookupView-parentBean"/>
     <bean id="AwardHierarchy-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Award Hierarchy Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="Award Hierarchy Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -166,17 +164,6 @@
   <bean id="AwardHierarchy-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.award.awardhierarchy.AwardHierarchy"/>
     <property name="headerText" value="Award Hierarchy Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-            </list>
-        </property>
-    </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="rootAwardNumber" parent="Uif-LookupCriteriaInputField"/>

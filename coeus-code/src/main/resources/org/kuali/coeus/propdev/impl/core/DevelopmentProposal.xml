@@ -1146,9 +1146,7 @@
   <bean id="DevelopmentProposal-LookupView" parent="DevelopmentProposal-LookupView-parentBean"/>
   <bean id="DevelopmentProposal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Development Proposal Lookup" />
-		<property name="lookupableID" value="proposalDevelopmentLookupable" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-		<property name="defaultSort">
+		<property name="lookupableID" value="proposalDevelopmentLookupable" /><property name="defaultSort">
 			<bean parent="SortDefinition">
 				<property name="attributeNames">
 					<list>

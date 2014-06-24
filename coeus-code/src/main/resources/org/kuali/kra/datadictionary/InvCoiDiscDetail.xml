@@ -310,9 +310,7 @@
     <bean id="InvCoiDiscDetail-lookupDefinition" parent="InvCoiDiscDetail-lookupDefinition-parentBean" />
   <bean id="InvCoiDiscDetail-LookupView" parent="InvCoiDiscDetail-LookupView-parentBean"/>
     <bean id="InvCoiDiscDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Inv Coi Disc Details Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="Inv Coi Disc Details Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -346,17 +344,6 @@
   <bean id="InvCoiDiscDetail-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.coi.personfinancialentity.InvCoiDiscDetail"/>
     <property name="headerText" value="Inv Coi Disc Details Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="invCoiDiscDetailsId" parent="Uif-LookupCriteriaInputField"/>

@@ -32,4 +32,26 @@
   <bean id="Uif-DialogBase" parent="Uif-DialogBase-parentBean">
   	<property name="template" value="/WEB-INF/ftl/krad/components/group/dialogGroup.ftl"/>
   </bean>
+  
+  <bean id="Uif-LookupView" parent="Kc-LookupView"/>
+  <bean id="Kc-LookupView" abstract="true" parent="Kc-LookupView-parentBean"/>
+  <bean id="Kc-LookupView-parentBean" abstract="true" parent="Uif-LookupView-parentBean" p:criteriaGroup.footer.render="@{!#view.hideCriteriaOnSearch}"/>
+  <bean id="Uif-LookupView-Footer" parent="Uif-FooterBase" p:render="@{#view.hideCriteriaOnSearch}">
+    <property name="items">
+      <list>
+        <bean parent="Uif-SecondaryActionButton" p:methodToCall="refresh" p:actionLabel="Refine Search"
+              p:additionalSubmitData="displayResults:false" p:iconClass="icon-chevron-left" p:ajaxSubmit="false"
+              p:render="@{displayResults}"/>
+        <bean parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"
+              p:render="@{!renderedInLightBox and displayResults}"/>
+        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:render="@{renderedInLightBox}"
+              p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
+        <bean parent="Uif-SecondaryActionButton" p:methodToCall="clearValues" p:actionLabel="Clear Values"
+              p:refreshId="uLookupCriteria" p:render="@{!displayResults}" p:ajaxSubmit="false"/>
+        <bean parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"
+              p:additionalSubmitData="displayResults:true" p:ajaxSubmit="@{!#view.hideCriteriaOnSearch}"
+              p:render="@{!displayResults}" p:defaultEnterKeyAction="true" p:performClientSideValidation="true"/>
+      </list>
+    </property>
+  </bean>  
 </beans>

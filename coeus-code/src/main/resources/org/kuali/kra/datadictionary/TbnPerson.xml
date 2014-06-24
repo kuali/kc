@@ -162,9 +162,7 @@
   <bean id="TbnPerson-lookupDefinition" parent="TbnPerson-lookupDefinition-parentBean" />
   <bean id="TbnPerson-LookupView" parent="TbnPerson-LookupView-parentBean"/>
   <bean id="TbnPerson-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="To Be Named Persons Lookup" />
-    <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-    <property name="defaultSort" >
+    <property name="title" value="To Be Named Persons Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
 	<property name="helpDefinition" >
@@ -189,17 +187,6 @@
   <bean id="TbnPerson-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.personnel.TbnPerson"/>
     <property name="headerText" value="To Be Named Persons Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="tbnId" parent="Uif-LookupCriteriaInputField"/>

@@ -130,9 +130,7 @@
     <bean id="IacucProtocolProjectType-lookupDefinition" parent="IacucProtocolProjectType-lookupDefinition-parentBean" />
   <bean id="IacucProtocolProjectType-LookupView" parent="IacucProtocolProjectType-LookupView-parentBean"/>
     <bean id="IacucProtocolProjectType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="IACUC Protocol Project Type Lookup" />
-        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
-        <property name="defaultSort" >
+        <property name="title" value="IACUC Protocol Project Type Lookup" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
         <property name="lookupFields" >
@@ -152,17 +150,6 @@
   <bean id="IacucProtocolProjectType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.kra.iacuc.protocol.IacucProtocolProjectType"/>
     <property name="headerText" value="IACUC Protocol Project Type Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="projectTypeCode" parent="Uif-LookupCriteriaInputField"/>
