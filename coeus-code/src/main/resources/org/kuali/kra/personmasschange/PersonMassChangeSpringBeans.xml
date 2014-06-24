@@ -28,6 +28,7 @@
     <context:component-scan base-package="org.kuali.coeus.common.impl.rolodex" />
     <context:component-scan base-package="org.kuali.coeus.common.impl.person" />
     <context:component-scan base-package="org.kuali.coeus.common.impl.editable" />
+    <context:component-scan base-package="org.kuali.coeus.propdev.impl.person.masschange" />
     <context:component-scan base-package="org.kuali.kra.service.impl" />
     <!-- Need to scan this package to pick up on Autowired and Qualifier once configured with @Component-->
     <context:component-scan base-package="org.kuali.kra.personmasschange.service.impl" />
@@ -51,14 +52,7 @@
     </bean>
     
     <!-- Only base object's fields annotated with "Autowired" -->
-    <bean id="proposalDevelopmentPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.ProposalDevelopmentPersonMassChangeServiceImpl">
- 		<property name="businessObjectService" ref="businessObjectService" />
- 		<property name="kcPersonService" ref="kcPersonService" />
- 		<property name="rolodexService" ref="rolodexService" />
-        <property name="personEditableService" ref="personEditableService" />
-    </bean>
     
-    <!-- TODO: Annotate and Autowire protocolPersonTrainingService -->
     <bean id="protocolPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.ProtocolPersonMassChangeServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="personEditableService" ref="personEditableService" />

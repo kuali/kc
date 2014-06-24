@@ -16,6 +16,7 @@
 package org.kuali.kra.personmasschange.service.impl;
 
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
+import org.kuali.coeus.propdev.impl.person.masschange.ProposalDevelopmentPersonMassChangeService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
