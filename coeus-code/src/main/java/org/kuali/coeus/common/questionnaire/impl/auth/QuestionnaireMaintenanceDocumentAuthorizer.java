@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.questionnaire.impl.core;
+package org.kuali.coeus.common.questionnaire.impl.auth;
 
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
