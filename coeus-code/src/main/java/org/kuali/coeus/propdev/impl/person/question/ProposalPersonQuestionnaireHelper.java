@@ -27,7 +27,7 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
-import org.kuali.kra.questionnaire.QuestionnaireService;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireService;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;

@@ -16,6 +16,7 @@
 package org.kuali.kra.questionnaire;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
