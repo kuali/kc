@@ -59,7 +59,7 @@
         <collection-descriptor name="institutionalProposalPersonMassChangeList" proxy="true" element-class-ref="org.kuali.kra.personmasschange.bo.InstitutionalProposalPersonMassChange" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="personMassChangeId"/>
         </collection-descriptor>
-        <collection-descriptor name="proposalDevelopmentPersonMassChangeList" proxy="true" element-class-ref="org.kuali.kra.personmasschange.bo.ProposalDevelopmentPersonMassChange" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="proposalDevelopmentPersonMassChangeList" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.person.masschange.ProposalDevelopmentPersonMassChange" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="personMassChangeId"/>
         </collection-descriptor>
         <collection-descriptor name="proposalLogPersonMassChangeList" proxy="true" element-class-ref="org.kuali.kra.personmasschange.bo.ProposalLogPersonMassChange" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -131,7 +131,7 @@
         </reference-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.personmasschange.bo.ProposalDevelopmentPersonMassChange" table="PMC_EPS_PROPOSAL">
+    <class-descriptor class="org.kuali.coeus.propdev.impl.person.masschange.ProposalDevelopmentPersonMassChange" table="PMC_EPS_PROPOSAL">
         <field-descriptor name="proposalDevelopmentPersonMassChangeId" column="PMC_EPS_PROPOSAL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PERSON_MASS_CHANGE_ID" />
         <field-descriptor name="personMassChangeId" column="PERSON_MASS_CHANGE_ID" jdbc-type="BIGINT"/>
         <field-descriptor name="investigator" column="INVESTIGATOR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>

@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.personmasschange.bo;
+package org.kuali.coeus.propdev.impl.person.masschange;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.personmasschange.bo.PersonMassChange;
 
 /**
  * Defines the fields for a Proposal Development Person Mass Change.

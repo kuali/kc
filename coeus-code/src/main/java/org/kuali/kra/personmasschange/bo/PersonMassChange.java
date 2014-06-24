@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.personmasschange.bo;
 
+import org.kuali.coeus.propdev.impl.person.masschange.ProposalDevelopmentPersonMassChange;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.personmasschange.document.PersonMassChangeDocument;
 
