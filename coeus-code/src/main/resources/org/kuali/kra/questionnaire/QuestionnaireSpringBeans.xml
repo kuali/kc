@@ -44,18 +44,6 @@
         </property>
 	</bean>
 
-	<bean id="questionnaireService" class="org.kuali.kra.questionnaire.QuestionnaireServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-        <property name="unitAuthorizationService">
-            <ref bean="unitAuthorizationService" />
-        </property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
-	</bean>
-
 	<bean id="questionnaireLookupableHelperService" class="org.kuali.kra.questionnaire.QuestionnaireLookupableHelperServiceImpl" 
  	    scope="prototype" parent="parentLookupableHelperService">
         <property name="documentService">

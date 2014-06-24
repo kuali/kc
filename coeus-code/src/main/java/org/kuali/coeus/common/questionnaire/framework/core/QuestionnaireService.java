@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire;
+package org.kuali.coeus.common.questionnaire.framework.core;
+
+import org.kuali.kra.questionnaire.Questionnaire;
+import org.kuali.kra.questionnaire.QuestionnaireUsage;
 
 import java.util.List;
 

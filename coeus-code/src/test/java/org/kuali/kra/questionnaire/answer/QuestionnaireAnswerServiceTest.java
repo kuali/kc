@@ -34,7 +34,7 @@ import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
-import org.kuali.kra.questionnaire.QuestionnaireServiceImpl;
+import org.kuali.coeus.common.questionnaire.impl.core.QuestionnaireServiceImpl;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.rice.krad.service.BusinessObjectService;
