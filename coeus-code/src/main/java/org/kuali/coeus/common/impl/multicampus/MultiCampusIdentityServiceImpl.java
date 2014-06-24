@@ -13,16 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.multicampus;
+package org.kuali.coeus.common.impl.multicampus;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
-import org.kuali.kra.multicampus.MultiCampusIdentityService;
+import org.kuali.coeus.common.framework.multicampus.MultiCampusIdentityService;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.affiliation.EntityAffiliationContract;
 import org.kuali.rice.kim.api.identity.entity.EntityContract;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

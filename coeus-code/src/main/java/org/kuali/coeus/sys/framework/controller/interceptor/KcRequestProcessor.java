@@ -17,7 +17,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.multicampus.MultiCampusConstants;
+import org.kuali.coeus.common.framework.multicampus.MultiCampusConstants;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.action.KualiRequestProcessor;

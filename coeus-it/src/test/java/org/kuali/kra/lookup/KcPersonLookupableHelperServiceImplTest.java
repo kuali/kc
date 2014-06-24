@@ -25,7 +25,7 @@ import org.junit.Test;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.impl.person.KcPersonLookupableHelperServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.multicampus.MultiCampusConstants;
+import org.kuali.coeus.common.framework.multicampus.MultiCampusConstants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.ui.Field;
