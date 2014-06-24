@@ -13,20 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire;
+package org.kuali.coeus.common.questionnaire.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireService;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.questionnaire.Questionnaire;
+import org.kuali.kra.questionnaire.QuestionnaireQuestion;
+import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+@Component("questionnaireService")
 @Transactional
 public class QuestionnaireServiceImpl implements QuestionnaireService {
 
@@ -35,9 +43,16 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     public static final String MODULE_SUB_ITEM_CODE = "moduleSubItemCode";
     public static final String QUESTIONNAIRE_SEQ_ID = "questionnaireSeqId";
     public static final String NAME = "name";
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+    @Autowired
+    @Qualifier("unitAuthorizationService")
     private UnitAuthorizationService unitAuthorizationService;
+    @Autowired
+    @Qualifier("parameterService")
     private ParameterService parameterService;
+
     private Map<String, String> permissionModuleMap;
 
     public QuestionnaireServiceImpl() {
@@ -71,7 +86,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     /**
      * 
-     * @see org.kuali.kra.questionnaire.QuestionnaireService#copyQuestionnaire(org.kuali.kra.questionnaire.Questionnaire,
+     * @see org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireService#copyQuestionnaire(org.kuali.kra.questionnaire.Questionnaire,
      *      org.kuali.kra.questionnaire.Questionnaire)
      */
     public void copyQuestionnaire(Questionnaire src, Questionnaire dest) {
@@ -152,5 +167,16 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         return questionnaire.getId().equals(questionnaires.get(0).getId());
     }
 
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public UnitAuthorizationService getUnitAuthorizationService() {
+        return unitAuthorizationService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
 
 }

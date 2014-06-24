@@ -23,7 +23,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.version.VersioningService;
-import org.kuali.coeus.common.impl.version.VersioningServiceImpl;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -77,6 +77,13 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     public static final String SUB_MODULE_CODE = "subModuleCode";
     public static final String N = "N";
     public static final String QUESTION = "question";
+
+    private VersioningService versioningService;
+    protected VersioningService getVersioningService (){
+        if (versioningService == null)
+            KcServiceLocator.getService(VersioningService.class);
+        return versioningService;
+    }
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -497,8 +504,8 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
      */
     private void versionQuestionnaire(Questionnaire questionnaire, Questionnaire oldQuestionnaire) {
         try {
-            VersioningService versionService = new VersioningServiceImpl();
-            Questionnaire newQuestionnaire = (Questionnaire) versionService.createNewVersion(oldQuestionnaire);
+            VersioningService versionService = getVersioningService();
+            Questionnaire newQuestionnaire = versionService.createNewVersion(oldQuestionnaire);
             questionnaire.setId(null);
             questionnaire.setSequenceNumber(newQuestionnaire.getSequenceNumber());
             for (QuestionnaireQuestion qnaireQuestion : questionnaire.getQuestionnaireQuestions()) {
