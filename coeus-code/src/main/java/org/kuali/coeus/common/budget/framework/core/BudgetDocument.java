@@ -72,7 +72,7 @@ public class BudgetDocument<T extends BudgetParent> extends KcTransactionalDocum
     @Column(name = "PARENT_DOCUMENT_TYPE_CODE")
     private String parentDocumentTypeCode;
 
-    @OneToOne(mappedBy = "budgetDocument", cascade = CascadeType.ALL)
+    @Transient
     private Budget budget;
 
     @Column(name = "BUDGET_DELETED")

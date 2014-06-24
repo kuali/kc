@@ -80,7 +80,7 @@ import java.util.*;
 @Table(name = "BUDGET")
 @Inheritance(strategy=InheritanceType.JOINED)
 @ClassExtractor(Budget.BudgetExtractor.class)
-public abstract class Budget extends AbstractBudget {
+public class Budget extends AbstractBudget {
 
     private static final String PARAM_VALUE_ENABLED = "1";
 
