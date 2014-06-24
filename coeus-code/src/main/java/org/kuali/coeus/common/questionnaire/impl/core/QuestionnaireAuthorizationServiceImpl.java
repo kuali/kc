@@ -13,22 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire;
+package org.kuali.coeus.common.questionnaire.impl.core;
 
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  * 
  * This class provides a call to validate whether user has certain permission.
  */
+@Component("questionnaireAuthorizationService")
 public class QuestionnaireAuthorizationServiceImpl implements QuestionnaireAuthorizationService {
-    
+
+    @Autowired
+    @Qualifier("unitAuthorizationService")
     private UnitAuthorizationService unitAuthorizationService;
+    @Autowired
+    @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
-    
+
     @Override
     public boolean hasPermission(String permissionName){
         KcPerson person = kcPersonService.getKcPersonByUserName(getUserName());       
@@ -56,5 +65,14 @@ public class QuestionnaireAuthorizationServiceImpl implements QuestionnaireAutho
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }
+
+    public UnitAuthorizationService getUnitAuthorizationService() {
+        return unitAuthorizationService;
+    }
+
+    public KcPersonService getKcPersonService() {
+        return kcPersonService;
+    }
+
 
 }

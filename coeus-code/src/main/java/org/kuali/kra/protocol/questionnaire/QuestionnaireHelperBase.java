@@ -34,7 +34,7 @@ import java.util.List;
  * 
  * This is Helper class for protocol questionnaire.
  */
-public abstract class QuestionnaireHelperBase extends org.kuali.kra.questionnaire.QuestionnaireHelperBase {
+public abstract class QuestionnaireHelperBase extends org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireHelperBase {
 
 
     private static final long serialVersionUID = 3436562040789756688L;
@@ -126,7 +126,7 @@ public abstract class QuestionnaireHelperBase extends org.kuali.kra.questionnair
     
     /**
      * need to override to take care of "0' modulesubitemcode for amend questionnaire
-     * @see org.kuali.kra.questionnaire.QuestionnaireHelperBase#updateQuestionnaireAnswer(int)
+     * @see org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireHelperBase#updateQuestionnaireAnswer(int)
      */
     public void updateQuestionnaireAnswer(int answerHeaderIndex) {
         AnswerHeader answerHeader = getAnswerHeaders().get(answerHeaderIndex);

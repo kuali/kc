@@ -17,7 +17,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="QuestionnaireUsage" parent="QuestionnaireUsage-parentBean"/>
     <bean abstract="true" id="QuestionnaireUsage-parentBean" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.questionnaire.QuestionnaireUsage"/>
+        <property name="businessObjectClass" value="org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage"/>
 		<property name="objectLabel" value="Questionnaire Usage"/>
         <property name="inquiryDefinition">
             <ref bean="QuestionnaireUsage-inquiryDefinition"/>
@@ -81,10 +81,10 @@
       <bean parent="NumericPatternConstraint"/>
     </property>
         <property name="control">
-          <bean p:includeKeyInLabel="false" p:valuesFinderClass="org.kuali.kra.questionnaire.CoeusModuleValuesFinder" parent="SelectControlDefinition"/>
+          <bean p:includeKeyInLabel="false" p:valuesFinderClass="org.kuali.coeus.common.questionnaire.impl.core.CoeusModuleValuesFinder" parent="SelectControlDefinition"/>
         </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.questionnaire.CoeusModuleValuesFinder"/>
+      <bean class="org.kuali.coeus.common.questionnaire.impl.core.CoeusModuleValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -242,7 +242,7 @@
 
   <bean id="QuestionnaireUsage-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Questionnaire Usage Id"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.questionnaire.QuestionnaireUsage"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -293,7 +293,7 @@
     </bean>
 
   <bean id="QuestionnaireUsage-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.questionnaire.QuestionnaireUsage"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage"/>
     <property name="headerText" value="Questionnaire Usage Lookup"/>
     <property name="criteriaFields">
       <list>

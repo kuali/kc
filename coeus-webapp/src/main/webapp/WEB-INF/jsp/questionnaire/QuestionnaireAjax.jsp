@@ -17,7 +17,7 @@
     onsubmit="return hasFormAlreadyBeenSubmitted();"> 
 <h3>
     <select title="Sub Module" class="fixed-size-select" id="newQuestionnaireUsage.moduleSubItemCode"  name="newQuestionnaireUsage.moduleSubItemCode">
-		<c:forEach items="${krafn:getOptionList('org.kuali.kra.questionnaire.CoeusSubModuleValuesFinder', paramMap)}" var="option">
+		<c:forEach items="${krafn:getOptionList('org.kuali.coeus.common.questionnaire.impl.core.CoeusSubModuleValuesFinder', paramMap)}" var="option">
 				<option value="${option.key}">${option.value}</option>
 		 </c:forEach>
 	</select> 

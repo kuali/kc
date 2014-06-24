@@ -21,7 +21,7 @@
 <%@ attribute name="questionIndex" required="true" %>
 
 <%@ attribute name="answerHeaderIndex" required="true" %>
-<%@ attribute name="bean" required="true" type="org.kuali.kra.questionnaire.QuestionnaireHelperBase" %>
+<%@ attribute name="bean" required="true" type="org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireHelperBase" %>
 <%@ attribute name="property" required="true" %>
 <%@ attribute name="answerValidationError" required = "true" %>
 

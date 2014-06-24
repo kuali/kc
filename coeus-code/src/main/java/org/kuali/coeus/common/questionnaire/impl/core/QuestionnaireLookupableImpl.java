@@ -13,19 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire;
+package org.kuali.coeus.common.questionnaire.impl.core;
 
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireAuthorizationService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * 
  * This class is to override 'create new' url.  MODIFY_QUESTIONNAIRE permission is need for this url. 
  */
+@Component("questionnaireLookupable")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class QuestionnaireLookupableImpl extends KualiLookupableImpl {
 
+    @Autowired
+    @Qualifier("questionnaireAuthorizationService")
     private QuestionnaireAuthorizationService questionnaireAuthorizationService;
-    
+
     /**
      * new url is redirect to "maintenanceQn", and also need to have MODIFY_QUESTIONNAIRE permission. 
      * @see org.kuali.rice.kns.lookup.KualiLookupableImpl#getCreateNewUrl()
@@ -44,4 +54,7 @@ public class QuestionnaireLookupableImpl extends KualiLookupableImpl {
         this.questionnaireAuthorizationService = questionnaireAuthorizationService;
     }
 
+    public QuestionnaireAuthorizationService getQuestionnaireAuthorizationService() {
+        return questionnaireAuthorizationService;
+    }
 }

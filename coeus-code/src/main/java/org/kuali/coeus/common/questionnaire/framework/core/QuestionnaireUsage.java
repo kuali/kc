@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire;
+package org.kuali.coeus.common.questionnaire.framework.core;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.cxf.Bus;
 import org.kuali.coeus.common.api.question.QuestionnaireUsageContract;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
@@ -57,6 +58,14 @@ public class QuestionnaireUsage extends KcPersistableBusinessObjectBase implemen
     private Questionnaire sequenceOwner;
     
     private transient boolean delete;
+
+    private BusinessObjectService businessObjectService;
+
+    protected BusinessObjectService getBusinessObjectService (){
+        if (businessObjectService == null)
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        return businessObjectService;
+    }
 
     @Override
     public Long getId() {
@@ -186,7 +195,7 @@ public class QuestionnaireUsage extends KcPersistableBusinessObjectBase implemen
             fieldValues.put("moduleCode", Integer.valueOf(moduleItemCode));
             fieldValues.put("subModuleCode", Integer.valueOf(moduleSubItemCode));
             List<CoeusSubModule> subModules = 
-                    (List<CoeusSubModule>) KcServiceLocator.getService(BusinessObjectService.class).findMatching(CoeusSubModule.class, fieldValues);
+                    (List<CoeusSubModule>) getBusinessObjectService().findMatching(CoeusSubModule.class, fieldValues);
             if (subModules != null && !subModules.isEmpty()) {
                 coeusSubModule = subModules.get(0);
             }

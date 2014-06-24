@@ -9,12 +9,12 @@ Content </span> <span class="subhead-right">
 <html:image property="methodToCall.printQuestionnaire"
 	src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printdark.gif' styleClass="tinybutton"
    alt="Print Questionnaire Answer" title="Print Questionnaire Answer" onclick="excludeSubmitRestriction = true;"/> 
-   <a title="[Help]help" target="helpWindow" href="${ConfigProperties.application.url}/kr/help.do?methodToCall=getBusinessObjectHelpText&amp;businessObjectClassName=org.kuali.kra.questionnaire.Questionnaire">
+   <a title="[Help]help" target="helpWindow" href="${ConfigProperties.application.url}/kr/help.do?methodToCall=getBusinessObjectHelpText&amp;businessObjectClassName=org.kuali.coeus.common.questionnaire.framework.core.Questionnaire">
    <img styleClass="tinybutton"
   alt="[Help]help" src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif"></a>
 <%-- 
 <kul:help
-    businessObjectClassName="org.kuali.kra.questionnaire.Questionnaire"
+    businessObjectClassName="org.kuali.coeus.common.questionnaire.framework.core.Questionnaire"
     altText="help" /> --%>
     </span></h3>
 <div id="questionpanelcontent">

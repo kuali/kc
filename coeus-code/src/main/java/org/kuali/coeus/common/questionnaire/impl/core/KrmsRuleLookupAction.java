@@ -13,19 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire;
+package org.kuali.coeus.common.questionnaire.impl.core;
 
-import java.util.Comparator;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
 
-public class QuestionnaireQuestionComparator implements Comparator<QuestionnaireQuestion>  {
-
-    public int compare(QuestionnaireQuestion q1, QuestionnaireQuestion q2) {
-        int retval = 0;
-        retval = q1.getParentQuestionNumber().compareTo(q2.getParentQuestionNumber());
-        if (retval == 0) {
-            retval = q1.getQuestionSeqNumber().compareTo(q2.getQuestionSeqNumber());
-        }
-        return retval;
-    }
+public class KrmsRuleLookupAction extends KualiAction {
 
 }
