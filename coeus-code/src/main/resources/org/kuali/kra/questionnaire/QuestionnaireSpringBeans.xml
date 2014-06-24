@@ -34,29 +34,5 @@
             </list>
         </property>
     </bean>
-		
-    <bean id="questionnaireLookupable" class="org.kuali.kra.questionnaire.QuestionnaireLookupableImpl" scope="prototype">
-		<property name="lookupableHelperService">
-			<ref bean="questionnaireLookupableHelperService" />
-		</property>
-        <property name="questionnaireAuthorizationService">
-            <ref bean="questionnaireAuthorizationService" />
-        </property>
-	</bean>
-
-	<bean id="questionnaireLookupableHelperService" class="org.kuali.kra.questionnaire.QuestionnaireLookupableHelperServiceImpl" 
- 	    scope="prototype" parent="parentLookupableHelperService">
-        <property name="documentService">
-            <ref bean="documentService" />
-        </property>
-        <property name="questionnaireAuthorizationService">
-            <ref bean="questionnaireAuthorizationService" />
-        </property>
-  	</bean>
-   
-	<bean id="questionnaireAuthorizationService" class="org.kuali.kra.questionnaire.QuestionnaireAuthorizationServiceImpl">
-        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
-        <property name="kcPersonService" ref="kcPersonService" />
-    </bean>
 
 </beans>

@@ -28,7 +28,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
-import org.kuali.kra.questionnaire.Questionnaire;
+import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

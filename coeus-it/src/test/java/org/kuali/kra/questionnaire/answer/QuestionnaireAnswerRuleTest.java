@@ -22,7 +22,7 @@ import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.SaveQuestionnaireAnswerEvent;
 import org.kuali.coeus.common.questionnaire.framework.answer.SaveQuestionnaireAnswerRule;
-import org.kuali.kra.questionnaire.QuestionnaireQuestion;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.kra.rules.TemplateRuleTest;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;

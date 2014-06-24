@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire;
+package org.kuali.coeus.common.questionnaire.impl.core;
 
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.kim.api.identity.Person;

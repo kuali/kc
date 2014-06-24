@@ -34,9 +34,9 @@ import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.QuestionnaireDocument.Questionnaire;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.kra.questionnaire.QuestionnaireQuestion;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireService;
-import org.kuali.kra.questionnaire.QuestionnaireUsage;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
@@ -168,15 +168,15 @@ public class QuestionnaireXmlStream implements XmlStream {
         
         String documentNumber = (String)params.get(DOCUMENT_NUMBER);
         Integer questionnaireId = (Integer)params.get(QUESTIONNAIRE_ID);
-        org.kuali.kra.questionnaire.Questionnaire questionnaire = 
-                (org.kuali.kra.questionnaire.Questionnaire)params.get(QUESTIONNAIRE);
+        org.kuali.coeus.common.questionnaire.framework.core.Questionnaire questionnaire =
+                (org.kuali.coeus.common.questionnaire.framework.core.Questionnaire)params.get(QUESTIONNAIRE);
         if (questionnaire == null) {
             if (questionnaireId != null) { 
                 Map<String,Integer> qParam = new HashMap<String,Integer>();
                 qParam.put(QUESTIONNAIRE_ID, questionnaireId);
-                List<org.kuali.kra.questionnaire.Questionnaire> questionnaires = 
+                List<org.kuali.coeus.common.questionnaire.framework.core.Questionnaire> questionnaires =
                     (List)businessObjectService.findMatchingOrderBy(
-                            org.kuali.kra.questionnaire.Questionnaire.class, qParam, ID, false);
+                            org.kuali.coeus.common.questionnaire.framework.core.Questionnaire.class, qParam, ID, false);
                 questionnaire = questionnaires.get(0);
                 // not sure why need this.  If it is not refreshed, some may get empty Questions
                 questionnaire.refreshReferenceObject(QUESTIONNAIRE_QUESTIONS);
@@ -337,7 +337,7 @@ public class QuestionnaireXmlStream implements XmlStream {
      * @param questionnaire
      * @param questionnaireType
      */
-    private void setModuleUsageList(org.kuali.kra.questionnaire.Questionnaire questionnaire,Questionnaire questionnaireType){
+    private void setModuleUsageList(org.kuali.coeus.common.questionnaire.framework.core.Questionnaire questionnaire,Questionnaire questionnaireType){
         ModuleUsageType moduleUsage = questionnaireType.addNewModuleUsage();
         
         List moduleInfoTypeList =new ArrayList<ModuleInfoType>();
@@ -488,10 +488,10 @@ public class QuestionnaireXmlStream implements XmlStream {
      * @throws PrintingException 
      */
     @SuppressWarnings("unchecked")
-    private org.kuali.kra.questionnaire.Questionnaire findQuestionnaireObject(String documentNumber) throws PrintingException {
+    private org.kuali.coeus.common.questionnaire.framework.core.Questionnaire findQuestionnaireObject(String documentNumber) throws PrintingException {
         Map qMap = new HashMap();
         qMap.put(DOCUMENT_NUMBER, documentNumber);
-        List<org.kuali.kra.questionnaire.Questionnaire> questionnaires = (List)businessObjectService.findMatching(org.kuali.kra.questionnaire.Questionnaire.class, qMap);
+        List<org.kuali.coeus.common.questionnaire.framework.core.Questionnaire> questionnaires = (List)businessObjectService.findMatching(org.kuali.coeus.common.questionnaire.framework.core.Questionnaire.class, qMap);
         if(questionnaires.isEmpty()){
             return findUnapprovedQuestionnaire(documentNumber);
         }
@@ -505,15 +505,15 @@ public class QuestionnaireXmlStream implements XmlStream {
      * @return
      * @throws PrintingException 
      */
-    private org.kuali.kra.questionnaire.Questionnaire findUnapprovedQuestionnaire(String documentNumber) throws PrintingException {
+    private org.kuali.coeus.common.questionnaire.framework.core.Questionnaire findUnapprovedQuestionnaire(String documentNumber) throws PrintingException {
         MaintenanceDocumentBase questionnaireDocument;
-        org.kuali.kra.questionnaire.Questionnaire questionnaire = null;
+        org.kuali.coeus.common.questionnaire.framework.core.Questionnaire questionnaire = null;
         try {
             questionnaireDocument = (MaintenanceDocumentBase)documentService.getByDocumentHeaderId(documentNumber);
             if(questionnaireDocument!=null){
                 String content = KcServiceLocator.getService(RouteHeaderService.class).getContent(
                 questionnaireDocument.getDocumentHeader().getWorkflowDocument().getDocumentId()).getDocumentContent();
-                questionnaire = (org.kuali.kra.questionnaire.Questionnaire)getBusinessObjectFromXML(content,KualiDocumentXmlMaterializer.class.getName());
+                questionnaire = (org.kuali.coeus.common.questionnaire.framework.core.Questionnaire)getBusinessObjectFromXML(content,KualiDocumentXmlMaterializer.class.getName());
            }            
         }
         catch (WorkflowException e) {
@@ -746,11 +746,11 @@ public class QuestionnaireXmlStream implements XmlStream {
      * @param printableBusinessObject
      * @throws PrintingException
      */
-    private void setQuestionInfoData(org.kuali.kra.questionnaire.Questionnaire questionnaire,
+    private void setQuestionInfoData(org.kuali.coeus.common.questionnaire.framework.core.Questionnaire questionnaire,
             ModuleQuestionnaireBean moduleQuestionnaireBean, Questionnaire questionnaireType, boolean questionnaireCompletionFlag,
             KcPersistableBusinessObjectBase printableBusinessObject) throws PrintingException {
         List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-        org.kuali.kra.questionnaire.Questionnaire answeredQuestionnaire = null;
+        org.kuali.coeus.common.questionnaire.framework.core.Questionnaire answeredQuestionnaire = null;
         if (moduleQuestionnaireBean != null) {
             answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
             if (!answerHeaders.isEmpty()) {
@@ -760,7 +760,7 @@ public class QuestionnaireXmlStream implements XmlStream {
             }
 
         }
-        org.kuali.kra.questionnaire.Questionnaire toSortQuestionnaire = null;
+        org.kuali.coeus.common.questionnaire.framework.core.Questionnaire toSortQuestionnaire = null;
         for (AnswerHeader header : answerHeaders) {
             if (header.getQuestionnaire().getQuestionnaireSeqId().equals(questionnaire.getQuestionnaireSeqId())) {
                 toSortQuestionnaire = header.getQuestionnaire();
@@ -795,7 +795,7 @@ public class QuestionnaireXmlStream implements XmlStream {
         }
     }
 
-    private List<QuestionnaireQuestion> getSortedQuestionnaireQuestions(org.kuali.kra.questionnaire.Questionnaire questionnaire) {
+    private List<QuestionnaireQuestion> getSortedQuestionnaireQuestions(org.kuali.coeus.common.questionnaire.framework.core.Questionnaire questionnaire) {
         return getSortedVector(questionnaire.getQuestionnaireQuestions());
     }
     

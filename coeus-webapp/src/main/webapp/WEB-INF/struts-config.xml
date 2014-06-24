@@ -35,11 +35,11 @@
 		<form-bean name="InstitutionalProposalForm" type="org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm" />
 	    <form-bean name="QuestionMaintenanceForm" type="org.kuali.coeus.common.questionnaire.impl.question.QuestionMaintenanceForm" />
         <form-bean name="KualiMaintenanceForm" type="org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm" />
-        <form-bean name="QuestionLookupForm" type="org.kuali.kra.questionnaire.QuestionLookupForm" />
-        <form-bean name="KrmsRuleLookupForm" type="org.kuali.kra.questionnaire.KrmsRuleLookupForm" />
+        <form-bean name="QuestionLookupForm" type="org.kuali.coeus.common.questionnaire.impl.core.QuestionLookupForm" />
+        <form-bean name="KrmsRuleLookupForm" type="org.kuali.coeus.common.questionnaire.impl.core.KrmsRuleLookupForm" />
         <form-bean name="MeetingForm" type="org.kuali.kra.meeting.MeetingForm" />
         <form-bean name="IacucMeetingForm" type="org.kuali.kra.iacuc.committee.meeting.IacucMeetingForm" />
-        <form-bean name="QuestionnaireMaintenanceForm" type="org.kuali.kra.questionnaire.QuestionnaireMaintenanceForm" />
+        <form-bean name="QuestionnaireMaintenanceForm" type="org.kuali.coeus.common.questionnaire.impl.core.QuestionnaireMaintenanceForm" />
         <form-bean name="ProposalLogMergeForm" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMergeForm" />
         <form-bean name="ProposalLogPrintForm" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogPrintForm" />
         <form-bean name="ProtocolCorrespondenceTemplateForm" type="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateForm" />
@@ -197,14 +197,14 @@
         </action>
 
         <!-- TODO : test QN lookup thru popup -->
-        <action path="/questionLookup" name="QuestionLookupForm" type="org.kuali.kra.questionnaire.QuestionLookupAction">
+        <action path="/questionLookup" name="QuestionLookupForm" type="org.kuali.coeus.common.questionnaire.impl.core.QuestionLookupAction">
             <forward name="basic" path="/WEB-INF/jsp/questionnaire/questionLookup.jsp" />
             <forward name="singleLookup" path="/WEB-INF/jsp/questionnaire/questionLookup.jsp" />
             <forward name="multiLookup" path="/WEB-INF/jsp/questionnaire/questionMultiLookup.jsp" />
             <forward name="replaceLookup" path="/WEB-INF/jsp/questionnaire/questionReplace.jsp" />            
         </action>
         
-        <action path="/krmsRuleLookup" name="KrmsRuleLookupForm" type="org.kuali.kra.questionnaire.KrmsRuleLookupAction">
+        <action path="/krmsRuleLookup" name="KrmsRuleLookupForm" type="org.kuali.coeus.common.questionnaire.impl.core.KrmsRuleLookupAction">
             <forward name="basic" path="/WEB-INF/jsp/questionnaire/krmsRuleLookup.jsp" />
         </action>
         
@@ -587,7 +587,7 @@
           <forward name="basic" path="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" />
      </action>    
      <action path="/maintenanceQn" name="QuestionnaireMaintenanceForm" attribute="KualiForm" scope="request" 
-         parameter="methodToCall" validate="false" input="/WEB-INF/jsp/questionnaire/questionnaireMaintenanceDocument.jsp" type="org.kuali.kra.questionnaire.QuestionnaireMaintenanceDocumentAction">
+         parameter="methodToCall" validate="false" input="/WEB-INF/jsp/questionnaire/questionnaireMaintenanceDocument.jsp" type="org.kuali.coeus.common.questionnaire.impl.core.QuestionnaireMaintenanceDocumentAction">
           <forward name="basic" path="/WEB-INF/jsp/questionnaire/questionnaireMaintenanceDocument.jsp" />
           <forward name="ajaxQuestionnaire" path="/WEB-INF/jsp/questionnaire/QuestionnaireAjax.jsp" />
           <forward name="ajaxQuestionMaintainTable" path="/WEB-INF/jsp/questionnaire/QuestionMaintTableAjax.jsp" />

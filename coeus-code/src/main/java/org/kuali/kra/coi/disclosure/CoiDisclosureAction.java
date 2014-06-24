@@ -44,7 +44,7 @@ import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
-import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireHelperBase;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
 import org.kuali.coeus.common.questionnaire.framework.answer.SaveQuestionnaireAnswerEvent;

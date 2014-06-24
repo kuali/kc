@@ -7,7 +7,7 @@
     <h3>
         <span class="subhead-left"><a href="#" class="usagepanelcontrol"><img src='kr/images/tinybutton-show.gif' alt='show/hide panel' title='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a>
           Usage </span>
-        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.questionnaire.Questionnaire" altText="help"/> </span>
+        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.coeus.common.questionnaire.framework.core.Questionnaire" altText="help"/> </span>
     </h3>
         
       <div id="usagepanelcontent">

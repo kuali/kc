@@ -13,11 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire;
+package org.kuali.coeus.common.questionnaire.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
@@ -105,8 +108,6 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
 
     @SuppressWarnings("unchecked")
     public void reset(ActionMapping mapping, HttpServletRequest request) {
-        // FIXME : just a temporary soln. it always get the methodtocall='refresh' after it started properly the first time.
-        // need to investigate this.
         this.setMethodToCall("");
         qnaireQuestions = new AutoPopulatingList<Object>(Object.class);
         // to prevent indexoutofbound exception when populate
@@ -156,9 +157,6 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
         qnaireQuestions = new AutoPopulatingList<Object>(Object.class);
         
         for (Object key : request.getParameterMap().keySet()) {
-            // TODO : AutoPopulatingList is suppose to lazyload list
-            // but still get indexoutofbound exception
-            // so prepolulate the list before data is populated
             String paraName = (String)key;
             if (StringUtils.isNotBlank(paraName) && paraName.startsWith("qnaireQuestions[")) {
                 qnaireQuestions.add(new Object());
@@ -185,8 +183,6 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private List<QuestionnaireQuestion> populateQuestionnaireQuestions() {
         List<QuestionnaireQuestion> qList = new ArrayList<QuestionnaireQuestion>();
         for (Object qstr : getQnaireQuestions()) {
-            // TODO : qstr instanceof String[] is no longer working after rice upgrade
-            // changed to AutoPopulatingList.  Should also investigate List<String> is working?
             if (qstr instanceof ArrayList) {
                 String[] splitstr = ((ArrayList)qstr).get(0).toString().split("#f#");
                 if (splitstr.length == 12 && !("Y").equals(splitstr[10])) {
@@ -356,7 +352,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     @Override
     public String getBusinessObjectClassName() {
 
-        return "org.kuali.kra.questionnaire.Questionnaire";
+        return "org.kuali.coeus.common.questionnaire.framework.core.Questionnaire";
     }
 
     /**

@@ -15,9 +15,6 @@
  */
 package org.kuali.coeus.common.questionnaire.framework.core;
 
-import org.kuali.kra.questionnaire.Questionnaire;
-import org.kuali.kra.questionnaire.QuestionnaireUsage;
-
 import java.util.List;
 
 public interface QuestionnaireService {

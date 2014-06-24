@@ -37,7 +37,7 @@ import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.protocol.questionnaire.SaveProtocolQuestionnaireEvent;
-import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireHelperBase;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.SaveQuestionnaireAnswerEvent;
 import org.kuali.coeus.common.questionnaire.framework.print.QuestionnairePrintingService;
