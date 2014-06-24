@@ -844,7 +844,8 @@ public interface Constants {
     
     //Award property constants
     public static final String AWARD_ID = "awardId";
-
+    
+    public static final String PRINT_XML_DIRECTORY = "print.xml.directory";
     public static final String KC_CONFIRMATION_QUESTION = "kcConfirmationQuestion";
     public static final String NON_CANCELLING_RECALL_QUESTION = "nonCancellingRecallQuestion";
     public static final String NON_CANCELLING_RECALL_QUESTION_TEXT_KEY = "nonCancelling.recall.question.text";
