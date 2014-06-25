@@ -54,7 +54,6 @@ public class EDAbstractV1_0GeneratorTest extends S2STestBase<EDAbstractV1_0Gener
         BufferedInputStream bis = new BufferedInputStream(inStream);
         byte[] narrativePdf = new byte[bis.available()];
         narrativeAttachment.setData(narrativePdf);
-        narrativeAttachment.setModuleNumber(1);
         narrativeAttachment.setName("exercise2");
 
         narrative.setDevelopmentProposal(document.getDevelopmentProposal());

@@ -90,7 +90,6 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
         BufferedInputStream bis = new BufferedInputStream(inStream);
         byte[] narrativePdf = new byte[bis.available()];
         narrativeAttachment.setData(narrativePdf);
-        narrativeAttachment.setModuleNumber(1);
         narrativeAttachment.setName("exercise5");
 
         narrative.setDevelopmentProposal(document.getDevelopmentProposal());

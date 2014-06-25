@@ -55,7 +55,6 @@ public class PHS398CoverLetterV1_0GeneratorTest extends S2STestBase<PHS398CoverL
         BufferedInputStream bis = new BufferedInputStream(inStream);
         byte[] narrativePdf = new byte[bis.available()];
         narrativeAttachment.setData(narrativePdf);
-        narrativeAttachment.setModuleNumber(1);
         narrativeAttachment.setName("exercise1");
 
         narrative.setDevelopmentProposal(document.getDevelopmentProposal());

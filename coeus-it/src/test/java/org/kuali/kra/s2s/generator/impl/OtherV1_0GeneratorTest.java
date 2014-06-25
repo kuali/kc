@@ -55,7 +55,6 @@ public class OtherV1_0GeneratorTest extends S2STestBase<OtherV1_0Generator> {
         BufferedInputStream bis = new BufferedInputStream(inStream);
         byte[] narrativePdf = new byte[bis.available()];
         narrativeAttachment.setData(narrativePdf);
-        narrativeAttachment.setModuleNumber(1);
         narrativeAttachment.setName("exercise7");
 
         narrative.setDevelopmentProposal(document.getDevelopmentProposal());

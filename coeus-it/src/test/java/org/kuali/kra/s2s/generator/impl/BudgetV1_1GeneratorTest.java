@@ -53,7 +53,6 @@ public class BudgetV1_1GeneratorTest extends S2STestBase<BudgetV1_1Generator> {
         BufferedInputStream bis = new BufferedInputStream(inStream);
         byte[] narrativePdf = new byte[bis.available()];
         narrativeAttachment.setData(narrativePdf);
-        narrativeAttachment.setModuleNumber(1);
         narrativeAttachment.setName("exercise1");
 
         Narrative narrative = new Narrative();
