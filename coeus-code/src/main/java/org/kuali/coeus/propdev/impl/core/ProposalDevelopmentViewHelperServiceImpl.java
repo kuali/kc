@@ -70,7 +70,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         if (addLine instanceof Narrative) {
             Narrative narrative = (Narrative) addLine;
             getNarrativeService().prepareNarrative(document, narrative);
-            if (StringUtils.equals(narrative.getNarrativeType().getNarrativeTypeGroup(), Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE)) {
+            if (StringUtils.equals(collectionPath,"document.developmentProposal.instituteAttachments")) {
                 narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
             }
         } else if (addLine instanceof ProposalPersonBiography) {
@@ -125,10 +125,14 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         }
         return isValid;
     }
-    
+
     @Override
     public void processAfterSaveLine(ViewModel model, Object lineObject, String collectionId, String collectionPath) {
            getDataObjectService().save(lineObject);
+           if (lineObject instanceof Narrative) {
+               Narrative narrative = (Narrative) lineObject;
+               narrative.refreshReferenceObject("narrativeType");
+           }
     }
 
     public static class SponsorSuggestResult {

@@ -20,7 +20,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.struts.upload.FormFile;
+import org.eclipse.persistence.internal.weaving.RelationshipInfo;
 import org.kuali.coeus.sys.api.model.KcFile;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
@@ -29,26 +31,30 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+import org.kuali.rice.krad.file.FileMeta;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Entity
 @Table(name = "NARRATIVE")
 @IdClass(Narrative.NarrativeId.class)
-public class Narrative extends KcPersistableBusinessObjectBase implements HierarchyMaintainable, KcFile, NarrativeContract {
+public class Narrative extends KcPersistableBusinessObjectBase implements HierarchyMaintainable, KcFile, NarrativeContract, FileMeta {
 
     @Id
-    @Column(name = "PROPOSAL_NUMBER")
-    private String proposalNumber;
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROPOSAL_NUMBER")
+    private DevelopmentProposal developmentProposal;
 
     @Id
     @Column(name = "MODULE_NUMBER")
@@ -103,7 +109,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @JoinColumn(name = "MODULE_NUMBER", referencedColumnName = "MODULE_NUMBER") })
     private List<NarrativeUserRights> narrativeUserRights;
 
-    @OneToOne(mappedBy = "narrative", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "narrative", orphanRemoval = true, cascade = { CascadeType.ALL })
     private NarrativeAttachment narrativeAttachment;
 
     @Transient
@@ -120,6 +126,100 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
  
     @Transient
     private transient TaskAuthorizationService taskAuthorizationService;
+
+    @Transient
+    private String id;
+
+    @Transient
+    private Long size;
+
+    @Transient
+    private Date dateUploaded;
+
+    @Transient
+    private String url;
+
+    @Override
+    public void init(MultipartFile multipartFile) throws Exception {
+        this.name = multipartFile.getOriginalFilename();
+        this.size = multipartFile.getSize();
+
+
+        NarrativeAttachment attachment = new NarrativeAttachment();
+        attachment.setType(multipartFile.getContentType());
+        attachment.setData(multipartFile.getBytes());
+        attachment.setName(multipartFile.getName());
+        setNarrativeAttachment(attachment);
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public String getContentType() {
+        return this.getNarrativeAttachment().getType();
+    }
+
+    @Override
+    public void setContentType(String contentType) {
+        this.getNarrativeAttachment().setType(contentType);
+    }
+
+    @Override
+    public Long getSize() {
+        return size;
+    }
+
+    @Override
+    public void setSize(Long size) {
+        this.size = size;
+    }
+
+    @Override
+    public Date getDateUploaded() {
+        return dateUploaded;
+    }
+
+    @Override
+    public void setDateUploaded(Date dateUploaded) {
+        this.dateUploaded = dateUploaded;
+    }
+
+    @Override
+    public String getUrl() {
+        return url;
+    }
+
+    @Override
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    @Override
+    public String getSizeFormatted() {
+        DecimalFormat format = new DecimalFormat("0.#");
+
+        if (size >= 1000000000) {
+            return format.format((((double)size) / 1000000000)) + " GB";
+        } else if (size >= 1000000) {
+            return format.format((((double)size) / 1000000)) + " MB";
+        } else {
+            return format.format((((double)size) / 1000)) + " KB";
+        }
+    }
+
+    @Override
+    public String getDateUploadedFormatted() {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm a");
+        return sdf.format(new Date(this.getUpdateTimestamp().getTime()));
+    }
 
     protected TaskAuthorizationService getTaskAuthorizationService(){
         if (taskAuthorizationService == null)
@@ -138,15 +238,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
     public void setModuleNumber(Integer moduleNumber) {
         this.moduleNumber = moduleNumber;
-    }
-
-    @Override
-    public String getProposalNumber() {
-        return proposalNumber;
-    }
-
-    public void setProposalNumber(String proposalNumber) {
-        this.proposalNumber = proposalNumber;
     }
 
     @Override
@@ -269,6 +360,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
     public void setNarrativeAttachment(NarrativeAttachment narrativeAttachment) {
         this.narrativeAttachment = narrativeAttachment;
+        this.narrativeAttachment.setNarrative(this);
     }
 
     public FormFile getNarrativeFile() {
@@ -406,7 +498,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
                 narrativeAttachment.setName(fileName);
                 narrativeAttachment.setType(narrativeFile.getContentType());
                 narrativeAttachment.setData(narrativeFile.getFileData());
-                narrativeAttachment.setProposalNumber(getProposalNumber());
                 narrativeAttachment.setModuleNumber(getModuleNumber());
                 setName(narrativeAttachment.getName());
                 setType(narrativeAttachment.getType());
@@ -458,7 +549,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         result = prime * result + ((narrativeType == null) ? 0 : narrativeType.hashCode());
         result = prime * result + ((narrativeTypeCode == null) ? 0 : narrativeTypeCode.hashCode());
         result = prime * result + ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
-        result = prime * result + ((proposalNumber == null) ? 0 : proposalNumber.hashCode());
+        result = prime * result + ((developmentProposal == null) ? 0 : developmentProposal.hashCode());
         return result;
     }
 
@@ -531,10 +622,10 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
                 return false;
         } else if (!phoneNumber.equals(other.phoneNumber))
             return false;
-        if (proposalNumber == null) {
-            if (other.proposalNumber != null)
+        if (developmentProposal == null) {
+            if (other.developmentProposal != null)
                 return false;
-        } else if (!proposalNumber.equals(other.proposalNumber))
+        } else if (!developmentProposal.equals(other.developmentProposal))
             return false;
         return true;
     }
@@ -632,17 +723,9 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
     public static final class NarrativeId implements Serializable, Comparable<NarrativeId> {
 
-        private String proposalNumber;
+        private String developmentProposal;
 
         private Integer moduleNumber;
-
-        public String getProposalNumber() {
-            return this.proposalNumber;
-        }
-
-        public void setProposalNumber(String proposalNumber) {
-            this.proposalNumber = proposalNumber;
-        }
 
         public Integer getModuleNumber() {
             return this.moduleNumber;
@@ -654,7 +737,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this).append("proposalNumber", this.proposalNumber).append("moduleNumber", this.moduleNumber).toString();
+            return new ToStringBuilder(this).append("developmentProposal", this.developmentProposal).append("moduleNumber", this.moduleNumber).toString();
         }
 
         @Override
@@ -666,18 +749,41 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
             if (other.getClass() != this.getClass())
                 return false;
             final NarrativeId rhs = (NarrativeId) other;
-            return new EqualsBuilder().append(this.proposalNumber, rhs.proposalNumber).append(this.moduleNumber, rhs.moduleNumber).isEquals();
+            return new EqualsBuilder().append(this.developmentProposal, rhs.developmentProposal).append(this.moduleNumber, rhs.moduleNumber).isEquals();
         }
 
         @Override
         public int hashCode() {
-            return new HashCodeBuilder(17, 37).append(this.proposalNumber).append(this.moduleNumber).toHashCode();
+            return new HashCodeBuilder(17, 37).append(this.developmentProposal).append(this.moduleNumber).toHashCode();
         }
 
         @Override
         public int compareTo(NarrativeId other) {
-            return new CompareToBuilder().append(this.proposalNumber, other.proposalNumber).append(this.moduleNumber, other.moduleNumber).toComparison();
+            return new CompareToBuilder().append(this.developmentProposal, other.developmentProposal).append(this.moduleNumber, other.moduleNumber).toComparison();
         }
+
+		public String getDevelopmentProposal() {
+			return developmentProposal;
+		}
+
+		public void setDevelopmentProposal(String developmentProposal) {
+			this.developmentProposal = developmentProposal;
+		}
     }
+
+
+
+	public DevelopmentProposal getDevelopmentProposal() {
+		return developmentProposal;
+	}
+
+	public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
+		this.developmentProposal = developmentProposal;
+	}
+
+	@Override
+	public String getProposalNumber() {
+		return getDevelopmentProposal().getProposalNumber();
+	}
 }
 

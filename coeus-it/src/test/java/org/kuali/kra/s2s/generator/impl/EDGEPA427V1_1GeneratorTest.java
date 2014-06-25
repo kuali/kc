@@ -55,7 +55,7 @@ public class EDGEPA427V1_1GeneratorTest extends S2STestBase<EDGEPA427V1_1Generat
         byte[] narrativePdf = new byte[bis.available()];
         narrativeAttachment.setData(narrativePdf);
 
-        narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+        narrative.setDevelopmentProposal(document.getDevelopmentProposal());
         narrative.setModuleNumber(1);
         narrative.setModuleSequenceNumber(1);
         narrative.setModuleStatusCode("C");
