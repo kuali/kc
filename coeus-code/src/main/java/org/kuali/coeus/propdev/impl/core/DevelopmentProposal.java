@@ -337,18 +337,9 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = true, updatable = true)
     private ProposalDevelopmentDocument proposalDocument;
 
-    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PARENT_DOCUMENT_KEY")
-    private List<BudgetVersionOverview> budgetVersionOverviews;
+    @OneToMany(mappedBy="developmentProposal", orphanRemoval = true, cascade = { CascadeType.ALL })
+    private List<ProposalDevelopmentBudgetExt> budgets;
 
-    public List<BudgetVersionOverview> getBudgetVersionOverviews() {
-		return budgetVersionOverviews;
-	}
-
-	public void setBudgetVersionOverviews(
-			List<BudgetVersionOverview> budgetVersionOverviews) {
-		this.budgetVersionOverviews = budgetVersionOverviews;
-	}
 
 	@Transient
     private NsfCode nsfCodeBo;
@@ -2499,6 +2490,23 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
 	@Override
 	public Integer getNextBudgetVersionNumber() {
 		return getDocument().getNextBudgetVersionNumber();
+	}
+
+	public List<ProposalDevelopmentBudgetExt> getBudgetVersionOverviews() {
+		return budgets;
+	}
+
+	public void setBudgetVersionOverviews(
+			List<ProposalDevelopmentBudgetExt> budgetVersionOverviews) {
+		this.budgets = budgetVersionOverviews;
+	}
+
+	public List<ProposalDevelopmentBudgetExt> getBudgets() {
+		return budgets;
+	}
+
+	public void setBudgets(List<ProposalDevelopmentBudgetExt> budgets) {
+		this.budgets = budgets;
 	}
 	
 }

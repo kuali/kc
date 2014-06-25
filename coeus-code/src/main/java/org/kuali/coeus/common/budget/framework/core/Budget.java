@@ -92,21 +92,6 @@ public class Budget extends AbstractBudget {
 
     private static final Log LOG = LogFactory.getLog(Budget.class);
 
-//    @OneToOne(cascade = { CascadeType.REFRESH })
-//    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
-//    private BudgetDocument budgetDocument;
-
-    @Column(name = "PARENT_DOCUMENT_KEY")
-    private String parentDocumentKey;
-
-    public String getParentDocumentKey() {
-		return parentDocumentKey;
-	}
-
-	public void setParentDocumentKey(String parentDocumentKey) {
-		this.parentDocumentKey = parentDocumentKey;
-	}
-
 	@Column(name = "PARENT_DOCUMENT_TYPE_CODE")
     private String parentDocumentTypeCode;
 
@@ -227,16 +212,14 @@ public class Budget extends AbstractBudget {
     @Transient
     private List<BudgetPrintForm> budgetPrintForms;
 
-    @Transient
-    private BudgetParent budgetParent;
-
+    //should be abstract but due to limitations in KRAD-Data and DD validations this isn't currently possible.
     public BudgetParent getBudgetParent() {
-		return budgetParent;
+		throw new UnsupportedOperationException("Not defined in parent class.");
 	}
-
-	public void setBudgetParent(BudgetParent budgetParent) {
-		this.budgetParent = budgetParent;
-	}
+    
+    public String getParentDocumentKey() {
+    	throw new UnsupportedOperationException("Not defined in parent class.");
+    }
 
 	@OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")

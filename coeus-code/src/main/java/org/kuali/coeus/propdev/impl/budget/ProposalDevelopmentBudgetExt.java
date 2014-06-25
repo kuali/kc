@@ -18,15 +18,7 @@ package org.kuali.coeus.propdev.impl.budget;
 import javax.persistence.*;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.DocumentNextvalue;
-import org.kuali.rice.krad.service.BusinessObjectService;
-
-import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 
 /**
  * This class is just to hold the ProposalDevelopmentBudget. We should move PD Budget stuffs to this class later. 
@@ -39,10 +31,10 @@ public class ProposalDevelopmentBudgetExt extends Budget {
 
     private static final long serialVersionUID = 8234453927894053540L;
 
-/**		<collection-descriptor name="documentNextvalues" element-class-ref="org.kuali.kra.bo.DocumentNextvalue" auto-retrieve="true" auto-update="object" auto-delete="object">
-		<inverse-foreignkey field-ref="documentKey" /> 
-	</collection-descriptor>
-**/
+    @Id
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROPOSAL_NUMBER")
+    private DevelopmentProposal developmentProposal;
     
     @Column(name = "HIERARCHY_HASH_CODE")
     private Integer hierarchyLastSyncHashCode;
@@ -54,4 +46,22 @@ public class ProposalDevelopmentBudgetExt extends Budget {
     public void setHierarchyLastSyncHashCode(Integer hierarchyLastSyncHashCode) {
         this.hierarchyLastSyncHashCode = hierarchyLastSyncHashCode;
     }
+
+	public DevelopmentProposal getDevelopmentProposal() {
+		return developmentProposal;
+	}
+
+	public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
+		this.developmentProposal = developmentProposal;
+	}
+
+	@Override
+	public DevelopmentProposal getBudgetParent() {
+		return developmentProposal;
+	}
+
+	@Override
+	public String getParentDocumentKey() {
+		return developmentProposal.getProposalNumber();
+	}
 }

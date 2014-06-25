@@ -3424,20 +3424,28 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 	public Budget getNewBudget() {
 		return new AwardBudgetExt();
 	}
-    private List<BudgetVersionOverview> budgetVersionOverviews;
+    private List<AwardBudgetExt> budgets;
 
-    public List<BudgetVersionOverview> getBudgetVersionOverviews() {
-		return budgetVersionOverviews;
+    public List<AwardBudgetExt> getBudgetVersionOverviews() {
+		return budgets;
 	}
 
 	public void setBudgetVersionOverviews(
-			List<BudgetVersionOverview> budgetVersionOverviews) {
-		this.budgetVersionOverviews = budgetVersionOverviews;
+			List<AwardBudgetExt> budgetVersionOverviews) {
+		this.budgets = budgetVersionOverviews;
 	}
 
 	@Override
 	public Integer getNextBudgetVersionNumber() {
 		return getAwardDocument().getNextBudgetVersionNumber();
+	}
+
+	public List<AwardBudgetExt> getBudgets() {
+		return budgets;
+	}
+
+	public void setBudgets(List<AwardBudgetExt> budgets) {
+		this.budgets = budgets;
 	}
 
 	

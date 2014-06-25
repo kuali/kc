@@ -1107,8 +1107,12 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="budgetInitiator" column="BUDGET_INITIATOR" jdbc-type="VARCHAR" />
+		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT"/>
 		<reference-descriptor name="super" class-ref="org.kuali.coeus.common.budget.framework.core.Budget">
 			<foreignkey field-ref="budgetId"/>
+		</reference-descriptor>
+		<reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="awardId"/>
 		</reference-descriptor>
 		
 		<collection-descriptor name="budgetPeriods" proxy="true" element-class-ref="org.kuali.kra.award.budget.AwardBudgetPeriodExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">

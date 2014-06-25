@@ -68,19 +68,12 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
     private PropDevBudgetSubAwardService propDevBudgetSubAwardService;
     
     public Budget getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,String documentDescription){
-//        BudgetDocument<DevelopmentProposal> budgetDocument;
         Integer budgetVersionNumber = parentDocument.getNextBudgetVersionNumber();
-//        budgetDocument = (BudgetDocument) documentService.getNewDocument(BudgetDocument.class);
         DevelopmentProposal budgetParent = parentDocument.getBudgetParent();
-		Budget budget = budgetParent.getNewBudget();
-        budget.setBudgetParent(budgetParent);
-        budget.setParentDocumentKey(parentDocument.getDocumentNumber());
-        budget.setParentDocumentTypeCode(parentDocument.getDocumentTypeCode());
-//        budgetDocument.getDocumentHeader().setDocumentDescription(documentDescription);
+        ProposalDevelopmentBudgetExt budget = new ProposalDevelopmentBudgetExt();
+        budget.setDevelopmentProposal(budgetParent);
         
-//        Budget budget = budgetDocument.getBudget();
         budget.setBudgetVersionNumber(budgetVersionNumber);
-//        budget.setBudgetDocument(budgetDocument);
         
         budget.setStartDate(budgetParent.getRequestedStartDateInitial());
         budget.setEndDate(budgetParent.getRequestedEndDateInitial());

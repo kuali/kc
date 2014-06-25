@@ -103,7 +103,7 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
      */
     protected void setBudgetStatuses(BudgetParent budgetParent) {
         
-        for (BudgetVersionOverview budgetVersion: budgetParent.getBudgetVersionOverviews()) {
+        for (AbstractBudget budgetVersion: budgetParent.getBudgetVersionOverviews()) {
             if (budgetVersion.isFinalVersionFlag()) {
                 budgetVersion.setBudgetStatus(budgetParent.getBudgetStatus());
             }
