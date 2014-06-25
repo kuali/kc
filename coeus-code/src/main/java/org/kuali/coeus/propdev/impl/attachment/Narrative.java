@@ -360,7 +360,9 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
     public void setNarrativeAttachment(NarrativeAttachment narrativeAttachment) {
         this.narrativeAttachment = narrativeAttachment;
-        this.narrativeAttachment.setNarrative(this);
+        if (narrativeAttachment!=null) {
+            this.narrativeAttachment.setNarrative(this);
+        }
     }
 
     public FormFile getNarrativeFile() {
