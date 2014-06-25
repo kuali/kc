@@ -24,21 +24,19 @@ import gov.grants.apply.forms.rrKeyPersonExpanded20V20.RRKeyPersonExpanded20Docu
 import gov.grants.apply.forms.rrKeyPersonExpanded20V20.RRKeyPersonExpanded20Document.RRKeyPersonExpanded20.BioSketchsAttached;
 import gov.grants.apply.forms.rrKeyPersonExpanded20V20.RRKeyPersonExpanded20Document.RRKeyPersonExpanded20.SupportsAttached;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
+import org.kuali.coeus.propdev.api.person.ProposalPersonDegreeContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonComparator;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.impl.ProposalPersonComparator;
 import org.kuali.kra.s2s.generator.impl.RRKeyPersonExpandedBaseGenerator;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -88,7 +86,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 		}
 		saveKeyPersonAttachmentsToProposal();
 		if (extraPersons.size() > 0) {
-			for (ProposalPerson extraPerson : extraPersons) {
+			for (ProposalPersonContract extraPerson : extraPersons) {
 				setBioSketchAttchment(rrKeyPersonExpanded, extraPerson);
 				setCurrentPendingTypeAttachment(rrKeyPersonExpanded,
 						extraPerson);
@@ -126,7 +124,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 	 */
 	private void setCurrentPendingTypeAttachment(
 			RRKeyPersonExpanded20 rrKeyPersonExpanded,
-			ProposalPerson extraPerson) {
+			ProposalPersonContract extraPerson) {
 		AttachedFileDataType supportAttachment = getPernonnelAttachments(pdDoc,
 				extraPerson.getPersonId(), extraPerson.getRolodexId(),
 				CURRENT_PENDING_TYPE);
@@ -144,7 +142,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 	 */
 	private void setBioSketchAttchment(
 			RRKeyPersonExpanded20 rrKeyPersonExpanded,
-			ProposalPerson extraPerson) {
+			ProposalPersonContract extraPerson) {
 		BioSketchsAttached 
 		    personBioSketch =  BioSketchsAttached.Factory.newInstance();
 		AttachedFileDataType bioSketchAttachment = getPernonnelAttachments(
@@ -164,7 +162,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 		PersonProfileDataType profileDataType = PersonProfileDataType.Factory
 				.newInstance();
 		Profile profile = Profile.Factory.newInstance();
-		ProposalPerson PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
+		ProposalPersonContract PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
 		if (PI != null) {
 			setPersonalProfileDetailsToProfile(profileDataType, profile, PI);
 		}
@@ -177,7 +175,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 	 */
 	private void setPersonalProfileDetailsToProfile(
 			PersonProfileDataType profileDataType, Profile profile,
-			ProposalPerson PI) {
+			ProposalPersonContract PI) {
 		assignRolodexId(PI);
 		profile.setName(globLibV20Generator.getHumanNameDataType(PI));
 		setDirectoryTitleToProfile(profile, PI);
@@ -194,7 +192,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 		}		
 		if(PI.getDegree() == null && PI.getYearGraduated() == null ){		    
 		   if(PI.getProposalPersonDegrees() != null && PI.getProposalPersonDegrees().size() > 0){
-		       ProposalPersonDegree proposalPersonDegree = PI.getProposalPersonDegrees().get(0);
+		       ProposalPersonDegreeContract proposalPersonDegree = PI.getProposalPersonDegrees().get(0);
 		       if(proposalPersonDegree != null){  
 		           if(proposalPersonDegree.getDegreeType() != null && proposalPersonDegree.getDegreeType().getDescription()!= null)
 		               profile.setDegreeType(proposalPersonDegree.getDegreeType().getDescription());
@@ -228,9 +226,9 @@ public class RRKeyPersonExpandedV2_0Generator extends
 	/*
 	 * This method is used to add department name to profile
 	 */
-	private void setDepartmentNameToProfile(Profile profile, ProposalPerson PI) {
+	private void setDepartmentNameToProfile(Profile profile, ProposalPersonContract PI) {
 		if(PI.getHomeUnit() != null) {
-            KcPerson kcPerson = PI.getPerson();
+            KcPersonContract kcPerson = PI.getPerson();
             String departmentName =  kcPerson.getOrganizationIdentifier();
             profile.setDepartmentName(departmentName);
         }
@@ -244,7 +242,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 	/*
 	 * This method is used to add directory title to profile
 	 */
-	private void setDirectoryTitleToProfile(Profile profile, ProposalPerson PI) {
+	private void setDirectoryTitleToProfile(Profile profile, ProposalPersonContract PI) {
 		if (PI.getDirectoryTitle() != null) {
 			if (PI.getDirectoryTitle().length() > DIRECTORY_TITLE_MAX_LENGTH) {
 				profile.setTitle(PI.getDirectoryTitle().substring(0,
@@ -258,7 +256,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 	/*
 	 * This method is used to assign rolodex id
 	 */
-	private void assignRolodexId(ProposalPerson PI) {
+	private void assignRolodexId(ProposalPersonContract PI) {
 	    if (PI.getPersonId() != null) {
             pIPersonOrRolodexId = PI.getPersonId();
              rolodex = null;
@@ -272,7 +270,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 	/*
 	 * This method is used to add attachments related to principle indicator
 	 */
-	private void setAttachments(Profile profile, ProposalPerson PI) {
+	private void setAttachments(Profile profile, ProposalPersonContract PI) {
 		setBioSketchAttachment(profile, PI);
 		setCurrentPendingAttachment(profile, PI);
 	}
@@ -280,7 +278,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 	/*
 	 * This method is used to add the current pending type attachment to profile
 	 */
-	private void setCurrentPendingAttachment(Profile profile, ProposalPerson PI) {
+	private void setCurrentPendingAttachment(Profile profile, ProposalPersonContract PI) {
 		AttachedFileDataType supportAttachment = getPernonnelAttachments(pdDoc,
 				PI.getPersonId(), PI.getRolodexId(), CURRENT_PENDING_TYPE);
 		if (supportAttachment != null) {
@@ -294,7 +292,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 	/*
 	 * This method is used to add the bioskectch attachment to profile
 	 */
-	private void setBioSketchAttachment(Profile profile, ProposalPerson PI) {
+	private void setBioSketchAttachment(Profile profile, ProposalPersonContract PI) {
 		PersonProfileDataType.Profile.BioSketchsAttached personBioSketch = PersonProfileDataType.Profile.BioSketchsAttached.Factory
 				.newInstance();
 		AttachedFileDataType bioSketchAttachment = getPernonnelAttachments(
@@ -316,12 +314,12 @@ public class RRKeyPersonExpandedV2_0Generator extends
 		List<PersonProfileDataType> personProfileDataTypeList = new ArrayList<PersonProfileDataType>();
 		DevelopmentProposal developmentProposal = pdDoc
 				.getDevelopmentProposal();
-		List<ProposalPerson> keyPersons = developmentProposal
+		List<? extends ProposalPersonContract> keyPersons = developmentProposal
 				.getProposalPersons();
 		if (keyPersons != null) {
 			Collections.sort(keyPersons, new ProposalPersonComparator());
 		}
-		List<ProposalPerson> nKeyPersons = s2sUtilService.getNKeyPersons(
+		List<ProposalPersonContract> nKeyPersons = s2sUtilService.getNKeyPersons(
 				keyPersons, true, MAX_KEY_PERSON_COUNT);
 		extraPersons = s2sUtilService.getNKeyPersons(keyPersons, false,
 				MAX_KEY_PERSON_COUNT);
@@ -340,8 +338,8 @@ public class RRKeyPersonExpandedV2_0Generator extends
 	 */
 	private void setKeyPersonToPersonProfileDataType(
 			List<PersonProfileDataType> personProfileDataTypeList,
-			List<ProposalPerson> nKeyPersons) {
-		for (ProposalPerson keyPerson : nKeyPersons) {
+			List<ProposalPersonContract> nKeyPersons) {
+		for (ProposalPersonContract keyPerson : nKeyPersons) {
 			if (pIPersonOrRolodexId != null) {
 				// Don't add PI to keyperson list
 				if (keyPerson.getPersonId() != null
@@ -366,7 +364,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 	/*
 	 * This method is used to add all key person details to key person
 	 */
-	private void setAllkeyPersonDetailsToKeyPerson(ProposalPerson keyPerson,
+	private void setAllkeyPersonDetailsToKeyPerson(ProposalPersonContract keyPerson,
             Profile profileKeyPerson) {
         assignRolodexId(keyPerson);
 		profileKeyPerson.setName(globLibV20Generator
@@ -386,7 +384,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 		}
 		if(keyPerson.getDegree() == null && keyPerson.getYearGraduated() == null ){
 	          if(keyPerson.getProposalPersonDegrees() != null && keyPerson.getProposalPersonDegrees().size() > 0){
-	              ProposalPersonDegree proposalPersonDegree = keyPerson.getProposalPersonDegrees().get(0);
+	              ProposalPersonDegreeContract proposalPersonDegree = keyPerson.getProposalPersonDegrees().get(0);
 	              if(proposalPersonDegree != null){  
 	                  if(proposalPersonDegree.getDegreeType() != null &&proposalPersonDegree.getDegreeType().getDescription() != null)
 	                      profileKeyPerson.setDegreeType(proposalPersonDegree.getDegreeType().getDescription());
@@ -447,14 +445,14 @@ public class RRKeyPersonExpandedV2_0Generator extends
 	/*
 	 * This method is used to add project role category to profile
 	 */
-	private void setProjectRoleCategoryToProfile(ProposalPerson keyPerson,
+	private void setProjectRoleCategoryToProfile(ProposalPersonContract keyPerson,
 			Profile profileKeyPerson) {
 	    if (keyPerson.getRolodexId() == null) {
 	        profileKeyPerson.setProjectRole(ProjectRoleDataType.OTHER_SPECIFY);
 	        OtherProjectRoleCategory otherProjectRole = OtherProjectRoleCategory.Factory
 	                .newInstance();
 	        String otherRole;
-	        if (keyPerson.getRole().getDescription() != null) {
+	        if (keyPerson.getProjectRole() != null) {
 	            if (keyPerson.getProjectRole().length() > ROLE_DESCRIPTION_MAX_LENGTH) {
 	                otherRole = keyPerson.getProjectRole().substring(0,
 	                        ROLE_DESCRIPTION_MAX_LENGTH);

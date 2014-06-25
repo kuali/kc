@@ -24,10 +24,10 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin1Max100DataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
+import org.kuali.coeus.propdev.api.person.ProposalPersonYnqContract;
 import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonYnq;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -182,14 +182,14 @@ public class NSFCoverPageV1_2Generator extends NSFCoverPageBaseGenerator {
 	 */
 	private YesNoDataType.Enum getLobbyingAnswer() {
 		YesNoDataType.Enum answer = YesNoDataType.N_NO;
-		for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal()
+		for (ProposalPersonContract proposalPerson : pdDoc.getDevelopmentProposal()
 				.getProposalPersons()) {
 			if (proposalPerson.getProposalPersonRoleId() != null
 					&& proposalPerson.getProposalPersonRoleId().equals(
 							PRINCIPAL_INVESTIGATOR)
 					|| proposalPerson.getProposalPersonRoleId().equals(
 							PI_C0_INVESTIGATOR)) {
-				for (ProposalPersonYnq personYnq : proposalPerson
+				for (ProposalPersonYnqContract personYnq : proposalPerson
 						.getProposalPersonYnqs()) {
 					if (personYnq != null) {
 						if (personYnq.getQuestionId() != null

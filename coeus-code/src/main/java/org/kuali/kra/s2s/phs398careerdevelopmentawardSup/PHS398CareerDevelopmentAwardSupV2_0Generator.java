@@ -48,9 +48,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.CitizenshipTypes;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.impl.PHS398CareerDevelopmentAwardSupBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -82,7 +82,7 @@ public class PHS398CareerDevelopmentAwardSupV2_0Generator extends
 	}
 
 	private Enum getCitizenshipDataType() {
-	    for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
+	    for (ProposalPersonContract proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
 			if (proposalPerson.isInvestigator()) {
 				CitizenshipTypes citizenShip=s2sUtilService.getCitizenship(proposalPerson);
 				if(citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA.toString())){

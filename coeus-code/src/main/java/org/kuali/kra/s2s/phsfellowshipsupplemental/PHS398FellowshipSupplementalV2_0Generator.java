@@ -38,6 +38,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.question.*;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -47,7 +48,6 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.s2s.CitizenshipTypes;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
@@ -803,8 +803,8 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
         Boolean hasInvestigator = false;
         additionalInformation.addNewFellowshipTrainingAndCareerGoals();
         additionalInformation.addNewActivitiesPlannedUnderThisAward();    
-        ProposalPerson principalInvestigator = s2sUtilService.getPrincipalInvestigator(pdDoc);
-        for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
+        ProposalPersonContract principalInvestigator = s2sUtilService.getPrincipalInvestigator(pdDoc);
+        for (ProposalPersonContract proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
             if (proposalPerson.isInvestigator()) {
                 hasInvestigator = true;
                 CitizenshipTypes citizenShip = s2sUtilService.getCitizenship(proposalPerson);

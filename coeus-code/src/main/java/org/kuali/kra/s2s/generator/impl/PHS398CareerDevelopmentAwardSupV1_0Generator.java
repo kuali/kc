@@ -27,9 +27,9 @@ import gov.grants.apply.forms.phs398ResearchPlan12V12.PHS398ResearchPlan12Docume
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.CitizenshipTypes;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -66,7 +66,7 @@ public class PHS398CareerDevelopmentAwardSupV1_0Generator extends
 	}
 	
 	private Enum getCitizenshipDataType() {
-		for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal()
+		for (ProposalPersonContract proposalPerson : pdDoc.getDevelopmentProposal()
 				.getProposalPersons()) {
 			if (proposalPerson.isInvestigator()) {
 					

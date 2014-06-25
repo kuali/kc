@@ -26,13 +26,12 @@ import gov.grants.apply.forms.rrKeyPersonExpandedV11.RRKeyPersonExpandedDocument
 import gov.grants.apply.forms.rrKeyPersonExpandedV11.RRKeyPersonExpandedDocument.RRKeyPersonExpanded.SupportsAttached;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.api.person.KcPersonContract;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonComparator;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.util.AuditError;
@@ -138,7 +137,7 @@ public class RRKeyPersonExpandedV1_1Generator extends
 		PersonProfileDataType profileDataType = PersonProfileDataType.Factory
 				.newInstance();
 		Profile profile = Profile.Factory.newInstance();
-		ProposalPerson PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
+		ProposalPersonContract PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
 		if (PI != null) {
 			if (PI.getPersonId() != null) {
 				pIPersonOrRolodexId = PI.getPersonId();
@@ -166,7 +165,7 @@ public class RRKeyPersonExpandedV1_1Generator extends
 						.getOrganizationName());
 			}
 			if(PI.getHomeUnit() != null) {
-                KcPerson kcPerson = PI.getPerson();
+                KcPersonContract kcPerson = PI.getPerson();
                 String departmentName =  kcPerson.getOrganizationIdentifier();
                 profile.setDepartmentName(departmentName);
             }
@@ -223,15 +222,15 @@ public class RRKeyPersonExpandedV1_1Generator extends
 	private PersonProfileDataType[] getpersonProfileKeyPerson() {
 
 		List<PersonProfileDataType> personProfileDataTypeList = new ArrayList<PersonProfileDataType>();
-		List<ProposalPerson> keyPersons = pdDoc.getDevelopmentProposal()
+		List<? extends ProposalPersonContract> keyPersons = pdDoc.getDevelopmentProposal()
 				.getProposalPersons();
 		Collections.sort(keyPersons, new ProposalPersonComparator());
-		List<ProposalPerson> nKeyPersons = s2sUtilService.getNKeyPersons(
+		List<ProposalPersonContract> nKeyPersons = s2sUtilService.getNKeyPersons(
 				keyPersons, true, MAX_KEY_PERSON_COUNT);
 		extraPersons = s2sUtilService.getNKeyPersons(keyPersons, false,
 				MAX_KEY_PERSON_COUNT);
 		if (nKeyPersons.size() > 0) {
-			for (ProposalPerson keyPerson : nKeyPersons) {
+			for (ProposalPersonContract keyPerson : nKeyPersons) {
 				if (pIPersonOrRolodexId != null) {
 					// Don't add PI to keyperson list
 					if (keyPerson.getPersonId() != null
@@ -270,7 +269,7 @@ public class RRKeyPersonExpandedV1_1Generator extends
 							.getOrganizationName());
 				}
 				if(keyPerson.getHomeUnit() != null) {
-                    KcPerson kcPerson = keyPerson.getPerson();
+                    KcPersonContract kcPerson = keyPerson.getPerson();
                     String departmentName =  kcPerson.getOrganizationIdentifier();
                     profileKeyPerson.setDepartmentName(departmentName);
                 }

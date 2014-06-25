@@ -23,12 +23,12 @@ import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.attr.PersonAppointment;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -238,7 +238,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
      * @return true if persons match, false otherwise
      */
     @Override
-    public boolean proposalPersonEqualsBudgetPerson(ProposalPerson proposalPerson, BudgetPersonnelDetails budgetPersonnelDetails) {
+    public boolean proposalPersonEqualsBudgetPerson(ProposalPersonContract proposalPerson, BudgetPersonnelDetails budgetPersonnelDetails) {
         boolean equal = false;
         if (proposalPerson != null && budgetPersonnelDetails != null) {
             String budgetPersonId = budgetPersonnelDetails.getPersonId();

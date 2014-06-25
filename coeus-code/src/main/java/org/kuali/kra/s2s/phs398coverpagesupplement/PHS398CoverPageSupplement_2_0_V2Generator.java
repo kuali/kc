@@ -31,11 +31,11 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -121,7 +121,7 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
 	 */
 	private PDPI getPDPI() {
 		PDPI pdpi = PDPI.Factory.newInstance();
-		ProposalPerson PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
+		ProposalPersonContract PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
 		pdpi.setPDPIName(globLibV20Generator.getHumanNameDataType(PI));
 		return pdpi;
 	}

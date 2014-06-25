@@ -39,6 +39,7 @@ import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.org.OrganizationYnqContract;
 import org.kuali.coeus.common.api.org.type.OrganizationTypeContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.api.s2s.S2sSubmissionTypeContract;
@@ -51,7 +52,6 @@ import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
@@ -215,7 +215,7 @@ public class SF424V2_1Generator extends SF424BaseGenerator {
         if (divisionName != null) {
             sf424V21.setDivisionName(divisionName);
         }
-        ProposalPerson personInfo = s2sUtilService.getPrincipalInvestigator(pdDoc);
+        ProposalPersonContract personInfo = s2sUtilService.getPrincipalInvestigator(pdDoc);
         if (personInfo != null) {
             sf424V21.setContactPerson(globLibV20Generator.getHumanNameDataType(personInfo));
             if (personInfo.getDirectoryTitle() != null) {

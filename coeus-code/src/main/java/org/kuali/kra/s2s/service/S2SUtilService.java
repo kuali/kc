@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.s2s.service;
 
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.s2s.CitizenshipTypes;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.common.api.country.CountryContract;
 import org.kuali.coeus.common.api.state.StateContract;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
@@ -83,15 +83,15 @@ public interface S2SUtilService {
 	 * case of firstN being false
 	 * 
 	 * @param keyPersons
-	 *            list of {@link ProposalPerson}
+	 *            list of {@link org.kuali.coeus.propdev.api.person.ProposalPersonContract}
 	 * @param firstN
 	 *            value that determines whether the returned list should contain
 	 *            first n persons or the rest of persons
 	 * @param n
 	 *            number of key persons that are considered as not extra persons
-	 * @return list of {@link ProposalPerson}
+	 * @return list of {@link org.kuali.coeus.propdev.api.person.ProposalPersonContract}
 	 */
-	public List<ProposalPerson> getNKeyPersons(List<ProposalPerson> keyPersons,
+	public List<ProposalPersonContract> getNKeyPersons(List<? extends ProposalPersonContract> keyPersons,
 			boolean firstN, int n);
 
     /**
@@ -132,7 +132,7 @@ public interface S2SUtilService {
 	 *            Proposal development document.
 	 * @return ProposalPerson PrincipalInvestigator for the proposal.
 	 */
-	public ProposalPerson getPrincipalInvestigator(
+	public ProposalPersonContract getPrincipalInvestigator(
 			ProposalDevelopmentDocument pdDoc);
 	/**
 	 * Finds a Country object from the country code
@@ -169,18 +169,18 @@ public interface S2SUtilService {
 	/**
 	 * Finds all the co-investigators associated with the provided pdDoc.
 	 * @param pdDoc
-	 * @return List of Co-Investigators {@link ProposalPerson}.
+	 * @return List of Co-Investigators {@link org.kuali.coeus.propdev.api.person.ProposalPersonContract}.
 	 */
 	
-	public List<ProposalPerson> getCoInvestigators(ProposalDevelopmentDocument pdDoc);
+	public List<ProposalPersonContract> getCoInvestigators(ProposalDevelopmentDocument pdDoc);
 	
 	/**
 	 * Finds all the key Person associated with the provided pdDoc.
 	 * @param pdDoc
-	 * @return List of Key Persons {@link ProposalPerson}.
+	 * @return List of Key Persons {@link org.kuali.coeus.propdev.api.person.ProposalPersonContract}.
 	 */
 	
-	public List<ProposalPerson> getKeyPersons (ProposalDevelopmentDocument pdDoc);
+	public List<ProposalPersonContract> getKeyPersons (ProposalDevelopmentDocument pdDoc);
 
     /**
      * 
@@ -201,7 +201,7 @@ public interface S2SUtilService {
      * @param proposalPerson
      * @return
      */
-    public CitizenshipTypes getCitizenship(ProposalPerson proposalPerson);
+    public CitizenshipTypes getCitizenship(ProposalPersonContract proposalPerson);
 
     public String removeTimezoneFactor(String applicationXmlText);
 

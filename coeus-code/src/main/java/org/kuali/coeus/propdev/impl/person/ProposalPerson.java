@@ -419,27 +419,32 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         return this.fullName;
     }
 
+    public boolean getInvestigatorFlag() {
+        return isPrincipalInvestigator() || isMultiplePi() || isCoInvestigator()
+                || (isKeyPerson() && getOptInUnitStatus());
+    }
+
+    @Override
     public boolean isInvestigator() {
         return getInvestigatorFlag();
     }
 
-    public boolean getInvestigatorFlag() {
-        return isPrincipalInvestigator() || isMultiplePi() || isCoInvestigator()
-        		|| (isKeyPerson() && getOptInUnitStatus());
-    }
-    
+    @Override
     public boolean isPrincipalInvestigator() {
     	return StringUtils.equals(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR, getProposalPersonRoleId());
     }
-    
+
+    @Override
     public boolean isCoInvestigator() {
     	return StringUtils.equals(PropAwardPersonRole.CO_INVESTIGATOR, getProposalPersonRoleId());
     }
-    
+
+    @Override
     public boolean isKeyPerson() {
     	return StringUtils.equals(PropAwardPersonRole.KEY_PERSON, getProposalPersonRoleId());
     }
-    
+
+    @Override
     public boolean isMultiplePi() {
     	return StringUtils.equals(PropAwardPersonRole.MULTI_PI, getProposalPersonRoleId());
     }
@@ -672,6 +677,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
      *
      * @return the value of person
      */
+    @Override
     public KcPerson getPerson() {
         if (this.personId == null) {
             return null;
