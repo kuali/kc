@@ -55,7 +55,6 @@ public class PHSCoverLetterV1_2GeneratorTest extends S2STestBase<PHSCoverLetterV
         BufferedInputStream bis = new BufferedInputStream(inStream);
         byte[] narrativePdf = new byte[bis.available()];
         narrativeAttachment.setData(narrativePdf);
-        narrativeAttachment.setModuleNumber(1);
         narrativeAttachment.setName("exercise1");
 
         narrative.setDevelopmentProposal(document.getDevelopmentProposal());
