@@ -55,7 +55,6 @@ public class ProjectV1_0GeneratorTest extends S2STestBase<ProjectV1_0Generator> 
         BufferedInputStream bis = new BufferedInputStream(inStream);
         byte[] narrativePdf = new byte[bis.available()];
         narrativeAttachment.setData(narrativePdf);
-        narrativeAttachment.setModuleNumber(1);
         narrativeAttachment.setName("exercise1.pdf");
 
         narrative.setDevelopmentProposal(document.getDevelopmentProposal());
