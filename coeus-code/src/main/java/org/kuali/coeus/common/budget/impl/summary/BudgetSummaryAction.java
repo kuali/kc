@@ -23,6 +23,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetAction;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.common.budget.framework.core.AbstractBudget;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
@@ -414,7 +415,7 @@ public class BudgetSummaryAction extends BudgetAction {
         Budget budget = budgetDocument.getBudget();
         if (budget.getFinalVersionFlag()) {
             // This version has been marked as final - update other versions.
-            for (BudgetVersionOverview version : budget.getBudgetParent().getBudgetVersionOverviews()) {
+            for (AbstractBudget version : budget.getBudgetParent().getBudgetVersionOverviews()) {
                 if (!budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
                     version.setFinalVersionFlag(false);
                 }

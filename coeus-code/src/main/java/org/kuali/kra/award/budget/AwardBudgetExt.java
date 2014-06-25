@@ -37,6 +37,10 @@ import java.util.SortedMap;
 public class AwardBudgetExt extends Budget {
 
     private static final long serialVersionUID = 1L;
+    
+    private Award award;
+    
+    private Long awardId;
 
     private String awardBudgetStatusCode;
 
@@ -379,5 +383,31 @@ public class AwardBudgetExt extends Budget {
 
 	public void setBudgetDocument(BudgetDocument<Award> budgetDocument) {
 		this.budgetDocument = budgetDocument;
+	}
+
+	public Award getAward() {
+		return award;
+	}
+
+	public void setAward(Award award) {
+		this.award = award;
+	}
+
+	@Override
+	public Award getBudgetParent() {
+		return award;
+	}
+
+	@Override
+	public String getParentDocumentKey() {
+		return awardId.toString();
+	}
+
+	public Long getAwardId() {
+		return awardId;
+	}
+
+	public void setAwardId(Long awardId) {
+		this.awardId = awardId;
 	}
 }

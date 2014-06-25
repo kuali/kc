@@ -167,7 +167,6 @@ public class BudgetRatesServiceTest extends KcIntegrationTestBase {
         budgetDocument = new BudgetDocument();
         Budget budget = budgetDocument.getBudget();
         budget.setBudgetVersionNumber(1);
-//        budget.setBudgetDocument(budgetDocument);
         budgetDocument.setParentDocument(initializeProposalDevelopmentDocument());
         budget.setStartDate(budgetDocument.getParentDocument().getBudgetParent().getRequestedStartDateInitial());
         budget.setEndDate(budgetDocument.getParentDocument().getBudgetParent().getRequestedEndDateInitial());
