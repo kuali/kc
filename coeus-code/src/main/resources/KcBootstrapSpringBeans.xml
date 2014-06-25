@@ -44,7 +44,7 @@
     <import resource="classpath:org/kuali/coeus/sys/impl/RiceBootstrapSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/sys/impl/ModuleBootstrapSpringBeans.xml"/>
     <import resource="classpath:org/kuali/kra/core/ModuleBootstrapSpringBeans.xml"/>
-    <import resource="classpath:org/kuali/kra/proposaldevelopment/ModuleBootstrapSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/coeus/propdev/impl/ModuleBootstrapSpringBeans.xml"/>
     <import resource="classpath:org/kuali/kra/institutionalproposal/ModuleBootstrapSpringBeans.xml"/>
     <import resource="classpath:org/kuali/kra/award/ModuleBootstrapSpringBeans.xml"/>
     <import resource="classpath:org/kuali/kra/subaward/ModuleBootstrapSpringBeans.xml"/>

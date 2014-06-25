@@ -1,0 +1,807 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <context:annotation-config />
+    <context:component-scan base-package="org.kuali.coeus.propdev" />
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
+    </bean>
+
+    <import resource="classpath:org/kuali/coeus/sys/framework/ImportDataSourceSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/coeus/sys/framework/ImportRiceKradSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/coeus/propdev/impl/ModuleImportRiceSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/coeus/propdev/impl/ModuleImportModuleSpringBeans.xml"/>
+
+    <!-- TEMP until S2S is fully removed -->
+    <import resource="classpath:org/kuali/kra/s2s/S2SSpringBeans.xml"/>
+
+    <bean id="proposalDevelopmentModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
+        <property name="moduleConfiguration" ref="proposalDevelopmentModuleConfiguration"/>
+        <property name="kualiModuleService" ref="kualiModuleService"/>
+    </bean>
+
+    <bean id="proposalDevelopmentModuleConfiguration" parent="proposalDevelopmentModuleConfiguration-parentBean" />
+    <bean id="proposalDevelopmentModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
+        <property name="initializeDataDictionary" value="true" />
+        <property name="namespaceCode" value="KC-PD" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.coeus.propdev</value>
+            </list>
+        </property>
+        <property name="databaseRepositoryFilePaths">
+            <list>
+                <value>org/kuali/coeus/propdev/impl/repository-proposaldevelopment.xml</value>
+            </list>
+        </property>
+        <property name="dataDictionaryPackages">
+            <list>
+                <value>classpath:org/kuali/coeus/propdev/impl/attachment/ProposalAttachmentsPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalCommon.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/specialreview/ProposalCompliancePage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalDetailsPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalDocumentView.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalInitiatePage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalInitiateView.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalMedusaSection.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalSummarySection.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/ProposalOpportunitySearchPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/deliver/ProposalDeliveryInfoPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/location/ProposalOrganizationLocationsPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/person/ProposalPersonnelPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/question/ProposalQuestionnairePage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sOpportunityLookup.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/sponsor/ProposalSponsorProgramInfoPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/supplemental/ProposalSupplementalPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalDataValidationSection.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/person/creditsplit/ProposalCreditAllocationPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetView.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetIncomePage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetPeriodsPage.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Proposal Development Services -->
+
+    <bean id="proposalDevelopmentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="proposalDevelopmentLookupableHelperService" />
+    </bean>
+
+    <bean id="lookupableDevelopmentProposalLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="lookupableDevelopmentProposalLookupableHelperService" />
+    </bean>
+
+    <bean id="kcCoreCallbackService" abstract="true" class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
+          p:serviceBus-ref="rice.ksb.serviceBus">
+        <property name="serviceNameSpaceURI">
+            <util:constant static-field="org.kuali.kra.infrastructure.Constants.KC_CORE_SERVICE_NAMESPACE"/>
+        </property>
+    </bean>
+
+    <bean id="proposalAllUnitAdministratorDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="proposalAllUnitAdministratorDerivedRoleTypeService"
+          p:localServiceName="proposalAllUnitAdministratorDerivedRoleTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+
+    <bean id="platformAwareDao" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb" abstract="true">
+        <property name="jcdAlias" value="kradApplicationDataSource" />
+        <property name="dbPlatform" ref="dbPlatform" />
+    </bean>
+
+    <bean id="proposalHierarchyDao" parent="platformAwareDao" class="org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyDaoOjb" />
+
+    <bean id="proposalRoleTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="proposalRoleTypeService"
+          p:localServiceName="proposalRoleTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+
+    <bean id="currentReportDao" parent="platformAwareDao" class="org.kuali.coeus.common.proposal.impl.report.CurrentReportDaoOjb" />
+
+    <bean id="pendingReportDao" parent="platformAwareDao" class="org.kuali.coeus.common.proposal.impl.report.PendingReportDaoOjb" />
+
+    <!-- Proposal Development Task Authorizers -->
+
+    <bean id="parentProposalAuthorizer" class="org.kuali.coeus.propdev.impl.auth.task.ProposalAuthorizer" abstract="true">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kraAuthorizationService" ref="kcAuthorizationService" />
+    </bean>
+
+    <bean id="proposalTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
+        <property name="groupName" value="proposal" />
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.coeus.propdev.impl.core.ModifyProposalAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="modifyProposal" />
+                    <property name="requiresWritableDoc" value="true" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.core.ViewProposalAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="viewProposal" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.core.AddNoteProposalAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="proposalAddNoteAttachment" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                    <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.auth.task.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="maintainProposalHierarchy" />
+                    <property name="permission" value="Maintain ProposalHierarchy" />
+                    <property name="requiresWritableDoc" value="true" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.auth.task.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="printProposal" />
+                    <property name="permission" value="Print Proposal" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.action.SubmitToSponsorAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="submitToSponsor" />
+                    <property name="requiresWritableDoc" value="true" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.core.SubmitToWorkflowAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="submitToWorkflow" />
+                    <property name="requiresWritableDoc" value="true" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.auth.task.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="certify" />
+                    <property name="permission" value="Certify" />
+                    <property name="requiresWritableDoc" value="true" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.editable.ShowAlterProposalDataAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="showAlterProposalData" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.editable.AlterProposalDataAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="alterProposalData" />
+                    <property name="requiresWritableDoc" value="true" />
+                    <property name="kcWorkflowService" ref="kcWorkflowService" />
+                    <property name="proposalHierarchyService" ref="proposalHierarchyService" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.docperm.ModifyProposalPermissionsAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="modifyProposalRoles" />
+                    <property name="requiresWritableDoc" value="true" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.action.ProposalHierarchyChildWorkflowActionAuthorizer"
+                      parent="parentProposalAuthorizer">
+                    <property name="taskName" value="hierarchyChildWorkflowAction" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.action.ProposalHierarchyChildWorkflowActionAuthorizer"
+                      parent="parentProposalAuthorizer">
+                    <property name="taskName" value="hierarchyChildAcknowledgeAction" />
+                    <property name="proposalHierarchyService" ref="proposalHierarchyService" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.action.RejectProposalAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="rejectProposal" />
+                    <property name="requiresWritableDoc" value="true" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.questionnaire.AnswerProposalQuestionnaireAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="answerProposalQuestionnaire" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                    <property name="kcDocumentRejectionService" ref="kcDocumentRejectionService" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.action.DeleteProposalAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="deleteProposal" />
+                    <property name="requiresWritableDoc" value="true" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.person.attachment.PersonnelAttachmentReplaceAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="replacePersonnelAttachmentAuthorizer" />
+                    <property name="requiresWritableDoc" value="true" />
+                </bean>
+
+                <!-- Narrative -->
+
+                <bean class="org.kuali.coeus.propdev.impl.attachment.NarrativeAddAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="addNarrative" />
+                    <property name="requiresWritableDoc" value="true" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                    <property name="kcDocumentRejectionService" ref="kcDocumentRejectionService" />
+                </bean>
+
+                <!-- Budget -->
+
+                <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.BudgetAddAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="addBudget" />
+                    <property name="requiresWritableDoc" value="true" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                    <property name="kcDocumentRejectionService" ref="kcDocumentRejectionService" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.BudgetOpenAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="openBudgets" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ModifyBudgetPermission" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="modifyBudget" />
+                    <property name="requiresWritableDoc" value="true" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                    <property name="kcDocumentRejectionService" ref="kcDocumentRejectionService" />
+                </bean>
+
+                <bean class="org.kuali.kra.irb.authorizer.CreateProtocolFromProposalAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="createIrbProtocolFromProposal" />
+                </bean>
+                <bean class="org.kuali.kra.iacuc.authorizer.CreateIacucProtocolFromProposalAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="createIacucProtocolFromProposal" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.core.RecallAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="recallProposal" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Narrative Task Authorizers -->
+
+    <bean id="narrativeTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
+        <property name="groupName" value="narrative" />
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.coeus.propdev.impl.attachment.NarrativeReadAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="downloadNarrative" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.attachment.NarrativeModifyAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="deleteNarrative" />
+                    <property name="requiresWritableDoc" value="true" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                    <property name="kcDocumentRejectionService" ref="kcDocumentRejectionService" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.attachment.NarrativeReplaceAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="replaceNarrative" />
+                    <property name="requiresWritableDoc" value="true" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.attachment.ModifyNarrativesAuthorizer" parent="parentProposalAuthorizer">
+                    <property name="taskName" value="modifyNarratives" />
+                    <property name="requiresWritableDoc" value="true" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="proposalDevelopmentWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+        <property name="classname" value="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction" />
+        <property name="mappings">
+            <map>
+                <entry key="save">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="modifyProposal" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="proposalGrantsGovWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+        <property name="classname" value="org.kuali.coeus.propdev.impl.s2s.ProposalDevelopmentGrantsGovAction" />
+        <property name="mappings">
+            <map>
+                <entry key="printForms">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="printProposal" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="proposalKeyPersonnelWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+        <property name="classname" value="org.kuali.coeus.propdev.impl.person.ProposalDevelopmentKeyPersonnelAction" />
+        <property name="mappings">
+            <map>
+                <entry key="addCertificationQuestion">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="modifyProposal" />
+                    </bean>
+                </entry>
+                <entry key="removeCertificationQuestion">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="modifyProposal" />
+                    </bean>
+                </entry>
+                <entry key="addUnitDetails">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="modifyProposal" />
+                    </bean>
+                </entry>
+                <entry key="removeUnitDetails">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="modifyProposal" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="proposalAbstractsAttachmentsWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+        <property name="classname" value="org.kuali.coeus.propdev.impl.abstrct.ProposalDevelopmentAbstractsAttachmentsAction" />
+        <property name="mappings">
+            <map>
+                <entry key="addProposalAttachment">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="addNarrative" />
+                    </bean>
+                </entry>
+                <entry key="addProposalAttachmentRights">
+                    <bean class="org.kuali.coeus.propdev.impl.attachment.ProposalAttachmentTaskFactory">
+                        <property name="taskName" value="modifyNarrativeRights" />
+                    </bean>
+                </entry>
+                <entry key="downloadProposalAttachment">
+                    <bean class="org.kuali.coeus.propdev.impl.attachment.ProposalAttachmentTaskFactory">
+                        <property name="taskName" value="downloadNarrative" />
+                    </bean>
+                </entry>
+                <entry key="deleteProposalAttachment">
+                    <bean class="org.kuali.coeus.propdev.impl.attachment.ProposalAttachmentTaskFactory">
+                        <property name="taskName" value="deleteNarrative" />
+                    </bean>
+                </entry>
+                <entry key="replaceProposalAttachment">
+                    <bean class="org.kuali.coeus.propdev.impl.attachment.ProposalAttachmentTaskFactory">
+                        <property name="taskName" value="replaceNarrative" />
+                    </bean>
+                </entry>
+                <entry key="addInstitutionalAttachment">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="addNarrative" />
+                    </bean>
+                </entry>
+                <entry key="addInstituteAttachmentRights">
+                    <bean class="org.kuali.coeus.propdev.impl.attachment.institute.InstituteAttachmentTaskFactory">
+                        <property name="taskName" value="modifyNarrativeRights" />
+                    </bean>
+                </entry>
+                <entry key="downloadInstituteAttachment">
+                    <bean class="org.kuali.coeus.propdev.impl.attachment.institute.InstituteAttachmentTaskFactory">
+                        <property name="taskName" value="downloadNarrative" />
+                    </bean>
+                </entry>
+                <entry key="deleteInstitutionalAttachment">
+                    <bean class="org.kuali.coeus.propdev.impl.attachment.institute.InstituteAttachmentTaskFactory">
+                        <property name="taskName" value="deleteNarrative" />
+                    </bean>
+                </entry>
+                <entry key="replaceInstituteAttachment">
+                    <bean class="org.kuali.coeus.propdev.impl.attachment.institute.InstituteAttachmentTaskFactory">
+                        <property name="taskName" value="replaceNarrative" />
+                    </bean>
+                </entry>
+                <entry key="save">
+                    <bean class="org.kuali.coeus.propdev.impl.attachment.NarrtivesCommonTaskFactory">
+                        <property name="taskName" value="modifyNarratives" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="proposalBudgetVersionsWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+        <property name="classname" value="org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetVersionsAction" />
+        <property name="mappings">
+            <map>
+                <entry key="addBudgetVersion">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="addBudget" />
+                    </bean>
+                </entry>
+                <entry key="openBudgetVersion">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="openBudgets" />
+                    </bean>
+                </entry>
+                <entry key="copyBudgetVersion">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="addBudget" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="proposalPermissionsWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+        <property name="classname" value="org.kuali.coeus.propdev.impl.docperm.ProposalDevelopmentPermissionsAction" />
+        <property name="mappings">
+            <map>
+                <entry key="addProposalUser">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="modifyProposalRoles" />
+                    </bean>
+                </entry>
+                <entry key="deleteProposalUser">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="modifyProposalRoles" />
+                    </bean>
+                </entry>
+                <entry key="setEditRoles">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="modifyProposalRoles" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="proposalActionsWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+        <property name="classname" value="org.kuali.coeus.propdev.impl.action.ProposalDevelopmentActionsAction" />
+        <property name="mappings">
+            <map>
+                <entry key="printForms">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="printProposal" />
+                    </bean>
+                </entry>
+                <entry key="route">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="submitToWorkflow" />
+                    </bean>
+                </entry>
+                <entry key="submitToSponsor">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="submitToSponsor" />
+                    </bean>
+                </entry>
+                <entry key="resubmit">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="submitToSponsor" />
+                    </bean>
+                </entry>
+                <entry key="approve">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="hierarchyChildWorkflowAction" />
+                    </bean>
+                </entry>
+                <entry key="reject">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="rejectProposal" />
+                    </bean>
+                </entry>
+                <entry key="disapprove">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="hierarchyChildWorkflowAction" />
+                    </bean>
+                </entry>
+                <entry key="blanketApprove">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="hierarchyChildWorkflowAction" />
+                    </bean>
+                </entry>
+                <entry key="acknowledge">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="hierarchyChildAcknowledgeAction" />
+                    </bean>
+                </entry>
+                <entry key="fyi">
+                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
+                        <property name="taskName" value="hierarchyChildWorkflowAction" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="proposalTypeValuesFinder" class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.type.ProposalType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="keyAttributeName" value="code"/>
+        <property name="labelAttributeName" value="description"/>
+    </bean>
+
+    <bean id="s2sSubmissionTypeValueFinder" class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.s2s.S2sSubmissionType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="keyAttributeName" value="code"/>
+        <property name="labelAttributeName" value="description"/>
+    </bean>
+
+    <bean id="s2sRevisionTypeValueFinder" class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.s2s.S2sRevisionType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="keyAttributeName" value="code"/>
+        <property name="labelAttributeName" value="description"/>
+    </bean>
+
+    <bean id="legacyS2sOpportunityLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="s2sOpportunityLookupableHelperService"/>
+    </bean>
+
+    <bean id="grantsGovConnectorService"
+          class="org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorServiceBase">
+        <property name="serviceHost" value="grants.gov.s2s.host"/>
+        <property name="servicePort" value="grants.gov.s2s.port"/>
+        <property name="s2sCertificateReader">
+            <bean class="org.kuali.coeus.propdev.impl.s2s.connect.S2SCertificateReaderBase">
+                <property name="keyStoreLocation" value="s2s.keystore.location"/>
+                <property name="keyStorePassword" value="s2s.keystore.password"/>
+                <property name="trustStoreLocation" value="s2s.truststore.location"/>
+                <property name="trustStorePassword" value="s2s.truststore.password"/>
+                <property name="jksType" value="JKS"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="researchGovConnectorService"
+          class="org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorServiceBase">
+        <property name="serviceHost" value="research.gov.s2s.host"/>
+        <property name="servicePort" value="research.gov.s2s.port"/>
+        <property name="s2sCertificateReader">
+            <bean class="org.kuali.coeus.propdev.impl.s2s.connect.S2SCertificateReaderBase">
+                <property name="keyStoreLocation" value="research.gov.keystore.location"/>
+                <property name="keyStorePassword" value="research.gov.keystore.password"/>
+                <property name="trustStoreLocation" value="research.gov.truststore.location"/>
+                <property name="trustStorePassword" value="research.gov.truststore.password"/>
+                <property name="jksType" value="JKS"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!--  S2S Scheduler configuration start -->
+    <bean id="preValidationTask"
+          class="org.kuali.coeus.propdev.impl.s2s.schedule.S2SPollingTask">
+        <property name="stopPollInterval" value="4320" />
+        <property name="mailInterval" value="20" />
+        <property name="statusMap">
+            <map>
+                <entry key="1" value="Submitted to S2S" />
+                <entry key="2" value="Receiving" />
+                <entry key="3" value="Received" />
+                <entry key="4" value="Processing" />
+            </map>
+        </property>
+        <property name="mailInfoList">
+            <list>
+                <ref bean="mailInfo" />
+            </list>
+        </property>
+    </bean>
+    <bean id="validationTask"
+          class="org.kuali.coeus.propdev.impl.s2s.schedule.S2SPollingTask">
+        <property name="stopPollInterval" value="1440" />
+        <property name="mailInterval" value="120" />
+        <property name="statusMap">
+            <map>
+                <entry key="5" value="Validated" />
+            </map>
+        </property>
+        <property name="mailInfoList">
+            <list>
+                <ref bean="mailInfo" />
+            </list>
+        </property>
+    </bean>
+    <bean id="postValidationTask"
+          class="org.kuali.coeus.propdev.impl.s2s.schedule.S2SPollingTask">
+        <property name="stopPollInterval" value="1440" />
+        <property name="mailInterval" value="240" />
+        <property name="statusMap">
+            <map>
+                <entry key="6" value="Received by Agency" />
+            </map>
+        </property>
+        <property name="mailInfoList">
+            <list>
+                <ref bean="mailInfo" />
+            </list>
+        </property>
+    </bean>
+    <bean id="errorOutTask"
+          class="org.kuali.coeus.propdev.impl.s2s.schedule.S2SPollingTask">
+        <property name="stopPollInterval" value="24" />
+        <property name="mailInterval" value="40" />
+        <property name="statusMap">
+            <map>
+                <entry key="10" value="S2S Submission Error" />
+            </map>
+        </property>
+        <property name="mailInfoList">
+            <list>
+                <ref bean="mailInfo" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="mailInfo" class="org.kuali.coeus.propdev.impl.s2s.schedule.MailInfo">
+        <property name="dunsNumber" value="" />
+        <property name="to" value="" />
+        <property name="cc" value="" />
+        <property name="bcc" value="" />
+        <property name="footer" value="" />
+        <property name="message" value="S2S Submissions" />
+        <property name="subject" value="S2S Submissions" />
+    </bean>
+    <bean id="preValidation"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="preValidationTask" />
+        <property name="targetMethod" value="execute" />
+        <property name="concurrent" value="false" />
+    </bean>
+    <bean id="validation"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="validationTask" />
+        <property name="targetMethod" value="execute" />
+        <property name="concurrent" value="false" />
+    </bean>
+    <bean id="postValidation"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="postValidationTask" />
+        <property name="targetMethod" value="execute" />
+        <property name="concurrent" value="false" />
+    </bean>
+    <bean id="errorOut"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="errorOutTask" />
+        <property name="targetMethod" value="execute" />
+        <property name="concurrent" value="false" />
+    </bean>
+
+    <bean id="preValidationTrigger"
+          class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
+        <property name="jobDetail" ref="preValidation" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="defaultCronExpression" value="0 0/20 * * * ?" />
+        <property name="triggerEnabledParameterName" value="s2s.polling.scheduler.enabled" />
+        <property name="parameterNamespace" value="KC-PD" />
+        <property name="parameterComponent" value="Document" />
+        <property name="cronExpressionParameterName" value="s2sScheduler.preValidation.cronExpression"/>
+    </bean>
+    <bean id="validationTrigger"
+          class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
+        <property name="jobDetail" ref="validation" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="defaultCronExpression" value="0 0/20 * * * ?" />
+        <property name="triggerEnabledParameterName" value="s2s.polling.scheduler.enabled" />
+        <property name="parameterNamespace" value="KC-PD" />
+        <property name="parameterComponent" value="Document" />
+        <property name="cronExpressionParameterName"
+                  value="s2sScheduler.validation.cronExpression">
+        </property>
+    </bean>
+    <bean id="postValidationTrigger"
+          class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
+        <property name="jobDetail" ref="postValidation" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="defaultCronExpression" value="0 0/20 * * * ?" />
+        <property name="triggerEnabledParameterName" value="s2s.polling.scheduler.enabled" />
+        <property name="parameterNamespace" value="KC-PD" />
+        <property name="parameterComponent" value="Document" />
+        <property name="cronExpressionParameterName"
+                  value="s2sScheduler.postValidation.cronExpression">
+        </property>
+    </bean>
+    <bean id="errorOutTrigger"
+          class="org.kuali.coeus.sys.framework.scheduling.KcCronTriggerBean">
+        <property name="jobDetail" ref="errorOut" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="defaultCronExpression" value="0 0/20 * * * ?" />
+        <property name="triggerEnabledParameterName" value="s2s.polling.scheduler.enabled" />
+        <property name="parameterNamespace" value="KC-PD" />
+        <property name="parameterComponent" value="Document" />
+        <property name="cronExpressionParameterName"
+                  value="s2sScheduler.errorOut.cronExpression">
+        </property>
+    </bean>
+
+    <bean id="s2SSchedulerStarter"
+          class="org.kuali.coeus.propdev.impl.s2s.schedule.S2SSchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="preValidationTrigger" />
+                <ref bean="validationTrigger" />
+                <ref bean="postValidationTrigger" />
+                <ref bean="errorOutTrigger" />
+            </list>
+        </property>
+    </bean>
+
+    <!--  S2S Scheduler configuration end -->
+
+    <bean id="parentBudgetAuthorizer" abstract="true" class="org.kuali.coeus.common.budget.framework.auth.task.BudgetAuthorizer">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kraAuthorizationService" ref="kcAuthorizationService" />
+    </bean>
+
+    <bean id="proposalBudgetTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
+        <property name="groupName" value="proposalBudget" />
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ModifyProposalBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="modifyBudget" />
+                    <property name="requiresWritableDoc" value="true" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ViewProposalBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="viewBudget" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.RejectProposalBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="rejectBudget" />
+                    <property name="requiresWritableDoc" value="true" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ModifyProposalBudgetRatesAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="modifyProposalBudgetRates" />
+                    <property name="requiresWritableDoc" value="true" />
+                    <property name="kraWorkflowService" ref="kcWorkflowService" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ProposalHierarchyBudgetAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="maintainProposalHierarchy" />
+                </bean>
+                <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ViewProposalBudgetPersonSalaryAuthorizer" parent="parentBudgetAuthorizer">
+                    <property name="taskName" value="viewPropPersonInstSalaries" />
+                    <property name="requiresWritableDoc" value="true" />
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="budgetWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+        <property name="classname" value="org.kuali.coeus.common.budget.framework.core.BudgetAction" />
+        <property name="mappings">
+            <map>
+                <entry key="save">
+                    <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ProposalBudgetTaskFactory">
+                        <property name="taskName" value="modifyBudget" />
+                    </bean>
+                </entry>
+                <entry key="reject">
+                    <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ProposalBudgetTaskFactory">
+                        <property name="taskName" value="rejectBudget" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="budgetVersionsWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+        <property name="classname" value="org.kuali.coeus.common.budget.framework.version.BudgetVersionsAction" />
+        <property name="mappings">
+            <map>
+                <entry key="addBudgetVersion">
+                    <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.BudgetProposalTaskFactory">
+                        <property name="taskName" value="addBudget" />
+                    </bean>
+                </entry>
+                <entry key="openBudgetVersion">
+                    <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.BudgetProposalTaskFactory">
+                        <property name="taskName" value="openBudgets" />
+                    </bean>
+                </entry>
+                <entry key="copyBudgetVersion">
+                    <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.BudgetProposalTaskFactory">
+                        <property name="taskName" value="addBudget" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="budgetActionsWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+        <property name="classname" value="org.kuali.coeus.common.budget.framework.core.BudgetActionsAction" />
+        <property name="mappings">
+            <map>
+                <entry key="printBudgetForm">
+                    <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.BudgetProposalTaskFactory">
+                        <property name="taskName" value="printProposal" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+</beans>

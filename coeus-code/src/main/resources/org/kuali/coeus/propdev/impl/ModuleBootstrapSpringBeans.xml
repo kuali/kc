@@ -23,7 +23,7 @@
         <property name="moduleTitle" value="KC Proposal Development"/>
         <property name="dispatchServletName" value="kc-pd-krad"/>
         <property name="filtersToMap" ref="filtersToMap"/>
-        <property name="bootstrapSpringFile" value="classpath:org/kuali/kra/proposaldevelopment/ModuleComponentSpringBeans.xml"/>
+        <property name="bootstrapSpringFile" value="classpath:org/kuali/coeus/propdev/impl/ModuleComponentSpringBeans.xml"/>
     </bean>
 
 </beans>
