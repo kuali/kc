@@ -13,11 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire;
+package org.kuali.coeus.common.questionnaire.impl.core;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireAuthorizationService;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.encryption.EncryptionService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KEWPropertyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
@@ -26,9 +31,18 @@ import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.LookupResultsService;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.BusinessObjectMetaDataService;
+import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -37,6 +51,8 @@ import java.util.*;
  * This class is mainly to override edit/copy action urls and create 'view' url.
  * Also, sort search results.
  */
+@Component("questionnaireLookupableHelperService")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static final long serialVersionUID = 1800678175555048310L;
@@ -46,12 +62,81 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
     private static final String NEW_MAINTENANCE = "../maintenanceQn";
     private static final String DOC_ROUTE_STATUS = "docRouteStatus";
     private static final String QUESTIONNAIRE_ID = "questionnaireId";
-    private DocumentService documentService;
-    private QuestionnaireAuthorizationService questionnaireAuthorizationService;
     private List<MaintenanceDocumentBase> questionnaireMaintenanceDocs;
     private List<MaintenanceDocumentBase> newQuestionnaireDocs;
     private List<String> questionnaireIds;
     private String isActive;
+
+    @Autowired
+    @Qualifier("documentService")
+    private DocumentService documentService;
+    @Autowired
+    @Qualifier("questionnaireAuthorizationService")
+    private QuestionnaireAuthorizationService questionnaireAuthorizationService;
+
+    @Autowired
+    @Qualifier("businessObjectDictionaryService")
+    @Override
+    public void setBusinessObjectDictionaryService(BusinessObjectDictionaryService businessObjectDictionaryService) {
+        super.setBusinessObjectDictionaryService(businessObjectDictionaryService);
+    }
+
+    @Autowired
+    @Qualifier("businessObjectService")
+    @Override
+    public void setBusinessObjectService(BusinessObjectService businessObjectyService) {
+        super.setBusinessObjectService(businessObjectService);
+    }
+
+    @Autowired
+    @Qualifier("businessObjectMetaDataService")
+    @Override
+    public void setBusinessObjectMetaDataService(BusinessObjectMetaDataService businessObjectMetaDataService) {
+        super.setBusinessObjectMetaDataService(businessObjectMetaDataService);
+    }
+
+    @Autowired
+    @Qualifier("dataDictionaryService")
+    @Override
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        super.setDataDictionaryService(dataDictionaryService);
+    }
+
+    @Autowired
+    @Qualifier("encryptionService")
+    @Override
+    public void setEncryptionService(EncryptionService encryptionService) {
+        super.setEncryptionService(encryptionService);
+    }
+
+    @Autowired
+    @Qualifier("lookupResultsService")
+    @Override
+    public void setLookupResultsService(LookupResultsService lookupResultsService) {
+        super.setLookupResultsService(lookupResultsService);
+    }
+
+    @Autowired
+    @Qualifier("lookupService")
+    @Override
+    public void setLookupService(LookupService lookupService) {
+        super.setLookupService(lookupService);
+    }
+
+    @Autowired
+    @Qualifier("persistenceStructureService")
+    @Override
+    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
+        super.setPersistenceStructureService(persistenceStructureService);
+    }
+
+    @Autowired
+    @Qualifier("sequenceAccessorService")
+    @Override
+    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+        super.setSequenceAccessorService(sequenceAccessorService);
+    }
+
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -96,8 +181,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         Questionnaire currentQnaire = getQuestionnaireById(questionnaire.getQuestionnaireSeqId());
         return questionnaire.getId().equals(currentQnaire.getId());
     }
-    
-    // TODO : Maybe we need a versioning history for Questionnaire, so we don't have to do this.
+
     protected Questionnaire getQuestionnaireById(String questionnaireId) {
         Questionnaire questionnaire = null;
         if (questionnaireId != null) {
@@ -105,7 +189,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
             fieldValues.put(QUESTIONNAIRE_ID, questionnaireId);
             Collection<Questionnaire> questionnaires = getBusinessObjectService().findMatching(Questionnaire.class, fieldValues);
             if (questionnaires.size() > 0) {
-                questionnaire = (Questionnaire) Collections.max(questionnaires);
+                questionnaire = Collections.max(questionnaires);
             }
         }
         return questionnaire;
@@ -241,6 +325,14 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    public QuestionnaireAuthorizationService getQuestionnaireAuthorizationService() {
+        return questionnaireAuthorizationService;
+    }
+
+    public DocumentService getDocumentService() {
+        return documentService;
     }
 
 }

@@ -17,7 +17,7 @@ package org.kuali.coeus.common.questionnaire.impl.question;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.questionnaire.QuestionnaireAuthorizationService;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireAuthorizationService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;

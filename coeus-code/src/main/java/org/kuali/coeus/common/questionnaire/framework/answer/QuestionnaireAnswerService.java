@@ -16,8 +16,8 @@
 package org.kuali.coeus.common.questionnaire.framework.answer;
 
 import org.kuali.kra.protocol.questionnaire.QuestionnaireHelperBase;
-import org.kuali.kra.questionnaire.Questionnaire;
-import org.kuali.kra.questionnaire.QuestionnaireUsage;
+import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage;
 
 import java.util.List;
 

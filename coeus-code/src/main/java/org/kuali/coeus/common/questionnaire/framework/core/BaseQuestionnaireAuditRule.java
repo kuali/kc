@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire;
+package org.kuali.coeus.common.questionnaire.framework.core;
 
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
@@ -73,9 +73,7 @@ public abstract class BaseQuestionnaireAuditRule<T extends KcTransactionalDocume
         QuestionnaireUsage usage = null;
         int version = 0;
         for (QuestionnaireUsage questionnaireUsage : questionnaireUsages) {
-            //if (usage == null || (moduleItemCode.equals(questionnaireUsage.getModuleItemCode()) && moduleSubItemCode.equals(questionnaireUsage.getModuleSubItemCode()))) {
-            //if (usage == null || (moduleItemCode.equals(questionnaireUsage.getModuleItemCode()) && moduleSubItemCode.equals(questionnaireUsage.getModuleSubItemCode()) && questionnaireUsage.getQuestionnaireSequenceNumber() > version)) {
-            if (moduleItemCode.equals(questionnaireUsage.getModuleItemCode()) && moduleSubItemCode.equals(questionnaireUsage.getModuleSubItemCode()) && questionnaireUsage.getQuestionnaireSequenceNumber() > version) {
+           if (moduleItemCode.equals(questionnaireUsage.getModuleItemCode()) && moduleSubItemCode.equals(questionnaireUsage.getModuleSubItemCode()) && questionnaireUsage.getQuestionnaireSequenceNumber() > version) {
                 version = questionnaireUsage.getQuestionnaireSequenceNumber();
                 usage = questionnaireUsage;
             }            

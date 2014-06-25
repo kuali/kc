@@ -16,7 +16,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="bean" required="true"
-	type="org.kuali.kra.questionnaire.QuestionnaireHelperBase"%>
+	type="org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireHelperBase"%>
 <%@ attribute name="property" required="true"%>
 <%@ attribute name="forceNonTransparent" required="false" %>
 <%@ attribute name="transparentBackground" required="false" %>

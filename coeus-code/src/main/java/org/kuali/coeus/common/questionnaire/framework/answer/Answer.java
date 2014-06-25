@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.questionnaire.framework.answer;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.kra.questionnaire.QuestionnaireQuestion;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.common.api.question.AnswerContract;
 

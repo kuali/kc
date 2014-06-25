@@ -21,6 +21,9 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.*;
+import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireAuthorizationService;
+import org.kuali.coeus.common.questionnaire.impl.core.QuestionnaireLookupableHelperServiceImpl;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
@@ -167,9 +170,9 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
   
         List<HtmlData> htmldata = questionnaireLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);        
         Assert.assertEquals(4, htmldata.size());
-        Assert.assertEquals(((AnchorHtmlData)htmldata.get(0)).getHref(), "../maintenanceQn.do?businessObjectClassName=org.kuali.kra.questionnaire.Questionnaire&id="+questionnaire.getId()+"&methodToCall=edit");
+        Assert.assertEquals(((AnchorHtmlData)htmldata.get(0)).getHref(), "../maintenanceQn.do?businessObjectClassName=org.kuali.coeus.common.questionnaire.framework.core.Questionnaire&id="+questionnaire.getId()+"&methodToCall=edit");
         Assert.assertTrue(((AnchorHtmlData)htmldata.get(1)).getHref().contains("/kew/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+questionnaire.getDocumentNumber()));
-        Assert.assertEquals(((AnchorHtmlData)htmldata.get(2)).getHref(), "../maintenanceQn.do?businessObjectClassName=org.kuali.kra.questionnaire.Questionnaire&idd="+questionnaire.getId()+"&methodToCall=copy");
+        Assert.assertEquals(((AnchorHtmlData)htmldata.get(2)).getHref(), "../maintenanceQn.do?businessObjectClassName=org.kuali.coeus.common.questionnaire.framework.core.Questionnaire&idd="+questionnaire.getId()+"&methodToCall=copy");
     }
     
     /**
