@@ -6,7 +6,7 @@ import org.kuali.coeus.common.api.question.QuestionAnswerService;
 import org.kuali.coeus.common.api.question.QuestionContract;
 import org.kuali.coeus.common.api.question.QuestionnaireContract;
 import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
-import org.kuali.kra.questionnaire.Questionnaire;
+import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.rice.krad.service.BusinessObjectService;

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.maintenance;
 
-import org.kuali.kra.questionnaire.Questionnaire;
+import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
 import org.kuali.rice.kns.datadictionary.MaintainableSectionDefinition;
 import org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;

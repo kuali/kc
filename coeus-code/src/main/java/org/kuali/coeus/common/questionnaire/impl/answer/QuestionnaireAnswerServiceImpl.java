@@ -34,10 +34,10 @@ import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sModuleQue
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonModuleQuestionnaireBean;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.questionnaire.QuestionnaireHelperBase;
-import org.kuali.kra.questionnaire.Questionnaire;
-import org.kuali.kra.questionnaire.QuestionnaireQuestion;
+import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireService;
-import org.kuali.kra.questionnaire.QuestionnaireUsage;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 import org.kuali.coeus.common.questionnaire.framework.question.QuestionDTO;
@@ -175,7 +175,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /**
      * 
      * @see org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService#getNewVersionAnswerHeader(org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean,
-     *      org.kuali.kra.questionnaire.Questionnaire)
+     *      org.kuali.coeus.common.questionnaire.framework.core.Questionnaire)
      */
     public AnswerHeader getNewVersionAnswerHeader(ModuleQuestionnaireBean moduleQuestionnaireBean, Questionnaire questionnaire) {
         AnswerHeader answerHeader = new AnswerHeader();

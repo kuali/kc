@@ -7,7 +7,7 @@
             <description>Create/Edit a Questionnaire</description>
             <label>Questionnaire</label>
 			<blanketApproveWorkgroupName>KC-WKFLW:QuestionnaireAdmin</blanketApproveWorkgroupName>
-			<postProcessorName>org.kuali.kra.questionnaire.QuestionnairePostProcessor</postProcessorName>
+			<postProcessorName>org.kuali.coeus.common.questionnaire.impl.core.QuestionnairePostProcessor</postProcessorName>
             <docHandler>${kuali.docHandler.url.prefix}/maintenanceQn.do?methodToCall=docHandler</docHandler>
             <helpDefinitionURL>default.htm?turl=Documents/questionnaire1.htm</helpDefinitionURL>
             <policies>

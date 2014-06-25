@@ -21,9 +21,9 @@ import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.questionnaire.Questionnaire;
-import org.kuali.kra.questionnaire.QuestionnaireQuestion;
-import org.kuali.kra.questionnaire.QuestionnaireUsage;
+import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -86,8 +86,8 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     /**
      * 
-     * @see org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireService#copyQuestionnaire(org.kuali.kra.questionnaire.Questionnaire,
-     *      org.kuali.kra.questionnaire.Questionnaire)
+     * @see org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireService#copyQuestionnaire(org.kuali.coeus.common.questionnaire.framework.core.Questionnaire,
+     *      org.kuali.coeus.common.questionnaire.framework.core.Questionnaire)
      */
     public void copyQuestionnaire(Questionnaire src, Questionnaire dest) {
         copyQuestionnaireLists(src, dest);

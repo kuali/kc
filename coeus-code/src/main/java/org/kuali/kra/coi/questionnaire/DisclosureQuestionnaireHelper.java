@@ -19,7 +19,7 @@ import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireHelperBase;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 import org.springframework.util.CollectionUtils;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.questionnaire;
+package org.kuali.coeus.common.questionnaire.impl.core;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +23,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.version.VersioningService;
-import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireService;
+import org.kuali.coeus.common.questionnaire.framework.core.*;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -79,6 +79,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     public static final String QUESTION = "question";
 
     private VersioningService versioningService;
+
     protected VersioningService getVersioningService (){
         if (versioningService == null)
             KcServiceLocator.getService(VersioningService.class);
@@ -404,10 +405,6 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         ActionForward forward = super.edit(mapping, form, request, response);
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         if (qnForm.isReadOnly()) {
-        //    if (!(qnnrs.isEmpty()) && !KcServiceLocator.getService(DocumentService.class).documentExists(request.getParameter("docId"))) {
-            // we are responding to a 'view' action for an approved questionnaire
-//            qnForm.getDocInfo().get(1).setDisplayValue("Final");
-            //docStatus.setDisplayValue("Final");
             qnForm.getDocument().getDocumentHeader().setDocumentDescription("questionnaire - bootstrap data");
          } 
         Questionnaire questionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
@@ -418,8 +415,6 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         Long questionnaireRefId = KcServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber(
                 SEQ_QUESTIONNAIRE_REF_ID, questionnaire.getClass());
         questionnaire.setQuestionnaireRefIdFromLong(questionnaireRefId);
-        // inherit from previous version when start editing
-//        questionnaire.setIsFinal(false);
         oldQuestionnaire.setQuestionnaireRefIdFromLong(questionnaireRefId);
         String questions = assembleQuestions(qnForm);
         String usages = assembleUsages(((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject()
@@ -504,8 +499,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
      */
     private void versionQuestionnaire(Questionnaire questionnaire, Questionnaire oldQuestionnaire) {
         try {
-            VersioningService versionService = getVersioningService();
-            Questionnaire newQuestionnaire = versionService.createNewVersion(oldQuestionnaire);
+            Questionnaire newQuestionnaire = getVersioningService().createNewVersion(oldQuestionnaire);
             questionnaire.setId(null);
             questionnaire.setSequenceNumber(newQuestionnaire.getSequenceNumber());
             for (QuestionnaireQuestion qnaireQuestion : questionnaire.getQuestionnaireQuestions()) {
@@ -598,7 +592,6 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         } else {
            reportParameters.put(TEMPLATE, questionnaire.getTemplate());
         }
-        // TODO : this is not a transaction document, so set to null ?
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaire(null, reportParameters);
         if (dataStream.getData() != null) {
             PrintingUtils.streamToResponse(dataStream, response);

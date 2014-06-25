@@ -20,7 +20,7 @@ import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
-import org.kuali.kra.questionnaire.QuestionnaireUsage;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
 import org.kuali.rice.krad.service.BusinessObjectService;
