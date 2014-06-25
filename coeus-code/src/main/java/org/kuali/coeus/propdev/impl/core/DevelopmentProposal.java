@@ -310,16 +310,14 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @OrderBy("columnName DESC, changeNumber DESC")
     private List<BudgetChangedData> budgetChangedDataList;
 
-    @OneToMany(orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER")
+    @OneToMany(mappedBy="developmentProposal",orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<Narrative> narratives;
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER")
     private List<ProposalAbstract> proposalAbstracts;
 
-    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER")
+    @OneToMany(mappedBy="developmentProposal",orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<Narrative> instituteAttachments;
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })

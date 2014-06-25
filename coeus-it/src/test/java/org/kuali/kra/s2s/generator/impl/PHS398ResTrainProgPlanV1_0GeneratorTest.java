@@ -51,7 +51,7 @@ public class PHS398ResTrainProgPlanV1_0GeneratorTest extends S2STestBase<PHS398R
         BufferedInputStream bis = new BufferedInputStream(inStream);
         byte[] narrativePdf = new byte[bis.available()];
         narrativeAttachment.setData(narrativePdf);
-        narrative.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+        narrative.setDevelopmentProposal(document.getDevelopmentProposal());
         narrative.setModuleNumber(1);
         narrative.setModuleSequenceNumber(1);
         narrative.setModuleStatusCode("C");

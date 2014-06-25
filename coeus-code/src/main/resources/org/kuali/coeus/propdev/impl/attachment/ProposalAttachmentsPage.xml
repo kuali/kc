@@ -56,7 +56,6 @@
 	<bean id="PropDev-AttachmentsPage-ProposalCollection" parent="PropDev-AttachmentsPage-ProposalCollection-parentBean" />
 	<bean id="PropDev-AttachmentsPage-ProposalCollection-parentBean" abstract="true"
 		parent="PropDev-Attachment-Collection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.attachment.Narrative"
-		p:layoutManager.summaryTitle="@{#lp.narrativeType.description + (#lp.narrativeType?.allowMultiple == 'Y' ? ' (' + #lp.moduleTitle + ')' : '')}"
 		p:propertyName="narratives">
 		<property name="items">
 			<list>
@@ -75,7 +74,6 @@
 				<bean parent="Uif-InputField" p:propertyName="comments"
 					p:order="60" />
 				<bean parent="Uif-InputField" p:propertyName="moduleTitle"
-					p:required="@{#lp.narrativeType?.allowMultiple == 'Y'}"
 					p:refreshWhenChangedPropertyNames="#lp.narrativeTypeCode" p:order="70" />
 				<bean parent="Uif-InputField" p:propertyName="updateUser"
 					p:render="@{!#isAddLine}" p:order="80" />
@@ -104,16 +102,7 @@
           p:propertyName="propPersonBios">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="proposalPersonNumber"
-                      p:order="10" />
-                <bean parent="Uif-InputField" p:propertyName="documentTypeCode"
-                      p:order="20" />
-                <bean parent="Uif-InputField" p:propertyName="description"
-                      p:order="30" />
-                <bean parent="Uif-InputField" p:propertyName="updateUser"
-                      p:render="@{!#isAddLine}" p:order="40" />
-                <bean parent="Uif-InputField" p:propertyName="updateTimestamp"
-                      p:render="@{!#isAddLine}" p:order="50" />
+
             </list>
         </property>
     </bean>
@@ -172,7 +161,6 @@
     <bean id="PropDev-AttachmentsPage-InternalSection" parent="PropDev-AttachmentsPage-InternalSection-parentBean" />
     <bean id="PropDev-AttachmentsPage-InternalSection-parentBean"
           abstract="true" parent="Uif-VerticalBoxSection" p:header.headerText="Internal"
-          p:instructionalText="Add attachments to this proposal"
           p:fieldBindingObjectPath="document.developmentProposal">
         <property name="items">
             <list>
@@ -183,20 +171,51 @@
 
     <bean id="PropDev-AttachmentsPage-InternalCollection" parent="PropDev-AttachmentsPage-InternalCollection-parentBean" />
     <bean id="PropDev-AttachmentsPage-InternalCollection-parentBean"
-          abstract="true" parent="PropDev-Attachment-Collection"
-          p:collectionObjectClass="org.kuali.coeus.propdev.impl.attachment.Narrative"
-          p:propertyName="instituteAttachments">
-        <property name="items">
-            <list>
-                <bean parent="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField"
-                      p:order="10" />
-                <bean parent="Uif-InputField" p:propertyName="moduleTitle"
-                      p:order="20" />
-                <bean parent="Uif-InputField" p:propertyName="updateUser"
-                      p:render="@{!#isAddLine}" p:order="30" />
-                <bean parent="Uif-InputField" p:propertyName="updateTimestamp"
-                      p:render="@{!#isAddLine}" p:order="40" />
+          abstract="true" parent="Uif-MultiFileUploadCollection"
+          p:collection.collectionObjectClass="org.kuali.coeus.propdev.impl.attachment.Narrative"
+          p:collection.propertyName="document.developmentProposal.instituteAttachments"
+          p:collection.layoutManager.richTable.render="false"  >
+        <property name="collection.lineActions">
+            <list merge="true">
+                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="editAttachment"
+                      p:hidden="@{#ViewHelper.isAttachmentEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableAttachments)}"
+                      p:actionLabel="Edit" p:order="10">
+                </bean>
+                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="saveAttachment"
+                      p:hidden="@{!#ViewHelper.isAttachmentEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableAttachments)}"
+                      p:actionLabel="Save" p:order="20">
+                </bean>
+                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="deleteFileUploadLine"
+                      p:title="Delete"
+                      p:onMouseOverScript="deleteLineMouseOver(this, 'uif-collectionDeleteHighlight');"
+                      p:onMouseOutScript="deleteLineMouseOut(this, 'uif-collectionDeleteHighlight');"
+                      p:onClickScript="writeCurrentPageToSession(this);" p:dirtyOnAction="true"
+                      p:loadingMessageText="Deleting File..." p:iconClass="icon-trash" p:order="30"/>
             </list>
+        </property>
+        <property name="collection.items">
+            <list>
+                <bean parent="Uif-LinkField" p:readOnly="true" p:label="File" p:link.linkText="@{#line.name}"
+                      p:link.href="?methodToCall=getFileFromLine&amp;formKey=@{formKey}&amp;fileName=@{#line.name}&amp;propertyPath=@{#collectionGroup.bindingInfo.bindingPath}&amp;selectedLineIndex=@{#index}" p:order="10"/>
+                <bean parent="Uif-MessageField" p:label="Added By"
+                      p:messageText="@{#line.updateUser} [color=grey](@{#line.getDateUploadedFormatted()})[/color]"
+                      p:order="20"/>
+                <bean parent="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField"
+                      p:readOnly="@{!#ViewHelper.isAttachmentEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableAttachments)}"
+                      p:order="30" />
+                <bean parent="Uif-InputField" p:propertyName="moduleTitle"
+                      p:readOnly="@{!#ViewHelper.isAttachmentEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableAttachments)}"
+                      p:order="40" />
+            </list>
+        </property>
+        <property name="collection.layoutManager.libraryCssClasses">
+            <list>
+                <value>table</value>
+                <value>table-condensed</value>
+            </list>
+        </property>
+        <property name="collection.layoutManager.cssClasses">
+            <null/>
         </property>
     </bean>
 
@@ -204,7 +223,9 @@
           parent="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField-parentBean" />
     <bean id="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField-parentBean"
             abstract="true" parent="Uif-InputField" p:propertyName="narrativeTypeCode"
-            p:readOnlyDisplayReplacementPropertyName="narrativeType.description">
+            p:readOnlyDisplayReplacementPropertyName="narrativeType.description"
+            p:fieldLabel.labelText="Type"
+            p:enableAutoQuickfinder="false">
         <property name="optionsFinder">
             <bean class="org.kuali.coeus.propdev.impl.attachment.institute.InstituteAttachmentTypeValuesFinder" />
         </property>
