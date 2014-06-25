@@ -13,6 +13,10 @@
     <context:annotation-config />
     <context:component-scan base-package="org.kuali.coeus.sys" />
 
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
+    </bean>
+
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportDataSourceSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/sys/impl/ModuleImportRiceSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/sys/impl/ModuleImportModuleSpringBeans.xml"/>
