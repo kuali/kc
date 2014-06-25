@@ -18,6 +18,7 @@ package org.kuali.coeus.common.framework.person;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.common.framework.contact.Contactable;
 import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
 import org.kuali.coeus.common.framework.unit.Unit;
@@ -53,7 +54,7 @@ import java.util.Date;
 /**
  * Represents a person in KC.
  */
-public class KcPerson extends TransientBusinessObjectBase implements Contactable  {
+public class KcPerson extends TransientBusinessObjectBase implements Contactable, KcPersonContract {
 
     private static final long serialVersionUID = 1L;
 
@@ -232,6 +233,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      * Gets the person id which is the KIM principal id.
      * @return the person id
      */
+    @Override
     public String getPersonId() {
         return this.personId;
     }
@@ -250,6 +252,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      * Gets the value of socialSecurityNumber.
      * @return the value of socialSecurityNumber
      */
+    @Override
     public String getSocialSecurityNumber() {
         return this.getExternalId("SSN");
     }
@@ -259,6 +262,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      * Gets the value of lastName.
      * @return the value of lastName
      */
+    @Override
     public String getLastName() {
         final EntityNameContract name = this.entity.getDefaultName();
         if (name == null) {
@@ -272,6 +276,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      * Gets the value of firstName.
      * @return the value of firstName
      */
+    @Override
     public String getFirstName() {
         final EntityNameContract name = this.entity.getDefaultName();
         if (name == null) {
@@ -286,6 +291,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of middleName
      */
+    @Override
     public String getMiddleName() {
         final EntityNameContract name = this.entity.getDefaultName();
         if (name == null) {
@@ -300,6 +306,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of fullName
      */
+    @Override
     public String getFullName() {
         final String middleName = this.getMiddleName() != null ? this.getMiddleName() + " " : "";
         
@@ -311,6 +318,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of priorName
      */
+    @Override
     public String getPriorName() {
         return selectSingleValue(this.entity.getNames(), new Selector<EntityNameContract, String>() {
             public String notFoundValue() { return ""; }
@@ -324,6 +332,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of userName
      */
+    @Override
     public String getUserName() {
         final String userName = this.getPrincipal() != null? this.getPrincipal().getPrincipalName() : null;
         
@@ -335,6 +344,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of emailAddress
      */
+    @Override
     public String getEmailAddress() {
         return selectSingleValue(this.getEntityType().getEmailAddresses(), new Selector<EntityEmailContract, String>() {
             public String notFoundValue() { return ""; }
@@ -348,6 +358,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of dateOfBirth
      */
+    @Override
     public String getDateOfBirth() {
         final EntityBioDemographicsContract bio = this.entity.getBioDemographics();
         if (bio == null) {
@@ -362,6 +373,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of age
      */
+    @Override
     public Integer getAge() {
         final EntityBioDemographicsContract bio = this.entity.getBioDemographics();
         if (bio == null) {
@@ -385,6 +397,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of ageByFiscalYear
      */
+    @Override
     public Integer getAgeByFiscalYear() {
         return this.extendedAttributes.getAgeByFiscalYear();
     }
@@ -394,6 +407,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of gender
      */
+    @Override
     public String getGender() {
         final EntityBioDemographicsContract bio = this.entity.getBioDemographics();
         if (bio == null) {
@@ -408,6 +422,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of race
      */
+    @Override
     public String getRace() {
         return this.extendedAttributes.getRace();
     }
@@ -417,6 +432,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of educationLevel
      */
+    @Override
     public String getEducationLevel() {
         return this.extendedAttributes.getEducationLevel();
     }
@@ -426,6 +442,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of degree
      */
+    @Override
     public String getDegree() {
         return this.extendedAttributes.getDegree();
     }
@@ -435,6 +452,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of major
      */
+    @Override
     public String getMajor() {
         return this.extendedAttributes.getMajor();
     }
@@ -444,6 +462,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of handicapped
      */
+    @Override
     public Boolean getHandicappedFlag() {
         return this.extendedAttributes.getHandicappedFlag();
     }
@@ -453,6 +472,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of handicapType
      */
+    @Override
     public String getHandicapType() {
         return this.extendedAttributes.getHandicapType();
     }
@@ -462,6 +482,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of veteran
      */
+    @Override
     public Boolean getVeteranFlag() {
         return this.extendedAttributes.getVeteranFlag();
     }
@@ -471,6 +492,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of veteranType
      */
+    @Override
     public String getVeteranType() {
         return this.extendedAttributes.getVeteranType();
     }
@@ -480,6 +502,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of visaCode
      */
+    @Override
     public String getVisaCode() {
         return this.extendedAttributes.getVisaCode();
     }
@@ -489,6 +512,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of visaType
      */
+    @Override
     public String getVisaType() {
         return this.extendedAttributes.getVisaType();
     }
@@ -498,6 +522,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of visaRenewalDate
      */
+    @Override
     public String getVisaRenewalDate() {
         return this.extendedAttributes.getVisaRenewalDate() != null ? this.formatDate(this.extendedAttributes.getVisaRenewalDate()) : null;
     }
@@ -507,6 +532,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of hasVisa
      */
+    @Override
     public Boolean getHasVisa() {
         return this.extendedAttributes.getHasVisa();
     }
@@ -516,6 +542,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of officeLocation
      */
+    @Override
     public String getOfficeLocation() {
         return this.extendedAttributes.getOfficeLocation();
     }
@@ -525,6 +552,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of officePhone
      */
+    @Override
     public String getOfficePhone() {
         //office phone is migrated as WRK type default
         return this.getPhoneNumber("WRK", true);
@@ -535,6 +563,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of secondaryOfficeLocation
      */
+    @Override
     public String getSecondaryOfficeLocation() {
         return this.extendedAttributes.getSecondaryOfficeLocation();
     }
@@ -544,6 +573,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of secondaryOfficePhone
      */
+    @Override
     public String getSecondaryOfficePhone() {
         //2nd office phone is migrated as WRK type non-default
         return this.getPhoneNumber("WRK", false);
@@ -554,6 +584,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of school
      */
+    @Override
     public String getSchool() {
         return this.extendedAttributes.getSchool();
     }
@@ -563,6 +594,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      * 
      * @return the value of yearGraduated
      */
+    @Override
     public String getYearGraduated() {
         return this.extendedAttributes.getYearGraduated();
     }
@@ -572,6 +604,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of directoryDepartment
      */
+    @Override
     public String getDirectoryDepartment() {
         return this.extendedAttributes.getDirectoryDepartment();
     }
@@ -581,6 +614,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of saluation
      */
+    @Override
     public String getSaluation() {
         final EntityNameContract name = this.entity.getDefaultName();
         if (name == null) {
@@ -595,6 +629,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of countryOfCitizenship
      */
+    @Override
     public String getCountryOfCitizenship() {
         return selectSingleValue(this.entity.getCitizenships(), new Selector<EntityCitizenshipContract, String>() {
             public String notFoundValue() { return ""; }
@@ -608,6 +643,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of primaryTitle
      */
+    @Override
     public String getPrimaryTitle() {
         return this.extendedAttributes.getPrimaryTitle();
     }
@@ -617,6 +653,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of directoryTitle
      */
+    @Override
     public String getDirectoryTitle() {
         return this.extendedAttributes.getDirectoryTitle();
     }
@@ -626,6 +663,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of faculty
      */
+    @Override
     public Boolean getFacultyFlag() {      
         return Boolean.valueOf(this.hasAffiliation("FCLTY"));
     }
@@ -635,6 +673,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of graduateStudentStaff
      */
+    @Override
     public Boolean getGraduateStudentStaffFlag() {
         return Boolean.valueOf(this.hasAffiliation("GRD_STDNT_STAFF"));
     }
@@ -644,6 +683,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of researchStaff
      */
+    @Override
     public Boolean getResearchStaffFlag() {
         return Boolean.valueOf(this.hasAffiliation("RSRCH_STAFF"));
     }
@@ -653,6 +693,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of serviceStaff
      */
+    @Override
     public Boolean getServiceStaffFlag() {
         return Boolean.valueOf(this.hasAffiliation("SRVC_STAFF"));
     }
@@ -662,6 +703,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of supportStaff
      */
+    @Override
     public Boolean getSupportStaffFlag() {
         return Boolean.valueOf(this.hasAffiliation("SUPPRT_STAFF"));
     }
@@ -671,6 +713,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of otherAcademicGroup
      */
+    @Override
     public Boolean getOtherAcademicGroupFlag() {
         return Boolean.valueOf(this.hasAffiliation("OTH_ACADMC_GRP"));
     }
@@ -680,6 +723,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of medicalStaff
      */
+    @Override
     public Boolean getMedicalStaffFlag() {
         return Boolean.valueOf(this.hasAffiliation("MED_STAFF"));
     }
@@ -689,6 +733,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of vacationAccrual
      */
+    @Override
     public Boolean getVacationAccrualFlag() {
         return this.extendedAttributes.getVacationAccrualFlag();
     }
@@ -698,6 +743,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of onSabbatical
      */
+    @Override
     public Boolean getOnSabbaticalFlag() {
         return this.extendedAttributes.getOnSabbaticalFlag();
     }
@@ -707,6 +753,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of idProvided
      */
+    @Override
     public String getIdProvided() {
         return this.extendedAttributes.getIdProvided();
     }
@@ -716,6 +763,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of idVerified
      */
+    @Override
     public String getIdVerified() {
         return this.extendedAttributes.getIdVerified();
     }
@@ -725,6 +773,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of addressLine1
      */
+    @Override
     public String getAddressLine1() {
         final EntityAddressContract address = this.getDefaultActiveAddress();
         return address.getLine1() != null ? address.getLine1() : "";
@@ -735,6 +784,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of addressLine2
      */
+    @Override
     public String getAddressLine2() {
         final EntityAddressContract address = this.getDefaultActiveAddress();
         return address.getLine2() != null ? address.getLine2() : "";
@@ -745,6 +795,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of addressLine3
      */
+    @Override
     public String getAddressLine3() {
         final EntityAddressContract address = this.getDefaultActiveAddress();
         return address.getLine3() != null ? address.getLine3() : "";
@@ -755,6 +806,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of city
      */
+    @Override
     public String getCity() {
         final EntityAddressContract address = this.getDefaultActiveAddress();
         return address.getCity() != null ? address.getCity() : "";
@@ -765,10 +817,12 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of county
      */
+    @Override
     public String getCounty() {
         return this.extendedAttributes.getCounty();
     }
-    
+
+    @Override
     public Integer getCitizenshipTypeCode() {
     	return this.extendedAttributes.getCitizenshipTypeCode();
     }
@@ -778,6 +832,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of state
      */
+    @Override
     public String getState() {
         final EntityAddressContract address = this.getDefaultActiveAddress();
         return address.getStateProvinceCode() != null ? address.getStateProvinceCode() : "";
@@ -788,6 +843,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of postalCode
      */
+    @Override
     public String getPostalCode() {
         final EntityAddressContract address = this.getDefaultActiveAddress();
         return address.getPostalCode() != null ? address.getPostalCode() : "";
@@ -798,6 +854,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of countryCode
      */
+    @Override
     public String getCountryCode() {
         final EntityAddressContract address = this.getDefaultActiveAddress();
         return address.getCountryCode() != null ? this.convert2DigitCountryCodeTo3Digit(address.getCountryCode()) : "";
@@ -808,6 +865,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of faxNumber
      */
+    @Override
     public String getFaxNumber() {
         return this.getPhoneNumber("FAX");
     }
@@ -817,6 +875,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of pagerNumber
      */
+    @Override
     public String getPagerNumber() {      
         return this.getPhoneNumber("PGR");
     }
@@ -826,6 +885,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of mobilePhoneNumber
      */
+    @Override
     public String getMobilePhoneNumber() {
         return this.getPhoneNumber("MBL");
     }
@@ -835,6 +895,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      *
      * @return the value of eraCommonsUserName
      */
+    @Override
     public String getEraCommonsUserName() {
         return this.getExternalId("ERAC");
     }
@@ -845,6 +906,11 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      */
     public Boolean getActive() {
         return Boolean.valueOf(this.entity.isActive());
+    }
+
+    @Override
+    public boolean isActive() {
+        return getActive();
     }
 
     @Override
@@ -883,6 +949,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      * Gets the campus code.
      * @return the campus code
      */
+    @Override
     public String getCampusCode() {
         return this.getCampusCode(true);
     }
@@ -924,6 +991,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      * gets the extended attributes BO.  This is only here to make rice DD relationships work.
      * @return the BO
      */
+    @Override
     public KcPersonExtendedAttributes getExtendedAttributes() {
         return this.extendedAttributes;
     }
@@ -950,7 +1018,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      * or extension b/c phone numbers in KC do not have them.  Will return an empty string
      * if unable to find a number for a type/default ind.
      * @param type the type
-     * @param whether the number must be default
+     * @param isDefault the number must be default
      * @return the phone number (ex: 123-4567)
      */
     private String getPhoneNumber(final String type, final boolean isDefault) {
@@ -991,7 +1059,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      * Formats a date in the format KC expects.
      * @param dte the date to format
      * @return the formatted date
-     * @see #standardDateFormat for the format
+     * @see #getKCDateFormat() for the format
      */
     private String formatDate(Date dte) {
         assert dte != null : "the date is null";

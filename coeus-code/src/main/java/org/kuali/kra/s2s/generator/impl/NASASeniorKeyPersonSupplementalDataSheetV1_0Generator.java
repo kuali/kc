@@ -29,11 +29,10 @@ import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
 import org.kuali.coeus.common.api.sponsor.SponsorService;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonComparator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
@@ -73,7 +72,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 	private static final String ATTACHMENT_TYPE_STATEMENT_OF_COMMITMENT_DOC = "4";
 	protected static final int MAX_KEY_PERSON_COUNT = 8;
 
-	List<ProposalPerson> extraPersons = new ArrayList<ProposalPerson>();
+	List<ProposalPersonContract> extraPersons = new ArrayList<ProposalPersonContract>();
 
 	/**
 	 * 
@@ -163,12 +162,12 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 	 * 
 	 */
 	private void populateInvestigators(NASASeniorKeyPersonSupplementalDataSheet nasaSeniorKPDataSheet) {
-		List<ProposalPerson> proposalPersonns = pdDoc.getDevelopmentProposal()
+		List<? extends ProposalPersonContract> proposalPersonns = pdDoc.getDevelopmentProposal()
 				.getProposalPersons();
 		Collections.sort(proposalPersonns, new ProposalPersonComparator());
-		List<ProposalPerson> keyPersons = new LinkedList<ProposalPerson>();
+		List<ProposalPersonContract> keyPersons = new LinkedList<ProposalPersonContract>();
 
-		for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal()
+		for (ProposalPersonContract proposalPerson : pdDoc.getDevelopmentProposal()
 				.getProposalPersons()) {
 			if (proposalPerson.getProposalPersonRoleId() != null
 					&& (CO_INVESTIGATOR.equalsIgnoreCase(proposalPerson
@@ -183,12 +182,12 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 		    return;
 		}
 		
-		List<ProposalPerson> nKeyPersons = s2sUtilService.getNKeyPersons(
+		List<ProposalPersonContract> nKeyPersons = s2sUtilService.getNKeyPersons(
 				keyPersons, true, MAX_KEY_PERSON_COUNT);
 		extraPersons = s2sUtilService.getNKeyPersons(keyPersons, false,
 				MAX_KEY_PERSON_COUNT);
 		List<gov.grants.apply.forms.nasaSeniorKeyPersonSupplementalDataSheetV10.NASASeniorKeyPersonSupplementalDataSheetDocument.NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson> seniorKeyPersonList = new LinkedList<gov.grants.apply.forms.nasaSeniorKeyPersonSupplementalDataSheetV10.NASASeniorKeyPersonSupplementalDataSheetDocument.NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson>();
-		for (ProposalPerson proposalPerson : nKeyPersons) {
+		for (ProposalPersonContract proposalPerson : nKeyPersons) {
 			seniorKeyPersonList.add(getPerson(proposalPerson));
 		}
 
@@ -208,7 +207,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 	 *         corresponding to the ProposalPerson object.
 	 */
 	private gov.grants.apply.forms.nasaSeniorKeyPersonSupplementalDataSheetV10.NASASeniorKeyPersonSupplementalDataSheetDocument.NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson getPerson(
-			ProposalPerson proposalPerson) {
+			ProposalPersonContract proposalPerson) {
 		gov.grants.apply.forms.nasaSeniorKeyPersonSupplementalDataSheetV10.NASASeniorKeyPersonSupplementalDataSheetDocument.NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson seniorKeyPerson = gov.grants.apply.forms.nasaSeniorKeyPersonSupplementalDataSheetV10.NASASeniorKeyPersonSupplementalDataSheetDocument.NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson.Factory
 				.newInstance();
 		seniorKeyPerson.setInternationalParticipation(YesNoDataType.N_NO); // default
@@ -314,7 +313,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 	 *         (NASASeniorKeyPersonSupplementalDataSheet.SeniorKeyPerson)
 	 *         corresponding to the ProposalPerson object.
 	 */
-	private SeniorKeyPerson getExtraPerson(ProposalPerson proposalPerson) {
+	private SeniorKeyPerson getExtraPerson(ProposalPersonContract proposalPerson) {
 		SeniorKeyPerson seniorKeyPerson = SeniorKeyPerson.Factory.newInstance();
 		seniorKeyPerson.setInternationalParticipation(YesNoDataType.N_NO); // default
 		seniorKeyPerson.setUSGovernmentParticipation(YesNoDataType.N_NO); // default

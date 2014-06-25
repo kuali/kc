@@ -16,6 +16,7 @@
 package org.kuali.coeus.common.budget.framework.personnel;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 
 /**
@@ -61,7 +62,7 @@ public interface BudgetPersonService {
      * @return true if persons match, false otherwise
      */
     public boolean proposalPersonEqualsBudgetPerson(
-            ProposalPerson proposalPerson,
+            ProposalPersonContract proposalPerson,
             BudgetPersonnelDetails budgetPersonnelDetails);
 
 }

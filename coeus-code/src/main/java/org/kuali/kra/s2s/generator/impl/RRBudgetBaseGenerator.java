@@ -24,6 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -31,7 +32,6 @@ import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
@@ -238,7 +238,7 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 		}
 		return compensation;
 	}
-   protected boolean isProposalPersonEqualsKeyPerson(ProposalPerson proposalPerson, KeyPersonInfo keyPerson) {
+   protected boolean isProposalPersonEqualsKeyPerson(ProposalPersonContract proposalPerson, KeyPersonInfo keyPerson) {
         if(keyPerson.getPersonId()!=null){
             return keyPerson.getPersonId().equals(proposalPerson.getPersonId());
         }else if(keyPerson.getRolodexId()!=null){

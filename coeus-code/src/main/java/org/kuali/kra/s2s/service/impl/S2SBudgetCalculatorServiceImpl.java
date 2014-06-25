@@ -17,13 +17,14 @@ package org.kuali.kra.s2s.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.budget.api.rate.RateClassContract;
+import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonContract;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.TbnPerson;
-import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
@@ -35,7 +36,6 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetRateAndBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.ConfigurationConstants;
@@ -810,7 +810,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                                     personExistsAsProposalPerson = false;
                                     // get sum of salary of other personnel, but
                                     // exclude the key persons and investigators
-                                    for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
+                                    for (ProposalPersonContract proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
                                         if (budgetPersonId.equals(proposalPerson.getPersonId())
                                                 || (proposalPerson.getRolodexId() != null && budgetPersonId.equals(proposalPerson
                                                         .getRolodexId().toString()))) {
@@ -1589,10 +1589,10 @@ public class S2SBudgetCalculatorServiceImpl implements
         List<KeyPersonInfo> keyPersons = new ArrayList<KeyPersonInfo>();
         List<KeyPersonInfo> seniorPersons = new ArrayList<KeyPersonInfo>();
         KeyPersonInfo keyPerson = new KeyPersonInfo();
-        ProposalPerson principalInvestigator = s2SUtilService.getPrincipalInvestigator(pdDoc);
+        ProposalPersonContract principalInvestigator = s2SUtilService.getPrincipalInvestigator(pdDoc);
 
         // Create master list of contacts
-        List<ProposalPerson> propPersons = new ArrayList<ProposalPerson>();
+        List<ProposalPersonContract> propPersons = new ArrayList<ProposalPersonContract>();
         if (principalInvestigator != null) {
             propPersons.add(principalInvestigator);
             keyPerson.setPersonId(principalInvestigator.getPersonId());
@@ -1607,7 +1607,7 @@ public class S2SBudgetCalculatorServiceImpl implements
             keyPersons.add(keyPerson);
         }
 
-        for (ProposalPerson coInvestigator : s2SUtilService.getCoInvestigators(pdDoc)) {
+        for (ProposalPersonContract coInvestigator : s2SUtilService.getCoInvestigators(pdDoc)) {
             propPersons.add(coInvestigator);
             keyPerson = new KeyPersonInfo();
             keyPerson.setPersonId(coInvestigator.getPersonId());
@@ -1630,7 +1630,7 @@ public class S2SBudgetCalculatorServiceImpl implements
             keyPersons.add(keyPerson);
         }
 
-        for (ProposalPerson propPerson : s2SUtilService.getKeyPersons(pdDoc)) {
+        for (ProposalPersonContract propPerson : s2SUtilService.getKeyPersons(pdDoc)) {
             propPersons.add(propPerson);
             keyPerson = new KeyPersonInfo();
             keyPerson.setPersonId(propPerson.getPersonId());
@@ -1650,7 +1650,7 @@ public class S2SBudgetCalculatorServiceImpl implements
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
             for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
                 personAlreadyAdded = false;
-                for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
+                for (ProposalPersonContract proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
                     if (budgetPersonService.proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails)) {
                         personAlreadyAdded = true;
                         break;
@@ -1696,7 +1696,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                             }
                         }
                     }else {
-                        KcPerson kcPerson = budgetPersonnelDetails.getBudgetPerson().getPerson();
+                        KcPersonContract kcPerson = budgetPersonnelDetails.getBudgetPerson().getPerson();
                         if (kcPerson != null) {
                             keyPerson = new KeyPersonInfo();
                             keyPerson.setPersonId(kcPerson.getPersonId());
@@ -1794,13 +1794,13 @@ public class S2SBudgetCalculatorServiceImpl implements
     }
 
     /**
-     * This method determines whether a {@link ProposalPerson} is a Non MIT person
+     * This method determines whether a {@link org.kuali.coeus.propdev.api.person.ProposalPersonContract} is a Non MIT person
      * 
      * @param proposalPerson ProposalPerson.
      * @return boolean true if Non MIT Person false otherwise.
-     * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#isPersonNonMITPerson(org.kuali.coeus.propdev.impl.person.ProposalPerson)
+     * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#isPersonNonMITPerson(ProposalPersonContract)
      */
-    public boolean isPersonNonMITPerson(ProposalPerson proposalPerson) {
+    public boolean isPersonNonMITPerson(ProposalPersonContract proposalPerson) {
         return proposalPerson.getPersonId() == null;
     }
 

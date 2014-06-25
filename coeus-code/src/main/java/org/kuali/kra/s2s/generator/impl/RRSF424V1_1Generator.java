@@ -30,18 +30,20 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
+import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
 import org.kuali.coeus.propdev.api.abstrct.ProposalAbstractContract;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
@@ -514,8 +516,8 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 	private OrganizationContactPersonDataType getPDPI() {
 		OrganizationContactPersonDataType PDPI = OrganizationContactPersonDataType.Factory
 				.newInstance();
-		ProposalPerson PI = null;
-		for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal()
+		ProposalPersonContract PI = null;
+		for (ProposalPersonContract proposalPerson : pdDoc.getDevelopmentProposal()
 				.getProposalPersons()) {
 			if (PRINCIPAL_INVESTIGATOR.equals(proposalPerson
 					.getProposalPersonRoleId())) {
@@ -538,7 +540,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 					}
 				}
 				if(PI.getHomeUnit() != null) {
-                    KcPerson kcPerson = PI.getPerson();
+                    KcPersonContract kcPerson = PI.getPerson();
                     String departmentName =  kcPerson.getOrganizationIdentifier();
                     PDPI.setDepartmentName(departmentName);
                 }

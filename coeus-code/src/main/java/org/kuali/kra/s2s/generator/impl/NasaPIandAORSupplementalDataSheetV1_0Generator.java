@@ -27,9 +27,9 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.question.AnswerContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SUtilService;
@@ -130,7 +130,7 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 		PrincipalInvestigatorName principalInvestigatorName = PrincipalInvestigatorName.Factory
 				.newInstance();
 
-		ProposalPerson PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
+		ProposalPersonContract PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
 		if (PI != null) {
 			principalInvestigatorName.setPDPIName(globLibV20Generator
 					.getHumanNameDataType(PI));

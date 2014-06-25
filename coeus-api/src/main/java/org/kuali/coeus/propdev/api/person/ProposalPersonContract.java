@@ -1,5 +1,6 @@
 package org.kuali.coeus.propdev.api.person;
 
+import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.common.api.person.attr.CitizenshipTypeContract;
 import org.kuali.coeus.propdev.api.person.creditsplit.ProposalPersonCreditSplitContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -168,4 +169,16 @@ public interface ProposalPersonContract extends ProposalPersonLink {
     List<? extends ProposalPersonDegreeContract> getProposalPersonDegrees();
 
     List<? extends ProposalPersonCreditSplitContract> getCreditSplits();
+
+    boolean isInvestigator();
+
+    boolean isPrincipalInvestigator();
+
+    boolean isCoInvestigator();
+
+    boolean isKeyPerson();
+
+    boolean isMultiplePi();
+
+    KcPersonContract getPerson();
 }
