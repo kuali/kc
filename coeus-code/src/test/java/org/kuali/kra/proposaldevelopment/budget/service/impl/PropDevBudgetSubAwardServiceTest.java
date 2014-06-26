@@ -28,6 +28,7 @@ import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.subaward.PropDevPropDevBudgetSubAwardServiceImpl;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.impl.core.BudgetServiceImpl;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
@@ -36,6 +37,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.*;
 
@@ -285,5 +287,16 @@ public class PropDevBudgetSubAwardServiceTest {
             newBudgetLineItem.setApplyInRateFlag(true);
             newBudgetLineItem.setSubmitCostSharingFlag(budget.getSubmitCostSharingFlag());
         }
+		@Override
+		protected Budget getNewBudgetVersion(BudgetParentDocument parent,
+				String versionName) throws WorkflowException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		@Override
+		protected void calculateBudgetOnSave(Budget budget) {
+			// TODO Auto-generated method stub
+			
+		}
     }
 }

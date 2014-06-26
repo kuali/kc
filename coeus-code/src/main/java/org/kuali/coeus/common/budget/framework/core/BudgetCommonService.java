@@ -21,7 +21,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 /**
  * This interface has services which required different implementations in AwardBudget and ProposalBudget modules 
  */
-public interface BudgetCommonService<T extends BudgetParent> {
+public interface BudgetCommonService<T extends BudgetParent> extends BudgetService<T> {
     /**
      * Returns a new finalized BudgetDocument based on the given ProposalDevelopmentDocument and documentDescription.
      * 
