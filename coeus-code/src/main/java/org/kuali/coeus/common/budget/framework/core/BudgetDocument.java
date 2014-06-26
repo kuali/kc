@@ -24,6 +24,7 @@ import javax.persistence.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.persistence.internal.weaving.RelationshipInfo;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
@@ -66,12 +67,6 @@ public class BudgetDocument<T extends BudgetParent> extends KcTransactionalDocum
 
     private static final String DOCUMENT_TYPE_CODE = "BUDG";
 
-    @Column(name = "PARENT_DOCUMENT_KEY")
-    private String parentDocumentKey;
-
-    @Column(name = "PARENT_DOCUMENT_TYPE_CODE")
-    private String parentDocumentTypeCode;
-
     @Transient
     private Budget budget;
 
@@ -80,17 +75,11 @@ public class BudgetDocument<T extends BudgetParent> extends KcTransactionalDocum
     private boolean budgetDeleted;
 
     @Transient
-    private BudgetParentDocument<T> parentDocument;
-
-    @Transient
     private transient DocumentService documentService;
 
     @Override
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
-        if (getParentDocumentKey() != null) {
-            getParentDocument().processAfterRetrieveForBudget(this);
-        }
         Long budgetId = getBudget().getBudgetId();
         try {
             List<BudgetPeriod> budgetPeriods = getBudget().getBudgetPeriods();
@@ -159,14 +148,6 @@ public class BudgetDocument<T extends BudgetParent> extends KcTransactionalDocum
     @Override
     public void prepareForSave() {
         super.prepareForSave();
-        getParentDocument().saveBudgetFinalVersionStatus(this);
-        if (this.getParentDocument() != null) {
-            if (this.getParentDocument().getBudgetDocumentVersions() != null) {
-                this.updateDocumentDescriptions(this.getParentDocument().getBudgetDocumentVersions());
-            }
-        } else {
-            this.refreshReferenceObject("parentDocument");
-        }
         if (ObjectUtils.isNull(this.getVersionNumber())) {
             this.setVersionNumber(new Long(0));
         }
@@ -180,32 +161,6 @@ public class BudgetDocument<T extends BudgetParent> extends KcTransactionalDocum
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.addAll(getBudget().buildListOfDeletionAwareLists());
         return managedLists;
-    }
-
-    /**
-     * Gets the parentDocument attribute. 
-     * @return Returns the parentDocument.
-     */
-    public BudgetParentDocument<T> getParentDocument() {
-        if (parentDocument == null) {
-            if (StringUtils.isNotBlank(parentDocumentKey)) {
-                try {
-                    parentDocument = (BudgetParentDocument<T>) getDocumentService().getByDocumentHeaderId(parentDocumentKey);
-                } catch (WorkflowException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-
-        return parentDocument;
-    }
-
-    /**
-     * Sets the parentDocument attribute value.
-     * @param parentDocument The parentDocument to set.
-     */
-    public void setParentDocument(BudgetParentDocument<T> parentDocument) {
-        this.parentDocument = parentDocument;
     }
 
     public void setBudget(Budget budget) {
@@ -225,47 +180,11 @@ public class BudgetDocument<T extends BudgetParent> extends KcTransactionalDocum
         return DOCUMENT_TYPE_CODE;
     }
 
-    /**
-     * Gets the parentDocumentKey attribute. 
-     * @return Returns the parentDocumentKey.
-     */
-    public String getParentDocumentKey() {
-        return parentDocumentKey;
-    }
-
-    /**
-     * Sets the parentDocumentKey attribute value.
-     * @param parentDocumentNumber The parentDocumentKey to set.
-     */
-    public void setParentDocumentKey(String parentDocumentNumber) {
-        this.parentDocumentKey = parentDocumentNumber;
-    }
-
-    /**
-     * Gets the parentDocumentTypeCode attribute. 
-     * @return Returns the parentDocumentTypeCode.
-     */
-    public String getParentDocumentTypeCode() {
-        return parentDocumentTypeCode;
-    }
-
-    /**
-     * Sets the parentDocumentTypeCode attribute value.
-     * @param parentDocumentTypeCode The parentDocumentTypeCode to set.
-     */
-    public void setParentDocumentTypeCode(String parentDocumentTypeCode) {
-        this.parentDocumentTypeCode = parentDocumentTypeCode;
-    }
-
     @Override
     public String getCustomLockDescriptor(Person user) {
         String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         if (StringUtils.isNotEmpty(activeLockRegion)) {
-            BudgetParentDocument parent = this.getParentDocument();
-            if (parent != null) {
                 return getDocumentBoNumber() + "-" + activeLockRegion + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName();
-            }
-            return getDocumentBoNumber() + "-" + activeLockRegion + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName();
         }
         return null;
     }
@@ -275,7 +194,7 @@ public class BudgetDocument<T extends BudgetParent> extends KcTransactionalDocum
     }
 
     public String getDocumentKey() {
-        return getParentDocument().getBudgetPermissionable().getDocumentKey();
+        return getBudget().getBudgetParent().getDocument().getBudgetPermissionable().getDocumentKey();
     }
 
     public String getDocumentNumberForPermission() {
@@ -283,7 +202,7 @@ public class BudgetDocument<T extends BudgetParent> extends KcTransactionalDocum
     }
 
     public List<String> getRoleNames() {
-        return getParentDocument().getBudgetPermissionable().getRoleNames();
+        return getBudget().getBudgetParent().getDocument().getBudgetPermissionable().getRoleNames();
     }
 
     public String getNamespace() {
@@ -291,15 +210,11 @@ public class BudgetDocument<T extends BudgetParent> extends KcTransactionalDocum
     }
 
     public String getLeadUnitNumber() {
-        return getParentDocument().getBudgetPermissionable().getLeadUnitNumber();
+        return getBudget().getBudgetParent().getDocument().getBudgetPermissionable().getLeadUnitNumber();
     }
 
     public String getDocumentRoleTypeCode() {
         return RoleConstants.PROPOSAL_ROLE_TYPE;
-    }
-
-    public String getProposalBudgetFlag() {
-        return getParentDocument().getProposalBudgetFlag();
     }
 
     @Override
@@ -323,26 +238,6 @@ public class BudgetDocument<T extends BudgetParent> extends KcTransactionalDocum
 
     public boolean isProcessComplete() {
         return true;
-    }
-
-    public java.util.Date getBudgetStartDate() {
-        if (StringUtils.equalsIgnoreCase("true", getProposalBudgetFlag())) {
-            ProposalDevelopmentDocument pdd = (ProposalDevelopmentDocument) getParentDocument();
-            return pdd.getDevelopmentProposal().getRequestedStartDateInitial();
-        } else {
-            AwardDocument ad = (AwardDocument) getParentDocument();
-            return ad.getAward().getAwardAmountInfos().get(ad.getAward().getAwardAmountInfos().size() - 1).getCurrentFundEffectiveDate();
-        }
-    }
-
-    public java.util.Date getBudgetEndDate() {
-        if (StringUtils.equalsIgnoreCase("true", getProposalBudgetFlag())) {
-            ProposalDevelopmentDocument pdd = (ProposalDevelopmentDocument) getParentDocument();
-            return pdd.getDevelopmentProposal().getRequestedEndDateInitial();
-        } else {
-            AwardDocument ad = (AwardDocument) getParentDocument();
-            return ad.getAward().getAwardAmountInfos().get(ad.getAward().getAwardAmountInfos().size() - 1).getObligationExpirationDate();
-        }
     }
 
     @Override
@@ -374,4 +269,9 @@ public class BudgetDocument<T extends BudgetParent> extends KcTransactionalDocum
 
         return documentService;
     }
+
+	@Override
+	public String getProposalBudgetFlag() {
+		return "N";
+	}
 }

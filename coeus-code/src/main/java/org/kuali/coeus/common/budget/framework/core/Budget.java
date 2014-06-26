@@ -38,6 +38,7 @@ import org.kuali.coeus.sys.api.model.ScaleThreeDecimal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
@@ -60,6 +61,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetNumberOfMonthsService;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.data.jpa.FilterGenerator;
@@ -1780,4 +1782,12 @@ public class Budget extends AbstractBudget {
             return rateClassType1.getSortId().compareTo(rateClassType2.getSortId());
         }
     }
+    
+    public java.util.Date getBudgetStartDate() {
+    	throw new UnsupportedOperationException();
+    }
+
+    public java.util.Date getBudgetEndDate() {
+    	throw new UnsupportedOperationException();
+    }    
 }

@@ -475,7 +475,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     @Override
     public void processAfterRetrieveForBudget(BudgetDocument budgetDocument) {
-        getProposalBudgetStatusService().loadBudgetStatusByProposalDocumentNumber(budgetDocument.getParentDocumentKey());
+        getProposalBudgetStatusService().loadBudgetStatusByProposalDocumentNumber(((DevelopmentProposal) budgetDocument.getBudget().getBudgetParent()).getProposalNumber());
     }
 
     @Override

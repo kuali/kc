@@ -270,15 +270,14 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         } else {
             awardBudgetDocument = (AwardBudgetDocument) documentService.getNewDocument(AwardBudgetDocument.class);
         }
-        
-        awardBudgetDocument.setParentDocument(parentDocument);
-        awardBudgetDocument.setParentDocumentKey(parentDocument.getDocumentNumber());
-        awardBudgetDocument.setParentDocumentTypeCode(parentDocument.getDocumentTypeCode());
+
         awardBudgetDocument.getDocumentHeader().setDocumentDescription(documentDescription);
         
         AwardBudgetExt awardBudget = awardBudgetDocument.getAwardBudget();
         awardBudget.setBudgetVersionNumber(budgetVersionNumber);
         awardBudget.setBudgetDocument(awardBudgetDocument);
+        awardBudget.setAward(parentDocument.getAward());
+        awardBudget.setAwardId(parentDocument.getAward().getAwardId());
         BudgetVersionOverview lastBudgetVersion = getLastBudgetVersion(parentDocument);
         awardBudget.setOnOffCampusFlag(lastBudgetVersion == null ? Constants.DEFALUT_CAMUS_FLAG : lastBudgetVersion.getOnOffCampusFlag());
         if (awardBudgetDocument.getDocumentHeader() != null && awardBudgetDocument.getDocumentHeader().hasWorkflowDocument()) {
@@ -558,7 +557,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
     	AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument)budgetDocument;
         ((AwardBudgetExt) budgetDocument.getBudget()).getAwardBudgetLimits().clear();
         BudgetDocument newBudgetDocument = getBudgetService().copyBudgetVersion(awardBudgetDocument, onlyOnePeriod);
-        setBudgetLimits((AwardBudgetDocument) newBudgetDocument, (AwardDocument) newBudgetDocument.getParentDocument());
+        setBudgetLimits((AwardBudgetDocument) newBudgetDocument, (AwardDocument) newBudgetDocument.getBudget().getBudgetParent().getDocument());
         return newBudgetDocument;        
     }
 	@Override

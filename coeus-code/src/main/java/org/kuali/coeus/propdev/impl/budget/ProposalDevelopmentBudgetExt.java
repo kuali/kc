@@ -64,4 +64,13 @@ public class ProposalDevelopmentBudgetExt extends Budget {
 	public String getParentDocumentKey() {
 		return developmentProposal.getProposalNumber();
 	}
+	
+    public java.util.Date getBudgetStartDate() {
+        return getDevelopmentProposal().getRequestedStartDateInitial();
+    }
+
+    public java.util.Date getBudgetEndDate() {
+        return getDevelopmentProposal().getRequestedEndDateInitial();
+
+    }
 }

@@ -22,9 +22,9 @@ import org.kuali.kra.infrastructure.TaskGroupName;
 public class AwardBudgetTask extends Task {
     
     private AwardBudgetDocument awardBudgetDocument;
-    public AwardBudgetTask(String taskName, AwardBudgetDocument awardbudgetDocument) {
+    public AwardBudgetTask(String taskName, AwardBudgetDocument awardBudgetDocument) {
         super(TaskGroupName.AWARD_BUDGET, taskName);
-        this.awardBudgetDocument = awardbudgetDocument;
+        this.awardBudgetDocument = awardBudgetDocument;
     }
     /**
      * Gets the awardBudgetDocument attribute. 

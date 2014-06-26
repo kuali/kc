@@ -167,7 +167,7 @@ public final class BudgetModularTotalDirectCostRule {
      */
     private void updateDocumentBudget(BudgetDocument budgetDocument, BudgetVersionOverview version) {
         Budget budget = budgetDocument.getBudget();
-        BudgetParentDocument proposal = budgetDocument.getParentDocument();
+        BudgetParentDocument proposal = budgetDocument.getBudget().getBudgetParent().getDocument();
         
         budget.setFinalVersionFlag(version.isFinalVersionFlag());
         budget.setBudgetStatus(version.getBudgetStatus());

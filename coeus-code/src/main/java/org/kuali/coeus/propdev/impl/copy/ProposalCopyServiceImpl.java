@@ -48,6 +48,7 @@ import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardAttachment;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardFiles;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
@@ -1022,10 +1023,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         
         ObjectUtils.materializeAllSubObjects(budgetDocument.getBudget()); 
 
-        Budget budget = budgetDocument.getBudget();
+        ProposalDevelopmentBudgetExt budget = (ProposalDevelopmentBudgetExt) budgetDocument.getBudget();
         
         budget.setFinalVersionFlag(false);
-        budgetDocument.setParentDocumentKey(dest.getDocumentNumber());
+        budget.setDevelopmentProposal(dest.getDevelopmentProposal());
         
         //Work around for 1-to-1 Relationship between BudgetPeriod & BudgetModular
         Map<BudgetPeriod, BudgetModular> tmpBudgetModulars = new HashMap<BudgetPeriod, BudgetModular>(); 
@@ -1069,7 +1070,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
         getDocumentService().saveDocument(budgetDocument);
         getDocumentService().routeDocument(budgetDocument, "Route to Final", new ArrayList());
-        budgetDocument.getParentDocument().refreshBudgetDocumentVersions();
+        budgetDocument.getBudget().getBudgetParent().getDocument().refreshBudgetDocumentVersions();
     }
     
     /**

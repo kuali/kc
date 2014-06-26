@@ -201,7 +201,6 @@ public class BudgetPersonnelRuleTest {
         
         budget.setBudgetPeriods(periods);
         budget.setBudgetPersons(persons);
-        bdoc.setParentDocumentKey("1234");
         budget.setBudgetVersionNumber(1);
         return bdoc;
     }

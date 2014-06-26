@@ -47,7 +47,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
         Set<String> editModes = new HashSet<String>();
                  
         BudgetDocument budgetDoc = (BudgetDocument) document;
-        BudgetParentDocument parentDocument = budgetDoc.getParentDocument();
+        BudgetParentDocument parentDocument = budgetDoc.getBudget().getBudgetParent().getDocument();
         String userId = user.getPrincipalId(); 
         
         if (canExecuteBudgetTask(userId, budgetDoc, TaskName.VIEW_SALARIES )) {
@@ -233,21 +233,21 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
      */
     @SuppressWarnings("unchecked")
     private void reloadParentIfNoWorkflow(BudgetDocument budgetDocument) {
-        BudgetParentDocument parentDoc = budgetDocument.getParentDocument();
-        WorkflowDocument workflowDocument = getWorkflowDocument(parentDoc);
-        if (workflowDocument == null) {
-            try {
-                parentDoc = 
-                    (BudgetParentDocument) KcServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(parentDoc.getDocumentNumber());
-                if (parentDoc != null) {
-                    budgetDocument.setParentDocument(parentDoc);
-                }
-            } catch (WorkflowException e) { 
-                // we can't easily report or handle the error here and
-                // if we can't load the parent document there are bigger problems
-                // and it will be reported later
-            }
-        }
+//        BudgetParentDocument parentDoc = budgetDocument.getBudget().getBudgetParent().getDocument();
+//        WorkflowDocument workflowDocument = getWorkflowDocument(parentDoc);
+//        if (workflowDocument == null) {
+//            try {
+//                parentDoc = 
+//                    (BudgetParentDocument) KcServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(parentDoc.getDocumentNumber());
+//                if (parentDoc != null) {
+//                    budgetDocument.setParentDocument(parentDoc);
+//                }
+//            } catch (WorkflowException e) { 
+//                // we can't easily report or handle the error here and
+//                // if we can't load the parent document there are bigger problems
+//                // and it will be reported later
+//            }
+//        }
     } 
     
     private WorkflowDocument getWorkflowDocument(Document doc) {

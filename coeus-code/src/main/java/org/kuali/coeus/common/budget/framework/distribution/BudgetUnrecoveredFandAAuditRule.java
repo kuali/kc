@@ -77,7 +77,7 @@ public class BudgetUnrecoveredFandAAuditRule implements DocumentAuditRule {
         
         int i=0;
         int j=0;
-        BudgetParent budgetParent = ((BudgetDocument) document).getParentDocument().getBudgetParent();
+        BudgetParent budgetParent = ((BudgetDocument) document).getBudget().getBudgetParent();
         Date projectStartDate = budgetParent.getRequestedStartDateInitial();
         Date projectEndDate = budgetParent.getRequestedEndDateInitial();
 

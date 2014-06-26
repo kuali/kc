@@ -46,7 +46,7 @@ public class ActivityTypeAuditRule  implements DocumentAuditRule{
         BudgetDocument budgetDocument = (BudgetDocument)document;
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         if (isActivityTypeChanged(budgetDocument)) {
-            if (budgetDocument.getParentDocument() instanceof AwardDocument) {
+            if (budgetDocument.getBudget().getBudgetParent().getDocument() instanceof AwardDocument) {
                 auditErrors.add(new AuditError(Constants.ACTIVITY_TYPE_KEY.replace("developmentProposalList", "awardList"),
                     KeyConstants.WARNING_ACTIVITY_TYPE_CHANGED, Constants.MAPPING_AWARD_HOME_PAGE + "." + "detailsDate"));
             } else {
@@ -61,7 +61,7 @@ public class ActivityTypeAuditRule  implements DocumentAuditRule{
     }
 
     private boolean isActivityTypeChanged(BudgetDocument budgetDocument) {
-        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
+        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
         boolean syncRate = false;
         Collection<BudgetRate> allBudgetRates = KcServiceLocator.getService(BudgetService.class).getSavedBudgetRates(budgetDocument.getBudget());
         syncRate = getBudgetService().checkActivityTypeChange(allBudgetRates,

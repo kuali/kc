@@ -34,7 +34,7 @@ public class ViewAwardBudgetSalariesAuthorizer extends BudgetAuthorizer {
             AwardBudgetTask budgetTask = (AwardBudgetTask) task;
             AwardBudgetDocument budgetDocument = budgetTask.getAwardBudgetDocument();
             return hasUnitPermission(userId, 
-                    budgetDocument.getParentDocument().getBudgetParent().getLeadUnitNumber(), 
+                    budgetDocument.getBudget().getBudgetParent().getDocument().getLeadUnitNumber(), 
                     Constants.MODULE_NAMESPACE_BUDGET, PermissionConstants.VIEW_SALARIES);
     }
 }

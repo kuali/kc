@@ -198,7 +198,7 @@ public class BudgetRatesAction extends BudgetAction {
             budget.getBudgetRatesService().syncAllBudgetRates(budget);
             
             budget.setRateSynced(true);
-            BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
+            BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
             if (!budget.getActivityTypeCode().equals(parentDocument.getBudgetParent().getActivityTypeCode())) {
                 budget.setActivityTypeCode(parentDocument.getBudgetParent().getActivityTypeCode());
             }

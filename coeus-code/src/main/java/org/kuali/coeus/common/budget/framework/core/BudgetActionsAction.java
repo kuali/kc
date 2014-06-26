@@ -423,7 +423,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm) form).getAwardBudgetDocument();
-        Award currentAward = getAwardBudgetService().getActiveOrNewestAward(((AwardDocument) awardBudgetDocument.getParentDocument()).getAward().getAwardNumber());
+        Award currentAward = getAwardBudgetService().getActiveOrNewestAward(((AwardDocument) awardBudgetDocument.getBudget().getBudgetParent().getDocument()).getAward().getAwardNumber());
         ScaleTwoDecimal newCostLimit = getAwardBudgetService().getTotalCostLimit(currentAward.getAwardDocument());
         if (!newCostLimit.equals(awardBudgetDocument.getBudget().getTotalCostLimit())
                 || !limitsMatch(currentAward.getAwardBudgetLimits(), awardBudgetDocument.getAwardBudget().getAwardBudgetLimits())) {
@@ -704,7 +704,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
 
     public ActionForward syncBudgetToParent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        DevelopmentProposal childProposal = (DevelopmentProposal) budgetForm.getBudgetDocument().getParentDocument().getBudgetParent();
+        DevelopmentProposal childProposal = (DevelopmentProposal) budgetForm.getBudgetDocument().getBudget().getBudgetParent();
         getHierarchyHelper().syncBudgetToParent((ProposalDevelopmentBudgetExt) budgetForm.getBudgetDocument().getBudget(), childProposal, false);
         if (GlobalVariables.getMessageMap().containsMessageKey(ProposalHierarchyKeyConstants.QUESTION_EXTEND_PROJECT_DATE_CONFIRM)) {
             return doEndDateConfirmation(mapping, form, request, response, "syncBudgetToParent", "syncToHierarchyParentConfirm");
@@ -731,7 +731,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     
     public ActionForward syncBudgetToParentConfirm(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        DevelopmentProposal childProposal = (DevelopmentProposal) budgetForm.getBudgetDocument().getParentDocument().getBudgetParent();
+        DevelopmentProposal childProposal = (DevelopmentProposal) budgetForm.getBudgetDocument().getBudget().getBudgetParent();
         getHierarchyHelper().syncBudgetToParent((ProposalDevelopmentBudgetExt) budgetForm.getBudgetDocument().getBudget(), childProposal, true);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
