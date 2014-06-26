@@ -123,36 +123,39 @@
 
 	</bean>
 
-	<bean id="PropDev-DetailsPage-SponsorField" parent="PropDev-DetailsPage-SponsorField-parentBean" />
-	<bean id="PropDev-DetailsPage-SponsorField-parentBean" abstract="true"
-		parent="PropDev-DetailsPage-SponsorField-Defaults" p:propertyName="sponsorCode"
-        p:helperText="Enter the sponsor code for this proposal or find one using the lookup tool."
-		p:instructionalMessage.messageText="@{document.developmentProposal.sponsor?.sponsorName?:'&amp;nbsp;'}">
+    <bean id="PropDev-DetailsPage-SponsorField" parent="PropDev-DetailsPage-SponsorField-parentBean" />
+    <bean id="PropDev-DetailsPage-SponsorField-parentBean" abstract="true"
+          parent="PropDev-DetailsPage-SponsorField-Defaults" p:propertyName="sponsorCode"
+          p:helperText="Enter the sponsor code for this proposal or find one using the lookup tool."
+          p:instructionalMessage.messageText="@{document.developmentProposal.sponsor?.sponsorName?:'&amp;nbsp;'}">
         <property name="quickfinder">
-            <bean parent="Uif-QuickFinder"
-                  p:hideCriteriaOnSearch="true"
+            <bean parent="PropDev-DetailsPage-SponsorQuickFinder"
                   p:lookupParameters="sponsorCode:sponsorCode"
                   p:fieldConversions="sponsorCode:sponsorCode">
             </bean>
         </property>
     </bean>
 
-	<bean id="PropDev-DetailsPage-PrimeSponsorField" parent="PropDev-DetailsPage-PrimeSponsorField-parentBean" />
-	<bean id="PropDev-DetailsPage-PrimeSponsorField-parentBean"
-		abstract="true" parent="PropDev-DetailsPage-SponsorField-Defaults"
-        p:helperText="Enter the prime sponsor ID for this proposal or find one using the lookup tool."
-		p:propertyName="primeSponsorCode"
-		p:instructionalMessage.messageText="@{document.developmentProposal.primeSponsor?.sponsorName?:'&amp;nbsp;'}">
+    <bean id="PropDev-DetailsPage-PrimeSponsorField" parent="PropDev-DetailsPage-PrimeSponsorField-parentBean" />
+    <bean id="PropDev-DetailsPage-PrimeSponsorField-parentBean"
+          abstract="true" parent="PropDev-DetailsPage-SponsorField-Defaults"
+          p:helperText="Enter the prime sponsor ID for this proposal or find one using the lookup tool."
+          p:propertyName="primeSponsorCode"
+          p:instructionalMessage.messageText="@{document.developmentProposal.primeSponsor?.sponsorName?:'&amp;nbsp;'}">
         <property name="quickfinder">
-            <bean parent="Uif-QuickFinder"
-                  p:hideCriteriaOnSearch="true"
+            <bean parent="PropDev-DetailsPage-SponsorQuickFinder"
                   p:lookupParameters="primeSponsorCode:sponsorCode"
                   p:fieldConversions="sponsorCode:primeSponsorCode">
             </bean>
         </property>
     </bean>
 
-	<bean id="PropDev-DetailsPage-SponsorField-Defaults" abstract="true"
+    <bean id="PropDev-DetailsPage-SponsorQuickFinder" parent="PropDev-DetailsPage-SponsorQuickFinder-parentBean" />
+    <bean id="PropDev-DetailsPage-SponsorQuickFinder-parentBean" parent="Uif-QuickFinderByScript"
+          p:hideCriteriaOnSearch="true"
+          p:dataObjectClassName="org.kuali.coeus.common.framework.sponsor.Sponsor"/>
+
+    <bean id="PropDev-DetailsPage-SponsorField-Defaults" abstract="true"
 		parent="PropDev-DetailsPage-SponsorField-Defaults-parentBean" />
 	<bean id="PropDev-DetailsPage-SponsorField-Defaults-parentBean"
 		abstract="true" parent="Uif-InputField"
