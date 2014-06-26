@@ -1,5 +1,6 @@
 package org.kuali.coeus.common.budget.framework.core;
 
+import org.kuali.coeus.common.budget.api.core.AbstractBudgetContract;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @MappedSuperclass
-public abstract class AbstractBudget extends KcPersistableBusinessObjectBase implements Comparable<AbstractBudget> {
+public abstract class AbstractBudget extends KcPersistableBusinessObjectBase implements Comparable<AbstractBudget>, AbstractBudgetContract {
     private static final long serialVersionUID = -4997453399414404715L;
 
     @Column(name = "VERSION_NUMBER")
@@ -122,6 +123,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
     @Transient
     private String documentDescription;
 
+    @Override
     public Integer getBudgetVersionNumber() {
         return budgetVersionNumber;
     }
@@ -130,6 +132,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         this.budgetVersionNumber = budgetVersionNumber;
     }
 
+    @Override
     public ScaleTwoDecimal getCostSharingAmount() {
         return costSharingAmount == null ? ScaleTwoDecimal.ZERO : costSharingAmount;
     }
@@ -138,6 +141,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         this.costSharingAmount = costSharingAmount;
     }
 
+    @Override
     public Boolean getFinalVersionFlag() {
         return isFinalVersionFlag();
     }
@@ -150,6 +154,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         this.finalVersionFlag = finalVersionFlag;
     }
 
+    @Override
     public String getOhRateTypeCode() {
         return ohRateTypeCode;
     }
@@ -166,6 +171,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         this.ohRateClassCode = ohRateClassCode;
     }
 
+    @Override
     public RateClass getRateClass() {
         return this.rateClass;
     }
@@ -174,6 +180,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         this.rateClass = rateClass;
     }
 
+    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
@@ -182,6 +189,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         this.documentNumber = documentNumber;
     }
 
+    @Override
     public ScaleTwoDecimal getResidualFunds() {
         return residualFunds;
     }
@@ -190,6 +198,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         this.residualFunds = residualFunds;
     }
 
+    @Override
     public ScaleTwoDecimal getTotalCost() {
         return totalCost == null ? ScaleTwoDecimal.ZERO : totalCost;
     }
@@ -226,6 +235,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         this.budgetStatus = budgetStatus;
     }
 
+    @Override
     public Date getEndDate() {
         return endDate;
     }
@@ -234,6 +244,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         this.endDate = endDate;
     }
 
+    @Override
     public Date getStartDate() {
         return startDate;
     }
@@ -242,6 +253,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         this.startDate = startDate;
     }
 
+    @Override
     public ScaleTwoDecimal getTotalCostLimit() {
         return totalCostLimit == null ? ScaleTwoDecimal.ZERO : totalCostLimit;
     }
@@ -250,14 +262,17 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         this.totalCostLimit = totalCostLimit;
     }
 
+    @Override
     public ScaleTwoDecimal getTotalDirectCost() {
         return totalDirectCost == null ? new ScaleTwoDecimal(0) : totalDirectCost;
     }
 
+    @Override
     public ScaleTwoDecimal getTotalIndirectCost() {
         return totalIndirectCost == null ? new ScaleTwoDecimal(0) : totalIndirectCost;
     }
 
+    @Override
     public ScaleTwoDecimal getUnderrecoveryAmount() {
         return underrecoveryAmount == null ? new ScaleTwoDecimal(0) : underrecoveryAmount;
     }
@@ -270,6 +285,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         this.documentDescription = documentDescription;
     }
 
+    @Override
     public String getComments() {
         return comments;
     }
@@ -295,6 +311,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         return this.budgetVersionNumber.compareTo(otherVersion.getBudgetVersionNumber());
     }
 
+    @Override
     public Long getBudgetId() {
         return budgetId;
     }
@@ -303,6 +320,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         this.budgetId = budgetId;
     }
 
+    @Override
     public Boolean getModularBudgetFlag() {
         return modularBudgetFlag;
     }
@@ -319,6 +337,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         this.urRateClassCode = urRateClassCode;
     }
 
+    @Override
     public String getOnOffCampusFlag() {
         return onOffCampusFlag;
     }
@@ -484,6 +503,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         return true;
     }
 
+    @Override
     public ScaleTwoDecimal getTotalDirectCostLimit() {
         return totalDirectCostLimit == null ? ScaleTwoDecimal.ZERO : totalDirectCostLimit;
     }
@@ -500,6 +520,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         return printBudgetCommentFlag;
     }
 
+    @Override
     public Boolean getSubmitCostSharingFlag() {
         return submitCostSharingFlag;
     }
@@ -508,6 +529,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         this.submitCostSharingFlag = submitCostSharingFlag;
     }
 
+    @Override
     public RateClass getUrRateClass() {
         return urRateClass;
     }

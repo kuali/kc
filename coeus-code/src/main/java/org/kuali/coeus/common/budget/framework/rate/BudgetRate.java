@@ -19,12 +19,13 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import org.kuali.coeus.common.budget.api.rate.BudgetRateContract;
 import org.kuali.coeus.common.budget.framework.core.DateSortable;
-import org.kuali.kra.bo.InstituteRate;
 
 @Entity
 @Table(name = "EPS_PROP_RATES")
-public class BudgetRate extends AbstractBudgetRate implements DateSortable {
+public class BudgetRate extends AbstractBudgetRate implements DateSortable, BudgetRateContract {
 
     private static final long serialVersionUID = 6843344277997293690L;
 
@@ -40,6 +41,7 @@ public class BudgetRate extends AbstractBudgetRate implements DateSortable {
         setActivityTypeCode(instituteRate.getActivityTypeCode());
     }
 
+    @Override
     public String getActivityTypeCode() {
         return activityTypeCode;
     }

@@ -17,6 +17,7 @@ package org.kuali.coeus.common.budget.framework.personnel;
 
 import javax.persistence.*;
 
+import org.kuali.coeus.common.budget.api.personnel.TbnPersonContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
@@ -24,7 +25,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
  */
 @Entity
 @Table(name = "TBN")
-public class TbnPerson extends KcPersistableBusinessObjectBase {
+public class TbnPerson extends KcPersistableBusinessObjectBase implements TbnPersonContract {
 
     @Id
     @Column(name = "TBN_ID")
@@ -48,6 +49,7 @@ public class TbnPerson extends KcPersistableBusinessObjectBase {
         this.jobCode = jobCode;
     }
 
+    @Override
     public String getPersonName() {
         return personName;
     }
@@ -64,11 +66,17 @@ public class TbnPerson extends KcPersistableBusinessObjectBase {
         this.tbnId = tbnId;
     }
 
+    @Override
     public JobCode getJobCodeReference() {
         return jobCodeReference;
     }
 
     public void setJobCodeReference(JobCode jobCodeReference) {
         this.jobCodeReference = jobCodeReference;
+    }
+
+    @Override
+    public String getId() {
+        return getTbnId();
     }
 }

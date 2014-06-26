@@ -22,6 +22,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.budget.api.rate.ValidCeRateTypeContract;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
@@ -30,7 +31,7 @@ import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 @Entity
 @Table(name = "VALID_CE_RATE_TYPES")
 @IdClass(ValidCeRateType.ValidCeRateTypeId.class)
-public class ValidCeRateType extends KcPersistableBusinessObjectBase implements MutableInactivatable {
+public class ValidCeRateType extends KcPersistableBusinessObjectBase implements MutableInactivatable, ValidCeRateTypeContract {
 
     @Id
     @Column(name = "COST_ELEMENT")
@@ -60,22 +61,16 @@ public class ValidCeRateType extends KcPersistableBusinessObjectBase implements 
     @Convert(converter = BooleanYNConverter.class)
     private boolean active;
 
-    /**
-     * Gets the rateClass attribute. 
-     * @return Returns the rateClass.
-     */
+    @Override
     public RateClass getRateClass() {
         return rateClass;
     }
 
-    /**
-     * Sets the rateClass attribute value.
-     * @param rateClass The rateClass to set.
-     */
     public void setRateClass(RateClass rateClass) {
         this.rateClass = rateClass;
     }
 
+    @Override
     public String getCostElement() {
         return costElement;
     }
@@ -100,6 +95,7 @@ public class ValidCeRateType extends KcPersistableBusinessObjectBase implements 
         this.rateTypeCode = rateTypeCode;
     }
 
+    @Override
     public RateType getRateType() {
         return rateType;
     }
@@ -108,6 +104,7 @@ public class ValidCeRateType extends KcPersistableBusinessObjectBase implements 
         this.rateType = rateType;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }

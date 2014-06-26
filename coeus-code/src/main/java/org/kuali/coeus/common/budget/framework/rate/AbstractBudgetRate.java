@@ -16,7 +16,6 @@
 package org.kuali.coeus.common.budget.framework.rate;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 import javax.persistence.*;
 import org.apache.commons.lang3.ObjectUtils;
@@ -26,9 +25,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.budget.api.core.IdentifiableBudget;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.bo.AbstractInstituteRate;
-import org.kuali.kra.bo.AbstractInstituteRate.AbstractInstituteRateId;
-import org.kuali.coeus.common.budget.framework.calculator.RateClassType;
+import org.kuali.coeus.common.budget.api.rate.RateClassType;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 

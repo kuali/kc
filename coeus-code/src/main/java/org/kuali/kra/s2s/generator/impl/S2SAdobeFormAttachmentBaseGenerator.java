@@ -16,11 +16,11 @@
 package org.kuali.kra.s2s.generator.impl;
 
 
+import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardAttachmentContract;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.s2s.S2SException;
@@ -252,7 +252,7 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
     protected List<BudgetSubAwardsContract> getBudgetSubAwards(ProposalDevelopmentDocument proposalDevelopmentDocument,
             String namespace,boolean checkNull) {
         List<BudgetSubAwardsContract> budgetSubAwardsList = new ArrayList<BudgetSubAwardsContract>();
-        Budget budget = findBudgetFromProposal(proposalDevelopmentDocument);
+        BudgetContract budget = findBudgetFromProposal(proposalDevelopmentDocument);
         if(budget==null){
             getAuditErrors().add(S2SErrorHandler.getError(S2SConstants.SUB_AWARD_BUDGET_NOT_FOUND));
         }else{
@@ -272,7 +272,7 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
      * @return
      */
     @SuppressWarnings("unchecked")
-    private List<BudgetSubAwardsContract> findBudgetSubawards(String namespace, Budget budget,boolean checkNull) {
+    private List<BudgetSubAwardsContract> findBudgetSubawards(String namespace, BudgetContract budget,boolean checkNull) {
         List<BudgetSubAwardsContract> budgetSubAwardsList = new ArrayList<>();
         budgetSubAwardsList.addAll(getBudgetSubAwardsService().findBudgetSubAwardsByBudgetIdAndNamespace(budget.getBudgetId(), namespace));
 
@@ -282,8 +282,8 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
         return budgetSubAwardsList;
     }
 
-    private Budget findBudgetFromProposal(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        Budget finalBudget = proposalDevelopmentDocument.getFinalBudgetForThisProposal();
+    private BudgetContract findBudgetFromProposal(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        BudgetContract finalBudget = proposalDevelopmentDocument.getFinalBudgetForThisProposal();
         if(finalBudget==null){
             List<BudgetDocumentVersion> budgetDocumentVersions = proposalDevelopmentDocument.getBudgetDocumentVersions();
             BudgetVersionOverview budgetVersionOverview = null;

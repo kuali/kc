@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.rate;
 
-import org.kuali.coeus.budget.api.rate.RateClassTypeContract;
+import org.kuali.coeus.common.budget.api.rate.RateClassTypeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 

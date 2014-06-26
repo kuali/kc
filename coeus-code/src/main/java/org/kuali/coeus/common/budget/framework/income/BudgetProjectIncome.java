@@ -21,6 +21,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.budget.api.income.BudgetProjectIncomeContract;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -33,7 +34,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "BUDGET_PROJECT_INCOME")
 @IdClass(BudgetProjectIncome.BudgetProjectIncomeId.class)
-public class BudgetProjectIncome extends KcPersistableBusinessObjectBase implements HierarchyMaintainable {
+public class BudgetProjectIncome extends KcPersistableBusinessObjectBase implements HierarchyMaintainable, BudgetProjectIncomeContract {
 
     private static final long serialVersionUID = 8999969227018875501L;
 
@@ -46,22 +47,6 @@ public class BudgetProjectIncome extends KcPersistableBusinessObjectBase impleme
     @Id
     @Column(name = "BUDGET_ID")
     private Long budgetId;
-
-    public Integer getDocumentComponentId() {
-        return documentComponentId;
-    }
-
-    public void setDocumentComponentId(Integer costShareId) {
-        this.documentComponentId = costShareId;
-    }
-
-    public Long getBudgetId() {
-        return budgetId;
-    }
-
-    public void setBudgetId(Long budgetId) {
-        this.budgetId = budgetId;
-    }
 
     @Column(name = "BUDGET_PERIOD_NUMBER")
     private Long budgetPeriodId;
@@ -88,14 +73,35 @@ public class BudgetProjectIncome extends KcPersistableBusinessObjectBase impleme
     @Convert(converter = BooleanYNConverter.class)
     private boolean hiddenInHierarchy;
 
+    @Override
+    public Integer getDocumentComponentId() {
+        return documentComponentId;
+    }
+
+    public void setDocumentComponentId(Integer costShareId) {
+        this.documentComponentId = costShareId;
+    }
+
+    @Override
+    public Long getBudgetId() {
+        return budgetId;
+    }
+
+    public void setBudgetId(Long budgetId) {
+        this.budgetId = budgetId;
+    }
+
+    @Override
     public Integer getBudgetPeriodNumber() {
         return budgetPeriodNumber;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
 
+    @Override
     public ScaleTwoDecimal getProjectIncome() {
         return projectIncome;
     }
@@ -116,6 +122,7 @@ public class BudgetProjectIncome extends KcPersistableBusinessObjectBase impleme
         return DOCUMENT_COMPONENT_ID_KEY;
     }
 
+    @Override
     public Long getBudgetPeriodId() {
         return budgetPeriodId;
     }
@@ -128,22 +135,25 @@ public class BudgetProjectIncome extends KcPersistableBusinessObjectBase impleme
         this.budgetPeriod = budgetPeriod;
     }
 
+    @Override
     public BudgetPeriod getBudgetPeriod() {
         return budgetPeriod;
     }
 
+    @Override
     public String getHierarchyProposalNumber() {
         return hierarchyProposalNumber;
     }
-
+    @Override
     public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
         this.hierarchyProposalNumber = hierarchyProposalNumber;
     }
 
+    @Override
     public boolean isHiddenInHierarchy() {
         return hiddenInHierarchy;
     }
-
+    @Override
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
     }

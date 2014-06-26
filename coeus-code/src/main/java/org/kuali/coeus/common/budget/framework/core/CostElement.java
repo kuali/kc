@@ -28,6 +28,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.kuali.coeus.common.budget.api.core.CostElementContract;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
 import org.kuali.coeus.common.budget.framework.rate.ValidCeRateType;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -38,7 +40,7 @@ import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 @Entity
 @Table(name = "COST_ELEMENT")
-public class CostElement extends KcPersistableBusinessObjectBase implements Comparable, MutableInactivatable {
+public class CostElement extends KcPersistableBusinessObjectBase implements Comparable<CostElement>, MutableInactivatable, CostElementContract {
 
     @Id
     @Column(name = "COST_ELEMENT")
@@ -54,12 +56,12 @@ public class CostElement extends KcPersistableBusinessObjectBase implements Comp
     @Convert(converter = BooleanNFConverter.class)
     private Boolean onOffCampusFlag;
 
-    @Transient
-    private String budgetCategoryTypeCode;
-
     @Column(name = "ACTIVE_FLAG")
     @Convert(converter = BooleanYNConverter.class)
     private boolean active;
+
+    @Column(name = "FIN_OBJECT_CODE")
+    private String financialObjectCode;
 
     @OneToMany(mappedBy = "costElementBo")
     @FilterGenerator(attributeName = "active", attributeValue = "true")
@@ -69,9 +71,14 @@ public class CostElement extends KcPersistableBusinessObjectBase implements Comp
     @JoinColumn(name = "BUDGET_CATEGORY_CODE", referencedColumnName = "BUDGET_CATEGORY_CODE", insertable = false, updatable = false)
     private BudgetCategory budgetCategory;
 
-    @Column(name = "FIN_OBJECT_CODE")
-    private String financialObjectCode;
+    @Transient
+    private String budgetCategoryTypeCode;
 
+    public CostElement() {
+        validCeRateTypes = new ArrayList<ValidCeRateType>();
+    }
+
+    @Override
     public String getFinancialObjectCode() {
         return financialObjectCode;
     }
@@ -80,10 +87,7 @@ public class CostElement extends KcPersistableBusinessObjectBase implements Comp
         this.financialObjectCode = financialObjectCode;
     }
 
-    public CostElement() {
-        validCeRateTypes = new ArrayList<ValidCeRateType>();
-    }
-
+    @Override
     public String getCostElement() {
         return costElement;
     }
@@ -92,6 +96,7 @@ public class CostElement extends KcPersistableBusinessObjectBase implements Comp
         this.costElement = costElement;
     }
 
+    @Override
     public String getBudgetCategoryCode() {
         return budgetCategoryCode;
     }
@@ -100,6 +105,7 @@ public class CostElement extends KcPersistableBusinessObjectBase implements Comp
         this.budgetCategoryCode = budgetCategoryCode;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -108,6 +114,7 @@ public class CostElement extends KcPersistableBusinessObjectBase implements Comp
         this.description = description;
     }
 
+    @Override
     public Boolean getOnOffCampusFlag() {
         return onOffCampusFlag;
     }
@@ -116,6 +123,7 @@ public class CostElement extends KcPersistableBusinessObjectBase implements Comp
         this.onOffCampusFlag = onOffCampusFlag;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -124,6 +132,7 @@ public class CostElement extends KcPersistableBusinessObjectBase implements Comp
         this.active = active;
     }
 
+    @Override
     public List<ValidCeRateType> getValidCeRateTypes() {
         return validCeRateTypes;
     }
@@ -132,18 +141,12 @@ public class CostElement extends KcPersistableBusinessObjectBase implements Comp
         this.validCeRateTypes = validCeRateTypes;
     }
 
-    /**
-     * This is for totals page to sort it by CostElement
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
-    public int compareTo(Object o) {
-        return compareTo((CostElement) o);
-    }
-
+    @Override
     public int compareTo(CostElement costElement) {
         return this.costElement.compareTo(costElement.costElement);
     }
 
+    @Override
     public BudgetCategory getBudgetCategory() {
         return budgetCategory;
     }

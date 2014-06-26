@@ -17,11 +17,11 @@ package org.kuali.kra.s2s.generator.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
+import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
+import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelDetailsContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -96,10 +96,10 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
             catch (WorkflowException e) {
                 LOG.error(e.getMessage(), e);
             }
-        List<BudgetLineItem> budgetLineItemList = budgetDocument.getBudget().getBudgetPeriod(period-1).getBudgetLineItems();
+        List<? extends BudgetLineItemContract> budgetLineItemList = budgetDocument.getBudget().getBudgetPeriod(period-1).getBudgetLineItems();
            
-           for(BudgetLineItem budgetLineItem : budgetLineItemList) {
-             for(BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()){                 
+           for(BudgetLineItemContract budgetLineItem : budgetLineItemList) {
+             for(BudgetPersonnelDetailsContract budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()){
                 if( budgetPersonnelDetails.getPersonId().equals(keyPerson.getPersonId())){
                     return true;
                 } else if (keyPerson.getRolodexId() != null && budgetPersonnelDetails.getPersonId()
@@ -127,10 +127,10 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
             throw new S2SException(e);
         }
         if(budget != null) {
-            for (BudgetPeriod period : budget.getBudget().getBudgetPeriods()) {
+            for (BudgetPeriodContract period : budget.getBudget().getBudgetPeriods()) {
                 List<String> participantSupportCode = new ArrayList<String>();
                 participantSupportCode.add(s2sBudgetCalculatorService.getParticipantSupportCategoryCode());
-                List<BudgetLineItem> participantSupportLineItems =
+                List<? extends BudgetLineItemContract> participantSupportLineItems =
                         s2sBudgetCalculatorService.getMatchingLineItems(period.getBudgetLineItems(), participantSupportCode);
                 int numberOfParticipants = period.getNumberOfParticipants() == null ? 0 : period.getNumberOfParticipants();
                 if (!participantSupportLineItems.isEmpty() && numberOfParticipants == 0) {

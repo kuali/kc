@@ -27,8 +27,9 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
+import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewContract;
+import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewExemptionContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -238,9 +239,9 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
 		OrganizationContract organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.N_NO);
         rrOtherProjectInfo.setVertebrateAnimalsIndicator(YesNoDataType.N_NO);
-        for (ProposalSpecialReview proposalSpecialReview : pdDoc.getDevelopmentProposal().getPropSpecialReviews()) {
-            if (proposalSpecialReview.getSpecialReviewTypeCode() != null) {
-                switch (Integer.parseInt(proposalSpecialReview.getSpecialReviewTypeCode())) {
+        for (ProposalSpecialReviewContract proposalSpecialReview : pdDoc.getDevelopmentProposal().getPropSpecialReviews()) {
+            if (proposalSpecialReview.getSpecialReviewType() != null) {
+                switch (Integer.parseInt(proposalSpecialReview.getSpecialReviewType().getCode())) {
                     case HUMAN_SUBJECT_SUPPLEMENT:
                         HumanSubjectsSupplement humanSubjectsSupplement = getHumanSubjectsIndicator(
 								rrOtherProjectInfo, proposalSpecialReview);
@@ -256,7 +257,7 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
                     case VERTEBRATE_ANIMALS_SUPPLEMENT:
                         rrOtherProjectInfo.setVertebrateAnimalsIndicator(YesNoDataType.Y_YES);
                         VertebrateAnimalsSupplement vertebrateAnimalsSupplement = VertebrateAnimalsSupplement.Factory.newInstance();
-                        if (SPECIAL_REVIEW_ANIMAL_USAGE.equals(proposalSpecialReview.getApprovalTypeCode())) {
+                        if (SPECIAL_REVIEW_ANIMAL_USAGE.equals(proposalSpecialReview.getApprovalType().getCode())) {
                             vertebrateAnimalsSupplement.setVertebrateAnimalsIACUCReviewIndicator(YesNoDataType.Y_YES);
                         }
                         else {
@@ -288,19 +289,19 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
 	 */
 	private HumanSubjectsSupplement getHumanSubjectsIndicator(
 			RROtherProjectInfoDocument.RROtherProjectInfo rrOtherProjectInfo,
-			ProposalSpecialReview proposalSpecialReview) {
+			ProposalSpecialReviewContract proposalSpecialReview) {
 		rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.Y_YES);
 		HumanSubjectsSupplement humanSubjectsSupplement = HumanSubjectsSupplement.Factory.newInstance();
 		HumanSubjectsSupplement.ExemptionNumbers exemptionNumbers = HumanSubjectsSupplement.ExemptionNumbers.Factory
 		        .newInstance();
-		if (proposalSpecialReview.getApprovalTypeCode() != null) {
-		    if (Integer.parseInt(proposalSpecialReview.getApprovalTypeCode()) == APPROVAL_TYPE_EXCEMPT) {
+		if (proposalSpecialReview.getApprovalType() != null) {
+		    if (Integer.parseInt(proposalSpecialReview.getApprovalType().getCode()) == APPROVAL_TYPE_EXCEMPT) {
 		        if (proposalSpecialReview.getSpecialReviewExemptions() != null) {
 		        	List<HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum> exemptionNumberList = new ArrayList<HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum>();
 					HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum exemptionNumberEnum = null;
-		        	for (SpecialReviewExemption exemption : proposalSpecialReview.getSpecialReviewExemptions()) {
+		        	for (ProposalSpecialReviewExemptionContract exemption : proposalSpecialReview.getSpecialReviewExemptions()) {
 						exemptionNumberEnum = HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum
-								.forInt(Integer.parseInt(exemption.getExemptionTypeCode()));
+								.forInt(Integer.parseInt(exemption.getExemptionType().getCode()));
 						exemptionNumberList.add(exemptionNumberEnum);
 					}
 					exemptionNumbers
@@ -309,7 +310,7 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
 		            humanSubjectsSupplement.setExemptionNumbers(exemptionNumbers);
 		        }
 		    }
-		    if (SPECIAL_REVIEW_HUMAN_SUBJECTS.equals(proposalSpecialReview.getApprovalTypeCode())) {
+		    if (SPECIAL_REVIEW_HUMAN_SUBJECTS.equals(proposalSpecialReview.getApprovalType().getCode())) {
 		        humanSubjectsSupplement.setHumanSubjectIRBReviewIndicator(YesNoDataType.Y_YES);
 		    }
 		    else {

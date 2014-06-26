@@ -35,23 +35,21 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
-import org.kuali.coeus.common.framework.org.Organization;
-import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.budget.api.core.BudgetContract;
+import org.kuali.coeus.common.budget.api.income.BudgetProjectIncomeContract;
+import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemCalculatedAmountContract;
+import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
+import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
+import org.kuali.coeus.propdev.api.budget.modular.BudgetModularIdcContract;
+import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
@@ -137,7 +135,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 	 */
 	private EstimatedProjectFunding getProjectFunding() {
 		BudgetDocument budgetDoc = null;
-		Budget budget = null;
+		BudgetContract budget = null;
 		EstimatedProjectFunding funding = EstimatedProjectFunding.Factory
 				.newInstance();
 		funding.setTotalEstimatedAmount(BigDecimal.ZERO);
@@ -156,15 +154,17 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 			budget = budgetDoc.getBudget();
 		}
 		if (budget != null) {
-			if (budget.getModularBudgetFlag()) {
+
+            ScaleTwoDecimal totalCost = ScaleTwoDecimal.ZERO;
+
+            if (budget.getModularBudgetFlag()) {
 				ScaleTwoDecimal fundsRequested = ScaleTwoDecimal.ZERO;
 				ScaleTwoDecimal totalDirectCost = ScaleTwoDecimal.ZERO;
-				ScaleTwoDecimal totalCost = ScaleTwoDecimal.ZERO;
 				// get modular budget amounts instead of budget detail amounts
-				for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+				for (BudgetPeriodContract budgetPeriod : budget.getBudgetPeriods()) {
 					totalDirectCost = totalDirectCost.add(budgetPeriod
 							.getBudgetModular().getTotalDirectCost());
-					for (BudgetModularIdc budgetModularIdc : budgetPeriod
+					for (BudgetModularIdcContract budgetModularIdc : budgetPeriod
 							.getBudgetModular().getBudgetModularIdcs()) {
 						fundsRequested = fundsRequested.add(budgetModularIdc
 								.getFundsRequested());
@@ -172,20 +172,18 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 				}
 				totalCost = totalCost.add(totalDirectCost);
 				totalCost = totalCost.add(fundsRequested);
-				budget.setTotalIndirectCost(fundsRequested);
-				budget.setTotalCost(totalCost);
 			}
 
-			ScaleTwoDecimal fedNonFedCost = budget.getTotalCost();
+			ScaleTwoDecimal fedNonFedCost = totalCost;
 			ScaleTwoDecimal costSharingAmount = ScaleTwoDecimal.ZERO;
 
-			for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-                for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+			for (BudgetPeriodContract budgetPeriod : budget.getBudgetPeriods()) {
+                for (BudgetLineItemContract lineItem : budgetPeriod.getBudgetLineItems()) {
 			        hasBudgetLineItem = true;
 			        if (budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag()) {
                         costSharingAmount =  costSharingAmount.add(lineItem.getCostSharingAmount());
-			            List<BudgetLineItemCalculatedAmount> calculatedAmounts = lineItem.getBudgetCalculatedAmounts();
-			            for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calculatedAmounts) {
+			            List<? extends BudgetLineItemCalculatedAmountContract> calculatedAmounts = lineItem.getBudgetLineItemCalculatedAmounts();
+			            for (BudgetLineItemCalculatedAmountContract budgetLineItemCalculatedAmount : calculatedAmounts) {
 		                     costSharingAmount =  costSharingAmount.add(budgetLineItemCalculatedAmount.getCalculatedCostSharing());
                         }
 			            
@@ -197,7 +195,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
             }
 			fedNonFedCost = fedNonFedCost.add(costSharingAmount);
 			funding = EstimatedProjectFunding.Factory.newInstance();
-			funding.setTotalEstimatedAmount(budget.getTotalCost()
+			funding.setTotalEstimatedAmount(totalCost
 					.bigDecimalValue());
 			funding.setTotalNonfedrequested(costSharingAmount.bigDecimalValue());
 			funding.setTotalfedNonfedrequested(fedNonFedCost.bigDecimalValue());
@@ -209,9 +207,9 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 	/*
 	 * This method computes total project income for the given budget
 	 */
-	private BigDecimal getTotalProjectIncome(Budget budget) {
+	private BigDecimal getTotalProjectIncome(BudgetContract budget) {
 		BigDecimal totalProjectIncome = BigDecimal.ZERO;
-		for (BudgetProjectIncome budgetProjectIncome : budget
+		for (BudgetProjectIncomeContract budgetProjectIncome : budget
 				.getBudgetProjectIncomes()) {
 			totalProjectIncome = totalProjectIncome.add(budgetProjectIncome
 					.getProjectIncome().bigDecimalValue());
@@ -440,7 +438,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 	 *         and Project.
 	 */
 	private RRSF42420.CongressionalDistrict getCongDistrict() {
-		ProposalSite applicantOrganization = pdDoc.getDevelopmentProposal()
+		ProposalSiteContract applicantOrganization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization();
 		RRSF42420.CongressionalDistrict congressionalDistrict = RRSF42420.CongressionalDistrict.Factory
 				.newInstance();
@@ -470,7 +468,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 			if (PRINCIPAL_INVESTIGATOR.equals(proposalPerson
 					.getProposalPersonRoleId())) {
 				PI = proposalPerson;
-				ProposalSite applicantOrganization = pdDoc
+				ProposalSiteContract applicantOrganization = pdDoc
 						.getDevelopmentProposal().getApplicantOrganization();
 				PDPI.setName(globLibV20Generator.getHumanNameDataType(PI));
 				PDPI.setPhone(PI.getOfficePhone());
@@ -530,7 +528,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 	 * @return aorInfoType(AORInfoType) Authorized representative information.
 	 */
 	private AORInfoType getAORInfoType() {
-		ProposalSite applicantOrganization = pdDoc.getDevelopmentProposal()
+		ProposalSiteContract applicantOrganization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization();
 		AORInfoType aorInfoType = AORInfoType.Factory.newInstance();
 		if (departmentalPerson != null) {
@@ -754,7 +752,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 
 	private String getEmployerId() {
 		String employerId = "";
-		ProposalSite applicantOrganization = pdDoc.getDevelopmentProposal()
+		ProposalSiteContract applicantOrganization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization();
 		boolean isNih  = isSponsorInHierarchy(pdDoc.getDevelopmentProposal(), SPONSOR_GROUPS,SPONSOR_NIH);
         if (applicantOrganization != null) {            

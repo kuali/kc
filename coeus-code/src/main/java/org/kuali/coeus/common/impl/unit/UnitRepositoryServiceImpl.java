@@ -24,6 +24,11 @@ public class UnitRepositoryServiceImpl implements UnitRepositoryService {
         return unitService.getUnit(unitNumber);
     }
 
+    @Override
+    public UnitContract findTopUnit() {
+        return unitService.getTopUnit();
+    }
+
     public UnitService getUnitService() {
         return unitService;
     }

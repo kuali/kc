@@ -16,24 +16,20 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.org.OrganizationContract;
+import org.kuali.coeus.common.api.question.*;
+import org.kuali.coeus.common.budget.api.core.BudgetContract;
+import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
+import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.common.budget.api.rate.TrainingStipendRateContract;
+import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
-import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
-import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
-import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
-import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
-import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.common.budget.api.rate.TrainingStipendRateService;
@@ -122,7 +118,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             throw new S2SException(e);
         }
         PHS398TrainingBudget trainingBudgetType = PHS398TrainingBudget.Factory.newInstance();
-        Budget budget;
+        BudgetContract budget;
         if (budgetDocument != null) {
             budget = budgetDocument.getBudget();
             trainingBudgetType.setFormVersion(S2SConstants.FORMVERSION_1_0);
@@ -180,8 +176,8 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         /********************************
          * get budget periods
          *********************************/
-        List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
-        for (BudgetPeriod budgetPeriod : budgetPeriods) {
+        List<? extends BudgetPeriodContract> budgetPeriods = budget.getBudgetPeriods();
+        for (BudgetPeriodContract budgetPeriod : budgetPeriods) {
             PHS398TrainingBudgetYearDataType phs398TrainingBudgetYearDataType = trainingBudgetType.addNewBudgetYear();
             ScaleTwoDecimal trainingTraveCost = getBudgetPeriodCost(budgetPeriod, ConfigurationConstants.TRAINEE_TRAVEL_COST_ELEMENTS);
             phs398TrainingBudgetYearDataType.setTraineeTravelRequested(trainingTraveCost.bigDecimalValue());
@@ -231,7 +227,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
              * getting first two indirect cost type
              ************************/
 
-            IndirectCostInfo indirectCostInfo = s2sBudgetCalculatorService.getIndirectCosts(budgetPeriod.getBudget(), budgetPeriod);
+            IndirectCostInfo indirectCostInfo = s2sBudgetCalculatorService.getIndirectCosts(budget, budgetPeriod);
             List<IndirectCostDetails> cvIndirectCost = indirectCostInfo.getIndirectCostDetails();
             BigDecimal totIndCosts = new BigDecimal("0");
             for (int i = 0; i < cvIndirectCost.size() & i < 2; i++) {
@@ -292,15 +288,15 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             int preDocCountFull = 0, preDocCountShort = 0;
             int undergradFirstYearNum = 0, undergradJrNum = 0;
             BigDecimal otherShortStipends = new BigDecimal("0"), otherFullStipends = new BigDecimal("0");
-            List<AnswerHeader> answerHeaders = findQuestionnaireWithAnswers(developmentProposal, budgetPeriod.getBudgetPeriod());
+            List<? extends AnswerHeaderContract> answerHeaders = findQuestionnaireWithAnswers(developmentProposal, budgetPeriod.getBudgetPeriod());
             if (answerHeaders != null){
-                for (AnswerHeader answerHeader : answerHeaders) {
-                    Questionnaire questionnaire = answerHeader.getQuestionnaire();
-                    List<QuestionnaireQuestion> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
-                    for (QuestionnaireQuestion questionnaireQuestion : questionnaireQuestions) {
-                        Answer answerBO = getAnswer(questionnaireQuestion, answerHeader);
+                for (AnswerHeaderContract answerHeader : answerHeaders) {
+                    QuestionnaireContract questionnaire = getQuestionAnswerService().findQuestionnaireById(answerHeader.getQuestionnaireId());
+                    List<? extends QuestionnaireQuestionContract> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
+                    for (QuestionnaireQuestionContract questionnaireQuestion : questionnaireQuestions) {
+                        AnswerContract answerBO = getAnswer(questionnaireQuestion, answerHeader);
                         answer = answerBO.getAnswer();
-                        Question question = questionnaireQuestion.getQuestion();
+                        QuestionContract question = questionnaireQuestion.getQuestion();
                         if (answer != null) {
                             int answerIntVal = 0;
                             try {
@@ -309,7 +305,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                             catch (NumberFormatException ex) {
                             }
                             if (isPreDocParentQuestionFromPeriodExists(questionnaireQuestion, budgetPeriod)) {
-                                switch (question.getQuestionSeqIdAsInteger()) {
+                                switch (Integer.valueOf(question.getQuestionSeqId())) {
                                     case 72:
                                         if (answer != null)
                                             phs398TrainingBudgetYearDataType.setUndergraduateNumFullTime(answerIntVal);
@@ -382,7 +378,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                                 }
                             }
                             if (isPostDocParentQuestionFromPeriodExists(questionnaireQuestion, budgetPeriod, FN_INDEX)) {
-                                switch (question.getQuestionSeqIdAsInteger()) {
+                                switch (Integer.valueOf(question.getQuestionSeqId())) {
                                     case 86:
                                         // trainees at stipend level 0
                                         if (answer != null)
@@ -428,7 +424,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                                 }
                             }
                             if (isPostDocParentQuestionFromPeriodExists(questionnaireQuestion, budgetPeriod, SN_INDEX)) {
-                                switch (question.getQuestionSeqIdAsInteger()) {
+                                switch (Integer.valueOf(question.getQuestionSeqId())) {
                                     case 86:
                                         // trainees at stipend level 0
                                         if (answer != null)
@@ -566,18 +562,18 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             hmDegree.put("shortlevel6", "0");
             hmDegree.put("shortlevel7", "0");
             if (answerHeaders != null){
-                for (AnswerHeader answerHeader : answerHeaders) {
-                    Questionnaire questionnaire = answerHeader.getQuestionnaire();
-                    List<QuestionnaireQuestion> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
-                    for (QuestionnaireQuestion questionnaireQuestion : questionnaireQuestions) {
-                        Answer answerBO = getAnswer(questionnaireQuestion, answerHeader);
+                for (AnswerHeaderContract answerHeader : answerHeaders) {
+                    QuestionnaireContract questionnaire = getQuestionAnswerService().findQuestionnaireById(answerHeader.getQuestionnaireId());
+                    List<? extends QuestionnaireQuestionContract> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
+                    for (QuestionnaireQuestionContract questionnaireQuestion : questionnaireQuestions) {
+                        AnswerContract answerBO = getAnswer(questionnaireQuestion, answerHeader);
                         answer = answerBO.getAnswer();
-                        Question question = questionnaireQuestion.getQuestion();
+                        QuestionContract question = questionnaireQuestion.getQuestion();
                         if (answer != null) {
                             int answerIntVal = 0;
                             try {answerIntVal = Integer.parseInt(answer);}catch (NumberFormatException ex) {}
                             if (isPostDocParentQuestionFromPeriodExists(questionnaireQuestion, budgetPeriod, FD_INDEX)) {
-                                switch (question.getQuestionSeqIdAsInteger()) {
+                                switch (Integer.valueOf(question.getQuestionSeqId())) {
                                     case 86:
                                         // trainees at stipend level 0
                                         if (answer != null)
@@ -624,7 +620,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                                 }
                             }
                             if (isPostDocParentQuestionFromPeriodExists(questionnaireQuestion, budgetPeriod, SD_INDEX)) {
-                                switch (question.getQuestionSeqIdAsInteger()) {
+                                switch (Integer.valueOf(question.getQuestionSeqId())) {
                                     case 86:
                                         // trainees at stipend level 0
                                         if (answer != null)
@@ -997,7 +993,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     }
 
     private void setOrganizationData(PHS398TrainingBudget trainingBudgetType, DevelopmentProposal developmentProposal) {
-        ProposalSite applicantOrgSite = developmentProposal.getApplicantOrganization();
+        ProposalSiteContract applicantOrgSite = developmentProposal.getApplicantOrganization();
         if (applicantOrgSite != null) {
             OrganizationContract organization = applicantOrgSite.getOrganization();
             if (organization != null) {
@@ -1010,15 +1006,15 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         }
     }
 
-    private ScaleTwoDecimal getBudgetPeriodCost(BudgetPeriod budgetPeriod, String costType) {
+    private ScaleTwoDecimal getBudgetPeriodCost(BudgetPeriodContract budgetPeriod, String costType) {
         ScaleTwoDecimal totalLineItemCost = ScaleTwoDecimal.ZERO;
         String costElementsStrValue = s2SConfigurationService.getValueAsString(costType);
         String[] costElements = costElementsStrValue.split(",");
         for (int i = 0; i < costElements.length; i++) {
             String costElement = costElements[i];
-            List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
-            for (BudgetLineItem budgetLineItem : budgetLineItems) {
-                if (budgetLineItem.getCostElement().equals(costElement)) {
+            List<? extends BudgetLineItemContract> budgetLineItems = budgetPeriod.getBudgetLineItems();
+            for (BudgetLineItemContract budgetLineItem : budgetLineItems) {
+                if (budgetLineItem.getCostElementBO().getCostElement().equals(costElement)) {
                     totalLineItemCost = totalLineItemCost.add(budgetLineItem.getLineItemCost());
                 }
             }
@@ -1026,15 +1022,15 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         return totalLineItemCost;
     }
 
-    private List<AnswerHeader> findQuestionnaireWithAnswers(DevelopmentProposal developmentProposal, Integer budgetPeriod) {
+    private List<? extends AnswerHeaderContract> findQuestionnaireWithAnswers(DevelopmentProposal developmentProposal, Integer budgetPeriod) {
         ProposalDevelopmentS2sQuestionnaireService questionnaireAnswerSerice = getProposalDevelopmentS2sQuestionnaireService();
         return questionnaireAnswerSerice.getProposalAnswerHeaderForForm(developmentProposal,
                 "http://apply.grants.gov/forms/PHS398_TrainingBudget-V1.0", "PHS398_TrainingBudget-V1.0");
     }
 
-    private Answer getAnswer(QuestionnaireQuestion questionnaireQuestion, AnswerHeader answerHeader) {
-        List<Answer> answers = answerHeader.getAnswers();
-        for (Answer answer : answers) {
+    private AnswerContract getAnswer(QuestionnaireQuestionContract questionnaireQuestion, AnswerHeaderContract answerHeader) {
+        List<? extends AnswerContract> answers = answerHeader.getAnswers();
+        for (AnswerContract answer : answers) {
             if (answer.getQuestionnaireQuestionsId().equals(questionnaireQuestion.getId())) {
                 return answer;
             }
@@ -1042,12 +1038,12 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         return null;
     }
 
-    private boolean isPostDocParentQuestionFromPeriodExists(QuestionnaireQuestion questionnaireQuestion, BudgetPeriod budgetPeriod,
+    private boolean isPostDocParentQuestionFromPeriodExists(QuestionnaireQuestionContract questionnaireQuestion, BudgetPeriodContract budgetPeriod,
             int termIndex) {
         return getPostDocParentQuestionsForPeriod(budgetPeriod, termIndex).equals(questionnaireQuestion.getParentQuestionNumber());
     }
 
-    private Integer getPostDocParentQuestionsForPeriod(BudgetPeriod budgetPeriod, int termIndex) {
+    private Integer getPostDocParentQuestionsForPeriod(BudgetPeriodContract budgetPeriod, int termIndex) {
         Integer parentId = 0;
         switch (budgetPeriod.getBudgetPeriod()) {
             case (1):
@@ -1069,7 +1065,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         return parentId;
     }
 
-    private Integer[] getPreDocParentQuestionsForPeriod(BudgetPeriod budgetPeriod) {
+    private Integer[] getPreDocParentQuestionsForPeriod(BudgetPeriodContract budgetPeriod) {
         Integer[] parentIds = new Integer[0];
         switch (budgetPeriod.getBudgetPeriod()) {
             case (1):
@@ -1092,10 +1088,10 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
 
     }
 
-    private boolean isPreDocParentQuestionFromPeriodExists(QuestionnaireQuestion questionnaireQuestion, BudgetPeriod budgetPeriod) {
+    private boolean isPreDocParentQuestionFromPeriodExists(QuestionnaireQuestionContract questionnaireQuestion, BudgetPeriodContract budgetPeriod) {
           return Arrays.asList(getPreDocParentQuestionsForPeriod(budgetPeriod)).contains(questionnaireQuestion.getParentQuestionNumber());
     }
-    private BigDecimal getStipendAmount(BudgetPeriod budgetPeriod, String careerLevel, int experienceLevel, int numPeople) {
+    private BigDecimal getStipendAmount(BudgetPeriodContract budgetPeriod, String careerLevel, int experienceLevel, int numPeople) {
         BigDecimal stipendCost = ScaleTwoDecimal.ZERO.bigDecimalValue();
         TrainingStipendRateContract trainingStipendRate = trainingStipendRateService.findClosestMatchTrainingStipendRate(budgetPeriod.getStartDate(), careerLevel, experienceLevel);
         if (trainingStipendRate != null) {
