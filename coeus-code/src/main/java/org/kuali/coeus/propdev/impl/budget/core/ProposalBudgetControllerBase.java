@@ -19,7 +19,7 @@ public abstract class ProposalBudgetControllerBase {
 	private UifControllerService uifControllerService;
 	
 	@Autowired
-	@Qualifier("budgetService")
+	@Qualifier("proposalBudgetService")
 	private BudgetService<DevelopmentProposal> budgetService;
 	
 	@Autowired

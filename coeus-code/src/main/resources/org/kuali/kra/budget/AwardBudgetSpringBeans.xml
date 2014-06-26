@@ -24,10 +24,6 @@
 
     <context:annotation-config />
 
-    <bean id="budgetService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="budgetService" />
-    </bean>
-    
     <bean id="budgetCalculationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="budgetCalculationService" />
     </bean>
@@ -39,9 +35,26 @@
     <bean id="kcDocumentRejectionService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kcDocumentRejectionService" />
     </bean>
-                           
+
+    <bean id="budgetRatesService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="budgetRatesService" />
+    </bean>
+    
+    <bean id="budgetVersionRule" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="budgetVersionRule" />
+    </bean> 
+    
+    <bean id="pessimisticLockService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="pessimisticLockService" />
+    </bean>  
+    
+    <bean id="fiscalYearMonthService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="fiscalYearMonthService" />
+    </bean>     
+
+	<!-- temporary fix while finishing budget refactoring -->
+	<bean id="budgetService" parent="awardBudgetService"/>
     <bean id="awardBudgetService"  class="org.kuali.kra.award.budget.AwardBudgetServiceImpl">
-        <property name="budgetService" ref="budgetService" />
         <property name="parameterService" ref="parameterService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="documentService" ref="documentService" />

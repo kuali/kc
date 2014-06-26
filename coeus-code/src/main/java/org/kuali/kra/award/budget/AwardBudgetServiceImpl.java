@@ -80,7 +80,6 @@ public class AwardBudgetServiceImpl extends BudgetServiceImpl<Award> implements 
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
-    private BudgetService<Award> budgetService;
     private BudgetSummaryService budgetSummaryService;
     private BudgetCalculationService budgetCalculationService;
     private AwardBudgetCalculationService awardBudgetCalculationService;
@@ -585,28 +584,7 @@ public class AwardBudgetServiceImpl extends BudgetServiceImpl<Award> implements 
 	@Override
 	public Budget copyBudgetVersion(Budget budget) {
 		return copyBudgetVersion(budget, false);
-	}
-
-	@Override
-	public Budget copyBudgetVersion(Budget budget, boolean onlyOnePeriod) {
-		return getBudgetService().copyBudgetVersion(budget, onlyOnePeriod);
-	}            
-
-    /**
-     * Sets the budgetService attribute value.
-     * @param budgetService The budgetService to set.
-     */
-    public void setBudgetService(BudgetService<Award> budgetService) {
-        this.budgetService = budgetService;
-    }
-
-    /**
-     * Gets the budgetService attribute. 
-     * @return Returns the budgetService.
-     */
-    public BudgetService<Award> getBudgetService() {
-        return budgetService;
-    }
+	}         
 
     /**
      * Gets the budgetSummaryService attribute. 

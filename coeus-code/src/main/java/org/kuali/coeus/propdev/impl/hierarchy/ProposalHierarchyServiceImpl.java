@@ -114,7 +114,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     @Qualifier("legacyNarrativeService")
     private LegacyNarrativeService legacyNarrativeService;
     @Autowired
-    @Qualifier("budgetService")
+    @Qualifier("proposalBudgetService")
     private BudgetService budgetService;
     @Autowired
     @Qualifier("budgetSummaryService")
