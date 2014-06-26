@@ -25,7 +25,7 @@ import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.UnitAclLoadable;
+import org.kuali.kra.protocol.auth.UnitAclLoadable;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsContextBo;

@@ -41,7 +41,7 @@ import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireHelperBa
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.SaveQuestionnaireAnswerEvent;
 import org.kuali.coeus.common.questionnaire.framework.print.QuestionnairePrintingService;
-import org.kuali.kra.service.UnitAclLoadService;
+import org.kuali.kra.protocol.auth.UnitAclLoadService;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
