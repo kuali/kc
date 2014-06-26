@@ -109,7 +109,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     @Qualifier("kcPersistenceStructureService")
     private KcPersistenceStructureService kcPersistenceStructureService;
     @Autowired
-    @Qualifier("budgetService")
+    @Qualifier("proposalBudgetService")
     private BudgetService budgetService;
     @Autowired
     @Qualifier("parameterService")

@@ -27,6 +27,7 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 @Entity
 @Table(name = "EPS_PROPOSAL_BUDGET_EXT")
 @PrimaryKeyJoinColumn(name="BUDGET_ID", referencedColumnName="BUDGET_ID")
+@DiscriminatorValue("PRDV")
 public class ProposalDevelopmentBudgetExt extends Budget {
 
     private static final long serialVersionUID = 8234453927894053540L;

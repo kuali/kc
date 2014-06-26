@@ -77,7 +77,6 @@ import java.util.*;
 /**
  * This class implements methods specified by BudgetDocumentService interface
  */
-@Component("budgetService")
 public abstract class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<T> {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetServiceImpl.class);

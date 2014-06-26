@@ -81,7 +81,7 @@ import java.util.*;
 @Entity
 @Table(name = "BUDGET")
 @Inheritance(strategy=InheritanceType.JOINED)
-@ClassExtractor(Budget.BudgetExtractor.class)
+@DiscriminatorColumn(name="PARENT_DOCUMENT_TYPE_CODE", discriminatorType = DiscriminatorType.STRING)
 public class Budget extends AbstractBudget {
 
     private static final String PARAM_VALUE_ENABLED = "1";

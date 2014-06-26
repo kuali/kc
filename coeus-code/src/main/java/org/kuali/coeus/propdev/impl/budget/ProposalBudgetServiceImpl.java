@@ -55,11 +55,7 @@ public class ProposalBudgetServiceImpl extends BudgetServiceImpl<DevelopmentProp
     @Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
-
-    @Autowired
-    @Qualifier("budgetService")
-    private BudgetService<DevelopmentProposal> budgetService;
-
+    
     @Autowired
     @Qualifier("budgetCalculationService")
     private BudgetCalculationService budgetCalculationService;
@@ -95,10 +91,7 @@ public class ProposalBudgetServiceImpl extends BudgetServiceImpl<DevelopmentProp
 
         //Rates-Refresh Scenario-1
         budget.setRateClassTypesReloaded(true);
-
-//        budget = saveBudgetDocument(budgetDocument);
-//        parentDocument.refreshBudgetDocumentVersions();
-        return budget;
+        return saveBudget(budget);
     }
 
     @Override
@@ -128,9 +121,8 @@ public class ProposalBudgetServiceImpl extends BudgetServiceImpl<DevelopmentProp
         return false;
     }
 
-    protected BudgetDocument<DevelopmentProposal> saveBudgetDocument(BudgetDocument<DevelopmentProposal> budgetDocument) throws WorkflowException {
-        budgetDocument = (BudgetDocument<DevelopmentProposal>) documentService.saveDocument(budgetDocument);
-        return (BudgetDocument<DevelopmentProposal>) documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
+    protected ProposalDevelopmentBudgetExt saveBudget(ProposalDevelopmentBudgetExt budget) {
+    	return getDataObjectService().save(budget);
     }
 
     /**
@@ -166,23 +158,6 @@ public class ProposalBudgetServiceImpl extends BudgetServiceImpl<DevelopmentProp
     }
     public Budget copyBudgetVersion(Budget budget){
         return copyBudgetVersion(budget, false);
-    }
-    public Budget copyBudgetVersion(Budget budget, boolean onlyOnePeriod){
-        return getBudgetService().copyBudgetVersion(budget, onlyOnePeriod);
-    }
-    /**
-     * Sets the budgetService attribute value.
-     * @param budgetService The budgetService to set.
-     */
-    public void setBudgetService(BudgetService<DevelopmentProposal> budgetService) {
-        this.budgetService = budgetService;
-    }
-    /**
-     * Gets the budgetService attribute. 
-     * @return Returns the budgetService.
-     */
-    public BudgetService<DevelopmentProposal> getBudgetService() {
-        return budgetService;
     }
 
     public void recalculateBudget(Budget budget) {
