@@ -21,6 +21,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.budget.api.distribution.BudgetCostShareContract;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -32,7 +33,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "EPS_PROP_COST_SHARING")
 @IdClass(BudgetCostShare.BudgetCostShareId.class)
-public class BudgetCostShare extends KcPersistableBusinessObjectBase implements HierarchyMaintainable {
+public class BudgetCostShare extends KcPersistableBusinessObjectBase implements HierarchyMaintainable, BudgetCostShareContract {
 
     private static final long serialVersionUID = 6199797319981907016L;
 
@@ -74,14 +75,6 @@ public class BudgetCostShare extends KcPersistableBusinessObjectBase implements 
         super();
     }
 
-    /**
-     * 
-     * Constructs a BudgetCostShare.java.
-     * @param projectPeriod
-     * @param shareAmount
-     * @param sharePercentage
-     * @param sourceAccount
-     */
     public BudgetCostShare(Integer projectPeriod, ScaleTwoDecimal shareAmount, ScaleTwoDecimal sharePercentage, String sourceAccount) {
         this();
         this.projectPeriod = projectPeriod;
@@ -89,7 +82,7 @@ public class BudgetCostShare extends KcPersistableBusinessObjectBase implements 
         this.shareAmount = shareAmount;
         this.sourceAccount = sourceAccount;
     }
-
+    @Override
     public Integer getDocumentComponentId() {
         return documentComponentId;
     }
@@ -98,6 +91,7 @@ public class BudgetCostShare extends KcPersistableBusinessObjectBase implements 
         this.documentComponentId = costShareId;
     }
 
+    @Override
     public Long getBudgetId() {
         return budgetId;
     }
@@ -137,18 +131,22 @@ public class BudgetCostShare extends KcPersistableBusinessObjectBase implements 
         return DOCUMENT_COMPONENT_ID_KEY;
     }
 
+    @Override
     public Integer getProjectPeriod() {
         return projectPeriod;
     }
 
+    @Override
     public ScaleTwoDecimal getShareAmount() {
         return ScaleTwoDecimal.returnZeroIfNull(shareAmount);
     }
 
+    @Override
     public ScaleTwoDecimal getSharePercentage() {
         return ScaleTwoDecimal.returnZeroIfNull(sharePercentage);
     }
 
+    @Override
     public String getSourceAccount() {
         return sourceAccount;
     }
@@ -187,18 +185,22 @@ public class BudgetCostShare extends KcPersistableBusinessObjectBase implements 
         this.sourceUnit = sourceUnit;
     }
 
+    @Override
     public String getHierarchyProposalNumber() {
         return hierarchyProposalNumber;
     }
 
+    @Override
     public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
         this.hierarchyProposalNumber = hierarchyProposalNumber;
     }
 
+    @Override
     public boolean isHiddenInHierarchy() {
         return hiddenInHierarchy;
     }
 
+    @Override
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
     }
