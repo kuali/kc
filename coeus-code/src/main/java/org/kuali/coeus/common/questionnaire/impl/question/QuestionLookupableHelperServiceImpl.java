@@ -18,11 +18,16 @@ package org.kuali.coeus.common.questionnaire.impl.question;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.rice.core.api.encryption.EncryptionService;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.LookupResultsService;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.BusinessObjectMetaDataService;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,7 +57,69 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
     @Autowired
     @Qualifier("questionAuthorizationService")
     private transient QuestionAuthorizationService questionAuthorizationService;
-    
+
+    @Autowired
+    @Qualifier("businessObjectDictionaryService")
+    @Override
+    public void setBusinessObjectDictionaryService(BusinessObjectDictionaryService businessObjectDictionaryService) {
+        super.setBusinessObjectDictionaryService(businessObjectDictionaryService);
+    }
+
+    @Autowired
+    @Qualifier("businessObjectService")
+    @Override
+    public void setBusinessObjectService(BusinessObjectService businessObjectyService) {
+        super.setBusinessObjectService(businessObjectService);
+    }
+
+    @Autowired
+    @Qualifier("businessObjectMetaDataService")
+    @Override
+    public void setBusinessObjectMetaDataService(BusinessObjectMetaDataService businessObjectMetaDataService) {
+        super.setBusinessObjectMetaDataService(businessObjectMetaDataService);
+    }
+
+    @Autowired
+    @Qualifier("dataDictionaryService")
+    @Override
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        super.setDataDictionaryService(dataDictionaryService);
+    }
+
+    @Autowired
+    @Qualifier("encryptionService")
+    @Override
+    public void setEncryptionService(EncryptionService encryptionService) {
+        super.setEncryptionService(encryptionService);
+    }
+
+    @Autowired
+    @Qualifier("lookupResultsService")
+    @Override
+    public void setLookupResultsService(LookupResultsService lookupResultsService) {
+        super.setLookupResultsService(lookupResultsService);
+    }
+
+    @Autowired
+    @Qualifier("lookupService")
+    @Override
+    public void setLookupService(LookupService lookupService) {
+        super.setLookupService(lookupService);
+    }
+
+    @Autowired
+    @Qualifier("persistenceStructureService")
+    @Override
+    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
+        super.setPersistenceStructureService(persistenceStructureService);
+    }
+
+    @Autowired
+    @Qualifier("sequenceAccessorService")
+    @Override
+    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+        super.setSequenceAccessorService(sequenceAccessorService);
+    }
 
     /**
      * Don't show the option to select active/inactive questions since Question is being versioned 
@@ -62,7 +129,6 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
      */
     @Override
     public List<Row> getRows() {
-        // TODO: Use a dedicated parameter to determine if only active questions are to be displayed.  
         if ((getParameters().containsKey("multipleValues") && StringUtils.equals(((String[]) this.getParameters().get("multipleValues"))[0], "Yes"))
                 || (getParameters().containsKey("multipleValues") && StringUtils.equals(((String[]) this.getParameters().get("multipleValues"))[0], "true"))
                 || (getParameters().containsKey("conversionFields") &&  !StringUtils.isEmpty(((String[]) this.getParameters().get("conversionFields"))[0]))) {
@@ -87,7 +153,6 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         fieldValues.put("sequenceStatus", SEQUENCE_STATUS_CURRENT);
-        // TODO: Use a dedicated parameter to determine if only active questions are to be displayed.  
         if ((getParameters().containsKey("multipleValues") && StringUtils.equals(((String[]) this.getParameters().get("multipleValues"))[0], "Yes"))
                 || (getParameters().containsKey("conversionFields") &&  !StringUtils.isEmpty(((String[]) this.getParameters().get("conversionFields"))[0]))) {
             fieldValues.put("status", "A");
