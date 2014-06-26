@@ -27,67 +27,36 @@
                            http://www.springframework.org/schema/util/spring-util.xsd">
 
     <bean id="grlImporter" abstract="true" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
-
     <bean id="legacyDataAdapter" parent="grlImporter" p:serviceName="legacyDataAdapter" />
-
     <bean id="dataObjectService" parent="grlImporter" p:serviceName="dataObjectService" />
-
     <bean id="businessObjectService" parent="grlImporter" p:serviceName="businessObjectService" />
-
     <bean id="businessObjectDictionaryService" parent="grlImporter" p:serviceName="businessObjectDictionaryService" />
-
     <bean id="businessObjectMetaDataService" parent="grlImporter" p:serviceName="businessObjectMetaDataService" />
-
     <bean id="dataDictionaryService" parent="grlImporter" p:serviceName="dataDictionaryService" />
-
     <bean id="dateTimeService" parent="grlImporter" p:serviceName="dateTimeService" />
-
     <bean id="documentService" parent="grlImporter" p:serviceName="documentService" />
-
     <bean id="encryptionService" parent="grlImporter" p:serviceName="encryptionService" />
-
     <bean id="identityService" parent="grlImporter" p:serviceName="identityService" />
-
     <bean id="knsSessionDocumentService" parent="grlImporter" p:serviceName="knsSessionDocumentService" />
-
     <bean id="kradWorkflowDocumentService" parent="grlImporter" p:serviceName="kradWorkflowDocumentService" />
-
     <bean id="kualiConfigurationService" parent="grlImporter" p:serviceName="kualiConfigurationService" />
-
     <bean id="kualiModuleService" parent="grlImporter" p:serviceName="kualiModuleService" />
-
     <bean id="lookupService" parent="grlImporter" p:serviceName="lookupService" />
-
     <bean id="lookupResultsService" parent="grlImporter" p:serviceName="lookupResultsService" />
-
     <bean id="parameterService" parent="grlImporter" p:serviceName="parameterService" />
-
     <bean id="persistenceStructureService" parent="grlImporter" p:serviceName="persistenceStructureService" />
-
     <bean id="persistenceStructureServiceOjb" parent="grlImporter" p:serviceName="persistenceStructureServiceOjb" />
-
     <bean id="persistenceStructureServiceJpa" parent="grlImporter" p:serviceName="persistenceStructureServiceJpa" />
-
     <bean id="personService" parent="grlImporter" p:serviceName="personService" />
-
     <bean id="roleService" parent="grlImporter" p:serviceName="roleService" />
-
     <bean id="sequenceAccessorService" parent="grlImporter" p:serviceName="sequenceAccessorService" />
-
     <bean id="attachmentService" parent="grlImporter" p:serviceName="attachmentService" />
-
     <bean id="kualiRuleService" parent="grlImporter" p:serviceName="kualiRuleService" />
-
     <bean id="lookupCriteriaGenerator" parent="grlImporter" p:serviceName="lookupCriteriaGenerator" />
-
     <bean id="lookupDao" parent="grlImporter" p:serviceName="lookupDao" />
-
     <bean id="rice.ksb.serviceBus" parent="grlImporter" p:serviceName="rice.ksb.serviceBus" />
-
     <bean id="dbPlatform" parent="grlImporter" p:serviceName="dbPlatform" />
-
     <bean id="countryService" parent="grlImporter" p:serviceName="countryService" />
-
     <bean id="mailService" parent="grlImporter" p:serviceName="mailService" />
 
 </beans>

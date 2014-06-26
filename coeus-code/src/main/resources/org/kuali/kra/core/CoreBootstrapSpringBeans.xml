@@ -18,12 +18,12 @@
         <value>UserPreferencesFilter</value>
     </util:list>
 
-    <bean id="kcProposalDevelopmentConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
-        <property name="moduleName" value="kc.pd"/>
-        <property name="moduleTitle" value="KC Proposal Development"/>
-        <property name="dispatchServletName" value="kc-pd-krad"/>
+    <bean id="kcCoreConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+        <property name="moduleName" value="kc.core"/>
+        <property name="moduleTitle" value="KC Core"/>
+        <property name="dispatchServletName" value="kc-krad"/>
         <property name="filtersToMap" ref="filtersToMap"/>
-        <property name="bootstrapSpringFile" value="classpath:org/kuali/coeus/propdev/impl/ModuleComponentSpringBeans.xml"/>
+        <property name="bootstrapSpringFile" value="classpath:org/kuali/kra/core/CoreComponentSpringBeans.xml"/>
     </bean>
 
 </beans>
