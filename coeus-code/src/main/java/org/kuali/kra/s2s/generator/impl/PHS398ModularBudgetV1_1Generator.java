@@ -44,13 +44,13 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.budget.api.core.BudgetContract;
+import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
+import org.kuali.coeus.propdev.api.budget.modular.BudgetModularContract;
+import org.kuali.coeus.propdev.api.budget.modular.BudgetModularIdcContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
-import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -95,7 +95,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 				.newInstance();
 		modularBudget.setFormVersion(S2SConstants.FORMVERSION_1_1);
 
-		Budget budget = null;
+		BudgetContract budget = null;
 		try {
 			BudgetDocument budgetDocument = proposalBudgetService
 					.getFinalBudgetVersion(pdDoc);
@@ -105,7 +105,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 			return modularBudgetDocument;
 		}
 		if (budget != null) {
-			for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+			for (BudgetPeriodContract budgetPeriod : budget.getBudgetPeriods()) {
 				if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_1) {
 					modularBudget.setPeriods(getPeriods(budgetPeriod));
 				} else if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_2) {
@@ -238,7 +238,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 	 * @return Periods object containing modular budget details for the
 	 *         corresponding budget period.
 	 */
-	private Periods getPeriods(BudgetPeriod budgetPeriod) {
+	private Periods getPeriods(BudgetPeriodContract budgetPeriod) {
 
 		Periods periods = Periods.Factory.newInstance();
 		DirectCost directCost = DirectCost.Factory.newInstance();
@@ -272,7 +272,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 		periods.setTotalFundsRequestedDirectIndirectCosts(BigDecimal.ZERO);
 
 		// TotalDirectAndIndirectCost
-		BudgetModular budgetModular = budgetPeriod.getBudgetModular();
+		BudgetModularContract budgetModular = budgetPeriod.getBudgetModular();
 		if (budgetModular != null) {
 			ScaleTwoDecimal totalCost = getTotalCost(budgetModular);
 			periods.setTotalFundsRequestedDirectIndirectCosts(totalCost
@@ -305,7 +305,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 			}
 
 			List<IndirectCostItems> indirectCostItemsList = new ArrayList<IndirectCostItems>();
-			for (BudgetModularIdc budgetModularIdc : budgetModular
+			for (BudgetModularIdcContract budgetModularIdc : budgetModular
 					.getBudgetModularIdcs()) {
 				IndirectCostItems indirectCostItems = IndirectCostItems.Factory
 						.newInstance();
@@ -379,7 +379,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 	 * @return Periods2 object containing modular budget details for the
 	 *         corresponding budget period.
 	 */
-	private Periods2 getPeriods2(BudgetPeriod budgetPeriod) {
+	private Periods2 getPeriods2(BudgetPeriodContract budgetPeriod) {
 
 		Periods2 periods2 = Periods2.Factory.newInstance();
 		DirectCost2 directCost2 = DirectCost2.Factory.newInstance();
@@ -405,7 +405,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 		periods2.setTotalFundsRequestedDirectIndirectCosts2(BigDecimal.ZERO);
 
 		// TotalDirectAndIndirectCost
-		BudgetModular budgetModular = budgetPeriod.getBudgetModular();
+		BudgetModularContract budgetModular = budgetPeriod.getBudgetModular();
 
 		// DirectCosts
 		if (budgetModular != null) {
@@ -455,7 +455,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 			}
 
 			int costItems = 0;
-			for (BudgetModularIdc budgetModularIdc : budgetModular
+			for (BudgetModularIdcContract budgetModularIdc : budgetModular
 					.getBudgetModularIdcs()) {
 				IndirectCostItems2 indirectCostItems2 = IndirectCostItems2.Factory
 						.newInstance();
@@ -529,7 +529,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 	 * @return Periods3 object containing modular budget details for the
 	 *         corresponding budget period.
 	 */
-	private Periods3 getPeriods3(BudgetPeriod budgetPeriod) {
+	private Periods3 getPeriods3(BudgetPeriodContract budgetPeriod) {
 
 		Periods3 periods3 = Periods3.Factory.newInstance();
 		DirectCost3 directCost3 = DirectCost3.Factory.newInstance();
@@ -554,7 +554,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 		periods3.setTotalFundsRequestedDirectIndirectCosts3(BigDecimal.ZERO);
 
 		// TotalDirectAndIndirectCost
-		BudgetModular budgetModular = budgetPeriod.getBudgetModular();
+		BudgetModularContract budgetModular = budgetPeriod.getBudgetModular();
 
 		// DirectCosts
 		if (budgetModular != null) {
@@ -602,7 +602,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 			String costType = null;
 
 			int costItems = 0;
-			for (BudgetModularIdc budgetModularIdc : budgetModular
+			for (BudgetModularIdcContract budgetModularIdc : budgetModular
 					.getBudgetModularIdcs()) {
 				IndirectCostItems3 indirectCostItems3 = IndirectCostItems3.Factory
 						.newInstance();
@@ -674,7 +674,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 	 * @return Periods4 object containing modular budget details for the
 	 *         corresponding budget period.
 	 */
-	private Periods4 getPeriods4(BudgetPeriod budgetPeriod) {
+	private Periods4 getPeriods4(BudgetPeriodContract budgetPeriod) {
 
 		Periods4 periods4 = Periods4.Factory.newInstance();
 		DirectCost4 directCost4 = DirectCost4.Factory.newInstance();
@@ -698,7 +698,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 		directCost4.setTotalFundsRequestedDirectCosts4(BigDecimal.ZERO);
 		periods4.setTotalFundsRequestedDirectIndirectCosts4(BigDecimal.ZERO);
 
-		BudgetModular budgetModular = budgetPeriod.getBudgetModular();
+		BudgetModularContract budgetModular = budgetPeriod.getBudgetModular();
 
 		// DirectCosts
 		if (budgetModular != null) {
@@ -744,7 +744,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 						.getBudgetModularIdcs().size()];
 			}
 			int costItems = 0;
-			for (BudgetModularIdc budgetModularIdc : budgetModular
+			for (BudgetModularIdcContract budgetModularIdc : budgetModular
 					.getBudgetModularIdcs()) {
 				IndirectCostItems4 indirectCostItems4 = IndirectCostItems4.Factory
 						.newInstance();
@@ -816,7 +816,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 	 * @return Periods5 object containing modular budget details for the
 	 *         corresponding budget period.
 	 */
-	private Periods5 getPeriods5(BudgetPeriod budgetPeriod) {
+	private Periods5 getPeriods5(BudgetPeriodContract budgetPeriod) {
 
 		Periods5 periods5 = Periods5.Factory.newInstance();
 		DirectCost5 directCost5 = DirectCost5.Factory.newInstance();
@@ -841,7 +841,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 		periods5.setTotalFundsRequestedDirectIndirectCosts5(BigDecimal.ZERO);
 
 		// TotalDirectAndIndirectCost
-		BudgetModular budgetModular = budgetPeriod.getBudgetModular();
+		BudgetModularContract budgetModular = budgetPeriod.getBudgetModular();
 
 		// DirectCosts
 		if (budgetModular != null) {
@@ -888,7 +888,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 						.getBudgetModularIdcs().size()];
 			}
 			int costItems = 0;
-			for (BudgetModularIdc budgetModularIdc : budgetModular
+			for (BudgetModularIdcContract budgetModularIdc : budgetModular
 					.getBudgetModularIdcs()) {
 				IndirectCostItems5 indirectCostItems5 = IndirectCostItems5.Factory
 						.newInstance();

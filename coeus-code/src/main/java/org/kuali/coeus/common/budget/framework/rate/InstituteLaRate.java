@@ -13,14 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.coeus.common.budget.framework.rate;
 
-import java.sql.Date;
+/**
+ * 
+ * This class represents INSTITUTE_LA_RATE record
+ */
+public class InstituteLaRate extends AbstractInstituteRate {
 
-public interface AbstractInstituteRateKey {
-    public String getRateClassCode();
-    public String getRateTypeCode();
-    public Boolean getOnOffCampusFlag();
-    public Date getStartDate();
-    public String getRateKeyAsString();
+    private static final long serialVersionUID = 6467972635670502396L;
+
+    @Override
+    protected AbstractBudgetRate createBudgetRate() {
+        return new BudgetLaRate();
+    }
 }

@@ -29,9 +29,9 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
+import org.kuali.coeus.common.budget.api.core.BudgetContract;
+import org.kuali.coeus.common.budget.api.income.BudgetProjectIncomeContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -157,7 +157,7 @@ public class PHS398ChecklistV1_0Generator extends PHS398ChecklistBaseGenerator {
                 }
             }
         }
-		Budget budget = null;
+		BudgetContract budget = null;
 		try {
 			budget = proposalBudgetService.getFinalBudgetVersion(pdDoc)
 					.getBudget();
@@ -189,13 +189,13 @@ public class PHS398ChecklistV1_0Generator extends PHS398ChecklistBaseGenerator {
 	}
 
 
-	private void setProjectIncome(PHS398Checklist phsChecklist, Budget budget) {
+	private void setProjectIncome(PHS398Checklist phsChecklist, BudgetContract budget) {
 		phsChecklist.setProgramIncome(YesNoDataType.YES);
 
 		//TreeMap Used to maintain the order of the Budget periods.
 		Map<Integer, IncomeBudgetPeriod> incomeBudgetPeriodMap = new TreeMap<Integer, IncomeBudgetPeriod>();
 		BigDecimal anticipatedAmount;
-		for (BudgetProjectIncome projectIncome : budget
+		for (BudgetProjectIncomeContract projectIncome : budget
 				.getBudgetProjectIncomes()) {
 			Integer budgetPeriodNumber = projectIncome.getBudgetPeriodNumber();
 			IncomeBudgetPeriod incomeBudgPeriod = incomeBudgetPeriodMap.get(budgetPeriodNumber);
@@ -225,7 +225,7 @@ public class PHS398ChecklistV1_0Generator extends PHS398ChecklistBaseGenerator {
 	/*
 	 * This method will get the project income description
 	 */
-	protected String getProjectIncomeDescription(BudgetProjectIncome projectIncome) {
+	protected String getProjectIncomeDescription(BudgetProjectIncomeContract projectIncome) {
 		String description = null;
 		if (projectIncome.getDescription() != null) {
 			if (projectIncome.getDescription().length() > PROJECT_INCOME_DESCRIPTION_MAX_LENGTH) {

@@ -13,19 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.coeus.common.budget.framework.rate;
 
 import java.io.Serializable;
 import java.sql.Date;
 import javax.persistence.*;
 
+import org.kuali.coeus.common.budget.api.rate.AbstractInstituteRateContract;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.kuali.coeus.common.budget.framework.rate.AbstractBudgetRate;
-import org.kuali.coeus.common.budget.framework.rate.RateClass;
-import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -35,7 +33,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 @MappedSuperclass
-public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectBase implements Comparable<AbstractInstituteRate>, AbstractInstituteRateKey, MutableInactivatable {
+public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectBase implements Comparable<AbstractInstituteRate>, AbstractInstituteRateKey, MutableInactivatable, AbstractInstituteRateContract {
 
     private static final long serialVersionUID = -2136003574701633349L;
 
@@ -60,15 +58,9 @@ public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectB
     @Column(name = "START_DATE")
     private Date startDate;
 
-    @Transient
-    private String unitNumber;
-
     @Column(name = "INSTITUTE_RATE")
     @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal instituteRate;
-
-    @Transient
-    private ScaleTwoDecimal externalApplicableRate;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name="RATE_CLASS_CODE", referencedColumnName="RATE_CLASS_CODE", insertable = false, updatable = false)
@@ -79,6 +71,12 @@ public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectB
     private RateType rateType;
 
     @Transient
+    private String unitNumber;
+
+    @Transient
+    private ScaleTwoDecimal externalApplicableRate;
+
+    @Transient
     private Unit unit;
 
     @Transient
@@ -87,14 +85,17 @@ public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectB
     @Transient
     private boolean nonEditableRateFlag;
 
+    @Override
     public final boolean isActive() {
         return active;
     }
 
+    @Override
     public final void setActive(boolean active) {
         this.active = active;
     }
 
+    @Override
     public RateClass getRateClass() {
         return rateClass;
     }
@@ -103,6 +104,7 @@ public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectB
         this.rateClass = rateClass;
     }
 
+    @Override
     public RateType getRateType() {
         return rateType;
     }
@@ -111,6 +113,7 @@ public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectB
         this.rateType = rateType;
     }
 
+    @Override
     public String getFiscalYear() {
         return fiscalYear;
     }
@@ -119,6 +122,7 @@ public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectB
         this.fiscalYear = fiscalYear;
     }
 
+    @Override
     public Boolean getOnOffCampusFlag() {
         return onOffCampusFlag;
     }
@@ -127,6 +131,7 @@ public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectB
         this.onOffCampusFlag = onOffCampusFlag;
     }
 
+    @Override
     public String getRateClassCode() {
         return rateClassCode;
     }
@@ -135,6 +140,7 @@ public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectB
         this.rateClassCode = rateClassCode;
     }
 
+    @Override
     public String getRateTypeCode() {
         return rateTypeCode;
     }
@@ -143,6 +149,7 @@ public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectB
         this.rateTypeCode = rateTypeCode;
     }
 
+    @Override
     public Date getStartDate() {
         return startDate;
     }
@@ -159,6 +166,7 @@ public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectB
         this.unitNumber = unitNumber;
     }
 
+    @Override
     public ScaleTwoDecimal getInstituteRate() {
         return instituteRate;
     }
@@ -171,6 +179,7 @@ public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectB
         return rateClass.getRateClassTypeCode();
     }
 
+    @Override
     public int compareTo(AbstractInstituteRate abstractInstituteRate) {
         int result = getRateType().getDescription().compareTo(abstractInstituteRate.getRateType().getDescription());
         result = result != 0 ? result : getFiscalYear().compareTo(abstractInstituteRate.getFiscalYear());
@@ -198,18 +207,10 @@ public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectB
         return campusFlag ? Constants.ON_CAMUS_FLAG : Constants.OFF_CAMUS_FLAG;
     }
 
-    /**
-     * Gets the nonEditableRateFlag attribute. 
-     * @return Returns the nonEditableRateFlag.
-     */
     public boolean getNonEditableRateFlag() {
         return nonEditableRateFlag;
     }
 
-    /**
-     * Sets the nonEditableRateFlag attribute value.
-     * @param nonEditableRateFlag The nonEditableRateFlag to set.
-     */
     public void setNonEditableRateFlag(boolean nonEditableRateFlag) {
         this.nonEditableRateFlag = nonEditableRateFlag;
     }
@@ -299,18 +300,10 @@ public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectB
         return true;
     }
 
-    /**
-     * Gets the externalApplicableRate attribute. 
-     * @return Returns the externalApplicableRate.
-     */
     public ScaleTwoDecimal getExternalApplicableRate() {
         return externalApplicableRate == null ? getInstituteRate() : externalApplicableRate;
     }
 
-    /**
-     * Sets the externalApplicableRate attribute value.
-     * @param externalApplicableRate The externalApplicableRate to set.
-     */
     public void setExternalApplicableRate(ScaleTwoDecimal externalApplicableRate) {
         this.externalApplicableRate = externalApplicableRate;
     }

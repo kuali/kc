@@ -20,12 +20,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemCalculatedAmountContract;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
 @Entity
 @Table(name = "BUDGET_DETAILS_CAL_AMTS")
-public class BudgetLineItemCalculatedAmount extends AbstractBudgetCalculatedAmount {
+public class BudgetLineItemCalculatedAmount extends AbstractBudgetCalculatedAmount implements BudgetLineItemCalculatedAmountContract {
 
     @DeepCopyIgnore
     @PortableSequenceGenerator(name = "SEQ_BUDGET_DETAILS_CAL_AMTS_ID")
@@ -39,18 +41,11 @@ public class BudgetLineItemCalculatedAmount extends AbstractBudgetCalculatedAmou
     public BudgetLineItemCalculatedAmount() {
     }
 
-    /**
-     * Gets the budgetLineItemCalculatedAmountId attribute. 
-     * @return Returns the budgetLineItemCalculatedAmountId.
-     */
+    @Override
     public Long getBudgetLineItemCalculatedAmountId() {
         return budgetLineItemCalculatedAmountId;
     }
 
-    /**
-     * Sets the budgetLineItemCalculatedAmountId attribute value.
-     * @param budgetLineItemCalculatedAmountId The budgetLineItemCalculatedAmountId to set.
-     */
     public void setBudgetLineItemCalculatedAmountId(Long budgetLineItemCalculatedAmountId) {
         this.budgetLineItemCalculatedAmountId = budgetLineItemCalculatedAmountId;
     }

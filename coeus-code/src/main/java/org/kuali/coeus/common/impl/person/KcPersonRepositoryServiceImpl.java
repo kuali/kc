@@ -24,6 +24,15 @@ public class KcPersonRepositoryServiceImpl implements KcPersonRepositoryService 
         return kcPersonService.getKcPersonByUserName(userName);
     }
 
+    @Override
+    public KcPersonContract findKcPersonByPersonId(String personId) {
+        if (StringUtils.isBlank(personId)) {
+            throw new IllegalArgumentException("personId is blank");
+        }
+
+        return kcPersonService.getKcPersonByPersonId(personId);
+    }
+
     public KcPersonService getKcPersonService() {
         return kcPersonService;
     }

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemCalculatedAmountContract;
+import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
+import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
+import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelCalculatedAmountContract;
+import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelDetailsContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculatedAmount;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.common.budget.api.category.BudgetCategoryMapContract;
 import org.kuali.coeus.common.budget.api.category.BudgetCategoryMappingContract;
@@ -114,7 +114,7 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
         return budgetCategoryMapListWithoutFilter;
     }
 
-    protected void getTotalCosts(BudgetPeriod budgetPeriod) {
+    protected void getTotalCosts(BudgetPeriodContract budgetPeriod) {
         totalCost = budgetPeriod.getTotalCost();
         totalDirectCost = budgetPeriod.getTotalDirectCost();
         totalIndirectCost = budgetPeriod.getTotalIndirectCost();
@@ -124,27 +124,26 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
         totalDirectCost = totalDirectCost.subtract(trainingCost);
     }
 
-    protected void getIndirectCosts(BudgetPeriod budgetPeriod) {
+    protected void getIndirectCosts(BudgetPeriodContract budgetPeriod) {
         indirectCS = ScaleTwoDecimal.ZERO;
-        for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-            for (BudgetLineItemCalculatedAmount budgetLineItemCalAmount : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
-                budgetLineItemCalAmount.refreshNonUpdateableReferences();
-                if (budgetLineItemCalAmount.getRateClass()!=null && 
-                            RATE_CLASS_TYPE_OTHER.equals(budgetLineItemCalAmount.getRateClass().getRateClassTypeCode())) {
+        for (BudgetLineItemContract budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+            for (BudgetLineItemCalculatedAmountContract budgetLineItemCalAmount : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
+                if (budgetLineItemCalAmount.getRateClass()!=null &&
+                            RATE_CLASS_TYPE_OTHER.equals(budgetLineItemCalAmount.getRateClass().getRateClassType().getCode())) {
                     indirectCS = indirectCS.add(budgetLineItemCalAmount.getCalculatedCostSharing());
                 }
             }
         }
     }
 
-    protected void getSuppliesCosts(BudgetPeriod budgetPeriod) {
+    protected void getSuppliesCosts(BudgetPeriodContract budgetPeriod) {
         supplyCost = ScaleTwoDecimal.ZERO;
         supplyCostCS = ScaleTwoDecimal.ZERO;
         for (BudgetCategoryMapContract categoryMap : getBudgetCategoryMapListWithoutFilter()) {
             if (TARGET_CATEGORY_CODE_MATERIOALS_AND_SUPPLIES.equals(categoryMap.getTargetCategoryCode())) {
                 for (BudgetCategoryMappingContract categoryMappping : categoryMap.getBudgetCategoryMappings()) {
-                    for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-                        if (lineItem.getBudgetCategoryCode().equals(categoryMappping.getBudgetCategoryCode())) {
+                    for (BudgetLineItemContract lineItem : budgetPeriod.getBudgetLineItems()) {
+                        if (lineItem.getBudgetCategory().getCode().equals(categoryMappping.getBudgetCategoryCode())) {
                             supplyCost = supplyCost.add(lineItem.getLineItemCost());
                             supplyCostCS = supplyCostCS.add(lineItem.getCostSharingAmount());
                         }
@@ -154,20 +153,19 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
         }
     }
 
-    protected void getOtherCosts(BudgetPeriod budgetPeriod) {
+    protected void getOtherCosts(BudgetPeriodContract budgetPeriod) {
         categoryCostFringe = ScaleTwoDecimal.ZERO;
         categoryCostCSFringe = ScaleTwoDecimal.ZERO;
         otherCost = ScaleTwoDecimal.ZERO;
         otherCostCS = ScaleTwoDecimal.ZERO;
-        for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-            for (BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
-                for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersonnelDetails
+        for (BudgetLineItemContract budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+            for (BudgetPersonnelDetailsContract budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
+                for (BudgetPersonnelCalculatedAmountContract budgetPersonnelCalculatedAmount : budgetPersonnelDetails
                         .getBudgetPersonnelCalculatedAmounts()) {
-                    budgetPersonnelCalculatedAmount.refreshReferenceObject("rateClass");
-                    if ((budgetPersonnelCalculatedAmount.getRateClass().getRateClassTypeCode()
+                    if ((budgetPersonnelCalculatedAmount.getRateClass().getRateClassType().getCode()
                             .equals(RATE_CLASS_TYPE_EMPLOYEE_BENEFITS) && Integer.parseInt(budgetPersonnelCalculatedAmount
                             .getRateTypeCode()) != RATE_TYPE_SUPPORT_STAFF_SALARIES)
-                            || ((budgetPersonnelCalculatedAmount.getRateClass().getRateClassTypeCode().equals(RATE_CLASS_TYPE_VACATION) && Integer
+                            || ((budgetPersonnelCalculatedAmount.getRateClass().getRateClassType().getCode().equals(RATE_CLASS_TYPE_VACATION) && Integer
                                     .parseInt(budgetPersonnelCalculatedAmount.getRateTypeCode()) != RATE_TYPE_ADMINISTRATIVE_SALARIES))) {
 
                         categoryCostFringe = categoryCostFringe.add(budgetPersonnelCalculatedAmount.getCalculatedCost());
@@ -192,8 +190,8 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
         for (BudgetCategoryMapContract budgetCategoryMap : budgetCategoryMapList) {
             if (budgetCategoryMap.getCategoryType().equals(RATE_CLASS_TYPE_OTHER)) {
                 for (BudgetCategoryMappingContract categoryMapping : budgetCategoryMap.getBudgetCategoryMappings()) {
-                    for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-                        if (lineItem.getBudgetCategoryCode().equals(categoryMapping.getBudgetCategoryCode())) {
+                    for (BudgetLineItemContract lineItem : budgetPeriod.getBudgetLineItems()) {
+                        if (lineItem.getBudgetCategory().getCode().equals(categoryMapping.getBudgetCategoryCode())) {
                             otherCost = otherCost.add(lineItem.getLineItemCost());
                             otherCostCS = otherCostCS.add(lineItem.getCostSharingAmount());
                         }
@@ -201,10 +199,9 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
                 }
             }
         }
-        for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-            for (BudgetLineItemCalculatedAmount budgetLineItemCalAmount : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
-                budgetLineItemCalAmount.refreshReferenceObject("rateClass");
-                if (!budgetLineItemCalAmount.getRateClass().getRateClassTypeCode().equals(RATE_CLASS_TYPE_OTHER)) {
+        for (BudgetLineItemContract budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+            for (BudgetLineItemCalculatedAmountContract budgetLineItemCalAmount : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
+                if (!budgetLineItemCalAmount.getRateClass().getRateClassType().getCode().equals(RATE_CLASS_TYPE_OTHER)) {
                     otherCost = otherCost.add(budgetLineItemCalAmount.getCalculatedCost());
                     otherCostCS = otherCostCS.add(budgetLineItemCalAmount.getCalculatedCostSharing());
                 }
@@ -215,14 +212,14 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
         otherCostCS = otherCostCS.subtract(categoryCostCSFringe);
     }
 
-    protected void getEquipmentCosts(BudgetPeriod budgetPeriod) {
+    protected void getEquipmentCosts(BudgetPeriodContract budgetPeriod) {
         equipmentCost = ScaleTwoDecimal.ZERO;
         equipmentCostCS = ScaleTwoDecimal.ZERO;
         for (BudgetCategoryMapContract categoryMap : getBudgetCategoryMapListWithoutFilter()) {
             if (categoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_PURCHASED_EQUIPMENT)) {
                 for (BudgetCategoryMappingContract categoryMappping : categoryMap.getBudgetCategoryMappings()) {
-                    for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-                        if (lineItem.getBudgetCategoryCode().equals(categoryMappping.getBudgetCategoryCode())) {
+                    for (BudgetLineItemContract lineItem : budgetPeriod.getBudgetLineItems()) {
+                        if (lineItem.getBudgetCategory().getCode().equals(categoryMappping.getBudgetCategoryCode())) {
                             equipmentCost = equipmentCost.add(lineItem.getLineItemCost());
                             equipmentCostCS = equipmentCostCS.add(lineItem.getCostSharingAmount());
                         }
@@ -232,14 +229,14 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
         }
     }
 
-    protected void getContractualCosts(BudgetPeriod budgetPeriod) {
+    protected void getContractualCosts(BudgetPeriodContract budgetPeriod) {
         contractualCost = ScaleTwoDecimal.ZERO;
         contractualCostCS = ScaleTwoDecimal.ZERO;
         for (BudgetCategoryMapContract categoryMap : getBudgetCategoryMapListWithoutFilter()) {
             if (categoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_SUBCONTRACT)) {
                 for (BudgetCategoryMappingContract categoryMappping : categoryMap.getBudgetCategoryMappings()) {
-                    for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-                        if (lineItem.getBudgetCategoryCode().equals(categoryMappping.getBudgetCategoryCode())) {
+                    for (BudgetLineItemContract lineItem : budgetPeriod.getBudgetLineItems()) {
+                        if (lineItem.getBudgetCategory().getCode().equals(categoryMappping.getBudgetCategoryCode())) {
                             contractualCost = contractualCost.add(lineItem.getLineItemCost());
                             contractualCostCS = contractualCostCS.add(lineItem.getCostSharingAmount());
                         }
@@ -249,15 +246,15 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
         }
     }
 
-    protected void getTravelCosts(BudgetPeriod budgetPeriod) {
+    protected void getTravelCosts(BudgetPeriodContract budgetPeriod) {
         travelCost = ScaleTwoDecimal.ZERO;
         travelCostCS = ScaleTwoDecimal.ZERO;
         for (BudgetCategoryMapContract categoryMap : getBudgetCategoryMapListWithoutFilter()) {
             if (categoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_TRAVEL)
                     || categoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_FOREIGN_TRAVEL)) {
                 for (BudgetCategoryMappingContract categoryMappping : categoryMap.getBudgetCategoryMappings()) {
-                    for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-                        if (lineItem.getBudgetCategoryCode().equals(categoryMappping.getBudgetCategoryCode())) {
+                    for (BudgetLineItemContract lineItem : budgetPeriod.getBudgetLineItems()) {
+                        if (lineItem.getBudgetCategory().getCode().equals(categoryMappping.getBudgetCategoryCode())) {
                             travelCost = travelCost.add(lineItem.getLineItemCost());
                             travelCostCS = travelCostCS.add(lineItem.getCostSharingAmount());
                         }
@@ -267,14 +264,14 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
         }
     }
 
-    protected void getTrainingCosts(BudgetPeriod budgetPeriod) {
+    protected void getTrainingCosts(BudgetPeriodContract budgetPeriod) {
         trainingCost = ScaleTwoDecimal.ZERO;
         trainingCostCS = ScaleTwoDecimal.ZERO;
         for (BudgetCategoryMapContract categoryMap : getBudgetCategoryMapListWithoutFilter()) {
             if (categoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_PARTICIPANT_STIPENDS)) {
                 for (BudgetCategoryMappingContract categoryMappping : categoryMap.getBudgetCategoryMappings()) {
-                    for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-                        if (lineItem.getBudgetCategoryCode().equals(categoryMappping.getBudgetCategoryCode())) {
+                    for (BudgetLineItemContract lineItem : budgetPeriod.getBudgetLineItems()) {
+                        if (lineItem.getBudgetCategory().getCode().equals(categoryMappping.getBudgetCategoryCode())) {
                             trainingCost = trainingCost.add(lineItem.getLineItemCost());
                             trainingCostCS = trainingCostCS.add(lineItem.getCostSharingAmount());
                         }
@@ -284,14 +281,14 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
         }
     }
 
-    public void getPersonnelCosts(BudgetPeriod budgetPeriod) {
+    public void getPersonnelCosts(BudgetPeriodContract budgetPeriod) {
         personnelCost = ScaleTwoDecimal.ZERO;
         personnelCostCS = ScaleTwoDecimal.ZERO;
         for (BudgetCategoryMapContract categoryMap : getBudgetCategoryMapListWithoutFilter()) {
             if (categoryMap.getCategoryType().equals(TARGET_CATEGORY_TYPE_CODE_PERSONNEL)) {
                 for (BudgetCategoryMappingContract categoryMappping : categoryMap.getBudgetCategoryMappings()) {
-                    for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-                        if (lineItem.getBudgetCategoryCode().equals(categoryMappping.getBudgetCategoryCode())) {
+                    for (BudgetLineItemContract lineItem : budgetPeriod.getBudgetLineItems()) {
+                        if (lineItem.getBudgetCategory().getCode().equals(categoryMappping.getBudgetCategoryCode())) {
                             personnelCost = personnelCost.add(lineItem.getLineItemCost());
                             personnelCostCS = personnelCostCS.add(lineItem.getCostSharingAmount());
                         }

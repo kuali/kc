@@ -21,6 +21,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetRateAndBaseContract;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
@@ -28,7 +30,7 @@ import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
 @Entity
 @Table(name = "BUDGET_RATE_AND_BASE")
-public class BudgetRateAndBase extends AbstractBudgetRateAndBase {
+public class BudgetRateAndBase extends AbstractBudgetRateAndBase implements BudgetRateAndBaseContract {
 
     private static final long serialVersionUID = -6003003851261499575L;
 
@@ -49,6 +51,7 @@ public class BudgetRateAndBase extends AbstractBudgetRateAndBase {
     @Column(name = "BUDGET_DETAILS_ID")
     private Long budgetLineItemId;
 
+    @Override
     public ScaleTwoDecimal getBaseCost() {
         return baseCost;
     }
@@ -57,50 +60,29 @@ public class BudgetRateAndBase extends AbstractBudgetRateAndBase {
         this.baseCost = baseCost;
     }
 
-    /**
-     * Gets the budgetRateAndBaseId attribute. 
-     * @return Returns the budgetRateAndBaseId.
-     */
+    @Override
     public Long getBudgetRateAndBaseId() {
         return budgetRateAndBaseId;
     }
 
-    /**
-     * Sets the budgetRateAndBaseId attribute value.
-     * @param budgetRateAndBaseId The budgetRateAndBaseId to set.
-     */
     public void setBudgetRateAndBaseId(Long budgetRateAndBaseId) {
         this.budgetRateAndBaseId = budgetRateAndBaseId;
     }
 
-    /**
-     * Gets the budgetLineItemCalculatedAmountId attribute. 
-     * @return Returns the budgetLineItemCalculatedAmountId.
-     */
+    @Override
     public Long getBudgetLineItemCalculatedAmountId() {
         return budgetLineItemCalculatedAmountId;
     }
 
-    /**
-     * Sets the budgetLineItemCalculatedAmountId attribute value.
-     * @param budgetLineItemCalculatedAmountId The budgetLineItemCalculatedAmountId to set.
-     */
     public void setBudgetLineItemCalculatedAmountId(Long budgetLineItemCalculatedAmountId) {
         this.budgetLineItemCalculatedAmountId = budgetLineItemCalculatedAmountId;
     }
 
-    /**
-     * Gets the budgetLineItemId attribute. 
-     * @return Returns the budgetLineItemId.
-     */
+    @Override
     public Long getBudgetLineItemId() {
         return budgetLineItemId;
     }
 
-    /**
-     * Sets the budgetLineItemId attribute value.
-     * @param budgetLineItemId The budgetLineItemId to set.
-     */
     public void setBudgetLineItemId(Long budgetLineItemId) {
         this.budgetLineItemId = budgetLineItemId;
     }

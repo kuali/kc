@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.rate;
 
+import org.kuali.coeus.common.budget.api.rate.FormulatedTypeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.Column;
@@ -24,7 +25,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "FORMULATED_TYPE")
-public class FormulatedType extends KcPersistableBusinessObjectBase {
+public class FormulatedType extends KcPersistableBusinessObjectBase implements FormulatedTypeContract {
 
     private static final long serialVersionUID = 8085064744469084409L;
 
@@ -33,12 +34,8 @@ public class FormulatedType extends KcPersistableBusinessObjectBase {
     private String formulatedTypeCode;
 
     @Column(name = "DESCRIPTION")
-    private String description; 
-    
-    public FormulatedType() { 
+    private String description;
 
-    } 
-    
     public String getFormulatedTypeCode() {
         return formulatedTypeCode;
     }
@@ -47,6 +44,7 @@ public class FormulatedType extends KcPersistableBusinessObjectBase {
         this.formulatedTypeCode = formulatedTypeCode;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -55,4 +53,8 @@ public class FormulatedType extends KcPersistableBusinessObjectBase {
         this.description = description;
     }
 
+    @Override
+    public String getCode() {
+        return getFormulatedTypeCode();
+    }
 }

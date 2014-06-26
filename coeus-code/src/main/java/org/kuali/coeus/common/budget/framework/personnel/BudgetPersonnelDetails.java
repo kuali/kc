@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.personnel;
 
+import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelDetailsContract;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetFormulatedCostDetail;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.AbstractBudgetCalculatedAmount;
@@ -31,7 +32,6 @@ import java.util.List;
 import javax.persistence.*;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -49,53 +49,7 @@ import static java.util.Calendar.MONTH;
 
 @Entity
 @Table(name = "BUDGET_PERSONNEL_DETAILS")
-public class BudgetPersonnelDetails extends BudgetLineItemBase {
-
-    @Transient
-    private Long budgetPeriodId;
-
-    @Transient
-    private String costElement;
-
-    @Transient
-    private ScaleTwoDecimal lineItemCost = ScaleTwoDecimal.ZERO;
-
-    @Transient
-    private String budgetCategoryCode;
-
-    @Transient
-    private Integer basedOnLineItem;
-
-    @Transient
-    private Integer quantity;
-
-    @Transient
-    private BudgetCategory budgetCategory;
-
-    @Transient
-    private Integer lineItemSequence;
-
-
-    @Transient
-    private CostElement costElementBO;
-
-    @Transient
-    private ScaleTwoDecimal totalCostSharingAmount;
-
-    @Transient
-    private String groupName;
-
-    @Transient
-    private Boolean formulatedCostElementFlag;
-
-    @Transient
-    private List<BudgetFormulatedCostDetail> budgetFormulatedCosts;
-
-    //ignore the budget period bo during deep copy as any link up the budget object graph
-    //will cause generateAllPeriods to consume large amounts of memory
-    @DeepCopyIgnore
-    @Transient
-    private BudgetPeriod budgetPeriodBO;
+public class BudgetPersonnelDetails extends BudgetLineItemBase implements BudgetPersonnelDetailsContract {
 
     @DeepCopyIgnore
     @PortableSequenceGenerator(name = "SEQ_BUDGET_PER_DET_ID")
@@ -190,6 +144,51 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
     private BudgetPerson budgetPerson;
 
     @Transient
+    private Long budgetPeriodId;
+
+    @Transient
+    private String costElement;
+
+    @Transient
+    private ScaleTwoDecimal lineItemCost = ScaleTwoDecimal.ZERO;
+
+    @Transient
+    private String budgetCategoryCode;
+
+    @Transient
+    private Integer basedOnLineItem;
+
+    @Transient
+    private Integer quantity;
+
+    @Transient
+    private BudgetCategory budgetCategory;
+
+    @Transient
+    private Integer lineItemSequence;
+
+    @Transient
+    private CostElement costElementBO;
+
+    @Transient
+    private ScaleTwoDecimal totalCostSharingAmount;
+
+    @Transient
+    private String groupName;
+
+    @Transient
+    private Boolean formulatedCostElementFlag;
+
+    @Transient
+    private List<BudgetFormulatedCostDetail> budgetFormulatedCosts;
+
+    //ignore the budget period bo during deep copy as any link up the budget object graph
+    //will cause generateAllPeriods to consume large amounts of memory
+    @DeepCopyIgnore
+    @Transient
+    private BudgetPeriod budgetPeriodBO;
+
+    @Transient
     private List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts;
 
     @Transient
@@ -208,6 +207,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         budgetFormulatedCosts = new ArrayList<BudgetFormulatedCostDetail>();
     }
 
+    @Override
     public Long getBudgetId() {
         return budgetId;
     }
@@ -216,6 +216,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         this.budgetId = budgetId;
     }
 
+    @Override
     public Integer getPersonNumber() {
         return personNumber;
     }
@@ -224,6 +225,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         this.personNumber = personNumber;
     }
 
+    @Override
     public ScaleTwoDecimal getCostSharingPercent() {
         return costSharingPercent;
     }
@@ -232,6 +234,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         this.costSharingPercent = costSharingPercent;
     }
 
+    @Override
     public String getJobCode() {
         return jobCode;
     }
@@ -240,6 +243,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         this.jobCode = jobCode;
     }
 
+    @Override
     public ScaleTwoDecimal getPercentCharged() {
         return ScaleTwoDecimal.returnZeroIfNull(percentCharged);
     }
@@ -248,6 +252,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         this.percentCharged = percentCharged;
     }
 
+    @Override
     public ScaleTwoDecimal getPercentEffort() {
         return ScaleTwoDecimal.returnZeroIfNull(percentEffort);
     }
@@ -256,6 +261,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         this.percentEffort = percentEffort;
     }
 
+    @Override
     public String getPeriodTypeCode() {
         return periodTypeCode;
     }
@@ -264,6 +270,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         this.periodTypeCode = periodTypeCode;
     }
 
+    @Override
     public String getPersonId() {
         return personId;
     }
@@ -272,6 +279,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         this.personId = personId;
     }
 
+    @Override
     public ScaleTwoDecimal getSalaryRequested() {
         return salaryRequested;
     }
@@ -291,6 +299,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
     @Transient
     private ScaleTwoDecimal calculatedBaseSalary = ScaleTwoDecimal.ZERO;
 
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
@@ -299,50 +308,29 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         this.sequenceNumber = sequenceNumber;
     }
 
-    /**
-     * Gets the nonEmployeeFlag attribute. 
-     * @return Returns the nonEmployeeFlag.
-     */
     public Boolean getNonEmployeeFlag() {
         return getBudgetPerson() == null ? false : getBudgetPerson().getNonEmployeeFlag();
     }
 
-    /**
-     * Gets the personSequenceNumber attribute. 
-     * @return Returns the personSequenceNumber.
-     */
+    @Override
     public Integer getPersonSequenceNumber() {
         return personSequenceNumber;
     }
 
-    /**
-     * Sets the personSequenceNumber attribute value.
-     * @param personSequenceNumber The personSequenceNumber to set.
-     */
     public void setPersonSequenceNumber(Integer personSequenceNumber) {
         this.personSequenceNumber = personSequenceNumber;
     }
 
-    /**
-     * Gets the budgetPerson attribute. 
-     * @return Returns the budgetPerson.
-     */
+    @Override
     public BudgetPerson getBudgetPerson() {
         return budgetPerson;
     }
 
-    /**
-     * Sets the budgetPerson attribute value.
-     * @param budgetPerson The budgetPerson to set.
-     */
     public void setBudgetPerson(BudgetPerson budgetPerson) {
         this.budgetPerson = budgetPerson;
     }
 
-    /**
-     * Gets the budgetPersonnelCalculatedAmounts attribute. 
-     * @return Returns the budgetPersonnelCalculatedAmounts.
-     */
+    @Override
     public List<BudgetPersonnelCalculatedAmount> getBudgetPersonnelCalculatedAmounts() {
         if (CollectionUtils.isEmpty(budgetPersonnelCalculatedAmounts)) {
             budgetPersonnelCalculatedAmounts = getDataObjectService().findMatching(BudgetPersonnelCalculatedAmount.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("budgetPersonnelLineItemId", budgetPersonnelLineItemId)).build()).getResults();
@@ -351,14 +339,11 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         return budgetPersonnelCalculatedAmounts;
     }
 
+    @Override
     public List getBudgetCalculatedAmounts() {
         return getBudgetPersonnelCalculatedAmounts();
     }
 
-    /**
-     * Gets the budgetPersonnelRateAndBaseList attribute. 
-     * @return Returns the budgetPersonnelRateAndBaseList.
-     */
     public List<BudgetPersonnelRateAndBase> getBudgetPersonnelRateAndBaseList() {
         if (CollectionUtils.isEmpty(budgetPersonnelRateAndBaseList)) {
             budgetPersonnelRateAndBaseList = getDataObjectService().findMatching(BudgetPersonnelRateAndBase.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("budgetPersonnelLineItemId", budgetPersonnelLineItemId)).build()).getResults();
@@ -411,99 +396,105 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         return result;
     }
 
-    /**
-     * Gets the budgetPersonnelLineItemId attribute. 
-     * @return Returns the budgetPersonnelLineItemId.
-     */
+    @Override
     public Long getBudgetPersonnelLineItemId() {
         return budgetPersonnelLineItemId;
     }
 
-    /**
-     * Sets the budgetPersonnelLineItemId attribute value.
-     * @param budgetPersonnelLineItemId The budgetPersonnelLineItemId to set.
-     */
     public void setBudgetPersonnelLineItemId(Long budgetPersonnelLineItemId) {
         this.budgetPersonnelLineItemId = budgetPersonnelLineItemId;
     }
 
+    @Override
     public Long getBudgetLineItemId() {
         return budgetLineItemId;
     }
 
+    @Override
     public void setBudgetLineItemId(Long budgetLineItemId) {
         this.budgetLineItemId = budgetLineItemId;
     }
 
+    @Override
     public Integer getLineItemNumber() {
         return lineItemNumber;
     }
 
+    @Override
     public void setLineItemNumber(Integer lineItemNumber) {
         this.lineItemNumber = lineItemNumber;
     }
 
+    @Override
     public Integer getBudgetPeriod() {
         return budgetPeriod;
     }
 
+    @Override
     public void setBudgetPeriod(Integer budgetPeriod) {
         this.budgetPeriod = budgetPeriod;
     }
 
+    @Override
     public Boolean getOnOffCampusFlag() {
         return onOffCampusFlag;
     }
 
+    @Override
     public void setOnOffCampusFlag(Boolean onOffCampusFlag) {
         this.onOffCampusFlag = onOffCampusFlag;
     }
 
+    @Override
     public Date getEndDate() {
         return endDate;
     }
 
+    @Override
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
+    @Override
     public Date getStartDate() {
         return startDate;
     }
 
+    @Override
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
+    @Override
     public String getBudgetJustification() {
         return budgetJustification;
     }
 
+    @Override
     public void setBudgetJustification(String budgetJustification) {
         this.budgetJustification = budgetJustification;
     }
 
+    @Override
     public String getLineItemDescription() {
         return lineItemDescription;
     }
 
+    @Override
     public void setLineItemDescription(String lineItemDescription) {
         this.lineItemDescription = lineItemDescription;
     }
 
+    @Override
     public Boolean getApplyInRateFlag() {
         return applyInRateFlag;
     }
 
+    @Override
     public void setApplyInRateFlag(Boolean applyInRateFlag) {
         this.applyInRateFlag = applyInRateFlag;
     }
 
-    /**
-     * 
-     * This method creates new instance of BudgetPersonnelCalculatedAmount
-     * @return
-     */
     public AbstractBudgetCalculatedAmount getNewBudgetPersonnelCalculatedAmount() {
         return new BudgetPersonnelCalculatedAmount();
     }
@@ -515,42 +506,52 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         return dataObjectService;
     }
 
+    @Override
     public ScaleTwoDecimal getCostSharingAmount() {
         return ScaleTwoDecimal.returnZeroIfNull(costSharingAmount);
     }
 
+    @Override
     public void setCostSharingAmount(ScaleTwoDecimal costSharingAmount) {
         this.costSharingAmount = costSharingAmount;
     }
 
+    @Override
     public ScaleTwoDecimal getLineItemCost() {
         return ScaleTwoDecimal.returnZeroIfNull(lineItemCost);
     }
 
+    @Override
     public void setLineItemCost(ScaleTwoDecimal lineItemCost) {
         this.lineItemCost = lineItemCost;
     }
 
+    @Override
     public ScaleTwoDecimal getUnderrecoveryAmount() {
         return ScaleTwoDecimal.returnZeroIfNull(underrecoveryAmount);
     }
 
+    @Override
     public void setUnderrecoveryAmount(ScaleTwoDecimal underrecoveryAmount) {
         this.underrecoveryAmount = underrecoveryAmount;
     }
 
+    @Override
     public ScaleTwoDecimal getTotalCostSharingAmount() {
         return ScaleTwoDecimal.returnZeroIfNull(totalCostSharingAmount);
     }
 
+    @Override
     public void setTotalCostSharingAmount(ScaleTwoDecimal totalCostSharingAmount) {
         this.totalCostSharingAmount = totalCostSharingAmount;
     }
 
+    @Override
     public void setSubmitCostSharingFlag(Boolean submitCostSharingFlag) {
         this.submitCostSharingFlag = submitCostSharingFlag;
     }
 
+    @Override
     public Boolean getSubmitCostSharingFlag() {
         if (ObjectUtils.isNull(budgetPeriodBO)) {
             this.refreshReferenceObject("budgetPeriodBO");
@@ -558,90 +559,112 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         return (getBudgetPeriodBO() != null && getBudgetPeriodBO().getBudget().getSubmitCostSharingFlag()) ? submitCostSharingFlag : false;
     }
 
+    @Override
     public Boolean getFormulatedCostElementFlag() {
         return formulatedCostElementFlag == null ? Boolean.FALSE : formulatedCostElementFlag;
     }
 
+    @Override
     public void setFormulatedCostElementFlag(Boolean formulatedCostElementFlag) {
         this.formulatedCostElementFlag = formulatedCostElementFlag;
     }
 
+    @Override
     public String getCostElement() {
         return costElement;
     }
 
+    @Override
     public void setCostElement(String costElement) {
         this.costElement = costElement;
     }
 
+    @Override
     public String getBudgetCategoryCode() {
         return budgetCategoryCode;
     }
 
+    @Override
     public void setBudgetCategoryCode(String budgetCategoryCode) {
         this.budgetCategoryCode = budgetCategoryCode;
     }
 
+    @Override
     public Integer getBasedOnLineItem() {
         return basedOnLineItem;
     }
 
+    @Override
     public void setBasedOnLineItem(Integer basedOnLineItem) {
         this.basedOnLineItem = basedOnLineItem;
     }
 
+    @Override
     public Integer getQuantity() {
         return quantity;
     }
 
+    @Override
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
+    @Override
     public BudgetCategory getBudgetCategory() {
         return budgetCategory;
     }
 
+    @Override
     public void setBudgetCategory(BudgetCategory budgetCategory) {
         this.budgetCategory = budgetCategory;
     }
 
+    @Override
     public Integer getLineItemSequence() {
         return lineItemSequence;
     }
 
+    @Override
     public void setLineItemSequence(Integer lineItemSequence) {
         this.lineItemSequence = lineItemSequence;
     }
 
+    @Override
     public CostElement getCostElementBO() {
         return costElementBO;
     }
 
+    @Override
     public void setCostElementBO(CostElement costElementBO) {
         this.costElementBO = costElementBO;
     }
 
+    @Override
     public String getGroupName() {
         return groupName;
     }
 
+    @Override
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
 
+    @Override
     public List<BudgetFormulatedCostDetail> getBudgetFormulatedCosts() {
         return budgetFormulatedCosts;
     }
 
+    @Override
     public void setBudgetFormulatedCosts(List<BudgetFormulatedCostDetail> budgetFormulatedCosts) {
         this.budgetFormulatedCosts = budgetFormulatedCosts;
     }
 
+    @Override
     public BudgetPeriod getBudgetPeriodBO() {
         return budgetPeriodBO;
     }
 
+    @Override
     public void setBudgetPeriodBO(BudgetPeriod budgetPeriodBO) {
         this.budgetPeriodBO = budgetPeriodBO;
     }
@@ -654,10 +677,12 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         this.budgetPersonnelRateAndBaseList = budgetPersonnelRateAndBaseList;
     }
 
+    @Override
     public Long getBudgetPeriodId() {
         return budgetPeriodId;
     }
 
+    @Override
     public void setBudgetPeriodId(Long budgetPeriodId) {
         this.budgetPeriodId = budgetPeriodId;
     }

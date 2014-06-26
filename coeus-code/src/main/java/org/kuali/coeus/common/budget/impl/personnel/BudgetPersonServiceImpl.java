@@ -16,6 +16,7 @@
 package org.kuali.coeus.common.budget.impl.personnel;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelDetailsContract;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
@@ -238,7 +239,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
      * @return true if persons match, false otherwise
      */
     @Override
-    public boolean proposalPersonEqualsBudgetPerson(ProposalPersonContract proposalPerson, BudgetPersonnelDetails budgetPersonnelDetails) {
+    public boolean proposalPersonEqualsBudgetPerson(ProposalPersonContract proposalPerson, BudgetPersonnelDetailsContract budgetPersonnelDetails) {
         boolean equal = false;
         if (proposalPerson != null && budgetPersonnelDetails != null) {
             String budgetPersonId = budgetPersonnelDetails.getPersonId();

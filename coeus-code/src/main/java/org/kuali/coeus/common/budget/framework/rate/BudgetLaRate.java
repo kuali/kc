@@ -15,13 +15,14 @@
  */
 package org.kuali.coeus.common.budget.framework.rate;
 
+import org.kuali.coeus.common.budget.api.rate.BudgetLaRateContract;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import org.kuali.kra.bo.InstituteLaRate;
 
 @Entity
 @Table(name = "EPS_PROP_LA_RATES")
-public class BudgetLaRate extends AbstractBudgetRate {
+public class BudgetLaRate extends AbstractBudgetRate implements BudgetLaRateContract {
 
     private static final long serialVersionUID = -993765790460645503L;
 

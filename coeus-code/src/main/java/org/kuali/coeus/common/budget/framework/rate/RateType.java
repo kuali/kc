@@ -22,12 +22,13 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.budget.api.rate.RateTypeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "RATE_TYPE")
 @IdClass(RateType.RateTypeId.class)
-public class RateType extends KcPersistableBusinessObjectBase implements Comparable {
+public class RateType extends KcPersistableBusinessObjectBase implements Comparable<RateType>, RateTypeContract {
 
     @Id
     @Column(name = "RATE_CLASS_CODE")
@@ -44,6 +45,7 @@ public class RateType extends KcPersistableBusinessObjectBase implements Compara
     @JoinColumn(name = "RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
     private RateClass rateClass;
 
+    @Override
     public String getRateClassCode() {
         return rateClassCode;
     }
@@ -52,6 +54,7 @@ public class RateType extends KcPersistableBusinessObjectBase implements Compara
         this.rateClassCode = rateClassCode;
     }
 
+    @Override
     public String getRateTypeCode() {
         return rateTypeCode;
     }
@@ -60,6 +63,7 @@ public class RateType extends KcPersistableBusinessObjectBase implements Compara
         this.rateTypeCode = rateTypeCode;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -79,6 +83,7 @@ public class RateType extends KcPersistableBusinessObjectBase implements Compara
         return rateClassType.getDescription();
     }
 
+    @Override
     public RateClass getRateClass() {
         return rateClass;
     }
@@ -87,14 +92,7 @@ public class RateType extends KcPersistableBusinessObjectBase implements Compara
         this.rateClass = rateClass;
     }
 
-    /**
-     * This is for totals page to sort it by rateclasstypecode
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
-    public int compareTo(Object o) {
-        return compareTo((RateType) o);
-    }
-
+    @Override
     public int compareTo(RateType rateType) {
         rateType.refreshReferenceObject("rateClass");
         this.refreshReferenceObject("rateClass");

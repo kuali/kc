@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.common.api.specialreview.SpecialReviewTypeContract;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -25,7 +27,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "SPECIAL_REVIEW")
-public class SpecialReviewType extends KraSortablePersistableBusinessObjectBase {
+public class SpecialReviewType extends KraSortablePersistableBusinessObjectBase implements SpecialReviewTypeContract {
 
     /**
      * The Human Subjects Special Review type.
@@ -51,11 +53,17 @@ public class SpecialReviewType extends KraSortablePersistableBusinessObjectBase 
         this.specialReviewTypeCode = specialReviewTypeCode;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String getCode() {
+        return getSpecialReviewTypeCode();
     }
 }

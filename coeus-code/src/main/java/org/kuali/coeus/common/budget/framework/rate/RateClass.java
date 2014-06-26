@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.rate;
 
-import org.kuali.coeus.budget.api.rate.RateClassContract;
+import org.kuali.coeus.common.budget.api.rate.RateClassContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.*;

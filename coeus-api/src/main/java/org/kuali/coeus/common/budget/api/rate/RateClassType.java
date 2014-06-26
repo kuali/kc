@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.framework.calculator;
+package org.kuali.coeus.common.budget.api.rate;
 
 /**
  * This class represents different possible enumerations of RateClassType
