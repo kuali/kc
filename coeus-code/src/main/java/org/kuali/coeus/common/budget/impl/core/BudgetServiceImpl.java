@@ -78,7 +78,7 @@ import java.util.*;
  * This class implements methods specified by BudgetDocumentService interface
  */
 @Component("budgetService")
-public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<T> {
+public abstract class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<T> {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetServiceImpl.class);
     
@@ -135,10 +135,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         return newBudgetDoc;
     }
 
-    protected Budget getNewBudgetVersion(BudgetParentDocument parent, String versionName) throws WorkflowException {
-        BudgetCommonService<T> budgetCommonService = BudgetCommonServiceFactory.createInstance(parent.getBudgetParent());
-        return budgetCommonService.getNewBudgetVersion(parent, versionName);
-    }
+    protected abstract Budget getNewBudgetVersion(BudgetParentDocument<T> parent, String versionName) throws WorkflowException;
 
     /**
      * Runs business rules on the given name of a {@link BudgetVersionOverview} instance and {@link ProposalDevelopmentDocument} instance to 
@@ -189,24 +186,6 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      */
     public void setBudgetVersionRule(BudgetVersionRule budgetVersionRule) {
         this.budgetVersionRule = budgetVersionRule;
-    }
-    
-
-    protected BudgetDocument saveBudgetDocument(BudgetDocument budgetDocument) throws WorkflowException {
-        Budget budget = budgetDocument.getBudget();
-        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument(); 
-        boolean isProposalBudget = new Boolean(parentDocument.getProposalBudgetFlag()).booleanValue();
-
-        if(!isProposalBudget){
-            AwardBudgetExt budgetExt = (AwardBudgetExt)budget;
-            budgetExt.setAwardBudgetStatusCode(this.parameterService.getParameterValueAsString(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
-            budgetExt.setAwardBudgetTypeCode(this.parameterService.getParameterValueAsString(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_TYPE_NEW));
-            documentService.saveDocument(budgetDocument);
-        }else{
-            documentService.saveDocument(budgetDocument);
-            return (BudgetDocument) documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
-        }
-        return null;
     }
     
     @Override
@@ -574,27 +553,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         return getKualiRuleService().applyRules(new DocumentAuditEvent(budgetDocument));
 
     }
-    /**
-     * Need to move this to AwardBudgetService service
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public BudgetDocument copyBudgetVersion(AwardBudgetDocument budgetDocument, boolean onlyOnePeriod) throws WorkflowException {
-        String parentDocumentNumber = budgetDocument.getBudget().getBudgetParent().getDocument().getDocumentNumber();
-        budgetDocument.toCopy();
-        budgetDocument.getBudget().getBudgetParent().getDocument().getDocumentHeader().setDocumentNumber(parentDocumentNumber);
-        budgetDocument.getBudget().getBudgetParent().getDocument().setDocumentNumber(parentDocumentNumber);
-        if(budgetDocument.getBudget() == null) {
-            throw new RuntimeException("Not able to find any Budget Version associated with this document");
-        }
-        Budget budget = budgetDocument.getBudget();
-        Budget copiedBudget = copyBudgetVersion(budget,onlyOnePeriod);
-        budgetDocument.setBudget(copiedBudget);
-        budgetDocument = (AwardBudgetDocument) documentService.saveDocument(budgetDocument);
-        budgetDocument = (AwardBudgetDocument) saveBudgetDocument(budgetDocument);
-        budgetDocument.getBudget().getBudgetParent().getDocument().refreshBudgetDocumentVersions();
-    	return budgetDocument;
-    }
+
     /**
      * @throws NoSuchMethodException 
      * @throws InvocationTargetException 
@@ -688,7 +647,6 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         if (projectIncomes != null && !projectIncomes.isEmpty()) {
             updateProjectIncomes(budget, projectIncomes);
         }
-        getBudgetCommonService(budget.getBudgetParent()).calculateBudgetOnSave(budget);
         for(BudgetPeriod tmpBudgetPeriod: budget.getBudgetPeriods()) {
             BudgetModular tmpBudgetModular = tmpBudgetModulars.get(""+tmpBudgetPeriod.getBudget().getVersionNumber() + tmpBudgetPeriod.getBudgetPeriod());
             if(tmpBudgetModular != null) {
@@ -700,9 +658,8 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         return budget;
     }
     
-    protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParent budgetParent) {
-        return BudgetCommonServiceFactory.createInstance(budgetParent);
-    }    
+    protected abstract void calculateBudgetOnSave(Budget budget);
+   
     /**
      * 
      * This method is to handle budgetprojectincomes independently.

@@ -249,13 +249,8 @@ public class AwardBudgetForm extends BudgetForm {
     public ScaleTwoDecimal getPreviousObligatedTotal() {
         //sum up all the previous changes
         AwardBudgetExt awardBudgetExt = this.getAwardBudgetDocument().getAwardBudget();
-        AwardDocument ad = (AwardDocument) this.getAwardBudgetDocument().getBudget().getBudgetParent().getDocument();
-        List<Budget> allBudgets = new ArrayList<Budget>();
-        List<AwardBudgetDocumentVersion> awardBudgetDocuments = ad.getBudgetDocumentVersions();
-        for (AwardBudgetDocumentVersion version : awardBudgetDocuments) {
-            allBudgets.add(version.findBudget());
-        }
-        return getSumOfAllPreviousBudgetChanges(awardBudgetExt, allBudgets);
+        Award award = (Award) this.getAwardBudgetDocument().getBudget().getBudgetParent();
+        return getSumOfAllPreviousBudgetChanges(awardBudgetExt, award.getBudgets());
     }
     
     /**
@@ -265,7 +260,7 @@ public class AwardBudgetForm extends BudgetForm {
      * @param allBudgets
      * @return
      */
-    protected ScaleTwoDecimal getSumOfAllPreviousBudgetChanges(AwardBudgetExt curentAwardBudgetExt, List<Budget> allBudgets) {
+    protected ScaleTwoDecimal getSumOfAllPreviousBudgetChanges(AwardBudgetExt curentAwardBudgetExt, List<? extends Budget> allBudgets) {
         if (curentAwardBudgetExt != null && curentAwardBudgetExt.getPrevBudget() != null) {
             ScaleTwoDecimal previousTotalCost = curentAwardBudgetExt.getPrevBudget().getTotalCostLimit();
             AwardBudgetExt previousAwardBudget = findAwardBudgetExt(curentAwardBudgetExt.getPrevBudget().getBudgetId(), allBudgets);
@@ -281,7 +276,7 @@ public class AwardBudgetForm extends BudgetForm {
      * @param allBudgets
      * @return
      */
-    protected AwardBudgetExt findAwardBudgetExt(Long budgetId, List<Budget> allBudgets) {
+    protected AwardBudgetExt findAwardBudgetExt(Long budgetId, List<? extends Budget> allBudgets) {
         for (Budget budget : allBudgets) {
             if (budget.getBudgetId().equals(budgetId)) {
                 return (AwardBudgetExt) budget;

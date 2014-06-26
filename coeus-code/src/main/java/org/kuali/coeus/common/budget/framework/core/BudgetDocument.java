@@ -74,9 +74,6 @@ public class BudgetDocument<T extends BudgetParent> extends KcTransactionalDocum
     @Convert(converter = BooleanYNConverter.class)
     private boolean budgetDeleted;
 
-    @Transient
-    private transient DocumentService documentService;
-
     @Override
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
@@ -260,14 +257,6 @@ public class BudgetDocument<T extends BudgetParent> extends KcTransactionalDocum
     @Override
     public void populateAgendaQualifiers(Map<String, String> qualifiers) {
         qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getLeadUnitNumber());
-    }
-
-    protected DocumentService getDocumentService() {
-        if (documentService == null) {
-            documentService = KcServiceLocator.getService(DocumentService.class);
-        }
-
-        return documentService;
     }
 
 	@Override

@@ -51,6 +51,7 @@ import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
+import org.kuali.coeus.common.budget.impl.core.BudgetServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -72,7 +73,7 @@ import java.util.*;
 /**
  * This class is to process all basic services required for AwardBudget
  */
-public class AwardBudgetServiceImpl implements AwardBudgetService {
+public class AwardBudgetServiceImpl extends BudgetServiceImpl<Award> implements AwardBudgetService {
     private static final Log LOG = LogFactory.getLog(AwardBudgetServiceImpl.class);
     private final static String BUDGET_VERSION_ERROR_PREFIX = "document.parentDocument.budgetDocumentVersion";
     
@@ -91,6 +92,27 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_POSTED);
         saveDocument(awardBudgetDocument);
     }
+    
+    /**
+     * Need to move this to AwardBudgetService service
+     */
+    @SuppressWarnings("unchecked")
+    protected AwardBudgetDocument copyBudgetVersion(AwardBudgetDocument budgetDocument, boolean onlyOnePeriod) throws WorkflowException {
+        String parentDocumentNumber = budgetDocument.getBudget().getBudgetParent().getDocument().getDocumentNumber();
+        budgetDocument.toCopy();
+        budgetDocument.getBudget().getBudgetParent().getDocument().getDocumentHeader().setDocumentNumber(parentDocumentNumber);
+        budgetDocument.getBudget().getBudgetParent().getDocument().setDocumentNumber(parentDocumentNumber);
+        if(budgetDocument.getBudget() == null) {
+            throw new RuntimeException("Not able to find any Budget Version associated with this document");
+        }
+        Budget budget = budgetDocument.getBudget();
+        Budget copiedBudget = copyBudgetVersion(budget,onlyOnePeriod);
+        budgetDocument.setBudget(copiedBudget);
+        budgetDocument = (AwardBudgetDocument) documentService.saveDocument(budgetDocument);
+        budgetDocument = (AwardBudgetDocument) saveBudgetDocument(budgetDocument, false);
+        budgetDocument.getBudget().getBudgetParent().getDocument().refreshBudgetDocumentVersions();
+    	return budgetDocument;
+    }    
 
     @Override
     public void toggleStatus(AwardBudgetDocument awardBudgetDocument) {
@@ -474,8 +496,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         return budgetVersionOverview;
     }
 
-    protected void saveBudgetDocument(BudgetDocument<Award> budgetDocument,boolean rebudget) throws WorkflowException {
-        AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) budgetDocument;
+    protected AwardBudgetDocument saveBudgetDocument(AwardBudgetDocument awardBudgetDocument,boolean rebudget) throws WorkflowException {
         AwardBudgetExt budgetExt = awardBudgetDocument.getAwardBudget();
 //        AwardBudgetExt budgetExt = (AwardBudgetExt) budget;
 
@@ -487,6 +508,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         
         processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS);
         saveDocument(awardBudgetDocument);
+        return awardBudgetDocument;
     }
 
     @SuppressWarnings("unchecked")
@@ -556,7 +578,7 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         //award document
     	AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument)budgetDocument;
         ((AwardBudgetExt) budgetDocument.getBudget()).getAwardBudgetLimits().clear();
-        BudgetDocument newBudgetDocument = getBudgetService().copyBudgetVersion(awardBudgetDocument, onlyOnePeriod);
+        BudgetDocument newBudgetDocument = copyBudgetVersion(awardBudgetDocument, onlyOnePeriod);
         setBudgetLimits((AwardBudgetDocument) newBudgetDocument, (AwardDocument) newBudgetDocument.getBudget().getBudgetParent().getDocument());
         return newBudgetDocument;        
     }
