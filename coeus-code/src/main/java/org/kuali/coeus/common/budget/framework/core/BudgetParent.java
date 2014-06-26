@@ -56,7 +56,7 @@ public interface BudgetParent {
 	
 	public BudgetParentDocument<? extends BudgetParent> getDocument();
 	
-	public List<? extends AbstractBudget> getBudgetVersionOverviews();
+	public List<? extends Budget> getBudgetVersionOverviews();
 	public Budget getNewBudget();
 	public Integer getNextBudgetVersionNumber();
 

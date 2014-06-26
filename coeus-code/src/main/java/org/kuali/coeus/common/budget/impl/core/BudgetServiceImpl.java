@@ -194,7 +194,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
 
     protected BudgetDocument saveBudgetDocument(BudgetDocument budgetDocument) throws WorkflowException {
         Budget budget = budgetDocument.getBudget();
-        BudgetParentDocument<T> parentDocument = budgetDocument.getParentDocument(); 
+        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument(); 
         boolean isProposalBudget = new Boolean(parentDocument.getProposalBudgetFlag()).booleanValue();
 
         if(!isProposalBudget){
@@ -376,7 +376,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     @Override
     public String getActivityTypeForBudget(BudgetDocument<T> budgetDocument) {
         Budget budget = budgetDocument.getBudget();
-        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
+        BudgetParent budgetParent = budgetDocument.getBudget().getBudgetParent().getDocument().getBudgetParent();
         if(budgetParent==null){
             budgetDocument.refreshReferenceObject("parentDocument");
         }
@@ -580,10 +580,10 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     @SuppressWarnings("unchecked")
     @Override
     public BudgetDocument copyBudgetVersion(AwardBudgetDocument budgetDocument, boolean onlyOnePeriod) throws WorkflowException {
-        String parentDocumentNumber = budgetDocument.getParentDocument().getDocumentNumber();
+        String parentDocumentNumber = budgetDocument.getBudget().getBudgetParent().getDocument().getDocumentNumber();
         budgetDocument.toCopy();
-        budgetDocument.getParentDocument().getDocumentHeader().setDocumentNumber(parentDocumentNumber);
-        budgetDocument.getParentDocument().setDocumentNumber(parentDocumentNumber);
+        budgetDocument.getBudget().getBudgetParent().getDocument().getDocumentHeader().setDocumentNumber(parentDocumentNumber);
+        budgetDocument.getBudget().getBudgetParent().getDocument().setDocumentNumber(parentDocumentNumber);
         if(budgetDocument.getBudget() == null) {
             throw new RuntimeException("Not able to find any Budget Version associated with this document");
         }
@@ -592,7 +592,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         budgetDocument.setBudget(copiedBudget);
         budgetDocument = (AwardBudgetDocument) documentService.saveDocument(budgetDocument);
         budgetDocument = (AwardBudgetDocument) saveBudgetDocument(budgetDocument);
-        budgetDocument.getParentDocument().refreshBudgetDocumentVersions();
+        budgetDocument.getBudget().getBudgetParent().getDocument().refreshBudgetDocumentVersions();
     	return budgetDocument;
     }
     /**

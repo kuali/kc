@@ -540,7 +540,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             document.setBudget(null);
             // make sure the budget points to this instance of the pdd as other deleted budgets
             // must be removed so they don't fail document validation.
-            document.setParentDocument(parentDocument);
             document.setBudgetDeleted(true);
             document = (BudgetDocument<DevelopmentProposal>) getDocumentService().saveDocument(document);
         }

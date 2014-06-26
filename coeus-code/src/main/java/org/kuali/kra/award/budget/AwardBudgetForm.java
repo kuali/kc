@@ -225,7 +225,7 @@ public class AwardBudgetForm extends BudgetForm {
      * @return
     */ 
     public Award getAward() {
-        AwardDocument ad = (AwardDocument) this.getAwardBudgetDocument().getParentDocument();
+        AwardDocument ad = (AwardDocument) this.getAwardBudgetDocument().getBudget().getBudgetParent();
         ad.getBudgetDocumentVersions();
         Award award = ad.getAward();
         return award;
@@ -249,7 +249,7 @@ public class AwardBudgetForm extends BudgetForm {
     public ScaleTwoDecimal getPreviousObligatedTotal() {
         //sum up all the previous changes
         AwardBudgetExt awardBudgetExt = this.getAwardBudgetDocument().getAwardBudget();
-        AwardDocument ad = (AwardDocument) this.getAwardBudgetDocument().getParentDocument();
+        AwardDocument ad = (AwardDocument) this.getAwardBudgetDocument().getBudget().getBudgetParent().getDocument();
         List<Budget> allBudgets = new ArrayList<Budget>();
         List<AwardBudgetDocumentVersion> awardBudgetDocuments = ad.getBudgetDocumentVersions();
         for (AwardBudgetDocumentVersion version : awardBudgetDocuments) {

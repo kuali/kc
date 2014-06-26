@@ -80,17 +80,17 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
     public Map establishLocks(Document document, Map editMode, Person user) {
         //check for lock in parent document of the budget section and if it is locked,
         //then assume this is also locked
-        if (document instanceof BudgetDocument) {
-            BudgetDocument budgetDoc = (BudgetDocument)document;
-            //unsure if this should be for anything but proposal development
-            if (budgetDoc.getParentDocument() instanceof ProposalDevelopmentDocument) { 
-                for (PessimisticLock lock : budgetDoc.getParentDocument().getPessimisticLocks()) {
-                    if (!lock.isOwnedByUser(user) && StringUtils.equals(budgetDoc.getCustomLockDescriptor(user), lock.getLockDescriptor())) {
-                        return getEditModeWithEditableModesRemoved(editMode);
-                    }
-                }
-            } 
-        }
+//        if (document instanceof BudgetDocument) {
+//            BudgetDocument budgetDoc = (BudgetDocument)document;
+//            //unsure if this should be for anything but proposal development
+//            if (budgetDoc.getParentDocument() instanceof ProposalDevelopmentDocument) { 
+//                for (PessimisticLock lock : budgetDoc.getParentDocument().getPessimisticLocks()) {
+//                    if (!lock.isOwnedByUser(user) && StringUtils.equals(budgetDoc.getCustomLockDescriptor(user), lock.getLockDescriptor())) {
+//                        return getEditModeWithEditableModesRemoved(editMode);
+//                    }
+//                }
+//            } 
+//        }
         return super.establishLocks(document, editMode, user); 
     }
 
@@ -115,7 +115,7 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
             if (document.useCustomLockDescriptors()) {
                 String lockDescriptor = document.getCustomLockDescriptor(user);
                 //establish any locks needed on the parent document
-                this.establishLocks(budgetDocument.getParentDocument(), editMode, user); 
+                this.establishLocks(budgetDocument.getBudget().getBudgetParent().getDocument(), editMode, user); 
                 
                 return generateNewLock(document.getDocumentNumber(), lockDescriptor, user);
             } 
@@ -132,7 +132,7 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
     public boolean hasPreRouteEditAuthorization(Document document, Person user) {
         BudgetDocument budgetDocument = (BudgetDocument) document;
          
-        for (Iterator iterator = budgetDocument.getParentDocument().getPessimisticLocks().iterator(); iterator.hasNext();) {
+        for (Iterator iterator = budgetDocument.getBudget().getBudgetParent().getDocument().getPessimisticLocks().iterator(); iterator.hasNext();) {
             PessimisticLock lock = (PessimisticLock) iterator.next();
             if (lock.getLockDescriptor().endsWith(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET) && lock.isOwnedByUser(user)) {
                 return true;

@@ -398,8 +398,8 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
         String returnErrorValue = null;
         LOG.info("prd st dt " + periodStartDate.getTime() + periodEndDate.getTime() + getProjectStartDate().getTime()
                 + getProjectEndDate().getTime());
-        Date budgetEndDate = new Date(this.budgetDocument.getBudgetEndDate().getTime());
-        Date budgetStartDate = new Date(this.budgetDocument.getBudgetStartDate().getTime());
+        Date budgetEndDate = new Date(this.budgetDocument.getBudget().getBudgetEndDate().getTime());
+        Date budgetStartDate = new Date(this.budgetDocument.getBudget().getBudgetStartDate().getTime());
         if (periodStartDate.after(budgetEndDate)) {
             LOG.info("ERROR_PERIOD_START_AFTER_PROJECT_END" + periodStartDate + getProjectEndDate());
             returnErrorValue = "ERROR_PERIOD_START_AFTER_PROJECT_END";

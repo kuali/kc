@@ -37,9 +37,9 @@ public class ProposalBudgetTaskFactory extends WebTaskFactoryBase {
     public Task createTask(ActionForm form, HttpServletRequest request) {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        BudgetParentDocument parentDocument = budgetDocument.getParentDocument(); 
+        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument(); 
         if(parentDocument!=null ){
-            taskGroupName = budgetDocument.getParentDocument().getTaskGroupName();
+            taskGroupName = budgetDocument.getBudget().getBudgetParent().getDocument().getTaskGroupName();
         }
         return new BudgetTask(getTaskName(), getTaskGroupName(),budgetDocument);
     }

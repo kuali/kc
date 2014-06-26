@@ -138,7 +138,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         DocumentService documentService = getDocumentService();
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
         String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
-        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
+        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
         if(parentDocument==null){
             budgetDocument.refreshReferenceObject("parentDocument");
         }
@@ -170,7 +170,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
      * 
      */
     public void checkProjectStartEndDateWarning(BudgetDocument budgetDocument) {
-        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
+        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
         if(parentDocument==null){
           return;
         }
