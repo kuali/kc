@@ -24,6 +24,7 @@ import javax.persistence.*;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.api.personnel.BudgetPersonContract;
 import org.kuali.coeus.common.budget.framework.core.DateSortable;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -43,7 +44,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  */
 @Entity
 @Table(name = "BUDGET_PERSONS")
-public class BudgetPerson extends KcPersistableBusinessObjectBase implements HierarchyMaintainable, DateSortable {
+public class BudgetPerson extends KcPersistableBusinessObjectBase implements HierarchyMaintainable, DateSortable, BudgetPersonContract {
 
     private static final long serialVersionUID = 1L;
 
@@ -122,41 +123,6 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
     @JoinColumn(name = "TBN_ID", referencedColumnName = "TBN_ID", insertable = false, updatable = false)
     private TbnPerson tbnPerson;
 
-    public List<BudgetPersonSalaryDetails> getBudgetPersonSalaryDetails() {
-        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
-        List<BudgetPersonSalaryDetails> salaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
-        if (this.budgetPersonSalaryDetails == null || this.budgetPersonSalaryDetails.isEmpty()) {
-            HashMap budgetMap = new HashMap();
-            budgetMap.put("budgetId", getBudgetId());
-            Collection<BudgetPeriod> periods = boService.findMatching(BudgetPeriod.class, budgetMap);
-            for (BudgetPeriod budgetPeriod : periods) {
-                salaryDetails.add(new BudgetPersonSalaryDetails());
-            }
-            this.budgetPersonSalaryDetails = salaryDetails;
-        }
-        return budgetPersonSalaryDetails;
-    }
-
-    public void setBudgetPersonSalaryDetails(List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails) {
-        this.budgetPersonSalaryDetails = budgetPersonSalaryDetails;
-    }
-
-    public Long getBudgetId() {
-        return budgetId;
-    }
-
-    public void setBudgetId(Long budgetId) {
-        this.budgetId = budgetId;
-    }
-
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
-
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
-
     public BudgetPerson() {
         super();
         budgetPersonSalaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
@@ -198,6 +164,43 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
         this.personName = proposalPerson.getFullName();
     }
 
+    public List<BudgetPersonSalaryDetails> getBudgetPersonSalaryDetails() {
+        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
+        List<BudgetPersonSalaryDetails> salaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
+        if (this.budgetPersonSalaryDetails == null || this.budgetPersonSalaryDetails.isEmpty()) {
+            HashMap budgetMap = new HashMap();
+            budgetMap.put("budgetId", getBudgetId());
+            Collection<BudgetPeriod> periods = boService.findMatching(BudgetPeriod.class, budgetMap);
+            for (BudgetPeriod budgetPeriod : periods) {
+                salaryDetails.add(new BudgetPersonSalaryDetails());
+            }
+            this.budgetPersonSalaryDetails = salaryDetails;
+        }
+        return budgetPersonSalaryDetails;
+    }
+
+    public void setBudgetPersonSalaryDetails(List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails) {
+        this.budgetPersonSalaryDetails = budgetPersonSalaryDetails;
+    }
+
+    @Override
+    public Long getBudgetId() {
+        return budgetId;
+    }
+
+    public void setBudgetId(Long budgetId) {
+        this.budgetId = budgetId;
+    }
+
+    @Override
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
     /*
 	 * Helper method for calculator. This is used for sorting and filtering after combining with rates purpose
 	 */
@@ -216,6 +219,7 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
         }
     }
 
+    @Override
     public Boolean getNonEmployeeFlag() {
         return nonEmployeeFlag;
     }
@@ -224,6 +228,7 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
         this.nonEmployeeFlag = nonEmployeeFlag;
     }
 
+    @Override
     public String getPersonId() {
         return personId;
     }
@@ -232,6 +237,7 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
         this.personId = personId;
     }
 
+    @Override
     public AppointmentType getAppointmentType() {
         return appointmentType;
     }
@@ -240,6 +246,7 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
         this.appointmentType = appointmentType;
     }
 
+    @Override
     public ScaleTwoDecimal getCalculationBase() {
         return calculationBase;
     }
@@ -248,6 +255,7 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
         this.calculationBase = calculationBase;
     }
 
+    @Override
     public String getPersonName() {
         return personName;
     }
@@ -256,50 +264,27 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
         this.personName = personName;
     }
 
-    /**
-     * Gets the appointmentTypeCode attribute. 
-     * @return Returns the appointmentTypeCode.
-     */
     public String getAppointmentTypeCode() {
         return appointmentTypeCode;
     }
 
-    /**
-     * Sets the appointmentTypeCode attribute value.
-     * @param appointmentTypeCode The appointmentTypeCode to set.
-     */
     public void setAppointmentTypeCode(String appointmentTypeCode) {
         this.appointmentTypeCode = appointmentTypeCode;
     }
 
-    /**
-     * Gets the rolodexId attribute. 
-     * @return Returns the rolodexId.
-     */
+    @Override
     public Integer getRolodexId() {
         return rolodexId;
     }
 
-    /**
-     * Sets the rolodexId attribute value.
-     * @param rolodexId The rolodexId to set.
-     */
     public void setRolodexId(Integer rolodexId) {
         this.rolodexId = rolodexId;
     }
 
-    /**
-     * Gets the person attribute. 
-     * @return Returns the person.
-     */
     public KcPerson getPerson() {
         return getKcPersonService().getKcPersonByPersonId(personId);
     }
 
-    /**
-     * Gets the KC Person Service.
-     * @return KC Person Service.
-     */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
             this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
@@ -307,38 +292,24 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
         return this.kcPersonService;
     }
 
-    /**
-     * Gets the roldex attribute. 
-     * @return Returns the roldex.
-     */
     public Rolodex getRoldex() {
         return rolodex;
     }
 
-    /**
-     * Sets the rolodex attribute value.
-     * @param rolodex The rolodex to set.
-     */
     public void setRoldex(Rolodex rolodex) {
         this.rolodex = rolodex;
     }
 
-    /**
-     * Gets the personSequenceNumber attribute. 
-     * @return Returns the personSequenceNumber.
-     */
+    @Override
     public Integer getPersonSequenceNumber() {
         return personSequenceNumber;
     }
 
-    /**
-     * Sets the personSequenceNumber attribute value.
-     * @param personSequenceNumber The personSequenceNumber to set.
-     */
     public void setPersonSequenceNumber(Integer personSequenceNumber) {
         this.personSequenceNumber = personSequenceNumber;
     }
 
+    @Override
     public String getTbnId() {
         return tbnId;
     }
@@ -347,18 +318,10 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
         this.tbnId = tbnId;
     }
 
-    /**
-     * Gets the rolodex attribute. 
-     * @return Returns the rolodex.
-     */
     public Rolodex getRolodex() {
         return rolodex;
     }
 
-    /**
-     * Sets the rolodex attribute value.
-     * @param rolodex The rolodex to set.
-     */
     public void setRolodex(Rolodex rolodex) {
         this.rolodex = rolodex;
     }
@@ -441,6 +404,7 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
         }
     }
 
+    @Override
     public JobCode getJobCodeRef() {
         return jobCodeRef;
     }
@@ -449,34 +413,22 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
         this.jobCodeRef = jobCodeRef;
     }
 
-    /**
-     * Sets the hierarchyProposalNumber attribute value.
-     * @param hierarchyProposalNumber The hierarchyProposalNumber to set.
-     */
+    @Override
     public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
         this.hierarchyProposalNumber = hierarchyProposalNumber;
     }
 
-    /**
-     * Gets the hierarchyProposalNumber attribute. 
-     * @return Returns the hierarchyProposalNumber.
-     */
+    @Override
     public String getHierarchyProposalNumber() {
         return hierarchyProposalNumber;
     }
 
-    /**
-     * Gets the hiddenInHierarchy attribute. 
-     * @return Returns the hiddenInHierarchy.
-     */
+    @Override
     public boolean isHiddenInHierarchy() {
         return hiddenInHierarchy;
     }
 
-    /**
-     * Sets the hiddenInHierarchy attribute value.
-     * @param hiddenInHierarchy The hiddenInHierarchy to set.
-     */
+    @Override
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
     }
@@ -512,18 +464,11 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
         return true;
     }
 
-    /**
-     * Gets the salaryAnniversaryDate attribute. 
-     * @return Returns the salaryAnniversaryDate.
-     */
+    @Override
     public Date getSalaryAnniversaryDate() {
         return salaryAnniversaryDate;
     }
 
-    /**
-     * Sets the salaryAnniversaryDate attribute value.
-     * @param salaryAnniversaryDate The salaryAnniversaryDate to set.
-     */
     public void setSalaryAnniversaryDate(Date salaryAnniversaryDate) {
         this.salaryAnniversaryDate = salaryAnniversaryDate;
     }

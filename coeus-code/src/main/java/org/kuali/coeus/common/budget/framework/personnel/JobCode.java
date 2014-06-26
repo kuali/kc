@@ -19,11 +19,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.kuali.coeus.common.budget.api.personnel.JobCodeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "JOB_CODE")
-public class JobCode extends KcPersistableBusinessObjectBase {
+public class JobCode extends KcPersistableBusinessObjectBase implements JobCodeContract {
 
     @Id
     @Column(name = "JOB_CODE")
@@ -46,5 +48,15 @@ public class JobCode extends KcPersistableBusinessObjectBase {
 
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
+    }
+
+    @Override
+    public String getTitle() {
+        return getJobTitle();
+    }
+
+    @Override
+    public String getCode() {
+        return getJobCode();
     }
 }

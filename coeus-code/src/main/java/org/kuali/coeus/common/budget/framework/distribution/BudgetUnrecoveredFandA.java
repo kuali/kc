@@ -21,6 +21,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.budget.api.distribution.BudgetUnrecoveredFandAContract;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -32,11 +33,15 @@ import java.io.Serializable;
 @Entity
 @Table(name = "EPS_PROP_IDC_RATE")
 @IdClass(BudgetUnrecoveredFandA.BudgetUnrecoveredFandAId.class)
-public class BudgetUnrecoveredFandA extends KcPersistableBusinessObjectBase implements HierarchyMaintainable {
+public class BudgetUnrecoveredFandA extends KcPersistableBusinessObjectBase implements HierarchyMaintainable, BudgetUnrecoveredFandAContract {
 
     private static final long serialVersionUID = 6614520585838685080L;
 
     public static final String DOCUMENT_COMPONENT_ID_KEY = "BUDGET_UNRECOVERED_F_AND_A_KEY";
+
+    public static final String OFF_CAMPUS_RATE_FLAG = "N";
+
+    public static final String ON_CAMPUS_RATE_FLAG = "Y";
 
     @Id
     @Column(name = "PROJECT_INCOME_ID")
@@ -62,10 +67,6 @@ public class BudgetUnrecoveredFandA extends KcPersistableBusinessObjectBase impl
 
     @Column(name = "SOURCE_ACCOUNT")
     private String sourceAccount;
-
-    public static final String OFF_CAMPUS_RATE_FLAG = "N";
-
-    public static final String ON_CAMPUS_RATE_FLAG = "Y";
 
     @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
@@ -96,6 +97,7 @@ public class BudgetUnrecoveredFandA extends KcPersistableBusinessObjectBase impl
         this.sourceAccount = sourceAccount;
     }
 
+    @Override
     public Integer getDocumentComponentId() {
         return documentComponentId;
     }
@@ -104,6 +106,7 @@ public class BudgetUnrecoveredFandA extends KcPersistableBusinessObjectBase impl
         this.documentComponentId = costShareId;
     }
 
+    @Override
     public Long getBudgetId() {
         return budgetId;
     }
@@ -148,23 +151,27 @@ public class BudgetUnrecoveredFandA extends KcPersistableBusinessObjectBase impl
             return false;
         return true;
     }
-
+    @Override
     public ScaleTwoDecimal getAmount() {
         return ScaleTwoDecimal.returnZeroIfNull(amount);
     }
 
+    @Override
     public ScaleTwoDecimal getApplicableRate() {
         return applicableRate;
     }
 
+    @Override
     public String getOnCampusFlag() {
         return onCampusFlag;
     }
 
+    @Override
     public Integer getFiscalYear() {
         return fiscalYear;
     }
 
+    @Override
     public String getSourceAccount() {
         return sourceAccount;
     }
@@ -205,6 +212,7 @@ public class BudgetUnrecoveredFandA extends KcPersistableBusinessObjectBase impl
         return DOCUMENT_COMPONENT_ID_KEY;
     }
 
+    @Override
     public String getHierarchyProposalNumber() {
         return hierarchyProposalNumber;
     }
@@ -213,6 +221,7 @@ public class BudgetUnrecoveredFandA extends KcPersistableBusinessObjectBase impl
         this.hierarchyProposalNumber = hierarchyProposalNumber;
     }
 
+    @Override
     public boolean isHiddenInHierarchy() {
         return hiddenInHierarchy;
     }
