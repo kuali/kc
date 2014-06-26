@@ -131,6 +131,8 @@
         <property name="quickfinder">
             <bean parent="Uif-QuickFinder"
                   p:hideCriteriaOnSearch="true"
+                  p:returnByScript="true"
+                  p:dataObjectClassName="org.kuali.coeus.common.framework.sponsor.Sponsor"
                   p:lookupParameters="sponsorCode:sponsorCode"
                   p:fieldConversions="sponsorCode:sponsorCode">
             </bean>
@@ -146,6 +148,8 @@
         <property name="quickfinder">
             <bean parent="Uif-QuickFinder"
                   p:hideCriteriaOnSearch="true"
+                  p:returnByScript="true"
+                  p:dataObjectClassName="org.kuali.coeus.common.framework.sponsor.Sponsor"
                   p:lookupParameters="primeSponsorCode:sponsorCode"
                   p:fieldConversions="sponsorCode:primeSponsorCode">
             </bean>
