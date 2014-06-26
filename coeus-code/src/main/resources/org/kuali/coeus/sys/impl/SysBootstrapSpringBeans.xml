@@ -9,10 +9,10 @@
 
     <context:annotation-config />
 
-    <bean id="kcAwardConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
-        <property name="moduleName" value="kc.award"/>
-        <property name="moduleTitle" value="KC Award"/>
-        <property name="bootstrapSpringFile" value="classpath:org/kuali/kra/award/ModuleComponentSpringBeans.xml"/>
+    <bean id="kcSysConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+        <property name="moduleName" value="kc.sys"/>
+        <property name="moduleTitle" value="KC System"/>
+        <property name="bootstrapSpringFile" value="classpath:org/kuali/coeus/sys/impl/SysComponentSpringBeans.xml"/>
     </bean>
 
 </beans>

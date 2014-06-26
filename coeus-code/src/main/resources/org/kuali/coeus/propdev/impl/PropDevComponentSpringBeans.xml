@@ -20,8 +20,8 @@
 
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportDataSourceSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportRiceKradSpringBeans.xml"/>
-    <import resource="classpath:org/kuali/coeus/propdev/impl/ModuleImportRiceSpringBeans.xml"/>
-    <import resource="classpath:org/kuali/coeus/propdev/impl/ModuleImportModuleSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/coeus/propdev/impl/PropDevImportRiceSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/coeus/propdev/impl/PropDevImportModuleSpringBeans.xml"/>
 
     <!-- TEMP until S2S is fully removed -->
     <import resource="classpath:org/kuali/kra/s2s/S2SSpringBeans.xml"/>

@@ -30,63 +30,41 @@
 
     <!-- SYS -->
     <bean id="transactionalDocumentControllerService" parent="grlImporter" p:serviceName="transactionalDocumentControllerService" />
-
     <bean id="uifExportControllerService" parent="grlImporter" p:serviceName="uifExportControllerService" />
-
     <bean id="kcAuthorizationService" parent="grlImporter" p:serviceName="kcAuthorizationService" />
-
     <bean id="kcDocumentRejectionService" parent="grlImporter" p:serviceName="kcDocumentRejectionService" />
-
     <bean id="kcPersistenceStructureService" parent="grlImporter" p:serviceName="kcPersistenceStructureService" />
-
     <bean id="kcWorkflowService" parent="grlImporter" p:serviceName="kcWorkflowService" />
-
     <bean id="systemAuthorizationService" parent="grlImporter" p:serviceName="systemAuthorizationService" />
-
     <bean id="taskAuthorizationService" parent="grlImporter" p:serviceName="taskAuthorizationService" />
-
     <bean id="unitAuthorizationService" parent="grlImporter" p:serviceName="unitAuthorizationService" />
-
     <bean id="kcPersonLookupableHelperService" parent="grlImporter" p:serviceName="kcPersonLookupableHelperService" />
 
     <!-- AWARD -->
-
     <bean id="awardService" parent="grlImporter" p:serviceName="awardService" />
 
     <!-- COMMON BUDGET -->
 
     <bean id="budgetCalculationService" parent="grlImporter" p:serviceName="budgetCalculationService" />
-
     <bean id="budgetService" parent="grlImporter" p:serviceName="budgetService" />
-
     <bean id="budgetSummaryService" parent="grlImporter" p:serviceName="budgetSummaryService" />
-
     <bean id="deepCopyPostProcessor" parent="grlImporter" p:serviceName="deepCopyPostProcessor" />
-
     <bean id="budgetPersonService" parent="grlImporter" p:serviceName="budgetPersonService" />
-
     <bean id="budgetPersonnelBudgetService" parent="grlImporter" p:serviceName="budgetPersonnelBudgetService" />
 
     <!-- COMMON QUESTIONNAIRE -->
 
     <bean id="questionnaireService" parent="grlImporter" p:serviceName="questionnaireService" />
-
     <bean id="questionnaireAnswerService" parent="grlImporter" p:serviceName="questionnaireAnswerService" />
 
     <!-- COMMON OTHER -->
 
     <bean id="kcPersonService" parent="grlImporter" p:serviceName="kcPersonService" />
-
     <bean id="printingService" parent="grlImporter" p:serviceName="printingService" />
-
     <bean id="unitService" parent="grlImporter" p:serviceName="unitService" />
-
     <bean id="versionHistoryService" parent="grlImporter" p:serviceName="versionHistoryService" />
-
     <bean id="ynqService" parent="grlImporter" p:serviceName="ynqService" />
-
     <bean id="personEditableService" parent="grlImporter" p:serviceName="personEditableService" />
-
     <bean id="sponsorHierarchyService" parent="grlImporter" p:serviceName="sponsorHierarchyService" />
 
     <!-- S2S -->
@@ -96,13 +74,11 @@
     <!-- IRB -->
 
     <bean id="proposalDevelopmentProtocolDocumentService" parent="grlImporter" p:serviceName="proposalDevelopmentProtocolDocumentService" />
-
     <bean id="protocolSpecialReviewService" parent="grlImporter" p:serviceName="protocolSpecialReviewService" />
 
     <!-- IACUC -->
 
     <bean id="iacucProtocolProposalDevelopmentProtocolDocumentService" parent="grlImporter" p:serviceName="iacucProtocolProposalDevelopmentProtocolDocumentService" />
-
     <bean id="iacucProtocolSpecialReviewService" parent="grlImporter" p:serviceName="iacucProtocolSpecialReviewService" />
 
 </beans>

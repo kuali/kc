@@ -42,13 +42,13 @@
     </bean>
 
     <import resource="classpath:org/kuali/coeus/sys/impl/RiceBootstrapSpringBeans.xml"/>
-    <import resource="classpath:org/kuali/coeus/sys/impl/ModuleBootstrapSpringBeans.xml"/>
-    <import resource="classpath:org/kuali/kra/core/ModuleBootstrapSpringBeans.xml"/>
-    <import resource="classpath:org/kuali/coeus/propdev/impl/ModuleBootstrapSpringBeans.xml"/>
-    <import resource="classpath:org/kuali/kra/institutionalproposal/ModuleBootstrapSpringBeans.xml"/>
-    <import resource="classpath:org/kuali/kra/award/ModuleBootstrapSpringBeans.xml"/>
-    <import resource="classpath:org/kuali/kra/subaward/ModuleBootstrapSpringBeans.xml"/>
-    <import resource="classpath:org/kuali/kra/negotiation/ModuleBootstrapSpringBeans.xml"/>
-    <import resource="classpath:org/kuali/kra/coi/ModuleBootstrapSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/coeus/sys/impl/SysBootstrapSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/kra/core/CoreBootstrapSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/coeus/propdev/impl/PropDevBootstrapSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/kra/institutionalproposal/InstPropBootstrapSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/kra/award/AwardBootstrapSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/kra/subaward/SubAwardBootstrapSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/kra/negotiation/NegotiationBootstrapSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/kra/coi/CoiBootstrapSpringBeans.xml"/>
 
 </beans>

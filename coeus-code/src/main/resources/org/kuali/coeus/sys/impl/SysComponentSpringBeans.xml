@@ -18,8 +18,8 @@
     </bean>
 
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportDataSourceSpringBeans.xml"/>
-    <import resource="classpath:org/kuali/coeus/sys/impl/ModuleImportRiceSpringBeans.xml"/>
-    <import resource="classpath:org/kuali/coeus/sys/impl/ModuleImportModuleSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/coeus/sys/impl/SysImportRiceSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/coeus/sys/impl/SysImportModuleSpringBeans.xml"/>
 
     <bean id="sysModule" parent="sysModule-parentBean" />
     <bean id="sysModule-parentBean" class="org.kuali.rice.krad.service.impl.ModuleServiceBase" abstract="true">
