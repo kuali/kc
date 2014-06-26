@@ -13,18 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.personmasschange.service.impl;
+package org.kuali.coeus.propdev.impl.person.masschange;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.coeus.common.framework.person.editable.PersonEditableService;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
-import org.kuali.kra.personmasschange.service.ProposalDevelopmentPersonMassChangeService;
+import org.kuali.coeus.propdev.impl.person.masschange.ProposalDevelopmentPersonMassChangeService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
+import org.kuali.kra.personmasschange.service.impl.MassPersonChangeServiceBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +38,14 @@ import java.util.List;
  * 
  * Person roles that might be replaced are: Investigator, Mailing Information, Key Study Person.
  */
+@Component("proposalDevelopmentPersonMassChangeService")
 public class ProposalDevelopmentPersonMassChangeServiceImpl extends MassPersonChangeServiceBase implements ProposalDevelopmentPersonMassChangeService {
 
     private static final String DEVELOPMENT_PROPOSAL = "development proposal";
     private static final String DEVPROP_WARNINGS = "devPropWarnings";
-    
+
+    @Autowired
+    @Qualifier("personEditableService")
     private PersonEditableService personEditableService;
     
     @Override

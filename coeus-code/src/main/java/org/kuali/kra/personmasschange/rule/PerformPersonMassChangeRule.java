@@ -16,6 +16,7 @@
 package org.kuali.kra.personmasschange.rule;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.propdev.impl.person.masschange.ProposalDevelopmentPersonMassChange;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.infrastructure.KeyConstants;
