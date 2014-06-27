@@ -2355,7 +2355,17 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
             getBusinessObjectService().save(narrative);
         }
     }
-
+    public String getAllUnitNumbers() {
+        List<String> unitNumbers = new ArrayList<String>();
+        List<ProposalPerson> proposalPersons = getProposalPersons();
+        for (ProposalPerson proposalPerson : proposalPersons) {
+            List<ProposalPersonUnit> proposalPersonUnits = proposalPerson.getUnits();
+            for (ProposalPersonUnit proposalPersonUnit : proposalPersonUnits) {
+                unitNumbers.add(proposalPersonUnit.getUnitNumber());
+            }
+        }
+        return StringUtils.join(unitNumbers,',');
+    }
     public abstract static class AbstractHiddenInHierarchyCustomizer extends FilterByMapDescriptorCustomizer {
 
         @Override

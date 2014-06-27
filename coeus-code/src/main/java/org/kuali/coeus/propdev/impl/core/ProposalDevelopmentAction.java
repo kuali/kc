@@ -353,7 +353,8 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 
 
     protected List<String> getUnitRulesMessages(ProposalDevelopmentDocument pdDoc) {
-        return getKrmsRulesExecutionService().processUnitValidations(pdDoc.getLeadUnitNumber(), pdDoc);
+        return getKrmsRulesExecutionService().processUnitValidations(pdDoc.getDevelopmentProposal().getAllUnitNumbers(), pdDoc);
+
     }
 
    /**
