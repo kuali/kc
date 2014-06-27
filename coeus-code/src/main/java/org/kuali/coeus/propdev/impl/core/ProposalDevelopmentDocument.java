@@ -610,7 +610,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
 
     public void populateAgendaQualifiers(Map<String, String> qualifiers) {
-        qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getLeadUnitNumber());
+        qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getDevelopmentProposal().getAllUnitNumbers());
     }
 
     public void defaultDocumentDescription() {
