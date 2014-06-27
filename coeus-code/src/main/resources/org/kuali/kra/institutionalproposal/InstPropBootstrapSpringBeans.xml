@@ -9,10 +9,10 @@
 
     <context:annotation-config />
 
-    <bean id="kcSubAwardConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
-        <property name="moduleName" value="kc.subaward"/>
-        <property name="moduleTitle" value="KC SubAward"/>
-        <property name="bootstrapSpringFile" value="classpath:org/kuali/kra/subaward/ModuleComponentSpringBeans.xml"/>
+    <bean id="kcInstitutionalProposalConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+        <property name="moduleName" value="kc.ip"/>
+        <property name="moduleTitle" value="KC Institutional Proposal"/>
+        <property name="bootstrapSpringFile" value="classpath:org/kuali/kra/institutionalproposal/InstPropComponentSpringBeans.xml"/>
     </bean>
 
 </beans>

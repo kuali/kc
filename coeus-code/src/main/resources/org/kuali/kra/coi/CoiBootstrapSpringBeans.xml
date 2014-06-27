@@ -12,7 +12,7 @@
     <bean id="kcCoiConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
         <property name="moduleName" value="kc.coi"/>
         <property name="moduleTitle" value="KC Conflict of Interest"/>
-        <property name="bootstrapSpringFile" value="classpath:org/kuali/kra/coi/ModuleComponentSpringBeans.xml"/>
+        <property name="bootstrapSpringFile" value="classpath:org/kuali/kra/coi/CoiComponentSpringBeans.xml"/>
     </bean>
 
 </beans>
