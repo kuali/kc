@@ -128,20 +128,20 @@ public class Budget extends AbstractBudget {
     private List<BudgetProjectIncome> budgetProjectIncomes;
     
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
+    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "BUDGET_ID")
     private List<DocumentNextvalue> documentNextvalues;
     
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     @OrderBy("projectPeriod")
-    @FilterGenerator(attributeName = "hiddenInHierarchy", attributeValue = "false")
+    //@FilterGenerator(attributeName = "hiddenInHierarchy", attributeValue = "false")
     private List<BudgetCostShare> budgetCostShares;
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     @OrderBy("fiscalYear")
-    @FilterGenerator(attributeName = "hiddenInHierarchy", attributeValue = "false")
+    //@FilterGenerator(attributeName = "hiddenInHierarchy", attributeValue = "false")
     private List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs;
 
     @Transient

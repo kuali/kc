@@ -15,9 +15,14 @@
  */
 package org.kuali.kra.bo;
 
+import java.io.Serializable;
 import java.sql.Date;
 import javax.persistence.*;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.budget.framework.rate.AbstractBudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
@@ -66,7 +71,7 @@ public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectB
     private ScaleTwoDecimal externalApplicableRate;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
-    @JoinColumn(insertable = false, updatable = false)
+    @JoinColumn(name="RATE_CLASS_CODE", referencedColumnName="RATE_CLASS_CODE", insertable = false, updatable = false)
     private RateClass rateClass;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
@@ -309,4 +314,97 @@ public abstract class AbstractInstituteRate extends KcPersistableBusinessObjectB
     public void setExternalApplicableRate(ScaleTwoDecimal externalApplicableRate) {
         this.externalApplicableRate = externalApplicableRate;
     }
+    
+    public static abstract class AbstractInstituteRateId implements Serializable {
+
+        private String fiscalYear;
+
+        private Boolean onOffCampusFlag;
+
+        private String rateClassCode;
+
+        private String rateTypeCode;
+
+        private Date startDate;
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).append("fiscalYear", this.fiscalYear).append("onOffCampusFlag", this.onOffCampusFlag)
+            		.append("rateClassCode", this.rateClassCode).append("rateTypeCode", this.rateTypeCode)
+            		.append("startDate", this.startDate).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final AbstractInstituteRateId rhs = (AbstractInstituteRateId) other;
+            return new EqualsBuilder().append(this.fiscalYear, rhs.fiscalYear)
+            		.append(this.onOffCampusFlag, rhs.onOffCampusFlag)
+            		.append(this.rateClassCode, rhs.rateClassCode)
+            		.append(this.rateTypeCode, rhs.rateTypeCode)
+            		.append(this.startDate, rhs.startDate).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(17, 37).append(this.fiscalYear)
+            		.append(this.onOffCampusFlag)
+            		.append(this.rateClassCode)
+            		.append(this.rateTypeCode)
+            		.append(this.startDate).toHashCode();
+        }
+
+        public int compareTo(AbstractInstituteRateId other) {
+            return new CompareToBuilder().append(this.fiscalYear, other.fiscalYear)
+            		.append(this.onOffCampusFlag, other.onOffCampusFlag)
+            		.append(this.rateClassCode, other.rateClassCode)
+            		.append(this.rateTypeCode, other.rateTypeCode)
+            		.append(this.startDate, other.startDate).toComparison();
+        }
+
+		public String getFiscalYear() {
+			return fiscalYear;
+		}
+
+		public void setFiscalYear(String fiscalYear) {
+			this.fiscalYear = fiscalYear;
+		}
+
+		public Boolean getOnOffCampusFlag() {
+			return onOffCampusFlag;
+		}
+
+		public void setOnOffCampusFlag(Boolean onOffCampusFlag) {
+			this.onOffCampusFlag = onOffCampusFlag;
+		}
+
+		public String getRateClassCode() {
+			return rateClassCode;
+		}
+
+		public void setRateClassCode(String rateClassCode) {
+			this.rateClassCode = rateClassCode;
+		}
+
+		public String getRateTypeCode() {
+			return rateTypeCode;
+		}
+
+		public void setRateTypeCode(String rateTypeCode) {
+			this.rateTypeCode = rateTypeCode;
+		}
+
+		public Date getStartDate() {
+			return startDate;
+		}
+
+		public void setStartDate(Date startDate) {
+			this.startDate = startDate;
+		}
+    }    
 }
