@@ -17,7 +17,11 @@ package org.kuali.kra.s2s.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.budget.api.rate.RateClassContract;
-import org.kuali.coeus.common.budget.framework.personnel.*;
+import org.kuali.coeus.common.budget.api.personnel.BudgetPersonContract;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculatedAmount;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.budget.framework.personnel.TbnPerson;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
@@ -31,7 +35,6 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetRateAndBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
@@ -1933,13 +1936,13 @@ public class S2SBudgetCalculatorServiceImpl implements
                             }
                         }
                     }
-                    BudgetPerson budgetPerson = personDetails.getBudgetPerson();
+                    BudgetPersonContract budgetPerson = personDetails.getBudgetPerson();
                     if (budgetPerson != null) {
                         baseAmount = budgetPerson.getCalculationBase();
                         // baseAmount must be set to the first record value in
                         // case
                         // the execution doesnt enter the if condition below
-                        String apptTypeCode = budgetPerson.getAppointmentType().getAppointmentTypeCode();
+                        String apptTypeCode = budgetPerson.getAppointmentType().getCode();
                         if (!apptTypeCode.equals(s2SConfigurationService.getValueAsString(
                                 ConfigurationConstants.S2SBUDGET_APPOINTMENT_TYPE_SUM_EMPLOYEE))
                                 && !apptTypeCode.equals(s2SConfigurationService.getValueAsString(
