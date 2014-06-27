@@ -126,7 +126,6 @@
     <bean id="PropDev-DetailsPage-SponsorField" parent="PropDev-DetailsPage-SponsorField-parentBean" />
     <bean id="PropDev-DetailsPage-SponsorField-parentBean" abstract="true"
           parent="PropDev-DetailsPage-SponsorField-Defaults" p:propertyName="sponsorCode"
-          p:helperText="Enter the sponsor code for this proposal or find one using the lookup tool."
           p:instructionalMessage.messageText="@{document.developmentProposal.sponsor?.sponsorName?:'&amp;nbsp;'}">
         <property name="quickfinder">
             <bean parent="PropDev-DetailsPage-SponsorQuickFinder"
@@ -139,7 +138,6 @@
     <bean id="PropDev-DetailsPage-PrimeSponsorField" parent="PropDev-DetailsPage-PrimeSponsorField-parentBean" />
     <bean id="PropDev-DetailsPage-PrimeSponsorField-parentBean"
           abstract="true" parent="PropDev-DetailsPage-SponsorField-Defaults"
-          p:helperText="Enter the prime sponsor ID for this proposal or find one using the lookup tool."
           p:propertyName="primeSponsorCode"
           p:instructionalMessage.messageText="@{document.developmentProposal.primeSponsor?.sponsorName?:'&amp;nbsp;'}">
         <property name="quickfinder">
@@ -159,8 +157,9 @@
 		parent="PropDev-DetailsPage-SponsorField-Defaults-parentBean" />
 	<bean id="PropDev-DetailsPage-SponsorField-Defaults-parentBean"
 		abstract="true" parent="Uif-InputField"
-		p:additionalCssClasses="transparentField">
-		<property name="quickfinder">
+		p:additionalCssClasses="transparentField"
+        p:helperText="Type your sponsor name in the field and select from the provided options, enter your sponsor code if known, or click on the search icon for more search options.">
+        <property name="quickfinder">
 			<bean parent="Uif-QuickFinder" p:returnByScript="true"
 				p:hideCriteriaOnSearch="true" />
 		</property>
