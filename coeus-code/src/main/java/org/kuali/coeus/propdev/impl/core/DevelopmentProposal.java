@@ -26,6 +26,7 @@ import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.type.ActivityType;
+import org.kuali.coeus.common.framework.type.DeadlineType;
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.common.framework.unit.Unit;
@@ -237,6 +238,10 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     
     @Column(name = "PREV_GG_TRACKID")
     private String prevGrantsGovTrackingID;
+
+    @ManyToOne(targetEntity = DeadlineType.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "DEADLINE_TYPE", referencedColumnName = "DEADLINE_TYPE_CODE", insertable = false, updatable = false)
+    private DeadlineType deadlineTypeRef;
 
     @ManyToOne(targetEntity = ProposalType.class, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "PROPOSAL_TYPE_CODE", referencedColumnName = "PROPOSAL_TYPE_CODE", insertable = false, updatable = false)
@@ -2507,5 +2512,12 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
 	public void setBudgets(List<ProposalDevelopmentBudgetExt> budgets) {
 		this.budgets = budgets;
 	}
-	
+
+    public DeadlineType getDeadlineTypeRef() {
+        return deadlineTypeRef;
+    }
+
+    public void setDeadlineTypeRef(DeadlineType deadlineTypeRef) {
+        this.deadlineTypeRef = deadlineTypeRef;
+    }
 }
