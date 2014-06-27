@@ -40,7 +40,7 @@ public class BudgetCostShare extends KcPersistableBusinessObjectBase implements 
     public static final String DOCUMENT_COMPONENT_ID_KEY = "BUDGET_COST_SHARE_KEY";
 
     @Id
-    @Column(name = "PROJECT_INCOME_ID")
+    @Column(name = "COST_SHARE_ID")
     private Integer documentComponentId;
 
     @Id

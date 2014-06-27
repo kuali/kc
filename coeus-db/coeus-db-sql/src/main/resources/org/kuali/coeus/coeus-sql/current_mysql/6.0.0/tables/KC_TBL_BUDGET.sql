@@ -9,4 +9,10 @@ update BUDGET set PARENT_DOCUMENT_TYPE_CODE = (select PARENT_DOCUMENT_TYPE_CODE 
 alter table BUDGET modify DOCUMENT_NUMBER varchar(40) null
 /
 
+alter table BUDGET add BUDGET_NAME varchar(255)
+/
+
+update BUDGET set BUDGET_NAME = (select FDOC_DESC from KRNS_DOC_HDR_T where BUDGET.DOCUMENT_NUMBER = KRNS_DOC_HDR_T.DOC_HDR_ID)
+/
+
 DELIMITER ;

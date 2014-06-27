@@ -110,7 +110,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
     @Transient
     private boolean descriptionUpdatable;
 
-    @Transient
+    @Column(name="BUDGET_NAME")
     private String name;
 
     @Transient
@@ -288,24 +288,6 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
 
     public void setDescriptionUpdatable(boolean descriptionUpdatable) {
         this.descriptionUpdatable = descriptionUpdatable;
-    }
-
-    protected void postLoad() {
-        // The purpose of this lookup is to get the document description from the doc header,
-        // without mapping the enire doc header (which can be large) in ojb.
-        super.postLoad();
-        DocumentHeader docHeader = getDocHeader();
-        if (docHeader != null) {
-            this.documentDescription = docHeader.getDocumentDescription();
-        }
-    }
-
-    protected DocumentHeader getDocHeader() {
-        LegacyDataAdapter boService = KcServiceLocator.getService(LegacyDataAdapter.class);
-        Map<String, Object> keyMap = new HashMap<String, Object>();
-        keyMap.put("documentNumber", this.documentNumber);
-        DocumentHeader docHeader = boService.findByPrimaryKey(DocumentHeader.class, keyMap);
-        return docHeader;
     }
 
     @Override

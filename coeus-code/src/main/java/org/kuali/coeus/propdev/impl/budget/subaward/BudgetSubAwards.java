@@ -69,7 +69,7 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
     private String organizationName;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
-    @JoinColumn(insertable = false, updatable = false)
+    @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
     private Organization organization;
 
     @Column(name = "SUB_AWARD_STATUS_CODE")
