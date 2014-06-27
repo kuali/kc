@@ -152,19 +152,27 @@ public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
             if(!isActive){
                 return false;
             }
+            boolean canApply = false;
             for (Map.Entry<String, String> agendaQualifier : environment.getSelectionCriteria().getAgendaQualifiers().entrySet()) {
-                String agendaQualifierValue = qualifiers.get(agendaQualifier.getKey());
-                String environmentQualifierValue = agendaQualifier.getValue();
-                
-               if (KcKrmsConstants.UNIT_NUMBER.equals(agendaQualifier.getKey())) {
-                    if (!(environmentQualifierValue.equals(agendaQualifierValue) || isChildUnit(environmentQualifierValue, agendaQualifierValue))) {
-                        return false;
+                if(!canApply){
+                    String agendaQualifierValue = qualifiers.get(agendaQualifier.getKey());
+                    String environmentQualifierValue = agendaQualifier.getValue();
+                    
+                   if (KcKrmsConstants.UNIT_NUMBER.equals(agendaQualifier.getKey())) {
+                        String[] unitNumbers = environmentQualifierValue.split(",");
+                        for (int i = 0; i < unitNumbers.length; i++) {
+                            String enviornmentUnitNumber = unitNumbers[i];
+                            if ((enviornmentUnitNumber.equals(agendaQualifierValue) || isChildUnit(environmentQualifierValue, agendaQualifierValue))) {
+                                canApply = true;
+                                break;
+                            }
+                        }
+                    } else if (!environmentQualifierValue.equals(agendaQualifierValue)) {
+                        canApply = false;
                     }
-                } else if (!environmentQualifierValue.equals(agendaQualifierValue)) {
-                    return false;
                 }
             }
-            return true;
+            return canApply;
         }
         
         private boolean isChildUnit(String childNumber, String parentNumber) {
