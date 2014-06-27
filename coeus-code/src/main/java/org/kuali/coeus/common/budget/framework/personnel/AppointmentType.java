@@ -19,6 +19,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.kuali.coeus.common.budget.api.personnel.AppointmentTypeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
@@ -28,7 +30,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
  */
 @Entity
 @Table(name = "APPOINTMENT_TYPE")
-public class AppointmentType extends KcPersistableBusinessObjectBase {
+public class AppointmentType extends KcPersistableBusinessObjectBase implements AppointmentTypeContract {
 
     @Id
     @Column(name = "APPOINTMENT_TYPE_CODE")
@@ -40,53 +42,34 @@ public class AppointmentType extends KcPersistableBusinessObjectBase {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    /**
-     * Retrieves the description attribute
-     * 
-     * @return String
-     */
+    @Override
     public String getDescription() {
         return description;
     }
 
-    /**
-     * Assigns the description attribute
-     *
-     * @param description
-     */
     public void setDescription(String description) {
         this.description = description;
     }
 
-    /**
-     * Gets the appointmentTypeCode attribute. 
-     * @return Returns the appointmentTypeCode.
-     */
     public String getAppointmentTypeCode() {
         return appointmentTypeCode;
     }
 
-    /**
-     * Sets the appointmentTypeCode attribute value.
-     * @param appointmentTypeCode The appointmentTypeCode to set.
-     */
     public void setAppointmentTypeCode(String appointmentTypeCode) {
         this.appointmentTypeCode = appointmentTypeCode;
     }
 
-    /**
-     * Gets the duration attribute. 
-     * @return Returns the duration.
-     */
+    @Override
     public Integer getDuration() {
         return duration;
     }
 
-    /**
-     * Sets the duration attribute value.
-     * @param duration The duration to set.
-     */
     public void setDuration(Integer duration) {
         this.duration = duration;
+    }
+
+    @Override
+    public String getCode() {
+        return getAppointmentTypeCode();
     }
 }
