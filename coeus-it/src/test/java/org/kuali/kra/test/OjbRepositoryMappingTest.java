@@ -95,7 +95,7 @@ public class OjbRepositoryMappingTest {
     public static final String REPOSITORY_IRB_XML = "classpath:org/kuali/kra/irb/repository-irb.xml";
     public static final String REPOSITORY_NEGOTIATION_XML = "classpath:org/kuali/kra/negotiation/repository-negotiation.xml";
     public static final String REPOSITORY_PERSONMASSCHANGE_XML = "classpath:org/kuali/kra/personmasschange/repository-personmasschange.xml";
-    public static final String REPOSITORY_PROPOSALDEVELOPMENT_XML = "classpath:org/kuali/kra/proposaldevelopment/repository-proposaldevelopment.xml";
+    public static final String REPOSITORY_PROPOSALDEVELOPMENT_XML = "classpath:org/kuali/coeus/propdev/impl/repository-proposaldevelopment.xml";
     public static final String REPOSITORY_QUESTIONNAIRE_XML = "classpath:org/kuali/kra/questionnaire/repository-questionnaire.xml";
     public static final String REPOSITORY_SUB_AWARD_XML = "classpath:org/kuali/kra/subaward/repository-subAward.xml";
     public static final String REPOSITORY_TIMEANDMONEY_XML = "classpath:org/kuali/kra/timeandmoney/repository-timeandmoney.xml";

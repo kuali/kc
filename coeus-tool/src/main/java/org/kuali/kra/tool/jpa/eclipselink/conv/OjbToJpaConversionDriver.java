@@ -43,7 +43,7 @@ public class OjbToJpaConversionDriver {
         cfg.addOjbRepositoryFile(fullResourcePath(cfg, "/org/kuali/kra/irb/repository-irb.xml"));
         cfg.addOjbRepositoryFile(fullResourcePath(cfg, "/org/kuali/kra/negotiation/repository-negotiation.xml"));
         cfg.addOjbRepositoryFile(fullResourcePath(cfg, "/org/kuali/kra/personmasschange/repository-personmasschange.xml"));
-        cfg.addOjbRepositoryFile(fullResourcePath(cfg, "/org/kuali/kra/proposaldevelopment/repository-proposaldevelopment.xml"));
+        cfg.addOjbRepositoryFile(fullResourcePath(cfg, "/org/kuali/coeus/propdev/impl/repository-proposaldevelopment.xml"));
         cfg.addOjbRepositoryFile(fullResourcePath(cfg, "/org/kuali/kra/questionnaire/repository-questionnaire.xml"));
         cfg.addOjbRepositoryFile(fullResourcePath(cfg, "/org/kuali/kra/subaward/repository-subAward.xml"));
         cfg.addOjbRepositoryFile(fullResourcePath(cfg, "/org/kuali/kra/timeandmoney/repository-timeandmoney.xml"));

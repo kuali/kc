@@ -1399,9 +1399,18 @@
         <property name="lookupableHelperService" ref="kcPersonLookupableHelperService" />      
     </bean> 
 
-    <bean id="kcPersonLookupableHelperService" class="org.kuali.coeus.common.impl.person.KcPersonLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
+    <bean id="kcPersonLookupableHelperServiceTarget" class="org.kuali.coeus.common.impl.person.KcPersonLookupableHelperServiceImpl" parent="parentLookupableHelperService"
           scope="prototype" >
         <property name="kcPersonService" ref="kcPersonService" />
+    </bean>
+
+    <bean id="kcPersonLookupableHelperService" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="targetSource">
+            <bean class="org.springframework.aop.target.LazyInitTargetSource">
+                <property name="targetBeanName"><idref local="kcPersonLookupableHelperServiceTarget"/></property>
+            </bean>
+        </property>
+        <property name="interfaces"><list><value>org.kuali.rice.kns.lookup.LookupableHelperService</value></list></property>
     </bean>
 
     <bean id="kcPersonExtendedAttributesLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
