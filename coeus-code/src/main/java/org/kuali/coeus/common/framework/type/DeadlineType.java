@@ -17,14 +17,24 @@ package org.kuali.coeus.common.framework.type;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Class representation of the Deadline Type Business Object
  *
  */
+@Entity
+@Table(name = "DEADLINE_TYPE")
 public class DeadlineType extends KcPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "DEADLINE_TYPE_CODE")
     private String deadlineTypeCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
     /**

@@ -208,6 +208,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
             }                
         }
         if(proposalPerson.getHomeUnit()!=null){
+            proposalPerson.refreshReferenceObject("homeUnitRef");
             String divisionName = getProposalPersonService().getProposalPersonDivisionName(proposalPerson);
             proposalPerson.setDivision(divisionName);
         }
