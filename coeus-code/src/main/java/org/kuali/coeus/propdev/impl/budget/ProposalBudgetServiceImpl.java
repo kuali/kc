@@ -65,7 +65,7 @@ public class ProposalBudgetServiceImpl extends BudgetServiceImpl<DevelopmentProp
     private PropDevBudgetSubAwardService propDevBudgetSubAwardService;
     
     @Override
-    public Budget getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,String documentDescription){
+    public Budget getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,String budgetName){
         Integer budgetVersionNumber = parentDocument.getNextBudgetVersionNumber();
         DevelopmentProposal budgetParent = parentDocument.getBudgetParent();
         ProposalDevelopmentBudgetExt budget = new ProposalDevelopmentBudgetExt();
@@ -73,6 +73,7 @@ public class ProposalBudgetServiceImpl extends BudgetServiceImpl<DevelopmentProp
         
         budget.setBudgetVersionNumber(budgetVersionNumber);
         
+        budget.setName(budgetName);
         budget.setStartDate(budgetParent.getRequestedStartDateInitial());
         budget.setEndDate(budgetParent.getRequestedEndDateInitial());
         budget.setOhRateTypeCode(this.parameterService.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));

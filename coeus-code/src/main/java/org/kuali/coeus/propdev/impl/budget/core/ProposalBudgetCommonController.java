@@ -37,14 +37,6 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	@Qualifier("documentService")
 	private DocumentService documentService;
 	
-	@RequestMapping(params={"methodToCall=createBudget"})
-	public ModelAndView createBudget(@RequestParam("documentNumber") String documentNumber, @RequestParam("versionName") String versionName, 
-			@ModelAttribute("KualiForm") ProposalBudgetForm form, HttpServletRequest request, HttpServletResponse response) throws WorkflowException {
-		ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
-		getBudgetService().addBudgetVersion(pdDoc, versionName);
-		return getUifControllerService().start(form, request, response);
-	}
-	
 	@MethodAccessible
 	@RequestMapping(params="methodToCall=defaultMapping")
 	public ModelAndView defaultMapping(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request,
@@ -54,9 +46,9 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 
 	@MethodAccessible
 	@RequestMapping(params="methodToCall=start")
-	public ModelAndView start(@ModelAttribute("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalBudgetForm form, HttpServletRequest request, HttpServletResponse response) {
-		form.setBudget(getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("budgetId", budgetId)).build()));
-		return getUifControllerService().start(form, request, response);
+	public ModelAndView start(@RequestParam("budgetId") String budgetId, @ModelAttribute("KualiForm") ProposalBudgetForm form, HttpServletRequest request, HttpServletResponse response) {
+		form.setBudget(getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("budgetId", Long.valueOf(budgetId))).build()));
+		return getUifControllerService().getUIFModelAndViewWithInit(form, "PropBudget-DefaultView");
 	}
 
 	public void checkViewAuthorization(@ModelAttribute("KualiForm") ProposalBudgetForm form, String methodToCall) throws AuthorizationException {

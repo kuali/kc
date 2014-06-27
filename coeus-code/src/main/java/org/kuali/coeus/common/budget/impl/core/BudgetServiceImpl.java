@@ -122,7 +122,7 @@ public abstract class BudgetServiceImpl<T extends BudgetParent> implements Budge
      * @param versionName of the {@link BudgetVersionOverview}
      */
     @Override
-    public Budget addBudgetVersion(BudgetParentDocument budgetParentDocument, String versionName) throws WorkflowException {
+    public Budget addBudgetVersion(BudgetParentDocument budgetParentDocument, String versionName) {
         if (!isBudgetVersionNameValid(budgetParentDocument, versionName)) {
             LOG.debug("Buffered Version not Valid");
             return null;
@@ -134,7 +134,7 @@ public abstract class BudgetServiceImpl<T extends BudgetParent> implements Budge
         return newBudgetDoc;
     }
 
-    protected abstract Budget getNewBudgetVersion(BudgetParentDocument<T> parent, String versionName) throws WorkflowException;
+    protected abstract Budget getNewBudgetVersion(BudgetParentDocument<T> parent, String versionName);
 
     /**
      * Runs business rules on the given name of a {@link BudgetVersionOverview} instance and {@link ProposalDevelopmentDocument} instance to 

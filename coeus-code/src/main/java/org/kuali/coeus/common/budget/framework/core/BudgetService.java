@@ -42,7 +42,7 @@ public interface BudgetService<T extends BudgetParent>  {
      * @param document instance to add {@link BudgetVersionOverview} to
      * @param versionName of the {@link BudgetVersionOverview}
      */
-    public Budget addBudgetVersion(BudgetParentDocument<T> budgetParent, String versionName) throws WorkflowException;
+    public Budget addBudgetVersion(BudgetParentDocument<T> budgetParent, String versionName);
     
     public void updateDocumentDescription(BudgetVersionOverview budgetVersion);
     
