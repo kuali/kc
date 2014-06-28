@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.common.framework.person.attr;
 
-import org.kuali.coeus.common.api.person.attr.KcPersonExtendedAttributesContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.bo.PersistableAttachmentList;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -31,7 +30,7 @@ import java.util.List;
  * Class contains attributes related to a KIM entity that do not currently have a home inside of KIM.
  */
 @MappedSuperclass
-public class KcPersonExtendedAttributes extends KcPersistableBusinessObjectBase implements PersistableAttachmentList<PersonBiosketch>, KcPersonExtendedAttributesContract {
+public class KcPersonExtendedAttributes extends KcPersistableBusinessObjectBase implements PersistableAttachmentList<PersonBiosketch> {
 
     private static final long serialVersionUID = 4705483839362366571L;
 
