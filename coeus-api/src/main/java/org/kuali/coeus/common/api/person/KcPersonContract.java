@@ -137,6 +137,4 @@ public interface KcPersonContract extends Inactivatable {
     String getOrganizationIdentifier(); 
 
     String getCampusCode();
-
-    KcPersonExtendedAttributesContract getExtendedAttributes();
 }

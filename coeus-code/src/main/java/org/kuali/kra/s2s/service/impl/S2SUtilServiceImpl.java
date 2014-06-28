@@ -617,17 +617,17 @@ public class S2SUtilServiceImpl implements S2SUtilService {
             return citizenShipType;
         }
         else {
-            CitizenshipTypeContract citizenShip;
+            Integer citizenShip;
             Boolean allowOverride = s2SConfigurationService.getValueAsBoolean(
                     ConfigurationConstants.ALLOW_PROPOSAL_PERSON_TO_OVERRIDE_KC_PERSON_EXTENDED_ATTRIBUTES);
             if (allowOverride) {
-                citizenShip = proposalPerson.getCitizenshipType();
+                citizenShip = proposalPerson.getCitizenshipType().getCode();
             }
             else {
-                citizenShip = proposalPerson.getPerson().getExtendedAttributes().getCitizenshipType();
+                citizenShip = proposalPerson.getPerson().getCitizenshipTypeCode();
             }
             CitizenshipTypes retVal = null;
-            String citizenShipCode = String.valueOf(citizenShip.getCode());
+            String citizenShipCode = String.valueOf(citizenShip);
             if (citizenShipCode.equals(s2SConfigurationService.getValueAsString(
                     ConfigurationConstants.NON_US_CITIZEN_WITH_TEMPORARY_VISA_TYPE_CODE))) {
                 return CitizenshipTypes.NON_US_CITIZEN_WITH_TEMPORARY_VISA;
