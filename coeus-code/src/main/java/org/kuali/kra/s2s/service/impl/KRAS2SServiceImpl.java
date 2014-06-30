@@ -30,7 +30,7 @@ import org.kuali.kra.s2s.S2SException;
 
 import org.kuali.coeus.propdev.api.attachment.NarrativeService;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
-import org.kuali.kra.s2s.formmapping.FormMappingLoader;
+import org.kuali.kra.s2s.formmapping.FormMappingService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.service.*;
@@ -54,6 +54,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	private S2SValidatorService s2SValidatorService;
     private NarrativeService narrativeService;
     private S2SUtilService s2SUtilService;
+    private FormMappingService formMappingService;
 
 	/**
 	 * 
@@ -103,7 +104,7 @@ public class KRAS2SServiceImpl implements S2SService {
 			}
 			List<AttachmentData> formAttList = new ArrayList<AttachmentData>();
 			S2SBaseFormGenerator s2sFormGenerator = null;
-            FormMappingInfo info = new FormMappingLoader().getFormInfo(developmentProposal.getProposalNumber(),opportunityForm.getOppNameSpace());
+            FormMappingInfo info = formMappingService.getFormInfo(developmentProposal.getProposalNumber(),opportunityForm.getOppNameSpace());
             if(info==null) continue;
 			String namespace = info.getNameSpace();
             s2sFormGenerator = (S2SBaseFormGenerator)s2SFormGeneratorService.getS2SGenerator(developmentProposal.getProposalNumber(),namespace);
@@ -303,5 +304,13 @@ public class KRAS2SServiceImpl implements S2SService {
 
     public void setS2SUtilService(S2SUtilService s2SUtilService) {
         this.s2SUtilService = s2SUtilService;
+    }
+
+    public FormMappingService getFormMappingService() {
+        return formMappingService;
+    }
+
+    public void setFormMappingService(FormMappingService formMappingService) {
+        this.formMappingService = formMappingService;
     }
 }

@@ -48,6 +48,7 @@
 
 	<bean id="s2SFormGeneratorService"
 		class="org.kuali.kra.s2s.service.impl.S2SFormGeneratorServiceImpl">
+        <property name="formMappingService" ref="formMappingService" />
 	</bean>
 
 	<bean id="s2SValidatorService"
@@ -67,6 +68,9 @@
 		</property>
         <property name="narrativeService">
             <ref bean="narrativeService" />
+        </property>
+        <property name="formMappingService">
+            <ref bean="formMappingService" />
         </property>
 	</bean>
 
@@ -89,6 +93,7 @@
         </property>
 		<property name="printingService" ref="printingService" />
         <property name="s2SConfigurationService" ref="s2SConfigurationService" />
+        <property name="formMappingService" ref="formMappingService" />
 
 	</bean>
 	<bean id="s2SUtilService"
@@ -139,6 +144,10 @@
         <property name="budgetPersonService">
             <ref bean="budgetPersonService"/>
         </property>
+    </bean>
+
+    <bean id="formMappingService" class="org.kuali.kra.s2s.formmapping.FormMappingServiceImpl">
+        <property name="userAttachedFormService" ref="userAttachedFormService"/>
     </bean>
 
 </beans>

@@ -18,12 +18,13 @@ package org.kuali.kra.s2s.validator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms.S2sOppFormsId;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
-import org.kuali.kra.s2s.formmapping.FormMappingLoader;
+import org.kuali.kra.s2s.formmapping.FormMappingService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -112,7 +113,7 @@ public class OpportunitySchemaParser {
             String formName = fullFormName.substring(0, fullFormName.indexOf(CH_COLON));
             String minOccurs = ((Element) form).getAttribute(MIN_OCCURS);
             String nameSpace = schemaElement.getAttribute(XMLNS + formName);
-            FormMappingInfo info = new FormMappingLoader().getFormInfo(proposalNumber,nameSpace);
+            FormMappingInfo info = KcServiceLocator.getService(FormMappingService.class).getFormInfo(proposalNumber, nameSpace);
             String displayFormName = info==null?formName:info.getFormName();
             formNames[formIndex] = nameSpace;
             for (int impIndex = 0; impIndex < importList.getLength(); impIndex++) {

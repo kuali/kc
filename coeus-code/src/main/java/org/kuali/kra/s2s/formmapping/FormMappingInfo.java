@@ -37,82 +37,52 @@ public class FormMappingInfo{
     private static final String KEY_FORM_NAME = "formName";
     private static final String KEY_STYLE_SHEET = "stylesheet";
 
-
-    /** Creates a new instance of FormMappingInfo */
-    public FormMappingInfo() {
-    }
-
-    /**
-     * Getter for property MainClass.
-     * 
-     * @return Value of property MainClass.
-     */
     public String getMainClass() {
         return mainClass;
     }
 
-    /**
-     * Setter for property MainClass.
-     * 
-     * @param mainClass New value of property MainClass.
-     */
     public void setMainClass(String mainClass) {
         this.mainClass = mainClass;
     }
 
-
-    /**
-     * Getter for property nameSpace.
-     * 
-     * @return Value of property nameSpace.
-     */
     public String getNameSpace() {
         return nameSpace;
     }
 
-    /**
-     * Setter for property nameSpace.
-     * 
-     * @param nameSpace New value of property nameSpace.
-     */
     public void setNameSpace(String nameSpace) {
         this.nameSpace = nameSpace;
     }
 
-    /**
-     * Getter for property formName.
-     * 
-     * @return Value of property formName.
-     */
     public String getFormName() {
         return formName;
     }
 
-    /**
-     * Setter for property formName.
-     * 
-     * @param formName New value of property formName.
-     */
     public void setFormName(String formName) {
         this.formName = formName;
     }
 
-    /**
-     * Getter for property StyleSheet.
-     * 
-     * @return Value of property StyleSheet.
-     */
     public String getStyleSheet() {
         return stylesheet;
     }
 
-    /**
-     * Setter for property StyleSheet.
-     * 
-     * @param stylesheet New value of property StyleSheet.
-     */
     public void setStyleSheet(String stylesheet) {
         this.stylesheet = stylesheet;
+    }
+
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
+    }
+
+    public Boolean getUserAttachedForm() {
+        return userAttachedForm;
+    }
+
+    public void setUserAttachedForm(Boolean userAttachedForm) {
+        this.userAttachedForm = userAttachedForm;
     }
 
     public String toString() {
@@ -123,39 +93,4 @@ public class FormMappingInfo{
         hashMap.put(KEY_STYLE_SHEET, getStyleSheet());
         return hashMap.toString();
     }
-
-    /**
-     * Gets the sortIndex attribute.
-     * 
-     * @return Returns the sortIndex.
-     */
-    public int getSortIndex() {
-        return sortIndex;
-    }
-
-    /**
-     * Sets the sortIndex attribute value.
-     * 
-     * @param sortIndex The sortIndex to set.
-     */
-    public void setSortIndex(int sortIndex) {
-        this.sortIndex = sortIndex;
-    }
-
-    /**
-     * Gets the userAttachedForm attribute. 
-     * @return Returns the userAttachedForm.
-     */
-    public Boolean getUserAttachedForm() {
-        return userAttachedForm;
-    }
-
-    /**
-     * Sets the userAttachedForm attribute value.
-     * @param userAttachedForm The userAttachedForm to set.
-     */
-    public void setUserAttachedForm(Boolean userAttachedForm) {
-        this.userAttachedForm = userAttachedForm;
-    }
-
 }
