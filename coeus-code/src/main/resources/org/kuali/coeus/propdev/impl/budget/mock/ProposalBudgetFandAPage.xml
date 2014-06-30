@@ -122,9 +122,10 @@
 		</property>
 		<property name="layoutManager.columnCalculations">
 			<list>
-				<bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="amount" />
-				<bean parent="Uif-ColumnCalculationInfo-Average"
-					p:propertyName="amount" />
+				<bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="amount"
+					p:totalField.fieldLabel.labelText="Total Allocated"/>
+				<bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="amount" 
+					p:totalField.fieldLabel.labelText="Total Unallocated"/>
 			</list>
 		</property>
 		<property name="footer">
