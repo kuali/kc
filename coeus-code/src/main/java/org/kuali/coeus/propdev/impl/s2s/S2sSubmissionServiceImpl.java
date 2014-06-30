@@ -12,6 +12,7 @@ import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsService;
 import org.kuali.coeus.instprop.api.sponsor.InstPropSponsorService;
 import org.kuali.coeus.propdev.api.s2s.*;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.s2s.connect.OpportunitySchemaParserService;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorService;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -23,7 +24,6 @@ import org.kuali.kra.s2s.service.FormActionResult;
 import org.kuali.kra.s2s.service.S2SFormGeneratorService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.kra.s2s.validator.OpportunitySchemaParser;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -76,6 +76,10 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
     @Autowired
     @Qualifier("s2SConfigurationService")
     private S2SConfigurationService s2SConfigurationService;
+
+    @Autowired
+    @Qualifier("opportunitySchemaParserService")
+    private OpportunitySchemaParserService opportunitySchemaParserService;
 
     /**
      *
@@ -455,7 +459,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
     public List<S2sOppForms> parseOpportunityForms(S2sOpportunity opportunity) throws S2sCommunicationException{
         String opportunityContent = getOpportunityContent(opportunity.getSchemaUrl());
         opportunity.setOpportunity(opportunityContent);
-        return new OpportunitySchemaParser().getForms(opportunity.getProposalNumber(),opportunity.getSchemaUrl());
+        return opportunitySchemaParserService.getForms(opportunity.getProposalNumber(),opportunity.getSchemaUrl());
     }
     private String getOpportunityContent(String schemaUrl) throws S2sCommunicationException{
         String opportunity = "";
@@ -622,5 +626,13 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
 
     public void setS2SConfigurationService(S2SConfigurationService s2SConfigurationService) {
         this.s2SConfigurationService = s2SConfigurationService;
+    }
+
+    public OpportunitySchemaParserService getOpportunitySchemaParserService() {
+        return opportunitySchemaParserService;
+    }
+
+    public void setOpportunitySchemaParserService(OpportunitySchemaParserService opportunitySchemaParserService) {
+        this.opportunitySchemaParserService = opportunitySchemaParserService;
     }
 }

@@ -33,7 +33,6 @@ import org.kuali.coeus.propdev.api.s2s.*;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.KcFile;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
@@ -71,6 +70,7 @@ public class PrintServiceImpl implements PrintService {
     private NarrativeService narrativeService;
 	private PrintingService printingService;
     private FormMappingService formMappingService;
+    private UserAttachedFormService userAttachedFormService;
 
 	/**
 	 * 
@@ -522,7 +522,7 @@ public class PrintServiceImpl implements PrintService {
 	}
 
     private List<String> findUserAttachedNamespaces(String proposalNumber) {
-        return KcServiceLocator.getService(UserAttachedFormService.class).findFormNamespaces(proposalNumber);
+        return userAttachedFormService.findFormNamespaces(proposalNumber);
     }
 
     /**
@@ -682,6 +682,14 @@ public class PrintServiceImpl implements PrintService {
 
     public void setFormMappingService(FormMappingService formMappingService) {
         this.formMappingService = formMappingService;
+    }
+
+    public UserAttachedFormService getUserAttachedFormService() {
+        return userAttachedFormService;
+    }
+
+    public void setUserAttachedFormService(UserAttachedFormService userAttachedFormService) {
+        this.userAttachedFormService = userAttachedFormService;
     }
 
     protected static class PrintableResult {
