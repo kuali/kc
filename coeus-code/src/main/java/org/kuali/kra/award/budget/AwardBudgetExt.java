@@ -83,6 +83,7 @@ public class AwardBudgetExt extends Budget {
 
     public AwardBudgetExt() {
         super();
+        setParentDocumentTypeCode("AWRD");
         awardBudgetLimits = new ArrayList<AwardBudgetLimit>();
     }
 

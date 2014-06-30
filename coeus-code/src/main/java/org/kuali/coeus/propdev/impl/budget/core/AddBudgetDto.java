@@ -1,6 +1,6 @@
 package org.kuali.coeus.propdev.impl.budget.core;
 
-public class AddBudgetDTO {
+public class AddBudgetDto {
 
 	private String budgetName;
 

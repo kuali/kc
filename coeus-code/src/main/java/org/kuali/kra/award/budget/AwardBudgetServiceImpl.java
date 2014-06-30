@@ -51,7 +51,7 @@ import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
-import org.kuali.coeus.common.budget.impl.core.BudgetServiceImpl;
+import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -73,7 +73,7 @@ import java.util.*;
 /**
  * This class is to process all basic services required for AwardBudget
  */
-public class AwardBudgetServiceImpl extends BudgetServiceImpl<Award> implements AwardBudgetService {
+public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> implements AwardBudgetService {
     private static final Log LOG = LogFactory.getLog(AwardBudgetServiceImpl.class);
     private final static String BUDGET_VERSION_ERROR_PREFIX = "document.parentDocument.budgetDocumentVersion";
     
@@ -247,7 +247,6 @@ public class AwardBudgetServiceImpl extends BudgetServiceImpl<Award> implements 
     
     @Override
     public Budget getNewBudgetVersion(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription){
-//    	BudgetParentDocument parentBudgetDocument = parent.getDocument();
     	BudgetDocument<Award> budgetDocument;
 		try {
 			budgetDocument = getNewBudgetVersionDocument(parentBudgetDocument, documentDescription);

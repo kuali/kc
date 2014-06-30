@@ -113,13 +113,9 @@ public class BudgetServiceTest extends KcIntegrationTestBase {
         
         Budget copyBudgetDocument = budgetCommonService.copyBudgetVersion(budgetDocument);
         
-//      //Verify that status is final
-//        assertTrue(budgetDocument.getDocumentHeader().getWorkflowDocument().isApproved());
-        //assertEquals(KRADConstants.DocumentStatusCodes.APPROVED, budgetDocument.getDocumentHeader().getDocumentStatus());
-        
         // Verify that fields were set properly
         assertEquals(((DevelopmentProposal)copyBudgetDocument.getBudgetParent()).getProposalNumber(), testProposalNumber);
-//        assertEquals(copyBudgetDocument.getDocumentHeader().getDocumentDescription(), testDocumentDescription);
+        assertEquals(copyBudgetDocument.getName(), testDocumentDescription);
     }
     
     /**

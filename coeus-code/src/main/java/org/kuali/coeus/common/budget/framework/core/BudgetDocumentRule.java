@@ -400,7 +400,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         
         retval &= new ActivityTypeAuditRule().processRunAuditBusinessRules(document);
 
-        if (!Boolean.valueOf(((BudgetDocument)document).getBudget().getProposalBudgetFlag())){
+        if (!((BudgetDocument)document).getBudget().isProposalBudget()){
             retval &= new AwardBudgetBudgetTypeAuditRule().processRunAuditBusinessRules(document);
             retval &= new AwardBudgeCostTotalAuditRule().processRunAuditBusinessRules(document);
             retval &= new AwardBudgetCostLimitAuditRule().processRunAuditBusinessRules(document);

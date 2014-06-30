@@ -778,8 +778,8 @@ public class Budget extends AbstractBudget {
     }
     
     
-    public String getProposalBudgetFlag() {
-        return getBudgetParent().getProposalBudgetFlag();
+    public boolean isProposalBudget() {
+        return getBudgetParent().isProposalBudget();
     }
 	/**
      * This method adds an item to its collection

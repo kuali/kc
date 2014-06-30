@@ -725,7 +725,7 @@ public abstract class AbstractBudgetCalculator {
             validCeRateType.refreshNonUpdateableReferences();
             String rateClassType = validCeRateType.getRateClass().getRateClassTypeCode();
             if(rateClassType.equals(RateClassType.OVERHEAD.getRateClassType()) && 
-                    !Boolean.valueOf(budget.getBudgetParent().getProposalBudgetFlag())){
+                    !budget.getBudgetParent().isProposalBudget()){
                 addOHBudgetLineItemCalculatedAmountForAward( validCeRateType.getRateClassCode(), validCeRateType.getRateType(), 
                         validCeRateType.getRateClass().getRateClassTypeCode());
             }else{

@@ -29,7 +29,7 @@ import org.kuali.coeus.propdev.impl.budget.subaward.PropDevPropDevBudgetSubAward
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
-import org.kuali.coeus.common.budget.impl.core.BudgetServiceImpl;
+import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -275,7 +275,7 @@ public class PropDevBudgetSubAwardServiceTest {
         return null;
     }
     
-    protected class BudgetServiceMock extends BudgetServiceImpl {
+    protected class BudgetServiceMock extends AbstractBudgetService {
         int newLineItemNumber = 28;
         public void populateNewBudgetLineItem(BudgetLineItem newBudgetLineItem, BudgetPeriod budgetPeriod) {
             newBudgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());

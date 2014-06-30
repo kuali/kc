@@ -52,7 +52,7 @@ public interface BudgetParent {
     public String getIsOwnedByUnit();
     public Integer getParentInvestigatorFlag(String personId, Integer flag);
     public String  getParentTypeName();
-	public String getProposalBudgetFlag();
+	public boolean isProposalBudget();
 	
 	public BudgetParentDocument<? extends BudgetParent> getDocument();
 	
