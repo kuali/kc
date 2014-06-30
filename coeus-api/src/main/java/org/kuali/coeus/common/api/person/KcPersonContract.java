@@ -1,6 +1,5 @@
 package org.kuali.coeus.common.api.person;
 
-import org.kuali.coeus.common.api.person.attr.KcPersonExtendedAttributesContract;
 import org.kuali.coeus.common.api.unit.UnitContract;
 import org.kuali.coeus.sys.api.model.Inactivatable;
 
