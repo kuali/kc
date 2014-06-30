@@ -27,11 +27,11 @@ import org.kuali.coeus.common.api.question.AnswerContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
@@ -79,7 +79,7 @@ public class EDSF424SupplementV1_1Generator extends
 		EDSF424Supplement edsf424Supplement = EDSF424Supplement.Factory
 				.newInstance();
 		edsf424Supplement.setFormVersion(S2SConstants.FORMVERSION_1_1);
-		ProposalPerson pi = s2sUtilService.getPrincipalInvestigator(pdDoc);
+		ProposalPersonContract pi = s2sUtilService.getPrincipalInvestigator(pdDoc);
 		edsf424Supplement.setProjectDirector(globLibV20Generator
 				.getContactPersonDataType(pi));
 		String answer = null;

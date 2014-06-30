@@ -28,12 +28,11 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.api.person.KcPersonContract;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonComparator;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -69,7 +68,7 @@ public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGen
         rrKeyPersonExpanded.setKeyPersonArray(getpersonProfileKeyPerson());
 
         if (extraPersons.size() > 0) {
-            for (ProposalPerson extraPerson : extraPersons) {
+            for (ProposalPersonContract extraPerson : extraPersons) {
                 BioSketchsAttached personBioSketch = BioSketchsAttached.Factory.newInstance();
                 AttachedFileDataType bioSketchAttachment = getPernonnelAttachments(pdDoc, extraPerson.getPersonId(), extraPerson
                         .getRolodexId(), BIOSKETCH_TYPE);
@@ -114,7 +113,7 @@ public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGen
 
         PersonProfileDataType profileDataType = PersonProfileDataType.Factory.newInstance();
         Profile profile = Profile.Factory.newInstance();
-        ProposalPerson PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
+        ProposalPersonContract PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
         if (PI != null) {
             if (PI.getPersonId() != null) {
                 pIPersonOrRolodexId = PI.getPersonId();
@@ -141,7 +140,7 @@ public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGen
                 profile.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
             }
             if(PI.getHomeUnit() != null) {
-                KcPerson kcPerson = PI.getPerson();
+                KcPersonContract kcPerson = PI.getPerson();
                 String departmentName =  kcPerson.getOrganizationIdentifier();
                 profile.setDepartmentName(departmentName);
             }
@@ -189,12 +188,12 @@ public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGen
     private PersonProfileDataType[] getpersonProfileKeyPerson() {
 
         List<PersonProfileDataType> personProfileDataTypeList = new ArrayList<PersonProfileDataType>();
-        List<ProposalPerson> keyPersons = pdDoc.getDevelopmentProposal().getProposalPersons();
+        List<? extends ProposalPersonContract> keyPersons = pdDoc.getDevelopmentProposal().getProposalPersons();
         Collections.sort(keyPersons, new ProposalPersonComparator());
-        List<ProposalPerson> nKeyPersons = s2sUtilService.getNKeyPersons(keyPersons, true, MAX_KEY_PERSON_COUNT);
+        List<ProposalPersonContract> nKeyPersons = s2sUtilService.getNKeyPersons(keyPersons, true, MAX_KEY_PERSON_COUNT);
         extraPersons = s2sUtilService.getNKeyPersons(keyPersons, false, MAX_KEY_PERSON_COUNT);
         if (nKeyPersons.size() > 0) {
-            for (ProposalPerson keyPerson : nKeyPersons) {
+            for (ProposalPersonContract keyPerson : nKeyPersons) {
                 if (pIPersonOrRolodexId != null) {
                     // Don't add PI to keyperson list
                     if (keyPerson.getPersonId() != null && keyPerson.getPersonId().equals(pIPersonOrRolodexId)) {
@@ -222,7 +221,7 @@ public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGen
                 profileKeyPerson.setEmail(keyPerson.getEmailAddress());
                 profileKeyPerson.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());               
                 if(keyPerson.getHomeUnit() != null) {
-                    KcPerson kcPerson = keyPerson.getPerson();
+                    KcPersonContract kcPerson = keyPerson.getPerson();
                     String departmentName =  kcPerson.getOrganizationIdentifier();
                     profileKeyPerson.setDepartmentName(departmentName);
                 }

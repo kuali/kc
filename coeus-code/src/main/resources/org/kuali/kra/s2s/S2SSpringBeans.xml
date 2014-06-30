@@ -42,6 +42,10 @@
         <property name="serviceName" value="countryService" />
     </bean>
 
+    <bean id="kcPersonRepositoryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kcPersonRepositoryService" />
+    </bean>
+
 	<bean id="s2SFormGeneratorService"
 		class="org.kuali.kra.s2s.service.impl.S2SFormGeneratorServiceImpl">
 	</bean>
@@ -92,8 +96,8 @@
 		<property name="s2SConfigurationService">
 			<ref bean="s2SConfigurationService" />
 		</property>
-		<property name="kcPersonService">
-			<ref bean="kcPersonService" />
+		<property name="kcPersonRepositoryService">
+			<ref bean="kcPersonRepositoryService" />
 		</property>
 		<property name="citizenshipTypeService">
 			<ref bean="citizenshipTypeService" />

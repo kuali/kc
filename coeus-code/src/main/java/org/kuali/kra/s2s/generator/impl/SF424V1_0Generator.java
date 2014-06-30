@@ -36,12 +36,12 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
@@ -360,7 +360,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 	private Contact getContact() {
 
 		Contact contact = Contact.Factory.newInstance();
-		ProposalPerson PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
+		ProposalPersonContract PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
 		if (PI != null) {
 			if (PI.getFirstName() != null) {
 				contact.setGivenName1(PI.getFirstName());

@@ -25,9 +25,9 @@ import org.kuali.coeus.common.api.org.type.OrganizationTypeContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
 import org.kuali.coeus.propdev.api.abstrct.ProposalAbstractContract;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -185,7 +185,7 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
         sf424Short.setProjectStartDate(s2sUtilService.convertDateToCalendar(pdDoc.getDevelopmentProposal().getRequestedStartDateInitial()));
         sf424Short.setProjectEndDate(s2sUtilService.convertDateToCalendar(pdDoc.getDevelopmentProposal().getRequestedEndDateInitial()));
 
-        ProposalPerson pi = s2sUtilService.getPrincipalInvestigator(pdDoc);
+        ProposalPersonContract pi = s2sUtilService.getPrincipalInvestigator(pdDoc);
         sf424Short.setProjectDirectorGroup(globLibV20Generator.getContactPersonDataType(pi));
 
         // Rolodex is set to getOrganization.getRolodex above

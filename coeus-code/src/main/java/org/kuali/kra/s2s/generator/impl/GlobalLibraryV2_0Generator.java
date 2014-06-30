@@ -22,9 +22,9 @@ import gov.grants.apply.system.universalCodesV20.CountryCodeDataType;
 import gov.grants.apply.system.universalCodesV20.StateCodeDataType;
 import org.apache.commons.lang3.text.WordUtils;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.common.api.country.CountryContract;
 import org.kuali.coeus.common.api.state.StateContract;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
@@ -188,7 +188,7 @@ public class GlobalLibraryV2_0Generator {
 	 *            ProposalPerson
 	 * @return AddressDataType corresponding to the ProposalPerson object.
 	 */
-	public AddressDataType getAddressDataType(ProposalPerson person) {
+	public AddressDataType getAddressDataType(ProposalPersonContract person) {
 		AddressDataType addressType = AddressDataType.Factory.newInstance();
 		if (person != null) {
 			String street1 = person.getAddressLine1();
@@ -240,7 +240,7 @@ public class GlobalLibraryV2_0Generator {
 	 *            ProposalPerson
 	 * @return HumanNameDataType corresponding to the ProposalPerson object.
 	 */
-	public HumanNameDataType getHumanNameDataType(ProposalPerson person) {
+	public HumanNameDataType getHumanNameDataType(ProposalPersonContract person) {
 
 		HumanNameDataType humanName = HumanNameDataType.Factory.newInstance();
 		if (person != null) {
@@ -325,7 +325,7 @@ public class GlobalLibraryV2_0Generator {
 	 *            Proposalperson
 	 * @return ContactPersonDataType created from ProposalPerson object
 	 */
-	public ContactPersonDataType getContactPersonDataType(ProposalPerson person) {
+	public ContactPersonDataType getContactPersonDataType(ProposalPersonContract person) {
 		ContactPersonDataType contactPerson = ContactPersonDataType.Factory
 				.newInstance();
 		if (person != null) {

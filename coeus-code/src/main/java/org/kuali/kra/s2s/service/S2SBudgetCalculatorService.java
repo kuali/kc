@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.s2s.service;
 
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.common.budget.api.category.BudgetCategoryMapContract;
 import org.kuali.kra.s2s.generator.bo.BudgetPeriodInfo;
@@ -79,12 +79,12 @@ public interface S2SBudgetCalculatorService {
 
     /**
      * 
-     * This method determines whether a {@link ProposalPerson} is a Non MIT person
+     * This method determines whether a {@link org.kuali.coeus.propdev.api.person.ProposalPersonContract} is a Non MIT person
      * 
      * @param proposalPerson ProposalPerson.
      * @return boolean true if Non MIT Person false otherwise.
      */
-    public boolean isPersonNonMITPerson(ProposalPerson proposalPerson);
+    public boolean isPersonNonMITPerson(ProposalPersonContract proposalPerson);
     /**
      * 
      * This method computes the indirect costs for a given {@link BudgetPeriod}
