@@ -991,7 +991,6 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
      * gets the extended attributes BO.  This is only here to make rice DD relationships work.
      * @return the BO
      */
-    @Override
     public KcPersonExtendedAttributes getExtendedAttributes() {
         return this.extendedAttributes;
     }
