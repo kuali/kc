@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.s2s.generator.S2STestBase;
@@ -38,7 +39,7 @@ public class RRPersonalDataV1_2GeneratorTest extends
 	protected void prepareData(ProposalDevelopmentDocument document)
 			throws Exception {
 		ProposalPerson proposalPerson = new ProposalPerson();
-		proposalPerson.setProposalPersonRoleId("PI");
+		proposalPerson.setProposalPersonRoleId(PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID);
 		proposalPerson.setFirstName("Philip");
 		proposalPerson.setLastName("Berg");
 		proposalPerson.setSocialSecurityNumber("1234");
@@ -54,7 +55,7 @@ public class RRPersonalDataV1_2GeneratorTest extends
 
 
         ProposalPerson keyPerson = new ProposalPerson();
-		keyPerson.setProposalPersonRoleId("COI");
+		keyPerson.setProposalPersonRoleId(PropAwardPersonRole.DEFAULT_CO_INVESTIGATOR_ROLE_ID);
 		keyPerson.setFirstName("Terry");
 		keyPerson.setLastName("Durkin");
 		keyPerson.setSocialSecurityNumber("9876");

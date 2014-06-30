@@ -25,15 +25,15 @@ import org.kuali.kra.award.home.ContactType;
  * This class defines some mock AwardContactRoles
  */
 public final class ContactRoleFixtureFactory {
-    public static final ContactRole MOCK_PI = getProposalPersonRole(ContactRole.PI_CODE, "Principal Investigator");
-    public static final ContactRole MOCK_COI = getProposalPersonRole(ContactRole.COI_CODE, "Co-Investigator");
-    public static final ContactRole MOCK_KEY_PERSON = getProposalPersonRole(ContactRole.KEY_PERSON_CODE, "Key Person");
+    public static final PropAwardPersonRole MOCK_PI = getProposalPersonRole(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR, "Principal Investigator");
+    public static final PropAwardPersonRole MOCK_COI = getProposalPersonRole(PropAwardPersonRole.CO_INVESTIGATOR, "Co-Investigator");
+    public static final PropAwardPersonRole MOCK_KEY_PERSON = getProposalPersonRole(PropAwardPersonRole.KEY_PERSON, "Key Person");
 
     private ContactRoleFixtureFactory() {
         
     }
     
-    private static ContactRole getProposalPersonRole(String code, String description) {
+    private static PropAwardPersonRole getProposalPersonRole(String code, String description) {
         PropAwardPersonRole role = new PropAwardPersonRole();
         role.setCode(code);
         role.setDescription(description);

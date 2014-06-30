@@ -16,6 +16,7 @@
 package org.kuali.kra.award.contacts;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
@@ -91,7 +92,7 @@ public class AwardProjectPersonAddRuleImpl extends BaseAwardContactAddRule imple
     boolean checkForKeyPersonProjectRoles(AwardPerson newProjectPerson) {
         boolean valid = true;
         
-        if (StringUtils.equalsIgnoreCase(newProjectPerson.getContactRole().getRoleCode(), ContactRole.KEY_PERSON_CODE) 
+        if (StringUtils.equalsIgnoreCase(newProjectPerson.getContactRole().getRoleCode(), PropAwardPersonRole.KEY_PERSON) 
                 && StringUtils.isBlank(newProjectPerson.getKeyPersonRole())) {
             valid = false;
             GlobalVariables.getMessageMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY + ".keyPersonRole", ERROR_AWARD_PROJECT_KEY_PERSON_ROLE_REQUIRED, 

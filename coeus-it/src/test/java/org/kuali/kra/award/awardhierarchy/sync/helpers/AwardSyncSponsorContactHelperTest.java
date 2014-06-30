@@ -19,6 +19,7 @@ package org.kuali.kra.award.awardhierarchy.sync.helpers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncXmlExport;
@@ -36,7 +37,7 @@ public class AwardSyncSponsorContactHelperTest extends AwardSyncHelperTestBase {
         super.setUp();
         contact = new AwardSponsorContact();
         contact.setRolodexId(1);
-        contact.setRoleCode("1");
+        contact.setRoleCode(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR);
     }
 
     @After

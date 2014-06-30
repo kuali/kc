@@ -18,6 +18,7 @@ package org.kuali.kra.award.home.fundingproposal;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonCreditSplit;
@@ -48,7 +49,7 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
         unit2.setUnitNumber("BL-BL");
     }
     
-    protected InstitutionalProposalPerson generateIPPerson(String personId, String personName, String roleCode, ScaleTwoDecimal creditSplit) {
+    protected InstitutionalProposalPerson generateIPPerson(String personId, String personName, Long roleCode, ScaleTwoDecimal creditSplit) {
         InstitutionalProposalPerson retval = new InstitutionalProposalPerson();
         retval.setPersonId(personId);
         retval.setFullName(personName);
@@ -80,7 +81,7 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
         return ipUnit;
     }
     
-    protected AwardPerson generateAwardPerson(String personId, String personName, String roleCode, ScaleTwoDecimal creditSplit) {
+    protected AwardPerson generateAwardPerson(String personId, String personName, Long roleCode, ScaleTwoDecimal creditSplit) {
         AwardPerson retval = new AwardPerson();
         retval.setPersonId(personId);
         retval.setFullName(personName);
@@ -124,9 +125,9 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
     
     @Test
     public void testFeedNewAward() {
-        InstitutionalProposalPerson ipPerson1 = generateIPPerson("10000000001", "Number 1", ContactRole.PI_CODE, new ScaleTwoDecimal(50.00));
+        InstitutionalProposalPerson ipPerson1 = generateIPPerson("10000000001", "Number 1", PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID, new ScaleTwoDecimal(50.00));
         ipPerson1.add(generateIPUnit(unit1, true, new ScaleTwoDecimal(100.00)));
-        InstitutionalProposalPerson ipPerson2 = generateIPPerson("10000000002", "Number 2", ContactRole.COI_CODE, new ScaleTwoDecimal(50.00));
+        InstitutionalProposalPerson ipPerson2 = generateIPPerson("10000000002", "Number 2", PropAwardPersonRole.DEFAULT_CO_INVESTIGATOR_ROLE_ID, new ScaleTwoDecimal(50.00));
         ipPerson2.add(generateIPUnit(unit1, false, new ScaleTwoDecimal(50.00)));
         ipPerson2.add(generateIPUnit(unit2, false, new ScaleTwoDecimal(50.00)));
         proposal.add(ipPerson1);
@@ -136,26 +137,26 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
         assertTrue(award.getProjectPersons().size() == proposal.getProjectPersons().size());
         AwardPerson person1 = findAwardPerson(ipPerson1.getPersonId());
         AwardPerson person2 = findAwardPerson(ipPerson2.getPersonId());
-        assertTrue(StringUtils.equals(person1.getRoleCode(), ipPerson1.getRoleCode()));
+        assertTrue(person1.getRoleCode().equals(ipPerson1.getRoleCode()));
         assertTrue(StringUtils.equals(person1.getFullName(), ipPerson1.getFullName()));
         AwardPersonUnit awardUnit1 = findPersonUnit(person1, unit1.getUnitNumber());
         assertTrue(awardUnit1.isLeadUnit());
         assertTrue(person1.getCreditSplit(0).getCredit().equals(ipPerson1.getCreditSplit(0).getCredit()));
-        assertTrue(StringUtils.equals(person2.getRoleCode(), ipPerson2.getRoleCode()));
+        assertTrue(person2.getRoleCode().equals(ipPerson2.getRoleCode()));
     }
     
     @Test
     public void testTypicalMerge() {
-        InstitutionalProposalPerson ipPerson1 = generateIPPerson("10000000001", "Number 1", ContactRole.PI_CODE, new ScaleTwoDecimal(50.00));
+        InstitutionalProposalPerson ipPerson1 = generateIPPerson("10000000001", "Number 1", PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID, new ScaleTwoDecimal(50.00));
         ipPerson1.add(generateIPUnit(unit1, true, new ScaleTwoDecimal(100.00)));
-        InstitutionalProposalPerson  ipPerson2 = generateIPPerson("10000000002", "Number 2", ContactRole.COI_CODE, new ScaleTwoDecimal(50.00));
+        InstitutionalProposalPerson  ipPerson2 = generateIPPerson("10000000002", "Number 2", PropAwardPersonRole.DEFAULT_CO_INVESTIGATOR_ROLE_ID, new ScaleTwoDecimal(50.00));
         ipPerson2.add(generateIPUnit(unit1, false, new ScaleTwoDecimal(50.00)));
         ipPerson2.add(generateIPUnit(unit2, false, new ScaleTwoDecimal(50.00)));
         proposal.add(ipPerson1);
         proposal.add(ipPerson2);
-        AwardPerson awardPerson1 = generateAwardPerson("10000000003", "Number 3", ContactRole.PI_CODE, new ScaleTwoDecimal(80.00));
+        AwardPerson awardPerson1 = generateAwardPerson("10000000003", "Number 3", PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID, new ScaleTwoDecimal(80.00));
         awardPerson1.add(generateAwardUnit(unit1, true, new ScaleTwoDecimal(100.00)));
-        AwardPerson awardPerson2 = generateAwardPerson("10000000002", "Number 2", ContactRole.COI_CODE, new ScaleTwoDecimal(20.00));
+        AwardPerson awardPerson2 = generateAwardPerson("10000000002", "Number 2", PropAwardPersonRole.DEFAULT_CO_INVESTIGATOR_ROLE_ID, new ScaleTwoDecimal(20.00));
         awardPerson2.add(generateAwardUnit(unit1, false, new ScaleTwoDecimal(100.00)));
         award.add(awardPerson1);
         award.add(awardPerson2);
@@ -176,16 +177,16 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
         assertEquals(new ScaleTwoDecimal(50.00), tempUnit.getCreditSplit(0).getCredit());
         
         AwardPerson person3 = findAwardPerson(ipPerson1.getPersonId());
-        assertEquals(ContactRole.COI_CODE, person3.getRoleCode());
+        assertEquals(PropAwardPersonRole.CO_INVESTIGATOR, person3.getRoleCode());
         assertFalse(person3.getUnit(0).isLeadUnit());
     }
     
     @Test
     public void testDuplicateMerge() {
-        InstitutionalProposalPerson ipPerson1 = generateIPPerson("10000000001", "Number 1", ContactRole.PI_CODE, new ScaleTwoDecimal(50.00));
+        InstitutionalProposalPerson ipPerson1 = generateIPPerson("10000000001", "Number 1", PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID, new ScaleTwoDecimal(50.00));
         ipPerson1.add(generateIPUnit(unit1, true, new ScaleTwoDecimal(100.00)));
         proposal.add(ipPerson1);
-        AwardPerson awardPerson1 = generateAwardPerson("10000000001", "Number 1", ContactRole.PI_CODE, new ScaleTwoDecimal(50.00));
+        AwardPerson awardPerson1 = generateAwardPerson("10000000001", "Number 1", PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID, new ScaleTwoDecimal(50.00));
         awardPerson1.add(generateAwardUnit(unit1, true, new ScaleTwoDecimal(100.00)));
         award.add(awardPerson1);
         ProjectPersonnelDataFeedCommand command = new ProjectPersonnelDataFeedCommand(award, proposal, FundingProposalMergeType.MERGE);
@@ -198,10 +199,10 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
     
     @Test
     public void testTypicalReplace() {
-        InstitutionalProposalPerson ipPerson1 = generateIPPerson("10000000001", "Number 1", ContactRole.PI_CODE, new ScaleTwoDecimal(50.00));
+        InstitutionalProposalPerson ipPerson1 = generateIPPerson("10000000001", "Number 1", PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID, new ScaleTwoDecimal(50.00));
         ipPerson1.add(generateIPUnit(unit1, true, new ScaleTwoDecimal(100.00)));
         proposal.add(ipPerson1);
-        AwardPerson awardPerson1 = generateAwardPerson("10000000003", "Number 1", ContactRole.PI_CODE, new ScaleTwoDecimal(50.00));
+        AwardPerson awardPerson1 = generateAwardPerson("10000000003", "Number 1", PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID, new ScaleTwoDecimal(50.00));
         awardPerson1.add(generateAwardUnit(unit1, true, new ScaleTwoDecimal(100.00)));
         award.add(awardPerson1);
         ProjectPersonnelDataFeedCommand command = new ProjectPersonnelDataFeedCommand(award, proposal, FundingProposalMergeType.REPLACE);
@@ -216,16 +217,16 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
     
     @Test
     public void testNoSplitReplace() {
-        InstitutionalProposalPerson ipPerson1 = generateIPPerson("10000000001", "Number 1", ContactRole.PI_CODE, null);
+        InstitutionalProposalPerson ipPerson1 = generateIPPerson("10000000001", "Number 1", PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID, null);
         ipPerson1.add(generateIPUnit(unit1, true, null));
-        InstitutionalProposalPerson  ipPerson2 = generateIPPerson("10000000002", "Number 2", ContactRole.COI_CODE, null);
+        InstitutionalProposalPerson  ipPerson2 = generateIPPerson("10000000002", "Number 2", PropAwardPersonRole.DEFAULT_CO_INVESTIGATOR_ROLE_ID, null);
         ipPerson2.add(generateIPUnit(unit1, false, null));
         ipPerson2.add(generateIPUnit(unit2, false, null));
         proposal.add(ipPerson1);
         proposal.add(ipPerson2);
-        AwardPerson awardPerson1 = generateAwardPerson("10000000003", "Number 3", ContactRole.PI_CODE, new ScaleTwoDecimal(80.00));
+        AwardPerson awardPerson1 = generateAwardPerson("10000000003", "Number 3", PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID, new ScaleTwoDecimal(80.00));
         awardPerson1.add(generateAwardUnit(unit1, true, new ScaleTwoDecimal(100.00)));
-        AwardPerson awardPerson2 = generateAwardPerson("10000000002", "Number 2", ContactRole.COI_CODE, new ScaleTwoDecimal(20.00));
+        AwardPerson awardPerson2 = generateAwardPerson("10000000002", "Number 2", PropAwardPersonRole.DEFAULT_CO_INVESTIGATOR_ROLE_ID, new ScaleTwoDecimal(20.00));
         awardPerson2.add(generateAwardUnit(unit1, false, new ScaleTwoDecimal(100.00)));
         award.add(awardPerson1);
         award.add(awardPerson2);
@@ -241,7 +242,7 @@ public class ProjectPersonnelDataFeedCommandTest extends BaseDataFeedCommandTest
         assertEquals(2, person2.getUnits().size());
         
         AwardPerson person3 = findAwardPerson(ipPerson1.getPersonId());
-        assertEquals(ContactRole.COI_CODE, person3.getRoleCode());
+        assertEquals(PropAwardPersonRole.CO_INVESTIGATOR, person3.getRoleCode());
         assertFalse(person3.getUnit(0).isLeadUnit());
     }    
     

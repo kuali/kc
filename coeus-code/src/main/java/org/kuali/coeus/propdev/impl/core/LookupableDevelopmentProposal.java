@@ -167,7 +167,7 @@ public class LookupableDevelopmentProposal extends KcPersistableBusinessObjectBa
     public String getInvestigator() {
         ProposalPerson principalInvestigator = null;
         for (ProposalPerson person : proposalPersons) {
-            if (StringUtils.equals(person.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
+            if (StringUtils.equals(person.getContactRole().getCode(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
                 principalInvestigator = person;
                 break;
             }

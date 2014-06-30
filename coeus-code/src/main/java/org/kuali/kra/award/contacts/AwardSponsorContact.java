@@ -15,8 +15,15 @@
  */
 package org.kuali.kra.award.contacts;
 
+import java.util.List;
+
+import org.eclipse.persistence.internal.weaving.RelationshipInfo;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
+import org.kuali.kra.award.AwardTemplateSyncScope;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
+import org.kuali.kra.award.home.AwardSyncable;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
 
@@ -26,17 +33,21 @@ import org.kuali.kra.award.home.ContactType;
 public class AwardSponsorContact extends AwardContact {
     private static final long serialVersionUID = 4554226190495156865L;
     
+    @AwardSyncableProperty(key = true)
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
+    protected String roleCode;
+    
     private ContactType contactType;
     
     public AwardSponsorContact() {
         super();
     }
     
-    public AwardSponsorContact(NonOrganizationalRolodex rolodex, ContactRole contactRole) {
+    public AwardSponsorContact(NonOrganizationalRolodex rolodex, PropAwardPersonRole contactRole) {
         super(rolodex, contactRole);
     }
 
-    public AwardSponsorContact(KcPerson person, ContactRole role) {
+    public AwardSponsorContact(KcPerson person, PropAwardPersonRole role) {
         super(person, role);
     }
 
@@ -51,7 +62,7 @@ public class AwardSponsorContact extends AwardContact {
     @Override
     public void setContactRole(ContactRole contactRole) {
         super.setContactRole(contactRole);
-        setContactType((ContactType) contactRole);
+        this.roleCode = contactRole != null ? contactRole.getRoleCode() : null;
     }
 
     /**
@@ -70,5 +81,27 @@ public class AwardSponsorContact extends AwardContact {
     @Override
     protected String getContactRoleTypeIdentifier() {
         return "contactTypeCode";
+    }
+
+	public String getRoleCode() {
+		return roleCode;
+	}
+
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
+	}
+
+	@Override
+	protected String getRoleKey() {
+		return roleCode;
+	}
+
+    public void setContactRoleCode(String roleCode) {
+        this.roleCode = roleCode;
+        refreshContactRole();
+    }
+
+    public String getContactRoleCode() {
+        return roleCode;
     }
 }

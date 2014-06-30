@@ -20,6 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.persistence.internal.weaving.RelationshipInfo;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
@@ -305,7 +306,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     
     void removeKeyPersonRoleForNoneKeyPerson() {
         for ( AwardPerson person : this.getAward().getProjectPersons() ) {
-            if ( !StringUtils.equalsIgnoreCase(person.getContactRole().getRoleCode(), ContactRole.KEY_PERSON_CODE) &&
+            if ( !StringUtils.equalsIgnoreCase(person.getContactRole().getRoleCode(), PropAwardPersonRole.KEY_PERSON) &&
                     StringUtils.isNotEmpty(person.getKeyPersonRole()) ) {
                 person.setKeyPersonRole(null);
             }

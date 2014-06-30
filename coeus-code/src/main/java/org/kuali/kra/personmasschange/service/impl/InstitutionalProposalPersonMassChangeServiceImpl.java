@@ -17,6 +17,7 @@ package org.kuali.kra.personmasschange.service.impl;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -119,8 +120,8 @@ public class InstitutionalProposalPersonMassChangeServiceImpl extends MassPerson
         List<InstitutionalProposalUnitContact> unitContacts = institutionalProposal.getInstitutionalProposalUnitContacts();
         IntellectualPropertyReview intellectualPropertyReview = institutionalProposal.getProposalIpReviewJoin().getIntellectualPropertyReview();
         
-        String[] investigatorRoles = { ContactRole.PI_CODE, ContactRole.COI_CODE };
-        String[] keyStudyPersonRoles = { ContactRole.KEY_PERSON_CODE };
+        String[] investigatorRoles = { PropAwardPersonRole.PRINCIPAL_INVESTIGATOR, PropAwardPersonRole.CO_INVESTIGATOR };
+        String[] keyStudyPersonRoles = { PropAwardPersonRole.KEY_PERSON };
         
         if (personMassChange.getInstitutionalProposalPersonMassChange().isInvestigator()) {
             isInstitutionalProposalChangeCandidate |= isPersonChangeCandidate(personMassChange, persons, investigatorRoles);
@@ -188,14 +189,14 @@ public class InstitutionalProposalPersonMassChangeServiceImpl extends MassPerson
     
     private void performInvestigatorPersonMassChange(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal) {
         if (personMassChange.getInstitutionalProposalPersonMassChange().isInvestigator()) {
-            String[] personRoles = { ContactRole.PI_CODE, ContactRole.COI_CODE };
+            String[] personRoles = { PropAwardPersonRole.PRINCIPAL_INVESTIGATOR, PropAwardPersonRole.CO_INVESTIGATOR };
             performPersonPersonMassChange(personMassChange, institutionalProposal, personRoles);
         }
     }
     
     private void performKeyStudyPersonPersonMassChange(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal) {
         if (personMassChange.getInstitutionalProposalPersonMassChange().isKeyStudyPerson()) {
-            String[] personRoles = { ContactRole.KEY_PERSON_CODE };
+            String[] personRoles = { PropAwardPersonRole.KEY_PERSON };
             performPersonPersonMassChange(personMassChange, institutionalProposal, personRoles);
         }
     }

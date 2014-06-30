@@ -53,6 +53,7 @@ import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.common.framework.org.type.OrganizationType;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.unit.Unit;
@@ -550,9 +551,9 @@ public class NIHResearchAndRelatedXmlStream extends
         List<ProposalPerson> propPIs = new ArrayList<ProposalPerson>();
         for (ProposalPerson proposalPerson : developmentProposal
                 .getProposalPersons()) {
-            if (ContactRole.PI_CODE.equals(proposalPerson.getProposalPersonRoleId())) {
+            if (PropAwardPersonRole.PRINCIPAL_INVESTIGATOR.equals(proposalPerson.getProposalPersonRoleId())) {
                 propPIs.add(proposalPerson);
-            } else if (ContactRole.KEY_PERSON_CODE.equals(proposalPerson.getProposalPersonRoleId())) {
+            } else if (PropAwardPersonRole.KEY_PERSON.equals(proposalPerson.getProposalPersonRoleId())) {
                 propKeyPersons.add(proposalPerson);
             } else {
                 propInvestigators.add(proposalPerson);

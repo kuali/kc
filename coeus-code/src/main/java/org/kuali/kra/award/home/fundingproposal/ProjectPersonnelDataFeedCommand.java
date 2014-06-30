@@ -16,6 +16,7 @@
 package org.kuali.kra.award.home.fundingproposal;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonCreditSplit;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
@@ -132,14 +133,14 @@ class ProjectPersonnelDataFeedCommand extends ProposalDataFeedCommandBase {
     }
     
     private void populateRoleCodes(AwardPerson awardPerson, InstitutionalProposalPerson proposalPerson) {
-        if (ContactRole.PI_CODE.equals(proposalPerson.getRoleCode()) && award.getPrincipalInvestigator() != null) {
-            awardPerson.setRoleCode(ContactRole.COI_CODE);
-            awardPerson.setKeyPersonRole(ContactRole.COI_CODE);
-            awardPerson.setContactRoleCode(ContactRole.COI_CODE);
+        if (PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID.equals(proposalPerson.getRoleCode()) && award.getPrincipalInvestigator() != null) {
+            awardPerson.setRoleCode(PropAwardPersonRole.DEFAULT_CO_INVESTIGATOR_ROLE_ID);
+            awardPerson.setKeyPersonRole(PropAwardPersonRole.CO_INVESTIGATOR);
+            awardPerson.setContactRoleCode(PropAwardPersonRole.DEFAULT_CO_INVESTIGATOR_ROLE_ID);
         } else {
-            awardPerson.setRoleCode(proposalPerson.getRoleCode());
+            awardPerson.setRoleCode(proposalPerson.getContactRole().getId());
             awardPerson.setKeyPersonRole(proposalPerson.getKeyPersonRole());
-            awardPerson.setContactRoleCode(proposalPerson.getContactRoleCode());
+            awardPerson.setContactRoleCode(proposalPerson.getContactRole().getId());
         }
     }
     

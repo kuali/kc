@@ -99,8 +99,12 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     private Integer proposalPersonNumber;
 
     @Column(name = "PROP_PERSON_ROLE_ID")
-    private String proposalPersonRoleId;
+    private Long proposalPersonRoleId;
 
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROP_PERSON_ROLE_ID", referencedColumnName = "PROP_PERSON_ROLE_ID", insertable = false, updatable = false)
+    private PropAwardPersonRole propAwardPersonRole;
+    
     @OneToOne(cascade = { CascadeType.REFRESH })
     @PrimaryKeyJoinColumns({ @PrimaryKeyJoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @PrimaryKeyJoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER") })
     private ProposalInvestigatorCertification certification;
@@ -374,10 +378,10 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     
     @Transient
     private ProposalPersonQuestionnaireHelper questionnaireHelper;
-    
+    	
     @Transient
     private transient PropAwardPersonRoleService propAwardPersonRoleService;
- 
+
     public boolean isMoveDownAllowed() {
         return moveDownAllowed;
     }
@@ -434,22 +438,22 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
     @Override
     public boolean isPrincipalInvestigator() {
-    	return StringUtils.equals(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR, getProposalPersonRoleId());
+    	return StringUtils.equals(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR, getPropAwardPersonRole().getCode());
     }
 
     @Override
     public boolean isCoInvestigator() {
-    	return StringUtils.equals(PropAwardPersonRole.CO_INVESTIGATOR, getProposalPersonRoleId());
+    	return StringUtils.equals(PropAwardPersonRole.CO_INVESTIGATOR, getPropAwardPersonRole().getCode());
     }
 
     @Override
     public boolean isKeyPerson() {
-    	return StringUtils.equals(PropAwardPersonRole.KEY_PERSON, getProposalPersonRoleId());
+    	return StringUtils.equals(PropAwardPersonRole.KEY_PERSON, getPropAwardPersonRole().getCode());
     }
 
     @Override
     public boolean isMultiplePi() {
-    	return StringUtils.equals(PropAwardPersonRole.MULTI_PI, getProposalPersonRoleId());
+    	return StringUtils.equals(PropAwardPersonRole.MULTI_PI, getPropAwardPersonRole().getCode());
     }
 
     public void setCreditSplits(List<ProposalPersonCreditSplit> creditSplit) {
@@ -551,24 +555,29 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         this.rolodexId = argRolodexId;
     }
 
-    @Override
-    public String getProposalPersonRoleId() {
+    /**
+     * Gets the value of propPersonRoleId
+     *
+     * @return the value of propPersonRoleId
+     */
+    public Long getProposalPersonRoleId() {
         return this.proposalPersonRoleId;
     }
 
-    public void setProposalPersonRoleId(String argPropPersonRoleId) {
+    /** 
+     * Sets the value of propPersonRoleId
+     *
+     * @param argPropPersonRoleId Value to assign to this.propPersonRoleId
+     */
+    public void setProposalPersonRoleId(Long argPropPersonRoleId) {
     	this.proposalPersonRoleId = argPropPersonRoleId;
     }
 
-    public PropAwardPersonRole getRole() {
-    	if (StringUtils.isNotBlank(getProposalPersonRoleId()) && getDevelopmentProposal() != null &&
-    			StringUtils.isNotBlank(getDevelopmentProposal().getSponsorCode())) {
-    		return getPropAwardPersonRoleService().getRole(getProposalPersonRoleId(), getDevelopmentProposal().getSponsorCode());
-    	} else {
-    		return null;
-    	}
-    }
-
+    /**
+     * Sets the value of conflictOfInterest
+     *
+     * @param argConflictOfInterest Value to assign to this.conflictOfInterest
+     */
     public void setConflictOfInterestFlag(boolean argConflictOfInterest) {
         this.conflictOfInterestFlag = argConflictOfInterest;
     }
@@ -1531,9 +1540,8 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         this.hiddenInHierarchy = hiddenInHierarchy;
     }
 
-    @Override
-    public ContactRole getContactRole() {
-        return getRole();
+    public PropAwardPersonRole getContactRole() {
+        return getPropAwardPersonRole();
     }
 
     public DevelopmentProposal getDevelopmentProposal() {
@@ -1551,7 +1559,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
     @Override
     public String getInvestigatorRoleDescription() {
-        return getRole().getDescription();
+        return getPropAwardPersonRole().getDescription();
     }
 
     /**
@@ -1571,7 +1579,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
     @Override
     public String getRoleCode() {
-        return this.getRole().getRoleCode();
+        return this.getPropAwardPersonRole().getRoleCode();
     }
 
     public static final class ProposalPersonId implements Serializable, Comparable<ProposalPersonId> {
@@ -1659,21 +1667,40 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 		this.citizenshipType = citizenshipType;
 	}
 
-	protected PropAwardPersonRoleService getPropAwardPersonRoleService() {
+    @Override
+    public String getProposalNumber() {
+        return getDevelopmentProposal().getProposalNumber();
+    }
+
+	public PropAwardPersonRole getPropAwardPersonRole() {
+		if(propAwardPersonRole == null && getProposalPersonRoleId() != null) {
+			setPropAwardPersonRole(getPropAwardPersonRoleService().getRole(getProposalPersonRoleId()));
+		}
+		return propAwardPersonRole;
+	}
+
+	public void setPropAwardPersonRole(PropAwardPersonRole propAwardPersonRole) {
+		this.propAwardPersonRole = propAwardPersonRole;
+	}
+
+    public PropAwardPersonRole getRole(String roleCode) {
+    	if (StringUtils.isNotBlank(roleCode) && getDevelopmentProposal() != null &&
+    			StringUtils.isNotBlank(getDevelopmentProposal().getSponsorCode())) {
+    		return getPropAwardPersonRoleService().getRole(roleCode, getDevelopmentProposal().getSponsorCode());
+    	} else {
+    		return null;
+    	}
+    }
+
+    protected PropAwardPersonRoleService getPropAwardPersonRoleService() {
 		if (propAwardPersonRoleService == null) {
 			propAwardPersonRoleService = KcServiceLocator.getService(PropAwardPersonRoleService.class);
 		}
 		return propAwardPersonRoleService;
 	}
 
-	public void setPropAwardPersonRoleService(
-			PropAwardPersonRoleService propAwardPersonRoleService) {
-		this.propAwardPersonRoleService = propAwardPersonRoleService;
-	}
-
-    @Override
-    public String getProposalNumber() {
-        return getDevelopmentProposal().getProposalNumber();
+    public String getContactRoleCode() {
+        return getContactRole().getCode();
     }
 
 }

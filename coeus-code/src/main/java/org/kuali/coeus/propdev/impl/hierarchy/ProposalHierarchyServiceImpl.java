@@ -50,6 +50,7 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalcul
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -692,11 +693,13 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 newPerson.setVersionNumber(null);
                 newPerson.setHierarchyProposalNumber(childProposal.getProposalNumber());
             
-                if (StringUtils.equalsIgnoreCase(person.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
-                    newPerson.setProposalPersonRoleId(Constants.CO_INVESTIGATOR_ROLE);
+                if (StringUtils.equalsIgnoreCase(person.getContactRole().getCode(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
+                	 PropAwardPersonRole newPersonRole = newPerson.getRole(Constants.CO_INVESTIGATOR_ROLE);
+                    newPerson.setProposalPersonRoleId(newPersonRole != null ? newPersonRole.getId() : PropAwardPersonRole.DEFAULT_CO_INVESTIGATOR_ROLE_ID);
                 }
                 if (newPerson.equals(principalInvestigator) && (firstIndex == -1 || !firstInstance.isInvestigator())) {
-                    newPerson.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+               	 PropAwardPersonRole newPersonRole = newPerson.getRole(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+                    newPerson.setProposalPersonRoleId(newPersonRole != null ? newPersonRole.getId() : PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID);
                 }
                 
                 hierarchyProposal.addProposalPerson(newPerson);
@@ -1115,7 +1118,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         if (pi != null) {
             int index = hierarchy.getProposalPersons().indexOf(pi);
             if (index > -1) {
-                hierarchy.getProposalPerson(index).setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+            	PropAwardPersonRole propAwardPersonRole = pi.getContactRole();  
+                hierarchy.getProposalPerson(index).setProposalPersonRoleId(propAwardPersonRole == null ? propAwardPersonRole.getId() : PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID);
             }
         }
     }
@@ -1762,10 +1766,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     protected boolean rolesAreSimilar(ProposalPerson person1, ProposalPerson person2) {
-        boolean isInvestigator1 = StringUtils.equals(person1.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)
-                || StringUtils.equals(person1.getProposalPersonRoleId(), Constants.CO_INVESTIGATOR_ROLE);
-        boolean isInvestigator2 = StringUtils.equals(person2.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)
-                || StringUtils.equals(person2.getProposalPersonRoleId(), Constants.CO_INVESTIGATOR_ROLE);
+        boolean isInvestigator1 = StringUtils.equals(person1.getContactRole().getCode(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)
+                || StringUtils.equals(person1.getContactRole().getCode(), Constants.CO_INVESTIGATOR_ROLE);
+        boolean isInvestigator2 = StringUtils.equals(person2.getContactRole().getCode(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)
+                || StringUtils.equals(person2.getContactRole().getCode(), Constants.CO_INVESTIGATOR_ROLE);
         return isInvestigator1 == isInvestigator2;
     }
 

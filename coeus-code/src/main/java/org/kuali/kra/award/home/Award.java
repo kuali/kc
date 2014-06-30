@@ -3166,7 +3166,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     public List<NegotiationPersonDTO> getProjectPeople() {
         List<NegotiationPersonDTO> kcPeople = new ArrayList<NegotiationPersonDTO>();
         for (AwardPerson person : getProjectPersons()) {
-            kcPeople.add(new NegotiationPersonDTO(person.getPerson(), person.getContactRoleCode()));
+            kcPeople.add(new NegotiationPersonDTO(person.getPerson(), person.getContactRole().getCode()));
         }
         return kcPeople;
     }

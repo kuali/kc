@@ -106,7 +106,7 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
                 setCanAnswerAfterRouting(false);
             } else {
                 //questionnaires should continue to be answerable only to the following approvers.
-                PropAwardPersonRole personRole = proposalPerson.getRole();
+                PropAwardPersonRole personRole = proposalPerson.getContactRole();
                 if (personRole.getRoleCode().equals(Constants.CO_INVESTIGATOR_ROLE)
                         || personRole.getRoleCode().equals(Constants.PRINCIPAL_INVESTIGATOR_ROLE)
                         || personRole.getRoleCode().equals(Constants.KEY_PERSON_ROLE)) {

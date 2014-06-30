@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 
 public class KeyPersonnelAddWizardHelper {
@@ -27,7 +28,7 @@ public class KeyPersonnelAddWizardHelper {
     private String personType;
     private Map<String, String> lookupFieldValues;
     private List<ProposalPerson> results;
-    private String personRole;
+    private Long personRole;
     private String keyPersonProjectRole;
     
     public KeyPersonnelAddWizardHelper() {
@@ -39,7 +40,7 @@ public class KeyPersonnelAddWizardHelper {
         personType = "E";
         lookupFieldValues.clear();
         results.clear();
-        personRole = "PI";
+        personRole = PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID;
     }
 
     public String getPersonType() {
@@ -66,11 +67,11 @@ public class KeyPersonnelAddWizardHelper {
         this.results = results;
     }
 
-    public String getPersonRole() {
+    public Long getPersonRole() {
         return personRole;
     }
 
-    public void setPersonRole(String personRole) {
+    public void setPersonRole(Long personRole) {
         this.personRole = personRole;
     }
 

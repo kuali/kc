@@ -29,6 +29,11 @@ import org.kuali.coeus.common.api.question.QuestionAnswerService;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.api.state.KcStateService;
 import org.kuali.coeus.common.api.state.StateContract;
+import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
+import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
@@ -349,7 +354,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         ProposalPersonContract proposalPerson = null;
         if (pdDoc != null) {
             for (ProposalPersonContract person : pdDoc.getDevelopmentProposal().getProposalPersons()) {
-                if (ContactRole.PI_CODE.equals(person.getProposalPersonRoleId())) {
+                if (PropAwardPersonRole.PRINCIPAL_INVESTIGATOR.equals(person.getContactRoleCode())) {
                     proposalPerson = person;
                 }
             }
@@ -380,7 +385,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         List<ProposalPersonContract> keyPersons = new ArrayList<ProposalPersonContract>();
         if (pdDoc != null) {
             for (ProposalPersonContract person : pdDoc.getDevelopmentProposal().getProposalPersons()) {
-                if (ContactRole.KEY_PERSON_CODE.equals(person.getProposalPersonRoleId())) {
+                if (PropAwardPersonRole.KEY_PERSON.equals(person.getContactRoleCode())) {
                     keyPersons.add(person);
                 }
             }

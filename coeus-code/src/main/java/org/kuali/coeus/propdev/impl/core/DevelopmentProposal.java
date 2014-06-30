@@ -21,6 +21,7 @@ import org.eclipse.persistence.annotations.Customizer;
 import org.eclipse.persistence.config.DescriptorCustomizer;
 import org.kuali.coeus.common.framework.noo.NoticeOfOpportunity;
 import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
@@ -1403,7 +1404,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     public ProposalPerson getPrincipalInvestigator() {
         ProposalPerson principalInvestigator = null;
         for (ProposalPerson person : proposalPersons) {
-            if (StringUtils.equals(person.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
+            if (StringUtils.equals(person.getContactRole().getCode(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
                 principalInvestigator = person;
                 break;
             }
@@ -1869,37 +1870,37 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return null;
     }
 
-    public ContactRole getProposalEmployeeRole(String personId) {
+    public PropAwardPersonRole getProposalEmployeeRole(String personId) {
         ProposalPerson principalInvestigator = getPrincipalInvestigator();
         if (principalInvestigator != null && personId.equals(principalInvestigator.getPersonId())) {
-            return principalInvestigator.getRole();
+            return principalInvestigator.getContactRole();
         }
         for (ProposalPerson proposalPerson : getInvestigators()) {
             if (personId.equals(proposalPerson.getPersonId())) {
-                return proposalPerson.getRole();
+                return proposalPerson.getContactRole();
             }
         }
         for (ProposalPerson proposalPerson : getProposalPersons()) {
             if (personId.equals(proposalPerson.getPersonId())) {
-                return proposalPerson.getRole();
+                return proposalPerson.getContactRole();
             }
         }
         return null;
     }
 
-    public ContactRole getProposalNonEmployeeRole(Integer rolodexId) {
+    public PropAwardPersonRole getProposalNonEmployeeRole(Integer rolodexId) {
         ProposalPerson principalInvestigator = getPrincipalInvestigator();
         if (principalInvestigator != null && rolodexId.equals(principalInvestigator.getRolodexId())) {
-            return principalInvestigator.getRole();
+            return principalInvestigator.getContactRole();
         }
         for (ProposalPerson proposalPerson : getInvestigators()) {
             if (rolodexId.equals(proposalPerson.getRolodexId())) {
-                return proposalPerson.getRole();
+                return proposalPerson.getContactRole();
             }
         }
         for (ProposalPerson proposalPerson : getProposalPersons()) {
             if (rolodexId.equals(proposalPerson.getRolodexId())) {
-                return proposalPerson.getRole();
+                return proposalPerson.getContactRole();
             }
         }
         return null;

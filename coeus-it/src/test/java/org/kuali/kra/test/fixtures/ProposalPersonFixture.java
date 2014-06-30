@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.test.fixtures;
 
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.person.editable.PersonEditableService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
@@ -33,12 +34,12 @@ import static org.kuali.kra.infrastructure.Constants.*;
  * test fixtures.
  */
 public enum ProposalPersonFixture {
-    PRINCIPAL_INVESTIGATOR("10000000003", PRINCIPAL_INVESTIGATOR_ROLE),
+    PRINCIPAL_INVESTIGATOR("10000000003", PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID),
     
     /**
      * Fully valid Principal Investigator with all the right valid stuff except no certifications.
      */
-    INCOMPLETE_CERTIFICATIONS("10000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+    INCOMPLETE_CERTIFICATIONS("10000000003", PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID) {
         /**
          * Clear out the Yes/No Questions
          * 
@@ -54,7 +55,7 @@ public enum ProposalPersonFixture {
     /**
      * Fully valid Principal Investigator with valid credit splits adding to a hundred and valid lead unit with valid credit splits
      */
-    INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED("10000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+    INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED("10000000003", PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID) {
         
         /**
          * Use a normally valid <code>{@link ProposalPerson}</code> instance. Set all credit splits up to be valid. 
@@ -68,7 +69,7 @@ public enum ProposalPersonFixture {
     /**
      * Fully valid Principal Investigator with valid credit splits adding to a hundred and invalid lead unit
      */
-    INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED("admin", PRINCIPAL_INVESTIGATOR_ROLE) {
+    INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED("admin", PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID) {
         
         /**
          * Use a normally valid <code>{@link ProposalPerson}</code> instance. Set all credit splits up to be valid except for units. 
@@ -88,7 +89,7 @@ public enum ProposalPersonFixture {
     /**
      * Fully valid Principal Investigator with valid credit splits adding to a hundred and invalid lead unit
      */
-    INVESTIGATOR_OVER_ONE_HUNDRED("10000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+    INVESTIGATOR_OVER_ONE_HUNDRED("10000000003", PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID) {
         
         /**
          * Use a normally valid <code>{@link ProposalPerson}</code> instance. Set all credit splits up to be valid except for units. 
@@ -106,7 +107,7 @@ public enum ProposalPersonFixture {
      * Fully valid Principal Investigator with valid credit splits adding to a hundred except for one is negative. No 
      * <code>{@link ProposalUnitCreditSplit}</code> instances.
      */
-    INVESTIGATOR_UNDER_ZERO("10000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+    INVESTIGATOR_UNDER_ZERO("10000000003", PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID) {
         
         /**
          * Use a normally valid <code>{@link ProposalPerson}</code> instance. Set all credit splits up to be valid except for units. 
@@ -122,7 +123,7 @@ public enum ProposalPersonFixture {
     /**
      * Fully valid Principal Investigator with valid credit splits adding to a hundred and invalid lead unit that goes over 100%
      */
-    INVESTIGATOR_UNIT_OVER_ONE_HUNDRED("10000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+    INVESTIGATOR_UNIT_OVER_ONE_HUNDRED("10000000003", PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID) {
         
         /**
          * Use a normally valid <code>{@link ProposalPerson}</code> instance. Set all credit splits up to be valid except unit is over 100% 
@@ -138,7 +139,7 @@ public enum ProposalPersonFixture {
     /**
      * Fully valid Principal Investigator with valid credit splits adding to a hundred and invalid lead unit
      */
-    INVESTIGATOR_UNIT_UNDER_ZERO("10000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+    INVESTIGATOR_UNIT_UNDER_ZERO("10000000003", PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID) {
         
         /**
          * Use a normally valid <code>{@link ProposalPerson}</code> instance. Set all credit splits up to be valid except for units. Units are under 0%
@@ -151,17 +152,17 @@ public enum ProposalPersonFixture {
             person.getUnit(0).getCreditSplit(0).setCredit(new ScaleTwoDecimal(-10.00));
         }        
     },
-    JTESTER_CO_INVESTIGATOR("10000000001", CO_INVESTIGATOR_ROLE),
-    WOODS_CO_INVESTIGATOR("10000000005", CO_INVESTIGATOR_ROLE),
-    OBLOOD_KEY_PERSON("10000000006", KEY_PERSON_ROLE);
+    JTESTER_CO_INVESTIGATOR("10000000001", PropAwardPersonRole.DEFAULT_CO_INVESTIGATOR_ROLE_ID),
+    WOODS_CO_INVESTIGATOR("10000000005", PropAwardPersonRole.DEFAULT_CO_INVESTIGATOR_ROLE_ID),
+    OBLOOD_KEY_PERSON("10000000006", PropAwardPersonRole.DEFAULT_KEY_PERSON_ROLE_ID);
     
     private String personId;
-    private String roleId;
+    private Long roleId;
 
     private ProposalPersonFixture() {
     }
  
-    private ProposalPersonFixture(String personId, String roleId) {
+    private ProposalPersonFixture(String personId, Long roleId) {
         this.roleId = roleId;
         this.personId = personId;
     }

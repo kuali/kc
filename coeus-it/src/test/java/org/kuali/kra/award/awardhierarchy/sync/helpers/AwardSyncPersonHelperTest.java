@@ -24,6 +24,7 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncXmlExport;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import static org.junit.Assert.*;
 public class AwardSyncPersonHelperTest extends AwardSyncHelperTestBase {
@@ -45,7 +46,7 @@ public class AwardSyncPersonHelperTest extends AwardSyncHelperTestBase {
         person.setAward(award);
         person.setAcademicYearEffort(new ScaleTwoDecimal(100.00));
         person.setCalendarYearEffort(new ScaleTwoDecimal(100.00));
-        person.setRoleCode("PI");
+        person.setRoleCode(PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID);
         person.setFaculty(false);
         person.setPersonId("10000000001");
         

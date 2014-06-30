@@ -471,7 +471,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         if (ObjectUtils.isNotNull(pdPerson.getRolodexId())) {
             ipPerson.setRolodexId(pdPerson.getRolodexId());
         }
-        ipPerson.setContactRoleCode(pdPerson.getRole().getRoleCode());
+        ipPerson.setContactRoleCode(pdPerson.getContactRole().getId());
         for (ProposalPersonCreditSplit pdPersonCreditSplit : pdPerson.getCreditSplits()) {
             InstitutionalProposalPersonCreditSplit ipPersonCreditSplit = new InstitutionalProposalPersonCreditSplit();
             ipPersonCreditSplit.setCredit(pdPersonCreditSplit.getCredit());
@@ -486,7 +486,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         ipPerson.setNewCollectionRecord(pdPerson.isNewCollectionRecord());
         //ipPerson.setPerson(pdPerson.getPerson());
         //ipPerson.setPhoneNumber(pdPerson.getPhoneNumber());
-        ipPerson.setRoleCode(pdPerson.getRole().getRoleCode());
+        ipPerson.setRoleCode(pdPerson.getContactRole().getId());
         ipPerson.setTotalEffort(pdPerson.getPercentageEffort());
         for (ProposalPersonUnit pdPersonUnit : pdPerson.getUnits()) {
             InstitutionalProposalPersonUnit ipPersonUnit = new InstitutionalProposalPersonUnit();

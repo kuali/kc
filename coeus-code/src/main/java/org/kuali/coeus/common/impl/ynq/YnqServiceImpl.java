@@ -97,7 +97,7 @@ public class YnqServiceImpl implements YnqService {
         /* get YNQ for person */
         boolean certificationRequired = false;
         
-        if(proposalPerson.getRole() != null && proposalPerson.getRole().getCertificationRequired()) {
+        if(proposalPerson.getContactRole() != null && proposalPerson.getContactRole().getCertificationRequired()) {
             certificationRequired = true;
         } else if (proposalPerson.getOptInCertificationStatus()) {
             certificationRequired = true;

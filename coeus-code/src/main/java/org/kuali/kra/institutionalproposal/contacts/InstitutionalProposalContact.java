@@ -18,6 +18,8 @@ package org.kuali.kra.institutionalproposal.contacts;
 import org.kuali.coeus.common.framework.contact.Contactable;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -46,8 +48,6 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     protected Integer rolodexId;
 
-    protected String roleCode;
-
     private Long institutionalProposalContactId;
 
     protected ContactRole contactRole;
@@ -60,6 +60,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     private transient KcPersonService kcPersonService;
 
+    private transient PropAwardPersonRoleService propAwardPersonRoleService;
 
     public InstitutionalProposalContact() {
     }
@@ -162,12 +163,6 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
         return contactRole;
     }
 
-
-    public String getContactRoleCode() {
-        return roleCode;
-    }
-
-
     public String getEmailAddress() {
         return getContact() != null ? getContact().getEmailAddress() : null;
     }
@@ -198,14 +193,6 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     public String getPhoneNumber() {
         return getContact() != null ? getContact().getPhoneNumber() : null;
-    }
-
-    /**
-     * Gets the roleCode attribute. 
-     * @return Returns the roleCode.
-     */
-    public String getRoleCode() {
-        return roleCode;
     }
 
     /**
@@ -263,12 +250,6 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
      */
     public void setContactRole(ContactRole contactRole) {
         this.contactRole = contactRole;
-        this.roleCode = contactRole != null ? contactRole.getRoleCode() : null;
-    }
-
-    public void setContactRoleCode(String roleCode) {
-        this.roleCode = roleCode;
-        refreshContactRole();
     }
 
     public void setEmailAddress(String emailAddress) {
@@ -313,15 +294,6 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     }
 
     public void setPhoneNumber(String phoneNumber) {
-    }
-
-    /**
-     * Sets the roleCode attribute value.
-     * @param roleCode The roleCode to set.
-     */
-    public void setRoleCode(String roleCode) {
-        this.roleCode = roleCode;
-        refreshContactRole();
     }
 
     /**
@@ -393,9 +365,9 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     protected abstract String getContactRoleTypeIdentifier();
 
     protected ContactRole refreshContactRole() {
-        ContactRole role;
-        if (roleCode != null) {
-            role = (ContactRole) getBusinessObjectService().findByPrimaryKey(getContactRoleType(), getIdentifierMap(getContactRoleTypeIdentifier(), roleCode));
+    	ContactRole role;
+        if (getRoleKey() != null) {
+            role = getBusinessObjectService().findByPrimaryKey(getContactRoleType(), getIdentifierMap(getContactRoleTypeIdentifier(), getRoleKey()));
         } else {
             role = null;
         }
@@ -444,11 +416,23 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
         return getInstitutionalProposal();
     }
 
-    //    public Integer getSequenceNumber() {  
-    //        return getInstitutionalProposal().getSequenceNumber();  
-    //    }  
     @Override
     public void setSequenceOwner(InstitutionalProposal newlyVersionedOwner) {
         setInstitutionalProposal((InstitutionalProposal) newlyVersionedOwner);
     }
+
+	protected PropAwardPersonRoleService getPropAwardPersonRoleService() {
+		if (propAwardPersonRoleService == null) {
+			propAwardPersonRoleService = KcServiceLocator.getService(PropAwardPersonRoleService.class);
+		}
+		return propAwardPersonRoleService;
+	}
+
+	public void setPropAwardPersonRoleService(
+			PropAwardPersonRoleService propAwardPersonRoleService) {
+		this.propAwardPersonRoleService = propAwardPersonRoleService;
+	}
+
+    protected abstract String getRoleKey();
+
 }

@@ -568,9 +568,9 @@ public abstract class AwardBaseStream implements XmlStream {
 			if (award.getSequenceNumber() != null) {
 				contactDetails.setSequenceNumber(award.getSequenceNumber());
 			}
-			if (awardSponsorContact.getContactRoleCode() != null) {
+			if (awardSponsorContact.getContactType() != null) {
 				contactDetails.setContactType(Integer
-						.valueOf(awardSponsorContact.getContactRoleCode()));
+						.valueOf(awardSponsorContact.getContactType().getContactTypeCode()));
 			}
 			if (awardSponsorContact.getContactOrganizationName() != null) {
 				contactDetails.setContactTypeDesc(awardSponsorContact
@@ -962,7 +962,7 @@ public abstract class AwardBaseStream implements XmlStream {
 				}
 				keyPersonType.setFaculty(awardPerson.isFaculty());
 				if (awardPerson.getRoleCode() != null) {
-					keyPersonType.setRoleName(awardPerson.getRoleCode());
+					keyPersonType.setRoleName(awardPerson.getContactRole().getDescription());
 				}
 				if (awardPerson.getPerson() != null
 						&& awardPerson.getPerson().getOfficeLocation() != null) {

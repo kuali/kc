@@ -22,6 +22,7 @@ import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.noo.NoticeOfOpportunity;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
@@ -1006,7 +1007,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     }
 
     public void setPrincipalInvestigator(InstitutionalProposalPerson proposalPerson) {
-        proposalPerson.setRoleCode(ContactRole.PI_CODE);
+        //proposalPerson.setRoleCode(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR);
         this.getProjectPersons().add(proposalPerson);
     }
 
@@ -1185,15 +1186,15 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
             }
             else 
             {
-                if (contactRoleCode1.equals(ContactRole.PI_CODE))
+                if (contactRoleCode1.equals(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR))
                 {
                     return -1;
                 }
-                if (contactRoleCode2.equals(ContactRole.PI_CODE))
+                if (contactRoleCode2.equals(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR))
                 {
                     return 1;
                 }
-                if (contactRoleCode1.equals(ContactRole.COI_CODE)) 
+                if (contactRoleCode1.equals(PropAwardPersonRole.CO_INVESTIGATOR)) 
                 {
                     return -1;
                 }
@@ -1537,6 +1538,12 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     private void initializeDefaultPrincipalInvestigator(InstitutionalProposalPerson ipPerson) {
         ipPerson.setProposalNumber(this.getProposalNumber());
+        PropAwardPersonRole propAwardPersonRole = ipPerson.getRole(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR);
+        if(propAwardPersonRole == null) {
+        	propAwardPersonRole = ipPerson.getDefaultPrincipalInvestigatorRole();
+        }
+        ipPerson.setContactRole(propAwardPersonRole);
+        ipPerson.setRoleCode(propAwardPersonRole.getId());
         ipPerson.setSequenceNumber(this.getSequenceNumber());
         ipPerson.initializeDefaultCreditSplits();
         InstitutionalProposalPersonUnit ipPersonUnit = new InstitutionalProposalPersonUnit();
@@ -1747,7 +1754,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     public List<NegotiationPersonDTO> getProjectPeople() {
         List<NegotiationPersonDTO> kcPeople = new ArrayList<NegotiationPersonDTO>();
         for (InstitutionalProposalPerson person : getProjectPersons()) {
-            kcPeople.add(new NegotiationPersonDTO(person.getPerson(), person.getRoleCode()));
+            kcPeople.add(new NegotiationPersonDTO(person.getPerson(), person.getContactRole().getCode()));
         }
         return kcPeople;
     }

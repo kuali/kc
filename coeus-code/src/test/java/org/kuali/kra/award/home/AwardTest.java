@@ -20,6 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.award.contacts.AwardPerson;
@@ -115,16 +116,16 @@ public class AwardTest {
         Assert.assertEquals(3, aList.size());
         
         aList.get(0).getContactRole();
-        Assert.assertEquals(ContactRole.COI_CODE, aList.get(0).getContactRoleCode());
-        Assert.assertEquals(ContactRole.KEY_PERSON_CODE, aList.get(1).getContactRoleCode());
-        Assert.assertEquals(ContactRole.PI_CODE, aList.get(2).getContactRoleCode());
+        Assert.assertEquals(PropAwardPersonRole.CO_INVESTIGATOR, aList.get(0).getContactRoleCode());
+        Assert.assertEquals(PropAwardPersonRole.KEY_PERSON, aList.get(1).getContactRoleCode());
+        Assert.assertEquals(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR, aList.get(2).getContactRoleCode());
         
         // test getProjectPersonsSorted
         aList = awardBo.getProjectPersonsSorted();
         Assert.assertEquals(3, aList.size());
-        Assert.assertEquals(ContactRole.PI_CODE, aList.get(0).getContactRoleCode());
-        Assert.assertEquals(ContactRole.COI_CODE, aList.get(1).getContactRoleCode());
-        Assert.assertEquals(ContactRole.KEY_PERSON_CODE, aList.get(2).getContactRoleCode());        
+        Assert.assertEquals(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR, aList.get(0).getContactRoleCode());
+        Assert.assertEquals(PropAwardPersonRole.CO_INVESTIGATOR, aList.get(1).getContactRoleCode());
+        Assert.assertEquals(PropAwardPersonRole.KEY_PERSON, aList.get(2).getContactRoleCode());        
     }
     
     public void addProjectPersonsToAward() {

@@ -18,6 +18,7 @@ package org.kuali.kra.institutionalproposal.printing.service.impl;
 
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPersonService;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -57,7 +58,7 @@ public class InstitutionalProposalPersonServiceImpl implements
 					.get(0);
 			if (developmentProposal.getProposalPersons() != null) {
 				for(ProposalPerson proposalPerson:developmentProposal.getProposalPersons()){
-					if(ContactRole.PI_CODE.equals(proposalPerson.getProjectRole()) || ContactRole.COI_CODE.equals(proposalPerson.getProjectRole())){
+					if(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR.equals(proposalPerson.getProjectRole()) || PropAwardPersonRole.CO_INVESTIGATOR.equals(proposalPerson.getProjectRole())){
 						proposalPersonsList.add(proposalPerson);
 					}
 				}

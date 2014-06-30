@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.protocol.protocol.funding.impl;
 
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.person.editable.PersonEditableService;
 import org.kuali.coeus.common.specialreview.impl.service.impl.SpecialReviewServiceImpl;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -149,7 +150,8 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImplBase impleme
         PersonEditableService personEditableService = KcServiceLocator.getService(PersonEditableService.class);
         personEditableService.populateContactFieldsFromPersonId(proposalPerson);
 
-        proposalPerson.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+        PropAwardPersonRole propAwardPersonRole = proposalPerson.getContactRole();  
+        proposalPerson.setProposalPersonRoleId(propAwardPersonRole == null ? propAwardPersonRole.getId() : PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID);
         
         proposalPerson.setDevelopmentProposal(proposalDocument.getDevelopmentProposal());
         proposalPerson.setProposalPersonNumber(new Integer(1));

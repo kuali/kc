@@ -17,11 +17,15 @@ package org.kuali.kra.award.contacts;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.unit.UnitContactType;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministratorType;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.award.AwardTemplateSyncScope;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
+import org.kuali.kra.award.home.AwardSyncable;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.home.ContactType;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -35,6 +39,10 @@ import java.util.Map;
  * This class models a Unit Contact
  */
 public class AwardUnitContact extends AwardContact {
+    @AwardSyncableProperty(key = true)
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
+    protected String roleCode;
+    
     public  static final String OSP_ADMINISTRATOR = "OSP_ADMINISTRATOR";
     private static final String UNIT_ADMINISTRATOR_TYPE_CODE = "UNIT_ADMINISTRATOR_TYPE_CODE";
     private static final String CONTACT_TYPE_CODE = "CONTACT_TYPE_CODE";
@@ -57,7 +65,7 @@ public class AwardUnitContact extends AwardContact {
      * @param role
      * @param unitContactType
      */
-    public AwardUnitContact(NonOrganizationalRolodex rolodex, ContactRole role, UnitContactType unitContactType) {
+    public AwardUnitContact(NonOrganizationalRolodex rolodex, PropAwardPersonRole role, UnitContactType unitContactType) {
         super(rolodex, role);
         this.unitContactType = unitContactType;
     }
@@ -68,7 +76,7 @@ public class AwardUnitContact extends AwardContact {
      * @param role
      * @param unitContactType
      */
-    public AwardUnitContact(KcPerson person, ContactRole role, UnitContactType unitContactType) {
+    public AwardUnitContact(KcPerson person, PropAwardPersonRole role, UnitContactType unitContactType) {
         super(person, role);
         this.unitContactType = unitContactType;
         this.unitAdministratorUnitNumber = person.getUnit() != null ? person.getUnit().getUnitNumber() : null;
@@ -215,5 +223,32 @@ public class AwardUnitContact extends AwardContact {
 
     public void setDefaultUnitContact(boolean defaultUnitContact) {
         this.defaultUnitContact = defaultUnitContact;
+    }
+
+	@Override
+	protected String getRoleKey() {
+		return roleCode;
+	}
+
+	public String getRoleCode() {
+		return roleCode;
+	}
+
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
+	}
+
+    public void setContactRole(ContactRole contactRole) {
+        super.setContactRole(contactRole);
+        this.roleCode = contactRole != null ? contactRole.getRoleCode() : null;
+    }
+	
+    public void setContactRoleCode(String roleCode) {
+        this.roleCode = roleCode;
+        refreshContactRole();
+    }
+
+    public String getContactRoleCode() {
+        return roleCode;
     }
 }

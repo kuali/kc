@@ -16,6 +16,7 @@
 package org.kuali.kra.institutionalproposal.contacts;
 
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.unit.UnitContactType;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
@@ -36,6 +37,7 @@ public class InstitutionalProposalUnitContact extends InstitutionalProposalConta
 
     private static final long serialVersionUID = -4018882949510183728L;
     
+    protected String roleCode;
     public  static final String OSP_ADMINISTRATOR = "OSP_ADMINISTRATOR";
     private static final String UNIT_ADMINISTRATOR_TYPE_CODE = "UNIT_ADMINISTRATOR_TYPE_CODE";
     private static final String CONTACT_TYPE_CODE = "CONTACT_TYPE_CODE";
@@ -55,7 +57,7 @@ public class InstitutionalProposalUnitContact extends InstitutionalProposalConta
      * @param role
      * @param unitContactType
      */
-    public InstitutionalProposalUnitContact(NonOrganizationalRolodex rolodex, ContactRole role, UnitContactType unitContactType) {
+    public InstitutionalProposalUnitContact(NonOrganizationalRolodex rolodex, PropAwardPersonRole role, UnitContactType unitContactType) {
         super(rolodex, role);
         this.unitContactType = unitContactType;
     }
@@ -66,7 +68,7 @@ public class InstitutionalProposalUnitContact extends InstitutionalProposalConta
      * @param role
      * @param unitContactType
      */
-    public InstitutionalProposalUnitContact(KcPerson person, ContactRole role, UnitContactType unitContactType) {
+    public InstitutionalProposalUnitContact(KcPerson person, PropAwardPersonRole role, UnitContactType unitContactType) {
         super(person, role);
         this.unitContactType = unitContactType;
     }
@@ -165,4 +167,32 @@ public class InstitutionalProposalUnitContact extends InstitutionalProposalConta
     protected String getContactRoleTypeIdentifier() {
         return  getUnitContactType() == UnitContactType.ADMINISTRATOR ? UNIT_ADMINISTRATOR_TYPE_CODE : CONTACT_TYPE_CODE;
     }
+
+	@Override
+	protected String getRoleKey() {
+		return roleCode;
+	}
+
+	public String getRoleCode() {
+		return roleCode;
+	}
+
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
+	}
+
+    public void setContactRole(ContactRole contactRole) {
+        super.setContactRole(contactRole);
+        this.roleCode = contactRole != null ? contactRole.getRoleCode() : null;
+    }
+	
+    public void setContactRoleCode(String roleCode) {
+        this.roleCode = roleCode;
+        refreshContactRole();
+    }
+
+    public String getContactRoleCode() {
+        return roleCode;
+    }
+
 }

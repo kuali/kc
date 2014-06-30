@@ -90,7 +90,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
                 retval = false;
             }
             
-            if (isBlank(person.getProposalPersonRoleId()) && person.getRole() == null) {
+            if (isBlank(person.getContactRole().getCode()) && person.getContactRole() == null) {
                 LOG.debug("error.missingPersonRole");
                 reportError("document.developmentProposalList[0].proposalPersons[" + personIndex + "]", ERROR_MISSING_PERSON_ROLE);
             }
@@ -99,7 +99,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
 
         if (pi_cnt > 1) {
             retval = false;
-            reportError("newProposalPerson", ERROR_INVESTIGATOR_UPBOUND, document.getDevelopmentProposal().getPrincipalInvestigator().getRole().getDescription());            
+            reportError("newProposalPerson", ERROR_INVESTIGATOR_UPBOUND, document.getDevelopmentProposal().getPrincipalInvestigator().getContactRole().getDescription());            
         }        
         personIndex=0;
         for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
@@ -181,16 +181,16 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
         boolean retval = true;
 
         LOG.debug("validating " + person);
-        LOG.info("Person role is " + person.getRole());
+        LOG.info("Person role is " + person.getContactRole());
 
         if (person.isPrincipalInvestigator() && document.getDevelopmentProposal().getPrincipalInvestigator() != null) {
             LOG.debug("error.principalInvestigator.limit");
-            reportError("newProposalPerson", ERROR_INVESTIGATOR_UPBOUND, document.getDevelopmentProposal().getPrincipalInvestigator().getRole().getDescription());
+            reportError("newProposalPerson", ERROR_INVESTIGATOR_UPBOUND, document.getDevelopmentProposal().getPrincipalInvestigator().getContactRole().getDescription());
             retval = false;
         }
         LOG.info("roleid is " + person.getProposalPersonRoleId());
-        LOG.info("role is " + person.getRole());
-        if (isBlank(person.getProposalPersonRoleId()) && person.getRole() == null) {
+        LOG.info("role is " + person.getContactRole());
+        if (isBlank(person.getContactRole().getCode()) && person.getContactRole() == null) {
             LOG.debug("Tried to add person without role");
             reportError("newProposalPerson", ERROR_MISSING_PERSON_ROLE);
             retval = false;
@@ -217,7 +217,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
             }
         }
         
-        if (isNotBlank(person.getProposalPersonRoleId())) {
+        if (isNotBlank(person.getContactRole().getCode())) {
             if ((StringUtils.isNotBlank(person.getPersonId())
                     && this.getKcPersonService().getKcPersonByPersonId(person.getPersonId()) == null)
                     ||(person.getRolodexId() != null

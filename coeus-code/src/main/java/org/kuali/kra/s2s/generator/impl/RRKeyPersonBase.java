@@ -12,6 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.api.unit.UnitContract;
 import org.kuali.coeus.common.api.unit.UnitRepositoryService;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
@@ -277,13 +278,11 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 			else {
 				extraPerson.setTitle(proposalPerson.getPrimaryTitle());
 			}
-
 			if (proposalPerson.getProposalPersonRoleId() != null) {
-				if (ContactRole.PI_CODE.equals(proposalPerson.getProjectRole())) {
+				if (PropAwardPersonRole.PRINCIPAL_INVESTIGATOR.equals(proposalPerson.getProjectRole())) {
 					extraPerson
 							.setProjectRole(gov.grants.apply.coeus.personProfile.PersonProfileListDocument.PersonProfileList.ExtraKeyPerson.ProjectRole.PD_PI);
-				} else if (ContactRole.COI_CODE
-						.equals(proposalPerson.getProjectRole())) {
+				} else if (PropAwardPersonRole.CO_INVESTIGATOR.equals(proposalPerson.getContactRoleCode())) {
 					if (isSponsorNIH(pdDoc)) {
 						extraPerson
 								.setProjectRole(gov.grants.apply.coeus.personProfile.PersonProfileListDocument.PersonProfileList.ExtraKeyPerson.ProjectRole.OTHER_SPECIFY);
