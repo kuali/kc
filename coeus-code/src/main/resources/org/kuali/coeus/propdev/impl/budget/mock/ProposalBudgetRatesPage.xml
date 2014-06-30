@@ -82,6 +82,8 @@
 			<list>
 				<bean parent="PropBudget-MockView-RatesPage-ResearchFandA-Tab"
 					p:headerText="Research F&amp;A" p:order="10" />
+				<bean parent="PropBudget-MockView-RatesPage-Inflation-Tab"
+					p:headerText="Inflation" p:order="20" />
 			</list>
 		</property>
 	</bean>
@@ -113,7 +115,63 @@
 				</property>
 			</bean>
 		</property>
-		<property name="items" >
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="rateClass.description"
+					p:order="10" p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.rate.BudgetRate" />
+				<bean parent="Uif-InputField" p:propertyName="onOffCampusFlag"
+					p:order="20" p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.rate.BudgetRate" />
+				<bean parent="Uif-InputField" p:propertyName="fiscalYear"
+					p:order="30" p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.rate.BudgetRate" />
+				<bean parent="Uif-InputField" p:propertyName="startDate"
+					p:order="40" p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.rate.BudgetRate" />
+				<bean parent="Uif-InputField" p:propertyName="instituteRate"
+					p:order="50" p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.rate.BudgetRate" />
+				<bean parent="Uif-InputField" p:propertyName="applicableRate"
+					p:order="60" p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.rate.BudgetRate" />
+			</list>
+		</property>
+		<property name="lineActions">
+			<list>
+				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="cancelEdit"
+					p:hidden="true" p:actionLabel="cancel" p:order="10" />
+				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="editLine"
+					p:hidden="false" p:actionLabel="Edit" p:order="20" />
+				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="saveLine"
+					p:hidden="true" p:actionLabel="Save" p:order="30" />
+				<bean parent="Uif-DeleteLineAction-IconOnly" p:order="40"
+					p:hidden="true" p:iconClass="icon-trash" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-MockView-RatesPage-Inflation-Tab" parent="PropBudget-MockView-RatesPage-Inflation-Tab-parentBean" />
+	<bean id="PropBudget-MockView-RatesPage-Inflation-Tab-parentBean"
+		parent="Uif-TableCollectionSection" p:headerText="Inflation"
+		p:propertyName="budgetRates" p:renderAddLine="false"
+		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.rate.BudgetRate"
+		p:renderLineActions="true" p:layoutManager.renderSequenceField="false">
+		<property name="layoutManager.richTable.templateOptions">
+			<map>
+				<entry key="sDom" value="tip" />
+				<entry key="bRetrieve" value="true" />
+				<entry key="bPaginate" value="false" />
+				<entry key="bInfo" value="false" />
+			</map>
+		</property>
+		<property name="header.rightGroup">
+			<bean parent="Uif-HeaderRightGroup">
+				<property name="items">
+					<list>
+						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Sync to Current Institutional Rates"
+							p:order="10" />
+						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Reset to default Rates"
+							p:order="20" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="rateClass.description"
 					p:order="10" p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.rate.BudgetRate" />
