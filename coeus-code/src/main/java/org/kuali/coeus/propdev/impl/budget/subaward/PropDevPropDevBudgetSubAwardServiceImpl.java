@@ -30,7 +30,7 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
-import org.kuali.kra.s2s.formmapping.FormMappingLoader;
+import org.kuali.kra.s2s.formmapping.FormMappingService;
 import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -73,6 +73,9 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
 
+    @Autowired
+    @Qualifier("formMappingService")
+    private FormMappingService formMappingService;
 
     public void populateBudgetSubAwardFiles(Budget budget, BudgetSubAwards subAward, String newFileName, byte[] newFileData) {
         subAward.setSubAwardStatusCode(1);
@@ -533,7 +536,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
             String namespaceHolder = element.getNodeName().substring(0, element.getNodeName().indexOf(':'));
             node = map.getNamedItem("xmlns:" + namespaceHolder);
             namespace = node.getNodeValue();
-            FormMappingInfo formMappingInfo = new FormMappingLoader().getFormInfo(namespace);
+            FormMappingInfo formMappingInfo = formMappingService.getFormInfo(namespace);
             formName = formMappingInfo.getFormName();
             budgetSubAwardBean.setNamespace(namespace);
             budgetSubAwardBean.setFormName(formName);
@@ -751,5 +754,13 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    public FormMappingService getFormMappingService() {
+        return formMappingService;
+    }
+
+    public void setFormMappingService(FormMappingService formMappingService) {
+        this.formMappingService = formMappingService;
     }
 }
