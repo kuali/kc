@@ -36,14 +36,18 @@ public class CollectionToggleMenu extends ToggleMenu {
         List<String> actionLabelNames = new ArrayList<String>();
         List<Object> modelCollection = ObjectPropertyUtils.getPropertyValue(model,
                 getBindingInfo().getBindingPath());
+        int index = 0;
         for (Object object : modelCollection) {
             String actionLabel = getActionLabel(object);
             if (!actionLabelNames.contains(actionLabel)) {
                 Action menuItem =  (Action) ComponentUtils.copy(navigationActionPrototype);
                 menuItem.getActionParameters().put("actionLabel",actionLabel);
                 menuItem.setActionLabel(actionLabel);
+                menuItem.setSuccessCallback("Kc.PropDev.markActiveMenuLink(" + index+ ");");
+                menuItem.addDataAttribute("menuname",this.getNavigationActionPrototype().getNavigateToPageId() + index);
                 menuItemList.add(menuItem);
                 actionLabelNames.add(actionLabel);
+                index++;
             }
         }
 
