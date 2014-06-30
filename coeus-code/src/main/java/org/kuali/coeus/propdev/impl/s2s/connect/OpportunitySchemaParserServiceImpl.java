@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.s2s.validator;
+package org.kuali.coeus.propdev.impl.s2s.connect;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms.S2sOppFormsId;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingService;
-import org.kuali.kra.s2s.util.S2SConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -49,7 +50,8 @@ import java.util.List;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  * 
  */
-public class OpportunitySchemaParser {
+@Component("opportunitySchemaParserService")
+public class OpportunitySchemaParserServiceImpl implements OpportunitySchemaParserService {
 
     private static final String SCHEMA_LOCATION = "schemaLocation";
     private static final String NAMESPACE = "namespace";
@@ -61,7 +63,11 @@ public class OpportunitySchemaParser {
     private static final String ALL = "all";
     private static final String IMPORT = "import";
     private static final String XSD_NS = "http://www.w3.org/2001/XMLSchema";
-    private static final Log LOG = LogFactory.getLog(OpportunitySchemaParser.class);
+    private static final Log LOG = LogFactory.getLog(OpportunitySchemaParserServiceImpl.class);
+
+    @Autowired
+    @Qualifier("formMappingService")
+    private FormMappingService formMappingService;
 
     /**
      * This method fetches all the forms required from a given schema of opportunity
@@ -69,7 +75,16 @@ public class OpportunitySchemaParser {
      * @param schema {@link String}
      * @return {@link HashMap} containing all form information
      */
-    public List<S2sOppForms> getForms(String proposalNumber,String schema) throws S2SException{
+    @Override
+    public List<S2sOppForms> getForms(String proposalNumber,String schema) throws S2sCommunicationException {
+        if (StringUtils.isBlank(proposalNumber)) {
+            throw new IllegalArgumentException("proposalNumber is blank");
+        }
+
+        if (StringUtils.isBlank(schema)) {
+            throw new IllegalArgumentException("schema is blank");
+        }
+
         boolean mandatory;
         boolean available;
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
@@ -82,14 +97,11 @@ public class OpportunitySchemaParser {
             InputStream is = (InputStream)new URL(schema).getContent();
             document = builder.parse(is);
         }catch (ParserConfigurationException e) {
-            LOG.error(S2SConstants.ERROR_MESSAGE, e);
-            throw new S2SException(KeyConstants.ERROR_GRANTSGOV_FORM_PARSING,e.getMessage(),schema);
+            throw new S2sCommunicationException(KeyConstants.ERROR_GRANTSGOV_FORM_PARSING, e.getMessage(), schema);
         }catch (SAXException e) {
-            LOG.error(S2SConstants.ERROR_MESSAGE, e);
-            throw new S2SException(KeyConstants.ERROR_GRANTSGOV_FORM_PARSING_SAXEXCEPTION,e.getMessage(),schema);
+            throw new S2sCommunicationException(KeyConstants.ERROR_GRANTSGOV_FORM_PARSING_SAXEXCEPTION, e.getMessage(), schema);
         }catch (IOException e) {
-            LOG.error(S2SConstants.ERROR_MESSAGE, e);
-            throw new S2SException(KeyConstants.ERROR_GRANTSGOV_FORM_SCHEMA_NOT_FOUND,e.getMessage(),schema);
+            throw new S2sCommunicationException(KeyConstants.ERROR_GRANTSGOV_FORM_SCHEMA_NOT_FOUND, e.getMessage(), schema);
         }
         
         Element schemaElement = document.getDocumentElement();
@@ -100,7 +112,7 @@ public class OpportunitySchemaParser {
         if(allForms == null) {
             Node topElementName = schemaElement.getElementsByTagNameNS(XSD_NS, ELEMENT).item(0).getAttributes().item(0);
             if(topElementName.getNodeName().equals("name") && !topElementName.getNodeValue().equals("GrantApplication")) {
-                throw new S2SException(KeyConstants.ERROR_GRANTSGOV_NO_FORM_ELEMENT, "", "");
+                throw new S2sCommunicationException(KeyConstants.ERROR_GRANTSGOV_NO_FORM_ELEMENT, "", "");
             }
         }
         
@@ -113,7 +125,7 @@ public class OpportunitySchemaParser {
             String formName = fullFormName.substring(0, fullFormName.indexOf(CH_COLON));
             String minOccurs = ((Element) form).getAttribute(MIN_OCCURS);
             String nameSpace = schemaElement.getAttribute(XMLNS + formName);
-            FormMappingInfo info = KcServiceLocator.getService(FormMappingService.class).getFormInfo(proposalNumber, nameSpace);
+            FormMappingInfo info = formMappingService.getFormInfo(proposalNumber, nameSpace);
             String displayFormName = info==null?formName:info.getFormName();
             formNames[formIndex] = nameSpace;
             for (int impIndex = 0; impIndex < importList.getLength(); impIndex++) {

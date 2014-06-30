@@ -94,6 +94,7 @@
 		<property name="printingService" ref="printingService" />
         <property name="s2SConfigurationService" ref="s2SConfigurationService" />
         <property name="formMappingService" ref="formMappingService" />
+        <property name="userAttachedFormService" ref="userAttachedFormService" />
 
 	</bean>
 	<bean id="s2SUtilService"
