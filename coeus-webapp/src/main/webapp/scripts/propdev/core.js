@@ -16,4 +16,11 @@ Kc.PropDev = Kc.PropDev || {};
 		$(event.target).val(ui.item.value);
 		$(event.target).parents('.uif-inputField:first').find('.informationalText').html(ui.item.sponsorName);
 	};
+    namespace.markActiveMenuLink = function(index) {
+        $("#" + kradVariables.NAVIGATION_ID + " li." + kradVariables.ACTIVE_CLASS).removeClass(kradVariables.ACTIVE_CLASS);
+
+        var pageId = getCurrentPageId();
+        var liParents = $("a[data-menuname='" + pageId + index +"']").parents("li");
+        liParents.addClass(kradVariables.ACTIVE_CLASS);
+    }
 })(Kc.PropDev, jQuery);
