@@ -19,6 +19,9 @@ package org.kuali.kra.s2s.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.api.country.CountryContract;
 import org.kuali.coeus.common.api.country.KcCountryService;
+import org.kuali.coeus.common.api.person.KcPersonContract;
+import org.kuali.coeus.common.api.person.KcPersonRepositoryService;
+import org.kuali.coeus.common.api.person.attr.CitizenshipTypeContract;
 import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.question.AnswerContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
@@ -26,9 +29,6 @@ import org.kuali.coeus.common.api.question.QuestionAnswerService;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.api.state.KcStateService;
 import org.kuali.coeus.common.api.state.StateContract;
-import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
@@ -36,13 +36,13 @@ import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsContract;
 import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsService;
 import org.kuali.coeus.propdev.api.PropDevQuestionAnswerService;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.s2s.CitizenshipTypes;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
@@ -78,7 +78,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     private S2SConfigurationService s2SConfigurationService;
     private CitizenshipTypeService citizenshipTypeService;
     private ProposalAdminDetailsService proposalAdminDetailsService;
-    private KcPersonService kcPersonService;
+    private KcPersonRepositoryService kcPersonRepositoryService;
     private UnitService unitService;
     private KcCountryService countryService;
     private KcStateService stateService;
@@ -167,7 +167,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         }
         else {
             ProposalAdminDetailsContract proposalAdminDetails = proposalAdminDetailsList.get(0);
-            KcPerson person = this.kcPersonService.getKcPersonByUserName(proposalAdminDetails.getSignedBy());
+            KcPersonContract person = this.kcPersonRepositoryService.findKcPersonByUserName(proposalAdminDetails.getSignedBy());
 
             if (person != null) {
                 depPerson.setFirstName(person.getFirstName());
@@ -197,14 +197,14 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * This method limits the number of key persons to n, returns list of key persons, first n in case firstN is true, or all other
      * than first n, in case of firstN being false
      * 
-     * @param proposalPersons list of {@link ProposalPerson}
+     * @param proposalPersons list of {@link org.kuali.coeus.propdev.api.person.ProposalPersonContract}
      * @param firstN value that determines whether the returned list should contain first n persons or the rest of persons
      * @param n number of key persons that are considered as not extra persons
-     * @return list of {@link ProposalPerson}
+     * @return list of {@link org.kuali.coeus.propdev.api.person.ProposalPersonContract}
      * @see org.kuali.kra.s2s.service.S2SUtilService#getNKeyPersons(java.util.List, boolean, int)
      */
-    public List<ProposalPerson> getNKeyPersons(List<ProposalPerson> proposalPersons, boolean firstN, int n) {
-        ProposalPerson proposalPerson, previousProposalPerson;
+    public List<ProposalPersonContract> getNKeyPersons(List<? extends ProposalPersonContract> proposalPersons, boolean firstN, int n) {
+        ProposalPersonContract proposalPerson, previousProposalPerson;
         int size = proposalPersons.size();
 
         for (int i = size - 1; i > 0; i--) {
@@ -222,7 +222,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 
         size = proposalPersons.size();
         if (firstN) {
-            List<ProposalPerson> firstNPersons = new ArrayList<ProposalPerson>();
+            List<ProposalPersonContract> firstNPersons = new ArrayList<ProposalPersonContract>();
 
             // Make sure we don't exceed the size of the list.
             if (size > n) {
@@ -236,7 +236,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         }
         else {
             // return extra people
-            List<ProposalPerson> extraPersons = new ArrayList<ProposalPerson>();
+            List<ProposalPersonContract> extraPersons = new ArrayList<ProposalPersonContract>();
             for (int i = n; i < size; i++) {
                 extraPersons.add(proposalPersons.get(i));
             }
@@ -345,10 +345,10 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * @return ProposalPerson PrincipalInvestigator for the proposal.
      * @see org.kuali.kra.s2s.service.S2SUtilService#getPrincipalInvestigator(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
      */
-    public ProposalPerson getPrincipalInvestigator(ProposalDevelopmentDocument pdDoc) {
-        ProposalPerson proposalPerson = null;
+    public ProposalPersonContract getPrincipalInvestigator(ProposalDevelopmentDocument pdDoc) {
+        ProposalPersonContract proposalPerson = null;
         if (pdDoc != null) {
-            for (ProposalPerson person : pdDoc.getDevelopmentProposal().getProposalPersons()) {
+            for (ProposalPersonContract person : pdDoc.getDevelopmentProposal().getProposalPersons()) {
                 if (ContactRole.PI_CODE.equals(person.getProposalPersonRoleId())) {
                     proposalPerson = person;
                 }
@@ -360,10 +360,10 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     /**
      * Finds all the Investigators associated with the provided pdDoc.
      */
-    public List<ProposalPerson> getCoInvestigators(ProposalDevelopmentDocument pdDoc) {
-        List<ProposalPerson> investigators = new ArrayList<ProposalPerson>();
+    public List<ProposalPersonContract> getCoInvestigators(ProposalDevelopmentDocument pdDoc) {
+        List<ProposalPersonContract> investigators = new ArrayList<ProposalPersonContract>();
         if (pdDoc != null) {
-            for (ProposalPerson person : pdDoc.getDevelopmentProposal().getProposalPersons()) {
+            for (ProposalPersonContract person : pdDoc.getDevelopmentProposal().getProposalPersons()) {
             	//multi-pis are still considered co-i within S2S.
                 if (person.isCoInvestigator() || person.isMultiplePi()) {
                     investigators.add(person);
@@ -376,10 +376,10 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     /**
      * Finds all the key Person associated with the provided pdDoc.
      */
-    public List<ProposalPerson> getKeyPersons(ProposalDevelopmentDocument pdDoc) {
-        List<ProposalPerson> keyPersons = new ArrayList<ProposalPerson>();
+    public List<ProposalPersonContract> getKeyPersons(ProposalDevelopmentDocument pdDoc) {
+        List<ProposalPersonContract> keyPersons = new ArrayList<ProposalPersonContract>();
         if (pdDoc != null) {
-            for (ProposalPerson person : pdDoc.getDevelopmentProposal().getProposalPersons()) {
+            for (ProposalPersonContract person : pdDoc.getDevelopmentProposal().getProposalPersons()) {
                 if (ContactRole.KEY_PERSON_CODE.equals(person.getProposalPersonRoleId())) {
                     keyPersons.add(person);
                 }
@@ -462,7 +462,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
             Unit leadUnit = pdDoc.getDevelopmentProposal().getOwnedByUnit();
                     if (leadUnit!=null) {
                         leadUnit.refreshReferenceObject("unitAdministrators");
-                        KcPerson unitAdmin = null;
+                        KcPersonContract unitAdmin = null;
                         for (UnitAdministrator admin : leadUnit.getUnitAdministrators()) {
                             if (contactType.equals(admin.getUnitAdministratorTypeCode())) {
                                 unitAdmin = admin.getPerson();
@@ -490,7 +490,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
                             Unit parentUnit = getUnitService().getTopUnit();
                             for (UnitAdministrator parentAdmin : parentUnit.getUnitAdministrators()) {
                                 if (contactType.equals(parentAdmin.getUnitAdministratorTypeCode())) {
-                                    KcPerson parentUnitAdmin = parentAdmin.getPerson();
+                                    KcPersonContract parentUnitAdmin = parentAdmin.getPerson();
                                     depPerson.setLastName(parentUnitAdmin.getLastName());
                                     depPerson.setFirstName(parentUnitAdmin.getFirstName());
                                     if (parentUnitAdmin.getMiddleName() != null) {
@@ -519,22 +519,12 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         return depPerson;
     }
 
-    /**
-     * Gets the kcPersonService attribute.
-     * 
-     * @return Returns the kcPersonService.
-     */
-    public KcPersonService getKcPersonService() {
-        return kcPersonService;
+    public KcPersonRepositoryService getKcPersonRepositoryService() {
+        return kcPersonRepositoryService;
     }
 
-    /**
-     * Sets the kcPersonService attribute value.
-     * 
-     * @param kcPersonService The kcPersonService to set.
-     */
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
+    public void setKcPersonRepositoryService(KcPersonRepositoryService kcPersonRepositoryService) {
+        this.kcPersonRepositoryService = kcPersonRepositoryService;
     }
 
     /**
@@ -613,10 +603,10 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * Implementation should return one of the enums defined in PHS398CareerDevelopmentAwardSup11V11 form schema. For now, it
      * returns US RESIDENT as default
      * 
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getCitizenship(org.kuali.coeus.propdev.impl.person.ProposalPerson)
+     * @see org.kuali.kra.s2s.service.S2SUtilService#getCitizenship(ProposalPersonContract)
      * 
      */
-    public CitizenshipTypes getCitizenship(ProposalPerson proposalPerson) {
+    public CitizenshipTypes getCitizenship(ProposalPersonContract proposalPerson) {
         String citizenSource = "1";
         String piCitizenShipValue = s2SConfigurationService.getValueAsString(ConfigurationConstants.PI_CUSTOM_DATA);
         if (piCitizenShipValue != null) {
@@ -627,17 +617,17 @@ public class S2SUtilServiceImpl implements S2SUtilService {
             return citizenShipType;
         }
         else {
-            CitizenshipType citizenShip;
+            Integer citizenShip;
             Boolean allowOverride = s2SConfigurationService.getValueAsBoolean(
                     ConfigurationConstants.ALLOW_PROPOSAL_PERSON_TO_OVERRIDE_KC_PERSON_EXTENDED_ATTRIBUTES);
             if (allowOverride) {
-                citizenShip = proposalPerson.getCitizenshipType();
+                citizenShip = proposalPerson.getCitizenshipType().getCode();
             }
             else {
-                citizenShip = proposalPerson.getPerson().getExtendedAttributes().getCitizenshipType();
+                citizenShip = proposalPerson.getPerson().getCitizenshipTypeCode();
             }
             CitizenshipTypes retVal = null;
-            String citizenShipCode = String.valueOf(citizenShip.getCode());
+            String citizenShipCode = String.valueOf(citizenShip);
             if (citizenShipCode.equals(s2SConfigurationService.getValueAsString(
                     ConfigurationConstants.NON_US_CITIZEN_WITH_TEMPORARY_VISA_TYPE_CODE))) {
                 return CitizenshipTypes.NON_US_CITIZEN_WITH_TEMPORARY_VISA;

@@ -19,8 +19,8 @@ import gov.grants.apply.forms.rrPersonalDataV11.DirectorType;
 import gov.grants.apply.forms.rrPersonalDataV11.RRPersonalDataDocument;
 import gov.grants.apply.forms.rrPersonalDataV11.RRPersonalDataDocument.RRPersonalData;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;
@@ -61,7 +61,7 @@ public class RRPersonalDataV1_1Generator extends RRPersonalDataBaseGenerator {
     private DirectorType getProjectDirectorType() {
 
         DirectorType directorType = DirectorType.Factory.newInstance();
-        ProposalPerson PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
+        ProposalPersonContract PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
         if (PI != null) {
             directorType.setName(globLibV20Generator.getHumanNameDataType(PI));
         }
@@ -78,8 +78,8 @@ public class RRPersonalDataV1_1Generator extends RRPersonalDataBaseGenerator {
         DirectorType[] directorTypes = new DirectorType[0];
         List<DirectorType> directorTypeList = new ArrayList<DirectorType>();
         if (pdDoc.getDevelopmentProposal().getProposalPersons() != null) {
-            ProposalPerson CoPI = null;
-            for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
+            ProposalPersonContract CoPI = null;
+            for (ProposalPersonContract proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
                 DirectorType coDirectorType = DirectorType.Factory.newInstance();
                 if (proposalPerson.getProposalPersonRoleId() != null) {
                     if (KEYPERSON_TYPE_C0_INVESTIGATOR.equals(proposalPerson.getProposalPersonRoleId())) {

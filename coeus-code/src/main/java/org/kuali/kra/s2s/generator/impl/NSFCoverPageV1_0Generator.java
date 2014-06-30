@@ -27,11 +27,11 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin1Max100DataType;
 import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
+import org.kuali.coeus.propdev.api.person.ProposalPersonDegreeContract;
+import org.kuali.coeus.propdev.api.person.ProposalPersonYnqContract;
 import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonYnq;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -165,9 +165,9 @@ public class NSFCoverPageV1_0Generator extends NSFCoverPageBaseGenerator {
      */
     private PIInfo getPIInfo() {
         PIInfo pInfo = PIInfo.Factory.newInstance();
-        ProposalPerson PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
+        ProposalPersonContract PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
         if (PI != null) {
-            for (ProposalPersonDegree personDegree : PI.getProposalPersonDegrees()) {
+            for (ProposalPersonDegreeContract personDegree : PI.getProposalPersonDegrees()) {
                 DegreeTypeDataType.Enum degreeType = DEFAULT_DEGREE_TYPE;               
                 if (personDegree.getDegreeType() != null && personDegree.getDegreeType().getCode() != null) {
                     StringBuilder degreeTypeDetail = new StringBuilder();
@@ -203,8 +203,8 @@ public class NSFCoverPageV1_0Generator extends NSFCoverPageBaseGenerator {
 
         CoPIInfo coPIInfo = CoPIInfo.Factory.newInstance();
         int count = 0;
-        ProposalPerson coInvestigator = null;
-        for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
+        ProposalPersonContract coInvestigator = null;
+        for (ProposalPersonContract proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
             if (proposalPerson.getProposalPersonRoleId() != null
                     && proposalPerson.getProposalPersonRoleId().equals(PI_C0_INVESTIGATOR)) {
                 count++;
@@ -213,13 +213,13 @@ public class NSFCoverPageV1_0Generator extends NSFCoverPageBaseGenerator {
         CoPI[] coPIArray = new CoPI[count];
         count = 0;
         
-        for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
+        for (ProposalPersonContract proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
             if (proposalPerson.getProposalPersonRoleId() != null
                     && proposalPerson.getProposalPersonRoleId().equals(PI_C0_INVESTIGATOR)) {
                 coInvestigator = proposalPerson;
                 CoPI coPI = CoPI.Factory.newInstance();
                 coPI.setName(globLibV10Generator.getHumanNameDataType(coInvestigator));
-                for (ProposalPersonDegree personDegree : coInvestigator.getProposalPersonDegrees()) {
+                for (ProposalPersonDegreeContract personDegree : coInvestigator.getProposalPersonDegrees()) {
                     DegreeTypeDataType.Enum degreeType=DEFAULT_DEGREE_TYPE;
                     if (personDegree!=null && personDegree.getDegreeType() != null && personDegree.getDegreeType().getCode() != null) {
                         StringBuilder degreeTypeDetail = new StringBuilder();
@@ -278,11 +278,11 @@ public class NSFCoverPageV1_0Generator extends NSFCoverPageBaseGenerator {
     private YesNoDataType.Enum getLobbyingAnswer() {
 
         YesNoDataType.Enum answer = YesNoDataType.NO;
-        for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
+        for (ProposalPersonContract proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
             if (proposalPerson.getProposalPersonRoleId() != null
                     && proposalPerson.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR)
                     || proposalPerson.getProposalPersonRoleId().equals(PI_C0_INVESTIGATOR)) {
-                for (ProposalPersonYnq personYnq : proposalPerson.getProposalPersonYnqs()) {
+                for (ProposalPersonYnqContract personYnq : proposalPerson.getProposalPersonYnqs()) {
                     if (personYnq != null) {
                         if (personYnq.getQuestionId() != null && personYnq.getQuestionId().equals(PROPOSAL_YNQ_LOBBYING_ACTIVITIES.toString())) {
                             if (personYnq.getAnswer() != null && personYnq.getAnswer().equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {

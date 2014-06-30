@@ -29,10 +29,10 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType.FileLocation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.bo.*;
@@ -773,7 +773,7 @@ public class RRBudgetV1_3Generator extends RRBudgetBaseGenerator {
                             && KEYPERSON_CO_PD_PI.equals(keyPerson.getRole())) {
                         DevelopmentProposal developmentProposal=pdDoc.getDevelopmentProposal();     
                         
-                        for (ProposalPerson proposalPerson : developmentProposal.getInvestigators()) {                        
+                        for (ProposalPersonContract proposalPerson : developmentProposal.getInvestigators()) {
                             if(isProposalPersonEqualsKeyPerson(proposalPerson, keyPerson)){   
                                 if(proposalPerson.isMultiplePi())
                                     keyPersonDataType.setProjectRole(NID_PD_PI);                               

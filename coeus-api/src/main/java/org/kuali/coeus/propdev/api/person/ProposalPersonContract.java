@@ -1,13 +1,15 @@
 package org.kuali.coeus.propdev.api.person;
 
+import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.common.api.person.attr.CitizenshipTypeContract;
+import org.kuali.coeus.propdev.api.hierarchy.HierarchicalProposal;
 import org.kuali.coeus.propdev.api.person.creditsplit.ProposalPersonCreditSplitContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.util.Date;
 import java.util.List;
 
-public interface ProposalPersonContract extends ProposalPersonLink {
+public interface ProposalPersonContract extends ProposalPersonLink, HierarchicalProposal {
     
     boolean getConflictOfInterestFlag();
 
@@ -30,10 +32,6 @@ public interface ProposalPersonContract extends ProposalPersonLink {
     String getProjectRole();
     
     Integer getOrdinalPosition();
-    
-    String getHierarchyProposalNumber();
-    
-    Boolean getHiddenInHierarchy();
     
     String getPersonId();
     
@@ -168,4 +166,16 @@ public interface ProposalPersonContract extends ProposalPersonLink {
     List<? extends ProposalPersonDegreeContract> getProposalPersonDegrees();
 
     List<? extends ProposalPersonCreditSplitContract> getCreditSplits();
+
+    boolean isInvestigator();
+
+    boolean isPrincipalInvestigator();
+
+    boolean isCoInvestigator();
+
+    boolean isKeyPerson();
+
+    boolean isMultiplePi();
+
+    KcPersonContract getPerson();
 }

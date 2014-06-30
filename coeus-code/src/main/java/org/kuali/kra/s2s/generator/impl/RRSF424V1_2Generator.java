@@ -32,11 +32,12 @@ import gov.grants.apply.system.universalCodesV20.CountryCodeDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
-import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -47,7 +48,6 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.kra.s2s.S2SException;
@@ -457,8 +457,8 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 	private OrganizationContactPersonDataType getPDPI() {
 		OrganizationContactPersonDataType PDPI = OrganizationContactPersonDataType.Factory
 				.newInstance();
-		ProposalPerson PI = null;
-		for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal()
+		ProposalPersonContract PI = null;
+		for (ProposalPersonContract proposalPerson : pdDoc.getDevelopmentProposal()
 				.getProposalPersons()) {
 			if (PRINCIPAL_INVESTIGATOR.equals(proposalPerson
 					.getProposalPersonRoleId())) {
@@ -484,16 +484,16 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		return PDPI;
 	}
 
-	private void setDivisionName(OrganizationContactPersonDataType PDPI,ProposalPerson PI) {
+	private void setDivisionName(OrganizationContactPersonDataType PDPI,ProposalPersonContract PI) {
 		String divisionName = PI.getDivision();
 		if (divisionName != null) {
 			PDPI.setDivisionName(divisionName);
 		}
 	}
 
-	private void setDepartmentName(OrganizationContactPersonDataType PDPI,ProposalPerson PI) {
+	private void setDepartmentName(OrganizationContactPersonDataType PDPI,ProposalPersonContract PI) {
 	    if(PI.getHomeUnit() != null) {
-	        KcPerson kcPerson = PI.getPerson();
+            KcPersonContract kcPerson = PI.getPerson();
 	        String departmentName =  kcPerson.getOrganizationIdentifier();
 	        PDPI.setDepartmentName(departmentName);
 	    }
@@ -505,7 +505,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 	}
 
 	private void setDirectoryTitle(OrganizationContactPersonDataType PDPI,
-			ProposalPerson PI) {
+			ProposalPersonContract PI) {
 		if (PI.getDirectoryTitle() != null) {
 			if (PI.getDirectoryTitle().length() > DIRECTORY_TITLE_MAX_LENGTH) {
 				PDPI.setTitle(PI.getDirectoryTitle().substring(0,

@@ -10,15 +10,17 @@ import gov.grants.apply.coeus.personProfile.PersonProfileListDocument.PersonProf
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.api.unit.UnitContract;
+import org.kuali.coeus.common.api.unit.UnitRepositoryService;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.printing.GenericPrintable;
@@ -36,7 +38,7 @@ import java.util.List;
 public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 	
 	private static final Log LOG = LogFactory.getLog(RRKeyPersonBase.class);
-	protected List<ProposalPerson> extraPersons = null;
+	protected List<ProposalPersonContract> extraPersons = null;
 	
 	protected static final int BIOSKETCH_DOC_TYPE = 16;
 	protected static final int CURRENTPENDING_DOC_TYPE = 17;
@@ -51,7 +53,13 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
     protected static final int PROFILE_TYPE = 18;
 	protected static final String ADDITIONALKEYPERSONPROFILES_XSL = "/org/kuali/kra/s2s/stylesheet/additionalkeypersonprofiles.xsl";
 	protected static final String NIH_CO_INVESTIGATOR = "Co-Investigator";
-	
+
+    private UnitRepositoryService unitRepositoryService;
+
+    public RRKeyPersonBase() {
+        unitRepositoryService = KcServiceLocator.getService(UnitRepositoryService.class);
+    }
+
 	protected void saveKeyPersonAttachmentsToProposal() {
 	    if(extraPersons!=null && !extraPersons.isEmpty()){
 	        saveKeyPersonAttachments();
@@ -66,7 +74,7 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 		List<byte[]> curPendDataList = new ArrayList<byte[]>();
 
         NarrativeContract[] extraKeyPersonAttachments = new NarrativeContract[2];
-		for (ProposalPerson proposalPerson : extraPersons) {
+		for (ProposalPersonContract proposalPerson : extraPersons) {
 			setBookMarkAndData(bioSketchBookMarks, bioSketchDataList,
 					proposalPerson, BIOSKETCH_TYPE);
 			setBookMarkAndData(curPendBookMarks, curPendDataList,
@@ -97,7 +105,7 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 	}
 	
 	private void setBookMarkAndData(List<String> bookMarksList,
-			List<byte[]> dataList, ProposalPerson proposalPerson, String docType) {
+			List<byte[]> dataList, ProposalPersonContract proposalPerson, String docType) {
 		String personId = null;
 		if (proposalPerson.getPersonId() != null
 				&& proposalPerson.getPersonId().length() > 0) {
@@ -220,7 +228,7 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 		return null;
 	}
 	private List<ProposalPersonBiographyContract> getPernonnelAttachments(
-			ProposalDevelopmentDocument pdDoc, ProposalPerson proposalPerson,
+			ProposalDevelopmentDocument pdDoc, ProposalPersonContract proposalPerson,
 			String documentType) {
 		List<ProposalPersonBiographyContract> result = new ArrayList<ProposalPersonBiographyContract>();
 		for (ProposalPersonBiographyContract proposalPersonBiography : pdDoc
@@ -255,7 +263,7 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 	protected PersonProfileList.ExtraKeyPerson[] getExtraKeyPersons() {
 		List<PersonProfileList.ExtraKeyPerson> extraPersonList = new ArrayList<PersonProfileList.ExtraKeyPerson>();
 
-		for (ProposalPerson proposalPerson : extraPersons) {
+		for (ProposalPersonContract proposalPerson : extraPersons) {
 
 			PersonProfileList.ExtraKeyPerson extraPerson = PersonProfileList.ExtraKeyPerson.Factory
 					.newInstance();
@@ -270,12 +278,12 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 				extraPerson.setTitle(proposalPerson.getPrimaryTitle());
 			}
 
-			if (proposalPerson.getRole() != null) {
+			if (proposalPerson.getProposalPersonRoleId() != null) {
 				if (ContactRole.PI_CODE.equals(proposalPerson.getProjectRole())) {
 					extraPerson
 							.setProjectRole(gov.grants.apply.coeus.personProfile.PersonProfileListDocument.PersonProfileList.ExtraKeyPerson.ProjectRole.PD_PI);
 				} else if (ContactRole.COI_CODE
-						.equals(proposalPerson.getRole())) {
+						.equals(proposalPerson.getProjectRole())) {
 					if (isSponsorNIH(pdDoc)) {
 						extraPerson
 								.setProjectRole(gov.grants.apply.coeus.personProfile.PersonProfileListDocument.PersonProfileList.ExtraKeyPerson.ProjectRole.OTHER_SPECIFY);
@@ -312,13 +320,14 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 			if (proposalPerson.getFaxNumber() != null) {
 				extraPerson.setFax(proposalPerson.getFaxNumber());
 			}
-			if (proposalPerson.getUnit() != null
-					&& proposalPerson.getOrganization() != null) {
-				extraPerson.setOrganizationName(proposalPerson
-						.getOrganization());
+            UnitContract unit = unitRepositoryService.findUnitByUnitNumber(proposalPerson.getHomeUnit());
+
+			if (unit != null
+					&& unit.getUnitName() != null) {
+				extraPerson.setOrganizationName(unit.getUnitName());
 			}
-			if (proposalPerson.getPhoneNumber() != null)
-				extraPerson.setPhone(proposalPerson.getPhoneNumber());
+			if (proposalPerson.getOfficePhone() != null)
+				extraPerson.setPhone(proposalPerson.getOfficePhone());
 
 			// degree type and year added for version 1.2 - case 4337
 			if (proposalPerson.getDegree() != null) {
@@ -348,7 +357,7 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 	}
 
 	private PersonProfileList.ExtraKeyPerson.Address getExtraPersonAddress(
-			ProposalPerson proposalPerson) {
+			ProposalPersonContract proposalPerson) {
 		PersonProfileList.ExtraKeyPerson.Address address = PersonProfileList.ExtraKeyPerson.Address.Factory
 				.newInstance();
 		if (proposalPerson.getAddressLine1() != null) {
@@ -386,7 +395,7 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 	}
 
 	private PersonProfileList.ExtraKeyPerson.Name getExtraPersonName(
-			ProposalPerson proposalPerson) {
+			ProposalPersonContract proposalPerson) {
 		PersonProfileList.ExtraKeyPerson.Name name = PersonProfileList.ExtraKeyPerson.Name.Factory
 				.newInstance();
 		if (proposalPerson.getFirstName() != null)
@@ -399,7 +408,7 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 	}
 
 	private void setDivisionName(ExtraKeyPerson extraPerson,
-			ProposalPerson proposalPerson) {
+			ProposalPersonContract proposalPerson) {
 		String divisionName = "";
 		if (divisionName != null && divisionName.length() > 29) {
 			divisionName = divisionName.substring(0, 29);
@@ -408,7 +417,7 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 	}
 
 	private void setDepartmentName(ExtraKeyPerson extraPerson,
-			ProposalPerson proposalPerson) {
+			ProposalPersonContract proposalPerson) {
 		String departmentName = "";
 		if (departmentName != null && departmentName.length() > 30) {
 			departmentName = departmentName.substring(0, 29);

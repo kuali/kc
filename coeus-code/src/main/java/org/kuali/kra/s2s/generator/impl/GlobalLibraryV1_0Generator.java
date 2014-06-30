@@ -22,7 +22,7 @@ import gov.grants.apply.system.globalLibraryV10.HumanNameDataType;
 import gov.grants.apply.system.universalCodesV10.CountryCodeType;
 
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 
@@ -34,7 +34,7 @@ public class GlobalLibraryV1_0Generator {
      * @param person ProposalPerson
      * @return AddressDataType corresponding to the ProposalPerson object.
      */
-    public AddressDataType getAddressDataType(ProposalPerson person) {
+    public AddressDataType getAddressDataType(ProposalPersonContract person) {
 
         AddressDataType addressType = AddressDataType.Factory.newInstance();
         if (person != null) {
@@ -153,7 +153,7 @@ public class GlobalLibraryV1_0Generator {
      * @param person ProposalPerson Object
      * @return AddressRequireCountryDataType corresponding to the ProposalPerson object
      */
-    public AddressRequireCountryDataType getAddressRequireCountryDataType(ProposalPerson person) {
+    public AddressRequireCountryDataType getAddressRequireCountryDataType(ProposalPersonContract person) {
 
         AddressRequireCountryDataType address = AddressRequireCountryDataType.Factory.newInstance();
         if (person != null) {
@@ -229,7 +229,7 @@ public class GlobalLibraryV1_0Generator {
      * @param person ProposalPerson
      * @return HumanNameDataType corresponding to the ProposalPerson object.
      */
-    public HumanNameDataType getHumanNameDataType(ProposalPerson person) {
+    public HumanNameDataType getHumanNameDataType(ProposalPersonContract person) {
 
         HumanNameDataType humanName = HumanNameDataType.Factory.newInstance();
         if (person != null) {
@@ -311,7 +311,7 @@ public class GlobalLibraryV1_0Generator {
      * @param person Proposalperson
      * @return ContactPersonDataType created from ProposalPerson object
      */
-    public ContactPersonDataType getContactPersonDataType(ProposalPerson person) {
+    public ContactPersonDataType getContactPersonDataType(ProposalPersonContract person) {
         ContactPersonDataType contactPerson = ContactPersonDataType.Factory.newInstance();
         if (person != null) {
             contactPerson.setName(getHumanNameDataType(person));

@@ -29,6 +29,7 @@ import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
+import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -41,6 +42,7 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
@@ -60,7 +62,7 @@ import java.util.List;
 @Entity
 @Table(name = "EPS_PROP_PERSON")
 @IdClass(ProposalPerson.ProposalPersonId.class)
-public class ProposalPerson extends KcPersistableBusinessObjectBase implements CreditSplitable, PersonRolodex, PersonEditable, AbstractProjectPerson, ProposalPersonContract {
+public class ProposalPerson extends KcPersistableBusinessObjectBase implements CreditSplitable, PersonRolodex, PersonEditable, AbstractProjectPerson, ProposalPersonContract, HierarchyMaintainable, MutableInactivatable {
 
     private static final long serialVersionUID = -4110005875629288373L;
 
@@ -147,7 +149,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
     @Column(name = "HIDE_IN_HIERARCHY")
     @Convert(converter = BooleanYNConverter.class)
-    private Boolean hiddenInHierarchy;
+    private boolean hiddenInHierarchy;
 
     @Column(name = "PERSON_ID")
     private String personId;
@@ -406,6 +408,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     /**
      * set the <code>simpleName</code> & the full name.
      */
+    @Override
     public void setFullName(String fullName) {
         this.fullName = fullName;
         setSimpleName(getFullName());
@@ -419,109 +422,75 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         return this.fullName;
     }
 
+    public boolean getInvestigatorFlag() {
+        return isPrincipalInvestigator() || isMultiplePi() || isCoInvestigator()
+                || (isKeyPerson() && getOptInUnitStatus());
+    }
+
+    @Override
     public boolean isInvestigator() {
         return getInvestigatorFlag();
     }
 
-    public boolean getInvestigatorFlag() {
-        return isPrincipalInvestigator() || isMultiplePi() || isCoInvestigator()
-        		|| (isKeyPerson() && getOptInUnitStatus());
-    }
-    
+    @Override
     public boolean isPrincipalInvestigator() {
     	return StringUtils.equals(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR, getProposalPersonRoleId());
     }
-    
+
+    @Override
     public boolean isCoInvestigator() {
     	return StringUtils.equals(PropAwardPersonRole.CO_INVESTIGATOR, getProposalPersonRoleId());
     }
-    
+
+    @Override
     public boolean isKeyPerson() {
     	return StringUtils.equals(PropAwardPersonRole.KEY_PERSON, getProposalPersonRoleId());
     }
-    
+
+    @Override
     public boolean isMultiplePi() {
     	return StringUtils.equals(PropAwardPersonRole.MULTI_PI, getProposalPersonRoleId());
     }
-    
 
-    /**
-     * Set a <code>{@link List}</code> of credit splits
-     *
-     * @param creditSplit
-     */
     public void setCreditSplits(List<ProposalPersonCreditSplit> creditSplit) {
         this.creditSplits = creditSplit;
     }
 
-    /**
-     * Get a <code>{@link List}</code> of credit splits
-     *
-     * @return List<ProposalPersonCreditSplit>
-     */
+    @Override
     public List<ProposalPersonCreditSplit> getCreditSplits() {
         return this.creditSplits;
     }
 
-    /**
-     * Gets the value of certification
-     *
-     * @return the value of certification
-     */
+    @Override
     public ProposalInvestigatorCertification getCertification() {
         return this.certification;
     }
 
-    /**
-     * Sets the value of certification
-     *
-     * @param argCertification Value to assign to this.certification
-     */
+
     public void setCertification(ProposalInvestigatorCertification argCertification) {
         this.certification = argCertification;
     }
 
-    /**
-     * Gets the value of units
-     *
-     * @return the value of units
-     */
+    @Override
     public List<ProposalPersonUnit> getUnits() {
         return this.units;
     }
 
-    /**
-     * Sets the value of units
-     *
-     * @param argUnits Value to assign to this.units
-     */
+
     public void setUnits(List<ProposalPersonUnit> argUnits) {
         this.units = argUnits;
     }
 
-    /**
-     * Gets the value of degrees
-     *
-     * @return the value of degrees
-     */
+    @Override
     public List<ProposalPersonDegree> getProposalPersonDegrees() {
         return this.proposalPersonDegrees;
     }
 
-    /**
-     * Sets the value of degrees
-     *
-     * @param argDegrees Value to assign to this.degrees
-     */
     public void setProposalPersonDegrees(List<ProposalPersonDegree> argDegrees) {
         this.proposalPersonDegrees = argDegrees;
     }
 
-    /**
-     * Gets the value of proposalPersonNumber
-     *
-     * @return the value of proposalPersonNumber
-     */
+    @Override
     public Integer getProposalPersonNumber() {
         return this.proposalPersonNumber;
     }
@@ -536,119 +505,61 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         return this.getDevelopmentProposal().getProposalNumber() + "|" + this.getProposalPersonNumber();
     }
 
-    /**
-     * Sets the value of proposalPersonNumber
-     *
-     * @param argProposalPersonNumber Value to assign to this.proposalPersonNumber
-     */
     public void setProposalPersonNumber(Integer argProposalPersonNumber) {
         this.proposalPersonNumber = argProposalPersonNumber;
     }
 
-    /**
-     * Gets the value of conflictOfInterest
-     *
-     * @return the value of conflictOfInterest
-     */
+    @Override
     public boolean getConflictOfInterestFlag() {
         return this.conflictOfInterestFlag;
     }
 
-    /**
-     * Gets the value of percentageEffort
-     *
-     * @return the value of percentageEffort
-     */
+    @Override
     public ScaleTwoDecimal getPercentageEffort() {
         return this.percentageEffort;
     }
 
-    /**
-     * Sets the value of percentageEffort
-     *
-     * @param argPercentageEffort Value to assign to this.percentageEffort
-     */
     public void setPercentageEffort(ScaleTwoDecimal argPercentageEffort) {
         this.percentageEffort = argPercentageEffort;
     }
 
-    /**
-     * Gets the value of fedrDebr
-     *
-     * @return the value of fedrDebr
-     */
+    @Override
     public Boolean getFedrDebrFlag() {
         return this.fedrDebrFlag;
     }
 
-    /**
-     * Sets the value of fedrDebr
-     *
-     * @param argFedrDebr Value to assign to this.fedrDebr
-     */
     public void setFedrDebrFlag(Boolean argFedrDebr) {
         this.fedrDebrFlag = argFedrDebr;
     }
 
-    /**
-     * Gets the value of fedrDelq
-     *
-     * @return the value of fedrDelq
-     */
+    @Override
     public Boolean getFedrDelqFlag() {
         return this.fedrDelqFlag;
     }
 
-    /**
-     * Sets the value of fedrDelq
-     *
-     * @param argFedrDelq Value to assign to this.fedrDelq
-     */
     public void setFedrDelqFlag(Boolean argFedrDelq) {
         this.fedrDelqFlag = argFedrDelq;
     }
 
-    /**
-     * Gets the value of rolodexId
-     *
-     * @return the value of rolodexId
-     */
+    @Override
     public Integer getRolodexId() {
         return this.rolodexId;
     }
 
-    /**
-     * Sets the value of rolodexId
-     *
-     * @param argRolodexId Value to assign to this.rolodexId
-     */
+    @Override
     public void setRolodexId(Integer argRolodexId) {
         this.rolodexId = argRolodexId;
     }
 
-    /**
-     * Gets the value of propPersonRoleId
-     *
-     * @return the value of propPersonRoleId
-     */
+    @Override
     public String getProposalPersonRoleId() {
         return this.proposalPersonRoleId;
     }
 
-    /** 
-     * Sets the value of propPersonRoleId
-     *
-     * @param argPropPersonRoleId Value to assign to this.propPersonRoleId
-     */
     public void setProposalPersonRoleId(String argPropPersonRoleId) {
     	this.proposalPersonRoleId = argPropPersonRoleId;
     }
 
-    /**
-     * Gets the value of propPersonRole
-     *
-     * @return the value of propPersonRole
-     */
     public PropAwardPersonRole getRole() {
     	if (StringUtils.isNotBlank(getProposalPersonRoleId()) && getDevelopmentProposal() != null &&
     			StringUtils.isNotBlank(getDevelopmentProposal().getSponsorCode())) {
@@ -658,11 +569,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     	}
     }
 
-    /**
-     * Sets the value of conflictOfInterest
-     *
-     * @param argConflictOfInterest Value to assign to this.conflictOfInterest
-     */
     public void setConflictOfInterestFlag(boolean argConflictOfInterest) {
         this.conflictOfInterestFlag = argConflictOfInterest;
     }
@@ -672,6 +578,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
      *
      * @return the value of person
      */
+    @Override
     public KcPerson getPerson() {
         if (this.personId == null) {
             return null;
@@ -680,10 +587,6 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         }
     }
 
-    /**
-     * Gets the KC Person Service.
-     * @return KC Person Service.
-     */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
             this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
@@ -792,6 +695,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         return getCreditSplits().get(index);
     }
 
+    @Override
     public List<ProposalPersonYnq> getProposalPersonYnqs() {
         return proposalPersonYnqs;
     }
@@ -911,22 +815,16 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         this.simpleName = simpleName;
     }
 
-    /**
-     * Gets the otherSignificantContributorFlag attribute. 
-     * @return Returns the otherSignificantContributorFlag.
-     */
+    @Override
     public boolean isOtherSignificantContributorFlag() {
         return otherSignificantContributorFlag;
     }
 
-    /**
-     * Sets the otherSignificantContributorFlag attribute value.
-     * @param otherSignificantContributorFlag The otherSignificantContributorFlag to set.
-     */
     public void setOtherSignificantContributorFlag(boolean otherSignificantContributorFlag) {
         this.otherSignificantContributorFlag = otherSignificantContributorFlag;
     }
 
+    @Override
     public Boolean getOptInUnitStatus() {
         return optInUnitStatus;
     }
@@ -935,6 +833,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         this.optInUnitStatus = optInUnitStatus;
     }
 
+    @Override
     public Boolean getOptInCertificationStatus() {
         return optInCertificationStatus;
     }
@@ -943,6 +842,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         this.optInCertificationStatus = optInCertificationStatus;
     }
 
+    @Override
     public String getProjectRole() {
         return projectRole;
     }
@@ -951,6 +851,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         this.projectRole = projectRole;
     }
 
+    @Override
     public Integer getOrdinalPosition() {
         return ordinalPosition;
     }
@@ -959,757 +860,421 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         this.ordinalPosition = ordinalPosition;
     }
 
-    /**
-     * Gets the hierarchyProposalNumber attribute. 
-     * @return Returns the hierarchyProposalNumber.
-     */
+    @Override
     public String getHierarchyProposalNumber() {
         return hierarchyProposalNumber;
     }
 
-    /**
-     * Gets the value of personId
-     *
-     * @return the value of personId
-     */
+    @Override
     public String getPersonId() {
         return this.personId;
     }
 
-    /**
-     * Sets the value of personId
-     *
-     * @param argPersonId Value to assign to this.personId
-     */
     public void setPersonId(String argPersonId) {
         this.personId = argPersonId;
     }
 
-    /**
-     * Sets the value of socialSecurityNumber
-     *
-     * @param argSocialSecurityNumber Value to assign to this.socialSecurityNumber
-     */
+    @Override
     public void setSocialSecurityNumber(String argSocialSecurityNumber) {
         this.socialSecurityNumber = argSocialSecurityNumber;
     }
 
-    /**
-     * Gets the value of socialSecurityNumber
-     *
-     * @return the value of socialSecurityNumber
-     */
+    @Override
     public String getSocialSecurityNumber() {
         return this.socialSecurityNumber;
     }
 
-    /**
-     * Gets the value of lastName
-     *
-     * @return the value of lastName
-     */
+    @Override
     public String getLastName() {
         return this.lastName;
     }
 
-    /**
-     * Sets the value of lastName
-     *
-     * @param argLastName Value to assign to this.lastName
-     */
+    @Override
     public void setLastName(String argLastName) {
         this.lastName = argLastName;
     }
 
-    /**
-     * Gets the value of firstName
-     *
-     * @return the value of firstName
-     */
+    @Override
     public String getFirstName() {
         return this.firstName;
     }
 
-    /**
-     * Sets the value of firstName
-     *
-     * @param argFirstName Value to assign to this.firstName
-     */
+    @Override
     public void setFirstName(String argFirstName) {
         this.firstName = argFirstName;
     }
 
-    /**
-     * Gets the value of middleName
-     *
-     * @return the value of middleName
-     */
+    @Override
     public String getMiddleName() {
         return this.middleName;
     }
 
-    /**
-     * Sets the value of middleName
-     *
-     * @param argMiddleName Value to assign to this.middleName
-     */
+    @Override
     public void setMiddleName(String argMiddleName) {
         this.middleName = argMiddleName;
     }
 
-    /**
-     * Gets the value of priorName
-     *
-     * @return the value of priorName
-     */
+    @Override
     public String getPriorName() {
         return this.priorName;
     }
 
-    /**
-     * Sets the value of priorName
-     *
-     * @param argPriorName Value to assign to this.priorName
-     */
+    @Override
     public void setPriorName(String argPriorName) {
         this.priorName = argPriorName;
     }
 
-    /**
-     * Gets the value of userName
-     *
-     * @return the value of userName
-     */
+    @Override
     public String getUserName() {
         return this.userName;
     }
 
-    /**
-     * Sets the value of userName
-     *
-     * @param argUserName Value to assign to this.userName
-     */
+    @Override
     public void setUserName(String argUserName) {
         this.userName = argUserName;
     }
 
-    /**
-     * Gets the value of emailAddress
-     *
-     * @return the value of emailAddress
-     */
+    @Override
     public String getEmailAddress() {
         return this.emailAddress;
     }
 
-    /**
-     * Sets the value of emailAddress
-     *
-     * @param argEmailAddress Value to assign to this.emailAddress
-     */
+    @Override
     public void setEmailAddress(String argEmailAddress) {
         this.emailAddress = argEmailAddress;
     }
 
-    /**
-     * Gets the value of dateOfBirth
-     *
-     * @return the value of dateOfBirth
-     */
+    @Override
     public Date getDateOfBirth() {
         return this.dateOfBirth;
     }
 
-    /**
-     * Sets the value of dateOfBirth
-     *
-     * @param argDateOfBirth Value to assign to this.dateOfBirth
-     */
+    @Override
     public void setDateOfBirth(Date argDateOfBirth) {
         this.dateOfBirth = argDateOfBirth;
     }
 
-    /**
-     * Gets the value of age
-     *
-     * @return the value of age
-     */
+    @Override
     public Integer getAge() {
         return this.age;
     }
 
-    /**
-     * Sets the value of age
-     *
-     * @param argAge Value to assign to this.age
-     */
+    @Override
     public void setAge(Integer argAge) {
         this.age = argAge;
     }
 
-    /**
-     * Gets the value of ageByFiscalYear
-     *
-     * @return the value of ageByFiscalYear
-     */
+    @Override
     public Integer getAgeByFiscalYear() {
         return this.ageByFiscalYear;
     }
 
-    /**
-     * Sets the value of ageByFiscalYear
-     *
-     * @param argAgeByFiscalYear Value to assign to this.ageByFiscalYear
-     */
+    @Override
     public void setAgeByFiscalYear(Integer argAgeByFiscalYear) {
         this.ageByFiscalYear = argAgeByFiscalYear;
     }
 
-    /**
-     * Gets the value of gender
-     *
-     * @return the value of gender
-     */
+    @Override
     public String getGender() {
         return this.gender;
     }
 
-    /**
-     * Sets the value of gender
-     *
-     * @param argGender Value to assign to this.gender
-     */
+    @Override
     public void setGender(String argGender) {
         this.gender = argGender;
     }
 
-    /**
-     * Gets the value of race
-     *
-     * @return the value of race
-     */
+    @Override
     public String getRace() {
         return this.race;
     }
 
-    /**
-     * Sets the value of race
-     *
-     * @param argRace Value to assign to this.race
-     */
+    @Override
     public void setRace(String argRace) {
         this.race = argRace;
     }
 
-    /**
-     * Gets the value of educationLevel
-     *
-     * @return the value of educationLevel
-     */
+    @Override
     public String getEducationLevel() {
         return this.educationLevel;
     }
 
-    /**
-     * Sets the value of educationLevel
-     *
-     * @param argEducationLevel Value to assign to this.educationLevel
-     */
+    @Override
     public void setEducationLevel(String argEducationLevel) {
         this.educationLevel = argEducationLevel;
     }
 
-    /**
-     * Gets the value of degree
-     *
-     * @return the value of degree
-     */
+    @Override
     public String getDegree() {
         return this.degree;
     }
 
-    /**
-     * Sets the value of degree
-     *
-     * @param argDegree Value to assign to this.degree
-     */
+    @Override
     public void setDegree(String argDegree) {
         this.degree = argDegree;
     }
 
-    /**
-     * Gets the value of major
-     *
-     * @return the value of major
-     */
+    @Override
     public String getMajor() {
         return this.major;
     }
 
-    /**
-     * Sets the value of major
-     *
-     * @param argMajor Value to assign to this.major
-     */
+    @Override
     public void setMajor(String argMajor) {
         this.major = argMajor;
     }
 
-    /**
-     * Gets the value of handicapped
-     *
-     * @return the value of handicapped
-     */
+    @Override
     public Boolean getHandicappedFlag() {
         return this.handicappedFlag;
     }
 
-    /**
-     * Sets the value of handicapped
-     *
-     * @param argHandicapped Value to assign to this.handicapped
-     */
+    @Override
     public void setHandicappedFlag(Boolean argHandicapped) {
         this.handicappedFlag = argHandicapped;
     }
 
-    /**
-     * Gets the value of handicapType
-     *
-     * @return the value of handicapType
-     */
+    @Override
     public String getHandicapType() {
         return this.handicapType;
     }
 
-    /**
-     * Sets the value of handicapType
-     *
-     * @param argHandicapType Value to assign to this.handicapType
-     */
+    @Override
     public void setHandicapType(String argHandicapType) {
         this.handicapType = argHandicapType;
     }
 
-    /**
-     * Gets the value of veteran
-     *
-     * @return the value of veteran
-     */
+    @Override
     public Boolean getVeteranFlag() {
         return this.veteranFlag;
     }
 
-    /**
-     * Sets the value of veteran
-     *
-     * @param argVeteran Value to assign to this.veteran
-     */
+    @Override
     public void setVeteranFlag(Boolean argVeteran) {
         this.veteranFlag = argVeteran;
     }
 
-    /**
-     * Gets the value of veteranType
-     *
-     * @return the value of veteranType
-     */
+    @Override
     public String getVeteranType() {
         return this.veteranType;
     }
 
-    /**
-     * Sets the value of veteranType
-     *
-     * @param argVeteranType Value to assign to this.veteranType
-     */
+    @Override
     public void setVeteranType(String argVeteranType) {
         this.veteranType = argVeteranType;
     }
 
-    /**
-     * Gets the value of visaCode
-     *
-     * @return the value of visaCode
-     */
+    @Override
     public String getVisaCode() {
         return this.visaCode;
     }
 
-    /**
-     * Sets the value of visaCode
-     *
-     * @param argVisaCode Value to assign to this.visaCode
-     */
+    @Override
     public void setVisaCode(String argVisaCode) {
         this.visaCode = argVisaCode;
     }
 
-    /**
-     * Gets the value of visaType
-     *
-     * @return the value of visaType
-     */
+    @Override
     public String getVisaType() {
         return this.visaType;
     }
 
-    /**
-     * Sets the value of visaType
-     *
-     * @param argVisaType Value to assign to this.visaType
-     */
+    @Override
     public void setVisaType(String argVisaType) {
         this.visaType = argVisaType;
     }
 
-    /**
-     * Gets the value of visaRenewalDate
-     *
-     * @return the value of visaRenewalDate
-     */
+    @Override
     public Date getVisaRenewalDate() {
         return this.visaRenewalDate;
     }
 
-    /**
-     * Sets the value of visaRenewalDate
-     *
-     * @param argVisaRenewalDate Value to assign to this.visaRenewalDate
-     */
+    @Override
     public void setVisaRenewalDate(Date argVisaRenewalDate) {
         this.visaRenewalDate = argVisaRenewalDate;
     }
 
-    /**
-     * Gets the value of hasVisa
-     *
-     * @return the value of hasVisa
-     */
+    @Override
     public Boolean getHasVisa() {
         return this.hasVisa;
     }
 
-    /**
-     * Sets the value of hasVisa
-     *
-     * @param argHasVisa Value to assign to this.hasVisa
-     */
+    @Override
     public void setHasVisa(Boolean argHasVisa) {
         this.hasVisa = argHasVisa;
     }
 
-    /**
-     * Gets the value of officeLocation
-     *
-     * @return the value of officeLocation
-     */
+    @Override
     public String getOfficeLocation() {
         return this.officeLocation;
     }
 
-    /**
-     * Sets the value of officeLocation
-     *
-     * @param argOfficeLocation Value to assign to this.officeLocation
-     */
+    @Override
     public void setOfficeLocation(String argOfficeLocation) {
         this.officeLocation = argOfficeLocation;
     }
 
-    /**
-     * Gets the value of officePhone
-     *
-     * @return the value of officePhone
-     */
+    @Override
     public String getOfficePhone() {
         return this.officePhone;
     }
 
-    /**
-     * Sets the value of officePhone
-     *
-     * @param argOfficePhone Value to assign to this.officePhone
-     */
+    @Override
     public void setOfficePhone(String argOfficePhone) {
         this.officePhone = argOfficePhone;
     }
 
-    /**
-     * Gets the value of secondaryOfficeLocation
-     *
-     * @return the value of secondaryOfficeLocation
-     */
+    @Override
     public String getSecondaryOfficeLocation() {
         return this.secondaryOfficeLocation;
     }
 
-    /**
-     * Sets the value of secondaryOfficeLocation
-     *
-     * @param argSecondaryOfficeLocation Value to assign to this.secondaryOfficeLocation
-     */
+    @Override
     public void setSecondaryOfficeLocation(String argSecondaryOfficeLocation) {
         this.secondaryOfficeLocation = argSecondaryOfficeLocation;
     }
 
-    /**
-     * Gets the value of secondaryOfficePhone
-     *
-     * @return the value of secondaryOfficePhone
-     */
+    @Override
     public String getSecondaryOfficePhone() {
         return this.secondaryOfficePhone;
     }
 
-    /**
-     * Sets the value of secondaryOfficePhone
-     *
-     * @param argSecondaryOfficePhone Value to assign to this.secondaryOfficePhone
-     */
+    @Override
     public void setSecondaryOfficePhone(String argSecondaryOfficePhone) {
         this.secondaryOfficePhone = argSecondaryOfficePhone;
     }
 
-    /**
-     * Gets the value of school
-     *
-     * @return the value of school
-     */
+    @Override
     public String getSchool() {
         return this.school;
     }
 
-    /**
-     * Sets the value of school
-     *
-     * @param argSchool Value to assign to this.school
-     */
+    @Override
     public void setSchool(String argSchool) {
         this.school = argSchool;
     }
 
-    /**
-     * Gets the value of yearGraduated
-     * 
-     * @return the value of yearGraduated
-     */
+    @Override
     public String getYearGraduated() {
         return this.yearGraduated;
     }
 
-    /**
-     * Sets the value of yearGraduated
-     *
-     * @param argYearGraduated Value to assign to this.yearGraduated
-     */
+    @Override
     public void setYearGraduated(String argYearGraduated) {
         this.yearGraduated = argYearGraduated;
     }
 
-    /**
-     * Gets the value of directoryDepartment
-     *
-     * @return the value of directoryDepartment
-     */
+    @Override
     public String getDirectoryDepartment() {
         return this.directoryDepartment;
     }
 
-    /**
-     * Sets the value of directoryDepartment
-     *
-     * @param argDirectoryDepartment Value to assign to this.directoryDepartment
-     */
+    @Override
     public void setDirectoryDepartment(String argDirectoryDepartment) {
         this.directoryDepartment = argDirectoryDepartment;
     }
 
-    /**
-     * Gets the value of saluation
-     *
-     * @return the value of saluation
-     */
+    @Override
     public String getSaluation() {
         return this.saluation;
     }
 
-    /**
-     * Sets the value of saluation
-     *
-     * @param argSaluation Value to assign to this.saluation
-     */
+    @Override
     public void setSaluation(String argSaluation) {
         this.saluation = argSaluation;
     }
 
-    /**
-     * Gets the value of countryOfCitizenship
-     *
-     * @return the value of countryOfCitizenship
-     */
+    @Override
     public String getCountryOfCitizenship() {
         return this.countryOfCitizenship;
     }
 
-    /**
-     * Sets the value of countryOfCitizenship
-     *
-     * @param argCountryOfCitizenship Value to assign to this.countryOfCitizenship
-     */
+    @Override
     public void setCountryOfCitizenship(String argCountryOfCitizenship) {
         this.countryOfCitizenship = argCountryOfCitizenship;
     }
 
-    /**
-     * Gets the value of primaryTitle
-     *
-     * @return the value of primaryTitle
-     */
+    @Override
     public String getPrimaryTitle() {
         return this.primaryTitle;
     }
 
-    /**
-     * Sets the value of primaryTitle
-     *
-     * @param argPrimaryTitle Value to assign to this.primaryTitle
-     */
+    @Override
     public void setPrimaryTitle(String argPrimaryTitle) {
         this.primaryTitle = argPrimaryTitle;
     }
 
-    /**
-     * Gets the value of directoryTitle
-     *
-     * @return the value of directoryTitle
-     */
+    @Override
     public String getDirectoryTitle() {
         return this.directoryTitle;
     }
 
-    /**
-     * Sets the value of directoryTitle
-     *
-     * @param argDirectoryTitle Value to assign to this.directoryTitle
-     */
+    @Override
     public void setDirectoryTitle(String argDirectoryTitle) {
         this.directoryTitle = argDirectoryTitle;
     }
 
-    /**
-     * Gets the value of homeUnit
-     *
-     * @return the value of homeUnit
-     */
+    @Override
     public String getHomeUnit() {
         return this.homeUnit;
     }
 
-    /**
-     * Sets the value of homeUnit
-     *
-     * @param argHomeUnit Value to assign to this.homeUnit
-     */
+    @Override
     public void setHomeUnit(String argHomeUnit) {
         this.homeUnit = argHomeUnit;
     }
 
-    /**
-     * Gets the value of faculty
-     *
-     * @return the value of faculty
-     */
+    @Override
     public Boolean getFacultyFlag() {
         return this.facultyFlag;
     }
 
-    /**
-     * Sets the value of faculty
-     *
-     * @param argFaculty Value to assign to this.faculty
-     */
+    @Override
     public void setFacultyFlag(Boolean argFaculty) {
         this.facultyFlag = argFaculty;
     }
 
-    /**
-     * Gets the value of graduateStudentStaff
-     *
-     * @return the value of graduateStudentStaff
-     */
+    @Override
     public Boolean getGraduateStudentStaffFlag() {
         return this.graduateStudentStaffFlag;
     }
 
-    /**
-     * Sets the value of graduateStudentStaff
-     *
-     * @param argGraduateStudentStaff Value to assign to this.graduateStudentStaff
-     */
+    @Override
     public void setGraduateStudentStaffFlag(Boolean argGraduateStudentStaff) {
         this.graduateStudentStaffFlag = argGraduateStudentStaff;
     }
 
-    /**
-     * Gets the value of researchStaff
-     *
-     * @return the value of researchStaff
-     */
+    @Override
     public Boolean getResearchStaffFlag() {
         return this.researchStaffFlag;
     }
 
-    /**
-     * Sets the value of researchStaff
-     *
-     * @param argResearchStaff Value to assign to this.researchStaff
-     */
+    @Override
     public void setResearchStaffFlag(Boolean argResearchStaff) {
         this.researchStaffFlag = argResearchStaff;
     }
 
-    /**
-     * Gets the value of serviceStaff
-     *
-     * @return the value of serviceStaff
-     */
+    @Override
     public Boolean getServiceStaffFlag() {
         return this.serviceStaffFlag;
     }
 
-    /**
-     * Sets the value of serviceStaff
-     *
-     * @param argServiceStaff Value to assign to this.serviceStaff
-     */
+    @Override
     public void setServiceStaffFlag(Boolean argServiceStaff) {
         this.serviceStaffFlag = argServiceStaff;
     }
 
-    /**
-     * Gets the value of supportStaff
-     *
-     * @return the value of supportStaff
-     */
+    @Override
     public Boolean getSupportStaffFlag() {
         return this.supportStaffFlag;
     }
 
-    /**
-     * Sets the value of supportStaff
-     *
-     * @param argSupportStaff Value to assign to this.supportStaff
-     */
+    @Override
     public void setSupportStaffFlag(Boolean argSupportStaff) {
         this.supportStaffFlag = argSupportStaff;
     }
 
-    /**
-     * Gets the value of otherAcademicGroup
-     *
-     * @return the value of otherAcademicGroup
-     */
+    @Override
     public Boolean getOtherAcademicGroupFlag() {
         return this.otherAcademicGroupFlag;
     }
@@ -1718,308 +1283,172 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         return getUnit().getUnitName();
     }
 
-    /**
-     * Sets the value of otherAcademicGroup
-     *
-     * @param argOtherAcademicGroup Value to assign to this.otherAcademicGroup
-     */
+    @Override
     public void setOtherAcademicGroupFlag(Boolean argOtherAcademicGroup) {
         this.otherAcademicGroupFlag = argOtherAcademicGroup;
     }
 
-    /**
-     * Gets the value of medicalStaff
-     *
-     * @return the value of medicalStaff
-     */
+    @Override
     public Boolean getMedicalStaffFlag() {
         return this.medicalStaffFlag;
     }
 
-    /**
-     * Sets the value of medicalStaff
-     *
-     * @param argMedicalStaff Value to assign to this.medicalStaff
-     */
+    @Override
     public void setMedicalStaffFlag(Boolean argMedicalStaff) {
         this.medicalStaffFlag = argMedicalStaff;
     }
 
-    /**
-     * Gets the value of vacationAccrual
-     *
-     * @return the value of vacationAccrual
-     */
+    @Override
     public Boolean getVacationAccrualFlag() {
         return this.vacationAccrualFlag;
     }
 
-    /**
-     * Sets the value of vacationAccrual
-     *
-     * @param argVacationAccrual Value to assign to this.vacationAccrual
-     */
+    @Override
     public void setVacationAccrualFlag(Boolean argVacationAccrual) {
         this.vacationAccrualFlag = argVacationAccrual;
     }
 
-    /**
-     * Gets the value of onSabbatical
-     *
-     * @return the value of onSabbatical
-     */
+    @Override
     public Boolean getOnSabbaticalFlag() {
         return this.onSabbaticalFlag;
     }
 
-    /**
-     * Sets the value of onSabbatical
-     *
-     * @param argOnSabbatical Value to assign to this.onSabbatical
-     */
+    @Override
     public void setOnSabbaticalFlag(Boolean argOnSabbatical) {
         this.onSabbaticalFlag = argOnSabbatical;
     }
 
-    /**
-     * Gets the value of idProvided
-     *
-     * @return the value of idProvided
-     */
+    @Override
     public String getIdProvided() {
         return this.idProvided;
     }
 
-    /**
-     * Sets the value of idProvided
-     *
-     * @param argIdProvided Value to assign to this.idProvided
-     */
+    @Override
     public void setIdProvided(String argIdProvided) {
         this.idProvided = argIdProvided;
     }
 
-    /**
-     * Gets the value of idVerified
-     *
-     * @return the value of idVerified
-     */
+    @Override
     public String getIdVerified() {
         return this.idVerified;
     }
 
-    /**
-     * Sets the value of idVerified
-     *
-     * @param argIdVerified Value to assign to this.idVerified
-     */
+    @Override
     public void setIdVerified(String argIdVerified) {
         this.idVerified = argIdVerified;
     }
 
-    /**
-     * Gets the value of addressLine1
-     *
-     * @return the value of addressLine1
-     */
+    @Override
     public String getAddressLine1() {
         return this.addressLine1;
     }
 
-    /**
-     * Sets the value of addressLine1
-     *
-     * @param argAddressLine1 Value to assign to this.addressLine1
-     */
+    @Override
     public void setAddressLine1(String argAddressLine1) {
         this.addressLine1 = argAddressLine1;
     }
 
-    /**
-     * Gets the value of addressLine2
-     *
-     * @return the value of addressLine2
-     */
+    @Override
     public String getAddressLine2() {
         return this.addressLine2;
     }
 
-    /**
-     * Sets the value of addressLine2
-     *
-     * @param argAddressLine2 Value to assign to this.addressLine2
-     */
+    @Override
     public void setAddressLine2(String argAddressLine2) {
         this.addressLine2 = argAddressLine2;
     }
 
-    /**
-     * Gets the value of addressLine3
-     *
-     * @return the value of addressLine3
-     */
+    @Override
     public String getAddressLine3() {
         return this.addressLine3;
     }
 
-    /**
-     * Sets the value of addressLine3
-     *
-     * @param argAddressLine3 Value to assign to this.addressLine3
-     */
+    @Override
     public void setAddressLine3(String argAddressLine3) {
         this.addressLine3 = argAddressLine3;
     }
 
-    /**
-     * Gets the value of city
-     *
-     * @return the value of city
-     */
+    @Override
     public String getCity() {
         return this.city;
     }
 
-    /**
-     * Sets the value of city
-     *
-     * @param argCity Value to assign to this.city
-     */
+    @Override
     public void setCity(String argCity) {
         this.city = argCity;
     }
 
-    /**
-     * Gets the value of county
-     *
-     * @return the value of county
-     */
+    @Override
     public String getCounty() {
         return this.county;
     }
 
-    /**
-     * Sets the value of county
-     *
-     * @param argCounty Value to assign to this.county
-     */
+    @Override
     public void setCounty(String argCounty) {
         this.county = argCounty;
     }
 
-    /**
-     * Gets the value of state
-     *
-     * @return the value of state
-     */
+    @Override
     public String getState() {
         return this.state;
     }
 
-    /**
-     * Sets the value of state
-     *
-     * @param argState Value to assign to this.state
-     */
+    @Override
     public void setState(String argState) {
         this.state = argState;
     }
 
-    /**
-     * Gets the value of postalCode
-     *
-     * @return the value of postalCode
-     */
+    @Override
     public String getPostalCode() {
         return this.postalCode;
     }
 
-    /**
-     * Sets the value of postalCode
-     *
-     * @param argPostalCode Value to assign to this.postalCode
-     */
+    @Override
     public void setPostalCode(String argPostalCode) {
         this.postalCode = argPostalCode;
     }
 
-    /**
-     * Gets the value of countryCode
-     *
-     * @return the value of countryCode
-     */
+    @Override
     public String getCountryCode() {
         return this.countryCode != null ? this.countryCode.trim() : null;
     }
 
-    /**
-     * Sets the value of countryCode
-     *
-     * @param argCountryCode Value to assign to this.countryCode
-     */
+    @Override
     public void setCountryCode(String argCountryCode) {
         this.countryCode = argCountryCode;
     }
 
-    /**
-     * Gets the value of faxNumber
-     *
-     * @return the value of faxNumber
-     */
+    @Override
     public String getFaxNumber() {
         return this.faxNumber;
     }
 
-    /**
-     * Sets the value of faxNumber
-     *
-     * @param argFaxNumber Value to assign to this.faxNumber
-     */
+    @Override
     public void setFaxNumber(String argFaxNumber) {
         this.faxNumber = argFaxNumber;
     }
 
-    /**
-     * Gets the value of pagerNumber
-     *
-     * @return the value of pagerNumber
-     */
+    @Override
     public String getPagerNumber() {
         return this.pagerNumber;
     }
 
-    /**
-     * Sets the value of pagerNumber
-     *
-     * @param argPagerNumber Value to assign to this.pagerNumber
-     */
+    @Override
     public void setPagerNumber(String argPagerNumber) {
         this.pagerNumber = argPagerNumber;
     }
 
-    /**
-     * Gets the value of mobilePhoneNumber
-     *
-     * @return the value of mobilePhoneNumber
-     */
+    @Override
     public String getMobilePhoneNumber() {
         return this.mobilePhoneNumber;
     }
 
-    /**
-     * Sets the value of mobilePhoneNumber
-     *
-     * @param argMobilePhoneNumber Value to assign to this.mobilePhoneNumber
-     */
+    @Override
     public void setMobilePhoneNumber(String argMobilePhoneNumber) {
         this.mobilePhoneNumber = argMobilePhoneNumber;
     }
 
-    /**
-     * Gets the value of eraCommonsUserName
-     *
-     * @return the value of eraCommonsUserName
-     */
+    @Override
     public String getEraCommonsUserName() {
         if (StringUtils.isBlank(eraCommonsUserName) && personId != null) {
             this.eraCommonsUserName = getKcPersonService().getKcPersonByPersonId(personId).getExtendedAttributes().getEraCommonUserName();
@@ -2027,56 +1456,34 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         return this.eraCommonsUserName;
     }
 
-    /**
-     * Sets the value of eraCommonsUserName
-     *
-     * @param argEraCommonsUserName Value to assign to this.eraCommonsUserName
-     */
+    @Override
     public void setEraCommonsUserName(String argEraCommonsUserName) {
         this.eraCommonsUserName = argEraCommonsUserName;
     }
 
-    /**
-     * 
-     * Gets the value of division;
-     * 
-     * @return the value of division
-     */
+    @Override
     public String getDivision() {
         return division;
     }
 
-    /**
-     * Sets the value of division
-     * 
-     * @param division Value to assign to this.division
-     */
     public void setDivision(String division) {
         this.division = division;
     }
 
-    public void setActive(Boolean active) {
+    @Override
+    public void setActive(boolean active) {
         this.active = active;
     }
 
-    public Boolean getActive() {
+    @Override
+    public boolean isActive() {
         return active;
     }
 
-    /**
-     * Unit reference referred by {@link #getUnit()}
-     *
-     * @param unit 
-     */
     public void setHomeUnitRef(Unit unit) {
         this.homeUnitRef = unit;
     }
 
-    /**
-     * Unit reference referred by {@link #getUnit()}
-     *
-     * @return unit 
-     */
     public Unit getHomeUnitRef() {
         return homeUnitRef;
     }
@@ -2109,18 +1516,22 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         return homeUnit;
     }
 
+    @Override
     public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
         this.hierarchyProposalNumber = hierarchyProposalNumber;
     }
 
-    public Boolean getHiddenInHierarchy() {
+    @Override
+    public boolean isHiddenInHierarchy() {
         return hiddenInHierarchy;
     }
 
-    public void setHiddenInHierarchy(Boolean hiddenInHierarchy) {
+    @Override
+    public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
     }
 
+    @Override
     public ContactRole getContactRole() {
         return getRole();
     }
@@ -2132,11 +1543,13 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
         this.developmentProposal = developmentProposal;
     }
-    
+
+    @Override
     public Sponsorable getParent() {
         return getDevelopmentProposal();
     }
 
+    @Override
     public String getInvestigatorRoleDescription() {
         return getRole().getDescription();
     }
@@ -2232,10 +1645,12 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 		return citizenshipTypeCode;
 	}
 
+    @Override
 	public void setCitizenshipTypeCode(Integer citizenshipTypeCode) {
 		this.citizenshipTypeCode = citizenshipTypeCode;
 	}
 
+    @Override
 	public CitizenshipType getCitizenshipType() {
 		return citizenshipType;
 	}

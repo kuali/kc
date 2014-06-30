@@ -28,9 +28,9 @@ import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.org.OrganizationYnqContract;
 import org.kuali.coeus.common.api.question.AnswerContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
+import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.S2SQuestionnairing;
@@ -174,7 +174,7 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 	private YesNoDataType.Enum getLobbyingAnswer() {
 		YesNoDataType.Enum answer = YesNoDataType.N_NO;
 		
-		for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal()
+		for (ProposalPersonContract proposalPerson : pdDoc.getDevelopmentProposal()
 				.getProposalPersons()) {
 		  	if (proposalPerson.getProposalPersonRoleId() != null
 					&& proposalPerson.getProposalPersonRoleId().equals(
