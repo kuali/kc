@@ -77,9 +77,9 @@ import java.util.*;
 /**
  * This class implements methods specified by BudgetDocumentService interface
  */
-public abstract class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<T> {
+public abstract class AbstractBudgetService<T extends BudgetParent> implements BudgetService<T> {
     
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetServiceImpl.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AbstractBudgetService.class);
     
     @Autowired
     @Qualifier("documentService")
@@ -679,9 +679,6 @@ public abstract class BudgetServiceImpl<T extends BudgetParent> implements Budge
                 }
             }
         }
-//        businessObjectService.save(budgetProjectIncomes);
-//        budget.refreshReferenceObject("budgetProjectIncomes");
-
     }
     /**
      * 

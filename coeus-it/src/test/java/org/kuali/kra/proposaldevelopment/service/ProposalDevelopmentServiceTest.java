@@ -28,9 +28,12 @@ import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.test.fixtures.ProposalDevelopmentDocumentFixture;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 public class ProposalDevelopmentServiceTest extends KcIntegrationTestBase {
     
@@ -69,12 +72,10 @@ public class ProposalDevelopmentServiceTest extends KcIntegrationTestBase {
         document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
         assertTrue(document.isProposalDeleted());
         assertTrue(document.getDevelopmentProposal() == null);
-//        budget1 = (BudgetDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(budget1.getDocumentNumber());
-//        budget2 = (BudgetDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(budget2.getDocumentNumber());
-//        assertTrue(budget1.isBudgetDeleted());
-//        assertTrue(budget2.isBudgetDeleted());
-        assertTrue(budget1.getName() == null);
-        assertTrue(budget2.getName() == null);
+        budget1 = KRADServiceLocator.getDataObjectService().findUnique(Budget.class, QueryByCriteria.Builder.forAttribute("budgetId", budget1.getBudgetId()).build());
+        budget2 = KRADServiceLocator.getDataObjectService().findUnique(Budget.class, QueryByCriteria.Builder.forAttribute("budgetId", budget2.getBudgetId()).build());
+        assertNull(budget1);
+        assertNull(budget2);
     }
 
 }

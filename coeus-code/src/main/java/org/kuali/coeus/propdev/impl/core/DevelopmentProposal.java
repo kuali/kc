@@ -2473,8 +2473,8 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
     }
 
 	@Override
-	public String getProposalBudgetFlag() {
-		return "true";
+	public boolean isProposalBudget() {
+		return true;
 	}
 
 	@Override

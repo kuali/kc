@@ -78,19 +78,6 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
     @SuppressWarnings("unchecked")
     @Override
     public Map establishLocks(Document document, Map editMode, Person user) {
-        //check for lock in parent document of the budget section and if it is locked,
-        //then assume this is also locked
-//        if (document instanceof BudgetDocument) {
-//            BudgetDocument budgetDoc = (BudgetDocument)document;
-//            //unsure if this should be for anything but proposal development
-//            if (budgetDoc.getParentDocument() instanceof ProposalDevelopmentDocument) { 
-//                for (PessimisticLock lock : budgetDoc.getParentDocument().getPessimisticLocks()) {
-//                    if (!lock.isOwnedByUser(user) && StringUtils.equals(budgetDoc.getCustomLockDescriptor(user), lock.getLockDescriptor())) {
-//                        return getEditModeWithEditableModesRemoved(editMode);
-//                    }
-//                }
-//            } 
-//        }
         return super.establishLocks(document, editMode, user); 
     }
 

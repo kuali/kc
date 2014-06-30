@@ -201,14 +201,13 @@ public class BudgetAction extends BudgetActionBase {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         final BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
-        fixDocHeaderVersion(budgetDoc);
+        
         Budget budget = budgetDoc.getBudget();
         getBudgetCommonService(budget.getBudgetParent()).calculateBudgetOnSave(budget);
         ActionForward forward = super.save(mapping, form, request, response);
         BudgetForm savedBudgetForm = (BudgetForm) form;
         BudgetDocument savedBudgetDoc = savedBudgetForm.getBudgetDocument();
-        refreshBudgetDocumentVersion(savedBudgetDoc);
-        //getBusinessObjectService().save(savedBudgetDoc.getParentDocument().getBudgetDocumentVersions());       
+               
 
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
         if (budgetForm.toBudgetVersionsPage()
@@ -225,40 +224,6 @@ public class BudgetAction extends BudgetActionBase {
 
         return forward;
     }
-
-    private void refreshBudgetDocumentVersion(BudgetDocument savedBudgetDoc) {
-//        Budget budget = savedBudgetDoc.getBudget();
-//        for (BudgetDocumentVersion documentVersion: savedBudgetDoc.getBudget().getBudgetParent().getBudgetDocumentVersions()) {
-//            documentVersion.refreshReferenceObject("documentHeader");
-//            BudgetVersionOverview version = documentVersion.getBudgetVersionOverview();
-//            if (budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
-//                documentVersion.refreshReferenceObject("budgetVersionOverview");
-//            }
-//        }
-    }
-    
-    /**
-     * Load the document again and ensure that the document header version is the same to avoid optimistic lock exceptions
-     * given that the proposal might save this doc header.
-     * @param budgetDoc
-     * @throws WorkflowException
-     */
-    protected void fixDocHeaderVersion(BudgetDocument budgetDoc) throws WorkflowException {
-//        DocumentService docService = KcServiceLocator.getService(DocumentService.class);
-//        BudgetDocument updatedDoc = (BudgetDocument) docService.getByDocumentHeaderId(budgetDoc.getDocumentNumber());
-//        budgetDoc.getDocumentHeader().setVersionNumber(updatedDoc.getDocumentHeader().getVersionNumber());
-//        //update all budget versions doc headers as we will try to save them all and can be saved by proposal under separate lock as well
-//        for (int i = 0; i < budgetDoc.getParentDocument().getBudgetDocumentVersions().size(); i++) {
-//            BudgetDocumentVersion bdVersion = budgetDoc.getParentDocument().getBudgetDocumentVersion(i);
-//            BudgetDocumentVersion updatedVersion = updatedDoc.getParentDocument().getBudgetDocumentVersion(i);
-//            if (bdVersion != null && updatedVersion != null) {
-//                if (bdVersion.getDocumentHeader().getVersionNumber() < updatedVersion.getDocumentHeader().getVersionNumber()) {
-//                    bdVersion.getDocumentHeader().setVersionNumber(updatedVersion.getDocumentHeader().getVersionNumber());
-//                }
-//            }
-//        }
-    }
-
 
     protected BudgetSummaryService getBudgetSummaryService() {
         return KcServiceLocator.getService(BudgetSummaryService.class);
@@ -350,7 +315,7 @@ public class BudgetAction extends BudgetActionBase {
     }
     
     protected void populatePersonnelHierarchySummary(BudgetForm budgetForm) {
-        if (Boolean.valueOf(budgetForm.getBudgetDocument().getBudget().getProposalBudgetFlag())) {
+        if (budgetForm.getBudgetDocument().getBudget().isProposalBudget()) {
             DevelopmentProposal parent = (DevelopmentProposal) budgetForm.getBudgetDocument().getBudget().getBudgetParent();
             String proposalNumber = parent.getProposalNumber();
             budgetForm.setHierarchyPersonnelSummaries(getHierarchyHelper().getHierarchyPersonnelSummaries(proposalNumber));

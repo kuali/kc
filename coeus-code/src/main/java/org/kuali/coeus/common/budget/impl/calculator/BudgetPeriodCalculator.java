@@ -466,7 +466,7 @@ public class BudgetPeriodCalculator {
         return true;
     }
     private boolean isProposalBudget(Budget budget){
-        return budget.getProposalBudgetFlag().equals("true");
+        return budget.isProposalBudget();
     }
 
     public List<String> getErrorMessages() {
