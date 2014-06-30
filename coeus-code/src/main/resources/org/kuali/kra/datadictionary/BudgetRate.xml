@@ -25,6 +25,7 @@
         <ref bean="BudgetRate-activityTypeCode" />
         <ref bean="BudgetRate-applicableRate" />
         <ref bean="BudgetRate-instituteRate" />
+        <ref bean="BudgetRate-rateClass.description" />
       </list>
     </property>
   </bean>
@@ -283,6 +284,19 @@
     </property>
     <property name="summary" value="Institute Rate" />
     <property name="description" value="Institute Rate" />
+  </bean>
+  
+  <bean id="BudgetRate-rateClass.description" parent="BudgetRate-rateClass.description-parentBean" />
+  <bean id="BudgetRate-rateClass.description-parentBean" abstract="true" parent="RateClass-description">
+    <property name="name" value="rateClass.description"/>
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="5"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="5" parent="Uif-TextControl"/>
+    </property>
+    <property name="label" value="Description"/>
+    <property name="shortLabel" value="Description"/>
   </bean>
 
 <!-- Business Object Inquiry Definition -->
