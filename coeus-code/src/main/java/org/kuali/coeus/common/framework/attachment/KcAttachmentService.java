@@ -58,4 +58,11 @@ public interface KcAttachmentService {
      * @return
      */
     String checkAndReplaceSpecialCharacters(String text);
+
+    /**
+     * This method formatted the attachment file size string
+     * @param size
+     * @return
+     */
+    public String formatFileSizeString(Long size);
 }

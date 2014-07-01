@@ -76,8 +76,6 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             form.getEditableAttachments().get(selectedCollectionPath).remove(selectedLine);
         }
 
-        getProposalDevelopmentAttachmentService().standardizeAttachments(form.getDevelopmentProposal());
-
         return getTransactionalDocumentControllerService().saveLine(form, result, request, response);
     }
 

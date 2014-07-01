@@ -25,6 +25,9 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
+import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentService;
+import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
+import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
@@ -37,6 +40,7 @@ import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -45,6 +49,7 @@ import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -57,9 +62,17 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     private static final long serialVersionUID = -5122498699317873886L;
 
     @Autowired
+    @Qualifier("dateTimeService")
+    private DateTimeService dateTimeService;
+
+    @Autowired
     @Qualifier("legacyNarrativeService")
     private LegacyNarrativeService narrativeService;
-    
+
+    @Autowired
+    @Qualifier("proposalDevelopmentAttachmentService")
+    private ProposalDevelopmentAttachmentService proposalDevelopmentAttachmentService;
+
     @Autowired
     @Qualifier("lookupService")
     private LookupService lookupService;
@@ -76,8 +89,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
                 narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
             }
         } else if (addLine instanceof ProposalPersonBiography) {
-            document.getDevelopmentProposal().addProposalPersonBiography((ProposalPersonBiography) addLine);
-		} else if (addLine instanceof ProposalPersonDegree) {
+            ProposalPersonBiography biography = (ProposalPersonBiography) addLine;
+            biography.setDevelopmentProposal(document.getDevelopmentProposal());
+            biography.setBiographyNumber(document
+                    .getDocumentNextValue(Constants.PROP_PERSON_BIO_NUMBER));
+        } else if (addLine instanceof ProposalPersonDegree) {
 			((ProposalPersonDegree)addLine).setDegreeSequenceNumber(document.getDocumentNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
         } else if (addLine instanceof ProposalAbstract) {
             ProposalAbstract proposalAbstract = (ProposalAbstract) addLine;
@@ -91,6 +107,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         } else if (addLine instanceof CongressionalDistrict) {
        	 	CongressionalDistrict congressionalDistrict =(CongressionalDistrict) addLine;
        	 	((CongressionalDistrict) addLine).setCongressionalDistrict(congressionalDistrict.getNewState(), congressionalDistrict.getNewDistrictNumber());
+        }
+
+        if (addLine instanceof KcPersistableBusinessObjectBase) {
+            ((KcPersistableBusinessObjectBase) addLine).setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
+            ((KcPersistableBusinessObjectBase) addLine).setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
         }
     }
 
@@ -130,10 +151,12 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
     @Override
     public void processAfterSaveLine(ViewModel model, Object lineObject, String collectionId, String collectionPath) {
+           ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) model;
            getDataObjectService().save(lineObject);
-           if (lineObject instanceof Narrative) {
-               Narrative narrative = (Narrative) lineObject;
-               narrative.refreshReferenceObject("narrativeType");
+           if (lineObject instanceof ProposalPersonBiography) {
+               getProposalDevelopmentAttachmentService().standardizeAttachment(pdForm.getDevelopmentProposal(),(ProposalPersonBiography) lineObject);
+           } else if (lineObject instanceof  Narrative) {
+               getProposalDevelopmentAttachmentService().standardizeAttachment(pdForm.getDevelopmentProposal(),(Narrative) lineObject);
            }
     }
 
@@ -198,4 +221,24 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         this.lookupService = lookupService;
     }
 
+    public DateTimeService getDateTimeService() {
+        if (dateTimeService == null) {
+            dateTimeService = KcServiceLocator.getService(DateTimeService.class);
+        }
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    public ProposalDevelopmentAttachmentService getProposalDevelopmentAttachmentService() {
+        if (proposalDevelopmentAttachmentService == null) {
+            proposalDevelopmentAttachmentService = KcServiceLocator.getService(ProposalDevelopmentAttachmentService.class);
+        }        return proposalDevelopmentAttachmentService;
+    }
+
+    public void setProposalDevelopmentAttachmentService(ProposalDevelopmentAttachmentService proposalDevelopmentAttachmentService) {
+        this.proposalDevelopmentAttachmentService = proposalDevelopmentAttachmentService;
+    }
 }

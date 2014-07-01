@@ -137,7 +137,7 @@ public abstract class ProposalDevelopmentControllerBase {
          proposalDevelopmentService.initializeProposalSiteNumbers(
                  proposalDevelopmentDocument);
 
-         getProposalDevelopmentAttachmentService().standardizeAttachments(pdForm.getDevelopmentProposal());
+         getProposalDevelopmentAttachmentService().prepareAttachmentsForSave(pdForm.getDevelopmentProposal());
          getTransactionalDocumentControllerService().save(form, result, request, response);
          
          initializeProposalUsers(proposalDevelopmentDocument);
