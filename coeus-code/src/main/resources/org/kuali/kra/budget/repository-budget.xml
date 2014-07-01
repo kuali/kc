@@ -1040,7 +1040,6 @@
 
 	<class-descriptor class="org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt" table="EPS_PROPOSAL_BUDGET_EXT">
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" primarykey="true" />
-		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous"/>
 		<field-descriptor name="hierarchyLastSyncHashCode" column="HIERARCHY_HASH_CODE" jdbc-type="INTEGER"/>
 		<reference-descriptor name="super" class-ref="org.kuali.coeus.common.budget.framework.core.Budget">
 			<foreignkey field-ref="budgetId"/>
@@ -1049,9 +1048,6 @@
 			<orderby name="budgetPeriod" sort="ASC" /> 
 			<inverse-foreignkey field-ref="budgetId"/>
 		</collection-descriptor>
-        <reference-descriptor name="budgetDocument" class-ref="org.kuali.coeus.common.budget.framework.core.BudgetDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="documentNumber" />
-        </reference-descriptor>
 	</class-descriptor>
 	 
     <class-descriptor class="org.kuali.kra.award.budget.document.AwardBudgetDocument" table="BUDGET_DOCUMENT" >			

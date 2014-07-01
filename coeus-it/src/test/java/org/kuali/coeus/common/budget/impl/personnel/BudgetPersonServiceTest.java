@@ -23,6 +23,8 @@ import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.attr.PersonAppointment;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -41,7 +43,7 @@ public class BudgetPersonServiceTest extends KcIntegrationTestBase {
     
     protected BudgetPersonServiceImpl budgetPersonService;
     protected KcPersonService kcPersonService;
-    protected Budget budget;
+    protected ProposalDevelopmentBudgetExt budget;
     protected Date startDate;
     protected Date endDate;
     
@@ -50,20 +52,18 @@ public class BudgetPersonServiceTest extends KcIntegrationTestBase {
     public void setUp() throws Exception {
         kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         budgetPersonService = (BudgetPersonServiceImpl) KcServiceLocator.getService(BudgetPersonService.class);
-        budget = new Budget() {
+        budget = new ProposalDevelopmentBudgetExt() {
             int nextVal = 1;
             public Integer getHackedDocumentNextValue(String documentComponentIdKey) {
                 return nextVal++;
             }
         };
-//        budget.setBudgetDocument(new BudgetDocument());
-//        ProposalDevelopmentDocument parentDoc = new ProposalDevelopmentDocument();
-//        budget.getBudgetDocument().setParentDocument(parentDoc);
-       
+
         startDate = createDate(2010, 1, 1);
         endDate = createDate(2010, 12, 30);
         budget.setStartDate(startDate);
         budget.setEndDate(endDate);
+        budget.setDevelopmentProposal(new DevelopmentProposal());
     }
     
     @After
