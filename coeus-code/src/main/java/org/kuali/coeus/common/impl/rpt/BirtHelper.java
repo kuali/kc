@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.reporting;
+package org.kuali.coeus.common.impl.rpt;
 
 import org.eclipse.birt.report.engine.api.*;
 import org.eclipse.birt.report.model.api.ElementFactory;
@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.reporting.bo.BirtParameterBean;
 import org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource;
 
 import java.io.InputStream;

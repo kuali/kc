@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.reporting.web.struts.form;
+package org.kuali.coeus.common.impl.rpt;
 
-import org.kuali.kra.reporting.bo.*;
+import org.kuali.coeus.common.impl.rpt.cust.CustReportDetails;
+import org.kuali.coeus.common.impl.rpt.cust.CustReportType;
+import org.kuali.coeus.common.impl.rpt.cust.CustRptDefaultParms;
+import org.kuali.coeus.common.impl.rpt.cust.CustRptTypeDocument;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 import java.util.ArrayList;
