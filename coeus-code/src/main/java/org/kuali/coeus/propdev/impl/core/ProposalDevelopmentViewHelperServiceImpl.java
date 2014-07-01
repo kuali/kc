@@ -35,6 +35,8 @@ import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -154,13 +156,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     public List<SponsorSuggestResult> performSponsorFieldSuggest(String sponsorCode) {
         List<SponsorSuggestResult> result = new ArrayList<SponsorSuggestResult>();
         List<Sponsor> allSponsors = new ArrayList<Sponsor>();
-        Map<String, String> values = new HashMap<String, String>();
-        values.put("sponsorCode", sponsorCode + "*");
-        allSponsors.addAll(getLookupService().findCollectionBySearchHelper(Sponsor.class, values, Collections.EMPTY_LIST, false, 10));
-        values.clear();
-        values.put("acronym", sponsorCode + "*");
-        allSponsors.addAll(getLookupService().findCollectionBySearchHelper(Sponsor.class, values, Collections.EMPTY_LIST, false, 10));
-        
+        String searchString = "%" + sponsorCode + "%";
+        allSponsors = getDataObjectService().findMatching(Sponsor.class, QueryByCriteria.Builder.fromPredicates(PredicateFactory.or(PredicateFactory.likeIgnoreCase("sponsorCode", searchString),
+                PredicateFactory.likeIgnoreCase("acronym", searchString),
+                PredicateFactory.likeIgnoreCase("sponsorName", searchString)))).getResults();
         for (Sponsor sponsor : allSponsors) {
             result.add(new SponsorSuggestResult(sponsor));
         }
