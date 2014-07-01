@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.common.impl.rpt;
 
-import groovy.util.logging.Commons;
 import org.kuali.coeus.common.impl.rpt.cust.CustReportDetails;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -23,6 +22,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Commons("birtReportService")
+@Component("birtReportService")
 public class BirtReportServiceImpl implements BirtReportService{
 
     public static final String PERMISSION_NAME = "RUN GLOBAL REPORTS";
