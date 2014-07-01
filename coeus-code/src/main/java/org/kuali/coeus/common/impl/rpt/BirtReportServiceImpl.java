@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.reporting.service.impl;
+package org.kuali.coeus.common.impl.rpt;
 
+import org.kuali.coeus.common.impl.rpt.cust.CustReportDetails;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.reporting.BirtHelper;
-import org.kuali.kra.reporting.bo.BirtParameterBean;
-import org.kuali.kra.reporting.bo.CustReportDetails;
-import org.kuali.kra.reporting.service.BirtReportService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -32,12 +31,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component("birtReportService")
 public class BirtReportServiceImpl implements BirtReportService{
-    
+
+    public static final String PERMISSION_NAME = "RUN GLOBAL REPORTS";
+
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+    @Autowired
+    @Qualifier("unitAuthorizationService")
+
+    private UnitAuthorizationService unitAuthorizationService;
+
     private BirtHelper birtHelper;
     
-    public static final String PERMISSION_NAME = "RUN GLOBAL REPORTS";
 
     /**
      * Fetch input parameters from  template
@@ -78,8 +86,7 @@ public class BirtReportServiceImpl implements BirtReportService{
 
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         String departmentCode = GlobalVariables.getUserSession().getPerson().getPrimaryDepartmentCode();
-        List<CustReportDetails> custReportDetailsList = (List<CustReportDetails>) KcServiceLocator.getService(
-                BusinessObjectService.class).findAll(CustReportDetails.class);
+        List<CustReportDetails> custReportDetailsList = (List<CustReportDetails>) getBusinessObjectService().findAll(CustReportDetails.class);
         List<CustReportDetails> custReportDetails = new ArrayList<CustReportDetails>();
         for (CustReportDetails custReportDetail : custReportDetailsList) {
             if(custReportDetail.getPermissionName() != null) {
@@ -103,7 +110,11 @@ public class BirtReportServiceImpl implements BirtReportService{
         return businessObjectService;
     }
 
+    public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
+        this.unitAuthorizationService = unitAuthorizationService;
+    }
+
     public UnitAuthorizationService getUnitAuthorizationService() {
-        return KcServiceLocator.getService(UnitAuthorizationService.class);
+        return unitAuthorizationService;
     }
 }

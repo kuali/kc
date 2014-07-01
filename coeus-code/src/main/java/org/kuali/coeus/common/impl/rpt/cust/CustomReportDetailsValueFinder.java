@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.reporting.lookup.keyvalue;
+package org.kuali.coeus.common.impl.rpt.cust;
 
+import org.kuali.coeus.common.impl.rpt.BirtReportService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.reporting.bo.CustReportDetails;
-import org.kuali.kra.reporting.service.BirtReportService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
