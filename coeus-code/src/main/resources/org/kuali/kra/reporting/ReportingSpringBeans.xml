@@ -7,6 +7,7 @@
                            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <context:annotation-config />
+    <context:component-scan base-package="org.kuali.coeus.common.impl.rpt"/>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
@@ -14,12 +15,4 @@
 
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportDataSourceSpringBeans.xml"/>
 
-    <bean id="birtReportService" class="org.kuali.kra.reporting.service.impl.BirtReportServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
-    
-     <bean id="businessObjectService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="businessObjectService" />
-    </bean>
-    
     </beans>

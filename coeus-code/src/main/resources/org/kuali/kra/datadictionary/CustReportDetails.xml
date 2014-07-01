@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="CustReportDetails" parent="CustReportDetails-parentBean" />
   <bean id="CustReportDetails-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.reporting.bo.CustReportDetails" />
+		<property name="businessObjectClass" value="org.kuali.coeus.common.impl.rpt.cust.CustReportDetails" />
 		<property name="objectLabel" value="CustReportDetails" />
 		<property name="inquiryDefinition">
 			<ref bean="CustReportDetails-inquiryDefinition" />
@@ -92,10 +92,10 @@
     </property>
 		<property name="required" value="false" />
 		<property name="control">
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.reporting.bo.CustReportDetails" p:valuesFinderClass="org.kuali.kra.reporting.lookup.keyvalue.CustomReportDetailsValueFinder" p:includeKeyInLabel="false" p:keyAttribute="reportId" p:labelAttribute="reportLabel" p:script="generateInputParams(this,generateInputParams_Callback)"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.impl.rpt.cust.CustReportDetails" p:valuesFinderClass="org.kuali.coeus.common.impl.rpt.cust.CustomReportDetailsValueFinder" p:includeKeyInLabel="false" p:keyAttribute="reportId" p:labelAttribute="reportLabel" p:script="generateInputParams(this,generateInputParams_Callback)"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.reporting.lookup.keyvalue.CustomReportDetailsValueFinder"/>
+      <bean class="org.kuali.coeus.common.impl.rpt.cust.CustomReportDetailsValueFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -229,7 +229,7 @@
 
   <bean id="CustReportDetails-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="CustReportDetails"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.reporting.bo.CustReportDetails"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.impl.rpt.cust.CustReportDetails"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -273,7 +273,7 @@
 	</bean>
 
   <bean id="CustReportDetails-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.reporting.bo.CustReportDetails"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.impl.rpt.cust.CustReportDetails"/>
     <property name="headerText" value="Custom Report Details Lookup"/>
     <property name="criteriaFields">
       <list>

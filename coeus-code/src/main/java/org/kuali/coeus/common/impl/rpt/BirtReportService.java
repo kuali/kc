@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.reporting.service;
+package org.kuali.coeus.common.impl.rpt;
 
-import org.kuali.kra.reporting.bo.BirtParameterBean;
-import org.kuali.kra.reporting.bo.CustReportDetails;
+import org.kuali.coeus.common.impl.rpt.cust.CustReportDetails;
 
 import java.io.InputStream;
 import java.util.ArrayList;
