@@ -327,10 +327,33 @@
     </property>
   </bean>
 <bean id="AllDevelopmentProposals-LookupViewId" parent="AllDevelopmentProposals-lookupView-parentBean" />
-	<bean id="AllDevelopmentProposals-lookupView-parentBean" abstract="true" parent="LookupableDevelopmentProposal-LookupView" p:viewName="AllLookupableDevelopmentProposals-LookupViewName" 
+   <bean id="AllDevelopmentProposals-lookupView-parentBean" abstract="true" parent="LookupableDevelopmentProposal-LookupView" p:viewName="AllLookupableDevelopmentProposals-LookupViewName" 
 	p:headerText="All Proposal Development Document Lookup"/>
-	<bean id="SearchDevelopmentProposals-LookupViewId" parent="SearchDevelopmentProposals-lookupView-parentBean" />
-	<bean id="SearchDevelopmentProposals-lookupView-parentBean"  abstract="true" parent="LookupableDevelopmentProposal-LookupView"
-	p:viewName="SearchLookupableDevelopmentProposals-LookupViewName" 
-	p:headerText="Search Proposal Development Document Lookup"/>
+
+<bean id="SearchDevelopmentProposals-LookupViewId" parent="SearchDevelopmentProposals-lookupView-parentBean" />
+   <bean id="SearchDevelopmentProposals-lookupView-parentBean"  abstract="true" parent="LookupableDevelopmentProposal-LookupView" 
+	p:viewName="SearchLookupableDevelopmentProposals-LookupViewName" p:headerText="Search Proposal Development Document Lookup"/>
+	
+<bean id="EnrouteDevelopmentProposals-LookupViewId" parent="EnrouteDevelopmentProposals-lookupView-parentBean"/>    
+<bean id="EnrouteDevelopmentProposals-lookupView-parentBean" abstract="true" parent="DevelopmentProposal-LookupView"     p:viewName="EnrouteLookupableDevelopmentProposals-LookupViewName" p:headerText="Enroute Development Proposals Lookup" 
+     p:viewHelperServiceClass="org.kuali.coeus.propdev.impl.core.EnrouteDevelopmentProposalLookupable"
+     p:viewHelperService="@{T(org.kuali.rice.contrib.krad.SpringMethods).retrieveSpringBean('enrouteDevelopmentProposalLookupable')}">
+     <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="proposalNumber" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField" p:order="10"/>
+        <bean p:propertyName="proposalTypeCode" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField" p:order="20"/>
+        <bean p:propertyName="title" parent="Uif-LookupCriteriaInputField" p:order="30"/>
+        <bean p:propertyName="deadlineDate" parent="Uif-LookupCriteriaInputField" p:order="40"/>
+        <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField" p:order="50" />
+        <bean p:propertyName="sponsor.sponsorName" parent="Uif-LookupCriteriaInputField" p:order="60" />
+        <bean p:propertyName="ownedByUnitNumber" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField" p:order="70" />
+        <bean p:propertyName="ownedByUnit.unitName" parent="Uif-LookupCriteriaInputField"  p:order="80"/>
+        <bean p:propertyName="currentAwardNumber" parent="Uif-LookupCriteriaInputField" p:order="90" />
+        <bean p:propertyName="opportunityIdForGG" parent="Uif-LookupCriteriaInputField" p:order="100"/>
+        <bean p:propertyName="hierarchyStatus" parent="Uif-LookupCriteriaInputField" p:order="110"/>
+        <bean p:propertyName="proposalDocument.documentNumber" parent="Uif-LookupCriteriaInputField" p:order="120"/>
+      </list>
+  </property>
+       </bean>
+
 </beans>
