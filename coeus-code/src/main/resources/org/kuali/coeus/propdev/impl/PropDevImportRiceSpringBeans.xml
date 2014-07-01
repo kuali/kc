@@ -58,5 +58,6 @@
     <bean id="dbPlatform" parent="grlImporter" p:serviceName="dbPlatform" />
     <bean id="countryService" parent="grlImporter" p:serviceName="countryService" />
     <bean id="mailService" parent="grlImporter" p:serviceName="mailService" />
+    <bean id="krmsRulesExecutionService" parent="grlImporter" p:serviceName="krmsRulesExecutionService"/>
 
 </beans>

@@ -28,6 +28,8 @@ import org.kuali.rice.krms.api.engine.*;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.framework.engine.BasicRule;
 import org.kuali.rice.krms.framework.type.ValidationActionTypeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.*;
 
@@ -35,6 +37,11 @@ public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService 
     
     protected final Log LOG = LogFactory.getLog(KrmsRulesExecutionServiceImpl.class);
     private KcKrmsCacheManager kcKrmsCacheManager;
+
+    @Autowired
+    @Qualifier("rice.krms.engine")
+    private Engine engine;
+
     public List<String> processUnitValidations(String unitNumber, KrmsRulesContext rulesContext) {
         kcKrmsCacheManager.clearCache();
         Map<String, String> contextQualifiers = new HashMap<String, String>();
@@ -45,7 +52,6 @@ public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService 
         Facts.Builder factsBuilder = Facts.Builder.create();
         rulesContext.addFacts(factsBuilder);
 
-        Engine engine = KrmsApiServiceLocator.getEngine();
         if (engine == null) {
             LOG.error("Could not resolve KRMS Rules Engine - Unit Validations will not be evaluated!");
         } else {
@@ -57,6 +63,35 @@ public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService 
                 if (errors != null) {
                     String[] errorArray = StringUtils.split(errors, ",");
                     return Arrays.asList(errorArray);
+                }
+            } else {
+                LOG.warn("Results returned from KRMS Rules Engine was null.");
+            }
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Map<String,String>> processUnitKcValidations(String unitNumber, KrmsRulesContext rulesContext) {
+        kcKrmsCacheManager.clearCache();
+        Map<String, String> contextQualifiers = new HashMap<String, String>();
+        rulesContext.populateContextQualifiers(contextQualifiers);
+        SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
+                Collections.singletonMap(KcKrmsConstants.UNIT_NUMBER, unitNumber));
+
+        Facts.Builder factsBuilder = Facts.Builder.create();
+        rulesContext.addFacts(factsBuilder);
+
+
+        if (engine == null) {
+            LOG.error("Could not resolve KRMS Rules Engine - Unit Validations will not be evaluated!");
+        } else {
+            EngineResults results = engine.execute(selectionCriteria, factsBuilder.build(), null);
+
+            // comma-delimited list of error & warning messages
+            if (results != null) {
+                List<Map<String,String>> errors = (List<Map<String,String>>) results.getAttribute(KcKrmsConstants.ValidationAction.VALIDATIONS_ACTION_ATTRIBUTE);
+                if (errors != null) {
+                    return errors;
                 }
             } else {
                 LOG.warn("Results returned from KRMS Rules Engine was null.");
@@ -117,5 +152,13 @@ public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService 
      */
     public void setKcKrmsCacheManager(KcKrmsCacheManager kcKrmsCacheManager) {
         this.kcKrmsCacheManager = kcKrmsCacheManager;
+    }
+
+    public Engine getEngine() {
+        return engine;
+    }
+
+    public void setEngine(Engine engine) {
+        this.engine = engine;
     }
 }

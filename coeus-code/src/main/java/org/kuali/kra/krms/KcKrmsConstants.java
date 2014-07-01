@@ -25,7 +25,7 @@ public final class KcKrmsConstants {
     public static final String MESSAGE_TYPE_WARNING = "W";
     public static final String KC_KRMS_FUNCTION_RESOLVER_SERVICE_NAME="KC KRMS Function Resolver Service Name";
     public static final String KRMS_PROPERTY_TYPE_NM = "Property";
-    
+
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.
@@ -158,4 +158,11 @@ public final class KcKrmsConstants {
         public static final String SUBAWARD_CONTEXT_ID = "KC-SUBAWARD-CONTEXT";
     }
 
+    public static final class ValidationAction {
+        public static final String VALIDATIONS_ACTION_ATTRIBUTE = "kcValidations";
+        public static final String VALIDATIONS_ACTION_AREA_ATTRIBUTE = "actionArea";
+        public static final String VALIDATIONS_ACTION_SECTION_ATTRIBUTE = "actionSection";
+        public static final String VALIDATIONS_ACTION_NAVIGATE_TO_PAGE_ID_ATTRIBUTE = "actionNavigateToPageId";
+        public static final String VALIDATIONS_ACTION_NAVIGATE_TO_SECTION_ID_ATTRIBUTE = "actionNavigateToSectionId";
+    }
 }
