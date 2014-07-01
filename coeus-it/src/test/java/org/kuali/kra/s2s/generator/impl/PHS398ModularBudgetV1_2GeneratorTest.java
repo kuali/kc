@@ -42,7 +42,6 @@ public class PHS398ModularBudgetV1_2GeneratorTest extends
 		budget.setUrRateClassCode("1");
 		budget.setModularBudgetFlag(false);
 
-		bd.setParentDocument(document);
 		bd.getDocumentHeader().setDocumentDescription(
 				"test document description");
 		bd.getDocumentHeader().setDocumentNumber(bd.getDocumentNumber());
