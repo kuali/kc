@@ -15,12 +15,14 @@
  */
 package org.kuali.coeus.propdev.impl.attachment;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.struts.upload.FormFile;
 import org.eclipse.persistence.internal.weaving.RelationshipInfo;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -32,9 +34,13 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.CoreConstants;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.file.FileMeta;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
@@ -139,6 +145,12 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     @Transient
     private String url;
 
+    @Transient
+    private transient DateTimeService dateTimeService;
+
+    @Transient
+    private transient KcAttachmentService kcAttachmentService;
+
     @Override
     public void init(MultipartFile multipartFile) throws Exception {
         this.name = multipartFile.getOriginalFilename();
@@ -204,21 +216,15 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
     @Override
     public String getSizeFormatted() {
-        DecimalFormat format = new DecimalFormat("0.#");
-
-        if (size >= 1000000000) {
-            return format.format((((double)size) / 1000000000)) + " GB";
-        } else if (size >= 1000000) {
-            return format.format((((double)size) / 1000000)) + " MB";
-        } else {
-            return format.format((((double)size) / 1000)) + " KB";
-        }
+        return getKcAttachmentService().formatFileSizeString(size);
     }
 
     @Override
     public String getDateUploadedFormatted() {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm a");
-        return sdf.format(new Date(this.getUpdateTimestamp().getTime()));
+        if (this.getUpdateTimestamp() != null) {
+            return getDateTimeService().toString(new Date(this.getUpdateTimestamp().getTime()), CoreConstants.TIMESTAMP_TO_STRING_FORMAT_FOR_USER_INTERFACE_DEFAULT);
+        }
+        return StringUtils.EMPTY;
     }
 
     protected TaskAuthorizationService getTaskAuthorizationService(){
@@ -787,5 +793,26 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 	public String getProposalNumber() {
 		return getDevelopmentProposal().getProposalNumber();
 	}
+
+    public DateTimeService getDateTimeService() {
+        if (dateTimeService == null)
+            dateTimeService = KcServiceLocator.getService(DateTimeService.class);
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    public KcAttachmentService getKcAttachmentService() {
+        if (kcAttachmentService == null)
+            kcAttachmentService = KcServiceLocator.getService(KcAttachmentService.class);
+        return kcAttachmentService;
+    }
+
+    public void setKcAttachmentService(KcAttachmentService kcAttachmentService) {
+        this.kcAttachmentService = kcAttachmentService;
+    }
+
 }
 

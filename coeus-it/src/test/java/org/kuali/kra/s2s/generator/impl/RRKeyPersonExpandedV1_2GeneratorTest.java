@@ -86,14 +86,12 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
         p.setDescription("a description");
         piBiography.setPropPerDocType(p);
 		piBiography.setName("Bio Attachment");
-        piBiography.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+        piBiography.setDevelopmentProposal(document.getDevelopmentProposal());
 		ProposalPersonBiographyAttachment piAttachment = new ProposalPersonBiographyAttachment();
-		piAttachment.setBiographyNumber(1);
 		piAttachment.setType("application/octet-stream");
 		piAttachment.setName("Attachment");
 		piAttachment.setData(new byte[100]);
-        piAttachment.setProposalPersonNumber(proposalPerson.getProposalPersonNumber());
-        piAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+
 
 		piBiography.setPersonnelAttachment(piAttachment);
 		List<ProposalPersonBiography> bioList = new ArrayList<ProposalPersonBiography>();
@@ -164,14 +162,12 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
 		kpBiography.setProposalPersonNumber(1002);
 		kpBiography.setDocumentTypeCode("1");
 		kpBiography.setName("Bio Attachment");
-        kpBiography.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+        kpBiography.setDevelopmentProposal(document.getDevelopmentProposal());
 		ProposalPersonBiographyAttachment kpAttachment = new ProposalPersonBiographyAttachment();
-		kpAttachment.setBiographyNumber(1);
 		kpAttachment.setType("application/octet-stream");
 		kpAttachment.setName("Attachment");
 		kpAttachment.setData(new byte[100]);
-        kpAttachment.setProposalPersonNumber(keyPerson.getProposalPersonNumber());
-        kpAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+
 
 		kpBiography.setPersonnelAttachment(kpAttachment);
 		bioList.add(kpBiography);
