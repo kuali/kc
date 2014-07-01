@@ -39,40 +39,20 @@ import java.util.List;
 public class AwardTest { 
     private static final double DELTA = 0.001;
 
-    private static final int AWARD_ATTRIBUTES_COUNT = 129;
     private static final String PERSON_ID = "1001";
     private static final String KP_PERSON_ID = "1002";
     private static final int ROLODEX_ID = 1002;
     
     private Award awardBo;
-    
-    
-    /**
-     *
-     * @throws Exception
-     */
+
     @Before
     public void setUp() throws Exception {
         awardBo = new Award();
     }
 
-    /**
-     *
-     * @throws Exception
-     */
     @After
     public void tearDown() throws Exception {
         awardBo = null;
-    }
-    
-    /**
-     * 
-     * This method tests that total attributes of Award Business Object 
-     * @throws Exception
-     */
-    @Test
-    public void testAwardBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_ATTRIBUTES_COUNT, awardBo.getClass().getDeclaredFields().length);
     }
     
     @Test
