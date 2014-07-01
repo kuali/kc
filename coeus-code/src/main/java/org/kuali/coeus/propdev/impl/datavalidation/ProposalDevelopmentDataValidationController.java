@@ -5,28 +5,19 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.datadictionary.DataDictionary;
-import org.kuali.rice.krad.rules.rule.event.DocumentAuditEvent;
 import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.service.KualiRuleService;
-import org.kuali.rice.krad.uif.component.Component;
-import org.kuali.rice.krad.uif.container.GroupBase;
-import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.Header;
-import org.kuali.rice.krad.uif.element.ToggleMenu;
-import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.ViewIndex;
 import org.kuali.rice.krad.util.ErrorMessage;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADUtils;
-import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
+import org.kuali.rice.krms.framework.type.ValidationActionTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -39,7 +30,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.List;
@@ -47,6 +37,10 @@ import java.util.List;
 @Controller
 public class ProposalDevelopmentDataValidationController extends ProposalDevelopmentControllerBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDataValidationController.class);
+
+    @Autowired
+    @Qualifier("krmsRulesExecutionService")
+    private KrmsRulesExecutionService krmsRulesExecutionService;
 
     @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=validateData")
@@ -107,6 +101,18 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
                 dataValidationItems.add(dataValidationItem);
             }
         }
+
+        List<Map<String,String>> krmsErrors = getKrmsRulesExecutionService().processUnitKcValidations(document.getLeadUnitNumber(),document);
+        for (Map<String,String> error: krmsErrors) {
+            ProposalDevelopmentDataValidationItem dataValidationItem = new ProposalDevelopmentDataValidationItem();
+            dataValidationItem.setArea(error.get(KcKrmsConstants.ValidationAction.VALIDATIONS_ACTION_AREA_ATTRIBUTE));
+            dataValidationItem.setSection(error.get(KcKrmsConstants.ValidationAction.VALIDATIONS_ACTION_SECTION_ATTRIBUTE));
+            dataValidationItem.setDescription(error.get(ValidationActionTypeService.VALIDATIONS_ACTION_MESSAGE_ATTRIBUTE));
+            dataValidationItem.setSeverity(error.get(ValidationActionTypeService.VALIDATIONS_ACTION_TYPE_CODE_ATTRIBUTE).equals("E")?"Error":"Warning");
+            dataValidationItem.setNavigateToPageId(error.get(KcKrmsConstants.ValidationAction.VALIDATIONS_ACTION_NAVIGATE_TO_PAGE_ID_ATTRIBUTE));
+            dataValidationItem.setNavigateToSectionId(error.get(KcKrmsConstants.ValidationAction.VALIDATIONS_ACTION_NAVIGATE_TO_SECTION_ID_ATTRIBUTE));
+            dataValidationItems.add(dataValidationItem);
+        }
         return dataValidationItems;
     }
 
@@ -118,5 +124,13 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
             LOG.error("SectionID does not have a header property");
         }
         return null;
+    }
+
+    public KrmsRulesExecutionService getKrmsRulesExecutionService() {
+        return krmsRulesExecutionService;
+    }
+
+    public void setKrmsRulesExecutionService(KrmsRulesExecutionService krmsRulesExecutionService) {
+        this.krmsRulesExecutionService = krmsRulesExecutionService;
     }
 }

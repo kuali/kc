@@ -957,6 +957,7 @@
    
   	<context:annotation-config />
 	<context:component-scan base-package="org.kuali.kra.web.krad"/>
+    <context:component-scan base-package="org.kuali.rice.krms"/>
 
     <bean class="org.kuali.rice.core.framework.util.spring.NamedOrderedListBean">
         <property name="name" value="scriptConfigurationFilePaths" />
@@ -1193,7 +1194,11 @@
          	<ref bean="krms.serviceNamespace" />
         </property>
     </bean>
-    
+
+    <bean id="rice.krms.engine" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:serviceName="rice.krms.engine"/>
+
+    <bean id="krmsTypeRepositoryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:serviceName="krmsTypeRepositoryService"/>
+
     <bean id="mailSender" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" >
     	<property name="serviceName" value="mailSender" />
     </bean>
@@ -1708,7 +1713,6 @@
       p:callbackService-ref="unitAgendaTypeService"
       p:localServiceName="unitAgendaTypeService"
       p:serviceInterface="org.kuali.rice.krms.framework.type.AgendaTypeService"/>
-    
 
     <bean id="functionTermResolverTypeService" class="org.kuali.kra.krms.service.impl.FunctionTermResolverTypeServiceBase" abstract="true">
         <property name="businessObjectService" ref="businessObjectService" />
