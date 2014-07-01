@@ -1206,5 +1206,62 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
 		this.questionnaireAnswerService = questionnaireAnswerService;
 	}
 
+	/**
+     * This method is to check if the proposal person is the KeyPerson.
+     * FN_CHECK_PROPOSAL_PI PROPOSAL
+     * @param developmentProposal
+     * @return
+     */
+	@Override
+	public String checkProposalPersonIsKeyPerson(DevelopmentProposal developmentProposal) {
+		Person loggedInUser = GlobalVariables.getUserSession().getPerson();
+		String pId = loggedInUser.getPrincipalId();
+	        
+		for (ProposalPerson person : developmentProposal.getProposalPersons()) {
+			if (StringUtils.equals(person.getPersonId(), pId)) {
+	                return TRUE;
+	        }
+		}
+		return FALSE;
+	}
+	
+	/**
+	 * This method is to check if the proposal person is the CoI.
+	 * FN_CHECK_PROPOSAL_CO_I PROPOSAL
+	 * @param developmentProposal
+	 * @return
+	*/
+	@Override
+	public String checkProposalPersonIsCoi(DevelopmentProposal developmentProposal) {
+		Person loggedInUser = GlobalVariables.getUserSession().getPerson();
+	    String pId = loggedInUser.getPrincipalId();
+	        
+	    for (ProposalPerson person : developmentProposal.getInvestigators()) {
+	    	if (person.isInvestigator() && !person.isPrincipalInvestigator()
+	    			&& StringUtils.equals(pId, person.getPersonId())) {
+	    		return TRUE;
+	    	}
+	    }
+	    return FALSE;
+	}
+
+	/**
+	* This method is to check if the proposal person is the PI.
+	* FN_CHECK_PROPOSAL_PI PROPOSAL
+	* @param developmentProposal
+	* @return
+	*/
+	@Override
+	public String checkProposalPersonIsPi(DevelopmentProposal developmentProposal) {
+		Person loggedInUser = GlobalVariables.getUserSession().getPerson();
+	    String pId = loggedInUser.getPrincipalId();
+	    for (ProposalPerson person : developmentProposal.getInvestigators()) {
+	    	if (person.isInvestigator() && (person.isPrincipalInvestigator())
+	    			&& StringUtils.equals(pId, person.getPersonId())) {
+	                return TRUE;
+	        }
+	    }
+	    return FALSE;
+	}
 
 }
