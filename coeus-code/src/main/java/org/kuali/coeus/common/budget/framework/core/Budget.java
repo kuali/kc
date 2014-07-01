@@ -1501,23 +1501,6 @@ public class Budget extends AbstractBudget {
         return amount;
     }
 
-//    /**
-//     * Gets the budgetDocument attribute. 
-//     * @return Returns the budgetDocument.
-//     */
-//    public BudgetDocument getBudgetDocument() {
-//        return budgetDocument;
-//    }
-//
-//    /**
-//     * Sets the budgetDocument attribute value.
-//     * @param budgetDocument The budgetDocument to set.
-//     */
-//    public void setBudgetDocument(BudgetDocument budgetDocument) {
-//        setDocumentNumber(budgetDocument.getDocumentNumber());
-//        this.budgetDocument = budgetDocument;
-//    }
-
     /**
      * Gets the ohRatesNonEditable attribute. 
      * @return Returns the ohRatesNonEditable.
