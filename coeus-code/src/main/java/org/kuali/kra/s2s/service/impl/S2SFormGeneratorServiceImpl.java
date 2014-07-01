@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlOptions;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
-import org.kuali.kra.s2s.formmapping.FormMappingLoader;
+import org.kuali.kra.s2s.formmapping.FormMappingService;
 import org.kuali.kra.s2s.generator.S2SFormGenerator;
 import org.kuali.kra.s2s.service.S2SFormGeneratorService;
 
@@ -37,7 +37,9 @@ import java.util.Map;
 public class S2SFormGeneratorServiceImpl implements S2SFormGeneratorService {
     private static final Log LOG = LogFactory.getLog(S2SFormGeneratorServiceImpl.class);
 
-    
+
+    private FormMappingService formMappingService;
+
     /**
      *
      * This method is used to create and return a form generator instance. Based on the namespace provided as parameter, it
@@ -49,7 +51,7 @@ public class S2SFormGeneratorServiceImpl implements S2SFormGeneratorService {
      * @throws org.kuali.kra.s2s.S2SException if form generator for given namespace is not available
      */
     public final S2SFormGenerator getS2SGenerator(String proposalNumber,String namespace) throws S2SException {
-        FormMappingInfo formInfo = new FormMappingLoader().getFormInfo(proposalNumber,namespace);
+        FormMappingInfo formInfo = formMappingService.getFormInfo(proposalNumber,namespace);
         S2SFormGenerator formGenerator;
         try {
             formGenerator = (S2SFormGenerator) Class.forName(formInfo.getMainClass()).newInstance();
@@ -88,5 +90,13 @@ public class S2SFormGeneratorServiceImpl implements S2SFormGeneratorService {
 
         xmlOptions.setSaveSuggestedPrefixes(prefixMap);
         return xmlOptions;
+    }
+
+    public FormMappingService getFormMappingService() {
+        return formMappingService;
+    }
+
+    public void setFormMappingService(FormMappingService formMappingService) {
+        this.formMappingService = formMappingService;
     }
 }

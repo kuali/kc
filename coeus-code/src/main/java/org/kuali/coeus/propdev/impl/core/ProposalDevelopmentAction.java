@@ -66,7 +66,7 @@ import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.person.ProposalDevelopmentKeyPersonnelAction;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
-import org.kuali.kra.s2s.formmapping.FormMappingLoader;
+import org.kuali.kra.s2s.formmapping.FormMappingService;
 import org.kuali.kra.s2s.service.PrintResult;
 import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.rice.core.api.util.RiceConstants;
@@ -126,7 +126,8 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     private BusinessObjectService businessObjectService;
        
     private BudgetPrintService budgetPrintService;
-    
+    private FormMappingService formMappingService;
+
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = null;
@@ -1259,8 +1260,8 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     
     class S2sOppFormsComparator3 implements Comparator<S2sOppForms> {
 	    public int compare(S2sOppForms s2sOppForms1, S2sOppForms s2sOppForms2) {
-	    	FormMappingInfo info1 = new FormMappingLoader().getFormInfo(s2sOppForms1.getS2sOppFormsId().getOppNameSpace()); 
-	    	FormMappingInfo info2 = new FormMappingLoader().getFormInfo(s2sOppForms2.getS2sOppFormsId().getOppNameSpace());
+	    	FormMappingInfo info1 = getFormMappingService().getFormInfo(s2sOppForms1.getS2sOppFormsId().getOppNameSpace());
+	    	FormMappingInfo info2 = getFormMappingService().getFormInfo(s2sOppForms2.getS2sOppFormsId().getOppNameSpace());
 	        if(info1 != null && info2 != null) {
 	            Integer sortIndex1 = info1.getSortIndex();               
 	            Integer sortIndex2 = info2.getSortIndex();  
@@ -1268,8 +1269,13 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 	        }
 	        return 1;
 	    }    
-	}    
+	}
 
+    protected FormMappingService getFormMappingService() {
+        if (formMappingService == null)
+            formMappingService = KcServiceLocator.getService(FormMappingService.class);
+        return formMappingService;
+    }
 
     protected ProposalDevelopmentPrintingService getProposalDevelopmentPrintingService() {
         if (proposalDevelopmentPrintingService == null)

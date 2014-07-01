@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.s2s.formmapping;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.api.s2s.UserAttachedFormService;
 import org.kuali.kra.s2s.generator.impl.UserAttachedFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -41,8 +41,7 @@ import java.util.*;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-
-public class FormMappingLoader {
+public class FormMappingServiceImpl implements FormMappingService {
 
     private static Map<String, FormMappingInfo> bindings;
     private static Map<Integer, List<String>> sortedNameSpaces;
@@ -55,23 +54,38 @@ public class FormMappingLoader {
     private static final String TAG_FORM = "Form";
     private static final String SORT_INDEX = "sortIndex";
     private static final int DEFAULT_SORT_INDEX = 1000;
-    private static final Log LOG = LogFactory.getLog(FormMappingLoader.class);
+    private static final Log LOG = LogFactory.getLog(FormMappingServiceImpl.class);
 
-    
+    private UserAttachedFormService userAttachedFormService;
+
     /**
      * 
      * This method is used to get the Form Information based on the given schema
      * 
      * @param namespace {@link String} namespace URL of the form
      * @return {@link FormMappingInfo}containing the namespace information
-     * @throws org.kuali.kra.s2s.S2SException
-     * 
      */
+    @Override
     public FormMappingInfo getFormInfo(String namespace) {
-        return getFormInfo(null,namespace);
+
+        if (StringUtils.isBlank(namespace)) {
+            throw new IllegalArgumentException("namespace is blank");
+        }
+
+        return getFormInfo(null, namespace);
     }
-    
-    public FormMappingInfo getFormInfo(String proposalNumber,String namespace) {
+
+    @Override
+    public FormMappingInfo getFormInfo(String proposalNumber, String namespace) {
+
+        if (StringUtils.isBlank(namespace)) {
+            throw new IllegalArgumentException("proposalNumber is blank");
+        }
+
+        if (StringUtils.isBlank(namespace)) {
+            throw new IllegalArgumentException("namespace is blank");
+        }
+
         getBindings();
         FormMappingInfo formMappingInfo = bindings.get(namespace);
         if (formMappingInfo != null) {
@@ -84,8 +98,7 @@ public class FormMappingLoader {
     }
 
     private FormMappingInfo getUserAttachedForm(String proposalNumber,String namespace) {
-        String formName = KcServiceLocator.getService(UserAttachedFormService.class).
-                findFormNameByProposalNumberAndNamespace(proposalNumber, namespace);
+        final String formName = getUserAttachedFormService().findFormNameByProposalNumberAndNamespace(proposalNumber, namespace);
 
         if (formName != null) {
             FormMappingInfo mappingInfo = new FormMappingInfo();
@@ -113,14 +126,14 @@ public class FormMappingLoader {
      * 
      * @return {@link Map}
      */
-
+    @Override
     public Map<String, FormMappingInfo> getBindings() {
         if (bindings == null) {
-            synchronized (FormMappingLoader.class) {
+            synchronized (FormMappingServiceImpl.class) {
             	bindings = new Hashtable<String, FormMappingInfo>();
                 sortedNameSpaces = new TreeMap<Integer, List<String>>();
                 loadBindings(BINDING_FILE_NAME);
-                if((FormMappingLoader.class.getResourceAsStream(BINDING_FILE_NAME_V2))!=null)
+                if((FormMappingServiceImpl.class.getResourceAsStream(BINDING_FILE_NAME_V2))!=null)
                 loadBindings(BINDING_FILE_NAME_V2);
             }
         }
@@ -141,17 +154,9 @@ public class FormMappingLoader {
         	sortedNameSpaces.put(defaultSortIndex, new ArrayList<String>());
         try {
             builder = factory.newDocumentBuilder();
-            document = builder.parse(FormMappingLoader.class.getResourceAsStream(BindingFile));
+            document = builder.parse(FormMappingServiceImpl.class.getResourceAsStream(BindingFile));
         }
-        catch (ParserConfigurationException e) {
-            LOG.error(S2SConstants.ERROR_MESSAGE, e);
-            return;
-        }
-        catch (SAXException e) {
-            LOG.error(S2SConstants.ERROR_MESSAGE, e);
-            return;
-        }
-        catch (IOException e) {
+        catch (ParserConfigurationException|SAXException|IOException e) {
             LOG.error(S2SConstants.ERROR_MESSAGE, e);
             return;
         }
@@ -191,13 +196,16 @@ public class FormMappingLoader {
         }
     }
 
-    /**
-     * Gets the sortedNameSpaces attribute.
-     * 
-     * @return Returns the sortedNameSpaces.
-     */
+    @Override
     public Map<Integer, List<String>> getSortedNameSpaces() {
         return sortedNameSpaces;
     }
 
+    public UserAttachedFormService getUserAttachedFormService() {
+        return userAttachedFormService;
+    }
+
+    public void setUserAttachedFormService(UserAttachedFormService userAttachedFormService) {
+        this.userAttachedFormService = userAttachedFormService;
+    }
 }
