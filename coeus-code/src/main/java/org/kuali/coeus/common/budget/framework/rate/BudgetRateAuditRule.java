@@ -33,7 +33,7 @@ public class BudgetRateAuditRule  extends KcTransactionalDocumentRuleBase implem
         BudgetDocument budgetDocument = (BudgetDocument) document;
         boolean retval = true;
         //budgetDocument.getRateClassTypes(); // to load instituterates & institutelarate lists
-        if (KcServiceLocator.getService(BudgetRatesService.class).isOutOfSyncForRateAudit(budgetDocument)) {
+        if (KcServiceLocator.getService(BudgetRatesService.class).isOutOfSyncForRateAudit(budgetDocument.getBudget())) {
             retval = false;
         }
         

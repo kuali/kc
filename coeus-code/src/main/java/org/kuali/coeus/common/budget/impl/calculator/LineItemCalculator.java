@@ -79,7 +79,7 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
             setCalculatedAmounts(budget,bli);
         }
 
-        if(!isDocumentOhRateSameAsFormOhRate() || getBudgetRateService().performSyncFlag(budget.getBudgetDocument())){
+        if(!isDocumentOhRateSameAsFormOhRate() || getBudgetRateService().performSyncFlag(budget)){
             Long versionNumber = null;
             if (CollectionUtils.isNotEmpty(bli.getBudgetLineItemCalculatedAmounts())) {
                 versionNumber = bli.getBudgetLineItemCalculatedAmounts().get(0).getVersionNumber();

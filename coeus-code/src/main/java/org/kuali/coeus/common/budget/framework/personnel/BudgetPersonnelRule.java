@@ -180,7 +180,7 @@ public class BudgetPersonnelRule {
             for (int j = i + 1; j < budgetPersons.size(); j++) {
                 BudgetPerson budgetPersonCompare = budgetPersons.get(j);
                 if (budgetPerson.isDuplicatePerson(budgetPersonCompare)) {
-                    BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
+                    BudgetParent budgetParent = budgetDocument.getBudget().getBudgetParent().getDocument().getBudgetParent();
                     if (budgetParent instanceof DevelopmentProposal && ((DevelopmentProposal)budgetParent).isParent()) {
                         // not an error - ProposalHierarchy parents are allowed to have duplicate BudgetPersons
                     }

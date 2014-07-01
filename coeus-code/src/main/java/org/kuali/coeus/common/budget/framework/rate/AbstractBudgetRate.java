@@ -15,15 +15,19 @@
  */
 package org.kuali.coeus.common.budget.framework.rate;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
+import java.io.Serializable;
+import java.sql.Date;
+
+import javax.persistence.*;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.budget.api.core.IdentifiableBudget;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.bo.AbstractInstituteRate;
+import org.kuali.kra.bo.AbstractInstituteRate.AbstractInstituteRateId;
 import org.kuali.coeus.common.budget.framework.calculator.RateClassType;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
@@ -34,10 +38,11 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
     private static final long serialVersionUID = -7152006670699620080L;
 
     @Id
-    @Column(name = "BUDGET_ID")
+    @Column(name = "BUDGET_ID", insertable = false, updatable = false)
     private Long budgetId;
 
-    @Transient
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private Budget budget;
 
     @Column(name = "APPLICABLE_RATE")
@@ -281,5 +286,46 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
 
     public void setRateChanged(boolean rateChanged) {
         this.rateChanged = rateChanged;
+    }
+    
+    public static final class AbstractBudgetRateId extends AbstractInstituteRateId implements Serializable, Comparable<AbstractBudgetRateId> {
+
+    	private Long budgetId;
+
+        @Override
+        public String toString() {
+            return new ToStringBuilder(this).appendSuper(super.toString())
+            		.append("budgetId", this.budgetId).toString();
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null)
+                return false;
+            if (other == this)
+                return true;
+            if (other.getClass() != this.getClass())
+                return false;
+            final AbstractBudgetRateId rhs = (AbstractBudgetRateId) other;
+            return new EqualsBuilder().appendSuper(super.equals(rhs)).append(this.budgetId, rhs.budgetId).isEquals();
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder().appendSuper(super.hashCode()).append(this.budgetId).toHashCode();
+        }
+
+        @Override
+        public int compareTo(AbstractBudgetRateId other) {
+            return new CompareToBuilder().appendSuper(super.compareTo((AbstractInstituteRate.AbstractInstituteRateId)other)).append(this.budgetId, other.budgetId).toComparison();
+        }
+
+		public Long getBudgetId() {
+			return budgetId;
+		}
+
+		public void setBudgetId(Long budgetId) {
+			this.budgetId = budgetId;
+		}
     }
 }

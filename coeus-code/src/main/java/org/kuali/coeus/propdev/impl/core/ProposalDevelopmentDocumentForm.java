@@ -18,6 +18,7 @@ package org.kuali.coeus.propdev.impl.core;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.medusa.MedusaNode;
 import org.kuali.coeus.common.framework.medusa.MedusaService;
+import org.kuali.coeus.propdev.impl.budget.core.AddBudgetDto;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto;
@@ -54,6 +55,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private List<ProposalDevelopmentDataValidationItem> dataValidationItems;
     private boolean validateData;
     private List<ProposalCreditSplitListDto> creditSplitListItems;
+    private AddBudgetDto addBudgetDto;
 
     public ProposalDevelopmentDocumentForm() {
         super();
@@ -220,4 +222,12 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     public void setMedusaService(MedusaService medusaService) {
     	this.medusaService = medusaService;
     }
+
+	public AddBudgetDto getAddBudgetDTO() {
+		return addBudgetDto;
+	}
+
+	public void setAddBudgetDTO(AddBudgetDto addBudgetDto) {
+		this.addBudgetDto = addBudgetDto;
+	}
 }

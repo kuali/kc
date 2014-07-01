@@ -100,11 +100,11 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         
         GlobalVariables.getMessageMap().addToErrorPath("document");        
         GlobalVariables.getMessageMap().addToErrorPath("parentDocument");
-        if (ObjectUtils.isNull(budgetDocument.getParentDocument())) {
+        if (ObjectUtils.isNull(budgetDocument.getBudget().getBudgetParent().getDocument())) {
             budgetDocument.refreshReferenceObject("parentDocument");
         }
-        if(Boolean.valueOf(budgetDocument.getParentDocument().getProposalBudgetFlag())){
-            valid &= processBudgetVersionsBusinessRule(budgetDocument.getParentDocument(), true);
+        if(Boolean.valueOf(budgetDocument.getBudget().getBudgetParent().getDocument().getProposalBudgetFlag())){
+            valid &= processBudgetVersionsBusinessRule(budgetDocument.getBudget().getBudgetParent().getDocument(), true);
         } 
         GlobalVariables.getMessageMap().removeFromErrorPath("parentDocument");
         
@@ -400,13 +400,13 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         
         retval &= new ActivityTypeAuditRule().processRunAuditBusinessRules(document);
 
-        if (!Boolean.valueOf(((BudgetDocument)document).getParentDocument().getProposalBudgetFlag())){
+        if (!((BudgetDocument)document).getBudget().isProposalBudget()){
             retval &= new AwardBudgetBudgetTypeAuditRule().processRunAuditBusinessRules(document);
             retval &= new AwardBudgeCostTotalAuditRule().processRunAuditBusinessRules(document);
             retval &= new AwardBudgetCostLimitAuditRule().processRunAuditBusinessRules(document);
         }
         if (retval) {
-            processRunAuditBudgetVersionRule(((BudgetDocument) document).getParentDocument());
+            processRunAuditBudgetVersionRule(((BudgetDocument) document).getBudget().getBudgetParent().getDocument());
         }
         
         return retval;

@@ -20,6 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.sql.Date;
@@ -33,7 +34,7 @@ public class BudgetDocumentIntegrationTest extends KcIntegrationTestBase {
     
     @Before
     public void setUp() {
-        budget = new Budget();
+        budget = new ProposalDevelopmentBudgetExt();
     }
     
     @After

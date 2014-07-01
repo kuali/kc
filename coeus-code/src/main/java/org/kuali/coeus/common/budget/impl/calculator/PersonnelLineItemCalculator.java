@@ -83,7 +83,7 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
        Long versionNumber = -1L;
        Map<String, Boolean> applyRateFlags = null;
        
-       if (!isDocumentOhRateSameAsFormOhRate() || getBudgetRateService().performSyncFlag(budget.getBudgetDocument())){
+       if (!isDocumentOhRateSameAsFormOhRate() || getBudgetRateService().performSyncFlag(budget)){
            if (budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().size() > 0) {
                versionNumber = budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().get(0).getVersionNumber();
            }

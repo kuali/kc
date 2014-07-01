@@ -17,8 +17,10 @@ package org.kuali.kra.award.budget;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -36,6 +38,10 @@ import java.util.SortedMap;
 public class AwardBudgetExt extends Budget {
 
     private static final long serialVersionUID = 1L;
+    
+    private Award award;
+    
+    private Long awardId;
 
     private String awardBudgetStatusCode;
 
@@ -53,13 +59,13 @@ public class AwardBudgetExt extends Budget {
 
     private String budgetInitiator;
 
-    private BudgetVersionOverview prevBudget;
+    private AwardBudgetExt prevBudget;
 
     private List<ScaleTwoDecimal> budgetsTotals;
 
     private List<AwardBudgetLimit> awardBudgetLimits;
 
-    private BudgetVersionOverview firstBudget;
+    private AwardBudgetExt firstBudget;
     
     private SortedMap<CostElement, ScaleTwoDecimal> objectCodeBudgetTotals;
 
@@ -72,9 +78,12 @@ public class AwardBudgetExt extends Budget {
     private SortedMap<RateType, ScaleTwoDecimal> personnelCalculatedExpenseBudgetTotals;
 
     private SortedMap<RateType, ScaleTwoDecimal> nonPersonnelCalculatedExpenseBudgetTotals;
+    
+    private BudgetDocument<Award> budgetDocument;
 
     public AwardBudgetExt() {
         super();
+        setParentDocumentTypeCode("AWRD");
         awardBudgetLimits = new ArrayList<AwardBudgetLimit>();
     }
 
@@ -127,7 +136,7 @@ public class AwardBudgetExt extends Budget {
      * @return Returns the ohRatesNonEditable.
      */
     public boolean getOhRatesNonEditable() {
-        Award award = (Award) getBudgetDocument().getParentDocument().getBudgetParent();
+        Award award = (Award) getBudgetDocument().getBudget().getBudgetParent();
         return award.getAwardFandaRate().isEmpty() ? false : true;
     }
 
@@ -136,7 +145,7 @@ public class AwardBudgetExt extends Budget {
      * @return Returns the ebRatesNonEditable.
      */
     public boolean getEbRatesNonEditable() {
-        Award award = (Award) getBudgetDocument().getParentDocument().getBudgetParent();
+        Award award = (Award) getBudgetDocument().getBudget().getBudgetParent();
         return ((award.getSpecialEbRateOffCampus() != null && award.getSpecialEbRateOffCampus().isPositive()) || (award.getSpecialEbRateOnCampus() != null && award.getSpecialEbRateOnCampus().isPositive())) ? true : false;
     }
 
@@ -206,22 +215,21 @@ public class AwardBudgetExt extends Budget {
         this.budgetInitiator = budgetInitiator;
     }
 
-    public BudgetVersionOverview getPrevBudget() {
+    public AwardBudgetExt getPrevBudget() {
         if (prevBudget == null && this.getBudgetDocument() != null) {
             Integer version = 0;
-            for (BudgetDocumentVersion budgetDocumentVersion : this.getBudgetDocument().getParentDocument().getBudgetDocumentVersions()) {
-                BudgetVersionOverview budgetVersionOverview = budgetDocumentVersion.getBudgetVersionOverview();
-                if (budgetVersionOverview != null && budgetVersionOverview.getBudgetVersionNumber() > version
+            for (AwardBudgetExt budgetVersion : ((Award)this.getBudgetParent()).getBudgets()) {
+                if (budgetVersion != null && budgetVersion.getBudgetVersionNumber() > version
                         && getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED).equals(
-                                ((AwardBudgetVersionOverviewExt) budgetVersionOverview).getAwardBudgetStatusCode())
-                        && budgetVersionOverview.getBudgetVersionNumber() < this.getBudgetVersionNumber()) {
-                    version = budgetVersionOverview.getBudgetVersionNumber();
-                    prevBudget = budgetVersionOverview;
+                                budgetVersion.getAwardBudgetStatusCode())
+                        && budgetVersion.getBudgetVersionNumber() < this.getBudgetVersionNumber()) {
+                    version = budgetVersion.getBudgetVersionNumber();
+                    prevBudget = budgetVersion;
                 }
 
             }
             if (prevBudget == null) {
-                prevBudget = new BudgetVersionOverview();
+                prevBudget = new AwardBudgetExt();
                 prevBudget.setCostSharingAmount(ScaleTwoDecimal.ZERO);
                 prevBudget.setTotalCost(ScaleTwoDecimal.ZERO);
                 prevBudget.setTotalCostLimit(ScaleTwoDecimal.ZERO);
@@ -233,19 +241,18 @@ public class AwardBudgetExt extends Budget {
         return prevBudget;
     }
 
-    public BudgetVersionOverview getFirstBudget() {
+    public AwardBudgetExt getFirstBudget() {
         if (firstBudget == null && this.getBudgetDocument() != null) {
             Integer version = 0;
-            for (BudgetDocumentVersion budgetDocumentVersion : this.getBudgetDocument().getParentDocument().getBudgetDocumentVersions()) {
-                BudgetVersionOverview budgetVersionOverview = budgetDocumentVersion.getBudgetVersionOverview();
-                if (budgetVersionOverview != null && getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED).equals(
-                                ((AwardBudgetVersionOverviewExt)budgetVersionOverview).getAwardBudgetStatusCode())) {
-                    firstBudget = budgetVersionOverview;
+            for (AwardBudgetExt budgetVersion : ((Award) this.getBudgetParent()).getBudgets()) {
+                if (budgetVersion != null && getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED).equals(
+                                budgetVersion.getAwardBudgetStatusCode())) {
+                    firstBudget = budgetVersion;
                     return firstBudget;
                 }
             }
             if (firstBudget == null) {
-                firstBudget = new BudgetVersionOverview();
+                firstBudget = new AwardBudgetExt();
                 firstBudget.setCostSharingAmount(getCostSharingAmount());
                 firstBudget.setTotalCost(getTotalCost());
                 firstBudget.setTotalCostLimit(getTotalCostLimit());
@@ -257,7 +264,7 @@ public class AwardBudgetExt extends Budget {
         return firstBudget;
     }
     
-    public void setPrevBudget(BudgetVersionOverview prevBudget) {
+    public void setPrevBudget(AwardBudgetExt prevBudget) {
         this.prevBudget = prevBudget;
     }
 
@@ -369,4 +376,47 @@ public class AwardBudgetExt extends Budget {
         }
         return amount;
     }
+
+	public BudgetDocument<Award> getBudgetDocument() {
+		return budgetDocument;
+	}
+
+	public void setBudgetDocument(BudgetDocument<Award> budgetDocument) {
+		this.budgetDocument = budgetDocument;
+	}
+
+	public Award getAward() {
+		return award;
+	}
+
+	public void setAward(Award award) {
+		this.award = award;
+	}
+
+	@Override
+	public Award getBudgetParent() {
+		return award;
+	}
+
+	@Override
+	public String getParentDocumentKey() {
+		return awardId.toString();
+	}
+
+	public Long getAwardId() {
+		return awardId;
+	}
+
+	public void setAwardId(Long awardId) {
+		this.awardId = awardId;
+	}
+	
+    public java.util.Date getBudgetStartDate() {
+        return getAward().getAwardAmountInfos().get(getAward().getAwardAmountInfos().size() - 1).getCurrentFundEffectiveDate();
+    }
+
+    public java.util.Date getBudgetEndDate() {
+        return getAward().getAwardAmountInfos().get(getAward().getAwardAmountInfos().size() - 1).getObligationExpirationDate();
+    }    
+	
 }

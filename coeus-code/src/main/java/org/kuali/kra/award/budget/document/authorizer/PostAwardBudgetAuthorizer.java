@@ -41,7 +41,7 @@ public class PostAwardBudgetAuthorizer extends BudgetAuthorizer {
         AwardBudgetTask budgetTask = (AwardBudgetTask) task;
         
         AwardBudgetDocument budgetDocument = budgetTask.getAwardBudgetDocument();
-        AwardDocument doc = (AwardDocument) budgetDocument.getParentDocument();
+        AwardDocument doc = (AwardDocument) budgetDocument.getBudget().getBudgetParent().getDocument();
         WorkflowDocument workflowDoc = getWorkflowDocument(budgetDocument);
         return workflowDoc.isFinal() && isAwardBudgetToBePosted(budgetDocument) && canPost() &&
             hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD_BUDGET, 

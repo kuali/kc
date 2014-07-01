@@ -54,17 +54,8 @@
 				<ref bean="PropDev-SponsorProgramInfoPage" />
 				<ref bean="PropDev-DeliveryInfoPage" />
 				<ref bean="PropDev-CreditAllocationPage"  />
-				<bean id="PropDev-Budget-Summary" parent="PropDev-UnderDevelopmentPage" />
-				<bean id="PropDev-Budget-Parameters" parent="PropDev-UnderDevelopmentPage" />
-				<bean id="PropDev-Budget-Rates" parent="PropDev-UnderDevelopmentPage" />
-				<bean id="PropDev-Budget-Personnel" parent="PropDev-UnderDevelopmentPage" />
-				<bean id="PropDev-Budget-NonPersonnel" parent="PropDev-UnderDevelopmentPage" />
-				<bean id="PropDev-Budget-DistIncome" parent="PropDev-UnderDevelopmentPage" />
-				<bean id="PropDev-Budget-Modular" parent="PropDev-UnderDevelopmentPage" />
-				<bean id="PropDev-Budget-Actions" parent="PropDev-UnderDevelopmentPage" />
+				<ref bean="PropDev-BudgetPage"/>
 				<ref bean="PropDev-SupplementalPage"/>
-				<bean id="PropDev-Summplemental2" parent="PropDev-UnderDevelopmentPage" />
-				<bean id="PropDev-Summplemental3" parent="PropDev-UnderDevelopmentPage" />
 				<bean id="PropDev-SummarySubmit" parent="PropDev-UnderDevelopmentPage" />
 			</list>
 		</property>
@@ -138,29 +129,8 @@
 		p:actionLabel="Questionnaire" p:actionEvent="navigateToQuestionnaire"
 		p:iconClass="icon-question" />
 	<bean id="PropDev-NavigationMenu-Budget" parent="PropDev-NavigationMenu-Budget-parentBean" />
-	<bean id="PropDev-NavigationMenu-Budget-parentBean" abstract="true"
-		parent="Uif-SidebarToggleMenu" p:toggleText="Budget" p:iconClass="icon-money">
-		<property name="menuItems">
-			<list>
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Budget-Summary"
-					p:actionLabel="Summary" p:order="10" />
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Budget-Parameters"
-					p:actionLabel="Parameters" p:order="20" />
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Budget-Rates"
-					p:actionLabel="Rates" p:order="30" />
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Budget-Personnel"
-					p:actionLabel="Personnel" p:order="40" />
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Budget-NonPersonnel"
-					p:actionLabel="Non-Personnel" p:order="50" />
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Budget-DistIncome"
-					p:actionLabel="Distribution &amp; Income" p:order="60" />
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Budget-Modular"
-					p:actionLabel="Modular" p:order="70" />
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-Budget-Actions"
-					p:actionLabel="Actions" p:order="80" />
-			</list>
-		</property>
-	</bean>
+	<bean id="PropDev-NavigationMenu-Budget-parentBean" abstract="true" p:navigateToPageId="PropDev-BudgetPage"
+		parent="Uif-NavigationActionLink" p:actionLabel="Budget" p:iconClass="icon-money"/>
 	<bean id="PropDev-NavigationMenu-CustomData" parent="PropDev-NavigationMenu-CustomData-parentBean" />
 	<bean id="PropDev-NavigationMenu-CustomData-parentBean" abstract="true"
 		parent="PropDev-CollectionToggleMenu" p:toggleText="Supplemental Information" p:iconClass="icon-bell"

@@ -44,7 +44,7 @@ public class BudgetUnrecoveredFandA extends KcPersistableBusinessObjectBase impl
     public static final String ON_CAMPUS_RATE_FLAG = "Y";
 
     @Id
-    @Column(name = "PROJECT_INCOME_ID")
+    @Column(name = "UNRECOVERED_FNA_ID")
     private Integer documentComponentId;
 
     @Id

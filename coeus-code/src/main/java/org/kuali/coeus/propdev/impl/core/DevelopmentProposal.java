@@ -37,6 +37,7 @@ import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeStatus;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
@@ -50,14 +51,18 @@ import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographySer
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.persistence.CompositeDescriptorCustomizer;
 import org.kuali.coeus.sys.framework.persistence.FilterByMapDescriptorCustomizer;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.*;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.infrastructure.Constants;
@@ -80,6 +85,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import javax.persistence.*;
+
 import java.sql.Date;
 import java.util.*;
 
@@ -331,7 +337,11 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = true, updatable = true)
     private ProposalDevelopmentDocument proposalDocument;
 
-    @Transient
+    @OneToMany(mappedBy="developmentProposal", orphanRemoval = true, cascade = { CascadeType.ALL })
+    private List<ProposalDevelopmentBudgetExt> budgets;
+
+
+	@Transient
     private NsfCode nsfCodeBo;
 
     @Transient
@@ -2461,4 +2471,42 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
     public void setS2sUserAttachedForms(List<S2sUserAttachedForm> s2sUserAttachedForms) {
         this.s2sUserAttachedForms = s2sUserAttachedForms;
     }
+
+	@Override
+	public boolean isProposalBudget() {
+		return true;
+	}
+
+	@Override
+	public BudgetParentDocument<DevelopmentProposal> getDocument() {
+		return getProposalDocument();
+	}
+
+	@Override
+	public Budget getNewBudget() {
+		return new ProposalDevelopmentBudgetExt();
+	}
+
+	@Override
+	public Integer getNextBudgetVersionNumber() {
+		return getDocument().getNextBudgetVersionNumber();
+	}
+
+	public List<ProposalDevelopmentBudgetExt> getBudgetVersionOverviews() {
+		return budgets;
+	}
+
+	public void setBudgetVersionOverviews(
+			List<ProposalDevelopmentBudgetExt> budgetVersionOverviews) {
+		this.budgets = budgetVersionOverviews;
+	}
+
+	public List<ProposalDevelopmentBudgetExt> getBudgets() {
+		return budgets;
+	}
+
+	public void setBudgets(List<ProposalDevelopmentBudgetExt> budgets) {
+		this.budgets = budgets;
+	}
+	
 }

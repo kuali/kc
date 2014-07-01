@@ -85,10 +85,9 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
 
     @Override
-    public void syncAllBudgetRates(BudgetDocument<T> budgetDocument) {
-        Budget budget = budgetDocument.getBudget();
-        List<InstituteRate> allInstituteRates = new ArrayList<InstituteRate>(getInstituteRates(budgetDocument));
-        List<InstituteLaRate> allInstituteLaRates = new ArrayList<InstituteLaRate>(getInstituteLaRates(budgetDocument));
+    public void syncAllBudgetRates(Budget budget) {
+        List<InstituteRate> allInstituteRates = new ArrayList<InstituteRate>(getInstituteRates(budget));
+        List<InstituteLaRate> allInstituteLaRates = new ArrayList<InstituteLaRate>(getInstituteLaRates(budget));
         
         if(isOutOfSync(budget)) {
             Map<String, AbstractInstituteRate> mapOfExistingBudgetProposalRates = mapRatesToKeys(budget.getBudgetRates()); 
@@ -101,8 +100,8 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
             // since different rate schedules can change UnrecoveredFandA, clear here
             budget.getBudgetUnrecoveredFandAs().clear();
             
-            getBudgetRates(budgetDocument, allInstituteRates);
-            getBudgetLaRates(budgetDocument, allInstituteLaRates);
+            getBudgetRates(budget, allInstituteRates);
+            getBudgetLaRates(budget, allInstituteLaRates);
             
             syncVersionNumber(mapOfExistingBudgetProposalRates, budget.getBudgetRates());
             syncVersionNumber(mapOfExistingBudgetProposalLaRates, budget.getBudgetLaRates());
@@ -138,38 +137,36 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * @param budgetDocument
      */
     @Override
-    public void syncParentDocumentRates(BudgetDocument<T> budgetDocument) {
+    public void syncParentDocumentRates(Budget budget) {
     }
     
     /* sync budget rates for a panel
      * each panel is based on rate class type 
      */
     @Override
-    public void syncBudgetRatesForRateClassType(String rateClassType, BudgetDocument<T> budgetDocument) {
-        Budget budget = budgetDocument.getBudget();
-            populateInstituteRates(budgetDocument);
+    public void syncBudgetRatesForRateClassType(String rateClassType, Budget budget) {
+            populateInstituteRates(budget);
             
             Map<String, AbstractInstituteRate> mapOfExistingBudgetProposalRates = mapRatesToKeys(budget.getBudgetRates()); 
             Map<String, AbstractInstituteRate> mapOfExistingBudgetProposalLaRates = mapRatesToKeys(budget.getBudgetLaRates());
             replaceRateClassesForRateClassType(rateClassType, budget, budget.getInstituteRates());
             replaceRateClassesForRateClassType(rateClassType, budget, budget.getInstituteLaRates());
-            replaceBudgetRatesForRateClassType(rateClassType, budgetDocument, budget.getBudgetRates(), budget.getInstituteRates());
-            replaceBudgetRatesForRateClassType(rateClassType, budgetDocument, budget.getBudgetLaRates(), budget.getInstituteLaRates());
+            replaceBudgetRatesForRateClassType(rateClassType, budget, budget.getBudgetRates(), budget.getInstituteRates());
+            replaceBudgetRatesForRateClassType(rateClassType, budget, budget.getBudgetLaRates(), budget.getInstituteLaRates());
             syncVersionNumber(mapOfExistingBudgetProposalRates, budget.getBudgetRates());
             syncVersionNumber(mapOfExistingBudgetProposalLaRates, budget.getBudgetLaRates());
     }
 
     @Override
-    public void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument) {
-        getBudgetRates(rateClassTypes, budgetDocument, getInstituteRates(budgetDocument));
+    public void getBudgetRates(List<RateClassType> rateClassTypes, Budget budget) {
+        getBudgetRates(rateClassTypes, budget, getInstituteRates(budget));
     }
 
     /* verify and add activity type prefix if required for rate class type description
      * 
      * */
-    protected void checkActivityPrefixForRateClassTypes(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument) {
-        Budget budget = budgetDocument.getBudget();
-        String activityTypeDescription = getActivityTypeDescription(budgetDocument);
+    protected void checkActivityPrefixForRateClassTypes(List<RateClassType> rateClassTypes, Budget budget) {
+        String activityTypeDescription = getActivityTypeDescription(budget);
         List<BudgetRate> budgetRates = budget.getBudgetRates();
         List<BudgetLaRate> budgetLaRates = budget.getBudgetLaRates();
         for(RateClassType rateClassType : rateClassTypes) {
@@ -196,12 +193,11 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
     
     @SuppressWarnings("unchecked")
-    protected String getActivityTypeDescription(BudgetDocument<T> budgetDocument) {
-        Budget budget = budgetDocument.getBudget();
-        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
+    protected String getActivityTypeDescription(Budget budget) {
+        BudgetParent budgetParent = budget.getBudgetParent();
 
         if (budget.isRateSynced() || !KcServiceLocator.getService(BudgetService.class).
-                checkActivityTypeChange(getBudgetParentDocument(budget), budget)) {
+                checkActivityTypeChange( budget)) {
             if(budgetParent.getActivityType()!= null){
                 return budgetParent.getActivityType().getDescription().concat(SPACE);
             }
@@ -313,13 +309,13 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * and unit number 
      * */
     @SuppressWarnings("unchecked")
-    protected Collection<InstituteRate> getInstituteRates(BudgetDocument<T> budgetDocument) {
+    protected Collection<InstituteRate> getInstituteRates(Budget budget) {
         //get first unit number in hierarchy with rates then select appropriate rates
-        Unit firstUnit = findFirstUnitWithRates(budgetDocument.getParentDocument().getBudgetParent().getUnit(), InstituteRate.class);
+        Unit firstUnit = findFirstUnitWithRates(budget.getBudgetParent().getUnit(), InstituteRate.class);
         if (firstUnit == null) {
             return new ArrayList();
         }
-        Collection abstractRates = getActiveInstituteRates(InstituteRate.class, firstUnit, budgetDocument.getParentDocument().getBudgetParent().getActivityTypeCode());
+        Collection abstractRates = getActiveInstituteRates(InstituteRate.class, firstUnit, budget.getBudgetParent().getActivityTypeCode());
         return (Collection<InstituteRate>)abstractRates;
     }
     
@@ -350,27 +346,22 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * and unit number 
      * */
     @SuppressWarnings("unchecked")
-    protected Collection<InstituteLaRate> getInstituteLaRates(BudgetDocument<T> budgetDocument) {
-        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent(); 
+    protected Collection<InstituteLaRate> getInstituteLaRates(Budget budget) {
+        BudgetParent budgetParent = budget.getBudgetParent(); 
         String unitNumber = budgetParent.getUnitNumber();                               
-        Collection abstractInstituteRates = getFilteredInstituteLaRates(InstituteLaRate.class, getRateFilterMap(budgetDocument));
+        Collection abstractInstituteRates = getFilteredInstituteLaRates(InstituteLaRate.class, getRateFilterMap(budget));
         abstractInstituteRates = abstractInstituteRates.size() > 0 ? abstractInstituteRates : new ArrayList();
         return (Collection<InstituteLaRate>)abstractInstituteRates ;
     }
 
 
     @SuppressWarnings("unchecked")
-    protected BudgetParentDocument<T> getBudgetParentDocument(Budget budget) {
-        BudgetDocument<T> budgetDocument = budget.getBudgetDocument();
-        if(budgetDocument==null){
-            budget.refreshReferenceObject("budgetDocument");
-            budgetDocument = budget.getBudgetDocument();
-        }
-    return budgetDocument.getParentDocument();
+    protected BudgetParentDocument getBudgetParentDocument(Budget budget) {
+        return budget.getBudgetParent().getDocument();
     }
 
-    protected Map<String, String> getRateFilterMap(BudgetDocument<T> budgetDocument) {        
-        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent(); 
+    protected Map<String, String> getRateFilterMap(Budget budget) {        
+        BudgetParent budgetParent = budget.getBudgetParent(); 
         Map<String, String> rateFilterMap = new HashMap<String, String>();
         rateFilterMap.put(UNIT_NUMBER_KEY, budgetParent.getUnitNumber());
         return rateFilterMap;
@@ -604,33 +595,30 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         return existingRateClassTypeMap;
     }
     
-    protected void getBudgetRates(BudgetDocument<T> budgetDocument, Collection<InstituteRate> allInstituteRates) {
-        Budget budget = budgetDocument.getBudget();
-        getBudgetRates(budget.getRateClassTypes(), budgetDocument, allInstituteRates);
+    protected void getBudgetRates(Budget budget, Collection<InstituteRate> allInstituteRates) {
+        getBudgetRates(budget.getRateClassTypes(), budget, allInstituteRates);
     }
 
     /* get budget rates applicable for the proposal - based on activity type
      * and unit number 
      * */
-    protected void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument, Collection<InstituteRate> allInstituteRates) {
-        Budget budget = budgetDocument.getBudget();
+    protected void getBudgetRates(List<RateClassType> rateClassTypes, Budget budget, Collection<InstituteRate> allInstituteRates) {
         List<InstituteRate> instituteRates = budget.getInstituteRates();        
         filterRates(budget, allInstituteRates, instituteRates);        
         List<BudgetRate> budgetRates = budget.getBudgetRates();
         
-        syncBudgetRateCollections(rateClassTypes, budgetDocument, instituteRates, budgetRates);
+        syncBudgetRateCollections(rateClassTypes, budget, instituteRates, budgetRates);
         
-        getBudgetLaRates(rateClassTypes, budgetDocument);
-        checkActivityPrefixForRateClassTypes(rateClassTypes, budgetDocument);
+        getBudgetLaRates(rateClassTypes, budget);
+        checkActivityPrefixForRateClassTypes(rateClassTypes, budget);
     }
     
-    protected void getBudgetLaRates(BudgetDocument<T> budgetDocument, List<InstituteLaRate> allInstituteLaRates) {
-        Budget budget = budgetDocument.getBudget();
-        getBudgetLaRates(budget.getRateClassTypes(), budgetDocument, allInstituteLaRates);
+    protected void getBudgetLaRates(Budget budget, List<InstituteLaRate> allInstituteLaRates) {
+        getBudgetLaRates(budget.getRateClassTypes(), budget, allInstituteLaRates);
     }
 
-    protected void getBudgetLaRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument) {
-        getBudgetLaRates(rateClassTypes, budgetDocument, new ArrayList<InstituteLaRate>(getInstituteLaRates(budgetDocument)));
+    protected void getBudgetLaRates(List<RateClassType> rateClassTypes, Budget budget) {
+        getBudgetLaRates(rateClassTypes, budget, new ArrayList<InstituteLaRate>(getInstituteLaRates(budget)));
     }
     
     /**
@@ -639,13 +627,12 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * @param budgetDocument
      * @param allInstituteLaRates
      */
-    protected void getBudgetLaRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument, List<InstituteLaRate> allInstituteLaRates) {
-        Budget budget = budgetDocument.getBudget();
+    protected void getBudgetLaRates(List<RateClassType> rateClassTypes, Budget budget, List<InstituteLaRate> allInstituteLaRates) {
         List<InstituteLaRate> instituteLaRates = budget.getInstituteLaRates();        
         filterRates(budget, allInstituteLaRates, instituteLaRates);        
         List<BudgetLaRate> budgetRates = budget.getBudgetLaRates();
         
-        syncBudgetRateCollections(rateClassTypes, budgetDocument, instituteLaRates, budgetRates);   
+        syncBudgetRateCollections(rateClassTypes, budget, instituteLaRates, budgetRates);   
     }
     
     public BusinessObjectService getBusinessObjectService() {
@@ -653,24 +640,22 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
     
     @SuppressWarnings("unchecked")
-    protected void syncBudgetRateCollections(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument,
+    protected void syncBudgetRateCollections(List<RateClassType> rateClassTypes, Budget budget,
                                                 List abstractInstituteRates, List budgetRates) {
 
-        Budget budget = budgetDocument.getBudget();
         List<AbstractBudgetRate> abstractBudgetRates = (List<AbstractBudgetRate>) budgetRates; 
         List<AbstractInstituteRate> instituteRates = (List<AbstractInstituteRate>) abstractInstituteRates;
         
         syncAllRateClasses(budget, instituteRates);
         syncAllRateClassTypes(budget, rateClassTypes, instituteRates);
         if(budgetRates.size() == 0) {
-            syncAllBudgetRatesForInstituteRateType(budgetDocument, abstractBudgetRates, instituteRates);
+            syncAllBudgetRatesForInstituteRateType(budget, abstractBudgetRates, instituteRates);
         }
     }
     
   @SuppressWarnings("unchecked")
   @Override
-  public void syncBudgetRateCollectionsToExistingRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument) {
-      Budget budget = budgetDocument.getBudget();
+  public void syncBudgetRateCollectionsToExistingRates(List<RateClassType> rateClassTypes, Budget budget) {
 
       syncAllRateClasses(budget, (List) budget.getBudgetRates());
       syncAllRateClassTypes(budget, rateClassTypes, (List) budget.getBudgetRates());
@@ -678,17 +663,17 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
       syncAllRateClasses(budget, (List) budget.getBudgetLaRates());
       syncAllRateClassTypes(budget, rateClassTypes, (List) budget.getBudgetLaRates());
 
-      checkActivityPrefixForRateClassTypes(rateClassTypes, budgetDocument);
+      checkActivityPrefixForRateClassTypes(rateClassTypes, budget);
   }
 
-    protected void syncAllBudgetRatesForInstituteRateType(BudgetDocument<T> budgetDocument, List<AbstractBudgetRate> budgetRates, List<AbstractInstituteRate> instituteRates) {
+    protected void syncAllBudgetRatesForInstituteRateType(Budget budget, List<AbstractBudgetRate> budgetRates, List<AbstractInstituteRate> instituteRates) {
         for(AbstractInstituteRate abstractInstituteRate: instituteRates) {
             if(abstractInstituteRate.getRateClass() != null) {
-                budgetRates.add(generateBudgetRate(budgetDocument, abstractInstituteRate));
+                budgetRates.add(generateBudgetRate(budget, abstractInstituteRate));
             }
         }
         
-        updateRatesForEachPeriod(budgetDocument.getBudget());
+        updateRatesForEachPeriod(budget);
         Collections.sort(budgetRates);
     }
 
@@ -726,18 +711,18 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
     
     @SuppressWarnings("unchecked")
-    protected void replaceBudgetRatesForRateClassType(String rateClassType, BudgetDocument<T> budgetDocument, List existingBudgetRates, List rates) {
+    protected void replaceBudgetRatesForRateClassType(String rateClassType, Budget budget, List existingBudgetRates, List rates) {
         List<AbstractInstituteRate> instituteRates = (List<AbstractInstituteRate>) rates; 
         List<AbstractBudgetRate> abstractBudgetRates = (List<AbstractBudgetRate>) existingBudgetRates;
         
         Map<String, AbstractBudgetRate> existingBudgetRateMap = preservePersistedBudgetRatesForRateClassType(rateClassType, abstractBudgetRates);        
         removeRegisteredBudgetRatesForRateClassType(rateClassType, abstractBudgetRates);
         
-        Map<String, AbstractBudgetRate> newBudgetRateMap = generateNewAndUpdatedBudgetRates(rateClassType, budgetDocument, instituteRates, existingBudgetRateMap);
+        Map<String, AbstractBudgetRate> newBudgetRateMap = generateNewAndUpdatedBudgetRates(rateClassType, budget, instituteRates, existingBudgetRateMap);
         
         registerNewAndUpdatedBudgetRates(abstractBudgetRates, newBudgetRateMap);
         
-        updateRatesForEachPeriod(budgetDocument.getBudget());
+        updateRatesForEachPeriod(budget);
         Collections.sort(abstractBudgetRates);
     }
 
@@ -745,7 +730,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         abstractBudgetRates.addAll(newBudgetRateMap.values());
     }
 
-    protected Map<String, AbstractBudgetRate> generateNewAndUpdatedBudgetRates(String rateClassType, BudgetDocument<T> budgetDocument, 
+    protected Map<String, AbstractBudgetRate> generateNewAndUpdatedBudgetRates(String rateClassType, Budget budget, 
                                                                              List<AbstractInstituteRate> instituteRates,
                                                                              Map<String, AbstractBudgetRate> existingBudgetRateMap) {
         Map<String, AbstractBudgetRate> newBudgetRateMap = new HashMap<String, AbstractBudgetRate>(); 
@@ -754,7 +739,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
             if(abstractInstituteRate.getRateType() != null) {
                 RateClass rateClass = abstractInstituteRate.getRateType().getRateClass();                
                 if(rateClassType.equals(rateClass.getRateClassTypeCode())) {
-                    AbstractBudgetRate newBudgetRate = generateBudgetRate(budgetDocument, abstractInstituteRate);
+                    AbstractBudgetRate newBudgetRate = generateBudgetRate(budget, abstractInstituteRate);
                     String hKey = abstractInstituteRate.getRateKeyAsString();
                     AbstractBudgetRate existingBudgetRate = existingBudgetRateMap.get(hKey);
                     if(existingBudgetRate != null) {
@@ -816,21 +801,20 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         rateClassTypes.addAll(rateClassTypeMap.values());
     }
 
-    protected AbstractBudgetRate generateBudgetProposalRate(BudgetDocument<T> budgetDocument, InstituteRate instituteRate) {
-        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
+    protected AbstractBudgetRate generateBudgetProposalRate(Budget budget, InstituteRate instituteRate) {
+        BudgetParent budgetParent = budget.getBudgetParent();
         return new BudgetRate(budgetParent.getUnitNumber(), instituteRate);
     }
     
-    protected AbstractBudgetRate generateBudgetProposalLaRate(BudgetDocument<T> budgetDocument, InstituteLaRate instituteLaRate) {
-        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
+    protected AbstractBudgetRate generateBudgetProposalLaRate(Budget budget, InstituteLaRate instituteLaRate) {
+        BudgetParent budgetParent = budget.getBudgetParent();
         return new BudgetLaRate(budgetParent.getUnitNumber(), instituteLaRate);
     }
 
-    protected AbstractBudgetRate generateBudgetRate(BudgetDocument<T> budgetDocument, AbstractInstituteRate abstractInstituteRate) {
-        Budget budget = budgetDocument.getBudget();
+    protected AbstractBudgetRate generateBudgetRate(Budget budget, AbstractInstituteRate abstractInstituteRate) {
         AbstractBudgetRate abstractBudgetRate = (abstractInstituteRate instanceof InstituteRate) ?
-                        generateBudgetProposalRate(budgetDocument, (InstituteRate) abstractInstituteRate) :
-                        generateBudgetProposalLaRate(budgetDocument, (InstituteLaRate) abstractInstituteRate);
+                        generateBudgetProposalRate(budget, (InstituteRate) abstractInstituteRate) :
+                        generateBudgetProposalLaRate(budget, (InstituteLaRate) abstractInstituteRate);
         abstractBudgetRate.setBudgetId(budget.getBudgetId());                
         abstractBudgetRate.setBudget(budget);
         return abstractBudgetRate;
@@ -871,18 +855,16 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
     
     @SuppressWarnings("unchecked")
-    protected void populateInstituteRates(BudgetDocument<T> budgetDocument) {
-        Budget budget = budgetDocument.getBudget();
-        List instituteRates = (List) getInstituteRates(budgetDocument);
+    protected void populateInstituteRates(Budget budget) {
+        List instituteRates = (List) getInstituteRates(budget);
         filterRates(budget, instituteRates, budget.getInstituteRates()); 
-        List instituteLaRates = (List) getInstituteLaRates(budgetDocument);
+        List instituteLaRates = (List) getInstituteLaRates(budget);
         filterRates(budget, instituteLaRates, budget.getInstituteLaRates()); 
     }
 
     @Override
-    public boolean isOutOfSyncForRateAudit(BudgetDocument<T> budgetDocument) {
-        populateInstituteRates(budgetDocument);
-        Budget budget = budgetDocument.getBudget();
+    public boolean isOutOfSyncForRateAudit(Budget budget) {
+        populateInstituteRates(budget);
         return isOutOfSyncForRateAudit(budget.getInstituteRates(), budget.getBudgetRates()) || 
                 isOutOfSyncForRateAudit(budget.getInstituteLaRates(), budget.getBudgetLaRates());
     }
@@ -964,7 +946,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      *
      */
     @Override
-    public boolean performSyncFlag(BudgetDocument<T> budgetDocument) {
+    public boolean performSyncFlag(Budget budget) {
         return false;
     }
 

@@ -27,7 +27,7 @@ public class ViewProposalBudgetPersonSalaryAuthorizer extends BudgetAuthorizer{
     public boolean isAuthorized(String userId, BudgetTask task) {
 
         BudgetDocument budgetDocument = task.getBudgetDocument();
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) budgetDocument.getParentDocument();
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) budgetDocument.getBudget().getBudgetParent().getDocument();
         
         return hasParentPermission(userId, doc, Constants.MODULE_NAMESPACE_BUDGET, PermissionConstants.VIEW_SALARIES);
     }

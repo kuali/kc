@@ -90,18 +90,16 @@ public class BudgetParentActionBase extends KcTransactionalDocumentActionBase {
      * @param copyPeriodOneOnly if only the first budget period is to be copied
      */
     @SuppressWarnings("unchecked")
-    protected void copyBudget(BudgetParentDocument budgetParentDocument, BudgetVersionOverview budgetToCopy, boolean copyPeriodOneOnly) 
+    protected void copyBudget(BudgetParent budgetParent, BudgetVersionOverview budgetToCopy, boolean copyPeriodOneOnly) 
     throws WorkflowException {
         DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocToCopy = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
         Budget budget = budgetDocToCopy.getBudget();
 
-        BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budgetParentDocument);
-        BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocToCopy, copyPeriodOneOnly);
-        budgetParentDocument.refreshBudgetDocumentVersions();
-        List<BudgetDocumentVersion> budgetVersions = budgetParentDocument.getBudgetDocumentVersions();
-        for (BudgetDocumentVersion budgetDocumentVersion : budgetVersions) {
-            BudgetVersionOverview versionOverview = budgetDocumentVersion.getBudgetVersionOverview();
+        BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budgetParent);
+        Budget newBudget = budgetService.copyBudgetVersion(budget, copyPeriodOneOnly);
+        List<? extends AbstractBudget> budgetVersions = budgetParent.getBudgetVersionOverviews();
+        for (AbstractBudget versionOverview : budgetVersions) {
             if(versionOverview.getBudgetVersionNumber().intValue()==budget.getBudgetVersionNumber().intValue()){
                 versionOverview.setDescriptionUpdatable(true);
                 versionOverview.setDocumentDescription(budgetToCopy.getDocumentDescription() + " " 
@@ -115,8 +113,8 @@ public class BudgetParentActionBase extends KcTransactionalDocumentActionBase {
      * @param parentBudgetDocument
      * @return
      */
-    private BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParentDocument parentBudgetDocument) {
-        return BudgetCommonServiceFactory.createInstance(parentBudgetDocument);
+    private BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParent parentBudget) {
+        return BudgetCommonServiceFactory.createInstance(parentBudget);
     }
 
     protected void populateTabState(KualiForm form, String tabTitle) {

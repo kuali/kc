@@ -92,7 +92,7 @@ public class ProposalDevelopmentHierarchyAction extends ProposalDevelopmentActio
                 getBudgetCalculationService().calculateBudgetSummaryTotals(budget);
 
                 if (budget.getFinalVersionFlag() != null && Boolean.TRUE.equals(budget.getFinalVersionFlag())) {
-                    DevelopmentProposal proposal = (DevelopmentProposal)budget.getBudgetDocument().getParentDocument().getBudgetParent();
+                    DevelopmentProposal proposal = (DevelopmentProposal)budget.getBudgetParent();
                     getProposalBudgetStatusService().loadBudgetStatus(proposal);
                     budget.setBudgetStatus(proposal.getBudgetStatus());
                 }

@@ -36,7 +36,7 @@ public class AwardBudgetCalculationServiceImpl extends BudgetCalculationServiceI
         aggregatePeriodSummaryTotals(budget);
         if (includePrevious) {
             AwardBudgetExt prevBudget;
-            for (BudgetVersionOverview prevBudgetOverview = budget.getPrevBudget();
+            for (AwardBudgetExt prevBudgetOverview = budget.getPrevBudget();
                     prevBudgetOverview != null && prevBudgetOverview.getBudgetId() != null; 
                     prevBudgetOverview = prevBudget.getPrevBudget()) {
                 prevBudget = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, 

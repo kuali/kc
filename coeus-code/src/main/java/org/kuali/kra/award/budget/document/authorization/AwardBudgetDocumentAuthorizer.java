@@ -35,7 +35,7 @@ public class AwardBudgetDocumentAuthorizer  extends BudgetDocumentAuthorizer {
         Set<String> editModes = new HashSet<String>();
          
         AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) document;
-        BudgetParentDocument<Award> parentDocument = awardBudgetDocument.getParentDocument();
+        BudgetParentDocument parentDocument = awardBudgetDocument.getBudget().getBudgetParent().getDocument();
         String userId = user.getPrincipalId(); 
                 
         if (canExecuteAwardBudgetTask(user, awardBudgetDocument, TaskName.MODIFY_BUDGET)) {

@@ -364,8 +364,8 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }
     
     private ExtraButton configureReturnToParentTopButton() {
-        BudgetParentDocument budgetParentDocument = getBudgetDocument().getParentDocument();
-        return budgetParentDocument!=null?getBudgetDocument().getParentDocument().configureReturnToParentTopButton():new ExtraButton();
+        BudgetParent budgetParent = getBudgetDocument().getBudget().getBudgetParent();
+        return budgetParent!=null?budgetParent.getDocument().configureReturnToParentTopButton():new ExtraButton();
     }
 
     /**
@@ -697,7 +697,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         BudgetDocument budgetDocument = getBudgetDocument();
-        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
+        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
         WorkflowDocument parentWorkflowDocument = null;
         
         try {
@@ -745,7 +745,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }
 
     protected HeaderField getHeaderDocNumber() {
-        BudgetParentDocument parentDocument = getBudgetDocument().getParentDocument();
+        BudgetParentDocument parentDocument = getBudgetDocument().getBudget().getBudgetParent().getDocument();
         return new HeaderField("DataDictionary.DocumentHeader.attributes.documentNumber", parentDocument != null? parentDocument.getDocumentNumber() : null); 
     }
 
@@ -888,7 +888,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     @Override
     public HeaderNavigation[] getHeaderNavigationTabs() {
         HeaderNavigation[] tabs = super.getHeaderNavigationTabs();
-        BudgetParentDocument parentDocument = getBudgetDocument().getParentDocument();
+        BudgetParentDocument parentDocument = getBudgetDocument().getBudget().getBudgetParent().getDocument();
         boolean hideRatesTab = false;
         boolean hideHierarchyTab = true;
         if(parentDocument != null && parentDocument.getClass() == ProposalDevelopmentDocument.class){
@@ -964,11 +964,11 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }
 
     public java.util.Date getBudgetStartDate() {
-        return this.getBudgetDocument().getBudgetStartDate();
+        return this.getBudgetDocument().getBudget().getBudgetStartDate();
     }
     
     public java.util.Date getBudgetEndDate() {
-        return this.getBudgetDocument().getBudgetEndDate();
+        return this.getBudgetDocument().getBudget().getBudgetEndDate();
     }
 
     public BudgetFormulatedCostDetail getNewBudgetFormulatedCost() {
@@ -992,7 +992,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     
     public boolean isSyncableBudget() throws ProposalHierarchyException {
         BudgetDocument<DevelopmentProposal> budget = 
-                getProposalHierarchyService().getSyncableBudget((DevelopmentProposal) this.getBudgetDocument().getParentDocument().getBudgetParent());
+                getProposalHierarchyService().getSyncableBudget((DevelopmentProposal) this.getBudgetDocument().getBudget().getBudgetParent());
         if (budget != null
                 && StringUtils.equals(budget.getDocumentNumber(), getBudgetDocument().getDocumentNumber())) {
             return true;

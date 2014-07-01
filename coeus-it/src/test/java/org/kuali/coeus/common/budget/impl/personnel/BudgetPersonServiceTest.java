@@ -56,9 +56,9 @@ public class BudgetPersonServiceTest extends KcIntegrationTestBase {
                 return nextVal++;
             }
         };
-        budget.setBudgetDocument(new BudgetDocument());
-        ProposalDevelopmentDocument parentDoc = new ProposalDevelopmentDocument();
-        budget.getBudgetDocument().setParentDocument(parentDoc);
+//        budget.setBudgetDocument(new BudgetDocument());
+//        ProposalDevelopmentDocument parentDoc = new ProposalDevelopmentDocument();
+//        budget.getBudgetDocument().setParentDocument(parentDoc);
        
         startDate = createDate(2010, 1, 1);
         endDate = createDate(2010, 12, 30);

@@ -47,7 +47,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
         Set<String> editModes = new HashSet<String>();
                  
         BudgetDocument budgetDoc = (BudgetDocument) document;
-        BudgetParentDocument parentDocument = budgetDoc.getParentDocument();
+        BudgetParentDocument parentDocument = budgetDoc.getBudget().getBudgetParent().getDocument();
         String userId = user.getPrincipalId(); 
         
         if (canExecuteBudgetTask(userId, budgetDoc, TaskName.VIEW_SALARIES )) {
@@ -150,7 +150,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
     private boolean canExecuteBudgetTask(String userId, BudgetDocument budgetDocument, String taskName) {
         //reloads the parent using the doc service if the workflow document is null
         //this is needed as some budget tasks must check the workflow doc for perms
-        reloadParentIfNoWorkflow(budgetDocument);
+        
         String taskGroupName = getTaskGroupName();
         Task task = createNewBudgetTask(taskGroupName,taskName, budgetDocument);       
         TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
@@ -225,30 +225,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
         return false;
     }
     
-    /**
-     * 
-     * Checks to see if the parent document has a valid workflow document(loaded from rice, not ojb)
-     * as some authorizers must check the parent docs workflow permssion.
-     * @param budgetDocument
-     */
-    @SuppressWarnings("unchecked")
-    private void reloadParentIfNoWorkflow(BudgetDocument budgetDocument) {
-        BudgetParentDocument parentDoc = budgetDocument.getParentDocument();
-        WorkflowDocument workflowDocument = getWorkflowDocument(parentDoc);
-        if (workflowDocument == null) {
-            try {
-                parentDoc = 
-                    (BudgetParentDocument) KcServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(parentDoc.getDocumentNumber());
-                if (parentDoc != null) {
-                    budgetDocument.setParentDocument(parentDoc);
-                }
-            } catch (WorkflowException e) { 
-                // we can't easily report or handle the error here and
-                // if we can't load the parent document there are bigger problems
-                // and it will be reported later
-            }
-        }
-    } 
+
     
     private WorkflowDocument getWorkflowDocument(Document doc) {
         WorkflowDocument workflowDocument = null;

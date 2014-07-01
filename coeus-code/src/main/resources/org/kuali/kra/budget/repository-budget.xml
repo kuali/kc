@@ -86,6 +86,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     	<field-descriptor name="submitCostSharingFlag" column="SUBMIT_COST_SHARING" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    	<field-descriptor name="parentDocumentTypeCode" column="PARENT_DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
     	
 		<collection-descriptor name="budgetRates" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.rate.BudgetRate" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="budgetId"/>
@@ -1107,8 +1108,12 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="budgetInitiator" column="BUDGET_INITIATOR" jdbc-type="VARCHAR" />
+		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT"/>
 		<reference-descriptor name="super" class-ref="org.kuali.coeus.common.budget.framework.core.Budget">
 			<foreignkey field-ref="budgetId"/>
+		</reference-descriptor>
+		<reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="awardId"/>
 		</reference-descriptor>
 		
 		<collection-descriptor name="budgetPeriods" proxy="true" element-class-ref="org.kuali.kra.award.budget.AwardBudgetPeriodExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">

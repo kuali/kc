@@ -32,7 +32,7 @@ public class ProposalHierarchyBudgetAuthorizer extends BudgetAuthorizer {
 
     public boolean isAuthorized(String userId, BudgetTask task) {
         BudgetDocument budgetDocument = task.getBudgetDocument();
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)budgetDocument.getParentDocument();
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)budgetDocument.getBudget().getBudgetParent().getDocument();
 
         return !doc.isViewOnly() && hasParentPermission(userId, doc, PermissionConstants.MAINTAIN_PROPOSAL_HIERARCHY);
     }

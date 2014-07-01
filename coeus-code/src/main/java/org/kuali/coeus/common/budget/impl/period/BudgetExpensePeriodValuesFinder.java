@@ -21,6 +21,7 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.impl.core.BudgetPeriodValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -68,7 +69,7 @@ public class BudgetExpensePeriodValuesFinder extends BudgetPeriodValuesFinder {
         } else if (formOrView instanceof MultipleValueLookupForm) {
             try {
                 BudgetDocument doc = (BudgetDocument) getDocumentService().getByDocumentHeaderId(((MultipleValueLookupForm) formOrView).getDocNum());
-                List<BudgetPeriod> budgetPeriods = getAwardBudgetService().findBudgetPeriodsFromLinkedProposal(((AwardDocument) doc.getParentDocument()).getAward().getAwardNumber());
+                List<BudgetPeriod> budgetPeriods = getAwardBudgetService().findBudgetPeriodsFromLinkedProposal(((Award) doc.getBudget().getBudgetParent()).getAwardNumber());
                 if (budgetPeriods.size() > 0) {
                     KeyValues = buildKeyValuesForPeriodSearch(budgetPeriods);
                 }

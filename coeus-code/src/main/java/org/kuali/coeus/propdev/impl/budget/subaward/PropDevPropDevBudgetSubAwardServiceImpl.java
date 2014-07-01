@@ -62,7 +62,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     private ParameterService parameterService;
 
     @Autowired
-    @Qualifier("budgetService")
+    @Qualifier("proposalBudgetService")
     private BudgetService budgetService;
 
     @Autowired

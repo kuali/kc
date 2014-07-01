@@ -506,7 +506,7 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
                         //if budget document we need to set the parent document view only as well for authorization consistency.
                         if (document instanceof BudgetDocument) {
                             BudgetDocument budgetDoc = (BudgetDocument)document;
-                            budgetDoc.getParentDocument().setViewOnly(true);
+                            budgetDoc.getBudget().getBudgetParent().getDocument().setViewOnly(true);
                         }
                     }
                 }

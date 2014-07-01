@@ -21,7 +21,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 /**
  * This interface has services which required different implementations in AwardBudget and ProposalBudget modules 
  */
-public interface BudgetCommonService<T extends BudgetParent> {
+public interface BudgetCommonService<T extends BudgetParent> extends BudgetService<T> {
     /**
      * Returns a new finalized BudgetDocument based on the given ProposalDevelopmentDocument and documentDescription.
      * 
@@ -30,16 +30,16 @@ public interface BudgetCommonService<T extends BudgetParent> {
      * @return BudgetDocument
      * @throws WorkflowException
      */
-    public BudgetDocument<T> getNewBudgetVersion(BudgetParentDocument<T> parentDocument, String documentDescription) throws WorkflowException;
+    public Budget getNewBudgetVersion(BudgetParentDocument<T> parent, String documentDescription);
     /**
      * Returns a new finalized BudgetDocument with the data from the given BudgetDocument copied over.
      * @param budgetDocument
      * @return BudgetDocument
      * @throws WorkflowException
      */
-    public BudgetDocument<T> copyBudgetVersion(BudgetDocument<T> budgetDocument) throws WorkflowException;
+    public Budget copyBudgetVersion(Budget budget);
     
-    public BudgetDocument<T> copyBudgetVersion(BudgetDocument<T> budgetDocument, boolean onlyOnePeriod) throws WorkflowException;
+    public Budget copyBudgetVersion(Budget budget, boolean onlyOnePeriod);
     
     /**
      * This method is to check whether Budget Summary calculated amounts for a BudgetPeriod 

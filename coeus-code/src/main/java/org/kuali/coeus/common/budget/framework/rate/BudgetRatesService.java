@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface BudgetRatesService <T extends BudgetParent>{
-    public void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument);
+    public void getBudgetRates(List<RateClassType> rateClassTypes, Budget budget);
 
     /**
      * Searches for persisted {@link RateClass} instances based on the given <code>rateClassType</code>
@@ -45,18 +45,18 @@ public interface BudgetRatesService <T extends BudgetParent>{
     public Map<String, RateClass> getBudgetRateClassMap(String rateClassType);
 
     public void resetBudgetRatesForRateClassType(String rateClassType, Budget budget);
-    public void syncBudgetRatesForRateClassType(String rateClassType, BudgetDocument<T> budgetDocument);
+    public void syncBudgetRatesForRateClassType(String rateClassType, Budget budget);
     
-    public void syncBudgetRateCollectionsToExistingRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument);
-    public void syncAllBudgetRates(BudgetDocument<T> budgetDocument);
+    public void syncBudgetRateCollectionsToExistingRates(List<RateClassType> rateClassTypes, Budget budget);
+    public void syncAllBudgetRates(Budget budget);
     public void resetAllBudgetRates(Budget budget);
     public void viewLocation(String viewLocation, Integer budgetPeriod, Budget budget);
     public List<BudgetPeriod> getBudgetPeriods();
 
-    public boolean isOutOfSyncForRateAudit(BudgetDocument<T> budgetDocument);
+    public boolean isOutOfSyncForRateAudit(Budget budget);
 
-    public boolean performSyncFlag(BudgetDocument<T> budgetDocument);
-    public void syncParentDocumentRates(BudgetDocument<T> budgetDocument);
+    public boolean performSyncFlag(Budget budget);
+    public void syncParentDocumentRates(Budget budget);
     
     public double getUnitFormulatedCost(String unitNumber,String formulatedType);
 
