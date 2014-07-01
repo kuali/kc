@@ -30,6 +30,7 @@
 
     <!-- SYS -->
     <bean id="transactionalDocumentControllerService" parent="grlImporter" p:serviceName="transactionalDocumentControllerService" />
+    <bean id="uifControllerService" parent="grlImporter" p:serviceName="uifControllerService" />
     <bean id="uifExportControllerService" parent="grlImporter" p:serviceName="uifExportControllerService" />
     <bean id="kcAuthorizationService" parent="grlImporter" p:serviceName="kcAuthorizationService" />
     <bean id="kcDocumentRejectionService" parent="grlImporter" p:serviceName="kcDocumentRejectionService" />
@@ -39,6 +40,7 @@
     <bean id="taskAuthorizationService" parent="grlImporter" p:serviceName="taskAuthorizationService" />
     <bean id="unitAuthorizationService" parent="grlImporter" p:serviceName="unitAuthorizationService" />
     <bean id="kcPersonLookupableHelperService" parent="grlImporter" p:serviceName="kcPersonLookupableHelperService" />
+    <bean id="pessimisticLockService" parent="grlImporter" p:serviceName="pessimisticLockService" />
 
     <!-- AWARD -->
     <bean id="awardService" parent="grlImporter" p:serviceName="awardService" />
@@ -51,6 +53,8 @@
     <bean id="deepCopyPostProcessor" parent="grlImporter" p:serviceName="deepCopyPostProcessor" />
     <bean id="budgetPersonService" parent="grlImporter" p:serviceName="budgetPersonService" />
     <bean id="budgetPersonnelBudgetService" parent="grlImporter" p:serviceName="budgetPersonnelBudgetService" />
+    <bean id="budgetRatesService" parent="grlImporter" p:serviceName="budgetRatesService" />
+    <bean id="budgetVersionRule" parent="grlImporter" p:serviceName="budgetVersionRule" />    
 
     <!-- COMMON QUESTIONNAIRE -->
 
@@ -67,6 +71,7 @@
     <bean id="personEditableService" parent="grlImporter" p:serviceName="personEditableService" />
     <bean id="sponsorHierarchyService" parent="grlImporter" p:serviceName="sponsorHierarchyService" />
     <bean id="kcAttachmentService" parent="grlImporter" p:serviceName="kcAttachmentService"/>
+    <bean id="fiscalYearMonthService" parent="grlImporter" p:serviceName="fiscalYearMonthService" />
 
     <!-- S2S -->
 

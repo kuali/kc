@@ -27,6 +27,7 @@ import org.kuali.coeus.common.budget.impl.nonpersonnel.BudgetJustificationServic
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationWrapper;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -141,7 +142,7 @@ public class BudgetJustificationServiceTest {
     }
         
     private void initializeBudgetDocument() {
-        budgetDocument = new Budget();
+        budgetDocument = new ProposalDevelopmentBudgetExt();
         for(int i = 1; i <= 2; i++) {
             BudgetPeriod budgetPeriod = new BudgetPeriod();
             budgetPeriod.setBudgetPeriod(i);

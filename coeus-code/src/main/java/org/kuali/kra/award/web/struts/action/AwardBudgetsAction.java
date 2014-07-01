@@ -120,8 +120,8 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         AwardDocument awardDoc = awardForm.getAwardDocument();
         ActionForward actionForward = activate(mapping, form, request, response);
             if(actionForward == mapping.findForward(Constants.MAPPING_BASIC)) { 
-                BudgetDocument<Award> newBudgetDoc = getBudgetService().addBudgetVersion(awardDoc, awardForm.getNewBudgetVersionName());
-                if(newBudgetDoc!=null){
+                Budget newBudget = getBudgetService().addBudgetVersion(awardDoc, awardForm.getNewBudgetVersionName());
+                if(newBudget!=null){
                     awardForm.setNewBudgetVersionName("");
                 }
             }
@@ -389,7 +389,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDoc = awardForm.getAwardDocument();
         BudgetVersionOverview budgetToCopy = getSelectedVersion(awardForm, request);
-        copyBudget(awardDoc, budgetToCopy, copyPeriodOneOnly);
+        copyBudget(awardDoc.getBudgetParent(), budgetToCopy, copyPeriodOneOnly);
     }
     
     private StrutsConfirmation syncBudgetRateConfirmationQuestion(ActionMapping mapping, ActionForm form,

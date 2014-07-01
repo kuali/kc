@@ -42,6 +42,7 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncStatus;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
+import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetLimit;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
@@ -63,7 +64,9 @@ import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApp
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.bo.*;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
+import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.infrastructure.Constants;
@@ -3399,4 +3402,44 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         }
         return total;
     }
+
+	@Override
+	public boolean isProposalBudget() {
+		return false;
+	}
+
+	@Override
+	public BudgetParentDocument<Award> getDocument() {
+		return getAwardDocument();
+	}
+
+	@Override
+	public Budget getNewBudget() {
+		return new AwardBudgetExt();
+	}
+    private List<AwardBudgetExt> budgets;
+
+    public List<AwardBudgetExt> getBudgetVersionOverviews() {
+		return budgets;
+	}
+
+	public void setBudgetVersionOverviews(
+			List<AwardBudgetExt> budgetVersionOverviews) {
+		this.budgets = budgetVersionOverviews;
+	}
+
+	@Override
+	public Integer getNextBudgetVersionNumber() {
+		return getAwardDocument().getNextBudgetVersionNumber();
+	}
+
+	public List<AwardBudgetExt> getBudgets() {
+		return budgets;
+	}
+
+	public void setBudgets(List<AwardBudgetExt> budgets) {
+		this.budgets = budgets;
+	}
+
+	
 }

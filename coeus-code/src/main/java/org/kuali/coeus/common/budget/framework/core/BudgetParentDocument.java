@@ -94,4 +94,5 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTra
     }
 
     public abstract T getBudgetParent();
+
 }

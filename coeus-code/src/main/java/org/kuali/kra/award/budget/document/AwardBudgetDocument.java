@@ -64,30 +64,12 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
 
     @Override
     public void initialize() {
-        Award award = getParentDocument().getBudgetParent();
+        Award award = (Award) getBudget().getBudgetParent();
         this.setCurrentAward(award);
         AwardBudgetExt awardBudget = getAwardBudget();
         awardBudget.setObligatedTotal(new ScaleTwoDecimal(award.getBudgetTotalCostLimit().bigDecimalValue()));
         List<BudgetRate> budgetRates = awardBudget.getBudgetRates();
         populateBudgetRateTypes(awardBudget,budgetRates);
-    }
-    
-    /**
-     * Gets the parentDocument attribute. 
-     * @return Returns the parentDocument.
-     */
-    @Override
-    public BudgetParentDocument<Award> getParentDocument() {
-        BudgetParentDocument<Award> parent = super.getParentDocument();
-        if (parent == null) {
-            return null;
-        } else if (parent.getBudgetParent() == null) {
-            return parent;
-        } else {
-            Award currentAward = getAwardBudgetService().getActiveOrNewestAward(parent.getBudgetParent().getAwardNumber());
-            newestBudgetParentDocument = currentAward.getAwardDocument();
-        }
-        return newestBudgetParentDocument;
     }
     
     /**
@@ -178,7 +160,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
         String newStatus = dto.getNewRouteStatus();
         String oldStatus = dto.getOldRouteStatus();
         boolean changeStatus = false;
-        this.setCurrentAward(getParentDocument().getBudgetParent());
+        this.setCurrentAward((Award) getBudget().getBudgetParent());
       
         if( LOG.isDebugEnabled() )
             LOG.debug(String.format( "Route status change on AwardBudgetDocument #%s from %s to %s.", getDocumentNumber(), oldStatus, newStatus ));

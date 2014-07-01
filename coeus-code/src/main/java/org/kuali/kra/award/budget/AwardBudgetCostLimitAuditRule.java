@@ -54,7 +54,7 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
         AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) document;
         AwardBudgetExt budget = (AwardBudgetExt)((BudgetDocument)document).getBudget();
 
-        Award currentAward = getAwardBudgetService().getActiveOrNewestAward(((AwardDocument) awardBudgetDocument.getParentDocument()).getAward().getAwardNumber());
+        Award currentAward = getAwardBudgetService().getActiveOrNewestAward(((AwardDocument) awardBudgetDocument.getBudget().getBudgetParent().getDocument()).getAward().getAwardNumber());
         boolean valid = true;
         valid &= limitsMatch(currentAward.getAwardBudgetLimits(),
                 budget.getAwardBudgetLimits());
@@ -86,10 +86,10 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
         return valid;
     }
     
-    private AwardBudgetExt loadBudget(BudgetVersionOverview budgetOverview) {
+    private AwardBudgetExt loadBudget(AwardBudgetExt budget) {
         AwardBudgetExt retval = null;
-        if (budgetOverview != null && budgetOverview.getBudgetId() != null) { 
-            retval = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, budgetOverview.getBudgetId());
+        if (budget != null && budget.getBudgetId() != null) { 
+            retval = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, budget.getBudgetId());
         }
         return retval;
     }

@@ -36,7 +36,7 @@ public class BudgetProposalTaskFactory extends WebTaskFactoryBase {
     @Override
     public Task createTask(ActionForm form, HttpServletRequest request) {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetParentDocument parentDocument = budgetForm.getBudgetDocument().getParentDocument();
+        BudgetParentDocument parentDocument = budgetForm.getBudgetDocument().getBudget().getBudgetParent().getDocument();
         return parentDocument.getParentAuthZTask(getTaskName());
     }
     

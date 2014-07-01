@@ -207,7 +207,7 @@ public class BudgetPeriodCalculator {
                     budgetPersonnelDetail.getBudgetCalculatedAmounts().clear();
                     budgetPersonnelDetail.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
                     budgetPersonnelDetail.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
-                    budgetPersonnelDetail.setLineItemSequence(getBudgetDocument(budget).getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
+                    budgetPersonnelDetail.setLineItemSequence(budget.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
                     
                     personnelDuration= KcServiceLocator.getService(DateTimeService.class).dateDiff(budgetPersonnelDetail.getStartDate(), budgetPersonnelDetail.getEndDate(), false);
                     gap= KcServiceLocator.getService(DateTimeService.class).dateDiff(prevBudgetLineItem.getStartDate(), budgetPersonnelDetail.getStartDate(), false);
@@ -262,10 +262,7 @@ public class BudgetPeriodCalculator {
 
         }
     }
-    private BudgetDocument getBudgetDocument(Budget budget) {
-        return budget.getBudgetDocument();
-    }
-
+    
     private ScaleTwoDecimal calculateInflation(Budget budget, BudgetLineItem budgetLineItem, Date endDate) {
         CostElement costElement = budgetLineItem.getCostElementBO();
         ScaleTwoDecimal lineItemCost = budgetLineItem.getLineItemCost();
@@ -469,7 +466,7 @@ public class BudgetPeriodCalculator {
         return true;
     }
     private boolean isProposalBudget(Budget budget){
-        return budget.getBudgetDocument().getProposalBudgetFlag().equals("true");
+        return budget.isProposalBudget();
     }
 
     public List<String> getErrorMessages() {

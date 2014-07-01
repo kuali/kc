@@ -23,6 +23,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetAction;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.common.budget.framework.core.AbstractBudget;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
@@ -73,7 +74,7 @@ public class BudgetSummaryAction extends BudgetAction {
         getBudgetSummaryService().setupOldStartEndDate(
                 budget, false);
         if (StringUtils.isNotBlank(budgetForm.getSyncBudgetRate()) && budgetForm.getSyncBudgetRate().equals("Y")) {
-            getBudgetRatesService().syncAllBudgetRates(budgetDocument);
+            getBudgetRatesService().syncAllBudgetRates(budget);
             budgetForm.setSyncBudgetRate("");
             getBudgetSummaryService().calculateBudget(budget);
         }
@@ -111,7 +112,7 @@ public class BudgetSummaryAction extends BudgetAction {
             updateThisBudgetVersion(budgetDocument);
             if (budgetForm.isUpdateFinalVersion()) {
                 reconcileFinalBudgetFlags(budgetForm);
-                setBudgetStatuses(budget.getBudgetDocument().getParentDocument());
+                setBudgetStatuses(budget.getBudgetParent());
             }
 
             if (isBudgetPeriodDateChanged(budget) && isLineItemErrorOnly()) {
@@ -127,7 +128,7 @@ public class BudgetSummaryAction extends BudgetAction {
                             budget.getOnOffCampusFlag());
                 }
                 if (budget.getFinalVersionFlag()) {
-                    budget.getBudgetDocument().getParentDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
+                    budget.getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
                 }
                 updateBudgetPeriodDbVersion(budget);
                 return super.save(mapping, form, request, response);
@@ -146,7 +147,7 @@ public class BudgetSummaryAction extends BudgetAction {
         updateThisBudgetVersion(budgetForm.getBudgetDocument());
         if (budgetForm.isUpdateFinalVersion()) {
             reconcileFinalBudgetFlags(budgetForm);
-            setBudgetStatuses(budget.getBudgetDocument().getParentDocument());
+            setBudgetStatuses(budget.getBudgetParent());
         }
         boolean rulePassed = getKualiRuleService().applyRules(
                 new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
@@ -158,7 +159,7 @@ public class BudgetSummaryAction extends BudgetAction {
                         budget.getOnOffCampusFlag());
             }
             if (budget.getFinalVersionFlag()) {
-                budget.getBudgetDocument().getParentDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
+                budget.getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
             }
             updateBudgetPeriodDbVersion(budget);
             return super.save(mapping, form, request, response);
@@ -174,7 +175,7 @@ public class BudgetSummaryAction extends BudgetAction {
         updateThisBudgetVersion(budgetForm.getBudgetDocument());
         if (budgetForm.isUpdateFinalVersion()) {
             reconcileFinalBudgetFlags(budgetForm);
-            setBudgetStatuses(budget.getBudgetDocument().getParentDocument());
+            setBudgetStatuses(budget.getBudgetParent());
         }
         budget.getBudgetSummaryService().adjustStartEndDatesForLineItems(budget);
         boolean rulePassed = getKualiRuleService().applyRules(
@@ -187,7 +188,7 @@ public class BudgetSummaryAction extends BudgetAction {
                         budget.getOnOffCampusFlag());
             }
             if (budget.getFinalVersionFlag()) {
-                budget.getBudgetDocument().getParentDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
+                budget.getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
             }
             updateBudgetPeriodDbVersion(budget);
             return super.save(mapping, form, request, response);
@@ -414,8 +415,7 @@ public class BudgetSummaryAction extends BudgetAction {
         Budget budget = budgetDocument.getBudget();
         if (budget.getFinalVersionFlag()) {
             // This version has been marked as final - update other versions.
-            for (BudgetDocumentVersion documentVersion : budget.getBudgetDocument().getParentDocument().getBudgetDocumentVersions()) {
-                BudgetVersionOverview version = documentVersion.getBudgetVersionOverview();
+            for (AbstractBudget version : budget.getBudgetParent().getBudgetVersionOverviews()) {
                 if (!budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
                     version.setFinalVersionFlag(false);
                 }
@@ -471,11 +471,11 @@ public class BudgetSummaryAction extends BudgetAction {
     }
 
     private void updateThisBudgetVersion(BudgetDocument budgetDocument) {
-        Document parentDocument = budgetDocument.getParentDocument();
+        Document parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
         if(parentDocument==null){
             budgetDocument.refreshReferenceObject("parentDocument");
         }
-        for (BudgetDocumentVersion documentVersion : budgetDocument.getParentDocument().getBudgetDocumentVersions()) {
+        for (BudgetDocumentVersion documentVersion : budgetDocument.getBudget().getBudgetParent().getDocument().getBudgetDocumentVersions()) {
             BudgetVersionOverview version = documentVersion.getBudgetVersionOverview();
             Budget budget = budgetDocument.getBudget();
             if (budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {

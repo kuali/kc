@@ -24,10 +24,12 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.subaward.PropDevPropDevBudgetSubAwardServiceImpl;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.impl.core.BudgetServiceImpl;
+import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
+import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -35,6 +37,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.*;
 
@@ -55,7 +58,7 @@ public class PropDevBudgetSubAwardServiceTest {
     public void setUp() throws Exception {
         context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
         service = new PropDevPropDevBudgetSubAwardServiceImpl();
-        budget = new Budget();
+        budget = new ProposalDevelopmentBudgetExt();
         budget.setBudgetId(1L+12);
         subAward = new BudgetSubAwards();
         subAward.setBudgetId(budget.getBudgetId());
@@ -272,7 +275,7 @@ public class PropDevBudgetSubAwardServiceTest {
         return null;
     }
     
-    protected class BudgetServiceMock extends BudgetServiceImpl {
+    protected class BudgetServiceMock extends AbstractBudgetService {
         int newLineItemNumber = 28;
         public void populateNewBudgetLineItem(BudgetLineItem newBudgetLineItem, BudgetPeriod budgetPeriod) {
             newBudgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
@@ -284,5 +287,16 @@ public class PropDevBudgetSubAwardServiceTest {
             newBudgetLineItem.setApplyInRateFlag(true);
             newBudgetLineItem.setSubmitCostSharingFlag(budget.getSubmitCostSharingFlag());
         }
+		@Override
+		protected Budget getNewBudgetVersion(BudgetParentDocument parent,
+				String versionName) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		@Override
+		protected void calculateBudgetOnSave(Budget budget) {
+			// TODO Auto-generated method stub
+			
+		}
     }
 }

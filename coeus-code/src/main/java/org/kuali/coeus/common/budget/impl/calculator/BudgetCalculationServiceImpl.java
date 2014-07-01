@@ -627,7 +627,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }  
     @SuppressWarnings("unchecked")
     protected BudgetCommonService<BudgetParent> getBudgetCommonService(Budget budget) {
-        return BudgetCommonServiceFactory.createInstance(budget.getBudgetDocument().getParentDocument());
+        return BudgetCommonServiceFactory.createInstance(budget.getBudgetParent());
     }
     private boolean isRateOveridden(Budget budget,BudgetPeriod budgetPeriod){
         BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budget);

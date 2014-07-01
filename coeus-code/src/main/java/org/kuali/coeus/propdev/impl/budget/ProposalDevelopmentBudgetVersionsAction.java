@@ -107,7 +107,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
 
-        BudgetDocument<DevelopmentProposal> budgetDocument = 
+        Budget budgetDocument = 
                 getBudgetService().addBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName());
         pdForm.setNewBudgetVersionName("");
 
@@ -138,7 +138,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         DocumentService documentService = getDocumentService();
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
         String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
-        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
+        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
         if(parentDocument==null){
             budgetDocument.refreshReferenceObject("parentDocument");
         }
@@ -170,7 +170,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
      * 
      */
     public void checkProjectStartEndDateWarning(BudgetDocument budgetDocument) {
-        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
+        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
         if(parentDocument==null){
           return;
         }
@@ -379,7 +379,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         BudgetVersionOverview budgetToCopy = getSelectedVersion(proposalDevelopmentForm, request);
-        copyBudget(pdDoc, budgetToCopy, copyPeriodOneOnly);
+        copyBudget(pdDoc.getBudgetParent(), budgetToCopy, copyPeriodOneOnly);
     }
     
     private StrutsConfirmation syncBudgetRateConfirmationQuestion(ActionMapping mapping, ActionForm form,

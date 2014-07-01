@@ -31,7 +31,7 @@ public class ModifyProposalBudgetRatesAuthorizer extends BudgetAuthorizer {
     public boolean isAuthorized(String userId, BudgetTask task) {
         KcDocumentRejectionService documentRejectionService = KcServiceLocator.getService(KcDocumentRejectionService.class);
         BudgetDocument budgetDocument = task.getBudgetDocument();
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)budgetDocument.getParentDocument();
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)budgetDocument.getBudget().getBudgetParent().getDocument();
         boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(doc.getDocumentNumber());
              
         return (!kraWorkflowService.isInWorkflow(doc) || rejectedDocument) &&

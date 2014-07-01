@@ -26,6 +26,7 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
+import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
 import org.kuali.coeus.common.budget.impl.version.BudgetVersionRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -45,7 +46,7 @@ import java.util.List;
  * This class process requests for ProposalBudget
  */
 @Component("proposalBudgetService")
-public class ProposalBudgetServiceImpl implements ProposalBudgetService {
+public class ProposalBudgetServiceImpl extends AbstractBudgetService<DevelopmentProposal> implements ProposalBudgetService {
 
     @Autowired
     @Qualifier("documentService")
@@ -54,11 +55,7 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
     @Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
-
-    @Autowired
-    @Qualifier("budgetService")
-    private BudgetService<DevelopmentProposal> budgetService;
-
+    
     @Autowired
     @Qualifier("budgetCalculationService")
     private BudgetCalculationService budgetCalculationService;
@@ -67,23 +64,16 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
     @Qualifier("propDevBudgetSubAwardService")
     private PropDevBudgetSubAwardService propDevBudgetSubAwardService;
     
-
-    public BudgetDocument<DevelopmentProposal> getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,
-            String documentDescription) throws WorkflowException {
-        BudgetDocument<DevelopmentProposal> budgetDocument;
+    @Override
+    public Budget getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,String budgetName){
         Integer budgetVersionNumber = parentDocument.getNextBudgetVersionNumber();
-        budgetDocument = (BudgetDocument) documentService.getNewDocument(BudgetDocument.class);
+        DevelopmentProposal budgetParent = parentDocument.getBudgetParent();
+        ProposalDevelopmentBudgetExt budget = new ProposalDevelopmentBudgetExt();
+        budget.setDevelopmentProposal(budgetParent);
         
-        budgetDocument.setParentDocument(parentDocument);
-        budgetDocument.setParentDocumentKey(parentDocument.getDocumentNumber());
-        budgetDocument.setParentDocumentTypeCode(parentDocument.getDocumentTypeCode());
-        budgetDocument.getDocumentHeader().setDocumentDescription(documentDescription);
-        
-        Budget budget = budgetDocument.getBudget();
         budget.setBudgetVersionNumber(budgetVersionNumber);
-        budget.setBudgetDocument(budgetDocument);
         
-        BudgetParent budgetParent = parentDocument.getBudgetParent();
+        budget.setName(budgetName);
         budget.setStartDate(budgetParent.getRequestedStartDateInitial());
         budget.setEndDate(budgetParent.getRequestedEndDateInitial());
         budget.setOhRateTypeCode(this.parameterService.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));
@@ -91,16 +81,18 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
         budget.setUrRateClassCode(this.parameterService.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
         budget.setModularBudgetFlag(this.parameterService.getParameterValueAsBoolean(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
         budget.setBudgetStatus(this.parameterService.getParameterValueAsString(BudgetDocument.class, budgetParent.getDefaultBudgetStatusParameter()));
-        boolean success = new BudgetVersionRule().processAddBudgetVersion(new AddBudgetVersionEvent("document.parentDocument.budgetDocumentVersion",budgetDocument.getParentDocument(),budget));
+        boolean success;
+		try {
+			success = new BudgetVersionRule().processAddBudgetVersion(new AddBudgetVersionEvent("document.parentDocument.budgetDocumentVersion",parentDocument,budget));
+		} catch (WorkflowException e) {
+			throw new RuntimeException(e);
+		}
         if(!success)
             return null;
 
         //Rates-Refresh Scenario-1
         budget.setRateClassTypesReloaded(true);
-
-        budgetDocument = saveBudgetDocument(budgetDocument);
-        parentDocument.refreshBudgetDocumentVersions();
-        return budgetDocument;
+        return saveBudget(budget);
     }
 
     @Override
@@ -130,9 +122,8 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
         return false;
     }
 
-    protected BudgetDocument<DevelopmentProposal> saveBudgetDocument(BudgetDocument<DevelopmentProposal> budgetDocument) throws WorkflowException {
-        budgetDocument = (BudgetDocument<DevelopmentProposal>) documentService.saveDocument(budgetDocument);
-        return (BudgetDocument<DevelopmentProposal>) documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
+    protected ProposalDevelopmentBudgetExt saveBudget(ProposalDevelopmentBudgetExt budget) {
+    	return getDataObjectService().save(budget);
     }
 
     /**
@@ -166,27 +157,8 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    public BudgetDocument<DevelopmentProposal> copyBudgetVersion(BudgetDocument<DevelopmentProposal> budgetDocument)
-            throws WorkflowException {
-        return copyBudgetVersion(budgetDocument, false);
-    }
-    public BudgetDocument<DevelopmentProposal> copyBudgetVersion(BudgetDocument<DevelopmentProposal> budgetDocument, boolean onlyOnePeriod)
-            throws WorkflowException {
-        return getBudgetService().copyBudgetVersion(budgetDocument, onlyOnePeriod);
-    }
-    /**
-     * Sets the budgetService attribute value.
-     * @param budgetService The budgetService to set.
-     */
-    public void setBudgetService(BudgetService<DevelopmentProposal> budgetService) {
-        this.budgetService = budgetService;
-    }
-    /**
-     * Gets the budgetService attribute. 
-     * @return Returns the budgetService.
-     */
-    public BudgetService<DevelopmentProposal> getBudgetService() {
-        return budgetService;
+    public Budget copyBudgetVersion(Budget budget){
+        return copyBudgetVersion(budget, false);
     }
 
     public void recalculateBudget(Budget budget) {

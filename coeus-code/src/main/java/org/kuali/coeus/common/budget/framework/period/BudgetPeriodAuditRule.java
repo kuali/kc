@@ -56,7 +56,7 @@ public class BudgetPeriodAuditRule extends KcTransactionalDocumentRuleBase imple
     private boolean validatePeriodDates(final BudgetDocument budgetDocument) {
         assert budgetDocument != null : "the document is null";
         boolean retval = true;
-        BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
+        BudgetParent budgetParent = budgetDocument.getBudget().getBudgetParent().getDocument().getBudgetParent();
         final Date projectStartDate = budgetParent.getRequestedStartDateInitial();
         final Date projectEndDate = budgetParent.getRequestedEndDateInitial();
         

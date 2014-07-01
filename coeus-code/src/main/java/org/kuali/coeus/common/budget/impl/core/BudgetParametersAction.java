@@ -75,7 +75,7 @@ public class BudgetParametersAction extends BudgetAction {
         getBudgetSummaryService().setupOldStartEndDate(budget, false);
         if (StringUtils.isNotBlank(budgetForm.getSyncBudgetRate()) && budgetForm.getSyncBudgetRate().equals("Y")) {
             budget.setRateClassTypesReloaded(true);
-            getBudgetRatesService().syncAllBudgetRates(budgetDocument);
+            getBudgetRatesService().syncAllBudgetRates(budget);
             budget.setRateSynced(true);
             budgetForm.setSyncBudgetRate("");
             // jira-1848 : force to calc budget after sync
@@ -113,7 +113,7 @@ public class BudgetParametersAction extends BudgetAction {
             updateThisBudgetVersion(budgetDocument);
             if (budgetForm.isUpdateFinalVersion()) {
                 reconcileFinalBudgetFlags(budgetForm);
-                setBudgetStatuses(budgetDocument.getParentDocument());
+                setBudgetStatuses(budget.getBudgetParent());
             }
             if (isBudgetPeriodDateChanged(budget) && isLineItemErrorOnly()) {
                 GlobalVariables.setMessageMap(new MessageMap());
@@ -129,16 +129,16 @@ public class BudgetParametersAction extends BudgetAction {
                 }
                 boolean valid = true;
                 if (Boolean.valueOf(budgetDocument.getProposalBudgetFlag())) {
-                    valid = isValidToComplete(budgetDocument.getParentDocument());
+                    valid = isValidToComplete(budgetDocument.getBudget().getBudgetParent().getDocument());
                     int errorSize = GlobalVariables.getMessageMap().getErrorMessages().size();
                     final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
-                    tdcValidator.validateGeneratingErrorsAndWarnings(budgetDocument.getParentDocument());
+                    tdcValidator.validateGeneratingErrorsAndWarnings(budgetDocument.getBudget().getBudgetParent().getDocument());
                     if (GlobalVariables.getMessageMap().getErrorMessages().size() > errorSize) {
                         valid = false;
                     }
                 }
                 if (budget.getFinalVersionFlag() && valid) {
-                    budgetDocument.getParentDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
+                    budgetDocument.getBudget().getBudgetParent().getDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
                 }
                 if (valid) {
                     updateBudgetPeriodDbVersion(budget);
@@ -204,7 +204,7 @@ public class BudgetParametersAction extends BudgetAction {
         updateThisBudgetVersion(budgetDocument);
         if (budgetForm.isUpdateFinalVersion()) {
             reconcileFinalBudgetFlags(budgetForm);
-            setBudgetStatuses(budgetDocument.getParentDocument());
+            setBudgetStatuses(budget.getBudgetParent());
         }
         boolean rulePassed = getKualiRuleService().applyRules(
             new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetDocument));
@@ -216,7 +216,7 @@ public class BudgetParametersAction extends BudgetAction {
                                                                                                budget.getOnOffCampusFlag());
             }
             if (budget.getFinalVersionFlag()) {
-                budgetDocument.getParentDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
+                budgetDocument.getBudget().getBudgetParent().getDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
             }
             updateBudgetPeriodDbVersion(budget);
             return super.save(mapping, form, request, response);
@@ -238,7 +238,7 @@ public class BudgetParametersAction extends BudgetAction {
         updateThisBudgetVersion(budgetDocument);
         if (budgetForm.isUpdateFinalVersion()) {
             reconcileFinalBudgetFlags(budgetForm);
-            setBudgetStatuses(budgetDocument.getParentDocument());
+            setBudgetStatuses(budget.getBudgetParent());
         }
         getBudgetSummaryService().adjustStartEndDatesForLineItems(budget);
         boolean rulePassed = getKualiRuleService().applyRules(
@@ -251,7 +251,7 @@ public class BudgetParametersAction extends BudgetAction {
                         budget.getOnOffCampusFlag());
             }
             if (budget.getFinalVersionFlag()) {
-                budgetDocument.getParentDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
+                budgetDocument.getBudget().getBudgetParent().getDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
             }
             updateBudgetPeriodDbVersion(budget);
             return super.save(mapping, form, request, response);
@@ -490,7 +490,7 @@ public class BudgetParametersAction extends BudgetAction {
     private void reconcileFinalBudgetFlags(BudgetForm budgetForm) {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
-        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
+        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
         if (budget.getFinalVersionFlag()) {
             // This version has been marked as final - update other versions.
             for (BudgetDocumentVersion documentVersion : parentDocument.getBudgetDocumentVersions()) {
@@ -554,7 +554,7 @@ public class BudgetParametersAction extends BudgetAction {
 
     private void updateThisBudgetVersion(BudgetDocument budgetDocument) {
         Budget budget = budgetDocument.getBudget();
-        BudgetParentDocument proposal = budgetDocument.getParentDocument();
+        BudgetParentDocument proposal = budgetDocument.getBudget().getBudgetParent().getDocument();
         
         for (BudgetDocumentVersion documentVersion : proposal.getBudgetDocumentVersions()) {
             BudgetVersionOverview version = documentVersion.getBudgetVersionOverview();

@@ -94,7 +94,7 @@ public abstract class AbstractBudgetCalculator {
      * @return
      */
     public QueryList filterRates(List rates) {
-        String activityTypeCode = budget.getBudgetDocument().getParentDocument().getBudgetParent().getActivityTypeCode();
+        String activityTypeCode = budget.getBudgetParent().getActivityTypeCode();
         if (!rates.isEmpty() && rates.get(0) instanceof BudgetRate) {
             QueryList qList = filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), activityTypeCode);
             if (qList.isEmpty() && !budget.getActivityTypeCode().equals(activityTypeCode)) {
@@ -725,7 +725,7 @@ public abstract class AbstractBudgetCalculator {
             validCeRateType.refreshNonUpdateableReferences();
             String rateClassType = validCeRateType.getRateClass().getRateClassTypeCode();
             if(rateClassType.equals(RateClassType.OVERHEAD.getRateClassType()) && 
-                    !Boolean.valueOf(budget.getBudgetDocument().getProposalBudgetFlag())){
+                    !budget.getBudgetParent().isProposalBudget()){
                 addOHBudgetLineItemCalculatedAmountForAward( validCeRateType.getRateClassCode(), validCeRateType.getRateType(), 
                         validCeRateType.getRateClass().getRateClassTypeCode());
             }else{

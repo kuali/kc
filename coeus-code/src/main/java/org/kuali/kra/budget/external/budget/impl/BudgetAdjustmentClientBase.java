@@ -376,7 +376,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      */
     protected AwardBudgetExt getPrevBudget(AwardBudgetDocument awardBudgetDocument) {
         int currentVersionNumber = awardBudgetDocument.getBudget().getBudgetVersionNumber();
-        AwardBudgetExt prevBudget = getPrevBudget(awardBudgetDocument.getParentDocument().getBudgetParent().getAwardDocument());
+        AwardBudgetExt prevBudget = getPrevBudget((AwardDocument) awardBudgetDocument.getBudget().getBudgetParent().getDocument());
         if (ObjectUtils.isNotNull(prevBudget.getBudgetVersionNumber()) && prevBudget.getBudgetVersionNumber() < currentVersionNumber) {
             budgetCalculationService.calculateBudgetSummaryTotals(prevBudget);
             return prevBudget;
@@ -436,7 +436,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         //use award doc number
         parametersDTO.setOrgDocNumber("");   
         // budget version number
-        Award award = awardBudgetDocument.getParentDocument().getBudgetParent();
+        Award award = (Award) awardBudgetDocument.getBudget().getBudgetParent();
         parametersDTO.setSponsorType(award.getSponsor().getSponsorTypeCode());
         //Just logging message - creating a new budget adjustment document from KC
         String COMMENT = "Generated from award budget -" 
@@ -476,7 +476,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      * @return
      */
     protected String getAwardChart(AwardBudgetDocument awardBudgetDocument) {
-        Award award = awardBudgetDocument.getParentDocument().getBudgetParent();
+        Award award = (Award) awardBudgetDocument.getBudget().getBudgetParent();
         return award.getFinancialChartOfAccountsCode();
     }
    
@@ -488,7 +488,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      */
     protected String getFinancialObjectCode(AwardBudgetDocument awardBudgetDocument, String rateClassCode, String rateTypeCode) {
         // Do not use activity type in criteria, it is not required.
-        Award award = awardBudgetDocument.getParentDocument().getBudgetParent();
+        Award award = (Award) awardBudgetDocument.getBudget().getBudgetParent();
         String activityTypeCode = award.getActivityTypeCode();
         String awardUnitNumber = award.getUnitNumber();
         List<FinancialObjectCodeMapping> results = getFinancialObjectCodesFromMappingTable(rateClassCode, rateTypeCode, awardUnitNumber);
@@ -569,7 +569,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      * @return
      */
     protected String getAwardAccount(AwardBudgetDocument awardBudgetDocument) {
-        Award award = awardBudgetDocument.getParentDocument().getBudgetParent();
+        Award award = (Award) awardBudgetDocument.getBudget().getBudgetParent();
         return award.getAccountNumber();
     }
     

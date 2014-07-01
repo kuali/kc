@@ -22,6 +22,7 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.ValidCeJobCode;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.Collection;
@@ -41,7 +42,7 @@ public interface BudgetService<T extends BudgetParent>  {
      * @param document instance to add {@link BudgetVersionOverview} to
      * @param versionName of the {@link BudgetVersionOverview}
      */
-    public BudgetDocument<T> addBudgetVersion(BudgetParentDocument<T> document, String versionName) throws WorkflowException;
+    public Budget addBudgetVersion(BudgetParentDocument<T> budgetParent, String versionName);
     
     public void updateDocumentDescription(BudgetVersionOverview budgetVersion);
     
@@ -51,7 +52,7 @@ public interface BudgetService<T extends BudgetParent>  {
      * @param budget
      * @return
      */
-    public boolean checkActivityTypeChange(BudgetParentDocument<T> pdDoc, Budget budget);
+    public boolean checkActivityTypeChange(Budget budget);
   
     /**
      * 
@@ -144,8 +145,7 @@ public interface BudgetService<T extends BudgetParent>  {
      * @return BudgetDocument
      * @throws WorkflowException
      */    
-    public BudgetDocument<T> copyBudgetVersion(BudgetDocument<T> budgetDocument, boolean onlyOnePeriod) throws WorkflowException;
-    
+    public Budget copyBudgetVersion(Budget budget, boolean onlyOnePeriod);
     
     public String populateBudgetPersonSalaryDetailsInPeriods(String budgetId, String personSequenceNumber, String personId);
     

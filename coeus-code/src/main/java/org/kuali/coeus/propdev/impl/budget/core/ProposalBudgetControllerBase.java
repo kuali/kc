@@ -1,0 +1,64 @@
+package org.kuali.coeus.propdev.impl.budget.core;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.kuali.coeus.common.budget.framework.core.BudgetService;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.sys.framework.controller.UifControllerService;
+import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.web.form.UifFormBase;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+public abstract class ProposalBudgetControllerBase {
+
+	@Autowired
+	@Qualifier("uifControllerService")
+	private UifControllerService uifControllerService;
+	
+	@Autowired
+	@Qualifier("proposalBudgetService")
+	private BudgetService<DevelopmentProposal> budgetService;
+	
+	@Autowired
+	@Qualifier("dataObjectService")
+	private DataObjectService dataObjectService;
+	
+    protected UifFormBase createInitialForm(HttpServletRequest request) {
+        return new ProposalBudgetForm();
+    }
+    
+    @ModelAttribute(value = "KualiForm")
+    public UifFormBase initForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        UifFormBase form =  getUifControllerService().initForm(this.createInitialForm(request), request, response);
+        return form;
+    }	
+
+	public BudgetService<DevelopmentProposal> getBudgetService() {
+		return budgetService;
+	}
+
+	public void setBudgetService(BudgetService<DevelopmentProposal> budgetService) {
+		this.budgetService = budgetService;
+	}
+
+	public UifControllerService getUifControllerService() {
+		return uifControllerService;
+	}
+
+	public void setUifControllerService(UifControllerService uifControllerService) {
+		this.uifControllerService = uifControllerService;
+	}
+
+	public DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
+	
+	
+}

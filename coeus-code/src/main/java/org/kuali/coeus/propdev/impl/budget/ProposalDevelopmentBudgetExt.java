@@ -18,8 +18,7 @@ package org.kuali.coeus.propdev.impl.budget;
 import javax.persistence.*;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
-
-import java.sql.Timestamp;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 
 /**
  * This class is just to hold the ProposalDevelopmentBudget. We should move PD Budget stuffs to this class later. 
@@ -28,10 +27,16 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "EPS_PROPOSAL_BUDGET_EXT")
 @PrimaryKeyJoinColumn(name="BUDGET_ID", referencedColumnName="BUDGET_ID")
+@DiscriminatorValue("PRDV")
 public class ProposalDevelopmentBudgetExt extends Budget {
 
     private static final long serialVersionUID = 8234453927894053540L;
 
+    @Id
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROPOSAL_NUMBER")
+    private DevelopmentProposal developmentProposal;
+    
     @Column(name = "HIERARCHY_HASH_CODE")
     private Integer hierarchyLastSyncHashCode;
 
@@ -41,5 +46,32 @@ public class ProposalDevelopmentBudgetExt extends Budget {
 
     public void setHierarchyLastSyncHashCode(Integer hierarchyLastSyncHashCode) {
         this.hierarchyLastSyncHashCode = hierarchyLastSyncHashCode;
+    }
+
+	public DevelopmentProposal getDevelopmentProposal() {
+		return developmentProposal;
+	}
+
+	public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
+		this.developmentProposal = developmentProposal;
+	}
+
+	@Override
+	public DevelopmentProposal getBudgetParent() {
+		return developmentProposal;
+	}
+
+	@Override
+	public String getParentDocumentKey() {
+		return developmentProposal.getProposalNumber();
+	}
+	
+    public java.util.Date getBudgetStartDate() {
+        return getDevelopmentProposal().getRequestedStartDateInitial();
+    }
+
+    public java.util.Date getBudgetEndDate() {
+        return getDevelopmentProposal().getRequestedEndDateInitial();
+
     }
 }

@@ -101,12 +101,11 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
      * 
      * @param proposalDevelopmentDocument
      */
-    protected void setBudgetStatuses(BudgetParentDocument proposalDevelopmentDocument) {
+    protected void setBudgetStatuses(BudgetParent budgetParent) {
         
-        for (BudgetDocumentVersion budgetDocumentVersion: proposalDevelopmentDocument.getBudgetDocumentVersions()) {
-            BudgetVersionOverview budgetVersion =  budgetDocumentVersion.getBudgetVersionOverview();
+        for (AbstractBudget budgetVersion: budgetParent.getBudgetVersionOverviews()) {
             if (budgetVersion.isFinalVersionFlag()) {
-                budgetVersion.setBudgetStatus(proposalDevelopmentDocument.getBudgetParent().getBudgetStatus());
+                budgetVersion.setBudgetStatus(budgetParent.getBudgetStatus());
             }
             else {
                 String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
@@ -123,13 +122,13 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
      * @param budgetToCopy
      * @param copyPeriodOneOnly if only the first budget period is to be copied
      */
-    protected void copyBudget(BudgetParentDocument budgetParentDocument, BudgetVersionOverview budgetToCopy, boolean copyPeriodOneOnly) 
+    protected void copyBudget(BudgetParentDocument budgetParentDocument, Budget budgetToCopy, boolean copyPeriodOneOnly) 
     throws WorkflowException {
         DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocToCopy = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
         Budget budget = budgetDocToCopy.getBudget();
-        BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budgetParentDocument);
-        BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocToCopy, copyPeriodOneOnly);
+        BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budget.getBudgetParent());
+        Budget newBudget = budgetService.copyBudgetVersion(budget, copyPeriodOneOnly);
         budgetParentDocument.refreshBudgetDocumentVersions();
         List<BudgetDocumentVersion> budgetVersions = budgetParentDocument.getBudgetDocumentVersions();
         for (BudgetDocumentVersion budgetDocumentVersion : budgetVersions) {
@@ -147,8 +146,8 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
      * @param parentBudgetDocument
      * @return
      */
-    protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParentDocument parentBudgetDocument) {
-        return BudgetCommonServiceFactory.createInstance(parentBudgetDocument);
+    protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParent budgetParent) {
+        return BudgetCommonServiceFactory.createInstance(budgetParent);
     }
 
     protected void populateTabState(KualiForm form, String tabTitle) {
@@ -165,7 +164,7 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
         super.setupPessimisticLockMessages(document, request);
         List<String> lockMessages = (List<String>)request.getAttribute(KRADConstants.PESSIMISTIC_LOCK_MESSAGES);
         BudgetDocument budgetDoc = (BudgetDocument)document;
-        for (PessimisticLock lock : budgetDoc.getParentDocument().getPessimisticLocks()) {
+        for (PessimisticLock lock : budgetDoc.getBudget().getBudgetParent().getDocument().getPessimisticLocks()) {
             if (StringUtils.contains(lock.getLockDescriptor(), KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET) 
                     && !lock.isOwnedByUser(GlobalVariables.getUserSession().getPerson())) {
                 String message = generatePessimisticLockMessage(lock);
