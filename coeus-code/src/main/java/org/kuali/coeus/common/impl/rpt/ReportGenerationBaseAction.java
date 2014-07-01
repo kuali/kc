@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.reporting.web.struts.action;
+package org.kuali.coeus.common.impl.rpt;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;

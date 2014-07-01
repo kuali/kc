@@ -19,9 +19,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.reporting.bo.BirtParameterBean;
-import org.kuali.kra.reporting.bo.CustReportDetails;
-import org.kuali.kra.reporting.service.BirtReportService;
+import org.kuali.coeus.common.impl.rpt.BirtParameterBean;
+import org.kuali.coeus.common.impl.rpt.cust.CustReportDetails;
+import org.kuali.coeus.common.impl.rpt.BirtReportService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 

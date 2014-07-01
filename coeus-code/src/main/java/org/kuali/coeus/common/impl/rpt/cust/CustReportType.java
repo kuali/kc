@@ -13,24 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.reporting.bo;
+package org.kuali.coeus.common.impl.rpt.cust;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class CustRptTypeDocument extends KcPersistableBusinessObjectBase {
+
+public class CustReportType extends KcPersistableBusinessObjectBase {
     
     private static final long serialVersionUID = 1L;
 
-    
     private Integer reportTypeCode; 
+    private String reportTypeDesc; 
     
-    private String documentName; 
-    
-    private CustReportType custReportType;
-    
-    public CustRptTypeDocument() { 
+    public CustReportType() { 
 
     }
+
 
     /**
      * Gets the reportTypeCode attribute. 
@@ -49,34 +47,18 @@ public class CustRptTypeDocument extends KcPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the documentName attribute. 
-     * @return Returns the documentName.
+     * Gets the reportTypeDesc attribute. 
+     * @return Returns the reportTypeDesc.
      */
-    public String getDocumentName() {
-        return documentName;
+    public String getReportTypeDesc() {
+        return reportTypeDesc;
     }
 
     /**
-     * Sets the documentName attribute value.
-     * @param documentName The documentName to set.
+     * Sets the reportTypeDesc attribute value.
+     * @param reportTypeDesc The reportTypeDesc to set.
      */
-    public void setDocumentName(String documentName) {
-        this.documentName = documentName;
-    }
-
-    /**
-     * Gets the custReportType attribute. 
-     * @return Returns the custReportType.
-     */
-    public CustReportType getCustReportType() {
-        return custReportType;
-    }
-
-    /**
-     * Sets the custReportType attribute value.
-     * @param custReportType The custReportType to set.
-     */
-    public void setCustReportType(CustReportType custReportType) {
-        this.custReportType = custReportType;
+    public void setReportTypeDesc(String reportTypeDesc) {
+        this.reportTypeDesc = reportTypeDesc;
     }
 }

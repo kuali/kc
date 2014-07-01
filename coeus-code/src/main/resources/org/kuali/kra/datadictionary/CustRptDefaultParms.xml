@@ -10,7 +10,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="CustRptDefaultParms" parent="CustRptDefaultParms-parentBean" />
   <bean id="CustRptDefaultParms-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.reporting.bo.CustRptDefaultParms"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.impl.rpt.cust.CustRptDefaultParms"/>
 		<property name="objectLabel" value="CustRptDefaultParms" />
 		<property name="inquiryDefinition">
 			<ref bean="CustRptDefaultParms-inquiryDefinition" />
@@ -184,7 +184,7 @@
 
   <bean id="CustRptDefaultParms-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="CustRptDefaultParms"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.reporting.bo.CustRptDefaultParms"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.impl.rpt.cust.CustRptDefaultParms"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -229,7 +229,7 @@
 	</bean>
 
   <bean id="CustRptDefaultParms-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.kra.reporting.bo.CustRptDefaultParms"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.impl.rpt.cust.CustRptDefaultParms"/>
     <property name="headerText" value="Custom Report Default Parameters Lookup"/>
     <property name="criteriaFields">
       <list>
