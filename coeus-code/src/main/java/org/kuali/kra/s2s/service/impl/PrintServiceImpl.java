@@ -33,14 +33,13 @@ import org.kuali.coeus.propdev.api.s2s.*;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.KcFile;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.propdev.api.attachment.NarrativeService;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
-import org.kuali.kra.s2s.formmapping.FormMappingLoader;
+import org.kuali.kra.s2s.formmapping.FormMappingService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.printing.print.S2SFormPrint;
@@ -70,6 +69,8 @@ public class PrintServiceImpl implements PrintService {
 	private S2SUtilService s2SUtilService;
     private NarrativeService narrativeService;
 	private PrintingService printingService;
+    private FormMappingService formMappingService;
+    private UserAttachedFormService userAttachedFormService;
 
 	/**
 	 * 
@@ -215,7 +216,7 @@ public class PrintServiceImpl implements PrintService {
 		List<Printable> formPrintables = new ArrayList<Printable>();
 		for (String namespace : sortedNameSpaces) {
 			XmlObject formFragment = null;
-			info = new FormMappingLoader().getFormInfo(namespace);
+			info = formMappingService.getFormInfo(namespace);
 			if(info==null) continue;
 			formFragment = getFormObject(submittedDocument, info);
 			frmXpath = "//*[namespace-uri(.) = '"+namespace+"']";               
@@ -322,7 +323,7 @@ public class PrintServiceImpl implements PrintService {
 	    getNarrativeService().deleteSystemGeneratedNarratives(pdDoc.getDevelopmentProposal().getNarratives());
 	    Forms forms = Forms.Factory.newInstance();
 		for (String namespace : sortedNameSpaces) {
-			info = new FormMappingLoader().getFormInfo(proposalNumber,namespace);
+			info = formMappingService.getFormInfo(proposalNumber,namespace);
 			if(info==null) continue;
 			s2sFormGenerator = (S2SBaseFormGenerator)s2SFormGeneratorService.getS2SGenerator(proposalNumber,info.getNameSpace());
 			s2sFormGenerator.setAuditErrors(errors);
@@ -494,9 +495,8 @@ public class PrintServiceImpl implements PrintService {
 	protected List<String> getSortedNameSpaces(String proposalNumber,List<? extends S2sOppFormsContract> s2sOppForms) {
 		List<String> orderedNamespaces = new ArrayList<String>();
 		List<String> namespaces;
-		FormMappingLoader formMappingLoader = new FormMappingLoader();
-		formMappingLoader.getBindings();
-		Map<Integer, List<String>> sortedNamespaces = formMappingLoader.getSortedNameSpaces();
+        formMappingService.getBindings();
+		Map<Integer, List<String>> sortedNamespaces = formMappingService.getSortedNameSpaces();
 		List<Integer> sortedIndices = new ArrayList<Integer>(sortedNamespaces
 				.keySet());
 		int index = 0;
@@ -522,7 +522,7 @@ public class PrintServiceImpl implements PrintService {
 	}
 
     private List<String> findUserAttachedNamespaces(String proposalNumber) {
-        return KcServiceLocator.getService(UserAttachedFormService.class).findFormNamespaces(proposalNumber);
+        return userAttachedFormService.findFormNamespaces(proposalNumber);
     }
 
     /**
@@ -674,6 +674,22 @@ public class PrintServiceImpl implements PrintService {
 
     public S2SValidatorService getS2SValidatorService() {
         return s2SValidatorService;
+    }
+
+    public FormMappingService getFormMappingService() {
+        return formMappingService;
+    }
+
+    public void setFormMappingService(FormMappingService formMappingService) {
+        this.formMappingService = formMappingService;
+    }
+
+    public UserAttachedFormService getUserAttachedFormService() {
+        return userAttachedFormService;
+    }
+
+    public void setUserAttachedFormService(UserAttachedFormService userAttachedFormService) {
+        this.userAttachedFormService = userAttachedFormService;
     }
 
     protected static class PrintableResult {

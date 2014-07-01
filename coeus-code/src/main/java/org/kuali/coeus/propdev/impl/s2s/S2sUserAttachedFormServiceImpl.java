@@ -40,7 +40,7 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
-import org.kuali.kra.s2s.formmapping.FormMappingLoader;
+import org.kuali.kra.s2s.formmapping.FormMappingService;
 import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.GrantApplicationHash;
@@ -79,7 +79,11 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
     @Autowired
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
-    
+
+    @Autowired
+    @Qualifier("formMappingService")
+    private FormMappingService formMappingService;
+
     @Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public List<S2sUserAttachedForm> extractNSaveUserAttachedForms(DevelopmentProposal developmentProposal, 
@@ -317,7 +321,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         String formXML = null;
         namespaceUri = form.getNamespaceURI();
         formname = form.getLocalName();
-        FormMappingInfo bindingInfoBean = new FormMappingLoader().getFormInfo(namespaceUri);
+        FormMappingInfo bindingInfoBean = formMappingService.getFormInfo(namespaceUri);
         if(bindingInfoBean != null) {
             return null;
         }
@@ -569,4 +573,11 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         }
     }
 
+    public FormMappingService getFormMappingService() {
+        return formMappingService;
+    }
+
+    public void setFormMappingService(FormMappingService formMappingService) {
+        this.formMappingService = formMappingService;
+    }
 }
