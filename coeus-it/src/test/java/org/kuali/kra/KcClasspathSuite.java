@@ -30,6 +30,10 @@ public class KcClasspathSuite extends Suite {
 			System.out.println("Found test - " + bd.getBeanClassName());
 			classes.add(Class.forName(bd.getBeanClassName()));
 		}
+		for (BeanDefinition bd : scanner.findCandidateComponents("org.kuali.coeus")) {
+			System.out.println("Found test - " + bd.getBeanClassName());
+			classes.add(Class.forName(bd.getBeanClassName()));
+		}
 		Class<?>[] classArray = new Class<?>[classes.size()];
 		return (Class<?>[]) classes.toArray(classArray);
 	}
