@@ -71,8 +71,8 @@
                 <value>classpath:org/kuali/kra/datadictionary/AccountType.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/type/ActivityType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/AffiliationType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/AppointmentType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/ArgValueLookup.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/personnel/AppointmentType.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/custom/arg/ArgValueLookup.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/attachment/AttachmentFile.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/AttachmentsEntryType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/Award.xml</value>
@@ -176,7 +176,7 @@
                 <value>classpath:org/kuali/coeus/common/impl/person/attr/CitizenshipType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CloseoutReportType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CloseoutType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/CoeusModule.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/module/CoeusModule.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/module/CoeusSubModule.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CoiAnnualEventDisclosure.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CoiAttachmentType.xml</value>
@@ -234,15 +234,15 @@
                 <value>classpath:org/kuali/kra/datadictionary/CostShareType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CreditType.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/custom/attr/CustomAttribute.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/CustomAttributeDataType.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/custom/attr/CustomAttributeDataType.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/custom/attr/CustomAttributeDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/CustReportDetails.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/CustReportType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/CustRptDefaultParms.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/rpt/cust/CustReportDetails.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/rpt/cust/CustReportType.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/rpt/cust/CustRptDefaultParms.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/rpt/cust/CustRptTypeDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/DateRangeFilter.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/type/DeadlineType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/DegreeType.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/person/attr/DegreeType.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/core/DevelopmentProposal.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/DisclosurePerson.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/DisclosurePersonUnit.xml</value>
@@ -263,7 +263,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/FinIntEntityRelType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/FinIntEntityStatus.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/FinIntEntityYnq.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/FormulatedType.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/rate/FormulatedType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/Frequency.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/FrequencyBase.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/FundingSourceType.xml</value>
@@ -394,19 +394,19 @@
                 <value>classpath:org/kuali/kra/datadictionary/IntellectualPropertyReviewRequirementType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/IntellectualPropertyReviewResultType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InvCoiDiscDetail.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/InvestigatorCreditType.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/type/InvestigatorCreditType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/IrbCorrespondentType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/JobCode.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/personnel/JobCode.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/KcKimAttributes.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/KcKrmsTermFunction.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/KcKrmsTermFunParam.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/KcNotification.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/person/KcPerson.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/KcPersonExtendedAttributes.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/person/attr/KcPersonExtendedAttributes.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/KraAttributeReferenceDummy.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/core/LookupableDevelopmentProposal.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/MailBy.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/MailType.xml</value>
+                <value>classpath:org/kuali/coeus/common/proposal/impl/mail/MailBy.xml</value>
+                <value>classpath:org/kuali/coeus/common/proposal/impl/mail/MailType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/MembershipRole.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/MessageOfTheDay.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/MinuteEntryType.xml</value>
@@ -429,17 +429,17 @@
                 <value>classpath:org/kuali/kra/datadictionary/NegotiationUnassociatedDetail.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/NewProtocolOnlineReviewBean.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/NonOrganizationalRolodex.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/NoticeOfOpportunity.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/noo/NoticeOfOpportunity.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/NotificationModuleRole.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/NotificationModuleRoleQualifier.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/NotificationType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/NotificationTypeRecipient.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/NsfCode.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/Organization.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/OrganizationAudit.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/OrganizationCorrespondent.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/OrganizationIndirectcost.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/OrganizationType.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/org/Organization.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/org/audit/OrganizationAudit.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/org/crrspndnt/OrganizationCorrespondent.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/org/OrganizationIndirectcost.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/org/type/OrganizationType.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/org/type/OrganizationTypeList.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/org/OrganizationYnq.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ParticipantType.xml</value>
@@ -447,19 +447,19 @@
                 <value>classpath:org/kuali/kra/datadictionary/PermissionsRoleState.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/PermissionsUser.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/PermissionsUserEditRoles.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/PersonAppointment.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/PersonBiosketch.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/person/attr/PersonAppointment.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/person/attr/PersonBiosketch.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/person/attr/PersonCustomData.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/PersonDegree.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/person/attr/PersonDegree.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/person/attr/PersonEditableField.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/PersonFinIntDisclDet.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/PersonFinIntDisclosure.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/PersonFinIntDisclosureAssociate.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/PersonMassChange.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/PersonMassChangeDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/PersonSignature.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/PersonSignatureModule.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/PersonTraining.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/person/signature/PersonSignature.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/person/signature/PersonSignatureModule.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/person/attr/PersonTraining.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/abstrct/ProposalAbstract.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/ProposalBudgetStatus.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/editable/ProposalChangedData.xml</value>
@@ -565,18 +565,18 @@
                 <value>classpath:org/kuali/kra/datadictionary/ProtocolVoteAbstainee.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProtocolVoteRecused.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProtocolWithdrawBean.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/Question.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/QuestionCategory.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/QuestionExplanation.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/Questionnaire.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/QuestionnaireQuestion.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/QuestionnaireUsage.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/QuestionType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/RateClass.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/RateClassBaseExclusion.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/RateClassBaseInclusion.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/RateClassType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/RateType.xml</value>
+                <value>classpath:org/kuali/coeus/common/questionnaire/impl/question/Question.xml</value>
+                <value>classpath:org/kuali/coeus/common/questionnaire/impl/question/QuestionCategory.xml</value>
+                <value>classpath:org/kuali/coeus/common/questionnaire/impl/question/QuestionExplanation.xml</value>
+                <value>classpath:org/kuali/coeus/common/questionnaire/impl/core/Questionnaire.xml</value>
+                <value>classpath:org/kuali/coeus/common/questionnaire/impl/core/QuestionnaireQuestion.xml</value>
+                <value>classpath:org/kuali/coeus/common/questionnaire/impl/core/QuestionnaireUsage.xml</value>
+                <value>classpath:org/kuali/coeus/common/questionnaire/impl/question/QuestionType.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/rate/RateClass.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/rate/RateClassBaseExclusion.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/rate/RateClassBaseInclusion.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/rate/RateClassType.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/rate/RateType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/Report.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ReportClass.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ReportStatus.xml</value>
@@ -584,7 +584,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/ReportTrackingBean.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ResearchArea.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/RiskLevel.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/Rolodex.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/rolodex/Rolodex.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sAppAttachments.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sApplication.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sAppSubmission.xml</value>
@@ -630,22 +630,22 @@
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardStatus.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubawardTemplateType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubcontractingExpenditureCategoryAmountsInDateRange.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/TbnPerson.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/personnel/TbnPerson.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/TimeAndMoneyDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/Training.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/TrainingStipendRate.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/rate/TrainingStipendRate.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/TransactionDetail.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/unit/Unit.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/UnitAdministrator.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/unit/admin/UnitAdministrator.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/UnitAdministratorPersonMassChange.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/unit/admin/UnitAdministratorType.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/unit/crrspndnt/UnitCorrespondent.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/UnitFormulatedCost.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/rate/UnitFormulatedCost.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ValidAwardBasisPayment.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ValidBasisMethodPayment.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/ValidCalcType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/ValidCeJobCode.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/ValidCeRateType.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/calculator/ValidCalcType.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/personnel/ValidCeJobCode.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/rate/ValidCeRateType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ValidClassReportFrequency.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ValidFrequencyBase.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ValidIacucProtoActionCoresp.xml</value>
@@ -656,7 +656,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/ValidProtoSubTypeQual.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ValidRates.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ValidSpecialReviewApproval.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/Watermark.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/print/watermark/Watermark.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/ynq/Ynq.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/ynq/YnqExplanation.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/ynq/YnqExplanationType.xml</value>
@@ -665,8 +665,8 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/AccountTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/type/ActivityTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/AffiliationTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/AppointmentTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/ArgValueLookupMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/personnel/AppointmentTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/custom/arg/ArgValueLookupMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/AttachmentsEntryTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/AwardAttachmentTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/AwardBasisOfPaymentMaintenanceDocument.xml</value>
@@ -684,18 +684,18 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/AwardTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/BatchCorrespondenceDetailMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/BatchCorrespondenceMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/BudgetCategoryMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/BudgetCategoryMapMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/BudgetCategoryMappingMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/BudgetCategoryTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/core/category/BudgetCategoryMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/core/category/BudgetCategoryMapMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/core/category/BudgetCategoryMappingMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/core/category/BudgetCategoryTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/editable/BudgetColumnsToAlterMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/BudgetPeriodTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/period/BudgetPeriodTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/BudgetStatusMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/CFDAMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/CitizenshipTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/person/attr/CitizenshipTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/CloseoutReportTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/CloseoutTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/CoeusModuleMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/module/CoeusModuleMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/module/CoeusSubModuleMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/CoiAttachmentTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/CoiCommitteeRoleTypeMaintenanceDocument.xml</value>
@@ -715,19 +715,19 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/CommmitteeTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ContactTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/CorrespondentTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/CostElementMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/core/CostElementMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/CostShareTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/CustomAttributeDataTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/custom/attr/CustomAttributeDataTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/custom/attr/CustomAttributeDocumentMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/CustomAttributeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/CustReportDetailsMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/CustReportTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/CustRptDefaultParmsMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/CustRptTypeDocumentMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/DeadlineTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/DegreeTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/custom/attr/CustomAttributeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/rpt/cust/CustReportDetailsMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/rpt/cust/CustReportTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/rpt/cust/CustRptDefaultParmsMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/rpt/cust/CustRptTypeDocumentMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/type/DeadlineTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/person/attr/DegreeTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/DistributionMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/ExemptionTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/exemption/ExemptionTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ExemptStudiesCheckListMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ExpeditedReviewCheckListMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/FandaRateTypeMaintenanceDocument.xml</value>
@@ -737,7 +737,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/FinEntitiesDataMatrixMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/FinIntEntityRelTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/FinIntEntityStatusMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/FormulatedTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/rate/FormulatedTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/FrequencyBaseMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/FrequencyMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/FundingSourceTypeMaintenanceDocument.xml</value>
@@ -783,20 +783,20 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/IacucValidProtoSubRevTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/IacucValidProtoSubTypeQualMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/IndirectcostRateTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/InstituteLaRateMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/rate/InstituteLaRateMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/InstituteRateMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/IntellectualPropertyReviewActivityTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/IntellectualPropertyReviewMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/IntellectualPropertyReviewRequirementTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/IntellectualPropertyReviewResultTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/person/creditsplit/InvestigatorCreditTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/JobCodeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/personnel/JobCodeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/KcKrmsTermFunctionMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/KcKrmsTermFunParamMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/KcMaintenanceDocumentEntry.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/KcPersonExtendedAttributesMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/MailByMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/MailTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/person/attr/KcPersonExtendedAttributesMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/proposal/impl/mail/MailByMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/proposal/impl/mail/MailTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/MembershipRoleMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/MessageOfTheDayMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/MinuteEntryTypeMaintenanceDocument.xml</value>
@@ -813,18 +813,18 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/NotificationTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/NotificationTypeRecipientMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/NsfCodeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/OrganizationAuditMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/OrganizationCorrespondentMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/org/audit/OrganizationAuditMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/org/crrspndnt/OrganizationCorrespondentMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/org/OrganizationIndirectcostMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/OrganizationMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/OrganizationTypeListMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/OrganizationTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/OrganizationYnqMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/org/OrganizationMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/org/type/OrganizationTypeListMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/org/type/OrganizationTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/org/OrganizationYnqMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ParticipantTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/PersonAppointmentMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/PersonBiosketchMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/person/attr/PersonAppointmentMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/person/attr/PersonBiosketchMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/person/attr/PersonCustomDataMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/PersonDegreeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/person/attr/PersonDegreeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/editable/PersonEditableFieldMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/person/signature/PersonSignatureMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/person/signature/PersonSignatureModuleMaintenanceDocument.xml</value>
@@ -860,17 +860,17 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/ProtocolSubmissionStatusMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ProtocolSubmissionTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ProtocolUnitMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/QuestionCategoryMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/QuestionMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/QuestionnaireMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/QuestionnaireQuestionsMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/QuestionnaireUsageMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/QuestionTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/RateClassBaseExclusionMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/RateClassBaseInclusionMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/RateClassMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/RateClassTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/RateTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/questionnaire/impl/question/QuestionCategoryMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/questionnaire/impl/question/QuestionMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/questionnaire/impl/core/QuestionnaireMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/questionnaire/impl/core/QuestionnaireQuestionsMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/questionnaire/impl/core/QuestionnaireUsageMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/questionnaire/impl/question/QuestionTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/rate/RateClassBaseExclusionMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/rate/RateClassBaseInclusionMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/rate/RateClassMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/rate/RateClassTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/rate/RateTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ReportClassMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ReportMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ReportStatusMaintenanceDocument.xml</value>
@@ -884,17 +884,17 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/ScheduleActItemTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ScheduleStatusMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SchoolCodeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/ScienceKeywordMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/keyword/ScienceKeywordMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SpecialReviewApprovalTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SpecialReviewTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SpecialReviewUsageMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/SponsorFormsMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/sponsor/form/SponsorFormsMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/sponsor/form/SponsorFormTemplateMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/SponsorHierarchyMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/sponsor/hierarchy/SponsorHierarchyMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/sponsor/SponsorMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/sponsor/term/SponsorTermMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/sponsor/term/SponsorTermTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/SponsorTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/sponsor/SponsorTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardApprovalTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardAttachmentTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardCopyRightsTypeMaintenanceDocument.xml</value>
@@ -904,19 +904,19 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardReportTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardStatusMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardTemplateTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/TbnPersonMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/personnel/TbnPersonMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/TrainingMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/TrainingStipendRateMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/rate/TrainingStipendRateMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/unit/admin/UnitAdministratorMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/unit/admin/UnitAdministratorTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/UnitCorrespondentMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/UnitFormulatedCostMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/UnitMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/unit/crrspndnt/UnitCorrespondentMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/rate/UnitFormulatedCostMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/unit/UnitMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidAwardBasisPaymentMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidBasisMethodPaymentMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/ValidCalcTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/ValidCeJobCodeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/ValidCeRateTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/calculator/ValidCalcTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/personnel/ValidCeJobCodeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/rate/ValidCeRateTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidClassReportFrequencyMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidFrequencyBaseMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidIacucProtoActionCorespMaintenanceDocument.xml</value>
@@ -927,14 +927,14 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidProtoSubTypeQualMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidRatesMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidSpecialReviewApprovalMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/WatermarkMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/print/watermark/WatermarkMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/ynq/YnqExplanationMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/ynq/YnqMaintenanceDocument.xml</value>
                 
                 <value>classpath:org/kuali/kra/datadictionary/krad/common/KcApplicationHeader.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/common/KcComponents.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/common/LandingPageView.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/krad/common/Questionnaire.xml</value>  
+                <value>classpath:org/kuali/coeus/common/questionnaire/impl/core/QuestionnaireView.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/rice-contrib/UifNavigationBar.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/rice-contrib/UifMultiSelect.xml</value>
             </list>
