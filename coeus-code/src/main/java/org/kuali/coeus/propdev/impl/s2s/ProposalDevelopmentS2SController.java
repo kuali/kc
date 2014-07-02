@@ -62,8 +62,9 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
            proposal.setS2sOpportunity(form.getNewS2sOpportunity());
            proposal.getS2sOpportunity().setDevelopmentProposal(proposal);
 
-           //Set Opportunity Title in the Sponsor & Program Information section
+           //Set Opportunity Title and Opportunity ID in the Sponsor & Program Information section
            proposal.setProgramAnnouncementTitle(form.getNewS2sOpportunity().getOpportunityTitle());
+           proposal.setProgramAnnouncementNumber(form.getNewS2sOpportunity().getOpportunityId());
            form.setNewS2sOpportunity(new S2sOpportunity());
        }
 
@@ -115,6 +116,9 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
        DevelopmentProposal proposal = document.getDevelopmentProposal();
        getLegacyDataAdapter().delete(proposal.getS2sOpportunity());
        proposal.setS2sOpportunity(null);
+       //Reset Opportunity Title and Opportunity ID in the Sponsor & Program Information section
+       proposal.setProgramAnnouncementTitle("");
+       proposal.setProgramAnnouncementNumber("");
        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
    }
 
