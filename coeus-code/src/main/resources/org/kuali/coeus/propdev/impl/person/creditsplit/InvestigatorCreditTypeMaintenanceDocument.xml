@@ -16,10 +16,6 @@
       </list>
     </property>
 	<property name="allowsRecordDeletion" value="true" />
-	
-    
-    
-    
     
     
     <property name="documentTypeName" value="InvestigatorCreditTypeMaintenanceDocument"/>
