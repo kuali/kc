@@ -67,8 +67,6 @@
         </property>
         <property name="dataDictionaryPackages">
             <list>
-                <!--<value>classpath:org/kuali/kra/datadictionary</value>-->
-                <!--<value>classpath:org/kuali/kra/datadictionary/docs</value>-->
                 <value>classpath:org/kuali/coeus/propdev/impl/abstrct/AbstractType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/AccountType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ActivityType.xml</value>
@@ -144,36 +142,36 @@
                 <value>classpath:org/kuali/kra/datadictionary/AwardUnitContact.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/BatchCorrespondence.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/BatchCorrespondenceDetail.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/Budget.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetCategory.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetCategoryMap.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetCategoryMapping.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetCategoryType.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/core/Budget.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/core/category/BudgetCategory.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/core/category/BudgetCategoryMap.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/core/category/BudgetCategoryMapping.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/core/category/BudgetCategoryType.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/editable/BudgetChangedData.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/editable/BudgetColumnsToAlter.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetCostShare.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetFormulatedCostDetail.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetLineItem.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetLineItemCalculatedAmount.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/distribution/BudgetCostShare.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/core/BudgetDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/nonpersonnel/BudgetFormulatedCostDetail.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/nonpersonnel/BudgetLineItem.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/nonpersonnel/BudgetLineItemCalculatedAmount.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/modular/BudgetModular.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/modular/BudgetModularIdc.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetPeriod.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetPeriodType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetPerson.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetPersonnelCalculatedAmount.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetPersonnelDetails.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetPersonnelRateAndBase.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetPersonSalaryDetails.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetProjectIncome.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetRate.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetRateAndBase.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/period/BudgetPeriod.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/period/BudgetPeriodType.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/personnel/BudgetPerson.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/personnel/BudgetPersonnelCalculatedAmount.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/personnel/BudgetPersonnelDetails.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/personnel/BudgetPersonnelRateAndBase.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/personnel/BudgetPersonSalaryDetails.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/income/BudgetProjectIncome.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/rate/BudgetRate.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/nonpersonnel/BudgetRateAndBase.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/BudgetStatus.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/subaward/BudgetSubAwardFiles.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/subaward/BudgetSubAwardPeriodDetail.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/subaward/BudgetSubAwards.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetUnrecoveredFandA.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/BudgetVersionOverview.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/distribution/BudgetUnrecoveredFandA.xml</value>
+                <value>classpath:org/kuali/coeus/common/budget/impl/version/BudgetVersionOverview.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CFDA.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CitizenshipType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CloseoutReportType.xml</value>
