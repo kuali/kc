@@ -30,15 +30,6 @@
 
 <!-- Attribute Definitions -->
 
-
-<!--  <bean id="BudgetRateAndBase-proposalNumber" parent="BudgetRateAndBase-proposalNumber-parentBean" />-->
-<!---->
-<!--  <bean id="BudgetRateAndBase-proposalNumber-parentBean" abstract="true" parent="BudgetLineItem-proposalNumber">-->
-<!--  </bean>-->
-<!--  <bean id="BudgetRateAndBase-budgetVersionNumber" parent="BudgetRateAndBase-budgetVersionNumber-parentBean" />-->
-<!---->
-<!--  <bean id="BudgetRateAndBase-budgetVersionNumber-parentBean" abstract="true" parent="BudgetModular-budgetVersionNumber">-->
-<!--  </bean>-->
   <bean id="BudgetRateAndBase-budgetPeriod" parent="BudgetRateAndBase-budgetPeriod-parentBean" />
   <bean id="BudgetRateAndBase-budgetPeriod-parentBean" abstract="true" parent="BudgetLineItemCalculatedAmount-budgetPeriod"/>
   <bean id="BudgetRateAndBase-lineItemNumber" parent="BudgetRateAndBase-lineItemNumber-parentBean" />

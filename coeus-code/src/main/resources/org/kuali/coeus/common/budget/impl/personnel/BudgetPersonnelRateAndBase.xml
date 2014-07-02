@@ -31,15 +31,6 @@
 
 <!-- Attribute Definitions -->
 
-
-<!--  <bean id="BudgetPersonnelRateAndBase-proposalNumber" parent="BudgetPersonnelRateAndBase-proposalNumber-parentBean" />-->
-<!---->
-<!--  <bean id="BudgetPersonnelRateAndBase-proposalNumber-parentBean" abstract="true" parent="BudgetLineItem-proposalNumber">-->
-<!--  </bean>-->
-<!--  <bean id="BudgetPersonnelRateAndBase-budgetVersionNumber" parent="BudgetPersonnelRateAndBase-budgetVersionNumber-parentBean" />-->
-<!---->
-<!--  <bean id="BudgetPersonnelRateAndBase-budgetVersionNumber-parentBean" abstract="true" parent="BudgetModular-budgetVersionNumber">-->
-<!--  </bean>-->
   <bean id="BudgetPersonnelRateAndBase-budgetPeriod" parent="BudgetPersonnelRateAndBase-budgetPeriod-parentBean" />
   <bean id="BudgetPersonnelRateAndBase-budgetPeriod-parentBean" abstract="true" parent="BudgetLineItemCalculatedAmount-budgetPeriod"/>
   <bean id="BudgetPersonnelRateAndBase-personId" parent="BudgetPersonnelRateAndBase-personId-parentBean" />
