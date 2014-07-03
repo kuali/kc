@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.person.attachment;
 
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
@@ -53,5 +54,6 @@ public interface ProposalPersonBiographyService {
      */
 
     public void setPersonnelBioTimeStampUser(List<ProposalPersonBiography> proposalPersonBios);
+    public void prepareProposalPersonBiographyForSave(DevelopmentProposal developmentProposal, ProposalPersonBiography biography);
 
 }

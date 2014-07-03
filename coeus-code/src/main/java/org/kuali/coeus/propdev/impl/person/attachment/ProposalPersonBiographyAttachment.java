@@ -32,23 +32,13 @@ import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyAtta
 @Entity
 @Table(name = "EPS_PROP_PERSON_BIO_ATTACHMENT")
 @AttributeOverride(name = "data",  column = @Column(name = "BIO_DATA"))
-@IdClass(ProposalPersonBiographyAttachment.ProposalPersonBiographyAttachmentId.class)
+@IdClass(ProposalPersonBiography.ProposalPersonBiographyId.class)
 public class ProposalPersonBiographyAttachment extends AttachmentDataSource implements ProposalPersonBiographyAttachmentContract {
 
-    @Id
-    @Column(name = "PROP_PERSON_NUMBER")
-    private Integer proposalPersonNumber;
 
     @Id
-    @Column(name = "PROPOSAL_NUMBER")
-    private String proposalNumber;
-
-    @Id
-    @Column(name = "BIO_NUMBER")
-    private Integer biographyNumber;
-
     @OneToOne(cascade = { CascadeType.REFRESH })
-    @JoinColumns({ @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "BIO_NUMBER", referencedColumnName = "BIO_NUMBER", insertable = false, updatable = false), @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false) })
+    @JoinColumns({ @JoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER"), @JoinColumn(name = "BIO_NUMBER", referencedColumnName = "BIO_NUMBER"), @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER") })
     private ProposalPersonBiography proposalPersonBiography;
 
     public ProposalPersonBiographyAttachment() {
@@ -57,29 +47,29 @@ public class ProposalPersonBiographyAttachment extends AttachmentDataSource impl
 
     @Override
     public Integer getProposalPersonNumber() {
-        return proposalPersonNumber;
+        return proposalPersonBiography.getProposalPersonNumber();
     }
 
     public void setProposalPersonNumber(Integer proposalPersonNumber) {
-        this.proposalPersonNumber = proposalPersonNumber;
+        proposalPersonBiography.setProposalPersonNumber(proposalPersonNumber);
     }
 
     @Override
     public String getProposalNumber() {
-        return proposalNumber;
+        return proposalPersonBiography.getProposalNumber();
     }
 
     public void setProposalNumber(String proposalNumber) {
-        this.proposalNumber = proposalNumber;
+        proposalPersonBiography.setProposalNumber(proposalNumber);
     }
 
     @Override
     public Integer getBiographyNumber() {
-        return biographyNumber;
+        return proposalPersonBiography.getBiographyNumber();
     }
 
     public void setBiographyNumber(Integer biographyNumber) {
-        this.biographyNumber = biographyNumber;
+        proposalPersonBiography.setBiographyNumber(biographyNumber);
     }
 
     public ProposalPersonBiography getProposalPersonBiography() {
@@ -90,63 +80,4 @@ public class ProposalPersonBiographyAttachment extends AttachmentDataSource impl
         this.proposalPersonBiography = proposalPersonBiography;
     }
 
-    public static final class ProposalPersonBiographyAttachmentId implements Serializable, Comparable<ProposalPersonBiographyAttachmentId> {
-
-        private Integer proposalPersonNumber;
-
-        private Integer biographyNumber;
-
-        private String proposalNumber;
-
-        public Integer getProposalPersonNumber() {
-            return this.proposalPersonNumber;
-        }
-
-        public void setProposalPersonNumber(Integer proposalPersonNumber) {
-            this.proposalPersonNumber = proposalPersonNumber;
-        }
-
-        public Integer getBiographyNumber() {
-            return this.biographyNumber;
-        }
-
-        public void setBiographyNumber(Integer biographyNumber) {
-            this.biographyNumber = biographyNumber;
-        }
-
-        public String getProposalNumber() {
-            return this.proposalNumber;
-        }
-
-        public void setProposalNumber(String proposalNumber) {
-            this.proposalNumber = proposalNumber;
-        }
-
-        @Override
-        public String toString() {
-            return new ToStringBuilder(this).append("proposalPersonNumber", this.proposalPersonNumber).append("biographyNumber", this.biographyNumber).append("proposalNumber", this.proposalNumber).toString();
-        }
-
-        @Override
-        public boolean equals(Object other) {
-            if (other == null)
-                return false;
-            if (other == this)
-                return true;
-            if (other.getClass() != this.getClass())
-                return false;
-            final ProposalPersonBiographyAttachmentId rhs = (ProposalPersonBiographyAttachmentId) other;
-            return new EqualsBuilder().append(this.proposalPersonNumber, rhs.proposalPersonNumber).append(this.biographyNumber, rhs.biographyNumber).append(this.proposalNumber, rhs.proposalNumber).isEquals();
-        }
-
-        @Override
-        public int hashCode() {
-            return new HashCodeBuilder(17, 37).append(this.proposalPersonNumber).append(this.biographyNumber).append(this.proposalNumber).toHashCode();
-        }
-
-        @Override
-        public int compareTo(ProposalPersonBiographyAttachmentId other) {
-            return new CompareToBuilder().append(this.proposalPersonNumber, other.proposalPersonNumber).append(this.biographyNumber, other.biographyNumber).append(this.proposalNumber, other.proposalNumber).toComparison();
-        }
-    }
 }

@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.person.attachment;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.Constants;
@@ -60,11 +61,11 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
      */
     public void addProposalPersonBiography(ProposalDevelopmentDocument proposaldevelopmentDocument,
             ProposalPersonBiography proposalPersonBiography) {
-        proposalPersonBiography.setProposalNumber(proposaldevelopmentDocument.getDevelopmentProposal().getProposalNumber());
+        proposalPersonBiography.setDevelopmentProposal(proposaldevelopmentDocument.getDevelopmentProposal());
         proposalPersonBiography.setBiographyNumber(proposaldevelopmentDocument
                 .getDocumentNextValue(Constants.PROP_PERSON_BIO_NUMBER));
         proposalPersonBiography.setPropPerDocType(new PropPerDocType());
-        ProposalPerson proposalPerson = getPerson(proposaldevelopmentDocument, proposalPersonBiography.getProposalPersonNumber());
+        ProposalPerson proposalPerson = getPerson(proposaldevelopmentDocument.getDevelopmentProposal(), proposalPersonBiography.getProposalPersonNumber());
         if (proposalPerson != null) {
             proposalPersonBiography.setPersonId(proposalPerson.getPersonId());
             proposalPersonBiography.setRolodexId(proposalPerson.getRolodexId());
@@ -102,6 +103,18 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
 
     }
 
+    @Override
+    public void prepareProposalPersonBiographyForSave(DevelopmentProposal developmentProposal, ProposalPersonBiography biography) {
+        biography.setPropPerDocType(new PropPerDocType());
+        biography.getPropPerDocType().setCode(biography.getDocumentTypeCode());
+        biography.refreshReferenceObject("propPerDocType");
+
+        ProposalPerson proposalPerson = getPerson(developmentProposal, biography.getProposalPersonNumber());
+        if (proposalPerson != null) {
+            biography.setPersonId(proposalPerson.getPersonId());
+            biography.setRolodexId(proposalPerson.getRolodexId());
+        }
+    }
     /**
      * 
      * @see org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService#removePersonnelAttachmentForDeletedPerson(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument,
@@ -137,12 +150,12 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
     /**
      * 
      * This method find the matched person in key person list
-     * @param proposaldevelopmentDocument
+     * @param developmentProposal
      * @param proposalPersonNumber
      * @return
      */
-    protected ProposalPerson getPerson(ProposalDevelopmentDocument proposaldevelopmentDocument, Integer proposalPersonNumber) {
-        for (ProposalPerson person : proposaldevelopmentDocument.getDevelopmentProposal().getProposalPersons()) {
+    protected ProposalPerson getPerson(DevelopmentProposal developmentProposal, Integer proposalPersonNumber) {
+        for (ProposalPerson person : developmentProposal.getProposalPersons()) {
             if (proposalPersonNumber.equals(person.getProposalPersonNumber())) {
                 return person;
             }

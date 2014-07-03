@@ -19,6 +19,7 @@ import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.stereotype.Component;
 
+import java.text.DecimalFormat;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -123,6 +124,18 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
             cleanText = matcher.replaceAll(REPLACEMENT_CHARACTER);
         }
         return cleanText;
+    }
+
+    public String formatFileSizeString(Long size) {
+        DecimalFormat format = new DecimalFormat("0.#");
+
+        if (size >= 1000000000) {
+            return format.format((((double)size) / 1000000000)) + " GB";
+        } else if (size >= 1000000) {
+            return format.format((((double)size) / 1000000)) + " MB";
+        } else {
+            return format.format((((double)size) / 1000)) + " KB";
+        }
     }
 
 }
