@@ -15,19 +15,33 @@
  */
 package org.kuali.coeus.propdev.impl.person.attachment;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyContract;
+import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.rice.core.api.CoreConstants;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.file.FileMeta;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 
@@ -36,7 +50,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "EPS_PROP_PERSON_BIO")
 @IdClass(ProposalPersonBiography.ProposalPersonBiographyId.class)
-public class ProposalPersonBiography extends KcPersistableBusinessObjectBase implements ProposalPersonBiographyContract, KcFile {
+public class ProposalPersonBiography extends KcPersistableBusinessObjectBase implements ProposalPersonBiographyContract, KcFile, FileMeta {
 
     @Id
     @Column(name = "PROP_PERSON_NUMBER")
@@ -46,8 +60,9 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     private String personId;
 
     @Id
-    @Column(name = "PROPOSAL_NUMBER")
-    private String proposalNumber;
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PROPOSAL_NUMBER")
+    private DevelopmentProposal developmentProposal;
 
     @Id
     @Column(name = "BIO_NUMBER")
@@ -76,6 +91,9 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     private ProposalPersonBiographyAttachment personnelAttachment;
 
     @Transient
+    private String proposalPersonNumberString;
+
+    @Transient
     private transient FormFile personnelAttachmentFile;
 
     @Transient
@@ -90,6 +108,100 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     @Transient
     private transient int positionNumber;
 
+    @Transient
+    private String id;
+
+    @Transient
+    private Long size;
+
+    @Transient
+    private Date dateUploaded;
+
+    @Transient
+    private String url;
+
+
+    @Transient
+    private transient DateTimeService dateTimeService;
+
+    @Transient
+    private transient KcAttachmentService kcAttachmentService;
+
+    @Override
+    public void init(MultipartFile multipartFile) throws Exception {
+        this.name = multipartFile.getOriginalFilename();
+        this.size = multipartFile.getSize();
+
+
+        ProposalPersonBiographyAttachment attachment = new ProposalPersonBiographyAttachment();
+        attachment.setType(multipartFile.getContentType());
+        attachment.setData(multipartFile.getBytes());
+        attachment.setName(multipartFile.getName());
+        setPersonnelAttachment(attachment);
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public String getContentType() {
+        return this.getPersonnelAttachment().getType();
+    }
+
+    @Override
+    public void setContentType(String contentType) {
+        this.getPersonnelAttachment().setType(contentType);
+    }
+
+    @Override
+    public Long getSize() {
+        return size;
+    }
+
+    @Override
+    public void setSize(Long size) {
+        this.size = size;
+    }
+
+    @Override
+    public Date getDateUploaded() {
+        return dateUploaded;
+    }
+
+    @Override
+    public void setDateUploaded(Date dateUploaded) {
+        this.dateUploaded = dateUploaded;
+    }
+
+    @Override
+    public String getUrl() {
+        return url;
+    }
+
+    @Override
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    @Override
+    public String getSizeFormatted() {
+        return getKcAttachmentService().formatFileSizeString(size);
+    }
+
+    @Override
+    public String getDateUploadedFormatted() {
+        if (this.getUpdateTimestamp() != null) {
+            return getDateTimeService().toString(new Date(this.getUpdateTimestamp().getTime()), CoreConstants.TIMESTAMP_TO_STRING_FORMAT_FOR_USER_INTERFACE_DEFAULT);
+        }
+        return StringUtils.EMPTY;
+    }
     @Override
     public Integer getProposalPersonNumber() {
         return proposalPersonNumber;
@@ -97,6 +209,19 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
 
     public void setProposalPersonNumber(Integer proposalPersonNumber) {
         this.proposalPersonNumber = proposalPersonNumber;
+        this.proposalPersonNumberString = proposalPersonNumber!=null?proposalPersonNumber.toString():null;
+    }
+
+    public String getProposalPersonNumberString() {
+        if (proposalPersonNumberString == null && proposalPersonNumber != null) {
+            return proposalPersonNumber.toString();
+        }
+        return proposalPersonNumberString;
+    }
+
+    public void setProposalPersonNumberString(String proposalPersonNumberString) {
+        this.proposalPersonNumberString = proposalPersonNumberString;
+        this.proposalPersonNumber = proposalPersonNumberString!=null?Integer.parseInt(proposalPersonNumberString):null;
     }
 
     @Override
@@ -108,13 +233,21 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         this.personId = personId;
     }
 
+    public DevelopmentProposal getDevelopmentProposal() {
+        return developmentProposal;
+    }
+
+    public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
+        this.developmentProposal = developmentProposal;
+    }
+
     @Override
     public String getProposalNumber() {
-        return proposalNumber;
+        return this.getDevelopmentProposal().getProposalNumber();
     }
 
     public void setProposalNumber(String proposalNumber) {
-        this.proposalNumber = proposalNumber;
+        this.getDevelopmentProposal().setProposalNumber(proposalNumber);
     }
 
     @Override
@@ -149,6 +282,9 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
 
     public void setPersonnelAttachment(ProposalPersonBiographyAttachment personnelAttachment) {
         this.personnelAttachment = personnelAttachment;
+        if (personnelAttachment!=null) {
+            this.personnelAttachment.setProposalPersonBiography(this);
+        }
     }
 
     @Override
@@ -270,7 +406,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
 
         private Integer biographyNumber;
 
-        private String proposalNumber;
+        private String developmentProposal;
 
         public Integer getProposalPersonNumber() {
             return this.proposalPersonNumber;
@@ -288,17 +424,17 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
             this.biographyNumber = biographyNumber;
         }
 
-        public String getProposalNumber() {
-            return this.proposalNumber;
+        public String getDevelopmentProposal() {
+            return developmentProposal;
         }
 
-        public void setProposalNumber(String proposalNumber) {
-            this.proposalNumber = proposalNumber;
+        public void setDevelopmentProposal(String developmentProposal) {
+            this.developmentProposal = developmentProposal;
         }
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this).append("proposalPersonNumber", this.proposalPersonNumber).append("biographyNumber", this.biographyNumber).append("proposalNumber", this.proposalNumber).toString();
+            return new ToStringBuilder(this).append("proposalPersonNumber", this.proposalPersonNumber).append("biographyNumber", this.biographyNumber).append("developmentProposal", this.developmentProposal).toString();
         }
 
         @Override
@@ -310,17 +446,37 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
             if (other.getClass() != this.getClass())
                 return false;
             final ProposalPersonBiographyId rhs = (ProposalPersonBiographyId) other;
-            return new EqualsBuilder().append(this.proposalPersonNumber, rhs.proposalPersonNumber).append(this.biographyNumber, rhs.biographyNumber).append(this.proposalNumber, rhs.proposalNumber).isEquals();
+            return new EqualsBuilder().append(this.proposalPersonNumber, rhs.proposalPersonNumber).append(this.biographyNumber, rhs.biographyNumber).append(this.developmentProposal, rhs.developmentProposal).isEquals();
         }
 
         @Override
         public int hashCode() {
-            return new HashCodeBuilder(17, 37).append(this.proposalPersonNumber).append(this.biographyNumber).append(this.proposalNumber).toHashCode();
+            return new HashCodeBuilder(17, 37).append(this.proposalPersonNumber).append(this.biographyNumber).append(this.developmentProposal).toHashCode();
         }
 
         @Override
         public int compareTo(ProposalPersonBiographyId other) {
-            return new CompareToBuilder().append(this.proposalPersonNumber, other.proposalPersonNumber).append(this.biographyNumber, other.biographyNumber).append(this.proposalNumber, other.proposalNumber).toComparison();
+            return new CompareToBuilder().append(this.proposalPersonNumber, other.proposalPersonNumber).append(this.biographyNumber, other.biographyNumber).append(this.developmentProposal, other.developmentProposal).toComparison();
         }
+    }
+
+    public DateTimeService getDateTimeService() {
+        if (dateTimeService == null)
+            dateTimeService = KcServiceLocator.getService(DateTimeService.class);
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    public KcAttachmentService getKcAttachmentService() {
+        if (kcAttachmentService == null)
+            kcAttachmentService = KcServiceLocator.getService(KcAttachmentService.class);
+        return kcAttachmentService;
+    }
+
+    public void setKcAttachmentService(KcAttachmentService kcAttachmentService) {
+        this.kcAttachmentService = kcAttachmentService;
     }
 }
