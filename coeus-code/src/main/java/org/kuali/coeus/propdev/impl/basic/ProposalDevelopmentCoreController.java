@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.uif.field.AttributeQueryResult;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 @Controller
 public class ProposalDevelopmentCoreController extends ProposalDevelopmentControllerBase {
 
@@ -185,8 +185,29 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 			HttpServletResponse response) throws Exception {
     	return getTransactionalDocumentControllerService().supervisorFunctions(form, result, request, response);
     }
-	
-	protected UifExportControllerService getUifExportControllerService() {
+    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=deleteProposal")
+    public ModelAndView deleteProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	getProposalDevelopmentService().deleteProposal(form.getProposalDevelopmentDocument());
+        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
+    }
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveAndExit")
+    public  ModelAndView saveAndExit(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)throws Exception{	
+   		save(form,result,request,response);
+   		return getTransactionalDocumentControllerService().returnToHub(form); 
+	}
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=submitForReview")
+    public  ModelAndView submitForReview(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)throws Exception {	
+    	form.getDevelopmentProposal().setSubmitFlag(true);
+    	return getTransactionalDocumentControllerService().refresh(form, result, request, response); 	
+   } 
+   @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=cancelProposal")
+    public ModelAndView cancelProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+	   form.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.CANCELED);
+	   return getTransactionalDocumentControllerService().refresh(form, result, request, response);
+    }
+   	protected UifExportControllerService getUifExportControllerService() {
 		return uifExportControllerService;
 	}
 

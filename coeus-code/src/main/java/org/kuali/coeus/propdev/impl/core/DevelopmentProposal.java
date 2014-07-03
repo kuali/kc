@@ -88,7 +88,8 @@ import javax.persistence.*;
 
 import java.sql.Date;
 import java.util.*;
-
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 @Entity
 @Table(name = "EPS_PROPOSAL")
 @Customizer(DevelopmentProposal.DevelopmentProposalCustomizer.class)
@@ -392,7 +393,8 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     private transient LegacyNarrativeService narrativeService;
 
     @Transient
-    private transient ProposalPersonBiographyService proposalPersonBiographyService;
+    private transient ProposalPersonBiographyService proposalPersonBiographyService; 
+ 
 
     /**
      * Gets the proposalNumberForGG attribute. 
@@ -2022,6 +2024,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      * @return
      */
     public ProposalDevelopmentDocument getProposalDocument() {
+    	  
         if (proposalDocument == null) {
             proposalDocument = new ProposalDevelopmentDocument();
         }
