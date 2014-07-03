@@ -62,7 +62,8 @@
 					p:order="20" />
 				<bean parent="Kc-Header-DefaultMenu" p:toggleText="CENTRAL ADMIN"
 					p:order="30" />
-				<bean parent="Kc-Header-DefaultMenu" p:toggleText="MAINTENANCE"
+				<bean parent="Uif-MenuAction" p:actionLabel="MAINTENANCE"
+					p:actionUrl.href="../portal.do?selectedTab=portalMaintenanceBody"
 					p:order="40" />
 				<bean parent="Kc-Header-DefaultMenu" p:toggleText="SYSTEM ADMIN"
 					p:order="50" />
