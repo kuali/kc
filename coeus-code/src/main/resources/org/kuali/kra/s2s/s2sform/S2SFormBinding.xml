@@ -746,17 +746,6 @@
 		</pkgName>
 		<sortIndex>140</sortIndex>
 	</Form>
-    <Form namespace="http://apply.grants.gov/forms/RR_OtherProjectInfo_1_3-V1.3">
-        <formName>RR_OtherProjectInfo_1_3-V1.3</formName>
-        <generatorName>RROtherProjectInfoV1_3Generator</generatorName>
-        <stylesheet>
-            org/kuali/kra/s2s/stylesheet/RR_OtherProjectInfo-V1.3.xsl
-        </stylesheet>
-        <pkgName>
-            gov.grants.apply.forms.rrOtherProjectInfo13V13
-        </pkgName>
-        <sortIndex>145</sortIndex>
-    </Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_PersonalData_1_2-V1.2">
 		<formName>RR_PersonalData_1_2-V1.2</formName>
