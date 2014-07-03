@@ -67,8 +67,8 @@ import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.person.ProposalDevelopmentKeyPersonnelAction;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingService;
-import org.kuali.kra.s2s.service.PrintResult;
-import org.kuali.kra.s2s.service.PrintService;
+import org.kuali.kra.s2s.printing.PrintResult;
+import org.kuali.kra.s2s.printing.FormPrintService;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
@@ -121,7 +121,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     private ProposalAbstractsService  proposalAbstractsService;
     private KeyPersonnelService keyPersonnelService;
     private PersonEditableService personEditableService;
-    private PrintService printService; 
+    private FormPrintService printService;
     private S2sSubmissionService s2sSubmissionService;
     private BusinessObjectService businessObjectService;
        
@@ -676,9 +676,9 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         return personEditableService;
     }   
     
-    protected PrintService getPrintService(){
+    protected FormPrintService getPrintService(){
         if (printService == null)
-        	printService = KcServiceLocator.getService(PrintService.class);
+        	printService = KcServiceLocator.getService(FormPrintService.class);
         return printService;
     }   
     

@@ -1,14 +1,11 @@
 package org.kuali.kra.s2s.printing;
 
-import org.kuali.coeus.common.framework.print.Printable;
-import org.kuali.coeus.common.framework.print.watermark.Watermarkable;
-import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.xml.transform.Source;
 import java.util.List;
 import java.util.Map;
 
-public class GenericPrintable implements Printable {
+public class GenericPrintable implements S2SPrintable {
 
 	Map<String, byte[]> streamMap;
 	Map<String, byte[]> attachments;
@@ -47,29 +44,4 @@ public class GenericPrintable implements Printable {
 	public Map<String, byte[]> renderXML() {
 		return streamMap;
 	}
-
-    public KcPersistableBusinessObjectBase getPrintableBusinessObject() {
-        throw new RuntimeException("PrintableBusinessObject not implemented");
-    }
-
-	/**
-     * 
-     * This method for checking watermark is enable or disable
-     * for this document.
-     */
-     public boolean isWatermarkEnabled(){
-         return false;
-     }
-     /**
-      * This method for getting the watermark.
-      * @see org.kuali.coeus.common.framework.print.Printable#getWatermarkable()
-      * return watermarkable
-      */
-     public Watermarkable getWatermarkable(){
-         if(isWatermarkEnabled()){
-             throw new RuntimeException("Watermarkable not implemented");
-         }else{
-             return null;
-         }
-     }
 }

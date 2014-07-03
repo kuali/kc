@@ -1,4 +1,4 @@
-package org.kuali.kra.s2s.service;
+package org.kuali.kra.s2s.printing;
 
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.kra.s2s.util.AuditError;
