@@ -195,6 +195,7 @@ public class SubmissionInfoServiceImpl implements SubmissionInfoService {
         return ip;
     }
 
+    @Override
     public String getProposalContinuedFromVersionSponsorProposalNumber(String continuedFromProposalNumber) {
         if (StringUtils.isBlank(continuedFromProposalNumber)) {
             throw new IllegalArgumentException("continuedFromProposalNumber is blank");
@@ -205,6 +206,7 @@ public class SubmissionInfoServiceImpl implements SubmissionInfoService {
         return ip != null ? ip.getSponsorProposalNumber() : null;
     }
 
+    @Override
     public Long getProposalContinuedFromVersionProposalId(String continuedFromProposalNumber) {
         if (StringUtils.isBlank(continuedFromProposalNumber)) {
             throw new IllegalArgumentException("continuedFromProposalNumber is blank");
