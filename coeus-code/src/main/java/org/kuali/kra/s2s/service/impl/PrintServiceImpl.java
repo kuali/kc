@@ -42,7 +42,7 @@ import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
-import org.kuali.kra.s2s.printing.print.S2SFormPrint;
+import org.kuali.kra.s2s.printing.GenericPrintable;
 import org.kuali.kra.s2s.service.*;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.XPathExecutor;
@@ -253,18 +253,18 @@ public class PrintServiceImpl implements PrintService {
             frmAttXpath = "//*[namespace-uri(.) = '"+namespace+"']//*[local-name(.) = 'FileLocation' and namespace-uri(.) = 'http://apply.grants.gov/system/Attachments-V1.0']";           
 
 				byte[] formXmlBytes = formFragment.xmlText().getBytes();
-				S2SFormPrint formPrintable = new S2SFormPrint();
+                GenericPrintable formPrintable = new GenericPrintable();
 
 				ArrayList<Source> templates = new ArrayList<Source>();
 				Source xsltSource = new StreamSource(getClass()
 						.getResourceAsStream("/" + info.getStyleSheet()));
 				templates.add(xsltSource);
-				formPrintable.setXSLT(templates);
+				formPrintable.setXSLTemplates(templates);
 
 				// Linkedhashmap is used to preserve the order of entry.
 				Map<String, byte[]> formXmlDataMap = new LinkedHashMap<String, byte[]>();
 				formXmlDataMap.put(info.getFormName(), formXmlBytes);
-				formPrintable.setXmlDataMap(formXmlDataMap);
+				formPrintable.setStreamMap(formXmlDataMap);
 				S2sApplicationContract s2sApplciation = s2sApplicationService.findS2sApplicationByProposalNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
 				List<? extends S2sAppAttachmentsContract> attachmentList = s2sApplciation.getS2sAppAttachmentList();
 
@@ -365,17 +365,17 @@ public class PrintServiceImpl implements PrintService {
 			    String applicationXml = formObject.xmlText(s2SFormGeneratorService.getXmlOptionsPrefixes());
 			    String filteredApplicationXml = getS2SUtilService().removeTimezoneFactor(applicationXml);
 				byte[] formXmlBytes = filteredApplicationXml.getBytes();
-				S2SFormPrint formPrintable = new S2SFormPrint();
+                GenericPrintable formPrintable = new GenericPrintable();
 				// Linkedhashmap is used to preserve the order of entry.
 				Map<String, byte[]> formXmlDataMap = new LinkedHashMap<String, byte[]>();
 				formXmlDataMap.put(info.getFormName(), formXmlBytes);
-				formPrintable.setXmlDataMap(formXmlDataMap);
+				formPrintable.setStreamMap(formXmlDataMap);
 
 				ArrayList<Source> templates = new ArrayList<Source>();
 				Source xsltSource = new StreamSource(getClass()
 						.getResourceAsStream("/" + info.getStyleSheet()));
 				templates.add(xsltSource);
-				formPrintable.setXSLT(templates);
+				formPrintable.setXSLTemplates(templates);
 
 				List<AttachmentData> attachmentList = s2sFormGenerator.getAttachments();
 				try {
