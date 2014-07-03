@@ -18,6 +18,7 @@ package org.kuali.kra.award.contacts;
 import org.kuali.coeus.common.framework.contact.Contactable;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAssociate;
@@ -51,10 +52,6 @@ public abstract class AwardContact extends AwardAssociate {
     @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
     protected Integer rolodexId;
 
-    @AwardSyncableProperty(key = true)
-    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
-    protected String roleCode;
-
     private Long awardContactId;
 
     protected ContactRole contactRole;
@@ -72,13 +69,13 @@ public abstract class AwardContact extends AwardAssociate {
     public AwardContact() {
     }
 
-    AwardContact(NonOrganizationalRolodex rolodex, ContactRole contactRole) {
+    AwardContact(NonOrganizationalRolodex rolodex, PropAwardPersonRole contactRole) {
         this();
         setRolodex(rolodex);
         setContactRole(contactRole);
     }
 
-    AwardContact(KcPerson person, ContactRole role) {
+    AwardContact(KcPerson person, PropAwardPersonRole role) {
         this();
         setPerson(person);
         setContactRole(role);
@@ -170,12 +167,6 @@ public abstract class AwardContact extends AwardAssociate {
         return contactRole;
     }
 
-
-    public String getContactRoleCode() {
-        return roleCode;
-    }
-
-
     public String getEmailAddress() {
         return getContact() != null ? getContact().getEmailAddress() : null;
     }
@@ -206,14 +197,6 @@ public abstract class AwardContact extends AwardAssociate {
 
     public String getPhoneNumber() {
         return getContact() != null ? getContact().getPhoneNumber() : null;
-    }
-
-    /**
-     * Gets the roleCode attribute. 
-     * @return Returns the roleCode.
-     */
-    public String getRoleCode() {
-        return roleCode;
     }
 
     /**
@@ -274,12 +257,6 @@ public abstract class AwardContact extends AwardAssociate {
      */
     public void setContactRole(ContactRole contactRole) {
         this.contactRole = contactRole;
-        this.roleCode = contactRole != null ? contactRole.getRoleCode() : null;
-    }
-
-    public void setContactRoleCode(String roleCode) {
-        this.roleCode = roleCode;
-        refreshContactRole();
     }
 
     public void setEmailAddress(String emailAddress) {
@@ -317,15 +294,6 @@ public abstract class AwardContact extends AwardAssociate {
     }
 
     public void setPhoneNumber(String phoneNumber) {
-    }
-
-    /**
-     * Sets the roleCode attribute value.
-     * @param roleCode The roleCode to set.
-     */
-    public void setRoleCode(String roleCode) {
-        this.roleCode = roleCode;
-        refreshContactRole();
     }
 
     /**
@@ -390,9 +358,9 @@ public abstract class AwardContact extends AwardAssociate {
     protected abstract String getContactRoleTypeIdentifier();
 
     protected ContactRole refreshContactRole() {
-        ContactRole role;
-        if (roleCode != null) {
-            role = (ContactRole) getBusinessObjectService().findByPrimaryKey(getContactRoleType(), getIdentifierMap(getContactRoleTypeIdentifier(), roleCode));
+    	ContactRole role;
+        if (getRoleKey() != null) {
+            role = getBusinessObjectService().findByPrimaryKey(getContactRoleType(), getIdentifierMap(getContactRoleTypeIdentifier(), getRoleKey()));
         } else {
             role = null;
         }
@@ -435,4 +403,7 @@ public abstract class AwardContact extends AwardAssociate {
         }
         setRolodex(rolodex);
     }
+    
+    protected abstract String getRoleKey();
+    
 }

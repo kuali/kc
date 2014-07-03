@@ -242,7 +242,7 @@
 		<field-descriptor name="totalEffort" column="TOTAL_EFFORT" jdbc-type="DECIMAL" nullable="true" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion" />
 		<field-descriptor name="faculty" column="FACULTY_FLAG"  jdbc-type="CHAR" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		
-		<field-descriptor name="roleCode" column="CONTACT_ROLE_CODE" jdbc-type="VARCHAR" nullable="false" />
+		<field-descriptor name="roleCode" column="CONTACT_ROLE_CODE" jdbc-type="BIGINT" nullable="false" />
 		<field-descriptor name="keyPersonRole" column="KEY_PERSON_PROJECT_ROLE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="optInUnitStatus" column="OPT_IN_UNIT_STATUS" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		
@@ -254,6 +254,10 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 				
+		<reference-descriptor name="contactRole" class-ref="org.kuali.coeus.common.framework.person.PropAwardPersonRole" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="roleCode"/> 
+		</reference-descriptor>
+		
 		<collection-descriptor name="units" proxy="true" element-class-ref="org.kuali.kra.award.contacts.AwardPersonUnit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none"> 
             <inverse-foreignkey field-ref="awardContactId" />
         </collection-descriptor>

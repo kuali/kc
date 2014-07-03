@@ -93,7 +93,7 @@ public class PendingReportBean extends ReportBean {
         InstitutionalProposal proposal = ipPerson.getInstitutionalProposal();
         this.proposalNumber = proposal.getProposalNumber();
         this.sponsorName = proposal.getSponsorName();
-        this.roleCode = ipPerson.getRoleCode();
+        this.roleCode = ipPerson.getContactRole().getCode();
         this.proposalTitle = proposal.getTitle();
         this.totalDirectCostTotal = proposal.getTotalDirectCostTotal();
         this.totalIndirectCostTotal = proposal.getTotalIndirectCostTotal();

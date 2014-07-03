@@ -16,6 +16,7 @@
 package org.kuali.kra.award.contacts;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -64,7 +65,7 @@ public class AwardProjectPersonsSaveRuleImpl implements AwardProjectPersonsSaveR
     boolean checkForKeyPersonProjectRoles(List<AwardPerson> projectPersons) {
        boolean valid = true;
        for ( AwardPerson person : projectPersons ) {
-           if ( StringUtils.equalsIgnoreCase(person.getContactRole().getRoleCode(), ContactRole.KEY_PERSON_CODE) &&
+           if ( StringUtils.equalsIgnoreCase(person.getContactRole().getRoleCode(), PropAwardPersonRole.KEY_PERSON) &&
                    StringUtils.isBlank(person.getKeyPersonRole()) ) {
                valid = false;
                GlobalVariables.getMessageMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, 

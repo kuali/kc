@@ -183,8 +183,8 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
                 for (ProposalPerson propPerson : proposal.getProposalPersons()) {
                     if ((person != null && StringUtils.equals(person.getPersonId(), propPerson.getPersonId()))
                             || (person.getRolodexId() != null && ObjectUtils.equals(person.getRolodexId(), propPerson.getRolodexId()))) {
-                        if (StringUtils.equals(propPerson.getProposalPersonRoleId(), Constants.CO_INVESTIGATOR_ROLE)
-                                || StringUtils.equals(propPerson.getProposalPersonRoleId(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)
+                        if (StringUtils.equals(propPerson.getContactRole().getCode(), Constants.CO_INVESTIGATOR_ROLE)
+                                || StringUtils.equals(propPerson.getContactRole().getCode(), Constants.PRINCIPAL_INVESTIGATOR_ROLE)
                                 || propPerson.getOptInCertificationStatus()) {
                             personFoundCheck = true;
                             break;

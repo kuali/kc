@@ -282,7 +282,7 @@ public class AwardReportsBean implements Serializable {
         for(AwardSponsorContact awardSponsorContact: awardSponsorContacts){
             newAwardReportTermRecipient.setRolodexId(awardSponsorContact.getRolodexId());
             newAwardReportTermRecipient.refreshReferenceObject("rolodex");
-            newAwardReportTermRecipient.setContactTypeCode(awardSponsorContact.getContactRoleCode());
+            newAwardReportTermRecipient.setContactTypeCode(awardSponsorContact.getContactType().getContactTypeCode());
             newAwardReportTermRecipient.refreshReferenceObject("contactType");
         }        
     }

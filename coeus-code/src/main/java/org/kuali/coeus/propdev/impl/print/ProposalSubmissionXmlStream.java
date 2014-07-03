@@ -314,7 +314,7 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 			propInvestigator
 					.setPERSONNAME(propPerson.getPerson().getFullName());
 			propInvestigator.setPRINCIPALINVESTIGATORFLAG(propPerson
-					.getProposalPersonRoleId());
+					.getContactRole().getCode());
 			PROPPERCREDITSPLIT propPersonCredit = PROPPERCREDITSPLIT.Factory
 					.newInstance();
 			propPersonCredit

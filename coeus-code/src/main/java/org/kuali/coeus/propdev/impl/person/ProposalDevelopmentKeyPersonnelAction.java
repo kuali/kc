@@ -291,7 +291,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
         GlobalVariables.getMessageMap().removeFromErrorPath("document.proposalPersons");
         
-        if (isNotBlank(pdform.getNewProposalPerson().getProposalPersonRoleId())) {
+        if (isNotBlank(pdform.getNewProposalPerson().getContactRole().getCode())) {
             if (pdform.getNewProposalPerson().getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE) || pdform.getNewProposalPerson().equals(CO_INVESTIGATOR_ROLE)) {
                 pdform.getNewProposalPerson().setOptInUnitStatus(true);
                 pdform.getNewProposalPerson().setOptInCertificationStatus(true);

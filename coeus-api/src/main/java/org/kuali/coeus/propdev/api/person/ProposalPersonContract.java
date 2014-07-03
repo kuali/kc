@@ -23,7 +23,7 @@ public interface ProposalPersonContract extends ProposalPersonLink, Hierarchical
 
     Integer getRolodexId();
 
-    String getProposalPersonRoleId();
+    Long getProposalPersonRoleId();
     
     Boolean getOptInUnitStatus();
     
@@ -178,4 +178,7 @@ public interface ProposalPersonContract extends ProposalPersonLink, Hierarchical
     boolean isMultiplePi();
 
     KcPersonContract getPerson();
+    
+    String getContactRoleCode();
+    
 }

@@ -265,7 +265,7 @@ public class QuestionnaireXmlStream implements XmlStream {
                 personInfo.setFullname(investigatorName);
             }
             String personName = person.getFullName();
-            String personRole = person.getRole().getDescription();
+            String personRole = person.getContactRole().getDescription();
             proposalInfo.setProposalPersonUsed(1);
             proposalInfo.setProposalPersonName(personName);
             proposalInfo.setProposalPersonRole(personRole);

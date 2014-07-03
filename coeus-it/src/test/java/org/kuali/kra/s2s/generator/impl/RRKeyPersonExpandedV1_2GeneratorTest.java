@@ -16,6 +16,7 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
@@ -51,7 +52,7 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
 		DevelopmentProposal developmentProposal = document
 				.getDevelopmentProposal();
 		ProposalPerson proposalPerson = new ProposalPerson();
-		proposalPerson.setProposalPersonRoleId("PI");
+		proposalPerson.setProposalPersonRoleId(PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID);
 		proposalPerson.setFirstName("Philip");
 		proposalPerson.setLastName("Berg");
 		proposalPerson.setDirectoryTitle("Title");
@@ -133,7 +134,7 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
 
 
 		ProposalPerson keyPerson = new ProposalPerson();
-		keyPerson.setProposalPersonRoleId("KP");
+		keyPerson.setProposalPersonRoleId(PropAwardPersonRole.DEFAULT_KEY_PERSON_ROLE_ID);
 		keyPerson.setFirstName("Terry");
 		keyPerson.setLastName("Durkin");
 		keyPerson.setDirectoryTitle("Title1");

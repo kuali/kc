@@ -90,7 +90,7 @@ public class KeyPersonnelServiceTest extends KcIntegrationTestBase {
     public void populateProposalPerson_Investigator() {
         ProposalPerson person = new ProposalPerson();
         document.getDevelopmentProposal().setOwnedByUnitNumber("000001");
-        person.setProposalPersonRoleId(PRINCIPAL_INVESTIGATOR_ROLE);
+        person.setProposalPersonRoleId(PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID);
         
         getKeyPersonnelService().populateProposalPerson(person, document);
         getKeyPersonnelService().assignLeadUnit(person, document.getDevelopmentProposal().getOwnedByUnitNumber());
@@ -111,7 +111,7 @@ public class KeyPersonnelServiceTest extends KcIntegrationTestBase {
     public void populateProposalPerson_KeyPerson() {
         ProposalPerson person = new ProposalPerson();
         document.getDevelopmentProposal().setOwnedByUnitNumber("000001");
-        person.setProposalPersonRoleId("KP");
+        person.setProposalPersonRoleId(PropAwardPersonRole.DEFAULT_KEY_PERSON_ROLE_ID);
         assertNull(person.getHomeUnit());
         assertFalse(person.isInvestigator());
     }
@@ -123,7 +123,7 @@ public class KeyPersonnelServiceTest extends KcIntegrationTestBase {
     public void calculateCreditSplitTotals_Default() {
         ProposalPerson person = new ProposalPerson();
         document.getDevelopmentProposal().setOwnedByUnitNumber("000001");
-        person.setProposalPersonRoleId(PRINCIPAL_INVESTIGATOR_ROLE);
+        person.setProposalPersonRoleId(PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID);
         
         getKeyPersonnelService().populateProposalPerson(person, document);
         document.getDevelopmentProposal().addProposalPerson(person);

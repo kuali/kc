@@ -36,6 +36,8 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
 
     private static final long serialVersionUID = -5406431014745059361L;
 
+    protected Long roleCode;
+    
     private ScaleTwoDecimal academicYearEffort;
 
     private ScaleTwoDecimal calendarYearEffort;
@@ -52,19 +54,17 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
 
     private List<InstitutionalProposalPersonCreditSplit> creditSplits;
     
-    private transient PropAwardPersonRoleService propAwardPersonRoleService;
-
     public InstitutionalProposalPerson() {
         super();
         init();
     }
 
-    public InstitutionalProposalPerson(NonOrganizationalRolodex rolodex, ContactRole contactRole) {
+    public InstitutionalProposalPerson(NonOrganizationalRolodex rolodex, PropAwardPersonRole contactRole) {
         super(rolodex, contactRole);
         init();
     }
 
-    public InstitutionalProposalPerson(KcPerson person, ContactRole role) {
+    public InstitutionalProposalPerson(KcPerson person, PropAwardPersonRole role) {
         super(person, role);
         init();
     }
@@ -162,7 +162,7 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
      * @return
      */
     public boolean isCoInvestigator() {
-        return StringUtils.equals(getContactRoleCode(), ContactRole.COI_CODE);
+        return StringUtils.equals(getContactRole().getCode(), PropAwardPersonRole.CO_INVESTIGATOR);
     }
 
     /**
@@ -178,16 +178,16 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
      * @return
      */
     public boolean isKeyPerson() {
-        return StringUtils.equals(getContactRoleCode(), ContactRole.KEY_PERSON_CODE);
+        return StringUtils.equals(getContactRole().getCode(), PropAwardPersonRole.KEY_PERSON);
     }
 
 
     public boolean isPrincipalInvestigator() {
-        return StringUtils.equals(getContactRoleCode(), ContactRole.PI_CODE);
+        return StringUtils.equals(getContactRole().getCode(), PropAwardPersonRole.PRINCIPAL_INVESTIGATOR);
     }
     
     public boolean isMultiplePi() {
-    	return StringUtils.equals(getContactRoleCode(), PropAwardPersonRole.MULTI_PI);
+    	return StringUtils.equals(getContactRole().getCode(), PropAwardPersonRole.MULTI_PI);
     }
 
     /**
@@ -308,24 +308,51 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
 		return getContactRole().getRoleDescription();
 	}
 	
-    protected ContactRole refreshContactRole() {
-    	if (StringUtils.isNotBlank(getRoleCode()) && getParent() != null && StringUtils.isNotBlank(getParent().getSponsorCode())) {
-    		contactRole = getPropAwardPersonRoleService().getRole(getRoleCode(), getParent().getSponsorCode());
+    public PropAwardPersonRole getRole(String roleCode) {
+    	if (StringUtils.isNotBlank(roleCode) && getParent() != null &&
+    			StringUtils.isNotBlank(getParent().getSponsorCode())) {
+    		return getPropAwardPersonRoleService().getRole(roleCode, getParent().getSponsorCode());
     	} else {
-    		contactRole = null;
+    		return null;
     	}
-    	return contactRole;
+    }
+	
+    public PropAwardPersonRole getDefaultPrincipalInvestigatorRole() {
+    	return getPropAwardPersonRoleService().getRole(PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID);
+    }
+    
+	@Override
+    public PropAwardPersonRole getContactRole() {
+        return (PropAwardPersonRole)contactRole;
     }
 
-	protected PropAwardPersonRoleService getPropAwardPersonRoleService() {
-		if (propAwardPersonRoleService == null) {
-			propAwardPersonRoleService = KcServiceLocator.getService(PropAwardPersonRoleService.class);
-		}
-		return propAwardPersonRoleService;
+    @Override
+    public void setContactRole(ContactRole contactRole) {
+        super.setContactRole(contactRole);
+        this.roleCode = contactRole != null ? ((PropAwardPersonRole)contactRole).getId() : null;
+    }
+    
+	public String getRoleCode() {
+		return getContactRole().getCode();
 	}
 
-	public void setPropAwardPersonRoleService(
-			PropAwardPersonRoleService propAwardPersonRoleService) {
-		this.propAwardPersonRoleService = propAwardPersonRoleService;
+	public void setRoleCode(Long roleCode) {
+		this.roleCode = roleCode;
+        refreshContactRole();
 	}
+
+    public Long getContactRoleCode() {
+        return roleCode;
+    }
+
+	@Override
+	protected String getRoleKey() {
+		return roleCode.toString();
+	}
+
+    public void setContactRoleCode(Long roleCode) {
+        this.roleCode = roleCode;
+        refreshContactRole();
+    }
+
 }

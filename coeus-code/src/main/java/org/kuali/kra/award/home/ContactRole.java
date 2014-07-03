@@ -22,10 +22,6 @@ import org.kuali.rice.krad.bo.BusinessObject;
  * This class defines an Award contact role
  */
 public interface ContactRole extends BusinessObject {
-    String PI_CODE = "PI";
-    String COI_CODE = "COI";
-    String KEY_PERSON_CODE = "KP";
-        
     String getRoleCode();
     String getRoleDescription();
 }

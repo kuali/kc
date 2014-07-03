@@ -185,7 +185,7 @@ public class InstitutionalProposalProjectPersonnelBean extends InstitutionalProp
     }
     
     @Override
-    protected Class<? extends ContactRole> getContactRoleType() {
+    protected Class<? extends PropAwardPersonRole> getContactRoleType() {
         return PropAwardPersonRole.class;
     }
 
@@ -197,9 +197,9 @@ public class InstitutionalProposalProjectPersonnelBean extends InstitutionalProp
     
     private InstitutionalProposalPerson findPrincipalInvestigator() {
         InstitutionalProposalPerson institutionalProposalPerson = null;
-        for(InstitutionalProposalContact person: getInstitutionalProposal().getProjectPersons()) {
-            if(ContactRole.PI_CODE.equals(person.getContactRole().getRoleCode())) {
-                institutionalProposalPerson = (InstitutionalProposalPerson) person;
+        for(InstitutionalProposalPerson person: getInstitutionalProposal().getProjectPersons()) {
+            if(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR.equals(person.getContactRole().getCode())) {
+                institutionalProposalPerson = person;
                 break;
             }
         }

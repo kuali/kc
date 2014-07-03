@@ -243,7 +243,7 @@
 					p:propertyName="keyPersonProjectRole"
 					p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.person.ProposalPerson"
 					p:dictionaryAttributeName="projectRole" p:required="true"
-					p:label="Key Person's role will be" p:progressiveRender="@{#fp.personRole == '#{T(org.kuali.coeus.common.framework.person.PropAwardPersonRole).KEY_PERSON_CODE}'}"
+					p:label="Key Person's role will be" p:progressiveRender="@{#fp.personRole == '#{T(org.kuali.coeus.common.framework.person.PropAwardPersonRole).KEY_PERSON}'}"
 					p:order="30" />
 			</list>
 		</property>
@@ -268,7 +268,7 @@
 	<bean id="PropDev-PersonnelPage-Collection-parentBean" abstract="true"
 		parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
 		p:propertyName="document.developmentProposal.proposalPersons"
-		p:layoutManager.summaryTitle="@{#lp.fullName} (@{#lp.proposalPersonRoleId=='COI'?'Co-I':#lp.proposalPersonRoleId})"
+		p:layoutManager.summaryTitle="@{#lp.fullName} (@{#lp.contactRole.code})"
 		p:renderAddLine="false">
 		<property name="items">
 			<list>
@@ -330,7 +330,7 @@
 					p:order="10" />
 				<bean parent="Uif-InputField" p:propertyName="projectRole"
 					p:required="true" p:label="Key Person's role will be" 
-					p:progressiveRender="@{#fp.proposalPersonRoleId == '#{T(org.kuali.coeus.common.framework.person.PropAwardPersonRole).KEY_PERSON_CODE}'}"
+					p:progressiveRender="@{#fp.contactRole.code == '#{T(org.kuali.coeus.common.framework.person.PropAwardPersonRole).KEY_PERSON}'}"
 					p:order="20" />
 				<bean parent="Uif-InputField" p:propertyName="fullName"
 					p:order="30" />

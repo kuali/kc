@@ -112,7 +112,7 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
             pp.setProposalPersonNumber(new Integer(0));
             pp.setDevelopmentProposal(document.getDevelopmentProposal());
 
-            pp.setProposalPersonRoleId(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR);
+            pp.setProposalPersonRoleId(PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID);
             pp.setOptInUnitStatus(true);
             pp.setOptInCertificationStatus(true);
             pp.setUserName(person.getUserName());

@@ -16,6 +16,7 @@
 package org.kuali.kra.institutionalproposal.contacts;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -59,7 +60,7 @@ public class InstitutionalProposalPersonSaveRuleImpl implements InstitutionalPro
     boolean checkForKeyPersonProjectRoles(List<InstitutionalProposalPerson> projectPersons) {
        boolean valid = true;
        for ( InstitutionalProposalPerson person : projectPersons ) {
-           if ( StringUtils.equalsIgnoreCase(person.getContactRole().getRoleCode(), ContactRole.KEY_PERSON_CODE) &&
+           if ( StringUtils.equalsIgnoreCase(person.getContactRole().getRoleCode(), PropAwardPersonRole.KEY_PERSON) &&
                    StringUtils.isBlank(person.getKeyPersonRole()) ) {
                valid = false;
                GlobalVariables.getMessageMap().putError(PROPOSAL_PROJECT_PERSON_LIST_ERROR_KEY + "[" + projectPersons.indexOf(person) + "].keyPersonRole", 

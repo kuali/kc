@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
@@ -66,7 +67,7 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
         String FTE = "104";
         String FISCAL_YEAR = "103";
         ProposalPerson person = new ProposalPerson();
-        person.setProposalPersonRoleId("PI");
+        person.setProposalPersonRoleId(PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID);
         person.setFirstName("SCHULTE");
         person.setLastName("MARITZA");
         person.setMiddleName("D");

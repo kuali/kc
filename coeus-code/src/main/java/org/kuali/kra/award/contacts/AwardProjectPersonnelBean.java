@@ -213,7 +213,7 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
     private AwardPerson findPrincipalInvestigator() {
         AwardPerson awardPerson = null;
         for(AwardContact person: getAward().getProjectPersons()) {
-            if(ContactRole.PI_CODE.equals(person.getContactRole().getRoleCode())) {
+            if(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR.equals(person.getContactRole().getRoleCode())) {
                 awardPerson = (AwardPerson) person;
                 break;
             }

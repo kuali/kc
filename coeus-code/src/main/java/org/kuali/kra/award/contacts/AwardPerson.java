@@ -17,12 +17,15 @@ package org.kuali.kra.award.contacts;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.persistence.internal.weaving.RelationshipInfo;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
+import org.kuali.kra.award.AwardTemplateSyncScope;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
+import org.kuali.kra.award.home.AwardSyncable;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
@@ -39,6 +42,10 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 
     private static final long serialVersionUID = 7980027108784055721L;
 
+    @AwardSyncableProperty(key = true)
+    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
+    protected Long roleCode;
+    
     @AwardSyncableProperty
     private ScaleTwoDecimal academicYearEffort;
 
@@ -74,12 +81,12 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         init();
     }
 
-    public AwardPerson(NonOrganizationalRolodex rolodex, ContactRole contactRole) {
+    public AwardPerson(NonOrganizationalRolodex rolodex, PropAwardPersonRole contactRole) {
         super(rolodex, contactRole);
         init();
     }
 
-    public AwardPerson(KcPerson person, ContactRole role) {
+    public AwardPerson(KcPerson person, PropAwardPersonRole role) {
         super(person, role);
         init();
     }
@@ -184,7 +191,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
      * @return
      */
     public boolean isCoInvestigator() {
-        return StringUtils.equals(getContactRoleCode(), ContactRole.COI_CODE);
+        return StringUtils.equals(getContactRole().getCode(), PropAwardPersonRole.CO_INVESTIGATOR);
     }
 
     /**
@@ -200,16 +207,16 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
      * @return
      */
     public boolean isKeyPerson() {
-        return StringUtils.equals(getContactRoleCode(), ContactRole.KEY_PERSON_CODE);
+        return StringUtils.equals(getContactRole().getCode(), PropAwardPersonRole.KEY_PERSON);
     }
 
 
     public boolean isPrincipalInvestigator() {
-        return StringUtils.equals(getContactRoleCode(), ContactRole.PI_CODE);
+        return StringUtils.equals(getContactRole().getCode(), PropAwardPersonRole.PRINCIPAL_INVESTIGATOR);
     }
     
     public boolean isMultiplePi() {
-    	return StringUtils.equals(getContactRoleCode(), PropAwardPersonRole.MULTI_PI);
+    	return StringUtils.equals(getContactRole().getCode(), PropAwardPersonRole.MULTI_PI);
     }
 
     /**
@@ -280,7 +287,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 
     @Override
     protected String getContactRoleTypeIdentifier() {
-        return "proposalPersonRoleId";
+        return "id";
     }
 
     protected void init() {
@@ -355,19 +362,20 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         return this.getRolodex() != null;
     }
     
-    @Override
-    public void setContactRoleCode(String roleCode) {
-        if (!StringUtils.equals(roleCode, this.roleCode)) {
+    public void setContactRoleCode(Long roleCode) {
+        if (!roleCode.equals(this.roleCode)) {
             updateBasedOnRoleChange();
             //used by AwardContactsAction to work around repopulation of units due to credit split being on page and posted with
             //role change.
             roleChanged = true;
         }
-        super.setContactRoleCode(roleCode);
+        this.roleCode = roleCode;
+        refreshContactRole();
     }
     
     public void updateBasedOnRoleChange() {
-        if (PropAwardPersonRole.KEY_PERSON.equals(roleCode)) {
+    	PropAwardPersonRole propAwardPersonRole = getRole(PropAwardPersonRole.KEY_PERSON);
+        if (propAwardPersonRole.getId().equals(roleCode)) {
             this.setOptInUnitStatus(true);
         } else {
             if (this.getPerson() != null && this.getPerson().getUnit() != null && this.getUnits().isEmpty()) {
@@ -384,15 +392,15 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         this.roleChanged = roleChanged;
     }
 
-    protected ContactRole refreshContactRole() {
-    	if (StringUtils.isNotBlank(getRoleCode()) && getParent() != null && StringUtils.isNotBlank(getParent().getSponsorCode())) {
-    		contactRole = getPropAwardPersonRoleService().getRole(getRoleCode(), getParent().getSponsorCode());
+    public PropAwardPersonRole getRole(String roleCode) {
+    	if (StringUtils.isNotBlank(roleCode) && getParent() != null &&
+    			StringUtils.isNotBlank(getParent().getSponsorCode())) {
+    		return getPropAwardPersonRoleService().getRole(roleCode, getParent().getSponsorCode());
     	} else {
-    		contactRole = null;
+    		return null;
     	}
-    	return contactRole;
     }
-
+    
 	public PropAwardPersonRoleService getPropAwardPersonRoleService() {
 		if (propAwardPersonRoleService == null) {
 			propAwardPersonRoleService = KcServiceLocator.getService(PropAwardPersonRoleService.class);
@@ -404,4 +412,34 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 			PropAwardPersonRoleService propAwardPersonRoleService) {
 		this.propAwardPersonRoleService = propAwardPersonRoleService;
 	}
+
+	@Override
+    public PropAwardPersonRole getContactRole() {
+        return (PropAwardPersonRole)contactRole;
+    }
+
+    @Override
+    public void setContactRole(ContactRole contactRole) {
+        super.setContactRole(contactRole);
+        this.roleCode = contactRole != null ? ((PropAwardPersonRole)contactRole).getId() : null;
+    }
+    
+	public String getRoleCode() {
+		return getContactRole().getCode();
+	}
+
+	public void setRoleCode(Long roleCode) {
+		this.roleCode = roleCode;
+        refreshContactRole();
+	}
+
+    public Long getContactRoleCode() {
+        return roleCode;
+    }
+
+	@Override
+	protected String getRoleKey() {
+		return roleCode.toString();
+	}
+
 }

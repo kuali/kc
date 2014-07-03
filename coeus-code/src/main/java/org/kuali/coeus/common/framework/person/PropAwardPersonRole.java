@@ -43,6 +43,11 @@ public class PropAwardPersonRole extends KcPersistableBusinessObjectBase impleme
     public static final String CO_INVESTIGATOR = "COI";
 
     public static final String KEY_PERSON = "KP";
+    
+    public static final Long DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID = 3L;
+    public static final Long DEFAULT_CO_INVESTIGATOR_ROLE_ID = 1L;
+    public static final Long DEFAULT_KEY_PERSON_ROLE_ID = 2L;
+    
 
     private static final long serialVersionUID = -2184772940618843909L;
 
@@ -112,7 +117,7 @@ public class PropAwardPersonRole extends KcPersistableBusinessObjectBase impleme
 
     @Override
     public String getRoleCode() {
-        return getCode();
+        return getId().toString();
     }
 
     @Override
@@ -135,4 +140,5 @@ public class PropAwardPersonRole extends KcPersistableBusinessObjectBase impleme
 	public void setSponsorHierarchyName(String sponsorHierarchyName) {
 		this.sponsorHierarchyName = sponsorHierarchyName;
 	}
+
 }

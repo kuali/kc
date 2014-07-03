@@ -19,6 +19,7 @@ package org.kuali.kra.award.awardhierarchy.sync.service;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
@@ -46,7 +47,7 @@ public class AwardSyncCreationServiceTest extends KcIntegrationTestBase {
         person = new AwardPerson();
         person.setPersonId("10000000001");
         person.setFullName("quickstart");
-        person.setRoleCode("PI");
+        person.setRoleCode(PropAwardPersonRole.DEFAULT_PRINCIPAL_INVESTIGATOR_ROLE_ID);
         Unit unit = new Unit();
         unit.setUnitName("TestUnit");
         unit.setUnitNumber("000001");

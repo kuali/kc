@@ -20,6 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -108,7 +109,7 @@ public class AwardCreditSplitBeanTest {
     }
 
 
-    private void addAwardPerson(Long id, String personId, String fullName, ContactRole contactRole) {
+    private void addAwardPerson(Long id, String personId, String fullName, PropAwardPersonRole contactRole) {
         KcPerson person = KcPersonFixtureFactory.createKcPerson(personId);
         person.setPersonId(id.toString());
         AwardPerson ap = new AwardPerson(person, contactRole);
@@ -130,7 +131,7 @@ public class AwardCreditSplitBeanTest {
 
     private void clearKeyPersonUnits() {
         AwardPerson keyPerson = award.getProjectPersons().get(2);
-        if(!keyPerson.getContactRoleCode().equals(ContactRole.KEY_PERSON_CODE)) {
+        if(!keyPerson.getContactRoleCode().equals(PropAwardPersonRole.KEY_PERSON)) {
             Assert.fail("Test should have set 3rd person to be KeyPerson");
         }
         keyPerson.getUnits().clear();

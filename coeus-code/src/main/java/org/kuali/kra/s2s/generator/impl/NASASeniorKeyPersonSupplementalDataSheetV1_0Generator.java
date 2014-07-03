@@ -30,6 +30,7 @@ import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
 import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -170,8 +171,8 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 		for (ProposalPersonContract proposalPerson : pdDoc.getDevelopmentProposal()
 				.getProposalPersons()) {
 			if (proposalPerson.getProposalPersonRoleId() != null
-					&& (CO_INVESTIGATOR.equalsIgnoreCase(proposalPerson
-							.getProposalPersonRoleId()) || ROLE_COLLABORATOR
+					&& (PropAwardPersonRole.CO_INVESTIGATOR.equalsIgnoreCase(proposalPerson
+							.getContactRoleCode()) || ROLE_COLLABORATOR
 							.equalsIgnoreCase(proposalPerson.getProjectRole()))) {
 				keyPersons.add(proposalPerson);
 			}

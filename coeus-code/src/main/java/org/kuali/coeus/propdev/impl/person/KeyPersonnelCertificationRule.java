@@ -143,7 +143,7 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
         
         //questionnaires should continue to be answerable only to the following approvers,
         //possibly as well as other roles. i.e. Aggregator.
-        PropAwardPersonRole personRole = person.getRole();
+        PropAwardPersonRole personRole = person.getContactRole();
         if (personRole.getRoleCode().equals(Constants.CO_INVESTIGATOR_ROLE)
                 || personRole.getRoleCode().equals(Constants.PRINCIPAL_INVESTIGATOR_ROLE)
                 || (personRole.getRoleCode().equals(Constants.KEY_PERSON_ROLE) && person.getOptInCertificationStatus())) {

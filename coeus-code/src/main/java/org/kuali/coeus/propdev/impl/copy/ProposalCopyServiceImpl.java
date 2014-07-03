@@ -724,7 +724,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     protected void clearCertifyQuestions(ProposalDevelopmentDocument doc) {
         List<ProposalPerson> persons = doc.getDevelopmentProposal().getProposalPersons();
         for (ProposalPerson person : persons) {
-            PropAwardPersonRole role = person.getRole();
+            PropAwardPersonRole role = person.getContactRole();
             String roleId = role.getCode();
             if ((StringUtils.equals(roleId, Constants.PRINCIPAL_INVESTIGATOR_ROLE)) || 
                 (StringUtils.equals(roleId, Constants.CO_INVESTIGATOR_ROLE))) {
@@ -753,7 +753,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         for (ProposalPerson person : persons) {
             person.setDevelopmentProposal(null);
            
-            PropAwardPersonRole role = person.getRole();
+            PropAwardPersonRole role = person.getContactRole();
             String roleId = role.getCode();
             
             if (StringUtils.equals(roleId, Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {

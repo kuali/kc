@@ -17,6 +17,7 @@ package org.kuali.kra.personmasschange.service.impl;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
@@ -120,8 +121,8 @@ public class AwardPersonMassChangeServiceImpl extends MassPersonChangeServiceBas
         List<AwardApprovedForeignTravel> approvedForeignTravels = award.getApprovedForeignTravelTrips();
         List<AwardUnitContact> unitContacts = award.getAwardUnitContacts();
         
-        String[] investigatorRoles = { ContactRole.PI_CODE, ContactRole.COI_CODE };
-        String[] keyStudyPersonRoles = { ContactRole.KEY_PERSON_CODE };
+        String[] investigatorRoles = { PropAwardPersonRole.PRINCIPAL_INVESTIGATOR, PropAwardPersonRole.CO_INVESTIGATOR };
+        String[] keyStudyPersonRoles = { PropAwardPersonRole.KEY_PERSON };
         
         if (personMassChange.getAwardPersonMassChange().isInvestigator()) {
             isAwardChangeCandidate |= isPersonChangeCandidate(personMassChange, persons, investigatorRoles);
@@ -204,14 +205,14 @@ public class AwardPersonMassChangeServiceImpl extends MassPersonChangeServiceBas
     
     private void performInvestigatorPersonMassChange(PersonMassChange personMassChange, Award award) {
         if (personMassChange.getAwardPersonMassChange().isInvestigator()) {
-            String[] personRoles = { ContactRole.PI_CODE, ContactRole.COI_CODE };
+            String[] personRoles = { PropAwardPersonRole.PRINCIPAL_INVESTIGATOR, PropAwardPersonRole.CO_INVESTIGATOR };
             performPersonPersonMassChange(personMassChange, award, personRoles);
         }
     }
     
     private void performKeyStudyPersonPersonMassChange(PersonMassChange personMassChange, Award award) {
         if (personMassChange.getAwardPersonMassChange().isKeyStudyPerson()) {
-            String[] personRoles = { ContactRole.KEY_PERSON_CODE };
+            String[] personRoles = { PropAwardPersonRole.KEY_PERSON };
             performPersonPersonMassChange(personMassChange, award, personRoles);
         }
     }
