@@ -78,6 +78,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetRatesPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetFandAPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetCostSharingPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetBudgetNotesPage.xml</value>
             </list>
         </property>
     </bean>
