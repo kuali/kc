@@ -46,6 +46,9 @@ import org.kuali.kra.s2s.printing.print.S2SFormPrint;
 import org.kuali.kra.s2s.service.*;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.XPathExecutor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;
 
 import javax.xml.transform.Source;
@@ -59,17 +62,44 @@ import java.util.zip.ZipOutputStream;
  * This class is implementation of PrintService. It provides the functionality
  * to generate PDF for all forms along with their attachments
  */
+@Component("printService")
 public class PrintServiceImpl implements PrintService {
 	private static final Log LOG = LogFactory.getLog(PrintServiceImpl.class);
 
+    @Autowired
+    @Qualifier("s2sApplicationService")
 	private S2sApplicationService s2sApplicationService;
-	private S2SFormGeneratorService s2SFormGeneratorService;
-	private S2SValidatorService s2SValidatorService;
+
+    @Autowired
+    @Qualifier("s2SFormGeneratorService")
+    private S2SFormGeneratorService s2SFormGeneratorService;
+
+    @Autowired
+    @Qualifier("s2SValidatorService")
+    private S2SValidatorService s2SValidatorService;
+
+    @Autowired
+    @Qualifier("s2SConfigurationService")
     private S2SConfigurationService s2SConfigurationService;
-	private S2SUtilService s2SUtilService;
+
+    @Autowired
+    @Qualifier("s2SUtilService")
+    private S2SUtilService s2SUtilService;
+
+    @Autowired
+    @Qualifier("narrativeService")
     private NarrativeService narrativeService;
-	private PrintingService printingService;
+
+    @Autowired
+    @Qualifier("printingService")
+    private PrintingService printingService;
+
+    @Autowired
+    @Qualifier("formMappingService")
     private FormMappingService formMappingService;
+
+    @Autowired
+    @Qualifier("userAttachedFormService")
     private UserAttachedFormService userAttachedFormService;
 
 	/**
@@ -691,6 +721,8 @@ public class PrintServiceImpl implements PrintService {
     public void setUserAttachedFormService(UserAttachedFormService userAttachedFormService) {
         this.userAttachedFormService = userAttachedFormService;
     }
+
+
 
     protected static class PrintableResult {
         private List<Printable> printables;

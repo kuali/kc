@@ -49,6 +49,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlToken;
+import org.kuali.coeus.common.api.org.OrganizationRepositoryService;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.common.framework.org.type.OrganizationType;
@@ -57,6 +58,8 @@ import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
+import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
+import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
@@ -164,6 +167,14 @@ public class NIHResearchAndRelatedXmlStream extends
     @Autowired
     @Qualifier("proposalDevelopmentService")
     private ProposalDevelopmentService proposalDevelopmentService;
+
+    @Autowired
+    @Qualifier("organizationRepositoryService")
+    private OrganizationRepositoryService organizationRepositoryService;
+
+    @Autowired
+    @Qualifier
+    private SubmissionInfoService submissionInfoService;
 
     private ScaleTwoDecimal cumulativeCalendarMonthsFunded = ScaleTwoDecimal.ZERO;
 
@@ -280,7 +291,7 @@ public class NIHResearchAndRelatedXmlStream extends
             ResearchAndRelatedProject researchAndRelatedProject,
             DevelopmentProposal developmentProposal) {
         String proposalTypeCode = developmentProposal.getProposalTypeCode();
-        String federalId  = getProposalDevelopmentService().getFederalId(developmentProposal.getProposalDocument());
+        String federalId  = getSubmissionInfoService().getFederalId(developmentProposal.getProposalNumber());
         researchAndRelatedProject.setNihPriorGrantNumber(federalId);
 
         if (isProposalTypeRenewalRevisionContinuation(proposalTypeCode)) {
@@ -737,7 +748,7 @@ public class NIHResearchAndRelatedXmlStream extends
             if (dhhsAgreementFlag.equals("0")) {
                 // agreement is not with DHHS
                 NoDHHSAgreement noAgreement = NoDHHSAgreement.Factory.newInstance();
-                noAgreement.setAgencyName(getProposalDevelopmentService().getCognizantFedAgency(developmentProposal));
+                noAgreement.setAgencyName(getCognizantFedAgency(developmentProposal));
                 if (orgBean.getIndirectCostRateAgreement() == null) {
                     noAgreement
                     .setAgreementDate(getDateTimeService().getCalendar(getDateTimeService().convertToDate("1900-01-01")));
@@ -755,13 +766,26 @@ public class NIHResearchAndRelatedXmlStream extends
                     indirectCost.setDHHSAgreementDate(getDateTimeService().getCalendar(
                             getDateTimeService().convertToDate(orgBean.getIndirectCostRateAgreement())));
                 }else {
-                    indirectCost.setDHHSAgreementNegotiationOffice(getProposalDevelopmentService().getCognizantFedAgency(developmentProposal));
+                    indirectCost.setDHHSAgreementNegotiationOffice(getCognizantFedAgency(developmentProposal));
                 }
             }
         }catch (ParseException e) {
             LOG.error(e.getMessage(), e);
         }
         return indirectCost;
+    }
+
+    private String getCognizantFedAgency(DevelopmentProposal developmentProposal) {
+        StringBuilder fedAgency = new StringBuilder();
+        ProposalSiteContract applicantOrganization = developmentProposal.getApplicantOrganization();
+        if (applicantOrganization != null && applicantOrganization.getOrganization() != null
+                && applicantOrganization.getOrganization().getCognizantAuditor() != null) {
+            fedAgency.append(organizationRepositoryService.getCognizantFedAgency(applicantOrganization.getOrganization()));
+        }
+        if (fedAgency.toString().length() == 0) {
+            fedAgency.append(VALUE_UNKNOWN);
+        }
+        return fedAgency.toString();
     }
 
     private int setNSFSeniorPersonnels(DevelopmentProposal developmentProposal, BudgetPeriod budgetPeriod,
@@ -1832,6 +1856,14 @@ public class NIHResearchAndRelatedXmlStream extends
         this.proposalDevelopmentService = proposalDevelopmentService;
     }
 
+    public OrganizationRepositoryService getOrganizationRepositoryService() {
+        return organizationRepositoryService;
+    }
+
+    public void setOrganizationRepositoryService(OrganizationRepositoryService organizationRepositoryService) {
+        this.organizationRepositoryService = organizationRepositoryService;
+    }
+
     /**
      * Sets the awardService attribute value.
      * @param awardService The awardService to set.
@@ -1846,5 +1878,13 @@ public class NIHResearchAndRelatedXmlStream extends
      */
     public AwardService getAwardService() {
         return awardService;
+    }
+
+    public SubmissionInfoService getSubmissionInfoService() {
+        return submissionInfoService;
+    }
+
+    public void setSubmissionInfoService(SubmissionInfoService submissionInfoService) {
+        this.submissionInfoService = submissionInfoService;
     }
 }

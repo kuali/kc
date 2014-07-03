@@ -38,6 +38,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -52,6 +53,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("RRFedNonFedBudgetV1_0Generator")
 public class RRFedNonFedBudgetV1_0Generator extends RRFedNonFedBudgetBaseGenerator {
 
     private static final Log LOG = LogFactory.getLog(RRFedNonFedBudgetV1_0Generator.class);

@@ -15,9 +15,10 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * This abstract class has methods that are common to all the versions of EDSF424Supplement form.
@@ -31,10 +32,16 @@ public abstract class EDSF424SupplementBaseGenerator extends S2SBaseFormGenerato
     protected static final String SPECIAL_REVIEW_CODE = "1";
     protected static final String APPROVAL_TYPE_CODE = "4";
     protected static final int NARRATIVE_TYPE_ED_SF424_SUPPLIMENT = 54;
+
+    @Autowired
+    @Qualifier("s2SUtilService")
     protected S2SUtilService s2sUtilService;
 
+    public S2SUtilService getS2sUtilService() {
+        return s2sUtilService;
+    }
 
-    public EDSF424SupplementBaseGenerator() {
-        s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
+    public void setS2sUtilService(S2SUtilService s2sUtilService) {
+        this.s2sUtilService = s2sUtilService;
     }
 }

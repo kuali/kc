@@ -21,11 +21,11 @@ import org.junit.Test;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -105,8 +105,8 @@ public abstract class S2SModularBudgetTestBase<T> extends S2STestBase<T> {
 
 	private ProposalDevelopmentDocument initializeApp() throws Exception {
 
-		generatorObject = (S2SBaseFormGenerator) getFormGeneratorClass()
-				.newInstance();
+		generatorObject = (S2SBaseFormGenerator) KcServiceLocator.getService(getFormGeneratorName());
+				;
 		ProposalDevelopmentDocument document = initializeDocument();
 		initializeDevelopmentProposal(document);
 		Assert.assertNotNull(document.getDocumentHeader().getWorkflowDocument());

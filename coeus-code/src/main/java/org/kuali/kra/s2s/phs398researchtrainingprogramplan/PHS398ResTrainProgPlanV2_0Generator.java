@@ -26,6 +26,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -37,6 +38,7 @@ import java.util.ArrayList;
  * This class is the xml generator for PHS398ResTrainProgPlanV2_0 form
  *  ref namespace://apply.grants.gov/forms/PHS398_ResearchTrainingProgramPlan_2_0-V2.0
  */
+@FormGenerator("PHS398ResTrainProgPlanV2_0Generator")
 public class PHS398ResTrainProgPlanV2_0Generator extends S2SBaseFormGenerator{
     private static final int PHS_RES_TRAINING_PLAN_INTRODUCTION_112 = 112;
     private static final int PHS_RES_TRAINING_PLAN_BACKGROUND_113 = 113;

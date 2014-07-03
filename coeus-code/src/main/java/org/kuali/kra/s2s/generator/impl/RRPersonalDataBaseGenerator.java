@@ -15,9 +15,10 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * This abstract class has methods that are common to all the versions of RRPersonalData form.
@@ -27,11 +28,16 @@ import org.kuali.kra.s2s.service.S2SUtilService;
 public abstract class RRPersonalDataBaseGenerator extends S2SBaseFormGenerator {
 
     public static final String KEYPERSON_TYPE_C0_INVESTIGATOR = "COI";
+
+    @Autowired
+    @Qualifier("s2SUtilService")
     protected S2SUtilService s2sUtilService;
 
-
-    public RRPersonalDataBaseGenerator() {
-        s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
+    public S2SUtilService getS2sUtilService() {
+        return s2sUtilService;
     }
 
+    public void setS2sUtilService(S2SUtilService s2sUtilService) {
+        this.s2sUtilService = s2sUtilService;
+    }
 }

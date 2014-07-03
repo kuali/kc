@@ -31,11 +31,13 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.math.BigDecimal;
 
+@FormGenerator("ED524BudgetV1_1Generator")
 public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
     private static final Log LOG = LogFactory.getLog(ED524BudgetV1_1Generator.class);
 

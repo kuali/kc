@@ -15,8 +15,9 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * This abstract class has methods that are common to all the versions of
@@ -31,17 +32,21 @@ public abstract class RRKeyPersonExpandedBaseGenerator extends
 	protected static final int PROFILE_TYPE = 18;
 	protected static final String CO_INVESTIGATOR = "COI";
 	protected static final int MAX_KEY_PERSON_COUNT = 40;
-	protected S2SUtilService s2sUtilService;
-
-	protected String pIPersonOrRolodexId = null;
 	protected static final int DIRECTORY_TITLE_MAX_LENGTH = 45;
 	protected static final int ROLE_DESCRIPTION_MAX_LENGTH = 40;
 
-	/**
-	 * 
-	 * Constructs a RRKeyPersonExpandedBaseGenerator.java.
-	 */
-	public RRKeyPersonExpandedBaseGenerator() {
-		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
-	}
+    @Autowired
+    @Qualifier("s2SUtilService")
+    protected S2SUtilService s2sUtilService;
+
+    protected String pIPersonOrRolodexId = null;
+
+
+    public S2SUtilService getS2sUtilService() {
+        return s2sUtilService;
+    }
+
+    public void setS2sUtilService(S2SUtilService s2sUtilService) {
+        this.s2sUtilService = s2sUtilService;
+    }
 }

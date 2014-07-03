@@ -31,12 +31,14 @@ import org.kuali.coeus.common.api.sponsor.SponsorContract;
 import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.*;
 
@@ -49,12 +51,25 @@ import java.util.*;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("NASASeniorKeyPersonSupplementalDataSheetV1_0Generator")
 public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 		S2SBaseFormGenerator {
 
+    @Autowired
+    @Qualifier("s2SUtilService")
 	private S2SUtilService s2sUtilService;
+
+    @Autowired
+    @Qualifier("s2SBudgetCalculatorService")
 	private S2SBudgetCalculatorService s2sBudgetCalculatorService;
+
+    @Autowired
+    @Qualifier("rolodexService")
 	private RolodexService rolodexService;
+
+    @Autowired
+    @Qualifier("sponsorService")
+    private SponsorService sponsorService;
 
 	private static final String COLLABORATOR = "COLLABORATOR";
 	private static final String COUNTRY_CODE_USA = "USA";
@@ -73,18 +88,6 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 	protected static final int MAX_KEY_PERSON_COUNT = 8;
 
 	List<ProposalPersonContract> extraPersons = new ArrayList<ProposalPersonContract>();
-
-	/**
-	 * 
-	 * Constructs a NASASeniorKeyPersonSupplementalDataSheetV1_0Generator.java.
-	 */
-	public NASASeniorKeyPersonSupplementalDataSheetV1_0Generator() {
-		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
-		s2sBudgetCalculatorService = KcServiceLocator
-				.getService(S2SBudgetCalculatorService.class);
-        rolodexService = KcServiceLocator
-				.getService(RolodexService.class);
-	}
 
 	/**
 	 * 
@@ -224,7 +227,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 			if (proposalPerson.getRolodexId() != null) {
 				RolodexContract rolodex = rolodexService.getRolodex(proposalPerson.getRolodexId());
 				if (rolodex != null) {
-                    final SponsorContract rolodexSponsor = KcServiceLocator.getService(SponsorService.class).getSponsor(rolodex.getSponsorCode());
+                    final SponsorContract rolodexSponsor = sponsorService.getSponsor(rolodex.getSponsorCode());
                     final SponsorContract proposalSponsor = pdDoc.getDevelopmentProposal().getSponsor();
                     if (rolodexSponsor != null && rolodexSponsor.equals(rolodexSponsor.getSponsorCode())) {
                         if (rolodexSponsor.getSponsorType().getCode() != null
@@ -333,7 +336,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 									pdDoc.getDevelopmentProposal()
 											.getSponsorCode())) {
 
-                        final SponsorContract sponsor = KcServiceLocator.getService(SponsorService.class).getSponsor(rolodex.getSponsorCode());
+                        final SponsorContract sponsor = sponsorService.getSponsor(rolodex.getSponsorCode());
                         if (sponsor != null
 								&& sponsor.getSponsorType().getCode() != null
 								&& Integer.parseInt(sponsor
@@ -426,4 +429,36 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 		this.pdDoc = proposalDevelopmentDocument;
 		return getNasaSeniorKeyPersonSupplementalDataSheetDocument();
 	}
+
+    public S2SUtilService getS2sUtilService() {
+        return s2sUtilService;
+    }
+
+    public void setS2sUtilService(S2SUtilService s2sUtilService) {
+        this.s2sUtilService = s2sUtilService;
+    }
+
+    public S2SBudgetCalculatorService getS2sBudgetCalculatorService() {
+        return s2sBudgetCalculatorService;
+    }
+
+    public void setS2sBudgetCalculatorService(S2SBudgetCalculatorService s2sBudgetCalculatorService) {
+        this.s2sBudgetCalculatorService = s2sBudgetCalculatorService;
+    }
+
+    public RolodexService getRolodexService() {
+        return rolodexService;
+    }
+
+    public void setRolodexService(RolodexService rolodexService) {
+        this.rolodexService = rolodexService;
+    }
+
+    public SponsorService getSponsorService() {
+        return sponsorService;
+    }
+
+    public void setSponsorService(SponsorService sponsorService) {
+        this.sponsorService = sponsorService;
+    }
 }

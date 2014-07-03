@@ -21,20 +21,26 @@ import gov.grants.apply.forms.keyContactsV10.KeyContactsDocument.KeyContacts.Rol
 import gov.grants.apply.system.globalLibraryV20.AddressDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.S2SException;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@FormGenerator("KeyContactsV1_0Generator")
 public class KeyContactsV1_0Generator extends S2SBaseFormGenerator {
     
     public static final String AUTHORIZED_REPRESENTATIVE = "auth";
-    
+
+    @Autowired
+    @Qualifier("s2SUtilService")
+    private S2SUtilService s2SUtilService;
+
     /**
      * 
      * This method returns KeycontContactsDocument object based on proposal development document which contains the KeycontContactsDocument information
@@ -79,7 +85,7 @@ public class KeyContactsV1_0Generator extends S2SBaseFormGenerator {
      */
     private void setAuthorizedRepresentative(List<RoleOnProject> roleOnProjectList) {
         RoleOnProject roleOnProject = null;
-        DepartmentalPerson aorInfo = KcServiceLocator.getService(S2SUtilService.class).getDepartmentalPerson(pdDoc);
+        DepartmentalPerson aorInfo = s2SUtilService.getDepartmentalPerson(pdDoc);
         if (aorInfo != null) {
             roleOnProject = RoleOnProject.Factory.newInstance();
             
@@ -105,5 +111,13 @@ public class KeyContactsV1_0Generator extends S2SBaseFormGenerator {
 
         this.pdDoc = proposalDevelopmentDocument;
         return getKeyContactsDocument();
+    }
+
+    public S2SUtilService getS2SUtilService() {
+        return s2SUtilService;
+    }
+
+    public void setS2SUtilService(S2SUtilService s2SUtilService) {
+        this.s2SUtilService = s2SUtilService;
     }
 }

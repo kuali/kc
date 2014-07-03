@@ -28,8 +28,8 @@ import java.util.List;
 public class NSFSuggestedReviewersV1_0GeneratorTest extends S2STestBase<NSFSuggestedReviewersV1_0Generator> {
 
     @Override
-    protected Class<NSFSuggestedReviewersV1_0Generator> getFormGeneratorClass() {
-        return NSFSuggestedReviewersV1_0Generator.class;
+    protected String getFormGeneratorName() {
+        return NSFSuggestedReviewersV1_0Generator.class.getSimpleName();
     }
 
     @Override

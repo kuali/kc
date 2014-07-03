@@ -28,8 +28,8 @@ import java.util.List;
 public class NSFDeviationAuthorizationV1_0GeneratorTest extends S2STestBase<NSFDeviationAuthorizationV1_0Generator> {
 
     @Override
-    protected Class<NSFDeviationAuthorizationV1_0Generator> getFormGeneratorClass() {
-        return NSFDeviationAuthorizationV1_0Generator.class;
+    protected String getFormGeneratorName() {
+        return NSFDeviationAuthorizationV1_0Generator.class.getSimpleName();
     }
 
     @Override

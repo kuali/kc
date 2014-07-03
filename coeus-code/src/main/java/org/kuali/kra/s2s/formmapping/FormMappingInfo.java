@@ -26,23 +26,23 @@ import java.util.Map;
  */
 public class FormMappingInfo{
     private String nameSpace;
-    private String mainClass;
+    private String generatorName;
     private String formName;
     private String stylesheet;
     private int sortIndex;
     private Boolean userAttachedForm=false;
     
     private static final String KEY_NAMESPACE = "nameSpace";
-    private static final String KEY_MAIN_CLASS = "mainClass";
+    private static final String KEY_MAIN_CLASS = "generatorName";
     private static final String KEY_FORM_NAME = "formName";
     private static final String KEY_STYLE_SHEET = "stylesheet";
 
-    public String getMainClass() {
-        return mainClass;
+    public String getGeneratorName() {
+        return generatorName;
     }
 
-    public void setMainClass(String mainClass) {
-        this.mainClass = mainClass;
+    public void setGeneratorName(String generatorName) {
+        this.generatorName = generatorName;
     }
 
     public String getNameSpace() {
@@ -88,7 +88,7 @@ public class FormMappingInfo{
     public String toString() {
         Map<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put(KEY_NAMESPACE, getNameSpace());
-        hashMap.put(KEY_MAIN_CLASS, getMainClass());
+        hashMap.put(KEY_MAIN_CLASS, getGeneratorName());
         hashMap.put(KEY_FORM_NAME, getFormName());
         hashMap.put(KEY_STYLE_SHEET, getStyleSheet());
         return hashMap.toString();

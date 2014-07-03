@@ -22,6 +22,7 @@ import gov.grants.apply.forms.sf424BV11.AuthorizedRepresentativeDocument.Authori
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -31,6 +32,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("SF424BV1_1Generator")
 public class SF424BV1_1Generator extends SF424BaseGenerator {
 
     /**

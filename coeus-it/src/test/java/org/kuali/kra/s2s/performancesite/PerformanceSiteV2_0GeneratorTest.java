@@ -72,8 +72,8 @@ public class PerformanceSiteV2_0GeneratorTest extends S2STestBase<PerformanceSit
 	}
 
 	@Override
-	protected Class<PerformanceSiteV2_0Generator> getFormGeneratorClass() {
-		return PerformanceSiteV2_0Generator.class;
+	protected String getFormGeneratorName() {
+		return PerformanceSiteV2_0Generator.class.getSimpleName();
 	}
 
 }

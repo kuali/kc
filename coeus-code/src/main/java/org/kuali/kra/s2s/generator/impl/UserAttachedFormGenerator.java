@@ -20,9 +20,11 @@ import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.api.s2s.*;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.Iterator;
 import java.util.List;
@@ -34,8 +36,12 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("UserAttachedFormGenerator")
 public class UserAttachedFormGenerator extends S2SBaseFormGenerator {
 
+    @Autowired
+    @Qualifier("userAttachedFormService")
+    private UserAttachedFormService userAttachedFormService;
 
     /**
      * This method creates {@link XmlObject} of type {@link BudgetNarrativeAttachmentsDocument} by populating data from the given
@@ -81,8 +87,7 @@ public class UserAttachedFormGenerator extends S2SBaseFormGenerator {
 
     private S2sUserAttachedFormAttFileContract findS2sUserAttachedFormAttFile(S2sUserAttachedFormAttContract s2sUserAttachedFormAtt) {
         if(s2sUserAttachedFormAtt!=null){
-            return KcServiceLocator.getService(UserAttachedFormService.class).
-                                            findUserAttachedFormAttFile(s2sUserAttachedFormAtt);
+            return userAttachedFormService.findUserAttachedFormAttFile(s2sUserAttachedFormAtt);
         }else{
             return null;
         }
@@ -91,13 +96,20 @@ public class UserAttachedFormGenerator extends S2SBaseFormGenerator {
     private S2sUserAttachedFormFileContract findUserAttachedFormFile() {
         S2sUserAttachedFormContract userAttachedForm = findUserAttachedForm();
         if(userAttachedForm!=null){
-            return KcServiceLocator.getService(UserAttachedFormService.class).
-                                            findUserAttachedFormFile(userAttachedForm);
+            return userAttachedFormService.findUserAttachedFormFile(userAttachedForm);
         }
         return null;
     }
 
     private S2sUserAttachedFormContract findUserAttachedForm() {
-        return KcServiceLocator.getService(UserAttachedFormService.class).findFormByProposalNumberAndNamespace(pdDoc.getDevelopmentProposal().getProposalNumber(), getNamespace());
+        return userAttachedFormService.findFormByProposalNumberAndNamespace(pdDoc.getDevelopmentProposal().getProposalNumber(), getNamespace());
+    }
+
+    public UserAttachedFormService getUserAttachedFormService() {
+        return userAttachedFormService;
+    }
+
+    public void setUserAttachedFormService(UserAttachedFormService userAttachedFormService) {
+        this.userAttachedFormService = userAttachedFormService;
     }
 }

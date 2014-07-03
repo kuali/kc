@@ -31,6 +31,7 @@ import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.CitizenshipTypes;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.io.ByteArrayInputStream;
@@ -44,6 +45,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("PHS398CareerDevelopmentAwardSupV1_1Generator")
 public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 		PHS398CareerDevelopmentAwardSupBaseGenerator {
 	private static final String PROPOSAL_TYPE_TASK_ORDER = "6";

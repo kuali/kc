@@ -41,8 +41,8 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
 		S2STestBase<RRKeyPersonExpandedV1_2Generator> {
 
 	@Override
-	protected Class<RRKeyPersonExpandedV1_2Generator> getFormGeneratorClass() {
-		return RRKeyPersonExpandedV1_2Generator.class;
+	protected String getFormGeneratorName() {
+		return RRKeyPersonExpandedV1_2Generator.class.getSimpleName();
 	}
 
 	@Override

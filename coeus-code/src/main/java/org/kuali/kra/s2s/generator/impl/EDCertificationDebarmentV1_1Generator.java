@@ -21,12 +21,14 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.Calendar;
 
@@ -36,14 +38,13 @@ import java.util.Calendar;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("EDCertificationDebarmentV1_1Generator")
 public class EDCertificationDebarmentV1_1Generator extends S2SBaseFormGenerator {
     private static final int ED_CERTIFICATION_DEBARMENT = 58;
-    S2SUtilService s2sUtilService;
 
-
-    public EDCertificationDebarmentV1_1Generator() {
-        s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
-    }
+    @Autowired
+    @Qualifier("s2SUtilService")
+    private S2SUtilService s2sUtilService;
 
     /**
      * 
@@ -119,5 +120,13 @@ public class EDCertificationDebarmentV1_1Generator extends S2SBaseFormGenerator 
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
         return getCertificationDebarment();
+    }
+
+    public S2SUtilService getS2sUtilService() {
+        return s2sUtilService;
+    }
+
+    public void setS2sUtilService(S2SUtilService s2sUtilService) {
+        this.s2sUtilService = s2sUtilService;
     }
 }

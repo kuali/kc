@@ -50,8 +50,8 @@ import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NASAOtherProjectInformationV1_0Generator> {
 
     @Override
-    protected Class<NASAOtherProjectInformationV1_0Generator> getFormGeneratorClass() {
-        return NASAOtherProjectInformationV1_0Generator.class;
+    protected String getFormGeneratorName() {
+        return NASAOtherProjectInformationV1_0Generator.class.getSimpleName();
     }
 
     @Override

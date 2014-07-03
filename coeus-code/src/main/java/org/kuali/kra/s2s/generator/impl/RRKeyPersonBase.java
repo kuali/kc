@@ -18,12 +18,13 @@ import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.KcFile;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.printing.GenericPrintable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -54,11 +55,13 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 	protected static final String ADDITIONALKEYPERSONPROFILES_XSL = "/org/kuali/kra/s2s/stylesheet/additionalkeypersonprofiles.xsl";
 	protected static final String NIH_CO_INVESTIGATOR = "Co-Investigator";
 
+    @Autowired
+    @Qualifier("unitRepositoryService")
     private UnitRepositoryService unitRepositoryService;
 
-    public RRKeyPersonBase() {
-        unitRepositoryService = KcServiceLocator.getService(UnitRepositoryService.class);
-    }
+    @Autowired
+    @Qualifier("printingService")
+    private PrintingService printingService;
 
 	protected void saveKeyPersonAttachmentsToProposal() {
 	    if(extraPersons!=null && !extraPersons.isEmpty()){
@@ -450,7 +453,6 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 			GenericPrintable printable = new GenericPrintable();
 			printable.setXSLTemplateWithBookmarks(xSLTemplateWithBookmarks);
 			printable.setStreamMap(streamMap);
-			PrintingService printingService= KcServiceLocator.getService(PrintingService.class);
 			try {
 				KcFile printData = printingService.print(printable);
 				String fileName = pdDoc.getDevelopmentProposal().getProposalNumber() +"_"+PROFILE_COMMENT+".pdf";
@@ -461,5 +463,20 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 		}
 		return narrative;
 	}
-	
+
+    public UnitRepositoryService getUnitRepositoryService() {
+        return unitRepositoryService;
+    }
+
+    public void setUnitRepositoryService(UnitRepositoryService unitRepositoryService) {
+        this.unitRepositoryService = unitRepositoryService;
+    }
+
+    public PrintingService getPrintingService() {
+        return printingService;
+    }
+
+    public void setPrintingService(PrintingService printingService) {
+        this.printingService = printingService;
+    }
 }

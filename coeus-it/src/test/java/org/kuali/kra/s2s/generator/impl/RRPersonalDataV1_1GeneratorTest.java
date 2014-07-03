@@ -29,8 +29,8 @@ import java.util.List;
 public class RRPersonalDataV1_1GeneratorTest extends S2STestBase<RRPersonalDataV1_1Generator> {
 
     @Override
-    protected Class<RRPersonalDataV1_1Generator> getFormGeneratorClass() {
-        return RRPersonalDataV1_1Generator.class;
+    protected String getFormGeneratorName() {
+        return RRPersonalDataV1_1Generator.class.getSimpleName();
     }
 
     @Override

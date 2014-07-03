@@ -38,7 +38,6 @@ import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.api.s2s.S2sSubmissionTypeContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
@@ -49,9 +48,12 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -65,6 +67,7 @@ import java.util.Map;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("SF424V2_0Generator")
 public class SF424V2_0Generator extends SF424BaseGenerator {
 
     private static final Log LOG = LogFactory.getLog(SF424V2_0Generator.class);
@@ -76,11 +79,9 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
     private String strReview = null;
     private static final String ORGANIZATION_YNQ_ANSWER_YES = "Y";
 
+    @Autowired
+    @Qualifier("s2SConfigurationService")
     protected S2SConfigurationService s2SConfigurationService;
-
-    public SF424V2_0Generator() {
-        s2SConfigurationService = KcServiceLocator.getService(S2SConfigurationService.class);
-    }
 
     /**
      * 
@@ -174,7 +175,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         }
         sf424V2.setDateReceived(Calendar.getInstance());
         sf424V2.setApplicantID(pdDoc.getDevelopmentProposal().getProposalNumber());
-		String federalId = proposalDevelopmentService.getFederalId(pdDoc);
+		String federalId = getSubmissionInfoService().getFederalId(pdDoc.getDevelopmentProposal().getProposalNumber());
 		if (federalId != null) {
         	sf424V2.setFederalEntityIdentifier(federalId);
 		}
@@ -579,5 +580,13 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         this.pdDoc = proposalDevelopmentDocument;
         aorInfo = s2sUtilService.getDepartmentalPerson(pdDoc);
         return getSF424Doc();
+    }
+
+    public S2SConfigurationService getS2SConfigurationService() {
+        return s2SConfigurationService;
+    }
+
+    public void setS2SConfigurationService(S2SConfigurationService s2SConfigurationService) {
+        this.s2SConfigurationService = s2SConfigurationService;
     }
 }

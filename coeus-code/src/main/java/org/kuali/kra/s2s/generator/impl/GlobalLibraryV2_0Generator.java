@@ -24,20 +24,21 @@ import org.apache.commons.lang3.text.WordUtils;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.api.country.CountryContract;
 import org.kuali.coeus.common.api.state.StateContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
+@FormGenerator("GlobalLibraryV2_0Generator")
 public class GlobalLibraryV2_0Generator {
 
+    @Autowired
+    @Qualifier("s2SUtilService")
 	private S2SUtilService s2sUtilService;
-
-	public GlobalLibraryV2_0Generator() {
-		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
-	}
 
 	/**
 	 * Create a CountryCodeDataType.Enum as defined in UniversalCodes 2.0 from
@@ -377,5 +378,13 @@ public class GlobalLibraryV2_0Generator {
 
         }
         return contactPerson;
+    }
+
+    public S2SUtilService getS2sUtilService() {
+        return s2sUtilService;
+    }
+
+    public void setS2sUtilService(S2SUtilService s2sUtilService) {
+        this.s2sUtilService = s2sUtilService;
     }
 }
