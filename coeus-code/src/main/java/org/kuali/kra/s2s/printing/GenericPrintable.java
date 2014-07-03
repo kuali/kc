@@ -1,7 +1,6 @@
 package org.kuali.kra.s2s.printing;
 
 import org.kuali.coeus.common.framework.print.Printable;
-import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.watermark.Watermarkable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
@@ -15,7 +14,6 @@ public class GenericPrintable implements Printable {
 	Map<String, byte[]> attachments;
 	Map<String, Source> xSLTemplateWithBookmarks;
 	List<Source> xSLTemplates;
-	KcPersistableBusinessObjectBase printableBusinessObject;
 
 	public void setStreamMap(Map<String, byte[]> streamMap) {
 		this.streamMap = streamMap;
@@ -34,16 +32,8 @@ public class GenericPrintable implements Printable {
 		xSLTemplates = templates;
 	}
 
-	public void setPrintableBusinessObject(KcPersistableBusinessObjectBase printableBusinessObject) {
-		this.printableBusinessObject = printableBusinessObject;
-	}
-
 	public Map<String, byte[]> getAttachments() {
 		return attachments;
-	}
-
-	public KcPersistableBusinessObjectBase getPrintableBusinessObject() {
-		return printableBusinessObject;
 	}
 
 	public Map<String, Source> getXSLTemplateWithBookmarks() {
@@ -54,10 +44,14 @@ public class GenericPrintable implements Printable {
 		return xSLTemplates;
 	}
 
-	public Map<String, byte[]> renderXML() throws PrintingException {
+	public Map<String, byte[]> renderXML() {
 		return streamMap;
 	}
-	
+
+    public KcPersistableBusinessObjectBase getPrintableBusinessObject() {
+        throw new RuntimeException("PrintableBusinessObject not implemented");
+    }
+
 	/**
      * 
      * This method for checking watermark is enable or disable
