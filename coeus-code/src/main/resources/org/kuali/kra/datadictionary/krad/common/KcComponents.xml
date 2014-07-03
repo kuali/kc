@@ -35,7 +35,8 @@
   
   <bean id="Uif-LookupView" parent="Kc-LookupView"/>
   <bean id="Kc-LookupView" abstract="true" parent="Kc-LookupView-parentBean"/>
-  <bean id="Kc-LookupView-parentBean" abstract="true" parent="Uif-LookupView-parentBean" p:criteriaGroup.footer.render="@{!#view.hideCriteriaOnSearch}"/>
+  <bean id="Kc-LookupView-parentBean" abstract="true" parent="Uif-LookupView-parentBean" p:criteriaGroup.footer.render="@{!#view.hideCriteriaOnSearch}"
+ 	p:page.validationMessages.displayMessages="false" />
   <bean id="Uif-LookupView-Footer" parent="Uif-FooterBase" p:render="@{#view.hideCriteriaOnSearch}">
     <property name="items">
       <list>
