@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.kra.s2s.util.AuditError;
@@ -59,7 +60,7 @@ public abstract class S2STestBase<T> extends KcIntegrationTestBase {
     }
 
     protected abstract void prepareData(ProposalDevelopmentDocument document) throws Exception;
-    protected abstract Class<T> getFormGeneratorClass();
+    protected abstract String getFormGeneratorName();
 
     @Test
     public void testValidateForm() throws Exception {
@@ -129,19 +130,13 @@ public abstract class S2STestBase<T> extends KcIntegrationTestBase {
     }
 
     private ProposalDevelopmentDocument initializeApp() throws Exception {
-        try {
-            generatorObject = (S2SBaseFormGenerator) getFormGeneratorClass().newInstance();
-            ProposalDevelopmentDocument document = initializeDocument();
-            initializeDevelopmentProposal(document);
-            Assert.assertNotNull(document.getDocumentHeader().getWorkflowDocument());
-            saveProposalDocument(document);
-            document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentHeader().getDocumentNumber());
-            assertNotNull(document.getDevelopmentProposal());
-            return document;
-        } catch (Throwable e) {
-            LOG.error(e.getMessage(), e);
-            tearDown();
-            throw new RuntimeException(e);
-        }
+        generatorObject = KcServiceLocator.getService(getFormGeneratorName());
+        ProposalDevelopmentDocument document = initializeDocument();
+        initializeDevelopmentProposal(document);
+        Assert.assertNotNull(document.getDocumentHeader().getWorkflowDocument());
+        saveProposalDocument(document);
+        document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentHeader().getDocumentNumber());
+        assertNotNull(document.getDevelopmentProposal());
+        return document;
     }
 }

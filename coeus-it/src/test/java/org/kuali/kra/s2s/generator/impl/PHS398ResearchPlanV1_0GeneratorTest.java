@@ -39,8 +39,8 @@ import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 public class PHS398ResearchPlanV1_0GeneratorTest extends S2STestBase<PHS398ResearchPlanV1_0Generator> {
 
     @Override
-    protected Class<PHS398ResearchPlanV1_0Generator> getFormGeneratorClass() {
-        return PHS398ResearchPlanV1_0Generator.class;
+    protected String getFormGeneratorName() {
+        return PHS398ResearchPlanV1_0Generator.class.getSimpleName();
     }
 
     @Override

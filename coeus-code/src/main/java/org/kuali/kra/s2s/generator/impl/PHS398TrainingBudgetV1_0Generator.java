@@ -21,7 +21,6 @@ import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
@@ -39,6 +38,7 @@ import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.common.budget.api.rate.TrainingStipendRateService;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.IndirectCostDetails;
 import org.kuali.kra.s2s.generator.bo.IndirectCostInfo;
@@ -46,6 +46,8 @@ import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -58,6 +60,7 @@ import java.util.Map;
  * 
  * This class is for generating PHS398TrainingBudgetV1_0
  */
+@FormGenerator("PHS398TrainingBudgetV1_0Generator")
 public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
 
     private static final String UNDERGRADS = "Undergraduates";
@@ -65,10 +68,6 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     private static final String POSTDOC = "Postdoctoral";
     private static final String STIPEND_AMOUNT = "amount";
     private static final String BUDGET_PERIOD = "period";
-    private S2SBudgetCalculatorService s2sBudgetCalculatorService;
-    private ProposalBudgetService proposalBudgetService;
-    private S2SConfigurationService s2SConfigurationService;
-    private TrainingStipendRateService trainingStipendRateService;
     private static final int PHS_TRAINING_BUDGET_BUDGETJUSTIFICATION_130 = 130;
 
     private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD1 = { 2, 5, 8, 11, 53, 54, 56 };
@@ -88,13 +87,25 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     private static final int SD_INDEX = 3;
     private static final int ZERO = 0;
 
-    /** Creates a new instance of PHS398TrainingBudgetV1_0Generator */
-    public PHS398TrainingBudgetV1_0Generator() {
-        s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
-        s2SConfigurationService = KcServiceLocator.getService(S2SConfigurationService.class);
-        trainingStipendRateService = KcServiceLocator.getService(TrainingStipendRateService.class);
-        proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
-    }
+    @Autowired
+    @Qualifier("s2SBudgetCalculatorService")
+    private S2SBudgetCalculatorService s2sBudgetCalculatorService;
+
+    @Autowired
+    @Qualifier("proposalBudgetService")
+    private ProposalBudgetService proposalBudgetService;
+
+    @Autowired
+    @Qualifier("s2SConfigurationService")
+    private S2SConfigurationService s2SConfigurationService;
+
+    @Autowired
+    @Qualifier("trainingStipendRateService")
+    private TrainingStipendRateService trainingStipendRateService;
+
+    @Autowired
+    @Qualifier("proposalDevelopmentS2sQuestionnaireService")
+    private ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService;
 
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
         PHS398TrainingBudgetDocument trainingBudgetTypeDocument = PHS398TrainingBudgetDocument.Factory.newInstance();
@@ -1021,10 +1032,6 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                 "http://apply.grants.gov/forms/PHS398_TrainingBudget-V1.0", "PHS398_TrainingBudget-V1.0");
     }
 
-    private ProposalDevelopmentS2sQuestionnaireService getProposalDevelopmentS2sQuestionnaireService() {
-        return KcServiceLocator.getService(ProposalDevelopmentS2sQuestionnaireService.class);
-    }
-
     private Answer getAnswer(QuestionnaireQuestion questionnaireQuestion, AnswerHeader answerHeader) {
         List<Answer> answers = answerHeader.getAnswers();
         for (Answer answer : answers) {
@@ -1097,4 +1104,43 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         return stipendCost;
     }
 
+    public S2SBudgetCalculatorService getS2sBudgetCalculatorService() {
+        return s2sBudgetCalculatorService;
+    }
+
+    public void setS2sBudgetCalculatorService(S2SBudgetCalculatorService s2sBudgetCalculatorService) {
+        this.s2sBudgetCalculatorService = s2sBudgetCalculatorService;
+    }
+
+    public ProposalBudgetService getProposalBudgetService() {
+        return proposalBudgetService;
+    }
+
+    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
+        this.proposalBudgetService = proposalBudgetService;
+    }
+
+    public S2SConfigurationService getS2SConfigurationService() {
+        return s2SConfigurationService;
+    }
+
+    public void setS2SConfigurationService(S2SConfigurationService s2SConfigurationService) {
+        this.s2SConfigurationService = s2SConfigurationService;
+    }
+
+    public TrainingStipendRateService getTrainingStipendRateService() {
+        return trainingStipendRateService;
+    }
+
+    public void setTrainingStipendRateService(TrainingStipendRateService trainingStipendRateService) {
+        this.trainingStipendRateService = trainingStipendRateService;
+    }
+
+    public ProposalDevelopmentS2sQuestionnaireService getProposalDevelopmentS2sQuestionnaireService() {
+        return proposalDevelopmentS2sQuestionnaireService;
+    }
+
+    public void setProposalDevelopmentS2sQuestionnaireService(ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService) {
+        this.proposalDevelopmentS2sQuestionnaireService = proposalDevelopmentS2sQuestionnaireService;
+    }
 }

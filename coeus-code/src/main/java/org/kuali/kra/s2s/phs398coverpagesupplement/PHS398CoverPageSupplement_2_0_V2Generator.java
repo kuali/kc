@@ -33,11 +33,13 @@ import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -52,6 +54,7 @@ import java.util.TreeMap;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("PHS398CoverPageSupplement_2_0_V2Generator")
 public class PHS398CoverPageSupplement_2_0_V2Generator extends
 		PHS398CoverPageSupplementBaseGenerator {
     
@@ -69,6 +72,10 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
     private static final Log LOG = LogFactory
             .getLog(PHS398CoverPageSupplement_2_0_V2Generator.class);
     Enum ynqAnswer;
+
+    @Autowired
+    @Qualifier("rolodexService")
+    private RolodexService rolodexService;
 	/**
 	 * 
 	 * This method gives information of Cover Page Supplement such as PDPI
@@ -203,7 +210,6 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
         if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
             coverPageSupplement.setIsChangeOfPDPI(YesNoDataType.Y_YES);
             if (explanation != null) {
-                RolodexService rolodexService = KcServiceLocator.getService(RolodexService.class);
                 RolodexContract rolodex = rolodexService.getRolodex(Integer.valueOf(explanation));
                 HumanNameDataType formerPDName = globLibV20Generator
                         .getHumanNameDataType(rolodex);
@@ -390,4 +396,12 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
 		this.pdDoc = proposalDevelopmentDocument;
 		return getCoverPageSupplement();
 	}
+
+    public RolodexService getRolodexService() {
+        return rolodexService;
+    }
+
+    public void setRolodexService(RolodexService rolodexService) {
+        this.rolodexService = rolodexService;
+    }
 }

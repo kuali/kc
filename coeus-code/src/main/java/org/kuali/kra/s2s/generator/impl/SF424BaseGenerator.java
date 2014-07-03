@@ -15,12 +15,14 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * This abstract class has methods that are common to all the versions of SF424 form.
@@ -28,10 +30,6 @@ import org.kuali.kra.s2s.service.S2SUtilService;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public abstract class SF424BaseGenerator extends S2SBaseFormGenerator {
-    protected S2SUtilService s2sUtilService;
-    protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
-    protected ProposalBudgetService proposalBudgetService;
-    protected ProposalDevelopmentService proposalDevelopmentService;
 
     protected static final int APPLICANT_TYPE_1_INDEX = 0;
     protected static final int APPLICANT_TYPE_2_INDEX = 1;
@@ -90,12 +88,64 @@ public abstract class SF424BaseGenerator extends S2SBaseFormGenerator {
     protected static final String DECREASE_AWARD_DECREASE_DURATION_CODE = "BD";
 
     protected static final int DEPARTMENT_NAME_MAX_LENGTH = 30;
-    
 
-    public SF424BaseGenerator() {
-        s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
-        s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
-        proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
-        proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
+    @Autowired
+    @Qualifier("submissionInfoService")
+    protected SubmissionInfoService submissionInfoService;
+
+    @Autowired
+    @Qualifier("s2SUtilService")
+    protected S2SUtilService s2sUtilService;
+
+    @Autowired
+    @Qualifier("s2SBudgetCalculatorService")
+    protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
+
+    @Autowired
+    @Qualifier("proposalBudgetService")
+    protected ProposalBudgetService proposalBudgetService;
+
+    @Autowired
+    @Qualifier("proposalDevelopmentService")
+    protected ProposalDevelopmentService proposalDevelopmentService;
+
+    public S2SUtilService getS2sUtilService() {
+        return s2sUtilService;
+    }
+
+    public void setS2sUtilService(S2SUtilService s2sUtilService) {
+        this.s2sUtilService = s2sUtilService;
+    }
+
+    public S2SBudgetCalculatorService getS2sBudgetCalculatorService() {
+        return s2sBudgetCalculatorService;
+    }
+
+    public void setS2sBudgetCalculatorService(S2SBudgetCalculatorService s2sBudgetCalculatorService) {
+        this.s2sBudgetCalculatorService = s2sBudgetCalculatorService;
+    }
+
+    public ProposalBudgetService getProposalBudgetService() {
+        return proposalBudgetService;
+    }
+
+    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
+        this.proposalBudgetService = proposalBudgetService;
+    }
+
+    public ProposalDevelopmentService getProposalDevelopmentService() {
+        return proposalDevelopmentService;
+    }
+
+    public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
+        this.proposalDevelopmentService = proposalDevelopmentService;
+    }
+
+    public SubmissionInfoService getSubmissionInfoService() {
+        return submissionInfoService;
+    }
+
+    public void setSubmissionInfoService(SubmissionInfoService submissionInfoService) {
+        this.submissionInfoService = submissionInfoService;
     }
 }

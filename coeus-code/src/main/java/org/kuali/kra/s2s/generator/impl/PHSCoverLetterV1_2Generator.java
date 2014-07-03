@@ -22,8 +22,10 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
+@FormGenerator("PHSCoverLetterV1_2Generator")
 public class PHSCoverLetterV1_2Generator extends PHSCoverLetterBaseGenerator {
 
 	/**

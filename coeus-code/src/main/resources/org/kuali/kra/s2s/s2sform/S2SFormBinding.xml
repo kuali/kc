@@ -17,9 +17,7 @@
 <FormBinding>
 	<Form namespace="http://apply.grants.gov/forms/Attachments-V1.1">
 		<formName>Attachments-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.AttachmentsV1_1Generator
-		</mainClass>
+        <generatorName>AttachmentsV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/Attachments-V1.1.fo.xsl
 		</stylesheet>
@@ -28,9 +26,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/Budget-V1.1">
 		<formName>Budget-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.BudgetV1_1Generator
-		</mainClass>
+        <generatorName>BudgetV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/Budget-V1.1.fo.xsl
 		</stylesheet>
@@ -38,9 +34,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/CD511-V1.1">
 		<formName>CD511-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.CD511V1_1Generator
-		</mainClass>
+        <generatorName>CD511V1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/CD511-V1.1.fo.xsl
 		</stylesheet>
@@ -48,9 +42,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/ED_GEPA427-V1.0">
 		<formName>ED_GEPA427-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.EDGEPA427V1_0Generator
-		</mainClass>
+        <generatorName>EDGEPA427V1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/ED_GEPA427-V1.0.fo.xsl
 		</stylesheet>
@@ -58,9 +50,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/ED_GEPA427-V1.1">
 		<formName>ED_GEPA427-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.EDGEPA427V1_1Generator
-		</mainClass>
+        <generatorName>EDGEPA427V1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/ED_GEPA427-V1.1.fo.xsl
 		</stylesheet>
@@ -69,9 +59,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/ED_CertificationDebarment-V1.1">
 		<formName>ED_CertificationDebarment-V1-1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.EDCertificationDebarmentV1_1Generator
-		</mainClass>
+        <generatorName>EDCertificationDebarmentV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/ED_CertificationDebarment-V1.1.fo.xsl
 		</stylesheet>
@@ -81,9 +69,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/ED_Abstract-V1.0">
 		<formName>ED_Abstract-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.EDAbstractV1_0Generator
-		</mainClass>
+        <generatorName>EDAbstractV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/ED_Abstract-V1.0.fo.xsl
 		</stylesheet>
@@ -91,9 +77,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/ED_Abstract-V1.1">
 		<formName>ED_Abstract-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.EDAbstractV1_1Generator
-		</mainClass>
+        <generatorName>EDAbstractV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/ED_Abstract-V1.1.fo.xsl
 		</stylesheet>
@@ -102,9 +86,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/ED_524_Budget-V1.0">
 		<formName>ED524_Budget-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.ED524BudgetV1_0Generator
-		</mainClass>
+        <generatorName>ED524BudgetV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/ED_524_Budget-V1.0.fo.xsl
 		</stylesheet>
@@ -113,9 +95,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/ED_524_Budget-V1.1">
 		<formName>ED524_Budget-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.ED524BudgetV1_1Generator
-		</mainClass>
+        <generatorName>ED524BudgetV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/ED_524_Budget-V1.1.fo.xsl
 		</stylesheet>
@@ -124,9 +104,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/ED_SF424_Supplement-V1.0">
 		<formName>ED_SF424_Supplement-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.EDSF424SupplementV1_0Generator
-		</mainClass>
+        <generatorName>EDSF424SupplementV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/ED_SF424_Supplement-V1.0.fo.xsl
 		</stylesheet>
@@ -135,9 +113,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/ED_SF424_Supplement-V1.1">
 		<formName>ED_SF424_Supplement-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.EDSF424SupplementV1_1Generator
-		</mainClass>
+        <generatorName>EDSF424SupplementV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/ED_SF424_Supplement-V1.1.fo.xsl
 		</stylesheet>
@@ -146,9 +122,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/FaithBased_SurveyOnEEO-V1.0">
 		<formName>FaithBased_SurveyOnEEO-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.FaithBasedSurveyOnEEOV1_0Generator
-		</mainClass>
+        <generatorName>FaithBasedSurveyOnEEOV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/FaithBased_SurveyOnEEO-V1.0.fo.xsl
 		</stylesheet>
@@ -159,9 +133,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/FaithBased_SurveyOnEEO-V1.1">
 		<formName>FaithBased_SurveyOnEEO-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.FaithBasedSurveyOnEEOV1_1Generator
-		</mainClass>
+        <generatorName>FaithBasedSurveyOnEEOV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/FaithBased_SurveyOnEEO-V1.1.fo.xsl
 		</stylesheet>
@@ -172,9 +144,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/FaithBased_SurveyOnEEO-V1.2">
 		<formName>FaithBased_SurveyOnEEO-V1.2</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.FaithBasedSurveyOnEEOV1_2Generator
-		</mainClass>
+        <generatorName>FaithBasedSurveyOnEEOV1_2Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/FaithBased_SurveyOnEEO-V1.2.fo.xsl
 		</stylesheet>
@@ -185,9 +155,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/GG_LobbyingForm-V1.0">
 		<formName>GG_LobbyingForm-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.GGLobbyingFormV1_0Generator
-		</mainClass>
+        <generatorName>GGLobbyingFormV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/GG_LobbyingForm-V1.0.fo.xsl
 		</stylesheet>
@@ -196,9 +164,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/GG_LobbyingForm-V1.1">
 		<formName>GG_LobbyingForm-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.GGLobbyingFormV1_1Generator
-		</mainClass>
+        <generatorName>GGLobbyingFormV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/GG_LobbyingForm-V1.1.fo.xsl
 		</stylesheet>
@@ -207,9 +173,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/Nasa_PIandAORSupplementalDataSheet-V1.0">
 		<formName>Nasa_PIandAORSupplementalDataSheet-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.NasaPIandAORSupplementalDataSheetV1_0Generator
-		</mainClass>
+        <generatorName>NasaPIandAORSupplementalDataSheetV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/Nasa_PIandAORSupplementalDataSheet-V1.0.fo.xsl
 		</stylesheet>
@@ -220,9 +184,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/NASA_OtherProjectInformation-V1.0">
 		<formName>NASA_OtherProjectInformation-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.NASAOtherProjectInformationV1_0Generator
-		</mainClass>
+        <generatorName>NASAOtherProjectInformationV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/NASA_OtherProjectInformation-V1.0.fo.xsl
 		</stylesheet>
@@ -235,9 +197,7 @@
 		<formName>
 			NASA_SeniorKeyPersonSupplementalDataSheet-V1.0
 		</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.NASASeniorKeyPersonSupplementalDataSheetV1_0Generator
-		</mainClass>
+        <generatorName>NASASeniorKeyPersonSupplementalDataSheetV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/NASA_SeniorKeyPersonSupplementalDataSheet-V1.0.fo.xsl
 		</stylesheet>
@@ -248,9 +208,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/NSF_ApplicationChecklist-V1.0">
 		<formName>NSF_ApplicationChecklist-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.NSFApplicationChecklistV1_0Generator
-		</mainClass>
+        <generatorName>NSFApplicationChecklistV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/NSF_ApplicationChecklist-V1.0.fo.xsl
 		</stylesheet>
@@ -261,9 +219,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/NSF_ApplicationChecklist-V1.1">
 		<formName>NSF_ApplicationChecklist-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.NSFApplicationChecklistV1_1Generator
-		</mainClass>
+        <generatorName>NSFApplicationChecklistV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/NSF_ApplicationChecklist-V1.1.fo.xsl
 		</stylesheet>
@@ -274,9 +230,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/NSF_CoverPage-V1.0">
 		<formName>NSF_CoverPage-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.NSFCoverPageV1_0Generator
-		</mainClass>
+        <generatorName>NSFCoverPageV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/NSF_CoverPage-V1.0.fo.xsl
 		</stylesheet>
@@ -286,9 +240,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/NSF_CoverPage-V1.1">
 		<formName>NSF_CoverPage-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.NSFCoverPageV1_1Generator
-		</mainClass>
+        <generatorName>NSFCoverPageV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/NSF_CoverPage-V1.1.fo.xsl
 		</stylesheet>
@@ -297,9 +249,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/NSF_DeviationAuthorization-V1.0">
 		<formName>NSF_DeviationAuthorization-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.NSFDeviationAuthorizationV1_0Generator
-		</mainClass>
+        <generatorName>NSFDeviationAuthorizationV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/NSF_DeviationAuthorization-V1.0.fo.xsl
 		</stylesheet>
@@ -310,9 +260,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/NSF_DeviationAuthorization-V1.1">
 		<formName>NSF_DeviationAuthorization-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.NSFDeviationAuthorizationV1_1Generator
-		</mainClass>
+        <generatorName>NSFDeviationAuthorizationV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/NSF_DeviationAuthorization-V1.1.fo.xsl
 		</stylesheet>
@@ -323,9 +271,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/NSF_SuggestedReviewers-V1.0">
 		<formName>NSF_SuggestedReviewers-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.NSFSuggestedReviewersV1_0Generator
-		</mainClass>
+        <generatorName>NSFSuggestedReviewersV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/NSF_SuggestedReviewers-V1.0.fo.xsl
 		</stylesheet>
@@ -336,9 +282,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/NSF_SuggestedReviewers-V1.1">
 		<formName>NSF_SuggestedReviewers-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.NSFSuggestedReviewersV1_1Generator
-		</mainClass>
+        <generatorName>NSFSuggestedReviewersV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/NSF_SuggestedReviewers-V1.1.fo.xsl
 		</stylesheet>
@@ -348,9 +292,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/Other-V1.0">
 		<formName>Other-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.OtherV1_0Generator
-		</mainClass>
+        <generatorName>OtherV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/Other-V1.0.fo.xsl
 		</stylesheet>
@@ -359,9 +301,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/Other-V1.1">
 		<formName>Other-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.OtherV1_1Generator
-		</mainClass>
+        <generatorName>OtherV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/Other-V1.1.fo.xsl
 		</stylesheet>
@@ -371,9 +311,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_Checklist-V1.0">
 		<formName>PHS398_Checklist-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398ChecklistV1_0Generator
-		</mainClass>
+        <generatorName>PHS398ChecklistV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_Checklist-V1.0.fo.xsl
 		</stylesheet>
@@ -383,9 +321,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_Checklist-V1.1">
 		<formName>PHS398_Checklist-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398ChecklistV1_1Generator
-		</mainClass>
+        <generatorName>PHS398ChecklistV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_Checklist-V1.1.fo.xsl
 		</stylesheet>
@@ -395,9 +331,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_CoverLetter-V1.0">
 		<formName>PHS398_CoverLetter-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398CoverLetterV1_0Generator
-		</mainClass>
+        <generatorName>PHS398CoverLetterV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_CoverLetter-V1.0.fo.xsl
 		</stylesheet>
@@ -407,9 +341,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_CoverLetter-V1.1">
 		<formName>PHS398_CoverLetter-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398CoverLetterV1_1Generator
-		</mainClass>
+        <generatorName>PHS398CoverLetterV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_CoverLetter-V1.1.fo.xsl
 		</stylesheet>
@@ -419,9 +351,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_CoverPageSupplement-V1.0">
 		<formName>PHS398_CoverPageSupplement-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementV1_0Generator
-		</mainClass>
+        <generatorName>PHS398CoverPageSupplementV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_CoverPageSupplement-V1.0.fo.xsl
 		</stylesheet>
@@ -433,9 +363,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_CoverPageSupplement-V1.1">
 		<formName>PHS398_CoverPageSupplement-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementV1_1Generator
-		</mainClass>
+        <generatorName>PHS398CoverPageSupplementV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_CoverPageSupplement-V1.1.fo.xsl
 		</stylesheet>
@@ -447,9 +375,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_ModularBudget-V1.0">
 		<formName>PHS398_ModularBudget-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398ModularBudgetV1_0Generator
-		</mainClass>
+        <generatorName>PHS398ModularBudgetV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_ModularBudget-V1.0.fo.xsl
 		</stylesheet>
@@ -459,9 +385,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_ModularBudget-V1.1">
 		<formName>PHS398_ModularBudget-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398ModularBudgetV1_1Generator
-		</mainClass>
+        <generatorName>PHS398ModularBudgetV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_ModularBudget-V1.1.fo.xsl
 		</stylesheet>
@@ -471,9 +395,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_ResearchPlan-V1.0">
 		<formName>PHS398_ResearchPlan-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398ResearchPlanV1_0Generator
-		</mainClass>
+        <generatorName>PHS398ResearchPlanV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_ResearchPlan-V1.0.fo.xsl
 		</stylesheet>
@@ -483,9 +405,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_ResearchPlan-V1.1">
 		<formName>PHS398_ResearchPlan-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398ResearchPlanV1_1Generator
-		</mainClass>
+        <generatorName>PHS398ResearchPlanV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_ResearchPlan-V1.1.fo.xsl
 		</stylesheet>
@@ -494,9 +414,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/Project-V1.0">
 		<formName>Project-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.ProjectV1_0Generator
-		</mainClass>
+        <generatorName>ProjectV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/Project-V1.0.fo.xsl
 		</stylesheet>
@@ -504,9 +422,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/Project-V1.1">
 		<formName>Project-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.ProjectV1_1Generator
-		</mainClass>
+        <generatorName>ProjectV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/Project-V1.1.fo.xsl
 		</stylesheet>
@@ -514,9 +430,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/RR_Budget-V1.0">
 		<formName>RR_Budget-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRBudgetV1_0Generator
-		</mainClass>
+        <generatorName>RRBudgetV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_Budget-V1.0.fo.xsl
 		</stylesheet>
@@ -525,9 +439,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/RR_Budget-V1.1">
 		<formName>RR_Budget-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRBudgetV1_1Generator
-		</mainClass>
+        <generatorName>RRBudgetV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_Budget-V1.1.fo.xsl
 		</stylesheet>
@@ -537,9 +449,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_FedNonFedBudget-V1.0">
 		<formName>RR_FedNonFedBudget-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRFedNonFedBudgetV1_0Generator
-		</mainClass>
+        <generatorName>RRFedNonFedBudgetV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_FedNonFedBudget-V1.0.fo.xsl
 		</stylesheet>
@@ -549,9 +459,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_FedNonFedBudget-V1.1">
 		<formName>RR_FedNonFedBudget-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRFedNonFedBudgetV1_1Generator
-		</mainClass>
+        <generatorName>RRFedNonFedBudgetV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_FedNonFedBudget-V1.1.fo.xsl
 		</stylesheet>
@@ -561,9 +469,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_FedNonFed_SubawardBudget-V1.2">
 		<formName>RR_FedNonFed_SubawardBudget-V1.2</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRFedNonFedSubAwardBudgetV1_2Generator
-		</mainClass>
+        <generatorName>RRFedNonFedSubAwardBudgetV1_2Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_FedNonFedSubawardBudget-V1.2.fo.xsl
 		</stylesheet>
@@ -574,9 +480,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_KeyPersonExpanded-V1.0">
 		<formName>RR_KeyPersonExpanded-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRKeyPersonExpandedV1_0Generator
-		</mainClass>
+        <generatorName>RRKeyPersonExpandedV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_KeyPersonExpanded-V1.0.fo.xsl
 		</stylesheet>
@@ -586,9 +490,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_KeyPersonExpanded-V1.1">
 		<formName>RR_KeyPersonExpanded-V1-1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRKeyPersonExpandedV1_1Generator
-		</mainClass>
+        <generatorName>RRKeyPersonExpandedV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_KeyPersonExpanded-V1.1.fo.xsl
 		</stylesheet>
@@ -597,9 +499,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/RR_KeyPerson-V1.0">
 		<formName>RR_KeyPerson-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRKeyPersonV1_0Generator
-		</mainClass>
+        <generatorName>RRKeyPersonV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_KeyPerson-V1.0.fo.xsl
 		</stylesheet>
@@ -608,9 +508,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/RR_KeyPerson-V1.1">
 		<formName>RR_KeyPerson-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRKeyPersonV1_1Generator
-		</mainClass>
+        <generatorName>RRKeyPersonV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_KeyPerson-V1.1.fo.xsl
 		</stylesheet>
@@ -620,9 +518,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_OtherProjectInfo-V1.0">
 		<formName>RR_OtherProjectInfo-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RROtherProjectInfoV1_0Generator
-		</mainClass>
+        <generatorName>RROtherProjectInfoV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_OtherProjectInfo-V1.0.fo.xsl
 		</stylesheet>
@@ -632,9 +528,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_OtherProjectInfo-V1.1">
 		<formName>RR_OtherProjectInfo-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RROtherProjectInfoV1_1Generator
-		</mainClass>
+        <generatorName>RROtherProjectInfoV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_OtherProjectInfo-V1.1.fo.xsl
 		</stylesheet>
@@ -644,9 +538,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_PerformanceSite-V1.0">
 		<formName>RR_PerformanceSite-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRPerformanceSiteV1_0Generator
-		</mainClass>
+        <generatorName>RRPerformanceSiteV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_PerformanceSite-V1.0.fo.xsl
 		</stylesheet>
@@ -656,9 +548,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_PerformanceSite-V1.1">
 		<formName>RR_PerformanceSite-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRPerformanceSiteV1_1Generator
-		</mainClass>
+        <generatorName>RRPerformanceSiteV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_PerformanceSite-V1.1.fo.xsl
 		</stylesheet>
@@ -668,9 +558,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_PersonalData-V1.0">
 		<formName>RR_PersonalData-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRPersonalDataV1_0Generator
-		</mainClass>
+        <generatorName>RRPersonalDataV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_PersonalData-V1.0.fo.xsl
 		</stylesheet>
@@ -680,9 +568,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_PersonalData-V1.1">
 		<formName>RR_PersonalData-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRPersonalDataV1_1Generator
-		</mainClass>
+        <generatorName>RRPersonalDataV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_PersonalData-V1.1.fo.xsl
 		</stylesheet>
@@ -691,9 +577,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/RR_SF424-V1.0">
 		<formName>RR_SF424-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRSF424V1_0Generator
-		</mainClass>
+        <generatorName>RRSF424V1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_SF424-V1.0.fo.xsl
 		</stylesheet>
@@ -702,9 +586,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/RR_SF424-V1.1">
 		<formName>RR_SF424-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRSF424V1_1Generator
-		</mainClass>
+        <generatorName>RRSF424V1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_SF424-V1.1.fo.xsl
 		</stylesheet>
@@ -714,9 +596,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_SubawardBudget-V1.0">
 		<formName>RR_SubawardBudget-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRSubAwardBudgetV1_0Generator
-		</mainClass>
+        <generatorName>RRSubAwardBudgetV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_SubawardBudget-V1.0.fo.xsl
 		</stylesheet>
@@ -726,9 +606,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_SubawardBudget-V1.1">
 		<formName>RR_SubawardBudget-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRSubAwardBudgetV1_1Generator
-		</mainClass>
+        <generatorName>RRSubAwardBudgetV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_SubawardBudget-V1.1.fo.xsl
 		</stylesheet>
@@ -738,9 +616,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_SubawardBudget-V1.2">
 		<formName>RR_SubawardBudget-V1.2</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRSubAwardBudgetV1_2Generator
-		</mainClass>
+        <generatorName>RRSubAwardBudgetV1_2Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_SubawardBudget-V1.2.fo.xsl
 		</stylesheet>
@@ -750,9 +626,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_FedNonFed_SubawardBudget10_10-V1.2">
 		<formName>RR_FedNonFedSubawardBudget10_10-V1.2</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRFedNonFedSubAwardBudget10_10V1_2Generator
-		</mainClass>
+        <generatorName>RRFedNonFedSubAwardBudget10_10V1_2Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_FedNonFedSubawardBudget10_10-V1.2.fo.xsl
 		</stylesheet>
@@ -762,9 +636,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_FedNonFed_SubawardBudget10_30-V1.2">
 		<formName>RR_FedNonFed_SubawardBudget10_30-V1.2</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRFedNonFedSubAwardBudget10_30V1_2Generator
-		</mainClass>
+        <generatorName>RRFedNonFedSubAwardBudget10_30V1_2Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_FedNonFedSubawardBudget10_30-V1.2.fo.xsl
 		</stylesheet>
@@ -774,9 +646,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_FedNonFed_SubawardBudget30-V1.2">
 		<formName>RR_FedNonFed_SubawardBudget30-V1.2</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRFedNonFedSubAwardBudget5_30V1_2Generator
-		</mainClass>
+        <generatorName>RRFedNonFedSubAwardBudget5_30V1_2Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_FedNonFed_SubawardBudget30-V1.2.fo.xsl
 		</stylesheet>
@@ -785,9 +655,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/SF424_Short-V1.0">
 		<formName>SF424_Short-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.SF424ShortV1_0Generator
-		</mainClass>
+        <generatorName>SF424ShortV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/SF424_Short-V1.0.fo.xsl
 		</stylesheet>
@@ -795,9 +663,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/SF424A-V1.0">
 		<formName>SF424A-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.SF424AV1_0Generator
-		</mainClass>
+        <generatorName>SF424AV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/SF424A-V1.0.fo.xsl
 		</stylesheet>
@@ -805,9 +671,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/SF424B-V1.1">
 		<formName>SF424B-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.SF424BV1_1Generator
-		</mainClass>
+        <generatorName>SF424BV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/SF424B-V1.1.fo.xsl
 		</stylesheet>
@@ -815,9 +679,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/SF424-V1.0">
 		<formName>SF424-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.SF424V1_0Generator
-		</mainClass>
+        <generatorName>SF424V1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/SF424-V1.0.fo.xsl
 		</stylesheet>
@@ -825,9 +687,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/SF424-V2.0">
 		<formName>SF424-V2.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.SF424V2_0Generator
-		</mainClass>
+        <generatorName>SF424V2_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/SF424-V2.0.fo.xsl
 		</stylesheet>
@@ -835,9 +695,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/SFLLL-V1.0">
 		<formName>SFLLL-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.SFLLLV1_0Generator
-		</mainClass>
+        <generatorName>SFLLLV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/SFLLL-V1.0.fo.xsl
 		</stylesheet>
@@ -845,9 +703,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/SFLLL-V1.1">
 		<formName>SFLLL-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.SFLLLV1_1Generator
-		</mainClass>
+        <generatorName>SFLLLV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/SFLLL-V1.1.fo.xsl
 		</stylesheet>
@@ -859,9 +715,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PerformanceSite_1_2-V1.2">
 		<formName>PerformanceSite_1_2-V1.2</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PerformanceSiteV1_2Generator
-		</mainClass>
+        <generatorName>PerformanceSiteV1_2Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PerformanceSite-V1.2.xsl
 		</stylesheet>
@@ -871,9 +725,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_KeyPersonExpanded_1_2-V1.2">
 		<formName>RR_KeyPersonExpanded_1_2-V1.2</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRKeyPersonExpandedV1_2Generator
-		</mainClass>
+        <generatorName>RRKeyPersonExpandedV1_2Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_KeyPersonExpanded-V1.2.xsl
 		</stylesheet>
@@ -885,9 +737,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_OtherProjectInfo_1_2-V1.2">
 		<formName>RR_OtherProjectInfo_1_2-V1.2</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RROtherProjectInfoV1_2Generator
-		</mainClass>
+        <generatorName>RROtherProjectInfoV1_2Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_OtherProjectInfo-V1.2.xsl
 		</stylesheet>
@@ -896,12 +746,21 @@
 		</pkgName>
 		<sortIndex>140</sortIndex>
 	</Form>
+    <Form namespace="http://apply.grants.gov/forms/RR_OtherProjectInfo_1_3-V1.3">
+        <formName>RR_OtherProjectInfo_1_3-V1.3</formName>
+        <generatorName>RROtherProjectInfoV1_3Generator</generatorName>
+        <stylesheet>
+            org/kuali/kra/s2s/stylesheet/RR_OtherProjectInfo-V1.3.xsl
+        </stylesheet>
+        <pkgName>
+            gov.grants.apply.forms.rrOtherProjectInfo13V13
+        </pkgName>
+        <sortIndex>145</sortIndex>
+    </Form>
 	<Form
 		namespace="http://apply.grants.gov/forms/RR_PersonalData_1_2-V1.2">
 		<formName>RR_PersonalData_1_2-V1.2</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRPersonalDataV1_2Generator
-		</mainClass>
+        <generatorName>RRPersonalDataV1_2Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_PersonalData-V1.2.xsl
 		</stylesheet>
@@ -910,9 +769,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/RR_SF424_1_2-V1.2">
 		<formName>RR_SF424_1_2-V1.2</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRSF424V1_2Generator
-		</mainClass>
+        <generatorName>RRSF424V1_2Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_SF424-V1.2.xsl
 		</stylesheet>
@@ -922,9 +779,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_Checklist_1_3-V1.3">
 		<formName>PHS398_Checklist_1_3-V1.3</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398ChecklistV1_3Generator
-		</mainClass>
+        <generatorName>PHS398ChecklistV1_3Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_Checklist-V1.3.xsl
 		</stylesheet>
@@ -934,9 +789,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_CoverPageSupplement_1_3-V1.3">
 		<formName>PHS398_CoverPageSupplement_1_3-V1.3</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementV1_3Generator
-		</mainClass>
+        <generatorName>PHS398CoverPageSupplementV1_3Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_CoverPageSupplement-V1.3.xsl
 		</stylesheet>
@@ -948,9 +801,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_ResearchPlan_1_2-V1.2">
 		<formName>PHS398_ResearchPlan_1_2-V1.2</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398ResearchPlanV1_2Generator
-		</mainClass>
+        <generatorName>PHS398ResearchPlanV1_2Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_ResearchPlan-V1.2.xsl
 		</stylesheet>
@@ -962,9 +813,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_CareerDevelopmentAwardSup-V1.0">
 		<formName>PHS398_CareerDevelopmentAwardSup-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398CareerDevelopmentAwardSupV1_0Generator
-		</mainClass>
+        <generatorName>PHS398CareerDevelopmentAwardSupV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_CareerDevelopmentAwardSup-V1.0.xsl
 		</stylesheet>
@@ -976,9 +825,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/NSF_ApplicationChecklist_1_2-V1.2">
 		<formName>NSF_ApplicationChecklist_1_2-V1.2</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.NSFApplicationChecklistV1_2Generator
-		</mainClass>
+        <generatorName>NSFApplicationChecklistV1_2Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/NSF_ApplicationChecklist-V1.2.xsl
 		</stylesheet>
@@ -989,9 +836,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/NSF_CoverPage_1_2-V1.2">
 		<formName>NSF_CoverPage_1_2-V1.2</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.NSFCoverPageV1_2Generator
-		</mainClass>
+        <generatorName>NSFCoverPageV1_2Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/NSF_CoverPage-V1.2.xsl
 		</stylesheet>
@@ -1004,9 +849,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_CareerDevelopmentAwardSup_1_1-V1.1">
 		<formName>PHS398_CareerDevelopmentAwardSup_1_1-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398CareerDevelopmentAwardSupV1_1Generator
-		</mainClass>
+        <generatorName>PHS398CareerDevelopmentAwardSupV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_CareerDevelopmentAwardSup-V1.1.xsl
 		</stylesheet>
@@ -1020,9 +863,7 @@
 		namespace="http://apply.grants.gov/forms/PHS398_CareerDevelopmentAwardSup_1_2-V1.2">
 		<formName>PHS398_CareerDevelopmentAwardSup_1_2-V1.2
 		</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398CareerDevelopmentAwardSupV1_2Generator
-		</mainClass>
+        <generatorName>PHS398CareerDevelopmentAwardSupV1_2Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_CareerDevelopmentAwardSup-V1.2.xsl
 		</stylesheet>
@@ -1034,9 +875,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS_CoverLetter_1_2-V1.2">
 		<formName>PHS_CoverLetter_1_2-V1.2</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHSCoverLetterV1_2Generator
-		</mainClass>
+        <generatorName>PHSCoverLetterV1_2Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS_CoverLetter-V1.2.fo.xsl
 		</stylesheet>
@@ -1046,9 +885,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/NSF_ApplicationChecklist_1_3-V1.3">
 		<formName>NSF_ApplicationChecklist_1_3-V1.3</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.NSFApplicationChecklistV1_3Generator
-		</mainClass>
+        <generatorName>NSFApplicationChecklistV1_3Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/NSF_ApplicationChecklist-V1.3.fo.xsl
 		</stylesheet>
@@ -1059,9 +896,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_1-V1.1">
 		<formName>PHS_Fellowship_Supplemental_1_1-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398FellowshipSupplementalV1_1Generator
-		</mainClass>
+        <generatorName>PHS398FellowshipSupplementalV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS_fellowship_supplemental-V1.1.xsl
 		</stylesheet>
@@ -1073,9 +908,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_2-V1.2">
 		<formName>PHS_Fellowship_Supplemental_1_2-V1.2</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398FellowshipSupplementalV1_2Generator
-		</mainClass>
+        <generatorName>PHS398FellowshipSupplementalV1_2Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS_fellowship_supplemental-V1.2.xsl
 		</stylesheet>
@@ -1087,9 +920,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/NSF_CoverPage_1_3-V1.3">
 		<formName>NSF_CoverPage_1_3-V1.3</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.NSFCoverPageV1_3Generator
-		</mainClass>
+        <generatorName>NSFCoverPageV1_3Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/NSF_CoverPage-V1.3.xsl
 		</stylesheet>
@@ -1098,9 +929,7 @@
 	<!-- New S2S Forms - gg-Forms4 -->
 	<Form namespace="http://apply.grants.gov/forms/PerformanceSite_1_3-V1.3">
 		<formName>PerformanceSite_1_3</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PerformanceSiteV1_3Generator
-		</mainClass>
+        <generatorName>PerformanceSiteV1_3Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PerformanceSite-V1.3.xsl
 		</stylesheet>
@@ -1110,9 +939,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PerformanceSite_1_4-V1.4">
 		<formName>PerformanceSite_1_4</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PerformanceSiteV1_4Generator
-		</mainClass>
+        <generatorName>PerformanceSiteV1_4Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PerformanceSite-V1.4.xsl
 		</stylesheet>
@@ -1122,9 +949,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_CoverPageSupplement_1_4-V1.4">
 		<formName>PHS398_CoverPageSupplement_1_4</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementV1_4Generator
-		</mainClass>
+        <generatorName>PHS398CoverPageSupplementV1_4Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_CoverPageSupplement-V1.4.fo.xsl
 		</stylesheet>
@@ -1134,9 +959,7 @@
 	<Form
 		namespace="http://apply.grants.gov/forms/PHS398_ResearchPlan_1_3-V1.3">
 		<formName>PHS398_ResearchPlan_1_3</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398ResearchPlanV1_3Generator
-		</mainClass>
+        <generatorName>PHS398ResearchPlanV1_3Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_ResearchPlan-V1.3.xsl
 		</stylesheet>
@@ -1146,9 +969,7 @@
 	<!-- Form set 7 -->
 	<Form namespace="http://apply.grants.gov/forms/PHS398_ResearchTrainingProgramPlan-V1.0">
 		<formName>PHS398_ResearchTrainingProgramPlan-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398ResTrainProgPlanV1_0Generator
-		</mainClass>
+        <generatorName>PHS398ResTrainProgPlanV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_ResearchTrainProPlan_V1.0.xsl
 		</stylesheet>
@@ -1159,9 +980,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/RR_Budget10-V1.1">
 		<formName>RR_Budget10-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRBudget10V1_1Generator
-		</mainClass>
+        <generatorName>RRBudget10V1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_Budget10-V1.1.fo.xsl
 		</stylesheet>
@@ -1172,9 +991,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/RR_FedNonFedBudget10-V1.1">
 		<formName>RR_FedNonFedBudget10-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRFedNonFedBudget10V1_1Generator
-		</mainClass>
+        <generatorName>RRFedNonFedBudget10V1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_FedNonFedBudget10-V1.1.fo.xsl
 		</stylesheet>
@@ -1185,9 +1002,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/RR_SubawardBudget30-V1.2">
 		<formName>RR_SubawardBudget30-V1.2</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRSubAwardBudget5_30V1_2Generator
-		</mainClass>
+        <generatorName>RRSubAwardBudget5_30V1_2Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_SubawardBudget30-V1.2.fo.xsl
 		</stylesheet>
@@ -1198,9 +1013,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/RR_SubawardBudget10_10-V1.2">
 		<formName>RR_SubawardBudget10_10-V1.2</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRSubAwardBudget10_10V1_2Generator
-		</mainClass>
+        <generatorName>RRSubAwardBudget10_10V1_2Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_SubawardBudget10_10-V1.2.fo.xsl
 		</stylesheet>
@@ -1211,9 +1024,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/RR_SubawardBudget10_30-V1.2">
 		<formName>RR_SubawardBudget10_30-V1.2</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRSubAwardBudget10_30V1_2Generator
-		</mainClass>
+        <generatorName>RRSubAwardBudget10_30V1_2Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RR_SubawardBudget10_30-V1.2.fo.xsl
 		</stylesheet>
@@ -1224,9 +1035,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/RRSF424_SF424B-V1.1">
 		<formName>RRSF424_SF424B-V1.1</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.RRSF424BV1_1Generator
-		</mainClass>
+        <generatorName>RRSF424BV1_1Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/RRSF424B-V1.1.fo.xsl
 		</stylesheet>
@@ -1236,9 +1045,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/PHS398_TrainingBudget-V1.0">
 		<formName>PHS398_TrainingBudget-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398TrainingBudgetV1_0Generator
-		</mainClass>
+        <generatorName>PHS398TrainingBudgetV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_TrainingBudget-V1.0.xsl
 		</stylesheet>
@@ -1249,9 +1056,7 @@
 	</Form>
 	<Form namespace="http://apply.grants.gov/forms/PHS398_TrainingSubawardBudget-V1.0">
 		<formName>PHS398_TrainingSubawardBudget-V1.0</formName>
-		<mainClass>
-			org.kuali.kra.s2s.generator.impl.PHS398TrainingSubAwardBudgetV1_0Generator
-		</mainClass>
+        <generatorName>PHS398TrainingSubAwardBudgetV1_0Generator</generatorName>
 		<stylesheet>
 			org/kuali/kra/s2s/stylesheet/PHS398_TrainingSubawardBudget-V1.0.xsl
 		</stylesheet>
@@ -1260,4 +1065,203 @@
 		</pkgName>
 		<sortIndex>162</sortIndex>
 	</Form>
+
+    <Form namespace="http://apply.grants.gov/forms/PHS398_ModularBudget_1_2-V1.2">
+        <formName>PHS398_ModularBudget_1_2-V1.2</formName>
+        <generatorName>PHS398ModularBudgetV1_2Generator</generatorName>
+        <stylesheet>
+            org/kuali/kra/s2s/phs398modularbudget/PHS398_ModularBudget-V1.2.fo.xsl
+        </stylesheet>
+        <pkgName>gov.grants.apply.forms.phs398ModularBudget12V12</pkgName>
+        <sortIndex>190</sortIndex>
+    </Form>
+    <Form namespace="http://apply.grants.gov/forms/SF424_2_1-V2.1">
+        <formName>SF424-V2.1</formName>
+        <generatorName>SF424V2_1Generator</generatorName>
+        <stylesheet>
+            org/kuali/kra/s2s/sf424/SF424-V2.1.fo.xsl
+        </stylesheet>
+        <pkgName>gov.grants.apply.forms.sf424V21</pkgName>
+    </Form>
+    <Form namespace="http://apply.grants.gov/forms/Key_Contacts-V1.0">
+        <formName>Key_Contacts-V1.0</formName>
+        <generatorName>KeyContactsV1_0Generator</generatorName>
+        <stylesheet>
+            org/kuali/kra/s2s/keycontacts/KeyContacts.fo.xsl
+        </stylesheet>
+        <pkgName>gov.grants.apply.forms.KeyContactsV10</pkgName>
+    </Form>
+    <Form
+            namespace="http://apply.grants.gov/forms/PHS398_CareerDevelopmentAwardSup_2_0-V2.0">
+        <formName>PHS398_CareerDevelopmentAwardSup_2_0</formName>
+        <generatorName>PHS398CareerDevelopmentAwardSupV2_0Generator</generatorName>
+        <stylesheet>
+            org/kuali/kra/s2s/phs398careerdevelopmentawardSup/PHS398_CareerDevelopmentAwardSup-V2.0.fo.xsl
+        </stylesheet>
+        <pkgName>
+            gov.grants.apply.forms.phs398CareerDevelopmentAwardSup20V20
+        </pkgName>
+        <sortIndex>200</sortIndex>
+    </Form>
+    <Form
+            namespace="http://apply.grants.gov/forms/PHS398_ResearchPlan_2_0-V2.0">
+        <formName>PHS398_ResearchPlan_2_0</formName>
+        <generatorName>PHS398ResearchPlan_2_0_V2Generator</generatorName>
+        <stylesheet>
+            org/kuali/kra/s2s/phs398researchplan/PHS398_ResearchPlan_2_0-V2.0.fo.xsl
+        </stylesheet>
+        <pkgName>gov.grants.apply.forms.phs398ResearchPlan20V20</pkgName>
+        <sortIndex>195</sortIndex>
+    </Form>
+    <Form namespace="http://apply.grants.gov/forms/PHS398_ResearchTrainingProgramPlan_2_0-V2.0">
+        <formName>PHS398_ResearchTrainingProgramPlan_2_0</formName>
+        <generatorName>PHS398ResTrainProgPlanV2_0Generator</generatorName>
+        <stylesheet>
+            org/kuali/kra/s2s/phs398researchtrainingprogramplan/PHS398_ResearchTrainProPlan_V2.0.xsl
+        </stylesheet>
+        <pkgName>
+            gov.grants.apply.forms.phs398ResearchTrainingProgramPlan20V20
+        </pkgName>
+        <sortIndex>220</sortIndex>
+    </Form>
+    <Form
+            namespace="http://apply.grants.gov/forms/RR_KeyPersonExpanded_2_0-V2.0">
+        <formName>RR_KeyPersonExpanded_2_0</formName>
+        <generatorName>RRKeyPersonExpandedV2_0Generator</generatorName>
+        <stylesheet>
+            org/kuali/kra/s2s/rrkeypersonexpanded/RR_KeyPersonExpanded-V2.0.xsl
+        </stylesheet>
+        <pkgName>
+            gov.grants.apply.forms.rrKeyPersonExpanded20V20
+        </pkgName>
+        <sortIndex>155</sortIndex>
+    </Form>
+    <Form
+            namespace="http://apply.grants.gov/forms/PHS398_CoverPageSupplement_2_0-V2.0">
+        <formName>PHS398_CoverPageSupplement_2_0-V2.0</formName>
+        <generatorName>PHS398CoverPageSupplement_2_0_V2Generator</generatorName>
+        <stylesheet>
+            org/kuali/kra/s2s/phs398coverpagesupplement/PHS398_CoverPageSupplement_2_0-V2.0.fo.xsl
+        </stylesheet>
+        <pkgName>gov.grants.apply.forms.phs398CoverPageSupplement20V20</pkgName>
+        <sortIndex>185</sortIndex>
+    </Form>
+    <Form
+            namespace="http://apply.grants.gov/forms/PerformanceSite_2_0-V2.0">
+        <formName>PerformanceSite_2_0</formName>
+        <generatorName>PerformanceSiteV2_0Generator</generatorName>
+        <stylesheet>
+            org/kuali/kra/s2s/performancesite/PerformanceSite-V2.0.xsl
+        </stylesheet>
+        <pkgName>gov.grants.apply.forms.performanceSite20V20</pkgName>
+        <sortIndex>130</sortIndex>
+    </Form>
+    <Form
+            namespace="http://apply.grants.gov/forms/RR_SubawardBudget30_1_3-V1.3">
+        <formName>RR_SubawardBudget30_1_3</formName>
+        <generatorName>RRSubAwardBudget30_1_3V1_3Generator</generatorName>
+        <stylesheet>
+            org/kuali/kra/s2s/rrsubawardbudget/RR_SubawardBudget30_1_3-V1.3.fo.xsl
+        </stylesheet>
+        <pkgName>gov.grants.apply.forms.rrSubawardBudget3013V13</pkgName>
+        <sortIndex>180</sortIndex>
+    </Form>
+
+    <Form
+            namespace="http://apply.grants.gov/forms/RR_Budget_1_3-V1.3">
+        <formName>RR_Budget_1_3</formName>
+        <generatorName>RRBudgetV1_3Generator</generatorName>
+        <stylesheet>
+            org/kuali/kra/s2s/rrbudget/RR_Budget-V1.3.xsl
+        </stylesheet>
+        <pkgName>gov.grants.apply.forms.rrBudget13V13</pkgName>
+        <sortIndex>165</sortIndex>
+    </Form>
+    <Form
+            namespace="http://apply.grants.gov/forms/PHS398_TrainingSubawardBudget_2_0-V2.0">
+        <formName> 	PHS398_TrainingSubawardBudget_2_0</formName>
+        <generatorName>PHS398TrainingSubAwardBudgetV2_0Generator</generatorName>
+        <stylesheet>
+            org/kuali/kra/s2s/phs398trainingsubawardbudget/PHS398_TrainingSubawardBudget-V2.0.xsl
+        </stylesheet>
+        <pkgName>gov.grants.apply.forms.phs398TrainingSubawardBudget20V20</pkgName>
+        <sortIndex>162</sortIndex>
+    </Form>
+    <Form
+            namespace="http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_2_0-V2.0">
+        <formName>PHS_Fellowship_Supplemental_2_0</formName>
+        <generatorName>PHS398FellowshipSupplementalV2_0Generator</generatorName>
+        <stylesheet>
+            org/kuali/kra/s2s/phsfellowshipsupplemental/PHS_fellowship_supplemental-V2.xsl
+        </stylesheet>
+        <pkgName>gov.grants.apply.forms.phsFellowshipSupplemental20V20</pkgName>
+        <sortIndex>211</sortIndex>
+    </Form>
+    <Form namespace="http://apply.grants.gov/forms/RR_SF424_2_0-V2.0">
+        <formName>RR_SF424_2_0-V2.0</formName>
+        <generatorName>RRSF424_2_0_V2Generator</generatorName>
+        <stylesheet>
+            org/kuali/kra/s2s/sf424r/RR_SF424_2_0-V2.0.fo.xsl
+        </stylesheet>
+        <pkgName>gov.grants.apply.forms.rrSF42420V20</pkgName>
+        <sortIndex>120</sortIndex>
+    </Form>
+    <Form
+            namespace="http://apply.grants.gov/forms/RR_OtherProjectInfo_1_3-V1.3">
+        <formName>RR_OtherProjectInfo_1_3-V1.3</formName>
+        <generatorName>RROtherProjectInfo_1_3_V1Generator</generatorName>
+        <stylesheet>
+            org/kuali/kra/s2s/rrotherproject/RR_OtherProjectInfo_1_3-V1.3.fo.xsl
+        </stylesheet>
+        <pkgName>
+            gov.grants.apply.forms.rrOtherProjectInfo13V13
+        </pkgName>
+        <sortIndex>140</sortIndex>
+    </Form>
+    <Form namespace="http://apply.grants.gov/forms/RR_SubawardBudget10_30_1_3-V1.3">
+        <formName>RR_SubawardBudget10_30_1_3</formName>
+        <generatorName>RRSubAwardBudget10_30_1_3V1_3Generator</generatorName>
+        <stylesheet>
+            org/kuali/kra/s2s/rrsubawardbudget10_30/RR_SubawardBudget10_30_1_3-V1.3.fo.xsl
+        </stylesheet>
+        <pkgName>
+            gov.grants.apply.forms.rrSubawardBudget103013V13
+        </pkgName>
+        <sortIndex>179</sortIndex>
+    </Form>
+    <Form
+            namespace="http://apply.grants.gov/forms/RR_Budget10_1_3-V1.3">
+        <formName>RR_Budget10_1_3</formName>
+        <generatorName>RRBudget10V1_3Generator</generatorName>
+        <stylesheet>
+            org/kuali/kra/s2s/rrbudget10/RR_Budget10-V1-3.fo.xsl
+        </stylesheet>
+        <pkgName>
+            gov.grants.apply.forms.rrBudget1013V13
+        </pkgName>
+        <sortIndex>167</sortIndex>
+    </Form>
+    <Form
+            namespace="http://apply.grants.gov/forms/RR_SubawardBudget10_10_1_3-V1.3">
+        <formName>RR_SubawardBudget10_10_1_3</formName>
+        <generatorName>RRSubAwardBudget10_10V1_3Generator</generatorName>
+        <stylesheet>
+            org/kuali/kra/s2s/rrsubawardbudget10/RR_SubawardBudget10_10-V1.3.fo.xsl
+        </stylesheet>
+        <pkgName>
+            gov.grants.apply.forms.rrSubawardBudget101013V13
+        </pkgName>
+        <sortIndex>178</sortIndex>
+    </Form>
+    <Form namespace="http://apply.grants.gov/forms/RR_SubawardBudget_1_3-V1.3">
+        <formName>RR_SubawardBudget_1_3</formName>
+        <generatorName>RRSubAwardBudget1_3V1_3Generator</generatorName>
+        <stylesheet>
+            org/kuali/kra/s2s/rrsubawardbudget1_3/RR_SubawardBudget-V1.3.xsl
+        </stylesheet>
+        <pkgName>
+            gov.grants.apply.forms.rrSubawardBudget13V13
+        </pkgName>
+        <sortIndex>177</sortIndex>
+    </Form>
 </FormBinding>

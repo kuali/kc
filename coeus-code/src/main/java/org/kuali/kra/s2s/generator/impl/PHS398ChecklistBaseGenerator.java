@@ -15,10 +15,11 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * This abstract class has methods that are common to all the versions of PHS398Checklist form.
@@ -26,8 +27,7 @@ import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public abstract class PHS398ChecklistBaseGenerator extends S2SBaseFormGenerator {
-    protected ProposalBudgetService proposalBudgetService;
-    protected ProposalDevelopmentService proposalDevelopmentService;
+
     protected static final int NARRATIVE_CODE_CERTIFICATIONS_ATTACHMENT = 38;
     protected static final String PROPOSAL_YNQ_QUESTION_114 = "114";
     protected static final String PROPOSAL_YNQ_QUESTION_115 = "115";
@@ -41,9 +41,27 @@ public abstract class PHS398ChecklistBaseGenerator extends S2SBaseFormGenerator 
     protected static final int PROPOSAL_TYPE_CODE_6 = 6;
     public static final String NOT_ANSWERED = "No";
 
+    @Autowired
+    @Qualifier("proposalBudgetService")
+    protected ProposalBudgetService proposalBudgetService;
 
-    public PHS398ChecklistBaseGenerator() {
-        proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
-        proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
+    @Autowired
+    @Qualifier("submissionInfoService")
+    protected SubmissionInfoService submissionInfoService;
+
+    public ProposalBudgetService getProposalBudgetService() {
+        return proposalBudgetService;
+    }
+
+    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
+        this.proposalBudgetService = proposalBudgetService;
+    }
+
+    public SubmissionInfoService getSubmissionInfoService() {
+        return submissionInfoService;
+    }
+
+    public void setSubmissionInfoService(SubmissionInfoService submissionInfoService) {
+        this.submissionInfoService = submissionInfoService;
     }
 }

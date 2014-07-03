@@ -30,13 +30,14 @@ import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
-import org.kuali.kra.s2s.service.S2SUtilService;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,17 +50,13 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("EDSF424SupplementV1_1Generator")
 public class EDSF424SupplementV1_1Generator extends
 		EDSF424SupplementBaseGenerator {
 
-    /**
-	 * 
-	 * Constructs a EDSF424SupplementV1_1Generator.java.
-	 */
-	public EDSF424SupplementV1_1Generator() {
-		s2sUtilService = KcServiceLocator.
-		getService(S2SUtilService.class);
-	}
+    @Autowired
+    @Qualifier("s2SConfigurationService")
+    private S2SConfigurationService s2SConfigurationService;
 
 	/**
 	 * 
@@ -153,7 +150,7 @@ public class EDSF424SupplementV1_1Generator extends
 						edsf424Supplement.setAssuranceNumber(assuranceNumber);
 					}
 				}
-				Boolean paramValue= KcServiceLocator.getService(S2SConfigurationService.class).getValueAsBoolean(ConfigurationConstants.IRB_PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED);
+				Boolean paramValue= s2SConfigurationService.getValueAsBoolean(ConfigurationConstants.IRB_PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED);
 			    if(paramValue){
 			    	ExemptionsNumber exemptionsNumber = ExemptionsNumber.Factory
 					.newInstance();
@@ -210,7 +207,7 @@ public class EDSF424SupplementV1_1Generator extends
 	 * This method creates {@link XmlObject} of type
 	 * {@link EDSF424SupplementDocument} by populating data from the given
 	 * {@link ProposalDevelopmentDocument}
-	 * 
+	 *
 	 * @param proposalDevelopmentDocument
 	 *            for which the {@link XmlObject} needs to be created
 	 * @return {@link XmlObject} which is generated using the given
@@ -223,4 +220,12 @@ public class EDSF424SupplementV1_1Generator extends
 		this.pdDoc = proposalDevelopmentDocument;
 		return getEDSF424Supplement();
 	}
+
+    public S2SConfigurationService getS2SConfigurationService() {
+        return s2SConfigurationService;
+    }
+
+    public void setS2SConfigurationService(S2SConfigurationService s2SConfigurationService) {
+        this.s2SConfigurationService = s2SConfigurationService;
+    }
 }

@@ -41,7 +41,6 @@ import org.kuali.coeus.common.api.question.*;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
@@ -51,8 +50,11 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -65,8 +67,8 @@ import java.util.*;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("PHS398FellowshipSupplementalV1_2Generator")
 public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipSupplementalBaseGenerator {
-
 
     private static final Log LOG = LogFactory.getLog(PHS398FellowshipSupplementalV1_2Generator.class);
 
@@ -112,6 +114,11 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
     
     private static final String ANSWER_YES = "Yes";
     private static final String ANSWER_NO = "No";
+
+    @Autowired
+    @Qualifier("proposalDevelopmentS2sQuestionnaireService")
+    private ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService;
+
     /*
      * This method is used to get PHSFellowshipSupplemental12 XMLObject and set the data to it from DevelopmentProposal data.
      */
@@ -796,10 +803,6 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
                 "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_2-V1.2", "PHS_Fellowship_Supplemental_1_2-V1.2");
     }
 
-    private ProposalDevelopmentS2sQuestionnaireService getProposalDevelopmentS2sQuestionnaireService() {
-        return KcServiceLocator.getService(ProposalDevelopmentS2sQuestionnaireService.class);
-    }
-
     private AnswerContract getAnswer(QuestionnaireQuestionContract questionnaireQuestion, AnswerHeaderContract answerHeader) {
         List<? extends AnswerContract> answers = answerHeader.getAnswers();
         for (AnswerContract answer : answers) {
@@ -1035,5 +1038,11 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
         return "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_2-V1.2";
     }
 
+    public ProposalDevelopmentS2sQuestionnaireService getProposalDevelopmentS2sQuestionnaireService() {
+        return proposalDevelopmentS2sQuestionnaireService;
+    }
 
+    public void setProposalDevelopmentS2sQuestionnaireService(ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService) {
+        this.proposalDevelopmentS2sQuestionnaireService = proposalDevelopmentS2sQuestionnaireService;
+    }
 }

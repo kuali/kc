@@ -38,8 +38,8 @@ import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 public class EDAbstractV1_1GeneratorTest extends S2STestBase<EDAbstractV1_1Generator> {
 
     @Override
-    protected Class<EDAbstractV1_1Generator> getFormGeneratorClass() {
-        return EDAbstractV1_1Generator.class;
+    protected String getFormGeneratorName() {
+        return EDAbstractV1_1Generator.class.getSimpleName();
     }
 
     @Override

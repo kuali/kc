@@ -45,14 +45,16 @@ import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.printing.GenericPrintable;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -71,6 +73,7 @@ import java.util.Map;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("RRFedNonFedBudgetV1_1Generator")
 public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerator {
 
     private static final Log LOG = LogFactory.getLog(RRFedNonFedBudgetV1_0Generator.class);
@@ -81,6 +84,11 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
     private static final String ADDITIONAL_EQUIPMENT_NARRATIVE_TYPE_CODE ="12";
     private static final String ADDITIONAL_EQUIPMENT_NARRATIVE_COMMENT = "RRFEDNONFED_ADDITIONAL_EQUIPMENT";
     private Budget budget;
+
+    @Autowired
+    @Qualifier("printingService")
+    private PrintingService printingService;
+
     /**
      * This method returns RRFedNonFedBudgetDocument object based on proposal development document which contains the informations
      * such as DUNSID,OrganizationName,BudgetType,BudgetYear and BudgetSummary.
@@ -1325,8 +1333,6 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             GenericPrintable printable = new GenericPrintable();
             printable.setXSLTemplateWithBookmarks(xSLTemplateWithBookmarks);
             printable.setStreamMap(streamMap);
-            PrintingService printingService = KcServiceLocator
-                    .getService(PrintingService.class);
             try {
                 KcFile printData = printingService
                         .print(printable);
@@ -1383,7 +1389,6 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             GenericPrintable printable = new GenericPrintable();
             printable.setXSLTemplateWithBookmarks(xSLTemplateWithBookmarks);
             printable.setStreamMap(streamMap);
-            PrintingService printingService= KcServiceLocator.getService(PrintingService.class);
             try {
                 KcFile printData = printingService.print(printable);
                 String fileName = pdDoc.getDevelopmentProposal().getProposalNumber()+"_"+periodInfo.getBudgetPeriod()+"_"+EXTRA_KEYPERSONS+".pdf";

@@ -52,6 +52,7 @@ import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.CitizenshipTypes;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.impl.PHS398CareerDevelopmentAwardSupBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -62,6 +63,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("PHS398CareerDevelopmentAwardSupV2_0Generator")
 public class PHS398CareerDevelopmentAwardSupV2_0Generator extends
 		PHS398CareerDevelopmentAwardSupBaseGenerator {
     public static final int NARRATIVE_TYPE_PHS_CAREER_SUPPPORT_LTRS = 144;

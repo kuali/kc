@@ -20,21 +20,28 @@ import gov.grants.apply.forms.rrsf424SF424BV11.AssurancesDocument;
 import gov.grants.apply.forms.rrsf424SF424BV11.AuthorizedRepresentativeDocument.AuthorizedRepresentative;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.kra.s2s.S2SException;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.Calendar;
 
-
+@FormGenerator("RRSF424BV1_1Generator")
 public class RRSF424BV1_1Generator extends S2SBaseFormGenerator {
 
     private static final String NON_CONSTRUCTION = "Non-Construction";
+
+    @Autowired
+    @Qualifier("s2SUtilService")
+    private S2SUtilService s2SUtilService;
+
     @Override
     public AssurancesDocument getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
         AssurancesDocument assurcesDocument = AssurancesDocument.Factory.newInstance();
@@ -59,14 +66,18 @@ public class RRSF424BV1_1Generator extends S2SBaseFormGenerator {
     private AuthorizedRepresentative getAuthorizedRepresentative(ProposalDevelopmentDocument proposalDevelopmentDocument) {
 
         AuthorizedRepresentative authorizedRepresentative = AuthorizedRepresentative.Factory.newInstance();
-        DepartmentalPerson aorInfo = getS2sUtilService().getDepartmentalPerson(proposalDevelopmentDocument);
+        DepartmentalPerson aorInfo = getS2SUtilService().getDepartmentalPerson(proposalDevelopmentDocument);
         if (aorInfo.getPrimaryTitle() != null) {
             authorizedRepresentative.setRepresentativeTitle(aorInfo.getPrimaryTitle());
         }
         return authorizedRepresentative;
     }
-    private S2SUtilService getS2sUtilService() {
-        return KcServiceLocator.getService(S2SUtilService.class);
+
+    public S2SUtilService getS2SUtilService() {
+        return s2SUtilService;
     }
 
+    public void setS2SUtilService(S2SUtilService s2SUtilService) {
+        this.s2SUtilService = s2SUtilService;
+    }
 }

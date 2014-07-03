@@ -52,12 +52,14 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -68,6 +70,7 @@ import java.util.*;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("RRSF424V1_1Generator")
 public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 
 	private static final Log LOG = LogFactory
@@ -76,12 +79,9 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 	private DepartmentalPerson departmentalPerson;
     private List<? extends AnswerHeaderContract> answerHeaders;
 
+    @Autowired
+    @Qualifier("rolodexService")
     private RolodexService rolodexService;
-
-    public RRSF424V1_1Generator() {
-        rolodexService = KcServiceLocator.getService(RolodexService.class);
-    }
-
 
     /**
 	 * 
@@ -114,7 +114,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 			String state = rolodex.getState();
 			rrsf424.setStateID(state);
 		}
-		String federalId = proposalDevelopmentService.getFederalId(pdDoc);
+		String federalId = getSubmissionInfoService().getFederalId(pdDoc.getDevelopmentProposal().getProposalNumber());
 		if (federalId != null) {
 			if (federalId.length() > 30) {
 				rrsf424.setFederalID(federalId.substring(0, 30));
@@ -745,5 +745,13 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
     @Override
     protected List<? extends AnswerHeaderContract> getAnswerHeaders() {
         return answerHeaders;
+    }
+
+    public RolodexService getRolodexService() {
+        return rolodexService;
+    }
+
+    public void setRolodexService(RolodexService rolodexService) {
+        this.rolodexService = rolodexService;
     }
 }

@@ -23,6 +23,11 @@ import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingService;
 import org.kuali.kra.s2s.generator.S2SFormGenerator;
 import org.kuali.kra.s2s.service.S2SFormGeneratorService;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,11 +39,16 @@ import java.util.Map;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@Component("s2SFormGeneratorService")
 public class S2SFormGeneratorServiceImpl implements S2SFormGeneratorService {
     private static final Log LOG = LogFactory.getLog(S2SFormGeneratorServiceImpl.class);
 
-
+    @Autowired
+    @Qualifier("formMappingService")
     private FormMappingService formMappingService;
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     /**
      *
@@ -52,22 +62,11 @@ public class S2SFormGeneratorServiceImpl implements S2SFormGeneratorService {
      */
     public final S2SFormGenerator getS2SGenerator(String proposalNumber,String namespace) throws S2SException {
         FormMappingInfo formInfo = formMappingService.getFormInfo(proposalNumber,namespace);
-        S2SFormGenerator formGenerator;
-        try {
-            formGenerator = (S2SFormGenerator) Class.forName(formInfo.getMainClass()).newInstance();
-        }catch (InstantiationException e) {
-            LOG.error("Cannot instantiate "+formInfo.getMainClass(), e);
-            throw new S2SException(e);
-        }catch (IllegalAccessException e) {
-            LOG.error("Illegal access : "+formInfo.getMainClass(), e);
-            throw new S2SException(e);
-        }catch (ClassNotFoundException e) {
-            LOG.error("No class found : "+formInfo.getMainClass(), e);
-            throw new S2SException(e);
-        }catch(Exception e){
-            LOG.error("Unknown error from "+formInfo.getMainClass(), e);
-            throw new S2SException("Could not generate form for "+formInfo.getMainClass(),e);
+        S2SFormGenerator formGenerator = (S2SFormGenerator) applicationContext.getBean(formInfo.getGeneratorName());
+        if (formGenerator == null) {
+            throw new S2SException("Generator not found with name: " + formInfo.getGeneratorName());
         }
+
         return formGenerator;
     }
 
@@ -98,5 +97,13 @@ public class S2SFormGeneratorServiceImpl implements S2SFormGeneratorService {
 
     public void setFormMappingService(FormMappingService formMappingService) {
         this.formMappingService = formMappingService;
+    }
+
+    public ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
+
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 }

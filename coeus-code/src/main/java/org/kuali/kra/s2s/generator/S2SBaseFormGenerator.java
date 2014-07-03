@@ -29,7 +29,6 @@ import org.kuali.coeus.common.api.question.QuestionAnswerService;
 import org.kuali.coeus.propdev.api.PropDevQuestionAnswerService;
 import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.propdev.api.attachment.NarrativeService;
@@ -38,6 +37,8 @@ import org.kuali.kra.s2s.generator.impl.GlobalLibraryV1_0Generator;
 import org.kuali.kra.s2s.generator.impl.GlobalLibraryV2_0Generator;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -69,26 +70,37 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     protected static final int PRIMARY_TITLE_MAX_LENGTH = 45;
     protected static final int CONGRESSIONAL_DISTRICT_MAX_LENGTH = 6;
 
-
     protected ProposalDevelopmentDocument pdDoc = null;
     private List<AuditError> auditErrors;
     private String namespace;
+
+    @Autowired
+    @Qualifier("narrativeService")
     private NarrativeService narrativeService;
+
+    @Autowired
+    @Qualifier("propDevQuestionAnswerService")
     private PropDevQuestionAnswerService propDevQuestionAnswerService;
+
+    @Autowired
+    @Qualifier("questionAnswerService")
     private QuestionAnswerService questionAnswerService;
 
-    public S2SBaseFormGenerator() {
-       narrativeService = KcServiceLocator.getService(NarrativeService.class);
-       propDevQuestionAnswerService = KcServiceLocator.getService(PropDevQuestionAnswerService.class);
-       questionAnswerService = KcServiceLocator.getService(QuestionAnswerService.class);
-    }
+    @Autowired
+    @Qualifier("sponsorHierarchyService")
+    private SponsorHierarchyService sponsorHierarchyService;
 
     /*
      * Reference to global library generators are defined here. The actual form generator will decide which object to be used for
      * respective implementations.
      */
-    protected GlobalLibraryV1_0Generator globLibV10Generator = new GlobalLibraryV1_0Generator();
-    protected GlobalLibraryV2_0Generator globLibV20Generator = new GlobalLibraryV2_0Generator();
+    @Autowired
+    @Qualifier("GlobalLibraryV1_0Generator")
+    protected GlobalLibraryV1_0Generator globLibV10Generator;
+
+    @Autowired
+    @Qualifier("GlobalLibraryV2_0Generator")
+    protected GlobalLibraryV2_0Generator globLibV20Generator;
 
     /**
      * Gets the list of attachments associated with a form. As the form generator fills the form data, the attachment information is
@@ -345,8 +357,6 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     }
     
     protected boolean isSponsorNIH(ProposalDevelopmentDocument document) {
-		SponsorHierarchyService sponsorHierarchyService = KcServiceLocator
-				.getService(SponsorHierarchyService.class);
 		return sponsorHierarchyService.isSponsorNihMultiplePi(document.getDevelopmentProposal().getSponsorCode());
 	}
     
@@ -538,5 +548,41 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
 
     public QuestionAnswerService getQuestionAnswerService() {
         return questionAnswerService;
+    }
+
+    public void setNarrativeService(NarrativeService narrativeService) {
+        this.narrativeService = narrativeService;
+    }
+
+    public void setPropDevQuestionAnswerService(PropDevQuestionAnswerService propDevQuestionAnswerService) {
+        this.propDevQuestionAnswerService = propDevQuestionAnswerService;
+    }
+
+    public void setQuestionAnswerService(QuestionAnswerService questionAnswerService) {
+        this.questionAnswerService = questionAnswerService;
+    }
+
+    public SponsorHierarchyService getSponsorHierarchyService() {
+        return sponsorHierarchyService;
+    }
+
+    public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {
+        this.sponsorHierarchyService = sponsorHierarchyService;
+    }
+
+    public GlobalLibraryV1_0Generator getGlobLibV10Generator() {
+        return globLibV10Generator;
+    }
+
+    public void setGlobLibV10Generator(GlobalLibraryV1_0Generator globLibV10Generator) {
+        this.globLibV10Generator = globLibV10Generator;
+    }
+
+    public GlobalLibraryV2_0Generator getGlobLibV20Generator() {
+        return globLibV20Generator;
+    }
+
+    public void setGlobLibV20Generator(GlobalLibraryV2_0Generator globLibV20Generator) {
+        this.globLibV20Generator = globLibV20Generator;
     }
 }

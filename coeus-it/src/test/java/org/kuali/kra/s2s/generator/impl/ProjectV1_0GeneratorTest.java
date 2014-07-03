@@ -39,8 +39,8 @@ import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 public class ProjectV1_0GeneratorTest extends S2STestBase<ProjectV1_0Generator> {
 
     @Override
-    protected Class<ProjectV1_0Generator> getFormGeneratorClass() {
-        return ProjectV1_0Generator.class;
+    protected String getFormGeneratorName() {
+        return ProjectV1_0Generator.class.getSimpleName();
     }
 
     @Override

@@ -20,7 +20,6 @@ import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardAttachmentContr
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
@@ -30,6 +29,8 @@ import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.S2SErrorHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -58,11 +59,18 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
     protected static final String RR_BUDGET_10_NAMESPACE_URI = "http://apply.grants.gov/forms/RR_Budget-V1.0";
     protected static final String RR_BUDGET_11_NAMESPACE_URI = "http://apply.grants.gov/forms/RR_Budget-V1.1";
     protected static final String LOCAL_NAME = "RR_Budget";
-    private KcAttachmentService  kcAttachmentService;
+
     public ArrayList <String> attachmentList = new ArrayList<String> ();
     public ArrayList <String> budgetIdList = new ArrayList<String> ();
     public ArrayList <String> budgetSubawardNumberList = new ArrayList<String> ();
 
+    @Autowired
+    @Qualifier("budgetSubAwardsService")
+    private BudgetSubAwardsService budgetSubAwardsService;
+
+    @Autowired
+    @Qualifier("kcAttachmentService")
+    private KcAttachmentService  kcAttachmentService;
     /**
      * This method convert node of form in to a Document
      * 
@@ -217,17 +225,8 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
         budgetSubawardNumberList.add(budgetSubAwards.getSubAwardNumber().toString());           
         return attachmentName.toString();
     }
-    
-    /**
-     * This method gets the attachment service
-     * @return
-     */
-    protected KcAttachmentService getKcAttachmentService() {
-        if (kcAttachmentService == null) {
-            kcAttachmentService = KcServiceLocator.getService(KcAttachmentService.class);
-        }
-        return kcAttachmentService;
-    }
+
+
     
     /**
      * Adding attachments to subaward
@@ -302,10 +301,19 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
         
     }
 
-
     public BudgetSubAwardsService getBudgetSubAwardsService() {
-        return KcServiceLocator.getService(BudgetSubAwardsService.class);
+        return budgetSubAwardsService;
     }
 
+    public void setBudgetSubAwardsService(BudgetSubAwardsService budgetSubAwardsService) {
+        this.budgetSubAwardsService = budgetSubAwardsService;
+    }
 
+    public KcAttachmentService getKcAttachmentService() {
+        return kcAttachmentService;
+    }
+
+    public void setKcAttachmentService(KcAttachmentService kcAttachmentService) {
+        this.kcAttachmentService = kcAttachmentService;
+    }
 }

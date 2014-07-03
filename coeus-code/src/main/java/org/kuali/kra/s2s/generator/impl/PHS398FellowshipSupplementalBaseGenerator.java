@@ -18,11 +18,12 @@ package org.kuali.kra.s2s.generator.impl;
 import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.coeus.common.api.question.QuestionAnswerService;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -37,9 +38,20 @@ import java.util.List;
 public abstract class PHS398FellowshipSupplementalBaseGenerator extends
 		S2SBaseFormGenerator implements S2SQuestionnairing{
 
+    @Autowired
+    @Qualifier("s2SUtilService")
 	protected S2SUtilService s2sUtilService;
+
+    @Autowired
+    @Qualifier("proposalBudgetService")
 	protected ProposalBudgetService proposalBudgetService;
+
+    @Autowired
+    @Qualifier("s2SConfigurationService")
 	protected S2SConfigurationService s2SConfigurationService;
+
+    @Autowired
+    @Qualifier("questionAnswerService")
     protected QuestionAnswerService questionAnswerService;
     
 
@@ -86,16 +98,6 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
         }
     };
 
-	/**
-	 * 
-	 * Constructs a PHS398FellowshipSupplementalBaseGenerator.java.
-	 */
-	public PHS398FellowshipSupplementalBaseGenerator() {
-		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
-        proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
-		s2SConfigurationService = KcServiceLocator.getService(S2SConfigurationService.class);
-        questionAnswerService = KcServiceLocator.getService(QuestionAnswerService.class);
-	}
     protected List<String> getCostElementsByParam(String costElementParam) {
         String costElementsParamValue = s2SConfigurationService.getValueAsString(costElementParam);
         String[] costElements = costElementsParamValue.split(",");
@@ -104,6 +106,38 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
             costElementList.add(costElements[i]);
         }
         return costElementList;
+    }
+
+    public S2SUtilService getS2sUtilService() {
+        return s2sUtilService;
+    }
+
+    public void setS2sUtilService(S2SUtilService s2sUtilService) {
+        this.s2sUtilService = s2sUtilService;
+    }
+
+    public ProposalBudgetService getProposalBudgetService() {
+        return proposalBudgetService;
+    }
+
+    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
+        this.proposalBudgetService = proposalBudgetService;
+    }
+
+    public S2SConfigurationService getS2SConfigurationService() {
+        return s2SConfigurationService;
+    }
+
+    public void setS2SConfigurationService(S2SConfigurationService s2SConfigurationService) {
+        this.s2SConfigurationService = s2SConfigurationService;
+    }
+
+    public QuestionAnswerService getQuestionAnswerService() {
+        return questionAnswerService;
+    }
+
+    public void setQuestionAnswerService(QuestionAnswerService questionAnswerService) {
+        this.questionAnswerService = questionAnswerService;
     }
 
     public static class KirschsteinBean {

@@ -29,9 +29,8 @@ import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonDegreeContract;
 import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
-import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.List;
@@ -43,18 +42,11 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("PHS398CoverPageSupplementV1_1Generator")
 public class PHS398CoverPageSupplementV1_1Generator extends
 		PHS398CoverPageSupplementBaseGenerator {
 		
     List<? extends AnswerHeaderContract> answerHeaders;
-
-	/**
-	 * 
-	 * Constructs a PHS398CoverPageSupplementV1_1Generator.java.
-	 */
-	public PHS398CoverPageSupplementV1_1Generator() {
-		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
-	}
 
 	/**
 	 * 

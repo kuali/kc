@@ -22,6 +22,7 @@ import org.apache.xmlbeans.XmlValidationError;
 import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.validator.S2SErrorHandler;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@Component("s2SValidatorService")
 public class S2SValidatorServiceImpl implements S2SValidatorService {
 
     /**
