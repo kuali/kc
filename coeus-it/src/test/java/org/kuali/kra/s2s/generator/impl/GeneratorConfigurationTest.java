@@ -1,6 +1,6 @@
 package org.kuali.kra.s2s.generator.impl;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -11,6 +11,9 @@ import org.kuali.kra.s2s.generator.S2SFormGenerator;
 import org.kuali.kra.s2s.service.S2SFormGeneratorService;
 import org.kuali.kra.s2s.service.impl.S2SFormGeneratorServiceImpl;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
+import org.kuali.rice.core.api.util.ClassLoaderUtils;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -80,5 +83,25 @@ public class GeneratorConfigurationTest extends KcIntegrationTestBase {
         }
 
         Assert.assertTrue("FormGenerators not configured: " + notFound, notFound.isEmpty());
+    }
+
+    /**
+     * This test will make sure that all generators that are configured, have a valid stylesheet configured.
+     */
+    @Test
+    public void test_find_all_stylesheets() {
+        Map<String, FormMappingInfo> mappings =  mappingService.getBindings();
+
+        Collection<String> notFound = new ArrayList<>();
+
+        for (FormMappingInfo info : mappings.values()) {
+            DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
+            Resource resource = resourceLoader.getResource("classpath:" + info.getStyleSheet());
+            if (!resource.exists()) {
+                notFound.add(info.getStyleSheet());
+            }
+        }
+
+        Assert.assertTrue("Stylesheets not found: " + notFound, notFound.isEmpty());
     }
 }
