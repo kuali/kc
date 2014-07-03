@@ -83,12 +83,14 @@ import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
-
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import javax.persistence.*;
 
 import java.sql.Date;
 import java.util.*;
-
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 @Entity
 @Table(name = "EPS_PROPOSAL")
 @Customizer(DevelopmentProposal.DevelopmentProposalCustomizer.class)
@@ -393,6 +395,24 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     @Transient
     private transient ProposalPersonBiographyService proposalPersonBiographyService;
+    
+    private  String proposalProgressCode;
+    
+	public String getProposalProgressCode() {
+		WorkflowDocument wd = proposalDocument.getDocumentHeader()
+				.getWorkflowDocument();
+		if (wd.isSaved())
+			proposalProgressCode = DocumentStatus.SAVED.name();
+		else if (wd.isEnroute() || wd.isException())
+			proposalProgressCode = DocumentStatus.ENROUTE.name();
+		else if (wd.isApproved())
+			proposalProgressCode = DocumentStatus.FINAL.name();
+		else
+			proposalProgressCode = "";
+
+		return proposalProgressCode;
+	}
+    
 
     /**
      * Gets the proposalNumberForGG attribute. 
@@ -2022,6 +2042,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      * @return
      */
     public ProposalDevelopmentDocument getProposalDocument() {
+    	  
         if (proposalDocument == null) {
             proposalDocument = new ProposalDevelopmentDocument();
         }
