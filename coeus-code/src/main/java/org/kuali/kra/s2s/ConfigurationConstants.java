@@ -19,7 +19,6 @@ public final class ConfigurationConstants {
     public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_RESUBMISSION = "proposaldevelopment.proposaltype.resubmission";
     public static final String MULTI_CAMPUS_ENABLED = "MULTI_CAMPUS_ENABLED";
 
-
     //s2s specific
     public static final String TUITION_COST_ELEMENTS = "TUITION_COST_ELEMENTS";
     public static final String STIPEND_COST_ELEMENTS = "STIPEND_COST_ELEMENTS";
@@ -34,7 +33,6 @@ public final class ConfigurationConstants {
     public static final String TRAINING_REL_COST_ELEMENTS = "TRAINING_REL_COST_ELEMENTS";
     public static final String TRAINEE_TRAVEL_COST_ELEMENTS = "TRAINEE_TRAVEL_COST_ELEMENTS";
     public static final String PROPOSAL_CONTACT_TYPE = "PROPOSAL_CONTACT_TYPE";
-    public static final String PRINT_XML_DIRECTORY = "print.xml.directory";
     public static final String S2SBUDGET_BUDGET_CATEGORY_TYPE_PERSONNEL = "s2sBudgetBudgetCategoryTypePersonnel";
     public static final String S2SBUDGET_FILTER_CATEGORY_TYPE_PERSONNEL = "s2sBudgetFilterCategoryTypePersonnel";
     public static final String S2SBUDGET_RATE_CLASS_TYPE_SALARIES_MS = "s2sBudgetRateClassTypeSalariesMs";
@@ -74,7 +72,6 @@ public final class ConfigurationConstants {
     public static final String S2SBUDGET_OTHER_DIRECT_COSTS_CATEGORY = "s2sBudgetOtherDirectCostsCategory";
     public static final String S2SBUDGET_APPOINTMENT_TYPE_SUM_EMPLOYEE = "s2sBudgetAppointmentTypeSumEmployee";
     public static final String S2SBUDGET_APPOINTMENT_TYPE_TMP_EMPLOYEE = "s2sBudgetAppointmentTypeTmpEmployee";
-
     public static final String BUDGET_CATEGORY_TYPE_PARTICIPANT_SUPPORT = "budgetCategoryType.participantSupport";
     public static final String PI_CUSTOM_DATA = "PI_CITIZENSHIP_FROM_CUSTOM_DATA";
     public static final String PERMANENT_RESIDENT_OF_US_TYPE_CODE = "PERMANENT_RESIDENT_OF_US_TYPE_CODE";
@@ -83,7 +80,14 @@ public final class ConfigurationConstants {
     public static final String US_CITIZEN_OR_NONCITIZEN_NATIONAL_TYPE_CODE = "US_CITIZEN_OR_NONCITIZEN_NATIONAL_TYPE_CODE";
     public static final String PERMANENT_RESIDENT_OF_US_PENDING = "PERMANENT_RESIDENT_OF_US_PENDING";
 
+    //printing
+    public static final String PRINT_XML_DIRECTORY = "print.xml.directory";
+    public static final String PRINT_LOGGING_ENABLE = "print.logging.enable";
+    public static final String PRINT_LOGGING_DIRECTORY = "print.logging.directory";
+    public static final String APPLICATION_URL_KEY = "application.url";
+
     private ConfigurationConstants() {
         throw new UnsupportedOperationException("do not call");
     }
 }
+
