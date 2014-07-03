@@ -428,7 +428,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/NegotiationStatus.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/NegotiationUnassociatedDetail.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/NewProtocolOnlineReviewBean.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/NonOrganizationalRolodex.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/rolodex/NonOrganizationalRolodex.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/noo/NoticeOfOpportunity.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/NotificationModuleRole.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/NotificationModuleRoleQualifier.xml</value>
