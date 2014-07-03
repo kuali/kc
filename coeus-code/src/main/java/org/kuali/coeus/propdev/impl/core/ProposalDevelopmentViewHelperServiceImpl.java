@@ -21,7 +21,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
@@ -54,6 +55,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 
 @Service("proposalDevelopmentViewHelperService")
 @Scope("prototype")
@@ -76,7 +80,8 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Autowired
     @Qualifier("lookupService")
     private LookupService lookupService;
-
+    
+       
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
@@ -231,7 +236,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-
+  
     public ProposalDevelopmentAttachmentService getProposalDevelopmentAttachmentService() {
         if (proposalDevelopmentAttachmentService == null) {
             proposalDevelopmentAttachmentService = KcServiceLocator.getService(ProposalDevelopmentAttachmentService.class);
@@ -241,4 +246,18 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     public void setProposalDevelopmentAttachmentService(ProposalDevelopmentAttachmentService proposalDevelopmentAttachmentService) {
         this.proposalDevelopmentAttachmentService = proposalDevelopmentAttachmentService;
     }
+    public String displayProposalProgressCode(WorkflowDocument wd) {
+  	  String proposalProgressCode;
+  	  
+  	  if (wd.isSaved())
+  	   proposalProgressCode = DocumentStatus.SAVED.name();
+  	  else if (wd.isEnroute() || wd.isException())
+  	   proposalProgressCode = DocumentStatus.ENROUTE.name();
+  	  else if (wd.isApproved())
+  	   proposalProgressCode = DocumentStatus.FINAL.name();
+  	  else 
+  	   proposalProgressCode = "";
+
+  	  return proposalProgressCode;
+  	 }
 }
