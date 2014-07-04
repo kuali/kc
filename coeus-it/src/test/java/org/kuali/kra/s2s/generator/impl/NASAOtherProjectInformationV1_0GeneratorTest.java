@@ -58,13 +58,13 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
     protected void prepareData(ProposalDevelopmentDocument document) throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
 
-        String INTERNATIONAL_PARTICIPATION = "108";
-        String HISTORICAL_IMPACT = "106";
-        String EXPLATATION = "107";
-        String INTERNATIONAL_PARTICIPATION_SUPPORT = "109";
-        String CIVIL_SERVICE_PERSONNEL = "101";
-        String FTE = "104";
-        String FISCAL_YEAR = "103";
+        Integer INTERNATIONAL_PARTICIPATION = 108;
+        Integer HISTORICAL_IMPACT = 106;
+        Integer EXPLATATION = 107;
+        Integer INTERNATIONAL_PARTICIPATION_SUPPORT = 109;
+        Integer CIVIL_SERVICE_PERSONNEL = 101;
+        Integer FTE = 104;
+        Integer FISCAL_YEAR = 103;
         ProposalPerson person = new ProposalPerson();
         person.setProposalPersonRoleId("PI");
         person.setFirstName("SCHULTE");

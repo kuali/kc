@@ -54,13 +54,13 @@ public class NASAOtherProjectInformationV1_0Generator extends
     private static final String C0_INVESTIGATOR = "Co-I";
     private static final String EQUIPMENT = "Equipment";
     private static final String FACILITY = "Facility";
-    private static final String HISTORICAL_IMPACT = "106";
-    private static final String CIVIL_SERVICE_PERSONNEL = "101";
-    private static final String EXPLATATION = "107";
-    private static final String INTERNATIONAL_PARTICIPATION = "108";
-    private static final String INTERNATIONAL_PARTICIPATION_SUPPORT = "109";
-    private static final String FTE = "104";
-    private static final String FISCAL_YEAR = "103";
+    private static final Integer HISTORICAL_IMPACT = 106;
+    private static final Integer CIVIL_SERVICE_PERSONNEL = 101;
+    private static final Integer EXPLATATION = 107;
+    private static final Integer INTERNATIONAL_PARTICIPATION = 108;
+    private static final Integer INTERNATIONAL_PARTICIPATION_SUPPORT = 109;
+    private static final Integer FTE = 104;
+    private static final Integer FISCAL_YEAR = 103;
     private static final int PROGRAM_SPECIFIC_DATA = 47;
     private static final int APPENDICES = 48;
     private static final int NON_US_ORGANIZATION_LETTERS_OF_ENDORSEMENT = 49;
@@ -419,7 +419,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
      * @return returns the answerList for a particular
      *         question based on the question id passed.
      */
-    private List<String> getAnswerList(String questionSeqId){
+    private List<String> getAnswerList(Integer questionSeqId){
         List <String> answerList= new ArrayList<>();
         for(AnswerHeaderContract answerHeader:answerHeaders){
             List<? extends AnswerContract> answerDetails = answerHeader.getAnswers();

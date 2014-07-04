@@ -7,7 +7,7 @@ import java.util.List;
 public interface QuestionContract extends IdentifiableNumeric {
 
     String getDocumentNumber();
-    String getQuestionSeqId();
+    Integer getQuestionSeqId();
     Integer getSequenceNumber();
     String getSequenceStatus();
     String getQuestion();

@@ -105,13 +105,13 @@ public class QuestionServiceTest {
             
             /*
              * The QuestionServiceImpl will use the Business Object Service
-             * to query the database.  Since we "know" the internals to the
+             * to query the database.  Since we "know" the  9569 beard rdinternals to the
              * QuestionServiceImpl, we know data to be sent to the Business
              * Object Service and what will be returned if the question is
              * found.
              */
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put(QUESTION_SEQ_ID, "999");
+            fieldValues.put(QUESTION_SEQ_ID, 999);
             
             final Collection<Question> questions = new ArrayList<Question>();
             Question question = new Question();
@@ -123,7 +123,7 @@ public class QuestionServiceTest {
             }});
             questionService.setBusinessObjectService(businessObjectService);
             
-            assertEquals(question, questionService.getQuestionById("999"));
+            assertEquals(question, questionService.getQuestionById(999));
         }
         
         /**
@@ -142,7 +142,7 @@ public class QuestionServiceTest {
              * is returned if the question is not in the database.
              */
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put(QUESTION_SEQ_ID, "999");
+            fieldValues.put(QUESTION_SEQ_ID, 999);
             
             final Collection<Question> questions = new ArrayList<Question>();
             
@@ -152,7 +152,7 @@ public class QuestionServiceTest {
             }});
             questionService.setBusinessObjectService(businessObjectService);
             
-            assertEquals(null, questionService.getQuestionById("999"));
+            assertEquals(null, questionService.getQuestionById(999));
         }
 
     }

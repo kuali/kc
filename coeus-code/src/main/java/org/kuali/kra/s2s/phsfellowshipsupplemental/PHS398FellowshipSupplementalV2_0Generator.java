@@ -167,7 +167,7 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
                 QuestionContract question = questionnaireQuestion.getQuestion();
                 Integer questionNumber = questionnaireQuestion.getQuestionNumber();
                 Integer parentQuestionNumber = questionnaireQuestion.getParentQuestionNumber();
-                Integer questionId = Integer.valueOf(question.getQuestionSeqId());
+                Integer questionId = question.getQuestionSeqId();
                 if (answer != null) {
                         if( !answer .equalsIgnoreCase(ANSWER_YES) || !answer.equalsIgnoreCase(ANSWER_NO)) {
                     switch (questionId) {
