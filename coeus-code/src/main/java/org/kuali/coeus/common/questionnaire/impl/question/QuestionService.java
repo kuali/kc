@@ -35,13 +35,13 @@ public interface QuestionService {
      * @param questionId of the question
      * @return the most recent active question or null if not found
      */
-    Question getQuestionById(String questionId);
+    Question getQuestionById(Integer questionId);
     
     /**
      * Check if the question is used in a questionnaire.
      * @param questionId of the question
      * @return true if question is used in an active questionnaire, false otherwise
      */
-    boolean isQuestionUsed(String questionId);
+    boolean isQuestionUsed(Integer questionId);
 
 }

@@ -55,7 +55,7 @@ import static org.kuali.kra.s2s.util.S2SConstants.FORMVERSION_1_3;
  */
 @FormGenerator("PHS398ChecklistV1_3Generator")
 public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
-	private static final String YNQANSWER_121 = "121";
+	private static final Integer YNQANSWER_121 = 121;
 	private static final Log LOG = LogFactory
 			.getLog(PHS398ChecklistV1_3Generator.class);
 	List<? extends AnswerHeaderContract> answerHeaders;
@@ -275,7 +275,7 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	/*
 	 * This method will get the YNQ Answer for question id
 	 */
-	private YesNoDataType.Enum getYNQAnswer(String questionID) {
+	private YesNoDataType.Enum getYNQAnswer(Integer questionID) {
 	    YesNoDataType.Enum answerType = null;
 	    String answer = getAnswer(questionID,answerHeaders);
 	    if (answer != null && !answer.equals(NOT_ANSWERED)) {

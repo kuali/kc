@@ -46,7 +46,7 @@ import java.util.List;
 @FormGenerator("RROtherProjectInfoV1_2Generator")
 public class RROtherProjectInfoV1_2Generator extends
 		RROtherProjectInfoBaseGenerator {
-	private static final String HISTORIC_DESTIONATION_YNQ = "125";
+	private static final Integer HISTORIC_DESTIONATION_YNQ = 125;
 	List<? extends AnswerHeaderContract> answerHeaders;
 
 	/*

@@ -61,8 +61,8 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     protected static final int DEPARTMENT_NAME_MAX_LENGTH = 30;
     protected static final int ANSWER_EXPLANATION_MAX_LENGTH = 20; 
     protected static final int SFLLL_OTHEREXPLANATORY = 86;
-    protected static final String ANSWER_128 = "128";
-    protected static final String ANSWER_111 = "111";
+    protected static final Integer ANSWER_128 = 128;
+    protected static final Integer ANSWER_111 = 111;
     protected static final String NOT_ANSWERED = "No";
     protected static final String SPONSOR_GROUPS = "Sponsor Groups";
     protected static final String SPONSOR_NIH = "NIH";

@@ -85,7 +85,7 @@ public class EDSF424SupplementV1_1Generator extends
             for (AnswerHeaderContract answerHeader : answerHeaders) {
                 List<? extends AnswerContract> answerDetails = answerHeader.getAnswers();
                 for (AnswerContract answers : answerDetails) {
-                    String seqId = getQuestionAnswerService().findQuestionById(answers.getQuestionId()).getQuestionSeqId();
+                    Integer seqId = getQuestionAnswerService().findQuestionById(answers.getQuestionId()).getQuestionSeqId();
                     if (seqId != null
                             && seqId.equals(
                                     PROPOSAL_YNQ_NOVICE_APPLICANT)) {

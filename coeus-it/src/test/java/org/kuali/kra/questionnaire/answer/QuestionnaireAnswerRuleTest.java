@@ -153,7 +153,7 @@ public class QuestionnaireAnswerRuleTest extends KcIntegrationTestBase {
     private Question createQuestion(Long questionRefId, Integer questionId, Long questionTypeId) {
         Question question = new Question();
         question.setId(questionRefId);
-        question.setQuestionSeqIdFromInteger(questionId);
+        question.setQuestionSeqId(questionId);
         question.setQuestionTypeId(questionTypeId);
         question.setMaxAnswers(1);
         return question;

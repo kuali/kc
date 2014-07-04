@@ -146,7 +146,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		for (AnswerContract questionnaireAnswer : getPropDevQuestionAnswerService().getQuestionnaireAnswers(pdDoc.getDevelopmentProposal().getProposalNumber(), getNamespace(), getFormName())) {
 			String answer = questionnaireAnswer.getAnswer();
 			if (answer != null) {
-				switch (Integer.valueOf(getQuestionAnswerService().findQuestionById(questionnaireAnswer.getQuestionId()).getQuestionSeqId())) {
+				switch (getQuestionAnswerService().findQuestionById(questionnaireAnswer.getQuestionId()).getQuestionSeqId()) {
 				case SENIOR_FELL:
 					budgetMap.put(SENIOR_FELL, answer);
 					break;
@@ -556,7 +556,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		for (AnswerContract questionnaireAnswer : getPropDevQuestionAnswerService().getQuestionnaireAnswers(pdDoc.getDevelopmentProposal().getProposalNumber(), getNamespace(), getFormName())) {
 			String answer = questionnaireAnswer.getAnswer();
 			if (answer != null) {
-				switch (Integer.valueOf(getQuestionAnswerService().findQuestionById(questionnaireAnswer.getQuestionId()).getQuestionSeqId())) {
+				switch (getQuestionAnswerService().findQuestionById(questionnaireAnswer.getQuestionId()).getQuestionSeqId()) {
 				case HUMAN:
 					researchTrainingPlan
 							.setHumanSubjectsIndefinite(answer
@@ -654,7 +654,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
             for (AnswerContract questionnaireAnswer : answerHeader.getAnswers()) {
                 String answer = questionnaireAnswer.getAnswer();
 
-                Integer seqId = Integer.valueOf(getQuestionAnswerService().findQuestionById(questionnaireAnswer.getQuestionId()).getQuestionSeqId());
+                Integer seqId = getQuestionAnswerService().findQuestionById(questionnaireAnswer.getQuestionId()).getQuestionSeqId();
                 if(seqId.equals(STEMCELLLINES)){
                     List<AnswerContract> answerList = getAnswers(questionnaireAnswer.getQuestionnaireQuestionsId(),answerHeader);
                     for (AnswerContract questionnaireAnswerBO: answerList) {
@@ -823,7 +823,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
                 QuestionContract question = questionnaireQuestion.getQuestion();
 
                 if (answer != null) {
-                    Integer questionId = Integer.valueOf(question.getQuestionSeqId());
+                    Integer questionId = question.getQuestionSeqId();
                 switch (questionId) {
                 case KIRST_START_KNOWN:
                 case KIRST_END_KNOWN:
