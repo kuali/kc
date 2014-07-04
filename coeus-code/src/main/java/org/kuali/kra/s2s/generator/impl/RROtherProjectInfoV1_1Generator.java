@@ -30,6 +30,7 @@ import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("RROtherProjectInfoV1_1Generator")
 public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGenerator {
 
 

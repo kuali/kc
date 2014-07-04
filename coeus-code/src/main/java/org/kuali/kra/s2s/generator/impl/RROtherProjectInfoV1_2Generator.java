@@ -27,6 +27,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("RROtherProjectInfoV1_2Generator")
 public class RROtherProjectInfoV1_2Generator extends
 		RROtherProjectInfoBaseGenerator {
 	private static final String HISTORIC_DESTIONATION_YNQ = "125";

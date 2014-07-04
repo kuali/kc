@@ -54,6 +54,7 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -69,6 +70,7 @@ import java.util.Map;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("RRSF424V1_0Generator")
 public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 
     private List<? extends AnswerHeaderContract> answerHeaders;
@@ -102,7 +104,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 		if (rolodex != null) {
 			rrsf424.setStateID(rolodex.getState());
 		}
-		String federalId = proposalDevelopmentService.getFederalId(pdDoc);
+		String federalId = getSubmissionInfoService().getFederalId(pdDoc.getDevelopmentProposal().getProposalNumber());
 		if (federalId != null) {
 			if (federalId.length() > 30) {
 				rrsf424.setFederalID(federalId.substring(0, 30));

@@ -16,12 +16,11 @@
 package org.kuali.coeus.propdev.impl.basic;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -40,7 +39,7 @@ import java.util.List;
 public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements DocumentAuditRule {    
     
     private ParameterService parameterService;
-    private ProposalDevelopmentService proposalDevelopmentService;
+    private SubmissionInfoService submissionInfoService;
 
     @Override
     public boolean processRunAuditBusinessRules(Document document) {
@@ -54,13 +53,13 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
             valid = false;
             auditErrors.add(new AuditError(Constants.PROJECT_TITLE_KEY, KeyConstants.ERROR_NIH_SPONSOR_PROJECT_TITLE_LENGTH, Constants.PROPOSAL_PAGE + "." + Constants.REQUIRED_FIELDS_PANEL_ANCHOR));
         }
-        InstitutionalProposal institutionalProposal = getProposalDevelopmentService().getProposalContinuedFromVersion(proposalDevelopmentDocument);
+        Long proposalId = getSubmissionInfoService().getProposalContinuedFromVersionProposalId(proposal.getContinuedFrom());
         String changeCorrectedType = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, "s2s.submissiontype.changedCorrected");
         if (proposal.getS2sOpportunity() != null && isProposalTypeNew(proposal.getProposalTypeCode())
                 && StringUtils.equals(proposal.getS2sOpportunity().getS2sSubmissionTypeCode(), changeCorrectedType)) {
             String ggTrackingId = null;
-            if (institutionalProposal != null) {
-                ggTrackingId = getProposalDevelopmentService().getGgTrackingIdFromProposal(institutionalProposal);
+            if (proposalId != null) {
+                ggTrackingId = getSubmissionInfoService().getGgTrackingIdFromProposal(proposalId);
             }
             if (StringUtils.isBlank(proposal.getSponsorProposalNumber())
                     && StringUtils.isBlank(ggTrackingId)) {
@@ -99,20 +98,20 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
             this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
-    }   
-    protected ProposalDevelopmentService getProposalDevelopmentService() {
-        if (this.proposalDevelopmentService == null) {
-            this.proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
+    }
+
+    protected SubmissionInfoService getSubmissionInfoService() {
+        if (this.submissionInfoService == null) {
+            this.submissionInfoService = KcServiceLocator.getService(SubmissionInfoService.class);
         }
-        return this.proposalDevelopmentService;
+        return this.submissionInfoService;
+    }
+
+    public void setSubmissionInfoService(SubmissionInfoService submissionInfoService) {
+        this.submissionInfoService = submissionInfoService;
     }
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-
-    public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
-        this.proposalDevelopmentService = proposalDevelopmentService;
-    }
-
 }

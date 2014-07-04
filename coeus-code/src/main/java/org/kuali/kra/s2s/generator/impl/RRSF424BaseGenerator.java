@@ -17,13 +17,12 @@ package org.kuali.kra.s2s.generator.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.common.api.question.AnswerContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
+import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.api.question.QuestionAnswerService;
@@ -31,6 +30,8 @@ import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
@@ -43,13 +44,6 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
 
     private static final Log LOG = LogFactory
             .getLog(RRSF424BaseGenerator.class);
-
-    protected S2SUtilService s2sUtilService;
-    protected S2SConfigurationService s2SConfigurationService;
-    protected SponsorHierarchyService sponsorHierarchyService;
-    protected ProposalBudgetService proposalBudgetService;
-    protected ProposalDevelopmentService proposalDevelopmentService;
-    protected QuestionAnswerService questionAnswerService;
 
     protected static final String PRINCIPAL_INVESTIGATOR = "PI";
     protected static final int PRE_APPLICATION = 6;
@@ -73,17 +67,33 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     protected static final String SPONSOR_GROUPS = "Sponsor Groups";
     protected static final String SPONSOR_NIH = "NIH";
 
+    @Autowired
+    @Qualifier("s2SUtilService")
+    protected S2SUtilService s2sUtilService;
 
-    public RRSF424BaseGenerator() {
-        s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
-        s2SConfigurationService = KcServiceLocator.getService(S2SConfigurationService.class);
-        sponsorHierarchyService = KcServiceLocator.getService(SponsorHierarchyService.class);
-        proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
-        proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
-        questionAnswerService = KcServiceLocator.getService(QuestionAnswerService.class);
-    }
+    @Autowired
+    @Qualifier("s2SConfigurationService")
+    protected S2SConfigurationService s2SConfigurationService;
 
+    @Autowired
+    @Qualifier("sponsorHierarchyService")
+    protected SponsorHierarchyService sponsorHierarchyService;
 
+    @Autowired
+    @Qualifier("proposalBudgetService")
+    protected ProposalBudgetService proposalBudgetService;
+
+    @Autowired
+    @Qualifier("proposalDevelopmentService")
+    protected ProposalDevelopmentService proposalDevelopmentService;
+
+    @Autowired
+    @Qualifier("questionAnswerService")
+    protected QuestionAnswerService questionAnswerService;
+
+    @Autowired
+    @Qualifier("submissionInfoService")
+    protected SubmissionInfoService submissionInfoService;
 
     protected String getOtherAgencySubmissionExplanation() {
         Long answerId = getAnswerId(ANSWER_111, getAnswerHeaders());
@@ -144,4 +154,60 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     }
 
     protected abstract List<? extends AnswerHeaderContract> getAnswerHeaders();
+
+    public S2SUtilService getS2sUtilService() {
+        return s2sUtilService;
+    }
+
+    public void setS2sUtilService(S2SUtilService s2sUtilService) {
+        this.s2sUtilService = s2sUtilService;
+    }
+
+    public S2SConfigurationService getS2SConfigurationService() {
+        return s2SConfigurationService;
+    }
+
+    public void setS2SConfigurationService(S2SConfigurationService s2SConfigurationService) {
+        this.s2SConfigurationService = s2SConfigurationService;
+    }
+
+    public SponsorHierarchyService getSponsorHierarchyService() {
+        return sponsorHierarchyService;
+    }
+
+    public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {
+        this.sponsorHierarchyService = sponsorHierarchyService;
+    }
+
+    public ProposalBudgetService getProposalBudgetService() {
+        return proposalBudgetService;
+    }
+
+    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
+        this.proposalBudgetService = proposalBudgetService;
+    }
+
+    public ProposalDevelopmentService getProposalDevelopmentService() {
+        return proposalDevelopmentService;
+    }
+
+    public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
+        this.proposalDevelopmentService = proposalDevelopmentService;
+    }
+
+    public QuestionAnswerService getQuestionAnswerService() {
+        return questionAnswerService;
+    }
+
+    public void setQuestionAnswerService(QuestionAnswerService questionAnswerService) {
+        this.questionAnswerService = questionAnswerService;
+    }
+
+    public SubmissionInfoService getSubmissionInfoService() {
+        return submissionInfoService;
+    }
+
+    public void setSubmissionInfoService(SubmissionInfoService submissionInfoService) {
+        this.submissionInfoService = submissionInfoService;
+    }
 }

@@ -29,6 +29,7 @@ import org.kuali.coeus.propdev.api.person.ProposalPersonYnqContract;
 import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("NSFCoverPageV1_2Generator")
 public class NSFCoverPageV1_2Generator extends NSFCoverPageBaseGenerator {
 	private static final String QUESTION_ID_ACCOMPLISHMENT_RENEWAL = "5";
 	private static final String QUESTION_ID_ISCURRENT_PI = "19";

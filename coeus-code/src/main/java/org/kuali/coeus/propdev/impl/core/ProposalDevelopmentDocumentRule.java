@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.custom.KcDocumentBaseAuditRule;
 import org.kuali.coeus.common.framework.ynq.YnqGroupName;
+import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalDevelopmentAbstractsRule;
 import org.kuali.coeus.propdev.impl.attachment.*;
 import org.kuali.coeus.propdev.impl.attachment.institute.*;
@@ -96,7 +97,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
     private SponsorService sponsorService;
     private DataDictionaryService dataDictionaryService;
     private BudgetService budgetService;
-    private ProposalDevelopmentService proposalDevelopmentService;
+    private SubmissionInfoService submissionInfoService;
 
     protected DataDictionaryService getDataDictionaryService (){
         if (dataDictionaryService == null)
@@ -114,10 +115,10 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
             sponsorService = KcServiceLocator.getService(SponsorService.class);
         return sponsorService;
     }
-    protected ProposalDevelopmentService getProposalDevelopmentService (){
-        if (proposalDevelopmentService == null)
-            proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
-        return proposalDevelopmentService;
+    protected SubmissionInfoService getSubmissionInfoService (){
+        if (submissionInfoService == null)
+            submissionInfoService = KcServiceLocator.getService(SubmissionInfoService.class);
+        return submissionInfoService;
     }
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -285,9 +286,8 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
             }
         }
         
-        ProposalDevelopmentService proposalDevelopmentService = getProposalDevelopmentService();
         if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getCurrentAwardNumber())) {
-            if (proposalDevelopmentService.getProposalCurrentAwardVersion(proposalDevelopmentDocument) == null) {
+            if (getSubmissionInfoService().getProposalCurrentAwardSponsorAwardNumber(proposalDevelopmentDocument.getDevelopmentProposal().getCurrentAwardNumber()) == null) {
                 valid = false;
                 errorMap.putError("currentAwardNumber", KeyConstants.ERROR_MISSING, 
                         dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "currentAwardNumber"));
@@ -295,7 +295,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
         }
         
         if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom())) {
-            if (proposalDevelopmentService.getProposalContinuedFromVersion(proposalDevelopmentDocument) == null) {
+            if (getSubmissionInfoService().getProposalContinuedFromVersionProposalId(proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom()) == null) {
                 valid = false;
                 errorMap.putError("continuedFrom", KeyConstants.ERROR_MISSING, 
                         dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "continuedFrom"));                

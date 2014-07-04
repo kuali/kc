@@ -39,6 +39,7 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.generator.impl.RRBudgetBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -53,6 +54,7 @@ import java.util.Map;
  * This class is to generate xml stream for grants.gov form RR_Budget10_1_3
  * ref schema namespace <code> http://apply.grants.gov/forms/RR_Budget10_1_3-V1.3</code>
  */
+@FormGenerator("RRBudget10V1_3Generator")
 public class RRBudget10V1_3Generator extends RRBudgetBaseGenerator {
 
     private static final Log LOG = LogFactory.getLog(RRBudget10V1_3Generator.class);

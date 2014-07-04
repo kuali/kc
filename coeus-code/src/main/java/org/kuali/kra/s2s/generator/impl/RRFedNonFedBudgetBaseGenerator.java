@@ -18,7 +18,6 @@ package org.kuali.kra.s2s.generator.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -34,6 +33,8 @@ import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.S2SErrorHandler;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,10 +48,6 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
 
     private static final Log LOG = LogFactory.getLog(RRFedNonFedBudgetBaseGenerator.class);
 
-    protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
-    protected ProposalBudgetService proposalBudgetService;
-    protected S2SUtilService s2sUtilService;
-    private DocumentService documentService ;
     public static final String OTHERPERSONNEL_POSTDOC = "PostDoc";
     public static final String OTHERPERSONNEL_GRADUATE = "Grad";
     public static final String OTHERPERSONNEL_UNDERGRADUATE = "UnderGrad";
@@ -64,14 +61,22 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
     protected static final int OTHERPERSONNEL_MAX_ALLOWED = 6;
     protected static final int ARRAY_LIMIT_IN_SCHEMA = 4;
 
+    @Autowired
+    @Qualifier("s2SBudgetCalculatorService")
+    protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
 
-    public RRFedNonFedBudgetBaseGenerator() {
-        s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
-        s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
-        documentService = KcServiceLocator.getService(DocumentService.class);
-        proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
-    }
-    
+    @Autowired
+    @Qualifier("proposalBudgetService")
+    protected ProposalBudgetService proposalBudgetService;
+
+    @Autowired
+    @Qualifier("s2SUtilService")
+    protected S2SUtilService s2sUtilService;
+
+    @Autowired
+    @Qualifier("documentService")
+    protected DocumentService documentService;
+
     /**
      * This method check whether the key person has a personnel budget  
      * 
@@ -143,17 +148,34 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
         return valid;
     }
 
-    /**
-     * @return the documentService
-     */
+    public S2SBudgetCalculatorService getS2sBudgetCalculatorService() {
+        return s2sBudgetCalculatorService;
+    }
+
+    public void setS2sBudgetCalculatorService(S2SBudgetCalculatorService s2sBudgetCalculatorService) {
+        this.s2sBudgetCalculatorService = s2sBudgetCalculatorService;
+    }
+
+    public ProposalBudgetService getProposalBudgetService() {
+        return proposalBudgetService;
+    }
+
+    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
+        this.proposalBudgetService = proposalBudgetService;
+    }
+
+    public S2SUtilService getS2sUtilService() {
+        return s2sUtilService;
+    }
+
+    public void setS2sUtilService(S2SUtilService s2sUtilService) {
+        this.s2sUtilService = s2sUtilService;
+    }
+
     public DocumentService getDocumentService() {
         return documentService;
     }
 
-    /**
-     * @param documentService
-     *            the documentService to set
-     */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }

@@ -31,13 +31,14 @@ import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,9 +50,15 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("RRKeyPersonV1_1Generator")
 public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
 
 	RolodexContract rolodex;
+
+    @Autowired
+    @Qualifier("rolodexService")
+    private RolodexService rolodexService;
+
     /**
      * 
      * This method gives details of Principal Investigator,KeyPersons and the corresponding attachments for RRKeyPerson
@@ -123,7 +130,6 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
             }
             else if (PI.getRolodexId() != null) {
                 pIPersonOrRolodexId = PI.getRolodexId().toString();
-                RolodexService rolodexService = KcServiceLocator.getService(RolodexService.class);
                 rolodex = rolodexService.getRolodex(Integer.valueOf(pIPersonOrRolodexId));
             }
             profile.setName(globLibV20Generator.getHumanNameDataType(PI));
@@ -164,7 +170,7 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
             if (PI.getEraCommonsUserName() != null) {
                 profile.setCredential(PI.getEraCommonsUserName());
             } else {
-                if (KcServiceLocator.getService(SponsorHierarchyService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsorCode())) {
+                if (getSponsorHierarchyService().isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsorCode())) {
                 	getAuditErrors().add(new AuditError(Constants.NO_FIELD, S2SConstants.ERROR_ERA_COMMON_USER_NAME + PI.getFullName(), Constants.GRANTS_GOV_PAGE + "."
                             + Constants.GRANTS_GOV_PANEL_ANCHOR));  
                 }
@@ -224,7 +230,6 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
                 }
                 else if (keyPerson.getRolodexId() != null) {
                     pIPersonOrRolodexId = keyPerson.getRolodexId().toString();
-                    RolodexService rolodexService = KcServiceLocator.getService(RolodexService.class);
                     rolodex = rolodexService.getRolodex(Integer.valueOf(pIPersonOrRolodexId));
                 }
                 Profile profileKeyPerson = Profile.Factory.newInstance();
@@ -261,7 +266,7 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
                 if (keyPerson.getEraCommonsUserName() != null) {
                     profileKeyPerson.setCredential(keyPerson.getEraCommonsUserName());
                 } else {
-                    if (KcServiceLocator.getService(SponsorHierarchyService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsorCode())) {
+                    if (getSponsorHierarchyService().isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsorCode())) {
                         if (keyPerson.isMultiplePi()) {
                             getAuditErrors().add(new AuditError(Constants.NO_FIELD, S2SConstants.ERROR_ERA_COMMON_USER_NAME + keyPerson.getFullName(), 
                                     Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));             
@@ -269,7 +274,7 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
                     }
                 }
                 if (keyPerson.isMultiplePi() || keyPerson.isCoInvestigator()) {
-                	if(KcServiceLocator.getService(SponsorHierarchyService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsorCode())){
+                	if(getSponsorHierarchyService().isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsorCode())){
                 	    if (keyPerson.isMultiplePi()) {
                 	        profileKeyPerson.setProjectRole(ProjectRoleDataType.PD_PI);
                 	    } else {
@@ -335,5 +340,13 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
         return getRRKeyPerson();
+    }
+
+    public RolodexService getRolodexService() {
+        return rolodexService;
+    }
+
+    public void setRolodexService(RolodexService rolodexService) {
+        this.rolodexService = rolodexService;
     }
 }

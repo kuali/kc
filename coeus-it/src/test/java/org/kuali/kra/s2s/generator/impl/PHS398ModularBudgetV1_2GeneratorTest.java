@@ -19,8 +19,8 @@ public class PHS398ModularBudgetV1_2GeneratorTest extends
 		S2SModularBudgetTestBase<PHS398ModularBudgetV1_2Generator> {
 
 	@Override
-	protected Class<PHS398ModularBudgetV1_2Generator> getFormGeneratorClass() {
-		return PHS398ModularBudgetV1_2Generator.class;
+	protected String getFormGeneratorName() {
+		return PHS398ModularBudgetV1_2Generator.class.getSimpleName();
 	}
 
 	@Override

@@ -29,11 +29,13 @@ import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -51,12 +53,18 @@ import static org.kuali.kra.s2s.util.S2SConstants.FORMVERSION_1_3;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("PHS398ChecklistV1_3Generator")
 public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	private static final String YNQANSWER_121 = "121";
 	private static final Log LOG = LogFactory
 			.getLog(PHS398ChecklistV1_3Generator.class);
 	List<? extends AnswerHeaderContract> answerHeaders;
 	Enum ynqAnswer;
+
+    @Autowired
+    @Qualifier("rolodexService")
+    private RolodexService rolodexService;
+
 	/*
 	 * This method returns PHS398ChecklistDocument object based on proposal
 	 * development document which contains the PHS398ChecklistDocument
@@ -110,7 +118,7 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 					.valueOf(developmentProposal.getProposalTypeCode()));
 		}
 		phsChecklist.setApplicationType(applicationEnum);
-		String federalId = proposalDevelopmentService.getFederalId(pdDoc);
+		String federalId = getSubmissionInfoService().getFederalId(pdDoc.getDevelopmentProposal().getProposalNumber());
 		if (federalId != null) {
 			phsChecklist.setFederalID(federalId);
 		}
@@ -247,7 +255,6 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	    if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
             phsChecklist.setIsChangeOfPDPI(YesNoDataType.Y_YES);
             if (explanation != null) {
-                RolodexService rolodexService = KcServiceLocator.getService(RolodexService.class);
                 RolodexContract rolodex = rolodexService.getRolodex(Integer.valueOf(explanation));
                 HumanNameDataType formerPDName = globLibV20Generator
                         .getHumanNameDataType(rolodex);
@@ -296,4 +303,12 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 		this.pdDoc = proposalDevelopmentDocument;
 		return getPHS398Checklist();
 	}
+
+    public RolodexService getRolodexService() {
+        return rolodexService;
+    }
+
+    public void setRolodexService(RolodexService rolodexService) {
+        this.rolodexService = rolodexService;
+    }
 }

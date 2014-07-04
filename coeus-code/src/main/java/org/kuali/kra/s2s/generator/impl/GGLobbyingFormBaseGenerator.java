@@ -15,9 +15,10 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * This abstract class has methods that are common to all the versions of
@@ -27,14 +28,20 @@ import org.kuali.kra.s2s.service.S2SUtilService;
  */
 
 public abstract class GGLobbyingFormBaseGenerator extends S2SBaseFormGenerator {
-    protected S2SUtilService s2sUtilService;
+
     protected static final String EMPTY_STRING = "";
     protected static final int ORGANIZATON_NAME_MAX_LENGTH = 120;
     protected static final int PRIMARY_TITLE_MAX_LENGTH = 45;
-    
 
-    public GGLobbyingFormBaseGenerator(){
-        s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
+    @Autowired
+    @Qualifier("s2SUtilService")
+    protected S2SUtilService s2sUtilService;
+
+    public S2SUtilService getS2sUtilService() {
+        return s2sUtilService;
     }
-    
+
+    public void setS2sUtilService(S2SUtilService s2sUtilService) {
+        this.s2sUtilService = s2sUtilService;
+    }
 }

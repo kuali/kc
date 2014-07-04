@@ -21,6 +21,7 @@ import gov.grants.apply.forms.rrPersonalDataV11.RRPersonalDataDocument.RRPersona
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("RRPersonalDataV1_1Generator")
 public class RRPersonalDataV1_1Generator extends RRPersonalDataBaseGenerator {
 
 

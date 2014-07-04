@@ -31,11 +31,13 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,9 +50,14 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("RRKeyPersonExpandedV1_0Generator")
 public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGenerator {
 
     private static final Log LOG = LogFactory.getLog(RRKeyPersonExpandedV1_0Generator.class);
+
+    @Autowired
+    @Qualifier("sponsorHierarchyService")
+    private SponsorHierarchyService sponsorHierarchyService;
 
     /**
      * 
@@ -238,7 +245,7 @@ public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGen
                     profileKeyPerson.setCredential(keyPerson.getEraCommonsUserName());
                 }
                 if (keyPerson.isMultiplePi() || keyPerson.isCoInvestigator()) {
-                    if(KcServiceLocator.getService(SponsorHierarchyService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsorCode())){
+                    if(sponsorHierarchyService.isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsorCode())){
                         if (keyPerson.isMultiplePi()) {
                             profileKeyPerson.setProjectRole(ProjectRoleDataType.PD_PI);
                         } else {
@@ -303,5 +310,13 @@ public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGen
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
         return getRRKeyPersonExpanded();
+    }
+
+    public SponsorHierarchyService getSponsorHierarchyService() {
+        return sponsorHierarchyService;
+    }
+
+    public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {
+        this.sponsorHierarchyService = sponsorHierarchyService;
     }
 }

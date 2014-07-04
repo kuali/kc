@@ -22,6 +22,7 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoNotApplicableDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**
@@ -32,6 +33,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("NSFApplicationChecklistV1_2Generator")
 public class NSFApplicationChecklistV1_2Generator extends
 		NSFApplicationChecklistBaseGenerator {
 

@@ -31,8 +31,8 @@ import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 public class AttachmentsV1_1GeneratorTest extends S2STestBase<AttachmentsV1_1Generator> {
 
     @Override
-    protected Class<AttachmentsV1_1Generator> getFormGeneratorClass() {
-        return AttachmentsV1_1Generator.class;
+    protected String getFormGeneratorName() {
+        return AttachmentsV1_1Generator.class.getSimpleName();
     }
 
     @Override

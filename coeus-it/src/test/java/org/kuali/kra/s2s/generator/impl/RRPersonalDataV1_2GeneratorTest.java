@@ -30,8 +30,8 @@ public class RRPersonalDataV1_2GeneratorTest extends
 		S2STestBase<RRPersonalDataV1_2Generator> {
 
 	@Override
-	protected Class<RRPersonalDataV1_2Generator> getFormGeneratorClass() {
-		return RRPersonalDataV1_2Generator.class;
+	protected String getFormGeneratorName() {
+		return RRPersonalDataV1_2Generator.class.getSimpleName();
 	}
 
 	@Override

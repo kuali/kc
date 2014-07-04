@@ -29,10 +29,9 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;
@@ -45,6 +44,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("RRKeyPersonV1_0Generator")
 public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
 
     /**
@@ -232,7 +232,7 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
                     profileKeyPerson.setCredential(keyPerson.getEraCommonsUserName());
                 }
                 if (keyPerson.isMultiplePi() || keyPerson.isCoInvestigator()) {
-                    if(KcServiceLocator.getService(SponsorHierarchyService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsorCode())){
+                    if(getSponsorHierarchyService().isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsorCode())){
                         if (keyPerson.isMultiplePi()) {
                             profileKeyPerson.setProjectRole(ProjectRoleDataType.PD_PI);
                         } else {

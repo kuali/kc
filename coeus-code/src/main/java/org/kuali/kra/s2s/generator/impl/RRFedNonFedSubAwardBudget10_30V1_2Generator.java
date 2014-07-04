@@ -26,6 +26,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -43,6 +44,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("RRFedNonFedSubAwardBudget10_30V1_2Generator")
 public class RRFedNonFedSubAwardBudget10_30V1_2Generator extends S2SAdobeFormAttachmentBaseGenerator {
 
 

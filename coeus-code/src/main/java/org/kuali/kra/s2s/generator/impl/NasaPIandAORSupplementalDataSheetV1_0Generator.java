@@ -29,11 +29,13 @@ import org.kuali.coeus.common.api.question.AnswerContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -46,11 +48,15 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("NasaPIandAORSupplementalDataSheetV1_0Generator")
 public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 		S2SBaseFormGenerator {
 	private static final Log LOG = LogFactory
 			.getLog(NasaPIandAORSupplementalDataSheetV1_0Generator.class);
-	private S2SUtilService s2sUtilService;
+
+    @Autowired
+    @Qualifier("s2SUtilService")
+    private S2SUtilService s2sUtilService;
 
 	private static final String PI_PROPOSAL_YNQ_INTERNATIONAL_PARTICIPATION = "112";
 	private static final String PI_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION_AMOUNT = "113";
@@ -58,14 +64,6 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 	private static final String PI_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION = "110";
 	private static final String NOT_ANSWERED = "No";
 	List<? extends AnswerHeaderContract> answerHeaders ;
-	
-	/**
-	 * 
-	 * Constructs a NasaPIandAORSupplementalDataSheetV1_0Generator.java.
-	 */
-	public NasaPIandAORSupplementalDataSheetV1_0Generator() {
-		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
-	}
 
 	/**
 	 * 
@@ -239,4 +237,11 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 		return getnasapIandAORSupplementalDataSheetDocument();
 	}
 
+    public S2SUtilService getS2sUtilService() {
+        return s2sUtilService;
+    }
+
+    public void setS2sUtilService(S2SUtilService s2sUtilService) {
+        this.s2sUtilService = s2sUtilService;
+    }
 }

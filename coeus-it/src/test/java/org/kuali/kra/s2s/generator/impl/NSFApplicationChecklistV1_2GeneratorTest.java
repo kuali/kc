@@ -33,8 +33,8 @@ public class NSFApplicationChecklistV1_2GeneratorTest extends
 		S2STestBase<NSFApplicationChecklistV1_2Generator> {
 
 	@Override
-	protected Class<NSFApplicationChecklistV1_2Generator> getFormGeneratorClass() {
-		return NSFApplicationChecklistV1_2Generator.class;
+	protected String getFormGeneratorName() {
+		return NSFApplicationChecklistV1_2Generator.class.getSimpleName();
 	}
 
 	@Override

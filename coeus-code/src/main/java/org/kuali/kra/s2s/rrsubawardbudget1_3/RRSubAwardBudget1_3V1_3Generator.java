@@ -25,6 +25,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.impl.S2SAdobeFormAttachmentBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.w3c.dom.Document;
@@ -43,6 +44,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("RRSubAwardBudget1_3V1_3Generator")
 public class RRSubAwardBudget1_3V1_3Generator extends S2SAdobeFormAttachmentBaseGenerator {
 
     private static final String RR_BUDGET1_3_NAMESPACE_URI = "http://apply.grants.gov/forms/RR_Budget_1_3-V1.3";

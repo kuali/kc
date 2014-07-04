@@ -23,6 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**
@@ -31,6 +32,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("ProjectV1_0Generator")
 public class ProjectV1_0Generator extends ProjectBaseGenerator {
 
     private static final Log LOG = LogFactory.getLog(ProjectV1_0Generator.class);

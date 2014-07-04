@@ -17,17 +17,20 @@ package org.kuali.kra.s2s.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.budget.api.rate.RateClassContract;
+import org.kuali.coeus.common.api.org.OrganizationRepositoryService;
 import org.kuali.coeus.common.api.person.KcPersonContract;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonContract;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.TbnPerson;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.calculator.RateClassType;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -51,6 +54,9 @@ import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.S2SErrorHandler;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -61,8 +67,10 @@ import java.util.*;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@Component("s2SBudgetCalculatorService")
 public class S2SBudgetCalculatorServiceImpl implements
                 S2SBudgetCalculatorService {
+    public static final String VALUE_UNKNOWN = "Unknown";
     private static final int MAX_KEY_PERSON_COUNT = 8;
     private static final String CATEGORY_TYPE_OTHER_DIRECT_COST = "O";
     private static final String LASALARIES = "LASALARIES";
@@ -92,13 +100,37 @@ public class S2SBudgetCalculatorServiceImpl implements
 
     private static final String PRINCIPAL_INVESTIGATOR_ROLE = "PD/PI";
     private static final BigDecimal POINT_ZERO_ONE = new ScaleTwoDecimal(0.01).bigDecimalValue();
+
+    @Autowired
+    @Qualifier("budgetCategoryMapService")
     private BudgetCategoryMapService budgetCategoryMapService;
+
+    @Autowired
+    @Qualifier("s2SUtilService")
     private S2SUtilService s2SUtilService;
+
+    @Autowired
+    @Qualifier("s2SConfigurationService")
     private S2SConfigurationService s2SConfigurationService;
+
+    @Autowired
+    @Qualifier("proposalBudgetService")
     private ProposalBudgetService proposalBudgetService;
+
+    @Autowired
+    @Qualifier("budgetPersonSalaryService")
     private BudgetPersonSalaryService budgetPersonSalaryService;
+
+    @Autowired
+    @Qualifier("budgetPersonService")
     private BudgetPersonService budgetPersonService;
-    private ProposalDevelopmentService proposalDevelopmentService;
+
+    @Autowired
+    @Qualifier("organizationRepositoryService")
+    private OrganizationRepositoryService organizationRepositoryService;
+
+    @Autowired
+    @Qualifier("sponsorHierarchyService")
     private SponsorHierarchyService sponsorHierarchyService;
 
     @Override
@@ -552,7 +584,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                 bpData.setTotalDirectCostSharing(totalDirectCostSharing);
                 bpData.setTotalIndirectCostSharing(totalIndirectCostSharing);
             }
-            bpData.setCognizantFedAgency(proposalDevelopmentService.getCognizantFedAgency(pdDoc.getDevelopmentProposal()));
+            bpData.setCognizantFedAgency(getCognizantFedAgency(pdDoc.getDevelopmentProposal()));
 
             bpData.setIndirectCosts(getIndirectCosts(budget, budgetPeriod));
             bpData.setEquipment(getEquipment(budgetPeriod));
@@ -647,6 +679,19 @@ public class S2SBudgetCalculatorServiceImpl implements
             budgetPeriods.add(bpData);
         }
         return budgetPeriods;
+    }
+
+    protected String getCognizantFedAgency(DevelopmentProposal developmentProposal) {
+        StringBuilder fedAgency = new StringBuilder();
+        ProposalSiteContract applicantOrganization = developmentProposal.getApplicantOrganization();
+        if (applicantOrganization != null && applicantOrganization.getOrganization() != null
+                && applicantOrganization.getOrganization().getCognizantAuditor() != null) {
+            fedAgency.append(organizationRepositoryService.getCognizantFedAgency(applicantOrganization.getOrganization()));
+        }
+        if (fedAgency.toString().length() == 0) {
+            fedAgency.append(VALUE_UNKNOWN);
+        }
+        return fedAgency.toString();
     }
 
     /**
@@ -2079,12 +2124,12 @@ public class S2SBudgetCalculatorServiceImpl implements
         this.budgetPersonService = budgetPersonService;
     }
 
-    public ProposalDevelopmentService getProposalDevelopmentService() {
-        return proposalDevelopmentService;
+    public OrganizationRepositoryService getOrganizationRepositoryService() {
+        return organizationRepositoryService;
     }
 
-    public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
-        this.proposalDevelopmentService = proposalDevelopmentService;
+    public void setOrganizationRepositoryService(OrganizationRepositoryService organizationRepositoryService) {
+        this.organizationRepositoryService = organizationRepositoryService;
     }
 
     public SponsorHierarchyService getSponsorHierarchyService() {
@@ -2094,4 +2139,6 @@ public class S2SBudgetCalculatorServiceImpl implements
     public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {
         this.sponsorHierarchyService = sponsorHierarchyService;
     }
+
+
 }

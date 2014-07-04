@@ -23,6 +23,7 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -33,6 +34,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("AttachmentsV1_1Generator")
 public class AttachmentsV1_1Generator extends S2SBaseFormGenerator {
 
     private static final int NARRATIVECODE_ATTACHMENTS = 61;
