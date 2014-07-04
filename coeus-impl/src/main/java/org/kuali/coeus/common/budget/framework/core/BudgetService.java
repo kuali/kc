@@ -45,8 +45,6 @@ public interface BudgetService<T extends BudgetParent>  {
      */
     public Budget addBudgetVersion(BudgetParentDocument<T> budgetParent, String versionName, Map<String, Object> options);
     
-    public void updateDocumentDescription(BudgetVersionOverview budgetVersion);
-    
     /**
      * check if this line item CE has inflation rate
      * @param budgetLineItem

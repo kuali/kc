@@ -92,8 +92,8 @@ public abstract class BudgetVersionRule  implements AddBudgetVersionRule {
         for (BudgetDocumentVersion budgetDocumentVersion : document.getBudgetDocumentVersions()) {
             BudgetVersionOverview version = budgetDocumentVersion.getBudgetVersionOverview();
             
-            LOG.info("Comparing " + version.getDocumentDescription() + " to " + versionName);
-            if (version.getDocumentDescription().equals(versionName)) {
+            LOG.info("Comparing " + version.getName() + " to " + versionName);
+            if (version.getName().equals(versionName)) {
                 return true;
             }
         }

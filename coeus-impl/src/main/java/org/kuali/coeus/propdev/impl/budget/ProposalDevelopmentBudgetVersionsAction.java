@@ -265,11 +265,11 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             final List<BudgetDocumentVersion> overviews = pdForm.getProposalDevelopmentDocument().getBudgetDocumentVersions();
             final BudgetDocumentVersion copiedDocumentOverview = overviews.get(overviews.size() - 1);
             BudgetVersionOverview copiedOverview = copiedDocumentOverview.getBudgetVersionOverview();
-            final String copiedName = copiedOverview.getDocumentDescription();
-            copiedOverview.setDocumentDescription("copied placeholder");
+            final String copiedName = copiedOverview.getName();
+            copiedOverview.setName("copied placeholder");
             LOG.debug("validating " + copiedName);
             valid = getBudgetService().isBudgetVersionNameValid(pdForm.getProposalDevelopmentDocument(), copiedName);
-            copiedOverview.setDocumentDescription(copiedName);
+            copiedOverview.setName(copiedName);
             pdForm.setSaveAfterCopy(!valid);
         }
 

@@ -94,16 +94,14 @@ public class BudgetVersionsAction extends BudgetAction {
         if (!StringUtils.equals(budgetForm.getMethodToCall(), "save") && budgetForm.isSaveAfterCopy()) {
             List<BudgetDocumentVersion> overviews = parentDocument.getBudgetDocumentVersions();
             BudgetVersionOverview copiedOverview = overviews.get(overviews.size() - 1).getBudgetVersionOverview();
-            String copiedName = copiedOverview.getDocumentDescription();
-            copiedOverview.setDocumentDescription("copied placeholder");
+            String copiedName = copiedOverview.getName();
+            copiedOverview.setName("copied placeholder");
             LOG.debug("validating " + copiedName);
             boolean valid = getBudgetService().isBudgetVersionNameValid(parentDocument, copiedName);
-            copiedOverview.setDocumentDescription(copiedName);
+            copiedOverview.setName(copiedName);
             budgetForm.setSaveAfterCopy(!valid);
             if (!valid) {
                 return mapping.findForward(Constants.MAPPING_BASIC);
-            } else {
-                budgetForm.getBudgetDocument().getBudget().getBudgetParent().getDocument().updateDocumentDescriptions(overviews);
             }
         }        
         
@@ -367,11 +365,11 @@ public class BudgetVersionsAction extends BudgetAction {
         if (budgetForm.isSaveAfterCopy()) {
             List<BudgetDocumentVersion> overviews = parentDocument.getBudgetDocumentVersions();
             BudgetVersionOverview copiedOverview = overviews.get(overviews.size() - 1).getBudgetVersionOverview();
-            String copiedName = copiedOverview.getDocumentDescription();
-            copiedOverview.setDocumentDescription("copied placeholder");
+            String copiedName = copiedOverview.getName();
+            copiedOverview.setName("copied placeholder");
             LOG.debug("validating " + copiedName);
             valid = getBudgetService().isBudgetVersionNameValid(parentDocument, copiedName);
-            copiedOverview.setDocumentDescription(copiedName);
+            copiedOverview.setName(copiedName);
             budgetForm.setSaveAfterCopy(!valid);
         }
 

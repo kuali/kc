@@ -88,11 +88,11 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
             final List<BudgetDocumentVersion> overviews = awardForm.getAwardDocument().getBudgetDocumentVersions();
             final BudgetDocumentVersion copiedDocumentOverview = overviews.get(overviews.size() - 1);
             BudgetVersionOverview copiedOverview = copiedDocumentOverview.getBudgetVersionOverview();
-            final String copiedName = copiedOverview.getDocumentDescription();
-            copiedOverview.setDocumentDescription("copied placeholder");
+            final String copiedName = copiedOverview.getName();
+            copiedOverview.setName("copied placeholder");
             LOG.debug("validating " + copiedName);
             boolean valid = getBudgetService().isBudgetVersionNameValid(awardForm.getAwardDocument(), copiedName);
-            copiedOverview.setDocumentDescription(copiedName);
+            copiedOverview.setName(copiedName);
             awardForm.setSaveAfterCopy(!valid);
             if (!valid) {
                 return mapping.findForward(Constants.MAPPING_BASIC);
@@ -288,17 +288,6 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         final AwardForm awardForm = (AwardForm) form;
         // check audit rules. If there is error, then budget can't have complete status
         boolean valid = true;
-        if (awardForm.isSaveAfterCopy()) {
-            final List<BudgetDocumentVersion> overviews = awardForm.getAwardDocument().getBudgetDocumentVersions();
-            final BudgetDocumentVersion copiedDocumentOverview = overviews.get(overviews.size() - 1);
-            BudgetVersionOverview copiedOverview = copiedDocumentOverview.getBudgetVersionOverview();
-            final String copiedName = copiedOverview.getDocumentDescription();
-            copiedOverview.setDocumentDescription("copied placeholder");
-            LOG.debug("validating " + copiedName);
-            valid = getBudgetService().isBudgetVersionNameValid(awardForm.getAwardDocument(), copiedName);
-            copiedOverview.setDocumentDescription(copiedName);
-            awardForm.setSaveAfterCopy(!valid);
-        }
 
         if (awardForm.isAuditActivated()) {
             valid &= getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(awardForm.getAwardDocument());

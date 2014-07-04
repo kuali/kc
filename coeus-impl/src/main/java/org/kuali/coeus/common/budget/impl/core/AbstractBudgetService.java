@@ -167,18 +167,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
      * @return AddBudgetVersionRule
      */
     public abstract AddBudgetVersionRule getAddBudgetVersionRule();
-        
-    @Override
-    public void updateDocumentDescription(BudgetVersionOverview budgetVersion) {
-        DataObjectService doService = getDataObjectService();
-        Map<String, Object> keyMap = new HashMap<String, Object>();
-        keyMap.put("documentNumber", budgetVersion.getDocumentNumber());
-        DocumentHeader docHeader = doService.find(DocumentHeader.class, keyMap);
-        if (!docHeader.getDocumentDescription().equals(budgetVersion.getDocumentDescription())) {
-            docHeader.setDocumentDescription(budgetVersion.getDocumentDescription());
-            doService.save(docHeader);
-        }
-    }
+
     
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;

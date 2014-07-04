@@ -134,8 +134,8 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
         for (BudgetDocumentVersion budgetDocumentVersion : budgetVersions) {
             BudgetVersionOverview versionOverview = budgetDocumentVersion.getBudgetVersionOverview();
             if(versionOverview.getBudgetVersionNumber().intValue()==budget.getBudgetVersionNumber().intValue()){
-                versionOverview.setDescriptionUpdatable(true);
-                versionOverview.setDocumentDescription(budgetToCopy.getDocumentDescription() + " " 
+                versionOverview.setNameUpdatable(true);
+                versionOverview.setName(budgetToCopy.getName() + " " 
                                                         + budgetToCopy.getBudgetVersionNumber() + " copy");
             }
         }
