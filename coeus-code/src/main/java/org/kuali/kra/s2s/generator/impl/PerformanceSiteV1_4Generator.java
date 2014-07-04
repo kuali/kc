@@ -28,10 +28,12 @@ import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.S2SErrorHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
@@ -43,6 +45,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("PerformanceSiteV1_4Generator")
 public class PerformanceSiteV1_4Generator extends S2SBaseFormGenerator {
 
 	private static final String QUESTION_ID_FOR_INDIVIDUAL_YNQ = "30";
@@ -50,11 +53,9 @@ public class PerformanceSiteV1_4Generator extends S2SBaseFormGenerator {
     private static final int OTHER_ORG_LOCATION_TYPE_CODE = 3;
     private static final int PERFORMANCE_SITE_LOCATION_TYPE_CODE = 4;
 
+    @Autowired
+    @Qualifier("rolodexService")
     private RolodexService rolodexService;
-
-    public PerformanceSiteV1_4Generator() {
-        rolodexService = KcServiceLocator.getService(RolodexService.class);
-    }
 
 	private XmlObject getPerformanceSite() {
 		PerformanceSite14Document performanceSite14Document = PerformanceSite14Document.Factory
@@ -159,4 +160,12 @@ public class PerformanceSiteV1_4Generator extends S2SBaseFormGenerator {
 		this.pdDoc = proposalDevelopmentDocument;
 		return getPerformanceSite();
 	}
+
+    public RolodexService getRolodexService() {
+        return rolodexService;
+    }
+
+    public void setRolodexService(RolodexService rolodexService) {
+        this.rolodexService = rolodexService;
+    }
 }

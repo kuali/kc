@@ -19,6 +19,7 @@ import gov.grants.apply.forms.nsfSuggestedReviewersV10.NSFSuggestedReviewersDocu
 import gov.grants.apply.forms.nsfSuggestedReviewersV10.NSFSuggestedReviewersDocument.NSFSuggestedReviewers;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**
@@ -28,6 +29,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("NSFSuggestedReviewersV1_0Generator")
 public class NSFSuggestedReviewersV1_0Generator extends NSFSuggestedReviewersBaseGenerator {
 
 

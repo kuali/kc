@@ -37,8 +37,8 @@ public class PHS398ResearchPlanV1_2GeneratorTest extends
 		S2STestBase<PHS398ResearchPlanV1_1Generator> {
 
 	@Override
-	protected Class<PHS398ResearchPlanV1_1Generator> getFormGeneratorClass() {
-		return PHS398ResearchPlanV1_1Generator.class;
+	protected String getFormGeneratorName() {
+		return PHS398ResearchPlanV1_1Generator.class.getSimpleName();
 	}
 
 	@Override

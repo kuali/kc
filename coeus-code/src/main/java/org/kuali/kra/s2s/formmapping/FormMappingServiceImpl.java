@@ -21,6 +21,9 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.api.s2s.UserAttachedFormService;
 import org.kuali.kra.s2s.generator.impl.UserAttachedFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -41,14 +44,14 @@ import java.util.*;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@Component("formMappingService")
 public class FormMappingServiceImpl implements FormMappingService {
 
     private static Map<String, FormMappingInfo> bindings;
     private static Map<Integer, List<String>> sortedNameSpaces;
     private static final String BINDING_FILE_NAME = "/org/kuali/kra/s2s/s2sform/S2SFormBinding.xml";
-    private static final String BINDING_FILE_NAME_V2="/org/kuali/kra/s2s/s2sform/S2SFormBinding-V2.xml";
     private static final String NAMESPACE = "namespace";
-    private static final String MAIN_CLASS = "mainClass";
+    private static final String GENERATOR_NAME = "generatorName";
     private static final String STYLE_SHEET = "stylesheet";
     private static final String FORM_NAME = "formName";
     private static final String TAG_FORM = "Form";
@@ -56,6 +59,8 @@ public class FormMappingServiceImpl implements FormMappingService {
     private static final int DEFAULT_SORT_INDEX = 1000;
     private static final Log LOG = LogFactory.getLog(FormMappingServiceImpl.class);
 
+    @Autowired
+    @Qualifier("userAttachedFormService")
     private UserAttachedFormService userAttachedFormService;
 
     /**
@@ -103,7 +108,7 @@ public class FormMappingServiceImpl implements FormMappingService {
         if (formName != null) {
             FormMappingInfo mappingInfo = new FormMappingInfo();
             mappingInfo.setFormName(formName);
-            mappingInfo.setMainClass(UserAttachedFormGenerator.class.getName());
+            mappingInfo.setGeneratorName(UserAttachedFormGenerator.class.getName());
             mappingInfo.setNameSpace(namespace);
             mappingInfo.setSortIndex(999);
             mappingInfo.setStyleSheet(createStylesheetName(namespace));
@@ -133,8 +138,6 @@ public class FormMappingServiceImpl implements FormMappingService {
             	bindings = new Hashtable<String, FormMappingInfo>();
                 sortedNameSpaces = new TreeMap<Integer, List<String>>();
                 loadBindings(BINDING_FILE_NAME);
-                if((FormMappingServiceImpl.class.getResourceAsStream(BINDING_FILE_NAME_V2))!=null)
-                loadBindings(BINDING_FILE_NAME_V2);
             }
         }
         return bindings;
@@ -168,7 +171,7 @@ public class FormMappingServiceImpl implements FormMappingService {
             FormMappingInfo formInfo = new FormMappingInfo();
             formInfo.setNameSpace(formNode.getAttribute(NAMESPACE).trim());
             formInfo.setFormName(formNode.getElementsByTagName(FORM_NAME).item(0).getTextContent().trim());
-            formInfo.setMainClass(formNode.getElementsByTagName(MAIN_CLASS).item(0).getTextContent().trim());
+            formInfo.setGeneratorName(formNode.getElementsByTagName(GENERATOR_NAME).item(0).getTextContent().trim());
             formInfo.setUserAttachedForm(false);
             formInfo.setStyleSheet(formNode.getElementsByTagName(STYLE_SHEET).item(0).getTextContent().trim());
 

@@ -17,7 +17,6 @@ package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -30,6 +29,8 @@ import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,10 +41,23 @@ import java.util.List;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
+
+    @Autowired
+    @Qualifier("s2SUtilService")
     protected S2SUtilService s2sUtilService;
+
+    @Autowired
+    @Qualifier("s2SBudgetCalculatorService")
     protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
+
+    @Autowired
+    @Qualifier("s2SConfigurationService")
     protected S2SConfigurationService s2SConfigurationService;
+
+    @Autowired
+    @Qualifier("proposalBudgetService")
     protected ProposalBudgetService proposalBudgetService;
+
     protected static final String INDIRECT_COST_RATE_AGREEMENT_NONE = "NONE";
     protected static final String APPROVING_FEDERAL_AGENCY_OTHER = "Other";
     protected static final String APPROVING_FEDERAL_AGENCY_ED = "ED";
@@ -89,16 +103,15 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     protected static final String RESTIRCTED_QUESTION = " ";
     protected static final String DEFAULT_LEGAL_NAME = "NONE";
 
-    List<? extends BudgetCategoryMapContract> budgetCategoryMapListWithoutFilter;
+    private List<? extends BudgetCategoryMapContract> budgetCategoryMapListWithoutFilter;
 
+    public List<? extends BudgetCategoryMapContract> getBudgetCategoryMapListWithoutFilter() {
+        if (budgetCategoryMapListWithoutFilter == null) {
+            budgetCategoryMapListWithoutFilter = s2sBudgetCalculatorService.getBudgetCategoryMapList(new ArrayList<String>(),
+                    new ArrayList<String>());
+        }
 
-    public ED524BudgetBaseGenerator() {
-        s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
-        s2sBudgetCalculatorService = KcServiceLocator.getService(S2SBudgetCalculatorService.class);
-        s2SConfigurationService = KcServiceLocator.getService(S2SConfigurationService.class);
-        budgetCategoryMapListWithoutFilter = s2sBudgetCalculatorService.getBudgetCategoryMapList(new ArrayList<String>(),
-                new ArrayList<String>());
-        proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
+        return budgetCategoryMapListWithoutFilter;
     }
 
     protected void getTotalCosts(BudgetPeriod budgetPeriod) {
@@ -127,7 +140,7 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     protected void getSuppliesCosts(BudgetPeriod budgetPeriod) {
         supplyCost = ScaleTwoDecimal.ZERO;
         supplyCostCS = ScaleTwoDecimal.ZERO;
-        for (BudgetCategoryMapContract categoryMap : budgetCategoryMapListWithoutFilter) {
+        for (BudgetCategoryMapContract categoryMap : getBudgetCategoryMapListWithoutFilter()) {
             if (TARGET_CATEGORY_CODE_MATERIOALS_AND_SUPPLIES.equals(categoryMap.getTargetCategoryCode())) {
                 for (BudgetCategoryMappingContract categoryMappping : categoryMap.getBudgetCategoryMappings()) {
                     for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
@@ -205,7 +218,7 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     protected void getEquipmentCosts(BudgetPeriod budgetPeriod) {
         equipmentCost = ScaleTwoDecimal.ZERO;
         equipmentCostCS = ScaleTwoDecimal.ZERO;
-        for (BudgetCategoryMapContract categoryMap : budgetCategoryMapListWithoutFilter) {
+        for (BudgetCategoryMapContract categoryMap : getBudgetCategoryMapListWithoutFilter()) {
             if (categoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_PURCHASED_EQUIPMENT)) {
                 for (BudgetCategoryMappingContract categoryMappping : categoryMap.getBudgetCategoryMappings()) {
                     for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
@@ -222,7 +235,7 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     protected void getContractualCosts(BudgetPeriod budgetPeriod) {
         contractualCost = ScaleTwoDecimal.ZERO;
         contractualCostCS = ScaleTwoDecimal.ZERO;
-        for (BudgetCategoryMapContract categoryMap : budgetCategoryMapListWithoutFilter) {
+        for (BudgetCategoryMapContract categoryMap : getBudgetCategoryMapListWithoutFilter()) {
             if (categoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_SUBCONTRACT)) {
                 for (BudgetCategoryMappingContract categoryMappping : categoryMap.getBudgetCategoryMappings()) {
                     for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
@@ -239,7 +252,7 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     protected void getTravelCosts(BudgetPeriod budgetPeriod) {
         travelCost = ScaleTwoDecimal.ZERO;
         travelCostCS = ScaleTwoDecimal.ZERO;
-        for (BudgetCategoryMapContract categoryMap : budgetCategoryMapListWithoutFilter) {
+        for (BudgetCategoryMapContract categoryMap : getBudgetCategoryMapListWithoutFilter()) {
             if (categoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_TRAVEL)
                     || categoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_FOREIGN_TRAVEL)) {
                 for (BudgetCategoryMappingContract categoryMappping : categoryMap.getBudgetCategoryMappings()) {
@@ -257,7 +270,7 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     protected void getTrainingCosts(BudgetPeriod budgetPeriod) {
         trainingCost = ScaleTwoDecimal.ZERO;
         trainingCostCS = ScaleTwoDecimal.ZERO;
-        for (BudgetCategoryMapContract categoryMap : budgetCategoryMapListWithoutFilter) {
+        for (BudgetCategoryMapContract categoryMap : getBudgetCategoryMapListWithoutFilter()) {
             if (categoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_PARTICIPANT_STIPENDS)) {
                 for (BudgetCategoryMappingContract categoryMappping : categoryMap.getBudgetCategoryMappings()) {
                     for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
@@ -274,7 +287,7 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     public void getPersonnelCosts(BudgetPeriod budgetPeriod) {
         personnelCost = ScaleTwoDecimal.ZERO;
         personnelCostCS = ScaleTwoDecimal.ZERO;
-        for (BudgetCategoryMapContract categoryMap : budgetCategoryMapListWithoutFilter) {
+        for (BudgetCategoryMapContract categoryMap : getBudgetCategoryMapListWithoutFilter()) {
             if (categoryMap.getCategoryType().equals(TARGET_CATEGORY_TYPE_CODE_PERSONNEL)) {
                 for (BudgetCategoryMappingContract categoryMappping : categoryMap.getBudgetCategoryMappings()) {
                     for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
@@ -299,4 +312,35 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
         return agencyName;
     }
 
+    public S2SUtilService getS2sUtilService() {
+        return s2sUtilService;
+    }
+
+    public void setS2sUtilService(S2SUtilService s2sUtilService) {
+        this.s2sUtilService = s2sUtilService;
+    }
+
+    public S2SBudgetCalculatorService getS2sBudgetCalculatorService() {
+        return s2sBudgetCalculatorService;
+    }
+
+    public void setS2sBudgetCalculatorService(S2SBudgetCalculatorService s2sBudgetCalculatorService) {
+        this.s2sBudgetCalculatorService = s2sBudgetCalculatorService;
+    }
+
+    public S2SConfigurationService getS2SConfigurationService() {
+        return s2SConfigurationService;
+    }
+
+    public void setS2SConfigurationService(S2SConfigurationService s2SConfigurationService) {
+        this.s2SConfigurationService = s2SConfigurationService;
+    }
+
+    public ProposalBudgetService getProposalBudgetService() {
+        return proposalBudgetService;
+    }
+
+    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
+        this.proposalBudgetService = proposalBudgetService;
+    }
 }

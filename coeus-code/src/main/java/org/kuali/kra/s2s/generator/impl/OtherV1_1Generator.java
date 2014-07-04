@@ -22,6 +22,7 @@ import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin1Max100DataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("OtherV1_1Generator")
 public class OtherV1_1Generator extends OtherBaseGenerator {
 
     /**

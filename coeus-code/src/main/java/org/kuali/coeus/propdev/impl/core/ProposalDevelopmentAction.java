@@ -194,7 +194,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         }
                
         if(createProposalFromGrantsGov!=null && createProposalFromGrantsGov.equals("true") && s2sOpportunity!=null){
-            getProposalDevelopmentService().createS2sOpportunityDetails(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal(), 
+            getS2sSubmissionService().createS2sOpportunityDetails(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal(),
                     s2sOpportunity, proposalDevelopmentForm.getVersionNumberForS2sOpportunity());
         }
 

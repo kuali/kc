@@ -23,6 +23,7 @@ import gov.grants.apply.system.globalLibraryV20.YesNoNotApplicableDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.question.AnswerContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -36,6 +37,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("NSFApplicationChecklistV1_3Generator")
 public class NSFApplicationChecklistV1_3Generator extends NSFApplicationChecklistBaseGenerator implements S2SQuestionnairing{
 
 	private static String QUESTIONNAIRE_ANSWER_YES = "Y";

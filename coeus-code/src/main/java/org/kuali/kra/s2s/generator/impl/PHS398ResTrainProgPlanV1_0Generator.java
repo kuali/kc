@@ -25,13 +25,15 @@ import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -41,6 +43,7 @@ import java.util.ArrayList;
  * This class is the xml generator for PHS398ResTrainProgPlanV1_0 form
  *  ref namespace://apply.grants.gov/forms/PHS398_ResearchTrainingProgramPlan-V1.0
  */
+@FormGenerator("PHS398ResTrainProgPlanV1_0Generator")
 public class PHS398ResTrainProgPlanV1_0Generator extends S2SBaseFormGenerator{
     private static final int PHS_RES_TRAINING_PLAN_INTRODUCTION_112 = 112;
     private static final int PHS_RES_TRAINING_PLAN_BACKGROUND_113 = 113;
@@ -57,6 +60,10 @@ public class PHS398ResTrainProgPlanV1_0Generator extends S2SBaseFormGenerator{
     private static final int PHS_RES_TRAINING_PLAN_DATA_TABLES_124 = 124;
     private static final int PHS_RES_TRAINING_PLAN_SUPPORT_LETTERS_125 = 125;
     private static final int PHS_RES_TRAINING_PLAN_APPENDIX_126 = 126;
+
+    @Autowired
+    @Qualifier("s2SConfigurationService")
+    private S2SConfigurationService s2SConfigurationService;
 
     private PHS398ResearchTrainingProgramPlan getPHS398ResearchTrainingProgramPlan(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
@@ -233,10 +240,6 @@ public class PHS398ResTrainProgPlanV1_0Generator extends S2SBaseFormGenerator{
         return proposalTypeEnum;
     }
 
-    public S2SConfigurationService getS2SConfigurationService() {
-        return KcServiceLocator.getService(S2SConfigurationService.class);
-    }
-
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
         PHS398ResearchTrainingProgramPlan phs398ResearchTrainingProgramPlan = getPHS398ResearchTrainingProgramPlan(proposalDevelopmentDocument);
         PHS398ResearchTrainingProgramPlanDocument phs398ResearchTrainingProgramPlanDocument = PHS398ResearchTrainingProgramPlanDocument.Factory.newInstance();
@@ -244,4 +247,11 @@ public class PHS398ResTrainProgPlanV1_0Generator extends S2SBaseFormGenerator{
         return phs398ResearchTrainingProgramPlanDocument;
     }
 
+    public S2SConfigurationService getS2SConfigurationService() {
+        return s2SConfigurationService;
+    }
+
+    public void setS2SConfigurationService(S2SConfigurationService s2SConfigurationService) {
+        this.s2SConfigurationService = s2SConfigurationService;
+    }
 }

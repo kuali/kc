@@ -23,9 +23,11 @@ import gov.grants.apply.system.universalCodesV10.CountryCodeType;
 
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 
+@FormGenerator("GlobalLibraryV1_0Generator")
 public class GlobalLibraryV1_0Generator {
 
     /**

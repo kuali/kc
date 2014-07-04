@@ -21,7 +21,6 @@ import org.kuali.coeus.common.api.country.CountryContract;
 import org.kuali.coeus.common.api.country.KcCountryService;
 import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.common.api.person.KcPersonRepositoryService;
-import org.kuali.coeus.common.api.person.attr.CitizenshipTypeContract;
 import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.question.AnswerContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
@@ -50,6 +49,9 @@ import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.CitizenshipTypeService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -63,6 +65,7 @@ import java.util.*;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@Component("s2SUtilService")
 public class S2SUtilServiceImpl implements S2SUtilService {
 
     private static final String SUBMISSION_TYPE_CODE = "submissionTypeCode";
@@ -75,15 +78,44 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     public static final Long PROPOSAL_YNQ_QUESTION_130 = 130L;
     public static final Long PROPOSAL_YNQ_QUESTION_131 = 131L;
 
+    @Autowired
+    @Qualifier("s2SConfigurationService")
     private S2SConfigurationService s2SConfigurationService;
+
+    @Autowired
+    @Qualifier("citizenshipTypeService")
     private CitizenshipTypeService citizenshipTypeService;
+
+    @Autowired
+    @Qualifier("proposalAdminDetailsService")
     private ProposalAdminDetailsService proposalAdminDetailsService;
+
+    @Autowired
+    @Qualifier("kcPersonRepositoryService")
     private KcPersonRepositoryService kcPersonRepositoryService;
+
+    @Autowired
+    @Qualifier("unitService")
     private UnitService unitService;
-    private KcCountryService countryService;
-    private KcStateService stateService;
+
+    @Autowired
+    @Qualifier("kcCountryService")
+    private KcCountryService kcCountryService;
+
+    @Autowired
+    @Qualifier("kcStateService")
+    private KcStateService kcStateService;
+
+    @Autowired
+    @Qualifier("questionAnswerService")
     private QuestionAnswerService questionAnswerService;
+
+    @Autowired
+    @Qualifier("propDevQuestionAnswerService")
     private PropDevQuestionAnswerService propDevQuestionAnswerService;
+
+    @Autowired
+    @Qualifier("rolodexService")
     private RolodexService rolodexService;
     /**
      * This method creates and returns Map of submission details like submission type, description and Revision code
@@ -397,9 +429,9 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      */
     public CountryContract getCountryFromCode(String countryCode) {
         if(countryCode==null) return null;
-        CountryContract country = getCountryService().getCountryByAlternateCode(countryCode);
+        CountryContract country = getKcCountryService().getCountryByAlternateCode(countryCode);
         if(country==null){
-            country = getCountryService().getCountry(countryCode);
+            country = getKcCountryService().getCountry(countryCode);
         }
         return country;
     }
@@ -415,7 +447,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     public StateContract getStateFromName(String countryAlternateCode, String stateName) {
         CountryContract country = getCountryFromCode(countryAlternateCode);
 
-        StateContract state = getStateService().getState(country.getCode(), stateName);
+        StateContract state = getKcStateService().getState(country.getCode(), stateName);
         return state;
     }
 
@@ -696,20 +728,20 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         return citizenshipTypeService;
     }
 
-    public KcStateService getStateService() {
-        return stateService;
+    public KcStateService getKcStateService() {
+        return kcStateService;
     }
 
-    public void setStateService(KcStateService stateService) {
-        this.stateService = stateService;
+    public void setKcStateService(KcStateService kcStateService) {
+        this.kcStateService = kcStateService;
     }
 
-    public KcCountryService getCountryService() {
-        return countryService;
+    public KcCountryService getKcCountryService() {
+        return kcCountryService;
     }
 
-    public void setCountryService(KcCountryService countryService) {
-        this.countryService = countryService;
+    public void setKcCountryService(KcCountryService kcCountryService) {
+        this.kcCountryService = kcCountryService;
     }
 
     public ProposalAdminDetailsService getProposalAdminDetailsService() {

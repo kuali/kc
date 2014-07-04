@@ -17,13 +17,11 @@ package org.kuali.coeus.propdev.impl.sponsor;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -46,13 +44,8 @@ import java.util.Map;
 public class ProposalDevelopmentSponsorProgramInformationAuditRule implements DocumentAuditRule { 
     
     private ParameterService parameterService;
-    private ProposalDevelopmentService proposalDevelopmentService;
     private BusinessObjectService businessObjectService;
-    
-    public ProposalDevelopmentSponsorProgramInformationAuditRule() {
-        getParameterService();
-        getProposalDevelopmentService();
-    }
+    private SubmissionInfoService submissionInfoService;
     
     @Override
     public boolean processRunAuditBusinessRules(Document document) {
@@ -102,23 +95,23 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
             } catch (Exception e) { }
             Boolean federalIdComesFromAward = federalIdComesFromAwardStr != null 
                                             && federalIdComesFromAwardStr.equalsIgnoreCase("Y");
-            Award currentAward = null;
+            String sponsorAwardNumber = null;
             if (StringUtils.isNotBlank(proposal.getCurrentAwardNumber())) {
-                currentAward = getProposalDevelopmentService().getProposalCurrentAwardVersion(proposalDevelopmentDocument);
+                sponsorAwardNumber = getSubmissionInfoService().getProposalCurrentAwardSponsorAwardNumber(proposal.getCurrentAwardNumber());
             }
             if (isProposalTypeRenewalRevisionContinuation(proposal.getProposalTypeCode()) 
                     && !(StringUtils.isNotBlank(proposal.getSponsorProposalNumber())
-                    || (currentAward != null && StringUtils.isNotBlank(currentAward.getSponsorAwardNumber()) && federalIdComesFromAward))) {
+                    || (StringUtils.isNotBlank(sponsorAwardNumber) && federalIdComesFromAward))) {
                 valid = false;
                 auditErrors.add(new AuditError(Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
             }
-            InstitutionalProposal iProposal = null;
+            String sponsorProposalNumber = null;
             if (StringUtils.isNotBlank(proposal.getContinuedFrom())) {
-                iProposal = getProposalDevelopmentService().getProposalContinuedFromVersion(proposalDevelopmentDocument);
+                sponsorProposalNumber = getSubmissionInfoService().getProposalContinuedFromVersionSponsorProposalNumber(proposal.getContinuedFrom());
             }
             if (isProposalTypeResubmission(proposal.getProposalTypeCode())
                     && StringUtils.isBlank(proposal.getSponsorProposalNumber())
-                    && (iProposal == null || StringUtils.isBlank(iProposal.getSponsorProposalNumber()))) {
+                    && (StringUtils.isBlank(sponsorProposalNumber))) {
                 valid = false;
                 auditErrors.add(new AuditError(Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
             }            
@@ -174,12 +167,19 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
          
         return !StringUtils.isEmpty(proposalTypeCode) &&
                (proposalTypeCode.equals(proposalTypeCodeResubmission));
-    }          
-    
-    /**
-     * Looks up and returns the ParameterService.
-     * @return the parameter service. 
-     */
+    }
+
+    protected SubmissionInfoService getSubmissionInfoService() {
+        if (this.submissionInfoService == null) {
+            this.submissionInfoService = KcServiceLocator.getService(SubmissionInfoService.class);
+        }
+        return this.submissionInfoService;
+    }
+
+    public void setSubmissionInfoService(SubmissionInfoService submissionInfoService) {
+        this.submissionInfoService = submissionInfoService;
+    }
+
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
             this.parameterService = KcServiceLocator.getService(ParameterService.class);
@@ -187,19 +187,8 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         return this.parameterService;
     }
 
-    protected ProposalDevelopmentService getProposalDevelopmentService() {
-        if (this.proposalDevelopmentService == null) {
-            this.proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
-        }
-        return this.proposalDevelopmentService;
-    }
-
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
-    }
-
-    public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
-        this.proposalDevelopmentService = proposalDevelopmentService;
     }
 
     public BusinessObjectService getBusinessObjectService() {

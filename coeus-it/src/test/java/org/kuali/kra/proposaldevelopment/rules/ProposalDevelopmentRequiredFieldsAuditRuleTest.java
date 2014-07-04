@@ -19,9 +19,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
 import org.kuali.coeus.propdev.impl.basic.ProposalDevelopmentProposalRequiredFieldsAuditRule;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentServiceImpl;
+import org.kuali.coeus.propdev.impl.core.SubmissionInfoServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -93,7 +95,7 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcIntegratio
     }
     
     @Test public void testRequireSponsorIdWhenNew() throws Exception {
-        auditRule.setProposalDevelopmentService(new ProposalDevelopmentServiceMock());
+        auditRule.setSubmissionInfoService(new SubmissionInfoServiceMock());
         proposal.setProposalTypeCode(proposalTypeCodeNew);
         proposal.getS2sOpportunity().setS2sSubmissionTypeCode(changeCorrectedTypeCode);
         proposal.setSponsorProposalNumber(null);
@@ -106,7 +108,7 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcIntegratio
         proposal.setContinuedFrom("1");
         //will report error as the instprop found won't be linked to a propdev
         validateAuditRule(pdDoc, Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, "requiredFieldsAuditErrors", true);
-        auditRule.setProposalDevelopmentService(null);
+        auditRule.setSubmissionInfoService(null);
         //not sure how to easily test the last use case where an IP must be linked to
         //a propdev with a Grants.Gov submission with a gg tracking id.
     }
@@ -135,21 +137,21 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcIntegratio
         }
     }
     
-    class ProposalDevelopmentServiceMock extends ProposalDevelopmentServiceImpl {
+    class SubmissionInfoServiceMock extends SubmissionInfoServiceImpl {
         @Override
-        public InstitutionalProposal getProposalContinuedFromVersion(ProposalDevelopmentDocument doc) {
-            if (StringUtils.isNotBlank(doc.getDevelopmentProposal().getContinuedFrom())) {
+        public Long getProposalContinuedFromVersionProposalId(String con) {
+            if (StringUtils.isNotBlank(con)) {
                 InstitutionalProposal instProposal = new InstitutionalProposal();
-                instProposal.setProposalNumber(doc.getDevelopmentProposal().getContinuedFrom());
+                instProposal.setProposalNumber(con);
                 instProposal.setSponsorProposalNumber("IP123456");
-                return instProposal;
+                return instProposal.getProposalId();
             } else {
                 return null;
             }
         }
 
         @Override
-        public String getGgTrackingIdFromProposal(InstitutionalProposal proposal) {
+        public String getGgTrackingIdFromProposal(Long proposalId) {
             return " ";
         }
     }

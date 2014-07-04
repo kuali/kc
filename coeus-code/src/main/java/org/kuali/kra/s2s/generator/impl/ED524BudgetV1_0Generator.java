@@ -31,6 +31,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
@@ -40,6 +41,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("ED524BudgetV1_0Generator")
 public class ED524BudgetV1_0Generator extends ED524BudgetBaseGenerator {
     private static final Log LOG = LogFactory.getLog(ED524BudgetV1_0Generator.class);
 

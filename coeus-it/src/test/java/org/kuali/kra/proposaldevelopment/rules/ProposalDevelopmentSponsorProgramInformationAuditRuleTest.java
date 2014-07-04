@@ -19,9 +19,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.propdev.impl.core.SubmissionInfoServiceImpl;
 import org.kuali.coeus.propdev.impl.sponsor.ProposalDevelopmentSponsorProgramInformationAuditRule;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentServiceImpl;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -59,24 +59,26 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
 
     Date tomorrow;
     
-    private class ProposalDevelopmentServiceMock extends ProposalDevelopmentServiceImpl {
-        public ProposalDevelopmentServiceMock() { }
-        public Award getProposalCurrentAwardVersion(ProposalDevelopmentDocument proposal) {
-            if (StringUtils.isNotBlank(proposal.getDevelopmentProposal().getCurrentAwardNumber())) {
+    private class SubmissionInfoServiceMock extends SubmissionInfoServiceImpl {
+
+        @Override
+        public String getProposalCurrentAwardSponsorAwardNumber(String currentAwardNumber) {
+            if (StringUtils.isNotBlank(currentAwardNumber)) {
                 Award award = new Award();
-                award.setAwardNumber(proposal.getDevelopmentProposal().getCurrentAwardNumber());
+                award.setAwardNumber(currentAwardNumber);
                 award.setSponsorAwardNumber("AW123456");
-                return award;
+                return award.getSponsorAwardNumber();
             } else {
                return null;
             }
         }
-        public InstitutionalProposal getProposalContinuedFromVersion(ProposalDevelopmentDocument doc) {
-            if (StringUtils.isNotBlank(doc.getDevelopmentProposal().getContinuedFrom())) {
+        @Override
+        public String getProposalContinuedFromVersionSponsorProposalNumber(String s) {
+            if (StringUtils.isNotBlank(s)) {
                 InstitutionalProposal instProposal = new InstitutionalProposal();
-                instProposal.setProposalNumber(doc.getDevelopmentProposal().getContinuedFrom());
+                instProposal.setProposalNumber(s);
                 instProposal.setSponsorProposalNumber("IP123456");
-                return instProposal;
+                return instProposal.getSponsorProposalNumber();
             } else {
                 return null;
             }
@@ -151,13 +153,13 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
         proposal.setCfdaNumber("00.000");
         proposal.setProgramAnnouncementTitle("Test Title");
         
-        auditRule.setProposalDevelopmentService(new ProposalDevelopmentServiceMock());
+        auditRule.setSubmissionInfoService(new SubmissionInfoServiceMock());
         validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD, true);
         KNSGlobalVariables.getAuditErrorMap().clear();
         proposal.setSponsorProposalNumber("AA123456");
         validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD, false);
         KNSGlobalVariables.getAuditErrorMap().clear();
-        auditRule.setProposalDevelopmentService(null);
+        auditRule.setSubmissionInfoService(null);
         auditRule.setParameterService(null);
     }
 
@@ -172,7 +174,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
         proposal.setCfdaNumber("00.000");
         proposal.setProgramAnnouncementTitle("Test Title");
 
-        auditRule.setProposalDevelopmentService(new ProposalDevelopmentServiceMock());
+        auditRule.setSubmissionInfoService(new SubmissionInfoServiceMock());
         validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, true);
         KNSGlobalVariables.getAuditErrorMap().clear();
         proposal.setSponsorProposalNumber("AA123456");
@@ -185,7 +187,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
         proposal.setContinuedFrom("1");
         validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, false);
         KNSGlobalVariables.getAuditErrorMap().clear();
-        auditRule.setProposalDevelopmentService(null);
+        auditRule.setSubmissionInfoService(null);
         auditRule.setParameterService(null);
     }
 

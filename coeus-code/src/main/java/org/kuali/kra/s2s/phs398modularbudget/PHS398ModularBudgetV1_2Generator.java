@@ -18,6 +18,7 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.impl.PHS398ModularBudgetBaseGenerator;
 import org.kuali.kra.s2s.generator.impl.PHS398ModularBudgetV1_1Generator;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -36,7 +37,7 @@ import gov.grants.apply.forms.phs398ModularBudget12V12.PHS398ModularBudget12Docu
 import gov.grants.apply.forms.phs398ModularBudget12V12.PHS398ModularBudget12Document.PHS398ModularBudget12.Periods.IndirectCost.IndirectCostItems;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-
+@FormGenerator("PHS398ModularBudgetV1_2Generator")
 public class PHS398ModularBudgetV1_2Generator extends
 PHS398ModularBudgetBaseGenerator{
 

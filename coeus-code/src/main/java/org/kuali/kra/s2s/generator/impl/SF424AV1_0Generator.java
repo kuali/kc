@@ -48,6 +48,7 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalcul
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.api.category.BudgetCategoryMapContract;
 import org.kuali.coeus.common.budget.api.category.BudgetCategoryMappingContract;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
@@ -62,6 +63,7 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("SF424AV1_0Generator")
 public class SF424AV1_0Generator extends SF424BaseGenerator {
 
     private static final Log LOG = LogFactory.getLog(SF424AV1_0Generator.class);

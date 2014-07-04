@@ -37,23 +37,35 @@ import org.kuali.kra.s2s.service.*;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import javax.xml.namespace.QName;
 import java.util.*;
 
-/**
- * 
- * This class is implementation of S2SService
- * 
- * @author Kuali Research Administration Team
- */
-public class KRAS2SServiceImpl implements S2SService {
-	private static final Log LOG = LogFactory.getLog(KRAS2SServiceImpl.class);
+@Component("s2SService")
+public class S2SServiceImpl implements S2SService {
+	private static final Log LOG = LogFactory.getLog(S2SServiceImpl.class);
 
+    @Autowired
+    @Qualifier("s2SFormGeneratorService")
 	private S2SFormGeneratorService s2SFormGeneratorService;
-	private S2SValidatorService s2SValidatorService;
+
+    @Autowired
+    @Qualifier("s2SValidatorService")
+    private S2SValidatorService s2SValidatorService;
+
+    @Autowired
+    @Qualifier("narrativeService")
     private NarrativeService narrativeService;
+
+    @Autowired
+    @Qualifier("s2SUtilService")
     private S2SUtilService s2SUtilService;
+
+    @Autowired
+    @Qualifier("formMappingService")
     private FormMappingService formMappingService;
 
 	/**
@@ -313,4 +325,6 @@ public class KRAS2SServiceImpl implements S2SService {
     public void setFormMappingService(FormMappingService formMappingService) {
         this.formMappingService = formMappingService;
     }
+
+
 }

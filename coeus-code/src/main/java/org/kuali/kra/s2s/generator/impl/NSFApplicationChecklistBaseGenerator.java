@@ -18,13 +18,14 @@ package org.kuali.kra.s2s.generator.impl;
 import org.kuali.coeus.propdev.api.abstrct.ProposalAbstractContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * This class will contain all common features that will be used in generators
@@ -91,17 +92,13 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 	protected static final int HR_QUESTION = 1108;
 	protected static final int HR_REQUIRED_INFO = 1117;
 
-	protected S2SUtilService s2sUtilService = null;
+    @Autowired
+    @Qualifier("s2SUtilService")
+	protected S2SUtilService s2sUtilService;
+
+    @Autowired
+    @Qualifier("s2SConfigurationService")
     protected S2SConfigurationService s2SConfigurationService;
-
-	/**
-	 * Constructs a NSFApplicationChecklistBaseGenerator.java.
-	 */
-	public NSFApplicationChecklistBaseGenerator() {
-
-        s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
-        s2SConfigurationService = KcServiceLocator.getService(S2SConfigurationService.class);
-	}
 
 	/**
 	 * 
@@ -408,4 +405,20 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 		}
 		return answer;
 	}
+
+    public S2SUtilService getS2sUtilService() {
+        return s2sUtilService;
+    }
+
+    public void setS2sUtilService(S2SUtilService s2sUtilService) {
+        this.s2sUtilService = s2sUtilService;
+    }
+
+    public S2SConfigurationService getS2SConfigurationService() {
+        return s2SConfigurationService;
+    }
+
+    public void setS2SConfigurationService(S2SConfigurationService s2SConfigurationService) {
+        this.s2SConfigurationService = s2SConfigurationService;
+    }
 }

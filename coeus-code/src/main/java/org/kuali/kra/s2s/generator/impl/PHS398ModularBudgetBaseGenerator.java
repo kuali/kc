@@ -17,13 +17,14 @@ package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * This abstract class has methods that are common to all the versions of
@@ -35,24 +36,22 @@ public abstract class PHS398ModularBudgetBaseGenerator extends
 		S2SBaseFormGenerator {
 	private static final String EMPTY_STRING = " ";
 	private static final String COMMA_SEPERATOR = ",";
-	protected S2SUtilService s2sUtilService;
+
+    @Autowired
+    @Qualifier("s2SUtilService")
+    protected S2SUtilService s2sUtilService;
+
+    @Autowired
+    @Qualifier("proposalBudgetService")
 	protected ProposalBudgetService proposalBudgetService;
+
+    @Autowired
+    @Qualifier("rolodexService")
 	protected RolodexService rolodexService;
 
     protected static final int PERSONNEL_JUSTIFICATION_CODE = 35;
 	protected static final int CONSORTIUM_JUSTIFICATION_CODE = 36;
 	protected static final int NARRATIVE_JUSTIFICATION_CODE = 37;
-
-	/**
-	 * 
-	 * Constructs a PHS398ModularBudgetBaseGenerator.java.
-	 */
-	public PHS398ModularBudgetBaseGenerator() {
-		s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
-        proposalBudgetService = KcServiceLocator
-				.getService(ProposalBudgetService.class);
-        rolodexService = KcServiceLocator.getService(RolodexService.class);
-	}
 
 	/**
 	 * This method is used to get total cost as sum of totalDirectCost and total
@@ -97,4 +96,28 @@ public abstract class PHS398ModularBudgetBaseGenerator extends
 		agency.append(rolodex.getPhoneNumber());
 		}return agency.toString();
 	}
+
+    public S2SUtilService getS2sUtilService() {
+        return s2sUtilService;
+    }
+
+    public void setS2sUtilService(S2SUtilService s2sUtilService) {
+        this.s2sUtilService = s2sUtilService;
+    }
+
+    public ProposalBudgetService getProposalBudgetService() {
+        return proposalBudgetService;
+    }
+
+    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
+        this.proposalBudgetService = proposalBudgetService;
+    }
+
+    public RolodexService getRolodexService() {
+        return rolodexService;
+    }
+
+    public void setRolodexService(RolodexService rolodexService) {
+        this.rolodexService = rolodexService;
+    }
 }

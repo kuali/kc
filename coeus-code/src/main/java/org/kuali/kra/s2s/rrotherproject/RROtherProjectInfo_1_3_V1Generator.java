@@ -25,13 +25,15 @@ import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.impl.RROtherProjectInfoBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -46,12 +48,17 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("RROtherProjectInfo_1_3_V1Generator")
 public class RROtherProjectInfo_1_3_V1Generator extends
 		RROtherProjectInfoBaseGenerator {
 	private static final String HISTORIC_DESTIONATION_YNQ = "125";
 	private static final int NSF_DATAMGMNT_ATTAACHMENT = 200;
 
 	List<? extends AnswerHeaderContract> answerHeaders;
+
+    @Autowired
+    @Qualifier("s2SConfigurationService")
+    private S2SConfigurationService s2SConfigurationService;
 
 	/*
 	 * This method gives information about RROtherProjectInfo of proposal
@@ -320,7 +327,7 @@ public class RROtherProjectInfo_1_3_V1Generator extends
 			setHumanSubjectIRBReviewIndicator(proposalSpecialReview,
 					humanSubjectsSupplement);
 		}
-		Boolean paramValue= KcServiceLocator.getService(S2SConfigurationService.class).getValueAsBoolean(ConfigurationConstants.IRB_PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED);
+		Boolean paramValue= s2SConfigurationService.getValueAsBoolean(ConfigurationConstants.IRB_PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED);
 		 if(paramValue){
 			if (proposalSpecialReview.getSpecialReviewExemptions() != null && !proposalSpecialReview.getSpecialReviewExemptions().isEmpty()) {
 				humanSubjectsSupplement.setExemptFedReg(YesNoDataType.Y_YES);				
@@ -376,7 +383,7 @@ public class RROtherProjectInfo_1_3_V1Generator extends
 										.getApprovalDate()));
 			}
 		}
-		if (KcServiceLocator.getService(S2SConfigurationService.class).getValueAsBoolean(ConfigurationConstants.IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER)) {
+		if (s2SConfigurationService.getValueAsBoolean(ConfigurationConstants.IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER)) {
 		    if (proposalSpecialReview.getApprovalDate() == null) {
 		        vertebrateAnimalsSupplement.setVertebrateAnimalsIACUCReviewIndicator(YesNoDataType.Y_YES);
 		    } else {
@@ -548,4 +555,12 @@ public class RROtherProjectInfo_1_3_V1Generator extends
 		this.pdDoc = proposalDevelopmentDocument;
 		return getRROtherProjectInfo();
 	}
+
+    public S2SConfigurationService getS2SConfigurationService() {
+        return s2SConfigurationService;
+    }
+
+    public void setS2SConfigurationService(S2SConfigurationService s2SConfigurationService) {
+        this.s2SConfigurationService = s2SConfigurationService;
+    }
 }

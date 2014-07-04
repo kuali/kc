@@ -16,7 +16,6 @@
 package org.kuali.coeus.propdev.impl.core;
 
 import org.kuali.coeus.common.framework.unit.Unit;
-import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.coeus.propdev.impl.person.CoPiInfoDO;
@@ -53,10 +52,6 @@ public interface ProposalDevelopmentService {
     
     public Object getBudgetFieldValueFromDBColumnName(String documentNumber, String dbColumnName);
     
-    public Award getProposalCurrentAwardVersion(ProposalDevelopmentDocument proposal);
-    
-    public InstitutionalProposal getProposalContinuedFromVersion(ProposalDevelopmentDocument proposal);
-    
     public String getDataOverrideLookupDisplayReturnValue( String lookupClassName );
 
     
@@ -92,8 +87,6 @@ public interface ProposalDevelopmentService {
     public InstitutionalProposal getInstitutionalProposal(String devProposalNumber);
     
     public boolean canSaveProposalXml(ProposalDevelopmentDocument document);
-    
-    public Long createS2sOpportunityDetails(DevelopmentProposal proposal, S2sOpportunity s2sOpportunity, Long versionNumberForS2sOpportunity);
     
     public static final String PROPOSAL_NARRATIVE_TYPE_GROUP = "proposalNarrativeTypeGroup";
     public static final String DELIVERY_INFO_DISPLAY_INDICATOR = "deliveryInfoDisplayIndicator";
@@ -149,34 +142,4 @@ public interface ProposalDevelopmentService {
      * @return the list of units the user has this permission in
      */
     public List<Unit> getUnitsForCreateProposal(String userId);
-
-    /**
-     *
-     * This method gets the Federal Agency for the given
-     * {@link DevelopmentProposal}
-     *
-     * @param developmentProposal
-     *            Proposal Development Document.
-     * @return {@link String} Federal Agency
-     */
-    public String getCognizantFedAgency(DevelopmentProposal developmentProposal);
-
-    /**
-     *
-     * This method returns the Federal ID for a given proposal
-     *
-     * @param proposalDevelopmentDocument
-     *            Proposal Development Document.
-     * @return Federal ID for a given proposal.
-     */
-    public String getFederalId(
-            ProposalDevelopmentDocument proposalDevelopmentDocument);
-
-    /**
-     * Get the tracking id from the newest development proposal linked to the
-     * institutional proposal.
-     * @param proposal
-     * @return
-     */
-    String getGgTrackingIdFromProposal(InstitutionalProposal proposal);
 }

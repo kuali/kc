@@ -20,6 +20,7 @@ import gov.grants.apply.forms.faithBasedSurveyOnEEOV11.SurveyOnEEODocument.Surve
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -30,7 +31,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-
+@FormGenerator("FaithBasedSurveyOnEEOV1_1Generator")
 public class FaithBasedSurveyOnEEOV1_1Generator extends S2SBaseFormGenerator {
 
 

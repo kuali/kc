@@ -32,6 +32,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.io.ByteArrayInputStream;
@@ -43,6 +44,7 @@ import java.io.ByteArrayInputStream;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("PHS398ResearchPlanV1_3Generator")
 public class PHS398ResearchPlanV1_3Generator extends
 		PHS398ResearchPlanBaseGenerator {
 

@@ -17,10 +17,11 @@ package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.coeus.common.api.ynq.YnqContract;
 import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,20 +41,17 @@ public abstract class PHS398CoverPageSupplementBaseGenerator extends
 	public static final String SPECIFIC_STEM_CELL_LINE = "6";
 	public static final String REGISTRATION_NUMBER = "7";
 	public static final String IS_NEW_INVESTIGATOR = "13";
+    protected static final int MAX_NUMBER_OF_DEGREES = 3;
+    protected static final int PERSON_DEGREE_MAX_LENGTH = 10;
 
+    @Autowired
+    @Qualifier("s2SUtilService")
 	protected S2SUtilService s2sUtilService;
-    protected ProposalBudgetService proposalBudgetService;
-	protected static final int MAX_NUMBER_OF_DEGREES = 3;
-	protected static final int PERSON_DEGREE_MAX_LENGTH = 10;
 
-	/**
-	 * 
-	 * Constructs a PHS398CoverPageSupplementBaseGenerator.java.
-	 */
-	public PHS398CoverPageSupplementBaseGenerator() {
-        s2sUtilService = KcServiceLocator.getService(S2SUtilService.class);
-        proposalBudgetService = KcServiceLocator.getService(ProposalBudgetService.class);
-	}
+    @Autowired
+    @Qualifier("proposalBudgetService")
+    protected ProposalBudgetService proposalBudgetService;
+
 
 	/**
 	 * 
@@ -101,4 +99,19 @@ public abstract class PHS398CoverPageSupplementBaseGenerator extends
 		return cellLines;
 	}
 
+    public S2SUtilService getS2sUtilService() {
+        return s2sUtilService;
+    }
+
+    public void setS2sUtilService(S2SUtilService s2sUtilService) {
+        this.s2sUtilService = s2sUtilService;
+    }
+
+    public ProposalBudgetService getProposalBudgetService() {
+        return proposalBudgetService;
+    }
+
+    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
+        this.proposalBudgetService = proposalBudgetService;
+    }
 }

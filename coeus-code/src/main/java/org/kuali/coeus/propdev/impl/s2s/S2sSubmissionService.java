@@ -1,6 +1,7 @@
 package org.kuali.coeus.propdev.impl.s2s;
 
 import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListResponse;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
 import org.kuali.kra.s2s.service.FormActionResult;
@@ -102,4 +103,6 @@ public interface S2sSubmissionService {
 
     void populateAppSubmission(ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission,
                           GetApplicationListResponse.ApplicationInfo ggApplication);
+
+    Long createS2sOpportunityDetails(DevelopmentProposal proposal, S2sOpportunity s2sOpportunity, Long versionNumberForS2sOpportunity);
 }

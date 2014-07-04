@@ -43,6 +43,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.impl.PHS398ResearchPlanBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -53,6 +54,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
+@FormGenerator("PHS398ResearchPlan_2_0_V2Generator")
 public class PHS398ResearchPlan_2_0_V2Generator extends
 		PHS398ResearchPlanBaseGenerator {
 

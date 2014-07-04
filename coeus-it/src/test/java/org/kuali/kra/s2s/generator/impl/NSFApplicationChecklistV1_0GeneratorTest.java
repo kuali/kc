@@ -32,8 +32,8 @@ import java.util.List;
 public class NSFApplicationChecklistV1_0GeneratorTest extends S2STestBase<NSFApplicationChecklistV1_0Generator> {
 
     @Override
-    protected Class<NSFApplicationChecklistV1_0Generator> getFormGeneratorClass() {
-        return NSFApplicationChecklistV1_0Generator.class;
+    protected String getFormGeneratorName() {
+        return NSFApplicationChecklistV1_0Generator.class.getSimpleName();
     }
 
     @Override
