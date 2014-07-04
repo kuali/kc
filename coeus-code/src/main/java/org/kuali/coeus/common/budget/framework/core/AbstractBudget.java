@@ -5,16 +5,11 @@ import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
-import org.kuali.rice.krad.service.LegacyDataAdapter;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @MappedSuperclass
 public abstract class AbstractBudget extends KcPersistableBusinessObjectBase implements Comparable<AbstractBudget> {
@@ -290,7 +285,6 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         this.descriptionUpdatable = descriptionUpdatable;
     }
 
-    @Override
     public int compareTo(AbstractBudget otherVersion) {
         return this.budgetVersionNumber.compareTo(otherVersion.getBudgetVersionNumber());
     }

@@ -17,9 +17,9 @@ package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
+import org.kuali.coeus.propdev.api.budget.modular.BudgetModularContract;
+import org.kuali.coeus.propdev.api.budget.modular.BudgetModularIdcContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
-import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SUtilService;
@@ -60,12 +60,12 @@ public abstract class PHS398ModularBudgetBaseGenerator extends
 	 * @param budgetModular
 	 * @return totalCost
 	 */
-	protected ScaleTwoDecimal getTotalCost(BudgetModular budgetModular) {
+	protected ScaleTwoDecimal getTotalCost(BudgetModularContract budgetModular) {
 		ScaleTwoDecimal totalCost = ScaleTwoDecimal.ZERO;
 		if (budgetModular.getTotalDirectCost() != null) {
 			totalCost = budgetModular.getTotalDirectCost();
 		}
-		for (BudgetModularIdc budgetModularIdc : budgetModular
+		for (BudgetModularIdcContract budgetModularIdc : budgetModular
 				.getBudgetModularIdcs()) {
 			if (budgetModularIdc.getFundsRequested() != null) {
 				totalCost = totalCost.add(budgetModularIdc.getFundsRequested());

@@ -27,10 +27,11 @@ import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
+import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewContract;
+import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewExemptionContract;
 import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
-import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 
@@ -95,15 +96,15 @@ public class EDSF424SupplementV1_0Generator extends
 		edsf424Supplement.setIsHumanResearch(YesNoDataType.NO);
 		OrganizationContract organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
-		for (ProposalSpecialReview specialReview : pdDoc
+		for (ProposalSpecialReviewContract specialReview : pdDoc
 				.getDevelopmentProposal().getPropSpecialReviews()) {
-			if (specialReview.getSpecialReviewTypeCode() != null
-					&& specialReview.getSpecialReviewTypeCode().equals(
-							SPECIAL_REVIEW_CODE)) {
+			if (specialReview.getSpecialReviewType() != null
+					&& specialReview.getSpecialReviewType().getCode().equals(
+                    SPECIAL_REVIEW_CODE)) {
 				edsf424Supplement.setIsHumanResearch(YesNoDataType.YES);
-				if (specialReview.getApprovalTypeCode() != null
-						&& specialReview.getApprovalTypeCode().equals(
-								APPROVAL_TYPE_CODE)) {
+				if (specialReview.getApprovalType() != null
+						&& specialReview.getApprovalType().getCode().equals(
+                        APPROVAL_TYPE_CODE)) {
 					edsf424Supplement
 							.setIsHumanResearchExempt(YesNoDataType.YES);
 					ExemptionsNumber exemptionsNumber = ExemptionsNumber.Factory
@@ -113,8 +114,8 @@ public class EDSF424SupplementV1_0Generator extends
 					if (specialReview.getSpecialReviewExemptions() != null
 							&& specialReview.getSpecialReviewExemptions().size() > 0) {
 					    List<String> exemptionTypeCodes = new ArrayList<String>();
-					    for (SpecialReviewExemption exemption : specialReview.getSpecialReviewExemptions()) {
-					        exemptionTypeCodes.add(exemption.getExemptionTypeCode());
+					    for (ProposalSpecialReviewExemptionContract exemption : specialReview.getSpecialReviewExemptions()) {
+					        exemptionTypeCodes.add(exemption.getExemptionType().getCode());
 					    }
 						exemptionsNumber.setStringValue(CollectionUtils.
 						        toString(exemptionTypeCodes));

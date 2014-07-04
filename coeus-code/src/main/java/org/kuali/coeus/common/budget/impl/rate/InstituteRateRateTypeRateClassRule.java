@@ -10,7 +10,7 @@
  */
 package org.kuali.coeus.common.budget.impl.rate;
 
-import org.kuali.kra.bo.AbstractInstituteRate;
+import org.kuali.coeus.common.budget.framework.rate.AbstractInstituteRate;
 
 /**
 * This rule checks that an institute rate type & rate class are valid for the specific maintenance document.

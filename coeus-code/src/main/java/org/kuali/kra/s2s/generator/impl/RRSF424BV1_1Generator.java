@@ -19,9 +19,9 @@ import gov.grants.apply.forms.rrsf424SF424BV11.AssuranceType;
 import gov.grants.apply.forms.rrsf424SF424BV11.AssurancesDocument;
 import gov.grants.apply.forms.rrsf424SF424BV11.AuthorizedRepresentativeDocument.AuthorizedRepresentative;
 
+import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -50,7 +50,7 @@ public class RRSF424BV1_1Generator extends S2SBaseFormGenerator {
         rrSF424B.setFormVersionIdentifier(S2SConstants.FORMVERSION_1_1);
         rrSF424B.setProgramType(NON_CONSTRUCTION);
         rrSF424B.setFormVersion(S2SConstants.FORMVERSION_1_1);
-        ProposalSite applicantOrganization = propDevFormBean.getApplicantOrganization();
+        ProposalSiteContract applicantOrganization = propDevFormBean.getApplicantOrganization();
         rrSF424B.setApplicantOrganizationName(applicantOrganization.getOrganization().getOrganizationName());
         rrSF424B.setAuthorizedRepresentative(getAuthorizedRepresentative(proposalDevelopmentDocument));
         rrSF424B.setSubmittedDate(Calendar.getInstance());

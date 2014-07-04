@@ -38,15 +38,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.question.*;
+import org.kuali.coeus.common.budget.api.core.BudgetContract;
+import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
+import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
+import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.s2s.CitizenshipTypes;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.FormGenerator;
@@ -145,7 +146,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		for (AnswerContract questionnaireAnswer : getPropDevQuestionAnswerService().getQuestionnaireAnswers(pdDoc.getDevelopmentProposal().getProposalNumber(), getNamespace(), getFormName())) {
 			String answer = questionnaireAnswer.getAnswer();
 			if (answer != null) {
-				switch (Integer.valueOf(getQuestionAnswerService().findQuestionById(questionnaireAnswer.getQuestionId()).getQuestionSeqId())) {
+				switch (getQuestionAnswerService().findQuestionById(questionnaireAnswer.getQuestionId()).getQuestionSeqId()) {
 				case SENIOR_FELL:
 					budgetMap.put(SENIOR_FELL, answer);
 					break;
@@ -201,10 +202,10 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 			return;
 		}
 		ScaleTwoDecimal tutionTotal = ScaleTwoDecimal.ZERO;
-		for (BudgetPeriod budgetPeriod : budgetDoc.getBudget()
+		for (BudgetPeriodContract budgetPeriod : budgetDoc.getBudget()
 				.getBudgetPeriods()) {
 			ScaleTwoDecimal tution = ScaleTwoDecimal.ZERO;
-			for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+			for (BudgetLineItemContract budgetLineItem : budgetPeriod.getBudgetLineItems()) {
 				if (getCostElementsByParam(ConfigurationConstants.TUITION_COST_ELEMENTS).contains(budgetLineItem.getCostElementBO().getCostElement())) {
 					tution = tution.add(budgetLineItem.getLineItemCost());
 				}
@@ -285,12 +286,12 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		if (budgetDoc == null) {
 			return federalStipendRequested;
 		}
-		org.kuali.coeus.common.budget.framework.core.Budget budget = budgetDoc.getBudget();
+		BudgetContract budget = budgetDoc.getBudget();
 		ScaleTwoDecimal sumOfLineItemCost = ScaleTwoDecimal.ZERO;
 		ScaleTwoDecimal numberOfMonths = ScaleTwoDecimal.ZERO;
-		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+		for (BudgetPeriodContract budgetPeriod : budget.getBudgetPeriods()) {
 			if (budgetPeriod.getBudgetPeriod() == 1) {
-				for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+				for (BudgetLineItemContract budgetLineItem : budgetPeriod.getBudgetLineItems()) {
 					if (getCostElementsByParam(ConfigurationConstants.STIPEND_COST_ELEMENTS).contains(budgetLineItem.getCostElementBO().getCostElement())) {
 						sumOfLineItemCost = sumOfLineItemCost.add(budgetLineItem.getLineItemCost());
 						numberOfMonths = numberOfMonths.add(getNumberOfMonths(budgetLineItem.getStartDate(), budgetLineItem.getEndDate()));
@@ -555,7 +556,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		for (AnswerContract questionnaireAnswer : getPropDevQuestionAnswerService().getQuestionnaireAnswers(pdDoc.getDevelopmentProposal().getProposalNumber(), getNamespace(), getFormName())) {
 			String answer = questionnaireAnswer.getAnswer();
 			if (answer != null) {
-				switch (Integer.valueOf(getQuestionAnswerService().findQuestionById(questionnaireAnswer.getQuestionId()).getQuestionSeqId())) {
+				switch (getQuestionAnswerService().findQuestionById(questionnaireAnswer.getQuestionId()).getQuestionSeqId()) {
 				case HUMAN:
 					researchTrainingPlan
 							.setHumanSubjectsIndefinite(answer
@@ -597,9 +598,9 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 			ResearchTrainingPlan researchTrainingPlan) {
 		researchTrainingPlan.setHumanSubjectsInvolved(YesNoDataType.N_NO);
 		researchTrainingPlan.setVertebrateAnimalsUsed(YesNoDataType.N_NO);
-		for (ProposalSpecialReview propSpecialReview : pdDoc
+		for (ProposalSpecialReviewContract propSpecialReview : pdDoc
 				.getDevelopmentProposal().getPropSpecialReviews()) {
-			switch (Integer.parseInt(propSpecialReview.getSpecialReviewTypeCode())) {
+			switch (Integer.parseInt(propSpecialReview.getSpecialReviewType().getCode())) {
 			case 1:
 				researchTrainingPlan
 						.setHumanSubjectsInvolved(YesNoDataType.Y_YES);
@@ -653,7 +654,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
             for (AnswerContract questionnaireAnswer : answerHeader.getAnswers()) {
                 String answer = questionnaireAnswer.getAnswer();
 
-                Integer seqId = Integer.valueOf(getQuestionAnswerService().findQuestionById(questionnaireAnswer.getQuestionId()).getQuestionSeqId());
+                Integer seqId = getQuestionAnswerService().findQuestionById(questionnaireAnswer.getQuestionId()).getQuestionSeqId();
                 if(seqId.equals(STEMCELLLINES)){
                     List<AnswerContract> answerList = getAnswers(questionnaireAnswer.getQuestionnaireQuestionsId(),answerHeader);
                     for (AnswerContract questionnaireAnswerBO: answerList) {
@@ -822,7 +823,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
                 QuestionContract question = questionnaireQuestion.getQuestion();
 
                 if (answer != null) {
-                    Integer questionId = Integer.valueOf(question.getQuestionSeqId());
+                    Integer questionId = question.getQuestionSeqId();
                 switch (questionId) {
                 case KIRST_START_KNOWN:
                 case KIRST_END_KNOWN:

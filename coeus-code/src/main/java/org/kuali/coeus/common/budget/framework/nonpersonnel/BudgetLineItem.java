@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.nonpersonnel;
 
+import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
@@ -37,7 +38,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 @Entity
 @Table(name = "BUDGET_DETAILS")
-public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaintainable, Comparable<BudgetLineItem> {
+public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaintainable, Comparable<BudgetLineItem>, BudgetLineItemContract {
 
     @Transient
     private ScaleTwoDecimal costSharingAmount = ScaleTwoDecimal.ZERO;
@@ -123,38 +124,6 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
 
-    @Transient
-    private boolean budgetPersonnelLineItemDeleted;
-
-    @OneToMany(cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
-    private List<BudgetRateAndBase> budgetRateAndBaseList;
-
-    @OneToMany(cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
-    private List<BudgetFormulatedCostDetail> budgetFormulatedCosts; 
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH})
-    @JoinColumn(name = "BUDGET_CATEGORY_CODE", referencedColumnName = "BUDGET_CATEGORY_CODE", insertable = false, updatable = false)
-    private BudgetCategory budgetCategory; 
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH})
-    @JoinColumn(name = "COST_ELEMENT", referencedColumnName = "COST_ELEMENT", insertable = false, updatable = false)
-    private CostElement costElementBO; 
-
-    //ignore the budget period bo during deep copy as any link up the budget object graph
-    //will cause generateAllPeriods to consume large amounts of memory
-    @DeepCopyIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH})
-    @JoinColumn(name = "BUDGET_PERIOD", referencedColumnName = "BUDGET_PERIOD", insertable = false, updatable = false)
-    private BudgetPeriod budgetPeriodBO; 
-
-    @Transient
-    private Date oldStartDate;
-
-    @Transient
-    private Date oldEndDate;
-
     @Column(name = "SUBAWARD_NUMBER")
     private Integer subAwardNumber;
 
@@ -165,11 +134,43 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     @Convert(converter = BooleanYNConverter.class)
     private boolean hiddenInHierarchy;
 
+    @OneToMany(cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
+    private List<BudgetRateAndBase> budgetRateAndBaseList;
+
+    @OneToMany(cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
+    private List<BudgetFormulatedCostDetail> budgetFormulatedCosts;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH})
+    @JoinColumn(name = "BUDGET_CATEGORY_CODE", referencedColumnName = "BUDGET_CATEGORY_CODE", insertable = false, updatable = false)
+    private BudgetCategory budgetCategory;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH})
+    @JoinColumn(name = "COST_ELEMENT", referencedColumnName = "COST_ELEMENT", insertable = false, updatable = false)
+    private CostElement costElementBO;
+
+    //ignore the budget period bo during deep copy as any link up the budget object graph
+    //will cause generateAllPeriods to consume large amounts of memory
+    @DeepCopyIgnore
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH})
+    @JoinColumn(name = "BUDGET_PERIOD", referencedColumnName = "BUDGET_PERIOD", insertable = false, updatable = false)
+    private BudgetPeriod budgetPeriodBO;
+
     @Transient
     private transient boolean displayTotalDetail;
 
     @Transient
     private transient ScaleTwoDecimal objectTotal;
+
+    @Transient
+    private boolean budgetPersonnelLineItemDeleted;
+
+    @Transient
+    private Date oldStartDate;
+
+    @Transient
+    private Date oldEndDate;
 
     public BudgetLineItem() {
         super();
@@ -180,175 +181,217 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
         objectTotal = new ScaleTwoDecimal(0);
         budgetFormulatedCosts = new ArrayList<BudgetFormulatedCostDetail>();
     }
-
+    @Override
     public Long getBudgetLineItemId() {
         return budgetLineItemId;
     }
 
+    @Override
     public void setBudgetLineItemId(Long budgetLineItemId) {
         this.budgetLineItemId = budgetLineItemId;
     }
 
+    @Override
     public Long getBudgetPeriodId() {
         return budgetPeriodId;
     }
 
+    @Override
     public void setBudgetPeriodId(Long budgetPeriodId) {
         this.budgetPeriodId = budgetPeriodId;
     }
 
+    @Override
     public Integer getLineItemNumber() {
         return lineItemNumber;
     }
 
+    @Override
     public void setLineItemNumber(Integer lineItemNumber) {
         this.lineItemNumber = lineItemNumber;
     }
 
+    @Override
     public Integer getBudgetPeriod() {
         return budgetPeriod;
     }
 
+    @Override
     public void setBudgetPeriod(Integer budgetPeriod) {
         this.budgetPeriod = budgetPeriod;
     }
 
+    @Override
     public Boolean getApplyInRateFlag() {
         return applyInRateFlag;
     }
 
+    @Override
     public void setApplyInRateFlag(Boolean applyInRateFlag) {
         this.applyInRateFlag = applyInRateFlag;
     }
 
+    @Override
     public Integer getBasedOnLineItem() {
         return basedOnLineItem;
     }
 
+    @Override
     public void setBasedOnLineItem(Integer basedOnLineItem) {
         this.basedOnLineItem = basedOnLineItem;
     }
 
+    @Override
     public String getBudgetCategoryCode() {
         return budgetCategoryCode;
     }
 
+    @Override
     public void setBudgetCategoryCode(String budgetCategoryCode) {
         this.budgetCategoryCode = budgetCategoryCode;
     }
 
+    @Override
     public String getBudgetJustification() {
         return budgetJustification;
     }
 
+    @Override
     public void setBudgetJustification(String budgetJustification) {
         this.budgetJustification = budgetJustification;
     }
 
+    @Override
     public String getCostElement() {
         return costElement;
     }
 
+    @Override
     public void setCostElement(String costElement) {
         this.costElement = costElement;
     }
 
+    @Override
     public String getGroupName() {
         return groupName;
     }
 
+    @Override
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
 
+    @Override
     public Date getEndDate() {
         return endDate;
     }
 
+    @Override
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
+    @Override
     public String getLineItemDescription() {
         return lineItemDescription;
     }
 
+    @Override
     public void setLineItemDescription(String lineItemDescription) {
         this.lineItemDescription = lineItemDescription;
     }
 
+    @Override
     public Integer getLineItemSequence() {
         return lineItemSequence;
     }
 
+    @Override
     public void setLineItemSequence(Integer lineItemSequence) {
         this.lineItemSequence = lineItemSequence;
     }
 
+    @Override
     public Boolean getOnOffCampusFlag() {
         return onOffCampusFlag;
     }
 
+    @Override
     public void setOnOffCampusFlag(Boolean onOffCampusFlag) {
         this.onOffCampusFlag = onOffCampusFlag;
     }
 
+    @Override
     public Integer getQuantity() {
         return quantity;
     }
 
+    @Override
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
+    @Override
     public Date getStartDate() {
         return startDate;
     }
 
+    @Override
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
+    @Override
     public List<BudgetFormulatedCostDetail> getBudgetFormulatedCosts() {
         return budgetFormulatedCosts;
     }
 
+    @Override
     public void setBudgetFormulatedCosts(List<BudgetFormulatedCostDetail> budgetFormulatedCosts) {
         this.budgetFormulatedCosts = budgetFormulatedCosts;
     }
 
+    @Override
     public BudgetCategory getBudgetCategory() {
         return budgetCategory;
     }
 
+    @Override
     public void setBudgetCategory(BudgetCategory budgetCategory) {
         this.budgetCategory = budgetCategory;
     }
 
+    @Override
     public CostElement getCostElementBO() {
         return costElementBO;
     }
 
+    @Override
     public void setCostElementBO(CostElement costElementBO) {
         this.costElementBO = costElementBO;
     }
 
+    @Override
     public BudgetPeriod getBudgetPeriodBO() {
         return budgetPeriodBO;
     }
 
+    @Override
     public void setBudgetPeriodBO(BudgetPeriod budgetPeriodBO) {
         this.budgetPeriodBO = budgetPeriodBO;
     }
 
+    @Override
     public Long getBudgetId() {
         return budgetId;
     }
 
+    @Override
     public void setBudgetId(Long budgetId) {
         this.budgetId = budgetId;
     }
 
+    @Override
     public List<BudgetPersonnelDetails> getBudgetPersonnelDetailsList() {
         return budgetPersonnelDetailsList;
     }
@@ -359,7 +402,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
 
     /**
      * Gets BudgetPersonnelDetails from BudgetPersonnelDetails list at index.
-     * 
+     *
      * @param index
      * @return BudgetPersonnelDetails at index
      */
@@ -371,7 +414,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     }
 
     /**
-     * 
+     *
      * This method is to create new BudgetpersonnelDetails object
      * @return
      */
@@ -379,54 +422,33 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
         return new BudgetPersonnelDetails();
     }
 
-    /**
-     * Gets the budgetLineItemCalculatedAmounts attribute. 
-     * @return Returns the budgetLineItemCalculatedAmounts.
-     */
+    @Override
     public List<BudgetLineItemCalculatedAmount> getBudgetLineItemCalculatedAmounts() {
         return budgetLineItemCalculatedAmounts;
     }
 
-    /**
-     * Sets the budgetLineItemCalculatedAmounts attribute value.
-     * @param budgetLineItemCalculatedAmounts The budgetLineItemCalculatedAmounts to set.
-     */
     public void setBudgetLineItemCalculatedAmounts(List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts) {
         this.budgetLineItemCalculatedAmounts = budgetLineItemCalculatedAmounts;
     }
 
+    @Override
     public List getBudgetCalculatedAmounts() {
         return getBudgetLineItemCalculatedAmounts();
     }
 
-    /**
-     * Gets the budgetPersonnelLineItemDeleted attribute. 
-     * @return Returns the budgetPersonnelLineItemDeleted.
-     */
     public boolean isBudgetPersonnelLineItemDeleted() {
         return budgetPersonnelLineItemDeleted;
     }
 
-    /**
-     * Sets the budgetPersonnelLineItemDeleted attribute value.
-     * @param budgetPersonnelLineItemDeleted The budgetPersonnelLineItemDeleted to set.
-     */
     public void setBudgetPersonnelLineItemDeleted(boolean budgetPersonnelLineItemDeleted) {
         this.budgetPersonnelLineItemDeleted = budgetPersonnelLineItemDeleted;
     }
 
-    /**
-     * Gets the budgetRateAndBaseList attribute. 
-     * @return Returns the budgetRateAndBaseList.
-     */
+    @Override
     public List<BudgetRateAndBase> getBudgetRateAndBaseList() {
         return budgetRateAndBaseList;
     }
 
-    /**
-     * Sets the budgetRateAndBaseList attribute value.
-     * @param budgetRateAndBaseList The budgetRateAndBaseList to set.
-     */
     public void setBudgetRateAndBaseList(List<BudgetRateAndBase> budgetRateAndBaseList) {
         this.budgetRateAndBaseList = budgetRateAndBaseList;
     }
@@ -447,34 +469,22 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
         this.oldEndDate = oldEndDate;
     }
 
-    /**
-     * Sets the hierarchyProposalNumber attribute value.
-     * @param hierarchyProposalNumber The hierarchyProposalNumber to set.
-     */
+    @Override
     public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
         this.hierarchyProposalNumber = hierarchyProposalNumber;
     }
 
-    /**
-     * Gets the hierarchyProposalNumber attribute. 
-     * @return Returns the hierarchyProposalNumber.
-     */
+    @Override
     public String getHierarchyProposalNumber() {
         return hierarchyProposalNumber;
     }
 
-    /**
-     * Gets the hiddenInHierarchy attribute. 
-     * @return Returns the hiddenInHierarchy.
-     */
+    @Override
     public boolean isHiddenInHierarchy() {
         return hiddenInHierarchy;
     }
 
-    /**
-     * Sets the hiddenInHierarchy attribute value.
-     * @param hiddenInHierarchy The hiddenInHierarchy to set.
-     */
+    @Override
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
     }
@@ -541,6 +551,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
         return subAwardNumber != null;
     }
 
+    @Override
     public Integer getSubAwardNumber() {
         return subAwardNumber;
     }
@@ -549,42 +560,52 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
         this.subAwardNumber = subAwardNumber;
     }
 
+    @Override
     public ScaleTwoDecimal getCostSharingAmount() {
         return ScaleTwoDecimal.returnZeroIfNull(costSharingAmount);
     }
 
+    @Override
     public void setCostSharingAmount(ScaleTwoDecimal costSharingAmount) {
         this.costSharingAmount = costSharingAmount;
     }
 
+    @Override
     public ScaleTwoDecimal getLineItemCost() {
         return ScaleTwoDecimal.returnZeroIfNull(lineItemCost);
     }
 
+    @Override
     public void setLineItemCost(ScaleTwoDecimal lineItemCost) {
         this.lineItemCost = lineItemCost;
     }
 
+    @Override
     public ScaleTwoDecimal getUnderrecoveryAmount() {
         return ScaleTwoDecimal.returnZeroIfNull(underrecoveryAmount);
     }
 
+    @Override
     public void setUnderrecoveryAmount(ScaleTwoDecimal underrecoveryAmount) {
         this.underrecoveryAmount = underrecoveryAmount;
     }
 
+    @Override
     public ScaleTwoDecimal getTotalCostSharingAmount() {
         return ScaleTwoDecimal.returnZeroIfNull(totalCostSharingAmount);
     }
 
+    @Override
     public void setTotalCostSharingAmount(ScaleTwoDecimal totalCostSharingAmount) {
         this.totalCostSharingAmount = totalCostSharingAmount;
     }
 
+    @Override
     public void setSubmitCostSharingFlag(Boolean submitCostSharingFlag) {
         this.submitCostSharingFlag = submitCostSharingFlag;
     }
 
+    @Override
     public Boolean getSubmitCostSharingFlag() {
         if (ObjectUtils.isNull(budgetPeriodBO)) {
             this.refreshReferenceObject("budgetPeriodBO");
@@ -592,10 +613,12 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
         return (getBudgetPeriodBO() != null && getBudgetPeriodBO().getBudget().getSubmitCostSharingFlag()) ? submitCostSharingFlag : false;
     }
 
+    @Override
     public Boolean getFormulatedCostElementFlag() {
         return formulatedCostElementFlag == null ? Boolean.FALSE : formulatedCostElementFlag;
     }
 
+    @Override
     public void setFormulatedCostElementFlag(Boolean formulatedCostElementFlag) {
         this.formulatedCostElementFlag = formulatedCostElementFlag;
     }

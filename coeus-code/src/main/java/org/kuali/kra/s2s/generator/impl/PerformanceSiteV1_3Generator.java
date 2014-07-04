@@ -25,9 +25,9 @@ import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.org.OrganizationYnqContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
+import org.kuali.coeus.propdev.api.location.CongressionalDistrictContract;
+import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
-import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -90,12 +90,12 @@ public class PerformanceSiteV1_3Generator extends S2SBaseFormGenerator {
 	}
 
     private void setOtherSites(PerformanceSite13  performanceSite) {
-        List<ProposalSite> proposalSites = pdDoc.getDevelopmentProposal().getProposalSites();
+        List<? extends ProposalSiteContract> proposalSites = pdDoc.getDevelopmentProposal().getProposalSites();
         if (proposalSites != null) {
             OrganizationContract organization = null;
             RolodexContract rolodex = null;
             SiteLocationDataType siteLocationDataType = null;
-            for (ProposalSite proposalSite : proposalSites) {
+            for (ProposalSiteContract proposalSite : proposalSites) {
                 switch(proposalSite.getLocationTypeCode()){
                     case(PERFORMING_ORG_LOCATION_TYPE_CODE):
                         siteLocationDataType = performanceSite.addNewPrimarySite();
@@ -128,9 +128,9 @@ public class PerformanceSiteV1_3Generator extends S2SBaseFormGenerator {
         }
     }
 
-    private String getCongressionalDistrict(ProposalSite proposalSite) {
+    private String getCongressionalDistrict(ProposalSiteContract proposalSite) {
         String congDistrictProject = null;
-        for (CongressionalDistrict congDistrict : proposalSite.getCongressionalDistricts()) {
+        for (CongressionalDistrictContract congDistrict : proposalSite.getCongressionalDistricts()) {
             congDistrictProject = congDistrict.getCongressionalDistrict();
             if (congDistrictProject != null && congDistrictProject.length() > CONGRESSIONAL_DISTRICT_MAX_LENGTH) {
                 congDistrictProject = congDistrictProject.substring(0, CONGRESSIONAL_DISTRICT_MAX_LENGTH);

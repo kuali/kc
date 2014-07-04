@@ -9,4 +9,10 @@ public interface UnitRepositoryService {
      * @throws java.lang.IllegalArgumentException if the unitNumber is blank
      */
     UnitContract findUnitByUnitNumber(String unitNumber);
+
+    /**
+     * Finds the top unit in the hierarchy.
+     * @return the unit or null if not found.
+     */
+    UnitContract findTopUnit();
 }

@@ -18,7 +18,7 @@ package org.kuali.kra.s2s.service.impl;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum;
 
-import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
+import org.kuali.coeus.common.api.person.attr.CitizenshipTypeContract;
 import org.kuali.kra.s2s.service.CitizenshipTypeService;
 import org.kuali.kra.s2s.CitizenshipTypes;
 import org.springframework.stereotype.Component;
@@ -39,7 +39,7 @@ import org.springframework.stereotype.Component;
 public class CitizenshipTypeServiceImpl implements CitizenshipTypeService {
     
     @Override
-    public Enum getEnumValueOfCitizenshipType(CitizenshipType citizenshipType) throws IllegalArgumentException {
+    public Enum getEnumValueOfCitizenshipType(CitizenshipTypeContract citizenshipType) throws IllegalArgumentException {
         Enum retVal = null;
         switch(citizenshipType.getCode()){
             case CitizenshipDataType.INT_NON_U_S_CITIZEN_WITH_TEMPORARY_VISA : {

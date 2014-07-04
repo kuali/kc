@@ -22,15 +22,15 @@ import java.util.Comparator;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
- * Used to order <code>{@link org.kuali.coeus.propdev.impl.person.ProposalPerson}</code> instances by the role.
+ * Used to order <code>{@link ProposalPersonContract}</code> instances by the role.
  */
 public class ProposalPersonComparator implements Comparator<ProposalPersonContract> {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPersonComparator.class);
 
 
     /**
-     * compare one <code>{@link org.kuali.coeus.propdev.impl.person.ProposalPerson}</code> instance to another. Sort by the role of the
-     *  <code>{@link org.kuali.coeus.propdev.impl.person.ProposalPerson}</code>
+     * compare one <code>{@link ProposalPersonContract}</code> instance to another. Sort by the role of the
+     *  <code>{@link ProposalPersonContract}</code>
      * 
      * @param person1
      * @param person2

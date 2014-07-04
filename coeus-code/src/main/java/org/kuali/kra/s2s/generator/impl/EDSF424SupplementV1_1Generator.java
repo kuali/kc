@@ -23,15 +23,15 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoNotApplicableDataType;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.question.AnswerContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
-import org.kuali.coeus.common.framework.org.Organization;
-import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
+import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewContract;
+import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewExemptionContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
-import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.FormGenerator;
@@ -85,7 +85,7 @@ public class EDSF424SupplementV1_1Generator extends
             for (AnswerHeaderContract answerHeader : answerHeaders) {
                 List<? extends AnswerContract> answerDetails = answerHeader.getAnswers();
                 for (AnswerContract answers : answerDetails) {
-                    String seqId = getQuestionAnswerService().findQuestionById(answers.getQuestionId()).getQuestionSeqId();
+                    Integer seqId = getQuestionAnswerService().findQuestionById(answers.getQuestionId()).getQuestionSeqId();
                     if (seqId != null
                             && seqId.equals(
                                     PROPOSAL_YNQ_NOVICE_APPLICANT)) {
@@ -108,17 +108,17 @@ public class EDSF424SupplementV1_1Generator extends
         }
 
 		edsf424Supplement.setIsHumanResearch(YesNoDataType.N_NO);
-		Organization organization = pdDoc.getDevelopmentProposal()
+		OrganizationContract organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
-		for (ProposalSpecialReview specialReview : pdDoc
+		for (ProposalSpecialReviewContract specialReview : pdDoc
 				.getDevelopmentProposal().getPropSpecialReviews()) {
-			if (specialReview.getSpecialReviewTypeCode() != null
-					&& specialReview.getSpecialReviewTypeCode().equals(
-							SPECIAL_REVIEW_CODE)) {
+			if (specialReview.getSpecialReviewType() != null
+					&& specialReview.getSpecialReviewType().getCode().equals(
+                    SPECIAL_REVIEW_CODE)) {
 				edsf424Supplement.setIsHumanResearch(YesNoDataType.Y_YES);
-				if (specialReview.getApprovalTypeCode() != null
-						&& specialReview.getApprovalTypeCode().equals(
-								APPROVAL_TYPE_CODE)) {
+				if (specialReview.getApprovalType() != null
+						&& specialReview.getApprovalType().getCode().equals(
+                        APPROVAL_TYPE_CODE)) {
 					edsf424Supplement
 							.setIsHumanResearchExempt(YesNoDataType.Y_YES);
 					ExemptionsNumber exemptionsNumber = ExemptionsNumber.Factory
@@ -128,8 +128,8 @@ public class EDSF424SupplementV1_1Generator extends
 					if (specialReview.getSpecialReviewExemptions() != null
 							&& specialReview.getSpecialReviewExemptions().size() > 0) {
 					    List<String> exemptionTypeCodes = new ArrayList<String>();
-					    for (SpecialReviewExemption exemption : specialReview.getSpecialReviewExemptions()) {
-					        exemptionTypeCodes.add(exemption.getExemptionTypeCode());
+					    for (ProposalSpecialReviewExemptionContract exemption : specialReview.getSpecialReviewExemptions()) {
+					        exemptionTypeCodes.add(exemption.getExemptionType().getCode());
 					    }
 						exemptionsNumber.setStringValue(CollectionUtils
                                 .toString(exemptionTypeCodes));
@@ -161,8 +161,8 @@ public class EDSF424SupplementV1_1Generator extends
 			    		exemptionsNumber
 						.setIsHumanResearchExempt(YesNoDataType.Y_YES);	
 			    		List<String> exemptionTypeCodes = new ArrayList<String>();
-					    for (SpecialReviewExemption exemption : specialReview.getSpecialReviewExemptions()) {
-					        exemptionTypeCodes.add(exemption.getExemptionTypeCode());
+					    for (ProposalSpecialReviewExemptionContract exemption : specialReview.getSpecialReviewExemptions()) {
+					        exemptionTypeCodes.add(exemption.getExemptionType().getCode());
 					    }
 						exemptionsNumber.setStringValue(CollectionUtils
 								.toString(exemptionTypeCodes));

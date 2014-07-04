@@ -18,9 +18,9 @@ package org.kuali.coeus.common.budget.framework.core;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.persistence.annotations.ClassExtractor;
 import org.eclipse.persistence.sessions.Record;
 import org.eclipse.persistence.sessions.Session;
+import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
@@ -38,10 +38,9 @@ import org.kuali.coeus.sys.api.model.ScaleThreeDecimal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetExt;
-import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.coeus.common.budget.framework.rate.InstituteLaRate;
+import org.kuali.coeus.common.budget.framework.rate.InstituteRate;
 import org.kuali.kra.bo.DocumentNextvalue;
-import org.kuali.kra.bo.InstituteLaRate;
-import org.kuali.kra.bo.InstituteRate;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
@@ -56,12 +55,10 @@ import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculat
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetNumberOfMonthsService;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.data.jpa.FilterGenerator;
@@ -82,7 +79,7 @@ import java.util.*;
 @Table(name = "BUDGET")
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(name="PARENT_DOCUMENT_TYPE_CODE", discriminatorType = DiscriminatorType.STRING)
-public class Budget extends AbstractBudget {
+public class Budget extends AbstractBudget implements BudgetContract {
 
     private static final String PARAM_VALUE_ENABLED = "1";
 
@@ -119,8 +116,6 @@ public class Budget extends AbstractBudget {
     @OneToMany(mappedBy="budget", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetLaRate> budgetLaRates;
 
-    @Transient
-    private List<BudgetPeriod> budgetPeriods;
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
@@ -144,24 +139,17 @@ public class Budget extends AbstractBudget {
     //@FilterGenerator(attributeName = "hiddenInHierarchy", attributeValue = "false")
     private List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs;
 
-    @Transient
-    private String activityTypeCode = "x";
-
-    @Transient
-    private boolean budgetLineItemDeleted;
-
-    @Transient
-    private boolean rateClassTypesReloaded = false;
-
     @Column(name = "BUDGET_ADJUSTMENT_DOC_NBR")
     private String budgetAdjustmentDocumentNumber;
-
-    @Transient
-    private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private List<BudgetPerson> budgetPersons;
+
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
+    @OrderBy("subAwardNumber")
+    private List<BudgetSubAwards> budgetSubAwards;
 
     @Transient
     private Date summaryPeriodStartDate;
@@ -223,16 +211,27 @@ public class Budget extends AbstractBudget {
     	throw new UnsupportedOperationException("Not defined in parent class.");
     }
 
-	@OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
-    @OrderBy("subAwardNumber")
-    private List<BudgetSubAwards> budgetSubAwards;
-
     @Transient
     private boolean rateSynced;
 
     @Transient
     private transient ParameterService parameterService;
+
+    @Transient
+    private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
+
+    @Transient
+    private String activityTypeCode = "x";
+
+    @Transient
+    private boolean budgetLineItemDeleted;
+
+    @Transient
+    private boolean rateClassTypesReloaded = false;
+
+
+    @Transient
+    private List<BudgetPeriod> budgetPeriods;
 
     public Budget() {
         super();
@@ -253,7 +252,7 @@ public class Budget extends AbstractBudget {
         budgetSubAwards = new ArrayList<BudgetSubAwards>();
         setOnOffCampusFlag("D");
     }
-
+    @Override
     public Boolean getFinalVersionFlag() {
         return isFinalVersionFlag();
     }
@@ -302,7 +301,7 @@ public class Budget extends AbstractBudget {
         }
         return false;
     }
-
+    @Override
     public String getBudgetAdjustmentDocumentNumber() {
         return budgetAdjustmentDocumentNumber;
     }
@@ -456,14 +455,17 @@ public class Budget extends AbstractBudget {
         return getAvailableUnrecoveredFandA().subtract(getAllocatedUnrecoveredFandA());
     }
 
+    @Override
     public RateClass getRateClass() {
         return rateClass;
     }
 
+    @Override
     public void setRateClass(RateClass rateClass) {
         this.rateClass = rateClass;
     }
 
+    @Override
     public List<BudgetPeriod> getBudgetPeriods() {
         if (budgetPeriods.isEmpty() && getStartDate() != null) {
             getBudgetSummaryService().generateBudgetPeriods(this, budgetPeriods);
@@ -471,10 +473,6 @@ public class Budget extends AbstractBudget {
         return budgetPeriods;
     }
 
-    /**
-     * Gets the BudgetSummary attribute. 
-     * @return Returns the BudgetSummary.
-     */
     public BudgetSummaryService getBudgetSummaryService() {
         return KcServiceLocator.getService(BudgetSummaryService.class);
     }
@@ -596,50 +594,28 @@ public class Budget extends AbstractBudget {
         return summaryPeriodEndDate;
     }
 
-    /**
-     * Gets the budgetRates attribute. 
-     * @return Returns the budgetRates.
-     */
+    @Override
     public List<BudgetRate> getBudgetRates() {
         return budgetRates;
     }
 
-    /**
-     * Sets the budgetRates attribute value.
-     * @param budgetRates The budgetRates to set.
-     */
     public void setBudgetRates(List<BudgetRate> budgetRates) {
         this.budgetRates = budgetRates;
     }
 
-    /**
-     * Gets the budgetLaRates attribute. 
-     * @return Returns the budgetLaRates.
-     */
+    @Override
     public List<BudgetLaRate> getBudgetLaRates() {
         return budgetLaRates;
     }
 
-    /**
-     * Sets the budgetLaRates attribute value.
-     * @param budgetLaRates The budgetLaRates to set.
-     */
     public void setBudgetLaRates(List<BudgetLaRate> budgetLaRates) {
         this.budgetLaRates = budgetLaRates;
     }
 
-    /**
-     * Gets the activityTypeCode attribute. 
-     * @return Returns the activityTypeCode.
-     */
     public String getActivityTypeCode() {
         return activityTypeCode;
     }
 
-    /**
-     * Sets the activityTypeCode attribute value.
-     * @param activityTypeCode The activityTypeCode to set.
-     */
     public void setActivityTypeCode(String activityTypeCode) {
         this.activityTypeCode = activityTypeCode;
     }
@@ -652,10 +628,6 @@ public class Budget extends AbstractBudget {
         this.instituteRates = instituteRates;
     }
 
-    /**
-     * Gets the BudgetRates attribute. 
-     * @return Returns the BudgetRates.
-     */
     public BudgetRatesService getBudgetRatesService() {
         return KcServiceLocator.getService(BudgetRatesService.class);
     }
@@ -690,6 +662,7 @@ public class Budget extends AbstractBudget {
         return getCollectionSize(budgetProjectIncomes);
     }
 
+    @Override
     public List<BudgetProjectIncome> getBudgetProjectIncomes() {
         return budgetProjectIncomes;
     }
@@ -846,6 +819,7 @@ public class Budget extends AbstractBudget {
         }
     }
 
+    @Override
     public List<BudgetPerson> getBudgetPersons() {
         return budgetPersons;
     }
@@ -921,6 +895,7 @@ public class Budget extends AbstractBudget {
         return getBudgetCostShares().get(index);
     }
 
+    @Override
     public List<BudgetCostShare> getBudgetCostShares() {
         return budgetCostShares;
     }
@@ -936,6 +911,7 @@ public class Budget extends AbstractBudget {
         return getBudgetUnrecoveredFandAs().get(index);
     }
 
+    @Override
     public List<BudgetUnrecoveredFandA> getBudgetUnrecoveredFandAs() {
         return budgetUnrecoveredFandAs;
     }
@@ -1317,6 +1293,7 @@ public class Budget extends AbstractBudget {
         this.budgetPersonnelDetailsList = budgetPersonnelDetailsList;
     }
 
+    @Override
     public String getBudgetJustification() {
         return budgetJustification;
     }
@@ -1369,6 +1346,7 @@ public class Budget extends AbstractBudget {
         this.rateClassTypesReloaded = rateClassTypesReloaded;
     }
 
+    @Override
     public List<BudgetSubAwards> getBudgetSubAwards() {
         return budgetSubAwards;
     }

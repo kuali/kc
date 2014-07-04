@@ -16,6 +16,7 @@
 package org.kuali.coeus.common.specialreview.impl.bo;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.api.specialreview.SpecialReviewContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
@@ -30,7 +31,7 @@ import java.util.List;
  * @param <T> SpecialReviewExemption
  */
 @MappedSuperclass
-public abstract class SpecialReview<T extends SpecialReviewExemption> extends KcPersistableBusinessObjectBase {
+public abstract class SpecialReview<T extends SpecialReviewExemption> extends KcPersistableBusinessObjectBase implements SpecialReviewContract {
 
     private static final long serialVersionUID = -2168706171397009621L;
 
@@ -59,6 +60,9 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kc
     @Lob
     private String comments;
 
+    @Column(name = "PROTOCOL_STATUS_DESCRIPTION")
+    private String protocolStatus;
+
     @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "SPECIAL_REVIEW_CODE", referencedColumnName = "SPECIAL_REVIEW_CODE", insertable = false, updatable = false)
     private SpecialReviewType specialReviewType;
@@ -67,9 +71,6 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kc
     @JoinColumn(name = "APPROVAL_TYPE_CODE", referencedColumnName = "APPROVAL_TYPE_CODE", insertable = false, updatable = false)
     private SpecialReviewApprovalType approvalType;
 
-    @Column(name = "PROTOCOL_STATUS_DESCRIPTION")
-    private String protocolStatus;
-    
     @Transient
     private boolean linkedToProtocol;
 
@@ -84,6 +85,7 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kc
     @Transient
     private transient List<String> exemptionTypeCodes = new ArrayList<String>();
 
+    @Override
     public Integer getSpecialReviewNumber() {
         return specialReviewNumber;
     }
@@ -108,6 +110,7 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kc
         this.approvalTypeCode = approvalTypeCode;
     }
 
+    @Override
     public String getProtocolNumber() {
         return protocolNumber;
     }
@@ -116,6 +119,7 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kc
         this.protocolNumber = protocolNumber;
     }
 
+    @Override
     public Date getApplicationDate() {
         return applicationDate;
     }
@@ -124,6 +128,7 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kc
         this.applicationDate = applicationDate;
     }
 
+    @Override
     public Date getApprovalDate() {
         return approvalDate;
     }
@@ -132,6 +137,7 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kc
         this.approvalDate = approvalDate;
     }
 
+    @Override
     public Date getExpirationDate() {
         return expirationDate;
     }
@@ -140,6 +146,7 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kc
         this.expirationDate = expirationDate;
     }
 
+    @Override
     public String getComments() {
         return comments;
     }
@@ -159,6 +166,7 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kc
 
     //refreshReferenceObject should be replaced with @TrackChanges which is not working at this point
     //Related jira - KRACOEUS-7159
+    @Override
     public SpecialReviewType getSpecialReviewType() {
     	if(specialReviewType == null) {
     		refreshReferenceObject("specialReviewType");
@@ -170,6 +178,7 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kc
         this.specialReviewType = specialReviewType;
     }
 
+    @Override
     public SpecialReviewApprovalType getApprovalType() {
     	if(approvalType == null) {
     		refreshReferenceObject("approvalType");
@@ -190,6 +199,7 @@ public abstract class SpecialReview<T extends SpecialReviewExemption> extends Kc
         syncExemptionTypeCodesToSpecialReviewExemptions();
     }
 
+    @Override
     public String getProtocolStatus() {
         return protocolStatus;
     }

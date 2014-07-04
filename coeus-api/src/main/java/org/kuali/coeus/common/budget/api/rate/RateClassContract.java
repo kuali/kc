@@ -1,4 +1,4 @@
-package org.kuali.coeus.budget.api.rate;
+package org.kuali.coeus.common.budget.api.rate;
 
 import org.kuali.coeus.sys.api.model.Coded;
 import org.kuali.coeus.sys.api.model.Describable;

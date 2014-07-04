@@ -17,6 +17,7 @@ package org.kuali.coeus.common.budget.framework.nonpersonnel;
 
 import javax.persistence.*;
 
+import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetFormulatedCostDetailContract;
 import org.kuali.coeus.common.budget.framework.rate.FormulatedType;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -25,7 +26,7 @@ import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
 @Entity
 @Table(name = "BUD_FORMULATED_COST_DETAIL")
-public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase {
+public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase implements BudgetFormulatedCostDetailContract {
 
     private static final long serialVersionUID = -7218113007594733976L;
 
@@ -68,9 +69,7 @@ public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase 
     @Transient
     private transient int budgetPeriod;
 
-    public BudgetFormulatedCostDetail() {
-    }
-
+    @Override
     public Long getBudgetFormulatedCostDetailId() {
         return budgetFormulatedCostDetailId;
     }
@@ -79,6 +78,7 @@ public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase 
         this.budgetFormulatedCostDetailId = budgetFormulatedCostDetailId;
     }
 
+    @Override
     public Long getBudgetLineItemId() {
         return budgetLineItemId;
     }
@@ -87,6 +87,7 @@ public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase 
         this.budgetLineItemId = budgetLineItemId;
     }
 
+    @Override
     public Integer getFormulatedNumber() {
         return formulatedNumber;
     }
@@ -103,6 +104,7 @@ public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase 
         this.formulatedTypeCode = formulatedTypeCode;
     }
 
+    @Override
     public ScaleTwoDecimal getUnitCost() {
         return unitCost == null ? ScaleTwoDecimal.ZERO : unitCost;
     }
@@ -111,6 +113,7 @@ public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase 
         this.unitCost = unitCost;
     }
 
+    @Override
     public Integer getCount() {
         return count == null ? 0 : count;
     }
@@ -119,6 +122,7 @@ public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase 
         this.count = count;
     }
 
+    @Override
     public Integer getFrequency() {
         return frequency == null ? 0 : frequency;
     }
@@ -127,6 +131,7 @@ public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase 
         this.frequency = frequency;
     }
 
+    @Override
     public ScaleTwoDecimal getCalculatedExpenses() {
         return calculatedExpenses;
     }
@@ -135,6 +140,7 @@ public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase 
         this.calculatedExpenses = calculatedExpenses;
     }
 
+    @Override
     public FormulatedType getFormulatedType() {
         return formulatedType;
     }

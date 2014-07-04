@@ -425,7 +425,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
      * @return returns the answer for a particular
      *         question based on the question id passed.
      */
-    protected String getAnswer(String questionSeqId, List<? extends AnswerHeaderContract> answerHeaders) {
+    protected String getAnswer(Integer questionSeqId, List<? extends AnswerHeaderContract> answerHeaders) {
         for(AnswerHeaderContract answerHeader:answerHeaders){
             if(answerHeader!=null){
                 List<? extends AnswerContract> answerDetails = answerHeader.getAnswers();
@@ -450,7 +450,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
      * @return returns the answer for a particular
      *         question based on the question id passed.
      */
-    protected Long getAnswerId(String questionSeqId, List<? extends AnswerHeaderContract> answerHeaders) {
+    protected Long getAnswerId(Integer questionSeqId, List<? extends AnswerHeaderContract> answerHeaders) {
         if (answerHeaders != null && !answerHeaders.isEmpty()) {
             for (AnswerHeaderContract answerHeader : answerHeaders) {
                 List<? extends AnswerContract> answerDetails = answerHeader.getAnswers();
@@ -474,7 +474,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
      * @return returns the answer for a particular
      *         question based on the question id passed.
      */
-    protected String getChildQuestionAnswer(String parentQuestionSeqId,String questionSeqId, List<? extends AnswerHeaderContract> answerHeaders) {
+    protected String getChildQuestionAnswer(Integer parentQuestionSeqId,Integer questionSeqId, List<? extends AnswerHeaderContract> answerHeaders) {
         for(AnswerHeaderContract answerHeader:answerHeaders){
             if(answerHeader!=null){
                 List<? extends AnswerContract> answerDetails = answerHeader.getAnswers();
@@ -497,7 +497,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     /*
   * This method will get the childAnswer for sub question
   */
-    protected String getAnswers(String questionSeqId, List<? extends AnswerHeaderContract> answerHeaders) {
+    protected String getAnswers(Integer questionSeqId, List<? extends AnswerHeaderContract> answerHeaders) {
 
         String answer = null;
         String childAnswer = null;

@@ -35,12 +35,12 @@ import java.util.List;
 public abstract class PHS398CoverPageSupplementBaseGenerator extends
 		S2SBaseFormGenerator {
 	
-	public static final String IS_CLINICAL_TRIAL = "2";
-	public static final String PHASE_III_CLINICAL_TRIAL = "3";
-	public static final String IS_HUMAN_STEM_CELLS_INVOLVED = "5";
-	public static final String SPECIFIC_STEM_CELL_LINE = "6";
-	public static final String REGISTRATION_NUMBER = "7";
-	public static final String IS_NEW_INVESTIGATOR = "13";
+	public static final Integer IS_CLINICAL_TRIAL = 2;
+	public static final Integer PHASE_III_CLINICAL_TRIAL = 3;
+	public static final Integer IS_HUMAN_STEM_CELLS_INVOLVED = 5;
+	public static final Integer SPECIFIC_STEM_CELL_LINE = 6;
+	public static final Integer REGISTRATION_NUMBER = 7;
+	public static final Integer IS_NEW_INVESTIGATOR = 13;
     protected static final int MAX_NUMBER_OF_DEGREES = 3;
     protected static final int PERSON_DEGREE_MAX_LENGTH = 10;
 
@@ -61,12 +61,12 @@ public abstract class PHS398CoverPageSupplementBaseGenerator extends
 	 *            to be checked.
 	 * @return proposalYnq corresponding to the question id.
 	 */
-	protected ProposalYnqContract getProposalYnQ(String questionId) {
+	protected ProposalYnqContract getProposalYnQ(Integer questionId) {
 		ProposalYnqContract ynQ = null;
 		for (ProposalYnqContract proposalYnq : pdDoc.getDevelopmentProposal()
 				.getProposalYnqs()) {
             YnqContract question = proposalYnq.getYnq();
-			if (question != null && question.getQuestionId().equals(questionId)) {
+			if (question != null && question.getQuestionId().equals(questionId.toString())) {
 				ynQ = proposalYnq;
 			}
 		}

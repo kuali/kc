@@ -21,7 +21,7 @@
     <class-descriptor class="org.kuali.coeus.common.questionnaire.framework.question.Question" table="QUESTION">
         <field-descriptor name="id" column="QUESTION_REF_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
         <field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
-        <field-descriptor name="questionSeqId" column="QUESTION_ID" jdbc-type="VARCHAR" sequence-name="SEQ_QUESTION_ID" autoincrement="true" />
+        <field-descriptor name="questionSeqId" column="QUESTION_ID" jdbc-type="INTEGER" sequence-name="SEQ_QUESTION_ID" autoincrement="true" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="sequenceStatus" column="SEQUENCE_STATUS" jdbc-type="VARCHAR" />
         <field-descriptor name="question" column="QUESTION" jdbc-type="VARCHAR" />

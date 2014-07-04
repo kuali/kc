@@ -10,13 +10,13 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.budget.api.core.BudgetContract;
+import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
+import org.kuali.coeus.propdev.api.budget.modular.BudgetModularContract;
+import org.kuali.coeus.propdev.api.budget.modular.BudgetModularIdcContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
-import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.impl.PHS398ModularBudgetBaseGenerator;
@@ -65,7 +65,7 @@ PHS398ModularBudgetBaseGenerator{
 		.newInstance();
 		modularBudget.setFormVersion(S2SConstants.FORMVERSION_1_2);
 
-		Budget budget = null;
+		BudgetContract budget = null;
 		try {
 			BudgetDocument budgetDocument = proposalBudgetService
 			.getFinalBudgetVersion(pdDoc);
@@ -198,9 +198,9 @@ PHS398ModularBudgetBaseGenerator{
 	 * @return Periods object containing modular budget details for the
 	 *         corresponding budget period.
 	 */
-	private Periods[] getPeriods(Budget budget) {
+	private Periods[] getPeriods(BudgetContract budget) {
 	    List <Periods> periods =new ArrayList<Periods>();
-	    for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()){
+	    for (BudgetPeriodContract budgetPeriod : budget.getBudgetPeriods()){
 	        if (budgetPeriod.getBudgetPeriod() <= S2SConstants.BUDGET_PERIOD_5) {
 	            Periods period = Periods.Factory.newInstance();
 	            DirectCost directCost = DirectCost.Factory.newInstance();
@@ -232,7 +232,7 @@ PHS398ModularBudgetBaseGenerator{
 	            period.setTotalFundsRequestedDirectIndirectCosts(BigDecimal.ZERO);
 
 	            // TotalDirectAndIndirectCost
-	            BudgetModular budgetModular = budgetPeriod.getBudgetModular();
+	            BudgetModularContract budgetModular = budgetPeriod.getBudgetModular();
 	            if (budgetModular != null) {
 	                ScaleTwoDecimal totalCost = getTotalCost(budgetModular);
 	                period.setTotalFundsRequestedDirectIndirectCosts(totalCost
@@ -265,7 +265,7 @@ PHS398ModularBudgetBaseGenerator{
 	                }
 
 	                List<IndirectCostItems> indirectCostItemsList = new ArrayList<IndirectCostItems>();
-	                for (BudgetModularIdc budgetModularIdc : budgetModular
+	                for (BudgetModularIdcContract budgetModularIdc : budgetModular
 	                        .getBudgetModularIdcs()) {
 	                    IndirectCostItems indirectCostItems = IndirectCostItems.Factory
 	                    .newInstance();

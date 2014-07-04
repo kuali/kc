@@ -58,10 +58,10 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
     @Qualifier("s2SUtilService")
     private S2SUtilService s2sUtilService;
 
-	private static final String PI_PROPOSAL_YNQ_INTERNATIONAL_PARTICIPATION = "112";
-	private static final String PI_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION_AMOUNT = "113";
-	private static final String PI_SUB_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION_AMOUNT = "111";
-	private static final String PI_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION = "110";
+	private static final Integer PI_PROPOSAL_YNQ_INTERNATIONAL_PARTICIPATION = 112;
+	private static final Integer PI_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION_AMOUNT = 113;
+	private static final Integer PI_SUB_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION_AMOUNT = 111;
+	private static final Integer PI_PROPOSAL_YNQ_US_GOVERNMENT_PARTICIPATION = 110;
 	private static final String NOT_ANSWERED = "No";
 	List<? extends AnswerHeaderContract> answerHeaders ;
 

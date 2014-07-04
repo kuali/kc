@@ -216,6 +216,7 @@ public class ProposalSite extends KcPersistableBusinessObjectBase implements Pro
      * or an empty string if there is none.
      * @return
      */
+    @Override
     public String getFirstCongressionalDistrictName() {
         CongressionalDistrict firstDistrict = getDefaultCongressionalDistrict();
         if (firstDistrict == null) {

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.s2s.service;
 
+import org.kuali.coeus.common.budget.api.core.BudgetContract;
+import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
+import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.common.budget.api.category.BudgetCategoryMapContract;
 import org.kuali.kra.s2s.generator.bo.BudgetPeriodInfo;
@@ -40,7 +40,7 @@ public interface S2SBudgetCalculatorService {
 
     String getParticipantSupportCategoryCode();
 
-    List<BudgetLineItem> getMatchingLineItems(List<BudgetLineItem> lineItems, List<String> budgetCategoryType);
+    List<? extends BudgetLineItemContract> getMatchingLineItems(List<? extends BudgetLineItemContract> lineItems, List<String> budgetCategoryType);
 
     /**
      * 
@@ -87,13 +87,13 @@ public interface S2SBudgetCalculatorService {
     public boolean isPersonNonMITPerson(ProposalPersonContract proposalPerson);
     /**
      * 
-     * This method computes the indirect costs for a given {@link BudgetPeriod}
+     * This method computes the indirect costs for a given {@link org.kuali.coeus.common.budget.api.period.BudgetPeriodContract}
      * 
      * @param budgetPeriod
      *            given BudgetPeriod.
      * @return IndirectCostInfo for the corresponding BudgetPeriod object.
      */
-    public IndirectCostInfo getIndirectCosts(Budget budget,BudgetPeriod budgetPeriod);
+    public IndirectCostInfo getIndirectCosts(BudgetContract budget,BudgetPeriodContract budgetPeriod);
 
     public ScaleTwoDecimal getBaseSalaryByPeriod(Long budgetId, int budgetPeriod, KeyPersonInfo keyPerson );
 
