@@ -1747,4 +1747,11 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
         return getRRFedNonFedBudget();
     }
 
+    public PrintingService getPrintingService() {
+        return printingService;
+    }
+
+    public void setPrintingService(PrintingService printingService) {
+        this.printingService = printingService;
+    }
 }
