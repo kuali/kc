@@ -17,7 +17,7 @@ package org.kuali.kra.s2s.service;
 
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum;
 
-import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
+import org.kuali.coeus.common.api.person.attr.CitizenshipTypeContract;
 import org.kuali.kra.s2s.CitizenshipTypes;
 
 /**
@@ -33,7 +33,7 @@ public interface CitizenshipTypeService {
      * @return
      * @throws IllegalArgumentException If an invalid CitizenshipType is passed in.
      */
-    public Enum getEnumValueOfCitizenshipType(CitizenshipType citizenshipType) throws IllegalArgumentException;
+    public Enum getEnumValueOfCitizenshipType(CitizenshipTypeContract citizenshipType) throws IllegalArgumentException;
     public CitizenshipTypes getCitizenshipDataFromExternalSource();
 
 }

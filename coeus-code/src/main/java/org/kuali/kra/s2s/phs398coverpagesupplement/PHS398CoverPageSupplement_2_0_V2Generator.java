@@ -31,9 +31,9 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
+import org.kuali.coeus.common.budget.api.income.BudgetProjectIncomeContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementBaseGenerator;
@@ -58,14 +58,14 @@ import java.util.TreeMap;
 public class PHS398CoverPageSupplement_2_0_V2Generator extends
 		PHS398CoverPageSupplementBaseGenerator {
     
-    private static final String YNQANSWER_121 = "121";
-    protected static final String PROPOSAL_YNQ_QUESTION_114 = "114";
-    protected static final String PROPOSAL_YNQ_QUESTION_115 = "115";
-    protected static final String PROPOSAL_YNQ_QUESTION_116 = "116";
-    protected static final String PROPOSAL_YNQ_QUESTION_117 = "117";
-    protected static final String PROPOSAL_YNQ_QUESTION_118 = "118";
-    protected static final String PROPOSAL_YNQ_QUESTION_119 = "119";
-    protected static final String PROPOSAL_YNQ_QUESTION_120 = "120";
+    private static final Integer YNQANSWER_121 = 121;
+    protected static final Integer PROPOSAL_YNQ_QUESTION_114 = 114;
+    protected static final Integer PROPOSAL_YNQ_QUESTION_115 = 115;
+    protected static final Integer PROPOSAL_YNQ_QUESTION_116 = 116;
+    protected static final Integer PROPOSAL_YNQ_QUESTION_117 = 117;
+    protected static final Integer PROPOSAL_YNQ_QUESTION_118 = 118;
+    protected static final Integer PROPOSAL_YNQ_QUESTION_119 = 119;
+    protected static final Integer PROPOSAL_YNQ_QUESTION_120 = 120;
     protected static final int PROJECT_INCOME_DESCRIPTION_MAX_LENGTH = 150;
 
     List<? extends AnswerHeaderContract> answerHeaders;
@@ -253,7 +253,7 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
      * This method will set values to income budget periods
      */
     private static void setIncomeBudgetPeriods(PHS398CoverPageSupplement20 coverPageSupplement,
-            List<BudgetProjectIncome> projectIncomes, int numPeriods) {
+            List<? extends BudgetProjectIncomeContract> projectIncomes, int numPeriods) {
         if (projectIncomes.isEmpty()) {
             coverPageSupplement.setProgramIncome(YesNoDataType.N_NO);
         } else {
@@ -266,11 +266,11 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
      * Method to sum up IncomeBudgetPeriod of different period Number
      */
     private static IncomeBudgetPeriod[] getIncomeBudgetPeriod(
-            final List<BudgetProjectIncome> projectIncomes) {
+            final List<? extends BudgetProjectIncomeContract> projectIncomes) {
         //TreeMap Used to maintain the order of the Budget periods.
         Map<Integer, IncomeBudgetPeriod> incomeBudgetPeriodMap = new TreeMap<Integer, IncomeBudgetPeriod>();
         BigDecimal anticipatedAmount;
-        for (BudgetProjectIncome projectIncome : projectIncomes) {
+        for (BudgetProjectIncomeContract projectIncome : projectIncomes) {
 
             Integer budgetPeriodNumber = projectIncome.getBudgetPeriodNumber();
             IncomeBudgetPeriod incomeBudgPeriod = incomeBudgetPeriodMap
@@ -303,7 +303,7 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
     /*
      * This method will get the project income description
      */
-    protected static String getProjectIncomeDescription(BudgetProjectIncome projectIncome) {
+    protected static String getProjectIncomeDescription(BudgetProjectIncomeContract projectIncome) {
         String description = null;
         if (projectIncome.getDescription() != null) {
             if (projectIncome.getDescription().length() > PROJECT_INCOME_DESCRIPTION_MAX_LENGTH) {
@@ -368,7 +368,7 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
 	/*
      * This method will get the YNQ Answer for question id
      */
-    private YesNoDataType.Enum getYNQAnswer(String questionID) {
+    private YesNoDataType.Enum getYNQAnswer(Integer questionID) {
         YesNoDataType.Enum answerType = null;
         String answer = getAnswer(questionID,answerHeaders);
         if (answer != null && !answer.equals(NOT_ANSWERED)) {

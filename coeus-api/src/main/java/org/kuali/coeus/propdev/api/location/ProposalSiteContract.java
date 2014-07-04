@@ -19,4 +19,6 @@ public interface ProposalSiteContract extends NumberedProposal {
     RolodexContract getRolodex();
 
     List<? extends CongressionalDistrictContract> getCongressionalDistricts();
+
+    String getFirstCongressionalDistrictName();
 }

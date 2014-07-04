@@ -34,13 +34,14 @@ import gov.grants.apply.system.universalCodesV10.CurrencyCodeType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.framework.org.OrganizationYnq;
+import org.kuali.coeus.common.api.org.OrganizationYnqContract;
+import org.kuali.coeus.common.budget.api.core.BudgetContract;
+import org.kuali.coeus.common.budget.api.income.BudgetProjectIncomeContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.FormGenerator;
@@ -310,7 +311,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 		budget.setFederalEstimatedAmount(BigDecimal.ZERO);
 		budget.setTotalEstimatedAmount(BigDecimal.ZERO);
 
-        org.kuali.coeus.common.budget.framework.core.Budget budgetDoc = null;
+        BudgetContract budgetDoc = null;
         try {
             budgetDoc = proposalBudgetService
                     .getFinalBudgetVersion(pdDoc).getBudget();
@@ -327,7 +328,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 			budget.setLocalEstimatedAmount(BigDecimal.ZERO);
 			budget.setOtherEstimatedAmount(BigDecimal.ZERO);
 			BigDecimal projectIncome = BigDecimal.ZERO;
-			for (BudgetProjectIncome budgetProjectIncome : budgetDoc
+			for (BudgetProjectIncomeContract budgetProjectIncome : budgetDoc
 					.getBudgetProjectIncomes()) {
 				if (budgetProjectIncome.getProjectIncome() != null) {
 					projectIncome = projectIncome.add(budgetProjectIncome
@@ -437,7 +438,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 					.getFirstCongressionalDistrictName());
 		}
 		YesNoType.Enum yesNo = YesNoType.N;
-		for (OrganizationYnq orgYnq : pdDoc.getDevelopmentProposal()
+		for (OrganizationYnqContract orgYnq : pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization()
 				.getOrganizationYnqs()) {
 			if (PROPOSAL_YNQ_FEDERAL_DEBTS.equals(orgYnq.getQuestionId())) {

@@ -67,7 +67,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Question getQuestionById(String questionId) {
+    public Question getQuestionById(Integer questionId) {
         Question question = null;
         if (questionId != null) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -87,7 +87,7 @@ public class QuestionServiceImpl implements QuestionService {
     
     @Override
     @SuppressWarnings("unchecked")
-    public boolean isQuestionUsed(String questionId) {
+    public boolean isQuestionUsed(Integer questionId) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(QUESTION_QUESTION_ID, questionId);
         List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatching(Questionnaire.class,

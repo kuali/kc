@@ -38,16 +38,17 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.question.*;
+import org.kuali.coeus.common.budget.api.core.BudgetContract;
+import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
+import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
+import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.s2s.CitizenshipTypes;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.FormGenerator;
@@ -164,7 +165,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
                 QuestionContract question = questionnaireQuestion.getQuestion();
                 Integer questionNumber = questionnaireQuestion.getQuestionNumber();
                 Integer parentQuestionNumber = questionnaireQuestion.getParentQuestionNumber();
-                Integer questionId = Integer.valueOf(question.getQuestionSeqId());
+                Integer questionId = question.getQuestionSeqId();
                 if (answer != null) {
                         if( !answer .equalsIgnoreCase(ANSWER_YES) || !answer.equalsIgnoreCase(ANSWER_NO)) {
                     switch (questionId) {
@@ -481,9 +482,9 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
             return;
         }
         ScaleTwoDecimal tuitionTotal = ScaleTwoDecimal.ZERO;
-        for (BudgetPeriod budgetPeriod : budgetDoc.getBudget().getBudgetPeriods()) {
+        for (BudgetPeriodContract budgetPeriod : budgetDoc.getBudget().getBudgetPeriods()) {
             ScaleTwoDecimal tuition = ScaleTwoDecimal.ZERO;
-            for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+            for (BudgetLineItemContract budgetLineItem : budgetPeriod.getBudgetLineItems()) {
                 if (getCostElementsByParam(ConfigurationConstants.TUITION_COST_ELEMENTS).contains(budgetLineItem.getCostElementBO().getCostElement())) {
                     tuition = tuition.add(budgetLineItem.getLineItemCost());
                 }
@@ -549,12 +550,12 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
         FederalStipendRequested federalStipendRequested = FederalStipendRequested.Factory.newInstance();
         BudgetDocument budgetDoc = getBudgetDocument();
         if (budgetDoc != null) {
-            org.kuali.coeus.common.budget.framework.core.Budget pBudget = budgetDoc.getBudget();
+            BudgetContract pBudget = budgetDoc.getBudget();
             ScaleTwoDecimal sumOfLineItemCost = ScaleTwoDecimal.ZERO;
             ScaleTwoDecimal numberOfMonths = ScaleTwoDecimal.ZERO;
-            for (BudgetPeriod budgetPeriod : pBudget.getBudgetPeriods()) {
+            for (BudgetPeriodContract budgetPeriod : pBudget.getBudgetPeriods()) {
                 if (budgetPeriod.getBudgetPeriod() == 1) {
-                    for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+                    for (BudgetLineItemContract budgetLineItem : budgetPeriod.getBudgetLineItems()) {
                         if (getCostElementsByParam(ConfigurationConstants.STIPEND_COST_ELEMENTS).contains(
                                 budgetLineItem.getCostElementBO().getCostElement())) {
                             sumOfLineItemCost = sumOfLineItemCost.add(budgetLineItem.getLineItemCost());
@@ -783,8 +784,8 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
     private void setHumanSubjectInvolvedAndVertebrateAnimalUsed(ResearchTrainingPlan researchTrainingPlan) {
         researchTrainingPlan.setHumanSubjectsInvolved(YesNoDataType.N_NO);       
         researchTrainingPlan.setVertebrateAnimalsUsed(YesNoDataType.N_NO);        
-        for (ProposalSpecialReview propSpecialReview : pdDoc.getDevelopmentProposal().getPropSpecialReviews()) {
-            switch (Integer.parseInt(propSpecialReview.getSpecialReviewTypeCode())) {
+        for (ProposalSpecialReviewContract propSpecialReview : pdDoc.getDevelopmentProposal().getPropSpecialReviews()) {
+            switch (Integer.parseInt(propSpecialReview.getSpecialReviewType().getCode())) {
                 case 1:
                     researchTrainingPlan.setHumanSubjectsInvolved(YesNoDataType.Y_YES);
                     break;

@@ -167,7 +167,7 @@ public class QuestionnaireAnswerServiceTest {
     private Question createQuestion(Long questionRefId, Integer questionId) {
         Question question = new Question();
         question.setId(questionRefId);
-        question.setQuestionSeqIdFromInteger(questionId);
+        question.setQuestionSeqId(questionId);
         question.setMaxAnswers(1);
         return question;
         

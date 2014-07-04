@@ -33,25 +33,26 @@ import gov.grants.apply.system.globalLibraryV10.YesNoDataType.Enum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.common.api.org.OrganizationContract;
+import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
+import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.api.ynq.YnqContract;
-import org.kuali.coeus.common.framework.org.Organization;
+import org.kuali.coeus.common.budget.api.core.BudgetContract;
+import org.kuali.coeus.common.budget.api.income.BudgetProjectIncomeContract;
+import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
+import org.kuali.coeus.propdev.api.budget.modular.BudgetModularIdcContract;
+import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
@@ -77,6 +78,12 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 	private DepartmentalPerson departmentalPerson;
 	private static final Log LOG = LogFactory
 			.getLog(RRSF424V1_0Generator.class);
+
+    private RolodexService rolodexService;
+
+    public RRSF424V1_0Generator() {
+        rolodexService = KcServiceLocator.getService(RolodexService.class);
+    }
 
 	/**
 	 *
@@ -146,11 +153,11 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 			rrsf424.setActivityTitle(announcementTitle);
 		}
 		rrsf424.setProjectTitle(pdDoc.getDevelopmentProposal().getTitle());
-		ProposalSite performingOrganization = pdDoc.getDevelopmentProposal()
+		ProposalSiteContract performingOrganization = pdDoc.getDevelopmentProposal()
 				.getPerformingOrganization();
 		if (performingOrganization.getOrganization() != null) {
-            RolodexContract rolodexOrganization = performingOrganization
-					.getOrganization().getRolodex();
+            RolodexContract rolodexOrganization = rolodexService.getRolodex(performingOrganization
+                    .getOrganization().getContactAddressId());
 			if (rolodexOrganization != null) {
 				rrsf424.setLocation(rolodexOrganization.getState());
 			}
@@ -204,7 +211,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
         } catch (WorkflowException e) {
             throw new S2SException(e);
         }
-        Budget budget = budgetDocument == null ? null : budgetDocument
+        BudgetContract budget = budgetDocument == null ? null : budgetDocument
 				.getBudget();
 		EstimatedProjectFunding funding = EstimatedProjectFunding.Factory
 				.newInstance();
@@ -212,17 +219,17 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 		funding.setTotalfedNonfedrequested(BigDecimal.ZERO);
 		funding.setEstimatedProgramIncome(BigDecimal.ZERO);
 
-
+        ScaleTwoDecimal totalCost = ScaleTwoDecimal.ZERO;
 		if (budget != null) {
 			if (budget.getModularBudgetFlag()) {
 				ScaleTwoDecimal fundsRequested = ScaleTwoDecimal.ZERO;
 				ScaleTwoDecimal totalDirectCost = ScaleTwoDecimal.ZERO;
-				ScaleTwoDecimal totalCost = ScaleTwoDecimal.ZERO;
+
 				// get modular budget amounts instead of budget detail amounts
-				for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+				for (BudgetPeriodContract budgetPeriod : budget.getBudgetPeriods()) {
 					totalDirectCost = totalDirectCost.add(budgetPeriod
 							.getBudgetModular().getTotalDirectCost());
-					for (BudgetModularIdc budgetModularIdc : budgetPeriod
+					for (BudgetModularIdcContract budgetModularIdc : budgetPeriod
 							.getBudgetModular().getBudgetModularIdcs()) {
 						fundsRequested = fundsRequested.add(budgetModularIdc
 								.getFundsRequested());
@@ -230,17 +237,15 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 				}
 				totalCost = totalCost.add(totalDirectCost);
 				totalCost = totalCost.add(fundsRequested);
-				budget.setTotalIndirectCost(fundsRequested);
-				budget.setTotalCost(totalCost);
 			}
 
 			ScaleTwoDecimal fedNonFedCost = ScaleTwoDecimal.ZERO;
-			fedNonFedCost = fedNonFedCost.add(budget.getTotalCost());
+			fedNonFedCost = fedNonFedCost.add(totalCost);
 			fedNonFedCost = fedNonFedCost.add(budget.getCostSharingAmount());
 
 
 			BigDecimal totalProjectIncome = BigDecimal.ZERO;
-			for (BudgetProjectIncome budgetProjectIncome : budget
+			for (BudgetProjectIncomeContract budgetProjectIncome : budget
 					.getBudgetProjectIncomes()) {
 				if (budgetProjectIncome.getProjectIncome() != null) {
 					totalProjectIncome = totalProjectIncome
@@ -248,7 +253,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 									.bigDecimalValue());
 				}
 			}
-			funding.setTotalEstimatedAmount(budget.getTotalCost()
+			funding.setTotalEstimatedAmount(totalCost
 					.bigDecimalValue());
 			funding.setTotalfedNonfedrequested(fedNonFedCost.bigDecimalValue());
 			funding.setEstimatedProgramIncome(totalProjectIncome);
@@ -482,7 +487,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 				.getApplicantOrganization().getOrganization();
 
 		// get the organization property of the Performing Organization
-		ProposalSite performingOrgSite = pdDoc.getDevelopmentProposal()
+		ProposalSiteContract performingOrgSite = pdDoc.getDevelopmentProposal()
 				.getPerformingOrganization();
 		OrganizationContract performingOrganization = null;
 		if (performingOrgSite != null) {

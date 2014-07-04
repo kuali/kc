@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.period;
 
+import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.DateUtils;
@@ -36,7 +37,7 @@ import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
 @Entity
 @Table(name = "BUDGET_PERIODS")
-public class BudgetPeriod extends KcPersistableBusinessObjectBase {
+public class BudgetPeriod extends KcPersistableBusinessObjectBase implements BudgetPeriodContract {
 
     private static final long serialVersionUID = -7318331486891820078L;
 
@@ -93,6 +94,18 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase {
     @Column(name = "NUM_PARTICIPANTS")
     private Integer numberOfParticipants;
 
+    @Column(name = "TOTAL_DIRECT_COST_LIMIT")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
+    private ScaleTwoDecimal directCostLimit;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_PERIOD_NUMBER", referencedColumnName = "BUDGET_PERIOD_NUMBER", insertable = false, updatable = false)
+    private BudgetModular budgetModular;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
+    private Budget budget;
+
     // expences total for 'totals' page  
     // if 'totalCost' is intended for 'totals' page, then this is not needed  
     @Transient
@@ -104,15 +117,7 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase {
     @Transient
     private Date oldStartDate;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_PERIOD_NUMBER", referencedColumnName = "BUDGET_PERIOD_NUMBER", insertable = false, updatable = false)
-    private BudgetModular budgetModular;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
-    private Budget budget;
-
-    //this is for lookup from award budget  
+    //this is for lookup from award budget
     @Transient
     private String budgetParentId;
 
@@ -122,10 +127,6 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase {
     @Transient
     private Integer institutionalProposalVersion;
 
-    @Column(name = "TOTAL_DIRECT_COST_LIMIT")
-    @Convert(converter = ScaleTwoDecimalConverter.class)
-    private ScaleTwoDecimal directCostLimit;
-
     // This is a BO and hence will not be shared between threads. dateFormatter here is thread safe.  
     @Transient
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
@@ -134,6 +135,7 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase {
         budgetLineItems = new ArrayList<BudgetLineItem>();
     }
 
+    @Override
     public Long getBudgetId() {
         return budgetId;
     }
@@ -150,6 +152,7 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase {
         return new BudgetPeriodDateComparator();
     }
 
+    @Override
     public Integer getBudgetPeriod() {
         return budgetPeriod;
     }
@@ -166,6 +169,7 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase {
         this.budgetPeriod = budgetPeriod;
     }
 
+    @Override
     public String getComments() {
         return comments;
     }
@@ -174,6 +178,7 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase {
         this.comments = comments;
     }
 
+    @Override
     public ScaleTwoDecimal getCostSharingAmount() {
         return costSharingAmount == null ? ScaleTwoDecimal.ZERO : costSharingAmount;
     }
@@ -182,6 +187,7 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase {
         this.costSharingAmount = costSharingAmount;
     }
 
+    @Override
     public Date getEndDate() {
         return endDate;
     }
@@ -190,6 +196,7 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase {
         this.endDate = endDate;
     }
 
+    @Override
     public Date getStartDate() {
         return startDate;
     }
@@ -198,6 +205,7 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase {
         this.startDate = startDate;
     }
 
+    @Override
     public ScaleTwoDecimal getTotalCost() {
         return totalCost == null ? new ScaleTwoDecimal(0) : totalCost;
     }
@@ -206,6 +214,7 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase {
         this.totalCost = totalCost;
     }
 
+    @Override
     public ScaleTwoDecimal getTotalCostLimit() {
         return totalCostLimit == null ? new ScaleTwoDecimal(0) : totalCostLimit;
     }
@@ -214,6 +223,7 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase {
         this.totalCostLimit = totalCostLimit;
     }
 
+    @Override
     public ScaleTwoDecimal getTotalDirectCost() {
         return totalDirectCost == null ? new ScaleTwoDecimal(0) : totalDirectCost;
     }
@@ -222,6 +232,7 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase {
         this.totalDirectCost = totalDirectCost;
     }
 
+    @Override
     public ScaleTwoDecimal getTotalIndirectCost() {
         return totalIndirectCost == null ? new ScaleTwoDecimal(0) : totalIndirectCost;
     }
@@ -230,6 +241,7 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase {
         this.totalIndirectCost = totalIndirectCost;
     }
 
+    @Override
     public ScaleTwoDecimal getUnderrecoveryAmount() {
         return underrecoveryAmount == null ? new ScaleTwoDecimal(0) : underrecoveryAmount;
     }
@@ -256,6 +268,7 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase {
         return new BudgetLineItem();
     }
 
+    @Override
     public BudgetModular getBudgetModular() {
         return budgetModular;
     }
@@ -264,19 +277,12 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase {
         this.budgetModular = budgetModular;
     }
 
-    /**
-     * Gets the budgetLineItems attribute. 
-     * @return Returns the budgetLineItems.
-     */
+    @Override
     public List<BudgetLineItem> getBudgetLineItems() {
         Collections.sort(budgetLineItems);
         return budgetLineItems;
     }
 
-    /**
-     * Sets the budgetLineItems attribute value.
-     * @param budgetLineItems The budgetLineItems to set.
-     */
     public void setBudgetLineItems(List<BudgetLineItem> budgetLineItems) {
         this.budgetLineItems = budgetLineItems;
     }
@@ -364,6 +370,7 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase {
         this.oldStartDate = oldStartDate;
     }
 
+    @Override
     public Long getBudgetPeriodId() {
         return budgetPeriodId;
     }
@@ -488,18 +495,11 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase {
         this.institutionalProposalVersion = institutionalProposalVersion;
     }
 
-    /**
-     * Gets the directCostLimit attribute. 
-     * @return Returns the directCostLimit.
-     */
+    @Override
     public ScaleTwoDecimal getDirectCostLimit() {
         return directCostLimit == null ? ScaleTwoDecimal.ZERO : directCostLimit;
     }
 
-    /**
-     * Sets the directCostLimit attribute value.
-     * @param directCostLimit The directCostLimit to set.
-     */
     public void setDirectCostLimit(ScaleTwoDecimal directCostLimit) {
         this.directCostLimit = directCostLimit;
     }
@@ -512,6 +512,7 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase {
         return KcServiceLocator.getService(ProposalBudgetNumberOfMonthsService.class);
     }
 
+    @Override
     public Integer getNumberOfParticipants() {
         return numberOfParticipants;
     }

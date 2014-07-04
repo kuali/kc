@@ -18,7 +18,8 @@ package org.kuali.coeus.common.budget.framework.nonpersonnel;
 import javax.persistence.*;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.budget.framework.calculator.RateClassType;
+import org.kuali.coeus.common.budget.api.nonpersonnel.AbstractBudgetCalculatedAmountContract;
+import org.kuali.coeus.common.budget.api.rate.RateClassType;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -26,7 +27,7 @@ import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 @MappedSuperclass
-public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusinessObjectBase {
+public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusinessObjectBase implements AbstractBudgetCalculatedAmountContract {
 
     private static final long serialVersionUID = 4346953317701218299L;
 
@@ -57,24 +58,24 @@ public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusine
     @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal calculatedCostSharing;
 
+    @Column(name = "RATE_TYPE_DESCRIPTION")
+    private String rateTypeDescription;
+
+    @Column(name = "BUDGET_DETAILS_ID")
+    private Long budgetLineItemId;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
+    private RateClass rateClass;
+
     @Transient
     private String rateClassType;
 
     @Transient
     private Integer rateNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
-    private RateClass rateClass;
-
-    @Column(name = "RATE_TYPE_DESCRIPTION")
-    private String rateTypeDescription;
-
     @Transient
     private Long budgetPeriodId;
-
-    @Column(name = "BUDGET_DETAILS_ID")
-    private Long budgetLineItemId;
 
     public Long getBudgetPeriodId() {
         return budgetPeriodId;
@@ -84,6 +85,7 @@ public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusine
         this.budgetPeriodId = budgetPeriodId;
     }
 
+    @Override
     public Long getBudgetId() {
         return budgetId;
     }
@@ -92,22 +94,16 @@ public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusine
         this.budgetId = budgetId;
     }
 
-    /**
-     * Gets the rateClass attribute. 
-     * @return Returns the rateClass.
-     */
+    @Override
     public RateClass getRateClass() {
         return rateClass;
     }
 
-    /**
-     * Sets the rateClass attribute value.
-     * @param rateClass The rateClass to set.
-     */
     public void setRateClass(RateClass rateClass) {
         this.rateClass = rateClass;
     }
 
+    @Override
     public Integer getBudgetPeriod() {
         return budgetPeriod;
     }
@@ -116,6 +112,7 @@ public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusine
         this.budgetPeriod = budgetPeriod;
     }
 
+    @Override
     public Integer getLineItemNumber() {
         return lineItemNumber;
     }
@@ -132,6 +129,7 @@ public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusine
         this.rateClassCode = rateClassCode;
     }
 
+    @Override
     public String getRateTypeCode() {
         return rateTypeCode;
     }
@@ -140,6 +138,7 @@ public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusine
         this.rateTypeCode = rateTypeCode;
     }
 
+    @Override
     public Boolean getApplyRateFlag() {
         return applyRateFlag;
     }
@@ -148,6 +147,7 @@ public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusine
         this.applyRateFlag = applyRateFlag;
     }
 
+    @Override
     public ScaleTwoDecimal getCalculatedCost() {
         return calculatedCost;
     }
@@ -156,6 +156,7 @@ public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusine
         this.calculatedCost = calculatedCost;
     }
 
+    @Override
     public ScaleTwoDecimal getCalculatedCostSharing() {
         return calculatedCostSharing;
     }
@@ -164,66 +165,36 @@ public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusine
         this.calculatedCostSharing = calculatedCostSharing;
     }
 
-    /**
-     * Gets the rateClassType attribute.
-     * @return Returns the rateClassType.
-     */
     public String getRateClassType() {
         return rateClassType;
     }
 
-    /**
-     * Sets the rateClassType attribute value.
-     * @param rateClassType The rateClassType to set.
-     */
     public void setRateClassType(String rateClassType) {
         this.rateClassType = rateClassType;
     }
 
-    /**
-     * Gets the rateNumber attribute.
-     * @return Returns the rateNumber.
-     */
     public Integer getRateNumber() {
         return rateNumber;
     }
 
-    /**
-     * Sets the rateNumber attribute value.
-     * @param rateNumber The rateNumber to set.
-     */
     public void setRateNumber(Integer rateNumber) {
         this.rateNumber = rateNumber;
     }
 
-    /**
-     * Gets the budgetLineItemId attribute.
-     * @return Returns the budgetLineItemId.
-     */
+    @Override
     public Long getBudgetLineItemId() {
         return budgetLineItemId;
     }
 
-    /**
-     * Sets the budgetLineItemId attribute value.
-     * @param budgetLineItemId The budgetLineItemId to set.
-     */
     public void setBudgetLineItemId(Long budgetLineItemId) {
         this.budgetLineItemId = budgetLineItemId;
     }
 
-    /**
-     * Gets the rateTypeDescription attribute. 
-     * @return Returns the rateTypeDescription.
-     */
+    @Override
     public String getRateTypeDescription() {
         return rateTypeDescription;
     }
 
-    /**
-     * Sets the rateTypeDescription attribute value.
-     * @param rateTypeDescription The rateTypeDescription to set.
-     */
     public void setRateTypeDescription(String rateTypeDescription) {
         this.rateTypeDescription = rateTypeDescription;
     }

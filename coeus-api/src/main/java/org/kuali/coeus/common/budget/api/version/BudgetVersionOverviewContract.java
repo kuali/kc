@@ -1,6 +1,6 @@
-package org.kuali.coeus.budget.api.core;
+package org.kuali.coeus.common.budget.api.version;
 
-import org.kuali.coeus.budget.api.rate.RateClassContract;
+import org.kuali.coeus.common.budget.api.rate.RateClassContract;
 import org.kuali.coeus.sys.api.model.DocumentNumbered;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 

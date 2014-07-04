@@ -618,7 +618,7 @@
 		</reference-descriptor>
 
 	--></class-descriptor>
-	<class-descriptor class="org.kuali.kra.bo.InstituteLaRate" table="INSTITUTE_LA_RATES">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.rate.InstituteLaRate" table="INSTITUTE_LA_RATES">
 		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="CHAR" primarykey="true"/>
 		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="CHAR" primarykey="true" conversion="org.kuali.kra.infrastructure.OjbOnOffCampusFlagFieldConversion"/>
 		<field-descriptor name="rateClassCode" column="RATE_CLASS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
@@ -643,7 +643,7 @@
 		</reference-descriptor>
 		
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.bo.InstituteRate" table="INSTITUTE_RATES">
+	<class-descriptor class="org.kuali.coeus.common.budget.framework.rate.InstituteRate" table="INSTITUTE_RATES">
 		<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="CHAR" primarykey="true"/>
 		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="CHAR" primarykey="true" conversion="org.kuali.kra.infrastructure.OjbOnOffCampusFlagFieldConversion"/>

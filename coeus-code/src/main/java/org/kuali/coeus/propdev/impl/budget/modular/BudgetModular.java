@@ -27,13 +27,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.kuali.coeus.propdev.api.budget.modular.BudgetModularContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 
 @Entity
 @Table(name = "BUDGET_MODULAR")
-public class BudgetModular extends KcPersistableBusinessObjectBase {
+public class BudgetModular extends KcPersistableBusinessObjectBase implements BudgetModularContract {
 
     @Id
     @Column(name = "BUDGET_PERIOD_NUMBER")
@@ -84,6 +86,7 @@ public class BudgetModular extends KcPersistableBusinessObjectBase {
         this.setBudgetPeriod(budgetPeriod);
     }
 
+    @Override
     public Long getBudgetId() {
         return budgetId;
     }
@@ -92,6 +95,7 @@ public class BudgetModular extends KcPersistableBusinessObjectBase {
         this.budgetId = budgetId;
     }
 
+    @Override
     public Integer getBudgetPeriod() {
         return budgetPeriod;
     }
@@ -100,6 +104,7 @@ public class BudgetModular extends KcPersistableBusinessObjectBase {
         this.budgetPeriod = budgetPeriod;
     }
 
+    @Override
     public ScaleTwoDecimal getConsortiumFna() {
         return consortiumFna;
     }
@@ -108,6 +113,7 @@ public class BudgetModular extends KcPersistableBusinessObjectBase {
         this.consortiumFna = consortiumFna;
     }
 
+    @Override
     public ScaleTwoDecimal getDirectCostLessConsortiumFna() {
         return directCostLessConsortiumFna;
     }
@@ -116,6 +122,7 @@ public class BudgetModular extends KcPersistableBusinessObjectBase {
         this.directCostLessConsortiumFna = directCostLessConsortiumFna;
     }
 
+    @Override
     public ScaleTwoDecimal getTotalDirectCost() {
         return totalDirectCost;
     }
@@ -140,6 +147,7 @@ public class BudgetModular extends KcPersistableBusinessObjectBase {
         this.totalRequestedCost = totalRequestedCost;
     }
 
+    @Override
     public List<BudgetModularIdc> getBudgetModularIdcs() {
         return budgetModularIdcs;
     }
@@ -218,6 +226,7 @@ public class BudgetModular extends KcPersistableBusinessObjectBase {
         this.getBudgetModularIdcs().add(budgetModularIdc);
     }
 
+    @Override
     public Long getBudgetPeriodId() {
         return budgetPeriodId;
     }

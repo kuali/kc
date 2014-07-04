@@ -348,7 +348,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     private String getVersionedQuestion(QuestionnaireQuestion qnQuestion) {
         
         String results = N;
-        Map<String, String> fieldValues = new HashMap<String, String>();
+        Map<String, Integer> fieldValues = new HashMap<>();
         fieldValues.put(QUESTION_SEQ_ID, qnQuestion.getQuestion().getQuestionSeqId());
         Question question = ((List<Question>)getBusinessObjectService().findMatchingOrderBy(Question.class, fieldValues, "sequenceNumber", false)).get(0);
         if (!question.getSequenceNumber().equals(qnQuestion.getQuestion().getSequenceNumber())) {

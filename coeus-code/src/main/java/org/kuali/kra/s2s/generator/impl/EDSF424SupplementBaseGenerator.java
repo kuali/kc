@@ -28,7 +28,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 public abstract class EDSF424SupplementBaseGenerator extends S2SBaseFormGenerator {
 
-    protected static final String PROPOSAL_YNQ_NOVICE_APPLICANT = "133";
+    protected static final Integer PROPOSAL_YNQ_NOVICE_APPLICANT = 133;
     protected static final String SPECIAL_REVIEW_CODE = "1";
     protected static final String APPROVAL_TYPE_CODE = "4";
     protected static final int NARRATIVE_TYPE_ED_SF424_SUPPLIMENT = 54;

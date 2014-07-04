@@ -18,6 +18,7 @@ package org.kuali.coeus.common.budget.framework.nonpersonnel;
 import java.sql.Date;
 import javax.persistence.*;
 
+import org.kuali.coeus.common.budget.api.nonpersonnel.AbstractBudgetRateAndBaseContract;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -25,15 +26,12 @@ import org.kuali.coeus.sys.framework.persistence.BooleanNFConverter;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 
 @MappedSuperclass
-public abstract class AbstractBudgetRateAndBase extends KcPersistableBusinessObjectBase {
+public abstract class AbstractBudgetRateAndBase extends KcPersistableBusinessObjectBase implements AbstractBudgetRateAndBaseContract {
 
     private static final long serialVersionUID = 5786156490914012479L;
 
     @Column(name = "BUDGET_ID")
     private Long budgetId;
-
-    @Transient
-    private Long budgetPeriodId;
 
     @Column(name = "BUDGET_PERIOD")
     private Integer budgetPeriod;
@@ -80,6 +78,10 @@ public abstract class AbstractBudgetRateAndBase extends KcPersistableBusinessObj
     @JoinColumn(name = "RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
     private RateClass rateClass;
 
+    @Transient
+    private Long budgetPeriodId;
+
+    @Override
     public Long getBudgetId() {
         return budgetId;
     }
@@ -88,6 +90,7 @@ public abstract class AbstractBudgetRateAndBase extends KcPersistableBusinessObj
         this.budgetId = budgetId;
     }
 
+    @Override
     public Integer getBudgetPeriod() {
         return budgetPeriod;
     }
@@ -96,6 +99,7 @@ public abstract class AbstractBudgetRateAndBase extends KcPersistableBusinessObj
         this.budgetPeriod = budgetPeriod;
     }
 
+    @Override
     public Integer getLineItemNumber() {
         return lineItemNumber;
     }
@@ -104,6 +108,7 @@ public abstract class AbstractBudgetRateAndBase extends KcPersistableBusinessObj
         this.lineItemNumber = lineItemNumber;
     }
 
+    @Override
     public String getRateClassCode() {
         return rateClassCode;
     }
@@ -112,6 +117,7 @@ public abstract class AbstractBudgetRateAndBase extends KcPersistableBusinessObj
         this.rateClassCode = rateClassCode;
     }
 
+    @Override
     public Integer getRateNumber() {
         return rateNumber;
     }
@@ -120,6 +126,7 @@ public abstract class AbstractBudgetRateAndBase extends KcPersistableBusinessObj
         this.rateNumber = rateNumber;
     }
 
+    @Override
     public String getRateTypeCode() {
         return rateTypeCode;
     }
@@ -128,6 +135,7 @@ public abstract class AbstractBudgetRateAndBase extends KcPersistableBusinessObj
         this.rateTypeCode = rateTypeCode;
     }
 
+    @Override
     public ScaleTwoDecimal getAppliedRate() {
         return ScaleTwoDecimal.returnZeroIfNull(appliedRate);
     }
@@ -136,6 +144,7 @@ public abstract class AbstractBudgetRateAndBase extends KcPersistableBusinessObj
         this.appliedRate = appliedRate;
     }
 
+    @Override
     public ScaleTwoDecimal getBaseCostSharing() {
         return ScaleTwoDecimal.returnZeroIfNull(baseCostSharing);
     }
@@ -144,6 +153,7 @@ public abstract class AbstractBudgetRateAndBase extends KcPersistableBusinessObj
         this.baseCostSharing = baseCostSharing;
     }
 
+    @Override
     public ScaleTwoDecimal getCalculatedCost() {
         return calculatedCost;
     }
@@ -152,6 +162,7 @@ public abstract class AbstractBudgetRateAndBase extends KcPersistableBusinessObj
         this.calculatedCost = calculatedCost;
     }
 
+    @Override
     public ScaleTwoDecimal getCalculatedCostSharing() {
         return calculatedCostSharing;
     }
@@ -160,6 +171,7 @@ public abstract class AbstractBudgetRateAndBase extends KcPersistableBusinessObj
         this.calculatedCostSharing = calculatedCostSharing;
     }
 
+    @Override
     public Date getEndDate() {
         return endDate;
     }
@@ -168,6 +180,7 @@ public abstract class AbstractBudgetRateAndBase extends KcPersistableBusinessObj
         this.endDate = endDate;
     }
 
+    @Override
     public Boolean getOnOffCampusFlag() {
         return onOffCampusFlag;
     }
@@ -176,6 +189,7 @@ public abstract class AbstractBudgetRateAndBase extends KcPersistableBusinessObj
         this.onOffCampusFlag = onOffCampusFlag;
     }
 
+    @Override
     public Date getStartDate() {
         return startDate;
     }
@@ -184,6 +198,7 @@ public abstract class AbstractBudgetRateAndBase extends KcPersistableBusinessObj
         this.startDate = startDate;
     }
 
+    @Override
     public RateClass getRateClass() {
         return rateClass;
     }
@@ -192,18 +207,10 @@ public abstract class AbstractBudgetRateAndBase extends KcPersistableBusinessObj
         this.rateClass = rateClass;
     }
 
-    /**
-     * Gets the budgetPeriodId attribute.
-     * @return Returns the budgetPeriodId.
-     */
     public Long getBudgetPeriodId() {
         return budgetPeriodId;
     }
 
-    /**
-     * Sets the budgetPeriodId attribute value.
-     * @param budgetPeriodId The budgetPeriodId to set.
-     */
     public void setBudgetPeriodId(Long budgetPeriodId) {
         this.budgetPeriodId = budgetPeriodId;
     }

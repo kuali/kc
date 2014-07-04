@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.personnel;
 
+import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelCalculatedAmountContract;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.AbstractBudgetCalculatedAmount;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,7 +27,7 @@ import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
 @Entity
 @Table(name = "BUDGET_PERSONNEL_CAL_AMTS")
-public class BudgetPersonnelCalculatedAmount extends AbstractBudgetCalculatedAmount {
+public class BudgetPersonnelCalculatedAmount extends AbstractBudgetCalculatedAmount implements BudgetPersonnelCalculatedAmountContract {
 
     private static final long serialVersionUID = 3100896964798965084L;
 
@@ -43,6 +44,7 @@ public class BudgetPersonnelCalculatedAmount extends AbstractBudgetCalculatedAmo
     @Column(name = "BUDGET_PERSONNEL_DETAILS_ID")
     private Long budgetPersonnelLineItemId;
 
+    @Override
     public Integer getPersonNumber() {
         return personNumber;
     }
@@ -51,34 +53,20 @@ public class BudgetPersonnelCalculatedAmount extends AbstractBudgetCalculatedAmo
         this.personNumber = personNumber;
     }
 
-    /**
-     * Gets the budgetPersonnelCalculatedAmountId attribute. 
-     * @return Returns the budgetPersonnelCalculatedAmountId.
-     */
+    @Override
     public Long getBudgetPersonnelCalculatedAmountId() {
         return budgetPersonnelCalculatedAmountId;
     }
 
-    /**
-     * Sets the budgetPersonnelCalculatedAmountId attribute value.
-     * @param budgetPersonnelCalculatedAmountId The budgetPersonnelCalculatedAmountId to set.
-     */
     public void setBudgetPersonnelCalculatedAmountId(Long budgetPersonnelCalculatedAmountId) {
         this.budgetPersonnelCalculatedAmountId = budgetPersonnelCalculatedAmountId;
     }
 
-    /**
-     * Gets the budgetPersonnelLineItemId attribute. 
-     * @return Returns the budgetPersonnelLineItemId.
-     */
+    @Override
     public Long getBudgetPersonnelLineItemId() {
         return budgetPersonnelLineItemId;
     }
 
-    /**
-     * Sets the budgetPersonnelLineItemId attribute value.
-     * @param budgetPersonnelLineItemId The budgetPersonnelLineItemId to set.
-     */
     public void setBudgetPersonnelLineItemId(Long budgetPersonnelLineItemId) {
         this.budgetPersonnelLineItemId = budgetPersonnelLineItemId;
     }

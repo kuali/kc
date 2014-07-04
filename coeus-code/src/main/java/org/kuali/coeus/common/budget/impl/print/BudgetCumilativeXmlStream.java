@@ -19,7 +19,7 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.common.budget.framework.calculator.RateClassType;
+import org.kuali.coeus.common.budget.api.rate.RateClassType;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;

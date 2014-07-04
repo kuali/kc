@@ -23,9 +23,10 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
+import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewContract;
+import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewExemptionContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -45,7 +46,7 @@ import java.util.List;
 @FormGenerator("RROtherProjectInfoV1_2Generator")
 public class RROtherProjectInfoV1_2Generator extends
 		RROtherProjectInfoBaseGenerator {
-	private static final String HISTORIC_DESTIONATION_YNQ = "125";
+	private static final Integer HISTORIC_DESTIONATION_YNQ = 125;
 	List<? extends AnswerHeaderContract> answerHeaders;
 
 	/*
@@ -174,15 +175,15 @@ public class RROtherProjectInfoV1_2Generator extends
 			OrganizationContract organization) {
 		rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.N_NO); 
 		rrOtherProjectInfo.setVertebrateAnimalsIndicator(YesNoDataType.N_NO); 
-		for (ProposalSpecialReview proposalSpecialReview : pdDoc
+		for (ProposalSpecialReviewContract proposalSpecialReview : pdDoc
 				.getDevelopmentProposal().getPropSpecialReviews()) {
-			if (proposalSpecialReview.getSpecialReviewTypeCode() != null) {
+			if (proposalSpecialReview.getSpecialReviewType() != null) {
 				if (Integer.valueOf(proposalSpecialReview
-						.getSpecialReviewTypeCode()) == HUMAN_SUBJECT_SUPPLEMENT) {
+						.getSpecialReviewType().getCode()) == HUMAN_SUBJECT_SUPPLEMENT) {
 					setHumaSubjectSupplementDetails(rrOtherProjectInfo,
-							organization, proposalSpecialReview);
+                            organization, proposalSpecialReview);
 				} else if (Integer.valueOf(proposalSpecialReview
-						.getSpecialReviewTypeCode()) == VERTEBRATE_ANIMALS_SUPPLEMENT) {
+						.getSpecialReviewType().getCode()) == VERTEBRATE_ANIMALS_SUPPLEMENT) {
 					setVertebrateAnimalsSupplementDetails(rrOtherProjectInfo,
 							organization, proposalSpecialReview);
 				}
@@ -281,7 +282,7 @@ public class RROtherProjectInfoV1_2Generator extends
 	private void setVertebrateAnimalsSupplementDetails(
 			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo,
 			OrganizationContract organization,
-			ProposalSpecialReview proposalSpecialReview) {
+			ProposalSpecialReviewContract proposalSpecialReview) {
 		rrOtherProjectInfo.setVertebrateAnimalsIndicator(YesNoDataType.Y_YES);
 		VertebrateAnimalsSupplement vertebrateAnimalsSupplement = VertebrateAnimalsSupplement.Factory
 				.newInstance();
@@ -302,14 +303,14 @@ public class RROtherProjectInfoV1_2Generator extends
 	private void setHumaSubjectSupplementDetails(
 			RROtherProjectInfo12Document.RROtherProjectInfo12 rrOtherProjectInfo,
 			OrganizationContract organization,
-			ProposalSpecialReview proposalSpecialReview) {
+			ProposalSpecialReviewContract proposalSpecialReview) {
 		rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.Y_YES);
 		HumanSubjectsSupplement humanSubjectsSupplement = HumanSubjectsSupplement.Factory
 				.newInstance();
 		HumanSubjectsSupplement.ExemptionNumbers exemptionNumbers = HumanSubjectsSupplement.ExemptionNumbers.Factory
 				.newInstance();
 
-		if (proposalSpecialReview.getApprovalTypeCode() != null) {
+		if (proposalSpecialReview.getApprovalType() != null) {
 			setExemptions(proposalSpecialReview, humanSubjectsSupplement,
 					exemptionNumbers);
 			setHumanSubjectIRBReviewIndicator(proposalSpecialReview,
@@ -330,10 +331,10 @@ public class RROtherProjectInfoV1_2Generator extends
 	 * and indicator based on condition
 	 */
 	private void setVertebrateAnimalsIACUCReviewDetails(
-			ProposalSpecialReview proposalSpecialReview,
+			ProposalSpecialReviewContract proposalSpecialReview,
 			VertebrateAnimalsSupplement vertebrateAnimalsSupplement) {
 		if (SPECIAL_REVIEW_ANIMAL_USAGE.equals(proposalSpecialReview
-				.getApprovalTypeCode())) {
+				.getApprovalType().getCode())) {
 			vertebrateAnimalsSupplement
 					.setVertebrateAnimalsIACUCReviewIndicator(YesNoDataType.Y_YES);
 		} else {
@@ -351,16 +352,16 @@ public class RROtherProjectInfoV1_2Generator extends
 	/*
 	 * This method will set the exemptions to human subjects supplement
 	 */
-	private void setExemptions(ProposalSpecialReview proposalSpecialReview,
+	private void setExemptions(ProposalSpecialReviewContract proposalSpecialReview,
 			HumanSubjectsSupplement humanSubjectsSupplement,
 			HumanSubjectsSupplement.ExemptionNumbers exemptionNumbers) {
-		if (Integer.parseInt(proposalSpecialReview.getApprovalTypeCode()) == APPROVAL_TYPE_EXCEMPT) {
+		if (Integer.parseInt(proposalSpecialReview.getApprovalType().getCode()) == APPROVAL_TYPE_EXCEMPT) {
 			if (proposalSpecialReview.getSpecialReviewExemptions() != null) {
 				List<HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum> exemptionNumberList = new ArrayList<HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum>();
 				HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum exemptionNumberEnum = null;
-				for (SpecialReviewExemption exemption : proposalSpecialReview.getSpecialReviewExemptions()) {
+				for (ProposalSpecialReviewExemptionContract exemption : proposalSpecialReview.getSpecialReviewExemptions()) {
 					exemptionNumberEnum = HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum
-							.forInt(Integer.parseInt(exemption.getExemptionTypeCode()));
+							.forInt(Integer.parseInt(exemption.getExemptionType().getCode()));
 					exemptionNumberList.add(exemptionNumberEnum);
 				}
 				exemptionNumbers
@@ -378,10 +379,10 @@ public class RROtherProjectInfoV1_2Generator extends
 	 * This method will set the Human Subject IRB Review Indicator
 	 */
 	private void setHumanSubjectIRBReviewIndicator(
-			ProposalSpecialReview proposalSpecialReview,
+			ProposalSpecialReviewContract proposalSpecialReview,
 			HumanSubjectsSupplement humanSubjectsSupplement) {
 		if (SPECIAL_REVIEW_HUMAN_SUBJECTS.equals(proposalSpecialReview
-				.getApprovalTypeCode())) {
+				.getApprovalType().getCode())) {
 			humanSubjectsSupplement
 					.setHumanSubjectIRBReviewIndicator(YesNoDataType.Y_YES);
 		} else {

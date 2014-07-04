@@ -51,7 +51,7 @@ public class QuestionVersioningTest extends KcIntegrationTestBase {
     
     private Question createQuestion(Integer questionId, String questionText) {
         Question question = new Question();
-        question.setQuestionSeqIdFromInteger(questionId);
+        question.setQuestionSeqId(questionId);
         question.setQuestion(questionText);
         return question;
     }

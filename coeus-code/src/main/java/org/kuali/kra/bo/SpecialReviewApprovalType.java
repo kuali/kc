@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.coeus.common.api.specialreview.SpecialReviewApprovalTypeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.Column;
@@ -27,7 +28,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "SP_REV_APPROVAL_TYPE")
-public class SpecialReviewApprovalType extends KcPersistableBusinessObjectBase {
+public class SpecialReviewApprovalType extends KcPersistableBusinessObjectBase implements SpecialReviewApprovalTypeContract {
 
     /**
      * The type code for Approval Type 'Approved'.
@@ -67,11 +68,17 @@ public class SpecialReviewApprovalType extends KcPersistableBusinessObjectBase {
         this.approvalTypeCode = approvalTypeCode;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String getCode() {
+        return getApprovalTypeCode();
     }
 }

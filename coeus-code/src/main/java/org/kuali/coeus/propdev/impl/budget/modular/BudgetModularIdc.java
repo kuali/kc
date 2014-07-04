@@ -23,6 +23,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
+import org.kuali.coeus.propdev.api.budget.modular.BudgetModularIdcContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
@@ -30,7 +31,7 @@ import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 @Entity
 @Table(name = "BUDGET_MODULAR_IDC")
 @IdClass(BudgetModularIdc.BudgetModularIdcId.class)
-public class BudgetModularIdc extends KcPersistableBusinessObjectBase {
+public class BudgetModularIdc extends KcPersistableBusinessObjectBase implements BudgetModularIdcContract {
 
     private static final long serialVersionUID = 9162516694202776979L;
 
@@ -73,6 +74,7 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase {
         fundsRequested = new ScaleTwoDecimal(0.0);
     }
 
+    @Override
     public Long getBudgetId() {
         return budgetId;
     }
@@ -81,6 +83,7 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase {
         this.budgetId = budgetId;
     }
 
+    @Override
     public Integer getBudgetPeriod() {
         return budgetPeriod;
     }
@@ -89,6 +92,7 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase {
         this.budgetPeriod = budgetPeriod;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -97,6 +101,7 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase {
         this.description = description;
     }
 
+    @Override
     public ScaleTwoDecimal getFundsRequested() {
         return fundsRequested;
     }
@@ -105,6 +110,7 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase {
         this.fundsRequested = fundsRequested;
     }
 
+    @Override
     public ScaleTwoDecimal getIdcBase() {
         return idcBase;
     }
@@ -113,6 +119,7 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase {
         this.idcBase = idcBase;
     }
 
+    @Override
     public ScaleTwoDecimal getIdcRate() {
         return idcRate;
     }
@@ -121,6 +128,7 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase {
         this.idcRate = idcRate;
     }
 
+    @Override
     public Integer getRateNumber() {
         return rateNumber;
     }
@@ -129,6 +137,7 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase {
         this.rateNumber = rateNumber;
     }
 
+    @Override
     public RateClass getRateClass() {
         return rateClass;
     }
@@ -145,6 +154,7 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase {
         this.setFundsRequested(fundsRequested);
     }
 
+    @Override
     public Long getBudgetPeriodId() {
         return budgetPeriodId;
     }

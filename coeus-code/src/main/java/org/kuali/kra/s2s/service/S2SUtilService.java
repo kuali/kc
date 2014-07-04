@@ -16,9 +16,9 @@
 package org.kuali.kra.s2s.service;
 
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
+import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelDetailsContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.s2s.CitizenshipTypes;
 import org.kuali.coeus.common.api.country.CountryContract;
 import org.kuali.coeus.common.api.state.StateContract;
@@ -113,7 +113,7 @@ public interface S2SUtilService {
      *            date for which Calendar value has to be found.
      * @return cal(Calendar) calendar value corresponding to the date.
      */
-    public Calendar convertDateToCalendar(Date date);
+    public Calendar convertDateToCalendar(java.util.Date date);
 	/**
 	 * 
 	 * This method is to get division name using the OwnedByUnit and traversing
@@ -155,7 +155,7 @@ public interface S2SUtilService {
 	 * 
 	 * This method compares a key person with budget person. It checks whether
 	 * the key person is from PERSON or ROLODEX and matches the respective
-	 * person ID with the person in {@link BudgetPersonnelDetails}
+	 * person ID with the person in {@link org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelDetailsContract}
 	 * 
 	 * @param keyPersonInfo -
 	 *            key person to compare
@@ -164,7 +164,7 @@ public interface S2SUtilService {
 	 * @return true if persons match, false otherwise
 	 */
 	public boolean keyPersonEqualsBudgetPerson(KeyPersonInfo keyPersonInfo,
-			BudgetPersonnelDetails budgetPersonnelDetails);
+			BudgetPersonnelDetailsContract budgetPersonnelDetails);
 
 	/**
 	 * Finds all the co-investigators associated with the provided pdDoc.
@@ -193,7 +193,7 @@ public interface S2SUtilService {
      */
     public DepartmentalPerson getContactPerson(ProposalDevelopmentDocument pdDoc) ;
     
-    public ScaleTwoDecimal getNumberOfMonths(Date dateStart, Date dateEnd);
+    public ScaleTwoDecimal getNumberOfMonths(java.util.Date dateStart, java.util.Date dateEnd);
 
     /**
      * 

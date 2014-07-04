@@ -18,9 +18,9 @@ package org.kuali.kra.s2s.generator.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
-import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
@@ -61,8 +61,8 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     protected static final int DEPARTMENT_NAME_MAX_LENGTH = 30;
     protected static final int ANSWER_EXPLANATION_MAX_LENGTH = 20; 
     protected static final int SFLLL_OTHEREXPLANATORY = 86;
-    protected static final String ANSWER_128 = "128";
-    protected static final String ANSWER_111 = "111";
+    protected static final Integer ANSWER_128 = 128;
+    protected static final Integer ANSWER_111 = 111;
     protected static final String NOT_ANSWERED = "No";
     protected static final String SPONSOR_GROUPS = "Sponsor Groups";
     protected static final String SPONSOR_NIH = "NIH";
@@ -149,7 +149,7 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
      * @param level1 
      * @return
      */
-    public boolean isSponsorInHierarchy(Sponsorable sponsorable, String sponsorHierarchy,String level1) {
+    public boolean isSponsorInHierarchy(DevelopmentProposal sponsorable, String sponsorHierarchy,String level1) {
         return sponsorHierarchyService.isSponsorInHierarchy(sponsorable.getSponsorCode(), sponsorHierarchy, 1, level1);
     }
 

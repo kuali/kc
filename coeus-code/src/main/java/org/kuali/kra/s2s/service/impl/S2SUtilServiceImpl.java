@@ -28,10 +28,11 @@ import org.kuali.coeus.common.api.question.QuestionAnswerService;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.api.state.KcStateService;
 import org.kuali.coeus.common.api.state.StateContract;
+import org.kuali.coeus.common.api.unit.UnitContract;
+import org.kuali.coeus.common.api.unit.UnitRepositoryService;
+import org.kuali.coeus.common.api.unit.admin.UnitAdministratorContract;
+import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelDetailsContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
-import org.kuali.coeus.common.framework.unit.Unit;
-import org.kuali.coeus.common.framework.unit.UnitService;
-import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsContract;
 import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsService;
 import org.kuali.coeus.propdev.api.PropDevQuestionAnswerService;
@@ -41,7 +42,6 @@ import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.s2s.CitizenshipTypes;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
@@ -95,8 +95,8 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     private KcPersonRepositoryService kcPersonRepositoryService;
 
     @Autowired
-    @Qualifier("unitService")
-    private UnitService unitService;
+    @Qualifier("unitRepositoryService")
+    private UnitRepositoryService unitRepositoryService;
 
     @Autowired
     @Qualifier("kcCountryService")
@@ -336,9 +336,9 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      *
      * @param date(Date) date for which Calendar value has to be found.
      * @return calendar value corresponding to the date.
-     * @see org.kuali.kra.s2s.service.S2SUtilService#convertDateToCalendar(java.sql.Date)
+     * @see org.kuali.kra.s2s.service.S2SUtilService#convertDateToCalendar(java.util.Date)
      */
-    public Calendar convertDateToCalendar(Date date) {
+    public Calendar convertDateToCalendar(java.util.Date date) {
         Calendar calendar = null;
         if (date != null) {
             calendar = Calendar.getInstance();
@@ -357,7 +357,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     public String getDivisionName(ProposalDevelopmentDocument pdDoc) {
         String divisionName = null;
         if (pdDoc != null && pdDoc.getDevelopmentProposal().getOwnedByUnit() != null) {
-            Unit ownedByUnit = pdDoc.getDevelopmentProposal().getOwnedByUnit();
+            UnitContract ownedByUnit = pdDoc.getDevelopmentProposal().getOwnedByUnit();
             // traverse through the parent units till the top level unit
             while (ownedByUnit.getParentUnit() != null) {
                 ownedByUnit = ownedByUnit.getParentUnit();
@@ -453,15 +453,15 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 
     /**
      * This method compares a key person with budget person. It checks whether the key person is from PERSON or ROLODEX and matches
-     * the respective person ID with the person in {@link BudgetPersonnelDetails}
+     * the respective person ID with the person in {@link org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelDetailsContract}
      * 
      * @param keyPersonInfo - key person to compare
      * @param budgetPersonnelDetails person from BudgetPersonnelDetails
      * @return true if persons match, false otherwise
      * @see org.kuali.kra.s2s.service.S2SUtilService#keyPersonEqualsBudgetPerson(org.kuali.kra.s2s.generator.bo.KeyPersonInfo,
-     *      org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails)
+     *      BudgetPersonnelDetailsContract)
      */
-    public boolean keyPersonEqualsBudgetPerson(KeyPersonInfo keyPersonInfo, BudgetPersonnelDetails budgetPersonnelDetails) {
+    public boolean keyPersonEqualsBudgetPerson(KeyPersonInfo keyPersonInfo, BudgetPersonnelDetailsContract budgetPersonnelDetails) {
         boolean equal = false;
         if (keyPersonInfo != null && budgetPersonnelDetails != null) {
             String budgetPersonId = budgetPersonnelDetails.getPersonId();
@@ -491,13 +491,12 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         }
         DepartmentalPerson depPerson = new DepartmentalPerson();
         if (isNumber) {
-            Unit leadUnit = pdDoc.getDevelopmentProposal().getOwnedByUnit();
+            UnitContract leadUnit = pdDoc.getDevelopmentProposal().getOwnedByUnit();
                     if (leadUnit!=null) {
-                        leadUnit.refreshReferenceObject("unitAdministrators");
                         KcPersonContract unitAdmin = null;
-                        for (UnitAdministrator admin : leadUnit.getUnitAdministrators()) {
-                            if (contactType.equals(admin.getUnitAdministratorTypeCode())) {
-                                unitAdmin = admin.getPerson();
+                        for (UnitAdministratorContract admin : leadUnit.getUnitAdministrators()) {
+                            if (contactType.equals(admin.getUnitAdministratorType().getCode())) {
+                                unitAdmin = kcPersonRepositoryService.findKcPersonByPersonId(admin.getPersonId());
                                 depPerson.setLastName(unitAdmin.getLastName());
                                 depPerson.setFirstName(unitAdmin.getFirstName());
                                 if (unitAdmin.getMiddleName() != null) {
@@ -519,10 +518,10 @@ public class S2SUtilServiceImpl implements S2SUtilService {
                             }
                         }
                         if (unitAdmin == null) {
-                            Unit parentUnit = getUnitService().getTopUnit();
-                            for (UnitAdministrator parentAdmin : parentUnit.getUnitAdministrators()) {
-                                if (contactType.equals(parentAdmin.getUnitAdministratorTypeCode())) {
-                                    KcPersonContract parentUnitAdmin = parentAdmin.getPerson();
+                            UnitContract parentUnit = getUnitRepositoryService().findTopUnit();
+                            for (UnitAdministratorContract parentAdmin : parentUnit.getUnitAdministrators()) {
+                                if (contactType.equals(parentAdmin.getUnitAdministratorType().getCode())) {
+                                    KcPersonContract parentUnitAdmin = kcPersonRepositoryService.findKcPersonByPersonId(parentAdmin.getPersonId());
                                     depPerson.setLastName(parentUnitAdmin.getLastName());
                                     depPerson.setFirstName(parentUnitAdmin.getFirstName());
                                     if (parentUnitAdmin.getMiddleName() != null) {
@@ -582,7 +581,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * 
      * @return number of months between the start date and end date.
      */
-    public ScaleTwoDecimal getNumberOfMonths(Date dateStart, Date dateEnd) {
+    public ScaleTwoDecimal getNumberOfMonths(java.util.Date dateStart, java.util.Date dateEnd) {
         ScaleTwoDecimal monthCount = ScaleTwoDecimal.ZERO;
         int fullMonthCount = 0;
 
@@ -683,24 +682,6 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         }
     }
 
-    /**
-     * Gets the unitService attribute.
-     * 
-     * @return Returns the unitService.
-     */
-    public UnitService getUnitService() {
-        return unitService;
-    }
-
-    /**
-     * Sets the unitService attribute value.
-     * 
-     * @param unitService The unitService to set.
-     */
-    public void setUnitService(UnitService unitService) {
-        this.unitService = unitService;
-    }
-
     public String removeTimezoneFactor(String applicationXmlText) {
         Calendar cal = Calendar.getInstance();
         int dstOffsetMilli = cal.get(Calendar.DST_OFFSET);
@@ -774,5 +755,13 @@ public class S2SUtilServiceImpl implements S2SUtilService {
 
     public void setRolodexService(RolodexService rolodexService) {
         this.rolodexService = rolodexService;
+    }
+
+    public UnitRepositoryService getUnitRepositoryService() {
+        return unitRepositoryService;
+    }
+
+    public void setUnitRepositoryService(UnitRepositoryService unitRepositoryService) {
+        this.unitRepositoryService = unitRepositoryService;
     }
 }

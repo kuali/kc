@@ -32,6 +32,11 @@ import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.org.OrganizationYnqContract;
 import org.kuali.coeus.common.api.org.type.OrganizationTypeContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.common.budget.api.core.BudgetContract;
+import org.kuali.coeus.common.budget.api.income.BudgetProjectIncomeContract;
+import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemCalculatedAmountContract;
+import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
+import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.propdev.api.abstrct.ProposalAbstractContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
@@ -39,12 +44,7 @@ import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.api.s2s.S2sSubmissionTypeContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
@@ -322,7 +322,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             sf424V2.setProjectEndDate(null);
         }
 
-        Budget budget = null;
+        BudgetContract budget = null;
         try {
             BudgetDocument budgetDocument = proposalBudgetService.getFinalBudgetVersion(pdDoc);
             budget = budgetDocument==null?null:budgetDocument.getBudget();
@@ -338,13 +338,13 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             ScaleTwoDecimal fedNonFedCost = budget.getTotalCost();
             ScaleTwoDecimal costSharingAmount = ScaleTwoDecimal.ZERO;
 
-            for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-                for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+            for (BudgetPeriodContract budgetPeriod : budget.getBudgetPeriods()) {
+                for (BudgetLineItemContract lineItem : budgetPeriod.getBudgetLineItems()) {
                     hasBudgetLineItem = true;
                     if (budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag()) {
                         costSharingAmount =  costSharingAmount.add(lineItem.getCostSharingAmount());
-                        List<BudgetLineItemCalculatedAmount> calculatedAmounts = lineItem.getBudgetCalculatedAmounts();
-                        for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calculatedAmounts) {
+                        List<? extends BudgetLineItemCalculatedAmountContract> calculatedAmounts = lineItem.getBudgetLineItemCalculatedAmounts();
+                        for (BudgetLineItemCalculatedAmountContract budgetLineItemCalculatedAmount : calculatedAmounts) {
                              costSharingAmount =  costSharingAmount.add(budgetLineItemCalculatedAmount.getCalculatedCostSharing());
                         }
                         
@@ -357,7 +357,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             fedNonFedCost = fedNonFedCost.add(costSharingAmount);
             sf424V2.setApplicantEstimatedFunding(costSharingAmount.bigDecimalValue());
             BigDecimal projectIncome = BigDecimal.ZERO;
-            for (BudgetProjectIncome budgetProjectIncome : budget.getBudgetProjectIncomes()) {
+            for (BudgetProjectIncomeContract budgetProjectIncome : budget.getBudgetProjectIncomes()) {
                 projectIncome = projectIncome.add(budgetProjectIncome.getProjectIncome().bigDecimalValue());
             }
             sf424V2.setProgramIncomeEstimatedFunding(projectIncome);

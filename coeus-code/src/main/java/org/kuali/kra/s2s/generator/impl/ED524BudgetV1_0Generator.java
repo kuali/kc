@@ -27,10 +27,10 @@ import gov.grants.apply.system.globalLibraryV10.YesNoDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -102,7 +102,7 @@ public class ED524BudgetV1_0Generator extends ED524BudgetBaseGenerator {
             return ed524BudgetDocument;
         }
 
-        for (BudgetPeriod budgetPeriod : budgetDoc.getBudget().getBudgetPeriods()) {
+        for (BudgetPeriodContract budgetPeriod : budgetDoc.getBudget().getBudgetPeriods()) {
             if (budgetPeriod.getBudgetPeriod().equals(S2SConstants.BUDGET_PERIOD_1)) {
                 getTotalCosts(budgetPeriod);
                 ed524Budget.setBudgetFederalFirstYearAmount(totalCost.bigDecimalValue());

@@ -39,7 +39,7 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
 
     private Long id;
 
-    private String questionSeqId;
+    private Integer questionSeqId;
 
     private Integer sequenceNumber;
 
@@ -93,28 +93,12 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
     }
 
     @Override
-    public String getQuestionSeqId() {
+    public Integer getQuestionSeqId() {
         return questionSeqId;
     }
 
-    public Integer getQuestionSeqIdAsInteger() {
-        Integer retVal = null;
-        if (this.questionSeqId != null) {
-            retVal = Integer.valueOf(this.questionSeqId);
-        }
-        return retVal;
-    }
-
-    public void setQuestionSeqId(String questionId) {
+    public void setQuestionSeqId(Integer questionId) {
         this.questionSeqId = questionId;
-    }
-
-    public void setQuestionSeqIdFromInteger(Integer questionSeqIdAsInteger) {
-        if (questionSeqIdAsInteger != null) {
-            this.questionSeqId = questionSeqIdAsInteger.toString();
-        } else {
-            this.questionSeqId = null;
-        }
     }
 
     @Override
@@ -384,10 +368,10 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
      *         & sequenceNumber pair that is greater than the argument Question.
      */
     public int compareTo(Question argQuestion) {
-        if (ObjectUtils.equals(this.getQuestionSeqIdAsInteger(), argQuestion.getQuestionSeqIdAsInteger())) {
+        if (ObjectUtils.equals(this.getQuestionSeqId(), argQuestion.getQuestionSeqId())) {
             return this.getSequenceNumber().compareTo(argQuestion.getSequenceNumber());
         } else {
-            return this.getQuestionSeqIdAsInteger().compareTo(argQuestion.getQuestionSeqIdAsInteger());
+            return this.getQuestionSeqId().compareTo(argQuestion.getQuestionSeqId());
         }
     }
 

@@ -93,7 +93,7 @@ public class NSFApplicationChecklistV1_3Generator extends NSFApplicationChecklis
 			ProjectNarrative projectNarrative) {
 		List<? extends AnswerContract> answers = getPropDevQuestionAnswerService().getQuestionnaireAnswers(pdDoc.getDevelopmentProposal().getProposalNumber(),getNamespace(),getFormName());
 		for (AnswerContract answer : answers) {
-			Integer seqId = Integer.valueOf(getQuestionAnswerService().findQuestionById(answer.getQuestionId()).getQuestionSeqId());
+			Integer seqId = getQuestionAnswerService().findQuestionById(answer.getQuestionId()).getQuestionSeqId();
             switch (seqId) {
 			case PRELIMINARY:
 				YesNoNotApplicableDataType.Enum yesNoNotApplicableDataType = YesNoNotApplicableDataType.N_NO;
