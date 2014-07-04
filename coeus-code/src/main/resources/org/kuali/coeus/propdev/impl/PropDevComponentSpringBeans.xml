@@ -11,8 +11,6 @@
        http://www.springframework.org/schema/util
        http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <!-- TEMP until S2S is fully removed -->
-
     <context:annotation-config />
     <context:component-scan base-package="org.kuali.coeus.propdev" />
 
@@ -25,6 +23,7 @@
     <import resource="classpath:org/kuali/coeus/propdev/impl/PropDevImportRiceSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/propdev/impl/PropDevImportModuleSpringBeans.xml"/>
 
+    <!-- TEMP until S2S is fully removed -->
     <import resource="classpath:org/kuali/kra/s2s/S2SSpringBeans.xml"/>
 
     <bean id="proposalDevelopmentModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">

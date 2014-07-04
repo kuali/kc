@@ -681,7 +681,7 @@ public class S2SBudgetCalculatorServiceImpl implements
         return budgetPeriods;
     }
 
-    private String getCognizantFedAgency(DevelopmentProposal developmentProposal) {
+    protected String getCognizantFedAgency(DevelopmentProposal developmentProposal) {
         StringBuilder fedAgency = new StringBuilder();
         ProposalSiteContract applicantOrganization = developmentProposal.getApplicantOrganization();
         if (applicantOrganization != null && applicantOrganization.getOrganization() != null

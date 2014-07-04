@@ -1826,4 +1826,12 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
         this.pdDoc = proposalDevelopmentDocument;
         return getRRFedNonFedBudget();
     }
+
+    public PrintingService getPrintingService() {
+        return printingService;
+    }
+
+    public void setPrintingService(PrintingService printingService) {
+        this.printingService = printingService;
+    }
 }
