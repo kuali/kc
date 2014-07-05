@@ -49,7 +49,7 @@ import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -765,10 +765,10 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 	 * @return proposalYnq corresponding to the questionId.
 	 */
 	private ProposalYnqContract getAnswer(String questionId,
-			ProposalDevelopmentDocument proposalDevelopmentDocument) {
+			ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
 		YnqContract question;
 		ProposalYnqContract ynQ = null;
-		for (ProposalYnqContract proposalYnq : proposalDevelopmentDocument
+		for (ProposalYnqContract proposalYnq : ProposalDevelopmentDocumentContract
 				.getDevelopmentProposal().getProposalYnqs()) {
 			question = proposalYnq.getYnq();
 
@@ -782,19 +782,19 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
 
 	/**
 	 * This method creates {@link XmlObject} of type {@link RRSF424Document} by
-	 * populating data from the given {@link ProposalDevelopmentDocument}
+	 * populating data from the given {@link ProposalDevelopmentDocumentContract}
 	 *
-	 * @param proposalDevelopmentDocument
+	 * @param ProposalDevelopmentDocumentContract
 	 *            for which the {@link XmlObject} needs to be created
 	 * @return {@link XmlObject} which is generated using the given
-	 *         {@link ProposalDevelopmentDocument}
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+	 *         {@link ProposalDevelopmentDocumentContract}
+	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
 	 */
 	public XmlObject getFormObject(
-			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		this.pdDoc = proposalDevelopmentDocument;
+			ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
+		this.pdDoc = ProposalDevelopmentDocumentContract;
 		departmentalPerson = s2sUtilService
-				.getDepartmentalPerson(proposalDevelopmentDocument);
+				.getDepartmentalPerson(ProposalDevelopmentDocumentContract);
 		return getRRSF424();
 	}
     @Override

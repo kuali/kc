@@ -40,7 +40,7 @@ import org.kuali.coeus.common.budget.api.income.BudgetProjectIncomeContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
@@ -626,10 +626,10 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 	 * Construction,Non construction, Application, Pre application.
 	 * 
 	 * @param pdDoc
-	 *            (ProposalDevelopmentDocument)
+	 *            (ProposalDevelopmentDocumentContract)
 	 * @return submissionType(String) corresponding to submission type code.
 	 */
-	private String getSF424SubmissionType(ProposalDevelopmentDocument pdDoc) {
+	private String getSF424SubmissionType(ProposalDevelopmentDocumentContract pdDoc) {
 
 		String submissionType = null;
 		String suffix;
@@ -663,17 +663,17 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 	/**
 	 * This method creates {@link XmlObject} of type
 	 * {@link GrantApplicationDocument} by populating data from the given
-	 * {@link ProposalDevelopmentDocument}
+	 * {@link ProposalDevelopmentDocumentContract}
 	 * 
-	 * @param proposalDevelopmentDocument
+	 * @param ProposalDevelopmentDocumentContract
 	 *            for which the {@link XmlObject} needs to be created
 	 * @return {@link XmlObject} which is generated using the given
-	 *         {@link ProposalDevelopmentDocument}
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+	 *         {@link ProposalDevelopmentDocumentContract}
+	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
 	 */
 	public XmlObject getFormObject(
-			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		this.pdDoc = proposalDevelopmentDocument;
+			ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
+		this.pdDoc = ProposalDevelopmentDocumentContract;
 		aorInfo = s2sUtilService.getDepartmentalPerson(pdDoc);
 		return getGrantApplication();
 	}

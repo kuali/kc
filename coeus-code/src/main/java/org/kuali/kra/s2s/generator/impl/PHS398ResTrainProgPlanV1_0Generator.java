@@ -25,7 +25,7 @@ import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
@@ -65,8 +65,8 @@ public class PHS398ResTrainProgPlanV1_0Generator extends S2SBaseFormGenerator{
     @Qualifier("s2SConfigurationService")
     private S2SConfigurationService s2SConfigurationService;
 
-    private PHS398ResearchTrainingProgramPlan getPHS398ResearchTrainingProgramPlan(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
-        DevelopmentProposalContract developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
+    private PHS398ResearchTrainingProgramPlan getPHS398ResearchTrainingProgramPlan(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) throws S2SException {
+        DevelopmentProposalContract developmentProposal = ProposalDevelopmentDocumentContract.getDevelopmentProposal();
         PHS398ResearchTrainingProgramPlan phs398ResTrainProgPlan = PHS398ResearchTrainingProgramPlan.Factory.newInstance();
         
         ResearchTrainingProgramPlanAttachments researchTrainingProgramPlanAttachments = ResearchTrainingProgramPlanAttachments.Factory.newInstance();
@@ -240,8 +240,8 @@ public class PHS398ResTrainProgPlanV1_0Generator extends S2SBaseFormGenerator{
         return proposalTypeEnum;
     }
 
-    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
-        PHS398ResearchTrainingProgramPlan phs398ResearchTrainingProgramPlan = getPHS398ResearchTrainingProgramPlan(proposalDevelopmentDocument);
+    public XmlObject getFormObject(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) throws S2SException {
+        PHS398ResearchTrainingProgramPlan phs398ResearchTrainingProgramPlan = getPHS398ResearchTrainingProgramPlan(ProposalDevelopmentDocumentContract);
         PHS398ResearchTrainingProgramPlanDocument phs398ResearchTrainingProgramPlanDocument = PHS398ResearchTrainingProgramPlanDocument.Factory.newInstance();
         phs398ResearchTrainingProgramPlanDocument.setPHS398ResearchTrainingProgramPlan(phs398ResearchTrainingProgramPlan);
         return phs398ResearchTrainingProgramPlanDocument;

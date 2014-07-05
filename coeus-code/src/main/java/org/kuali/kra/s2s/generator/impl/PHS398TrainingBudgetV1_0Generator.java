@@ -24,7 +24,7 @@ import org.kuali.coeus.common.budget.api.rate.TrainingStipendRateContract;
 import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
@@ -99,17 +99,17 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     private TrainingStipendRateService trainingStipendRateService;
 
 
-    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
+    public XmlObject getFormObject(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) throws S2SException {
         PHS398TrainingBudgetDocument trainingBudgetTypeDocument = PHS398TrainingBudgetDocument.Factory.newInstance();
-        trainingBudgetTypeDocument.setPHS398TrainingBudget(getPHS398TrainingBudget(proposalDevelopmentDocument));
+        trainingBudgetTypeDocument.setPHS398TrainingBudget(getPHS398TrainingBudget(ProposalDevelopmentDocumentContract));
         return trainingBudgetTypeDocument;
     }
 
-    private PHS398TrainingBudget getPHS398TrainingBudget(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException{
-        DevelopmentProposalContract developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
+    private PHS398TrainingBudget getPHS398TrainingBudget(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) throws S2SException{
+        DevelopmentProposalContract developmentProposal = ProposalDevelopmentDocumentContract.getDevelopmentProposal();
         BudgetDocument budgetDocument = null;
         try {
-            budgetDocument = proposalBudgetService.getFinalBudgetVersion(proposalDevelopmentDocument);
+            budgetDocument = proposalBudgetService.getFinalBudgetVersion(ProposalDevelopmentDocumentContract);
         } catch (WorkflowException e) {
             throw new S2SException(e);
         }

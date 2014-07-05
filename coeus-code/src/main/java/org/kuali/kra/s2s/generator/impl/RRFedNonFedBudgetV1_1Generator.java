@@ -41,7 +41,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.budget.api.core.BudgetContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
@@ -802,7 +802,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
         return budgetYear;
     }
     /*
-     * This method gets BudgetJustificationAttachment from proposalDevelopmentDocument for the RRFedNonFedBudget.
+     * This method gets BudgetJustificationAttachment from ProposalDevelopmentDocumentContract for the RRFedNonFedBudget.
      */
     private BudgetYear1DataType getBudgetJustificationAttachment(BudgetYear1DataType budgetYear) {
         AttachedFileDataType attachedFileDataType = null;
@@ -1816,14 +1816,14 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
 
     /**
      * This method creates {@link XmlObject} of type {@link RRFedNonFedBudgetDocument} by populating data from the given
-     * {@link ProposalDevelopmentDocument}
+     * {@link ProposalDevelopmentDocumentContract}
      * 
-     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
-     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     * @param ProposalDevelopmentDocumentContract for which the {@link XmlObject} needs to be created
+     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocumentContract}
+     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
      */
-    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        this.pdDoc = proposalDevelopmentDocument;
+    public XmlObject getFormObject(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
+        this.pdDoc = ProposalDevelopmentDocumentContract;
         return getRRFedNonFedBudget();
     }
 

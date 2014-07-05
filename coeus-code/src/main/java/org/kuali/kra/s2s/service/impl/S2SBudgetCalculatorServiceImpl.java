@@ -36,7 +36,7 @@ import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
@@ -153,14 +153,14 @@ public class S2SBudgetCalculatorServiceImpl implements
 
     /**
      * 
-     * This method does the budget related calculations for a given ProposalDevelopmentDocument and returns them in
+     * This method does the budget related calculations for a given ProposalDevelopmentDocumentContract and returns them in
      * BudgetSummaryInfo
      * 
-     * @param pdDoc ProposalDevelopmentDocument.
-     * @return BudgetSummaryInfo corresponding to the ProposalDevelopmentDocument object.
+     * @param pdDoc ProposalDevelopmentDocumentContract.
+     * @return BudgetSummaryInfo corresponding to the ProposalDevelopmentDocumentContract object.
      * @throws S2SException
      */
-    public BudgetSummaryInfo getBudgetInfo(ProposalDevelopmentDocument pdDoc, List<BudgetPeriodInfo> budgetPeriodInfos)
+    public BudgetSummaryInfo getBudgetInfo(ProposalDevelopmentDocumentContract pdDoc, List<BudgetPeriodInfo> budgetPeriodInfos)
             throws S2SException {
         BudgetDocument budgetDocument = null;
         try {
@@ -521,14 +521,14 @@ public class S2SBudgetCalculatorServiceImpl implements
     }
 
     /**
-     * This method gets the list of BudgetPeriodInfo for the latest BudgetDocument of the given ProposalDevelopmentDocument
+     * This method gets the list of BudgetPeriodInfo for the latest BudgetDocument of the given ProposalDevelopmentDocumentContract
      * 
-     * @param pdDoc ProposalDevelopmentDocument
-     * @return a List of BudgetPeriodInfo corresponding to the ProposalDevelopmentDocument object.
+     * @param pdDoc ProposalDevelopmentDocumentContract
+     * @return a List of BudgetPeriodInfo corresponding to the ProposalDevelopmentDocumentContract object.
      * @throws S2SException
-     * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getBudgetPeriods(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
+     * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getBudgetPeriods(org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract)
      */
-    public List<BudgetPeriodInfo> getBudgetPeriods(ProposalDevelopmentDocument pdDoc) throws S2SException {
+    public List<BudgetPeriodInfo> getBudgetPeriods(ProposalDevelopmentDocumentContract pdDoc) throws S2SException {
         List<BudgetPeriodInfo> budgetPeriods = new ArrayList<BudgetPeriodInfo>();
         BudgetDocument budgetDocument = null;
         try {
@@ -697,13 +697,13 @@ public class S2SBudgetCalculatorServiceImpl implements
     /**
      * 
      * This method populates the {@link OtherPersonnelInfo} business objects for the given {@link org.kuali.coeus.common.budget.api.period.BudgetPeriodContract} and
-     * {@link ProposalDevelopmentDocument}
+     * {@link ProposalDevelopmentDocumentContract}
      * 
      * @param budgetPeriod given budget period.
      * @param pdDoc Proposal Development Document.
      * @return {@link List} of {@link OtherPersonnelInfo}
      */
-    protected List<OtherPersonnelInfo> getOtherPersonnel(BudgetPeriodContract budgetPeriod, ProposalDevelopmentDocument pdDoc) {
+    protected List<OtherPersonnelInfo> getOtherPersonnel(BudgetPeriodContract budgetPeriod, ProposalDevelopmentDocumentContract pdDoc) {
         List<OtherPersonnelInfo> cvOtherPersonnel = new ArrayList<OtherPersonnelInfo>();
         cvOtherPersonnel.add(getOtherPersonnelDetails(
                 budgetPeriod,pdDoc,
@@ -745,7 +745,7 @@ public class S2SBudgetCalculatorServiceImpl implements
     /**
      * 
      * This method populates the details for {@link OtherPersonnelInfo} business object for the given
-     * {@link ProposalDevelopmentDocument}
+     * {@link ProposalDevelopmentDocumentContract}
      * 
      * @param budgetPeriod given budget period.
      * @param pdDoc Proposal Development Document.
@@ -754,7 +754,7 @@ public class S2SBudgetCalculatorServiceImpl implements
      * @param role role of the proposal person.
      * @return OtherPersonnelInfo information about the other personnel.
      */
-    protected OtherPersonnelInfo getOtherPersonnelDetails(BudgetPeriodContract budgetPeriod, ProposalDevelopmentDocument pdDoc,
+    protected OtherPersonnelInfo getOtherPersonnelDetails(BudgetPeriodContract budgetPeriod, ProposalDevelopmentDocumentContract pdDoc,
             String category, String personnelType, String role) {
         OtherPersonnelInfo otherPersonnelInfo = new OtherPersonnelInfo();
 
@@ -1619,14 +1619,14 @@ public class S2SBudgetCalculatorServiceImpl implements
     }
 
     /**
-     * This method gets the {@link List} of Key Persons for a given {@link ProposalDevelopmentDocument}
+     * This method gets the {@link List} of Key Persons for a given {@link ProposalDevelopmentDocumentContract}
      * 
      * @param budgetPeriod given BudgetPeriod.
      * @param pdDoc Proposal Development Document.
      * @param numKeyPersons number of key persons.
      * @return List<List<KeyPersonInfo>> list of KeyPersonInfo list.
      */
-    protected List<List<KeyPersonInfo>> getKeyPersons(BudgetPeriodContract budgetPeriod, ProposalDevelopmentDocument pdDoc,
+    protected List<List<KeyPersonInfo>> getKeyPersons(BudgetPeriodContract budgetPeriod, ProposalDevelopmentDocumentContract pdDoc,
             int numKeyPersons, BudgetContract budget) {
         List<KeyPersonInfo> keyPersons = new ArrayList<KeyPersonInfo>();
         List<KeyPersonInfo> seniorPersons = new ArrayList<KeyPersonInfo>();

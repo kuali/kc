@@ -27,7 +27,7 @@ import org.apache.xpath.XPathAPI;
 import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyContract;
 import org.kuali.coeus.propdev.api.s2s.*;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
@@ -102,7 +102,7 @@ public class FormPrintServiceImpl implements FormPrintService {
 	 * This method is used for the printing of forms in PDF format. It generates
 	 * PDF forms and puts it into {@link KcFile}
 	 * 
-	 * @param pdDoc (ProposalDevelopmentDocument)
+	 * @param pdDoc (ProposalDevelopmentDocumentContract)
 	 * @return {@link KcFile} which contains all information
 	 *         related to the generated PDF
 	 * @throws
@@ -111,7 +111,7 @@ public class FormPrintServiceImpl implements FormPrintService {
 	 */
     @Override
 	public PrintResult printForm(
-			ProposalDevelopmentDocument pdDoc) throws S2SException {
+            ProposalDevelopmentDocumentContract pdDoc) throws S2SException {
 		PrintableResult pResult;
 		S2sAppSubmissionContract s2sAppSubmission = getLatestS2SAppSubmission(pdDoc);
 		if (s2sAppSubmission != null
@@ -134,7 +134,7 @@ public class FormPrintServiceImpl implements FormPrintService {
         return result;
 	}
 
-	protected void saveGrantsGovXml(ProposalDevelopmentDocument pdDoc, boolean formEntryFlag,XmlObject formObject,List<AttachmentData> attachmentList,List<? extends S2sAppAttachmentsContract> attachmentLists) throws Exception{
+	protected void saveGrantsGovXml(ProposalDevelopmentDocumentContract pdDoc, boolean formEntryFlag,XmlObject formObject,List<AttachmentData> attachmentList,List<? extends S2sAppAttachmentsContract> attachmentLists) throws Exception{
 	    String loggingDirectory = s2SConfigurationService.getValueAsString(ConfigurationConstants.PRINT_XML_DIRECTORY);
         String opportunityId = pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityId();
         String proposalnumber = pdDoc.getDevelopmentProposal().getProposalNumber();
@@ -202,7 +202,7 @@ public class FormPrintServiceImpl implements FormPrintService {
             }
         }
     }
-	protected String getFileNameForFormPrinting(ProposalDevelopmentDocument pdDoc) {
+	protected String getFileNameForFormPrinting(ProposalDevelopmentDocumentContract pdDoc) {
 		StringBuilder fileName = new StringBuilder();
 		fileName.append(pdDoc.getDocumentNumber());
 		fileName.append(pdDoc.getDevelopmentProposal()
@@ -221,7 +221,7 @@ public class FormPrintServiceImpl implements FormPrintService {
 	 * @throws S2SException
 	 */
 	protected PrintableResult getSubmittedPDFStream(
-			ProposalDevelopmentDocument pdDoc) throws S2SException {
+			ProposalDevelopmentDocumentContract pdDoc) throws S2SException {
 		GrantApplicationDocument submittedDocument;
 		String frmXpath = null;        
         String frmAttXpath = null;
@@ -329,11 +329,11 @@ public class FormPrintServiceImpl implements FormPrintService {
 	 * This method is used to generate byte stream of forms
 	 * 
 	 * @param pdDoc
-	 *            ProposalDevelopmentDocument
+	 *            ProposalDevelopmentDocumentContract
 	 * @return ByteArrayOutputStream[] PDF byte Array
 	 * @throws S2SException
 	 */
-	protected PrintableResult getPDFStream(ProposalDevelopmentDocument pdDoc)
+	protected PrintableResult getPDFStream(ProposalDevelopmentDocumentContract pdDoc)
 			throws S2SException {
 		FormMappingInfo info = null;
 		S2SBaseFormGenerator s2sFormGenerator = null;
@@ -438,7 +438,7 @@ public class FormPrintServiceImpl implements FormPrintService {
 	 * @return byte[] byte array of attachments based on the contentId object.
 	 */
 
-	protected byte[] getAttContent(ProposalDevelopmentDocument pdDoc,
+	protected byte[] getAttContent(ProposalDevelopmentDocumentContract pdDoc,
 			String contentId) {
 		String[] contentIds = contentId.split("-");
 		String[] contentDesc = contentIds[1].split("_");
@@ -460,7 +460,7 @@ public class FormPrintServiceImpl implements FormPrintService {
 		return null;
 	}
 
-	protected KcFile getAttributeContent(ProposalDevelopmentDocument pdDoc,
+	protected KcFile getAttributeContent(ProposalDevelopmentDocumentContract pdDoc,
             String contentId) {
         String[] contentIds = contentId.split("-");
         String[] contentDesc = contentIds[1].split("_");
@@ -488,11 +488,11 @@ public class FormPrintServiceImpl implements FormPrintService {
 	 * that has highest SubmissionNo
 	 * 
 	 * @param pdDoc
-	 *            {@link ProposalDevelopmentDocument}
+	 *            {@link ProposalDevelopmentDocumentContract}
 	 * @return {@link S2sAppSubmissionContract}
 	 */
 	protected S2sAppSubmissionContract getLatestS2SAppSubmission(
-			ProposalDevelopmentDocument pdDoc) {
+			ProposalDevelopmentDocumentContract pdDoc) {
 		S2sAppSubmissionContract s2sSubmission = null;
 		int submissionNo = 0;
 		for (S2sAppSubmissionContract s2sAppSubmission : pdDoc.getDevelopmentProposal()

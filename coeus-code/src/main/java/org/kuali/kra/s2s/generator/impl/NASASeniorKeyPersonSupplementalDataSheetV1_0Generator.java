@@ -30,7 +30,7 @@ import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
 import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -416,17 +416,17 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 	/**
 	 * This method creates {@link XmlObject} of type
 	 * {@link NASASeniorKeyPersonSupplementalDataSheetDocument} by populating
-	 * data from the given {@link ProposalDevelopmentDocument}
+	 * data from the given {@link ProposalDevelopmentDocumentContract}
 	 * 
-	 * @param proposalDevelopmentDocument
+	 * @param ProposalDevelopmentDocumentContract
 	 *            for which the {@link XmlObject} needs to be created
 	 * @return {@link XmlObject} which is generated using the given
-	 *         {@link ProposalDevelopmentDocument}
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+	 *         {@link ProposalDevelopmentDocumentContract}
+	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
 	 */
 	public XmlObject getFormObject(
-			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		this.pdDoc = proposalDevelopmentDocument;
+			ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
+		this.pdDoc = ProposalDevelopmentDocumentContract;
 		return getNasaSeniorKeyPersonSupplementalDataSheetDocument();
 	}
 
