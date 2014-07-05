@@ -24,9 +24,9 @@ import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xpath.XPathAPI;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyContract;
 import org.kuali.coeus.propdev.api.s2s.*;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.kra.s2s.ConfigurationConstants;
@@ -235,7 +235,7 @@ public class FormPrintServiceImpl implements FormPrintService {
 			throw new S2SException(e);
 		}
 		FormMappingInfo info = null;
-		DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+		DevelopmentProposalContract developmentProposal = pdDoc.getDevelopmentProposal();
         List<String> sortedNameSpaces = getSortedNameSpaces(developmentProposal.getProposalNumber(),developmentProposal.getS2sOppForms());
 		boolean formEntryFlag = true;
 		List<S2SPrintable> formPrintables = new ArrayList<>();
@@ -338,7 +338,7 @@ public class FormPrintServiceImpl implements FormPrintService {
 		FormMappingInfo info = null;
 		S2SBaseFormGenerator s2sFormGenerator = null;
 		List<AuditError> errors = new ArrayList<AuditError>();
-		DevelopmentProposal developmentProposal = pdDoc
+		DevelopmentProposalContract developmentProposal = pdDoc
 				.getDevelopmentProposal();
         String proposalNumber = developmentProposal.getProposalNumber();
         List<String> sortedNameSpaces = getSortedNameSpaces(proposalNumber, developmentProposal.getS2sOppForms());

@@ -584,6 +584,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.investigators = investigators;
     }
 
+    @Override
     public List<ProposalPerson> getInvestigators() {
         return investigators;
     }
@@ -906,6 +907,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         }
     }
 
+    @Override
     public ProposalSite getApplicantOrganization() {
         ProposalSite applicant = getProposalSiteForType(ProposalSite.PROPOSAL_SITE_APPLICANT_ORGANIZATION);
         if (applicant != null)
@@ -931,6 +933,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         }
     }
 
+    @Override
     public ProposalSite getPerformingOrganization() {
         ProposalSite performingOrganization = getProposalSiteForType(ProposalSite.PROPOSAL_SITE_PERFORMING_ORGANIZATION);
         performingOrganization.refreshReferenceObject("rolodex");
@@ -1003,6 +1006,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         setProposalSitesForType(performanceSites, ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE);
     }
 
+    @Override
     public List<ProposalSite> getPerformanceSites() {
         return getProposalSitesForType(ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE);
     }
@@ -1029,6 +1033,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         setProposalSitesForType(otherOrganizations, ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);
     }
 
+    @Override
     public List<ProposalSite> getOtherOrganizations() {
         return getProposalSitesForType(ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);
     }

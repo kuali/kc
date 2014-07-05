@@ -33,10 +33,10 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType.FileLocation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
@@ -776,7 +776,7 @@ public class RRBudget10V1_3Generator extends RRBudgetBaseGenerator {
                             .getHumanNameDataType(keyPerson));
                     if (isSponsorNIH(pdDoc)
                             && KEYPERSON_CO_PD_PI.equals(keyPerson.getRole())) {
-                        DevelopmentProposal developmentProposal=pdDoc.getDevelopmentProposal();     
+                        DevelopmentProposalContract developmentProposal=pdDoc.getDevelopmentProposal();
                         
                         for (ProposalPersonContract proposalPerson : developmentProposal.getInvestigators()) {
                             if(isProposalPersonEqualsKeyPerson(proposalPerson, keyPerson)){   

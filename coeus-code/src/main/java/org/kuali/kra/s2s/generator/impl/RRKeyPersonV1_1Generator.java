@@ -29,10 +29,10 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.AuditError;
@@ -160,7 +160,7 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
             }
             else
             {
-                DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+                DevelopmentProposalContract developmentProposal = pdDoc.getDevelopmentProposal();
                 profile.setDepartmentName(developmentProposal.getOwnedByUnit().getUnitName());
             }
             String divisionName = PI.getDivision();
@@ -256,7 +256,7 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
                 }
                 else
                 {
-                    DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+                    DevelopmentProposalContract developmentProposal = pdDoc.getDevelopmentProposal();
                     profileKeyPerson.setDepartmentName(developmentProposal.getOwnedByUnit().getUnitName());
                 }
                 String divisionName = keyPerson.getDivision();

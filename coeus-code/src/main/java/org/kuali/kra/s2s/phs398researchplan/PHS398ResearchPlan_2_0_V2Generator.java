@@ -40,9 +40,9 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.impl.PHS398ResearchPlanBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -259,7 +259,7 @@ public class PHS398ResearchPlan_2_0_V2Generator extends
 	private AttachedFileDataType[] getAttachedFileDataTypes() {
 		int size = 0;
 		AttachedFileDataType[] attachedFileDataTypes = null;
-		DevelopmentProposal developmentProposal = pdDoc
+		DevelopmentProposalContract developmentProposal = pdDoc
 				.getDevelopmentProposal();
 		for (NarrativeContract narrative : developmentProposal.getNarratives()) {
 			if (narrative.getNarrativeType().getCode() != null

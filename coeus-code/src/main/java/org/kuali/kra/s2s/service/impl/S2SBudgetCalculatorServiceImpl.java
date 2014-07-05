@@ -32,10 +32,10 @@ import org.kuali.coeus.common.budget.api.personnel.BudgetPersonContract;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.api.budget.modular.BudgetModularIdcContract;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
@@ -681,7 +681,7 @@ public class S2SBudgetCalculatorServiceImpl implements
         return budgetPeriods;
     }
 
-    protected String getCognizantFedAgency(DevelopmentProposal developmentProposal) {
+    protected String getCognizantFedAgency(DevelopmentProposalContract developmentProposal) {
         StringBuilder fedAgency = new StringBuilder();
         ProposalSiteContract applicantOrganization = developmentProposal.getApplicantOrganization();
         if (applicantOrganization != null && applicantOrganization.getOrganization() != null

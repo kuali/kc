@@ -41,22 +41,19 @@ import org.kuali.coeus.common.api.question.*;
 import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
 import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.s2s.CitizenshipTypes;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.impl.PHS398FellowshipSupplementalBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -117,10 +114,6 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
     
     private static final String ANSWER_YES = "Yes";
     private static final String ANSWER_NO = "No";
-
-    @Autowired
-    @Qualifier("proposalDevelopmentS2sQuestionnaireService")
-    private ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService;
 
     /*
      * This method is used to get PHSFellowshipSupplemental20 XMLObject and set the data to it from DevelopmentProposal data.
@@ -783,9 +776,8 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
         }
     }
 
-    private List<? extends AnswerHeaderContract> findQuestionnaireWithAnswers(DevelopmentProposal developmentProposal) {
-        ProposalDevelopmentS2sQuestionnaireService questionnaireAnswerService = getProposalDevelopmentS2sQuestionnaireService();
-        return questionnaireAnswerService.getProposalAnswerHeaderForForm(developmentProposal,
+    private List<? extends AnswerHeaderContract> findQuestionnaireWithAnswers(DevelopmentProposalContract developmentProposal) {
+        return getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(developmentProposal.getProposalNumber(),
                 "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_2_0-V2.0", "PHS_Fellowship_Supplemental_2_0");
     }
 
@@ -1022,13 +1014,5 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
 
     public String getNamespace() {
         return "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_2_0-V2.0";
-    }
-
-    public ProposalDevelopmentS2sQuestionnaireService getProposalDevelopmentS2sQuestionnaireService() {
-        return proposalDevelopmentS2sQuestionnaireService;
-    }
-
-    public void setProposalDevelopmentS2sQuestionnaireService(ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService) {
-        this.proposalDevelopmentS2sQuestionnaireService = proposalDevelopmentS2sQuestionnaireService;
     }
 }
