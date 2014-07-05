@@ -52,7 +52,6 @@ import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographySer
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.persistence.CompositeDescriptorCustomizer;
 import org.kuali.coeus.sys.framework.persistence.FilterByMapDescriptorCustomizer;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -63,7 +62,6 @@ import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.infrastructure.Constants;
@@ -80,6 +78,7 @@ import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -385,6 +384,12 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     private String hierarchyStatusName;
 
     @Transient
+    private transient BusinessObjectService businessObjectService;
+
+    @Transient
+    private transient DataObjectService dataObjectService;
+
+    @Transient
     private transient ParameterService parameterService;
 
     @Transient
@@ -399,10 +404,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @Transient
     private transient ProposalPersonBiographyService proposalPersonBiographyService;
 
-    /**
-     * Gets the proposalNumberForGG attribute. 
-     * @return Returns the proposalNumberForGG.
-     */
+    @Override
     public String getProposalNumberForGG() {
         if (s2sOpportunity != null) {
             proposalNumberForGG = s2sOpportunity.getProposalNumber();
@@ -410,6 +412,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return proposalNumberForGG;
     }
 
+    @Override
     public String getOpportunityIdForGG() {
         if (s2sOpportunity != null) {
             opportunityIdForGG = s2sOpportunity.getOpportunityId();
@@ -417,10 +420,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return opportunityIdForGG;
     }
 
-    /**
-     * Sets the proposalNumberForGG attribute value.
-     * @param proposalNumberForGG The proposalNumberForGG to set.
-     */
     public void setProposalNumberForGG(String proposalNumberForGG) {
         this.proposalNumberForGG = proposalNumberForGG;
     }
@@ -429,10 +428,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.opportunityIdForGG = opportunityIdForGG;
     }
 
-    /**
-     * Looks up and returns the ParameterService.
-     * @return the parameter service. 
-     */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
             this.parameterService = KcServiceLocator.getService(ParameterService.class);
@@ -440,10 +435,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return this.parameterService;
     }
 
-    /**
-     * Looks up and returns the ProposalHierarchyService.
-     * @return the proposal hierarchy service. 
-     */
     protected ProposalHierarchyService getProposalHierarchyService() {
         if (this.proposalHierarchyService == null) {
             this.proposalHierarchyService = KcServiceLocator.getService(ProposalHierarchyService.class);
@@ -458,38 +449,25 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return keyPersonnelService;
     }
 
-    /**
-     * Gets the hierarchy attribute. 
-     * @return Returns the hierarchy.
-     */
+    @Override
     public String getHierarchyStatus() {
         return hierarchyStatus;
     }
 
-    /**
-     * Sets the hierarchy attribute value.
-     * @param hierarchyStatus The hierarchy to set.
-     */
     public void setHierarchyStatus(String hierarchyStatus) {
         this.hierarchyStatus = hierarchyStatus;
     }
 
-    /**
-     * Gets the hierarchyParentProposalNumber attribute. 
-     * @return Returns the hierarchyParentProposalNumber.
-     */
+    @Override
     public String getHierarchyParentProposalNumber() {
         return hierarchyParentProposalNumber;
     }
 
-    /**
-     * Sets the hierarchyParentProposalNumber attribute value.
-     * @param hierarchyParentProposalNumber The hierarchyParentProposalNumber to set.
-     */
     public void setHierarchyParentProposalNumber(String hierarchyParentProposalNumber) {
         this.hierarchyParentProposalNumber = hierarchyParentProposalNumber;
     }
 
+    @Override
     public String getHierarchyOriginatingChildProposalNumber() {
         return hierarchyOriginatingChildProposalNumber;
     }
@@ -498,21 +476,15 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.hierarchyOriginatingChildProposalNumber = hierarchyOriginatingChildProposalNumber;
     }
 
-    /**
-     * Sets the hierarchyLastSyncHashCode attribute value.
-     * @param hierarchyLastSyncHashCode The hierarchyLastSyncHashCode to set.
-     */
     public void setHierarchyLastSyncHashCode(Integer hierarchyLastSyncHashCode) {
         this.hierarchyLastSyncHashCode = hierarchyLastSyncHashCode;
     }
 
-    /**
-     * Gets the hierarchyLastSyncHashCode attribute. 
-     * @return Returns the hierarchyLastSyncHashCode.
-     */
+    @Override
     public Integer getHierarchyLastSyncHashCode() {
         return hierarchyLastSyncHashCode;
     }
+
 
     public boolean isParent() {
         return HierarchyStatusConstants.Parent.code().equals(hierarchyStatus);
@@ -539,23 +511,15 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.hierarchyStatusName = hierarchyStatusName;
     }
 
-    /**
-     * Sets the hierarchyBudgetType attribute value.
-     * @param hierarchyBudgetType The hierarchyBudgetType to set.
-     */
     public void setHierarchyBudgetType(String hierarchyBudgetType) {
         this.hierarchyBudgetType = hierarchyBudgetType;
     }
 
-    /**
-     * Gets the hierarchyBudgetType attribute. 
-     * @return Returns the hierarchyBudgetType.
-     */
+    @Override
     public String getHierarchyBudgetType() {
         return hierarchyBudgetType;
     }
 
-    @SuppressWarnings("unchecked")
     public DevelopmentProposal() {
         super();
         setProposalStateTypeCode(ProposalState.IN_PROGRESS);
@@ -598,11 +562,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         }
     }
 
-    /**
-     * Gets the value of proposalPersons
-     * 
-     * @return the value of proposalPersons
-     */
+    @Override
     public List<ProposalPerson> getProposalPersons() {
         evaluateMoveOptions();
         return this.proposalPersons;
@@ -628,11 +588,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return investigators;
     }
 
-    /**
-     * Sets the value of proposalPersons
-     * 
-     * @param argProposalPersons Value to assign to this.proposalPersons
-     */
     public void setProposalPersons(List<ProposalPerson> argProposalPersons) {
         this.proposalPersons = argProposalPersons;
     }
@@ -673,24 +628,16 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.proposalTypeCode = proposalTypeCode;
     }
 
-    /**
-     * Gets the continuedFrom attribute.
-     * 
-     * @return Returns the continuedFrom.
-     */
+    @Override
     public String getContinuedFrom() {
         return continuedFrom;
     }
 
-    /**
-     * Sets the continuedFrom attribute value.
-     * 
-     * @param continuedFrom The continuedFrom to set.
-     */
     public void setContinuedFrom(String continuedFrom) {
         this.continuedFrom = continuedFrom;
     }
 
+    @Override
     public Date getRequestedEndDateInitial() {
         return requestedEndDateInitial;
     }
@@ -699,6 +646,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.requestedEndDateInitial = requestedEndDateInitial;
     }
 
+    @Override
     public Date getRequestedStartDateInitial() {
         return requestedStartDateInitial;
     }
@@ -715,6 +663,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.sponsorCode = sponsorCode;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
@@ -723,6 +672,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.title = title;
     }
 
+    @Override
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -731,6 +681,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.proposalNumber = proposalNumber;
     }
 
+    @Override
     public String getCurrentAwardNumber() {
         return currentAwardNumber;
     }
@@ -739,78 +690,43 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.currentAwardNumber = currentAwardNumber;
     }
 
-    /**
-     * Gets the agencyDivisionCode attribute.
-     * 
-     * @return Returns the agencyDivisionCode.
-     */
+    @Override
     public String getAgencyDivisionCode() {
         return agencyDivisionCode;
     }
 
-    /**
-     * Sets the agencyDivisionCode attribute value.
-     * 
-     * @param agencyDivisionCode The agencyDivisionCode to set.
-     */
     public void setAgencyDivisionCode(String agencyDivisionCode) {
         this.agencyDivisionCode = agencyDivisionCode;
     }
 
-    /**
-     * Gets the agencyProgramCode attribute.
-     * 
-     * @return Returns the agencyProgramCode.
-     */
+    @Override
     public String getAgencyProgramCode() {
         return agencyProgramCode;
     }
 
-    /**
-     * Sets the agencyProgramCode attribute value.
-     * 
-     * @param agencyProgramCode The agencyProgramCode to set.
-     */
     public void setAgencyProgramCode(String agencyProgramCode) {
         this.agencyProgramCode = agencyProgramCode;
     }
 
-    /**
-     * Gets the cfdaNumber attribute.
-     * 
-     * @return Returns the cfdaNumber.
-     */
+    @Override
     public String getCfdaNumber() {
         return cfdaNumber;
     }
 
-    /**
-     * Sets the cfdaNumber attribute value.
-     * 
-     * @param cfdaNumber The cfdaNumber to set.
-     */
     public void setCfdaNumber(String cfdaNumber) {
         this.cfdaNumber = cfdaNumber;
     }
 
-    /**
-     * Gets the deadlineDate attribute.
-     * 
-     * @return Returns the deadlineDate.
-     */
+    @Override
     public Date getDeadlineDate() {
         return deadlineDate;
     }
 
-    /**
-     * Sets the deadlineDate attribute value.
-     * 
-     * @param deadlineDate The deadlineDate to set.
-     */
     public void setDeadlineDate(Date deadlineDate) {
         this.deadlineDate = deadlineDate;
     }
 
+    @Override
     public String getDeadlineTime() {
         return deadlineTime;
     }
@@ -819,20 +735,11 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.deadlineTime = deadlineTime;
     }
 
-    /**
-     * Gets the deadlineType attribute.
-     * 
-     * @return Returns the deadlineType.
-     */
+    @Override
     public String getDeadlineType() {
         return deadlineType;
     }
 
-    /**
-     * Sets the anticipatedAwardType attribute value.
-     * 
-     * @param anticipatedAwardTypeCode The anticipatedAwardType to set.
-     */
     public void setAnticipatedAwardTypeCode(Integer anticipatedAwardTypeCode) {
         this.anticipatedAwardTypeCode = anticipatedAwardTypeCode;
     }
@@ -841,154 +748,81 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.anticipatedAwardType = anticipatedAwardType;
     }
 
-    /**
-     * Gets the anticipatedAwardType attribute.
-     * 
-     * @return Returns the anticipatedAwardType.
-     */
     public Integer getAnticipatedAwardTypeCode() {
         return anticipatedAwardTypeCode;
     }
 
+    @Override
     public AwardType getAnticipatedAwardType() {
         return anticipatedAwardType;
     }
 
-    /**
-     * Sets the deadlineType attribute value.
-     * 
-     * @param deadlineType The deadlineType to set.
-     */
     public void setDeadlineType(String deadlineType) {
         this.deadlineType = deadlineType;
     }
 
-    /**
-     * Gets the noticeOfOpportu nityCode attribute.
-     * 
-     * @return Returns the noticeOfOpportunityCode.
-     */
     public String getNoticeOfOpportunityCode() {
         return noticeOfOpportunityCode;
     }
 
-    /**
-     * Sets the noticeOfOpportunityCode attribute value.
-     * 
-     * @param noticeOfOpportunityCode The noticeOfOpportunityCode to set.
-     */
     public void setNoticeOfOpportunityCode(String noticeOfOpportunityCode) {
         this.noticeOfOpportunityCode = noticeOfOpportunityCode;
     }
 
-    /**
-     * Gets the nsfCode attribute.
-     * 
-     * @return Returns the nsfCode.
-     */
+    @Override
     public String getNsfCode() {
         return nsfCode;
     }
 
-    /**
-     * Sets the nsfCode attribute value.
-     * 
-     * @param nsfCode The nsfCode to set.
-     */
     public void setNsfCode(String nsfCode) {
         this.nsfCode = nsfCode;
     }
 
-    /**
-     * Gets the primeSponsorCode attribute.
-     * 
-     * @return Returns the primeSponsorCode.
-     */
     public String getPrimeSponsorCode() {
         return primeSponsorCode;
     }
 
-    /**
-     * Sets the primeSponsorCode attribute value.
-     * 
-     * @param primeSponsorCode The primeSponsorCode to set.
-     */
     public void setPrimeSponsorCode(String primeSponsorCode) {
         this.primeSponsorCode = primeSponsorCode;
     }
 
-    /**
-     * Gets the programAnnouncementNumber attribute.
-     * 
-     * @return Returns the programAnnouncementNumber.
-     */
+    @Override
     public String getProgramAnnouncementNumber() {
         return programAnnouncementNumber;
     }
 
-    /**
-     * Sets the programAnnouncementNumber attribute value.
-     * 
-     * @param programAnnouncementNumber The programAnnouncementNumber to set.
-     */
     public void setProgramAnnouncementNumber(String programAnnouncementNumber) {
         this.programAnnouncementNumber = programAnnouncementNumber;
     }
 
-    /**
-     * Gets the programAnnouncementTitle attribute.
-     * 
-     * @return Returns the programAnnouncementTitle.
-     */
+    @Override
     public String getProgramAnnouncementTitle() {
         return programAnnouncementTitle;
     }
 
-    /**
-     * Sets the programAnnouncementTitle attribute value.
-     * 
-     * @param programAnnouncementTitle The programAnnouncementTitle to set.
-     */
     public void setProgramAnnouncementTitle(String programAnnouncementTitle) {
         this.programAnnouncementTitle = programAnnouncementTitle;
     }
 
-    /**
-     * Gets the sponsorProposalNumber attribute.
-     * 
-     * @return Returns the sponsorProposalNumber.
-     */
+    @Override
     public String getSponsorProposalNumber() {
         return sponsorProposalNumber;
     }
 
-    /**
-     * Sets the sponsorProposalNumber attribute value.
-     * 
-     * @param sponsorProposalNumber The sponsorProposalNumber to set.
-     */
     public void setSponsorProposalNumber(String sponsorProposalNumber) {
         this.sponsorProposalNumber = sponsorProposalNumber;
     }
 
-    /**
-     * Gets the subcontracts attribute.
-     * 
-     * @return Returns the subcontracts.
-     */
+    @Override
     public Boolean getSubcontracts() {
         return subcontracts;
     }
 
-    /**
-     * Sets the subcontracts attribute value.
-     * 
-     * @param subcontracts The subcontracts to set.
-     */
     public void setSubcontracts(Boolean subcontracts) {
         this.subcontracts = subcontracts;
     }
 
+    @Override
     public String getMailBy() {
         return mailBy;
     }
@@ -997,6 +831,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.mailBy = mailBy;
     }
 
+    @Override
     public String getMailType() {
         return mailType;
     }
@@ -1005,6 +840,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.mailType = mailType;
     }
 
+    @Override
     public String getMailAccountNumber() {
         return mailAccountNumber;
     }
@@ -1013,6 +849,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.mailAccountNumber = mailAccountNumber;
     }
 
+    @Override
     public String getMailDescription() {
         return mailDescription;
     }
@@ -1030,6 +867,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         refreshRolodex();
     }
 
+    @Override
     public String getNumberOfCopies() {
         return numberOfCopies;
     }
@@ -1230,14 +1068,12 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         this.proposalSites = proposalSites;
     }
 
-    /**
-     * This method returns all proposal sites associated with the document
-     * @return
-     */
+    @Override
     public List<ProposalSite> getProposalSites() {
         return proposalSites;
     }
 
+    @Override
     public Rolodex getRolodex() {
         return rolodex;
     }
@@ -1257,6 +1093,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     	}
     }
 
+    @Override
     public List<PropScienceKeyword> getPropScienceKeywords() {
         return propScienceKeywords;
     }
@@ -1285,6 +1122,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return "(select)";
     }
 
+    @Override
     public List<ProposalSpecialReview> getPropSpecialReviews() {
         return propSpecialReviews;
     }
@@ -1316,14 +1154,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(identifierField, identifierValue);
         return map;
-    }
-
-    /**
-     * This method looks up BOS
-     * @return
-     */
-    protected BusinessObjectService getBusinessObjectService() {
-        return (BusinessObjectService) KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     @SuppressWarnings("unchecked")
@@ -2072,20 +1902,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return proposalType;
     }
 
-    //    /**   
-    //     * Gets the children attribute.    
-    //     * @return Returns the children.   
-    //     */   
-    //    public List<ProposalHierarchyChild> getChildren() {   
-    //        return children;   
-    //    }   
-    //    /**   
-    //     * Sets the children attribute value.   
-    //     * @param children The children to set.   
-    //     */   
-    //    public void setChildren(List<ProposalHierarchyChild> children) {   
-    //        this.children = children;   
-    //    }   
     /**
      * In the case where a person is in the proposal twice (Investigator and Key Person),
      * this method's return list contains only the Investigator.
@@ -2242,7 +2058,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     public Integer getParentInvestigatorFlag(String personId, Integer flag) {
         for (ProposalPerson pPerson : this.getProposalPersons()) {
-            if (pPerson.getPersonId() != null && pPerson.getPersonId().equals(personId) || pPerson.getRolodexId() != null && pPerson.getRolodexId().equals(personId)) {
+            if (pPerson.getPersonId() != null && pPerson.getPersonId().equals(personId) || pPerson.getRolodexId() != null && pPerson.getRolodexId().equals(Integer.valueOf(personId))) {
                 flag = 2;
                 if (pPerson.getProposalPersonRoleId().equals("PI")) {
                     flag = 1;
@@ -2356,7 +2172,7 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
                     narrative.setNarrativeStatus(narrativeStatus);
                     narrative.setModuleStatusCode(narrativeStatus.getCode());
                     narrative.refreshReferenceObject("narrativeStatus");
-                    getBusinessObjectService().save(narrative);
+                    getDataObjectService().save(narrative);
                 }
             }
         }
@@ -2366,7 +2182,7 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
         Narrative narrative = getNarratives().get(selectedLine);
         if (narrative.getReplaceAttachment(GlobalVariables.getUserSession().getPrincipalId())) {
             narrative.refreshReferenceObject("narrativeStatus");
-            getBusinessObjectService().save(narrative);
+            getDataObjectService().save(narrative);
         }
     }
     public String getAllUnitNumbers() {
@@ -2519,5 +2335,21 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
 
     public void setDeadlineTypeRef(DeadlineType deadlineTypeRef) {
         this.deadlineTypeRef = deadlineTypeRef;
+    }
+    
+    public BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        }
+
+        return businessObjectService;
+    }
+
+    public DataObjectService getDataObjectService() {
+        if (dataObjectService == null) {
+            dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+        }
+
+        return dataObjectService;
     }
 }
