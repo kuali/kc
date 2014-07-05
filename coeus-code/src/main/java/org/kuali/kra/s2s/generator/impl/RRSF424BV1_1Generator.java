@@ -21,7 +21,7 @@ import gov.grants.apply.forms.rrsf424SF424BV11.AuthorizedRepresentativeDocument.
 
 import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -43,30 +43,30 @@ public class RRSF424BV1_1Generator extends S2SBaseFormGenerator {
     private S2SUtilService s2SUtilService;
 
     @Override
-    public AssurancesDocument getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
+    public AssurancesDocument getFormObject(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) throws S2SException {
         AssurancesDocument assurcesDocument = AssurancesDocument.Factory.newInstance();
-        DevelopmentProposalContract propDevFormBean = proposalDevelopmentDocument.getDevelopmentProposal();
+        DevelopmentProposalContract propDevFormBean = ProposalDevelopmentDocumentContract.getDevelopmentProposal();
         AssuranceType rrSF424B = assurcesDocument.addNewAssurances();
         rrSF424B.setFormVersionIdentifier(S2SConstants.FORMVERSION_1_1);
         rrSF424B.setProgramType(NON_CONSTRUCTION);
         rrSF424B.setFormVersion(S2SConstants.FORMVERSION_1_1);
         ProposalSiteContract applicantOrganization = propDevFormBean.getApplicantOrganization();
         rrSF424B.setApplicantOrganizationName(applicantOrganization.getOrganization().getOrganizationName());
-        rrSF424B.setAuthorizedRepresentative(getAuthorizedRepresentative(proposalDevelopmentDocument));
+        rrSF424B.setAuthorizedRepresentative(getAuthorizedRepresentative(ProposalDevelopmentDocumentContract));
         rrSF424B.setSubmittedDate(Calendar.getInstance());
         return assurcesDocument;
     }
     /**
      * 
-     * This method gets AuthorizedRepresentative details RepresentativeTitle based on ProposalDevelopmentDocument.
+     * This method gets AuthorizedRepresentative details RepresentativeTitle based on ProposalDevelopmentDocumentContract.
      * 
-     * @param proposalDevelopmentDocument (ProposalDevelopmentDocument)
+     * @param ProposalDevelopmentDocumentContract (ProposalDevelopmentDocumentContract)
      * @return AuthorizedRepresentative authorized representative title.
      */
-    private AuthorizedRepresentative getAuthorizedRepresentative(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    private AuthorizedRepresentative getAuthorizedRepresentative(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
 
         AuthorizedRepresentative authorizedRepresentative = AuthorizedRepresentative.Factory.newInstance();
-        DepartmentalPerson aorInfo = getS2SUtilService().getDepartmentalPerson(proposalDevelopmentDocument);
+        DepartmentalPerson aorInfo = getS2SUtilService().getDepartmentalPerson(ProposalDevelopmentDocumentContract);
         if (aorInfo.getPrimaryTitle() != null) {
             authorizedRepresentative.setRepresentativeTitle(aorInfo.getPrimaryTitle());
         }

@@ -16,7 +16,7 @@
 package org.kuali.kra.s2s.generator;
 
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
 import org.kuali.kra.s2s.util.AuditError;
@@ -37,9 +37,9 @@ public interface S2SFormGenerator {
      * This method creates an XML document using the APIs generated using XMLBEans by compiling the form's schema and returns it
      * as XmlObject.
      * 
-     * @param proposalDevelopmentDocument
+     * @param ProposalDevelopmentDocumentContract
      */
-    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException;
+    public XmlObject getFormObject(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) throws S2SException;
 
     /**
      * 

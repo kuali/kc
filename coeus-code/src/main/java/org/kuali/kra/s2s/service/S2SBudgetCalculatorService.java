@@ -19,7 +19,7 @@ import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
 import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.s2s.S2SException;
@@ -57,25 +57,25 @@ public interface S2SBudgetCalculatorService {
 
     /**
      * 
-     * This method does the budget related calculations for a given {@link ProposalDevelopmentDocument} and returns them in
+     * This method does the budget related calculations for a given {@link ProposalDevelopmentDocumentContract} and returns them in
      * {@link BudgetSummaryInfo}
      * 
-     * @param pdDoc ProposalDevelopmentDocument.
-     * @return BudgetSummaryInfo corresponding to the ProposalDevelopmentDocument object.
+     * @param pdDoc ProposalDevelopmentDocumentContract.
+     * @return BudgetSummaryInfo corresponding to the ProposalDevelopmentDocumentContract object.
      * @throws S2SException
      */
-    public BudgetSummaryInfo getBudgetInfo(ProposalDevelopmentDocument pdDoc, List<BudgetPeriodInfo> budgetperiodList) throws S2SException;
+    public BudgetSummaryInfo getBudgetInfo(ProposalDevelopmentDocumentContract pdDoc, List<BudgetPeriodInfo> budgetperiodList) throws S2SException;
 
     /**
      * 
      * This method gets the list of {@link BudgetPeriodInfo} for the latest {@link BudgetDocument} of the given
-     * {@link ProposalDevelopmentDocument}
+     * {@link ProposalDevelopmentDocumentContract}
      * 
-     * @param pdDoc ProposalDevelopmentDocument
-     * @return a List of BudgetPeriodInfo corresponding to the ProposalDevelopmentDocument object.
+     * @param pdDoc ProposalDevelopmentDocumentContract
+     * @return a List of BudgetPeriodInfo corresponding to the ProposalDevelopmentDocumentContract object.
      * @throws S2SException
      */
-    public List<BudgetPeriodInfo> getBudgetPeriods(ProposalDevelopmentDocument pdDoc) throws S2SException;
+    public List<BudgetPeriodInfo> getBudgetPeriods(ProposalDevelopmentDocumentContract pdDoc) throws S2SException;
 
     /**
      * 

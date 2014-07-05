@@ -28,7 +28,7 @@ import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.api.question.QuestionAnswerService;
 import org.kuali.coeus.propdev.api.PropDevQuestionAnswerService;
 import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.propdev.api.attachment.NarrativeService;
@@ -70,7 +70,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     protected static final int PRIMARY_TITLE_MAX_LENGTH = 45;
     protected static final int CONGRESSIONAL_DISTRICT_MAX_LENGTH = 6;
 
-    protected ProposalDevelopmentDocument pdDoc = null;
+    protected ProposalDevelopmentDocumentContract pdDoc = null;
     private List<AuditError> auditErrors;
     private String namespace;
 
@@ -297,13 +297,13 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
      * This method fetches the attachments for {@link org.kuali.coeus.propdev.impl.person.ProposalPerson}. For a given person or rolodex ID, it will fetch the document
      * of required type, also passed alongside as documentType
      * 
-     * @param pdDoc {@link ProposalDevelopmentDocument} from which the attachments are to be fetched
+     * @param pdDoc {@link ProposalDevelopmentDocumentContract} from which the attachments are to be fetched
      * @param personId ID of the proposal person
      * @param rolodexId Rolodex ID of the person
      * @param documentType type of document thats to be fetched
      * @return {@link AttachedFileDataType} containing the required document
      */
-    protected AttachedFileDataType getPernonnelAttachments(ProposalDevelopmentDocument pdDoc, String personId, Integer rolodexId,
+    protected AttachedFileDataType getPernonnelAttachments(ProposalDevelopmentDocumentContract pdDoc, String personId, Integer rolodexId,
             String documentType) {
         boolean personBiographyFound = false;
         for (ProposalPersonBiographyContract proposalPersonBiography : pdDoc.getDevelopmentProposal().getPropPersonBios()) {
@@ -356,8 +356,8 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
         this.auditErrors = auditErrors;
     }
     
-    protected boolean isSponsorNIH(ProposalDevelopmentDocument document) {
-		return sponsorHierarchyService.isSponsorNihMultiplePi(document.getDevelopmentProposal().getSponsorCode());
+    protected boolean isSponsorNIH(ProposalDevelopmentDocumentContract document) {
+		return sponsorHierarchyService.isSponsorNihMultiplePi(document.getDevelopmentProposal().getSponsor().getSponsorCode());
 	}
     
 	protected NarrativeContract saveNarrative(byte[] attachment, String narrativeTypeCode,String fileName,String comment) {

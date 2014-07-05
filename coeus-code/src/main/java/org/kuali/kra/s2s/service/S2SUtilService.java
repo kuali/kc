@@ -17,7 +17,7 @@ package org.kuali.kra.s2s.service;
 
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelDetailsContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.s2s.CitizenshipTypes;
 import org.kuali.coeus.common.api.country.CountryContract;
@@ -49,7 +49,7 @@ public interface S2SUtilService {
 	 * @return Map<String, String> Map of submission details.
 	 */
 	public Map<String, String> getSubmissionType(
-			ProposalDevelopmentDocument pdDoc);
+			ProposalDevelopmentDocumentContract pdDoc);
 
 	/**
 	 *
@@ -62,7 +62,7 @@ public interface S2SUtilService {
 	 *         proposal document.
 	 */
 	public DepartmentalPerson getDepartmentalPerson(
-			ProposalDevelopmentDocument pdDoc);
+			ProposalDevelopmentDocumentContract pdDoc);
 
 	/**
 	 * 
@@ -75,7 +75,7 @@ public interface S2SUtilService {
 	 *         EOState Review for a given proposal.
 	 */
 	public Map<String, String> getEOStateReview(
-			ProposalDevelopmentDocument pdDoc);
+			ProposalDevelopmentDocumentContract pdDoc);
 	/**
 	 * 
 	 * This method limits the number of key persons to n, returns list of key
@@ -123,7 +123,7 @@ public interface S2SUtilService {
 	 *            Proposal development document.
 	 * @return divisionName based on the OwnedByUnit.
 	 */
-	public String getDivisionName(ProposalDevelopmentDocument pdDoc);
+	public String getDivisionName(ProposalDevelopmentDocumentContract pdDoc);
 	/**
 	 * 
 	 * This method is to get PrincipalInvestigator from person list
@@ -133,7 +133,7 @@ public interface S2SUtilService {
 	 * @return ProposalPerson PrincipalInvestigator for the proposal.
 	 */
 	public ProposalPersonContract getPrincipalInvestigator(
-			ProposalDevelopmentDocument pdDoc);
+			ProposalDevelopmentDocumentContract pdDoc);
 	/**
 	 * Finds a Country object from the country code
 	 * 
@@ -172,7 +172,7 @@ public interface S2SUtilService {
 	 * @return List of Co-Investigators {@link org.kuali.coeus.propdev.api.person.ProposalPersonContract}.
 	 */
 	
-	public List<ProposalPersonContract> getCoInvestigators(ProposalDevelopmentDocument pdDoc);
+	public List<ProposalPersonContract> getCoInvestigators(ProposalDevelopmentDocumentContract pdDoc);
 	
 	/**
 	 * Finds all the key Person associated with the provided pdDoc.
@@ -180,18 +180,18 @@ public interface S2SUtilService {
 	 * @return List of Key Persons {@link org.kuali.coeus.propdev.api.person.ProposalPersonContract}.
 	 */
 	
-	public List<ProposalPersonContract> getKeyPersons (ProposalDevelopmentDocument pdDoc);
+	public List<ProposalPersonContract> getKeyPersons (ProposalDevelopmentDocumentContract pdDoc);
 
     /**
      * 
      * This method is used to get the details of Contact person
      * 
-     * @param pdDoc(ProposalDevelopmentDocument)
+     * @param pdDoc(ProposalDevelopmentDocumentContract)
      *            proposal development document.
      *            for which the DepartmentalPerson has to be found.
      * @return depPerson(DepartmentalPerson) corresponding to the contact type.
      */
-    public DepartmentalPerson getContactPerson(ProposalDevelopmentDocument pdDoc) ;
+    public DepartmentalPerson getContactPerson(ProposalDevelopmentDocumentContract pdDoc) ;
     
     public ScaleTwoDecimal getNumberOfMonths(java.util.Date dateStart, java.util.Date dateEnd);
 

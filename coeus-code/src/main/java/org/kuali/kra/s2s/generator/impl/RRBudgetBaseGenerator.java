@@ -26,7 +26,7 @@ import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
 import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelDetailsContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
@@ -294,7 +294,7 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
     * @return
     * @throws S2SException
     */
-   protected boolean validateBudgetForForm(ProposalDevelopmentDocument pdDoc) throws S2SException {
+   protected boolean validateBudgetForForm(ProposalDevelopmentDocumentContract pdDoc) throws S2SException {
        boolean valid = true;
 
        BudgetDocument budget = null;

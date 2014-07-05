@@ -20,7 +20,7 @@ import gov.grants.apply.forms.keyContactsV10.KeyContactsDocument.KeyContacts;
 import gov.grants.apply.forms.keyContactsV10.KeyContactsDocument.KeyContacts.RoleOnProject;
 import gov.grants.apply.system.globalLibraryV20.AddressDataType;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -107,9 +107,9 @@ public class KeyContactsV1_0Generator extends S2SBaseFormGenerator {
     }
 
     @Override
-    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
+    public XmlObject getFormObject(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) throws S2SException {
 
-        this.pdDoc = proposalDevelopmentDocument;
+        this.pdDoc = ProposalDevelopmentDocumentContract;
         return getKeyContactsDocument();
     }
 

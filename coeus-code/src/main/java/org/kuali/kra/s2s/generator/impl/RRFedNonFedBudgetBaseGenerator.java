@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
 import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelDetailsContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.S2SException;
@@ -117,7 +117,7 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
      * @return
      * @throws S2SException
      */
-    protected boolean validateBudgetForForm(ProposalDevelopmentDocument pdDoc) throws S2SException {
+    protected boolean validateBudgetForForm(ProposalDevelopmentDocumentContract pdDoc) throws S2SException {
         boolean valid = true;
 
         BudgetDocument budget = null;

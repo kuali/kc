@@ -23,7 +23,7 @@ import gov.grants.apply.system.universalCodesV20.StateCodeDataType;
 import org.apache.commons.lang3.text.WordUtils;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.common.api.country.CountryContract;
 import org.kuali.coeus.common.api.state.StateContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
@@ -353,7 +353,7 @@ public class GlobalLibraryV2_0Generator {
 	}
 
 
-    public ContactPersonDataType getContactPersonDataType(ProposalDevelopmentDocument proposalDocument) {
+    public ContactPersonDataType getContactPersonDataType(ProposalDevelopmentDocumentContract proposalDocument) {
         ContactPersonDataType contactPerson = ContactPersonDataType.Factory.newInstance();
         DepartmentalPerson person = s2sUtilService.getContactPerson(proposalDocument);
         if (person != null) {

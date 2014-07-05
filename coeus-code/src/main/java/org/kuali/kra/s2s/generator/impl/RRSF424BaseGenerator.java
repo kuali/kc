@@ -21,7 +21,7 @@ import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
@@ -133,12 +133,12 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
      * 
      * This method is used to get the details of Contact person
      * 
-     * @param pdDoc(ProposalDevelopmentDocument)
+     * @param pdDoc(ProposalDevelopmentDocumentContract)
      *            proposal development document.
      * @return depPerson(DepartmentalPerson) corresponding to the contact type.
      */
     protected DepartmentalPerson getContactPerson(
-            ProposalDevelopmentDocument pdDoc) {
+            ProposalDevelopmentDocumentContract pdDoc) {
         return s2sUtilService.getContactPerson(pdDoc);
     }
     
