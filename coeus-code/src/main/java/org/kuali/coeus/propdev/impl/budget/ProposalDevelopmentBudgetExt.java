@@ -18,6 +18,7 @@ package org.kuali.coeus.propdev.impl.budget;
 import javax.persistence.*;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 
 /**
@@ -28,7 +29,7 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 @Table(name = "EPS_PROPOSAL_BUDGET_EXT")
 @PrimaryKeyJoinColumn(name="BUDGET_ID", referencedColumnName="BUDGET_ID")
 @DiscriminatorValue("PRDV")
-public class ProposalDevelopmentBudgetExt extends Budget {
+public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDevelopmentBudgetExtContract {
 
     private static final long serialVersionUID = 8234453927894053540L;
 
