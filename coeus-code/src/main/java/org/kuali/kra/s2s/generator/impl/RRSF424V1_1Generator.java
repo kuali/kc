@@ -43,10 +43,10 @@ import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
 import org.kuali.coeus.propdev.api.abstrct.ProposalAbstractContract;
 import org.kuali.coeus.propdev.api.budget.modular.BudgetModularIdcContract;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
@@ -89,7 +89,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 	 */
 	private RRSF424Document getRRSF424() {
         answerHeaders = getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber());
-        DevelopmentProposal devProp = pdDoc.getDevelopmentProposal();
+        DevelopmentProposalContract devProp = pdDoc.getDevelopmentProposal();
 
 		RRSF424Document rrSF424Document = RRSF424Document.Factory.newInstance();
 		RRSF424 rrsf424 = RRSF424.Factory.newInstance();
@@ -544,7 +544,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
                 }
                 else
                 {
-                    DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+                    DevelopmentProposalContract developmentProposal = pdDoc.getDevelopmentProposal();
                     PDPI.setDepartmentName(developmentProposal.getOwnedByUnit().getUnitName());
                 }
 				// divisionName

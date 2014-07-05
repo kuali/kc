@@ -23,9 +23,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.s2s.*;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.s2s.S2SException;
 
 import org.kuali.coeus.propdev.api.attachment.NarrativeService;
@@ -101,7 +101,7 @@ public class S2SServiceImpl implements S2SService {
 	public FormActionResult generateAndValidateForms(Forms forms,
 			List<AttachmentData> attList, ProposalDevelopmentDocument pdDoc) throws S2SException {
 		boolean validationSucceeded = true;
-		DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+		DevelopmentProposalContract developmentProposal = pdDoc.getDevelopmentProposal();
 		List<? extends S2sOppFormsContract> opportunityForms = developmentProposal.getS2sOppForms();
 
 		if (attList == null) {

@@ -19,9 +19,9 @@ import gov.grants.apply.forms.rrsf424SF424BV11.AssuranceType;
 import gov.grants.apply.forms.rrsf424SF424BV11.AssurancesDocument;
 import gov.grants.apply.forms.rrsf424SF424BV11.AuthorizedRepresentativeDocument.AuthorizedRepresentative;
 
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -45,7 +45,7 @@ public class RRSF424BV1_1Generator extends S2SBaseFormGenerator {
     @Override
     public AssurancesDocument getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
         AssurancesDocument assurcesDocument = AssurancesDocument.Factory.newInstance();
-        DevelopmentProposal propDevFormBean = proposalDevelopmentDocument.getDevelopmentProposal();
+        DevelopmentProposalContract propDevFormBean = proposalDevelopmentDocument.getDevelopmentProposal();
         AssuranceType rrSF424B = assurcesDocument.addNewAssurances();
         rrSF424B.setFormVersionIdentifier(S2SConstants.FORMVERSION_1_1);
         rrSF424B.setProgramType(NON_CONSTRUCTION);

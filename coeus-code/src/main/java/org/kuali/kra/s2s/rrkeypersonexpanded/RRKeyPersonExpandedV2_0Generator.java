@@ -28,12 +28,11 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonDegreeContract;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.impl.ProposalPersonComparator;
@@ -211,7 +210,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 		   }		
 		}
 		profile.setEmail(PI.getEmailAddress());
-		DevelopmentProposal developmentProposal = pdDoc
+		DevelopmentProposalContract developmentProposal = pdDoc
 				.getDevelopmentProposal();
 		setOrganizationName(profile, developmentProposal);
 		setDepartmentNameToProfile(profile,PI);
@@ -243,7 +242,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
         }
         else
         {
-            DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+            DevelopmentProposalContract developmentProposal = pdDoc.getDevelopmentProposal();
             profile.setDepartmentName(developmentProposal.getOwnedByUnit().getUnitName());
         }
 	}
@@ -320,7 +319,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 	 */
 	private PersonProfileDataType[] getpersonProfileKeyPerson() {
 		List<PersonProfileDataType> personProfileDataTypeList = new ArrayList<PersonProfileDataType>();
-		DevelopmentProposal developmentProposal = pdDoc
+		DevelopmentProposalContract developmentProposal = pdDoc
 				.getDevelopmentProposal();
 		List<? extends ProposalPersonContract> keyPersons = developmentProposal
 				.getProposalPersons();
@@ -402,7 +401,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 	          }  
 	     }
 		profileKeyPerson.setEmail(keyPerson.getEmailAddress());
-		DevelopmentProposal developmentProposal = pdDoc
+		DevelopmentProposalContract developmentProposal = pdDoc
 				.getDevelopmentProposal();
 		setOrganizationName(profileKeyPerson, developmentProposal);
 		setDepartmentNameToProfile(profileKeyPerson,keyPerson);
@@ -436,7 +435,7 @@ public class RRKeyPersonExpandedV2_0Generator extends
 	}
 
 	private void setOrganizationName(Profile profileKeyPerson,
-			DevelopmentProposal developmentProposal) {
+			DevelopmentProposalContract developmentProposal) {
 		if (developmentProposal.getApplicantOrganization() != null
 				&& developmentProposal.getApplicantOrganization()
 						.getOrganization() != null) {

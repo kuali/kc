@@ -18,9 +18,9 @@ package org.kuali.kra.s2s.generator.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
@@ -149,8 +149,8 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
      * @param level1 
      * @return
      */
-    public boolean isSponsorInHierarchy(DevelopmentProposal sponsorable, String sponsorHierarchy,String level1) {
-        return sponsorHierarchyService.isSponsorInHierarchy(sponsorable.getSponsorCode(), sponsorHierarchy, 1, level1);
+    public boolean isSponsorInHierarchy(DevelopmentProposalContract sponsorable, String sponsorHierarchy,String level1) {
+        return sponsorHierarchyService.isSponsorInHierarchy(sponsorable.getSponsor().getSponsorCode(), sponsorHierarchy, 1, level1);
     }
 
     protected abstract List<? extends AnswerHeaderContract> getAnswerHeaders();

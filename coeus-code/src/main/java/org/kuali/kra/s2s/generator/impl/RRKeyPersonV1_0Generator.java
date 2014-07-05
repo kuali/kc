@@ -27,9 +27,9 @@ import gov.grants.apply.forms.rrKeyPersonV10.RRKeyPersonDocument.RRKeyPerson.Sup
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.person.KcPersonContract;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -142,7 +142,7 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
             }
             else
             {
-                DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+                DevelopmentProposalContract developmentProposal = pdDoc.getDevelopmentProposal();
                 profile.setDepartmentName(developmentProposal.getOwnedByUnit().getUnitName());
             }
             String divisionName = PI.getDivision();
@@ -221,7 +221,7 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
                 }
                 else
                 {
-                    DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+                    DevelopmentProposalContract developmentProposal = pdDoc.getDevelopmentProposal();
                     profileKeyPerson.setDepartmentName(developmentProposal.getOwnedByUnit().getUnitName());
                 }
                 String divisionName = keyPerson.getDivision();

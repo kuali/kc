@@ -144,4 +144,16 @@ public interface DevelopmentProposalContract extends NumberedProposal {
     List<? extends ProposalDevelopmentBudgetExtContract> getBudgets();
 
     S2sOpportunityContract getS2sOpportunity();
+
+    ProposalSiteContract getApplicantOrganization();
+
+    ProposalSiteContract getPerformingOrganization();
+
+    List<? extends ProposalSiteContract> getPerformanceSites();
+
+    List<? extends ProposalSiteContract> getOtherOrganizations();
+
+    List<? extends ProposalPersonContract> getInvestigators();
+
+    Boolean getGrantsGovSelectFlag();
 }

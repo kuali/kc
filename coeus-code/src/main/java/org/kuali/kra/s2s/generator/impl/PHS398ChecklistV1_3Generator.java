@@ -29,9 +29,9 @@ import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.budget.api.income.BudgetProjectIncomeContract;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,13 +109,13 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	 */
 	private void setPhsCheckListBasicProperties(PHS398Checklist13 phsChecklist) {
 		phsChecklist.setFormVersion(FORMVERSION_1_3);
-		DevelopmentProposal developmentProposal = pdDoc
+		DevelopmentProposalContract developmentProposal = pdDoc
 				.getDevelopmentProposal();
 		ApplicationType.Enum applicationEnum = null;
-		if (developmentProposal.getProposalTypeCode() != null
-				&& Integer.parseInt(developmentProposal.getProposalTypeCode()) < PROPOSAL_TYPE_CODE_6) {
+		if (developmentProposal.getProposalType() != null
+				&& Integer.parseInt(developmentProposal.getProposalType().getCode()) < PROPOSAL_TYPE_CODE_6) {
 			applicationEnum = ApplicationType.Enum.forInt(Integer
-					.valueOf(developmentProposal.getProposalTypeCode()));
+					.valueOf(developmentProposal.getProposalType().getCode()));
 		}
 		phsChecklist.setApplicationType(applicationEnum);
 		String federalId = getSubmissionInfoService().getFederalId(pdDoc.getDevelopmentProposal().getProposalNumber());
