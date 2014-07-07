@@ -56,7 +56,7 @@
 				<ref bean="PropDev-CreditAllocationPage"  />
 				<ref bean="PropDev-BudgetPage"/>
 				<ref bean="PropDev-SupplementalPage"/>
-				<bean id="PropDev-SummarySubmit" parent="PropDev-UnderDevelopmentPage" />
+				<bean id="PropDev-SummarySubmit" parent="PropDev-SubmitPage" />
 			</list>
 		</property>
 		<property name="dialogs">
