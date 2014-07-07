@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
@@ -46,7 +47,9 @@ public class PHS398ResearchPlanV1_0GeneratorTest extends S2STestBase<PHS398Resea
     @Override
     protected void prepareData(ProposalDevelopmentDocument document) throws Exception {
 
-        document.getDevelopmentProposal().setProposalTypeCode("5");
+        ProposalType type = new ProposalType();
+        type.setCode("5");
+        document.getDevelopmentProposal().setProposalType(type);
         Narrative narrative = new Narrative();
         List<Narrative> naList = new ArrayList<Narrative>();
         NarrativeAttachment narrativeAttachment = new NarrativeAttachment();

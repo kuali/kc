@@ -23,11 +23,12 @@ import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormContract;
 import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewContract;
 import org.kuali.coeus.propdev.api.state.ProposalStateContract;
 import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
+import org.kuali.coeus.sys.api.model.RecordedUpdate;
 
 import java.util.Date;
 import java.util.List;
 
-public interface DevelopmentProposalContract extends NumberedProposal {
+public interface DevelopmentProposalContract extends NumberedProposal, RecordedUpdate {
     
     String getContinuedFrom();
 
@@ -142,6 +143,8 @@ public interface DevelopmentProposalContract extends NumberedProposal {
     List<? extends ProposalPersonBiographyContract> getPropPersonBios();
 
     List<? extends ProposalDevelopmentBudgetExtContract> getBudgets();
+
+    ProposalDevelopmentBudgetExtContract getFinalBudget();
 
     S2sOpportunityContract getS2sOpportunity();
 

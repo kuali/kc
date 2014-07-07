@@ -20,6 +20,8 @@ import org.kuali.kra.s2s.service.S2SUtilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import java.util.List;
+
 /**
  * This abstract class has methods that are common to all the versions of EDSF424Supplement form.
  * 
@@ -43,5 +45,18 @@ public abstract class EDSF424SupplementBaseGenerator extends S2SBaseFormGenerato
 
     public void setS2sUtilService(S2SUtilService s2sUtilService) {
         this.s2sUtilService = s2sUtilService;
+    }
+
+    public static String colToString(List<String> stringList) {
+        String retVal = "";
+        if (stringList != null) {
+            for (int i = 0; i < stringList.size(); i++) {
+                retVal += stringList.get(i);
+                if (i != stringList.size() - 1) {
+                    retVal += ", ";
+                }
+            }
+        }
+        return retVal;
     }
 }

@@ -17,7 +17,6 @@ package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.coeus.common.api.ynq.YnqContract;
 import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
-import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,11 +46,6 @@ public abstract class PHS398CoverPageSupplementBaseGenerator extends
     @Autowired
     @Qualifier("s2SUtilService")
 	protected S2SUtilService s2sUtilService;
-
-    @Autowired
-    @Qualifier("proposalBudgetService")
-    protected ProposalBudgetService proposalBudgetService;
-
 
 	/**
 	 * 
@@ -105,13 +99,5 @@ public abstract class PHS398CoverPageSupplementBaseGenerator extends
 
     public void setS2sUtilService(S2SUtilService s2sUtilService) {
         this.s2sUtilService = s2sUtilService;
-    }
-
-    public ProposalBudgetService getProposalBudgetService() {
-        return proposalBudgetService;
-    }
-
-    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
-        this.proposalBudgetService = proposalBudgetService;
     }
 }

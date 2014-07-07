@@ -81,7 +81,7 @@ public class SFLLLV1_1Generator extends SFLLLBaseGenerator {
             }
         }
         else {
-            String primeSponsorCode = pdDoc.getDevelopmentProposal().getPrimeSponsorCode();
+            String primeSponsorCode = pdDoc.getDevelopmentProposal().getPrimeSponsor().getSponsorCode();
             if (primeSponsorCode != null) {
                 SponsorContract primeSponsor = pdDoc.getDevelopmentProposal().getPrimeSponsor();
                 if (primeSponsor.getSponsorName() != null) {

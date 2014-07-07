@@ -40,7 +40,6 @@ import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.FormGenerator;
@@ -48,7 +47,6 @@ import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.printing.GenericPrintable;
 import org.kuali.kra.s2s.printing.S2SPrintingService;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -107,19 +105,10 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
 
         List<BudgetPeriodInfo> budgetPeriodList;
         BudgetSummaryInfo budgetSummary = null;
-        try {
-            validateBudgetForForm(pdDoc);
-            budgetPeriodList = s2sBudgetCalculatorService.getBudgetPeriods(pdDoc);
-            budgetSummary = s2sBudgetCalculatorService.getBudgetInfo(pdDoc,budgetPeriodList);
-            BudgetDocument budgetDocument = proposalBudgetService.getFinalBudgetVersion(pdDoc);
-            if (budgetDocument != null) {
-                budget = budgetDocument.getBudget();
-            }
-        }
-        catch (WorkflowException e) {
-            LOG.error(e.getMessage(), e);
-            return rrFedNonFedBudgetDocument;
-        }
+        validateBudgetForForm(pdDoc);
+        budgetPeriodList = s2sBudgetCalculatorService.getBudgetPeriods(pdDoc);
+        budgetSummary = s2sBudgetCalculatorService.getBudgetInfo(pdDoc,budgetPeriodList);
+        budget = pdDoc.getDevelopmentProposal().getFinalBudget();
         for (BudgetPeriodInfo budgetPeriodData : budgetPeriodList) {
             setBudgetYearDataType(rrFedNonFedBudget,budgetPeriodData);
         }
@@ -1714,7 +1703,7 @@ public class RRFedNonFedBudget10V1_1Generator extends RRFedNonFedBudgetBaseGener
             }
             keyPersonCompensation.setTotal(totalDataType);
             if (pdDoc.getBudgetDocumentVersions() != null) {
-                baseSalaryByPeriod = s2sBudgetCalculatorService.getBaseSalaryByPeriod(pdDoc.getBudgetDocumentVersion(0)
+                baseSalaryByPeriod = s2sBudgetCalculatorService.getBaseSalaryByPeriod(pdDoc.getBudgetDocumentVersions().get(0)
                         .getBudgetVersionOverview().getBudgetId(), budgetPeriod, keyPerson);
                 if (baseSalaryByPeriod != null) {
                     keyPersonCompensation.setBaseSalary(baseSalaryByPeriod.bigDecimalValue());

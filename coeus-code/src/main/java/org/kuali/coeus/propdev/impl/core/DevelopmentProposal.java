@@ -2334,6 +2334,18 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
 		this.budgets = budgets;
 	}
 
+    @Override
+    public ProposalDevelopmentBudgetExt getFinalBudget() {
+        if (getBudgets() != null) {
+            for (ProposalDevelopmentBudgetExt budget : getBudgets()) {
+                if (budget.isFinalVersionFlag()) {
+                    return budget;
+                }
+            }
+        }
+        return null;
+    }
+
     public DeadlineType getDeadlineTypeRef() {
         return deadlineTypeRef;
     }

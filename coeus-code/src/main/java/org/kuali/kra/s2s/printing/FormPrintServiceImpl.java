@@ -138,7 +138,7 @@ public class FormPrintServiceImpl implements FormPrintService {
 	    String loggingDirectory = s2SConfigurationService.getValueAsString(ConfigurationConstants.PRINT_XML_DIRECTORY);
         String opportunityId = pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityId();
         String proposalnumber = pdDoc.getDevelopmentProposal().getProposalNumber();
-        String exportDate = StringUtils.replaceChars((pdDoc.getDevelopmentProposal().getUpdateTimestamp().toString()), ":", "_");  
+        String exportDate = StringUtils.replaceChars((pdDoc.getDevelopmentProposal().getUpdateTimestamp().toString()), ":", "_");
         exportDate = StringUtils.replaceChars(exportDate, " ", ".");
 
         File grantsGovXmlDirectoryFile = new File(loggingDirectory + opportunityId + "." + proposalnumber + "." + exportDate);
@@ -146,7 +146,6 @@ public class FormPrintServiceImpl implements FormPrintService {
             grantsGovXmlDirectoryFile.mkdir();
         }
 
-        pdDoc.setSaveXmlFolderName(grantsGovXmlDirectoryFile.getName());
         for (AttachmentData attachmentData : attachmentList) {
             File attachmentFile = new File(grantsGovXmlDirectoryFile,"Attachments");
             attachmentFile.mkdir();

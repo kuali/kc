@@ -32,9 +32,9 @@ import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.budget.api.income.BudgetProjectIncomeContract;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementBaseGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -96,16 +96,11 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
 		setIsInventionsAndPatentsAndIsPreviouslyReported(coverPageSupplement);
 		setFormerPDNameAndIsChangeOfPDPI(coverPageSupplement);
 		setFormerInstitutionNameAndChangeOfInstitution(coverPageSupplement);
-		BudgetDocument budgetDoc = null;
-        try {
-            budgetDoc = proposalBudgetService.getFinalBudgetVersion(pdDoc);
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-        }
+        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
 
-        if (budgetDoc != null && budgetDoc.getBudget() != null) {
-            int numPeriods = budgetDoc.getBudget().getBudgetPeriods().size();
-            setIncomeBudgetPeriods(coverPageSupplement, budgetDoc.getBudget()
+        if (budget != null) {
+            int numPeriods = budget.getBudgetPeriods().size();
+            setIncomeBudgetPeriods(coverPageSupplement, budget
                     .getBudgetProjectIncomes(),numPeriods);
         } else {
             coverPageSupplement.setProgramIncome(YesNoDataType.N_NO);

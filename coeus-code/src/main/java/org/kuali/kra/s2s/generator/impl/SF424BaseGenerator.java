@@ -16,8 +16,6 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
-import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
@@ -101,14 +99,6 @@ public abstract class SF424BaseGenerator extends S2SBaseFormGenerator {
     @Qualifier("s2SBudgetCalculatorService")
     protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
 
-    @Autowired
-    @Qualifier("proposalBudgetService")
-    protected ProposalBudgetService proposalBudgetService;
-
-    @Autowired
-    @Qualifier("proposalDevelopmentService")
-    protected ProposalDevelopmentService proposalDevelopmentService;
-
     public S2SUtilService getS2sUtilService() {
         return s2sUtilService;
     }
@@ -123,22 +113,6 @@ public abstract class SF424BaseGenerator extends S2SBaseFormGenerator {
 
     public void setS2sBudgetCalculatorService(S2SBudgetCalculatorService s2sBudgetCalculatorService) {
         this.s2sBudgetCalculatorService = s2sBudgetCalculatorService;
-    }
-
-    public ProposalBudgetService getProposalBudgetService() {
-        return proposalBudgetService;
-    }
-
-    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
-        this.proposalBudgetService = proposalBudgetService;
-    }
-
-    public ProposalDevelopmentService getProposalDevelopmentService() {
-        return proposalDevelopmentService;
-    }
-
-    public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
-        this.proposalDevelopmentService = proposalDevelopmentService;
     }
 
     public SubmissionInfoService getSubmissionInfoService() {

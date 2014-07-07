@@ -334,7 +334,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 					if (rolodex.getSponsorCode() != null
 							&& rolodex.getSponsorCode().equals(
 									pdDoc.getDevelopmentProposal()
-											.getSponsorCode())) {
+											.getSponsor().getSponsorCode())) {
 
                         final SponsorContract sponsor = sponsorService.getSponsor(rolodex.getSponsorCode());
                         if (sponsor != null
@@ -344,7 +344,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 										.parseInt(pdDoc
 												.getDevelopmentProposal()
 												.getSponsor()
-												.getSponsorTypeCode())) {
+												.getSponsorType().getCode())) {
 							sponsortType = Integer.parseInt(sponsor.getSponsorType().getCode());
 							sponsorCode = rolodex.getSponsorCode();
 							if (sponsortType == 0) {

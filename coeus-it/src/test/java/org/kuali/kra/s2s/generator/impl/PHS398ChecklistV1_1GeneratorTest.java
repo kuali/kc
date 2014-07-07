@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.common.framework.ynq.Ynq;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
@@ -36,7 +37,9 @@ public class PHS398ChecklistV1_1GeneratorTest extends S2STestBase<PHS398Checklis
 
     @Override
     protected void prepareData(ProposalDevelopmentDocument document) throws Exception {
-        document.getDevelopmentProposal().setProposalTypeCode("2");
+        ProposalType type = new ProposalType();
+        type.setCode("2");
+        document.getDevelopmentProposal().setProposalType(type);
         ProposalYnq proposalYnq = new ProposalYnq();
         proposalYnq.setAnswer("Y");
         proposalYnq.setQuestionId("22");

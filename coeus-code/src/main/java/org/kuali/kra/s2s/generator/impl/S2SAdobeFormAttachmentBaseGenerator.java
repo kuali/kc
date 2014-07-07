@@ -21,8 +21,6 @@ import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardAttachmentContr
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -282,23 +280,8 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
         return budgetSubAwardsList;
     }
 
-    private BudgetContract findBudgetFromProposal(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
-        BudgetContract finalBudget = ProposalDevelopmentDocumentContract.getFinalBudgetForThisProposal();
-        if(finalBudget==null){
-            List<BudgetDocumentVersion> budgetDocumentVersions = ProposalDevelopmentDocumentContract.getBudgetDocumentVersions();
-            BudgetVersionOverview budgetVersionOverview = null;
-            for (BudgetDocumentVersion budgetDocumentVersion : budgetDocumentVersions) {
-                if(budgetDocumentVersion.isBudgetComplete()){
-                    budgetVersionOverview = budgetDocumentVersion.getBudgetVersionOverview();
-                    return budgetDocumentVersion.findBudget();
-                }
-            }
-            if(!budgetDocumentVersions.isEmpty()){
-                finalBudget = budgetDocumentVersions.get(0).findBudget();
-            }
-        }
-        return finalBudget;
-        
+    private BudgetContract findBudgetFromProposal(ProposalDevelopmentDocumentContract proposalDevelopmentDocument) {
+        return pdDoc.getDevelopmentProposal().getFinalBudget();
     }
 
     public BudgetSubAwardsService getBudgetSubAwardsService() {

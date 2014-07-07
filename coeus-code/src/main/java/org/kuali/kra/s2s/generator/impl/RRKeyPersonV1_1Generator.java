@@ -170,7 +170,7 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
             if (PI.getEraCommonsUserName() != null) {
                 profile.setCredential(PI.getEraCommonsUserName());
             } else {
-                if (getSponsorHierarchyService().isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsorCode())) {
+                if (getSponsorHierarchyService().isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsor().getSponsorCode())) {
                 	getAuditErrors().add(new AuditError(Constants.NO_FIELD, S2SConstants.ERROR_ERA_COMMON_USER_NAME + PI.getFullName(), Constants.GRANTS_GOV_PAGE + "."
                             + Constants.GRANTS_GOV_PANEL_ANCHOR));  
                 }
@@ -266,7 +266,7 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
                 if (keyPerson.getEraCommonsUserName() != null) {
                     profileKeyPerson.setCredential(keyPerson.getEraCommonsUserName());
                 } else {
-                    if (getSponsorHierarchyService().isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsorCode())) {
+                    if (getSponsorHierarchyService().isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsor().getSponsorCode())) {
                         if (keyPerson.isMultiplePi()) {
                             getAuditErrors().add(new AuditError(Constants.NO_FIELD, S2SConstants.ERROR_ERA_COMMON_USER_NAME + keyPerson.getFullName(), 
                                     Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));             
@@ -274,7 +274,7 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
                     }
                 }
                 if (keyPerson.isMultiplePi() || keyPerson.isCoInvestigator()) {
-                	if(getSponsorHierarchyService().isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsorCode())){
+                	if(getSponsorHierarchyService().isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsor().getSponsorCode())){
                 	    if (keyPerson.isMultiplePi()) {
                 	        profileKeyPerson.setProjectRole(ProjectRoleDataType.PD_PI);
                 	    } else {

@@ -44,17 +44,15 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
-import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.api.budget.modular.BudgetModularContract;
 import org.kuali.coeus.propdev.api.budget.modular.BudgetModularIdcContract;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -95,32 +93,23 @@ public class PHS398ModularBudgetV1_1Generator extends
 				.newInstance();
 		modularBudget.setFormVersion(S2SConstants.FORMVERSION_1_1);
 
-		BudgetContract budget = null;
-		try {
-			BudgetDocument budgetDocument = proposalBudgetService
-					.getFinalBudgetVersion(pdDoc);
-			budget = budgetDocument == null ? null : budgetDocument.getBudget();
-		} catch (WorkflowException e) {
-			LOG.error(e.getMessage(), e);
-			return modularBudgetDocument;
-		}
-		if (budget != null) {
-			for (BudgetPeriodContract budgetPeriod : budget.getBudgetPeriods()) {
-				if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_1) {
-					modularBudget.setPeriods(getPeriods(budgetPeriod));
-				} else if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_2) {
-					modularBudget.setPeriods2(getPeriods2(budgetPeriod));
-				} else if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_3) {
-					modularBudget.setPeriods3(getPeriods3(budgetPeriod));
-				} else if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_4) {
-					modularBudget.setPeriods4(getPeriods4(budgetPeriod));
-				} else if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_5) {
-					modularBudget.setPeriods5(getPeriods5(budgetPeriod));
-				}
-			}
-			modularBudget.setCummulativeBudgetInfo(getCummBudget());
-			// modularBudgetDocument.setPHS398ModularBudget(modularBudget);
-		}
+        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        if (budget != null) {
+            for (BudgetPeriodContract budgetPeriod : budget.getBudgetPeriods()) {
+                if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_1) {
+                    modularBudget.setPeriods(getPeriods(budgetPeriod));
+                } else if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_2) {
+                    modularBudget.setPeriods2(getPeriods2(budgetPeriod));
+                } else if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_3) {
+                    modularBudget.setPeriods3(getPeriods3(budgetPeriod));
+                } else if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_4) {
+                    modularBudget.setPeriods4(getPeriods4(budgetPeriod));
+                } else if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_5) {
+                    modularBudget.setPeriods5(getPeriods5(budgetPeriod));
+                }
+            }
+            modularBudget.setCummulativeBudgetInfo(getCummBudget());
+        }
 		modularBudgetDocument.setPHS398ModularBudget(modularBudget);
 		return modularBudgetDocument;
 	}

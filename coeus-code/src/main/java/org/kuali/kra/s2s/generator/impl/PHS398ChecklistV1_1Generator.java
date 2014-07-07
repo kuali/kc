@@ -31,12 +31,11 @@ import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.common.budget.api.income.BudgetProjectIncomeContract;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -83,15 +82,15 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
 		phsChecklist.setFormVersion(S2SConstants.FORMVERSION_1_1);
 		ApplicationType.Enum applicationEnum = null;
 		answerHeaders = getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber());
-		if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null
+		if (pdDoc.getDevelopmentProposal().getProposalType() != null
 				&& Integer.parseInt(pdDoc.getDevelopmentProposal()
-						.getProposalTypeCode()) < PROPOSAL_TYPE_CODE_6) {
+						.getProposalType().getCode()) < PROPOSAL_TYPE_CODE_6) {
 			// Check <6 to ensure that if proposalType='TASk ORDER", it must not
 			// set. THis is because enum ApplicationType has no
 			// entry for TASK ORDER
 			applicationEnum = ApplicationType.Enum.forInt(Integer
 					.parseInt(pdDoc.getDevelopmentProposal()
-							.getProposalTypeCode()));
+							.getProposalType().getCode()));
 		}
 		phsChecklist.setApplicationType(applicationEnum);
 
@@ -160,15 +159,7 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
             }
         }
 
-		BudgetContract budget = null;
-		try {
-			BudgetDocument budgetDocument = proposalBudgetService
-					.getFinalBudgetVersion(pdDoc);
-			budget = budgetDocument == null ? null : budgetDocument.getBudget();
-		} catch (WorkflowException e) {
-			LOG.error(e.getMessage(), e);
-			return phsChecklistDocument;
-		}
+        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
 
 		if (budget != null && budget.getBudgetProjectIncomes().size() > 0) {
 			setProjectIncome(phsChecklist, budget);
@@ -192,8 +183,6 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
 		return phsChecklistDocument;
 	}
 	
-
-
 	private void setProjectIncome(PHS398Checklist phsChecklist, BudgetContract budget) {
 		Map<Integer, IncomeBudgetPeriod> incomeBudgetPeriodMap = new TreeMap<Integer, IncomeBudgetPeriod>();
 		BigDecimal anticipatedAmount;
