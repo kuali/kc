@@ -3,7 +3,7 @@
   <bean id="SpecialReviewUsageMaintenanceDocument" parent="SpecialReviewUsageMaintenanceDocument-parentBean"/>
   
   <bean id="SpecialReviewUsageMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.SpecialReviewUsage"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.compliance.core.SpecialReviewUsage"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
@@ -14,7 +14,9 @@
       <list>
         <value>specialReviewUsageId</value>
       </list>
-    </property>	<property name="allowsRecordDeletion" value="true" />	
+    </property>
+	<property name="allowsRecordDeletion" value="true" />
+	
     
     
     

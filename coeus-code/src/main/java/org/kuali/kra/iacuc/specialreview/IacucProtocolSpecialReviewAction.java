@@ -18,7 +18,7 @@ package org.kuali.kra.iacuc.specialreview;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.coeus.common.specialreview.impl.rule.event.AddSpecialReviewEvent;
+import org.kuali.coeus.common.framework.compliance.core.AddSpecialReviewEvent;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;

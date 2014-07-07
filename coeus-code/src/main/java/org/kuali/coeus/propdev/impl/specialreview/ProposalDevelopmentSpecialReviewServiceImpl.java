@@ -15,12 +15,11 @@
  */
 package org.kuali.coeus.propdev.impl.specialreview;
 
-import org.kuali.coeus.common.specialreview.impl.rule.event.AddSpecialReviewEvent;
-import org.kuali.coeus.common.specialreview.impl.service.impl.SpecialReviewServiceImpl;
+import org.kuali.coeus.common.framework.compliance.core.AddSpecialReviewEvent;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewServiceImpl;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.bo.SpecialReviewApprovalType;
-import org.kuali.kra.bo.SpecialReviewType;
-import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentProtocolDocumentService;
 import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
