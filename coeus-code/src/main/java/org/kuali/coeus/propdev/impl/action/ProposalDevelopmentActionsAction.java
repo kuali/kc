@@ -68,11 +68,11 @@ import org.kuali.coeus.propdev.impl.budget.editable.BudgetDataOverrideEvent;
 import org.kuali.coeus.propdev.impl.editable.ProposalDataOverrideEvent;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
-import org.kuali.kra.s2s.S2SException;
+import org.kuali.coeus.s2sgen.api.core.S2SException;
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionType;
-import org.kuali.kra.s2s.service.FormActionResult;
-import org.kuali.kra.s2s.service.S2SService;
+import org.kuali.coeus.s2sgen.api.generate.FormValidationResult;
+import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -825,11 +825,11 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             if (!KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
                 auditPassed = false;
             }
-            FormActionResult result = null;
+            FormValidationResult result = null;
             if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null) {
-                S2SService s2sService = (S2SService) KcServiceLocator.getService(S2SService.class);
+                FormGeneratorService s2sService = (FormGeneratorService) KcServiceLocator.getService(FormGeneratorService.class);
                 try {
-                    result = s2sService.validateApplication(proposalDevelopmentDocument);
+                    result = s2sService.validateForms(proposalDevelopmentDocument);
                     setValidationErrorMessage(result.getErrors());
                 }
                 catch (S2SException e) {

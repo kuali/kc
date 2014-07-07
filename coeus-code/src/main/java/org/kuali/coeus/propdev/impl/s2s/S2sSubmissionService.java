@@ -4,7 +4,7 @@ import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListRespo
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
-import org.kuali.kra.s2s.service.FormActionResult;
+import org.kuali.coeus.s2sgen.api.generate.FormGenerationResult;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,7 +70,7 @@ public interface S2sSubmissionService {
      * @return true if submitted false otherwise.
      * @throws S2sCommunicationException
      */
-    public FormActionResult submitApplication(ProposalDevelopmentDocument pdDoc)
+    public FormGenerationResult submitApplication(ProposalDevelopmentDocument pdDoc)
             throws S2sCommunicationException;
 
     /**

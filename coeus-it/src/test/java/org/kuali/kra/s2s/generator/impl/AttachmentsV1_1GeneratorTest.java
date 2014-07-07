@@ -18,6 +18,7 @@ package org.kuali.kra.s2s.generator.impl;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
+import org.kuali.coeus.s2sgen.impl.generate.support.AttachmentsV1_1Generator;
 import org.kuali.kra.s2s.generator.S2STestBase;
 import org.kuali.rice.krad.data.DataObjectService;
 

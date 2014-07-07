@@ -25,6 +25,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import static org.junit.Assert.*;
 public class ValidSpecialReviewApprovalMaintenanceRuleTest extends MaintenanceRuleTestBase {
+
     private ValidSpecialReviewApprovalMaintenanceRule rule;
     private MaintenanceDocument maintDoc;
 

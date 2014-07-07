@@ -21,10 +21,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
+import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmissionConstants;
 import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -82,15 +82,15 @@ public class S2SPollingTask {
 
 
     public S2SPollingTask() {
-        lstStatus.add(S2SConstants.GRANTS_GOV_SUBMISSION_MESSAGE.toUpperCase());
-        lstStatus.add(S2SConstants.STATUS_RECEIVING.toUpperCase());
-        lstStatus.add(S2SConstants.STATUS_RECEIVED.toUpperCase());
-        lstStatus.add(S2SConstants.STATUS_PROCESSING.toUpperCase());
-        lstStatus.add(S2SConstants.STATUS_VALIDATED.toUpperCase());
-        lstStatus.add(S2SConstants.STATUS_RECEIVED_BY_AGENCY.toUpperCase());
-        lstStatus.add(S2SConstants.STATUS_AGENCY_TRACKING_NUMBER_ASSIGNED.toUpperCase());
-        lstStatus.add(S2SConstants.STATUS_REJECTED_WITH_ERRORS.toUpperCase());
-        lstStatus.add(S2SConstants.STATUS_GRANTS_GOV_SUBMISSION_ERROR.toUpperCase());
+        lstStatus.add(S2sAppSubmissionConstants.GRANTS_GOV_SUBMISSION_MESSAGE.toUpperCase());
+        lstStatus.add(S2sAppSubmissionConstants.STATUS_RECEIVING.toUpperCase());
+        lstStatus.add(S2sAppSubmissionConstants.STATUS_RECEIVED.toUpperCase());
+        lstStatus.add(S2sAppSubmissionConstants.STATUS_PROCESSING.toUpperCase());
+        lstStatus.add(S2sAppSubmissionConstants.STATUS_VALIDATED.toUpperCase());
+        lstStatus.add(S2sAppSubmissionConstants.STATUS_RECEIVED_BY_AGENCY.toUpperCase());
+        lstStatus.add(S2sAppSubmissionConstants.STATUS_AGENCY_TRACKING_NUMBER_ASSIGNED.toUpperCase());
+        lstStatus.add(S2sAppSubmissionConstants.STATUS_REJECTED_WITH_ERRORS.toUpperCase());
+        lstStatus.add(S2sAppSubmissionConstants.STATUS_GRANTS_GOV_SUBMISSION_ERROR.toUpperCase());
 
         sortMsgKeyMap.put("A", "Following proposals DID NOT validate at Grants.Gov");
         sortMsgKeyMap.put("B", "Following proposals are at an Unknown status at Grants.Gov");
@@ -201,7 +201,7 @@ public class S2SPollingTask {
                         || applicationListResponse.getApplicationInfo().size() == 0) {
                     statusChanged = s2sSubmissionService.checkForSubmissionStatusChange(pdDoc, appSubmission);
                     if (statusChanged == false
-                            && appSubmission.getComments().equals(S2SConstants.STATUS_NO_RESPONSE_FROM_GRANTS_GOV)) {
+                            && appSubmission.getComments().equals(S2sAppSubmissionConstants.STATUS_NO_RESPONSE_FROM_GRANTS_GOV)) {
                         localSubInfo.setSortId(SORT_ID_F);
                         sendEmailFlag = true;
                     }
@@ -238,7 +238,7 @@ public class S2SPollingTask {
             recDateCal.setTimeInMillis(appSubmission.getReceivedDate().getTime());
 
             if (statusChanged) {
-                if (appSubmission.getStatus().indexOf(S2SConstants.STATUS_GRANTS_GOV_SUBMISSION_ERROR) != -1) {
+                if (appSubmission.getStatus().indexOf(S2sAppSubmissionConstants.STATUS_GRANTS_GOV_SUBMISSION_ERROR) != -1) {
                     updateFlag = true;
                     sendEmailFlag = true;
                     sortId = SORT_ID_A;
@@ -351,7 +351,7 @@ public class S2SPollingTask {
             for (SubmissionData submissionData : submList) {
                 S2sAppSubmission s2sAppSubmission = submissionData.getS2sAppSubmission();
                 s2sAppSubmission.setUpdateUserSet(true);
-                if(!s2sAppSubmission.getStatus().equalsIgnoreCase(S2SConstants.STATUS_PUREGED))
+                if(!s2sAppSubmission.getStatus().equalsIgnoreCase(S2sAppSubmissionConstants.STATUS_PUREGED))
                     businessObjectService.save(s2sAppSubmission);
             }
         }

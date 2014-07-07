@@ -16,7 +16,6 @@
 package org.kuali.coeus.propdev.impl.attachment;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.infrastructure.NarrativeRight;
 
 public interface NarrativeAuthZService {
 

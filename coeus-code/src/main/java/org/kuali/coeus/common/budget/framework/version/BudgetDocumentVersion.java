@@ -17,7 +17,6 @@ package org.kuali.coeus.common.budget.framework.version;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.common.budget.api.version.BudgetDocumentVersionContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -31,7 +30,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "BUDGET_DOCUMENT")
-public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase implements Comparable<BudgetDocumentVersion>, BudgetDocumentVersionContract {
+public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase implements Comparable<BudgetDocumentVersion> {
 
     private static final String BUDGET_COMPLETE = "1";
 
@@ -61,7 +60,6 @@ public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase imple
         documentHeader = KRADServiceLocatorWeb.getDocumentHeaderService().getDocumentHeaderById(documentNumber);
     }
 
-    @Override
     public BudgetVersionOverview getBudgetVersionOverview() {
         if(budgetVersionOverview == null) {
             budgetVersionOverview = new BudgetVersionOverview();
@@ -74,7 +72,6 @@ public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase imple
         this.budgetVersionOverview = budget;
     }
 
-    @Override
     public String getParentDocumentKey() {
         return parentDocumentKey;
     }
@@ -117,7 +114,6 @@ public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase imple
         return getBudgetVersionOverview().getBudgetVersionNumber().compareTo(otherVersion.getBudgetVersionOverview().getBudgetVersionNumber());
     }
 
-    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
@@ -134,7 +130,6 @@ public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase imple
         this.documentHeader = documentHeader;
     }
 
-    @Override
     public String getParentDocumentTypeCode() {
         return parentDocumentTypeCode;
     }

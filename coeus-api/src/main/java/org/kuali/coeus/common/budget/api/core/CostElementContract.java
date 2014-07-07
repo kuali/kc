@@ -1,6 +1,6 @@
 package org.kuali.coeus.common.budget.api.core;
 
-import org.kuali.coeus.common.budget.api.category.BudgetCategoryContract;
+import org.kuali.coeus.common.budget.api.core.category.BudgetCategoryContract;
 import org.kuali.coeus.common.budget.api.rate.ValidCeRateTypeContract;
 import org.kuali.coeus.sys.api.model.Describable;
 import org.kuali.coeus.sys.api.model.Inactivatable;

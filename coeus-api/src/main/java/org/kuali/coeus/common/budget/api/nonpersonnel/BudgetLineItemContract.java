@@ -1,6 +1,6 @@
 package org.kuali.coeus.common.budget.api.nonpersonnel;
 
-import org.kuali.coeus.common.budget.api.category.BudgetCategoryContract;
+import org.kuali.coeus.common.budget.api.core.category.BudgetCategoryContract;
 import org.kuali.coeus.common.budget.api.core.CostElementContract;
 import org.kuali.coeus.common.budget.api.core.IdentifiableBudget;
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelDetailsContract;

@@ -83,4 +83,9 @@
     <bean id="iacucProtocolProposalDevelopmentProtocolDocumentService" parent="grlImporter" p:serviceName="iacucProtocolProposalDevelopmentProtocolDocumentService" />
     <bean id="iacucProtocolSpecialReviewService" parent="grlImporter" p:serviceName="iacucProtocolSpecialReviewService" />
 
+    <!-- INST PROP -->
+
+    <bean id="proposalAdminDetailsService" parent="grlImporter" p:serviceName="proposalAdminDetailsService" />
+    <bean id="instPropSponsorService" parent="grlImporter" p:serviceName="instPropSponsorService" />
+
 </beans>

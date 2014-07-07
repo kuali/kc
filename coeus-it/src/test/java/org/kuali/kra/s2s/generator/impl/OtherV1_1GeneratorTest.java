@@ -19,6 +19,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
+import org.kuali.coeus.s2sgen.impl.generate.support.OtherV1_1Generator;
 import org.kuali.kra.s2s.generator.S2STestBase;
 import org.kuali.kra.s2s.generator.util.S2STestConstants;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;

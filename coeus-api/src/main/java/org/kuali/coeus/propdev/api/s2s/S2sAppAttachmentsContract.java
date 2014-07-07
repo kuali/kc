@@ -1,11 +1,11 @@
 package org.kuali.coeus.propdev.api.s2s;
 
-public interface S2sAppAttachmentsContract {
-    Long getId();
+import org.kuali.coeus.propdev.api.core.NumberedProposal;
+import org.kuali.coeus.sys.api.model.IdentifiableNumeric;
+
+public interface S2sAppAttachmentsContract extends IdentifiableNumeric, NumberedProposal {
 
     String getContentId();
-
-    String getProposalNumber();
 
     String getContentType();
 

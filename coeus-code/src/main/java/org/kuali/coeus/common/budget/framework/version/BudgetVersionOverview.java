@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.common.budget.framework.version;
 
-import org.kuali.coeus.common.budget.api.version.BudgetVersionOverviewContract;
 import org.kuali.coeus.common.budget.framework.core.AbstractBudget;
 
 import javax.persistence.*;
@@ -28,7 +27,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "BUDGET")
-public class BudgetVersionOverview extends AbstractBudget implements BudgetVersionOverviewContract {
+public class BudgetVersionOverview extends AbstractBudget {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)

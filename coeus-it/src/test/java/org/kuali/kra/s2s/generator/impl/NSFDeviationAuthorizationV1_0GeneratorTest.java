@@ -17,6 +17,7 @@ package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
+import org.kuali.coeus.s2sgen.impl.generate.support.NSFDeviationAuthorizationV1_0Generator;
 import org.kuali.kra.s2s.generator.S2STestBase;
 
 import java.util.ArrayList;
