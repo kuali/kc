@@ -53,7 +53,7 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
 	
     
     @RequestMapping(params="methodToCall=addBudget")
-    public ModelAndView navigateToPersonnel(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView addBudget(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
         ProposalDevelopmentBudgetExt budget = (ProposalDevelopmentBudgetExt) getBudgetService().addBudgetVersion(propDevForm.getProposalDevelopmentDocument(), propDevForm.getAddBudgetDTO().getBudgetName());
         if (budget != null) {
