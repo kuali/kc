@@ -185,8 +185,8 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 			HttpServletResponse response) throws Exception {
     	return getTransactionalDocumentControllerService().supervisorFunctions(form, result, request, response);
     }
-	
-	protected UifExportControllerService getUifExportControllerService() {
+
+   	protected UifExportControllerService getUifExportControllerService() {
 		return uifExportControllerService;
 	}
 
