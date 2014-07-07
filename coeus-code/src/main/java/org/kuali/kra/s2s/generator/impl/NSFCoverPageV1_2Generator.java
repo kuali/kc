@@ -136,7 +136,7 @@ public class NSFCoverPageV1_2Generator extends NSFCoverPageBaseGenerator {
 			otherInfo.setIsExploratoryResearch(yesNoDataType);
 		}
 		String proposalTypeCode = pdDoc.getDevelopmentProposal()
-				.getProposalTypeCode();
+				.getProposalType().getCode();
 		if (proposalTypeCode != null) {
 			otherInfo
 					.setIsAccomplishmentRenewal(proposalTypeCode

@@ -20,9 +20,8 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
 import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelDetailsContract;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
@@ -31,8 +30,6 @@ import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.S2SErrorHandler;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -66,16 +63,8 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
     protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
 
     @Autowired
-    @Qualifier("proposalBudgetService")
-    protected ProposalBudgetService proposalBudgetService;
-
-    @Autowired
     @Qualifier("s2SUtilService")
     protected S2SUtilService s2sUtilService;
-
-    @Autowired
-    @Qualifier("documentService")
-    protected DocumentService documentService;
 
     /**
      * This method check whether the key person has a personnel budget  
@@ -87,27 +76,18 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
      * @return true if key person has personnel budget else false.
      */
     protected Boolean hasPersonnelBudget(KeyPersonInfo keyPerson,int period){
-        BudgetDocument budgetDocument = null;
-
-        try {
-            budgetDocument = (BudgetDocument) getDocumentService()
-            .getByDocumentHeaderId(pdDoc.getBudgetDocumentVersion(0).getDocumentNumber());
-            }
-            catch (WorkflowException e) {
-                LOG.error(e.getMessage(), e);
-            }
-        List<? extends BudgetLineItemContract> budgetLineItemList = budgetDocument.getBudget().getBudgetPeriod(period-1).getBudgetLineItems();
+        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        List<? extends BudgetLineItemContract> budgetLineItemList = budget.getBudgetPeriods().get(period-1).getBudgetLineItems();
            
-           for(BudgetLineItemContract budgetLineItem : budgetLineItemList) {
-             for(BudgetPersonnelDetailsContract budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()){
+        for(BudgetLineItemContract budgetLineItem : budgetLineItemList) {
+            for(BudgetPersonnelDetailsContract budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()){
                 if( budgetPersonnelDetails.getPersonId().equals(keyPerson.getPersonId())){
                     return true;
-                } else if (keyPerson.getRolodexId() != null && budgetPersonnelDetails.getPersonId()
-                        .equals(keyPerson.getRolodexId().toString())) {
+                } else if (keyPerson.getRolodexId() != null && budgetPersonnelDetails.getPersonId().equals(keyPerson.getRolodexId().toString())) {
                     return true;
-                }                
-             }
-           }        
+                }
+            }
+        }
         return false;       
     }
     
@@ -120,14 +100,9 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
     protected boolean validateBudgetForForm(ProposalDevelopmentDocumentContract pdDoc) throws S2SException {
         boolean valid = true;
 
-        BudgetDocument budget = null;
-        try {
-            budget = proposalBudgetService.getFinalBudgetVersion(pdDoc);
-        } catch (WorkflowException e) {
-            throw new S2SException(e);
-        }
+        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
         if(budget != null) {
-            for (BudgetPeriodContract period : budget.getBudget().getBudgetPeriods()) {
+            for (BudgetPeriodContract period : budget.getBudgetPeriods()) {
                 List<String> participantSupportCode = new ArrayList<String>();
                 participantSupportCode.add(s2sBudgetCalculatorService.getParticipantSupportCategoryCode());
                 List<? extends BudgetLineItemContract> participantSupportLineItems =
@@ -156,27 +131,11 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
         this.s2sBudgetCalculatorService = s2sBudgetCalculatorService;
     }
 
-    public ProposalBudgetService getProposalBudgetService() {
-        return proposalBudgetService;
-    }
-
-    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
-        this.proposalBudgetService = proposalBudgetService;
-    }
-
     public S2SUtilService getS2sUtilService() {
         return s2sUtilService;
     }
 
     public void setS2sUtilService(S2SUtilService s2sUtilService) {
         this.s2sUtilService = s2sUtilService;
-    }
-
-    public DocumentService getDocumentService() {
-        return documentService;
-    }
-
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
     }
 }

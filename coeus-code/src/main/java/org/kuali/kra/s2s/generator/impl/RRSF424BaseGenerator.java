@@ -22,8 +22,6 @@ import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
-import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.api.question.QuestionAnswerService;
 import org.kuali.kra.s2s.ConfigurationConstants;
@@ -78,14 +76,6 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     @Autowired
     @Qualifier("sponsorHierarchyService")
     protected SponsorHierarchyService sponsorHierarchyService;
-
-    @Autowired
-    @Qualifier("proposalBudgetService")
-    protected ProposalBudgetService proposalBudgetService;
-
-    @Autowired
-    @Qualifier("proposalDevelopmentService")
-    protected ProposalDevelopmentService proposalDevelopmentService;
 
     @Autowired
     @Qualifier("questionAnswerService")
@@ -177,22 +167,6 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
 
     public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {
         this.sponsorHierarchyService = sponsorHierarchyService;
-    }
-
-    public ProposalBudgetService getProposalBudgetService() {
-        return proposalBudgetService;
-    }
-
-    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
-        this.proposalBudgetService = proposalBudgetService;
-    }
-
-    public ProposalDevelopmentService getProposalDevelopmentService() {
-        return proposalDevelopmentService;
-    }
-
-    public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
-        this.proposalDevelopmentService = proposalDevelopmentService;
     }
 
     public QuestionAnswerService getQuestionAnswerService() {

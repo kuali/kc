@@ -29,8 +29,8 @@ import org.kuali.coeus.common.api.org.OrganizationRepositoryService;
 import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.common.budget.api.rate.RateClassType;
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonContract;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.api.budget.modular.BudgetModularIdcContract;
 import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
@@ -38,8 +38,6 @@ import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.common.budget.api.category.BudgetCategoryMapContract;
@@ -52,7 +50,6 @@ import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.S2SErrorHandler;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -113,16 +110,8 @@ public class S2SBudgetCalculatorServiceImpl implements
     private S2SConfigurationService s2SConfigurationService;
 
     @Autowired
-    @Qualifier("proposalBudgetService")
-    private ProposalBudgetService proposalBudgetService;
-
-    @Autowired
     @Qualifier("budgetPersonSalaryService")
     private BudgetPersonSalaryService budgetPersonSalaryService;
-
-    @Autowired
-    @Qualifier("budgetPersonService")
-    private BudgetPersonService budgetPersonService;
 
     @Autowired
     @Qualifier("organizationRepositoryService")
@@ -162,13 +151,7 @@ public class S2SBudgetCalculatorServiceImpl implements
      */
     public BudgetSummaryInfo getBudgetInfo(ProposalDevelopmentDocumentContract pdDoc, List<BudgetPeriodInfo> budgetPeriodInfos)
             throws S2SException {
-        BudgetDocument budgetDocument = null;
-        try {
-            budgetDocument = proposalBudgetService.getFinalBudgetVersion(pdDoc);
-        } catch (WorkflowException e) {
-            throw new S2SException(e);
-        }
-        BudgetContract budget = budgetDocument == null ? null : budgetDocument.getBudget();
+        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
         BudgetSummaryInfo budgetSummaryInfo = new BudgetSummaryInfo();
         if (budget == null) {
             return budgetSummaryInfo;
@@ -530,13 +513,7 @@ public class S2SBudgetCalculatorServiceImpl implements
      */
     public List<BudgetPeriodInfo> getBudgetPeriods(ProposalDevelopmentDocumentContract pdDoc) throws S2SException {
         List<BudgetPeriodInfo> budgetPeriods = new ArrayList<BudgetPeriodInfo>();
-        BudgetDocument budgetDocument = null;
-        try {
-            budgetDocument = proposalBudgetService.getFinalBudgetVersion(pdDoc);
-        } catch (WorkflowException e) {
-            throw new S2SException(e);
-        }
-        BudgetContract budget = budgetDocument == null ? null : budgetDocument.getBudget();
+        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
         if (budget == null) {
             return budgetPeriods;
         }
@@ -1660,7 +1637,7 @@ public class S2SBudgetCalculatorServiceImpl implements
             keyPerson.setMiddleName(coInvestigator.getMiddleName());
             keyPerson.setNonMITPersonFlag(isPersonNonMITPerson(coInvestigator));
 
-            if (sponsorHierarchyService.isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsorCode())) {
+            if (sponsorHierarchyService.isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsor().getSponsorCode())) {
                 if (coInvestigator.isMultiplePi()){
                     keyPerson.setRole(NID_PD_PI);
                 }else{
@@ -1693,7 +1670,7 @@ public class S2SBudgetCalculatorServiceImpl implements
             for (BudgetPersonnelDetailsContract budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
                 personAlreadyAdded = false;
                 for (ProposalPersonContract proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
-                    if (budgetPersonService.proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails)) {
+                    if (proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails)) {
                         personAlreadyAdded = true;
                         break;
                     }
@@ -1832,6 +1809,18 @@ public class S2SBudgetCalculatorServiceImpl implements
             }
         }
         return isSeniorLineItem;
+    }
+
+    protected boolean proposalPersonEqualsBudgetPerson(ProposalPersonContract proposalPerson, BudgetPersonnelDetailsContract budgetPersonnelDetails) {
+        boolean equal = false;
+        if (proposalPerson != null && budgetPersonnelDetails != null) {
+            String budgetPersonId = budgetPersonnelDetails.getPersonId();
+            if ((proposalPerson.getPersonId() != null && proposalPerson.getPersonId().equals(budgetPersonId))
+                    || (proposalPerson.getRolodexId() != null && proposalPerson.getRolodexId().toString().equals(budgetPersonId))) {
+                equal = true;
+            }
+        }
+        return equal;
     }
 
     /**
@@ -2095,28 +2084,12 @@ public class S2SBudgetCalculatorServiceImpl implements
         this.s2SConfigurationService = s2SConfigurationService;
     }
 
-    public ProposalBudgetService getProposalBudgetService() {
-        return proposalBudgetService;
-    }
-
-    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
-        this.proposalBudgetService = proposalBudgetService;
-    }
-
     public BudgetPersonSalaryService getBudgetPersonSalaryService() {
         return budgetPersonSalaryService;
     }
 
     public void setBudgetPersonSalaryService(BudgetPersonSalaryService budgetPersonSalaryService) {
         this.budgetPersonSalaryService = budgetPersonSalaryService;
-    }
-
-    public BudgetPersonService getBudgetPersonService() {
-        return budgetPersonService;
-    }
-
-    public void setBudgetPersonService(BudgetPersonService budgetPersonService) {
-        this.budgetPersonService = budgetPersonService;
     }
 
     public OrganizationRepositoryService getOrganizationRepositoryService() {

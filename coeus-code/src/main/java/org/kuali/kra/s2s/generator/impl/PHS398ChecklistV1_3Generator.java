@@ -29,9 +29,9 @@ import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.budget.api.income.BudgetProjectIncomeContract;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,17 +83,12 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 		setFormerPDNameAndIsChangeOfPDPI(phsChecklist);
 		setFormerInstitutionNameAndChangeOfInstitution(phsChecklist);
 		setIsInventionsAndPatentsAndIsPreviouslyReported(phsChecklist);
-		BudgetDocument budgetDoc = null;
-		try {
-			budgetDoc = proposalBudgetService.getFinalBudgetVersion(pdDoc);
-		} catch (Exception e) {
-			LOG.error(e.getMessage(), e);
-		}
 
-		if (budgetDoc != null && budgetDoc.getBudget() != null) {
-			int numPeriods = budgetDoc.getBudget().getBudgetPeriods().size();
-			setIncomeBudgetPeriods(phsChecklist, budgetDoc.getBudget()
-					.getBudgetProjectIncomes(),numPeriods);
+        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+
+		if (budget != null) {
+			int numPeriods = budget.getBudgetPeriods().size();
+			setIncomeBudgetPeriods(phsChecklist, budget.getBudgetProjectIncomes(),numPeriods);
 		} else {
 			phsChecklist.setProgramIncome(YesNoDataType.N_NO);
 		}

@@ -38,21 +38,19 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.question.*;
-import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
 import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewContract;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.s2s.CitizenshipTypes;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -470,12 +468,12 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
      * value of TUITION_COST_ELEMENTS
      */
     private void setTuitionRequestedYears(Budget budget) {
-        BudgetDocument budgetDoc = getBudgetDocument();
-        if (budgetDoc == null) {
+        ProposalDevelopmentBudgetExtContract pBudget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        if (pBudget == null) {
             return;
         }
         ScaleTwoDecimal tuitionTotal = ScaleTwoDecimal.ZERO;
-        for (BudgetPeriodContract budgetPeriod : budgetDoc.getBudget().getBudgetPeriods()) {
+        for (BudgetPeriodContract budgetPeriod : pBudget.getBudgetPeriods()) {
             ScaleTwoDecimal tuition = ScaleTwoDecimal.ZERO;
             for (BudgetLineItemContract budgetLineItem : budgetPeriod.getBudgetLineItems()) {
                 if (getCostElementsByParam(ConfigurationConstants.TUITION_COST_ELEMENTS).contains(budgetLineItem.getCostElementBO().getCostElement())) {
@@ -541,9 +539,8 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
      */
     private void getFederalStipendRequested(Budget budget) {
         FederalStipendRequested federalStipendRequested = FederalStipendRequested.Factory.newInstance();
-        BudgetDocument budgetDoc = getBudgetDocument();
-        if (budgetDoc != null) {
-            BudgetContract pBudget = budgetDoc.getBudget();
+        ProposalDevelopmentBudgetExtContract pBudget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        if (pBudget != null) {
             ScaleTwoDecimal sumOfLineItemCost = ScaleTwoDecimal.ZERO;
             ScaleTwoDecimal numberOfMonths = ScaleTwoDecimal.ZERO;
             for (BudgetPeriodContract budgetPeriod : pBudget.getBudgetPeriods()) {
@@ -563,20 +560,6 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
             budget.setFederalStipendRequested(federalStipendRequested);
 
         }
-    }
-
-    /*
-     * This method is used to get final version of BudgetDocument from s2SBudgetCalculatorService using pdDoc
-     */
-    private BudgetDocument getBudgetDocument() {
-        BudgetDocument budgetDoc = null;
-        try {
-            budgetDoc = proposalBudgetService.getFinalBudgetVersion(pdDoc);
-        }
-        catch (WorkflowException e) {
-            LOG.error("Error while getting Budget", e);
-        }
-        return budgetDoc;
     }
 
     /*
@@ -933,7 +916,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
      * This method is used to get TypeOfApplication based on proposalTypeCode of DevelopmentProposal
      */
     private TypeOfApplication.Enum getTypeOfApplication() {
-        String proposalTypeCode = pdDoc.getDevelopmentProposal().getProposalTypeCode();
+        String proposalTypeCode = pdDoc.getDevelopmentProposal().getProposalType().getCode();
         TypeOfApplication.Enum typeOfApplication = null;
         if (proposalTypeCode != null) {
             if (proposalTypeCode.equals(s2SConfigurationService.getValueAsString(ConfigurationConstants.PROPOSAL_TYPE_CODE_NEW))) {

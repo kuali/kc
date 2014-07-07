@@ -596,8 +596,13 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
 
     public File getGrantsGovSavedFile(ProposalDevelopmentDocument pdDoc)
             throws IOException {
+
         String loggingDirectory = s2SConfigurationService.getValueAsString(ConfigurationConstants.PRINT_XML_DIRECTORY);
-        String saveXmlFolderName = pdDoc.getSaveXmlFolderName();
+        String opportunityId = pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityId();
+        String proposalnumber = pdDoc.getDevelopmentProposal().getProposalNumber();
+        String exportDate = StringUtils.replaceChars((pdDoc.getDevelopmentProposal().getUpdateTimestamp().toString()), ":", "_");
+        exportDate = StringUtils.replaceChars(exportDate, " ", ".");
+
         if (StringUtils.isNotBlank(loggingDirectory)) {
             File directory = new File(loggingDirectory);
             if(!directory.exists()){
@@ -606,7 +611,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
             if(!loggingDirectory.endsWith("/")){
                 loggingDirectory+="/";
             }
-            return new File(loggingDirectory + saveXmlFolderName + ".zip");
+            return new File(loggingDirectory + opportunityId + "." + proposalnumber + "." + exportDate + ".zip");
         } else {
             return null;
         }

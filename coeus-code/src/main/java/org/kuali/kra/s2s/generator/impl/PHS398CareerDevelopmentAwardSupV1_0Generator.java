@@ -91,15 +91,15 @@ public class PHS398CareerDevelopmentAwardSupV1_0Generator extends
 
 	private ApplicationType getApplicationType() {
 		ApplicationType applicationType = ApplicationType.Factory.newInstance();
-		if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null
-				&& !pdDoc.getDevelopmentProposal().getProposalTypeCode()
+		if (pdDoc.getDevelopmentProposal().getProposalType().getCode() != null
+				&& !pdDoc.getDevelopmentProposal().getProposalType().getCode()
 						.equals(PROPOSAL_TYPE_TASK_ORDER)) {
 			// Check !=6 to ensure that if proposalType='TASK ORDER", it must
 			// not set. THis is because the enum has no
 			// entry for TASK ORDER
 			applicationType.setTypeOfApplication(TypeOfApplication.Enum
 					.forInt(Integer.parseInt(pdDoc.getDevelopmentProposal()
-							.getProposalTypeCode())));
+							.getProposalType().getCode())));
 		} else {
 			applicationType.setTypeOfApplication(TypeOfApplication.NEW);
 		}

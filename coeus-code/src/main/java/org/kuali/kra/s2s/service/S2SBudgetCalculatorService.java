@@ -21,7 +21,6 @@ import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.common.budget.api.category.BudgetCategoryMapContract;
 import org.kuali.kra.s2s.generator.bo.BudgetPeriodInfo;
@@ -68,7 +67,7 @@ public interface S2SBudgetCalculatorService {
 
     /**
      * 
-     * This method gets the list of {@link BudgetPeriodInfo} for the latest {@link BudgetDocument} of the given
+     * This method gets the list of {@link BudgetPeriodInfo} for the latest Budget of the given
      * {@link ProposalDevelopmentDocumentContract}
      * 
      * @param pdDoc ProposalDevelopmentDocumentContract

@@ -120,7 +120,7 @@ public class NSFCoverPageV1_0Generator extends NSFCoverPageBaseGenerator {
             otherInfo.setIsHistoricPlaces(yesNoDataType);
         }
 
-        String proposalTypeCode = pdDoc.getDevelopmentProposal().getProposalTypeCode();
+        String proposalTypeCode = pdDoc.getDevelopmentProposal().getProposalType().getCode();
         if (proposalTypeCode != null) {
             otherInfo.setIsAccomplishmentRenewal(proposalTypeCode.equals(QUESTION_ID_ACCOMPLISHMENT_RENEWAL) ? YesNoDataType.YES
                     : YesNoDataType.NO);

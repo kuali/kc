@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.common.framework.ynq.Ynq;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
@@ -42,9 +43,9 @@ public class NSFApplicationChecklistV1_2GeneratorTest extends
 			throws Exception {
 		DevelopmentProposal developmentProposal = document
 				.getDevelopmentProposal();
-		developmentProposal.setProposalTypeCode("8");
-		developmentProposal.setProposalTypeCode("2");
-		developmentProposal.setProposalTypeCode("5");
+        ProposalType type = new ProposalType();
+        type.setCode("5");
+        developmentProposal.setProposalType(type);
 		ProposalYnq proposalYnq = new ProposalYnq();
 		proposalYnq.setAnswer("Y");
 		proposalYnq.setQuestionId("21");

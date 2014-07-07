@@ -18,7 +18,6 @@ package org.kuali.kra.s2s.generator.impl;
 import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.coeus.common.api.question.QuestionAnswerService;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
-import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.service.S2SUtilService;
@@ -41,10 +40,6 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
     @Autowired
     @Qualifier("s2SUtilService")
 	protected S2SUtilService s2sUtilService;
-
-    @Autowired
-    @Qualifier("proposalBudgetService")
-	protected ProposalBudgetService proposalBudgetService;
 
     @Autowired
     @Qualifier("s2SConfigurationService")
@@ -114,14 +109,6 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
 
     public void setS2sUtilService(S2SUtilService s2sUtilService) {
         this.s2sUtilService = s2sUtilService;
-    }
-
-    public ProposalBudgetService getProposalBudgetService() {
-        return proposalBudgetService;
-    }
-
-    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
-        this.proposalBudgetService = proposalBudgetService;
     }
 
     public S2SConfigurationService getS2SConfigurationService() {

@@ -209,10 +209,10 @@ public class PHS398ResearchPlanV1_0Generator extends PHS398ResearchPlanBaseGener
      */
     private ApplicationType getApplicationType() {
         ApplicationType applicationType = ApplicationType.Factory.newInstance();
-        if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null && Integer.parseInt(pdDoc.getDevelopmentProposal().getProposalTypeCode()) < PROPOSAL_TYPE_CODE_6) {
+        if (pdDoc.getDevelopmentProposal().getProposalType() != null && Integer.parseInt(pdDoc.getDevelopmentProposal().getProposalType().getCode()) < PROPOSAL_TYPE_CODE_6) {
             // Check < 6 to ensure that if proposalType='TASK ORDER", it must not set. THis is because enum ApplicationType has no
             // entry for TASK ORDER
-            TypeOfApplication.Enum typeOfApplication = TypeOfApplication.Enum.forInt(Integer.parseInt(pdDoc.getDevelopmentProposal().getProposalTypeCode()));
+            TypeOfApplication.Enum typeOfApplication = TypeOfApplication.Enum.forInt(Integer.parseInt(pdDoc.getDevelopmentProposal().getProposalType().getCode()));
             applicationType.setTypeOfApplication(typeOfApplication);
         }
         return applicationType;

@@ -76,27 +76,14 @@ public final class CollectionUtils {
             throw new IllegalArgumentException("values is null");
         }
 
-        if(keys.length != values.length) {
+        if (keys.length != values.length) {
             throw new IllegalArgumentException("Number of keys doesn't match number of values");
         }
 
         final Map<T, U> map = new HashMap<T, U>();
-        for(int i = 0; i < keys.length; i++) {
+        for (int i = 0; i < keys.length; i++) {
             map.put(keys[i], values[i]);
         }
         return map;
-    }
-
-    public static String toString(List<String> stringList) {
-        String retVal = "";
-        if (stringList != null) {
-            for (int i = 0; i < stringList.size(); i++) {
-                retVal += stringList.get(i);
-                if (i != stringList.size() - 1) {
-                    retVal += ", ";
-                }
-            }
-        }
-        return retVal;
     }
 }
