@@ -62,6 +62,7 @@
 		<property name="dialogs">
 			<list>
 				<ref bean="PropDev-PersonnelPage-Wizard" />
+				<ref bean="PropDev-BudgetPage-AddBudgetDialog"/>
 			</list>
 		</property>
 	</bean>
