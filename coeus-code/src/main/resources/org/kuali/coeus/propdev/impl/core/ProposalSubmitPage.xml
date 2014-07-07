@@ -14,16 +14,16 @@
 
 	<bean id="PropDev-SubmitPage" parent="PropDev-SubmitPage-parentBean" />
 	<bean id="PropDev-SubmitPage-parentBean" abstract="true"
-		parent="Uif-DocumentPage" p:headerText="Submit" >
+		parent="Uif-DocumentPage" p:headerText="Submit">
 		<property name="items">
 			<list>
 		      <bean parent="Uif-StepProgressBar" p:order="10" >
-		     <property name="currentStep" value="@{document.developmentProposal.proposalProgressCode}"/>
+		     <property name="currentStep" value="@{#ViewHelper.displayProposalProgressCode(document.documentHeader.workflowDocument)}"/>
               <property name="steps">
                      <map>
-                     <entry key="SAVED" value="Saved"/>
-                     <entry key="ENROUTE" value="Routing"/>
-                     <entry key="FINAL" value="Approved"/>
+                     <entry key="#{T(org.kuali.rice.kew.api.document.DocumentStatus).SAVED.name()}" value="Saved"/>
+                     <entry key="#{T(org.kuali.rice.kew.api.document.DocumentStatus).ENROUTE.name()}" value="Routing"/>
+                     <entry key="#{T(org.kuali.rice.kew.api.document.DocumentStatus).FINAL.name()}" value="Approved"/>
                      </map>
               </property>
        </bean>				

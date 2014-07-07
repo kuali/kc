@@ -83,8 +83,7 @@ import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.document.DocumentStatus;
+
 import javax.persistence.*;
 
 import java.sql.Date;
@@ -394,25 +393,8 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     private transient LegacyNarrativeService narrativeService;
 
     @Transient
-    private transient ProposalPersonBiographyService proposalPersonBiographyService;
-    
-    private  String proposalProgressCode;
-    
-	public String getProposalProgressCode() {
-		WorkflowDocument wd = proposalDocument.getDocumentHeader()
-				.getWorkflowDocument();
-		if (wd.isSaved())
-			proposalProgressCode = DocumentStatus.SAVED.name();
-		else if (wd.isEnroute() || wd.isException())
-			proposalProgressCode = DocumentStatus.ENROUTE.name();
-		else if (wd.isApproved())
-			proposalProgressCode = DocumentStatus.FINAL.name();
-		else
-			proposalProgressCode = "";
-
-		return proposalProgressCode;
-	}
-    
+    private transient ProposalPersonBiographyService proposalPersonBiographyService; 
+ 
 
     /**
      * Gets the proposalNumberForGG attribute. 

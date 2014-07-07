@@ -193,7 +193,7 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
     }
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveAndExit")
     public  ModelAndView saveAndExit(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)throws Exception{	
-   		super.save(form,result,request,response);
+   		save(form,result,request,response);
    		return getTransactionalDocumentControllerService().returnToHub(form); 
 	}
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=submitForReview")
