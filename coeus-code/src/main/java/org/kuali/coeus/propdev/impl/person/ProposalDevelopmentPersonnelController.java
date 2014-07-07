@@ -21,7 +21,9 @@ import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
+import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -60,20 +63,16 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
             person.getQuestionnaireHelper().populateAnswers();
         }
         return getTransactionalDocumentControllerService().navigate(form, result, request, response);
-    }    
-
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveProposalPersonnel")
-   public ModelAndView savePersonnel(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
-           HttpServletRequest request, HttpServletResponse response) throws Exception {
-       ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-       ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
-       for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
-           for (AnswerHeader answerHeader : person.getQuestionnaireHelper().getAnswerHeaders()) {
-               getLegacyDataAdapter().save(answerHeader);
-           }
-       }
-       return super.save(pdForm, result, request, response);
-   }
+    } 
+    
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=save", "pageId=PropDev-PersonnelPage"})
+    public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, 
+    		HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
+    	ModelAndView mv = super.save(form, result, request, response);
+    	refreshPersonCertificaitonAnswerHeaders(pdForm);
+    	return mv;
+    }
    
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=performPersonnelSearch")
    public ModelAndView performPersonnelSearch(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
@@ -119,25 +118,45 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        newProposalPerson.setProjectRole(form.getAddKeyPersonHelper().getKeyPersonProjectRole());
        getKeyPersonnelService().addProposalPerson(newProposalPerson, form.getProposalDevelopmentDocument());
        form.getAddKeyPersonHelper().reset();
+       refreshPersonCertificaitonAnswerHeaders(form);
        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
    }
 
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-CreditAllocationPage"})
     public ModelAndView navigateToCreditAllocation(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
-        getKeyPersonnelService().populateDocument(form.getProposalDevelopmentDocument());
+    	ModelAndView mv = this.navigate(form, result, request, response);
+    	getKeyPersonnelService().populateDocument(form.getProposalDevelopmentDocument());
         form.setCreditSplitListItems(getKeyPersonnelService().createCreditSplitListItems(form.getDevelopmentProposal().getInvestigators()));
-        return getTransactionalDocumentControllerService().navigate(form, result, request, response);
+        return mv;
     }
 
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=save", "pageId=PropDev-CreditAllocationPage"})
     public ModelAndView creditAllocationSave(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         ModelAndView retVal = super.save(form, result, request, response);
         getKeyPersonnelService().populateDocument(form.getProposalDevelopmentDocument());
         return retVal;
     }
+
+   @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=clearAnswers")
+   public ModelAndView clearAnswers(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+           HttpServletRequest request, HttpServletResponse response) throws Exception {
+	   ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
+	   String personNumber = pdForm.getActionParamaterValue("personNumber");
+	   for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+		   if (StringUtils.equals(personNumber, person.getProposalPersonNumber().toString())) {
+			   //get the certification questions
+			   AnswerHeader ah = person.getQuestionnaireHelper().getAnswerHeaders().get(0);
+			   for (Answer answer : ah.getAnswers()) {
+				   answer.setAnswer(null);
+			   }
+		   }
+	   }
+	   saveAnswerHeaders(pdForm);
+	   ModelAndView mv = this.save(pdForm, result, request, response);
+	   return mv;
+   }
 
     protected LookupableHelperService getKcPersonLookupableHelperService() {
         return kcPersonLookupableHelperService;
@@ -155,4 +174,11 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         this.keyPersonnelService = keyPersonnelService;
     }
    
+    public void refreshPersonCertificaitonAnswerHeaders(ProposalDevelopmentDocumentForm pdForm) {
+		for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+			ProposalPersonQuestionnaireHelper qh = new ProposalPersonQuestionnaireHelper(person);
+			qh.populateAnswers();
+			person.setQuestionnaireHelper(qh);
+	    }
+	}
 }

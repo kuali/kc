@@ -268,7 +268,7 @@
 	<bean id="PropDev-PersonnelPage-Collection-parentBean" abstract="true"
 		parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
 		p:propertyName="document.developmentProposal.proposalPersons"
-		p:layoutManager.summaryTitle="@{#lp.fullName} (@{#lp.proposalPersonRoleId=='COI'?'Co-I':#lp.proposalPersonRoleId})"
+		p:layoutManager.summaryTitle="@{#lp.fullName} (@{#lp.proposalPersonRoleId=='COI'?'Co-I':#lp.proposalPersonRoleId}) (@{#lp.questionnairesCompleted eq true ? 'Certification Completed' : 'Certification Incomplete'})"
 		p:renderAddLine="false">
 		<property name="items">
 			<list>
@@ -552,10 +552,12 @@
 		p:headerText="@{(#line.questionnaireHelper.answerHeaders != null and #line.questionnaireHelper.answerHeaders.size() > 0 and #line.questionnaireHelper.answerHeaders[0].label != null) ? #line.questionnaireHelper.answerHeaders[0].label : 'None'}">
 		<property name="items">
 			<list>
+				<bean parent="Uif-ActionLinkField"  p:action.methodToCall="clearAnswers" 
+					p:actionParameters="personNumber:@{(#line.proposalPersonNumber)}"
+					p:actionLabel="Clear All Answers" p:order="10"/>
 				<bean parent="Questionnaire-QuestionsGroup" p:propertyName="questionnaireHelper.answerHeaders[0].questions"
-					p:order="10" />
+					p:order="20" />
 			</list>
 		</property>
 	</bean>
-
 </beans>
