@@ -15,12 +15,10 @@
  */
 package org.kuali.coeus.propdev.impl.core;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.*;
+
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.apache.commons.lang3.StringUtils;
@@ -202,6 +200,13 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             }
         }
         return retVal;
+    }
+
+    public String getDateUploadedFormatted(Timestamp uploadDate) {
+        if (uploadDate != null) {
+            return getDateTimeService().toDateString(new Date(uploadDate.getTime())) + " " + getDateTimeService().toTimeString(new Time(uploadDate.getTime()));
+        }
+        return StringUtils.EMPTY;
     }
 
     protected LegacyNarrativeService getNarrativeService() {
