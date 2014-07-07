@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.s2s.service;
+package org.kuali.kra.s2s.printing;
 
-import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.kra.s2s.S2SException;
 
 /**
  * This class contains the PDF form generation related services for a proposal.
  */
-public interface PrintService {
+public interface FormPrintService {
 	/**
 	 * This method is used for the printing of forms in PDF format
 	 * 
@@ -32,6 +30,6 @@ public interface PrintService {
 	 * 
 	 */
 	public PrintResult printForm(ProposalDevelopmentDocument pdDoc)
-			throws S2SException, PrintingException;
+			throws S2SException;
 
 }

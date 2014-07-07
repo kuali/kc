@@ -12,8 +12,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.api.unit.UnitContract;
 import org.kuali.coeus.common.api.unit.UnitRepositoryService;
-import org.kuali.coeus.common.framework.print.PrintingException;
-import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -21,8 +19,10 @@ import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
+import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.printing.GenericPrintable;
+import org.kuali.kra.s2s.printing.S2SPrintingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -60,8 +60,8 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
     private UnitRepositoryService unitRepositoryService;
 
     @Autowired
-    @Qualifier("printingService")
-    private PrintingService printingService;
+    @Qualifier("s2SPrintingService")
+    private S2SPrintingService s2SPrintingService;
 
 	protected void saveKeyPersonAttachmentsToProposal() {
 	    if(extraPersons!=null && !extraPersons.isEmpty()){
@@ -101,7 +101,7 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 				extraKeyPersonAttachments[1] = saveNarrative(curPendData, "" + CURRENTPENDING_DOC_TYPE,
 						fileName, COMMENT + CURRENT_PENDING_COMMENT);
 			}
-		} catch (PrintingException e) {
+		} catch (S2SException e) {
 			LOG.error("Auto generation of Biosketch/Currend Pending report for extra Keypersons is failed", e);
 		}
 		return extraKeyPersonAttachments;
@@ -132,10 +132,10 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 	 * @param bookmarksList
 	 *            List of bookmarks corresponding to the PDF bytes.
 	 * @return
-	 * @throws PrintingException
+	 * @throws org.kuali.kra.s2s.S2SException
 	 */
 	private byte[] mergePdfBytes(List<byte[]> pdfBytesList,
-			List<String> bookmarksList) throws PrintingException {
+			List<String> bookmarksList) throws S2SException {
 		Document document = null;
 		PdfWriter writer = null;
 		ByteArrayOutputStream mergedPdfReport = new ByteArrayOutputStream();
@@ -153,7 +153,7 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 				totalNumOfPages += reader.getNumberOfPages();
 			} catch (IOException e) {
 				LOG.error(e.getMessage(), e);
-				throw new PrintingException(e.getMessage(), e);
+				throw new S2SException(e.getMessage(), e);
 			}
 		}
 
@@ -193,7 +193,7 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 					writer = PdfWriter.getInstance(document, mergedPdfReport);
 				} catch (DocumentException e) {
 					LOG.error(e.getMessage(), e);
-					throw new PrintingException(e.getMessage(), e);
+					throw new S2SException(e.getMessage(), e);
 				}
 				document.setFooter(footer);
 				document.open();
@@ -454,10 +454,10 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 			printable.setXSLTemplateWithBookmarks(xSLTemplateWithBookmarks);
 			printable.setStreamMap(streamMap);
 			try {
-				KcFile printData = printingService.print(printable);
+				KcFile printData = s2SPrintingService.print(printable);
 				String fileName = pdDoc.getDevelopmentProposal().getProposalNumber() +"_"+PROFILE_COMMENT+".pdf";
 				narrative = saveNarrative(printData.getData(), ""+PROFILE_TYPE,fileName,COMMENT +PROFILE_COMMENT);
-			} catch (PrintingException e) {
+			} catch (S2SException e) {
 				LOG.error("Auto generation of Profile attachment for extra Keypersons failed",e);
 			}
 		}
@@ -472,11 +472,11 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
         this.unitRepositoryService = unitRepositoryService;
     }
 
-    public PrintingService getPrintingService() {
-        return printingService;
+    public S2SPrintingService getS2SPrintingService() {
+        return s2SPrintingService;
     }
 
-    public void setPrintingService(PrintingService printingService) {
-        this.printingService = printingService;
+    public void setS2SPrintingService(S2SPrintingService s2SPrintingService) {
+        this.s2SPrintingService = s2SPrintingService;
     }
 }

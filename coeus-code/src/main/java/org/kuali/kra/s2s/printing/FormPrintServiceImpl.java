@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.s2s.service.impl;
+package org.kuali.kra.s2s.printing;
 
 import gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument;
 import gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument.GrantApplication.Forms;
@@ -24,16 +24,11 @@ import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xpath.XPathAPI;
-import org.kuali.coeus.common.framework.print.AttachmentDataSource;
-import org.kuali.coeus.common.framework.print.Printable;
-import org.kuali.coeus.common.framework.print.PrintingException;
-import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyContract;
 import org.kuali.coeus.propdev.api.s2s.*;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.KcFile;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
@@ -42,7 +37,6 @@ import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
-import org.kuali.kra.s2s.printing.print.S2SFormPrint;
 import org.kuali.kra.s2s.service.*;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.XPathExecutor;
@@ -62,9 +56,10 @@ import java.util.zip.ZipOutputStream;
  * This class is implementation of PrintService. It provides the functionality
  * to generate PDF for all forms along with their attachments
  */
-@Component("printService")
-public class PrintServiceImpl implements PrintService {
-	private static final Log LOG = LogFactory.getLog(PrintServiceImpl.class);
+@Component("formPrintService")
+public class FormPrintServiceImpl implements FormPrintService {
+	private static final Log LOG = LogFactory.getLog(FormPrintServiceImpl.class);
+    private static final String PDF_FILE_EXTENSION = ".pdf";
 
     @Autowired
     @Qualifier("s2sApplicationService")
@@ -91,8 +86,8 @@ public class PrintServiceImpl implements PrintService {
     private NarrativeService narrativeService;
 
     @Autowired
-    @Qualifier("printingService")
-    private PrintingService printingService;
+    @Qualifier("s2SPrintingService")
+    private S2SPrintingService s2SPrintingService;
 
     @Autowired
     @Qualifier("formMappingService")
@@ -116,8 +111,7 @@ public class PrintServiceImpl implements PrintService {
 	 */
     @Override
 	public PrintResult printForm(
-			ProposalDevelopmentDocument pdDoc) throws S2SException,
-			PrintingException {
+			ProposalDevelopmentDocument pdDoc) throws S2SException {
 		PrintableResult pResult;
 		S2sAppSubmissionContract s2sAppSubmission = getLatestS2SAppSubmission(pdDoc);
 		if (s2sAppSubmission != null
@@ -130,7 +124,7 @@ public class PrintServiceImpl implements PrintService {
 		
 		return null;
 	    }
-	    AttachmentDataSource attachmentDataSource = printingService
+        S2SFile attachmentDataSource = s2SPrintingService
         	.print(pResult.printables);
 		attachmentDataSource.setName(getFileNameForFormPrinting(pdDoc));
 
@@ -200,10 +194,11 @@ public class PrintServiceImpl implements PrintService {
         } else {
             byte[] buffer = new byte[1024];
             int length;
-            FileInputStream fileInputStream = new FileInputStream(attachmentFile);
-            zipOutputStream.putNextEntry(new ZipEntry(path + "/" + attachmentFile.getName()));
-            while ((length = fileInputStream.read(buffer)) > 0) {
-                zipOutputStream.write(buffer, 0, length);
+            try (FileInputStream fileInputStream = new FileInputStream(attachmentFile)) {
+                zipOutputStream.putNextEntry(new ZipEntry(path + "/" + attachmentFile.getName()));
+                while ((length = fileInputStream.read(buffer)) > 0) {
+                    zipOutputStream.write(buffer, 0, length);
+                }
             }
         }
     }
@@ -212,7 +207,7 @@ public class PrintServiceImpl implements PrintService {
 		fileName.append(pdDoc.getDocumentNumber());
 		fileName.append(pdDoc.getDevelopmentProposal()
 				.getProgramAnnouncementNumber());
-		fileName.append(Constants.PDF_FILE_EXTENSION);
+		fileName.append(PDF_FILE_EXTENSION);
 		return fileName.toString();
 	}
 
@@ -243,7 +238,7 @@ public class PrintServiceImpl implements PrintService {
 		DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
         List<String> sortedNameSpaces = getSortedNameSpaces(developmentProposal.getProposalNumber(),developmentProposal.getS2sOppForms());
 		boolean formEntryFlag = true;
-		List<Printable> formPrintables = new ArrayList<Printable>();
+		List<S2SPrintable> formPrintables = new ArrayList<>();
 		for (String namespace : sortedNameSpaces) {
 			XmlObject formFragment = null;
 			info = formMappingService.getFormInfo(namespace);
@@ -253,18 +248,18 @@ public class PrintServiceImpl implements PrintService {
             frmAttXpath = "//*[namespace-uri(.) = '"+namespace+"']//*[local-name(.) = 'FileLocation' and namespace-uri(.) = 'http://apply.grants.gov/system/Attachments-V1.0']";           
 
 				byte[] formXmlBytes = formFragment.xmlText().getBytes();
-				S2SFormPrint formPrintable = new S2SFormPrint();
+                GenericPrintable formPrintable = new GenericPrintable();
 
 				ArrayList<Source> templates = new ArrayList<Source>();
 				Source xsltSource = new StreamSource(getClass()
 						.getResourceAsStream("/" + info.getStyleSheet()));
 				templates.add(xsltSource);
-				formPrintable.setXSLT(templates);
+				formPrintable.setXSLTemplates(templates);
 
 				// Linkedhashmap is used to preserve the order of entry.
 				Map<String, byte[]> formXmlDataMap = new LinkedHashMap<String, byte[]>();
 				formXmlDataMap.put(info.getFormName(), formXmlBytes);
-				formPrintable.setXmlDataMap(formXmlDataMap);
+				formPrintable.setStreamMap(formXmlDataMap);
 				S2sApplicationContract s2sApplciation = s2sApplicationService.findS2sApplicationByProposalNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
 				List<? extends S2sAppAttachmentsContract> attachmentList = s2sApplciation.getS2sAppAttachmentList();
 
@@ -348,7 +343,7 @@ public class PrintServiceImpl implements PrintService {
         String proposalNumber = developmentProposal.getProposalNumber();
         List<String> sortedNameSpaces = getSortedNameSpaces(proposalNumber, developmentProposal.getS2sOppForms());
 
-		List<Printable> formPrintables = new ArrayList<Printable>();
+		List<S2SPrintable> formPrintables = new ArrayList<>();
 		boolean formEntryFlag = true;
 	    getNarrativeService().deleteSystemGeneratedNarratives(pdDoc.getDevelopmentProposal().getNarratives());
 	    Forms forms = Forms.Factory.newInstance();
@@ -365,17 +360,17 @@ public class PrintServiceImpl implements PrintService {
 			    String applicationXml = formObject.xmlText(s2SFormGeneratorService.getXmlOptionsPrefixes());
 			    String filteredApplicationXml = getS2SUtilService().removeTimezoneFactor(applicationXml);
 				byte[] formXmlBytes = filteredApplicationXml.getBytes();
-				S2SFormPrint formPrintable = new S2SFormPrint();
+                GenericPrintable formPrintable = new GenericPrintable();
 				// Linkedhashmap is used to preserve the order of entry.
 				Map<String, byte[]> formXmlDataMap = new LinkedHashMap<String, byte[]>();
 				formXmlDataMap.put(info.getFormName(), formXmlBytes);
-				formPrintable.setXmlDataMap(formXmlDataMap);
+				formPrintable.setStreamMap(formXmlDataMap);
 
 				ArrayList<Source> templates = new ArrayList<Source>();
 				Source xsltSource = new StreamSource(getClass()
 						.getResourceAsStream("/" + info.getStyleSheet()));
 				templates.add(xsltSource);
-				formPrintable.setXSLT(templates);
+				formPrintable.setXSLTemplates(templates);
 
 				List<AttachmentData> attachmentList = s2sFormGenerator.getAttachments();
 				try {
@@ -661,12 +656,12 @@ public class PrintServiceImpl implements PrintService {
         this.narrativeService = narrativeService;
     }
 
-    public PrintingService getPrintingService() {
-		return printingService;
+    public S2SPrintingService getS2SPrintingService() {
+		return s2SPrintingService;
 	}
 
-	public void setPrintingService(PrintingService printingService) {
-		this.printingService = printingService;
+	public void setS2SPrintingService(S2SPrintingService s2SPrintingService) {
+		this.s2SPrintingService = s2SPrintingService;
 	}
 	protected void setFormObject(Forms forms, XmlObject formObject) {
         // Create a cursor from the grants.gov form
@@ -722,10 +717,8 @@ public class PrintServiceImpl implements PrintService {
         this.userAttachedFormService = userAttachedFormService;
     }
 
-
-
     protected static class PrintableResult {
-        private List<Printable> printables;
+        private List<S2SPrintable> printables;
         private List<AuditError> errors;
     }
 }
