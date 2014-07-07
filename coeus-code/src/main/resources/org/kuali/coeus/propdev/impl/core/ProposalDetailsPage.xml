@@ -188,6 +188,7 @@
 		</property>
 		<property name="control">
 			<bean parent="Uif-TextControl"
+                  p:maxLength="200"
 				p:onBlurScript="Kc.PropDev.updateSponsorName(jQuery(this).val(), jQuery(this).parents('.uif-inputField:first').find('.informationalText'));" />
 		</property>
 	</bean>
