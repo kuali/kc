@@ -468,8 +468,7 @@ public class BudgetSummaryAction extends BudgetAction {
         if(parentDocument==null){
             budgetDocument.refreshReferenceObject("parentDocument");
         }
-        for (BudgetDocumentVersion documentVersion : budgetDocument.getBudget().getBudgetParent().getDocument().getBudgetDocumentVersions()) {
-            BudgetVersionOverview version = documentVersion.getBudgetVersionOverview();
+        for (Budget version : budgetDocument.getBudget().getBudgetParent().getBudgets()) {
             Budget budget = budgetDocument.getBudget();
             if (budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
                 version.setFinalVersionFlag(budget.getFinalVersionFlag());

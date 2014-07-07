@@ -17,6 +17,7 @@ package org.kuali.coeus.propdev.impl.copy;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -62,8 +63,8 @@ public class CopyBudgetVersionsValuesFinder extends FormViewAwareUifKeyValuesFin
         
         final ProposalDevelopmentDocument document = this.getDocument();
         if (document != null) {
-            for (final BudgetDocumentVersion overview : document.getBudgetDocumentVersions()) {
-                if (overview.getBudgetVersionOverview().isFinalVersionFlag()) {
+            for (final Budget overview : document.getBudgetDocumentVersions()) {
+                if (overview.isFinalVersionFlag()) {
                     return true;
                 }
             }

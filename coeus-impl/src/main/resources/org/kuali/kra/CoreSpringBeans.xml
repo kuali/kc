@@ -165,7 +165,6 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/subaward/BudgetSubAwardPeriodDetail.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/subaward/BudgetSubAwards.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/distribution/BudgetUnrecoveredFandA.xml</value>
-                <value>classpath:org/kuali/coeus/common/budget/impl/version/BudgetVersionOverview.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CFDA.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/person/attr/CitizenshipType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CloseoutReportType.xml</value>

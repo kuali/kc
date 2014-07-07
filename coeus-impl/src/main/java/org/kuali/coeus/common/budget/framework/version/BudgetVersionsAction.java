@@ -82,7 +82,8 @@ public class BudgetVersionsAction extends BudgetAction {
         
         final BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
+        BudgetParent budgetParent = budgetDocument.getBudget().getBudgetParent();
+        BudgetParentDocument parentDocument = budgetParent.getDocument();
         if (TOGGLE_TAB.equals(budgetForm.getMethodToCall())) {
             final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
             tdcValidator.validateGeneratingWarnings(parentDocument);
@@ -92,13 +93,13 @@ public class BudgetVersionsAction extends BudgetAction {
         //be copied. By doing this here we make sure that it will still save
         //new budgets names even though the document itself cannot be saved
         if (!StringUtils.equals(budgetForm.getMethodToCall(), "save") && budgetForm.isSaveAfterCopy()) {
-            List<BudgetDocumentVersion> overviews = parentDocument.getBudgetDocumentVersions();
-            BudgetVersionOverview copiedOverview = overviews.get(overviews.size() - 1).getBudgetVersionOverview();
-            String copiedName = copiedOverview.getName();
-            copiedOverview.setName("copied placeholder");
+            List<? extends Budget> budgets = budgetParent.getBudgets();
+            Budget copiedBudget = budgets.get(budgets.size() -1);
+            String copiedName = copiedBudget.getName();
+            copiedBudget.setName("copied placeholder");
             LOG.debug("validating " + copiedName);
             boolean valid = getBudgetService().isBudgetVersionNameValid(parentDocument, copiedName);
-            copiedOverview.setName(copiedName);
+            copiedBudget.setName(copiedName);
             budgetForm.setSaveAfterCopy(!valid);
             if (!valid) {
                 return mapping.findForward(Constants.MAPPING_BASIC);
@@ -116,8 +117,8 @@ public class BudgetVersionsAction extends BudgetAction {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
         BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
-        BudgetParent budgetParent = parentDocument.getBudgetParent();
-        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(parentDocument.getBudgetDocumentVersions()));
+        BudgetParent budgetParent = budgetDocument.getBudget().getBudgetParent();
+        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetParent.getBudgets()));
         setBudgetStatuses(budgetParent);
         AwardBudgetService awardBudgetService = KcServiceLocator.getService(AwardBudgetService.class);
         BudgetRatesService budgetService = KcServiceLocator.getService(BudgetRatesService.class);
@@ -207,8 +208,7 @@ public class BudgetVersionsAction extends BudgetAction {
         BudgetParentDocument budgetParentDocument = getBudgetParentDocument(budgetForm);
         BudgetParent budgetParent = budgetParentDocument.getBudgetParent();
         
-        BudgetDocumentVersion budgetDocumentToOpen = budgetParentDocument.getBudgetDocumentVersion(getSelectedLine(request));
-        BudgetVersionOverview budgetToOpen = budgetDocumentToOpen.getBudgetVersionOverview();
+        Budget budgetToOpen = budgetParentDocument.getBudgetDocumentVersion(getSelectedLine(request));
         DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
         Budget budgetOpen = budgetDocument.getBudget();
@@ -276,8 +276,7 @@ public class BudgetVersionsAction extends BudgetAction {
     private BudgetDocument getSelectedBudgetDocument(HttpServletRequest request, BudgetForm budgetForm) throws WorkflowException {
         BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
         BudgetParentDocument budgetParentDocument = budgetDoc.getBudget().getBudgetParent().getDocument();
-        BudgetDocumentVersion budgetDocumentToOpen = budgetParentDocument.getBudgetDocumentVersion(getSelectedLine(request));
-        BudgetVersionOverview budgetToOpen = budgetDocumentToOpen.getBudgetVersionOverview();
+        Budget budgetToOpen = budgetParentDocument.getBudgetDocumentVersion(getSelectedLine(request));
         DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
         return budgetDocument;
@@ -363,8 +362,8 @@ public class BudgetVersionsAction extends BudgetAction {
                                     KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
             } 
         if (budgetForm.isSaveAfterCopy()) {
-            List<BudgetDocumentVersion> overviews = parentDocument.getBudgetDocumentVersions();
-            BudgetVersionOverview copiedOverview = overviews.get(overviews.size() - 1).getBudgetVersionOverview();
+            List<? extends Budget> overviews = parentDocument.getBudgetDocumentVersions();
+            Budget copiedOverview = overviews.get(overviews.size() - 1);
             String copiedName = copiedOverview.getName();
             copiedOverview.setName("copied placeholder");
             LOG.debug("validating " + copiedName);
@@ -374,8 +373,7 @@ public class BudgetVersionsAction extends BudgetAction {
         }
 
         if (!valid) {
-            for (BudgetDocumentVersion budgetDocumentVersion: parentDocument.getBudgetDocumentVersions()) {
-                BudgetVersionOverview budgetVersion =  budgetDocumentVersion.getBudgetVersionOverview();
+            for (Budget budgetVersion: parentDocument.getBudgetDocumentVersions()) {
 
                     String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
                             BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
@@ -395,7 +393,7 @@ public class BudgetVersionsAction extends BudgetAction {
         }
 
         updateThisBudget(budgetDocument);
-        setBudgetParentStatus(parentDocument);
+        setBudgetParentStatus(parentDocument.getBudgetParent());
         ActionForward forward = super.save(mapping, form, request, response);
         setBudgetStatuses(budgetDocument.getBudget().getBudgetParent());
         return forward;
@@ -422,8 +420,7 @@ public class BudgetVersionsAction extends BudgetAction {
     
     private void updateThisBudget(BudgetDocument budgetDocument) {
         Budget budget = budgetDocument.getBudget();
-        for (BudgetDocumentVersion documentVersion: budgetDocument.getBudget().getBudgetParent().getDocument().getBudgetDocumentVersions()) {
-            BudgetVersionOverview version = documentVersion.getBudgetVersionOverview();
+        for (Budget version: budgetDocument.getBudget().getBudgetParent().getBudgets()) {
             if (budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
                 budget.setFinalVersionFlag(Boolean.valueOf(version.isFinalVersionFlag()));
                 budget.setBudgetStatus(version.getBudgetStatus());

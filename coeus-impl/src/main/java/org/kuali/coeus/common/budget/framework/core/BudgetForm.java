@@ -726,16 +726,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         String budgetVersionNumber = Constants.EMPTY_STRING;
         if (budgetDocument != null && parentDocument != null) {
             Budget budget = budgetDocument.getBudget();
-            List<BudgetDocumentVersion> budgetDocumentVersions = parentDocument.getBudgetDocumentVersions();
-            for (BudgetDocumentVersion budgetDocumentVersion: budgetDocumentVersions) {
-                BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
-                if (budgetVersion!=null && budgetVersion.getBudgetVersionNumber()!=null && 
-                        budgetVersion.getBudgetVersionNumber().intValue() == budget.getBudgetVersionNumber().intValue()) {
-                    budgetName = budgetVersion.getName();
-                    break;
-                }
-            }
-            
+            budgetName = budget.getName();
             if (budget.getBudgetVersionNumber() != null) {
                 budgetVersionNumber = Integer.toString(budget.getBudgetVersionNumber());
             }

@@ -36,11 +36,11 @@ public class PHS398ModularBudgetV1_2GeneratorTest extends
 		budget.setModularBudgetFlag(false);
         budget.setParentDocumentTypeCode("PRDV");
         budget.setDevelopmentProposal(document.getDevelopmentProposal());
-
+        budget.setName("test document description");
+        
 		budget = getService(DataObjectService.class).save(budget);
-
-        List<ProposalDevelopmentBudgetExt> budgets = new ArrayList<>();
-        budgets.add(budget);
-        document.getDevelopmentProposal().setBudgets(budgets);
+		List<ProposalDevelopmentBudgetExt> budgets = new ArrayList<>();
+		budgets.add(budget);
+		document.getDevelopmentProposal().setBudgets(budgets);
 	}
 }

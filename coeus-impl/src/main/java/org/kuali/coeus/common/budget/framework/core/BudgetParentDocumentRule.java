@@ -39,8 +39,7 @@ public class BudgetParentDocumentRule extends KcTransactionalDocumentRuleBase {
         final DictionaryValidationService dictionaryValidationService = getKnsDictionaryValidationService();
 
         int index = 0;
-        for (BudgetDocumentVersion budgetDocumentVersion: budgetParentDocument.getBudgetDocumentVersions()) {
-            BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
+        for (Budget budgetVersion: budgetParentDocument.getBudgetParent().getBudgets()) {
             if (runDatactionaryValidation) {
                 dictionaryValidationService.validateBusinessObject(budgetVersion, true);
             }

@@ -29,6 +29,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService;
+import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt;
 import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
@@ -45,6 +46,7 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
@@ -361,8 +363,9 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         return budgetDocumentVersions;
     }
 
-    public void setBudgetDocumentVersions(List<BudgetDocumentVersion> budgetDocumentVersions) {
-        this.budgetDocumentVersions = budgetDocumentVersions;
+    @Override
+    public void setBudgetDocumentVersions(List<? extends Budget> budgetDocumentVersions) {
+        getAward().setBudgets((List<AwardBudgetExt>) budgetDocumentVersions);
     }
 
     @Override

@@ -25,6 +25,7 @@ import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -359,8 +360,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         if (!parentDocument.isComplete()) {
             return false;
         }
-        for (BudgetDocumentVersion budgetVersion: parentDocument.getBudgetDocumentVersions()) {
-            if (budgetVersion.getBudgetVersionOverview().isFinalVersionFlag()) {
+        for (Budget budgetVersion: parentDocument.getBudgetDocumentVersions()) {
+            if (budgetVersion.isFinalVersionFlag()) {
                 return true;
             }
         }

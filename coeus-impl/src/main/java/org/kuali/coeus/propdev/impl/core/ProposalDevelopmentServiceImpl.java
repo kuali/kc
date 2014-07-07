@@ -27,6 +27,7 @@ import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.budget.CostShareInfoDO;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatus;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.CoPiInfoDO;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -41,8 +42,6 @@ import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -397,10 +396,10 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     @Override
     public ProposalDevelopmentDocument deleteProposal(ProposalDevelopmentDocument proposalDocument) throws WorkflowException {
-        ListIterator<BudgetDocumentVersion> iter = proposalDocument.getBudgetDocumentVersions().listIterator();
+        ListIterator<ProposalDevelopmentBudgetExt> iter = proposalDocument.getBudgetDocumentVersions().listIterator();
         while (iter.hasNext()) {
-            BudgetDocumentVersion budgetVersion = iter.next();
-            deleteProposalBudget(budgetVersion.getDocumentNumber(), proposalDocument);
+            Budget budgetVersion = iter.next();
+        	getDataObjectService().delete(budgetVersion);
             iter.remove();
         }
         // remove budget statuses as they are not referenced via ojb, but there is a
@@ -409,28 +408,12 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         keyValues.put("proposalNumber", proposalDocument.getDevelopmentProposal().getProposalNumber());
         getDataObjectService().deleteMatching(ProposalBudgetStatus.class, QueryByCriteria.Builder.andAttributes(keyValues).build());
         proposalDocument.setDevelopmentProposal(null);
-        proposalDocument.setBudgetDocumentVersions(null);
         proposalDocument.setProposalDeleted(true);
 
         // because the devproplist was cleared above the dev prop and associated BOs will be
         // deleted upon save
         proposalDocument = (ProposalDevelopmentDocument)getDocumentService().saveDocument(proposalDocument);
         return (ProposalDevelopmentDocument) getDocumentService().cancelDocument(proposalDocument, "Delete Proposal");
-    }
-
-    protected void deleteProposalBudget(String budgetDocumentNumber, ProposalDevelopmentDocument parentDocument) {
-        try {
-            BudgetDocument<DevelopmentProposal> document = (BudgetDocument<DevelopmentProposal>) getDocumentService().getByDocumentHeaderId(budgetDocumentNumber);
-            document.setBudget(null);
-            // make sure the budget points to this instance of the pdd as other deleted budgets
-            // must be removed so they don't fail document validation.
-            document.setBudgetDeleted(true);
-            document = (BudgetDocument<DevelopmentProposal>) getDocumentService().saveDocument(document);
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
     protected DocumentService getDocumentService() {
@@ -477,12 +460,12 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     public Budget getFinalBudget(DevelopmentProposal proposal) {
-        List<BudgetDocumentVersion> budgetDocuments = proposal.getProposalDocument().getBudgetDocumentVersions();
+        List<ProposalDevelopmentBudgetExt> budgetDocuments = proposal.getProposalDocument().getBudgetDocumentVersions();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         Budget budget = null;
 
         if (budgetDocuments != null && budgetDocuments.size() > 0) {
-            for (BudgetDocumentVersion budgetDocument : budgetDocuments) {
+            for (Budget budgetDocument : budgetDocuments) {
                 fieldValues.clear();
                 fieldValues.put("document_number", budgetDocument.getDocumentNumber());
                 List<Budget> budgets =getDataObjectService().findMatching(Budget.class,
@@ -651,7 +634,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
                 } else {
                     //in case other parts of the document have been saved since we have saved,
                     //we save off possibly changed parts and reload the rest of the document
-                    List<BudgetDocumentVersion> newVersions = pdDocument.getBudgetDocumentVersions();
+                    List<ProposalDevelopmentBudgetExt> newVersions = pdDocument.getBudgetDocumentVersions();
                     String budgetStatus = pdDocument.getDevelopmentProposal().getBudgetStatus();
                     
                     pdDocument = updatedDocCopy;
@@ -709,15 +692,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
                 DocumentNextvalue updatedDocumentNextvalue = updatedDocCopy.getDocumentNextvalueBo(documentNextValue.getPropertyName());
                 if(updatedDocumentNextvalue != null) {
                     documentNextValue.setVersionNumber(updatedDocumentNextvalue.getVersionNumber());
-                }
-            }   
-            //fix budget document version's document headers
-            for (int i = 0; i < pdDocument.getBudgetDocumentVersions().size(); i++) {
-                BudgetDocumentVersion curVersion = pdDocument.getBudgetDocumentVersion(i);
-                BudgetDocumentVersion otherVersion = updatedDocCopy.getBudgetDocumentVersion(i);
-                otherVersion.refreshReferenceObject("documentHeader");
-                if (curVersion != null && otherVersion != null) {
-                    curVersion.getDocumentHeader().setVersionNumber(otherVersion.getDocumentHeader().getVersionNumber());
                 }
             }
         }

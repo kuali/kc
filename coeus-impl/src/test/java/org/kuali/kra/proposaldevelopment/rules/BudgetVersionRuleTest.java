@@ -25,6 +25,7 @@ import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetVersionRule;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.DocumentBase;
@@ -43,8 +44,7 @@ public class BudgetVersionRuleTest {
     private static final String VERSION_NAME = "test version";
     private static final String DEFAULT_BUD_VER_NAME = "Default Budget Name";
 
-    private DevelopmentProposal proposal;
-    
+    private DevelopmentProposal proposal;    
 
     @Before
     public void setUp() throws Exception {
@@ -108,6 +108,5 @@ public class BudgetVersionRuleTest {
     	budget.setName(name);
         proposal.getBudgets().add(budget);
     }
-
 }
 

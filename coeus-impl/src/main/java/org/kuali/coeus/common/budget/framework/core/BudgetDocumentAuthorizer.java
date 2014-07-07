@@ -15,12 +15,14 @@
  */
 package org.kuali.coeus.common.budget.framework.core;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.auth.task.BudgetTask;
 import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -74,7 +76,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
             editModes.add("maintainProposalHierarchy");
         }
         
-        if (isBudgetComplete(parentDocument, budgetDoc)) {
+        if (isBudgetComplete(budgetDoc.getBudget())) {
             editModes.remove("modifyBudgets");
             editModes.remove("addBudget");
             if (editModes.contains("modifyBudgets")) {
@@ -209,16 +211,9 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
      * @param budgetDocument
      * @return
      */
-    private boolean isBudgetComplete(BudgetParentDocument parentDocument, BudgetDocument budgetDocument) {
-        if (!parentDocument.isComplete()) {
-            return false;
-        }
-        for (BudgetDocumentVersion budgetVersion: parentDocument.getBudgetDocumentVersions()) {
-            if (budgetVersion.getBudgetVersionOverview().isFinalVersionFlag() && budgetVersion.getBudgetVersionOverview().getBudgetVersionNumber().equals(budgetDocument.getBudget().getBudgetVersionNumber())) {
-                return true;
-            }
-        }
-        return false;
+    private boolean isBudgetComplete(Budget budget) {
+		String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+		return budget.isFinalVersionFlag() && StringUtils.equals(budgetStatusCompleteCode, budget.getBudgetStatus());
     }
     
 

@@ -49,10 +49,10 @@ public class BudgetParentActionBase extends KcTransactionalDocumentActionBase {
      * @param budgetVersions
      * @return
      */
-    protected Integer getFinalBudgetVersion(List<BudgetDocumentVersion> budgetVersions) {
-        for (BudgetDocumentVersion budgetVersion: budgetVersions) {
-            if (budgetVersion.getBudgetVersionOverview().isFinalVersionFlag()) {
-                return budgetVersion.getBudgetVersionOverview().getBudgetVersionNumber();
+    protected Integer getFinalBudgetVersion(List<? extends Budget> budgetVersions) {
+        for (Budget budgetVersion: budgetVersions) {
+            if (budgetVersion.isFinalVersionFlag()) {
+                return budgetVersion.getBudgetVersionNumber();
             }
         }
         return null;
@@ -63,10 +63,10 @@ public class BudgetParentActionBase extends KcTransactionalDocumentActionBase {
      * 
      * @param parentDocument
      */
-    protected void setBudgetParentStatus(BudgetParentDocument parentDocument) {
-        for (BudgetDocumentVersion budgetVersion: parentDocument.getBudgetDocumentVersions()) {
-            if (budgetVersion.getBudgetVersionOverview().isFinalVersionFlag()) {
-                parentDocument.getBudgetParent().setBudgetStatus(budgetVersion.getBudgetVersionOverview().getBudgetStatus());
+    protected void setBudgetParentStatus(BudgetParent budgetParent) {
+        for (Budget budgetVersion: budgetParent.getBudgets()) {
+            if (budgetVersion.isFinalVersionFlag()) {
+                budgetParent.setBudgetStatus(budgetVersion.getBudgetStatus());
                 return;
             }
         }
@@ -92,7 +92,7 @@ public class BudgetParentActionBase extends KcTransactionalDocumentActionBase {
      * @param copyPeriodOneOnly if only the first budget period is to be copied
      */
     @SuppressWarnings("unchecked")
-    protected void copyBudget(BudgetParent budgetParent, BudgetVersionOverview budgetToCopy, boolean copyPeriodOneOnly) 
+    protected void copyBudget(BudgetParent budgetParent, Budget budgetToCopy, boolean copyPeriodOneOnly)
     throws WorkflowException {
         DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocToCopy = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());

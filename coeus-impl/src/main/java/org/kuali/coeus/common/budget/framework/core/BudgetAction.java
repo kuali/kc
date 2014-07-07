@@ -251,10 +251,10 @@ public class BudgetAction extends BudgetActionBase {
     protected void updateBudgetAttributes(ActionForm form, HttpServletRequest request) {
         final BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
+        BudgetParent budgetParent = budgetDocument.getBudget().getBudgetParent();
 
-        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(parentDocument.getBudgetDocumentVersions()));
-        setBudgetStatuses(budgetDocument.getBudget().getBudgetParent());
+        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetParent.getBudgets()));
+        setBudgetStatuses(budgetParent);
 
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
         tdcValidator.validateGeneratingWarnings(budgetDocument.getBudget().getBudgetParent().getDocument());
@@ -265,9 +265,9 @@ public class BudgetAction extends BudgetActionBase {
     public ActionForward versions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
-        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(parentDocument.getBudgetDocumentVersions()));
-        setBudgetStatuses(budgetDocument.getBudget().getBudgetParent());
+        BudgetParent budgetParent = budgetDocument.getBudget().getBudgetParent();
+        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetParent.getBudgets()));
+        setBudgetStatuses(budgetParent);
         return mapping.findForward(Constants.BUDGET_VERSIONS_PAGE);
     }
 

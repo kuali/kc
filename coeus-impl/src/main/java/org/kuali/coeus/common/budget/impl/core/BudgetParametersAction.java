@@ -486,8 +486,7 @@ public class BudgetParametersAction extends BudgetAction {
         BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
         if (budget.getFinalVersionFlag()) {
             // This version has been marked as final - update other versions.
-            for (BudgetDocumentVersion documentVersion : parentDocument.getBudgetDocumentVersions()) {
-                BudgetVersionOverview version = documentVersion.getBudgetVersionOverview();
+            for (Budget version : parentDocument.getBudgetDocumentVersions()) {
                 if (!budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
                     version.setFinalVersionFlag(false);
                 }
@@ -549,8 +548,7 @@ public class BudgetParametersAction extends BudgetAction {
         Budget budget = budgetDocument.getBudget();
         BudgetParentDocument proposal = budgetDocument.getBudget().getBudgetParent().getDocument();
         
-        for (BudgetDocumentVersion documentVersion : proposal.getBudgetDocumentVersions()) {
-            BudgetVersionOverview version = documentVersion.getBudgetVersionOverview();
+        for (Budget version : proposal.getBudgetDocumentVersions()) {
             if (budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
                 version.setFinalVersionFlag(budget.getFinalVersionFlag());
                 version.setBudgetStatus(budget.getBudgetStatus());

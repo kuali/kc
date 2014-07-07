@@ -88,10 +88,8 @@ public abstract class BudgetVersionRule  implements AddBudgetVersionRule {
      * @param versionName is the name of the {@link BudgetVersionOverview} to look for
      * @returns true if it found <code>versionName</code> inside <code>document</code>, false otherwise
      */
-    protected boolean containsVersionOverview(BudgetVersionCollection document, String versionName) {
-        for (BudgetDocumentVersion budgetDocumentVersion : document.getBudgetDocumentVersions()) {
-            BudgetVersionOverview version = budgetDocumentVersion.getBudgetVersionOverview();
-            
+    private boolean containsVersionOverview(BudgetVersionCollection document, String versionName) {
+        for (Budget version : document.getBudgetDocumentVersions()) {            
             LOG.info("Comparing " + version.getName() + " to " + versionName);
             if (version.getName().equals(versionName)) {
                 return true;

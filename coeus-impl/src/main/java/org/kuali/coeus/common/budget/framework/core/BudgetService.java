@@ -82,7 +82,7 @@ public interface BudgetService<T extends BudgetParent>  {
      */
     public String getBudgetExpensePanelName(BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
 
-    public Collection<BudgetRate> getSavedProposalRates(BudgetVersionOverview budgetToOpen);
+    public Collection<BudgetRate> getSavedProposalRates(Budget budgetToOpen);
 
     /**
      * 

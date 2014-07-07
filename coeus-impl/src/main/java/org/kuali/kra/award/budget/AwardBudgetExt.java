@@ -417,6 +417,6 @@ public class AwardBudgetExt extends Budget {
 
     public java.util.Date getBudgetEndDate() {
         return getAward().getAwardAmountInfos().get(getAward().getAwardAmountInfos().size() - 1).getObligationExpirationDate();
-    }    
+    }
 	
 }

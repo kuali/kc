@@ -405,13 +405,13 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
             retval &= new AwardBudgetCostLimitAuditRule().processRunAuditBusinessRules(document);
         }
         if (retval) {
-            processRunAuditBudgetVersionRule(((BudgetDocument) document).getBudget().getBudgetParent().getDocument());
+            processRunAuditBudgetVersionRule(((BudgetDocument) document).getBudget());
         }
         
         return retval;
     }
     
-    protected boolean processRunAuditBudgetVersionRule(BudgetParentDocument parentDocument) {
+    protected boolean processRunAuditBudgetVersionRule(Budget budget) {
         // audit check for budgetversion with final status
         boolean finalAndCompleteBudgetVersionFound = false;
         boolean budgetVersionsExists = false;
@@ -420,11 +420,10 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(
                 BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
-        for (BudgetDocumentVersion budgetDocumentVersion : parentDocument.getBudgetDocumentVersions()) {
-            BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview(); 
-            budgetVersionsExists = true;
+        budgetVersionsExists = !budget.getBudgetParent().getBudgets().isEmpty();
+        for (Budget budgetVersion : budget.getBudgetParent().getBudgets()) {
             if (budgetVersion.isFinalVersionFlag()) {
-                BudgetParent budgetParent =parentDocument.getBudgetParent(); 
+                BudgetParent budgetParent =budget.getBudgetParent();
                 if (budgetParent.getBudgetStatus()!= null 
                         && budgetParent.getBudgetStatus().equals(budgetStatusCompleteCode)) {
                     finalAndCompleteBudgetVersionFound = true;

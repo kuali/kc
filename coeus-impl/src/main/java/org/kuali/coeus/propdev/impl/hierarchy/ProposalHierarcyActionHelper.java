@@ -285,8 +285,8 @@ public class ProposalHierarcyActionHelper {
     
     private boolean hasFinalBudget(DevelopmentProposal proposal) {
         boolean retval = false;
-        for (BudgetDocumentVersion version : proposal.getProposalDocument().getBudgetDocumentVersions()) {
-            if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
+        for (ProposalDevelopmentBudgetExt version : proposal.getBudgets()) {
+            if (version.isFinalVersionFlag()) {
                 retval = true;
                 break;
             }
@@ -380,8 +380,8 @@ public class ProposalHierarcyActionHelper {
         boolean retval = false;
         String completeCode = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
 
-        for (BudgetDocumentVersion version : pdDoc.getBudgetDocumentVersions()) {
-            if (!(version.getBudgetVersionOverview().getBudgetStatus() == null ) && version.getBudgetVersionOverview().getBudgetStatus().equalsIgnoreCase(completeCode)) {
+        for (ProposalDevelopmentBudgetExt version : pdDoc.getBudgetDocumentVersions()) {
+            if (!(version.getBudgetStatus() == null ) && version.getBudgetStatus().equalsIgnoreCase(completeCode)) {
                 retval = true;
                 break;
             }

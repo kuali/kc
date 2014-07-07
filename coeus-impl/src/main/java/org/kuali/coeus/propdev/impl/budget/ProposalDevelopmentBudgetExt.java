@@ -36,6 +36,8 @@ import org.kuali.kra.bo.NextValueBase;
 @PrimaryKeyJoinColumn(name="BUDGET_ID", referencedColumnName="BUDGET_ID")
 @DiscriminatorValue("PRDV")
 public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDevelopmentBudgetExtContract {
+	
+	private static final String BUDGET_COMPLETE = "1";
 
     private static final long serialVersionUID = 8234453927894053540L;
     private static final String BUDGET_PERSON_GROUP_PD = "From Proposal Development";
@@ -99,7 +101,10 @@ public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDeve
 
     public java.util.Date getBudgetEndDate() {
         return getDevelopmentProposal().getRequestedEndDateInitial();
-
+    }
+    
+    public boolean isBudgetComplete() {
+        return BUDGET_COMPLETE.equals(getBudgetStatus());
     }
 
 	public String getBudgetStatus() {

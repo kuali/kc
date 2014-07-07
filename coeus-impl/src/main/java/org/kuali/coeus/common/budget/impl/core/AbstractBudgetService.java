@@ -402,7 +402,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
 
     @SuppressWarnings("unchecked")
     @Override
-    public Collection<BudgetRate> getSavedProposalRates(BudgetVersionOverview budgetToOpen) {
+    public Collection<BudgetRate> getSavedProposalRates(Budget budgetToOpen) {
         Map<String,Long> qMap = new HashMap<String,Long>();
         qMap.put("budgetId",budgetToOpen.getBudgetId());
         return businessObjectService.findMatching(BudgetRate.class, qMap);
@@ -417,8 +417,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
         boolean budgetVersionsExists = false;
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         String budgetStatusCompleteCode = this.parameterService.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
-        for (BudgetDocumentVersion budgetDocumentVersion : parentDocument.getBudgetDocumentVersions()) {
-            BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
+        for (Budget budgetVersion : parentDocument.getBudgetDocumentVersions()) {
             budgetVersionsExists = true;
             if (budgetVersion.isFinalVersionFlag()) {
                 valid &= applyAuditRuleForBudgetDocument(budgetVersion);
@@ -445,8 +444,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     public boolean validateBudgetAuditRuleBeforeSaveBudgetVersion(BudgetParentDocument<T> proposalDevelopmentDocument)
             throws Exception {
         boolean valid = true;
-        for (BudgetDocumentVersion budgetDocumentVersion : proposalDevelopmentDocument.getBudgetDocumentVersions()) {
-            BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
+        for (Budget budgetVersion : proposalDevelopmentDocument.getBudgetDocumentVersions()) {
             
             String budgetStatusCompleteCode = this.parameterService.getParameterValueAsString(BudgetDocument.class,
                     Constants.BUDGET_STATUS_COMPLETE_CODE);
@@ -482,7 +480,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     }
 
     @SuppressWarnings("unchecked")
-    protected boolean applyAuditRuleForBudgetDocument(BudgetVersionOverview budgetVersion) throws Exception {
+    protected boolean applyAuditRuleForBudgetDocument(Budget budgetVersion) throws Exception {
         DocumentService documentService = getDocumentService();
         BudgetDocument<T> budgetDocument = (BudgetDocument<T>) documentService.getByDocumentHeaderId(budgetVersion.getDocumentNumber());
         return getKualiRuleService().applyRules(new DocumentAuditEvent(budgetDocument));
@@ -769,8 +767,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
         String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
                 BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
         
-        for (BudgetDocumentVersion budgetDocumentVersion: parentDocument.getBudgetDocumentVersions()) {
-            BudgetVersionOverview budgetVersion =  budgetDocumentVersion.getBudgetVersionOverview();
+        for (Budget budgetVersion: parentDocument.getBudgetDocumentVersions()) {
             if (budgetVersion.isFinalVersionFlag()) {
                 budgetVersion.setBudgetStatus(parentDocument.getBudgetParent().getBudgetStatus());
             }

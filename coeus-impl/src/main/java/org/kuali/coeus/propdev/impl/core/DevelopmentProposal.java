@@ -548,6 +548,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         budgetChangeHistory = new TreeMap<String, List<BudgetChangedData>>();
         hierarchyStatus = HierarchyStatusConstants.None.code();
         hierarchyStatusName = HierarchyStatusConstants.None.description();
+        budgets = new ArrayList<ProposalDevelopmentBudgetExt>();
         initProposalSites();
     }
 

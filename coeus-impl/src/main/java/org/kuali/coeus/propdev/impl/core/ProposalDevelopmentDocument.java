@@ -24,6 +24,7 @@ import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.state.ProposalStateService;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.common.framework.auth.task.Task;
@@ -346,11 +347,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
 
     public Budget getFinalBudgetForThisProposal() {
-        BudgetDocumentVersion budgetDocumentVersion = this.getFinalBudgetVersion();
-        if (budgetDocumentVersion != null) {
-            return budgetDocumentVersion.getFinalBudget();
-        }
-        return null;
+        return this.getFinalBudgetVersion();
     }
 
     public String getFinalrateClassCode() {
@@ -453,13 +450,19 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
      * Sets the budgetDocumentVersions attribute value.
      * @param budgetDocumentVersions The budgetDocumentVersions to set.
      */
-    public void setBudgetDocumentVersions(List<BudgetDocumentVersion> budgetDocumentVersions) {
-        this.budgetDocumentVersions = budgetDocumentVersions;
+    @Override
+    public void setBudgetDocumentVersions(List<? extends Budget> budgetDocumentVersions) {
+    	if (budgetDocumentVersions == null) {
+    		getDevelopmentProposal().setBudgets(null);
+    	} else {
+    		getDevelopmentProposal().setBudgets((List<ProposalDevelopmentBudgetExt>) budgetDocumentVersions);
+    	}
     }
 
 
-    public List<BudgetDocumentVersion> getBudgetDocumentVersions() {
-        return budgetDocumentVersions;
+    @Override
+    public List<ProposalDevelopmentBudgetExt> getBudgetDocumentVersions() {
+    	return getDevelopmentProposal().getBudgets();
     }
 
     @Override

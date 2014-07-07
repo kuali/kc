@@ -1126,8 +1126,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         List<BudgetDocument<DevelopmentProposal>> hierarchyBudgets = new ArrayList<BudgetDocument<DevelopmentProposal>>();
         
         try {
-            for (BudgetDocumentVersion budgetDocumentVersion : hierarchyProposal.getProposalDocument().getBudgetDocumentVersions()) {
-                String budgetDocumentNumber = budgetDocumentVersion.getBudgetVersionOverview().getDocumentNumber();
+            for (Budget budgetVersion : hierarchyProposal.getProposalDocument().getBudgetDocumentVersions()) {
+                String budgetDocumentNumber = budgetVersion.getDocumentNumber();
                 hierarchyBudgets.add((BudgetDocument<DevelopmentProposal>) documentService.getByDocumentHeaderId(budgetDocumentNumber));
             }
         } catch (WorkflowException e) {
@@ -1138,23 +1138,22 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     protected BudgetDocument<DevelopmentProposal> getHierarchyBudget(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
-   	BudgetDocument<DevelopmentProposal> budgetDocument = null;
-		if (hierarchyProposal.getProposalDocument().getBudgetDocumentVersions().size() > 0) {
-			String budgetDocumentNumber = hierarchyProposal.getProposalDocument().getBudgetDocumentVersions().get(0).getBudgetVersionOverview().getDocumentNumber();
-			try {
-				budgetDocument = (BudgetDocument<DevelopmentProposal>) documentService.getByDocumentHeaderId(budgetDocumentNumber);
-			} catch (WorkflowException e) {
-				throw new ProposalHierarchyException(e);
-			}
-		}
+        String budgetDocumentNumber = hierarchyProposal.getProposalDocument().getBudgetDocumentVersions().get(0).getDocumentNumber();
+        BudgetDocument<DevelopmentProposal> budgetDocument = null;
+        try {
+            budgetDocument = (BudgetDocument<DevelopmentProposal>) documentService.getByDocumentHeaderId(budgetDocumentNumber);
+        }
+        catch (WorkflowException e) {
+            throw new ProposalHierarchyException(e);
+        }
         return budgetDocument;
     }
  
     public BudgetDocument<DevelopmentProposal> getSyncableBudget(DevelopmentProposal childProposal) throws ProposalHierarchyException {
         String budgetDocumentNumber = null;
-        for (BudgetDocumentVersion version : childProposal.getProposalDocument().getBudgetDocumentVersions()) {
+        for (Budget version : childProposal.getProposalDocument().getBudgetDocumentVersions()) {
             budgetDocumentNumber = version.getDocumentNumber();
-            if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
+            if (version.isFinalVersionFlag()) {
                 break;
             }
         }
@@ -1939,14 +1938,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return valid;
     }
     private boolean hasFinalBudget(DevelopmentProposal proposal) {
-        boolean retval = false;
-        for (BudgetDocumentVersion version : proposal.getProposalDocument().getBudgetDocumentVersions()) {
-            if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
-                retval = true;
-                break;
-            }
-        }
-        return retval;
+    	return proposal.getFinalBudget() != null;
     }
 
 }

@@ -18,8 +18,10 @@ package org.kuali.coeus.propdev.impl.budget.modular;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
@@ -44,31 +46,27 @@ import java.util.*;
  */
 public class BudgetModularTotalDirectCostRuleTest extends KcIntegrationTestBase {
 
-    private static final List<BudgetDocumentVersion> ONE_COMPLETE = new ArrayList<BudgetDocumentVersion>();
-    private static final List<BudgetDocumentVersion> TWO_COMPLETE = new ArrayList<BudgetDocumentVersion>();
-    private static final List<BudgetDocumentVersion> ONE_INCOMPLETE = new ArrayList<BudgetDocumentVersion>();
-    private static final List<BudgetDocumentVersion> TWO_INCOMPLETE = new ArrayList<BudgetDocumentVersion>();
+    private static final List<Budget> ONE_COMPLETE = new ArrayList<Budget>();
+    private static final List<Budget> TWO_COMPLETE = new ArrayList<Budget>();
+    private static final List<Budget> ONE_INCOMPLETE = new ArrayList<Budget>();
+    private static final List<Budget> TWO_INCOMPLETE = new ArrayList<Budget>();
     static {
-        BudgetDocumentVersion docver1 = new BudgetDocumentVersion();
-        final BudgetVersionOverview overview1 = docver1.getBudgetVersionOverview();
-        overview1.setBudgetStatus("1");
-        overview1.setDocumentNumber("1234");
+        ProposalDevelopmentBudgetExt docver1 = new ProposalDevelopmentBudgetExt();
+        docver1.setBudgetStatus("1");
+        docver1.setDocumentNumber("1234");
         
-        BudgetDocumentVersion docver2 = new BudgetDocumentVersion();
-        final BudgetVersionOverview overview2 = docver2.getBudgetVersionOverview();
-        overview2.setBudgetStatus("1");
-        overview2.setDocumentNumber("1234");
+        ProposalDevelopmentBudgetExt docver2 = new ProposalDevelopmentBudgetExt();
+        docver2.setBudgetStatus("1");
+        docver2.setDocumentNumber("1234");
         
         
-        BudgetDocumentVersion docver3 = new BudgetDocumentVersion();
-        final BudgetVersionOverview overview3 = docver3.getBudgetVersionOverview();
-        overview3.setBudgetStatus("2");
-        overview3.setDocumentNumber("1234");
+        ProposalDevelopmentBudgetExt docver3 = new ProposalDevelopmentBudgetExt();
+        docver3.setBudgetStatus("2");
+        docver3.setDocumentNumber("1234");
 
-        BudgetDocumentVersion docver4 = new BudgetDocumentVersion();
-        final BudgetVersionOverview overview4 = docver4.getBudgetVersionOverview();
-        overview4.setBudgetStatus("2");
-        overview4.setDocumentNumber("1234");
+        ProposalDevelopmentBudgetExt docver4 = new ProposalDevelopmentBudgetExt();
+        docver4.setBudgetStatus("2");
+        docver4.setDocumentNumber("1234");
 
         BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE.add(docver1);
 

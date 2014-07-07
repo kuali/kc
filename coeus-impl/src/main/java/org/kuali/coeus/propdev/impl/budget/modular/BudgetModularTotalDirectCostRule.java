@@ -144,11 +144,10 @@ public final class BudgetModularTotalDirectCostRule {
 
         boolean passed = true;
 
-        final List<BudgetDocumentVersion> budgetDocumentOverviews = parentDocument.getBudgetDocumentVersions();
+        final List<? extends Budget> budgetOverviews = parentDocument.getBudgetDocumentVersions();
 
-        for (int i = 0; i < budgetDocumentOverviews.size(); i++) {
-            final BudgetDocumentVersion budgetDocumentOverview = budgetDocumentOverviews.get(i);
-            BudgetVersionOverview budgetOverview = budgetDocumentOverview.getBudgetVersionOverview();
+        for (int i = 0; i < budgetOverviews.size(); i++) {
+            final Budget budgetOverview = budgetOverviews.get(i);
 
             if (this.budgetStatusCompleteCode.equalsIgnoreCase(
                 budgetOverview.getBudgetStatus())) {
@@ -165,7 +164,7 @@ public final class BudgetModularTotalDirectCostRule {
     /* 
      * The budgetdocument.budget may not have complete data match with version
      */
-    private void updateDocumentBudget(BudgetDocument budgetDocument, BudgetVersionOverview version) {
+    private void updateDocumentBudget(BudgetDocument budgetDocument, Budget version) {
         Budget budget = budgetDocument.getBudget();
         
         budget.setFinalVersionFlag(version.isFinalVersionFlag());

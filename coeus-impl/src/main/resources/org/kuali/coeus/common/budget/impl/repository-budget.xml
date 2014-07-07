@@ -134,9 +134,6 @@
 			<inverse-foreignkey field-ref="budgetId"/>
 		</collection-descriptor>
 
-        <reference-descriptor name="budgetDocument" class-ref="org.kuali.coeus.common.budget.framework.core.BudgetDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="documentNumber" />
-        </reference-descriptor>
 		<reference-descriptor name="rateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="ohRateClassCode"/> 
 		</reference-descriptor> 
@@ -1111,7 +1108,7 @@
 		<reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="awardId"/>
 		</reference-descriptor>
-		
+
 		<collection-descriptor name="budgetPeriods" proxy="true" element-class-ref="org.kuali.kra.award.budget.AwardBudgetPeriodExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="budgetPeriod" sort="ASC" /> 
 			<inverse-foreignkey field-ref="budgetId"/>

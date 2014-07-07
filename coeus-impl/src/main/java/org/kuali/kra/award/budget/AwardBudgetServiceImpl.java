@@ -673,8 +673,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     public boolean checkForOutstandingBudgets(BudgetParentDocument parentDoc) {
         boolean result = false;
         
-        for (BudgetDocumentVersion budgetVersion : parentDoc.getBudgetDocumentVersions()) {
-            BudgetVersionOverview version = budgetVersion.getBudgetVersionOverview();
+        for (Budget version : parentDoc.getBudgetDocumentVersions()) {
             AwardBudgetExt awardBudget = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, version.getBudgetId());
             if (!(StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getPostedBudgetStatus())
                     || StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getRejectedBudgetStatus())

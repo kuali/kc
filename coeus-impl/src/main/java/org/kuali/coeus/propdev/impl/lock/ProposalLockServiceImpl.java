@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.lock;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -136,7 +137,7 @@ public class ProposalLockServiceImpl extends PessimisticLockServiceImpl implemen
             String lockDescriptor = document.getCustomLockDescriptor(user);
             ProposalDevelopmentDocument pdDocument = (ProposalDevelopmentDocument) document;
             if(StringUtils.isNotEmpty(lockDescriptor) && lockDescriptor.contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
-                for(BudgetDocumentVersion budgetOverview: pdDocument.getBudgetDocumentVersions()) {
+                for(ProposalDevelopmentBudgetExt budgetOverview: pdDocument.getBudgetDocumentVersions()) {
                     generateNewLock(budgetOverview.getDocumentNumber(), lockDescriptor, user);
                 }  
             }

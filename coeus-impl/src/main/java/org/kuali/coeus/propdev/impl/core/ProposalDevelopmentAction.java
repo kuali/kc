@@ -423,8 +423,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             tdcValidator.validateGeneratingErrorsAndWarnings(doc);
         }
         if (doc.getBudgetDocumentVersions() != null && !doc.getBudgetDocumentVersions().isEmpty()) {
-            for (BudgetDocumentVersion bdv : doc.getBudgetDocumentVersions()) {
-                ProposalDevelopmentBudgetExt budget = this.getBusinessObjectService().findBySinglePrimaryKey(ProposalDevelopmentBudgetExt.class, bdv.getBudgetVersionOverview().getBudgetId());
+            for (Budget budget : doc.getBudgetDocumentVersions()) {
                 if (!budget.getFinalVersionFlag()) {
                     budget.setStartDate(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getRequestedStartDateInitial());
                     budget.setEndDate(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getRequestedEndDateInitial());

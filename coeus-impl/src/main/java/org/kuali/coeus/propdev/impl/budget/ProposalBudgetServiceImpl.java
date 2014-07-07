@@ -31,6 +31,7 @@ import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
 import org.kuali.coeus.common.budget.impl.version.BudgetVersionRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.coeus.propdev.impl.budget.subaward.PropDevBudgetSubAwardService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -109,23 +110,18 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     }
 
     @Override
-    public BudgetDocument<DevelopmentProposal> getFinalBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument) throws WorkflowException {
+    public BudgetDocument<DevelopmentProposal> getFinalBudgetVersion(ProposalDevelopmentDocument parentDocument) throws WorkflowException {
         BudgetDocument<DevelopmentProposal> budgetDocument = null;
 
         if (parentDocument.getFinalBudgetVersion() != null) {
             budgetDocument = (BudgetDocument<DevelopmentProposal>) documentService.getByDocumentHeaderId(parentDocument.getFinalBudgetVersion().getDocumentNumber());
         } else {
-            final List<BudgetDocumentVersion> budgetVersions = parentDocument.getBudgetDocumentVersions();
-
-            QueryList<BudgetVersionOverview> budgetVersionOverviews = new QueryList<BudgetVersionOverview>();
-            for (BudgetDocumentVersion budgetDocumentVersion : budgetVersions) {
-                budgetVersionOverviews.add(budgetDocumentVersion.getBudgetVersionOverview());
-            }
-            if (!budgetVersionOverviews.isEmpty()) {
-                budgetVersionOverviews.sort("budgetVersionNumber", false);
-                BudgetVersionOverview budgetVersionOverview = budgetVersionOverviews.get(0);
-
-                budgetDocument = (BudgetDocument<DevelopmentProposal>) documentService.getByDocumentHeaderId(budgetVersionOverview.getDocumentNumber());
+            final List<ProposalDevelopmentBudgetExt> budgetVersions = parentDocument.getBudgetDocumentVersions();
+            if (budgetVersions != null && !budgetVersions.isEmpty()) {
+	            QueryList<ProposalDevelopmentBudgetExt> budgetVersionsQuery = new QueryList<ProposalDevelopmentBudgetExt>();
+	            budgetVersionsQuery.sort("budgetVersionNumber", false);
+	            ProposalDevelopmentBudgetExt budgetVersionOverview = budgetVersionsQuery.get(0);
+	            budgetDocument = (BudgetDocument<DevelopmentProposal>) documentService.getByDocumentHeaderId(budgetVersionOverview.getDocumentNumber());
             }
         }
         return budgetDocument;
