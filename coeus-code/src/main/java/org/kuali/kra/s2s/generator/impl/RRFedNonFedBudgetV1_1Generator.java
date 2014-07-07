@@ -44,13 +44,13 @@ import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.framework.print.PrintingException;
-import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
+import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.printing.GenericPrintable;
+import org.kuali.kra.s2s.printing.S2SPrintingService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,8 +86,8 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
     private BudgetContract budget;
 
     @Autowired
-    @Qualifier("printingService")
-    private PrintingService printingService;
+    @Qualifier("s2SPrintingService")
+    private S2SPrintingService s2SPrintingService;
 
     /**
      * This method returns RRFedNonFedBudgetDocument object based on proposal development document which contains the informations
@@ -1334,7 +1334,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             printable.setXSLTemplateWithBookmarks(xSLTemplateWithBookmarks);
             printable.setStreamMap(streamMap);
             try {
-                KcFile printData = printingService
+                KcFile printData = s2SPrintingService
                         .print(printable);
                 String fileName = pdDoc.getDevelopmentProposal()
                         .getProposalNumber()
@@ -1342,7 +1342,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
                 narrative = saveNarrative(printData.getData(),
                         ADDITIONAL_EQUIPMENT_NARRATIVE_TYPE_CODE, fileName,
                         ADDITIONAL_EQUIPMENT_NARRATIVE_COMMENT);
-            } catch (PrintingException e) {
+            } catch (S2SException e) {
                 LOG.error(e.getMessage(), e);
             }
         }
@@ -1390,10 +1390,10 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             printable.setXSLTemplateWithBookmarks(xSLTemplateWithBookmarks);
             printable.setStreamMap(streamMap);
             try {
-                KcFile printData = printingService.print(printable);
+                KcFile printData = s2SPrintingService.print(printable);
                 String fileName = pdDoc.getDevelopmentProposal().getProposalNumber()+"_"+periodInfo.getBudgetPeriod()+"_"+EXTRA_KEYPERSONS+".pdf";
                 extraKPNarrative = saveNarrative(printData.getData(), ""+EXTRA_KEYPERSONS_TYPE, fileName, EXTRA_KEYPERSONS_COMMENT);
-            } catch (PrintingException e) {
+            } catch (S2SException e) {
                 LOG.error(e.getMessage(), e);
             }
         }
@@ -1827,11 +1827,11 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
         return getRRFedNonFedBudget();
     }
 
-    public PrintingService getPrintingService() {
-        return printingService;
+    public S2SPrintingService getS2SPrintingService() {
+        return s2SPrintingService;
     }
 
-    public void setPrintingService(PrintingService printingService) {
-        this.printingService = printingService;
+    public void setS2SPrintingService(S2SPrintingService s2SPrintingService) {
+        this.s2SPrintingService = s2SPrintingService;
     }
 }

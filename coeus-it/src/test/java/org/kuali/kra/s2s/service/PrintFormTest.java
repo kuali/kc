@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.s2s.service;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
@@ -27,6 +25,7 @@ import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.kra.s2s.generator.util.S2STestConstants;
+import org.kuali.kra.s2s.printing.FormPrintService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -95,7 +94,7 @@ public class PrintFormTest extends KcIntegrationTestBase {
         List<S2sOppForms> oppForms = new ArrayList<S2sOppForms>();
         oppForms.add(forms);
         document.getDevelopmentProposal().setS2sOppForms(oppForms);
-        PrintService printService = KcServiceLocator.getService(PrintService.class);
+        FormPrintService printService = KcServiceLocator.getService(FormPrintService.class);
         printService.printForm(document);
     }
 
