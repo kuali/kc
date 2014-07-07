@@ -19,7 +19,7 @@ import org.kuali.coeus.common.permissions.impl.bo.PermissionsUser;
 import org.kuali.coeus.common.permissions.impl.bo.PermissionsUserEditRoles;
 import org.kuali.coeus.common.permissions.impl.rule.PermissionsRule;
 import org.kuali.coeus.common.permissions.impl.web.bean.User;
-import org.kuali.coeus.common.specialreview.impl.rule.event.SaveSpecialReviewEvent;
+import org.kuali.coeus.common.framework.compliance.core.SaveSpecialReviewEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.assigncmtsched.ExecuteProtocolAssignCmtSchedRule;

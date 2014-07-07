@@ -24,7 +24,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
-import org.kuali.coeus.common.specialreview.impl.service.SpecialReviewService;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewService;
 import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentActionsAction;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;

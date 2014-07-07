@@ -16,14 +16,14 @@
 package org.kuali.kra.irb.protocol.funding.impl;
 
 import org.kuali.coeus.common.framework.person.editable.PersonEditableService;
-import org.kuali.coeus.common.specialreview.impl.service.impl.SpecialReviewServiceImpl;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewServiceImpl;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.SpecialReviewApprovalType;
-import org.kuali.kra.bo.SpecialReviewType;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;

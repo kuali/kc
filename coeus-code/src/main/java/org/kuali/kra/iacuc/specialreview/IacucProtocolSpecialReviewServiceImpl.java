@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.specialreview;
 
-import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
-import org.kuali.kra.bo.SpecialReviewApprovalType;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReview;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.specialreview.impl.ProtocolSpecialReviewServiceImplBase;
 

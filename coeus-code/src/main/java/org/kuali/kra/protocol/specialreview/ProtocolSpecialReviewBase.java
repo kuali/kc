@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.specialreview;
 
 import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
-import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReview;
 import org.kuali.kra.protocol.ProtocolBase;
 
 /**

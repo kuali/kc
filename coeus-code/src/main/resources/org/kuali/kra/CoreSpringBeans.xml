@@ -30,6 +30,7 @@
 
     <context:component-scan base-package="org.kuali.coeus.common.notification.impl.service.impl"/>
 
+    <context:component-scan base-package="org.kuali.coeus.common.framework"/>
     <context:component-scan base-package="org.kuali.coeus.common.impl"/>
     <context:component-scan base-package="org.kuali.coeus.common.budget"/>
 	<context:component-scan base-package="org.kuali.kra.service.impl"/>
@@ -1619,15 +1620,6 @@
     
     <bean id="subAwardService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="subAwardService" />
-    </bean>
-    
-    <bean id ="specialReviewService" class ="org.kuali.coeus.common.specialreview.impl.service.impl.SpecialReviewServiceImpl" lazy-init="true">
-        <property name="awardService" ref="awardService" />
-        <property name="institutionalProposalService" ref="institutionalProposalService" />
-        <property name="protocolFinderDao" ref="protocolFinderDao" />
-        <property name="documentService" ref="documentService" />
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="iacucProtocolFinderDao" ref="iacucProtocolFinderDao" />
     </bean>
 
     <!-- Authorization Services -->
