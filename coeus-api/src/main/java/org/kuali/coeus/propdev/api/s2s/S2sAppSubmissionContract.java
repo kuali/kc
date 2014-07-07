@@ -1,9 +1,10 @@
 package org.kuali.coeus.propdev.api.s2s;
 
+import org.kuali.coeus.propdev.api.core.NumberedProposal;
+
 import java.util.Date;
 
-public interface S2sAppSubmissionContract {
-    String getProposalNumber();
+public interface S2sAppSubmissionContract extends NumberedProposal {
 
     Integer getSubmissionNumber();
 

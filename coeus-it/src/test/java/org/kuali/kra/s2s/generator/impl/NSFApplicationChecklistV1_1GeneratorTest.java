@@ -21,6 +21,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
+import org.kuali.coeus.s2sgen.impl.generate.support.NSFApplicationChecklistV1_1Generator;
 import org.kuali.kra.s2s.generator.S2STestBase;
 
 import java.sql.Date;

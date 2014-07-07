@@ -3,13 +3,16 @@ package org.kuali.kra.s2s.generator.impl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.s2sgen.impl.generate.support.GlobalLibraryV1_0Generator;
+import org.kuali.coeus.s2sgen.impl.generate.support.GlobalLibraryV2_0Generator;
+import org.kuali.coeus.s2sgen.impl.generate.support.UserAttachedFormGenerator;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.s2s.formmapping.FormMappingInfo;
-import org.kuali.kra.s2s.formmapping.FormMappingService;
-import org.kuali.kra.s2s.generator.FormGenerator;
-import org.kuali.kra.s2s.generator.S2SFormGenerator;
-import org.kuali.kra.s2s.service.S2SFormGeneratorService;
-import org.kuali.kra.s2s.service.impl.S2SFormGeneratorServiceImpl;
+import org.kuali.coeus.s2sgen.api.generate.FormMappingInfo;
+import org.kuali.coeus.s2sgen.api.generate.FormMappingService;
+import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
+import org.kuali.coeus.s2sgen.impl.generate.S2SFormGenerator;
+import org.kuali.coeus.s2sgen.impl.generate.S2SFormGeneratorRetrievalService;
+import org.kuali.coeus.s2sgen.impl.generate.S2SFormGeneratorRetrievalServiceImpl;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -22,12 +25,12 @@ import java.util.Map;
 public class GeneratorConfigurationTest extends KcIntegrationTestBase {
 
     private FormMappingService mappingService;
-    private S2SFormGeneratorServiceImpl s2SFormGeneratorService;
+    private S2SFormGeneratorRetrievalServiceImpl s2SFormGeneratorService;
 
     @Before
     public void retrieveMappingService() {
         mappingService = KcServiceLocator.getService(FormMappingService.class);
-        s2SFormGeneratorService = (S2SFormGeneratorServiceImpl) KcServiceLocator.getService(S2SFormGeneratorService.class);
+        s2SFormGeneratorService = (S2SFormGeneratorRetrievalServiceImpl) KcServiceLocator.getService(S2SFormGeneratorRetrievalService.class);
     }
 
     /**
@@ -37,6 +40,8 @@ public class GeneratorConfigurationTest extends KcIntegrationTestBase {
     @Test
     public void test_find_all_generators() {
         Map<String, FormMappingInfo> mappings =  mappingService.getBindings();
+
+        Assert.assertFalse("No Mappings found", mappings.isEmpty());
 
         for (FormMappingInfo info : mappings.values()) {
             final S2SFormGenerator generator;
@@ -91,6 +96,8 @@ public class GeneratorConfigurationTest extends KcIntegrationTestBase {
     @Test
     public void test_find_all_stylesheets() {
         Map<String, FormMappingInfo> mappings =  mappingService.getBindings();
+
+        Assert.assertFalse("No Mappings found", mappings.isEmpty());
 
         Collection<String> notFound = new ArrayList<>();
 

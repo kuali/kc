@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.questionnaire.framework.question;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.kuali.coeus.common.api.question.QuestionExplanationContract;
+import org.kuali.coeus.common.questionnaire.api.question.QuestionExplanationContract;
 import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 

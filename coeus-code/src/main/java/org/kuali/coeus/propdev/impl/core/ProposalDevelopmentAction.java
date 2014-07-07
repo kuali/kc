@@ -39,6 +39,7 @@ import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
 import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
+import org.kuali.coeus.s2sgen.api.print.FormPrintResult;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
 import org.kuali.coeus.sys.framework.controller.NonCancellingRecallQuestion;
@@ -65,10 +66,9 @@ import org.kuali.coeus.propdev.impl.print.ProposalDevelopmentPrintingService;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.person.ProposalDevelopmentKeyPersonnelAction;
-import org.kuali.kra.s2s.formmapping.FormMappingInfo;
-import org.kuali.kra.s2s.formmapping.FormMappingService;
-import org.kuali.kra.s2s.printing.PrintResult;
-import org.kuali.kra.s2s.printing.FormPrintService;
+import org.kuali.coeus.s2sgen.api.generate.FormMappingInfo;
+import org.kuali.coeus.s2sgen.api.generate.FormMappingService;
+import org.kuali.coeus.s2sgen.api.print.FormPrintService;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
@@ -763,7 +763,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             GlobalVariables.getMessageMap().putError("noKey", ERROR_NO_GRANTS_GOV_FORM_SELECTED);
             return mapping.findForward(Constants.PROPOSAL_ACTIONS_PAGE);
         }
-        PrintResult result = getPrintService().printForm(proposalDevelopmentDocument);
+        FormPrintResult result = getPrintService().printForm(proposalDevelopmentDocument);
         setValidationErrorMessage(result.getErrors());
         KcFile attachmentDataSource = result.getFile();
         if(attachmentDataSource==null || attachmentDataSource.getData()==null || attachmentDataSource.getData().length==0){
@@ -815,11 +815,11 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
      *            List of validation errors which has to be displayed on UI.
      */
 
-    protected void setValidationErrorMessage(List<org.kuali.kra.s2s.util.AuditError> errors) {
+    protected void setValidationErrorMessage(List<org.kuali.coeus.s2sgen.api.core.AuditError> errors) {
         if (errors != null) {
             LOG.info("Error list size:" + errors.size() + errors.toString());
             List<org.kuali.rice.kns.util.AuditError> auditErrors = new ArrayList<>();
-            for (org.kuali.kra.s2s.util.AuditError error : errors) {
+            for (org.kuali.coeus.s2sgen.api.core.AuditError error : errors) {
                 auditErrors.add(new org.kuali.rice.kns.util.AuditError(error.getErrorKey(),
                         Constants.GRANTS_GOV_GENERIC_ERROR_KEY, error.getLink(),
                         new String[]{error.getMessageKey()}));

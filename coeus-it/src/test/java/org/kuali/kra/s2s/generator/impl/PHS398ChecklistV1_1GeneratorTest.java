@@ -19,6 +19,7 @@ import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.common.framework.ynq.Ynq;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
+import org.kuali.coeus.s2sgen.impl.generate.support.PHS398ChecklistV1_1Generator;
 import org.kuali.kra.s2s.generator.S2STestBase;
 
 import java.sql.Date;

@@ -8,7 +8,7 @@ import java.util.List;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SModularBudgetTestBase;
-import org.kuali.kra.s2s.phs398modularbudget.PHS398ModularBudgetV1_2Generator;
+import org.kuali.coeus.s2sgen.impl.generate.support.PHS398ModularBudgetV1_2Generator;
 import org.kuali.rice.krad.data.DataObjectService;
 
 public class PHS398ModularBudgetV1_2GeneratorTest extends

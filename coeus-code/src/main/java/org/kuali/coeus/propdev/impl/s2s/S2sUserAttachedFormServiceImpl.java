@@ -37,14 +37,14 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xpath.XPathAPI;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.s2sgen.api.core.InfastructureConstants;
+import org.kuali.coeus.s2sgen.api.hash.GrantApplicationHashService;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.formmapping.FormMappingInfo;
-import org.kuali.kra.s2s.formmapping.FormMappingService;
-import org.kuali.kra.s2s.service.S2SValidatorService;
-import org.kuali.kra.s2s.util.AuditError;
-import org.kuali.kra.s2s.util.GrantApplicationHash;
-import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.coeus.s2sgen.api.core.S2SException;
+import org.kuali.coeus.s2sgen.api.generate.FormMappingInfo;
+import org.kuali.coeus.s2sgen.api.generate.FormMappingService;
+import org.kuali.coeus.s2sgen.impl.validate.S2SValidatorService;
+import org.kuali.coeus.s2sgen.api.core.AuditError;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +83,10 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
     @Autowired
     @Qualifier("formMappingService")
     private FormMappingService formMappingService;
+
+    @Autowired
+    @Qualifier("grantApplicationHashService")
+    private GrantApplicationHashService grantApplicationHashService;
 
     @Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -508,14 +512,14 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
                 throw new S2SException("FileName mismatch in XML and PDF extracted file");
             }
 
-            hashValue = GrantApplicationHash.computeAttachmentHash(fileBytes);
+            hashValue = grantApplicationHashService.computeAttachmentHash(fileBytes);
             hashNode = lstHashValue.item(index);
             NamedNodeMap hashNodeMap = hashNode.getAttributes();
             Node temp = document.createTextNode(hashValue);
             hashNode.appendChild(temp);
 
             Node hashAlgorithmNode = hashNodeMap.getNamedItemNS("http://apply.grants.gov/system/Global-V1.0", "hashAlgorithm");
-            hashAlgorithmNode.setNodeValue(S2SConstants.HASH_ALGORITHM);
+            hashAlgorithmNode.setNodeValue(InfastructureConstants.HASH_ALGORITHM);
             hashNodeMap.setNamedItemNS(hashAlgorithmNode);
             
             fileNode = lstFileLocation.item(index);
@@ -579,5 +583,13 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
 
     public void setFormMappingService(FormMappingService formMappingService) {
         this.formMappingService = formMappingService;
+    }
+
+    public GrantApplicationHashService getGrantApplicationHashService() {
+        return grantApplicationHashService;
+    }
+
+    public void setGrantApplicationHashService(GrantApplicationHashService grantApplicationHashService) {
+        this.grantApplicationHashService = grantApplicationHashService;
     }
 }
