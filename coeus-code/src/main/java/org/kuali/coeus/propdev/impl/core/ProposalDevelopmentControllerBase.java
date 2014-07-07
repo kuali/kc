@@ -16,12 +16,14 @@
 package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.specialreview.impl.rule.event.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentService;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
+import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.TransactionalDocumentControllerService;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -138,6 +140,10 @@ public abstract class ProposalDevelopmentControllerBase {
                  proposalDevelopmentDocument);
 
          getProposalDevelopmentAttachmentService().prepareAttachmentsForSave(pdForm.getDevelopmentProposal());
+         
+         if (StringUtils.equalsIgnoreCase(request.getParameter(UifParameters.PAGE_ID), org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE)) {
+        	 saveAnswerHeaders(pdForm);
+         }
          getTransactionalDocumentControllerService().save(form, result, request, response);
          
          initializeProposalUsers(proposalDevelopmentDocument);
@@ -148,6 +154,7 @@ public abstract class ProposalDevelopmentControllerBase {
          } else {
              view = getTransactionalDocumentControllerService().getUIFModelAndView(form);
          }
+         
          return view;
      }
 
@@ -160,6 +167,11 @@ public abstract class ProposalDevelopmentControllerBase {
          proposalDevelopmentService.initializeProposalSiteNumbers(
                  proposalDevelopmentDocument);
          ModelAndView view = null;
+
+         if (StringUtils.equalsIgnoreCase(request.getParameter(UifParameters.PAGE_ID), org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE)) {
+        	 saveAnswerHeaders(pdForm);
+         }
+         
          if (eventClazz == null) {
              getTransactionalDocumentControllerService().save(form, result, request, response);
          } else {
@@ -172,6 +184,7 @@ public abstract class ProposalDevelopmentControllerBase {
              view = getTransactionalDocumentControllerService().getUIFModelAndView(form);
          }
          initializeProposalUsers(proposalDevelopmentDocument);
+         
          return view;
      }
      
@@ -277,5 +290,16 @@ public abstract class ProposalDevelopmentControllerBase {
 
 	public void setDataObjectService(DataObjectService dataObjectService) {
 		this.dataObjectService = dataObjectService;
+	}
+	
+	public void saveAnswerHeaders(ProposalDevelopmentDocumentForm pdForm) {
+		for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+			if (person.getQuestionnaireHelper() != null && person.getQuestionnaireHelper().getAnswerHeaders() != null 
+					&& !person.getQuestionnaireHelper().getAnswerHeaders().isEmpty()) {
+				for (AnswerHeader answerHeader : person.getQuestionnaireHelper().getAnswerHeaders()) {
+					getLegacyDataAdapter().save(answerHeader);
+		        }
+			}
+	    }
 	}
 }

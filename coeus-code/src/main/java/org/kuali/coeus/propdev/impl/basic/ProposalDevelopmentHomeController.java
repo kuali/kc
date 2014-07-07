@@ -61,7 +61,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        return getTransactionalDocumentControllerService().getUIFModelAndViewWithInit(form, PROPDEV_DEFAULT_VIEW_ID);
    }
    
-   @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=save")
+   @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=save"})
    public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        return super.save(form, result, request, response);
