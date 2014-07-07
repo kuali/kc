@@ -20,6 +20,9 @@
 				<bean parent="PropDev-OrganizationLocationsPage-Group" p:order="10" />
 			</list>
 		</property>
+        <property name="header">
+            <bean parent="Uif-PageHeader"  />
+        </property>
 	</bean>
 
 	<bean id="PropDev-OrganizationLocationsPage-Group" parent="PropDev-OrganizationLocationsPage-Group-parentBean" />
