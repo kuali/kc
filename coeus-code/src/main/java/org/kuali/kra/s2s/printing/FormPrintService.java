@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.s2s.printing;
 
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.kra.s2s.S2SException;
 
 /**
@@ -25,11 +25,11 @@ public interface FormPrintService {
 	/**
 	 * This method is used for the printing of forms in PDF format
 	 * 
-	 * @param pdDoc (ProposalDevelopmentDocument)
+	 * @param pdDoc (ProposalDevelopmentDocumentContract)
 	 * @throws S2SException
 	 * 
 	 */
-	public PrintResult printForm(ProposalDevelopmentDocument pdDoc)
-			throws S2SException;
+    public PrintResult printForm(ProposalDevelopmentDocumentContract pdDoc)
+            throws S2SException;
 
 }

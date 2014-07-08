@@ -39,7 +39,7 @@ import org.kuali.coeus.propdev.api.PropDevQuestionAnswerService;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.s2s.CitizenshipTypes;
@@ -122,9 +122,9 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      *
      * @param pdDoc Proposal Development Document.
      * @return Map<String, String> Map of submission details.
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getSubmissionType(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
+     * @see org.kuali.kra.s2s.service.S2SUtilService#getSubmissionType(org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract)
      */
-    public Map<String, String> getSubmissionType(ProposalDevelopmentDocument pdDoc) {
+    public Map<String, String> getSubmissionType(ProposalDevelopmentDocumentContract pdDoc) {
         Map<String, String> submissionInfo = new HashMap<String, String>();
         S2sOpportunityContract opportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
         if (opportunity != null) {
@@ -151,9 +151,9 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * 
      * @param pdDoc Proposal Development Document.
      * @return DepartmentalPerson departmental Person object for a given proposal document.
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getDepartmentalPerson(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
+     * @see org.kuali.kra.s2s.service.S2SUtilService#getDepartmentalPerson(org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract)
      */
-    public DepartmentalPerson getDepartmentalPerson(ProposalDevelopmentDocument pdDoc) {
+    public DepartmentalPerson getDepartmentalPerson(ProposalDevelopmentDocumentContract pdDoc) {
         int count = 0;
         DepartmentalPerson depPerson = new DepartmentalPerson();
         List<? extends ProposalAdminDetailsContract> proposalAdminDetailsList = proposalAdminDetailsService.findProposalAdminDetailsByPropDevNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
@@ -281,9 +281,9 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * 
      * @param pdDoc Proposal Development Document.
      * @return Map<String, String> map containing the answers related to EOState Review for a given proposal.
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getEOStateReview(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
+     * @see org.kuali.kra.s2s.service.S2SUtilService#getEOStateReview(org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract)
      */
-    public Map<String, String> getEOStateReview(ProposalDevelopmentDocument pdDoc) {
+    public Map<String, String> getEOStateReview(ProposalDevelopmentDocumentContract pdDoc) {
         Map<String, String> stateReview = new HashMap<String, String>();
         List<? extends AnswerHeaderContract> answerHeaders = propDevQuestionAnswerService.getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber());
         for (AnswerContract answers : answerHeaders.get(0).getAnswers()) {
@@ -352,9 +352,9 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * 
      * @param pdDoc Proposal development document.
      * @return divisionName based on the OwnedByUnit.
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getDivisionName(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
+     * @see org.kuali.kra.s2s.service.S2SUtilService#getDivisionName(org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract)
      */
-    public String getDivisionName(ProposalDevelopmentDocument pdDoc) {
+    public String getDivisionName(ProposalDevelopmentDocumentContract pdDoc) {
         String divisionName = null;
         if (pdDoc != null && pdDoc.getDevelopmentProposal().getOwnedByUnit() != null) {
             UnitContract ownedByUnit = pdDoc.getDevelopmentProposal().getOwnedByUnit();
@@ -375,9 +375,9 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * 
      * @param pdDoc Proposal development document.
      * @return ProposalPerson PrincipalInvestigator for the proposal.
-     * @see org.kuali.kra.s2s.service.S2SUtilService#getPrincipalInvestigator(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
+     * @see org.kuali.kra.s2s.service.S2SUtilService#getPrincipalInvestigator(org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract)
      */
-    public ProposalPersonContract getPrincipalInvestigator(ProposalDevelopmentDocument pdDoc) {
+    public ProposalPersonContract getPrincipalInvestigator(ProposalDevelopmentDocumentContract pdDoc) {
         ProposalPersonContract proposalPerson = null;
         if (pdDoc != null) {
             for (ProposalPersonContract person : pdDoc.getDevelopmentProposal().getProposalPersons()) {
@@ -392,7 +392,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     /**
      * Finds all the Investigators associated with the provided pdDoc.
      */
-    public List<ProposalPersonContract> getCoInvestigators(ProposalDevelopmentDocument pdDoc) {
+    public List<ProposalPersonContract> getCoInvestigators(ProposalDevelopmentDocumentContract pdDoc) {
         List<ProposalPersonContract> investigators = new ArrayList<ProposalPersonContract>();
         if (pdDoc != null) {
             for (ProposalPersonContract person : pdDoc.getDevelopmentProposal().getProposalPersons()) {
@@ -408,7 +408,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     /**
      * Finds all the key Person associated with the provided pdDoc.
      */
-    public List<ProposalPersonContract> getKeyPersons(ProposalDevelopmentDocument pdDoc) {
+    public List<ProposalPersonContract> getKeyPersons(ProposalDevelopmentDocumentContract pdDoc) {
         List<ProposalPersonContract> keyPersons = new ArrayList<ProposalPersonContract>();
         if (pdDoc != null) {
             for (ProposalPersonContract person : pdDoc.getDevelopmentProposal().getProposalPersons()) {
@@ -477,10 +477,10 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      * 
      * This method is used to get the details of Contact person
      * 
-     * @param pdDoc(ProposalDevelopmentDocument) proposal development document.
+     * @param pdDoc(ProposalDevelopmentDocumentContract) proposal development document.
      * @return depPerson(DepartmentalPerson) corresponding to the contact type.
      */
-    public DepartmentalPerson getContactPerson(ProposalDevelopmentDocument pdDoc) {
+    public DepartmentalPerson getContactPerson(ProposalDevelopmentDocumentContract pdDoc) {
         String contactType = getContactType();
         boolean isNumber = true;
         try {

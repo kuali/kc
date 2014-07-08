@@ -20,7 +20,6 @@ import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.propdev.api.budget.modular.BudgetModularContract;
 import org.kuali.coeus.propdev.api.budget.modular.BudgetModularIdcContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +39,6 @@ public abstract class PHS398ModularBudgetBaseGenerator extends
     @Autowired
     @Qualifier("s2SUtilService")
     protected S2SUtilService s2sUtilService;
-
-    @Autowired
-    @Qualifier("proposalBudgetService")
-	protected ProposalBudgetService proposalBudgetService;
 
     @Autowired
     @Qualifier("rolodexService")
@@ -103,14 +98,6 @@ public abstract class PHS398ModularBudgetBaseGenerator extends
 
     public void setS2sUtilService(S2SUtilService s2sUtilService) {
         this.s2sUtilService = s2sUtilService;
-    }
-
-    public ProposalBudgetService getProposalBudgetService() {
-        return proposalBudgetService;
-    }
-
-    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
-        this.proposalBudgetService = proposalBudgetService;
     }
 
     public RolodexService getRolodexService() {

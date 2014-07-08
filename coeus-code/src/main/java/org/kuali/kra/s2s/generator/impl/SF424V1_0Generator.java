@@ -35,19 +35,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.org.OrganizationYnqContract;
-import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.common.budget.api.income.BudgetProjectIncomeContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -115,9 +114,9 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 		}
 		grantApplicationType.setSubmittedDate(Calendar.getInstance());
 		ApplicationTypeCodeType.Enum applicationTypeCodeDataType = null;
-		if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null) {
+		if (pdDoc.getDevelopmentProposal().getProposalType() != null) {
 			int proposalTypeCode = Integer.parseInt(pdDoc
-					.getDevelopmentProposal().getProposalTypeCode());
+					.getDevelopmentProposal().getProposalType().getCode());
 			if (proposalTypeCode < Integer.parseInt(s2SConfigurationService.getValueAsString(
                     ConfigurationConstants.PROPOSAL_TYPE_CODE_RESUBMISSION))) {
 				applicationTypeCodeDataType = ApplicationTypeCodeType.Enum
@@ -128,12 +127,10 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 				.setApplicationTypeCode(applicationTypeCodeDataType);
 		if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null
 				&& pdDoc.getDevelopmentProposal().getS2sOpportunity()
-						.getS2sSubmissionTypeCode() != null) {
-			pdDoc.getDevelopmentProposal().getS2sOpportunity()
-					.refreshNonUpdateableReferences();
+						.getS2sSubmissionType() != null) {
 
 			String revisionCode = pdDoc.getDevelopmentProposal()
-					.getS2sOpportunity().getRevisionCode();
+					.getS2sOpportunity().getS2sRevisionType().getCode();
 			if (revisionCode != null) {
 				Revision revision = Revision.Factory.newInstance();
 				String revision1 = null;
@@ -311,24 +308,19 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 		budget.setFederalEstimatedAmount(BigDecimal.ZERO);
 		budget.setTotalEstimatedAmount(BigDecimal.ZERO);
 
-        BudgetContract budgetDoc = null;
-        try {
-            budgetDoc = proposalBudgetService
-                    .getFinalBudgetVersion(pdDoc).getBudget();
-        } catch (WorkflowException e) {
-            throw new S2SException(e);
-        }
-        if (budgetDoc != null) {
-			budget.setFederalEstimatedAmount(budgetDoc.getTotalCost()
+        ProposalDevelopmentBudgetExtContract pBudget = pdDoc.getDevelopmentProposal().getFinalBudget();
+
+        if (pBudget != null) {
+			budget.setFederalEstimatedAmount(pBudget.getTotalCost()
 					.bigDecimalValue());
-			budget.setApplicantEstimatedAmount(budgetDoc.getCostSharingAmount()
+			budget.setApplicantEstimatedAmount(pBudget.getCostSharingAmount()
 					.bigDecimalValue());
 			// Following values hardcoded as in coeus
 			budget.setStateEstimatedAmount(BigDecimal.ZERO);
 			budget.setLocalEstimatedAmount(BigDecimal.ZERO);
 			budget.setOtherEstimatedAmount(BigDecimal.ZERO);
 			BigDecimal projectIncome = BigDecimal.ZERO;
-			for (BudgetProjectIncomeContract budgetProjectIncome : budgetDoc
+			for (BudgetProjectIncomeContract budgetProjectIncome : pBudget
 					.getBudgetProjectIncomes()) {
 				if (budgetProjectIncome.getProjectIncome() != null) {
 					projectIncome = projectIncome.add(budgetProjectIncome
@@ -337,12 +329,12 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 			}
 			budget.setProgramIncomeEstimatedAmount(projectIncome);
 			ScaleTwoDecimal totalEstimatedAmount = ScaleTwoDecimal.ZERO;
-			if (budgetDoc.getTotalCost() != null) {
-				totalEstimatedAmount = totalEstimatedAmount.add(budgetDoc
+			if (pBudget.getTotalCost() != null) {
+				totalEstimatedAmount = totalEstimatedAmount.add(pBudget
 						.getTotalCost());
 			}
-			if (budgetDoc.getCostSharingAmount() != null) {
-				totalEstimatedAmount = totalEstimatedAmount.add(budgetDoc
+			if (pBudget.getCostSharingAmount() != null) {
+				totalEstimatedAmount = totalEstimatedAmount.add(pBudget
 						.getCostSharingAmount());
 			}
 			budget.setTotalEstimatedAmount(totalEstimatedAmount
@@ -539,7 +531,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 						.getOrganization().getOrganizationTypes().size() > 0) {
 			orgTypeCode = pdDoc.getDevelopmentProposal()
 					.getApplicantOrganization().getOrganization()
-					.getOrganizationType(0).getOrganizationTypeCode()
+					.getOrganizationTypes().get(0).getOrganizationTypeList().getCode()
 					.intValue();
 		}
 		switch (orgTypeCode) {
@@ -626,26 +618,24 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 	 * Construction,Non construction, Application, Pre application.
 	 * 
 	 * @param pdDoc
-	 *            (ProposalDevelopmentDocument)
+	 *            (ProposalDevelopmentDocumentContract)
 	 * @return submissionType(String) corresponding to submission type code.
 	 */
-	private String getSF424SubmissionType(ProposalDevelopmentDocument pdDoc) {
+	private String getSF424SubmissionType(ProposalDevelopmentDocumentContract pdDoc) {
 
 		String submissionType = null;
 		String suffix;
 
 		if (s2SConfigurationService.getValueAsString(
                 ConfigurationConstants.ACTIVITY_TYPE_CODE_CONSTRUCTION).equals(pdDoc
-				.getDevelopmentProposal().getActivityTypeCode())) {
+				.getDevelopmentProposal().getActivityType().getCode())) {
 			suffix = ACTIVITY_TYPE_CODE_LS_SUFFIX_CONSTRUCTION;
 		} else {
 			suffix = ACTIVITY_TYPE_CODE_LS_SUFFIX_NONCONSTRUCTION;
 		}
 		if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null
 				&& pdDoc.getDevelopmentProposal().getS2sOpportunity()
-						.getS2sSubmissionTypeCode() != null) {
-			pdDoc.getDevelopmentProposal().getS2sOpportunity()
-					.refreshNonUpdateableReferences();
+						.getS2sSubmissionType() != null) {
 			if (s2SConfigurationService.getValueAsString(
                     ConfigurationConstants.S2S_SUBMISSION_TYPE_CODE_PREAPPLICATION).equals(
 			                pdDoc.getDevelopmentProposal().getS2sOpportunity()
@@ -663,17 +653,17 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 	/**
 	 * This method creates {@link XmlObject} of type
 	 * {@link GrantApplicationDocument} by populating data from the given
-	 * {@link ProposalDevelopmentDocument}
+	 * {@link ProposalDevelopmentDocumentContract}
 	 * 
-	 * @param proposalDevelopmentDocument
+	 * @param ProposalDevelopmentDocumentContract
 	 *            for which the {@link XmlObject} needs to be created
 	 * @return {@link XmlObject} which is generated using the given
-	 *         {@link ProposalDevelopmentDocument}
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+	 *         {@link ProposalDevelopmentDocumentContract}
+	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
 	 */
 	public XmlObject getFormObject(
-			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		this.pdDoc = proposalDevelopmentDocument;
+			ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
+		this.pdDoc = ProposalDevelopmentDocumentContract;
 		aorInfo = s2sUtilService.getDepartmentalPerson(pdDoc);
 		return getGrantApplication();
 	}

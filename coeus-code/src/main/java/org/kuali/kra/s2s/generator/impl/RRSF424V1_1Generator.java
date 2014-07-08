@@ -34,7 +34,6 @@ import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
-import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.common.budget.api.income.BudgetProjectIncomeContract;
 import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemCalculatedAmountContract;
 import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
@@ -42,20 +41,19 @@ import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
 import org.kuali.coeus.propdev.api.abstrct.ProposalAbstractContract;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.api.budget.modular.BudgetModularIdcContract;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -89,7 +87,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 	 */
 	private RRSF424Document getRRSF424() {
         answerHeaders = getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber());
-        DevelopmentProposal devProp = pdDoc.getDevelopmentProposal();
+        DevelopmentProposalContract devProp = pdDoc.getDevelopmentProposal();
 
 		RRSF424Document rrSF424Document = RRSF424Document.Factory.newInstance();
 		RRSF424 rrsf424 = RRSF424.Factory.newInstance();
@@ -206,15 +204,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 	 * @throws S2SException
 	 */
 	private EstimatedProjectFunding getProjectFunding() throws S2SException {
-        BudgetDocument budgetDocument = null;
-        try {
-            budgetDocument = proposalBudgetService
-                    .getFinalBudgetVersion(pdDoc);
-        } catch (WorkflowException e) {
-            throw new S2SException(e);
-        }
-        BudgetContract budget = budgetDocument == null ? null : budgetDocument
-				.getBudget();
+        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
 		EstimatedProjectFunding funding = EstimatedProjectFunding.Factory
 				.newInstance();
 		funding.setTotalEstimatedAmount(BigDecimal.ZERO);
@@ -317,7 +307,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		OrganizationDataType orgType = OrganizationDataType.Factory
 				.newInstance();
         RolodexContract rolodex = pdDoc.getDevelopmentProposal()
-				.getApplicantOrganization().getOrganization().getRolodex();
+				.getApplicantOrganization().getRolodex();
 		orgType.setAddress(globLibV20Generator.getAddressDataType(rolodex));
 		OrganizationContract organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
@@ -410,18 +400,18 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 		ApplicationType applicationType = ApplicationType.Factory.newInstance();
 		Map<String, String> submissionInfo = s2sUtilService
 				.getSubmissionType(pdDoc);
-		if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null
+		if (pdDoc.getDevelopmentProposal().getProposalType() != null
 				&& Integer.parseInt(pdDoc.getDevelopmentProposal()
-						.getProposalTypeCode()) < PROPOSAL_TYPE_CODE_6) {
+						.getProposalType().getCode()) < PROPOSAL_TYPE_CODE_6) {
 			// Check <6 to ensure that if proposalType='TASk ORDER", it must not
 			// set. THis is because enum ApplicationType has no
 			// entry for TASK ORDER
 			ApplicationTypeCodeDataType.Enum applicationTypeCodeDataType = ApplicationTypeCodeDataType.Enum
 					.forInt(Integer.parseInt(pdDoc.getDevelopmentProposal()
-							.getProposalTypeCode()));
+							.getProposalType().getCode()));
 			applicationType.setApplicationTypeCode(applicationTypeCodeDataType);
 			if (Integer.parseInt(pdDoc.getDevelopmentProposal()
-					.getProposalTypeCode()) == ApplicationTypeCodeDataType.INT_REVISION) {
+					.getProposalType().getCode()) == ApplicationTypeCodeDataType.INT_REVISION) {
 				String revisionCode = null;
 				if (submissionInfo.get(S2SConstants.KEY_REVISION_CODE) != null) {
 					revisionCode = submissionInfo
@@ -544,7 +534,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
                 }
                 else
                 {
-                    DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+                    DevelopmentProposalContract developmentProposal = pdDoc.getDevelopmentProposal();
                     PDPI.setDepartmentName(developmentProposal.getOwnedByUnit().getUnitName());
                 }
 				// divisionName
@@ -636,7 +626,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
                 .getOrganization().getOrganizationTypes().size() > 0) {
             orgTypeCode = pdDoc.getDevelopmentProposal()
                     .getApplicantOrganization().getOrganization()
-                    .getOrganizationTypes().get(0).getOrganizationTypeCode();
+                    .getOrganizationTypes().get(0).getOrganizationTypeList().getCode();
         }
         ApplicantTypeCodeDataType.Enum applicantTypeCode = null;
 
@@ -724,19 +714,19 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 
 	/**
 	 * This method creates {@link XmlObject} of type {@link RRSF424Document} by
-	 * populating data from the given {@link ProposalDevelopmentDocument}
+	 * populating data from the given {@link ProposalDevelopmentDocumentContract}
 	 * 
-	 * @param proposalDevelopmentDocument
+	 * @param ProposalDevelopmentDocumentContract
 	 *            for which the {@link XmlObject} needs to be created
 	 * @return {@link XmlObject} which is generated using the given
-	 *         {@link ProposalDevelopmentDocument}
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+	 *         {@link ProposalDevelopmentDocumentContract}
+	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
 	 */
 	public XmlObject getFormObject(
-			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		this.pdDoc = proposalDevelopmentDocument;
+			ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
+		this.pdDoc = ProposalDevelopmentDocumentContract;
 		departmentalPerson = s2sUtilService
-				.getDepartmentalPerson(proposalDevelopmentDocument);
+				.getDepartmentalPerson(ProposalDevelopmentDocumentContract);
 		return getRRSF424();
 	}
 

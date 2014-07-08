@@ -12,11 +12,12 @@ import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.api.budget.modular.BudgetModularContract;
 import org.kuali.coeus.propdev.api.budget.modular.BudgetModularIdcContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
+import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.impl.PHS398ModularBudgetBaseGenerator;
@@ -36,7 +37,9 @@ import gov.grants.apply.forms.phs398ModularBudget12V12.PHS398ModularBudget12Docu
 import gov.grants.apply.forms.phs398ModularBudget12V12.PHS398ModularBudget12Document.PHS398ModularBudget12.Periods.IndirectCost;
 import gov.grants.apply.forms.phs398ModularBudget12V12.PHS398ModularBudget12Document.PHS398ModularBudget12.Periods.IndirectCost.IndirectCostItems;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
-import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+
 @FormGenerator("PHS398ModularBudgetV1_2Generator")
 public class PHS398ModularBudgetV1_2Generator extends
 PHS398ModularBudgetBaseGenerator{
@@ -49,6 +52,10 @@ PHS398ModularBudgetBaseGenerator{
 	private ScaleTwoDecimal cumulativeTotalFundsRequestedDirectCosts = ScaleTwoDecimal.ZERO;
 	private ScaleTwoDecimal cumulativeTotalFundsRequestedDirectIndirectCosts = ScaleTwoDecimal.ZERO;
 	private ScaleTwoDecimal cumulativeTotalFundsRequestedIndirectCost = ScaleTwoDecimal.ZERO;
+
+    @Autowired
+    @Qualifier("proposalBudgetService")
+    private ProposalBudgetService proposalBudgetService;
 
 	/**
 	 * 
@@ -65,21 +72,14 @@ PHS398ModularBudgetBaseGenerator{
 		.newInstance();
 		modularBudget.setFormVersion(S2SConstants.FORMVERSION_1_2);
 
-		BudgetContract budget = null;
-		try {
-			BudgetDocument budgetDocument = proposalBudgetService
-			.getFinalBudgetVersion(pdDoc);
-			budget = budgetDocument == null ? null : budgetDocument.getBudget();
-		} catch (WorkflowException e) {
-			LOG.error(e.getMessage(), e);
-			return modularBudgetDocument;
-		}
-		if (budget != null) {
-			
-			modularBudget.setPeriodsArray(getPeriods(budget));
-			
-			modularBudget.setCummulativeBudgetInfo(getCummBudget());
-		}
+        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+
+        if (budget != null) {
+
+            modularBudget.setPeriodsArray(getPeriods(budget));
+
+            modularBudget.setCummulativeBudgetInfo(getCummBudget());
+        }
 		modularBudgetDocument.setPHS398ModularBudget12(modularBudget);
 		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(modularBudgetDocument.toString().getBytes());            
         sortAttachments(byteArrayInputStream);
@@ -334,18 +334,25 @@ PHS398ModularBudgetBaseGenerator{
 	/**
 	 * This method creates {@link XmlObject} of type
 	 * {@link PHS398ModularBudget12Document} by populating data from the given
-	 * {@link ProposalDevelopmentDocument}
+	 * {@link ProposalDevelopmentDocumentContract}
 	 * 
-	 * @param proposalDevelopmentDocument
+	 * @param ProposalDevelopmentDocumentContract
 	 *            for which the {@link XmlObject} needs to be created
 	 * @return {@link XmlObject} which is generated using the given
-	 *         {@link ProposalDevelopmentDocument}
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+	 *         {@link ProposalDevelopmentDocumentContract}
+	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
 	 */
 	public XmlObject getFormObject(
-			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		this.pdDoc = proposalDevelopmentDocument;
+			ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
+		this.pdDoc = ProposalDevelopmentDocumentContract;
 		return getPHS398ModularBudget();
 	}
 
+    public ProposalBudgetService getProposalBudgetService() {
+        return proposalBudgetService;
+    }
+
+    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
+        this.proposalBudgetService = proposalBudgetService;
+    }
 }

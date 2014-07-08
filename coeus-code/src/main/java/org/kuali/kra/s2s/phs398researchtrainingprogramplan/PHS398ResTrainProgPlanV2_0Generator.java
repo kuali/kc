@@ -22,8 +22,8 @@ import gov.grants.apply.forms.phs398ResearchTrainingProgramPlan20V20.PHS398Resea
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
@@ -56,8 +56,8 @@ public class PHS398ResTrainProgPlanV2_0Generator extends S2SBaseFormGenerator{
     private static final int PHS_RES_TRAINING_PLAN_SUPPORT_LETTERS_125 = 125;
     private static final int PHS_RES_TRAINING_PLAN_APPENDIX_126 = 126;
 
-    private PHS398ResearchTrainingProgramPlan20 getPHS398ResearchTrainingProgramPlan(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
-        DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
+    private PHS398ResearchTrainingProgramPlan20 getPHS398ResearchTrainingProgramPlan(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) throws S2SException {
+        DevelopmentProposalContract developmentProposal = ProposalDevelopmentDocumentContract.getDevelopmentProposal();
         PHS398ResearchTrainingProgramPlan20 phs398ResTrainProgPlan = PHS398ResearchTrainingProgramPlan20.Factory.newInstance();
         
         ResearchTrainingProgramPlanAttachments researchTrainingProgramPlanAttachments = ResearchTrainingProgramPlanAttachments.Factory.newInstance();
@@ -203,8 +203,8 @@ public class PHS398ResTrainProgPlanV2_0Generator extends S2SBaseFormGenerator{
         return phs398ResTrainProgPlan;        
     }
 
-    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
-        PHS398ResearchTrainingProgramPlan20 phs398ResearchTrainingProgramPlan = getPHS398ResearchTrainingProgramPlan(proposalDevelopmentDocument);
+    public XmlObject getFormObject(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) throws S2SException {
+        PHS398ResearchTrainingProgramPlan20 phs398ResearchTrainingProgramPlan = getPHS398ResearchTrainingProgramPlan(ProposalDevelopmentDocumentContract);
         PHS398ResearchTrainingProgramPlan20Document pHS398ResearchTrainingProgramPlan20Document = PHS398ResearchTrainingProgramPlan20Document.Factory.newInstance();
         pHS398ResearchTrainingProgramPlan20Document.setPHS398ResearchTrainingProgramPlan20(phs398ResearchTrainingProgramPlan);
         return pHS398ResearchTrainingProgramPlan20Document;

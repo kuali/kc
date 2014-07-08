@@ -41,10 +41,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.budget.api.core.BudgetContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.S2SException;
@@ -52,7 +51,6 @@ import org.kuali.kra.s2s.generator.bo.*;
 import org.kuali.kra.s2s.printing.GenericPrintable;
 import org.kuali.kra.s2s.printing.S2SPrintingService;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -110,19 +108,12 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
 
         List<BudgetPeriodInfo> budgetPeriodList;
         BudgetSummaryInfo budgetSummary = null;
-        try {
-            validateBudgetForForm(pdDoc);
-            budgetPeriodList = s2sBudgetCalculatorService.getBudgetPeriods(pdDoc);
-            budgetSummary = s2sBudgetCalculatorService.getBudgetInfo(pdDoc,budgetPeriodList);
-            BudgetDocument budgetDocument = proposalBudgetService.getFinalBudgetVersion(pdDoc);
-            if (budgetDocument != null) {
-                budget = budgetDocument.getBudget();
-            }
-        }
-        catch (WorkflowException e) {
-            LOG.error(e.getMessage(), e);
-            return rrFedNonFedBudgetDocument;
-        }
+
+        validateBudgetForForm(pdDoc);
+        budgetPeriodList = s2sBudgetCalculatorService.getBudgetPeriods(pdDoc);
+        budgetSummary = s2sBudgetCalculatorService.getBudgetInfo(pdDoc,budgetPeriodList);
+        budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+
         for (BudgetPeriodInfo budgetPeriodData : budgetPeriodList) {
             if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_1) {
                 rrFedNonFedBudget.setBudgetYear1(getBudgetYear1DataType(budgetPeriodData));
@@ -802,7 +793,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
         return budgetYear;
     }
     /*
-     * This method gets BudgetJustificationAttachment from proposalDevelopmentDocument for the RRFedNonFedBudget.
+     * This method gets BudgetJustificationAttachment from ProposalDevelopmentDocumentContract for the RRFedNonFedBudget.
      */
     private BudgetYear1DataType getBudgetJustificationAttachment(BudgetYear1DataType budgetYear) {
         AttachedFileDataType attachedFileDataType = null;
@@ -1794,7 +1785,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
             }
             keyPersonCompensation.setTotal(totalDataType);
             if (pdDoc.getBudgetDocumentVersions() != null) {
-                baseSalaryByPeriod = s2sBudgetCalculatorService.getBaseSalaryByPeriod(pdDoc.getBudgetDocumentVersion(0)
+                baseSalaryByPeriod = s2sBudgetCalculatorService.getBaseSalaryByPeriod(pdDoc.getBudgetDocumentVersions().get(0)
                         .getBudgetVersionOverview().getBudgetId(), budgetPeriod, keyPerson);
                 if (baseSalaryByPeriod != null) {
                     keyPersonCompensation.setBaseSalary(baseSalaryByPeriod.bigDecimalValue());
@@ -1816,14 +1807,14 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
 
     /**
      * This method creates {@link XmlObject} of type {@link RRFedNonFedBudgetDocument} by populating data from the given
-     * {@link ProposalDevelopmentDocument}
+     * {@link ProposalDevelopmentDocumentContract}
      * 
-     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
-     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     * @param ProposalDevelopmentDocumentContract for which the {@link XmlObject} needs to be created
+     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocumentContract}
+     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
      */
-    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        this.pdDoc = proposalDevelopmentDocument;
+    public XmlObject getFormObject(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
+        this.pdDoc = ProposalDevelopmentDocumentContract;
         return getRRFedNonFedBudget();
     }
 

@@ -28,10 +28,10 @@ import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.org.OrganizationYnqContract;
 import org.kuali.coeus.common.api.question.AnswerContract;
 import org.kuali.coeus.common.api.question.AnswerHeaderContract;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SQuestionnairing;
@@ -223,7 +223,7 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 	/*
      * This method will get the Organization from the Development proposal.
      */
-	    private OrganizationContract getOrganizationFromDevelopmentProposal(DevelopmentProposal developmentProposal) {
+	    private OrganizationContract getOrganizationFromDevelopmentProposal(DevelopmentProposalContract developmentProposal) {
 	        OrganizationContract organization = null;
 	        ProposalSiteContract proposalSite = developmentProposal.getApplicantOrganization();
 	        if (proposalSite != null) {
@@ -282,17 +282,17 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
 	/**
 	 * This method creates {@link XmlObject} of type
 	 * {@link NSFCoverPage13Document} by populating data from the given
-	 * {@link ProposalDevelopmentDocument}
+	 * {@link ProposalDevelopmentDocumentContract}
 	 * 
-	 * @param proposalDevelopmentDocument
+	 * @param ProposalDevelopmentDocumentContract
 	 *            for which the {@link XmlObject} needs to be created
 	 * @return {@link XmlObject} which is generated using the given
-	 *         {@link ProposalDevelopmentDocument}
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+	 *         {@link ProposalDevelopmentDocumentContract}
+	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
 	 */
 	public XmlObject getFormObject(
-			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		this.pdDoc = proposalDevelopmentDocument;
+			ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
+		this.pdDoc = ProposalDevelopmentDocumentContract;
 		return getNSFCoverPage13();
 	}
 

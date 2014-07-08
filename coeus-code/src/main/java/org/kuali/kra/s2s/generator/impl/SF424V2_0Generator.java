@@ -32,26 +32,24 @@ import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.org.OrganizationYnqContract;
 import org.kuali.coeus.common.api.org.type.OrganizationTypeContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
-import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.common.budget.api.income.BudgetProjectIncomeContract;
 import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemCalculatedAmountContract;
 import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
 import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.propdev.api.abstrct.ProposalAbstractContract;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
+import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
 import org.kuali.coeus.propdev.api.s2s.S2sSubmissionTypeContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -114,8 +112,8 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             SubmissionType.Enum subEnum = SubmissionType.Enum.forInt(Integer.parseInt(submissionType.getCode()));
             sf424V2.setSubmissionType(subEnum);
             ApplicationType.Enum applicationTypeEnum = null;
-            if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null) {
-                String proposalTypeCode = pdDoc.getDevelopmentProposal().getProposalTypeCode();
+            if (pdDoc.getDevelopmentProposal().getProposalType() != null) {
+                String proposalTypeCode = pdDoc.getDevelopmentProposal().getProposalType().getCode();
                 if(s2SConfigurationService.getValueAsString(
                         ConfigurationConstants.PROPOSAL_TYPE_CODE_NEW).equals(proposalTypeCode)){
 					applicationTypeEnum = ApplicationType.NEW;
@@ -288,7 +286,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         else {
             sf424V2.setCongressionalDistrictApplicant(congressionalDistrict);
         }
-        ProposalSite perfOrganization = pdDoc.getDevelopmentProposal().getPerformingOrganization();
+        ProposalSiteContract perfOrganization = pdDoc.getDevelopmentProposal().getPerformingOrganization();
         if (perfOrganization != null) {
             String congDistrictProject = perfOrganization.getFirstCongressionalDistrictName() == null ? S2SConstants.VALUE_UNKNOWN
                     : perfOrganization.getFirstCongressionalDistrictName();
@@ -321,16 +319,8 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         else {
             sf424V2.setProjectEndDate(null);
         }
+        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
 
-        BudgetContract budget = null;
-        try {
-            BudgetDocument budgetDocument = proposalBudgetService.getFinalBudgetVersion(pdDoc);
-            budget = budgetDocument==null?null:budgetDocument.getBudget();
-        }catch (WorkflowException e) {
-            LOG.error(e.getMessage(), e);
-            return sf424V2;
-
-        }
         if (budget != null) {
             if (budget.getTotalCost() != null) {
                 sf424V2.setFederalEstimatedFunding(budget.getTotalCost().bigDecimalValue());
@@ -570,14 +560,14 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
 
     /**
      * This method creates {@link XmlObject} of type {@link SF424Document} by populating data from the given
-     * {@link ProposalDevelopmentDocument}
+     * {@link ProposalDevelopmentDocumentContract}
      * 
-     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
-     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     * @param ProposalDevelopmentDocumentContract for which the {@link XmlObject} needs to be created
+     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocumentContract}
+     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
      */
-    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        this.pdDoc = proposalDevelopmentDocument;
+    public XmlObject getFormObject(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
+        this.pdDoc = ProposalDevelopmentDocumentContract;
         aorInfo = s2sUtilService.getDepartmentalPerson(pdDoc);
         return getSF424Doc();
     }

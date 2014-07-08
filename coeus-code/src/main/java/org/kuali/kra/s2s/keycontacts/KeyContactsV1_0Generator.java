@@ -20,7 +20,9 @@ import gov.grants.apply.forms.keyContactsV10.KeyContactsDocument.KeyContacts;
 import gov.grants.apply.forms.keyContactsV10.KeyContactsDocument.KeyContacts.RoleOnProject;
 import gov.grants.apply.system.globalLibraryV20.AddressDataType;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.common.api.org.OrganizationContract;
+import org.kuali.coeus.common.api.org.OrganizationRepositoryService;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -40,6 +42,8 @@ public class KeyContactsV1_0Generator extends S2SBaseFormGenerator {
     @Autowired
     @Qualifier("s2SUtilService")
     private S2SUtilService s2SUtilService;
+
+    private OrganizationRepositoryService organizationRepositoryService;
 
     /**
      * 
@@ -69,9 +73,10 @@ public class KeyContactsV1_0Generator extends S2SBaseFormGenerator {
         
         keyContacts.setRoleOnProjectArray(roleOnProjectList.toArray(new RoleOnProject[0]));
         if(pdDoc.getDevelopmentProposal().getOwnedByUnit() != null &&
-                pdDoc.getDevelopmentProposal().getOwnedByUnit().getOrganization() != null) {
-            keyContacts.setApplicantOrganizationName(pdDoc.getDevelopmentProposal().getOwnedByUnit().
-                    getOrganization().getOrganizationName());
+                pdDoc.getDevelopmentProposal().getOwnedByUnit().getOrganizationId() != null) {
+
+            final OrganizationContract organization = organizationRepositoryService.getOrganization(pdDoc.getDevelopmentProposal().getOwnedByUnit().getOrganizationId());
+            keyContacts.setApplicantOrganizationName(organization.getOrganizationName());
         }        
         return keyContacts;
     }
@@ -107,9 +112,9 @@ public class KeyContactsV1_0Generator extends S2SBaseFormGenerator {
     }
 
     @Override
-    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
+    public XmlObject getFormObject(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) throws S2SException {
 
-        this.pdDoc = proposalDevelopmentDocument;
+        this.pdDoc = ProposalDevelopmentDocumentContract;
         return getKeyContactsDocument();
     }
 
@@ -119,5 +124,13 @@ public class KeyContactsV1_0Generator extends S2SBaseFormGenerator {
 
     public void setS2SUtilService(S2SUtilService s2SUtilService) {
         this.s2SUtilService = s2SUtilService;
+    }
+
+    public OrganizationRepositoryService getOrganizationRepositoryService() {
+        return organizationRepositoryService;
+    }
+
+    public void setOrganizationRepositoryService(OrganizationRepositoryService organizationRepositoryService) {
+        this.organizationRepositoryService = organizationRepositoryService;
     }
 }

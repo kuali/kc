@@ -16,7 +16,6 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
-import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -42,20 +41,8 @@ public abstract class PHS398ChecklistBaseGenerator extends S2SBaseFormGenerator 
     public static final String NOT_ANSWERED = "No";
 
     @Autowired
-    @Qualifier("proposalBudgetService")
-    protected ProposalBudgetService proposalBudgetService;
-
-    @Autowired
     @Qualifier("submissionInfoService")
     protected SubmissionInfoService submissionInfoService;
-
-    public ProposalBudgetService getProposalBudgetService() {
-        return proposalBudgetService;
-    }
-
-    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
-        this.proposalBudgetService = proposalBudgetService;
-    }
 
     public SubmissionInfoService getSubmissionInfoService() {
         return submissionInfoService;

@@ -43,14 +43,13 @@ import org.kuali.coeus.common.budget.api.income.BudgetProjectIncomeContract;
 import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemCalculatedAmountContract;
 import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
 import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.api.category.BudgetCategoryMapContract;
 import org.kuali.coeus.common.budget.api.category.BudgetCategoryMappingContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -79,14 +78,9 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
      */
     private BudgetInformationDocument getSF424A() {
         BudgetInformationDocument budgetInformationDocument = BudgetInformationDocument.Factory.newInstance();
-        try {
-            BudgetDocument budgetDocument = proposalBudgetService.getFinalBudgetVersion(pdDoc);
-            budget = budgetDocument==null?null:budgetDocument.getBudget();
-        }
-        catch (WorkflowException e) {
-            LOG.error(e.getMessage(), e);
-            return budgetInformationDocument;
-        }
+
+        budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+
         BudgetInformationType SF424A = BudgetInformationType.Factory.newInstance();
         SF424A.setCoreSchemaVersion(CORE_SCHEMA_VERSION_1_0);
         SF424A.setFormVersionIdentifier(S2SConstants.FORMVERSION_1_0);
@@ -134,8 +128,7 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
 
         CategorySet[] categorySetArray = new CategorySet[1];
         CategorySet categorySet = CategorySet.Factory.newInstance();
-        if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null && pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
-            pdDoc.getDevelopmentProposal().getS2sOpportunity().refreshNonUpdateableReferences();
+        if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null && pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionType() != null) {
             categorySet.setActivityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
         }
 
@@ -226,8 +219,7 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
         SummaryLineItem summaryLineItem = SummaryLineItem.Factory.newInstance();
         boolean hasBudgetLineItem = false;
         
-        if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null && pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
-            pdDoc.getDevelopmentProposal().getS2sOpportunity().refreshNonUpdateableReferences();
+        if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null && pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionType() != null) {
             summaryLineItem.setActivityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
             summaryLineItem.setCFDANumber(pdDoc.getDevelopmentProposal().getS2sOpportunity().getCfdaNumber());
         }
@@ -279,8 +271,7 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
         ResourceLineItem[] resourceLineItemArray = new ResourceLineItem[1];
         ResourceLineItem resourceLineItem = ResourceLineItem.Factory.newInstance();
         boolean hasBudegetLineItem = false;
-        if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null && pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
-            pdDoc.getDevelopmentProposal().getS2sOpportunity().refreshNonUpdateableReferences();
+        if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null && pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionType() != null) {
             resourceLineItem.setActivityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
         }
         if (budget != null) {
@@ -416,8 +407,7 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
         FundsLineItem[] fundsLineItemArray = new FundsLineItem[1];
         FundsLineItem fundsLineItem = FundsLineItem.Factory.newInstance();
 
-        if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null && pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
-            pdDoc.getDevelopmentProposal().getS2sOpportunity().refreshNonUpdateableReferences();
+        if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null && pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionType() != null) {
             fundsLineItem.setActivityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
         }
 
@@ -454,14 +444,14 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
 
     /**
      * This method creates {@link XmlObject} of type {@link BudgetInformationDocument} by populating data from the given
-     * {@link ProposalDevelopmentDocument}
+     * {@link ProposalDevelopmentDocumentContract}
      * 
-     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
-     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     * @param ProposalDevelopmentDocumentContract for which the {@link XmlObject} needs to be created
+     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocumentContract}
+     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
      */
-    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        this.pdDoc = proposalDevelopmentDocument;
+    public XmlObject getFormObject(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
+        this.pdDoc = ProposalDevelopmentDocumentContract;
         return getSF424A();
     }
 }
