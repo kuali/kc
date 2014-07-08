@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.protocol.protocol.funding.impl;
 
+import org.kuali.coeus.common.framework.compliance.core.ComplianceConstants;
 import org.kuali.coeus.common.framework.person.editable.PersonEditableService;
-import org.kuali.coeus.common.framework.compliance.core.SpecialReviewServiceImpl;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
@@ -133,7 +133,7 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImplBase impleme
     /**
      * Initialize the Authorizations for a new proposal.  The initiator/creator
      * is assigned the Aggregator role.
-     * @param doc the proposal development document
+     * @param document the proposal development document
      */
     protected void initializeAuthorization(ProposalDevelopmentDocument document) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
@@ -178,7 +178,7 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImplBase impleme
         specialReview.setDevelopmentProposal(proposalDocument.getDevelopmentProposal());
         
         specialReview.setProtocolStatus(protocol.getProtocolStatus().getDescription());
-        specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
+        specialReview.setComments(ComplianceConstants.NEW_SPECIAL_REVIEW_COMMENT);
         proposalDocument.getDevelopmentProposal().getPropSpecialReviews().add(specialReview);
         }
     }

@@ -1,4 +1,4 @@
-package org.kuali.coeus.common.api.compliance;
+package org.kuali.coeus.common.api.compliance.core;
 
 
 import java.sql.Date;

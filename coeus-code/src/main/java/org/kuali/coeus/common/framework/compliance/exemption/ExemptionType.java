@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.framework.compliance.exemption;
 
-import org.kuali.coeus.common.api.exemption.ExemptionTypeContract;
+import org.kuali.coeus.common.api.compliance.exemption.ExemptionTypeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.*;
