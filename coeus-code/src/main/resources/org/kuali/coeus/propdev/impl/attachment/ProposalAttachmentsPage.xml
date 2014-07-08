@@ -187,14 +187,26 @@
     <bean id="PropDev-AttachmentsPage-NotesSection" parent="PropDev-AttachmentsPage-NotesSection-parentBean" />
     <bean id="PropDev-AttachmentsPage-NotesSection-parentBean" abstract="true"
           parent="Uif-VerticalBoxSection" p:header.headerText="Notes"
-          p:instructionalText="Add notes to this proposal"
-          p:fieldBindingObjectPath="document.developmentProposal">
+          p:fieldBindingObjectPath="document">
         <property name="items">
             <list>
-                <bean parent="Uif-DocumentNotesSection" p:order="10">
-                    <property name="disclosure.defaultOpen"
-                              value="true"/>
-                </bean>
+                <bean parent="PropDev-AttachmentsPage-NotesCollection" p:order="10"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-AttachmentsPage-NotesCollection" parent="PropDev-AttachmentsPage-NotesCollection-parentBean"/>
+    <bean id="PropDev-AttachmentsPage-NotesCollection-parentBean" abstract="true" parent="PropDev-AttachmentPage-Collection"
+          p:collectionObjectClass="org.kuali.rice.krad.bo.Note" p:propertyName="notes" p:renderLineActions="false">
+        <property name="addWithDialogAction">
+            <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Note" p:cssClasses="pull-right" p:iconClass="icon-plus"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:label="Author" p:render="@{!#isAddLine}"
+                      p:messageText="@{#line.authorUniversal.principalName} [color=grey](@{#ViewHelper.getDateUploadedFormatted(#line.notePostedTimestamp)})[/color]"/>
+                <bean parent="Uif-InputField" p:propertyName="noteTopicText" p:fieldLabel.labelText="Topic" p:readOnly="@{!#isAddLine}"/>
+                <bean parent="Uif-InputField" p:propertyName="noteText" p:required="true" p:fieldLabel.labelText="Text" p:readOnly="@{!#isAddLine}"/>
             </list>
         </property>
     </bean>
