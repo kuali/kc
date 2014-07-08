@@ -359,7 +359,8 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     @Transient
     private Boolean active = true;
 
-    @Transient
+    @ManyToOne(targetEntity = Unit.class, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "HOME_UNIT", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
     private Unit homeUnitRef;
 
     @Transient

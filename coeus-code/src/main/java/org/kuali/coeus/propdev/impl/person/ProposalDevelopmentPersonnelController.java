@@ -36,7 +36,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -125,10 +124,15 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-CreditAllocationPage"})
     public ModelAndView navigateToCreditAllocation(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	ModelAndView mv = this.navigate(form, result, request, response);
-    	getKeyPersonnelService().populateDocument(form.getProposalDevelopmentDocument());
+        populateCreditSplits(form);
+        return super.navigate(form,result,request,response);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=populateCreditSplits")
+    public void populateCreditSplits(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        getKeyPersonnelService().populateDocument(form.getProposalDevelopmentDocument());
         form.setCreditSplitListItems(getKeyPersonnelService().createCreditSplitListItems(form.getDevelopmentProposal().getInvestigators()));
-        return mv;
+
     }
 
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=save", "pageId=PropDev-CreditAllocationPage"})
