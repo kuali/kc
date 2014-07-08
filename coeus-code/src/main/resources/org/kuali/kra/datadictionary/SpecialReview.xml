@@ -19,7 +19,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans                            http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="SpecialReview" parent="SpecialReview-parentBean" />
 	<bean id="SpecialReview-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.coeus.common.specialreview.impl.bo.SpecialReview" />
+		<property name="businessObjectClass" value="org.kuali.coeus.common.framework.compliance.core.SpecialReview" />
 		<property name="objectLabel" value="Special Review" />
 		<property name="inquiryDefinition" >
 			<ref bean="SpecialReview-inquiryDefinition" />
@@ -82,11 +82,11 @@
     </property>
 	    <property name="required" value="true" />
 	    <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.SpecialReviewType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="specialReviewTypeCode" p:labelAttribute="description"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.framework.compliance.core.SpecialReviewType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="specialReviewTypeCode" p:labelAttribute="description"/>
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.bo.SpecialReviewType"/>
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.compliance.core.SpecialReviewType"/>
         <property name="includeKeyInDescription" value="false"/>
         <property name="includeBlankRow" value="false"/>
         <property name="keyAttributeName" value="specialReviewTypeCode"/>
@@ -115,10 +115,10 @@
     </property>
 	    <property name="required" value="true" />
 	    <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.specialreview.impl.lookup.keyvalue.SpecialReviewApprovalTypeValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.impl.compliance.core.SpecialReviewApprovalTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.coeus.common.specialreview.impl.lookup.keyvalue.SpecialReviewApprovalTypeValuesFinder"/>
+      <bean class="org.kuali.coeus.common.impl.compliance.core.SpecialReviewApprovalTypeValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -225,7 +225,7 @@
 
   <bean id="SpecialReview-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value=" Special Review"/>
-    <property name="dataObjectClassName" value="org.kuali.coeus.common.specialreview.impl.bo.SpecialReview"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.compliance.core.SpecialReview"/>
     <property name="items">
       <list>
         <bean parent="Uif-Disclosure-GridSection">
@@ -282,7 +282,7 @@
   </bean>
 
   <bean id="SpecialReview-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.coeus.common.specialreview.impl.bo.SpecialReview"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.compliance.core.SpecialReview"/>
     <property name="headerText" value=" Special Review Lookup"/>
     <property name="criteriaFields">
       <list>

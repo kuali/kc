@@ -3,7 +3,7 @@
   <bean id="ValidSpecialReviewApprovalMaintenanceDocument" parent="ValidSpecialReviewApprovalMaintenanceDocument-parentBean"/>
 
   <bean id="ValidSpecialReviewApprovalMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.ValidSpecialReviewApproval"/>
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.compliance.core.ValidSpecialReviewApproval"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
@@ -14,14 +14,16 @@
       <list>
         <value>validSpecialReviewApprovalId</value>
       </list>
-    </property>	<property name="allowsRecordDeletion" value="true" />	
+    </property>
+	<property name="allowsRecordDeletion" value="true" />
+	
     
     
     
     
     
     <property name="documentTypeName" value="ValidSpecialReviewApprovalMaintenanceDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kra.rules.ValidSpecialReviewApprovalMaintenanceRule"/>
+    <property name="businessRulesClass" value="org.kuali.coeus.common.impl.compliance.core.ValidSpecialReviewApprovalMaintenanceRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     
     

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.specialreview;
 
-import org.kuali.coeus.common.specialreview.impl.web.struts.form.SpecialReviewHelperBase;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewHelperBase;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 

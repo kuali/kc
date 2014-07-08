@@ -16,7 +16,7 @@
 package org.kuali.kra.institutionalproposal.specialreview;
 
 import org.kuali.coeus.common.framework.module.CoeusModule;
-import org.kuali.coeus.common.specialreview.impl.lookup.keyvalue.SpecialReviewTypeValuesFinder;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewTypeValuesFinder;
 
 /**
  * Provides a value finder for the Institutional Proposal-specific Special Review Types.
