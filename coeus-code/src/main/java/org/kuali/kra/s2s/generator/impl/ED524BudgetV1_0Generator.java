@@ -28,12 +28,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * Class for generating the XML object for grants.gov ED524BudgetV1_0. Form is generated using XMLBean classes and is based on
@@ -89,20 +88,13 @@ public class ED524BudgetV1_0Generator extends ED524BudgetBaseGenerator {
         ScaleTwoDecimal totalIndirectCostAllYrs = ScaleTwoDecimal.ZERO;
         ScaleTwoDecimal totalIndirectCostAllYrsCS = ScaleTwoDecimal.ZERO;
 
+        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
 
-        BudgetDocument budgetDoc = null;
-        try {
-            budgetDoc = proposalBudgetService.getFinalBudgetVersion(pdDoc);
-        }
-        catch (WorkflowException e) {
-            LOG.error(e.getMessage(), e);
-            return ed524BudgetDocument;
-        }
-        if (budgetDoc == null) {
+        if (budget == null) {
             return ed524BudgetDocument;
         }
 
-        for (BudgetPeriodContract budgetPeriod : budgetDoc.getBudget().getBudgetPeriods()) {
+        for (BudgetPeriodContract budgetPeriod : budget.getBudgetPeriods()) {
             if (budgetPeriod.getBudgetPeriod().equals(S2SConstants.BUDGET_PERIOD_1)) {
                 getTotalCosts(budgetPeriod);
                 ed524Budget.setBudgetFederalFirstYearAmount(totalCost.bigDecimalValue());
@@ -653,15 +645,15 @@ public class ED524BudgetV1_0Generator extends ED524BudgetBaseGenerator {
 
     /**
      * This method creates {@link XmlObject} of type {@link ED524BudgetDocument} by populating data from the given
-     * {@link ProposalDevelopmentDocument}
+     * {@link ProposalDevelopmentDocumentContract}
      * 
-     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
-     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     * @param ProposalDevelopmentDocumentContract for which the {@link XmlObject} needs to be created
+     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocumentContract}
+     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
      */
-    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    public XmlObject getFormObject(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
 
-        this.pdDoc = proposalDevelopmentDocument;
+        this.pdDoc = ProposalDevelopmentDocumentContract;
         return getED524Budget();
     }
 }

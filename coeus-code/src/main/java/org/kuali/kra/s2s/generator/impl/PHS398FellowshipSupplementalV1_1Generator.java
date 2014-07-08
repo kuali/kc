@@ -38,21 +38,19 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.question.*;
-import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
 import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.s2s.CitizenshipTypes;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
@@ -197,12 +195,12 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	 * TUITION_COST_ELEMENTS
 	 */
 	private void setTutionRequestedYears(Budget budget) {
-		BudgetDocument budgetDoc = getBudgetDocument();
-		if (budgetDoc == null) {
+        ProposalDevelopmentBudgetExtContract budgetEx = pdDoc.getDevelopmentProposal().getFinalBudget();
+		if (budgetEx == null) {
 			return;
 		}
 		ScaleTwoDecimal tutionTotal = ScaleTwoDecimal.ZERO;
-		for (BudgetPeriodContract budgetPeriod : budgetDoc.getBudget()
+		for (BudgetPeriodContract budgetPeriod : budgetEx
 				.getBudgetPeriods()) {
 			ScaleTwoDecimal tution = ScaleTwoDecimal.ZERO;
 			for (BudgetLineItemContract budgetLineItem : budgetPeriod.getBudgetLineItems()) {
@@ -282,11 +280,10 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	private FederalStipendRequested getFederalStipendRequested() {
 		FederalStipendRequested federalStipendRequested = FederalStipendRequested.Factory
 				.newInstance();
-		BudgetDocument budgetDoc = getBudgetDocument();
-		if (budgetDoc == null) {
+        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+		if (budget == null) {
 			return federalStipendRequested;
 		}
-		BudgetContract budget = budgetDoc.getBudget();
 		ScaleTwoDecimal sumOfLineItemCost = ScaleTwoDecimal.ZERO;
 		ScaleTwoDecimal numberOfMonths = ScaleTwoDecimal.ZERO;
 		for (BudgetPeriodContract budgetPeriod : budget.getBudgetPeriods()) {
@@ -302,20 +299,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		federalStipendRequested.setAmount(sumOfLineItemCost.bigDecimalValue());
 		federalStipendRequested.setNumberOfMonths(numberOfMonths.bigDecimalValue());
 		return federalStipendRequested;
-	}
-
-	/*
-	 * This method is used to get final version of BudgetDocument from
-	 * s2SBudgetCalculatorService using pdDoc
-	 */
-	private BudgetDocument getBudgetDocument() {
-		BudgetDocument budgetDoc = null;
-		try {
-			budgetDoc = proposalBudgetService.getFinalBudgetVersion(pdDoc);
-		} catch (WorkflowException e) {
-			LOG.error("Error while getting Budget", e);
-		}
-		return budgetDoc;
 	}
 
 	/*
@@ -978,7 +961,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	 */
 	private TypeOfApplication.Enum getTypeOfApplication() {
 		String proposalTypeCode = pdDoc.getDevelopmentProposal()
-				.getProposalTypeCode();
+				.getProposalType().getCode();
 		TypeOfApplication.Enum typeOfApplication = null;
 		if (proposalTypeCode != null) {
 			if (proposalTypeCode.equals(s2SConfigurationService.getValueAsString(
@@ -1063,17 +1046,17 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	/**
 	 * This method creates {@link XmlObject} of type
 	 * {@link PHSFellowshipSupplemental11Document} by populating data from the
-	 * given {@link ProposalDevelopmentDocument}
+	 * given {@link ProposalDevelopmentDocumentContract}
 	 * 
-	 * @param proposalDevelopmentDocument
+	 * @param ProposalDevelopmentDocumentContract
 	 *            for which the {@link XmlObject} needs to be created
 	 * @return {@link XmlObject} which is generated using the given
-	 *         {@link ProposalDevelopmentDocument}
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+	 *         {@link ProposalDevelopmentDocumentContract}
+	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
 	 */
 	public XmlObject getFormObject(
-			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		this.pdDoc = proposalDevelopmentDocument;
+			ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
+		this.pdDoc = ProposalDevelopmentDocumentContract;
         PHSFellowshipSupplemental11 phsFellowshipSupplemental = getPHSFellowshipSupplemental11();
         PHSFellowshipSupplemental11Document phsFellowshipSupplementalDocument = PHSFellowshipSupplemental11Document.Factory
                 .newInstance();
@@ -1101,7 +1084,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
         }
         return returnAnswers;
     }
-    private List<? extends AnswerHeaderContract> findQuestionnaireWithAnswers(DevelopmentProposal developmentProposal) {
+    private List<? extends AnswerHeaderContract> findQuestionnaireWithAnswers(DevelopmentProposalContract developmentProposal) {
         return getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(developmentProposal.getProposalNumber(),
                 "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_1-V1.1", "PHS_Fellowship_Supplemental_1_1-V1.1");
     }

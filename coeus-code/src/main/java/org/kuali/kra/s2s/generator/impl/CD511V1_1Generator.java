@@ -18,7 +18,7 @@ package org.kuali.kra.s2s.generator.impl;
 import gov.grants.apply.forms.cd511V11.CD511Document;
 import gov.grants.apply.forms.cd511V11.CD511Document.CD511;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
@@ -86,14 +86,14 @@ public class CD511V1_1Generator extends S2SBaseFormGenerator {
 
     /**
      * This method creates {@link XmlObject} of type {@link CD511Document} by populating data from the given
-     * {@link ProposalDevelopmentDocument}
+     * {@link ProposalDevelopmentDocumentContract}
      * 
-     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
-     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     * @param ProposalDevelopmentDocumentContract for which the {@link XmlObject} needs to be created
+     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocumentContract}
+     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
      */
-    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        this.pdDoc = proposalDevelopmentDocument;
+    public XmlObject getFormObject(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
+        this.pdDoc = ProposalDevelopmentDocumentContract;
         aorInfo = s2sUtilService.getDepartmentalPerson(pdDoc);
         return getcd511Document();
     }

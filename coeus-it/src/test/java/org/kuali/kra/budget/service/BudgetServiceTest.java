@@ -25,7 +25,6 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;

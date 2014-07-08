@@ -26,14 +26,12 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.math.BigDecimal;
 
@@ -87,18 +85,12 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
         ScaleTwoDecimal totalIndirectCostAllYrsCS = ScaleTwoDecimal.ZERO;
 
 
-        BudgetDocument budgetDoc = null;
-        try {
-            budgetDoc = proposalBudgetService.getFinalBudgetVersion(pdDoc);
-        }
-        catch (WorkflowException e) {
-            LOG.error(e.getMessage(), e);
+        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+
+        if (budget == null) {
             return ed524BudgetDocument;
         }
-        if (budgetDoc == null) {
-            return ed524BudgetDocument;
-        }
-        BudgetContract budget = budgetDoc.getBudget();
+
         for (BudgetPeriodContract budgetPeriod : budget.getBudgetPeriods()) {
             if (budgetPeriod.getBudgetPeriod().equals(S2SConstants.BUDGET_PERIOD_1)) {
                 getTotalCosts(budgetPeriod);
@@ -668,15 +660,15 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
 
     /**
      * This method creates {@link XmlObject} of type {@link ED524BudgetDocument} by populating data from the given
-     * {@link ProposalDevelopmentDocument}
+     * {@link ProposalDevelopmentDocumentContract}
      * 
-     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
-     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     * @param ProposalDevelopmentDocumentContract for which the {@link XmlObject} needs to be created
+     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocumentContract}
+     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
      */
-    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    public XmlObject getFormObject(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
 
-        this.pdDoc = proposalDevelopmentDocument;
+        this.pdDoc = ProposalDevelopmentDocumentContract;
         return getED524Budget();
     }
 }

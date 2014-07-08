@@ -23,9 +23,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.s2s.*;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.kra.s2s.S2SException;
 
 import org.kuali.coeus.propdev.api.attachment.NarrativeService;
@@ -72,17 +72,17 @@ public class S2SServiceImpl implements S2SService {
 	 * 
 	 * This method is used to validate application before submission.
 	 * 
-	 * @param proposalDevelopmentDocument
+	 * @param ProposalDevelopmentDocumentContract
 	 *            Proposal Development Document.
 	 * @return boolean true if valid false otherwise.
 	 * @throws S2SException
-	 * @see org.kuali.kra.s2s.service.S2SService#validateApplication(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
+	 * @see org.kuali.kra.s2s.service.S2SService#validateApplication(org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract)
 	 */
 	public FormActionResult validateApplication(
-			ProposalDevelopmentDocument proposalDevelopmentDocument)
+			ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract)
 			throws S2SException {
 		return generateAndValidateForms(null, null,
-				proposalDevelopmentDocument);
+				ProposalDevelopmentDocumentContract);
 	}
 
 	/**
@@ -99,9 +99,9 @@ public class S2SServiceImpl implements S2SService {
 	 * @throws S2SException
 	 */
 	public FormActionResult generateAndValidateForms(Forms forms,
-			List<AttachmentData> attList, ProposalDevelopmentDocument pdDoc) throws S2SException {
+			List<AttachmentData> attList, ProposalDevelopmentDocumentContract pdDoc) throws S2SException {
 		boolean validationSucceeded = true;
-		DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+		DevelopmentProposalContract developmentProposal = pdDoc.getDevelopmentProposal();
 		List<? extends S2sOppFormsContract> opportunityForms = developmentProposal.getS2sOppForms();
 
 		if (attList == null) {
@@ -149,7 +149,7 @@ public class S2SServiceImpl implements S2SService {
 	}
 
     @Override
-    public FormActionResult generateAndValidateForms(ProposalDevelopmentDocument pdDoc) throws S2SException {
+    public FormActionResult generateAndValidateForms(ProposalDevelopmentDocumentContract pdDoc) throws S2SException {
 
         GrantApplicationDocument.GrantApplication.Forms forms = GrantApplicationDocument.GrantApplication.Forms.Factory.newInstance();
         List<AttachmentData> attList = new ArrayList<AttachmentData>();
@@ -164,17 +164,17 @@ public class S2SServiceImpl implements S2SService {
     /**
      *
      * This method populates values for {@link GrantApplicationDocument} for a
-     * given {@link ProposalDevelopmentDocument}
+     * given {@link ProposalDevelopmentDocumentContract}
      *
      * @param pdDoc
-     *            {@link ProposalDevelopmentDocument}
+     *            {@link ProposalDevelopmentDocumentContract}
      * @param forms
      *            {@link gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument.GrantApplication.Forms} generated XML forms
      * @return {@link GrantApplicationDocument} populated with forms
      * @throws S2SException
      */
     protected String getGrantApplicationDocument(
-            ProposalDevelopmentDocument pdDoc, GrantApplicationDocument.GrantApplication.Forms forms) throws S2SException {
+            ProposalDevelopmentDocumentContract pdDoc, GrantApplicationDocument.GrantApplication.Forms forms) throws S2SException {
         GrantApplicationDocument grantApplicationDocument = GrantApplicationDocument.Factory.newInstance();
         GrantApplicationDocument.GrantApplication grantApplication = GrantApplicationDocument.GrantApplication.Factory.newInstance();
         grantApplication.setForms(forms);

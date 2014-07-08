@@ -27,10 +27,10 @@ import gov.grants.apply.forms.rrKeyPersonExpandedV11.RRKeyPersonExpandedDocument
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.person.KcPersonContract;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.AuditError;
@@ -171,7 +171,7 @@ public class RRKeyPersonExpandedV1_1Generator extends
             }
             else
             {
-                DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+                DevelopmentProposalContract developmentProposal = pdDoc.getDevelopmentProposal();
                 profile.setDepartmentName(developmentProposal.getOwnedByUnit().getUnitName());
             }
 			String divisionName = PI.getDivision();
@@ -181,7 +181,7 @@ public class RRKeyPersonExpandedV1_1Generator extends
 			if (PI.getEraCommonsUserName() != null) {
 				profile.setCredential(PI.getEraCommonsUserName());
 			} else {
-                if (getSponsorHierarchyService().isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsorCode())) {
+                if (getSponsorHierarchyService().isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsor().getSponsorCode())) {
                     getAuditErrors().add(new AuditError(Constants.NO_FIELD, S2SConstants.ERROR_ERA_COMMON_USER_NAME + PI.getFullName(), 
                             Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));             
                 }
@@ -275,7 +275,7 @@ public class RRKeyPersonExpandedV1_1Generator extends
                 }
                 else
                 {
-                    DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+                    DevelopmentProposalContract developmentProposal = pdDoc.getDevelopmentProposal();
                     profileKeyPerson.setDepartmentName(developmentProposal.getOwnedByUnit().getUnitName());
                 }
 				String divisionName = keyPerson.getDivision();
@@ -286,7 +286,7 @@ public class RRKeyPersonExpandedV1_1Generator extends
 					profileKeyPerson.setCredential(keyPerson
 							.getEraCommonsUserName());
 				} else {
-	                if (getSponsorHierarchyService().isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsorCode())) {
+	                if (getSponsorHierarchyService().isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsor().getSponsorCode())) {
 	                    if (keyPerson.isMultiplePi()) {
 	                        getAuditErrors().add(new AuditError(Constants.NO_FIELD, S2SConstants.ERROR_ERA_COMMON_USER_NAME + keyPerson.getFullName(),
 	                                Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));             
@@ -294,7 +294,7 @@ public class RRKeyPersonExpandedV1_1Generator extends
 	                }
 	            }
                 if (keyPerson.isMultiplePi() || keyPerson.isCoInvestigator()) {
-                    if(getSponsorHierarchyService().isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsorCode())){
+                    if(getSponsorHierarchyService().isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsor().getSponsorCode())){
                         if (keyPerson.isMultiplePi()) {
                             profileKeyPerson.setProjectRole(ProjectRoleDataType.PD_PI);
                         } else {
@@ -357,17 +357,17 @@ public class RRKeyPersonExpandedV1_1Generator extends
 	/**
 	 * This method creates {@link XmlObject} of type
 	 * {@link RRKeyPersonExpandedDocument} by populating data from the given
-	 * {@link ProposalDevelopmentDocument}
+	 * {@link ProposalDevelopmentDocumentContract}
 	 * 
-	 * @param proposalDevelopmentDocument
+	 * @param ProposalDevelopmentDocumentContract
 	 *            for which the {@link XmlObject} needs to be created
 	 * @return {@link XmlObject} which is generated using the given
-	 *         {@link ProposalDevelopmentDocument}
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+	 *         {@link ProposalDevelopmentDocumentContract}
+	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
 	 */
 	public XmlObject getFormObject(
-			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		this.pdDoc = proposalDevelopmentDocument;
+			ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
+		this.pdDoc = ProposalDevelopmentDocumentContract;
 		return getRRKeyPersonExpanded();
 	}
 }

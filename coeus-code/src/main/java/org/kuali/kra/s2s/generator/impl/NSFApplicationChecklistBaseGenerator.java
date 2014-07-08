@@ -120,7 +120,7 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 		}
 		case 2: {
 			String proposaltypecode = pdDoc.getDevelopmentProposal()
-					.getProposalTypeCode();
+					.getProposalType().getCode();
 			if (proposaltypecode != null
 					&& (proposaltypecode.equals(s2SConfigurationService.getValueAsString(
                     ConfigurationConstants.PROPOSAL_TYPE_CODE_REVISION)) || proposaltypecode
@@ -155,7 +155,7 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 		}
 		case 4: {
 			String proposaltypecode = pdDoc.getDevelopmentProposal()
-					.getProposalTypeCode();
+					.getProposalType().getCode();
 			if (proposaltypecode != null
 					&& (proposaltypecode.equals(s2SConfigurationService.getValueAsString(
                     ConfigurationConstants.PROPOSAL_TYPE_CODE_CONTINUATION)) || proposaltypecode
@@ -238,9 +238,9 @@ public abstract class NSFApplicationChecklistBaseGenerator extends
 		}
 		case 13: {
 			String proposaltypecode = null;
-			if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null) {
+			if (pdDoc.getDevelopmentProposal().getProposalType().getCode() != null) {
 				proposaltypecode = pdDoc.getDevelopmentProposal()
-						.getProposalTypeCode();
+						.getProposalType().getCode();
 			}
 			if (s2SConfigurationService.getValueAsString(
                     ConfigurationConstants.PROPOSAL_TYPE_CODE_REVISION).equals(proposaltypecode)) {

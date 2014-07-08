@@ -14,7 +14,7 @@ import org.kuali.coeus.common.api.unit.UnitContract;
 import org.kuali.coeus.common.api.unit.UnitRepositoryService;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.infrastructure.Constants;
@@ -231,7 +231,7 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator{
 		return null;
 	}
 	private List<ProposalPersonBiographyContract> getPernonnelAttachments(
-			ProposalDevelopmentDocument pdDoc, ProposalPersonContract proposalPerson,
+			ProposalDevelopmentDocumentContract pdDoc, ProposalPersonContract proposalPerson,
 			String documentType) {
 		List<ProposalPersonBiographyContract> result = new ArrayList<ProposalPersonBiographyContract>();
 		for (ProposalPersonBiographyContract proposalPersonBiography : pdDoc

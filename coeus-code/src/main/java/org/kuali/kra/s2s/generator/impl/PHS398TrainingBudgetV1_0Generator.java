@@ -17,19 +17,16 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.question.*;
-import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
 import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.common.budget.api.rate.TrainingStipendRateContract;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.common.budget.api.rate.TrainingStipendRateService;
@@ -41,7 +38,6 @@ import org.kuali.kra.s2s.generator.bo.IndirectCostInfo;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.util.AuditError;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -88,10 +84,6 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     private S2SBudgetCalculatorService s2sBudgetCalculatorService;
 
     @Autowired
-    @Qualifier("proposalBudgetService")
-    private ProposalBudgetService proposalBudgetService;
-
-    @Autowired
     @Qualifier("s2SConfigurationService")
     private S2SConfigurationService s2SConfigurationService;
 
@@ -99,28 +91,19 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     @Qualifier("trainingStipendRateService")
     private TrainingStipendRateService trainingStipendRateService;
 
-    @Autowired
-    @Qualifier("proposalDevelopmentS2sQuestionnaireService")
-    private ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService;
 
-    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
+    public XmlObject getFormObject(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) throws S2SException {
         PHS398TrainingBudgetDocument trainingBudgetTypeDocument = PHS398TrainingBudgetDocument.Factory.newInstance();
-        trainingBudgetTypeDocument.setPHS398TrainingBudget(getPHS398TrainingBudget(proposalDevelopmentDocument));
+        trainingBudgetTypeDocument.setPHS398TrainingBudget(getPHS398TrainingBudget(ProposalDevelopmentDocumentContract));
         return trainingBudgetTypeDocument;
     }
 
-    private PHS398TrainingBudget getPHS398TrainingBudget(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException{
-        DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
-        BudgetDocument<DevelopmentProposal> budgetDocument = null;
-        try {
-            budgetDocument = proposalBudgetService.getFinalBudgetVersion(proposalDevelopmentDocument);
-        } catch (WorkflowException e) {
-            throw new S2SException(e);
-        }
+    private PHS398TrainingBudget getPHS398TrainingBudget(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) throws S2SException{
+        DevelopmentProposalContract developmentProposal = ProposalDevelopmentDocumentContract.getDevelopmentProposal();
+        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+
         PHS398TrainingBudget trainingBudgetType = PHS398TrainingBudget.Factory.newInstance();
-        BudgetContract budget;
-        if (budgetDocument != null) {
-            budget = budgetDocument.getBudget();
+        if (budget != null) {
             trainingBudgetType.setFormVersion(S2SConstants.FORMVERSION_1_0);
             trainingBudgetType.setBudgetType(BudgetType.PROJECT);
             setOrganizationData(trainingBudgetType, developmentProposal);
@@ -992,7 +975,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         return trainingBudgetType;
     }
 
-    private void setOrganizationData(PHS398TrainingBudget trainingBudgetType, DevelopmentProposal developmentProposal) {
+    private void setOrganizationData(PHS398TrainingBudget trainingBudgetType, DevelopmentProposalContract developmentProposal) {
         ProposalSiteContract applicantOrgSite = developmentProposal.getApplicantOrganization();
         if (applicantOrgSite != null) {
             OrganizationContract organization = applicantOrgSite.getOrganization();
@@ -1022,9 +1005,8 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         return totalLineItemCost;
     }
 
-    private List<? extends AnswerHeaderContract> findQuestionnaireWithAnswers(DevelopmentProposal developmentProposal, Integer budgetPeriod) {
-        ProposalDevelopmentS2sQuestionnaireService questionnaireAnswerSerice = getProposalDevelopmentS2sQuestionnaireService();
-        return questionnaireAnswerSerice.getProposalAnswerHeaderForForm(developmentProposal,
+    private List<? extends AnswerHeaderContract> findQuestionnaireWithAnswers(DevelopmentProposalContract developmentProposal, Integer budgetPeriod) {
+        return getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(developmentProposal.getProposalNumber(),
                 "http://apply.grants.gov/forms/PHS398_TrainingBudget-V1.0", "PHS398_TrainingBudget-V1.0");
     }
 
@@ -1108,14 +1090,6 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         this.s2sBudgetCalculatorService = s2sBudgetCalculatorService;
     }
 
-    public ProposalBudgetService getProposalBudgetService() {
-        return proposalBudgetService;
-    }
-
-    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
-        this.proposalBudgetService = proposalBudgetService;
-    }
-
     public S2SConfigurationService getS2SConfigurationService() {
         return s2SConfigurationService;
     }
@@ -1130,13 +1104,5 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
 
     public void setTrainingStipendRateService(TrainingStipendRateService trainingStipendRateService) {
         this.trainingStipendRateService = trainingStipendRateService;
-    }
-
-    public ProposalDevelopmentS2sQuestionnaireService getProposalDevelopmentS2sQuestionnaireService() {
-        return proposalDevelopmentS2sQuestionnaireService;
-    }
-
-    public void setProposalDevelopmentS2sQuestionnaireService(ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService) {
-        this.proposalDevelopmentS2sQuestionnaireService = proposalDevelopmentS2sQuestionnaireService;
     }
 }

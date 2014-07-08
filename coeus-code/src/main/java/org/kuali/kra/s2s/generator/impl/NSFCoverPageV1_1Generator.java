@@ -31,7 +31,7 @@ import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonDegreeContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonYnqContract;
 import org.kuali.coeus.propdev.api.ynq.ProposalYnqContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
@@ -201,7 +201,7 @@ public class NSFCoverPageV1_1Generator extends NSFCoverPageBaseGenerator {
             otherInfo.setIsHistoricPlaces(yesNoDataType);
         }
 
-        String proposalTypeCode = pdDoc.getDevelopmentProposal().getProposalTypeCode();
+        String proposalTypeCode = pdDoc.getDevelopmentProposal().getProposalType().getCode();
         if (proposalTypeCode != null) {
             otherInfo.setIsAccomplishmentRenewal(proposalTypeCode.equals(QUESTION_ID_ACCOMPLISHMENT_RENEWAL) ? YesNoDataType.Y_YES
                     : YesNoDataType.N_NO);
@@ -304,14 +304,14 @@ public class NSFCoverPageV1_1Generator extends NSFCoverPageBaseGenerator {
 
     /**
      * This method creates {@link XmlObject} of type {@link NSFCoverPageDocument} by populating data from the given
-     * {@link ProposalDevelopmentDocument}
+     * {@link ProposalDevelopmentDocumentContract}
      * 
-     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
-     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     * @param ProposalDevelopmentDocumentContract for which the {@link XmlObject} needs to be created
+     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocumentContract}
+     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
      */
-    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        this.pdDoc = proposalDevelopmentDocument;
+    public XmlObject getFormObject(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
+        this.pdDoc = ProposalDevelopmentDocumentContract;
         return getNSFCoverPage();
     }
 }

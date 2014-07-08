@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.s2s.service;
 
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.kra.s2s.S2SException;
 
 /**
@@ -34,9 +34,9 @@ public interface S2SService {
 	 * @return boolean true if valid false otherwise.
 	 * @throws S2SException
 	 */
-	public FormActionResult validateApplication(ProposalDevelopmentDocument pdDoc)
+	public FormActionResult validateApplication(ProposalDevelopmentDocumentContract pdDoc)
 			throws S2SException;
 
-    FormActionResult generateAndValidateForms(ProposalDevelopmentDocument pdDoc) throws S2SException;
+    FormActionResult generateAndValidateForms(ProposalDevelopmentDocumentContract pdDoc) throws S2SException;
 
 }

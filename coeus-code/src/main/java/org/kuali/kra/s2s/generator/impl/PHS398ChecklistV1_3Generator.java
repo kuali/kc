@@ -29,9 +29,9 @@ import org.kuali.coeus.common.api.question.AnswerHeaderContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.budget.api.income.BudgetProjectIncomeContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,17 +83,12 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 		setFormerPDNameAndIsChangeOfPDPI(phsChecklist);
 		setFormerInstitutionNameAndChangeOfInstitution(phsChecklist);
 		setIsInventionsAndPatentsAndIsPreviouslyReported(phsChecklist);
-		BudgetDocument budgetDoc = null;
-		try {
-			budgetDoc = proposalBudgetService.getFinalBudgetVersion(pdDoc);
-		} catch (Exception e) {
-			LOG.error(e.getMessage(), e);
-		}
 
-		if (budgetDoc != null && budgetDoc.getBudget() != null) {
-			int numPeriods = budgetDoc.getBudget().getBudgetPeriods().size();
-			setIncomeBudgetPeriods(phsChecklist, budgetDoc.getBudget()
-					.getBudgetProjectIncomes(),numPeriods);
+        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+
+		if (budget != null) {
+			int numPeriods = budget.getBudgetPeriods().size();
+			setIncomeBudgetPeriods(phsChecklist, budget.getBudgetProjectIncomes(),numPeriods);
 		} else {
 			phsChecklist.setProgramIncome(YesNoDataType.N_NO);
 		}
@@ -109,13 +104,13 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	 */
 	private void setPhsCheckListBasicProperties(PHS398Checklist13 phsChecklist) {
 		phsChecklist.setFormVersion(FORMVERSION_1_3);
-		DevelopmentProposal developmentProposal = pdDoc
+		DevelopmentProposalContract developmentProposal = pdDoc
 				.getDevelopmentProposal();
 		ApplicationType.Enum applicationEnum = null;
-		if (developmentProposal.getProposalTypeCode() != null
-				&& Integer.parseInt(developmentProposal.getProposalTypeCode()) < PROPOSAL_TYPE_CODE_6) {
+		if (developmentProposal.getProposalType() != null
+				&& Integer.parseInt(developmentProposal.getProposalType().getCode()) < PROPOSAL_TYPE_CODE_6) {
 			applicationEnum = ApplicationType.Enum.forInt(Integer
-					.valueOf(developmentProposal.getProposalTypeCode()));
+					.valueOf(developmentProposal.getProposalType().getCode()));
 		}
 		phsChecklist.setApplicationType(applicationEnum);
 		String federalId = getSubmissionInfoService().getFederalId(pdDoc.getDevelopmentProposal().getProposalNumber());
@@ -290,17 +285,17 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 	/**
 	 * This method creates {@link XmlObject} of type
 	 * {@link PHS398Checklist13Document by populating data from the given
-	 * {@link ProposalDevelopmentDocument}
+	 * {@link ProposalDevelopmentDocumentContract}
 	 * 
-	 * @param proposalDevelopmentDocument
+	 * @param ProposalDevelopmentDocumentContract
 	 *            for which the {@link XmlObject} needs to be created
 	 * @return {@link XmlObject} which is generated using the given
-	 *         {@link ProposalDevelopmentDocument}
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+	 *         {@link ProposalDevelopmentDocumentContract}
+	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
 	 */
 	public XmlObject getFormObject(
-			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		this.pdDoc = proposalDevelopmentDocument;
+			ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
+		this.pdDoc = ProposalDevelopmentDocumentContract;
 		return getPHS398Checklist();
 	}
 

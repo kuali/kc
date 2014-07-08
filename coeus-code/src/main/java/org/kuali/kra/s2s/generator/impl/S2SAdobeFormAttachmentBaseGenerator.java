@@ -20,9 +20,7 @@ import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardAttachmentContract;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsService;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -244,15 +242,15 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
     }
     /**
      * 
-     * This method is used to get BudgetSubAwrads from ProposalDevelopmentDocument
+     * This method is used to get BudgetSubAwrads from ProposalDevelopmentDocumentContract
      * 
-     * @param proposalDevelopmentDocument (ProposalDevelopmentDocument)
+     * @param ProposalDevelopmentDocumentContract (ProposalDevelopmentDocumentContract)
      * @return List<BudgetSubAwards> list of budget sub awards.
      */
-    protected List<BudgetSubAwardsContract> getBudgetSubAwards(ProposalDevelopmentDocument proposalDevelopmentDocument,
+    protected List<BudgetSubAwardsContract> getBudgetSubAwards(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract,
             String namespace,boolean checkNull) {
         List<BudgetSubAwardsContract> budgetSubAwardsList = new ArrayList<BudgetSubAwardsContract>();
-        BudgetContract budget = findBudgetFromProposal(proposalDevelopmentDocument);
+        BudgetContract budget = findBudgetFromProposal(ProposalDevelopmentDocumentContract);
         if(budget==null){
             getAuditErrors().add(S2SErrorHandler.getError(S2SConstants.SUB_AWARD_BUDGET_NOT_FOUND));
         }else{
@@ -282,23 +280,8 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
         return budgetSubAwardsList;
     }
 
-    private BudgetContract findBudgetFromProposal(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        BudgetContract finalBudget = proposalDevelopmentDocument.getFinalBudgetForThisProposal();
-        if(finalBudget==null){
-            List<BudgetDocumentVersion> budgetDocumentVersions = proposalDevelopmentDocument.getBudgetDocumentVersions();
-            BudgetVersionOverview budgetVersionOverview = null;
-            for (BudgetDocumentVersion budgetDocumentVersion : budgetDocumentVersions) {
-                if(budgetDocumentVersion.isBudgetComplete()){
-                    budgetVersionOverview = budgetDocumentVersion.getBudgetVersionOverview();
-                    return budgetDocumentVersion.findBudget();
-                }
-            }
-            if(!budgetDocumentVersions.isEmpty()){
-                finalBudget = budgetDocumentVersions.get(0).findBudget();
-            }
-        }
-        return finalBudget;
-        
+    private BudgetContract findBudgetFromProposal(ProposalDevelopmentDocumentContract proposalDevelopmentDocument) {
+        return pdDoc.getDevelopmentProposal().getFinalBudget();
     }
 
     public BudgetSubAwardsService getBudgetSubAwardsService() {

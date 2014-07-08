@@ -29,17 +29,15 @@ import org.kuali.coeus.common.api.org.OrganizationRepositoryService;
 import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.common.budget.api.rate.RateClassType;
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonContract;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.api.budget.modular.BudgetModularIdcContract;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.common.budget.api.category.BudgetCategoryMapContract;
@@ -52,7 +50,6 @@ import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.s2s.validator.S2SErrorHandler;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -113,16 +110,8 @@ public class S2SBudgetCalculatorServiceImpl implements
     private S2SConfigurationService s2SConfigurationService;
 
     @Autowired
-    @Qualifier("proposalBudgetService")
-    private ProposalBudgetService proposalBudgetService;
-
-    @Autowired
     @Qualifier("budgetPersonSalaryService")
     private BudgetPersonSalaryService budgetPersonSalaryService;
-
-    @Autowired
-    @Qualifier("budgetPersonService")
-    private BudgetPersonService budgetPersonService;
 
     @Autowired
     @Qualifier("organizationRepositoryService")
@@ -153,22 +142,16 @@ public class S2SBudgetCalculatorServiceImpl implements
 
     /**
      * 
-     * This method does the budget related calculations for a given ProposalDevelopmentDocument and returns them in
+     * This method does the budget related calculations for a given ProposalDevelopmentDocumentContract and returns them in
      * BudgetSummaryInfo
      * 
-     * @param pdDoc ProposalDevelopmentDocument.
-     * @return BudgetSummaryInfo corresponding to the ProposalDevelopmentDocument object.
+     * @param pdDoc ProposalDevelopmentDocumentContract.
+     * @return BudgetSummaryInfo corresponding to the ProposalDevelopmentDocumentContract object.
      * @throws S2SException
      */
-    public BudgetSummaryInfo getBudgetInfo(ProposalDevelopmentDocument pdDoc, List<BudgetPeriodInfo> budgetPeriodInfos)
+    public BudgetSummaryInfo getBudgetInfo(ProposalDevelopmentDocumentContract pdDoc, List<BudgetPeriodInfo> budgetPeriodInfos)
             throws S2SException {
-        BudgetDocument budgetDocument = null;
-        try {
-            budgetDocument = proposalBudgetService.getFinalBudgetVersion(pdDoc);
-        } catch (WorkflowException e) {
-            throw new S2SException(e);
-        }
-        BudgetContract budget = budgetDocument == null ? null : budgetDocument.getBudget();
+        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
         BudgetSummaryInfo budgetSummaryInfo = new BudgetSummaryInfo();
         if (budget == null) {
             return budgetSummaryInfo;
@@ -521,22 +504,16 @@ public class S2SBudgetCalculatorServiceImpl implements
     }
 
     /**
-     * This method gets the list of BudgetPeriodInfo for the latest BudgetDocument of the given ProposalDevelopmentDocument
+     * This method gets the list of BudgetPeriodInfo for the latest BudgetDocument of the given ProposalDevelopmentDocumentContract
      * 
-     * @param pdDoc ProposalDevelopmentDocument
-     * @return a List of BudgetPeriodInfo corresponding to the ProposalDevelopmentDocument object.
+     * @param pdDoc ProposalDevelopmentDocumentContract
+     * @return a List of BudgetPeriodInfo corresponding to the ProposalDevelopmentDocumentContract object.
      * @throws S2SException
-     * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getBudgetPeriods(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument)
+     * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getBudgetPeriods(org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract)
      */
-    public List<BudgetPeriodInfo> getBudgetPeriods(ProposalDevelopmentDocument pdDoc) throws S2SException {
+    public List<BudgetPeriodInfo> getBudgetPeriods(ProposalDevelopmentDocumentContract pdDoc) throws S2SException {
         List<BudgetPeriodInfo> budgetPeriods = new ArrayList<BudgetPeriodInfo>();
-        BudgetDocument budgetDocument = null;
-        try {
-            budgetDocument = proposalBudgetService.getFinalBudgetVersion(pdDoc);
-        } catch (WorkflowException e) {
-            throw new S2SException(e);
-        }
-        BudgetContract budget = budgetDocument == null ? null : budgetDocument.getBudget();
+        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
         if (budget == null) {
             return budgetPeriods;
         }
@@ -681,7 +658,7 @@ public class S2SBudgetCalculatorServiceImpl implements
         return budgetPeriods;
     }
 
-    protected String getCognizantFedAgency(DevelopmentProposal developmentProposal) {
+    protected String getCognizantFedAgency(DevelopmentProposalContract developmentProposal) {
         StringBuilder fedAgency = new StringBuilder();
         ProposalSiteContract applicantOrganization = developmentProposal.getApplicantOrganization();
         if (applicantOrganization != null && applicantOrganization.getOrganization() != null
@@ -697,13 +674,13 @@ public class S2SBudgetCalculatorServiceImpl implements
     /**
      * 
      * This method populates the {@link OtherPersonnelInfo} business objects for the given {@link org.kuali.coeus.common.budget.api.period.BudgetPeriodContract} and
-     * {@link ProposalDevelopmentDocument}
+     * {@link ProposalDevelopmentDocumentContract}
      * 
      * @param budgetPeriod given budget period.
      * @param pdDoc Proposal Development Document.
      * @return {@link List} of {@link OtherPersonnelInfo}
      */
-    protected List<OtherPersonnelInfo> getOtherPersonnel(BudgetPeriodContract budgetPeriod, ProposalDevelopmentDocument pdDoc) {
+    protected List<OtherPersonnelInfo> getOtherPersonnel(BudgetPeriodContract budgetPeriod, ProposalDevelopmentDocumentContract pdDoc) {
         List<OtherPersonnelInfo> cvOtherPersonnel = new ArrayList<OtherPersonnelInfo>();
         cvOtherPersonnel.add(getOtherPersonnelDetails(
                 budgetPeriod,pdDoc,
@@ -745,7 +722,7 @@ public class S2SBudgetCalculatorServiceImpl implements
     /**
      * 
      * This method populates the details for {@link OtherPersonnelInfo} business object for the given
-     * {@link ProposalDevelopmentDocument}
+     * {@link ProposalDevelopmentDocumentContract}
      * 
      * @param budgetPeriod given budget period.
      * @param pdDoc Proposal Development Document.
@@ -754,7 +731,7 @@ public class S2SBudgetCalculatorServiceImpl implements
      * @param role role of the proposal person.
      * @return OtherPersonnelInfo information about the other personnel.
      */
-    protected OtherPersonnelInfo getOtherPersonnelDetails(BudgetPeriodContract budgetPeriod, ProposalDevelopmentDocument pdDoc,
+    protected OtherPersonnelInfo getOtherPersonnelDetails(BudgetPeriodContract budgetPeriod, ProposalDevelopmentDocumentContract pdDoc,
             String category, String personnelType, String role) {
         OtherPersonnelInfo otherPersonnelInfo = new OtherPersonnelInfo();
 
@@ -1619,14 +1596,14 @@ public class S2SBudgetCalculatorServiceImpl implements
     }
 
     /**
-     * This method gets the {@link List} of Key Persons for a given {@link ProposalDevelopmentDocument}
+     * This method gets the {@link List} of Key Persons for a given {@link ProposalDevelopmentDocumentContract}
      * 
      * @param budgetPeriod given BudgetPeriod.
      * @param pdDoc Proposal Development Document.
      * @param numKeyPersons number of key persons.
      * @return List<List<KeyPersonInfo>> list of KeyPersonInfo list.
      */
-    protected List<List<KeyPersonInfo>> getKeyPersons(BudgetPeriodContract budgetPeriod, ProposalDevelopmentDocument pdDoc,
+    protected List<List<KeyPersonInfo>> getKeyPersons(BudgetPeriodContract budgetPeriod, ProposalDevelopmentDocumentContract pdDoc,
             int numKeyPersons, BudgetContract budget) {
         List<KeyPersonInfo> keyPersons = new ArrayList<KeyPersonInfo>();
         List<KeyPersonInfo> seniorPersons = new ArrayList<KeyPersonInfo>();
@@ -1660,7 +1637,7 @@ public class S2SBudgetCalculatorServiceImpl implements
             keyPerson.setMiddleName(coInvestigator.getMiddleName());
             keyPerson.setNonMITPersonFlag(isPersonNonMITPerson(coInvestigator));
 
-            if (sponsorHierarchyService.isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsorCode())) {
+            if (sponsorHierarchyService.isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal().getSponsor().getSponsorCode())) {
                 if (coInvestigator.isMultiplePi()){
                     keyPerson.setRole(NID_PD_PI);
                 }else{
@@ -1693,7 +1670,7 @@ public class S2SBudgetCalculatorServiceImpl implements
             for (BudgetPersonnelDetailsContract budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
                 personAlreadyAdded = false;
                 for (ProposalPersonContract proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
-                    if (budgetPersonService.proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails)) {
+                    if (proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails)) {
                         personAlreadyAdded = true;
                         break;
                     }
@@ -1832,6 +1809,18 @@ public class S2SBudgetCalculatorServiceImpl implements
             }
         }
         return isSeniorLineItem;
+    }
+
+    protected boolean proposalPersonEqualsBudgetPerson(ProposalPersonContract proposalPerson, BudgetPersonnelDetailsContract budgetPersonnelDetails) {
+        boolean equal = false;
+        if (proposalPerson != null && budgetPersonnelDetails != null) {
+            String budgetPersonId = budgetPersonnelDetails.getPersonId();
+            if ((proposalPerson.getPersonId() != null && proposalPerson.getPersonId().equals(budgetPersonId))
+                    || (proposalPerson.getRolodexId() != null && proposalPerson.getRolodexId().toString().equals(budgetPersonId))) {
+                equal = true;
+            }
+        }
+        return equal;
     }
 
     /**
@@ -2095,28 +2084,12 @@ public class S2SBudgetCalculatorServiceImpl implements
         this.s2SConfigurationService = s2SConfigurationService;
     }
 
-    public ProposalBudgetService getProposalBudgetService() {
-        return proposalBudgetService;
-    }
-
-    public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
-        this.proposalBudgetService = proposalBudgetService;
-    }
-
     public BudgetPersonSalaryService getBudgetPersonSalaryService() {
         return budgetPersonSalaryService;
     }
 
     public void setBudgetPersonSalaryService(BudgetPersonSalaryService budgetPersonSalaryService) {
         this.budgetPersonSalaryService = budgetPersonSalaryService;
-    }
-
-    public BudgetPersonService getBudgetPersonService() {
-        return budgetPersonService;
-    }
-
-    public void setBudgetPersonService(BudgetPersonService budgetPersonService) {
-        this.budgetPersonService = budgetPersonService;
     }
 
     public OrganizationRepositoryService getOrganizationRepositoryService() {

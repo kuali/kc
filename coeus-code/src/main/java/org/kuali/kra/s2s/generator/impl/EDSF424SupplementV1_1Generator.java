@@ -30,8 +30,7 @@ import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewContract;
 import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewExemptionContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.util.CollectionUtils;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.FormGenerator;
@@ -131,8 +130,8 @@ public class EDSF424SupplementV1_1Generator extends
 					    for (ProposalSpecialReviewExemptionContract exemption : specialReview.getSpecialReviewExemptions()) {
 					        exemptionTypeCodes.add(exemption.getExemptionType().getCode());
 					    }
-						exemptionsNumber.setStringValue(CollectionUtils
-                                .toString(exemptionTypeCodes));
+						exemptionsNumber.setStringValue(
+                                colToString(exemptionTypeCodes));
 					}
 					edsf424Supplement.setExemptionsNumber(exemptionsNumber);
 				} else {
@@ -164,8 +163,8 @@ public class EDSF424SupplementV1_1Generator extends
 					    for (ProposalSpecialReviewExemptionContract exemption : specialReview.getSpecialReviewExemptions()) {
 					        exemptionTypeCodes.add(exemption.getExemptionType().getCode());
 					    }
-						exemptionsNumber.setStringValue(CollectionUtils
-								.toString(exemptionTypeCodes));
+						exemptionsNumber.setStringValue(
+                                colToString(exemptionTypeCodes));
 						edsf424Supplement.setExemptionsNumber(exemptionsNumber);
 			    	} else {
 			    		edsf424Supplement.setIsHumanResearch(YesNoDataType.N_NO);
@@ -206,18 +205,18 @@ public class EDSF424SupplementV1_1Generator extends
 	/**
 	 * This method creates {@link XmlObject} of type
 	 * {@link EDSF424SupplementDocument} by populating data from the given
-	 * {@link ProposalDevelopmentDocument}
+	 * {@link ProposalDevelopmentDocumentContract}
 	 *
-	 * @param proposalDevelopmentDocument
+	 * @param ProposalDevelopmentDocumentContract
 	 *            for which the {@link XmlObject} needs to be created
 	 * @return {@link XmlObject} which is generated using the given
-	 *         {@link ProposalDevelopmentDocument}
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+	 *         {@link ProposalDevelopmentDocumentContract}
+	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
 	 */
 	public XmlObject getFormObject(
-			ProposalDevelopmentDocument proposalDevelopmentDocument) {
+			ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
 
-		this.pdDoc = proposalDevelopmentDocument;
+		this.pdDoc = ProposalDevelopmentDocumentContract;
 		return getEDSF424Supplement();
 	}
 

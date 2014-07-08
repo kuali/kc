@@ -38,24 +38,19 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.question.*;
-import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
 import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireService;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.s2s.CitizenshipTypes;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.ConfigurationConstants;
 import org.kuali.kra.s2s.generator.FormGenerator;
 import org.kuali.kra.s2s.util.S2SConstants;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -115,10 +110,6 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
     
     private static final String ANSWER_YES = "Yes";
     private static final String ANSWER_NO = "No";
-
-    @Autowired
-    @Qualifier("proposalDevelopmentS2sQuestionnaireService")
-    private ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService;
 
     /*
      * This method is used to get PHSFellowshipSupplemental12 XMLObject and set the data to it from DevelopmentProposal data.
@@ -477,12 +468,12 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
      * value of TUITION_COST_ELEMENTS
      */
     private void setTuitionRequestedYears(Budget budget) {
-        BudgetDocument budgetDoc = getBudgetDocument();
-        if (budgetDoc == null) {
+        ProposalDevelopmentBudgetExtContract pBudget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        if (pBudget == null) {
             return;
         }
         ScaleTwoDecimal tuitionTotal = ScaleTwoDecimal.ZERO;
-        for (BudgetPeriodContract budgetPeriod : budgetDoc.getBudget().getBudgetPeriods()) {
+        for (BudgetPeriodContract budgetPeriod : pBudget.getBudgetPeriods()) {
             ScaleTwoDecimal tuition = ScaleTwoDecimal.ZERO;
             for (BudgetLineItemContract budgetLineItem : budgetPeriod.getBudgetLineItems()) {
                 if (getCostElementsByParam(ConfigurationConstants.TUITION_COST_ELEMENTS).contains(budgetLineItem.getCostElementBO().getCostElement())) {
@@ -548,9 +539,8 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
      */
     private void getFederalStipendRequested(Budget budget) {
         FederalStipendRequested federalStipendRequested = FederalStipendRequested.Factory.newInstance();
-        BudgetDocument budgetDoc = getBudgetDocument();
-        if (budgetDoc != null) {
-            BudgetContract pBudget = budgetDoc.getBudget();
+        ProposalDevelopmentBudgetExtContract pBudget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        if (pBudget != null) {
             ScaleTwoDecimal sumOfLineItemCost = ScaleTwoDecimal.ZERO;
             ScaleTwoDecimal numberOfMonths = ScaleTwoDecimal.ZERO;
             for (BudgetPeriodContract budgetPeriod : pBudget.getBudgetPeriods()) {
@@ -570,20 +560,6 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
             budget.setFederalStipendRequested(federalStipendRequested);
 
         }
-    }
-
-    /*
-     * This method is used to get final version of BudgetDocument from s2SBudgetCalculatorService using pdDoc
-     */
-    private BudgetDocument getBudgetDocument() {
-        BudgetDocument budgetDoc = null;
-        try {
-            budgetDoc = proposalBudgetService.getFinalBudgetVersion(pdDoc);
-        }
-        catch (WorkflowException e) {
-            LOG.error("Error while getting Budget", e);
-        }
-        return budgetDoc;
     }
 
     /*
@@ -798,9 +774,8 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
         }
     }
 
-    private List<? extends AnswerHeaderContract> findQuestionnaireWithAnswers(DevelopmentProposal developmentProposal) {
-        ProposalDevelopmentS2sQuestionnaireService questionnaireAnswerService = getProposalDevelopmentS2sQuestionnaireService();
-        return questionnaireAnswerService.getProposalAnswerHeaderForForm(developmentProposal,
+    private List<? extends AnswerHeaderContract> findQuestionnaireWithAnswers(DevelopmentProposalContract developmentProposal) {
+        return getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(developmentProposal.getProposalNumber(),
                 "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_2-V1.2", "PHS_Fellowship_Supplemental_1_2-V1.2");
     }
 
@@ -941,7 +916,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
      * This method is used to get TypeOfApplication based on proposalTypeCode of DevelopmentProposal
      */
     private TypeOfApplication.Enum getTypeOfApplication() {
-        String proposalTypeCode = pdDoc.getDevelopmentProposal().getProposalTypeCode();
+        String proposalTypeCode = pdDoc.getDevelopmentProposal().getProposalType().getCode();
         TypeOfApplication.Enum typeOfApplication = null;
         if (proposalTypeCode != null) {
             if (proposalTypeCode.equals(s2SConfigurationService.getValueAsString(ConfigurationConstants.PROPOSAL_TYPE_CODE_NEW))) {
@@ -1020,14 +995,14 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
 
     /**
      * This method creates {@link XmlObject} of type {@link PHSFellowshipSupplemental12Document} by populating data from the given
-     * {@link ProposalDevelopmentDocument}
+     * {@link ProposalDevelopmentDocumentContract}
      * 
-     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
-     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     * @param ProposalDevelopmentDocumentContract for which the {@link XmlObject} needs to be created
+     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocumentContract}
+     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
      */
-    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        this.pdDoc = proposalDevelopmentDocument;
+    public XmlObject getFormObject(ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
+        this.pdDoc = ProposalDevelopmentDocumentContract;
         return getPHSFellowshipSupplemental12();
     }
 
@@ -1037,13 +1012,5 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
 
     public String getNamespace() {
         return "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_2-V1.2";
-    }
-
-    public ProposalDevelopmentS2sQuestionnaireService getProposalDevelopmentS2sQuestionnaireService() {
-        return proposalDevelopmentS2sQuestionnaireService;
-    }
-
-    public void setProposalDevelopmentS2sQuestionnaireService(ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService) {
-        this.proposalDevelopmentS2sQuestionnaireService = proposalDevelopmentS2sQuestionnaireService;
     }
 }

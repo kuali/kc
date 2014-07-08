@@ -42,14 +42,14 @@ import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
 import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
+import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.api.budget.modular.BudgetModularIdcContract;
+import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.propdev.api.s2s.S2sOpportunityContract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.kra.s2s.generator.FormGenerator;
@@ -128,8 +128,6 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 	 * @throws S2SException
 	 */
 	private EstimatedProjectFunding getProjectFunding() {
-		BudgetDocument budgetDoc = null;
-		BudgetContract budget = null;
 		EstimatedProjectFunding funding = EstimatedProjectFunding.Factory
 				.newInstance();
 		funding.setTotalEstimatedAmount(BigDecimal.ZERO);
@@ -137,68 +135,60 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		funding.setTotalfedNonfedrequested(BigDecimal.ZERO);
 		funding.setEstimatedProgramIncome(BigDecimal.ZERO);
 		boolean hasBudgetLineItem = false;
-		try {
-			budgetDoc = proposalBudgetService.getFinalBudgetVersion(pdDoc);
-		} catch (Exception e) {
-			LOG.error("Error while fetching Budget document", e);
-			return funding;
-		}
+        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
 
-		if (budgetDoc != null) {
-			budget = budgetDoc.getBudget();
-		}
 		if (budget != null) {
 
             ScaleTwoDecimal totalCost = ScaleTwoDecimal.ZERO;
             if (budget.getModularBudgetFlag()) {
-				ScaleTwoDecimal fundsRequested = ScaleTwoDecimal.ZERO;
-				ScaleTwoDecimal totalDirectCost = ScaleTwoDecimal.ZERO;
+                ScaleTwoDecimal fundsRequested = ScaleTwoDecimal.ZERO;
+                ScaleTwoDecimal totalDirectCost = ScaleTwoDecimal.ZERO;
 
-				// get modular budget amounts instead of budget detail amounts
-				for (BudgetPeriodContract budgetPeriod : budget.getBudgetPeriods()) {
-	                if(budgetPeriod.getBudgetModular()==null){
-	                    getAuditErrors().add(S2SErrorHandler.getError(S2SConstants.MODULAR_BUDGET_REQUIRED));
-	                    break;
-	                }else{
-					totalDirectCost = totalDirectCost.add(budgetPeriod
-							.getBudgetModular().getTotalDirectCost());
-					for (BudgetModularIdcContract budgetModularIdc : budgetPeriod
-							.getBudgetModular().getBudgetModularIdcs()) {
-						fundsRequested = fundsRequested.add(budgetModularIdc
-								.getFundsRequested());
-					}
-				}
-				}
-				totalCost = totalCost.add(totalDirectCost);
-				totalCost = totalCost.add(fundsRequested);
-			}
+                // get modular budget amounts instead of budget detail amounts
+                for (BudgetPeriodContract budgetPeriod : budget.getBudgetPeriods()) {
+                    if(budgetPeriod.getBudgetModular()==null){
+                        getAuditErrors().add(S2SErrorHandler.getError(S2SConstants.MODULAR_BUDGET_REQUIRED));
+                        break;
+                    }else{
+                    totalDirectCost = totalDirectCost.add(budgetPeriod
+                            .getBudgetModular().getTotalDirectCost());
+                    for (BudgetModularIdcContract budgetModularIdc : budgetPeriod
+                            .getBudgetModular().getBudgetModularIdcs()) {
+                        fundsRequested = fundsRequested.add(budgetModularIdc
+                                .getFundsRequested());
+                    }
+                }
+                }
+                totalCost = totalCost.add(totalDirectCost);
+                totalCost = totalCost.add(fundsRequested);
+            }
 
-			ScaleTwoDecimal fedNonFedCost = totalCost;
-			ScaleTwoDecimal costSharingAmount = ScaleTwoDecimal.ZERO;
+            ScaleTwoDecimal fedNonFedCost = totalCost;
+            ScaleTwoDecimal costSharingAmount = ScaleTwoDecimal.ZERO;
 
-			for (BudgetPeriodContract budgetPeriod : budget.getBudgetPeriods()) {
+            for (BudgetPeriodContract budgetPeriod : budget.getBudgetPeriods()) {
                 for (BudgetLineItemContract lineItem : budgetPeriod.getBudgetLineItems()) {
-			        hasBudgetLineItem = true;
-			        if (budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag()) {
+                    hasBudgetLineItem = true;
+                    if (budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag()) {
                         costSharingAmount =  costSharingAmount.add(lineItem.getCostSharingAmount());
-			            List<? extends BudgetLineItemCalculatedAmountContract> calculatedAmounts = lineItem.getBudgetLineItemCalculatedAmounts();
-			            for (BudgetLineItemCalculatedAmountContract budgetLineItemCalculatedAmount : calculatedAmounts) {
-		                     costSharingAmount =  costSharingAmount.add(budgetLineItemCalculatedAmount.getCalculatedCostSharing());
+                        List<? extends BudgetLineItemCalculatedAmountContract> calculatedAmounts = lineItem.getBudgetLineItemCalculatedAmounts();
+                        for (BudgetLineItemCalculatedAmountContract budgetLineItemCalculatedAmount : calculatedAmounts) {
+                             costSharingAmount =  costSharingAmount.add(budgetLineItemCalculatedAmount.getCalculatedCostSharing());
                         }
-			            
-			        }
-			    }
+
+                    }
+                }
             }
-			if(!hasBudgetLineItem && budget.getSubmitCostSharingFlag()){
-			    costSharingAmount = budget.getCostSharingAmount();		
+            if(!hasBudgetLineItem && budget.getSubmitCostSharingFlag()){
+                costSharingAmount = budget.getCostSharingAmount();
             }
-			fedNonFedCost = fedNonFedCost.add(costSharingAmount);
-			funding = EstimatedProjectFunding.Factory.newInstance();
-			funding.setTotalEstimatedAmount(totalCost
-					.bigDecimalValue());
-			funding.setTotalNonfedrequested(costSharingAmount.bigDecimalValue());
-			funding.setTotalfedNonfedrequested(fedNonFedCost.bigDecimalValue());
-			funding.setEstimatedProgramIncome(getTotalProjectIncome(budget));
+            fedNonFedCost = fedNonFedCost.add(costSharingAmount);
+            funding = EstimatedProjectFunding.Factory.newInstance();
+            funding.setTotalEstimatedAmount(totalCost
+                    .bigDecimalValue());
+            funding.setTotalNonfedrequested(costSharingAmount.bigDecimalValue());
+            funding.setTotalfedNonfedrequested(fedNonFedCost.bigDecimalValue());
+            funding.setEstimatedProgramIncome(getTotalProjectIncome(budget));
 		}
 		return funding;
 	}
@@ -261,7 +251,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		OrganizationDataType orgType = OrganizationDataType.Factory
 				.newInstance();
         RolodexContract rolodex = pdDoc.getDevelopmentProposal()
-				.getApplicantOrganization().getOrganization().getRolodex();
+				.getApplicantOrganization().getRolodex();
 		orgType.setAddress(globLibV20Generator.getAddressDataType(rolodex));
 
 		OrganizationContract organization = pdDoc.getDevelopmentProposal()
@@ -354,16 +344,16 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 		ApplicationType applicationType = ApplicationType.Factory.newInstance();
 		Map<String, String> submissionInfo = s2sUtilService
 				.getSubmissionType(pdDoc);
-		if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null
+		if (pdDoc.getDevelopmentProposal().getProposalType() != null
 				&& Integer.parseInt(pdDoc.getDevelopmentProposal()
-						.getProposalTypeCode()) < PROPOSAL_TYPE_CODE_6) {
+						.getProposalType().getCode()) < PROPOSAL_TYPE_CODE_6) {
 			// Check <6 to ensure that if proposalType='TASk ORDER", it must not
 			// set. THis is because enum ApplicationType has no
 			// entry for TASK ORDER
 			applicationType
 					.setApplicationTypeCode(getApplicationTypeCodeDataType());
 			if (Integer.parseInt(pdDoc.getDevelopmentProposal()
-					.getProposalTypeCode()) == ApplicationTypeCodeDataType.INT_REVISION) {
+					.getProposalType().getCode()) == ApplicationTypeCodeDataType.INT_REVISION) {
 
 				String revisionCode = null;
 				if (submissionInfo.get(S2SConstants.KEY_REVISION_CODE) != null) {
@@ -406,7 +396,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 
 	private Enum getApplicationTypeCodeDataType() {
 		return ApplicationTypeCodeDataType.Enum.forInt(Integer.parseInt(pdDoc
-				.getDevelopmentProposal().getProposalTypeCode()));
+				.getDevelopmentProposal().getProposalType().getCode()));
 	}
 
 	/**
@@ -501,7 +491,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 	    }
 	    else
 	    {
-	        DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+	        DevelopmentProposalContract developmentProposal = pdDoc.getDevelopmentProposal();
 	        PDPI.setDepartmentName(developmentProposal.getOwnedByUnit().getUnitName());
 	    }
 	}
@@ -640,7 +630,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 						.getOrganization().getOrganizationTypes().size() > 0) {
 			orgTypeCode = pdDoc.getDevelopmentProposal()
 					.getApplicantOrganization().getOrganization()
-					.getOrganizationTypes().get(0).getOrganizationTypeCode();
+					.getOrganizationTypes().get(0).getOrganizationTypeList().getCode();
 		}
 		ApplicantTypeCodeDataType.Enum applicantTypeCode = null;
 
@@ -740,7 +730,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 	private String getRolodexState() {
 		String state = "";
         RolodexContract rolodex = pdDoc.getDevelopmentProposal()
-				.getApplicantOrganization().getOrganization().getRolodex();
+				.getApplicantOrganization().getRolodex();
 		if (rolodex != null) {
 			state = rolodex.getState();
 		}
@@ -846,19 +836,19 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 	    }
 	/**
 	 * This method creates {@link XmlObject} of type {@link RRSF42412Document}
-	 * by populating data from the given {@link ProposalDevelopmentDocument}
+	 * by populating data from the given {@link ProposalDevelopmentDocumentContract}
 	 * 
-	 * @param proposalDevelopmentDocument
+	 * @param ProposalDevelopmentDocumentContract
 	 *            for which the {@link XmlObject} needs to be created
 	 * @return {@link XmlObject} which is generated using the given
-	 *         {@link ProposalDevelopmentDocument}
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+	 *         {@link ProposalDevelopmentDocumentContract}
+	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocumentContract)
 	 */
 	public XmlObject getFormObject(
-			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		this.pdDoc = proposalDevelopmentDocument;
+			ProposalDevelopmentDocumentContract ProposalDevelopmentDocumentContract) {
+		this.pdDoc = ProposalDevelopmentDocumentContract;
 		departmentalPerson = s2sUtilService
-				.getDepartmentalPerson(proposalDevelopmentDocument);
+				.getDepartmentalPerson(ProposalDevelopmentDocumentContract);
 		return getRRSF424();
 	}
 

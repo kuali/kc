@@ -147,9 +147,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     private String institutionalProposalNumber;
 
     @Transient
-    private String saveXmlFolderName;
-
-    @Transient
     private transient Boolean allowsNoteAttachments;
 
     public ProposalDevelopmentDocument() {
@@ -630,14 +627,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     public void setCustomDataList(List<CustomAttributeDocValue> customDataList) {
         this.customDataList = customDataList;
-    }
-
-    public String getSaveXmlFolderName() {
-        return saveXmlFolderName;
-    }
-
-    public void setSaveXmlFolderName(String saveXmlFolderName) {
-        this.saveXmlFolderName = saveXmlFolderName;
     }
 
     public boolean isDefaultDocumentDescription() {
