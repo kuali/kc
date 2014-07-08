@@ -199,8 +199,8 @@
 							p:iconClass="icon-list-ol" p:order="50" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Access"
 							p:iconClass="icon-lock" p:order="60" />
-                        <bean parent="Uif-ActionLink" p:actionLabel="Summary"
-                              p:iconClass="icon-eye" p:order="70" p:actionScript="showLightboxComponent('PropDev-SummarySection');" />
+                        <bean parent="Uif-ActionLink" p:actionLabel="Summary" p:methodToCall="populateCreditSplits"
+                              p:iconClass="icon-eye" p:order="70" p:successCallback="showLightboxComponent('PropDev-SummarySection');" />
 					</list>
 				</property>
 			</bean>
