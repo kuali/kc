@@ -55,30 +55,10 @@
 
 	<bean id="PropDev-AttachmentsPage-ProposalCollection" parent="PropDev-AttachmentsPage-ProposalCollection-parentBean" />
 	<bean id="PropDev-AttachmentsPage-ProposalCollection-parentBean" abstract="true"
-		parent="PropDev-Attachment-Collection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.attachment.Narrative"
-		p:propertyName="narratives">
-		<property name="items">
+		parent="PropDev-AttachmentPage-MultiFileCollection" p:collection.collectionObjectClass="org.kuali.coeus.propdev.impl.attachment.Narrative"
+        p:collection.propertyName="document.developmentProposal.narratives">
+		<property name="collection.items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="narrativeTypeCode"
-					p:readOnlyDisplayReplacementPropertyName="narrativeType.description"
-					p:order="10" />
-				<bean parent="Uif-InputField" p:propertyName="moduleStatusCode"
-					p:readOnlyDisplayReplacementPropertyName="narrativeStatus.description"
-					p:required="true" p:readOnly="false" p:order="20" />
-				<bean parent="Uif-InputField" p:propertyName="contactName"
-					p:order="30" />
-				<bean parent="Uif-InputField" p:propertyName="emailAddress"
-					p:order="40" />
-				<bean parent="Uif-InputField" p:propertyName="phoneNumber"
-					p:order="50" />
-				<bean parent="Uif-InputField" p:propertyName="comments"
-					p:order="60" />
-				<bean parent="Uif-InputField" p:propertyName="moduleTitle"
-					p:refreshWhenChangedPropertyNames="#lp.narrativeTypeCode" p:order="70" />
-				<bean parent="Uif-InputField" p:propertyName="updateUser"
-					p:render="@{!#isAddLine}" p:order="80" />
-				<bean parent="Uif-InputField" p:propertyName="updateTimestamp"
-					p:render="@{!#isAddLine}" p:order="90" />
 			</list>
 		</property>
 	</bean>
@@ -124,7 +104,6 @@
     <bean id="PropDev-AttachmentsPage-AbstractsSection-parentBean"
           abstract="true" parent="Uif-VerticalBoxSection">
         <property name="header.headerText" value="Abstracts" />
-        <property name="instructionalText" value="Add all abstracts that will be submitted to the sponsor." />
         <property name="items">
             <list>
                 <bean parent="PropDev-AttachmentsPage-AbstractsCollection" p:order="10" />
@@ -135,11 +114,10 @@
 
     <bean id="PropDev-AttachmentsPage-AbstractsCollection" parent="PropDev-AttachmentsPage-AbstractsCollection-parentBean" />
     <bean id="PropDev-AttachmentsPage-AbstractsCollection-parentBean" abstract="true"
-          parent="PropDev-Attachment-Collection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract"
-          p:propertyName="proposalAbstracts"
-          p:layoutManager.summaryTitle="@{#lp.abstractType.description}">
-        <property name="addLineLabel">
-            <bean parent="Uif-Message" p:messageText="Add Abstracts Attachments"/>
+          parent="PropDev-AttachmentPage-Collection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract"
+          p:propertyName="proposalAbstracts">
+        <property name="addWithDialogAction">
+            <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Abstract" p:cssClasses="pull-right" p:iconClass="icon-plus"/>
         </property>
         <property name="addLineItems">
             <list>
@@ -156,9 +134,7 @@
             </list>
         </property>
         <property name="items">
-            <list>
-                <bean parent="Uif-MessageField" p:label="Added By" p:render="@{#lp.updateUser ne null}"
-                      p:messageText="@{#lp.updateUser} [color=grey]( @{#lp.updateTimestamp} )[/color]" p:order="10"/>
+            <list merge="true">
                 <bean parent="Uif-DataField" p:propertyName="abstractTypeCode"
                       p:readOnlyDisplayReplacementPropertyName="abstractType.description" p:order="20">
                     <property name="inquiry">
@@ -245,6 +221,14 @@
           p:onClickScript="writeCurrentPageToSession(this);" p:dirtyOnAction="true"
           p:loadingMessageText="Deleting File..." p:iconClass="icon-trash"/>
 
+    <bean id="PropDev-AttachmentPage-DeleteButton" parent="PropDev-AttachmentPage-DeleteButton-parentBean"/>
+    <bean id="PropDev-AttachmentPage-DeleteButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
+          p:methodToCall="deleteLine" p:title="Delete" p:iconClass="icon-trash"/>
+
+    <bean id="PropDev-AttachmentPage-AddedByField" parent="PropDev-AttachmentPage-AddedByField-parentBean"/>
+    <bean id="PropDev-AttachmentPage-AddedByField-parentBean" abstract="true" parent="Uif-MessageField" p:label="Added By"
+           p:messageText="@{#line.updateUser} [color=grey](@{#ViewHelper.getDateUploadedFormatted(#line.updateTimestamp)})[/color]"/>
+
     <bean id="PropDev-AttachmentPage-MultiFileCollection" parent="PropDev-AttachmentPage-MultiFileCollection-parentBean"/>
     <bean id="PropDev-AttachmentPage-MultiFileCollection-parentBean" abstract="true" parent="Uif-MultiFileUploadCollection"
           p:collection.layoutManager.richTable.render="false">
@@ -261,8 +245,7 @@
                       p:readOnly="true" p:label="File" p:link.linkText="@{#line.name}"
                       p:link.href="?methodToCall=getFileFromLine&amp;formKey=@{formKey}&amp;fileName=@{#line.name}&amp;propertyPath=@{#collectionGroup.bindingInfo.bindingPath}&amp;selectedLineIndex=@{#index}"
                       p:order="10"/>
-                <bean parent="Uif-MessageField" p:label="Added By"
-                      p:messageText="@{#line.updateUser} [color=grey](@{#line.getDateUploadedFormatted()})[/color]" p:order="20"/>
+                <bean parent="PropDev-AttachmentPage-AddedByField" p:order="20"/>
             </list>
         </property>
         <property name="collection.layoutManager.libraryCssClasses">
@@ -272,6 +255,43 @@
             </list>
         </property>
         <property name="collection.layoutManager.cssClasses">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="PropDev-AttachmentPage-Collection" abstract="true" parent="PropDev-AttachmentPage-Collection-parentBean" />
+    <bean id="PropDev-AttachmentPage-Collection-parentBean" abstract="true"
+          parent="Uif-TableCollectionSection" p:addWithDialog="true" p:layoutManager.richTable.render="false"
+          p:layoutManager.renderSequenceField="false">
+        <property name="addWithDialogAction">
+            <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add entry" p:cssClasses="pull-right" p:iconClass="icon-plus"/>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean parent="Uif-DialogDismissButton" p:order="10"/>
+                <bean parent="Uif-AddLineAction-Dialog" p:order="20" p:actionLabel="Add Entry"
+                        p:methodToCall="addAttachment"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="PropDev-AttachmentPage-EditButton" p:order="10"/>
+                <bean parent="PropDev-AttachmentPage-SaveButton" p:order="20"/>
+                <bean parent="PropDev-AttachmentPage-DeleteButton" p:order="30"/>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="PropDev-AttachmentPage-AddedByField" p:fieldLabel.labelText="Author" p:order="10"/>
+            </list>
+        </property>
+        <property name="layoutManager.libraryCssClasses">
+            <list>
+                <value>table</value>
+                <value>table-condensed</value>
+            </list>
+        </property>
+        <property name="layoutManager.cssClasses">
             <null/>
         </property>
     </bean>
