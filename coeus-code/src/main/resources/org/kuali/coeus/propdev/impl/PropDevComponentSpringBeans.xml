@@ -80,6 +80,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetFandAPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetCostSharingPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetBudgetNotesPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetNonPersonnelCostsPage.xml</value>
             </list>
         </property>
     </bean>
