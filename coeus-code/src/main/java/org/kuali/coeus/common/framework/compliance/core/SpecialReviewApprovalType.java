@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.framework.compliance.core;
 
-import org.kuali.coeus.common.api.compliance.SpecialReviewApprovalTypeContract;
+import org.kuali.coeus.common.api.compliance.core.SpecialReviewApprovalTypeContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.Column;

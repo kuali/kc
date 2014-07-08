@@ -16,7 +16,7 @@
 package org.kuali.coeus.propdev.impl.specialreview;
 
 import org.kuali.coeus.common.framework.compliance.core.AddSpecialReviewEvent;
-import org.kuali.coeus.common.framework.compliance.core.SpecialReviewServiceImpl;
+import org.kuali.coeus.common.framework.compliance.core.ComplianceConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
@@ -36,7 +36,7 @@ import org.springframework.stereotype.Component;
 
 @Component("proposalDevelopmentSpecialReviewService")
 public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDevelopmentSpecialReviewService {
-    
+
     @Autowired
     @Qualifier("proposalDevelopmentProtocolDocumentService")
     private ProposalDevelopmentProtocolDocumentService proposalDevelopmentProtocolDocumentService;
@@ -71,7 +71,7 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
                     specialReview.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
                     specialReview.setDevelopmentProposal(document.getDevelopmentProposal());
                     specialReview.setProtocolStatus(protocolDocument.getProtocol().getProtocolStatus().getDescription());
-                    specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
+                    specialReview.setComments(ComplianceConstants.NEW_SPECIAL_REVIEW_COMMENT);
 
                     prepareProtocolLinkViewFields(specialReview);
                     if (getKualiRuleService().applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, 
@@ -93,7 +93,7 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
                     specialReview.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
                     specialReview.setDevelopmentProposal(document.getDevelopmentProposal());
                     specialReview.setProtocolStatus(protocolDocument.getProtocol().getProtocolStatus().getDescription());
-                    specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
+                    specialReview.setComments(ComplianceConstants.NEW_SPECIAL_REVIEW_COMMENT);
         
                     prepareProtocolLinkViewFields(specialReview);
                     if (getKualiRuleService().applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, 

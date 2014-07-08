@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.framework.compliance.core;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.api.compliance.SpecialReviewContract;
+import org.kuali.coeus.common.api.compliance.core.SpecialReviewContract;
 import org.kuali.coeus.common.framework.compliance.exemption.SpecialReviewExemption;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 

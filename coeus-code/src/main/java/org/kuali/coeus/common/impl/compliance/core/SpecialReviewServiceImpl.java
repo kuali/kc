@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.framework.compliance.core;
+package org.kuali.coeus.common.impl.compliance.core;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.kuali.coeus.common.framework.compliance.core.*;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
@@ -52,7 +53,6 @@ import java.util.Map;
 public class SpecialReviewServiceImpl implements SpecialReviewService {
     
     private static final String PROTOCOL_NUMBER = ".protocolNumber";
-    public static final String NEW_SPECIAL_REVIEW_COMMENT = "A Special Review has been inserted.";
 
     @Autowired
     @Qualifier("awardService")
@@ -271,7 +271,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
                 specialReviewExemption.setExemptionTypeCode(exemptionTypeCode);
                 specialReview.getSpecialReviewExemptions().add(specialReviewExemption);
             }
-            specialReview.setComments(NEW_SPECIAL_REVIEW_COMMENT);
+            specialReview.setComments(ComplianceConstants.NEW_SPECIAL_REVIEW_COMMENT);
             award.getSpecialReviews().add(specialReview);
             
             getBusinessObjectService().save(award);
@@ -298,7 +298,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
                 specialReviewExemption.setExemptionTypeCode(exemptionTypeCode);
                 specialReview.getSpecialReviewExemptions().add(specialReviewExemption);
             }
-            specialReview.setComments(NEW_SPECIAL_REVIEW_COMMENT);
+            specialReview.setComments(ComplianceConstants.NEW_SPECIAL_REVIEW_COMMENT);
             institutionalProposal.getSpecialReviews().add(specialReview);
             
             getBusinessObjectService().save(institutionalProposal);

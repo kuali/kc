@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.irb.protocol.funding.impl;
 
+import org.kuali.coeus.common.framework.compliance.core.ComplianceConstants;
 import org.kuali.coeus.common.framework.person.editable.PersonEditableService;
-import org.kuali.coeus.common.framework.compliance.core.SpecialReviewServiceImpl;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
@@ -179,7 +179,7 @@ public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolP
         specialReview.setDevelopmentProposal(proposalDocument.getDevelopmentProposal());
         
         specialReview.setProtocolStatus(protocol.getProtocolStatus().getDescription());
-        specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
+        specialReview.setComments(ComplianceConstants.NEW_SPECIAL_REVIEW_COMMENT);
         proposalDocument.getDevelopmentProposal().getPropSpecialReviews().add(specialReview);
         }
     }
