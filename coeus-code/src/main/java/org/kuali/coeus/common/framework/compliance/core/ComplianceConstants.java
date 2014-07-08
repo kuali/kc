@@ -16,6 +16,11 @@
 
 package org.kuali.coeus.common.framework.compliance.core;
 
-public class ComplianceConstants {
+public final class ComplianceConstants {
+    
     public static final String NEW_SPECIAL_REVIEW_COMMENT = "A Special Review has been inserted.";
+
+    private ComplianceConstants() {
+        throw new UnsupportedOperationException("do not call");
+    }
 }
