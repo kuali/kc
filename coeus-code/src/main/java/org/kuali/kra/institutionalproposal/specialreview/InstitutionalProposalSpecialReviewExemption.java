@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.specialreview;
 
-import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
+import org.kuali.coeus.common.framework.compliance.exemption.SpecialReviewExemption;
 
 /**
  * Defines the Special Review Exemption for Institutional Proposal.

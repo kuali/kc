@@ -17,7 +17,7 @@ package org.kuali.coeus.propdev.impl.specialreview;
 
 import java.util.List;
 
-import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReview;
 import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;

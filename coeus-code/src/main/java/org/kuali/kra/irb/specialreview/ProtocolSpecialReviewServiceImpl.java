@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.irb.specialreview;
 
-import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
-import org.kuali.kra.bo.SpecialReviewApprovalType;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReview;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
 import org.kuali.kra.protocol.ProtocolBase;

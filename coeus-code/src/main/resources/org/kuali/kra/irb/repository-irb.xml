@@ -515,10 +515,10 @@
         <reference-descriptor name="sequenceOwner" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolId"/>
         </reference-descriptor>
-        <reference-descriptor name="specialReviewType" class-ref="org.kuali.kra.bo.SpecialReviewType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="specialReviewType" class-ref="org.kuali.coeus.common.framework.compliance.core.SpecialReviewType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="specialReviewTypeCode"/>
         </reference-descriptor>
-        <reference-descriptor name="approvalType" class-ref="org.kuali.kra.bo.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="approvalType" class-ref="org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="approvalTypeCode"/>
         </reference-descriptor>
     </class-descriptor>
@@ -531,7 +531,7 @@
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <reference-descriptor name="exemptionType" class-ref="org.kuali.coeus.common.framework.exemption.ExemptionType" auto-retrieve="false" auto-update="none" auto-delete="none">
+        <reference-descriptor name="exemptionType" class-ref="org.kuali.coeus.common.framework.compliance.exemption.ExemptionType" auto-retrieve="false" auto-update="none" auto-delete="none">
             <foreignkey field-ref="exemptionTypeCode"/>
         </reference-descriptor>
         <reference-descriptor name="protocolSpecialReview" class-ref="org.kuali.kra.irb.specialreview.ProtocolSpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 

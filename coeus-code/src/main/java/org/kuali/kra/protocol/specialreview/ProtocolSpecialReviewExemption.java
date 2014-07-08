@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.specialreview;
 
-import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
+import org.kuali.coeus.common.framework.compliance.exemption.SpecialReviewExemption;
 
 /**
  * Defines a Special Review Exemption for a ProtocolBase.

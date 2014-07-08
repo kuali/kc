@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.specialreview.impl;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.specialreview.impl.bo.SpecialReview;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReview;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;

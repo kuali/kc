@@ -629,10 +629,10 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="protocolStatus" column="PROTOCOL_STATUS_DESCRIPTION" jdbc-type="VARCHAR" />
         
-        <reference-descriptor name="specialReviewType" class-ref="org.kuali.kra.bo.SpecialReviewType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="specialReviewType" class-ref="org.kuali.coeus.common.framework.compliance.core.SpecialReviewType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="specialReviewTypeCode"/>
         </reference-descriptor>
-        <reference-descriptor name="approvalType" class-ref="org.kuali.kra.bo.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="approvalType" class-ref="org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="approvalTypeCode"/>
         </reference-descriptor>
         
@@ -651,7 +651,7 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         
-        <reference-descriptor name="exemptionType" class-ref="org.kuali.coeus.common.framework.exemption.ExemptionType" auto-retrieve="false" auto-update="none" auto-delete="none">
+        <reference-descriptor name="exemptionType" class-ref="org.kuali.coeus.common.framework.compliance.exemption.ExemptionType" auto-retrieve="false" auto-update="none" auto-delete="none">
             <foreignkey field-ref="exemptionTypeCode"/>
         </reference-descriptor>
         <reference-descriptor name="proposalSpecialReview" class-ref="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none">

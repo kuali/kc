@@ -16,6 +16,7 @@
 package org.kuali.kra.institutionalproposal.printing.xmlstream;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
 import org.kuali.coeus.common.framework.noo.NoticeOfOpportunity;
@@ -30,7 +31,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.*;
-import org.kuali.kra.bo.SpecialReviewType;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.coeus.common.framework.costshare.CostShareService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;

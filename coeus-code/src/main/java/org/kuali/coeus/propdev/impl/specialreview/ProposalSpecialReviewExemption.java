@@ -24,8 +24,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.coeus.common.specialreview.impl.bo.SpecialReviewExemption;
-import org.kuali.coeus.common.framework.exemption.ExemptionType;
+import org.kuali.coeus.common.framework.compliance.exemption.SpecialReviewExemption;
+import org.kuali.coeus.common.framework.compliance.exemption.ExemptionType;
 import org.kuali.coeus.propdev.api.specialreview.ProposalSpecialReviewExemptionContract;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 

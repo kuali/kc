@@ -296,7 +296,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.bo.SpecialReviewType" table="SPECIAL_REVIEW">
+	<class-descriptor class="org.kuali.coeus.common.framework.compliance.core.SpecialReviewType" table="SPECIAL_REVIEW">
 		<field-descriptor name="specialReviewTypeCode" column="SPECIAL_REVIEW_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER" />
@@ -305,7 +305,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.bo.SpecialReviewApprovalType" table="SP_REV_APPROVAL_TYPE">
+	<class-descriptor class="org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType" table="SP_REV_APPROVAL_TYPE">
 		<field-descriptor name="approvalTypeCode" column="APPROVAL_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -313,7 +313,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.bo.SpecialReviewUsage" table="SPECIAL_REVIEW_USAGE">
+	<class-descriptor class="org.kuali.coeus.common.framework.compliance.core.SpecialReviewUsage" table="SPECIAL_REVIEW_USAGE">
         <field-descriptor name="specialReviewUsageId" column="SPECIAL_REVIEW_USAGE_ID" jdbc-type="BIGINT" primarykey="true" />
         <field-descriptor name="specialReviewTypeCode" column="SPECIAL_REVIEW_CODE" />
         <field-descriptor name="moduleCode" column="MODULE_CODE" jdbc-type="VARCHAR" />
@@ -323,7 +323,7 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-        <reference-descriptor name="specialReviewType" class-ref="org.kuali.kra.bo.SpecialReviewType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="specialReviewType" class-ref="org.kuali.coeus.common.framework.compliance.core.SpecialReviewType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="specialReviewTypeCode" />
         </reference-descriptor>
         <reference-descriptor name="coeusModule" class-ref="org.kuali.coeus.common.framework.module.CoeusModule" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -631,7 +631,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.bo.ValidSpecialReviewApproval" table="VALID_SP_REV_APPROVAL">
+	<class-descriptor class="org.kuali.coeus.common.framework.compliance.core.ValidSpecialReviewApproval" table="VALID_SP_REV_APPROVAL">
 	    <field-descriptor name="validSpecialReviewApprovalId" column="VALID_SP_REV_APPROVAL_ID" jdbc-type="BIGINT" primarykey="true" />
 	    <field-descriptor name="specialReviewTypeCode" column="SPECIAL_REVIEW_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="approvalTypeCode" column="APPROVAL_TYPE_CODE" jdbc-type="VARCHAR"/>
@@ -642,10 +642,10 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="specialReviewType" class-ref="org.kuali.kra.bo.SpecialReviewType" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="specialReviewType" class-ref="org.kuali.coeus.common.framework.compliance.core.SpecialReviewType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="specialReviewTypeCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="specialReviewApprovalType" class-ref="org.kuali.kra.bo.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="specialReviewApprovalType" class-ref="org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="approvalTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>
@@ -1030,7 +1030,7 @@
 <!-- end organization related table  -->
 	
 <!--  special review rel-1 enhancement -->	
-	<class-descriptor class="org.kuali.coeus.common.framework.exemption.ExemptionType" table="EXEMPTION_TYPE">
+	<class-descriptor class="org.kuali.coeus.common.framework.compliance.exemption.ExemptionType" table="EXEMPTION_TYPE">
 		<field-descriptor name="code" column="EXEMPTION_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="detailedDescription" column="DETAILED_DESCRIPTION" jdbc-type="CLOB"/>

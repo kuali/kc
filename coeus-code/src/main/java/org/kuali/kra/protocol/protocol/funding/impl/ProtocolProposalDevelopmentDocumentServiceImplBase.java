@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.protocol.protocol.funding.impl;
 
+import org.kuali.coeus.common.framework.compliance.core.ComplianceConstants;
 import org.kuali.coeus.common.framework.person.editable.PersonEditableService;
-import org.kuali.coeus.common.specialreview.impl.service.impl.SpecialReviewServiceImpl;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.SpecialReviewApprovalType;
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -133,7 +133,7 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImplBase impleme
     /**
      * Initialize the Authorizations for a new proposal.  The initiator/creator
      * is assigned the Aggregator role.
-     * @param doc the proposal development document
+     * @param document the proposal development document
      */
     protected void initializeAuthorization(ProposalDevelopmentDocument document) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
@@ -178,7 +178,7 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImplBase impleme
         specialReview.setDevelopmentProposal(proposalDocument.getDevelopmentProposal());
         
         specialReview.setProtocolStatus(protocol.getProtocolStatus().getDescription());
-        specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
+        specialReview.setComments(ComplianceConstants.NEW_SPECIAL_REVIEW_COMMENT);
         proposalDocument.getDevelopmentProposal().getPropSpecialReviews().add(specialReview);
         }
     }
