@@ -79,6 +79,22 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         return getTransactionalDocumentControllerService().saveLine(form, result, request, response);
     }
 
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addAttachment")
+    public ModelAndView addAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
+
+        if(form.getEditableAttachments().containsKey(selectedCollectionPath)) {
+            List<String> indexes = new ArrayList<String>();
+            for (String index : form.getEditableAttachments().get(selectedCollectionPath)) {
+                Integer newIndex= Integer.parseInt(index) + 1;
+                indexes.add(newIndex.toString());
+            }
+            form.getEditableAttachments().get(selectedCollectionPath).clear();
+            form.getEditableAttachments().get(selectedCollectionPath).addAll(indexes);
+        }
+        return getTransactionalDocumentControllerService().addLine(form, result, request, response);
+    }
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addFileUploadLine")
     public ModelAndView addFileUploadLine(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                           MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
