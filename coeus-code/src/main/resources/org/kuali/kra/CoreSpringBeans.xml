@@ -249,7 +249,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/DisclosurePersonUnit.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/Distribution.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/DocumentNextvalue.xml</value>
-                <value>classpath:org/kuali/coeus/common/impl/exemption/ExemptionType.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/compliance/exemption/ExemptionType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ExemptStudiesCheckListItem.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ExpeditedReviewCheckListItem.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/FandaRateType.xml</value>
@@ -601,11 +601,11 @@
                 <value>classpath:org/kuali/kra/datadictionary/SchoolCode.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/keyword/ScienceKeyword.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ScienceKeywordReference.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/SpecialReview.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/SpecialReviewApprovalType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/SpecialReviewExemption.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/SpecialReviewType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/SpecialReviewUsage.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/compliance/core/SpecialReview.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/compliance/core/SpecialReviewApprovalType.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/compliance/exemption/SpecialReviewExemption.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/compliance/core/SpecialReviewType.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/compliance/core/SpecialReviewUsage.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/sponsor/Sponsor.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/sponsor/form/SponsorForms.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/sponsor/form/SponsorFormTemplate.xml</value>
@@ -656,7 +656,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/ValidProtoSubRevType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ValidProtoSubTypeQual.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ValidRates.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/ValidSpecialReviewApproval.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/compliance/core/ValidSpecialReviewApproval.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/print/watermark/Watermark.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/ynq/Ynq.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/ynq/YnqExplanation.xml</value>
@@ -728,7 +728,7 @@
                 <value>classpath:org/kuali/coeus/common/impl/type/DeadlineTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/person/attr/DegreeTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/DistributionMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/coeus/common/impl/exemption/ExemptionTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/compliance/exemption/ExemptionTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ExemptStudiesCheckListMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ExpeditedReviewCheckListMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/FandaRateTypeMaintenanceDocument.xml</value>
@@ -886,9 +886,9 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/ScheduleStatusMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/SchoolCodeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/keyword/ScienceKeywordMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/SpecialReviewApprovalTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/SpecialReviewTypeMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/SpecialReviewUsageMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/compliance/core/SpecialReviewApprovalTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/compliance/core/SpecialReviewTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/compliance/core/SpecialReviewUsageMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/sponsor/form/SponsorFormsMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/sponsor/form/SponsorFormTemplateMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/sponsor/hierarchy/SponsorHierarchyMaintenanceDocument.xml</value>
@@ -927,7 +927,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidProtoSubRevTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidProtoSubTypeQualMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ValidRatesMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/docs/ValidSpecialReviewApprovalMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/compliance/core/ValidSpecialReviewApprovalMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/print/watermark/WatermarkMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/ynq/YnqExplanationMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/ynq/YnqMaintenanceDocument.xml</value>
