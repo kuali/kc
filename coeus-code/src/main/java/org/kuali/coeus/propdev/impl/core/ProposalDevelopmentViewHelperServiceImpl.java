@@ -40,6 +40,7 @@ import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -79,7 +80,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Qualifier("lookupService")
     private LookupService lookupService;
     
-       
+    @Autowired
+	@Qualifier("parameterService")
+	private ParameterService parameterService;
+    
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
@@ -241,7 +245,16 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-  
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    protected ParameterService getParameterService (){
+    	if(parameterService==null){
+    		parameterService= KcServiceLocator.getService(ParameterService.class);
+    	}
+    	return parameterService;
+    }
+    
     public ProposalDevelopmentAttachmentService getProposalDevelopmentAttachmentService() {
         if (proposalDevelopmentAttachmentService == null) {
             proposalDevelopmentAttachmentService = KcServiceLocator.getService(ProposalDevelopmentAttachmentService.class);
@@ -251,6 +264,9 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     public void setProposalDevelopmentAttachmentService(ProposalDevelopmentAttachmentService proposalDevelopmentAttachmentService) {
         this.proposalDevelopmentAttachmentService = proposalDevelopmentAttachmentService;
     }
+    public boolean isCreditSplitEnabled(){
+    	return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.CREDIT_SPLIT_ENABLED_RULE_NAME);
+   	}
     public String displayProposalProgressCode(WorkflowDocument wd) {
   	  String proposalProgressCode;
   	  
