@@ -40,22 +40,26 @@ public class ProposalDevelopmentAttachmentServiceImpl implements ProposalDevelop
     }
 
     @Override
-    public void standardizeAttachment(DevelopmentProposal developmentProposal, Narrative narrative) {
+    public void standardizeAttachment(DevelopmentProposal developmentProposal, Narrative narrative){
+        if (narrative.getNarrativeAttachment() != null) {
             narrative.refreshReferenceObject("narrativeType");
             String extension = FilenameUtils.getExtension(narrative.getName());
             String newFileName = getKcAttachmentService().checkAndReplaceInvalidCharacters(
                     getKcAttachmentService().checkAndReplaceSpecialCharacters(narrative.getNarrativeType().getDescription()));
             narrative.setName(newFileName + "." + extension);
+        }
     }
 
     @Override
     public void standardizeAttachment(DevelopmentProposal developmentProposal, ProposalPersonBiography biography) {
-            biography.refreshReferenceObject("propPerDocType");
-            String extension = FilenameUtils.getExtension(biography.getName());
-            String fullName = getPerson(developmentProposal,biography.getProposalPersonNumber()).getFullName();
-            String newFileName = getKcAttachmentService().checkAndReplaceInvalidCharacters(
-                    getKcAttachmentService().checkAndReplaceSpecialCharacters(fullName + "_" + biography.getPropPerDocType().getDescription()));
-            biography.setName(newFileName + "." + extension);
+            if (biography.getPersonnelAttachment() != null) {
+                biography.refreshReferenceObject("propPerDocType");
+                String extension = FilenameUtils.getExtension(biography.getName());
+                String fullName = getPerson(developmentProposal,biography.getProposalPersonNumber()).getFullName();
+                String newFileName = getKcAttachmentService().checkAndReplaceInvalidCharacters(
+                        getKcAttachmentService().checkAndReplaceSpecialCharacters(fullName + "_" + biography.getPropPerDocType().getDescription()));
+                biography.setName(newFileName + "." + extension);
+            }
     }
 
     protected ProposalPerson getPerson(DevelopmentProposal developmentProposal, Integer proposalPersonNumber) {

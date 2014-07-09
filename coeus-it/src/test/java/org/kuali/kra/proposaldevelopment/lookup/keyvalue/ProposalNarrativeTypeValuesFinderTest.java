@@ -20,6 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.propdev.impl.attachment.ProposalNarrativeTypeValuesFinder;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
@@ -57,15 +58,17 @@ public class ProposalNarrativeTypeValuesFinderTest extends KcIntegrationTestBase
     @Test
     public void testFindingNarrativeValues() throws Exception {
         document.getDevelopmentProposal().getNarratives().add(createNarrative(proposalNarrativeType));
-        Assert.assertEquals(3, finder.getFilteredKeyValues(copyMasterNarrativeTypeList()).size());
+        Assert.assertEquals(3, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),new Narrative()).size());
+        Assert.assertEquals(4, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),createNarrative(proposalNarrativeType)).size());
         document.getDevelopmentProposal().getNarratives().clear();
         
         document.getDevelopmentProposal().getNarratives().add(createNarrative(bioNarrativeType));
-        Assert.assertEquals(3, finder.getFilteredKeyValues(copyMasterNarrativeTypeList()).size());
+        Assert.assertEquals(3, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),new Narrative()).size());
+        Assert.assertEquals(4, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),createNarrative(bioNarrativeType)).size());
         document.getDevelopmentProposal().getNarratives().clear();
         
         document.getDevelopmentProposal().getNarratives().add(createNarrative(otherNarrativeType));
-        Assert.assertEquals(4, finder.getFilteredKeyValues(copyMasterNarrativeTypeList()).size());
+        Assert.assertEquals(4, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),new Narrative()).size());
         document.getDevelopmentProposal().getNarratives().clear();
     }
 
@@ -120,14 +123,9 @@ public class ProposalNarrativeTypeValuesFinderTest extends KcIntegrationTestBase
     
     // Mock out methods that rely on infrastructure services 
     private class MockProposalNarrativeTypeValuesFinder extends ProposalNarrativeTypeValuesFinder {
- 
-        @Override
-        protected ProposalDevelopmentDocument getDocumentFromForm() {
-            return document;
-        }
 
         @Override
-        public Collection<NarrativeType> loadAllNarrativeTypes() {
+        public Collection<NarrativeType> loadAllNarrativeTypes(DevelopmentProposal developmentProposal) {
             return allNarrativeTypes;
         }
         
