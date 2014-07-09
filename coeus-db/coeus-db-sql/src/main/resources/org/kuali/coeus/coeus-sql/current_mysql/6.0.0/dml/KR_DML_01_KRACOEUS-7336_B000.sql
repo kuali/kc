@@ -1,0 +1,6 @@
+DELIMITER /
+
+UPDATE KRCR_PARM_T SET NMSPC_CD = 'KC-S2S', CMPNT_CD = 'All' WHERE NMSPC_CD = 'KC-PD' AND CMPNT_CD = 'Document' AND PARM_NM = 's2sBudgetCategory01OtherProfs'
+/
+
+DELIMITER ;
