@@ -17,9 +17,10 @@ package org.kuali.kra.iacuc.customdata;
 
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
+import org.kuali.coeus.sys.api.model.IdentifiableNumeric;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class IacucProtocolCustomData extends KcPersistableBusinessObjectBase implements DocumentCustomData {
+public class IacucProtocolCustomData extends KcPersistableBusinessObjectBase implements DocumentCustomData, IdentifiableNumeric {
 
     private static final long serialVersionUID = 8074330420210212533L;
 
@@ -69,5 +70,10 @@ public class IacucProtocolCustomData extends KcPersistableBusinessObjectBase imp
     public void setCustomAttribute(CustomAttribute customAttribute) {
         this.customAttribute = customAttribute;
     }
+
+	@Override
+	public Long getId() {
+		return customAttributeId;
+	}
 
 }

@@ -162,7 +162,8 @@ public class CustomDataRule extends KcTransactionalDocumentRuleBase implements K
             
             // validate BO data against the database contents 
             String lookupClass = customAttribute.getLookupClass();
-            if (lookupClass != null && lookupClass.equals("org.kuali.kra.bo.KcPerson"))
+           
+            if (lookupClass != null && lookupClass.equals(KcPerson.class.getName()))
             {
                 if (customAttribute.getDataTypeCode().equals("1") && customAttribute.getLookupReturn().equals("userName"))
                 {

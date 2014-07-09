@@ -26,7 +26,6 @@
 <c:set var="attachmentFileAttributes" value="${DataDictionary.AttachmentFile.attributes}" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" />
 
-<c:set var="narrativeAttributes" value="${DataDictionary.Narrative.attributes}" />
 
 <c:choose>
 	<c:when test="${empty KualiForm.document.protocolList[0].protocolPersons[personIndex].personName}">
@@ -171,7 +170,7 @@
 			                    <td>
 			                        <kra:fileicon attachment="${attachment.file}"/>
 			                        <kul:htmlControlAttribute property="document.protocolList[0].protocolPersons[${personIndex}].attachmentPersonnels[${status.index}].file.name"
-			                                                  attributeEntry="${narrativeAttributes.fileName}" 
+			                                                  attributeEntry="${attachmentFileAttributes.name}" 
 			                                                  readOnly="true" />
 								</td>
 			                    <td>

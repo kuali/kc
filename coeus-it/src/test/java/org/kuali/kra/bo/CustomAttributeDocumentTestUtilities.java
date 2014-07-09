@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
+import org.kuali.coeus.common.framework.person.KcPerson;
 
 /**
  * Defines utilities for unit testing
@@ -54,7 +55,7 @@ public class CustomAttributeDocumentTestUtilities {
         customAttributeDocument = buildCustomAttributeDocument("PRDV", true, customAttribute);
         customAttributeDocuments.put("4", customAttributeDocument);
 
-        customAttribute = buildCustomAttribute(5L, "tenured", "Tenured", "1", new Integer(30), GROUP_NAME_2, "org.kuali.kra.bo.KcPerson", "userName");
+        customAttribute = buildCustomAttribute(5L, "tenured", "Tenured", "1", new Integer(30), GROUP_NAME_2, KcPerson.class.getName(), "userName");
         customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
         customAttributeDocuments.put("5", customAttributeDocument);
 
@@ -62,7 +63,7 @@ public class CustomAttributeDocumentTestUtilities {
         customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
         customAttributeDocuments.put("6", customAttributeDocument);
 
-        customAttribute = buildCustomAttribute(7L, "inventions", "Inventions", "1", new Integer(30), GROUP_NAME_3, "org.kuali.kra.bo.KcPerson", "userName");
+        customAttribute = buildCustomAttribute(7L, "inventions", "Inventions", "1", new Integer(30), GROUP_NAME_3, KcPerson.class.getName(), "userName");
         customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
         customAttributeDocuments.put("7", customAttributeDocument);
 
