@@ -81,7 +81,7 @@ public class SponsorHierarchyMaintenanceServiceImpl implements SponsorHierarchyM
     @Override
     public String getTopSponsorHierarchy() {
 
-       // KcServiceLocator.getService(UserRoleService.class).getUserRoles("abc", "abc");
+       // KcServiceLocator.getService(UserRoleService.class).getOldUserRoles("abc", "abc");
         String topSponsorHierarchy = Constants.EMPTY_STRING;
         
         List sponsorHierarchies = (List)getTopSponsorHierarchyList();

@@ -57,7 +57,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
     
     private ProposalDevelopmentPermissionsService proposalDevelopmentPermissionsService;
     private PersonService personService;
-    
+
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
