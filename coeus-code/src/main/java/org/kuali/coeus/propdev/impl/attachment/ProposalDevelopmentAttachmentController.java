@@ -15,12 +15,15 @@
  */
 package org.kuali.coeus.propdev.impl.attachment;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,6 +37,12 @@ import java.util.*;
 
 @Controller
 public class ProposalDevelopmentAttachmentController extends ProposalDevelopmentControllerBase {
+
+    private static final Logger LOG = Logger.getLogger(ProposalDevelopmentAttachmentController.class);
+
+    @Autowired
+    @Qualifier("legacyNarrativeService")
+    private LegacyNarrativeService legacyNarrativeService;
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=editAttachment")
     public ModelAndView editAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
@@ -145,5 +154,61 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         propDevForm.getDevelopmentProposal().setInstituteAttachments(filteredInstituteAttachments);
         propDevForm.getDevelopmentProposal().setNarratives(filteredNarratives);
         return getTransactionalDocumentControllerService().navigate(form, result, request, response);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareNarrative")
+    public ModelAndView prepareNarrative(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response) throws Exception{
+       String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+       form.getProposalDevelopmentAttachmentHelper().reset();
+
+       if (StringUtils.isNotEmpty(selectedLine)) {
+           Narrative tmpNarrative = null;
+           tmpNarrative = form.getDevelopmentProposal().getNarrative(Integer.parseInt(selectedLine));
+           form.getProposalDevelopmentAttachmentHelper().setSelectedLineIndex(selectedLine);
+           form.getProposalDevelopmentAttachmentHelper().setNarrative(tmpNarrative);
+       }
+
+       return getTransactionalDocumentControllerService().refresh(form,result,request,response);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addNarrative")
+    public ModelAndView addNarrative(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+                                    HttpServletRequest request, HttpServletResponse response) throws Exception{
+        Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getNarrative();
+        getLegacyNarrativeService().prepareNarrative(form.getProposalDevelopmentDocument(),narrative);
+        try {
+            narrative.init(narrative.getMultipartFile());
+        } catch (Exception e) {
+            LOG.info("No File Attached");
+        }
+        form.getDevelopmentProposal().getNarratives().add(narrative);
+        form.getProposalDevelopmentAttachmentHelper().reset();
+        return getTransactionalDocumentControllerService().refresh(form,result,request,response);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveNarrative")
+    public ModelAndView saveNarrative(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+                                              HttpServletRequest request, HttpServletResponse response) throws Exception{
+        Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getNarrative();
+        int selectedLineIndex = Integer.parseInt(form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
+        narrative.refreshReferenceObject("narrativeType");
+        narrative.refreshReferenceObject("narrativeStatus");
+        try {
+            narrative.init(narrative.getMultipartFile());
+        } catch (Exception e) {
+            LOG.info("No File Attached");
+        }
+        form.getDevelopmentProposal().getNarratives().set(selectedLineIndex,narrative);
+        form.getProposalDevelopmentAttachmentHelper().reset();
+        return getTransactionalDocumentControllerService().refresh(form,result,request,response);
+    }
+
+    public LegacyNarrativeService getLegacyNarrativeService() {
+        return legacyNarrativeService;
+    }
+
+    public void setLegacyNarrativeService(LegacyNarrativeService legacyNarrativeService) {
+        this.legacyNarrativeService = legacyNarrativeService;
     }
 }

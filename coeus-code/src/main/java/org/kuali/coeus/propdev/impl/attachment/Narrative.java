@@ -151,6 +151,9 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     @Transient
     private transient KcAttachmentService kcAttachmentService;
 
+    @Transient
+    private MultipartFile multipartFile;
+
     @Override
     public void init(MultipartFile multipartFile) throws Exception {
         this.name = multipartFile.getOriginalFilename();
@@ -225,6 +228,14 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
             return getDateTimeService().toString(new Date(this.getUpdateTimestamp().getTime()), CoreConstants.TIMESTAMP_TO_STRING_FORMAT_FOR_USER_INTERFACE_DEFAULT);
         }
         return StringUtils.EMPTY;
+    }
+
+    public MultipartFile getMultipartFile() {
+        return multipartFile;
+    }
+
+    public void setMultipartFile(MultipartFile multipartFile) {
+        this.multipartFile = multipartFile;
     }
 
     protected TaskAuthorizationService getTaskAuthorizationService(){
