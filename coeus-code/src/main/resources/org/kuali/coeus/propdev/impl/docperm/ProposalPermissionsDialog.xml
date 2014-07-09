@@ -96,51 +96,10 @@
 				p:fieldConversions="principalName:username">
 				<property name="quickfinderAction">
 					<bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="performLookup"
-						p:wrapperCssClasses="input-group-btn"
 						p:actionLabel="Find User" p:iconClass="icon-search" />
 				</property>
 			</bean>
 		</property>
 	</bean>
-
-  <bean id="PropDev-PermissionsDialog-PersonLookup" parent="PropDev-PermissionsDialog-PersonLookup-parentBean"/>
-  <bean id="PropDev-PermissionsDialog-PersonLookup-parentBean" abstract="true" parent="Uif-LookupView"
-  		p:viewName="PropDev-PermissionsDialog-PersonLookup"
-		p:dataObjectClassName="org.kuali.coeus.common.framework.person.KcPerson"
-		p:headerText="KcPerson Lookup">
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
-		<property name="criteriaFields">
-			<list>
-				<bean p:propertyName="personId" parent="Uif-LookupCriteriaInputField"/>
-				<bean p:propertyName="lastName" parent="Uif-LookupCriteriaInputField"/>
-				<bean p:propertyName="firstName" parent="Uif-LookupCriteriaInputField"/>
-				<bean p:propertyName="principalName" parent="Uif-LookupCriteriaInputField"/>
-				<bean p:propertyName="emailAddress" parent="Uif-LookupCriteriaInputField"/>
-				<bean p:propertyName="officePhone" parent="Uif-LookupCriteriaInputField"/>
-				<bean p:propertyName="unit.unitNumber" parent="Uif-LookupCriteriaInputField"/>
-			</list>
-		</property>
-		<property name="resultFields">
-			<list>
-				<bean p:propertyName="personId" parent="Uif-DataField"/>
-				<bean p:propertyName="lastName" parent="Uif-DataField"/>
-				<bean p:propertyName="firstName" parent="Uif-DataField"/>
-				<bean p:propertyName="principalName" parent="Uif-DataField"/>
-				<bean p:propertyName="emailAddress" parent="Uif-DataField"/>
-				<bean p:propertyName="officePhone" parent="Uif-DataField"/>
-				<bean p:propertyName="unit.unitNumber" parent="Uif-DataField"/>
-			</list>
-		</property>
-  </bean>
 
 </beans>
