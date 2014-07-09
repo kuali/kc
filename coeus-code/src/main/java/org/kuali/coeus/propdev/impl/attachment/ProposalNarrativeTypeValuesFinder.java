@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.attachment;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -25,6 +26,8 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.uif.view.ViewModel;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
 
@@ -65,23 +68,25 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
     }
     
     @Override
-    public List<KeyValue> getKeyValues() {
-        Collection<NarrativeType> allNarrativeTypes = loadAllNarrativeTypes();
-        return getFilteredKeyValues(allNarrativeTypes);
+    public List<KeyValue> getKeyValues(ViewModel model) {
+        DevelopmentProposal developmentProposal = ((ProposalDevelopmentDocumentForm) model).getDevelopmentProposal();
+        Narrative selectedNarrative = ((ProposalDevelopmentDocumentForm) model).getProposalDevelopmentAttachmentHelper().getNarrative();
+        Collection<NarrativeType> allNarrativeTypes = loadAllNarrativeTypes(developmentProposal);
+        return getFilteredKeyValues(allNarrativeTypes,developmentProposal,selectedNarrative);
     }
     
-    public List<KeyValue> getFilteredKeyValues(Collection<NarrativeType> allNarrativeTypes) {
-        Collection<NarrativeType> filteredCollection = filterCollection(allNarrativeTypes);
+    public List<KeyValue> getFilteredKeyValues(Collection<NarrativeType> allNarrativeTypes, DevelopmentProposal developmentProposal, Narrative selectedNarrative) {
+        Collection<NarrativeType> filteredCollection = filterCollection(allNarrativeTypes,developmentProposal,selectedNarrative);
         return buildKeyValuesCollection(filteredCollection);
         
     }
 
-    protected Collection<NarrativeType> filterCollection(Collection<NarrativeType> narrativeTypes) {
-        ProposalDevelopmentDocument document = getDocumentFromForm();
+    protected Collection<NarrativeType> filterCollection(Collection<NarrativeType> narrativeTypes, DevelopmentProposal developmentProposal, Narrative selectedNarrative) {
         Collection<NarrativeType> forRemoval = new ArrayList<NarrativeType>();        
         for (NarrativeType narrativeType : narrativeTypes) {
-            for (Narrative narrative : document.getDevelopmentProposal().getNarratives()) {
-                if (filterCondition(narrative.getNarrativeType(), narrativeType)) {
+            for (Narrative narrative : developmentProposal.getNarratives()) {
+                if (narrative.getNarrativeType() != null && filterCondition(narrative.getNarrativeType(), narrativeType) &&
+                        !isSelectedNarrative(narrative, selectedNarrative)) {
                     forRemoval.add(narrativeType);
                 } else {
                     LOG.debug("Not removing narrative type " + narrativeType.getDescription());
@@ -107,9 +112,7 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
     }
     
     @SuppressWarnings("unchecked")
-    protected Collection<NarrativeType> loadAllNarrativeTypes() {
-        ProposalDevelopmentDocument document = getDocumentFromForm();
-        DevelopmentProposal developmentProposal = document.getDevelopmentProposal();
+    protected Collection<NarrativeType> loadAllNarrativeTypes(DevelopmentProposal developmentProposal) {
         List<NarrativeType> validS2SFormNarratives = new ArrayList<NarrativeType>();
         if(isS2sCandidate(developmentProposal)){
             populateValidFormNarratives(developmentProposal,validS2SFormNarratives);
@@ -206,16 +209,17 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
         return queryMap;
     }
 
-    protected ProposalDevelopmentDocument getDocumentFromForm() {
-        return (ProposalDevelopmentDocument) getDocument();
-    }
-    
-
     protected boolean filterCondition(NarrativeType documentNarrativeType, NarrativeType narrativeType) {
         return documentNarrativeType.getCode().equals(narrativeType.getCode()) && multiplesNotAllowed(narrativeType);
     }
 
     private boolean multiplesNotAllowed(NarrativeType narrativeType) {
         return !narrativeType.isAllowMultiple();
+    } 
+    private boolean isSelectedNarrative(Narrative narrative, Narrative selectedNarrative) {
+        if (selectedNarrative.getNarrativeTypeCode() != null && selectedNarrative.getNarrativeTypeCode().equals(narrative.getNarrativeTypeCode())) {
+            return true;
+        }
+        return false;
     }
 }
