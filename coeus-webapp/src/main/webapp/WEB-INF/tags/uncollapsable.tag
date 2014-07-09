@@ -36,7 +36,6 @@
 
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
 <c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
-<c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
 
 
 <c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>

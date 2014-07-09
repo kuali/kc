@@ -16,6 +16,7 @@
 package org.kuali.kra.maintenance;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.attr.PersonTraining;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -104,7 +105,7 @@ public class PersonTrainingMaintainableImpl extends KraMaintainableImpl {
                             field.setFieldConversions(keyName + COLUMN + field.getPropertyName());
                             field.setLookupParameters(field.getPropertyName() + COLUMN + keyName);
                             field.setInquiryParameters(field.getPropertyName() + COLUMN + keyName);
-                            field.setQuickFinderClassNameImpl("org.kuali.kra.bo.KcPerson");
+                            field.setQuickFinderClassNameImpl(KcPerson.class.getName());
                             field.setFieldDirectInquiryEnabled(true);
                         }
                     }

@@ -159,7 +159,7 @@
 					<display>
 						<type>text</type>
 					</display>
-					<lookup businessObjectClass="org.kuali.kra.bo.KcPerson">
+					<lookup businessObjectClass="org.kuali.coeus.common.framework.person.KcPerson">
 				      <fieldConversions>
 				        <fieldConversion lookupFieldName="fullName" localFieldName="awardBudgetInvestigator"/>
 				      </fieldConversions>

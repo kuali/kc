@@ -704,19 +704,15 @@ public class QuestionnaireXmlStream implements XmlStream {
                                         }
                                         selectedAnswer = answer.getAnswerNumber();
                                         isAnswerNamePresent=true;
-                                        //break;
                                     }
                                 }
 
                             }
                         }
                 
-                        //if (isAnswerPresent || !questionnaireCompletionFlag) {
                             AnswerInfoType answerInfo = questionInfo.addNewAnswerInfo();
                             answerInfo.setAnswerNumber(selectedAnswer);
-//                    if(answerDescription==null||answerDescription.isEmpty())
-//                        answerDescription="notAnswered";
-                    if((questionnaireQuestion.getQuestion().getQuestionTypeId().equals(6)) && (questionnaireQuestion.getQuestion().getLookupClass().equals("org.kuali.kra.bo.KcPerson"))) {
+                    if((questionnaireQuestion.getQuestion().getQuestionTypeId().equals(6)) && (questionnaireQuestion.getQuestion().getLookupClass().equals(KcPerson.class.getName()))) {
                         if((questionnaireQuestion.getQuestion().getLookupReturn().equals(PERSON_ID))){
                             if(answerDescription!=null && !answerDescription.equals("")){
                         String personAnswers[]=answerDescription.split(",");
