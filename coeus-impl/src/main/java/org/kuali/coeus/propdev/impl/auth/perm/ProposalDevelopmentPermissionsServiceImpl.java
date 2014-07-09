@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component("ProposalDevelopmentPermissionsService")
+@Component("proposalDevelopmentPermissionsService")
 public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelopmentPermissionsService {
 
     @Autowired

@@ -27,6 +27,7 @@ import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -109,6 +110,10 @@ public abstract class ProposalDevelopmentControllerBase {
     @Autowired
     @Qualifier("proposalDevelopmentService")
     private ProposalDevelopmentService proposalDevelopmentService;
+
+    @Autowired
+    @Qualifier("proposalDevelopmentPermissionsService")
+    private ProposalDevelopmentPermissionsService proposalDevelopmentPermissionsService;
 
     @Autowired
     @Qualifier("proposalDevelopmentAttachmentService")
@@ -329,7 +334,7 @@ public abstract class ProposalDevelopmentControllerBase {
 	public void setDataObjectService(DataObjectService dataObjectService) {
 		this.dataObjectService = dataObjectService;
 	}
-	
+
 	public void saveAnswerHeaders(ProposalDevelopmentDocumentForm pdForm,String pageId) {
         if (StringUtils.equalsIgnoreCase(pageId, Constants.KEY_PERSONNEL_PAGE)) {
             for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
@@ -441,4 +446,12 @@ public abstract class ProposalDevelopmentControllerBase {
 	public void setGlobalVariableService(GlobalVariableService globalVariableService) {
 		this.globalVariableService = globalVariableService;
 	}
+
+    protected ProposalDevelopmentPermissionsService getProposalDevelopmentPermissionsService() {
+        return proposalDevelopmentPermissionsService;
+    }
+
+    public void setProposalDevelopmentPermissionsService(ProposalDevelopmentPermissionsService proposalDevelopmentPermissionsService) {
+        this.proposalDevelopmentPermissionsService = proposalDevelopmentPermissionsService;
+    }
 }

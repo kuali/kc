@@ -35,8 +35,8 @@ public class ProposalUserRoles implements Serializable {
     private String unitNumber = "";
     private String unitName = "";
     private List<String> roleNames;
-
-
+    private boolean applied = false;
+    
     public ProposalUserRoles() {
         roleNames = new ArrayList<String>();
     }
@@ -56,6 +56,9 @@ public class ProposalUserRoles implements Serializable {
      * @param username the user's username
      */
     public void setUsername(String username) {
+    	while (username.endsWith(",")) {
+    		username = username.substring(0,username.length()-1);
+    	}
         this.username = username;
     }
 
@@ -125,7 +128,7 @@ public class ProposalUserRoles implements Serializable {
     /**
      * Set the user's role id.
      * 
-     * @param roleId the user's role id
+     * @param roleNames the user role names we want to keep
      */
     public void setRoleNames(List<String> roleNames) {
         this.roleNames = roleNames;
@@ -137,7 +140,9 @@ public class ProposalUserRoles implements Serializable {
      * @param roleName the role name
      */
     public void addRoleName(String roleName) {
-        this.roleNames.add(roleName);
+    	if (!roleNames.contains(roleName)) {
+            roleNames.add(roleName);
+    	}
     }
 
     /**
@@ -149,6 +154,32 @@ public class ProposalUserRoles implements Serializable {
         return roleNames;
     }
 
+	public boolean isApplied() {
+		return applied;
+	}
+
+	public void setApplied(boolean applied) {
+		this.applied = applied;
+	}
+
+	/**
+     * Get the user's role labels in the proposal as a single string.
+     * 
+     * @return the user's role labels in the proposal.
+     */
+    public String getRoleLabelString() {
+    	StringBuffer labels = new StringBuffer();
+    	boolean addBreak = false;
+    	for (String label:getRoleLabels()) {
+    		if (addBreak) {
+    			labels.append("\n");
+    		}
+    		labels.append(label);
+    		addBreak = true;
+    	}
+    	return labels.toString();
+    }
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -190,5 +221,11 @@ public class ProposalUserRoles implements Serializable {
         return hash;
     }
 
-
+    public String dump() {
+        String results = "ProposalUserRoles.dump, user = " + username + ", full name = " + fullname + ", unitName = " + unitName + ", unit number = " + unitNumber + ", roles = ";
+    	for (String value: getRoleNames()) {
+            results += value + ",";
+    	}
+        return results;
+    }
 }

@@ -23,6 +23,7 @@ import org.kuali.coeus.propdev.impl.budget.core.AddBudgetDto;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataGroupDto;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
+import org.kuali.coeus.propdev.impl.docperm.ProposalDevelopmentPermissionsHelper;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
@@ -56,6 +57,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private ProposalDevelopmentS2sQuestionnaireHelper s2sQuestionnaireHelper;
     private KeyPersonnelAddWizardHelper addKeyPersonHelper;
     private S2sOpportunity newS2sOpportunity;
+    private ProposalDevelopmentPermissionsHelper permissionsHelper;
     private transient MedusaService medusaService;
     private Map<String,List<String>> editableAttachments;
     private ProposalDevelopmentCustomDataHelper customDataHelper;
@@ -93,6 +95,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         addKeyPersonHelper = new KeyPersonnelAddWizardHelper();
         
         newS2sOpportunity = new S2sOpportunity();
+
+        permissionsHelper = new ProposalDevelopmentPermissionsHelper(getProposalDevelopmentDocument());
 
         editableAttachments = new HashMap<String,List<String>>();
 
@@ -194,6 +198,14 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     public void setEditableAttachments(Map<String, List<String>> editableAttachments) {
         this.editableAttachments = editableAttachments;
+    }
+
+    public ProposalDevelopmentPermissionsHelper getPermissionsHelper() {
+        return permissionsHelper;
+    }
+
+    public void setPermissionsHelper(ProposalDevelopmentPermissionsHelper permissionsHelper) {
+        this.permissionsHelper = permissionsHelper;
     }
 
     public ProposalDevelopmentCustomDataHelper getCustomDataHelper() {

@@ -50,6 +50,7 @@ import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
+import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -172,6 +173,8 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             note.setAuthorUniversalIdentifier(globalVariableService.getUserSession().getPrincipalId());
             note.setNotePostedTimestampToCurrent();
             note.setNoteTypeCode("BO");
+        } else if (addLine instanceof ProposalUserRoles) {
+            ProposalUserRoles newRole = (ProposalUserRoles)addLine;
         }
 
         if (addLine instanceof KcPersistableBusinessObjectBase) {
