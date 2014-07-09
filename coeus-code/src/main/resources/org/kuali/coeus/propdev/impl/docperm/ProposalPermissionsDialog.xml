@@ -34,7 +34,7 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-PrimaryActionButton" p:methodToCall="savePermissions" p:actionLabel="save"/>
-                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="refresh" p:onClickScript="closeLightbox();" p:actionLabel="cancel"/>
+                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="refresh" p:onClickScript="dismissDialog('PropDev-PermissionsDialog');" p:actionLabel="cancel"/>
                     </list>
                 </property>
             </bean>
