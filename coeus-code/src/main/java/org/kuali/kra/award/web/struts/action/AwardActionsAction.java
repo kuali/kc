@@ -149,7 +149,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     
     @Override
     protected void validateLookupInquiryFullParameter(HttpServletRequest request, ActionForm form, String fullParameter) {
-        if(fullParameter.startsWith("methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObject")) {
+        if(fullParameter.startsWith("methodToCall.performLookup.(!!" + Award.class.getName() + "!!).(((awardNumber:awardHierarchyTempObject")) {
             return;
         } else {
             super.validateLookupInquiryFullParameter(request,form,fullParameter);

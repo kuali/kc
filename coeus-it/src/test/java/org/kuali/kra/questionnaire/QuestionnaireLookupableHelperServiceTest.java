@@ -170,9 +170,9 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
   
         List<HtmlData> htmldata = questionnaireLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);        
         Assert.assertEquals(4, htmldata.size());
-        Assert.assertEquals(((AnchorHtmlData)htmldata.get(0)).getHref(), "../maintenanceQn.do?businessObjectClassName=org.kuali.coeus.common.questionnaire.framework.core.Questionnaire&id="+questionnaire.getId()+"&methodToCall=edit");
+        Assert.assertEquals(((AnchorHtmlData)htmldata.get(0)).getHref(), "../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() + "&id="+questionnaire.getId()+"&methodToCall=edit");
         Assert.assertTrue(((AnchorHtmlData)htmldata.get(1)).getHref().contains("/kew/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+questionnaire.getDocumentNumber()));
-        Assert.assertEquals(((AnchorHtmlData)htmldata.get(2)).getHref(), "../maintenanceQn.do?businessObjectClassName=org.kuali.coeus.common.questionnaire.framework.core.Questionnaire&idd="+questionnaire.getId()+"&methodToCall=copy");
+        Assert.assertEquals(((AnchorHtmlData)htmldata.get(2)).getHref(), "../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() + "&idd="+questionnaire.getId()+"&methodToCall=copy");
     }
     
     /**

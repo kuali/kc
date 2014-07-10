@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
 import org.kuali.coeus.common.impl.person.attr.KcPersonExtendedAttributesMaintainableImpl;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
@@ -63,7 +64,7 @@ public class KcPersonExtendedAttributesMaintainableImplTest extends MaintenanceR
             for(Row row :section.getRows()) {
                 for(Field field : row.getFields()) {
                     if(StringUtils.isNotEmpty(field.getPropertyName()) && field.getPropertyName().equalsIgnoreCase("personId")) {
-                    assertFieldProperties(field, "principalId", "org.kuali.rice.kim.api.identity.Person");
+                    assertFieldProperties(field, "principalId", Person.class.getName());
                     }
                 }
             }

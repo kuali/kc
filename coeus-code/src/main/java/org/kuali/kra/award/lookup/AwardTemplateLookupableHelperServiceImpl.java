@@ -32,7 +32,7 @@ public class AwardTemplateLookupableHelperServiceImpl extends KualiLookupableHel
     private static final long serialVersionUID = 7169266970079382877L;
 
   protected String getDocumentTypeName() {
-      return "org.kuali.kra.award.home.AwardTemplate";
+      return AwardTemplate.class.getName();
   }
   protected String getHtmlAction() {
       return "maintenanceSponsorTemplate.do";

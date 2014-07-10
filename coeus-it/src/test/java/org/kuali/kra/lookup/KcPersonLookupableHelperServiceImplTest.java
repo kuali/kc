@@ -31,6 +31,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.location.impl.campus.CampusBo;
 
 import java.util.List;
 import static org.junit.Assert.*;
@@ -38,7 +39,7 @@ public class KcPersonLookupableHelperServiceImplTest extends KcIntegrationTestBa
     
     private static final int LOOKUP_CRITERIA_FIELD_COUNT = 9;
     private static final String CAMPUS_CODE_FIELD = "code";
-    private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.location.impl.campus.CampusBo";
+    private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = CampusBo.class.getName();
     
     private static final String CAMPUS_CODE = "BL";
     

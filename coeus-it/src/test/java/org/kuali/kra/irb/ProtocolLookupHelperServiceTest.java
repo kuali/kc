@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.protocol.ProtocolLookupHelperServiceTestBase;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -45,7 +46,7 @@ public class ProtocolLookupHelperServiceTest extends ProtocolLookupHelperService
 	private static final String EDIT_URL ="../protocolProtocol.do?viewDocument=false&docId=101&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
     private static final String VIEW_URL ="../protocolProtocol.do?viewDocument=true&docId=101&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
     private static final String COPY_URL = "../DocCopyHandler.do?docId=101&command=displayDocSearchView&documentTypeName=ProtocolDocument";
-    private static final String UNIT_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.coeus.common.framework.unit.Unit&unitNumber=000001&methodToCall=start";
+    private static final String UNIT_INQ_URL ="inquiry.do?businessObjectClassName=" + Unit.class.getName() + "&unitNumber=000001&methodToCall=start";
     /**
      * Count of all lookup rows, including one row for all hidden non-lookup fields
      */
@@ -81,7 +82,7 @@ public class ProtocolLookupHelperServiceTest extends ProtocolLookupHelperService
         for (Row row : rows) {
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().equals("researchAreaCode")) {
-                    assertDropDownField(field, "researchAreaCode", "org.kuali.kra.irb.ResearchArea");
+                    assertDropDownField(field, "researchAreaCode", ResearchArea.class.getName());
                } 
             }
         }

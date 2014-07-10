@@ -26,6 +26,8 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.datadictionary.validation.ValidationPattern;
@@ -48,8 +50,8 @@ public class ProposalDevelopmentDataOverrideRule extends KcTransactionalDocument
     private static Map<String, String> validationClasses = new HashMap<String, String>();
     private static final String DATE="DATE";
     static {
-        validationClasses.put("STRING", "org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern");
-        validationClasses.put("NUMBER", "org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern");
+        validationClasses.put("STRING", AnyCharacterValidationPattern.class.getName());
+        validationClasses.put("NUMBER", NumericValidationPattern.class.getName());
     }
 
     public boolean processProposalDataOverrideRules(ProposalDataOverrideEvent proposalDataOverrideEvent) {

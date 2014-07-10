@@ -56,7 +56,7 @@ public class InstitutionalProposalNoteAttachmentServiceImpl implements Instituti
     @Override
     public ActionForward addNote(ActionMapping mapping, InstitutionalProposalForm institutionalProposalForm) throws Exception {
         InstitutionalProposalNotepad notepad = institutionalProposalForm.getInstitutionalProposalNotepadBean().getNewInstitutionalProposalNotepad();
-        BusinessObjectEntry businessObjectEntry = (BusinessObjectEntry) KRADServiceLocatorWeb.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry("org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepad");
+        BusinessObjectEntry businessObjectEntry = (BusinessObjectEntry) KRADServiceLocatorWeb.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(InstitutionalProposalNotepad.class.getName());
         if (institutionalProposalForm.getAttachmentFile() != null) {
             if (!businessObjectEntry.isBoNotesEnabled()) {
                 throw new RuntimeException("to add attachments, the DD file for InstitutionalProposalNotepad must be configured for boNotesEnabled=true");

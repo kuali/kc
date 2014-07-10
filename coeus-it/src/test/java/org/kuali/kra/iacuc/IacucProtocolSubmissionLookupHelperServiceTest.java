@@ -46,7 +46,7 @@ public class IacucProtocolSubmissionLookupHelperServiceTest extends ProtocolLook
     
     private static final String EDIT_URL ="../iacucProtocolProtocol.do?viewDocument=false&docId=101&submissionId=102&docTypeName=IacucProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
     private static final String VIEW_URL ="../iacucProtocolProtocol.do?viewDocument=true&docId=101&submissionId=102&docTypeName=IacucProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
-    private static final String PROTOCOL_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.iacuc.IacucProtocol&methodToCall=start&protocolId=104";
+    private static final String PROTOCOL_INQ_URL ="inquiry.do?businessObjectClassName=" + IacucProtocol.class.getName() + "&methodToCall=start&protocolId=104";
 
     private IacucProtocolSubmissionLookupableHelperServiceImpl protocolSubmissionLookupableHelperServiceImpl;
 

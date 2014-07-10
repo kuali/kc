@@ -512,8 +512,8 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
                             + KRADConstants.METHOD_TO_CALL_PARM1_LEFT_DEL
                             + KRADConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL;
         String updatedParam 
-            = protocolFundingSourceService.updateLookupParameter(parameter, "org.kuali.kra.bo.Sponsor", fieldConversions);
-        Assert.assertThat(updatedParam, JUnitMatchers.containsString("(!!org.kuali.kra.bo.Sponsor!!)(((" + builder.toString() + ")))"));
+            = protocolFundingSourceService.updateLookupParameter(parameter, Sponsor.class.getName(), fieldConversions);
+        Assert.assertThat(updatedParam, JUnitMatchers.containsString("(!!" + Sponsor.class.getName() + "!!)(((" + builder.toString() + ")))"));
 
     }
     

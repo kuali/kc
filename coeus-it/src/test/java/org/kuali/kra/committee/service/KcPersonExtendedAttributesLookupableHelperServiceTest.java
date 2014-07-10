@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
@@ -46,7 +47,7 @@ public class KcPersonExtendedAttributesLookupableHelperServiceTest extends KcInt
         for (Row row : rows) {
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().equals("personId")) {
-                    assertFieldProperties(field, "principalId", "org.kuali.rice.kim.api.identity.Person");
+                    assertFieldProperties(field, "principalId", Person.class.getName());
                 }
             }
         }
