@@ -61,12 +61,13 @@ public class FormMappingServiceImpl implements FormMappingService {
     private static final int DEFAULT_SORT_INDEX = 1000;
     private static final Log LOG = LogFactory.getLog(FormMappingServiceImpl.class);
     private static final String ERROR_MESSAGE = "Exception Occurred";
+    private static final String BASE_PACKAGE_PATH = "org/kuali/coeus/s2sgen/impl/generate";
 
     @Autowired
     @Qualifier("userAttachedFormService")
     private UserAttachedFormService userAttachedFormService;
 
-    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/S2SFormBinding.xml")
+    @Value("classpath:" + BASE_PACKAGE_PATH + "/S2SFormBinding.xml")
     private Resource bindingFile;
 
     /**
@@ -127,7 +128,7 @@ public class FormMappingServiceImpl implements FormMappingService {
     protected String createStylesheetName(String namespace) {
         String[] tokens = namespace.split("/");
         String formname = tokens[tokens.length-1];
-        String templateName = "org/kuali/coeus/s2sgen/impl/generate/support/"+formname+".xsl";
+        String templateName = BASE_PACKAGE_PATH + "/support/"+formname+".xsl";
         return templateName;
     }
 

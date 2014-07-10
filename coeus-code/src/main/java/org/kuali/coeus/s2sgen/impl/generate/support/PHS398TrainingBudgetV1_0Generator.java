@@ -84,6 +84,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     private static final int FD_INDEX = 2;
     private static final int SD_INDEX = 3;
     private static final int ZERO = 0;
+    private static final int CV_INDIRECT_COST_LIMIT = 2;
 
     @Autowired
     @Qualifier("s2SBudgetCalculatorService")
@@ -219,7 +220,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             IndirectCostDto indirectCostInfo = s2sBudgetCalculatorService.getIndirectCosts(budget, budgetPeriod);
             List<IndirectCostDetailsDto> cvIndirectCost = indirectCostInfo.getIndirectCostDetails();
             BigDecimal totIndCosts = new BigDecimal("0");
-            for (int i = 0; i < cvIndirectCost.size() & i < 2; i++) {
+            for (int i = 0; i < cvIndirectCost.size() & i < CV_INDIRECT_COST_LIMIT; i++) {
                 IndirectCostDetailsDto indireCost = cvIndirectCost.get(i);
                 totIndCosts = totIndCosts.add(indireCost.getFunds().bigDecimalValue());
                 switch (i) {
