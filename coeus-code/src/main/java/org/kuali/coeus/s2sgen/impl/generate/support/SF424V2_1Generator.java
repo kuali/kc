@@ -313,7 +313,7 @@ public class SF424V2_1Generator extends SF424BaseGenerator {
         } else {
             sf424V21.setProjectEndDate(null);
         }
-        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        ProposalDevelopmentBudgetExtContract budget = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
 
         if (budget != null) {
             if (budget.getTotalCost() != null) {

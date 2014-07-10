@@ -85,7 +85,7 @@ public class PHS398ChecklistV1_3Generator extends PHS398ChecklistBaseGenerator {
 		setFormerInstitutionNameAndChangeOfInstitution(phsChecklist);
 		setIsInventionsAndPatentsAndIsPreviouslyReported(phsChecklist);
 
-        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        ProposalDevelopmentBudgetExtContract budget = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
 
 		if (budget != null) {
 			int numPeriods = budget.getBudgetPeriods().size();

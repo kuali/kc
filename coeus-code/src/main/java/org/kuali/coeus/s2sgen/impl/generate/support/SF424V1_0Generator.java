@@ -309,7 +309,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 		budget.setFederalEstimatedAmount(BigDecimal.ZERO);
 		budget.setTotalEstimatedAmount(BigDecimal.ZERO);
 
-        ProposalDevelopmentBudgetExtContract pBudget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        ProposalDevelopmentBudgetExtContract pBudget = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
 
         if (pBudget != null) {
 			budget.setFederalEstimatedAmount(pBudget.getTotalCost()

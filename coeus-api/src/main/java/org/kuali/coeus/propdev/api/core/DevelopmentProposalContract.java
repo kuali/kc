@@ -146,6 +146,8 @@ public interface DevelopmentProposalContract extends NumberedProposal, RecordedU
 
     ProposalDevelopmentBudgetExtContract getFinalBudget();
 
+    ProposalDevelopmentBudgetExtContract getLatestBudget();
+
     S2sOpportunityContract getS2sOpportunity();
 
     ProposalSiteContract getApplicantOrganization();

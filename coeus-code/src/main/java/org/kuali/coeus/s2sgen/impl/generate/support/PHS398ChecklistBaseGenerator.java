@@ -16,6 +16,7 @@
 package org.kuali.coeus.s2sgen.impl.generate.support;
 
 import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
+import org.kuali.coeus.s2sgen.impl.budget.S2SCommonBudgetService;
 import org.kuali.coeus.s2sgen.impl.generate.S2SBaseFormGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -44,11 +45,23 @@ public abstract class PHS398ChecklistBaseGenerator extends S2SBaseFormGenerator 
     @Qualifier("submissionInfoService")
     protected SubmissionInfoService submissionInfoService;
 
+    @Autowired
+    @Qualifier("s2SCommonBudgetService")
+    protected S2SCommonBudgetService s2SCommonBudgetService;
+
     public SubmissionInfoService getSubmissionInfoService() {
         return submissionInfoService;
     }
 
     public void setSubmissionInfoService(SubmissionInfoService submissionInfoService) {
         this.submissionInfoService = submissionInfoService;
+    }
+
+    public S2SCommonBudgetService getS2SCommonBudgetService() {
+        return s2SCommonBudgetService;
+    }
+
+    public void setS2SCommonBudgetService(S2SCommonBudgetService s2SCommonBudgetService) {
+        this.s2SCommonBudgetService = s2SCommonBudgetService;
     }
 }
