@@ -63,6 +63,7 @@
 			<list>
 				<ref bean="PropDev-PersonnelPage-Wizard" />
 				<ref bean="PropDev-BudgetPage-AddBudgetDialog"/>
+                <ref bean="PropDev-AttachmentsPage-ProposalDetails"/>
 			</list>
 		</property>
 	</bean>
