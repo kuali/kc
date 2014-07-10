@@ -137,7 +137,7 @@ public abstract class ProposalDevelopmentControllerBase {
                  proposalDevelopmentDocument);
 
          getProposalDevelopmentAttachmentService().prepareAttachmentsForSave(pdForm.getDevelopmentProposal());
-         
+
          if (StringUtils.equalsIgnoreCase(request.getParameter(UifParameters.PAGE_ID), org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE)) {
         	 saveAnswerHeaders(pdForm);
          }
