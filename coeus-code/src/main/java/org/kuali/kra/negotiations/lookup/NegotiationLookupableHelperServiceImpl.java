@@ -16,6 +16,8 @@
 package org.kuali.kra.negotiations.lookup;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -148,8 +150,7 @@ public class NegotiationLookupableHelperServiceImpl extends KraLookupableHelperS
                 }
                 if (StringUtils.equalsIgnoreCase(column.getPropertyName(), leadUnitNumber)){
                     String unitNumber = column.getPropertyValue();
-                    //String newUrl = "http://127.0.0.1:8080/kc-dev/kr/inquiry.do?businessObjectClassName=org.kuali.kra.bo.Unit&unitNumber=" + unitNumber + "&methodToCall=start";
-                    String newUrl = "inquiry.do?businessObjectClassName=org.kuali.kra.bo.Unit&unitNumber=" + unitNumber + "&methodToCall=start";
+                    String newUrl = "inquiry.do?businessObjectClassName="+ Unit.class.getName()+"&unitNumber=" + unitNumber + "&methodToCall=start";
                     column.setPropertyURL(newUrl);
                     for (AnchorHtmlData data : column.getColumnAnchors()) {
                         if (data != null) {
@@ -174,7 +175,7 @@ public class NegotiationLookupableHelperServiceImpl extends KraLookupableHelperS
         for (Row row : getRows()) {
             for (Field field : row.getFields()) {
                 if (StringUtils.equalsIgnoreCase(field.getPropertyName(), "associatedNegotiable.sponsorCode")) {
-                    field.setQuickFinderClassNameImpl("org.kuali.kra.bo.Sponsor");
+                    field.setQuickFinderClassNameImpl(Sponsor.class.getName());
                     field.setFieldConversions("sponsorCode:associatedNegotiable.sponsorCode");
                     field.setLookupParameters("");
                     field.setBaseLookupUrl(LookupUtils.getBaseLookupUrl(false));
@@ -182,7 +183,7 @@ public class NegotiationLookupableHelperServiceImpl extends KraLookupableHelperS
                     field.setInquiryParameters("associatedNegotiable.sponsorCode:sponsorCode");
                     field.setFieldDirectInquiryEnabled(true);
                 } else if (StringUtils.equalsIgnoreCase(field.getPropertyName(), "associatedNegotiable.leadUnitNumber")) {
-                    field.setQuickFinderClassNameImpl("org.kuali.kra.bo.Unit");
+                    field.setQuickFinderClassNameImpl(Unit.class.getName());
                     field.setFieldConversions("unitNumber:associatedNegotiable.leadUnitNumber");
                     field.setLookupParameters("");
                     field.setBaseLookupUrl(LookupUtils.getBaseLookupUrl(false));
