@@ -40,9 +40,11 @@ import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.LookupService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.element.Action;
@@ -79,6 +81,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Autowired
     @Qualifier("lookupService")
     private LookupService lookupService;
+
+    @Autowired
+    @Qualifier("noteService")
+    private NoteService noteService;
+       
     
     @Autowired
 	@Qualifier("parameterService")
@@ -114,6 +121,12 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         } else if (addLine instanceof CongressionalDistrict) {
        	 	CongressionalDistrict congressionalDistrict =(CongressionalDistrict) addLine;
        	 	((CongressionalDistrict) addLine).setCongressionalDistrict(congressionalDistrict.getNewState(), congressionalDistrict.getNewDistrictNumber());
+        } else if (addLine instanceof Note) {
+            Note note = (Note) addLine;
+            note.setRemoteObjectIdentifier(document.getNoteTarget().getObjectId());
+            note.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPrincipalId());
+            note.setNotePostedTimestampToCurrent();
+            note.setNoteTypeCode("BO");
         }
 
         if (addLine instanceof KcPersistableBusinessObjectBase) {
@@ -122,6 +135,13 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         }
     }
 
+    @Override
+    public void processAfterAddLine(ViewModel model, Object lineObject, String collectionId, String collectionPath,
+                                    boolean isValidLine) {
+        if (lineObject instanceof Note) {
+            getNoteService().save((Note)lineObject);
+        }
+    }
     public void finalizeNavigationLinks(Action action, Object model, String direction) {
    	 ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) model;
    	 List<Action> actions = pdForm.getOrderedNavigationActions();
@@ -267,6 +287,18 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     public boolean isCreditSplitEnabled(){
     	return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.CREDIT_SPLIT_ENABLED_RULE_NAME);
    	}
+
+    public NoteService getNoteService() {
+        if (noteService == null) {
+            noteService = KcServiceLocator.getService(NoteService.class);
+        }
+        return noteService;
+    }
+
+    public void setNoteService(NoteService noteService) {
+        this.noteService = noteService;
+    }
+
     public String displayProposalProgressCode(WorkflowDocument wd) {
   	  String proposalProgressCode;
   	  

@@ -62,16 +62,19 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.datadictionary.DocumentEntry;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.krad.util.NoteType;
 import org.kuali.rice.krad.workflow.DocumentInitiator;
 import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.rice.krad.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.rice.krms.api.engine.Facts;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -653,4 +656,19 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
             this.rolepersons = rolepersons;
         }
     }
+
+    @Override
+    public NoteType getNoteType() {
+        return NoteType.BUSINESS_OBJECT;
+    }
+
+    @Override
+    public List getNotes() {
+        if (CollectionUtils.isEmpty(notes)) {
+            notes = new ArrayList<>(super.getNotes());
+        }
+        return notes;
+    }
+
+
 }
