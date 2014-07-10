@@ -47,7 +47,7 @@ public class LookupableBoValuesFinder extends UifKeyValuesFinderBase {
     	for (String businessObject: businessObjectEntries.keySet()) {
     	    org.kuali.rice.kns.datadictionary.BusinessObjectEntry businessObjectEntry = (org.kuali.rice.kns.datadictionary.BusinessObjectEntry) businessObjectEntries.get(businessObject);
     	    if ((businessObjectEntry.hasLookupDefinition()) 
-    	            && (businessObject.startsWith("org.kuali.kra") 
+    	            && (kcBo(businessObject)
                             || businessObject.equals(CampusBo.class.getName())
                             || businessObject.equals(CountryBo.class.getName())
                             || businessObject.equals(CountyBo.class.getName())
@@ -81,7 +81,7 @@ public class LookupableBoValuesFinder extends UifKeyValuesFinderBase {
         for (String businessObject: businessObjectEntries.keySet()) {
             org.kuali.rice.kns.datadictionary.BusinessObjectEntry businessObjectEntry = (org.kuali.rice.kns.datadictionary.BusinessObjectEntry) businessObjectEntries.get(businessObject);
             if ((businessObjectEntry.hasLookupDefinition()) 
-                    && (businessObject.startsWith("org.kuali.kra") 
+                    && (kcBo(businessObject)
                             || businessObject.equals(CampusBo.class.getName())
                             || businessObject.equals(CountryBo.class.getName())
                             || businessObject.equals(CountyBo.class.getName())
@@ -100,4 +100,7 @@ public class LookupableBoValuesFinder extends UifKeyValuesFinderBase {
         return labels;
     }
 
+    protected boolean kcBo(String businessObject) {
+        return businessObject.startsWith("org.kuali.kra") || businessObject.startsWith("org.kuali.coeus");
+    }
 }
