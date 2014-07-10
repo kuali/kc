@@ -34,7 +34,6 @@
     <context:component-scan base-package="org.kuali.coeus.common.impl"/>
     <context:component-scan base-package="org.kuali.coeus.common.budget"/>
 	<context:component-scan base-package="org.kuali.kra.service.impl"/>
-    <context:component-scan base-package="org.kuali.kra.multicampus"/>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
-import org.kuali.kra.infrastructure.YnqConstants;
+import org.kuali.coeus.common.api.ynq.YnqConstant;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -28,7 +28,7 @@ public class YnqRequiredForValuesFinder extends UifKeyValuesFinderBase {
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        for (YnqConstants ynqConstants : YnqConstants.values()) {
+        for (YnqConstant ynqConstants : YnqConstant.values()) {
             keyValues.add(new ConcreteKeyValue(ynqConstants.code(), ynqConstants.description()));
         }
         return keyValues;

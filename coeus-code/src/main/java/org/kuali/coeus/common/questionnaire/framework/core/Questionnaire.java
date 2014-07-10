@@ -17,7 +17,7 @@ package org.kuali.coeus.common.questionnaire.framework.core;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.struts.upload.FormFile;
-import org.kuali.coeus.common.api.question.QuestionnaireContract;
+import org.kuali.coeus.common.questionnaire.api.core.QuestionnaireContract;
 import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;

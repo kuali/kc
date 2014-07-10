@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.questionnaire.framework.question;
 
-import org.kuali.coeus.common.api.question.QuestionCategoryContract;
+import org.kuali.coeus.common.questionnaire.api.question.QuestionCategoryContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 public class QuestionCategory extends KcPersistableBusinessObjectBase implements QuestionCategoryContract {

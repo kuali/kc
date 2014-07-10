@@ -1,11 +1,11 @@
 package org.kuali.coeus.propdev.api.s2s;
 
+import org.kuali.coeus.propdev.api.core.NumberedProposal;
+
 import java.util.Calendar;
 import java.util.List;
 
-public interface S2sOpportunityContract {
-
-    String getProposalNumber();
+public interface S2sOpportunityContract extends NumberedProposal {
 
     String getCfdaNumber();
 

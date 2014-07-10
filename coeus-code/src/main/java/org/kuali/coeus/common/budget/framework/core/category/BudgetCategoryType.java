@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.budget.framework.core.category;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.common.budget.api.category.BudgetCategoryTypeContract;
+import org.kuali.coeus.common.budget.api.core.category.BudgetCategoryTypeContract;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;

@@ -25,7 +25,7 @@ import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.kra.s2s.generator.util.S2STestConstants;
-import org.kuali.kra.s2s.printing.FormPrintService;
+import org.kuali.coeus.s2sgen.api.print.FormPrintService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.springframework.core.io.DefaultResourceLoader;

@@ -23,9 +23,9 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
-import org.kuali.kra.s2s.service.FormActionResult;
-import org.kuali.kra.s2s.service.S2SService;
-import org.kuali.kra.s2s.util.AuditError;
+import org.kuali.coeus.s2sgen.api.generate.FormValidationResult;
+import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
+import org.kuali.coeus.s2sgen.api.core.AuditError;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -58,24 +58,24 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
         List<AuditError> auditErrors = new ArrayList<AuditError>();
 		if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null && (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode() == null || StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode().toString(), ""))) {            
             valid = false;            
-            auditErrors.add(new AuditError(Constants.S2S_SUBMISSIONTYPE_CODE_KEY, KeyConstants.ERROR_NOT_SELECTED_SUBMISSION_TYPE, Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
+            auditErrors.add(new AuditError(Constants.S2S_SUBMISSIONTYPE_CODE_KEY, KeyConstants.ERROR_NOT_SELECTED_SUBMISSION_TYPE, AuditError.GG_LINK));
         }
         
         if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode() != null && proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null && proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId() != null && proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION)) && proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getRevisionCode() == null) {
             valid &= false;
-            auditErrors.add(new AuditError("document.developmentProposalList[0].s2sOpportunity.revisionCode", KeyConstants.ERROR_IF_PROPOSALTYPE_IS_REVISION, Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
+            auditErrors.add(new AuditError("document.developmentProposalList[0].s2sOpportunity.revisionCode", KeyConstants.ERROR_IF_PROPOSALTYPE_IS_REVISION, AuditError.GG_LINK));
         }
         if((getSponsorHierarchyService().isSponsorNihOsc(proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode())||
                     getSponsorHierarchyService().isSponsorNihMultiplePi(proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode()))&&
                     proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity()!=null &&
                     proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCompetetionId()!=null &&
                     proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCompetetionId().equals("ADOBE-FORMS-A")){
-        	auditErrors.add(new AuditError("document.developmentProposalList[0].s2sOpportunity.competetionId", KeyConstants.ERROR_IF_COMPETITION_ID_IS_INVALID, Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
+        	auditErrors.add(new AuditError("document.developmentProposalList[0].s2sOpportunity.competetionId", KeyConstants.ERROR_IF_COMPETITION_ID_IS_INVALID, AuditError.GG_LINK));
         	valid= false;
         }
 
         if (proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null){
-            FormActionResult result =  getS2sValidatorService().validateApplication(proposalDevelopmentDocument);
+            FormValidationResult result =  getS2sValidatorService().validateForms(proposalDevelopmentDocument);
             valid &= result.isValid();
 
             if (result.getErrors() != null) {
@@ -96,11 +96,11 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
         return valid;
     }
 
-    protected void setValidationErrorMessage(List<org.kuali.kra.s2s.util.AuditError> s2sErrors, List<org.kuali.rice.kns.util.AuditError> auditErrors) {
+    protected void setValidationErrorMessage(List<AuditError> s2sErrors, List<org.kuali.rice.kns.util.AuditError> auditErrors) {
         if (s2sErrors != null) {
             LOG.info("Error list size:" + s2sErrors.size() + s2sErrors.toString());
 
-            for (org.kuali.kra.s2s.util.AuditError error : s2sErrors) {
+            for (AuditError error : s2sErrors) {
                 auditErrors.add(new org.kuali.rice.kns.util.AuditError(error.getErrorKey(),
                         Constants.GRANTS_GOV_GENERIC_ERROR_KEY, error.getLink(),
                         new String[]{error.getMessageKey()}));
@@ -110,8 +110,8 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
     private SponsorHierarchyService getSponsorHierarchyService() {
         return KcServiceLocator.getService(SponsorHierarchyService.class);
     }
-    private S2SService getS2sValidatorService() {
-        return KcServiceLocator.getService(S2SService.class);
+    private FormGeneratorService getS2sValidatorService() {
+        return KcServiceLocator.getService(FormGeneratorService.class);
     }
    
 }

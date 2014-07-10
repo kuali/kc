@@ -23,7 +23,6 @@ import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
 import org.kuali.coeus.propdev.impl.s2s.schedule.MailInfo;
 import org.kuali.coeus.propdev.impl.s2s.schedule.S2SPollingTask;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

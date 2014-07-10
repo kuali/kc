@@ -23,7 +23,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonYnq;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.YnqConstants;
+import org.kuali.coeus.common.api.ynq.YnqConstant;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -269,7 +269,7 @@ public class YnqServiceImpl implements YnqService {
     /* get ynq explanation required / review date required column label */
     protected String getYnqRequiredLabel(String ynqCode) {
         String retValue = null;
-        for (YnqConstants ynqConstants : YnqConstants.values()) {
+        for (YnqConstant ynqConstants : YnqConstant.values()) {
             if(ynqConstants.code().equalsIgnoreCase(ynqCode)) {
                 retValue =  ynqConstants.description();
                 break;

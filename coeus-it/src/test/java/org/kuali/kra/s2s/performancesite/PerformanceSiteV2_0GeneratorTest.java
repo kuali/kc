@@ -5,21 +5,15 @@ package  org.kuali.kra.s2s.performancesite;
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
-import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.unit.Unit;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
+import org.kuali.coeus.s2sgen.impl.generate.support.PerformanceSiteV2_0Generator;
 import org.kuali.kra.s2s.generator.S2STestBase;
-import org.kuali.kra.s2s.generator.impl.RRPersonalDataV1_0Generator;
-import org.kuali.kra.s2s.generator.impl.RRPersonalDataV1_1Generator;
-import org.kuali.kra.s2s.performancesite.PerformanceSiteV2_0Generator;
 import org.kuali.rice.krad.data.DataObjectService;
 
 public class PerformanceSiteV2_0GeneratorTest extends S2STestBase<PerformanceSiteV2_0Generator> {

@@ -22,6 +22,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xpath.XPathAPI;
+import org.kuali.coeus.s2sgen.api.core.InfastructureConstants;
+import org.kuali.coeus.s2sgen.api.hash.GrantApplicationHashService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
@@ -29,10 +31,8 @@ import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.s2s.formmapping.FormMappingInfo;
-import org.kuali.kra.s2s.formmapping.FormMappingService;
-import org.kuali.kra.s2s.util.GrantApplicationHash;
-import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.coeus.s2sgen.api.generate.FormMappingInfo;
+import org.kuali.coeus.s2sgen.api.generate.FormMappingService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -76,6 +76,10 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     @Autowired
     @Qualifier("formMappingService")
     private FormMappingService formMappingService;
+
+    @Autowired
+    @Qualifier("grantApplicationHashService")
+    private GrantApplicationHashService grantApplicationHashService;
 
     public void populateBudgetSubAwardFiles(Budget budget, BudgetSubAwards subAward, String newFileName, byte[] newFileData) {
         subAward.setSubAwardStatusCode(1);
@@ -590,7 +594,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
             if(fileBytes == null) {
                 throw new RuntimeException("FileName mismatch in XML and PDF extracted file");
             }
-            String hashVal = GrantApplicationHash.computeAttachmentHash(fileBytes);
+            String hashVal = grantApplicationHashService.computeAttachmentHash(fileBytes);
 
             hashNode = lstHashValue.item(index);
             hashNodeMap = hashNode.getAttributes();
@@ -600,7 +604,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
 
             hashNode = hashNodeMap.getNamedItem("glob:hashAlgorithm");
 
-            hashNode.setNodeValue(S2SConstants.HASH_ALGORITHM);
+            hashNode.setNodeValue(InfastructureConstants.HASH_ALGORITHM);
 
             fileNode = lstFileLocation.item(index);
             fileNodeMap = fileNode.getAttributes();
@@ -762,5 +766,13 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
 
     public void setFormMappingService(FormMappingService formMappingService) {
         this.formMappingService = formMappingService;
+    }
+
+    public GrantApplicationHashService getGrantApplicationHashService() {
+        return grantApplicationHashService;
+    }
+
+    public void setGrantApplicationHashService(GrantApplicationHashService grantApplicationHashService) {
+        this.grantApplicationHashService = grantApplicationHashService;
     }
 }
