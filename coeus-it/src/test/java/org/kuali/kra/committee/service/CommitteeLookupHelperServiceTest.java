@@ -19,8 +19,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.lookup.CommitteeLookupableHelperServiceImpl;
+import org.kuali.kra.irb.ResearchArea;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.web.ui.Field;
@@ -61,9 +63,9 @@ public class CommitteeLookupHelperServiceTest extends KcIntegrationTestBase {
         for (Row row : rows) {
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().equals("researchAreaCode")) {
-                    assertDropDownField(field, "researchAreaCode", "org.kuali.kra.bo.ResearchArea");
+                    assertDropDownField(field, "researchAreaCode", ResearchArea.class.getName());
                 } else if (field.getPropertyName().equals("memberName")) {
-                     assertDropDownField(field, "personName", "org.kuali.kra.committee.bo.CommitteeMembership");
+                     assertDropDownField(field, "personName", CommitteeMembership.class.getName());
                 }
             }
         }

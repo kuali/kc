@@ -24,6 +24,7 @@ import org.kuali.coeus.common.committee.impl.bo.CommitteeResearchAreaBase;
 import org.kuali.coeus.common.committee.impl.document.CommitteeDocumentBase;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.irb.ResearchArea;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -66,7 +67,6 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
         fieldValues.put(COMMITTEE_TYPE_CODE_FIELD_NAME, getCommitteeTypeCodeHook());
         List<CMT> activeCommittees =  (List<CMT>)getUniqueList(super.getSearchResultsUnbounded(fieldValues), fieldValues);
         Long matchingResultsCount = new Long(activeCommittees.size());
-        // TODO should the Question.class be replaced by a committee class below?
         Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Question.class);
         
         if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
@@ -91,7 +91,7 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
         for (Row row : rows) {
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().equals("committeeResearchAreas.researchAreaCode")) {
-                    super.updateLookupField(field,RESEARCH_AREA_CODE,"org.kuali.kra.bo.ResearchArea");
+                    super.updateLookupField(field,RESEARCH_AREA_CODE,ResearchArea.class.getName());
                 } else if (field.getPropertyName().equals("committeeMemberships.personName")) {
                     super.updateLookupField(field,PERSON_NAME, getCommitteeMembershipFullyQualifiedClassNameHook());
                 }
