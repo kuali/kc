@@ -207,7 +207,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
 	 * @throws S2SException
 	 */
 	private EstimatedProjectFunding getProjectFunding() throws S2SException {
-        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        ProposalDevelopmentBudgetExtContract budget = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
 		EstimatedProjectFunding funding = EstimatedProjectFunding.Factory
 				.newInstance();
 		funding.setTotalEstimatedAmount(BigDecimal.ZERO);

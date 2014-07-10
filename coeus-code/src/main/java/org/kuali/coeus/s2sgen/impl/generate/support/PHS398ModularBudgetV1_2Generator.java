@@ -64,7 +64,7 @@ PHS398ModularBudgetBaseGenerator{
 		.newInstance();
 		modularBudget.setFormVersion(FormVersion.v1_2.getVersion());
 
-        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        ProposalDevelopmentBudgetExtContract budget = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
 
         if (budget != null) {
 

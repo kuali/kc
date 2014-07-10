@@ -31,9 +31,12 @@ import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.s2sgen.impl.budget.BudgetPeriodNum;
+import org.kuali.coeus.s2sgen.impl.budget.S2SCommonBudgetService;
 import org.kuali.coeus.s2sgen.impl.generate.FormVersion;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * Class for generating the XML object for grants.gov ED524BudgetV1_0. Form is generated using XMLBean classes and is based on
@@ -89,7 +92,7 @@ public class ED524BudgetV1_0Generator extends ED524BudgetBaseGenerator {
         ScaleTwoDecimal totalIndirectCostAllYrs = ScaleTwoDecimal.ZERO;
         ScaleTwoDecimal totalIndirectCostAllYrsCS = ScaleTwoDecimal.ZERO;
 
-        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        ProposalDevelopmentBudgetExtContract budget = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
 
         if (budget == null) {
             return ed524BudgetDocument;

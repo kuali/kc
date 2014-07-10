@@ -162,7 +162,7 @@ public class PHS398ChecklistV1_1Generator extends PHS398ChecklistBaseGenerator {
             }
         }
 
-        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        ProposalDevelopmentBudgetExtContract budget = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
 
 		if (budget != null && budget.getBudgetProjectIncomes().size() > 0) {
 			setProjectIncome(phsChecklist, budget);

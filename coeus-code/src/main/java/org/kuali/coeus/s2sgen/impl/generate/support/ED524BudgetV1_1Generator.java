@@ -86,7 +86,7 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
         ScaleTwoDecimal totalIndirectCostAllYrsCS = ScaleTwoDecimal.ZERO;
 
 
-        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        ProposalDevelopmentBudgetExtContract budget = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
 
         if (budget == null) {
             return ed524BudgetDocument;

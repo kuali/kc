@@ -144,7 +144,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 		funding.setEstimatedProgramIncome(BigDecimal.ZERO);
 		boolean hasBudgetLineItem = false;
 
-        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        ProposalDevelopmentBudgetExtContract budget = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
         if (budget != null) {
 
             ScaleTwoDecimal totalCost = ScaleTwoDecimal.ZERO;

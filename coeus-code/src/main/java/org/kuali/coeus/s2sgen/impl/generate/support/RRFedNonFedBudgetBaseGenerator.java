@@ -21,6 +21,7 @@ import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
 import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelDetailsContract;
 import org.kuali.coeus.s2sgen.api.core.S2SException;
+import org.kuali.coeus.s2sgen.impl.budget.S2SCommonBudgetService;
 import org.kuali.coeus.s2sgen.impl.datetime.S2SDateTimeService;
 import org.kuali.coeus.s2sgen.impl.generate.S2SBaseFormGenerator;
 import org.kuali.coeus.s2sgen.impl.budget.KeyPersonDto;
@@ -72,6 +73,10 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
     @Qualifier("s2SErrorHandlerService")
     protected S2SErrorHandlerService s2SErrorHandlerService;
 
+    @Autowired
+    @Qualifier("s2SCommonBudgetService")
+    protected S2SCommonBudgetService s2SCommonBudgetService;
+
     /**
      * This method check whether the key person has a personnel budget  
      * 
@@ -82,7 +87,7 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
      * @return true if key person has personnel budget else false.
      */
     protected Boolean hasPersonnelBudget(KeyPersonDto keyPerson,int period){
-        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        ProposalDevelopmentBudgetExtContract budget = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
         List<? extends BudgetLineItemContract> budgetLineItemList = budget.getBudgetPeriods().get(period - 1).getBudgetLineItems();
            
         for(BudgetLineItemContract budgetLineItem : budgetLineItemList) {
@@ -106,7 +111,7 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
     protected boolean validateBudgetForForm(ProposalDevelopmentDocumentContract pdDoc) throws S2SException {
         boolean valid = true;
 
-        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        ProposalDevelopmentBudgetExtContract budget = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
         if(budget != null) {
             for (BudgetPeriodContract period : budget.getBudgetPeriods()) {
                 List<String> participantSupportCode = new ArrayList<String>();
@@ -151,5 +156,13 @@ public abstract class RRFedNonFedBudgetBaseGenerator extends S2SBaseFormGenerato
 
     public void setS2SErrorHandlerService(S2SErrorHandlerService s2SErrorHandlerService) {
         this.s2SErrorHandlerService = s2SErrorHandlerService;
+    }
+
+    public S2SCommonBudgetService getS2SCommonBudgetService() {
+        return s2SCommonBudgetService;
+    }
+
+    public void setS2SCommonBudgetService(S2SCommonBudgetService s2SCommonBudgetService) {
+        this.s2SCommonBudgetService = s2SCommonBudgetService;
     }
 }

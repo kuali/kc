@@ -203,7 +203,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	 * TUITION_COST_ELEMENTS
 	 */
 	private void setTutionRequestedYears(Budget budget) {
-        ProposalDevelopmentBudgetExtContract budgetEx = pdDoc.getDevelopmentProposal().getFinalBudget();
+        ProposalDevelopmentBudgetExtContract budgetEx = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
 		if (budgetEx == null) {
 			return;
 		}
@@ -288,7 +288,7 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 	private FederalStipendRequested getFederalStipendRequested() {
 		FederalStipendRequested federalStipendRequested = FederalStipendRequested.Factory
 				.newInstance();
-        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        ProposalDevelopmentBudgetExtContract budget = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
 		if (budget == null) {
 			return federalStipendRequested;
 		}
