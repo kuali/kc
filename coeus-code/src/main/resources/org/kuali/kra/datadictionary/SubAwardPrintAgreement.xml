@@ -15,7 +15,7 @@
 		<property name="lookupDefinition">
 			<ref bean="SubAwardPrintAgreement-lookupDefinition"/>
 		</property>
-    <property name="titleAttribute" value="subAwardPrintAgreement" />
+    <property name="titleAttribute" value="fundingSource" />
     <property name="attributes" >
       <list>
     	<ref bean="SubAwardPrintAgreement-fundingSource"/>
