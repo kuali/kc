@@ -19,6 +19,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -47,7 +48,7 @@ public class InstitutionalProposalIntellectualPropertyReviewAction extends Insti
         institutionalProposalDocument.getInstitutionalProposal().getProposalIpReviewJoin().refreshReferenceObject("intellectualPropertyReview");
         
         if (ObjectUtils.isNotNull(institutionalProposalDocument.getInstitutionalProposal().getProposalIpReviewJoin().getIntellectualPropertyReview())) {
-            response.sendRedirect("kr/maintenance.do?businessObjectClassName=org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview&methodToCall=copy&ipReviewId=" 
+            response.sendRedirect("kr/maintenance.do?businessObjectClassName=" + IntellectualPropertyReview.class.getName() + "&methodToCall=copy&ipReviewId="
                     + institutionalProposalDocument.getInstitutionalProposal().getProposalIpReviewJoin().getIntellectualPropertyReview().getIpReviewId()
                     + "&proposalId=" + institutionalProposalDocument.getInstitutionalProposal().getProposalId());
         }

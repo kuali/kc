@@ -24,6 +24,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KcRulesEngineExecuter;
 import org.kuali.kra.krms.service.impl.KcKrmsFactBuilderServiceHelper;
+import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.krms.api.engine.Engine;
 import org.kuali.rice.krms.api.engine.EngineResults;
@@ -38,7 +39,7 @@ public class SubAwardRulesEngineExecutorImpl extends KcRulesEngineExecuter {
         contextQualifiers.put("name", KcKrmsConstants.SubAward.SUBAWARD_CONTEXT);
         // extract facts from routeContext
         String docContent = routeContext.getDocument().getDocContent();
-        String unitNumber = getElementValue(docContent, "//document/subAwardList[1]/org.kuali.kra.subaward.bo.SubAward[1]/leadUnitNumber[1]");
+        String unitNumber = getElementValue(docContent, "//document/subAwardList[1]/" + SubAward.class.getName() + "[1]/leadUnitNumber[1]");
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
                 Collections.singletonMap("Unit Number", unitNumber));
         KcKrmsFactBuilderServiceHelper fbService = KcServiceLocator.getService("subAwardFactBuilderService");

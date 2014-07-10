@@ -30,6 +30,7 @@ import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.location.impl.campus.CampusBo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class UnitLookupableHelperServiceImpl extends KualiLookupableHelperServic
     private static final long serialVersionUID = -3661085880649722426L;
     
     private static final String CAMPUS_CODE_FIELD = "code";
-    private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.location.impl.campus.CampusBo";
+    private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = CampusBo.class.getName();
 
     private KcPersonService kcPersonService;
     private UnitAuthorizationService unitAuthorizationService;

@@ -16,6 +16,8 @@
 package org.kuali.kra.coi;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.coi.disclosure.DisclosurePerson;
+import org.kuali.kra.coi.disclosure.DisclosurePersonUnit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KcRulesEngineExecuter;
@@ -39,7 +41,7 @@ public class CoiDisclosureRulesEngineExecutorImpl  extends KcRulesEngineExecuter
 
         // extract facts from routeContext
         String docContent = routeContext.getDocument().getDocContent();
-        String unitNumber = getElementValue(docContent, "//document/coiDisclosureList[1]/org.kuali.kra.coi.CoiDisclosure[1]/disclosurePersons[1]/org.kuali.kra.coi.disclosure.DisclosurePerson[1]/disclosurePersonUnits[1]/org.kuali.kra.coi.disclosure.DisclosurePersonUnit[1]/unitNumber[1]");
+        String unitNumber = getElementValue(docContent, "//document/coiDisclosureList[1]/" + CoiDisclosure.class.getName() + "[1]/disclosurePersons[1]/" + DisclosurePerson.class.getName() + "[1]/disclosurePersonUnits[1]/" + DisclosurePersonUnit.class.getName() + "[1]/unitNumber[1]");
         
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
                 Collections.singletonMap("Unit Number", unitNumber));

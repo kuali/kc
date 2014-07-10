@@ -19,6 +19,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
+import org.kuali.coeus.common.framework.person.attr.DegreeType;
 import org.kuali.coeus.common.impl.custom.attr.CustomAttributeMaintenanceDocumentRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
@@ -53,7 +54,7 @@ public class CustomAttributeMaintenanceDocumentRuleTest extends MaintenanceRuleT
     public void testOK() throws Exception {
 
         CustomAttribute customAttribute = new CustomAttribute();
-        customAttribute.setLookupClass("org.kuali.coeus.common.framework.person.attr.DegreeType");
+        customAttribute.setLookupClass(DegreeType.class.getName());
         customAttribute.setLookupReturn("code");
         MaintenanceDocument customAttributeDocument = newMaintDoc(customAttribute);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(customAttributeDocument));
@@ -69,7 +70,7 @@ public class CustomAttributeMaintenanceDocumentRuleTest extends MaintenanceRuleT
     public void testUnspecifiedLookupReturn() throws Exception {
 
         CustomAttribute customAttribute = new CustomAttribute();
-        customAttribute.setLookupClass("org.kuali.coeus.common.framework.person.attr.DegreeType");
+        customAttribute.setLookupClass(DegreeType.class.getName());
         //customAttribute.setLookupReturn("roleId");
         MaintenanceDocument customAttributeDocument = newMaintDoc(customAttribute);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(customAttributeDocument));

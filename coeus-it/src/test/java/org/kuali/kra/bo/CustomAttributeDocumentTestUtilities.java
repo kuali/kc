@@ -19,6 +19,7 @@ package org.kuali.kra.bo;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -71,7 +72,7 @@ public class CustomAttributeDocumentTestUtilities {
         customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
         customAttributeDocuments.put("8", customAttributeDocument);
 
-        customAttribute = buildCustomAttribute(11L, "ARRA_FUNDING", "ARRA Funding", "1", new Integer(3), GROUP_NAME_4,"org.kuali.coeus.common.framework.custom.arg.ArgValueLookup","yes_no_flag");
+        customAttribute = buildCustomAttribute(11L, "ARRA_FUNDING", "ARRA Funding", "1", new Integer(3), GROUP_NAME_4,ArgValueLookup.class.getName(),"yes_no_flag");
         customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
         customAttributeDocuments.put("9", customAttributeDocument);
         

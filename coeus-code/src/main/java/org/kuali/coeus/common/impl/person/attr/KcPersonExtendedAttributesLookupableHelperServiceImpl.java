@@ -1,5 +1,6 @@
 package org.kuali.coeus.common.impl.person.attr;
 
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
@@ -18,7 +19,7 @@ public class KcPersonExtendedAttributesLookupableHelperServiceImpl extends Kuali
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().equals("personId")) {
                     field.setFieldConversions("principalId:personId");
-                    field.setQuickFinderClassNameImpl("org.kuali.rice.kim.api.identity.Person");
+                    field.setQuickFinderClassNameImpl(Person.class.getName());
                     field.setFieldDirectInquiryEnabled(true);
                     field.setInquiryParameters("personId:principalId");
                 }

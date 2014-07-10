@@ -19,6 +19,11 @@ import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
+import org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaNumericValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -29,11 +34,11 @@ import java.util.Map;
 public class BudgetColumnsToAlterMaintainableImpl  extends KraMaintainableImpl {
     private static Map<String, String> validationClassesMap = new HashMap<String, String>();
     static {
-        validationClassesMap.put("org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern", "STRING");
-        validationClassesMap.put("org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaNumericValidationPattern", "STRING");
-        validationClassesMap.put("org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaValidationPattern", "STRING"); 
-        validationClassesMap.put("org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern", "DATE");
-        validationClassesMap.put("org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern", "NUMBER");
+        validationClassesMap.put(AnyCharacterValidationPattern.class.getName(), "STRING");
+        validationClassesMap.put(AlphaNumericValidationPattern.class.getName(), "STRING");
+        validationClassesMap.put(AlphaValidationPattern.class.getName(), "STRING");
+        validationClassesMap.put(DateValidationPattern.class.getName(), "DATE");
+        validationClassesMap.put(NumericValidationPattern.class.getName(), "NUMBER");
     }    
     
     public void prepareForSave() {

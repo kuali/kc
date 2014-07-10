@@ -25,6 +25,11 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.editable.ProposalColumnsToAlter;
 import org.kuali.coeus.propdev.impl.editable.ProposalOverview;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaNumericValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern;
+import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -41,11 +46,11 @@ public class ProposalColumnsToAlterMaintenanceDocumentRule extends MaintenanceDo
     
     private static Map<String, String> validationClassesMap = new HashMap<String, String>();
     static {
-        validationClassesMap.put("org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern", "STRING");
-        validationClassesMap.put("org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaNumericValidationPattern", "STRING");
-        validationClassesMap.put("org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaValidationPattern", "STRING"); 
-        validationClassesMap.put("org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern", "DATE");
-        validationClassesMap.put("org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern", "NUMBER");
+        validationClassesMap.put(AnyCharacterValidationPattern.class.getName(), "STRING");
+        validationClassesMap.put(AlphaNumericValidationPattern.class.getName(), "STRING");
+        validationClassesMap.put(AlphaValidationPattern.class.getName(), "STRING");
+        validationClassesMap.put(DateValidationPattern.class.getName(), "DATE");
+        validationClassesMap.put(NumericValidationPattern.class.getName(), "NUMBER");
     }
  
 

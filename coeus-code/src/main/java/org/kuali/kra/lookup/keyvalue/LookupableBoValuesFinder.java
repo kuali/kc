@@ -23,6 +23,11 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.location.impl.campus.CampusBo;
+import org.kuali.rice.location.impl.country.CountryBo;
+import org.kuali.rice.location.impl.county.CountyBo;
+import org.kuali.rice.location.impl.postalcode.PostalCodeBo;
+import org.kuali.rice.location.impl.state.StateBo;
 
 import java.util.*;
 
@@ -42,12 +47,12 @@ public class LookupableBoValuesFinder extends UifKeyValuesFinderBase {
     	for (String businessObject: businessObjectEntries.keySet()) {
     	    org.kuali.rice.kns.datadictionary.BusinessObjectEntry businessObjectEntry = (org.kuali.rice.kns.datadictionary.BusinessObjectEntry) businessObjectEntries.get(businessObject);
     	    if ((businessObjectEntry.hasLookupDefinition()) 
-    	            && (businessObject.startsWith("org.kuali.kra") 
-                            || businessObject.equals("org.kuali.rice.location.impl.campus.CampusBo")
-                            || businessObject.equals("org.kuali.rice.location.impl.country.CountryBo")
-                            || businessObject.equals("org.kuali.rice.location.impl.county.CountyBo")
-                            || businessObject.equals("org.kuali.rice.location.impl.postalcode.PostalCodeBo")
-                            || businessObject.equals("org.kuali.rice.location.impl.state.StateBo"))) {
+    	            && (kcBo(businessObject)
+                            || businessObject.equals(CampusBo.class.getName())
+                            || businessObject.equals(CountryBo.class.getName())
+                            || businessObject.equals(CountyBo.class.getName())
+                            || businessObject.equals(PostalCodeBo.class.getName())
+                            || businessObject.equals(StateBo.class.getName()))) {
     	        String key = businessObject;
     	        
     	        String label = StringUtils.removeEnd(businessObjectEntry.getLookupDefinition().getTitle().trim()," Lookup");
@@ -76,12 +81,12 @@ public class LookupableBoValuesFinder extends UifKeyValuesFinderBase {
         for (String businessObject: businessObjectEntries.keySet()) {
             org.kuali.rice.kns.datadictionary.BusinessObjectEntry businessObjectEntry = (org.kuali.rice.kns.datadictionary.BusinessObjectEntry) businessObjectEntries.get(businessObject);
             if ((businessObjectEntry.hasLookupDefinition()) 
-                    && (businessObject.startsWith("org.kuali.kra") 
-                            || businessObject.equals("org.kuali.rice.location.impl.campus.CampusBo")
-                            || businessObject.equals("org.kuali.rice.location.impl.country.CountryBo")
-                            || businessObject.equals("org.kuali.rice.location.impl.county.CountyBo")
-                            || businessObject.equals("org.kuali.rice.location.impl.postalcode.PostalCodeBo")
-                            || businessObject.equals("org.kuali.rice.location.impl.state.StateBo"))) {
+                    && (kcBo(businessObject)
+                            || businessObject.equals(CampusBo.class.getName())
+                            || businessObject.equals(CountryBo.class.getName())
+                            || businessObject.equals(CountyBo.class.getName())
+                            || businessObject.equals(PostalCodeBo.class.getName())
+                            || businessObject.equals(StateBo.class.getName()))) {
                 String label = StringUtils.removeEnd(businessObjectEntry.getLookupDefinition().getTitle().trim()," Lookup");
                 if(labels.containsKey(label)){
                     Integer count = labels.get(label) + 1;
@@ -95,4 +100,7 @@ public class LookupableBoValuesFinder extends UifKeyValuesFinderBase {
         return labels;
     }
 
+    protected boolean kcBo(String businessObject) {
+        return businessObject.startsWith("org.kuali.kra") || businessObject.startsWith("org.kuali.coeus");
+    }
 }
