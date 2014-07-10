@@ -878,6 +878,9 @@ public interface Constants {
     public static final String IACUC_MODULE = "iacuc";
     
     public static final String PD_INITIATED_ROUTE_NODE_NAME = "Initiated";
+
+    //Prop Dev Parameter
+    public static final String SPONSOR_HIERACHY_REQ_DIV_PROG_CODES = "SPONSOR_HIERACHY_REQ_DIV_PROG_CODES";
     
 }
 
