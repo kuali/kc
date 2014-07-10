@@ -19,6 +19,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.persistence.annotations.Customizer;
 import org.eclipse.persistence.config.DescriptorCustomizer;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.noo.NoticeOfOpportunity;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
@@ -403,6 +404,9 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     @Transient
     private transient ProposalPersonBiographyService proposalPersonBiographyService;
+
+    @Transient
+    private transient SponsorHierarchyService sponsorHierarchyService;
 
     @Override
     public String getProposalNumberForGG() {
@@ -2382,5 +2386,31 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
         }
 
         return dataObjectService;
+    }
+
+    /**
+     * Finds whether the chosen sponsorCode is in the Sponsor Hierarchy parameter
+     * @return Returns true if sponsor code is found in the Sponsor Hierarchy parameter
+     */
+    public boolean isSponsorProgramAndDivCodeRequired(){
+        boolean success = false;
+        Collection<String> sponsorHierarchies = getParameterService().getParameterValuesAsString(ProposalDevelopmentDocument.class,Constants.SPONSOR_HIERACHY_REQ_DIV_PROG_CODES);
+
+        for (String sponsorHierarchy : sponsorHierarchies){
+            String[] hierarchyStr = sponsorHierarchy.split(",");
+            int level = hierarchyStr.length - 1;
+            if (getSponsorHierarchyService().isSponsorInHierarchy(getSponsorCode(), hierarchyStr[0], level, hierarchyStr[level])){
+                success = true;
+                break;
+            }
+        }
+        return success;
+    }
+
+    public SponsorHierarchyService getSponsorHierarchyService(){
+        if (this.sponsorHierarchyService == null) {
+            this.sponsorHierarchyService = KcServiceLocator.getService(SponsorHierarchyService.class);
+        }
+        return this.sponsorHierarchyService;
     }
 }
