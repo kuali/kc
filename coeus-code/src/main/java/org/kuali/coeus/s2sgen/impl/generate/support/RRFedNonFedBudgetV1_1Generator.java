@@ -111,7 +111,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
         validateBudgetForForm(pdDoc);
         List<BudgetPeriodDto> budgetPeriodList = s2sBudgetCalculatorService.getBudgetPeriods(pdDoc);
         BudgetSummaryDto budgetSummary = s2sBudgetCalculatorService.getBudgetInfo(pdDoc,budgetPeriodList);
-        budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        budget = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
 
         for (BudgetPeriodDto budgetPeriodData : budgetPeriodList) {
             if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodNum.P1.getNum()) {

@@ -6,6 +6,7 @@ import org.kuali.coeus.common.questionnaire.api.answer.AnswerHeaderContract;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.propdev.api.questionnaire.PropDevQuestionAnswerService;
 
+import org.kuali.coeus.s2sgen.impl.budget.S2SCommonBudgetService;
 import org.kuali.coeus.s2sgen.impl.generate.S2SBaseFormGenerator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,10 @@ public abstract class CommonSF424BaseGenerator extends S2SBaseFormGenerator  {
     @Autowired
     @Qualifier("propDevQuestionAnswerService")
     private PropDevQuestionAnswerService propDevQuestionAnswerService;
+
+    @Autowired
+    @Qualifier("s2SCommonBudgetService")
+    protected S2SCommonBudgetService s2SCommonBudgetService;
 
     /**
      * This method returns a map containing the answers related to EOState REview for a given proposal
@@ -99,5 +104,13 @@ public abstract class CommonSF424BaseGenerator extends S2SBaseFormGenerator  {
 
     public void setPropDevQuestionAnswerService(PropDevQuestionAnswerService propDevQuestionAnswerService) {
         this.propDevQuestionAnswerService = propDevQuestionAnswerService;
+    }
+
+    public S2SCommonBudgetService getS2SCommonBudgetService() {
+        return s2SCommonBudgetService;
+    }
+
+    public void setS2SCommonBudgetService(S2SCommonBudgetService s2SCommonBudgetService) {
+        this.s2SCommonBudgetService = s2SCommonBudgetService;
     }
 }

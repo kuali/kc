@@ -21,6 +21,7 @@ import org.kuali.coeus.common.budget.api.period.BudgetPeriodContract;
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelCalculatedAmountContract;
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelDetailsContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
+import org.kuali.coeus.s2sgen.impl.budget.S2SCommonBudgetService;
 import org.kuali.coeus.s2sgen.impl.datetime.S2SDateTimeService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.api.core.category.BudgetCategoryMapContract;
@@ -52,6 +53,10 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
     @Autowired
     @Qualifier("s2SConfigurationService")
     protected S2SConfigurationService s2SConfigurationService;
+
+    @Autowired
+    @Qualifier("s2SCommonBudgetService")
+    protected S2SCommonBudgetService s2SCommonBudgetService;
 
     protected static final String INDIRECT_COST_RATE_AGREEMENT_NONE = "NONE";
     protected static final String APPROVING_FEDERAL_AGENCY_OTHER = "Other";
@@ -326,5 +331,13 @@ public abstract class ED524BudgetBaseGenerator extends S2SBaseFormGenerator {
 
     public void setS2SConfigurationService(S2SConfigurationService s2SConfigurationService) {
         this.s2SConfigurationService = s2SConfigurationService;
+    }
+
+    public S2SCommonBudgetService getS2SCommonBudgetService() {
+        return s2SCommonBudgetService;
+    }
+
+    public void setS2SCommonBudgetService(S2SCommonBudgetService s2SCommonBudgetService) {
+        this.s2SCommonBudgetService = s2SCommonBudgetService;
     }
 }

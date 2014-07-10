@@ -35,6 +35,7 @@ import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.common.budget.api.income.BudgetProjectIncomeContract;
 import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
+import org.kuali.coeus.s2sgen.impl.budget.S2SCommonBudgetService;
 import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.s2sgen.impl.generate.FormVersion;
@@ -79,6 +80,10 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
     @Autowired
     @Qualifier("rolodexService")
     private RolodexService rolodexService;
+
+    @Autowired
+    @Qualifier("s2SCommonBudgetService")
+    private S2SCommonBudgetService s2SCommonBudgetService;
 	/**
 	 * 
 	 * This method gives information of Cover Page Supplement such as PDPI
@@ -99,7 +104,7 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
 		setIsInventionsAndPatentsAndIsPreviouslyReported(coverPageSupplement);
 		setFormerPDNameAndIsChangeOfPDPI(coverPageSupplement);
 		setFormerInstitutionNameAndChangeOfInstitution(coverPageSupplement);
-        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        ProposalDevelopmentBudgetExtContract budget = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
 
         if (budget != null) {
             int numPeriods = budget.getBudgetPeriods().size();
@@ -400,5 +405,13 @@ public class PHS398CoverPageSupplement_2_0_V2Generator extends
 
     public void setRolodexService(RolodexService rolodexService) {
         this.rolodexService = rolodexService;
+    }
+
+    public S2SCommonBudgetService getS2SCommonBudgetService() {
+        return s2SCommonBudgetService;
+    }
+
+    public void setS2SCommonBudgetService(S2SCommonBudgetService s2SCommonBudgetService) {
+        this.s2SCommonBudgetService = s2SCommonBudgetService;
     }
 }
