@@ -50,6 +50,7 @@ li.truncateAlign table {
 <c:set var="subAwardForms" value="${DataDictionary.SubAwardForms.attributes}" />
 <c:set var="subAwardAttachments" value="${DataDictionary.SubAwardAttachments.attributes}" />
 <c:set var="action" value="SubAwardHomeAction" />
+<c:set var="subAwardPrintAgreement" value="${KualiForm.subAwardPrintAgreement }"/>
 
 <kul:tab tabTitle="Print" tabItemCount="" defaultOpen="false" tabErrorKey="" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 		<div class="tab-container" align="center">
