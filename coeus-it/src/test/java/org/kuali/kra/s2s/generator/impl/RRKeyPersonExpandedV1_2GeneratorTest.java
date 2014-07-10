@@ -26,6 +26,7 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.attachment.PropPerDocType;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyAttachment;
+import org.kuali.coeus.s2sgen.impl.generate.support.RRKeyPersonExpandedV1_2Generator;
 import org.kuali.kra.s2s.generator.S2STestBase;
 import org.kuali.rice.krad.data.DataObjectService;
 

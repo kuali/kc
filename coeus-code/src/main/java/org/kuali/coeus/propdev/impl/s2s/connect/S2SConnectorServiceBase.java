@@ -29,7 +29,7 @@ import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.kra.s2s.ConfigurationConstants;
+import org.kuali.coeus.s2sgen.api.core.ConfigurationConstants;
 import org.kuali.rice.krad.data.DataObjectService;
 
 import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListRequest;

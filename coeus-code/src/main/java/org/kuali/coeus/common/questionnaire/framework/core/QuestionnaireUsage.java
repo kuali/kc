@@ -16,8 +16,7 @@
 package org.kuali.coeus.common.questionnaire.framework.core;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.cxf.Bus;
-import org.kuali.coeus.common.api.question.QuestionnaireUsageContract;
+import org.kuali.coeus.common.questionnaire.api.core.QuestionnaireUsageContract;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;

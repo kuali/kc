@@ -1,11 +1,11 @@
 package org.kuali.coeus.propdev.api.s2s;
 
 
-public interface S2sOppFormsContract {
+import org.kuali.coeus.propdev.api.core.NumberedProposal;
+
+public interface S2sOppFormsContract extends NumberedProposal {
 
     String getOppNameSpace();
-
-    String getProposalNumber();
 
     Boolean getAvailable();
 

@@ -23,7 +23,7 @@
                            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <context:annotation-config />
-    <context:component-scan base-package="org.kuali.kra.s2s" />
+    <context:component-scan base-package="org.kuali.coeus.s2sgen" />
 
     <bean id="rolodexService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="rolodexService" />
@@ -37,14 +37,6 @@
         <property name="serviceName" value="unitRepositoryService" />
     </bean>
 
-    <bean id="stateService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="stateService" />
-    </bean>
-
-    <bean id="countryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="countryService" />
-    </bean>
-
     <bean id="kcPersonRepositoryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kcPersonRepositoryService" />
     </bean>
@@ -55,6 +47,30 @@
 
     <bean id="sponsorService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="sponsorService" />
+    </bean>
+
+    <bean id="kcCountryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kcCountryService" />
+    </bean>
+
+    <bean id="kcStateService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kcStateService" />
+    </bean>
+
+    <bean id="questionAnswerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="questionAnswerService" />
+    </bean>
+
+    <bean id="budgetCategoryMapService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="budgetCategoryMapService" />
+    </bean>
+
+    <bean id="budgetPersonSalaryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="budgetPersonSalaryService" />
+    </bean>
+
+    <bean id="trainingStipendRateService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="trainingStipendRateService" />
     </bean>
 
 </beans>

@@ -16,16 +16,14 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.s2s.connect.OpportunitySchemaParserService;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorService;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
+import org.kuali.coeus.s2sgen.api.generate.FormGenerationResult;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.s2s.ConfigurationConstants;
-import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.generator.bo.AttachmentData;
-import org.kuali.kra.s2s.service.FormActionResult;
-import org.kuali.kra.s2s.service.S2SFormGeneratorService;
-import org.kuali.kra.s2s.service.S2SService;
-import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.coeus.s2sgen.api.core.ConfigurationConstants;
+import org.kuali.coeus.s2sgen.api.core.S2SException;
+import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
+import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +45,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
 
     private static final Log LOG = LogFactory.getLog(S2sSubmissionServiceImpl.class);
     private static final String GRANTS_GOV_STATUS_ERROR = "ERROR";
+    private static final String ERROR_MESSAGE = "Exception Occurred";
 
     @Autowired
     @Qualifier("proposalAdminDetailsService")
@@ -65,12 +64,8 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
     private BusinessObjectService businessObjectService;
 
     @Autowired
-    @Qualifier("s2SFormGeneratorService")
-    private S2SFormGeneratorService s2SFormGeneratorService;
-
-    @Autowired
-    @Qualifier("s2SService")
-    private S2SService s2SService;
+    @Qualifier("formGeneratorService")
+    private FormGeneratorService s2SService;
 
     @Autowired
     @Qualifier("s2sProviderService")
@@ -104,7 +99,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
                 s2sOppForms = parseOpportunityForms(s2sOpportunity);
             }catch(S2SException ex){
                 if(ex.getErrorKey().equals(KeyConstants.ERROR_GRANTSGOV_NO_FORM_ELEMENT)) {
-                    ex.setMessage(s2sOpportunity.getOpportunityId());
+                    ex.setErrorMessage(s2sOpportunity.getOpportunityId());
                 }
                 if(ex.getTabErrorKey()!=null){
                     GlobalVariables.getMessageMap().putError(ex.getTabErrorKey(), ex.getErrorKey(),ex.getMessageWithParams());
@@ -186,14 +181,14 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
                     .getDetailedStatus().toString();
             String statusStr = statusDetail.toUpperCase().indexOf(
                     GRANTS_GOV_STATUS_ERROR) == -1 ? statusDetail
-                    : S2SConstants.STATUS_GRANTS_GOV_SUBMISSION_ERROR;
+                    : S2sAppSubmissionConstants.STATUS_GRANTS_GOV_SUBMISSION_ERROR;
             statusChanged = !appSubmission.getStatus().equalsIgnoreCase(
                     statusStr);
             appSubmission.setComments(statusDetail);
             appSubmission.setStatus(statusStr);
         } else {
             appSubmission
-                    .setComments(S2SConstants.STATUS_NO_RESPONSE_FROM_GRANTS_GOV);
+                    .setComments(S2sAppSubmissionConstants.STATUS_NO_RESPONSE_FROM_GRANTS_GOV);
         }
         return statusChanged;
     }
@@ -296,7 +291,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
         if (ggApplication.getAgencyTrackingNumber() != null
                 && ggApplication.getAgencyTrackingNumber().length() > 0) {
             appSubmission
-                    .setComments(S2SConstants.STATUS_AGENCY_TRACKING_NUMBER_ASSIGNED);
+                    .setComments(S2sAppSubmissionConstants.STATUS_AGENCY_TRACKING_NUMBER_ASSIGNED);
             populateSponsorProposalId(pdDoc, appSubmission);
         } else {
             appSubmission.setComments(ggApplication
@@ -360,10 +355,10 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
      * @return true if submitted false otherwise.
      * @throws S2sCommunicationException
      */
-    public FormActionResult submitApplication(ProposalDevelopmentDocument pdDoc)
+    public FormGenerationResult submitApplication(ProposalDevelopmentDocument pdDoc)
             throws S2sCommunicationException {
 
-        final FormActionResult result = s2SService.generateAndValidateForms(pdDoc);
+        final FormGenerationResult result = s2SService.generateAndValidateForms(pdDoc);
         if (result.isValid()) {
 
             Map<String, DataHandler> attachments = new HashMap<String, DataHandler>();
@@ -382,8 +377,8 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
                 s2sAppAttachmentList.add(appAttachments);
             }
             S2sAppSubmission appSubmission = new S2sAppSubmission();
-            appSubmission.setStatus(S2SConstants.GRANTS_GOV_STATUS_MESSAGE);
-            appSubmission.setComments(S2SConstants.GRANTS_GOV_COMMENTS_MESSAGE);
+            appSubmission.setStatus(S2sAppSubmissionConstants.GRANTS_GOV_STATUS_MESSAGE);
+            appSubmission.setComments(S2sAppSubmissionConstants.GRANTS_GOV_COMMENTS_MESSAGE);
             SubmitApplicationResponse response = null;
 
             S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
@@ -392,7 +387,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
             response = connectorService.submitApplication(
                     result.getApplicationXml(), attachments, pdDoc
                             .getDevelopmentProposal().getProposalNumber());
-            appSubmission.setStatus(S2SConstants.GRANTS_GOV_SUBMISSION_MESSAGE);
+            appSubmission.setStatus(S2sAppSubmissionConstants.GRANTS_GOV_SUBMISSION_MESSAGE);
             saveSubmissionDetails(pdDoc, appSubmission, response,
                     result.getApplicationXml(), s2sAppAttachmentList);
             result.setValid(true);
@@ -526,7 +521,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
             br.read(bufContent);
             opportunity = new String(bufContent);
         }catch (Exception e) {
-            LOG.error(S2SConstants.ERROR_MESSAGE, e);
+            LOG.error(ERROR_MESSAGE, e);
             throw new S2sCommunicationException(KeyConstants.ERROR_GRANTSGOV_FORM_SCHEMA_NOT_FOUND,e.getMessage(),schemaUrl);
         }finally{
             try {
@@ -654,19 +649,11 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
         this.businessObjectService = businessObjectService;
     }
 
-    public S2SFormGeneratorService getS2SFormGeneratorService() {
-        return s2SFormGeneratorService;
-    }
-
-    public void setS2SFormGeneratorService(S2SFormGeneratorService s2SFormGeneratorService) {
-        this.s2SFormGeneratorService = s2SFormGeneratorService;
-    }
-
-    public S2SService getS2SService() {
+    public FormGeneratorService getS2SService() {
         return s2SService;
     }
 
-    public void setS2SService(S2SService s2SService) {
+    public void setS2SService(FormGeneratorService s2SService) {
         this.s2SService = s2SService;
     }
 

@@ -31,7 +31,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
-import org.kuali.kra.s2s.S2SException;
+import org.kuali.coeus.s2sgen.api.core.S2SException;
 import org.kuali.coeus.propdev.api.s2s.S2sOppFormsContract;
 import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormAttFileContract;
 import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormFileContract;

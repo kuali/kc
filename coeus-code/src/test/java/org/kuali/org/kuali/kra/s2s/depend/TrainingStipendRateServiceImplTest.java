@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.api.rate.TrainingStipendRateContract;
 import org.kuali.coeus.common.budget.framework.rate.TrainingStipendRate;
-import org.kuali.kra.s2s.depend.TrainingStipendRateServiceImpl;
+import org.kuali.coeus.common.budget.impl.rate.TrainingStipendRateServiceImpl;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.*;

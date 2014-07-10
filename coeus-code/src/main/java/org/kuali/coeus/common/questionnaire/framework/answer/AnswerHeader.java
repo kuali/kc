@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
 import org.kuali.coeus.common.questionnaire.framework.question.QuestionDTO;
-import org.kuali.coeus.common.api.question.AnswerHeaderContract;
+import org.kuali.coeus.common.questionnaire.api.answer.AnswerHeaderContract;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 
 import java.util.ArrayList;
