@@ -44,15 +44,29 @@
 				p:order="60" />
 				<bean parent="Uif-InputField" p:propertyName="sponsorProposalNumber"
 				p:order="70" />
+                <bean parent="Uif-InputField" p:propertyName="agencyDivisionCode" p:render="@{document.developmentProposal.s2sOpportunity != null}"
+                      p:required="@{document.developmentProposal.s2sOpportunity != null and document.developmentProposal.sponsorProgramAndDivCodeRequired}"
+                      p:maxLength="8"
+                      p:minLength="8"
+                      p:constraintText="Must be 8 characters long"
+                      p:order="80" />
+                <bean parent="Uif-InputField" p:propertyName="agencyProgramCode" p:render="@{document.developmentProposal.s2sOpportunity != null}"
+                      p:required="@{document.developmentProposal.s2sOpportunity != null and document.developmentProposal.sponsorProgramAndDivCodeRequired}"
+                      p:maxLength="4"
+                      p:minLength="4"
+                      p:constraintText="Must be 4 characters long"
+                      p:order="90"/>
 				<bean parent="Uif-InputField" p:propertyName="nsfCode"
-				p:order="80" />
-				<bean parent="Uif-InputField" p:propertyName="anticipatedAwardTypeCode" p:enableAutoQuickfinder="false"
-				p:order="90" />
-				<bean parent="Uif-InputField" p:propertyName="programAnnouncementTitle" p:readOnly="@{document.developmentProposal.s2sOpportunity != null}"
 				p:order="100" />
+				<bean parent="Uif-InputField" p:propertyName="anticipatedAwardTypeCode" p:enableAutoQuickfinder="false"
+				p:order="110" />
+				<bean parent="Uif-InputField" p:propertyName="programAnnouncementTitle" p:readOnly="@{document.developmentProposal.s2sOpportunity != null}"
+				p:order="120" />
 			</list>
 		</property>
 	</bean>
+
+    <bean id="PropDev-SponsorProgramInfo-DynamicInput" parent="Uif-InputField" />
 		
 	<bean id="PropDev-SponsorProgramInfo-SubawardSection" parent="PropDev-SponsorProgramInfo-SubawardSection-parentBean" />
 	<bean id="PropDev-SponsorProgramInfo-SubawardSection-parentBean"
