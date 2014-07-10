@@ -43,7 +43,7 @@
 
 	<bean id="PropDev-AttachmentsPage-ProposalSection" parent="PropDev-AttachmentsPage-ProposalSection-parentBean" />
 	<bean id="PropDev-AttachmentsPage-ProposalSection-parentBean" abstract="true"
-		parent="Uif-VerticalBoxSection" p:header.headerText="Proposal"
+		parent="Uif-VerticalBoxSection" p:header.headerText="Proposal (@{document.developmentProposal.narratives.size()})"
 		p:instructionalText="Add attachments to this proposal"
 		p:fieldBindingObjectPath="document.developmentProposal">
 		<property name="items">
@@ -65,7 +65,7 @@
 
     <bean id="PropDev-AttachmentsPage-PersonnelSection" parent="PropDev-AttachmentsPage-PersonnelSection-parentBean" />
     <bean id="PropDev-AttachmentsPage-PersonnelSection-parentBean"
-          abstract="true" parent="Uif-VerticalBoxSection" p:header.headerText="Personnel"
+          abstract="true" parent="Uif-VerticalBoxSection" p:header.headerText="Personnel (@{document.developmentProposal.propPersonBios.size()})"
           p:instructionalText="Add attachments to this proposal"
           p:fieldBindingObjectPath="document.developmentProposal">
         <property name="items">
@@ -103,7 +103,7 @@
     <bean id="PropDev-AttachmentsPage-AbstractsSection" parent="PropDev-AttachmentsPage-AbstractsSection-parentBean" />
     <bean id="PropDev-AttachmentsPage-AbstractsSection-parentBean"
           abstract="true" parent="Uif-VerticalBoxSection">
-        <property name="header.headerText" value="Abstracts" />
+        <property name="header.headerText" value="Abstracts (@{document.developmentProposal.proposalAbstracts.size()})" />
         <property name="items">
             <list>
                 <bean parent="PropDev-AttachmentsPage-AbstractsCollection" p:order="10" />
@@ -148,7 +148,7 @@
 
     <bean id="PropDev-AttachmentsPage-InternalSection" parent="PropDev-AttachmentsPage-InternalSection-parentBean" />
     <bean id="PropDev-AttachmentsPage-InternalSection-parentBean"
-          abstract="true" parent="Uif-VerticalBoxSection" p:header.headerText="Internal"
+          abstract="true" parent="Uif-VerticalBoxSection" p:header.headerText="Internal (@{document.developmentProposal.instituteAttachments.size()})"
           p:fieldBindingObjectPath="document.developmentProposal">
         <property name="items">
             <list>
@@ -186,7 +186,7 @@
 
     <bean id="PropDev-AttachmentsPage-NotesSection" parent="PropDev-AttachmentsPage-NotesSection-parentBean" />
     <bean id="PropDev-AttachmentsPage-NotesSection-parentBean" abstract="true"
-          parent="Uif-VerticalBoxSection" p:header.headerText="Notes"
+          parent="Uif-VerticalBoxSection" p:header.headerText="Notes (@{document.notes.size()})"
           p:fieldBindingObjectPath="document">
         <property name="items">
             <list>
