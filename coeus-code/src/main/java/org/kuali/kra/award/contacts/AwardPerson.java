@@ -30,7 +30,9 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class implements an Award Person 
@@ -279,8 +281,10 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     }
 
     @Override
-    protected String getContactRoleTypeIdentifier() {
-        return "proposalPersonRoleId";
+    protected Map<String, Object> getContactRoleIdentifierMap() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("proposalPersonRoleId", getRoleCode());
+        return map;
     }
 
     protected void init() {
