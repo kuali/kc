@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KcRulesEngineExecuter;
 import org.kuali.kra.krms.service.impl.KcKrmsFactBuilderServiceHelper;
@@ -38,7 +39,7 @@ public class InstitutionalProposalRulesEngineExecutorImpl extends KcRulesEngineE
         contextQualifiers.put("name", KcKrmsConstants.InstitutionalProposal.INSTITUTIONAL_PROPOSAL_CONTEXT);
         // extract facts from routeContext
         String docContent = routeContext.getDocument().getDocContent();
-        String unitNumber = getElementValue(docContent, "//document/institutionalProposalList[1]/org.kuali.kra.institutionalproposal.home.InstitutionalProposal[1]/unitNumber[1]");
+        String unitNumber = getElementValue(docContent, "//document/institutionalProposalList[1]/" + InstitutionalProposal.class + "[1]/unitNumber[1]");
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
                 Collections.singletonMap("Unit Number", unitNumber));
         KcKrmsFactBuilderServiceHelper fbService = KcServiceLocator.getService("institutionalProposalFactBuilderService");

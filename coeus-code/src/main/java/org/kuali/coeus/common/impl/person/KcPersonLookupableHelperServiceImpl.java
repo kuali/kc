@@ -26,6 +26,7 @@ import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.location.impl.campus.CampusBo;
 
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,7 @@ public class KcPersonLookupableHelperServiceImpl extends KualiLookupableHelperSe
     
     private static final String CAMPUS_CODE_FIELD = "code";
     private static final String PERSON_CAMPUS_CODE_FIELD = "campusCode";
-    private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.location.impl.campus.CampusBo";
+    private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = CampusBo.class.getName();
 
     private KcPersonService kcPersonService;
     

@@ -527,7 +527,7 @@ public class QuestionnaireXmlStream implements XmlStream {
      * object.
      */
     private PersistableBusinessObject getBusinessObjectFromXML(String xmlDocumentContents, String objectTagName) {
-        String beginTag = "<document class=\"org.kuali.rice.kns.document.MaintenanceDocumentBase\">";
+        String beginTag = "<document class=\"" + MaintenanceDocumentBase.class.getName() + "\">";
         String endTag = "</document>";
         String objXml = StringUtils.substringBetween(xmlDocumentContents, beginTag, endTag);
         objXml = beginTag + objXml + endTag;

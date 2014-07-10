@@ -46,7 +46,7 @@ public class UnitCorrespondentRoleAttribute extends GenericRoleAttribute {
     }
 
     public List<RoleName> getRoleNames() {
-        RoleName role = RoleName.Builder.create("org.kuali.kra.workflow.UnitCorrespondentRoleAttribute", ROLE_NAME, ROLE_NAME).build();
+        RoleName role = RoleName.Builder.create(UnitCorrespondentRoleAttribute.class.getName(), ROLE_NAME, ROLE_NAME).build();
         return Collections.singletonList(role);
     }
     

@@ -22,6 +22,7 @@ import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
+import org.kuali.coeus.common.framework.person.attr.DegreeType;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -185,7 +186,7 @@ public class CustomAttributeServiceImplTest extends KcIntegrationTestBase {
         properties.add("code");
         properties.add("degreeLevel");
         properties.add("description");
-        List lookupReturnFields = customAttributeService.getLookupReturns("org.kuali.coeus.common.framework.person.attr.DegreeType");
+        List lookupReturnFields = customAttributeService.getLookupReturns(DegreeType.class.getName());
         assertEquals(properties.size(), lookupReturnFields.size());
 
         for(Object returnField : lookupReturnFields) {
@@ -196,7 +197,7 @@ public class CustomAttributeServiceImplTest extends KcIntegrationTestBase {
     @Test
     public void testGetLookupReturnsForAjaxCall() throws Exception {
         String properties = ",code;Degree Code,degreeLevel;Degree Level,description;Description";
-        String lookupReturnFields = customAttributeService.getLookupReturnsForAjaxCall("org.kuali.coeus.common.framework.person.attr.DegreeType");
+        String lookupReturnFields = customAttributeService.getLookupReturnsForAjaxCall(DegreeType.class.getName());
         assertEquals(properties,lookupReturnFields);
     }
 

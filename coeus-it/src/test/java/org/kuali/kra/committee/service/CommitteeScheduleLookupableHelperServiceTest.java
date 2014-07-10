@@ -59,7 +59,7 @@ public class CommitteeScheduleLookupableHelperServiceTest extends KcIntegrationT
     
     private static final String EDIT_URL = "../meetingManagement.do?scheduleId=102&methodToCall=start&readOnly=false";
     private static final String VIEW_URL = "../meetingManagement.do?scheduleId=102&methodToCall=start&readOnly=true";
-    private static final String COMMITTEE_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.committee.bo.Committee&methodToCall=start&id=103";
+    private static final String COMMITTEE_INQ_URL ="inquiry.do?businessObjectClassName=" + Committee.class.getName() + "&methodToCall=start&id=103";
     
     private CommitteeScheduleLookupableHelperServiceImpl service;
     

@@ -19,6 +19,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -34,7 +35,7 @@ public class ProposalLogMergeAction extends KualiAction {
         ProposalLogMergeForm proposalLogMergeForm = (ProposalLogMergeForm) form;
         String applicationUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY);
         request.getSession().setAttribute("proposalLogNumber", proposalLogMergeForm.getProposalLogNumber());
-        response.sendRedirect("kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.institutionalproposal.home.InstitutionalProposal&docFormKey=88888888&includeCustomActionUrls=true&returnLocation=" 
+        response.sendRedirect("kr/lookup.do?methodToCall=start&businessObjectClassName=" + InstitutionalProposal.class + "&docFormKey=88888888&includeCustomActionUrls=true&returnLocation="
                 + applicationUrl + "/mergeProposalLog.do&hideReturnLink=true");
         return null;
     }

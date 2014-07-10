@@ -352,7 +352,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     @Override
     public String getBusinessObjectClassName() {
 
-        return "org.kuali.coeus.common.questionnaire.framework.core.Questionnaire";
+        return Questionnaire.class.getName();
     }
 
     /**
