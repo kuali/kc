@@ -29,6 +29,7 @@ import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
+import org.kuali.coeus.s2sgen.impl.budget.S2SCommonBudgetService;
 import org.kuali.coeus.s2sgen.impl.generate.FormVersion;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.s2sgen.api.core.ConfigurationConstants;
@@ -98,6 +99,9 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     @Qualifier("trainingStipendRateService")
     private TrainingStipendRateService trainingStipendRateService;
 
+    @Autowired
+    @Qualifier("s2SCommonBudgetService")
+    private S2SCommonBudgetService s2SCommonBudgetService;
 
     public XmlObject getFormObject(ProposalDevelopmentDocumentContract proposalDevelopmentDocument) throws S2SException {
         PHS398TrainingBudgetDocument trainingBudgetTypeDocument = PHS398TrainingBudgetDocument.Factory.newInstance();
@@ -107,7 +111,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
 
     private PHS398TrainingBudget getPHS398TrainingBudget(ProposalDevelopmentDocumentContract proposalDevelopmentDocument) throws S2SException{
         DevelopmentProposalContract developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
-        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        ProposalDevelopmentBudgetExtContract budget = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
 
         PHS398TrainingBudget trainingBudgetType = PHS398TrainingBudget.Factory.newInstance();
         if (budget != null) {
@@ -1110,5 +1114,13 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
 
     public void setTrainingStipendRateService(TrainingStipendRateService trainingStipendRateService) {
         this.trainingStipendRateService = trainingStipendRateService;
+    }
+
+    public S2SCommonBudgetService getS2SCommonBudgetService() {
+        return s2SCommonBudgetService;
+    }
+
+    public void setS2SCommonBudgetService(S2SCommonBudgetService s2SCommonBudgetService) {
+        this.s2SCommonBudgetService = s2SCommonBudgetService;
     }
 }

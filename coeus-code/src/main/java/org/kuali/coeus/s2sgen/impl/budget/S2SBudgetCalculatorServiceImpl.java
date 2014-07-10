@@ -141,6 +141,10 @@ public class S2SBudgetCalculatorServiceImpl implements
     @Qualifier("s2SErrorHandlerService")
     private S2SErrorHandlerService s2SErrorHandlerService;
 
+    @Autowired
+    @Qualifier("s2SCommonBudgetService")
+    private S2SCommonBudgetService s2SCommonBudgetService;
+
     @Override
     public String getParticipantSupportCategoryCode() {
         return s2SConfigurationService.getValueAsString(ConfigurationConstants.BUDGET_CATEGORY_TYPE_PARTICIPANT_SUPPORT);
@@ -169,7 +173,7 @@ public class S2SBudgetCalculatorServiceImpl implements
     @Override
     public BudgetSummaryDto getBudgetInfo(ProposalDevelopmentDocumentContract pdDoc, List<BudgetPeriodDto> budgetPeriodInfos)
             throws S2SException {
-        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        ProposalDevelopmentBudgetExtContract budget = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
         BudgetSummaryDto budgetSummaryInfo = new BudgetSummaryDto();
         if (budget == null) {
             return budgetSummaryInfo;
@@ -531,7 +535,7 @@ public class S2SBudgetCalculatorServiceImpl implements
     @Override
     public List<BudgetPeriodDto> getBudgetPeriods(ProposalDevelopmentDocumentContract pdDoc) throws S2SException {
         List<BudgetPeriodDto> budgetPeriods = new ArrayList<BudgetPeriodDto>();
-        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        ProposalDevelopmentBudgetExtContract budget = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
         if (budget == null) {
             return budgetPeriods;
         }
@@ -2177,5 +2181,13 @@ public class S2SBudgetCalculatorServiceImpl implements
 
     public void setS2SErrorHandlerService(S2SErrorHandlerService s2SErrorHandlerService) {
         this.s2SErrorHandlerService = s2SErrorHandlerService;
+    }
+
+    public S2SCommonBudgetService getS2SCommonBudgetService() {
+        return s2SCommonBudgetService;
+    }
+
+    public void setS2SCommonBudgetService(S2SCommonBudgetService s2SCommonBudgetService) {
+        this.s2SCommonBudgetService = s2SCommonBudgetService;
     }
 }

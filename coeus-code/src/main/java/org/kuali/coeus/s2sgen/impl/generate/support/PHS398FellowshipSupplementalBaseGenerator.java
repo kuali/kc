@@ -18,6 +18,7 @@ package org.kuali.coeus.s2sgen.impl.generate.support;
 import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.coeus.common.questionnaire.api.core.QuestionAnswerService;
 import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
+import org.kuali.coeus.s2sgen.impl.budget.S2SCommonBudgetService;
 import org.kuali.coeus.s2sgen.impl.datetime.S2SDateTimeService;
 import org.kuali.coeus.s2sgen.impl.generate.S2SBaseFormGenerator;
 import org.kuali.coeus.s2sgen.impl.generate.S2SQuestionnairing;
@@ -53,7 +54,10 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
     @Autowired
     @Qualifier("questionAnswerService")
     protected QuestionAnswerService questionAnswerService;
-    
+
+    @Autowired
+    @Qualifier("s2SCommonBudgetService")
+    protected S2SCommonBudgetService s2SCommonBudgetService;
 
 	protected static final String NSR_SUPPORT_NO = "No";
 	protected static final String NSR_SUPPORT_YES = "Yes";
@@ -139,7 +143,15 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
     public void setS2SDateTimeService(S2SDateTimeService s2SDateTimeService) {
         this.s2SDateTimeService = s2SDateTimeService;
     }
-    
+
+    public S2SCommonBudgetService getS2SCommonBudgetService() {
+        return s2SCommonBudgetService;
+    }
+
+    public void setS2SCommonBudgetService(S2SCommonBudgetService s2SCommonBudgetService) {
+        this.s2SCommonBudgetService = s2SCommonBudgetService;
+    }
+
     public static class KirschsteinBean {
         String answer;
         Integer questionId;

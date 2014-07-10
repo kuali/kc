@@ -94,7 +94,7 @@ public class PHS398ModularBudgetV1_1Generator extends
 				.newInstance();
 		modularBudget.setFormVersion(FormVersion.v1_1.getVersion());
 
-        ProposalDevelopmentBudgetExtContract budget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        ProposalDevelopmentBudgetExtContract budget = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
         if (budget != null) {
             for (BudgetPeriodContract budgetPeriod : budget.getBudgetPeriods()) {
                 if (budgetPeriod.getBudgetPeriod() == BudgetPeriodNum.P1.getNum()) {

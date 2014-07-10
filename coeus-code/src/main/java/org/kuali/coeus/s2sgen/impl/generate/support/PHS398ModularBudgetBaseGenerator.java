@@ -19,6 +19,7 @@ import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.propdev.api.budget.modular.BudgetModularContract;
 import org.kuali.coeus.propdev.api.budget.modular.BudgetModularIdcContract;
+import org.kuali.coeus.s2sgen.impl.budget.S2SCommonBudgetService;
 import org.kuali.coeus.s2sgen.impl.datetime.S2SDateTimeService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.s2sgen.impl.generate.S2SBaseFormGenerator;
@@ -36,6 +37,10 @@ public abstract class PHS398ModularBudgetBaseGenerator extends
 	private static final String EMPTY_STRING = " ";
 	private static final String COMMA_SEPERATOR = ",";
 
+    protected static final int PERSONNEL_JUSTIFICATION_CODE = 35;
+    protected static final int CONSORTIUM_JUSTIFICATION_CODE = 36;
+    protected static final int NARRATIVE_JUSTIFICATION_CODE = 37;
+
     @Autowired
     @Qualifier("s2SDateTimeService")
     protected S2SDateTimeService s2SDateTimeService;
@@ -44,9 +49,9 @@ public abstract class PHS398ModularBudgetBaseGenerator extends
     @Qualifier("rolodexService")
 	protected RolodexService rolodexService;
 
-    protected static final int PERSONNEL_JUSTIFICATION_CODE = 35;
-	protected static final int CONSORTIUM_JUSTIFICATION_CODE = 36;
-	protected static final int NARRATIVE_JUSTIFICATION_CODE = 37;
+    @Autowired
+    @Qualifier("s2SCommonBudgetService")
+    protected S2SCommonBudgetService s2SCommonBudgetService;
 
 	/**
 	 * This method is used to get total cost as sum of totalDirectCost and total
@@ -106,5 +111,13 @@ public abstract class PHS398ModularBudgetBaseGenerator extends
 
     public void setRolodexService(RolodexService rolodexService) {
         this.rolodexService = rolodexService;
+    }
+
+    public S2SCommonBudgetService getS2SCommonBudgetService() {
+        return s2SCommonBudgetService;
+    }
+
+    public void setS2SCommonBudgetService(S2SCommonBudgetService s2SCommonBudgetService) {
+        this.s2SCommonBudgetService = s2SCommonBudgetService;
     }
 }

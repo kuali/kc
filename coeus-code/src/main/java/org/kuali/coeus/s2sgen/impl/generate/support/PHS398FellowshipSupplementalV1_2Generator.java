@@ -476,7 +476,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
      * value of TUITION_COST_ELEMENTS
      */
     private void setTuitionRequestedYears(Budget budget) {
-        ProposalDevelopmentBudgetExtContract pBudget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        ProposalDevelopmentBudgetExtContract pBudget = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
         if (pBudget == null) {
             return;
         }
@@ -547,7 +547,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
      */
     private void getFederalStipendRequested(Budget budget) {
         FederalStipendRequested federalStipendRequested = FederalStipendRequested.Factory.newInstance();
-        ProposalDevelopmentBudgetExtContract pBudget = pdDoc.getDevelopmentProposal().getFinalBudget();
+        ProposalDevelopmentBudgetExtContract pBudget = s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
         if (pBudget != null) {
             ScaleTwoDecimal sumOfLineItemCost = ScaleTwoDecimal.ZERO;
             ScaleTwoDecimal numberOfMonths = ScaleTwoDecimal.ZERO;

@@ -22,6 +22,7 @@ import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
 import org.kuali.coeus.s2sgen.api.core.S2SException;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsService;
+import org.kuali.coeus.s2sgen.impl.budget.S2SCommonBudgetService;
 import org.kuali.coeus.s2sgen.impl.generate.S2SBaseFormGenerator;
 import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
 import org.kuali.coeus.s2sgen.impl.validate.S2SErrorHandlerService;
@@ -75,6 +76,11 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
     @Autowired
     @Qualifier("s2SErrorHandlerService")
     protected S2SErrorHandlerService s2SErrorHandlerService;
+
+    @Autowired
+    @Qualifier("s2SCommonBudgetService")
+    protected S2SCommonBudgetService s2SCommonBudgetService;
+
     /**
      * This method convert node of form in to a Document
      * 
@@ -296,7 +302,7 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
     }
 
     private BudgetContract findBudgetFromProposal(ProposalDevelopmentDocumentContract proposalDevelopmentDocument) {
-        return pdDoc.getDevelopmentProposal().getFinalBudget();
+        return s2SCommonBudgetService.getBudget(pdDoc.getDevelopmentProposal());
     }
 
     public BudgetSubAwardsService getBudgetSubAwardsService() {
@@ -313,5 +319,13 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
 
     public void setS2SErrorHandlerService(S2SErrorHandlerService s2SErrorHandlerService) {
         this.s2SErrorHandlerService = s2SErrorHandlerService;
+    }
+
+    public S2SCommonBudgetService getS2SCommonBudgetService() {
+        return s2SCommonBudgetService;
+    }
+
+    public void setS2SCommonBudgetService(S2SCommonBudgetService s2SCommonBudgetService) {
+        this.s2SCommonBudgetService = s2SCommonBudgetService;
     }
 }
