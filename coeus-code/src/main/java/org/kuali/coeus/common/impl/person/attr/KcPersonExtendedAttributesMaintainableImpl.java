@@ -32,6 +32,7 @@ import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -142,7 +143,7 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
                 for (Field field : row.getFields()) {
                     if (StringUtils.isNotEmpty(field.getPropertyName()) && field.getPropertyName().equalsIgnoreCase("personId")) {
                         field.setFieldConversions("principalId:personId");
-                        field.setQuickFinderClassNameImpl("org.kuali.rice.kim.api.identity.Person");
+                        field.setQuickFinderClassNameImpl(Person.class.getName());
                         field.setFieldDirectInquiryEnabled(true);
                         field.setInquiryParameters("personId:principalId");
                         break;

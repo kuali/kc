@@ -18,6 +18,7 @@ package org.kuali.kra.iacuc.committee.lookup;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeType;
 import org.kuali.coeus.common.committee.impl.lookup.CommitteeLookupableHelperServiceImplBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
+import org.kuali.kra.iacuc.committee.bo.IacucCommitteeMembership;
 import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
@@ -33,7 +34,7 @@ public class IacucCommitteeLookupableHelperServiceImpl extends CommitteeLookupab
 
     @Override
     protected String getCommitteeMembershipFullyQualifiedClassNameHook() {
-        return "org.kuali.kra.iacuc.committee.bo.IacucCommitteeMembership";
+        return IacucCommitteeMembership.class.getName();
     }
 
     @Override

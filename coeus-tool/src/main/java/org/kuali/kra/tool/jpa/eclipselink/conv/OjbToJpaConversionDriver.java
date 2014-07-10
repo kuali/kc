@@ -7,6 +7,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ojb.broker.metadata.DescriptorRepository;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.sys.framework.persistence.BooleanNFConverter;
 import org.kuali.coeus.sys.framework.persistence.OjbBlobClobFieldConversion;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
@@ -100,7 +101,7 @@ public class OjbToJpaConversionDriver {
 
             //if (ojbMappedClass.endsWith("CongressionalDistrict") || ojbMappedClass.endsWith("S2sAppAttachments")) {
             //if (ojbMappedClass.endsWith("InstitutionalProposalComment") || ojbMappedClass.endsWith("InstitutionalProposalNotepad")) {
-            if (OjbUtil.getMappedTree("org.kuali.kra.budget.document.BudgetDocument", drs).contains(ojbMappedClass)) {
+            if (OjbUtil.getMappedTree(BudgetDocument.class.getName(), drs).contains(ojbMappedClass)) {
                 //if (ojbMappedClass.endsWith("ProposalDevelopmentDocument")) {
                     System.out.println(ojbMappedClass);
                     visit(ojbMappedClass, ojbMappedClass, drs);

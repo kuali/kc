@@ -46,8 +46,8 @@ public class ProtocolSubmissionLookupHelperServiceTest extends ProtocolLookupHel
     
     private static final String EDIT_URL ="../protocolProtocol.do?viewDocument=false&docId=101&submissionId=102&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
     private static final String VIEW_URL ="../protocolProtocol.do?viewDocument=true&docId=101&submissionId=102&docTypeName=ProtocolDocument&methodToCall=docHandler&command=displayDocSearchView";
-    private static final String PROTOCOL_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.irb.Protocol&methodToCall=start&protocolId=104";
-    private static final String COMMITTEE_INQ_URL ="inquiry.do?businessObjectClassName=org.kuali.kra.committee.bo.Committee&methodToCall=start&id=103";
+    private static final String PROTOCOL_INQ_URL ="inquiry.do?businessObjectClassName=" + Protocol.class.getName() + "&methodToCall=start&protocolId=104";
+    private static final String COMMITTEE_INQ_URL ="inquiry.do?businessObjectClassName=" + Committee.class.getName() + "&methodToCall=start&id=103";
 
     private ProtocolSubmissionLookupableHelperServiceImpl protocolSubmissionLookupableHelperServiceImpl;
     
