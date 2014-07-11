@@ -19,13 +19,14 @@ import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
+import org.kuali.coeus.sys.api.model.IdentifiableNumeric;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
 /**
  * This is Business Object class for IP custom data BO.
  */
-public class InstitutionalProposalCustomData extends InstitutionalProposalAssociate implements SequenceAssociate, DocumentCustomData {
+public class InstitutionalProposalCustomData extends InstitutionalProposalAssociate implements SequenceAssociate, DocumentCustomData, IdentifiableNumeric {
 
     private static final long serialVersionUID = 1L;
 
@@ -127,4 +128,10 @@ public class InstitutionalProposalCustomData extends InstitutionalProposalAssoci
         } else if (!value.equals(other.value)) return false;
         return true;
     }
+    
+	@Override
+	public Long getId() {
+		return customAttributeId;
+	}
+
 }

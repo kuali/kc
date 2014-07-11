@@ -17,12 +17,13 @@ package org.kuali.kra.award.customdata;
 
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
+import org.kuali.coeus.sys.api.model.IdentifiableNumeric;
 import org.kuali.kra.award.AwardAssociate;
 
 /**
  * This class is the BO representation of an Award Custom Data.
  */
-public class AwardCustomData extends AwardAssociate implements DocumentCustomData {
+public class AwardCustomData extends AwardAssociate implements DocumentCustomData, IdentifiableNumeric {
 
 
     private static final long serialVersionUID = 4125090813618033094L;
@@ -135,4 +136,10 @@ public class AwardCustomData extends AwardAssociate implements DocumentCustomDat
     public void setCustomAttribute(CustomAttribute customAttribute) {
         this.customAttribute = customAttribute;
     }
+    
+	@Override
+	public Long getId() {
+		return customAttributeId;
+	}
+
 }
