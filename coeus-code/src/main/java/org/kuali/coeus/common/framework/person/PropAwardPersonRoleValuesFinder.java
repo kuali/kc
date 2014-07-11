@@ -20,8 +20,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -39,7 +44,7 @@ import java.util.Map;
 
 import static org.kuali.kra.infrastructure.Constants.*;
 
-public abstract class PropAwardPersonRoleValuesFinder extends UifKeyValuesFinderBase {
+public abstract class PropAwardPersonRoleValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
 
     private static final Log LOG = LogFactory.getLog(PropAwardPersonRoleValuesFinder.class);
     private PropAwardPersonRoleService propAwardPersonRoleService;
@@ -52,16 +57,9 @@ public abstract class PropAwardPersonRoleValuesFinder extends UifKeyValuesFinder
     protected abstract String getSponsorCodeFromModel(ViewModel model);
     
     @Override
-   	public Map<String, String> getKeyLabelMap() {
-           Map<String, String> keyLabelMap = new HashMap<String, String>();
-           List<KeyValue> keyLabels = getKeyValues();
-           if (keyLabels != null) {
-        	   for (KeyValue keyLabel : keyLabels) {
-        		   keyLabelMap.put(keyLabel.getKey(), keyLabel.getValue());
-        	   }
-           }
-           return keyLabelMap;
-     }
+    public List<KeyValue> getKeyValues(){
+        return getKeyValues(getSponsorCode());
+    }
     
     @Override
     public List<KeyValue> getKeyValues(ViewModel model, InputField field){
@@ -117,4 +115,21 @@ public abstract class PropAwardPersonRoleValuesFinder extends UifKeyValuesFinder
 			PropAwardPersonRoleService propAwardPersonRoleService) {
 		this.propAwardPersonRoleService = propAwardPersonRoleService;
 	}
+
+	/**
+     * A temporary solution until we move IP and Award to KRAD
+     * @return
+     */
+    protected String getSponsorCode() {
+    	String sponsorCode = null;
+    	if(getDocument() instanceof InstitutionalProposalDocument) {
+        	InstitutionalProposal institutionalProposal = ((InstitutionalProposalDocument)getDocument()).getInstitutionalProposal();
+        	sponsorCode = institutionalProposal.getSponsorCode();
+    	}else {
+        	Award award = ((AwardDocument)getDocument()).getAward();
+        	sponsorCode = award.getSponsorCode();
+    	}
+        return sponsorCode;
+    }
+    
 }
