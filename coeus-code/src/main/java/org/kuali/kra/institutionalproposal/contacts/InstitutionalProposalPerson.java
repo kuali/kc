@@ -29,7 +29,9 @@ import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InstitutionalProposalPerson extends InstitutionalProposalContact implements PersonRolodex, AbstractProjectPerson {
 
@@ -268,12 +270,15 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     protected Class getContactRoleType() {
         return PropAwardPersonRole.class;
     }
-
+    
     @Override
-    protected String getContactRoleTypeIdentifier() {
-        return "proposalPersonRoleId";
-    }
-
+    protected Map<String, Object> getContactRoleIdentifierMap() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("code", getRoleCode());
+        map.put("sponsorHierarchyName", getPropAwardPersonRoleService().getSponsorHierarchy(getInstitutionalProposal().getSponsorCode()));
+        return map;
+     }
+    
     protected void init() {
         units = new ArrayList<InstitutionalProposalPersonUnit>();
         creditSplits = new ArrayList<InstitutionalProposalPersonCreditSplit>();

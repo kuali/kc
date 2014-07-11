@@ -75,7 +75,7 @@ public class PropAwardPersonRoleServiceImpl implements PropAwardPersonRoleServic
         return areAllSponsorsMultiPi() || getSponsorHierarchyService().isSponsorNihOsc(sponsorCode);
 	}	
 	
-	protected String getSponsorHierarchy(String sponsorCode) {
+	public String getSponsorHierarchy(String sponsorCode) {
 		if (areAllSponsorsMultiPi()) {
 			return NIH_MULTIPLE_PI_HIERARCHY;
 		}

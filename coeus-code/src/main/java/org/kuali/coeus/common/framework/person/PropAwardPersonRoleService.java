@@ -38,4 +38,11 @@ public interface PropAwardPersonRoleService {
 	 */
 	boolean isNihOtherSignificantContributorEnabledForSponsor(String sponsorCode);
 	
+	/**
+	 * Gets the sponsor hierarchy based on the sponsor code 
+	 * @param sponsorCode
+	 * @return
+	 */
+	public String getSponsorHierarchy(String sponsorCode);
+	
 }

@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.award.contacts;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.kra.award.home.ContactRole;
@@ -67,8 +70,12 @@ public class AwardSponsorContact extends AwardContact {
     protected Class getContactRoleType() {
         return ContactType.class;
     }
+
     @Override
-    protected String getContactRoleTypeIdentifier() {
-        return "contactTypeCode";
-    }
+    protected Map<String, Object> getContactRoleIdentifierMap() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("contactTypeCode", getRoleCode());
+        return map;
+     }
+
 }
