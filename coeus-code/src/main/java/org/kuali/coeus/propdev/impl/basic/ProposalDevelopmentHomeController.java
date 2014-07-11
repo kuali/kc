@@ -67,6 +67,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        return super.save(form, result, request, response);
    }
    
+   @MethodAccessible
    @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=navigate")
    public ModelAndView navigate(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
 		   HttpServletRequest request, HttpServletResponse response) throws Exception {
