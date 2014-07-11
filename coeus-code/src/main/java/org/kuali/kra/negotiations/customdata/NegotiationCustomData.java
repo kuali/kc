@@ -18,13 +18,14 @@ package org.kuali.kra.negotiations.customdata;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
+import org.kuali.coeus.sys.api.model.IdentifiableNumeric;
 import org.kuali.kra.negotiations.NegotiationAssociate;
 import org.kuali.kra.negotiations.bo.Negotiation;
 
 /**
  * This is Business Object class for IP custom data BO.
  */
-public class NegotiationCustomData extends NegotiationAssociate implements DocumentCustomData {
+public class NegotiationCustomData extends NegotiationAssociate implements DocumentCustomData, IdentifiableNumeric {
 
     private static final long serialVersionUID = 1L;
 
@@ -123,4 +124,10 @@ public class NegotiationCustomData extends NegotiationAssociate implements Docum
         } else if (!value.equals(other.value)) return false;
         return true;
     }
+    
+	@Override
+	public Long getId() {
+		return customAttributeId;
+	}
+
 }
