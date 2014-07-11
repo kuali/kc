@@ -55,15 +55,7 @@ public abstract class InstitutionalProposalContactsBean implements Serializable 
         this.institutionalProposalForm = institutionalProposalForm;
         init();
     }
-    
-    @SuppressWarnings("unchecked")
-    public List<? extends ContactRole> getContactRoles() {
-        if(contactRoles == null) {
-            contactRoles = (List<? extends ContactRole>) getBusinessObjectService().findAll(getContactRoleType());
-        }
-        return contactRoles;
-    }
-    
+        
     /**
      * Subclasses specify the contact role type
      * @return
@@ -98,8 +90,8 @@ public abstract class InstitutionalProposalContactsBean implements Serializable 
      * @param contactRoleCode
      */
     public void setContactRoleCode(String contactRoleCode) {
-        ContactRole matchingRole = findMatchingContactRole(getContactRoles(), contactRoleCode);
-        newInstitutionalProposalContact.setContactRole(matchingRole);  
+        newInstitutionalProposalContact.setInstitutionalProposal(getInstitutionalProposal());
+        newInstitutionalProposalContact.setContactRoleCode(contactRoleCode);  
     }
 
     /**

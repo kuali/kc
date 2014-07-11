@@ -15,8 +15,12 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import java.util.List;
+
 import org.kuali.coeus.common.framework.person.PropAwardPersonRoleValuesFinder;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.uif.view.ViewModel;
 
 public class InstitutionalProposalPersonProjectRolesValuesFinder extends PropAwardPersonRoleValuesFinder {
@@ -25,5 +29,11 @@ public class InstitutionalProposalPersonProjectRolesValuesFinder extends PropAwa
 	protected String getSponsorCodeFromModel(ViewModel model) {
 		return ((InstitutionalProposalForm) model).getInstitutionalProposalDocument().getInstitutionalProposal().getSponsorCode();
 	}
-	
+
+    @Override
+    public List<KeyValue> getKeyValues(){
+    	InstitutionalProposalForm form = (InstitutionalProposalForm) KNSGlobalVariables.getKualiForm();
+		return getKeyValues(form.getInstitutionalProposalDocument().getInstitutionalProposal().getSponsorCode());
+    }
+
 }

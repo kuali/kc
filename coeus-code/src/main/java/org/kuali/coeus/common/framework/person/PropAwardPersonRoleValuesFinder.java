@@ -18,26 +18,16 @@ package org.kuali.coeus.common.framework.person;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.view.ViewModel;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import static org.kuali.kra.infrastructure.Constants.*;
 
 public abstract class PropAwardPersonRoleValuesFinder extends UifKeyValuesFinderBase {
 
@@ -50,18 +40,6 @@ public abstract class PropAwardPersonRoleValuesFinder extends UifKeyValuesFinder
     }
     
     protected abstract String getSponsorCodeFromModel(ViewModel model);
-    
-    @Override
-   	public Map<String, String> getKeyLabelMap() {
-           Map<String, String> keyLabelMap = new HashMap<String, String>();
-           List<KeyValue> keyLabels = getKeyValues();
-           if (keyLabels != null) {
-        	   for (KeyValue keyLabel : keyLabels) {
-        		   keyLabelMap.put(keyLabel.getKey(), keyLabel.getValue());
-        	   }
-           }
-           return keyLabelMap;
-     }
     
     @Override
     public List<KeyValue> getKeyValues(ViewModel model, InputField field){

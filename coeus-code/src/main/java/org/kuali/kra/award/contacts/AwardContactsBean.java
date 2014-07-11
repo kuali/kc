@@ -55,14 +55,6 @@ public abstract class AwardContactsBean implements Serializable {
         init();
     }
     
-    @SuppressWarnings("unchecked")
-    public List<? extends ContactRole> getContactRoles() {
-        if(contactRoles == null) {
-            contactRoles = (List<? extends ContactRole>) getBusinessObjectService().findAll(getContactRoleType());
-        }
-        return contactRoles;
-    }
-    
     /**
      * Subclasses specify the contact role type
      * @return
@@ -97,8 +89,8 @@ public abstract class AwardContactsBean implements Serializable {
      * @param contactRoleCode
      */
     public void setContactRoleCode(String contactRoleCode) {
-        ContactRole matchingRole = findMatchingContactRole(getContactRoles(), contactRoleCode);
-        newAwardContact.setContactRole(matchingRole);  
+    	newAwardContact.setAward(getAward());
+    	newAwardContact.setContactRoleCode(contactRoleCode);
     }
 
     /**

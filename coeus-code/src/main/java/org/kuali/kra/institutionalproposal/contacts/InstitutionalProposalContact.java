@@ -15,9 +15,12 @@
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.contact.Contactable;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRoleService;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -28,6 +31,8 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.persistence.Transient;
 
 
 public abstract class InstitutionalProposalContact extends InstitutionalProposalAssociate implements SequenceAssociate<InstitutionalProposal> {
@@ -60,6 +65,8 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     private transient KcPersonService kcPersonService;
 
+    @Transient
+    private transient PropAwardPersonRoleService propAwardPersonRoleService;
 
     public InstitutionalProposalContact() {
     }
@@ -159,7 +166,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
      * @return Returns the contactRole.
      */
     public ContactRole getContactRole() {
-        return contactRole;
+    	return getRole();
     }
 
 
@@ -386,16 +393,12 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
      */
     protected abstract Class<? extends ContactRole> getContactRoleType();
 
-    /**
-     * This method specifies the identifier of the actual type implementing ContactRole
-     * @return
-     */
-    protected abstract String getContactRoleTypeIdentifier();
+    protected abstract Map<String, Object> getContactRoleIdentifierMap();
 
     protected ContactRole refreshContactRole() {
         ContactRole role;
         if (roleCode != null) {
-            role = (ContactRole) getBusinessObjectService().findByPrimaryKey(getContactRoleType(), getIdentifierMap(getContactRoleTypeIdentifier(), roleCode));
+            role = (ContactRole) getBusinessObjectService().findMatching(getContactRoleType(), getContactRoleIdentifierMap());
         } else {
             role = null;
         }
@@ -444,11 +447,30 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
         return getInstitutionalProposal();
     }
 
-    //    public Integer getSequenceNumber() {  
-    //        return getInstitutionalProposal().getSequenceNumber();  
-    //    }  
     @Override
     public void setSequenceOwner(InstitutionalProposal newlyVersionedOwner) {
         setInstitutionalProposal((InstitutionalProposal) newlyVersionedOwner);
     }
+
+    public PropAwardPersonRole getRole() {
+    	if (StringUtils.isNotBlank(getRoleCode()) && getInstitutionalProposal() != null &&
+    			StringUtils.isNotBlank(getInstitutionalProposal().getSponsorCode())) {
+    		return getPropAwardPersonRoleService().getRole(getRoleCode(), getInstitutionalProposal().getSponsorCode());
+    	} else {
+    		return null;
+    	}
+    }
+    
+	protected PropAwardPersonRoleService getPropAwardPersonRoleService() {
+		if (propAwardPersonRoleService == null) {
+			propAwardPersonRoleService = KcServiceLocator.getService(PropAwardPersonRoleService.class);
+		}
+		return propAwardPersonRoleService;
+	}
+
+	public void setPropAwardPersonRoleService(
+			PropAwardPersonRoleService propAwardPersonRoleService) {
+		this.propAwardPersonRoleService = propAwardPersonRoleService;
+	}
+
 }

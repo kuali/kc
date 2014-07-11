@@ -161,8 +161,15 @@ public class InstitutionalProposalUnitContact extends InstitutionalProposalConta
     protected Class<?extends ContactRole> getContactRoleType() {
         return getUnitContactType() == UnitContactType.ADMINISTRATOR ? UnitAdministratorType.class : ContactType.class;
     }
-    @Override
+    
     protected String getContactRoleTypeIdentifier() {
         return  getUnitContactType() == UnitContactType.ADMINISTRATOR ? UNIT_ADMINISTRATOR_TYPE_CODE : CONTACT_TYPE_CODE;
     }
+    @Override
+    protected Map<String, Object> getContactRoleIdentifierMap() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(getContactRoleTypeIdentifier(), getRoleCode());
+        return map;
+     }
+
 }

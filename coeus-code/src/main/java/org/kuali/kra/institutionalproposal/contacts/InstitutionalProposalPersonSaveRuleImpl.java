@@ -59,7 +59,7 @@ public class InstitutionalProposalPersonSaveRuleImpl implements InstitutionalPro
     boolean checkForKeyPersonProjectRoles(List<InstitutionalProposalPerson> projectPersons) {
        boolean valid = true;
        for ( InstitutionalProposalPerson person : projectPersons ) {
-           if ( StringUtils.equalsIgnoreCase(person.getContactRole().getRoleCode(), ContactRole.KEY_PERSON_CODE) &&
+           if ( person.getContactRole() != null && StringUtils.equalsIgnoreCase(person.getContactRole().getRoleCode(), ContactRole.KEY_PERSON_CODE) &&
                    StringUtils.isBlank(person.getKeyPersonRole()) ) {
                valid = false;
                GlobalVariables.getMessageMap().putError(PROPOSAL_PROJECT_PERSON_LIST_ERROR_KEY + "[" + projectPersons.indexOf(person) + "].keyPersonRole", 
