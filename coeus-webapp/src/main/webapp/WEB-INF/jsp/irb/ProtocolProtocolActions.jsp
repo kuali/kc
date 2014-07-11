@@ -34,7 +34,8 @@
     <link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
     <script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
     <script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script> 
-    <script type="text/javascript" src="scripts/jquery/jquery.tablesorter.js"></script>     
+    <script type="text/javascript" src="scripts/jquery/jquery.tablesorter.js"></script>
+    <script type="text/javascript" src="scripts/kuali_application.js"></script>
 
 <c:set var="protocolAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
 <c:set var="showActions" value="${empty DocumentPessimisticLockMessages}" scope="request"/>
