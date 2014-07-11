@@ -18,7 +18,6 @@ package org.kuali.coeus.propdev.impl.core;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.medusa.MedusaNode;
 import org.kuali.coeus.common.framework.medusa.MedusaService;
-import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
 import org.kuali.coeus.propdev.impl.budget.core.AddBudgetDto;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
@@ -57,7 +56,6 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private boolean validateData;
     private List<ProposalCreditSplitListDto> creditSplitListItems;
     private AddBudgetDto addBudgetDto;
-    private ProposalDevelopmentAttachmentHelper proposalDevelopmentAttachmentHelper;
 
     public ProposalDevelopmentDocumentForm() {
         super();
@@ -80,8 +78,6 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         dataValidationItems = new ArrayList<ProposalDevelopmentDataValidationItem>();
 
         creditSplitListItems = new ArrayList<ProposalCreditSplitListDto>();
-
-        proposalDevelopmentAttachmentHelper = new ProposalDevelopmentAttachmentHelper();
     }
 
     public int findIndexOfPageId(List<Action> actions) {
@@ -234,12 +230,4 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 	public void setAddBudgetDTO(AddBudgetDto addBudgetDto) {
 		this.addBudgetDto = addBudgetDto;
 	}
-
-    public ProposalDevelopmentAttachmentHelper getProposalDevelopmentAttachmentHelper() {
-        return proposalDevelopmentAttachmentHelper;
-    }
-
-    public void setProposalDevelopmentAttachmentHelper(ProposalDevelopmentAttachmentHelper proposalDevelopmentAttachmentHelper) {
-        this.proposalDevelopmentAttachmentHelper = proposalDevelopmentAttachmentHelper;
-    }
 }
