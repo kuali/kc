@@ -7,10 +7,12 @@ import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.sys.framework.controller.UifControllerService;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.servlet.ModelAndView;
 
 public abstract class ProposalBudgetControllerBase {
 
@@ -35,6 +37,17 @@ public abstract class ProposalBudgetControllerBase {
         UifFormBase form =  getUifControllerService().initForm(this.createInitialForm(request), request, response);
         return form;
     }	
+    
+    public ModelAndView save(ProposalBudgetForm form) throws Exception {
+    	getDataObjectService().save(form.getBudget());
+    	return getUifControllerService().getUIFModelAndView(form);
+    }
+    
+    protected ModelAndView navigate(ProposalBudgetForm form) throws Exception {
+		form.setPageId(form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID));
+		form.setDirtyForm(false);
+		return save(form);
+    }
 
 	public BudgetService<DevelopmentProposal> getBudgetService() {
 		return budgetService;
