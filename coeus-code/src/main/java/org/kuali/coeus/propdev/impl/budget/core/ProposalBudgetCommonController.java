@@ -6,13 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.exception.AuthorizationException;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.uif.field.AttributeQueryResult;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +29,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	@Autowired
 	@Qualifier("uifExportControllerService")
 	private UifExportControllerService uifExportControllerService;	
-	
-	@Autowired
-	@Qualifier("documentService")
-	private DocumentService documentService;
-	
+
 	@MethodAccessible
 	@RequestMapping(params="methodToCall=defaultMapping")
 	public ModelAndView defaultMapping(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request,
@@ -46,9 +39,15 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 
 	@MethodAccessible
 	@RequestMapping(params="methodToCall=start")
-	public ModelAndView start(@RequestParam("budgetId") String budgetId, @ModelAttribute("KualiForm") ProposalBudgetForm form, HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView start(@RequestParam("budgetId") String budgetId, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		form.setBudget(getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("budgetId", Long.valueOf(budgetId))).build()));
 		return getUifControllerService().getUIFModelAndViewWithInit(form, "PropBudget-DefaultView");
+	}
+	
+	@MethodAccessible
+	@RequestMapping(params = "methodToCall=navigate")
+	public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		return super.navigate(form);
 	}
 
 	public void checkViewAuthorization(@ModelAttribute("KualiForm") ProposalBudgetForm form, String methodToCall) throws AuthorizationException {
@@ -67,7 +66,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 		return getUifControllerService().addLine(form, result, request, response);
 	}
 
-	@RequestMapping(value ="/proposalDevelopment", params = "methodToCall=addBlankLine")
+	@RequestMapping(params = "methodToCall=addBlankLine")
 	public ModelAndView addBlankLine(@ModelAttribute("KualiForm") ProposalBudgetForm uifForm, HttpServletRequest request,
 			HttpServletResponse response) {
 		return getUifControllerService().addBlankLine(uifForm, request, response);
@@ -175,15 +174,5 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	public void setUifExportControllerService(
 			UifExportControllerService uifExportControllerService) {
 		this.uifExportControllerService = uifExportControllerService;
-	}
-
-	public DocumentService getDocumentService() {
-		return documentService;
-	}
-
-	public void setDocumentService(DocumentService documentService) {
-		this.documentService = documentService;
-	}
-	
-	
+	}	
 }
