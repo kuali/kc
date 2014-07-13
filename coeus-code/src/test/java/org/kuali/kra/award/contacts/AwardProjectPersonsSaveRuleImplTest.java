@@ -15,19 +15,34 @@
  */
 package org.kuali.kra.award.contacts;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.common.impl.person.PropAwardPersonRoleServiceImpl;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.KcPersonFixtureFactory;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.criteria.GenericQueryResults;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,10 +63,28 @@ public class AwardProjectPersonsSaveRuleImplTest {
     private AwardPerson coiPerson;
     private AwardPerson kpPerson;
 
+    private Mockery context;
+    private ArrayList<PropAwardPersonRole> roles;
+    private GenericQueryResults.Builder roleListBuilder;
+	protected static final String SPONSOR_CODE = "000500";
+	
+	private PropAwardPersonRoleServiceImpl roleService;
+
     @Before
     public void setUp() {
+        context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
+        roleListBuilder = GenericQueryResults.Builder.create();
+        roleListBuilder.setResults(new ArrayList<PropAwardPersonRole>(){{
+        	add(createTestRole(3L, "PI", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY));
+        	add(createTestRole(4L, "KP", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY));
+        	add(createTestRole(5L, "MPI", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY));
+        	add(createTestRole(6L, "COI", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY));
+        }});
+
+        
         rule = new AwardProjectPersonsSaveRuleImpl();
         award = new Award();
+        award.setSponsorCode(SPONSOR_CODE);
 
         unitA = new Unit();
         unitA.setUnitName("a");
@@ -76,6 +109,15 @@ public class AwardProjectPersonsSaveRuleImplTest {
         kpPerson.setKeyPersonRole("Tester");                
         kpPerson.add(new AwardPersonUnit(kpPerson, unitA, false));
 
+        piPerson.setAward(award);
+        coiPerson.setAward(award);
+        kpPerson.setAward(award);
+
+        roleService = getPropAwardPersonRoleService();
+        piPerson.setPropAwardPersonRoleService(roleService);
+        coiPerson.setPropAwardPersonRoleService(roleService);
+        kpPerson.setPropAwardPersonRoleService(roleService);
+        
         award.add(piPerson);
         award.add(coiPerson);
         award.add(kpPerson);
@@ -94,13 +136,13 @@ public class AwardProjectPersonsSaveRuleImplTest {
         Assert.assertTrue("PI not found or more than one found", rule.checkForOnePrincipalInvestigator(award.getProjectPersons()));
         award.getProjectPersons().remove(0);
         Assert.assertFalse("PI existence check failed", rule.checkForOnePrincipalInvestigator(award.getProjectPersons()));
-
         checkErrorState(AwardProjectPersonsSaveRule.AWARD_PROJECT_PERSON_LIST_ERROR_KEY, AwardProjectPersonsSaveRule.ERROR_AWARD_PROJECT_PERSON_NO_PI);
     }
 
     @Test
     public void testCheckForMultiplePIs() {
         AwardPerson newPerson = new AwardPerson(KcPersonFixtureFactory.createKcPerson(KP_PERSON_ID), ContactRoleFixtureFactory.MOCK_PI);
+        newPerson.setPropAwardPersonRoleService(roleService);
         award.add(newPerson);
         Assert.assertFalse("Multiple PIs not detected", rule.checkForOnePrincipalInvestigator(award.getProjectPersons()));
 
@@ -206,4 +248,133 @@ public class AwardProjectPersonsSaveRuleImplTest {
 
         Assert.assertFalse("rule should return false", rule.processSaveAwardProjectPersonsBusinessRules(award.getProjectPersons()));
     }
+
+    protected PropAwardPersonRole createTestRole(Long id, String code, String hierarchyName) {
+        PropAwardPersonRole role = new PropAwardPersonRole();
+        role.setId(id);
+        role.setCode(code);
+        role.setSponsorHierarchyName(hierarchyName);
+        return role;
+    }
+
+    protected PropAwardPersonRoleServiceImpl getPropAwardPersonRoleService() {
+    	final PropAwardPersonRoleServiceImpl roleService = new PropAwardPersonRoleServiceImpl();
+    	final DataObjectService dataObjectService = context.mock(DataObjectService.class);
+    	final ParameterService parameterService = context.mock(ParameterService.class);
+    	final SponsorHierarchyService hierarchyService = context.mock(SponsorHierarchyService.class);
+
+        context.checking(new Expectations() {{
+        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, PropAwardPersonRoleServiceImpl.ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
+        	will(returnValue(true));
+        	one(dataObjectService).findMatching(PropAwardPersonRole.class, QueryByCriteria.Builder.forAttribute("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY).build());
+        	will(returnValue(roleListBuilder.build()));
+        }});
+        
+        
+		final QueryByCriteria.Builder criteriaCoInvestigator1 = 
+				QueryByCriteria.Builder.create().setPredicates(PredicateFactory.equal("code", ContactRole.COI_CODE), PredicateFactory.equal("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY));
+		final PropAwardPersonRole roleCoInvestigator1 = createTestRole(3L, ContactRole.COI_CODE, PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
+        context.checking(new Expectations() {{
+        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, PropAwardPersonRoleServiceImpl.ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
+        	will(returnValue(true));
+        	one(dataObjectService).findUnique(PropAwardPersonRole.class, criteriaCoInvestigator1.build());
+        	will(returnValue(roleCoInvestigator1));
+        }});
+        
+		final QueryByCriteria.Builder criteriaCoInvestigator2 = 
+				QueryByCriteria.Builder.create().setPredicates(PredicateFactory.equal("code", ContactRole.COI_CODE), PredicateFactory.equal("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY));
+		final PropAwardPersonRole roleCoInvestigator2 = createTestRole(3L, ContactRole.COI_CODE, PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
+        context.checking(new Expectations() {{
+        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, PropAwardPersonRoleServiceImpl.ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
+        	will(returnValue(true));
+        	one(dataObjectService).findUnique(PropAwardPersonRole.class, criteriaCoInvestigator2.build());
+        	will(returnValue(roleCoInvestigator2));
+        }});
+        
+		final QueryByCriteria.Builder criteriaKeyPerson1 = 
+				QueryByCriteria.Builder.create().setPredicates(PredicateFactory.equal("code", ContactRole.KEY_PERSON_CODE), PredicateFactory.equal("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY));
+		final PropAwardPersonRole roleKeyPerson1 = createTestRole(3L, ContactRole.KEY_PERSON_CODE, PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
+        context.checking(new Expectations() {{
+        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, PropAwardPersonRoleServiceImpl.ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
+        	will(returnValue(true));
+        	one(dataObjectService).findUnique(PropAwardPersonRole.class, criteriaKeyPerson1.build());
+        	will(returnValue(roleKeyPerson1));
+        }});
+        
+		final QueryByCriteria.Builder criteriaKeyPerson2 = 
+				QueryByCriteria.Builder.create().setPredicates(PredicateFactory.equal("code", ContactRole.KEY_PERSON_CODE), PredicateFactory.equal("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY));
+		final PropAwardPersonRole roleKeyPerson2 = createTestRole(3L, ContactRole.KEY_PERSON_CODE, PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
+        context.checking(new Expectations() {{
+        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, PropAwardPersonRoleServiceImpl.ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
+        	will(returnValue(true));
+        	one(dataObjectService).findUnique(PropAwardPersonRole.class, criteriaKeyPerson2.build());
+        	will(returnValue(roleKeyPerson2));
+        }});
+        
+		final QueryByCriteria.Builder criteriaKeyPerson3 = 
+				QueryByCriteria.Builder.create().setPredicates(PredicateFactory.equal("code", ContactRole.KEY_PERSON_CODE), PredicateFactory.equal("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY));
+		final PropAwardPersonRole roleKeyPerson3 = createTestRole(3L, ContactRole.KEY_PERSON_CODE, PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
+        context.checking(new Expectations() {{
+        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, PropAwardPersonRoleServiceImpl.ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
+        	will(returnValue(true));
+        	one(dataObjectService).findUnique(PropAwardPersonRole.class, criteriaKeyPerson3.build());
+        	will(returnValue(roleKeyPerson3));
+        }});
+        
+		final QueryByCriteria.Builder criteriaKeyPerson4 = 
+				QueryByCriteria.Builder.create().setPredicates(PredicateFactory.equal("code", ContactRole.KEY_PERSON_CODE), PredicateFactory.equal("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY));
+		final PropAwardPersonRole roleKeyPerson4 = createTestRole(3L, ContactRole.KEY_PERSON_CODE, PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
+        context.checking(new Expectations() {{
+        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, PropAwardPersonRoleServiceImpl.ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
+        	will(returnValue(true));
+        	one(dataObjectService).findUnique(PropAwardPersonRole.class, criteriaKeyPerson4.build());
+        	will(returnValue(roleKeyPerson4));
+        }});
+        
+		final QueryByCriteria.Builder criteriaKeyPerson5 = 
+				QueryByCriteria.Builder.create().setPredicates(PredicateFactory.equal("code", ContactRole.KEY_PERSON_CODE), PredicateFactory.equal("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY));
+		final PropAwardPersonRole roleKeyPerson5 = createTestRole(3L, ContactRole.KEY_PERSON_CODE, PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
+        context.checking(new Expectations() {{
+        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, PropAwardPersonRoleServiceImpl.ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
+        	will(returnValue(true));
+        	one(dataObjectService).findUnique(PropAwardPersonRole.class, criteriaKeyPerson5.build());
+        	will(returnValue(roleKeyPerson5));
+        }});
+        
+ 		final QueryByCriteria.Builder criteriaPrincipalInvestigator1 = 
+				QueryByCriteria.Builder.create().setPredicates(PredicateFactory.equal("code", ContactRole.PI_CODE), PredicateFactory.equal("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY));
+		final PropAwardPersonRole rolePrincipalInvestigator1 = createTestRole(3L, ContactRole.PI_CODE, PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
+        context.checking(new Expectations() {{
+        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, PropAwardPersonRoleServiceImpl.ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
+        	will(returnValue(true));
+        	one(dataObjectService).findUnique(PropAwardPersonRole.class, criteriaPrincipalInvestigator1.build());
+        	will(returnValue(rolePrincipalInvestigator1));
+        }});
+        
+		final QueryByCriteria.Builder criteriaPrincipalInvestigator2 = 
+				QueryByCriteria.Builder.create().setPredicates(PredicateFactory.equal("code", ContactRole.PI_CODE), PredicateFactory.equal("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY));
+		final PropAwardPersonRole rolePrincipalInvestigator2 = createTestRole(3L, ContactRole.PI_CODE, PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
+        context.checking(new Expectations() {{
+        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, PropAwardPersonRoleServiceImpl.ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
+        	will(returnValue(true));
+        	one(dataObjectService).findUnique(PropAwardPersonRole.class, criteriaPrincipalInvestigator2.build());
+        	will(returnValue(rolePrincipalInvestigator2));
+        }});
+        
+		final QueryByCriteria.Builder criteriaPrincipalInvestigator3 = 
+				QueryByCriteria.Builder.create().setPredicates(PredicateFactory.equal("code", ContactRole.PI_CODE), PredicateFactory.equal("sponsorHierarchyName", PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY));
+		final PropAwardPersonRole rolePrincipalInvestigator3 = createTestRole(3L, ContactRole.PI_CODE, PropAwardPersonRoleServiceImpl.NIH_MULTIPLE_PI_HIERARCHY);
+        context.checking(new Expectations() {{
+        	one(parameterService).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, PropAwardPersonRoleServiceImpl.ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
+        	will(returnValue(true));
+        	one(dataObjectService).findUnique(PropAwardPersonRole.class, criteriaPrincipalInvestigator3.build());
+        	will(returnValue(rolePrincipalInvestigator3));
+        }});
+        
+        roleService.setDataObjectService(dataObjectService);
+        roleService.setSponsorHierarchyService(hierarchyService);
+        roleService.setParameterService(parameterService);
+        return roleService;
+    }    
+
 }

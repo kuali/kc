@@ -18,9 +18,9 @@ import org.springframework.stereotype.Service;
 @Service("propAwardPersonRoleService")
 public class PropAwardPersonRoleServiceImpl implements PropAwardPersonRoleService {
 	
-	protected static final String SPONSOR_HIERARCHIES_PARM = "PERSON_ROLE_SPONSOR_HIERARCHIES";
-	protected static final String ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI = "ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI";
-	protected static final String NIH_MULTIPLE_PI_HIERARCHY = "NIH Multiple PI";
+	public static final String SPONSOR_HIERARCHIES_PARM = "PERSON_ROLE_SPONSOR_HIERARCHIES";
+	public static final String ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI = "ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI";
+	public static final String NIH_MULTIPLE_PI_HIERARCHY = "NIH Multiple PI";
 
 	@Autowired
 	@Qualifier("dataObjectService")
