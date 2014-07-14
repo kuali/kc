@@ -19,7 +19,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,6 +156,21 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         propDevForm.getDevelopmentProposal().setInstituteAttachments(filteredInstituteAttachments);
         propDevForm.getDevelopmentProposal().setNarratives(filteredNarratives);
         return getTransactionalDocumentControllerService().navigate(form, result, request, response);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=markAllComplete")
+    public ModelAndView markAllComplete(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
+                                        BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception{
+        final String collectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
+        Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, collectionPath);
+
+        for (Object object : collection) {
+            if(object instanceof Narrative) {
+                ((Narrative) object).setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
+                getDataObjectService().wrap(object).fetchRelationship("narrativeStatus");
+            }
+        }
+        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareNarrative")
