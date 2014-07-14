@@ -29,7 +29,7 @@ import org.kuali.kra.bo.CustomAttributeDocumentTestUtilities;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRuleTestBase;
-import org.kuali.kra.rule.event.SaveCustomDataEvent;
+import org.kuali.coeus.common.framework.custom.SaveCustomDataEvent;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;

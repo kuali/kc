@@ -488,7 +488,7 @@
     </property>
     <property name="control">
       <bean parent="SelectControlDefinition" 
-      p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.RolodexAddressFlagValuesFinder"
+      p:valuesFinderClass="org.kuali.coeus.common.impl.rolodex.RolodexAddressFlagValuesFinder"
       p:script="updateOrganizationLookupReturn(this)"/>
     </property>
     <property name="controlField">

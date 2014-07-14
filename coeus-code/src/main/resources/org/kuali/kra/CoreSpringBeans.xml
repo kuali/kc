@@ -1569,7 +1569,7 @@
         <property name="lookupableHelperService" ref="personTrainingLookupableHelperService" />
     </bean>
 
-    <bean id="personTrainingLookupableHelperService" class="org.kuali.kra.service.impl.PersonTrainingLookupableHelperServiceImpl" 
+    <bean id="personTrainingLookupableHelperService" class="org.kuali.coeus.common.impl.person.attr.PersonTrainingLookupableHelperServiceImpl"
           parent="parentLookupableHelperService" scope="prototype" />
           
     <bean id="unitHierarchyRoleTypeService" class="org.kuali.kra.kim.service.impl.UnitHierarchyRoleTypeServiceImpl">

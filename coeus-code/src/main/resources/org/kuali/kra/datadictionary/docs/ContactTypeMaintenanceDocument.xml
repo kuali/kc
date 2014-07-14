@@ -29,10 +29,11 @@
 			<list>
 				<value>contactTypeCode</value>
 			</list>
-		</property>		<property name="allowsRecordDeletion" value="true" />
+		</property>
+		<property name="allowsRecordDeletion" value="true" />
 		<property name="documentTypeName" value="ContactTypeMaintenanceDocument"/>
 		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
-		<property name="businessRulesClass" value="org.kuali.kra.rules.ContactTypeMaintenanceDocumentRule"/>
+		<property name="businessRulesClass" value="org.kuali.kra.award.rule.ContactTypeMaintenanceDocumentRule"/>
 		
 	</bean>
 

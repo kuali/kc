@@ -260,10 +260,10 @@
       </bean>
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.rice.location.impl.country.CountryBo" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.CountryCodeValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="alternateCode" p:labelAttribute="name"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.rice.location.impl.country.CountryBo" p:valuesFinderClass="org.kuali.coeus.common.framework.country.CountryCodeValuesFinder" p:includeKeyInLabel="false" p:keyAttribute="alternateCode" p:labelAttribute="name"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.CountryCodeValuesFinder"
+      <bean class="org.kuali.coeus.common.framework.country.CountryCodeValuesFinder"
       	p:addBlankOption="false"/>
     </property>
     <property name="controlField">

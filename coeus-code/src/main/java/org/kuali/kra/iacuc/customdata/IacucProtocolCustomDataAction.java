@@ -22,7 +22,7 @@ import org.kuali.coeus.common.impl.custom.CustomDataRule;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.protocol.ProtocolFormBase;
-import org.kuali.kra.rule.event.SaveCustomDataEvent;
+import org.kuali.coeus.common.framework.custom.SaveCustomDataEvent;
 import org.kuali.rice.krad.exception.ValidationException;
 
 import javax.servlet.http.HttpServletRequest;

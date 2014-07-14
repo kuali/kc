@@ -21,7 +21,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.impl.custom.CustomDataRule;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.rule.event.SaveCustomDataEvent;
+import org.kuali.coeus.common.framework.custom.SaveCustomDataEvent;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.exception.ValidationException;
 

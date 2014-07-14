@@ -179,10 +179,10 @@
       </bean>
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.CountryCodeValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="alternateCode" p:labelAttribute="name"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.framework.country.CountryCodeValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="alternateCode" p:labelAttribute="name"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.CountryCodeValuesFinder"/>
+      <bean class="org.kuali.coeus.common.framework.country.CountryCodeValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>

@@ -22,7 +22,7 @@ import org.kuali.coeus.common.impl.custom.CustomDataRule;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.rule.event.SaveCustomDataEvent;
+import org.kuali.coeus.common.framework.custom.SaveCustomDataEvent;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 import javax.servlet.http.HttpServletRequest;

@@ -44,7 +44,6 @@ import org.kuali.coeus.common.framework.costshare.CostShareRuleResearchDocumentB
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.budget.modular.SyncModularBudgetRule;
-import org.kuali.kra.rules.ActivityTypeAuditRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;

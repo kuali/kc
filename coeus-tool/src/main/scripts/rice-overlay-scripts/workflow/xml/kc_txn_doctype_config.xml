@@ -643,8 +643,8 @@
        <ruleAttribute>
 	 <name>OrganizationCorrespondentRoleAttribute</name>
 	 <className>
-	   org.kuali.kra.workflow.OrganizationCorrespondentRoleAttribute
-	 </className>
+         org.kuali.coeus.common.impl.org.crrspndnt.OrganizationCorrespondentRoleAttribute
+     </className>
 	 <label>Protocol Organization Notification</label>
 	 <description>Protocol Organization Notification</description>
 	 <type>RuleAttribute</type>

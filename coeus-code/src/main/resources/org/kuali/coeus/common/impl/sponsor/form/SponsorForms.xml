@@ -128,10 +128,10 @@
       </bean>
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.PrintingHierarchyNameValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.impl.sponsor.form.PrintingHierarchyNameValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.PrintingHierarchyNameValuesFinder"/>
+      <bean class="org.kuali.coeus.common.impl.sponsor.form.PrintingHierarchyNameValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>

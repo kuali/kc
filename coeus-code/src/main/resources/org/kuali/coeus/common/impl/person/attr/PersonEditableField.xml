@@ -66,10 +66,10 @@
       <bean parent="NumericPatternConstraint"/>
     </property>
         <property name="control">
-          <bean p:includeBlankRow="false" p:includeKeyInLabel="false" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.PersonEditableFieldModuleValuesFinder" parent="SelectControlDefinition"/>
+          <bean p:includeBlankRow="false" p:includeKeyInLabel="false" p:valuesFinderClass="org.kuali.coeus.common.impl.person.attr.PersonEditableFieldModuleValuesFinder" parent="SelectControlDefinition"/>
         </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.PersonEditableFieldModuleValuesFinder"/>
+      <bean class="org.kuali.coeus.common.impl.person.attr.PersonEditableFieldModuleValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>

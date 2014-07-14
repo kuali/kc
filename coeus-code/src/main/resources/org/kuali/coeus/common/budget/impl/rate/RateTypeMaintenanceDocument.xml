@@ -22,7 +22,7 @@
     
     
     <property name="documentTypeName" value="RateTypeMaintenanceDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kra.rules.RateClassExistenceRule"/>
+    <property name="businessRulesClass" value="org.kuali.coeus.common.budget.impl.rate.RateClassExistenceRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     
     

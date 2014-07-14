@@ -29,7 +29,7 @@
     <bean id="QuestionMaintenanceDocument" parent="QuestionMaintenanceDocument-parentBean" />
     <bean id="QuestionMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
         <property name="businessObjectClass" value="org.kuali.coeus.common.questionnaire.framework.question.Question" />
-        <property name="maintainableClass" value="org.kuali.kra.maintenance.QuestionMaintainableImpl" />
+        <property name="maintainableClass" value="org.kuali.coeus.common.questionnaire.impl.question.QuestionMaintainableImpl" />
         <property name="maintainableSections">
             <list>
                 <ref bean="QuestionMaintenanceDocument-EditQuestion"/>
