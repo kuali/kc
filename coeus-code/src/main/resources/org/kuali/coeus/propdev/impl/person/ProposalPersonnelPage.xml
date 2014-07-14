@@ -316,7 +316,8 @@
  				<bean parent="PropDev-PersonnelPage-ExtendedDetails" p:order="40" />
 				<bean parent="PropDev-PersonnelPage-Degrees" p:order="50" />
 				<bean parent="PropDev-PersonnelPage-UnitDetails" p:order="60" />
-				<bean parent="PropDev-PersonnelPage-Questionnaire" p:order="70" />
+                <bean parent="PropDev-PersonnelPage-TrainingDetails" p:order="70"/>
+				<bean parent="PropDev-PersonnelPage-Questionnaire" p:order="80" />
 			</list>
 		</property>
 	</bean>
@@ -560,4 +561,26 @@
 			</list>
 		</property>
 	</bean>
+
+    <bean id="PropDev-PersonnelPage-TrainingDetails" parent="PropDev-PersonnelPage-TrainingDetails-parentBean"/>
+    <bean id="PropDev-PersonnelPage-TrainingDetails-parentBean" abstract="true" parent="Uif-TableCollectionSection"
+          p:headerText="Person Training Details"
+          p:propertyName="personTrainings"
+          p:collectionObjectClass="org.kuali.coeus.common.framework.person.attr.PersonTraining"
+          p:layoutManager.renderSequenceField="false" p:renderInactiveToggleButton="false"
+          p:renderAddLine="false" p:renderLineActions="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="trainingNumber"/>
+                <bean parent="Uif-DataField" p:propertyName="training.description"/>
+                <bean parent="Uif-DataField" p:propertyName="dateRequested"/>
+                <bean parent="Uif-DataField" p:propertyName="dateSubmitted"/>
+                <bean parent="Uif-DataField" p:propertyName="dateAcknowledged"/>
+                <bean parent="Uif-DataField" p:propertyName="followupDate"/>
+                <bean parent="Uif-DataField" p:propertyName="score"/>
+                <bean parent="Uif-DataField" p:propertyName="comments"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>
