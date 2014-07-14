@@ -21,12 +21,14 @@ import org.kuali.rice.core.api.uif.RemotableAttributeField;
 import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.api.document.DocumentContent;
 import org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class KcPeopleFlowTypeService implements PeopleFlowTypeService {
+@Component("peopleFlowTypeService")
+public class KcPeopleFlowTypeServiceImpl implements PeopleFlowTypeService {
 
     @Override
     public List<String> filterToSelectableRoleIds(String kewTypeId, List<String> roleIds) {

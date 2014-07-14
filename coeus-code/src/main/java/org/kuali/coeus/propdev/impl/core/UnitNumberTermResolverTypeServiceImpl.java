@@ -13,37 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.impl.unit;
+package org.kuali.coeus.propdev.impl.core;
 
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.framework.type.TermResolverTypeService;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+@Component("unitNumberTermResolverTypeService")
 public class UnitNumberTermResolverTypeServiceImpl implements TermResolverTypeService {
 
     @Override
     public TermResolver<?> loadTermResolver(
             final TermResolverDefinition termResolverDefinition) {
         
-//        if ("Questionnaire Question Resolver".equals(termResolverDefinition.getName())) {
             return new TermResolver<String>() {
 
                 @Override
                 public Set<String> getPrerequisites() {
                     HashSet<String> results = new HashSet<String>();
-                    
-//                    Set<TermSpecificationDefinition> prereqDefs = termResolverDefinition.getPrerequisites();
-//                    if (prereqDefs != null) for (TermSpecificationDefinition def : prereqDefs) {
-//                        results.add(def.getName());
-//                    }
+
                     results.add("pdoc");
                     return results;
                 }
@@ -71,12 +67,9 @@ public class UnitNumberTermResolverTypeServiceImpl implements TermResolverTypeSe
                         throws TermResolutionException {
                     ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument)resolvedPrereqs.get("pdoc");
                     return pd.getDevelopmentProposal().getUnitNumber();
-                    //return "BL-BL";
                 }
                 
             };
-//        }
-//        return null;
    }
 
 }

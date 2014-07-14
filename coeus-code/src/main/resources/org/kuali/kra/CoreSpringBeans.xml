@@ -1600,7 +1600,15 @@
     <bean id="awardService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="awardService" />
     </bean>
-    
+
+    <bean id="ruleRepositoryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="ruleRepositoryService" />
+    </bean>
+
+    <bean id="repositoryToEngineTranslator" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="repositoryToEngineTranslator" />
+    </bean>
+
     <bean id="awardAmountInfoService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="awardAmountInfoService" />
     </bean>
@@ -1690,28 +1698,12 @@
         <property name="roleManagementService" ref="roleService" />
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
     </bean>
-    
-    <bean id="krmsRulesExecutionService" class="org.kuali.coeus.common.impl.krms.KrmsRulesExecutionServiceImpl">
-        <property name="kcKrmsCacheManager" ref="kcKrmsCacheManager" /> 
-    </bean>
-    <bean id="unitNumberTermResolverTypeService" class="org.kuali.coeus.common.impl.unit.UnitNumberTermResolverTypeServiceImpl">
-    </bean>
-    
-    <bean id="unitAgendaTypeService" class="org.kuali.coeus.common.impl.unit.UnitAgendaTypeService">
-    </bean>
+
     <bean id="unitAgendaTypeServiceCallback" parent="kcCoreCallbackService"
       p:callbackService-ref="unitAgendaTypeService"
       p:localServiceName="unitAgendaTypeService"
       p:serviceInterface="org.kuali.rice.krms.framework.type.AgendaTypeService"/>
 
-    <bean id="functionTermResolverTypeService" class="org.kuali.coeus.common.impl.krms.FunctionTermResolverTypeServiceBase" abstract="true">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
-    <bean id="storedFunctionTermResolverTypeService" class="org.kuali.coeus.common.impl.krms.StoredFunctionTermResolverTypeServiceImpl"
-    	parent="functionTermResolverTypeService"/>
-    <bean id="javaFunctionTermResolverTypeService" class="org.kuali.coeus.common.impl.krms.JavaFunctionTermResolverTypeServiceImpl"
-    		parent="functionTermResolverTypeService"/>
-    
     <bean id="storedFunctionTermResolverTypeServiceCallback" parent="kcCoreCallbackService"
       p:callbackService-ref="storedFunctionTermResolverTypeService"
       p:localServiceName="storedFunctionTermResolverTypeService"
@@ -1725,26 +1717,18 @@
     <bean id="storedFunctionDao" class="org.kuali.coeus.common.impl.krms.StoredFunctionDao">
         <property name="dataSource" ref="dataSource" />
     </bean>
-    
-    <bean id="kcPeopleFlowTypeService" class="org.kuali.coeus.common.impl.workflow.KcPeopleFlowTypeService">
-    </bean>
+
     
     <bean id= "kcPeopleFlowTypeServiceCallback" parent="kcCoreCallbackService"
       p:callbackService-ref="kcPeopleFlowTypeService"
       p:localServiceName="kcPeopleFlowTypeService"
-      p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService"/>
-      
-    <bean id="questionResolverTypeService" class="org.kuali.coeus.common.questionnaire.impl.QuestionResolverTypeServiceImpl">
-    </bean>
+      p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService" lazy-init="true"/>
+
     
     <bean id="questionResolverTypeServiceCallback" parent="kcCoreCallbackService"
       p:callbackService-ref="questionResolverTypeService"
       p:localServiceName="questionResolverTypeService"
       p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
-
-     <bean id="kcKrmsCacheManager" class="org.kuali.coeus.common.impl.krms.KcKrmsCacheManagerImpl">
-         <property name="krmsDistributedCacheManager" ref="krmsDistributedCacheManager" /> 
-    </bean>
 
     <bean id="kcConfirmationQuestion" class="org.kuali.coeus.sys.framework.controller.KcConfirmationQuestion">
     </bean>         

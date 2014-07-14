@@ -17,7 +17,6 @@ package org.kuali.coeus.common.impl.unit;
 
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.rice.core.api.data.DataType;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
@@ -33,14 +32,23 @@ import org.kuali.rice.krms.framework.engine.BasicAgenda;
 import org.kuali.rice.krms.impl.provider.repository.LazyAgendaTree;
 import org.kuali.rice.krms.impl.provider.repository.RepositoryToEngineTranslator;
 import org.kuali.rice.krms.impl.type.AgendaTypeServiceBase;
-import org.kuali.rice.krms.impl.util.KrmsServiceLocatorInternal;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
+@Component("unitAgendaTypeService")
+public class UnitAgendaTypeServiceImpl extends AgendaTypeServiceBase  {
 
-    public static final String UNIT_AGENDA_TYPE_ID = "KC1000";
+    @Autowired
+    @Qualifier("unitService")
+    private UnitService unitService;
+
+    @Autowired
+    @Qualifier("repositoryToEngineTranslator")
+    private RepositoryToEngineTranslator repositoryToEngineTranslator;
 
     @Override
     public RemotableAttributeField translateTypeAttribute(KrmsTypeAttribute inputAttribute,
@@ -56,30 +64,13 @@ public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
 
     private RemotableAttributeField createUnitField() {
 
-        //String campusBoClassName = CampusBo.class.getName();
-
-        //String baseLookupUrl = LookupInquiryUtils.getBaseLookupUrl();
-
-//        RemotableQuickFinder.Builder quickFinderBuilder =
-//                RemotableQuickFinder.Builder.create(baseLookupUrl, campusBoClassName);
-//
-//        quickFinderBuilder.setLookupParameters(Collections.singletonMap("Campus", "code"));
-//        quickFinderBuilder.setFieldConversions(Collections.singletonMap("code","Campus"));
-
         RemotableTextInput.Builder controlBuilder = RemotableTextInput.Builder.create();
         controlBuilder.setSize(30);
         controlBuilder = RemotableTextInput.Builder.create();
         controlBuilder.setSize(Integer.valueOf(40));
         controlBuilder.setWatermark("unit number");
 
-//        RemotableAttributeLookupSettings.Builder lookupSettingsBuilder = RemotableAttributeLookupSettings.Builder.create();
-//        lookupSettingsBuilder.setCaseSensitive(Boolean.TRUE);
-//        lookupSettingsBuilder.setInCriteria(true);
-//        lookupSettingsBuilder.setInResults(true);
-//        lookupSettingsBuilder.setRanged(false);
-
         RemotableAttributeField.Builder builder = RemotableAttributeField.Builder.create(KcKrmsConstants.UNIT_NUMBER);
-        //builder.setAttributeLookupSettings(lookupSettingsBuilder);
         builder.setRequired(true);
         builder.setDataType(DataType.STRING);
         builder.setControl(controlBuilder);
@@ -87,46 +78,14 @@ public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
         builder.setShortLabel("Unit Number");
         builder.setMinLength(Integer.valueOf(1));
         builder.setMaxLength(Integer.valueOf(40));
-        //builder.setWidgets(Collections.<RemotableAbstractWidget.Builder>singletonList(quickFinderBuilder));
 
         return builder.build();
     }
-
-//    @Override
-//    public List<RemotableAttributeError> validateAttributes(@WebParam(name = "krmsTypeId") String krmsTypeId,
-//            @WebParam(name = "attributes") @XmlJavaTypeAdapter(
-//                    value = MapStringStringAdapter.class) Map<String, String> attributes) throws RiceIllegalArgumentException {
-//
-//        List<RemotableAttributeError> errors = new ArrayList<RemotableAttributeError>(super.validateAttributes(krmsTypeId, attributes));
-//
-//        RemotableAttributeError.Builder campusErrorBuilder = RemotableAttributeError.Builder.create(UNIT_FIELD_NAME);
-//
-//        String campusValue = attributes.get(UNIT_FIELD_NAME);
-//        
-//        // Replace with a service to verify the unit number is valid
-//
-//        if (StringUtils.isEmpty(campusValue)) {
-//            campusErrorBuilder.addErrors(configurationService.getPropertyValueAsString("error.agenda.invalidAttributeValue"));
-//        } else {
-//            Campus campus = LocationApiServiceLocator.getCampusService().getCampus(campusValue);
-//
-//            if (campus == null) {
-//                campusErrorBuilder.addErrors(configurationService.getPropertyValueAsString("error.agenda.invalidAttributeValue"));
-//            }
-//        }
-//
-//        if (campusErrorBuilder.getErrors().size() > 0) {
-//            errors.add(campusErrorBuilder.build());
-//        }
-//
-//        return errors;
-//    }
     
     @Override
     public Agenda loadAgenda(AgendaDefinition agendaDefinition) {
 
         if (agendaDefinition == null) { throw new RiceIllegalArgumentException("agendaDefinition must not be null"); }
-        RepositoryToEngineTranslator repositoryToEngineTranslator = KrmsServiceLocatorInternal.getRepositoryToEngineTranslator();
         if (repositoryToEngineTranslator == null) {
             return null;
         }
@@ -135,7 +94,7 @@ public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
                                             agendaDefinition.getTypeId(),agendaDefinition.isActive());
     }
     
-    private static class UnitAgenda extends BasicAgenda {
+    private class UnitAgenda extends BasicAgenda {
         
         private Map<String, String> qualifiers;
         private boolean isActive;
@@ -176,11 +135,26 @@ public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
         }
         
         private boolean isChildUnit(String childNumber, String parentNumber) {
-            UnitService unitService = KcServiceLocator.getService(UnitService.class);
             Unit childUnit = unitService.getUnit(childNumber);
             Unit parentUnit = unitService.getUnit(parentNumber);
             return childUnit == null || parentUnit == null ? false : childUnit.isParentUnit(parentUnit);
         }
 
+    }
+
+    public UnitService getUnitService() {
+        return unitService;
+    }
+
+    public void setUnitService(UnitService unitService) {
+        this.unitService = unitService;
+    }
+
+    public RepositoryToEngineTranslator getRepositoryToEngineTranslator() {
+        return repositoryToEngineTranslator;
+    }
+
+    public void setRepositoryToEngineTranslator(RepositoryToEngineTranslator repositoryToEngineTranslator) {
+        this.repositoryToEngineTranslator = repositoryToEngineTranslator;
     }
 }

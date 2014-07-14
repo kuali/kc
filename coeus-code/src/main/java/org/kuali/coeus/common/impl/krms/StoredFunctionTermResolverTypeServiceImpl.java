@@ -16,6 +16,7 @@
 package org.kuali.coeus.common.impl.krms;
 
 import org.kuali.rice.krms.api.repository.function.FunctionDefinition;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
@@ -23,6 +24,7 @@ import java.util.Set;
 /**
  * This class is used for calling appropriate Stored Function Resolver from KRMS Type Service
  */
+@Component("storedFunctionTermResolverTypeService")
 public class StoredFunctionTermResolverTypeServiceImpl extends FunctionTermResolverTypeServiceBase {
 
     @Override

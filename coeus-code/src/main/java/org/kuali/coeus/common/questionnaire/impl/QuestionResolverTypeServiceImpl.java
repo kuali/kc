@@ -18,9 +18,11 @@ package org.kuali.coeus.common.questionnaire.impl;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.framework.type.TermResolverTypeService;
+import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
+@Component("questionResolverTypeService")
 public class QuestionResolverTypeServiceImpl implements TermResolverTypeService {
     
     public TermResolver<?> loadTermResolver(TermResolverDefinition termResolverDefinition) {

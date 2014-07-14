@@ -23,20 +23,29 @@ import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.coeus.common.framework.krms.KcKrmsCacheManager;
 import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
-import org.kuali.rice.krms.api.KrmsApiServiceLocator;
 import org.kuali.rice.krms.api.engine.*;
+import org.kuali.rice.krms.api.repository.RuleRepositoryService;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.framework.engine.BasicRule;
 import org.kuali.rice.krms.framework.type.ValidationActionTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component("krmsRulesExecutionService")
 public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService {
     
     protected final Log LOG = LogFactory.getLog(KrmsRulesExecutionServiceImpl.class);
+
+    @Autowired
+    @Qualifier("kcKrmsCacheManager")
     private KcKrmsCacheManager kcKrmsCacheManager;
+
+    @Autowired
+    @Qualifier("ruleRepositoryService")
+    private RuleRepositoryService ruleRepositoryService;
 
     @Autowired
     @Qualifier("rice.krms.engine")
@@ -119,9 +128,9 @@ public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService 
             ExecutionOptions xOptions = new ExecutionOptions();
             xOptions.setFlag(ExecutionFlag.LOG_EXECUTION, true);
     
-            EngineResults results = KrmsApiServiceLocator.getEngine().execute(selectionCriteria, factsBuilder.build(), xOptions);
+            EngineResults results = engine.execute(selectionCriteria, factsBuilder.build(), xOptions);
     
-            List<RuleDefinition> ruleDefinitions = KrmsApiServiceLocator.getRuleRepositoryService().getRules(ruleIds);
+            List<RuleDefinition> ruleDefinitions = ruleRepositoryService.getRules(ruleIds);
             Map<String, RuleDefinition> ruleMap = new HashMap<String, RuleDefinition>();
             for (RuleDefinition rule : ruleDefinitions) {
                 ruleMap.put(rule.getName(), rule);
@@ -139,17 +148,11 @@ public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService 
 
         
     }
-    /**
-     * Gets the kcKrmsCacheManager attribute. 
-     * @return Returns the kcKrmsCacheManager.
-     */
+
     public KcKrmsCacheManager getKcKrmsCacheManager() {
         return kcKrmsCacheManager;
     }
-    /**
-     * Sets the kcKrmsCacheManager attribute value.
-     * @param kcKrmsCacheManager The kcKrmsCacheManager to set.
-     */
+
     public void setKcKrmsCacheManager(KcKrmsCacheManager kcKrmsCacheManager) {
         this.kcKrmsCacheManager = kcKrmsCacheManager;
     }
@@ -160,5 +163,13 @@ public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService 
 
     public void setEngine(Engine engine) {
         this.engine = engine;
+    }
+
+    public RuleRepositoryService getRuleRepositoryService() {
+        return ruleRepositoryService;
+    }
+
+    public void setRuleRepositoryService(RuleRepositoryService ruleRepositoryService) {
+        this.ruleRepositoryService = ruleRepositoryService;
     }
 }

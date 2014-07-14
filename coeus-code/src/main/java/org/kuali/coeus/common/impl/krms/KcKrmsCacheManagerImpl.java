@@ -21,35 +21,38 @@ import org.kuali.rice.core.api.cache.CacheTarget;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component("kcKrmsCacheManager")
 public class KcKrmsCacheManagerImpl implements KcKrmsCacheManager {
+
+    @Autowired
+    @Qualifier("krmsDistributedCacheManager")
     private CacheAdminService krmsDistributedCacheManager;
+
     static final List<CacheTarget> cacheTargets= new ArrayList<CacheTarget>();
     static{
         cacheTargets.add(CacheTarget.entireCache(AgendaDefinition.Cache.NAME));
         cacheTargets.add(CacheTarget.entireCache(RuleDefinition.Cache.NAME));
         cacheTargets.add(CacheTarget.entireCache(PropositionDefinition.Cache.NAME));
     }
+
     @Override
     public void clearCache() {
         if(krmsDistributedCacheManager!=null){
             krmsDistributedCacheManager.flush(cacheTargets);   
         }
     }
-    /**
-     * Gets the krmsDistributedCacheManager attribute. 
-     * @return Returns the krmsDistributedCacheManager.
-     */
+
     public CacheAdminService getKrmsDistributedCacheManager() {
         return krmsDistributedCacheManager;
     }
-    /**
-     * Sets the krmsDistributedCacheManager attribute value.
-     * @param krmsDistributedCacheManager The krmsDistributedCacheManager to set.
-     */
+
     public void setKrmsDistributedCacheManager(CacheAdminService krmsDistributedCacheManager) {
         this.krmsDistributedCacheManager = krmsDistributedCacheManager;
     }
