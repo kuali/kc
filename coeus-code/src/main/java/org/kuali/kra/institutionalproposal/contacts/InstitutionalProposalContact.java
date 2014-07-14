@@ -30,6 +30,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Transient;
@@ -396,11 +397,12 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     protected abstract Map<String, Object> getContactRoleIdentifierMap();
 
     protected ContactRole refreshContactRole() {
-        ContactRole role;
+        ContactRole role = null;
         if (roleCode != null) {
-            role = (ContactRole) getBusinessObjectService().findMatching(getContactRoleType(), getContactRoleIdentifierMap());
-        } else {
-            role = null;
+        	List<ContactRole> contactRoles = (List)getBusinessObjectService().findMatching(getContactRoleType(), getContactRoleIdentifierMap());
+        	if(!contactRoles.isEmpty()) {
+                role = (ContactRole)contactRoles.get(0); 
+        	}
         }
         setContactRole(role);
         return role;
@@ -452,13 +454,8 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
         setInstitutionalProposal((InstitutionalProposal) newlyVersionedOwner);
     }
 
-    public PropAwardPersonRole getRole() {
-    	if (StringUtils.isNotBlank(getRoleCode()) && getInstitutionalProposal() != null &&
-    			StringUtils.isNotBlank(getInstitutionalProposal().getSponsorCode())) {
-    		return getPropAwardPersonRoleService().getRole(getRoleCode(), getInstitutionalProposal().getSponsorCode());
-    	} else {
-    		return null;
-    	}
+    public ContactRole getRole() {
+    	return refreshContactRole();
     }
     
 	protected PropAwardPersonRoleService getPropAwardPersonRoleService() {

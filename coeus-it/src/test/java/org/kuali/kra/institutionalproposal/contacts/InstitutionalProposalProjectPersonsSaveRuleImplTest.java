@@ -46,6 +46,7 @@ public class InstitutionalProposalProjectPersonsSaveRuleImplTest extends KcInteg
     private Unit unitB;
     private static final String PERSON_ID = "1001";
     private static final String KP_PERSON_ID = "1002";
+	protected static final String SPONSOR_CODE = "000500";
 
     private InstitutionalProposalPerson piPerson;
     private InstitutionalProposalPerson coiPerson;
@@ -55,6 +56,7 @@ public class InstitutionalProposalProjectPersonsSaveRuleImplTest extends KcInteg
     public void setUp() {
         rule = new InstitutionalProposalPersonSaveRuleImpl();
         institutionalProposal = new InstitutionalProposal();
+        institutionalProposal.setSponsorCode(SPONSOR_CODE);
 
         unitA = new Unit();
         unitA.setUnitName("a");
@@ -78,6 +80,10 @@ public class InstitutionalProposalProjectPersonsSaveRuleImplTest extends KcInteg
         kpPerson = new InstitutionalProposalPerson(employee2, ContactRoleFixtureFactory.MOCK_KEY_PERSON);
         kpPerson.setKeyPersonRole("Tester");                
         kpPerson.add(new InstitutionalProposalPersonUnit(kpPerson, unitA, false));
+
+        piPerson.setInstitutionalProposal(institutionalProposal);
+        coiPerson.setInstitutionalProposal(institutionalProposal);
+        kpPerson.setInstitutionalProposal(institutionalProposal);
 
         institutionalProposal.add(piPerson);
         institutionalProposal.add(coiPerson);
