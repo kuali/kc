@@ -1691,25 +1691,25 @@
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
     </bean>
     
-    <bean id="krmsRulesExecutionService" class="org.kuali.kra.krms.service.impl.KrmsRulesExecutionServiceImpl">
+    <bean id="krmsRulesExecutionService" class="org.kuali.coeus.common.impl.krms.KrmsRulesExecutionServiceImpl">
         <property name="kcKrmsCacheManager" ref="kcKrmsCacheManager" /> 
     </bean>
-    <bean id="unitNumberTermResolverTypeService" class="org.kuali.kra.krms.service.impl.UnitNumberTermResolverTypeServiceImpl">
+    <bean id="unitNumberTermResolverTypeService" class="org.kuali.coeus.common.impl.unit.UnitNumberTermResolverTypeServiceImpl">
     </bean>
     
-    <bean id="unitAgendaTypeService" class="org.kuali.kra.krms.UnitAgendaTypeService">
+    <bean id="unitAgendaTypeService" class="org.kuali.coeus.common.impl.unit.UnitAgendaTypeService">
     </bean>
     <bean id="unitAgendaTypeServiceCallback" parent="kcCoreCallbackService"
       p:callbackService-ref="unitAgendaTypeService"
       p:localServiceName="unitAgendaTypeService"
       p:serviceInterface="org.kuali.rice.krms.framework.type.AgendaTypeService"/>
 
-    <bean id="functionTermResolverTypeService" class="org.kuali.kra.krms.service.impl.FunctionTermResolverTypeServiceBase" abstract="true">
+    <bean id="functionTermResolverTypeService" class="org.kuali.coeus.common.impl.krms.FunctionTermResolverTypeServiceBase" abstract="true">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
-    <bean id="storedFunctionTermResolverTypeService" class="org.kuali.kra.krms.service.impl.StoredFunctionTermResolverTypeServiceImpl" 
+    <bean id="storedFunctionTermResolverTypeService" class="org.kuali.coeus.common.impl.krms.StoredFunctionTermResolverTypeServiceImpl"
     	parent="functionTermResolverTypeService"/>
-    <bean id="javaFunctionTermResolverTypeService" class="org.kuali.kra.krms.service.impl.JavaFunctionTermResolverTypeServiceImpl" 
+    <bean id="javaFunctionTermResolverTypeService" class="org.kuali.coeus.common.impl.krms.JavaFunctionTermResolverTypeServiceImpl"
     		parent="functionTermResolverTypeService"/>
     
     <bean id="storedFunctionTermResolverTypeServiceCallback" parent="kcCoreCallbackService"
@@ -1722,11 +1722,11 @@
       p:localServiceName="javaFunctionTermResolverTypeService"
       p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
     
-    <bean id="storedFunctionDao" class="org.kuali.kra.dao.ojb.StoredFunctionDao">
+    <bean id="storedFunctionDao" class="org.kuali.coeus.common.impl.krms.StoredFunctionDao">
         <property name="dataSource" ref="dataSource" />
     </bean>
     
-    <bean id="kcPeopleFlowTypeService" class="org.kuali.kra.krms.service.KcPeopleFlowTypeService">
+    <bean id="kcPeopleFlowTypeService" class="org.kuali.coeus.common.impl.workflow.KcPeopleFlowTypeService">
     </bean>
     
     <bean id= "kcPeopleFlowTypeServiceCallback" parent="kcCoreCallbackService"
@@ -1734,7 +1734,7 @@
       p:localServiceName="kcPeopleFlowTypeService"
       p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService"/>
       
-    <bean id="questionResolverTypeService" class="org.kuali.kra.krms.service.impl.QuestionResolverTypeServiceImpl">
+    <bean id="questionResolverTypeService" class="org.kuali.coeus.common.questionnaire.impl.QuestionResolverTypeServiceImpl">
     </bean>
     
     <bean id="questionResolverTypeServiceCallback" parent="kcCoreCallbackService"
@@ -1742,7 +1742,7 @@
       p:localServiceName="questionResolverTypeService"
       p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
 
-     <bean id="kcKrmsCacheManager" class="org.kuali.kra.krms.service.impl.KcKrmsCacheManagerImpl">
+     <bean id="kcKrmsCacheManager" class="org.kuali.coeus.common.impl.krms.KcKrmsCacheManagerImpl">
          <property name="krmsDistributedCacheManager" ref="krmsDistributedCacheManager" /> 
     </bean>
 

@@ -26,7 +26,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.krms.KcKrmsConstants;
-import org.kuali.kra.krms.KrmsRulesContext;
+import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;

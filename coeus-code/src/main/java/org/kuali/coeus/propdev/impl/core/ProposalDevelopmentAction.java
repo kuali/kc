@@ -56,7 +56,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetParentActionBase;
 import org.kuali.coeus.common.budget.framework.core.BudgetTDCValidator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.krms.service.KrmsRulesExecutionService;
+import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.common.budget.framework.print.BudgetPrintService;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;

@@ -18,7 +18,7 @@ package org.kuali.kra.subaward.service.impl;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
-import org.kuali.kra.krms.service.impl.KcKrmsFactBuilderServiceHelper;
+import org.kuali.coeus.common.impl.krms.KcKrmsFactBuilderServiceHelper;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;

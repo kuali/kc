@@ -17,7 +17,8 @@ package org.kuali.kra.protocol;
 
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.unit.Unit;
-import org.kuali.kra.krms.service.impl.KcKrmsJavaFunctionTermServiceBase;
+import org.kuali.coeus.common.framework.unit.UnitService;
+import org.kuali.coeus.common.impl.krms.KcKrmsJavaFunctionTermServiceBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModuleBase;
@@ -37,7 +38,8 @@ public abstract class ProtocolJavaFunctionKrmsTermServiceBase extends KcKrmsJava
 
     private static final int NON_FACULTY = 2;
     private KcPersonService kcPersonService;
-    
+    private UnitService unitService;
+
     public abstract String getRenewalActionTypeCode();
     public abstract String getProtocolPersonnelModuleTypeCode();
     public abstract String getProtocolOrganizationModuleTypeCode();
@@ -306,5 +308,13 @@ public abstract class ProtocolJavaFunctionKrmsTermServiceBase extends KcKrmsJava
     }
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
+    }
+
+    public UnitService getUnitService() {
+        return unitService;
+    }
+
+    public void setUnitService(UnitService unitService) {
+        this.unitService = unitService;
     }
 }

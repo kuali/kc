@@ -21,7 +21,7 @@
 
     <bean id="KcKrmsTermFunctionMaintenanceDocument" parent="KcKrmsTermFunctionMaintenanceDocument-parentBean" />
     <bean id="KcKrmsTermFunctionMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.krms.KcKrmsTermFunction" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.krms.KcKrmsTermFunction" />
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
         <property name="maintainableSections" >
             <list>

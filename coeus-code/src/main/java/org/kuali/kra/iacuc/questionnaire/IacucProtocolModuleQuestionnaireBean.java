@@ -19,7 +19,7 @@ import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.krms.KrmsRulesContext;
+import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

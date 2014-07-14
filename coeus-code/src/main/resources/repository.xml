@@ -1367,7 +1367,7 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.krms.KcKrmsTermFunction" table="KC_KRMS_TERM_FUNCTION">
+    <class-descriptor class="org.kuali.coeus.common.framework.krms.KcKrmsTermFunction" table="KC_KRMS_TERM_FUNCTION">
         <field-descriptor name="kcKrmsTermFunctionId" column="KC_KRMS_TERM_FUNCTION_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KC_KRMS_TERM_FUNCTION_ID" />
         <field-descriptor name="krmsTermName" column="KRMS_TERM_NM" jdbc-type="VARCHAR"/>
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
@@ -1377,11 +1377,11 @@
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-        <collection-descriptor name="termFunctionParams" proxy="true" element-class-ref="org.kuali.kra.krms.KcKrmsTermFunctionParam" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="termFunctionParams" proxy="true" element-class-ref="org.kuali.coeus.common.framework.krms.KcKrmsTermFunctionParam" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="kcKrmsTermFunctionId"/>
 		</collection-descriptor>
     </class-descriptor>
-    <class-descriptor class="org.kuali.kra.krms.KcKrmsTermFunctionParam" table="KC_KRMS_TERM_FUN_PARAM">
+    <class-descriptor class="org.kuali.coeus.common.framework.krms.KcKrmsTermFunctionParam" table="KC_KRMS_TERM_FUN_PARAM">
         <field-descriptor name="kcKrmsTermFunctionParamId" column="KC_KRMS_TERM_FUN_PARAM_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KC_KRMS_TERM_FUN_PARM_ID" />
 		<field-descriptor name="kcKrmsTermFunctionId" column="KC_KRMS_TERM_FUNCTION_ID" jdbc-type="BIGINT"/>
         <field-descriptor name="paramName" column="PARAM_NAME" jdbc-type="VARCHAR" />

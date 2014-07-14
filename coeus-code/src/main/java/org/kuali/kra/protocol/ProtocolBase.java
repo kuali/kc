@@ -28,7 +28,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.protocol.auth.UnitAclLoadable;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.krms.KcKrmsContextBo;
+import org.kuali.coeus.common.framework.krms.KcKrmsContextBo;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.ProtocolStatusBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModuleBase;

@@ -17,7 +17,7 @@ package org.kuali.coeus.propdev.impl.person.question;
 
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
-import org.kuali.kra.krms.KrmsRulesContext;
+import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;

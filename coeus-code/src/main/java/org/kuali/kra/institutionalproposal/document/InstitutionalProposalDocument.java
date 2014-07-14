@@ -35,8 +35,8 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioni
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReviewExemption;
 import org.kuali.kra.krms.KcKrmsConstants;
-import org.kuali.kra.krms.KrmsRulesContext;
-import org.kuali.kra.krms.service.impl.KcKrmsFactBuilderServiceHelper;
+import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
+import org.kuali.coeus.common.impl.krms.KcKrmsFactBuilderServiceHelper;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;

@@ -42,7 +42,7 @@ import org.kuali.kra.iacuc.threers.IacucPrinciples;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.krms.KrmsRulesContext;
+import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.ProtocolStatusBase;

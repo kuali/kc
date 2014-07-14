@@ -29,7 +29,7 @@ import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBas
 import org.kuali.coeus.sys.framework.controller.NonCancellingRecallQuestion;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.krms.service.KrmsRulesExecutionService;
+import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.notification.ProtocolNotification;

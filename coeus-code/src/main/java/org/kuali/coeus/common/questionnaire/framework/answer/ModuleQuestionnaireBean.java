@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.questionnaire.framework.answer;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.kra.krms.KrmsRulesContext;
+import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.Map;

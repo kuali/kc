@@ -6,7 +6,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.kra.krms.KcKrmsConstants;
-import org.kuali.kra.krms.service.KrmsRulesExecutionService;
+import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
