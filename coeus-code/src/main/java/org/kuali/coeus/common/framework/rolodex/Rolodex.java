@@ -94,7 +94,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
 
     @Column(name = "SPONSOR_ADDRESS_FLAG")
     @Convert(converter = BooleanYNConverter.class)
-    private Boolean sponsorAddressFlag;
+    private boolean sponsorAddressFlag;
 
     @Column(name = "SPONSOR_CODE")
     private String sponsorCode;
@@ -314,7 +314,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
         return sponsorAddressFlag;
     }
 
-    public void setSponsorAddressFlag(Boolean sponsorAddressFlag) {
+    public void setSponsorAddressFlag(boolean sponsorAddressFlag) {
         this.sponsorAddressFlag = sponsorAddressFlag;
     }
 

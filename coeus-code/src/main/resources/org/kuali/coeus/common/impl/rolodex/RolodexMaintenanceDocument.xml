@@ -56,12 +56,11 @@
         <bean parent="MaintainableFieldDefinition" p:name="phoneNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="postalCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="prefix"/>
-        <bean parent="MaintainableFieldDefinition" p:name="sponsorAddressFlag" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="sponsorCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="state"/>
         <bean parent="MaintainableFieldDefinition" p:name="suffix"/>
         <bean parent="MaintainableFieldDefinition" p:name="title"/>
-         <bean parent="MaintainableFieldDefinition" p:name="active"/>
+         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>

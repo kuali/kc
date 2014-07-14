@@ -34,6 +34,28 @@
         <ref bean="Sponsor-countryCode" />
         <ref bean="Sponsor-versionNumber" />
         <ref bean="Sponsor-active" />
+        <ref bean="Sponsor-rolodex.rolodexId" />
+        <ref bean="Sponsor-rolodex.addressLine1" />
+     	<ref bean="Sponsor-rolodex.addressLine2" />
+		<ref bean="Sponsor-rolodex.addressLine3" />
+		<ref bean="Sponsor-rolodex.comments" />  
+		<ref bean="Sponsor-rolodex.deleteFlag" />  
+		<ref bean="Sponsor-rolodex.emailAddress"/>
+		<ref bean="Sponsor-rolodex.faxNumber"/>
+		<ref bean="Sponsor-rolodex.organization"/>
+		<ref bean="Sponsor-rolodex.ownedByUnit"/>
+		<ref bean="Sponsor-rolodex.unit.unitName"/>
+		<ref bean="Sponsor-rolodex.phoneNumber"/>
+		<ref bean="Sponsor-rolodex.postalCode"/>
+		<ref bean="Sponsor-rolodex.sponsorAddressFlag"/>
+		<ref bean="Sponsor-rolodex.sponsorCode"/>
+		<ref bean="Sponsor-rolodex.sponsor.sponsorName"/>
+		<ref bean="Sponsor-rolodex.city"/>
+		<ref bean="Sponsor-rolodex.county"/>
+		<ref bean="Sponsor-rolodex.state"/>
+		<ref bean="Sponsor-rolodex.countryCode"/>
+		<ref bean="Sponsor-rolodex.active"/>
+		<ref bean="Sponsor-rolodex.versionNumber"/>
       </list>
     </property>
     <property name="relationships" >
@@ -48,19 +70,6 @@
           <property name="supportAttributes" >
             <list>
               <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="unit.unitName" p:targetName="unitName"/>
-            </list>
-          </property>
-        </bean>
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="rolodex" />
-          <property name="primitiveAttributes" >
-            <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="rolodexId" p:targetName="rolodexId"/>
-            </list>
-          </property>
-          <property name="supportAttributes" >
-            <list>
-              <bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="rolodex.rolodexId" p:targetName="rolodexId"/>
             </list>
           </property>
         </bean>
@@ -407,6 +416,97 @@
 		<property name="summary" value="Active" />
 		<property name="description" value="Active" />
    </bean>
+   
+  <bean id="Sponsor-rolodex.rolodexId" parent="Sponsor-rolodex.rolodexId-parentBean"/>
+ 	<bean id="Sponsor-rolodex.rolodexId-parentBean" abstract="true" parent="Rolodex-rolodexId-parentBean">
+   	<property name="name" value="rolodex.rolodexId" />
+ </bean>
+ <bean id="Sponsor-rolodex.addressLine1" parent="Sponsor-rolodex.addressLine1-parentBean"/>
+ 	<bean id="Sponsor-rolodex.addressLine1-parentBean" abstract="true" parent="Rolodex-addressLine1-parentBean">
+   	<property name="name" value="rolodex.addressLine1" />
+ 	</bean>
+ <bean id="Sponsor-rolodex.addressLine2" parent="Sponsor-rolodex.addressLine2-parentBean"/>
+ 	<bean id="Sponsor-rolodex.addressLine2-parentBean" abstract="true" parent="Rolodex-addressLine2-parentBean">
+   	<property name="name" value="rolodex.addressLine2" />
+ </bean>
+ <bean id="Sponsor-rolodex.addressLine3" parent="Sponsor-rolodex.addressLine3-parentBean"/>
+ 	<bean id="Sponsor-rolodex.addressLine3-parentBean" abstract="true" parent="Rolodex-addressLine3-parentBean">
+   	<property name="name" value="rolodex.addressLine3" />
+ </bean>  	
+ <bean id="Sponsor-rolodex.comments" parent="Sponsor-rolodex.comments-parentBean"/>
+ 	<bean id="Sponsor-rolodex.comments-parentBean" abstract="true" parent="Rolodex-comments-parentBean">
+   	<property name="name" value="rolodex.comments" />
+ </bean> 
+ <bean id="Sponsor-rolodex.deleteFlag" parent="Sponsor-rolodex.deleteFlag-parentBean"/>
+ 	<bean id="Sponsor-rolodex.deleteFlag-parentBean" abstract="true" parent="Rolodex-deleteFlag-parentBean">
+   	<property name="name" value="rolodex.deleteFlag" />
+ </bean>
+ <bean id="Sponsor-rolodex.emailAddress" parent="Sponsor-rolodex.emailAddress-parentBean"/>
+ 	<bean id="Sponsor-rolodex.emailAddress-parentBean" abstract="true" parent="Rolodex-emailAddress-parentBean">
+   	<property name="name" value="rolodex.emailAddress" />
+ </bean>
+ <bean id="Sponsor-rolodex.faxNumber" parent="Sponsor-rolodex.faxNumber-parentBean"/>
+ 	<bean id="Sponsor-rolodex.faxNumber-parentBean" abstract="true" parent="Rolodex-faxNumber-parentBean">
+   	<property name="name" value="rolodex.faxNumber" />
+ </bean>    	  
+ <bean id="Sponsor-rolodex.organization" parent="Sponsor-rolodex.organization-parentBean"/>
+ 	<bean id="Sponsor-rolodex.organization-parentBean" abstract="true" parent="Rolodex-organization-parentBean">
+   	<property name="name" value="rolodex.organization" />
+ </bean>
+ <bean id="Sponsor-rolodex.ownedByUnit" parent="Sponsor-rolodex.ownedByUnit-parentBean"/>
+ 	<bean id="Sponsor-rolodex.ownedByUnit-parentBean" abstract="true" parent="Rolodex-ownedByUnit-parentBean">
+   	<property name="name" value="rolodex.ownedByUnit" />
+ </bean>   	 
+ <bean id="Sponsor-rolodex.unit.unitName" parent="Sponsor-rolodex.unit.unitName-parentBean"/>
+ 	<bean id="Sponsor-rolodex.unit.unitName-parentBean" abstract="true" parent="Rolodex-unit.unitName-parentBean">
+   	<property name="name" value="rolodex.unit.unitName" />
+ </bean> 
+
+ <bean id="Sponsor-rolodex.phoneNumber" parent="Sponsor-rolodex.phoneNumber-parentBean"/>
+ 	<bean id="Sponsor-rolodex.phoneNumber-parentBean" abstract="true" parent="Rolodex-phoneNumber-parentBean">
+   	<property name="name" value="rolodex.phoneNumber" />
+ </bean> 
+ <bean id="Sponsor-rolodex.postalCode" parent="Sponsor-rolodex.postalCode-parentBean"/>
+ 	<bean id="Sponsor-rolodex.postalCode-parentBean" abstract="true" parent="Rolodex-postalCode-parentBean">
+   	<property name="name" value="rolodex.postalCode" />
+ </bean> 
+ <bean id="Sponsor-rolodex.sponsorAddressFlag" parent="Sponsor-rolodex.sponsorAddressFlag-parentBean"/>
+ 	<bean id="Sponsor-rolodex.sponsorAddressFlag-parentBean" abstract="true" parent="Rolodex-sponsorAddressFlag-parentBean">
+   	<property name="name" value="rolodex.sponsorAddressFlag" />
+ </bean>   
+
+ <bean id="Sponsor-rolodex.sponsorCode" parent="Sponsor-rolodex.sponsorCode-parentBean"/>
+ 	<bean id="Sponsor-rolodex.sponsorCode-parentBean" abstract="true" parent="Rolodex-sponsorCode-parentBean">
+   	<property name="name" value="rolodex.sponsorCode" />
+ </bean>   
+ <bean id="Sponsor-rolodex.sponsor.sponsorName" parent="Sponsor-rolodex.sponsor.sponsorName-parentBean"/>
+ 	<bean id="Sponsor-rolodex.sponsor.sponsorName-parentBean" abstract="true" parent="Rolodex-sponsor.sponsorName-parentBean">
+   	<property name="name" value="rolodex.sponsor.sponsorName" />
+ </bean> 
+ <bean id="Sponsor-rolodex.city" parent="Sponsor-rolodex.city-parentBean"/>
+ 	<bean id="Sponsor-rolodex.city-parentBean" abstract="true" parent="Rolodex-city-parentBean">
+   	<property name="name" value="rolodex.city" />
+ </bean> 
+ <bean id="Sponsor-rolodex.county" parent="Sponsor-rolodex.county-parentBean"/>
+ 	<bean id="Sponsor-rolodex.county-parentBean" abstract="true" parent="Rolodex-county-parentBean">
+   	<property name="name" value="rolodex.county" />
+ </bean>    
+ <bean id="Sponsor-rolodex.state" parent="Sponsor-rolodex.state-parentBean"/>
+ 	<bean id="Sponsor-rolodex.state-parentBean" abstract="true" parent="Rolodex-state-parentBean">
+   	<property name="name" value="rolodex.state" />
+ </bean>   
+ <bean id="Sponsor-rolodex.countryCode" parent="Sponsor-rolodex.countryCode-parentBean"/>
+ 	<bean id="Sponsor-rolodex.countryCode-parentBean" abstract="true" parent="Rolodex-countryCode-parentBean">
+   	<property name="name" value="rolodex.countryCode" />
+ </bean>  
+ <bean id="Sponsor-rolodex.active" parent="Sponsor-rolodex.active-parentBean"/>
+ 	<bean id="Sponsor-rolodex.active-parentBean" abstract="true" parent="Rolodex-active-parentBean">
+   	<property name="name" value="rolodex.active" />
+ </bean>   
+ <bean id="Sponsor-rolodex.versionNumber" parent="Sponsor-rolodex.versionNumber-parentBean"/>
+ 	<bean id="Sponsor-rolodex.versionNumber-parentBean" abstract="true" parent="Rolodex-versionNumber-parentBean">
+   	<property name="name" value="rolodex.versionNumber" />
+</bean>
 
 <!-- Business Object Inquiry Definition -->
   <bean id="Sponsor-inquiryDefinition" parent="Sponsor-inquiryDefinition-parentBean" />
@@ -435,6 +535,27 @@
               <bean parent="FieldDefinition" p:attributeName="sponsorType.description" />
               <bean parent="FieldDefinition" p:attributeName="state" />
               <bean parent="FieldDefinition" p:attributeName="active" />
+            </list>
+          </property>
+        </bean>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Primary Address" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="rolodex.rolodexId" />
+              <bean parent="FieldDefinition" p:attributeName="rolodex.addressLine1" />
+              <bean parent="FieldDefinition" p:attributeName="rolodex.addressLine2" />
+              <bean parent="FieldDefinition" p:attributeName="rolodex.addressLine3" />
+              <bean parent="FieldDefinition" p:attributeName="rolodex.comments" />
+              <bean parent="FieldDefinition" p:attributeName="rolodex.emailAddress" />
+              <bean parent="FieldDefinition" p:attributeName="rolodex.phoneNumber" />
+              <bean parent="FieldDefinition" p:attributeName="rolodex.faxNumber" />
+              <bean parent="FieldDefinition" p:attributeName="rolodex.postalCode" />
+              <bean parent="FieldDefinition" p:attributeName="rolodex.city" />
+              <bean parent="FieldDefinition" p:attributeName="rolodex.county" />
+              <bean parent="FieldDefinition" p:attributeName="rolodex.state" />
+              <bean parent="FieldDefinition" p:attributeName="rolodex.countryCode" />
             </list>
           </property>
         </bean>
@@ -499,9 +620,9 @@
         <bean parent="FieldDefinition" p:attributeName="dunsPlusFourNumber" />
         <bean parent="FieldDefinition" p:attributeName="dodacNumber" />
         <bean parent="FieldDefinition" p:attributeName="cageNumber" />
-        <bean parent="FieldDefinition" p:attributeName="postalCode" />
-        <bean parent="FieldDefinition" p:attributeName="state" />
-        <bean parent="FieldDefinition" p:attributeName="countryCode" p:forceLookup="true" />
+        <bean parent="FieldDefinition" p:attributeName="rolodex.postalCode" />
+        <bean parent="FieldDefinition" p:attributeName="rolodex.state" />
+        <bean parent="FieldDefinition" p:attributeName="rolodex.countryCode" p:forceLookup="true" />
         <bean parent="FieldDefinition" p:attributeName="auditReportSentForFy" />
         <bean parent="FieldDefinition" p:attributeName="ownedByUnit" />
         <bean parent="FieldDefinition" p:attributeName="rolodexId" />
@@ -516,8 +637,9 @@
         <bean parent="FieldDefinition" p:attributeName="dunAndBradstreetNumber" />
         <bean parent="FieldDefinition" p:attributeName="dodacNumber" />
         <bean parent="FieldDefinition" p:attributeName="cageNumber" />
-        <bean parent="FieldDefinition" p:attributeName="state" />
-        <bean parent="FieldDefinition" p:attributeName="countryCode" />
+        <bean parent="FieldDefinition" p:attributeName="rolodex.state" />
+        <bean parent="FieldDefinition" p:attributeName="rolodex.countryCode" />
+        <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
     <property name="resultSetLimit" value="8000" />
