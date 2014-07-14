@@ -8,6 +8,7 @@
     <property name="maintainableSections">
       <list>
         <ref bean="SponsorMaintenanceDocument-EditSponsor"/>
+        <ref bean="SponsorMaintenanceDocument-EditRolodex"/>
       </list>
     </property>
     <property name="lockingKeys">
@@ -40,18 +41,37 @@
         <bean parent="MaintainableFieldDefinition" p:name="acronym"/>
         <bean parent="MaintainableFieldDefinition" p:name="auditReportSentForFy"/>
         <bean parent="MaintainableFieldDefinition" p:name="cageNumber"/>
-        <bean parent="MaintainableFieldDefinition" p:name="countryCode" p:webUILeaveFieldFunction="updateStateFromCountry"/>
         <bean parent="MaintainableFieldDefinition" p:name="dodacNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="dunAndBradstreetNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="dunsPlusFourNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="ownedByUnit" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="postalCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="rolodexId" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="sponsorName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="sponsorTypeCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="state"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+      </list>
+    </property>
+  </bean>
+  <bean id="SponsorMaintenanceDocument-EditRolodex" parent="SponsorMaintenanceDocument-EditRolodex-parentBean"/>
+  <bean id="SponsorMaintenanceDocument-EditRolodex-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Address"/>
+    <property name="title" value="Edit Primary Address"/>
+    <property name="maintainableItems">
+      <list>
+        <!-- bean parent="MaintainableFieldDefinition" p:name="rolodexId" p:required="true"/-->
+        <bean parent="MaintainableFieldDefinition" p:name="rolodex.addressLine1" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="rolodex.addressLine2" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="rolodex.addressLine3" p:noLookup="true"/> 
+        <bean parent="MaintainableFieldDefinition" p:name="rolodex.city" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="rolodex.comments" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="rolodex.countryCode" p:webUILeaveFieldFunction="updateStateFromCountry"/>
+        <bean parent="MaintainableFieldDefinition" p:name="rolodex.county" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="rolodex.emailAddress" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="rolodex.faxNumber" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="rolodex.phoneNumber" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="rolodex.postalCode" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="rolodex.state" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="rolodex.versionNumber"/>
       </list>
     </property>
   </bean>

@@ -15,17 +15,16 @@
  */
 package org.kuali.coeus.common.impl.rolodex;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class RolodexLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl{
 
@@ -34,32 +33,21 @@ public class RolodexLookupableHelperServiceImpl extends KualiLookupableHelperSer
     private static final String IS_SPONSOR_ADDRESS = "isSponsorAddress";
     private static final String SPONSOR_NAME = "sponsor.sponsorName";
 
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-
-        setBackLocation(fieldValues.get(KRADConstants.BACK_LOCATION));
-        setDocFormKey(fieldValues.get(KRADConstants.DOC_FORM_KEY));
-        setReferencesToRefresh(fieldValues.get(KRADConstants.REFERENCES_TO_REFRESH));
-        String isAddressFlagValue = fieldValues.get(IS_SPONSOR_ADDRESS);
-        fieldValues.remove(IS_SPONSOR_ADDRESS);
-        fieldValues.remove(SPONSOR_NAME);
-        List<Rolodex> unboundedResults =
-            (List<Rolodex>) super.getSearchResultsUnbounded(fieldValues);
-        List<Rolodex> returnResults = new ArrayList<Rolodex>();
-        try {
-            returnResults = filterForRolodex(unboundedResults);
-        } catch (WorkflowException e) {
-            LOG.error(e.getMessage(), e);
-        }
-        return returnResults;
-    }
-
-    protected List<Rolodex> filterForRolodex(List<Rolodex> collectionByQuery) throws WorkflowException{
-        List<Rolodex> filterRolodexList = new ArrayList<Rolodex>();
-            for (Rolodex rolodex : collectionByQuery) {
-                filterRolodexList.add(rolodex);
-            }
-      
-        return filterRolodexList;
-    }
+	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+		List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
+		if(businessObject instanceof Rolodex) {
+			Rolodex rolodex = (Rolodex)businessObject;
+			if(rolodex.getSponsorAddressFlag()) {
+		        if (allowsMaintenanceNewOrCopyAction()) {
+		        	
+		            htmlDataList.add(getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
+		        }
+			}
+			else 
+				htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
+			
+		}
+		return htmlDataList;
+	}
 }
 

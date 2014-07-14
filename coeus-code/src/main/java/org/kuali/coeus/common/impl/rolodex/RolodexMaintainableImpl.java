@@ -17,6 +17,7 @@ package org.kuali.coeus.common.impl.rolodex;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
@@ -89,6 +90,14 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
                 Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, AUTO_GEN_ROLODEX_ID_PARM);
     }
 
+    @Override
+    public void saveDataObject() {
+		if(getBusinessObject() instanceof Rolodex) {
+			Rolodex rolodex = (Rolodex)getBusinessObject();
+			rolodex.setSponsorAddressFlag(false);
+		}
+    	super.saveDataObject(); 	
+    }    
     protected ParameterService getParameterService() {
         if (parameterService == null) {
             parameterService = KcServiceLocator.getService(ParameterService.class);

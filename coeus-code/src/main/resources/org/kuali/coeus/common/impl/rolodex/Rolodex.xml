@@ -688,6 +688,7 @@
   <bean id="Rolodex-lookupDefinition" parent="Rolodex-lookupDefinition-parentBean"/>
   <bean id="Rolodex-LookupView" parent="Rolodex-LookupView-parentBean"/>
   <bean abstract="true" id="Rolodex-lookupDefinition-parentBean" parent="LookupDefinition">
+  	<property name="lookupableID" value="rolodexLookupable" />
     <property name="title" value="Address Book Lookup"/><property name="defaultSort">
       <bean parent="SortDefinition"/>
     </property>
