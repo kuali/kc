@@ -20,6 +20,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.framework.person.attr.PersonTraining;
 import org.kuali.coeus.common.framework.person.editable.PersonEditable;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
@@ -45,12 +46,15 @@ import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireH
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -125,6 +129,9 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
 
     @OneToMany(mappedBy="proposalPerson", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<ProposalPersonCreditSplit> creditSplits;
+
+    @Transient
+    private List<PersonTraining> personTrainings;
 
     @Transient
     private String simpleName;
@@ -1687,5 +1694,17 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     		 }
     	 }
     	 return retVal;
+    }
+
+    public List<PersonTraining> getPersonTrainings() {
+        if (CollectionUtils.isEmpty(personTrainings)) {
+            personTrainings = (List<PersonTraining>) KcServiceLocator.getService(BusinessObjectService.class).findMatching(PersonTraining.class, Collections.singletonMap("personId",this.getPersonId()));
+        }
+
+        return personTrainings;
+    }
+
+    public void setPersonTrainings(List<PersonTraining> personTrainings) {
+        this.personTrainings = personTrainings;
     }
 }
