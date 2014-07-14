@@ -31,6 +31,7 @@ import org.kuali.kra.award.home.ContactRole;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Transient;
@@ -393,11 +394,12 @@ public abstract class AwardContact extends AwardAssociate {
     protected abstract Map<String, Object> getContactRoleIdentifierMap();
 
     protected ContactRole refreshContactRole() {
-        ContactRole role;
+        ContactRole role = null;
         if (roleCode != null) {
-            role = (ContactRole) getBusinessObjectService().findMatching(getContactRoleType(), getContactRoleIdentifierMap());
-        } else {
-            role = null;
+        	List<ContactRole> contactRoles = (List)getBusinessObjectService().findMatching(getContactRoleType(), getContactRoleIdentifierMap());
+        	if(!contactRoles.isEmpty()) {
+                role = (ContactRole)contactRoles.get(0); 
+        	}
         }
         setContactRole(role);
         return role;
@@ -439,13 +441,8 @@ public abstract class AwardContact extends AwardAssociate {
         setRolodex(rolodex);
     }
     
-    public PropAwardPersonRole getRole() {
-    	if (StringUtils.isNotBlank(getRoleCode()) && getAward() != null &&
-    			StringUtils.isNotBlank(getAward().getSponsorCode())) {
-    		return getPropAwardPersonRoleService().getRole(getRoleCode(), getAward().getSponsorCode());
-    	} else {
-    		return null;
-    	}
+    public ContactRole getRole() {
+    	return refreshContactRole();
     }
     
 	protected PropAwardPersonRoleService getPropAwardPersonRoleService() {
