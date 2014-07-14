@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/util
+                    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<bean id="PropBudget-MockView-ProjectPersonnelPageView" parent="Uif-MockView"
+		p:headerText="Budget: Version 5" p:stickyApplicationHeader="true"
+		p:stickyFooter="true" p:breadcrumbs.render="false" p:cssClasses="uif-formView"
+		p:unifiedHeader="false" p:defaultBindingObjectPath=""
+		p:singlePageView="true">
+		<property name="page">
+			<ref bean="PropBudget-MockView-ProjectPersonnelPage" />
+		</property>
+		<property name="additionalScriptFiles">
+			<list>
+				<value>scripts/common/questionnaire.js</value>
+			</list>
+		</property>
+		<property name="additionalCssFiles">
+			<list>
+				<value>css/common/core.css</value>
+			</list>
+		</property>
+		<property name="header" ref="PropBudget-MockView-DocumentHeader" />
+		<property name="footer" ref="PropBudget-MockView-DocumentFooter" />
+		<property name="navigation" ref="PropBudget-MockView-Menu" />
+	</bean>
+
+	<bean id="PropBudget-MockView-ProjectPersonnelPage" parent="PropBudget-MockView-ProjectPersonnelPage-parentBean" />
+	<bean id="PropBudget-MockView-ProjectPersonnelPage-parentBean"
+		parent="Uif-DocumentPage">
+		<property name="items">
+			<list>
+				<ref bean="PropBudget-MockView-ProjectPersonnelPage-CollectionGroup" />
+			</list>
+		</property>
+		<property name="header">
+			<bean parent="Uif-PageHeader" />
+		</property>
+		<property name="footer">
+			<null />
+		</property>
+	</bean>
+
+	<bean id="PropBudget-MockView-ProjectPersonnelPage-CollectionGroup"
+		parent="PropBudget-MockView-ProjectPersonnelPage-CollectionGroup-parentBean" />
+	<bean
+		id="PropBudget-MockView-ProjectPersonnelPage-CollectionGroup-parentBean"
+		parent="Uif-TableCollectionSection" abstract="true" p:headerText="Project Personnel"
+		p:propertyName="newBudgetProjectPersonnel"
+		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson"
+		p:addWithDialog="false" p:renderAddLine="false"
+		p:layoutManager.renderSequenceField="false">
+		<property name="layoutManager.richTable.templateOptions">
+			<map>
+				<entry key="sDom" value="tip" />
+				<entry key="bRetrieve" value="true" />
+				<entry key="bPaginate" value="false" />
+				<entry key="bInfo" value="false" />
+			</map>
+		</property>
+		<property name="header.rightGroup">
+			<bean parent="Uif-HeaderRightGroup">
+				<property name="items">
+					<list>
+						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Add Personnel"
+							p:actionScript="showDialog('PropBudget-MockView-AddPersonnel-Button')"
+							p:order="10" p:iconClass="icon-plus" />
+
+						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Sync from Proposal"
+							p:order="20" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="header.lowerGroup">
+			<bean parent="Uif-HeaderLowerGroup">
+				<property name="items">
+					<list>
+						<bean parent="Uif-Message"
+							p:messageText="Personnel added to the proposal are shown below. Review, configure, and add additional personnel to the budget."
+							p:order="10" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="personName"
+					p:order="10" p:label="Person"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson" />
+				<bean parent="Uif-InputField" p:propertyName="jobCode" p:order="20"
+					p:label="Job Code"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson" />
+				<bean parent="Uif-InputField" p:propertyName="appointmentType"
+					p:order="30" p:label="Appointment Type"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson" />
+				<bean parent="Uif-InputField" p:propertyName="calculationBase"
+					p:order="40" p:label="Base Salary" p:required="false"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson" />
+
+			</list>
+		</property>
+		<property name="lineActions">
+			<list>
+				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="Details"
+					p:hidden="false" p:actionLabel="Details" p:order="10"
+					p:actionScript="showDialog('PropBudget-MockView-ProjectPersonnel-Details')" />
+				<bean parent="Uif-DeleteLineAction-IconOnly" p:order="20"
+					p:hidden="false" p:iconClass="icon-trash" />
+			</list>
+		</property>
+	</bean>
+	<bean id="PropBudget-MockView-ProjectPersonnel-Details" parent="PropBudget-MockView-ProjectPersonnel-Details-parentBean" />
+	<bean id="PropBudget-MockView-ProjectPersonnel-Details-parentBean"
+		abstract="true" parent="Uif-DialogGroup" p:headerText="Edit Personnel">
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="personName"
+					p:order="10"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson" />
+				<bean parent="Uif-TabSection">
+					<property name="items">
+						<list>
+							<bean parent="PropBudget-MockView-ProjectPersonnel-Details-Tab"
+								p:headerText="Details" p:order="10" />
+							<bean parent="PropBudget-MockView-ProjectPersonnel-SalaryDetails-Tab"
+								p:headerText="Salary by Period" p:order="20" />
+
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Save Changes"
+							p:order="10" />
+						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Cancel"
+							p:order="20" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="PropBudget-MockView-ProjectPersonnel-Details-Tab"
+		parent="PropBudget-MockView-ProjectPersonnel-Details-Tab-parentBean" />
+	<bean id="PropBudget-MockView-ProjectPersonnel-Details-Tab-parentBean"
+		abstract="true" parent="Uif-VerticalBoxSubSection" p:headerText="Details">
+		<property name="items">
+			<list>
+				<bean parent="Uif-CssGridSection-1FieldLabelColumn">
+					<property name="items">
+						<list>
+							<bean parent="Uif-InputField" p:propertyName="role"
+								p:required="false" p:label="Role" p:order="10"
+								p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson" />
+							<bean parent="Uif-InputField" p:propertyName="jobeCode"
+								p:required="false" p:label="Jobe Code" p:order="20"
+								p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson" />
+							<bean parent="Uif-InputField" p:propertyName="appointmentType"
+								p:order="30" p:required="false"
+								p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson" />
+							<bean parent="Uif-InputField" p:propertyName="effectiveDate"
+								p:order="40" p:required="false"
+								p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson" />
+							<bean parent="Uif-InputField" p:propertyName="salaryAnniversaryDate"
+								p:order="50" p:required="false"
+								p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson" />
+							<bean parent="Uif-InputField" p:propertyName="calculationBase"
+								p:order="60" p:required="false"
+								p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="PropBudget-MockView-ProjectPersonnel-SalaryDetails-Tab"
+		parent="PropBudget-MockView-ProjectPersonnel-SalaryDetails-Tab-parentBean" />
+	<bean
+		id="PropBudget-MockView-ProjectPersonnel-SalaryDetails-Tab-parentBean"
+		abstract="true" parent="Uif-HorizontalBoxSection" p:headerText="Salary by Period">
+		<property name="items">
+			<list>
+				<bean parent="Uif-HorizontalBoxGroup">
+					<property name="items">
+						<list>
+							<bean parent="Uif-InputField" p:propertyName="budgetPeriod"
+								p:required="false" p:label="Period" p:order="10"
+								p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonSalaryDetails" />
+							<bean parent="Uif-InputField" p:propertyName="baseSalary"
+								p:required="false" p:label="Salary" p:order="20"
+								p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonSalaryDetails" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Recalculate"
+							p:order="10" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="PropBudget-MockView-AddPersonnel-Button" parent="PropBudget-MockView-AddPersonnel-Button-parentBean" />
+	<bean id="PropBudget-MockView-AddPersonnel-Button-parentBean"
+		abstract="true" parent="Uif-DialogGroup" p:headerText="Add Personnel">
+		<property name="items">
+			<list>
+				<ref bean="PropBudget-MockView-PersonnelSearch-Button" />
+			</list>
+		</property>
+		<property name="footer.items">
+			<list>
+				<bean parent="Uif-PrimaryActionButton" p:actionLabel="Search" />
+				<bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" />
+
+			</list>
+		</property>
+	</bean>
+	<bean id="PropBudget-MockView-PersonnelSearch-Button" parent="PropBudget-MockView-PersonnelSearch-Button-parentBean" />
+	<bean id="PropBudget-MockView-PersonnelSearch-Button-parentBean"
+		abstract="true" parent="Uif-VerticalBoxSubSection"
+		p:header.headerText="Personnel Search">
+		<property name="items">
+			<list>
+				<bean parent="PropDev-PersonnelPage-AddPersonnel-TypeSelection"
+					p:order="10" />
+				<bean parent="PropDev-PersonnelPage-InputField" p:propertyName="personId"
+					p:label="KcPerson Id" p:progressiveRender="@{#fp.personType == '2'}"
+					p:order="20" />
+				<bean parent="PropDev-PersonnelPage-InputField" p:propertyName="lastName"
+					p:progressiveRender="@{#fp.personType == '2'}" p:order="30" />
+				<bean parent="PropDev-PersonnelPage-InputField" p:propertyName="firstName"
+					p:progressiveRender="@{#fp.personType == '2'}" p:order="40" />
+				<bean parent="PropDev-PersonnelPage-InputField" p:propertyName="userName"
+					p:progressiveRender="@{#fp.personType == '2'}" p:order="50" />
+				<bean parent="PropDev-PersonnelPage-InputField" p:propertyName="emailAddress"
+					p:progressiveRender="@{#fp.personType == '2'}" p:order="60" />
+				<bean parent="PropDev-PersonnelPage-InputField" p:propertyName="officePhone"
+					p:progressiveRender="@{#fp.personType == '2'}" p:order="70" />
+				<bean parent="PropDev-PersonnelPage-InputField" p:propertyName="active"
+					p:progressiveRender="@{#fp.personType == '2'}" p:order="80">
+					<property name="control">
+						<bean parent="Uif-DropdownControl">
+							<property name="options">
+								<list>
+									<bean parent="Uif-KeyLabelPair" p:key="1" p:value="Select" />
+									<bean parent="Uif-KeyLabelPair" p:key="2" p:value="Yes" />
+									<bean parent="Uif-KeyLabelPair" p:key="3" p:value="No" />
+									<bean parent="Uif-KeyLabelPair" p:key="4" p:value="Both" />
+								</list>
+							</property>
+						</bean>
+					</property>
+				</bean>
+				<bean parent="PropDev-PersonnelPage-InputField" p:propertyName="organizationIdentifier"
+					p:progressiveRender="@{#fp.personType == '2'}" p:order="90">
+					<property name="control">
+						<bean parent="Uif-DropdownControl">
+							<property name="options">
+								<list>
+									<bean parent="Uif-KeyLabelPair" p:key="1" p:value="Select" />
+									<bean parent="Uif-KeyLabelPair" p:key="2" p:value="Select" />
+									<bean parent="Uif-KeyLabelPair" p:key="3" p:value="Select" />
+								</list>
+							</property>
+						</bean>
+					</property>
+				</bean>
+				<bean parent="PropDev-PersonnelPage-InputField" p:propertyName="campusCode"
+					p:progressiveRender="@{#fp.personType == '2'}" p:order="100">
+					<property name="control">
+						<bean parent="Uif-DropdownControl">
+							<property name="options">
+								<list>
+									<bean parent="Uif-KeyLabelPair" p:key="1" p:value="Select" />
+									<bean parent="Uif-KeyLabelPair" p:key="2" p:value="Select" />
+									<bean parent="Uif-KeyLabelPair" p:key="3" p:value="Select" />
+								</list>
+							</property>
+						</bean>
+					</property>
+				</bean>
+				<bean parent="PropDev-NonPersonnelPage-InputField"
+					p:propertyName="rolodexId" p:progressiveRender="@{#fp.personType == '3'}"
+					p:order="110" />
+				<bean parent="PropDev-NonPersonnelPage-InputField"
+					p:propertyName="sponsor.sponsorName" p:progressiveRender="@{#fp.personType == '3'}"
+					p:order="120" />
+				<bean parent="PropDev-NonPersonnelPage-InputField"
+					p:propertyName="organization" p:progressiveRender="@{#fp.personType == '3'}"
+					p:order="130" />
+				<bean parent="PropDev-NonPersonnelPage-InputField"
+					p:propertyName="ownedByUnit" p:progressiveRender="@{#fp.personType == '3'}"
+					p:order="140" />
+				<bean parent="PropDev-NonPersonnelPage-InputField"
+					p:propertyName="sponsorAddressFlag" p:progressiveRender="@{#fp.personType == '3'}"
+					p:order="150" />
+				<bean parent="PropDev-NonPersonnelPage-InputField"
+					p:propertyName="title" p:progressiveRender="@{#fp.personType == '3'}"
+					p:order="160" />
+				<!-- <bean parent="PropBudget-MockView-TBNPage-CollectionGroup"
+					 p:order="170" /> -->
+			</list>
+		</property>
+	</bean>
+	<bean id="PropDev-PersonnelPage-AddPersonnel-TypeSelection"
+		parent="PropDev-PersonnelPage-AddPersonnel-TypeSelection-parentBean" />
+	<bean id="PropDev-PersonnelPage-AddPersonnel-TypeSelection-parentBean"
+		abstract="true" parent="Uif-InputField" p:fieldLabel.renderColon="false"
+		p:propertyName="personType" p:label="Personnel Type">
+		<property name="control">
+			<bean parent="Uif-DropdownControl">
+				<property name="options">
+					<list>
+						<bean parent="Uif-KeyLabelPair" p:key="1" p:value="Select" />
+						<bean parent="Uif-KeyLabelPair" p:key="2" p:value="Employees" />
+						<bean parent="Uif-KeyLabelPair" p:key="3" p:value="Non-employees" />
+						<bean parent="Uif-KeyLabelPair" p:key="4" p:value="To Be Named" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="PropDev-PersonnelPage-InputField" parent="PropDev-PersonnelPage-InputField-parentBean" />
+	<bean id="PropDev-PersonnelPage-InputField-parentBean" abstract="true"
+		parent="Uif-InputField" p:fieldLabel.renderColon="false"
+		p:dictionaryObjectEntry="org.kuali.coeus.common.framework.person.KcPerson" />
+	<bean id="PropDev-NonPersonnelPage-InputField" parent="PropDev-NonPersonnelPage-InputField-parentBean" />
+	<bean id="PropDev-NonPersonnelPage-InputField-parentBean"
+		abstract="true" parent="Uif-InputField" p:fieldLabel.renderColon="false"
+		p:dictionaryObjectEntry="org.kuali.coeus.common.framework.rolodex.Rolodex" />
+	<bean id="PropBudget-MockView-TBNPage-CollectionGroup" parent="PropBudget-MockView-TBNPage-CollectionGroup-parentBean" />
+	<bean id="PropBudget-MockView-TBNPage-CollectionGroup-parentBean"
+		parent="Uif-TableCollectionSection" abstract="true" p:propertyName="personType"
+		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.personnel.TbnPerson"
+		p:layoutManager.renderSequenceField="false" p:renderLineActions="false">
+		<property name="layoutManager.richTable.templateOptions">
+			<map>
+				<entry key="sDom" value="tip" />
+				<entry key="bRetrieve" value="true" />
+				<entry key="bPaginate" value="false" />
+				<entry key="bInfo" value="false" />
+			</map>
+		</property>
+		<property name="header.lowerGroup">
+			<bean parent="Uif-HeaderLowerGroup">
+				<property name="items">
+					<list>
+						<bean parent="Uif-Message"
+							p:messageText="Select the quantity of each 'to be named' person category to be returned to your budget."
+							p:order="10" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="personName"
+					p:order="10" p:label="Person Category"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.personnel.TbnPerson" />
+				<bean parent="Uif-InputField" p:propertyName="quantity"
+					p:order="20" p:label="Quantity"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails" />
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="Uif-PrimaryActionButton" p:actionLabel="Add TBN Personnel to Budget" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+</beans> 
