@@ -67,7 +67,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.medusa.MedusaBean;
 import org.kuali.kra.award.service.AwardHierarchyUIService;
 import org.kuali.coeus.common.budget.framework.core.BudgetVersionFormBase;
-import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
+import org.kuali.coeus.common.framework.custom.CustomDataDocumentForm;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;

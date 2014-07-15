@@ -20,7 +20,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.impl.custom.CustomDataRule;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.rule.event.SaveCustomDataEvent;
+import org.kuali.coeus.common.framework.custom.SaveCustomDataEvent;
 import org.kuali.kra.subaward.SubAwardForm;
 
 import javax.servlet.http.HttpServletRequest;

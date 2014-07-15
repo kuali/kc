@@ -71,10 +71,10 @@
     <property name="shortLabel" value="Applies To" />
     <property name="maxLength" value="1" />
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqQuestionTypeValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.impl.ynq.YnqQuestionTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.YnqQuestionTypeValuesFinder"/>
+      <bean class="org.kuali.coeus.common.impl.ynq.YnqQuestionTypeValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -91,10 +91,10 @@
     <property name="shortLabel" value="Status" />
     <property name="maxLength" value="1" />
     <property name="control" >
-      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqQuestionStatusValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqQuestionStatusValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.YnqQuestionStatusValuesFinder"/>
+      <bean class="org.kuali.coeus.common.framework.ynq.YnqQuestionStatusValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-VerticalRadioControl"/>
@@ -143,10 +143,10 @@
       <bean parent="NumericPatternConstraint"/>
     </property>
     <property name="control" >
-      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqValidAnswersValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.impl.ynq.YnqValidAnswersValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.YnqValidAnswersValuesFinder"/>
+      <bean class="org.kuali.coeus.common.impl.ynq.YnqValidAnswersValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-VerticalRadioControl"/>
@@ -163,10 +163,10 @@
     <property name="shortLabel" value="Explanation Required For" />
     <property name="maxLength" value="3" />
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqRequiredForValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.impl.ynq.YnqRequiredForValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.YnqRequiredForValuesFinder"/>
+      <bean class="org.kuali.coeus.common.impl.ynq.YnqRequiredForValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
@@ -183,10 +183,10 @@
     <property name="shortLabel" value="Date Required For" />
     <property name="maxLength" value="3" />
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqRequiredForValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.impl.ynq.YnqRequiredForValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.YnqRequiredForValuesFinder"/>
+      <bean class="org.kuali.coeus.common.impl.ynq.YnqRequiredForValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>

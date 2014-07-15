@@ -22,7 +22,7 @@
     
     
     <property name="documentTypeName" value="ProposalColumnsToAlterMaintenanceDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kra.rules.ProposalColumnsToAlterMaintenanceDocumentRule"/>
+    <property name="businessRulesClass" value="org.kuali.coeus.propdev.impl.editable.ProposalColumnsToAlterMaintenanceDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     
     <property name="webScriptFiles">

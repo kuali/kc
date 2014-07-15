@@ -44,7 +44,7 @@ import org.kuali.kra.irb.notification.IRBProtocolNotification;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService;
 import org.kuali.kra.krms.KcKrmsConstants;
-import org.kuali.kra.krms.service.impl.KcKrmsFactBuilderServiceHelper;
+import org.kuali.coeus.common.impl.krms.KcKrmsFactBuilderServiceHelper;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;

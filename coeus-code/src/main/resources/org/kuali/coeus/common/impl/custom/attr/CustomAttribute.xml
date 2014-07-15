@@ -94,10 +94,10 @@
       <bean parent="AlphaNumericPatternConstraint"/>
     </property>
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.CustomAttributeDataTypeValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDataTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.CustomAttributeDataTypeValuesFinder"/>
+      <bean class="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDataTypeValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>

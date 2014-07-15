@@ -16,7 +16,7 @@
 package org.kuali.kra.award.service.impl;
 
 import org.kuali.kra.award.service.AwardJavaFunctionKrmsTermService;
-import org.kuali.kra.krms.service.impl.KcKrmsJavaFunctionTermServiceBase;
+import org.kuali.coeus.common.impl.krms.KcKrmsJavaFunctionTermServiceBase;
 
 public class AwardJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTermServiceBase implements AwardJavaFunctionKrmsTermService {
 

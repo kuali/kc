@@ -44,7 +44,7 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.AppointmentType;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.krms.service.impl.KcKrmsJavaFunctionTermServiceBase;
+import org.kuali.coeus.common.impl.krms.KcKrmsJavaFunctionTermServiceBase;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -73,7 +73,8 @@ import org.springframework.stereotype.Component;
 @Component("propDevJavaFunctionKrmsTermService")
 public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTermServiceBase implements PropDevJavaFunctionKrmsTermService {
     private static final int INT_PERMANENT_RESIDENT_OF_U_S_PENDING = 4;
-    
+    private static final Log LOG = LogFactory.getLog(PropDevJavaFunctionKrmsTermServiceImpl.class);
+
     @Autowired
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
@@ -82,14 +83,10 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     @Autowired
     @Qualifier("questionnaireAnswerService")
     private QuestionnaireAnswerService questionnaireAnswerService;
-    
-    private static final Log LOG = LogFactory.getLog(PropDevJavaFunctionKrmsTermServiceImpl.class);
 
-	@Override
     @Autowired
-    public void setUnitService(@Qualifier("unitService")UnitService unitService) {
-        super.setUnitService(unitService);
-    }
+    @Qualifier("unitService")
+    private UnitService unitService;
 
     @Override
     @Autowired
@@ -1206,5 +1203,11 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
 		this.questionnaireAnswerService = questionnaireAnswerService;
 	}
 
+    public UnitService getUnitService() {
+        return unitService;
+    }
 
+    public void setUnitService(UnitService unitService) {
+        this.unitService = unitService;
+    }
 }

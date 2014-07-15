@@ -26,9 +26,8 @@ import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
-import org.kuali.kra.krms.KrmsRulesContext;
-import org.kuali.kra.krms.UnitAgendaTypeService;
-import org.kuali.kra.krms.service.KrmsRulesExecutionService;
+import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
+import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sModuleQuestionnaireBean;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonModuleQuestionnaireBean;
@@ -66,6 +65,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     private static final String MODULE_SUB_ITEM_KEY = "moduleSubItemKey";
     public static final String QUESTIONNAIRE_SEQ_ID = "questionnaireSeqId";
     public static final String SEQUENCE_NUMBER = "sequenceNumber";
+    public static final String QUESTIONNAIRE_AGENDA_TYPE_ID = "KC1004";
 
     @Autowired()
     @Qualifier("businessObjectService")
@@ -892,7 +892,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         KrmsRulesContext rulesContext = moduleQuestionnaireBean.getKrmsRulesContextFromBean();
         Map<String, Boolean> ruleResults = new HashMap<String, Boolean>();
         if (rulesContext != null) {
-            ruleResults.putAll(getKrmsRulesExecutionService().runApplicableRules(ruleIds, rulesContext, UnitAgendaTypeService.QUESTIONNAIRE_AGENDA_TYPE_ID));
+            ruleResults.putAll(getKrmsRulesExecutionService().runApplicableRules(ruleIds, rulesContext, QUESTIONNAIRE_AGENDA_TYPE_ID));
         }
         
         // use session to cache the evaluation results for now

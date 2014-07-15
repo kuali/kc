@@ -22,7 +22,7 @@ import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.coi.questionnaire.DisclosureModuleQuestionnaireBean;
 import org.kuali.kra.coi.service.CoiJavaFunctionKrmsTermService;
-import org.kuali.kra.krms.service.impl.KcKrmsJavaFunctionTermServiceBase;
+import org.kuali.coeus.common.impl.krms.KcKrmsJavaFunctionTermServiceBase;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;

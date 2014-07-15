@@ -31,7 +31,7 @@ import org.kuali.kra.coi.disclosure.MasterDisclosureBean;
 import org.kuali.kra.coi.notification.CoiNotification;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.krms.service.KrmsRulesExecutionService;
+import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 

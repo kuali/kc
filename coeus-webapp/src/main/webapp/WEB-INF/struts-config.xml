@@ -26,7 +26,7 @@
 		<form-bean name="TimeAndMoneyForm" type="org.kuali.kra.timeandmoney.TimeAndMoneyForm" />
 		<form-bean name="AwardHierarchyForm" type="org.kuali.kra.award.AwardHierarchyForm" />
 		<form-bean name="DocHandlerForm" type="org.kuali.rice.kew.routing.web.DocHandlerForm" />
-		<form-bean name="UnitHierarchyForm" type="org.kuali.kra.web.struts.form.UnitHierarchyForm" />
+		<form-bean name="UnitHierarchyForm" type="org.kuali.coeus.common.impl.unit.UnitHierarchyForm" />
 		<form-bean name="SponsorHierarchyForm" type="org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyForm" />
 		<form-bean name="ProtocolForm" type="org.kuali.kra.irb.ProtocolForm" />
 		<form-bean name="ResearchAreasForm" type="org.kuali.kra.irb.ResearchAreasForm" />
@@ -170,7 +170,7 @@
           <forward name="personComment" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentSpecialReviewComment.jsp" />
       </action>
 
- 		<action path="/unitHierarchy" name="UnitHierarchyForm" type="org.kuali.kra.web.struts.action.UnitHierarchyAction" scope="request">
+ 		<action path="/unitHierarchy" name="UnitHierarchyForm" type="org.kuali.coeus.common.impl.unit.UnitHierarchyAction" scope="request">
             <forward name="basic" path="/unitHierarchy.jsp" />
         </action>
  		<action path="/researchAreas" name="ResearchAreasForm" type="org.kuali.kra.irb.ResearchAreasAction">

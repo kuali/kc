@@ -190,10 +190,10 @@
       <bean parent="AlphaNumericPatternConstraint"/>
     </property>
         <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqQuestionStatusValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqQuestionStatusValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.YnqQuestionStatusValuesFinder"/>
+      <bean class="org.kuali.coeus.common.framework.ynq.YnqQuestionStatusValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>

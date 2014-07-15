@@ -423,10 +423,10 @@
       <bean parent="AnyCharacterPatternConstraint"/>
     </property>
     <property name="control" >
-      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"/>
+      <bean class="org.kuali.coeus.common.framework.ynq.YnqAnswersValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-VerticalRadioControl"/>

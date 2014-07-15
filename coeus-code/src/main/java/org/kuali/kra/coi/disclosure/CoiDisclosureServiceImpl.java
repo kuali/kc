@@ -51,8 +51,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.protocol.ProtocolType;
-import org.kuali.kra.krms.UnitAgendaTypeService;
-import org.kuali.kra.krms.service.KrmsRulesExecutionService;
+import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
 import org.kuali.coeus.common.framework.medusa.MedusaNode;
 import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -74,6 +73,8 @@ import java.util.*;
 
 
 public class CoiDisclosureServiceImpl implements CoiDisclosureService {
+
+    public static final String UNIT_AGENDA_TYPE_ID = "KC1000";
 
     private BusinessObjectService businessObjectService;
     private KcPersonService kcPersonService;
@@ -2566,7 +2567,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     public boolean checkScreeningQuestionnaireRule(CoiDisclosureDocument coiDisclosureDocument) {
         String krmsRuleId = parameterService.getParameterValueAsString(CoiDisclosureDocument.class, Constants.COI_SCREENING_QUESTIONNAIRE_KRMS_RULE);
         if (StringUtils.isNotBlank(krmsRuleId)) {
-            Map<String, Boolean> krmsResults = getKrmsRulesExecutionService().runApplicableRules(Arrays.asList(new String[]{krmsRuleId}), coiDisclosureDocument, UnitAgendaTypeService.UNIT_AGENDA_TYPE_ID);
+            Map<String, Boolean> krmsResults = getKrmsRulesExecutionService().runApplicableRules(Arrays.asList(new String[]{krmsRuleId}), coiDisclosureDocument, UNIT_AGENDA_TYPE_ID);
             Boolean result = krmsResults.get(krmsRuleId);
             if (result == null || !result) {
                 return false;

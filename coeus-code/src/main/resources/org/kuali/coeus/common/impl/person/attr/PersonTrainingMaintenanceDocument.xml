@@ -17,7 +17,7 @@
 	<bean id="PersonTrainingMaintenanceDocument" parent="PersonTrainingMaintenanceDocument-parentBean"/>
 	<bean id="PersonTrainingMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
 		<property name="businessObjectClass" value="org.kuali.coeus.common.framework.person.attr.PersonTraining"/>
-		<property name="maintainableClass" value="org.kuali.kra.maintenance.PersonTrainingMaintainableImpl"/>
+		<property name="maintainableClass" value="org.kuali.coeus.common.impl.person.attr.PersonTrainingMaintainableImpl"/>
 		<property name="maintainableSections">
 			<list>
 				<ref bean="PersonTrainingMaintenanceDocument-EditPersonTraining"/>
@@ -36,7 +36,7 @@
 		
 		
 		<property name="documentTypeName" value="PersonTrainingMaintenanceDocument"/>
-      <!--   <property name="businessRulesClass" value="org.kuali.kra.rules.PersonTrainingMaintenanceDocumentRule"/>-->
+      <!--   <property name="businessRulesClass" value="org.kuali.coeus.common.framework.person.attr.PersonTrainingMaintenanceDocumentRule"/>-->
 		<!-- <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/> -->
 		<property name="documentAuthorizerClass" value="org.kuali.coeus.common.impl.person.attr.PersonTrainingMaintenanceDocumentAuthorizer"/>
 		

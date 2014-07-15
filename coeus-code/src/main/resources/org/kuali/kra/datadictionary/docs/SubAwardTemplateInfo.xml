@@ -67,7 +67,7 @@
     <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
+            p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersValuesFinder"
             p:includeKeyInLabel="true" />
     </property>
     <property name="summary" value="SOW/Budget specified in proposal " />
@@ -215,7 +215,7 @@
     <property name="maxLength" value="10" />
     <property name="control" >
       <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
+            p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="Performance Site same as Org address?" />
@@ -231,7 +231,7 @@
     <property name="maxLength" value="10" />
     <property name="control" >
      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
+            p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="Performance Site same as PI address?" />
@@ -247,7 +247,7 @@
     <property name="maxLength" value="10" />
     <property name="control" >
       <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
+            p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="Sub Registered in CCR?" />
@@ -301,7 +301,7 @@
     <property name="maxLength" value="10" />
     <property name="control" >
      <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
+            p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="Exempt from reporting exec compensation" />
@@ -341,7 +341,7 @@
     <property name="maxLength" value="1" />
     <property name="control" >
       <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
+            p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="Automatic Carry Forward" />
@@ -381,7 +381,7 @@
     <property name="maxLength" value="10" />
     <property name="control" >
       <bean parent="RadioControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder"
+            p:valuesFinderClass="org.kuali.coeus.common.framework.ynq.YnqAnswersValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="Treatment of Program Income Additive" />

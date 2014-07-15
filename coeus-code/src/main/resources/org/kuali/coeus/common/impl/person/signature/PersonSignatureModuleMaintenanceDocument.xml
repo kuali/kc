@@ -36,7 +36,7 @@
         <property name="allowsRecordDeletion" value="true" />
         <property name="documentTypeName" value="PersonSignatureModuleMaintenanceDocument" />
 		<property name="documentAuthorizerClass" value="org.kuali.coeus.common.impl.person.signature.PersonSignatureMaintenanceDocumentAuthorizer"/>
-        <property name="businessRulesClass" value="org.kuali.kra.bo.ValidPersonSignatureModuleMaintenanceDocumentRule"/>
+        <property name="businessRulesClass" value="org.kuali.coeus.common.impl.person.signature.ValidPersonSignatureModuleMaintenanceDocumentRule"/>
         
     </bean>
 

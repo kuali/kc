@@ -188,7 +188,7 @@
 		<ruleAttribute>
 			<name>UnitAdministratorRoleAttribute</name>
 			<className>
-				org.kuali.kra.workflow.UnitAdministratorRoleAttribute
+				org.kuali.coeus.common.framework.unit.admin.UnitAdministratorRoleAttribute
 			</className>
 			<label>Protocol Unit Routing</label>
 			<description>Protocol Unit Routing</description>
@@ -198,7 +198,7 @@
 		<ruleAttribute>
 			<name>OrganizationCorrespondentRoleAttribute</name>
 			<className>
-				org.kuali.kra.workflow.OrganizationCorrespondentRoleAttribute
+				org.kuali.coeus.common.impl.org.crrspndnt.OrganizationCorrespondentRoleAttribute
 			</className>
 			<label>Protocol Organization Notification</label>
 			<description>Protocol Organization Notification</description>
@@ -208,7 +208,7 @@
 		<ruleAttribute>
 			<name>UnitCorrespondentRoleAttribute</name>
 			<className>
-				org.kuali.kra.workflow.UnitCorrespondentRoleAttribute
+				org.kuali.coeus.common.framework.unit.crrspndnt.UnitCorrespondentRoleAttribute
 			</className>
 			<label>Protocol Unit Notification</label>
 			<description>Protocol Unit Notification</description>
@@ -363,7 +363,7 @@
 			
 			<responsibilities>
 		  		<responsibility>
-		    			<roleName attributeClassName="org.kuali.kra.workflow.UnitAdministratorRoleAttribute">UnitAdministratorRoleAttribute!UnitAdministrator</roleName>
+		    			<roleName attributeClassName="org.kuali.coeus.common.framework.unit.admin.UnitAdministratorRoleAttribute">UnitAdministratorRoleAttribute!UnitAdministrator</roleName>
 		    			<approvePolicy>F</approvePolicy>
 		    			<actionRequested>A</actionRequested>
 		    			<priority>1</priority>
