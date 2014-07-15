@@ -71,6 +71,7 @@
                 <!--  PD Budget -->
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetView.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetPeriodsPage.xml</value>
                 
                 <!-- Budget Mock View -->
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetView.xml</value>
