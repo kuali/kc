@@ -83,6 +83,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetNonPersonnelCostsPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetAssignPersonneltoPeriodsPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetProjectPersonnelPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetSubawardsPage.xml</value>
             </list>
         </property>
     </bean>
