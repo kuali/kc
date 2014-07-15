@@ -18,8 +18,11 @@ package org.kuali.kra.web.krad;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.kuali.coeus.sys.framework.controller.UifControllerService;
+import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
+import org.kuali.rice.krad.web.service.ControllerService;
+import org.kuali.rice.krad.web.service.ModelAndViewService;
+import org.kuali.rice.krad.web.service.NavigationControllerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -31,55 +34,78 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LandingPageController {
 
-    private UifControllerService uifControllerService;
+    @Autowired
+    @Qualifier("modelAndViewService")
+    private ModelAndViewService modelAndViewService;
+
+    @Autowired
+    @Qualifier("controllerService")
+    private ControllerService controllerService;
+
+    @Autowired
+    @Qualifier("kcCommonControllerService")
+    private KcCommonControllerService kcCommonControllerService;
     
     @MethodAccessible
     @RequestMapping(value = "/landingPage")
     public ModelAndView defaultRequest(@ModelAttribute("KualiForm") LandingPageForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return getUifControllerService().getUIFModelAndView(form); 
-    }
-
-    protected UifControllerService getUifControllerService() {
-        return uifControllerService;
-    }
-
-    @Autowired
-    @Qualifier("uifControllerService")
-    public void setUifControllerService(UifControllerService uifControllerService) {
-        this.uifControllerService = uifControllerService;
+        return getModelAndViewService().getModelAndView(form);
     }
 
     @MethodAccessible
     @ModelAttribute(value = "KualiForm")
     public LandingPageForm initForm(HttpServletRequest request, HttpServletResponse response) {
-        return (LandingPageForm) uifControllerService.initForm(new LandingPageForm(), request, response);
+        return (LandingPageForm) getKcCommonControllerService().initForm(new LandingPageForm(), request, response);
     }
 
     @MethodAccessible
     @RequestMapping(value = "/landingPage", params = "methodToCall=defaultMapping")
     public ModelAndView defaultMapping(@ModelAttribute(value = "KualiForm") LandingPageForm form, BindingResult result, HttpServletRequest request,
             HttpServletResponse response) {
-        return uifControllerService.defaultMapping(form, result, request, response);
+        return getControllerService().start(form);
     }
 
     @MethodAccessible
     @RequestMapping(value = "/landingPage", params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute(value = "KualiForm") LandingPageForm form, HttpServletRequest request, HttpServletResponse response) {
-        return uifControllerService.start(form, request, response);
+        return getControllerService().start(form);
     }
 
     @MethodAccessible
     @RequestMapping(value = "/landingPage", params = "methodToCall=sessionTimeout")
     public ModelAndView sessionTimeout(@ModelAttribute(value = "KualiForm") LandingPageForm form, BindingResult result, HttpServletRequest request,
             HttpServletResponse response) {
-        return uifControllerService.sessionTimeout(form, result, request, response);
+        return getControllerService().sessionTimeout(form);
     }
 
     @MethodAccessible
     @RequestMapping(value = "/landingPage", params = "methodToCall=checkForm")
     public ModelAndView checkForm(@ModelAttribute(value = "KualiForm") LandingPageForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-        return uifControllerService.checkForm(form, result, request, response);
+        return getModelAndViewService().checkForm(form);
     }
-    
+
+    public ModelAndViewService getModelAndViewService() {
+        return modelAndViewService;
+    }
+
+    public void setModelAndViewService(ModelAndViewService modelAndViewService) {
+        this.modelAndViewService = modelAndViewService;
+    }
+
+    public KcCommonControllerService getKcCommonControllerService() {
+        return kcCommonControllerService;
+    }
+
+    public void setKcCommonControllerService(KcCommonControllerService kcCommonControllerService) {
+        this.kcCommonControllerService = kcCommonControllerService;
+    }
+
+    public ControllerService getControllerService() {
+        return controllerService;
+    }
+
+    public void setControllerService(ControllerService controllerService) {
+        this.controllerService = controllerService;
+    }
 }

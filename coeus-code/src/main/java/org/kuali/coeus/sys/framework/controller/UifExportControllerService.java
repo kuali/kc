@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** public and protected methods from Rice's UifExportController */
-public interface UifExportControllerService extends UifControllerService {
+public interface UifExportControllerService {
 
     //public methods
 
@@ -18,20 +18,4 @@ public interface UifExportControllerService extends UifControllerService {
 
     public String tableXmlRetrieval(UifFormBase form, HttpServletRequest request,
                                     HttpServletResponse response);
-
-
-    //protected methods
-
-    @Override
-    UifFormBase createInitialForm(HttpServletRequest request);
-
-    
-    String retrieveTableData(UifFormBase form, HttpServletRequest request,
-                                       HttpServletResponse response);
-
-    void setAttachmentResponseHeader(HttpServletResponse response, String filename, String contentType);
-
-    String getValidatedFormatType(String formatType);
-
-    String getContentType(String formatType);
 }

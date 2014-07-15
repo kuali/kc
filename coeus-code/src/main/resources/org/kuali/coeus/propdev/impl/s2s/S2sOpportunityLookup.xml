@@ -17,7 +17,7 @@
 		parent="Uif-LookupView" p:header.headerText="Opportunity Search"
 		p:dataObjectClassName="org.kuali.coeus.propdev.impl.s2s.S2sOpportunity"
 		p:viewHelperServiceClass="org.kuali.coeus.propdev.impl.s2s.S2sOpportunityLookupable"
-		p:viewHelperService="@{T(org.kuali.rice.contrib.krad.SpringMethods).retrieveSpringBean('s2sOpportunityLookupable')}">
+		p:viewHelperService="@{T(org.kuali.coeus.org.kuali.rice.krad.SpringMethods).retrieveSpringBean('s2sOpportunityLookupable')}">
 
 		<property name="criteriaFields">
 			<list>

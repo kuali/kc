@@ -27,6 +27,8 @@ import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
+import org.kuali.rice.krad.web.service.ModelAndViewService;
+import org.kuali.rice.krad.web.service.RefreshControllerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -61,9 +63,9 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
 	        Properties props = new Properties();
 	        props.put("methodToCall", "start");
 	        props.put("budgetId", budget.getBudgetId().toString());
-	        return getTransactionalDocumentControllerService().performRedirect(propDevForm, "proposalBudget", props);
+	        return getModelAndViewService().performRedirect(propDevForm, "proposalBudget", props);
         } else {
-        	return getTransactionalDocumentControllerService().refresh(propDevForm, result, request, response);
+        	return getRefreshControllerService().refresh(propDevForm);
         }
     }    
 
@@ -74,5 +76,4 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
 	public void setBudgetService(BudgetService budgetService) {
 		this.budgetService = budgetService;
 	}
-   
 }

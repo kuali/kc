@@ -27,12 +27,12 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
-import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
-import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption;
-import org.kuali.coeus.common.framework.compliance.exemption.ExemptionType;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -47,6 +47,10 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ProposalDevelopmentHomeController extends ProposalDevelopmentControllerBase {
 
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
+
    @MethodAccessible
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createProposal")
    public ModelAndView createProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
@@ -58,7 +62,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        initializeProposalUsers(proposalDevelopmentDocument);
        //setting to null so the previous page id(PropDev-InitiatePage) doesn't override the default 
        form.setPageId(null);
-       return getTransactionalDocumentControllerService().getUIFModelAndViewWithInit(form, PROPDEV_DEFAULT_VIEW_ID);
+       return getModelAndViewService().getModelAndViewWithInit(form, PROPDEV_DEFAULT_VIEW_ID);
    }
    
    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=save"})
@@ -144,7 +148,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=docHandler")
    public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
            HttpServletResponse response) throws Exception {
-       ModelAndView modelAndView = getTransactionalDocumentControllerService().docHandler(form, result, request, response);
+       ModelAndView modelAndView = getTransactionalDocumentControllerService().docHandler(form);
        ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
        propDevForm.initialize();
        propDevForm.getCustomDataHelper().prepareCustomData();
@@ -172,5 +176,12 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    protected ScienceKeyword getScienceKeyword(Object element) {
 	   return getDataObjectService().findUnique(ScienceKeyword.class, QueryByCriteria.Builder.forAttribute("code", element).build());
    }
-   
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
 }

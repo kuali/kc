@@ -48,11 +48,15 @@ public class KcCronTriggerBean extends CronTriggerBean {
 
     /**
      * We need to set the Cron Expression based upon the value in the system parameters.
-     * 
-     * @see org.springframework.scheduling.quartz.CronTriggerBean#afterPropertiesSet()
      */
-    public void afterPropertiesSet() throws Exception {
-        setCronExpression(getSystemCronExpression());
+    @Override
+    public void afterPropertiesSet() {
+        try {
+            setCronExpression(getSystemCronExpression());
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
         setStartTime(getCronStartTime());
         super.afterPropertiesSet();
     }

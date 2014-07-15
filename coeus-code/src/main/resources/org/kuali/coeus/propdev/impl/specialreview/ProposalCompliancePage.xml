@@ -114,7 +114,7 @@
 		<property name="control">
 			<bean parent="Uif-AdvancedMultiSelectControl"/>
 		</property>
- 		<property name="optionsFinder" value="#{T(org.kuali.rice.contrib.krad.SpringMethods).retrieveSpringBean('exemptionTypeValuesFinder')}"/>
+ 		<property name="optionsFinder" value="#{T(org.kuali.coeus.org.kuali.rice.krad.SpringMethods).retrieveSpringBean('exemptionTypeValuesFinder')}"/>
 	</bean>
 
 	<bean id="PropDev-CompliancePage-SpecialReviewTypeCode" parent="PropDev-CompliancePage-SpecialReviewTypeCode-parentBean" />
@@ -139,7 +139,7 @@
 		<property name="control">
 			<bean parent="Uif-DropdownControl"/>
 		</property>
- 		<property name="optionsFinder" value="#{T(org.kuali.rice.contrib.krad.SpringMethods).retrieveSpringBean('proposalSpecialReviewApprovalTypeValuesFinder')}"/>
+ 		<property name="optionsFinder" value="#{T(org.kuali.coeus.org.kuali.rice.krad.SpringMethods).retrieveSpringBean('proposalSpecialReviewApprovalTypeValuesFinder')}"/>
 	</bean>
 	
 	<bean id="PropDev-CompliancePage-ProtocolNumber" parent="PropDev-CompliancePage-ProtocolNumber-parentBean" />

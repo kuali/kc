@@ -1,4 +1,7 @@
-package org.kuali.rice.krad.uif.element;
+package org.kuali.coeus.org.kuali.rice.krad.uif.element;
+
+import org.kuali.rice.krad.uif.element.Action;
+import org.kuali.rice.krad.uif.element.NavigationBar;
 
 public class NavigationBarCustomLink extends NavigationBar {
 

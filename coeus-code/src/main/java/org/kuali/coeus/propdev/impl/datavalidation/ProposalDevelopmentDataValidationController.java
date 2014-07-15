@@ -16,6 +16,7 @@ import org.kuali.rice.krad.uif.view.ViewIndex;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
+import org.kuali.rice.krad.web.service.NavigationControllerService;
 import org.kuali.rice.krms.framework.type.ValidationActionTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -54,7 +55,7 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
             form.setDataValidationItems(createDataValidationItems(form,form.getView().getViewIndex()));
         }
 
-        return getTransactionalDocumentControllerService().getUIFModelAndView(form);
+        return getModelAndViewService().getModelAndView(form);
     }
 
     @MethodAccessible
@@ -66,7 +67,7 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
             form.setDataValidationItems(createDataValidationItems(form,form.getView().getViewIndex()));
         }
 
-        return getTransactionalDocumentControllerService().getUIFModelAndView(form);
+        return getModelAndViewService().getModelAndView(form);
 
     }
 
@@ -76,7 +77,7 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
     public ModelAndView navigateToError(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
         form.setAjaxReturnType("update-page");
-        return getTransactionalDocumentControllerService().navigate(form,result,request,response);
+        return getNavigationControllerService().navigate(form);
     }
 
     private List<ProposalDevelopmentDataValidationItem> createDataValidationItems(ProposalDevelopmentDocumentForm form, ViewIndex viewIndex) {

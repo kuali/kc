@@ -31,4 +31,12 @@
     <bean id="dataSource" parent="grlImporter" p:serviceName="dataSource" />
     <bean id="kualiRuleService" parent="grlImporter" p:serviceName="kualiRuleService"/>
 
+    <bean id="collectionControllerService" parent="grlImporter" p:serviceName="collectionControllerService" />
+    <bean id="controllerService" parent="grlImporter" p:serviceName="controllerService" />
+    <bean id="fileControllerService" parent="grlImporter" p:serviceName="fileControllerService" />
+    <bean id="modelAndViewService" parent="grlImporter" p:serviceName="modelAndViewService" />
+    <bean id="navigationControllerService" parent="grlImporter" p:serviceName="navigationControllerService" />
+    <bean id="queryControllerService" parent="grlImporter" p:serviceName="queryControllerService" />
+    <bean id="refreshControllerService" parent="grlImporter" p:serviceName="refreshControllerService" />
+
 </beans>

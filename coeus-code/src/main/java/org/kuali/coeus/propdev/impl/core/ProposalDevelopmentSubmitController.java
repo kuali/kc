@@ -21,23 +21,23 @@ public class ProposalDevelopmentSubmitController extends
     public ModelAndView deleteProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
     	getProposalDevelopmentService().deleteProposal(form.getProposalDevelopmentDocument());
-        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
+        return getRefreshControllerService().refresh(form);
     }
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveAndExit")
     public  ModelAndView saveAndExit(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)throws Exception{	
    		save(form,result,request,response);
-   		return getTransactionalDocumentControllerService().returnToHub(form); 
+   		return getNavigationControllerService().returnToHub(form);
 	}
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=submitForReview")
     public  ModelAndView submitForReview(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)throws Exception {	
     	form.getDevelopmentProposal().setSubmitFlag(true);
-    	return getTransactionalDocumentControllerService().refresh(form, result, request, response); 	
+    	return getRefreshControllerService().refresh(form);
    } 
    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=cancelProposal")
     public ModelAndView cancelProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 	   form.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.CANCELED);
-	   return getTransactionalDocumentControllerService().refresh(form, result, request, response);
+	   return getRefreshControllerService().refresh(form);
     }
     @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-SubmitPage"}) 

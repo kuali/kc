@@ -29,9 +29,9 @@
     <bean id="grlImporter" abstract="true" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
 
     <!-- SYS -->
-    <bean id="transactionalDocumentControllerService" parent="grlImporter" p:serviceName="transactionalDocumentControllerService" />
-    <bean id="uifControllerService" parent="grlImporter" p:serviceName="uifControllerService" />
+
     <bean id="uifExportControllerService" parent="grlImporter" p:serviceName="uifExportControllerService" />
+    <bean id="kcCommonControllerService" parent="grlImporter" p:serviceName="kcCommonControllerService" />
     <bean id="kcAuthorizationService" parent="grlImporter" p:serviceName="kcAuthorizationService" />
     <bean id="kcDocumentRejectionService" parent="grlImporter" p:serviceName="kcDocumentRejectionService" />
     <bean id="kcPersistenceStructureService" parent="grlImporter" p:serviceName="kcPersistenceStructureService" />

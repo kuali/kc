@@ -1,4 +1,4 @@
-package org.kuali.rice.contrib.uif.element;
+package org.kuali.coeus.org.kuali.rice.krad.uif.element;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.rice.krad.uif.component.BindingInfo;
