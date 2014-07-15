@@ -18,10 +18,15 @@ package org.kuali.coeus.propdev.impl.attachment;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +50,10 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     @Autowired
     @Qualifier("legacyNarrativeService")
     private LegacyNarrativeService legacyNarrativeService;
+
+    @Autowired
+    @Qualifier("dateTimeService")
+    private DateTimeService dateTimeService;
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=editAttachment")
     public ModelAndView editAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
@@ -186,22 +195,68 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
            form.getProposalDevelopmentAttachmentHelper().setNarrative(tmpNarrative);
        }
 
-       return getTransactionalDocumentControllerService().refresh(form,result,request,response);
+       return getTransactionalDocumentControllerService().refresh(form, result, request, response);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareBiography")
+    public ModelAndView prepareBiography(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+                                         HttpServletRequest request, HttpServletResponse response) throws Exception{
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        form.getProposalDevelopmentAttachmentHelper().reset();
+
+        if (StringUtils.isNotEmpty(selectedLine)) {
+            ProposalPersonBiography tmpBiography = null;
+            tmpBiography = form.getDevelopmentProposal().getPropPersonBio(Integer.parseInt(selectedLine));
+            form.getProposalDevelopmentAttachmentHelper().setSelectedLineIndex(selectedLine);
+            form.getProposalDevelopmentAttachmentHelper().setBiography(tmpBiography);
+        }
+
+        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addNarrative")
     public ModelAndView addNarrative(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response) throws Exception{
+        final String propertyName = form.getActionParamaterValue("propertyName");
         Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getNarrative();
+        narrative.setNarrativeTypeCode(StringUtils.strip(narrative.getNarrativeTypeCode(),","));
         getLegacyNarrativeService().prepareNarrative(form.getProposalDevelopmentDocument(),narrative);
         try {
             narrative.init(narrative.getMultipartFile());
         } catch (Exception e) {
             LOG.info("No File Attached");
         }
-        form.getDevelopmentProposal().getNarratives().add(narrative);
+
+        if(propertyName.equals("instituteAttachments")) {
+            narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
+            form.getDevelopmentProposal().getInstituteAttachments().add(narrative);
+        } else if (propertyName.equals("narratives")) {
+            form.getDevelopmentProposal().getNarratives().add(narrative);
+        }
+
         form.getProposalDevelopmentAttachmentHelper().reset();
-        return getTransactionalDocumentControllerService().refresh(form,result,request,response);
+        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addBiography")
+    public ModelAndView addBiography(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+                                     HttpServletRequest request, HttpServletResponse response) throws Exception{
+        ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
+        ProposalPersonBiography biography = form.getProposalDevelopmentAttachmentHelper().getBiography();
+        biography.setDevelopmentProposal(document.getDevelopmentProposal());
+        biography.setBiographyNumber(document
+                .getDocumentNextValue(Constants.PROP_PERSON_BIO_NUMBER));
+        biography.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
+        biography.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
+        getDataObjectService().wrap(biography).fetchRelationship("propPerDocType");
+        try {
+            biography.init(biography.getMultipartFile());
+        } catch (Exception e) {
+            LOG.info("No File Attached");
+        }
+        form.getDevelopmentProposal().getPropPersonBios().add(biography);
+        form.getProposalDevelopmentAttachmentHelper().reset();
+        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveNarrative")
@@ -227,5 +282,13 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
 
     public void setLegacyNarrativeService(LegacyNarrativeService legacyNarrativeService) {
         this.legacyNarrativeService = legacyNarrativeService;
+    }
+
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

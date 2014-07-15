@@ -127,6 +127,9 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     @Transient
     private transient KcAttachmentService kcAttachmentService;
 
+    @Transient
+    private MultipartFile multipartFile;
+
     @Override
     public void init(MultipartFile multipartFile) throws Exception {
         this.name = multipartFile.getOriginalFilename();
@@ -202,6 +205,15 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         }
         return StringUtils.EMPTY;
     }
+
+    public MultipartFile getMultipartFile() {
+        return multipartFile;
+    }
+
+    public void setMultipartFile(MultipartFile multipartFile) {
+        this.multipartFile = multipartFile;
+    }
+
     @Override
     public Integer getProposalPersonNumber() {
         return proposalPersonNumber;
