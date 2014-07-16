@@ -41,12 +41,19 @@
     p:header.headerText="Questionnaire">
         <property name="items">
             <list>
-							<bean parent="PropDev-QuestionnairePage-Collection" p:order="10"/>
-						</list>
-				</property>
-    </bean>		
-		
-	<bean id="PropDev-QuestionnairePage-Collection" parent="PropDev-QuestionnairePage-Collection-parentBean"/>
-    <bean id="PropDev-QuestionnairePage-Collection-parentBean" abstract="true" parent="Questionnaire-Collection"/>
-		
+                <bean parent="Uif-Message" p:messageText="There are no questions defined for this proposal."
+                        p:render="@{#emptyList(questionnaireHelper.answerHeaders) and #emptyList(s2sQuestionnaireHelper.answerHeaders)}"/>
+			    <bean parent="PropDev-QuestionnairePage-TabGroup" p:order="10"/>
+			</list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-QuestionnairePage-TabGroup" parent="PropDev-QuestionnairePage-TabGroup-parentBean"/>
+    <bean id="PropDev-QuestionnairePage-TabGroup-parentBean" abstract="true" parent="Uif-TabGroup"
+          class="org.kuali.rice.contrib.uif.element.QuestionnaireTabGroup">
+            <property name="collectionGroupPrototype">
+                <bean parent="Questionnaire-QuestionsGroup"/>
+            </property>
+          </bean>
+
 </beans>
