@@ -104,10 +104,7 @@
     <property name="required" value="true" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
-    </property>    
-    <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
-    </property>
+    </property>     
     <property name="control" >
       <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.negotiations.bo.NegotiationStatus" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="id" p:labelAttribute="description"/>
     </property>
@@ -172,11 +169,9 @@
     <property name="shortLabel" value="Negotiation Association Type" />
     <property name="maxLength" value="22" />
     <property name="required" value="true" />
+    
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.negotiations.keyvalue.NegotiationAssociationTypeValuesFinder" p:includeKeyInLabel="false"/>

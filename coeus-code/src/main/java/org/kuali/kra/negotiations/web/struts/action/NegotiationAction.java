@@ -86,6 +86,10 @@ public class NegotiationAction extends KcTransactionalDocumentActionBase {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         NegotiationForm negotiationForm = (NegotiationForm) form;
         NegotiationDocument negotiationDocument = negotiationForm.getNegotiationDocument();
+        if (!negotiationDocument.getDocumentHeader().getWorkflowDocument().isSaved()) {
+        	//if the document hasn't been saved yet, we need to initialize it, so it can enter into workflow without error.
+        	negotiationDocument.initialize();
+        }
         if (negotiationDocument.getDocumentHeader().getWorkflowDocument().isInitiated() 
                 || negotiationDocument.getDocumentHeader().getWorkflowDocument().isSaved()) {
             getDocumentService().routeDocument(negotiationDocument, "Route To Final", new ArrayList());
