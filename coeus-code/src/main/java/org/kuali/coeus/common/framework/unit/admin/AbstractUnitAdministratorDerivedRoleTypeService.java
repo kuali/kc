@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.kim.service.impl;
+package org.kuali.coeus.common.framework.unit.admin;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.unit.admin.AbstractUnitAdministrator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;

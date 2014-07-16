@@ -24,7 +24,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
-import org.kuali.kra.kim.service.impl.UnitAdministratorDerivedRoleTypeServiceImpl;
+import org.kuali.coeus.common.impl.unit.admin.UnitAdministratorDerivedRoleTypeServiceImpl;
 import org.kuali.kra.negotiations.bo.*;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.notifications.NegotiationNotification;

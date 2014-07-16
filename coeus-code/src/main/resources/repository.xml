@@ -1215,7 +1215,7 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 </class-descriptor>
 
-    <class-descriptor class="org.kuali.kra.bo.MessageOfTheDay" table="MSG_OF_THE_DAY">
+    <class-descriptor class="org.kuali.coeus.common.framework.motd.MessageOfTheDay" table="MSG_OF_THE_DAY">
         <field-descriptor name="messageOfTheDayId" column="MSG_OF_THE_DAY_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_MSG_OF_THE_DAY_ID_KRA" autoincrement="true"/>
         <field-descriptor name="message" column="MSG" jdbc-type="VARCHAR"/>
 		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />

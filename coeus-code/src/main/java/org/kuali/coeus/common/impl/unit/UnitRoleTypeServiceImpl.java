@@ -13,21 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.kim.service.impl;
+package org.kuali.coeus.common.impl.unit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.uif.RemotableAbstractWidget;
 import org.kuali.rice.core.api.uif.RemotableAttributeError;
 import org.kuali.rice.core.api.uif.RemotableQuickFinder;
 import org.kuali.rice.kim.api.type.KimAttributeField;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component("unitRoleTypeService")
 public class UnitRoleTypeServiceImpl extends RoleTypeServiceBase {
+
+    @Autowired
+    @Qualifier("kualiConfigurationService")
+    private ConfigurationService kualiConfigurationService;
 
     @Override
     public List<RemotableAttributeError> validateAttributes(String kimTypeId, Map<String, String> attributes) { 
@@ -127,7 +135,7 @@ public class UnitRoleTypeServiceImpl extends RoleTypeServiceBase {
             if (KcKimAttributes.UNIT_NUMBER.equals(definition.getAttributeField().getName())) {
                 KimAttributeField.Builder b = KimAttributeField.Builder.create(definition);
 
-                String baseUrl = CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString("application.lookup.url");
+                String baseUrl = kualiConfigurationService.getPropertyValueAsString("application.lookup.url");
                 Collection<RemotableAbstractWidget.Builder> widgetsCopy = new ArrayList<RemotableAbstractWidget.Builder>();
                 for (RemotableAbstractWidget.Builder widget : b.getAttributeField().getWidgets()) {
                     if(widget instanceof RemotableQuickFinder.Builder) {
@@ -156,5 +164,11 @@ public class UnitRoleTypeServiceImpl extends RoleTypeServiceBase {
         return true;
     }
 
+    protected ConfigurationService getKualiConfigurationService() {
+        return kualiConfigurationService;
+    }
 
+    public void setKualiConfigurationService(ConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
 }
