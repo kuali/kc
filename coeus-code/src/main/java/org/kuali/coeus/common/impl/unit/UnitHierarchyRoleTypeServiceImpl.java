@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.kim.service.impl;
+package org.kuali.coeus.common.impl.unit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.unit.Unit;
@@ -27,22 +27,24 @@ import org.kuali.rice.core.api.uif.RemotableQuickFinder;
 import org.kuali.rice.kim.api.type.KimAttributeField;
 import org.kuali.rice.kim.api.type.KimTypeAttribute;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component("unitHierarchyRoleTypeService")
 public class UnitHierarchyRoleTypeServiceImpl extends RoleTypeServiceBase {
-    
-    private UnitService unitService;
-    private ConfigurationService kualiConfigurationService;
-    private static final String KIM_UI_CHECKBOX_DEFAULT_VALUE = "no";
-    
-    public UnitService getUnitService() {
-        return unitService;
-    }
 
-    public void setUnitService(UnitService unitService) {
-        this.unitService = unitService;
-    }
+    private static final String KIM_UI_CHECKBOX_DEFAULT_VALUE = "no";
+
+    @Autowired
+    @Qualifier("unitService")
+    private UnitService unitService;
+
+    @Autowired
+    @Qualifier("kualiConfigurationService")
+    private ConfigurationService kualiConfigurationService;
     
     @Override
     public boolean performMatch(Map<String,String> qualification, Map<String,String> roleQualifier) {        
@@ -167,7 +169,15 @@ public class UnitHierarchyRoleTypeServiceImpl extends RoleTypeServiceBase {
         super.dynamicRoleMembership(namespaceCode, roleName);
         return true;
     }
-    
+
+    public UnitService getUnitService() {
+        return unitService;
+    }
+
+    public void setUnitService(UnitService unitService) {
+        this.unitService = unitService;
+    }
+
     protected ConfigurationService getKualiConfigurationService() {
         return kualiConfigurationService;
     }
@@ -175,6 +185,4 @@ public class UnitHierarchyRoleTypeServiceImpl extends RoleTypeServiceBase {
     public void setKualiConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
-
-
 }

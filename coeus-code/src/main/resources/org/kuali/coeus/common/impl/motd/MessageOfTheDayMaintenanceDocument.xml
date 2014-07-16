@@ -21,7 +21,7 @@
 
     <bean id="MessageOfTheDayMaintenanceDocument" parent="MessageOfTheDayMaintenanceDocument-parentBean" />
     <bean id="MessageOfTheDayMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.bo.MessageOfTheDay" />
+        <property name="businessObjectClass" value="org.kuali.coeus.common.framework.motd.MessageOfTheDay" />
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
         <property name="maintainableSections" >
             <list>

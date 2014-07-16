@@ -13,9 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service;
-
-import org.kuali.kra.bo.MessageOfTheDay;
+package org.kuali.coeus.common.framework.motd;
 
 import java.util.List;
 
@@ -23,8 +21,10 @@ import java.util.List;
 public interface MessageOfTheDayService {
 
     /**
-     * The method gets the message of the day.
-     * @return unique argument names formatted for updateLookupReturn_Callback
+     * The method gets the message of the day.  Only active messages are returned.  Will never return null.
+     * The messages will be sorted ascending by display order.
+     *
+     * @return a list of active messages or an empty list if none are found.
      */
     List<MessageOfTheDay> getMessagesOfTheDay();
 

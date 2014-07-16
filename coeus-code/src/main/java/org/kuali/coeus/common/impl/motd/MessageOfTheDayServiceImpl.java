@@ -13,42 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.coeus.common.impl.motd;
 
-import org.kuali.kra.bo.MessageOfTheDay;
-import org.kuali.kra.service.MessageOfTheDayService;
+import org.apache.commons.collections4.ListUtils;
+import org.kuali.coeus.common.framework.motd.MessageOfTheDay;
+import org.kuali.coeus.common.framework.motd.MessageOfTheDayService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Service("messageOfTheDayService")
 public class MessageOfTheDayServiceImpl implements MessageOfTheDayService {
 
-    private transient BusinessObjectService businessObjectService;
-    private static String DISPLAY_ORDER = "displayOrder";
-    private static String ACTIVE = "active";
-    
-    
+    private static final String DISPLAY_ORDER = "displayOrder";
+    private static final String ACTIVE = "active";
+
+    @Autowired
+    @Qualifier("businessObjectService")
+    private BusinessObjectService businessObjectService;
+
     @Override
-    @SuppressWarnings("unchecked")
     public List<MessageOfTheDay> getMessagesOfTheDay() {
-        List<MessageOfTheDay> results = new ArrayList<MessageOfTheDay>( businessObjectService.findMatchingOrderBy(MessageOfTheDay.class,
+        final List<MessageOfTheDay> results = new ArrayList<MessageOfTheDay>( businessObjectService.findMatchingOrderBy(MessageOfTheDay.class,
                 Collections.singletonMap(ACTIVE, "Y"),
                 DISPLAY_ORDER, 
                 true ));
         
-        return results;
+        return ListUtils.emptyIfNull(results);
     }
 
-    
-    
-    @SuppressWarnings("unused")
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
     
-    @SuppressWarnings("unused")
     public void setBusinessObjectService( BusinessObjectService businessObjectService ) {
         this.businessObjectService = businessObjectService;
     }

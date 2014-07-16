@@ -24,7 +24,7 @@ import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonU
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.kim.service.impl.AbstractUnitAdministratorDerivedRoleTypeService;
+import org.kuali.coeus.common.framework.unit.admin.AbstractUnitAdministratorDerivedRoleTypeService;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
 
 import java.util.ArrayList;
