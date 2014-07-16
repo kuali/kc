@@ -151,6 +151,9 @@ public class Budget extends AbstractBudget implements BudgetContract {
     @OrderBy("subAwardNumber")
     private List<BudgetSubAwards> budgetSubAwards;
 
+    @OneToMany(mappedBy="budget", orphanRemoval = true, cascade = { CascadeType.ALL })
+    private List<BudgetPeriod> budgetPeriods;
+
     @Transient
     private Date summaryPeriodStartDate;
 
@@ -229,9 +232,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
     @Transient
     private boolean rateClassTypesReloaded = false;
 
-
-    @Transient
-    private List<BudgetPeriod> budgetPeriods;
 
     public Budget() {
         super();

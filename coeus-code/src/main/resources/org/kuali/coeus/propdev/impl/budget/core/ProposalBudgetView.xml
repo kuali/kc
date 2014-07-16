@@ -16,6 +16,8 @@
 	<bean id="PropBudget-DefaultView" parent="PropBudget-DefaultView-parentBean" />
 	<bean id="PropBudget-DefaultView-parentBean" abstract="true"
 		parent="Uif-FormView" p:headerText="Proposal Development Document"
+		p:viewHelperServiceClass="org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetViewHelperServiceImpl"
+		p:viewHelperService="@{T(org.kuali.rice.contrib.krad.SpringMethods).retrieveSpringBean('proposalBudgetViewHelperService')}"
 		p:stickyApplicationHeader="true" p:stickyFooter="true"
 		p:breadcrumbs.render="false" p:cssClasses="uif-formView"
 		p:unifiedHeader="false" p:defaultBindingObjectPath="">
@@ -35,7 +37,7 @@
 		<property name="entryPageId" value="PropBudget-PeriodsPage"/>
 		<property name="items">
 			<list>
-				<bean id="PropBudget-PeriodsPage" parent="PropBudget-UnderDevelopmentPage" />
+				<ref bean="PropBudget-PeriodsPage" />
 				<bean id="PropBudget-RatesPage" parent="PropBudget-UnderDevelopmentPage" />
 				<bean id="PropBudget-PersonnelPage" parent="PropBudget-UnderDevelopmentPage" />
 				<bean id="PropBudget-PersonnelPeriodsPage" parent="PropBudget-UnderDevelopmentPage" />
