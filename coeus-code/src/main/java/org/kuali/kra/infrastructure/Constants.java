@@ -136,7 +136,7 @@ public interface Constants {
     //public static final String ABSTRACTS_AND_ATTACHMENTS_PAGE = "abstractsAttachments";
     public static final String PROPOSAL_PAGE = "proposal";
     public static final String CUSTOM_ATTRIBUTES_PAGE = "customData";
-    public static final String QUESTIONS_PAGE = "questions";
+    public static final String QUESTIONS_PAGE = "PropDev-QuestionnairePage";
     public static final String PERMISSIONS_PAGE = "permissions";
     public static final String PROPOSAL_ACTIONS_PAGE = "actions";
     public static final String HIERARCHY_PAGE = "hierarchy";

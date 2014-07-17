@@ -17,6 +17,7 @@ package org.kuali.coeus.propdev.impl.questionnaire;
 
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
@@ -27,12 +28,11 @@ public class ProposalDevelopmentQuestionnaireHelper extends QuestionnaireHelperB
 
     private static final long serialVersionUID = 8595107639632039291L;
 
-    @Deprecated
-    private ProposalDevelopmentForm proposalDevelopmentForm;
+    private ProposalDevelopmentDocumentForm proposalDevelopmentDocumentForm;
     private ProposalDevelopmentDocument document;
     
-    public ProposalDevelopmentQuestionnaireHelper(ProposalDevelopmentForm form) {
-        this.proposalDevelopmentForm = form;
+    public ProposalDevelopmentQuestionnaireHelper(ProposalDevelopmentDocumentForm form) {
+        this.proposalDevelopmentDocumentForm = form;
         this.document = form.getProposalDevelopmentDocument();
     }
     
@@ -55,16 +55,16 @@ public class ProposalDevelopmentQuestionnaireHelper extends QuestionnaireHelperB
      * Gets the proposalDevelopmentForm attribute. 
      * @return Returns the proposalDevelopmentForm.
      */
-    public ProposalDevelopmentForm getProposalDevelopmentForm() {
-        return proposalDevelopmentForm;
+    public ProposalDevelopmentDocumentForm getProposalDevelopmentDocumentForm() {
+        return proposalDevelopmentDocumentForm;
     }
 
     /**
      * Sets the proposalDevelopmentForm attribute value.
-     * @param proposalDevelopmentForm The proposalDevelopmentForm to set.
+     * @param proposalDevelopmentDocumentForm The proposalDevelopmentForm to set.
      */
-    public void setProposalDevelopmentForm(ProposalDevelopmentForm proposalDevelopmentForm) {
-        this.proposalDevelopmentForm = proposalDevelopmentForm;
+    public void setProposalDevelopmentForm(ProposalDevelopmentDocumentForm proposalDevelopmentDocumentForm) {
+        this.proposalDevelopmentDocumentForm = proposalDevelopmentDocumentForm;
     }
 
     /**

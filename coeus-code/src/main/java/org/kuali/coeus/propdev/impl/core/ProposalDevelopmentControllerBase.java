@@ -23,6 +23,7 @@ import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.TransactionalDocumentControllerService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -138,9 +139,7 @@ public abstract class ProposalDevelopmentControllerBase {
 
          getProposalDevelopmentAttachmentService().prepareAttachmentsForSave(pdForm.getDevelopmentProposal());
 
-         if (StringUtils.equalsIgnoreCase(request.getParameter(UifParameters.PAGE_ID), org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE)) {
-        	 saveAnswerHeaders(pdForm);
-         }
+         saveAnswerHeaders(pdForm,request.getParameter(UifParameters.PAGE_ID));
          getTransactionalDocumentControllerService().save(form, result, request, response);
          
          initializeProposalUsers(proposalDevelopmentDocument);
@@ -165,10 +164,8 @@ public abstract class ProposalDevelopmentControllerBase {
                  proposalDevelopmentDocument);
          ModelAndView view = null;
 
-         if (StringUtils.equalsIgnoreCase(request.getParameter(UifParameters.PAGE_ID), org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE)) {
-        	 saveAnswerHeaders(pdForm);
-         }
-         
+         saveAnswerHeaders(pdForm,request.getParameter(UifParameters.PAGE_ID));
+
          if (eventClazz == null) {
              getTransactionalDocumentControllerService().save(form, result, request, response);
          } else {
@@ -289,14 +286,20 @@ public abstract class ProposalDevelopmentControllerBase {
 		this.dataObjectService = dataObjectService;
 	}
 	
-	public void saveAnswerHeaders(ProposalDevelopmentDocumentForm pdForm) {
-		for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
-			if (person.getQuestionnaireHelper() != null && person.getQuestionnaireHelper().getAnswerHeaders() != null 
-					&& !person.getQuestionnaireHelper().getAnswerHeaders().isEmpty()) {
-				for (AnswerHeader answerHeader : person.getQuestionnaireHelper().getAnswerHeaders()) {
-					getLegacyDataAdapter().save(answerHeader);
-		        }
-			}
-	    }
+	public void saveAnswerHeaders(ProposalDevelopmentDocumentForm pdForm,String pageId) {
+        if (StringUtils.equalsIgnoreCase(pageId, Constants.KEY_PERSONNEL_PAGE)) {
+            for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+                if (person.getQuestionnaireHelper() != null && person.getQuestionnaireHelper().getAnswerHeaders() != null
+                        && !person.getQuestionnaireHelper().getAnswerHeaders().isEmpty()) {
+                    for (AnswerHeader answerHeader : person.getQuestionnaireHelper().getAnswerHeaders()) {
+                        getLegacyDataAdapter().save(answerHeader);
+                    }
+                }
+            }
+        } else if (StringUtils.equalsIgnoreCase(pageId, Constants.QUESTIONS_PAGE)) {
+            for (AnswerHeader answerHeader : pdForm.getQuestionnaireHelper().getAnswerHeaders()) {
+                getLegacyDataAdapter().save(answerHeader);
+            }
+        }
 	}
 }

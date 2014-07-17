@@ -325,8 +325,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         canCreateProposal = isAuthorizedToCreateProposal();
         setProposalDevelopmentRejectionBean(new ProposalDevelopmentRejectionBean());
         setNotificationHelper(new NotificationHelper());
-        setQuestionnaireHelper(new ProposalDevelopmentQuestionnaireHelper(this));
-        setS2sQuestionnaireHelper(new ProposalDevelopmentS2sQuestionnaireHelper(this));
+        //setQuestionnaireHelper(new ProposalDevelopmentQuestionnaireHelper(this));
+        //setS2sQuestionnaireHelper(new ProposalDevelopmentS2sQuestionnaireHelper(this));
         
         proposalPersonQuestionnaireHelpers = new ArrayList<ProposalPersonQuestionnaireHelper>();
         for (ProposalPerson person : this.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {

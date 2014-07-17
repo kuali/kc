@@ -33,8 +33,12 @@ public class ProposalDevelopmentQuestionnaireController extends ProposalDevelopm
         @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-QuestionnairePage"})
         public ModelAndView navigateToQuestionnaire(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
             ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
+
             propDevForm.getQuestionnaireHelper().prepareView();
             propDevForm.getQuestionnaireHelper().populateAnswers();
+
+            propDevForm.getS2sQuestionnaireHelper().prepareView();
+            propDevForm.getS2sQuestionnaireHelper().populateAnswers();
             return getTransactionalDocumentControllerService().navigate(form, result, request, response);
         }    
         

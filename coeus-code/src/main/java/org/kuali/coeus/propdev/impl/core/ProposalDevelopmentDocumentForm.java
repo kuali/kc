@@ -24,6 +24,7 @@ import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
+import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelAddWizardHelper;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
@@ -47,6 +48,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     
     private SpecialReviewHelper specialReviewHelper;
     private ProposalDevelopmentQuestionnaireHelper questionnaireHelper;
+    private ProposalDevelopmentS2sQuestionnaireHelper s2sQuestionnaireHelper;
     private KeyPersonnelAddWizardHelper addKeyPersonHelper;
     private S2sOpportunity newS2sOpportunity;
     private transient MedusaService medusaService;
@@ -68,6 +70,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         specialReviewHelper.prepareView();
         
         questionnaireHelper = new ProposalDevelopmentQuestionnaireHelper(getProposalDevelopmentDocument());
+
+        s2sQuestionnaireHelper = new ProposalDevelopmentS2sQuestionnaireHelper(this);
         
         addKeyPersonHelper = new KeyPersonnelAddWizardHelper();
         
@@ -241,5 +245,13 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     public void setProposalDevelopmentAttachmentHelper(ProposalDevelopmentAttachmentHelper proposalDevelopmentAttachmentHelper) {
         this.proposalDevelopmentAttachmentHelper = proposalDevelopmentAttachmentHelper;
+    }
+
+    public ProposalDevelopmentS2sQuestionnaireHelper getS2sQuestionnaireHelper() {
+        return s2sQuestionnaireHelper;
+    }
+
+    public void setS2sQuestionnaireHelper(ProposalDevelopmentS2sQuestionnaireHelper s2sQuestionnaireHelper) {
+        this.s2sQuestionnaireHelper = s2sQuestionnaireHelper;
     }
 }

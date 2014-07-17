@@ -25,6 +25,7 @@ import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -159,7 +160,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 			   }
 		   }
 	   }
-	   saveAnswerHeaders(pdForm);
+	   saveAnswerHeaders(pdForm,request.getParameter(UifParameters.PAGE_ID));
 	   ModelAndView mv = this.save(pdForm, result, request, response);
 	   return mv;
    }
