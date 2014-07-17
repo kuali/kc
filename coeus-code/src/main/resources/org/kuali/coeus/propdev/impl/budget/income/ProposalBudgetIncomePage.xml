@@ -15,49 +15,20 @@
                     http://www.springframework.org/schema/util
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-	<bean id="PropBudget-MockView-ProjectIncomePageView" parent="Uif-MockView"
-		p:headerText="Budget: Version 5" p:stickyApplicationHeader="true"
-		p:stickyFooter="true" p:breadcrumbs.render="false" p:cssClasses="uif-formView"
-		p:unifiedHeader="false" p:defaultBindingObjectPath=""
-		p:singlePageView="true">
-		<property name="page">
-			<ref bean="PropBudget-ProjectIncomePage" />
-		</property>
-		<property name="additionalScriptFiles">
-			<list>
-				<value>scripts/common/questionnaire.js</value>
-			</list>
-		</property>
-		<property name="additionalCssFiles">
-			<list>
-				<value>css/common/core.css</value>
-			</list>
-		</property>
-		<property name="header" ref="PropBudget-MockView-DocumentHeader" />
-		<property name="footer" ref="PropBudget-MockView-DocumentFooter" />
-		<property name="navigation" ref="PropBudget-MockView-Menu" />
-	</bean>
-
-	<bean id="PropBudget-ProjectIncomePage" parent="PropBudget-MockView-ProjectIncomePage-parentBean" />
-	<bean id="PropBudget-MockView-ProjectIncomePage-parentBean"
-		parent="Uif-DocumentPage">
+	<bean id="PropBudget-ProjectIncomePage" parent="PropBudget-ProjectIncomePage-parentBean" />
+	<bean id="PropBudget-ProjectIncomePage-parentBean"
+		parent="PropDev-DocumentPage" p:fieldBindingObjectPath="budget">
 		<property name="items">
 			<list>
-				<ref bean="PropBudget-MockView-ProjectIncomePage-CollectionGroup" />
+				<ref bean="PropBudget-ProjectIncomePage-CollectionGroup" />
 			</list>
-		</property>
-		<property name="header">
-			<bean parent="Uif-PageHeader" />
-		</property>
-		<property name="footer">
-			<null />
 		</property>
 	</bean>
 
-	<bean id="PropBudget-MockView-ProjectIncomePage-CollectionGroup"
-		parent="PropBudget-MockView-ProjectIncomePage-CollectionGroup-parentBean" />
+	<bean id="PropBudget-ProjectIncomePage-CollectionGroup"
+		parent="PropBudget-ProjectIncomePage-CollectionGroup-parentBean" />
 	<bean
-		id="PropBudget-MockView-ProjectIncomePage-CollectionGroup-parentBean"
+		id="PropBudget-ProjectIncomePage-CollectionGroup-parentBean"
 		parent="Uif-TableCollectionSection" p:headerText="Project Income"
 		p:propertyName="budgetProjectIncomes"
 		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome"
@@ -137,7 +108,7 @@
 				<property name="items">
 					<list>
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="View Summary"
-							p:actionScript="showDialog('PropBudget-MockView-ProjectIncomePage-Summary')"
+							p:actionScript="showDialog('PropBudget-ProjectIncomePage-Summary')"
 							p:order="10" />
 					</list>
 				</property>
@@ -145,13 +116,13 @@
 		</property>
 	</bean>
 
-	<bean id="PropBudget-MockView-ProjectIncomePage-Summary"
-		parent="PropBudget-MockView-ProjectIncomePage-Summary-parentBean" />
-	<bean id="PropBudget-MockView-ProjectIncomePage-Summary-parentBean"
+	<bean id="PropBudget-ProjectIncomePage-Summary"
+		parent="PropBudget-ProjectIncomePage-Summary-parentBean" />
+	<bean id="PropBudget-ProjectIncomePage-Summary-parentBean"
 		abstract="true" parent="Uif-DialogGroup" p:headerText="Income Summary By Period">
 		<property name="items">
 			<list>
-				<bean parent="PropBudget-MockView-ProjectIncomePage-SummaryTable"
+				<bean parent="PropBudget-ProjectIncomePage-SummaryTable"
 					p:order="10" />
 			</list>
 		</property>
@@ -167,9 +138,9 @@
 		</property>
 	</bean>
 
-	<bean id="PropBudget-MockView-ProjectIncomePage-SummaryTable"
-		parent="PropBudget-MockView-ProjectIncomePage-SummaryTable-parentBean" />
-	<bean id="PropBudget-MockView-ProjectIncomePage-SummaryTable-parentBean"
+	<bean id="PropBudget-ProjectIncomePage-SummaryTable"
+		parent="PropBudget-ProjectIncomePage-SummaryTable-parentBean" />
+	<bean id="PropBudget-ProjectIncomePage-SummaryTable-parentBean"
 		abstract="true" parent="Uif-TableCollectionSection" p:renderAddLine="false"
 		p:propertyName="projectIncomeSummary"
 		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome">
