@@ -27,6 +27,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,6 +151,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         getTransactionalDocumentControllerService().getFileFromLine(uifForm,result,request,response);
     }
 
+    @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-AttachmentsPage"})
     public ModelAndView navigateToAttachment(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;

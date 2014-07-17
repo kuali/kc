@@ -26,6 +26,7 @@ import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -53,7 +54,8 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     @Autowired
     @Qualifier("keyPersonnelService")
 	private KeyPersonnelService keyPersonnelService;
-    
+
+    @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-PersonnelPage"})
     public ModelAndView navigateToPersonnel(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
@@ -122,6 +124,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
    }
 
+    @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-CreditAllocationPage"})
     public ModelAndView navigateToCreditAllocation(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
