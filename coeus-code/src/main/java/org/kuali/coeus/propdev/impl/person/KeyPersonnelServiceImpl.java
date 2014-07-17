@@ -598,15 +598,15 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
             creditSplitListItems.add(unitTotalLine);
         }
 
-
-        ProposalCreditSplitListDto investigatorTotalLine = new ProposalCreditSplitListDto();
-        investigatorTotalLine.setDescription("Investigator Total:");
-        investigatorTotalLine.setLineType("investigator-total");
-        for (Map.Entry<String,ProposalPersonCreditSplit> entry : totalInvestigatorSplits.entrySet()) {
-            investigatorTotalLine.getCreditSplits().add(0,entry.getValue());
+        if (CollectionUtils.isNotEmpty(investigators)) {
+            ProposalCreditSplitListDto investigatorTotalLine = new ProposalCreditSplitListDto();
+            investigatorTotalLine.setDescription("Investigator Total:");
+            investigatorTotalLine.setLineType("investigator-total");
+            for (Map.Entry<String,ProposalPersonCreditSplit> entry : totalInvestigatorSplits.entrySet()) {
+                investigatorTotalLine.getCreditSplits().add(0,entry.getValue());
+            }
+            creditSplitListItems.add(investigatorTotalLine);
         }
-        creditSplitListItems.add(investigatorTotalLine);
-
         return creditSplitListItems;
     }
 }
