@@ -2,13 +2,16 @@ package org.kuali.rice.contrib.uif.element;
 
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.rice.krad.uif.component.BindingInfo;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroupBase;
 import org.kuali.rice.krad.uif.field.DataFieldBase;
 import org.kuali.rice.krad.uif.util.*;
+
 
 
 import java.util.ArrayList;
@@ -29,6 +32,7 @@ public class CustomColumnsCollection extends CollectionGroupBase {
 
     @Override
     public void performApplyModel(Object model, LifecycleElement parent) {
+        if (CollectionUtils.isNotEmpty(((ProposalDevelopmentDocumentForm) model).getDevelopmentProposal().getInvestigators())){
         List<Object> columnCollection = ObjectPropertyUtils.getPropertyValue(model,
                 getColumnBindingInfo().getBindingPath());
 
@@ -40,23 +44,25 @@ public class CustomColumnsCollection extends CollectionGroupBase {
             }
         }
 
-        int index = 0;
-        for (Object column : columnCollection) {
-            DataFieldBase columnField = ComponentUtils.copy(columnFieldPrototype);
-            String columnLabel = StringUtils.isEmpty(columnLabelPropertyName)?"description":columnLabelPropertyName;
 
-            try {
-                columnField.getFieldLabel().setLabelText(PropertyUtils.getNestedProperty(column,columnLabel).toString());
-                columnField.getBindingInfo().setBindingName("creditSplits[" + index + "].credit");
-                columnField.setPropertyName("creditSplits.credit");
-                columnField.setOrder(100 + index);
-                columns.add(columnField);
-            } catch (Exception e) {
-                LOG.error("Could not retrieve column label from column collection item",e);
+            for (Object column : columnCollection) {
+                int index = 0;
+                DataFieldBase columnField = ComponentUtils.copy(columnFieldPrototype);
+                String columnLabel = StringUtils.isEmpty(columnLabelPropertyName)?"description":columnLabelPropertyName;
+
+                try {
+                    columnField.getFieldLabel().setLabelText(PropertyUtils.getNestedProperty(column,columnLabel).toString());
+                    columnField.getBindingInfo().setBindingName("creditSplits[" + index + "].credit");
+                    columnField.setPropertyName("creditSplits.credit");
+                    columnField.setOrder(100 + index);
+                    columns.add(columnField);
+                } catch (Exception e) {
+                    LOG.error("Could not retrieve column label from column collection item",e);
+                }
+            index++;
             }
-        index++;
+            this.setItems(columns);
         }
-        this.setItems(columns);
         super.performApplyModel(model, parent);
     }
 

@@ -124,8 +124,10 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-CreditAllocationPage"})
     public ModelAndView navigateToCreditAllocation(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ModelAndView mv = super.navigate(form,result,request,response);
         populateCreditSplits(form);
-        return super.navigate(form,result,request,response);
+        return mv;
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=populateCreditSplits")

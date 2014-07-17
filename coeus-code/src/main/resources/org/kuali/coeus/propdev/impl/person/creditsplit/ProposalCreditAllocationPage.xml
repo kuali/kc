@@ -24,10 +24,24 @@
         </property>
     </bean>
 
-    <bean id="PropDev-CreditAllocation-Section" parent="PropDev-CreditAllocation-Collection-parentBean"/>
+    <bean id="PropDev-CreditAllocation-Section" parent="PropDev-CreditAllocation-Section-parentBean"/>
+    <bean id="PropDev-CreditAllocation-Section-parentBean" abstract="true" parent="Uif-VerticalBoxSection"
+          p:header.headerText="Credit Allocation">
+            <property name="items">
+                <list>
+                    <bean parent="PropDev-CreditAllocation-Collection"
+                            p:render="@{!#emptyList(document.developmentProposal.investigators)}"/>
+                    <bean parent="Uif-Message" p:messageText="There are no investigators for this proposal."
+                          p:render="@{#emptyList(document.developmentProposal.investigators)}"/>
+                </list>
+            </property>
+    </bean>
+
+
+    <bean id="PropDev-CreditAllocation-Collection" parent="PropDev-CreditAllocation-Collection-parentBean"/>
     <bean id="PropDev-CreditAllocation-Collection-parentBean" abstract="true" parent="Uif-TableCollectionSection"
           class="org.kuali.rice.contrib.uif.element.CustomColumnsCollection"
-          p:header.headerText="Credit Allocation" p:propertyName="creditSplitListItems"
+          p:propertyName="creditSplitListItems"
           p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto"
           p:columnObjectClass="org.kuali.coeus.common.framework.type.InvestigatorCreditType"
           p:columnBindingInfo.bindingPath="document.developmentProposal.investigatorCreditTypes"
@@ -51,8 +65,8 @@
             </list>
         </property>
         <property name="columnFieldPrototype">
-            <bean parent="Uif-InputField" p:readOnly="@{#line.lineType eq 'unit-total' || #line.lineType eq 'investigator-total'}"
-                  p:cssClasses="@{#line.lineType}">
+            <bean parent="Uif-InputField" p:readOnly="@{#line ne null?#line.lineType eq 'unit-total' || #line.lineType eq 'investigator-total':false}"
+                  p:cssClasses="@{#line ne null?#line.lineType:''}">
                 <property name="validCharactersConstraint">
                     <bean parent="FixedPointPatternConstraint">
                         <property name="precision" value="6"/>
