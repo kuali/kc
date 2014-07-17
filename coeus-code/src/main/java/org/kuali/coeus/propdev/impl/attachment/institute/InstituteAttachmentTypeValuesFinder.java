@@ -23,6 +23,9 @@ import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,8 +35,11 @@ import java.util.Map;
  * 
  * This class is to get the drop down list of institute attachment type.
  */
+@Component("instituteAttachmentTypeValuesFinder")
 public class InstituteAttachmentTypeValuesFinder  extends UifKeyValuesFinderBase {
-    
+
+    @Autowired
+    @Qualifier("parameterService")
     private transient ParameterService parameterService;
     
     /**
@@ -46,7 +52,11 @@ public class InstituteAttachmentTypeValuesFinder  extends UifKeyValuesFinderBase
         }
         return this.parameterService;
     }
-    
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
     private KeyValueFinderService keyValueFinderService= (KeyValueFinderService) KcServiceLocator.getService("keyValueFinderService");
     @Override
     public List<KeyValue> getKeyValues() {

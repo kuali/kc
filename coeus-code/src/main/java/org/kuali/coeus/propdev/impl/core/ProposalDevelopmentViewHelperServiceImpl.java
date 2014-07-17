@@ -19,6 +19,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.*;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.apache.commons.lang3.StringUtils;
@@ -65,6 +66,7 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceImpl {
 
     private static final long serialVersionUID = -5122498699317873886L;
+    private static final Logger LOG = Logger.getLogger(ProposalDevelopmentViewHelperServiceImpl.class);
 
     @Autowired
     @Qualifier("dateTimeService")
@@ -138,6 +140,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Override
     public void processAfterAddLine(ViewModel model, Object lineObject, String collectionId, String collectionPath,
                                     boolean isValidLine) {
+        ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
         if (lineObject instanceof Note) {
             getNoteService().save((Note)lineObject);
         }
@@ -181,9 +184,19 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
            ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) model;
            getDataObjectService().save(lineObject);
            if (lineObject instanceof ProposalPersonBiography) {
-               getProposalDevelopmentAttachmentService().standardizeAttachment(pdForm.getDevelopmentProposal(),(ProposalPersonBiography) lineObject);
+               try {
+                   ((ProposalPersonBiography)lineObject).init(((ProposalPersonBiography)lineObject).getMultipartFile());
+                   getProposalDevelopmentAttachmentService().standardizeAttachment(pdForm.getDevelopmentProposal(),(ProposalPersonBiography) lineObject);
+               } catch (Exception e) {
+                   LOG.info("No File Attached");
+               }
            } else if (lineObject instanceof  Narrative) {
-               getProposalDevelopmentAttachmentService().standardizeAttachment(pdForm.getDevelopmentProposal(),(Narrative) lineObject);
+               try {
+                   ((Narrative)lineObject).init(((Narrative)lineObject).getMultipartFile());
+                   getProposalDevelopmentAttachmentService().standardizeAttachment(pdForm.getDevelopmentProposal(),(Narrative) lineObject);
+               } catch (Exception e) {
+                   LOG.info("No File Attached");
+               }
            }
     }
 
