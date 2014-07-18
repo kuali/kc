@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,8 @@ public class ProposalDevelopmentQuestionnaireController extends ProposalDevelopm
         @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-QuestionnairePage"})
         public ModelAndView navigateToQuestionnaire(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
             ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
+            propDevForm.setQuestionnaireHelper(new ProposalDevelopmentQuestionnaireHelper(propDevForm));
+            propDevForm.setS2sQuestionnaireHelper(new ProposalDevelopmentS2sQuestionnaireHelper(propDevForm));
 
             propDevForm.getQuestionnaireHelper().prepareView();
             propDevForm.getQuestionnaireHelper().populateAnswers();
