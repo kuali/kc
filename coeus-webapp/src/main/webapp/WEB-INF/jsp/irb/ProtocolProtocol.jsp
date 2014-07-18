@@ -66,5 +66,5 @@ var kualiElements = kualiForm.elements;
 </SCRIPT>
 
 <script language="javascript" src="dwr/interface/ProtocolFundingSourceService.js"></script>
-<!-- <script language="javascript" src="dwr/interface/UnitService.js"></script> -->
+<script language="javascript" src="scripts/kuali_application.js"></script>
 </kul:documentPage>
