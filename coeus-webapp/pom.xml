@@ -52,6 +52,10 @@
             WEB-INF/tags/rice-portal/portalBody.tag,
             WEB-INF/tags/rice-portal/portalTabs.tag,
         </rice.web.excludes>
+
+        <rice.output.dir>${project.build.directory}/rice-server</rice.output.dir>
+        <rice.war.file>${rice.output.dir}/rice-standalone.war</rice.war.file>
+        <rice.war.dir>${rice.output.dir}/rice-standalone</rice.war.dir>
     </properties>
 
     <dependencies>
@@ -132,6 +136,50 @@
                             <excludes>${rice.web.excludes}</excludes>
                         </configuration>
                     </execution>
+
+                    <!--
+                        these executions places the dependant rice war in the target directory to make it easier to
+                        launch a standalone server
+                    -->
+                    <execution>
+                        <id>copy-rice-war</id>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.kuali.rice</groupId>
+                                    <artifactId>rice-standalone</artifactId>
+                                    <version>${rice.version}</version>
+                                    <type>war</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${rice.output.dir}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                            <stripVersion>true</stripVersion>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>copy-rice-war-unpack</id>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.kuali.rice</groupId>
+                                    <artifactId>rice-standalone</artifactId>
+                                    <version>${rice.version}</version>
+                                    <type>war</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${rice.war.dir}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+
                 </executions>
             </plugin>
 
@@ -235,56 +283,9 @@
                 <enforcer.phase>none</enforcer.phase>
                 <rice.context.path>/kr-${build.environment}</rice.context.path>
                 <rice.port>8090</rice.port>
-                <rice.output.dir>${project.build.directory}/rice-server</rice.output.dir>
-                <rice.war.file>${rice.output.dir}/rice-standalone.war</rice.war.file>
-                <rice.war.dir>${rice.output.dir}/rice-standalone</rice.war.dir>
             </properties>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <version>${maven-dependency-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>copy-rice-war</id>
-                                <goals>
-                                    <goal>copy</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>org.kuali.rice</groupId>
-                                            <artifactId>rice-standalone</artifactId>
-                                            <version>${rice.version}</version>
-                                            <type>war</type>
-                                            <overWrite>true</overWrite>
-                                            <outputDirectory>${rice.output.dir}</outputDirectory>
-                                        </artifactItem>
-                                    </artifactItems>
-                                    <stripVersion>true</stripVersion>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>copy-rice-war-unpack</id>
-                                <goals>
-                                    <goal>unpack</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>org.kuali.rice</groupId>
-                                            <artifactId>rice-standalone</artifactId>
-                                            <version>${rice.version}</version>
-                                            <type>war</type>
-                                            <overWrite>true</overWrite>
-                                            <outputDirectory>${rice.war.dir}</outputDirectory>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
                     <plugin>
                         <groupId>${jetty-maven-plugin.groupId}</groupId>
                         <artifactId>${jetty-maven-plugin.artifactId}</artifactId>
