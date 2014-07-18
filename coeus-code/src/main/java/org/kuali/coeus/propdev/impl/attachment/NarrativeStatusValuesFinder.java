@@ -20,6 +20,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,6 +32,7 @@ import java.util.List;
  * 
  * @author KRADEV team
  */
+@Component("narrativeStatusValuesFinder")
 public class NarrativeStatusValuesFinder extends UifKeyValuesFinderBase {
     /**
      * Constructs the list of Proposal Narrative Statuses.  Each entry

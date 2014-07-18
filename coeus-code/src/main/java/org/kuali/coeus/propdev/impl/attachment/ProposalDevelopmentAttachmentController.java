@@ -177,7 +177,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
 
         for (Object object : collection) {
             if(object instanceof Narrative) {
-                ((Narrative) object).setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
+                ((Narrative) object).setModuleStatusCode(form.getProposalDevelopmentAttachmentHelper().getMarkAllStatus());
                 getDataObjectService().wrap(object).fetchRelationship("narrativeStatus");
             }
         }
