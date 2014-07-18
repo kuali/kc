@@ -1,18 +1,15 @@
 package org.kuali.rice.contrib.uif.element;
 
-import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
+
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroupBase;
 import org.kuali.rice.krad.uif.container.GroupBase;
 import org.kuali.rice.krad.uif.container.TabGroup;
-import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.Header;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
-import org.kuali.rice.krad.uif.util.LifecycleElement;
-import org.springframework.context.LifecycleProcessor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,13 +34,18 @@ public class QuestionnaireTabGroup extends TabGroup {
 
         int index = 0;
         for (AnswerHeader answerHeader : answerHeaders) {
-            GroupBase group = (GroupBase) ComponentFactory.getNewComponentInstance("Uif-VerticalBoxGroup");
-            group.setHeader((Header)ComponentFactory.getNewComponentInstance("Uif-HeaderOne"));
-            group.setHeaderText(answerHeader.getLabel());
-            CollectionGroupBase questionCollection = ComponentUtils.copy(collectionGroupPrototype);
-            questionCollection.setPropertyName("questionnaireHelper.answerHeaders[" + index + "].questions");
-            group.setItems(Collections.singletonList(questionCollection));
-            tabs.add(group);
+            if (answerHeader.isActive()) {
+                GroupBase group = (GroupBase) ComponentFactory.getNewComponentInstance("Uif-VerticalBoxGroup");
+                group.setHeader((Header)ComponentFactory.getNewComponentInstance("Uif-SectionHeader"));
+                group.setHeaderText(answerHeader.getLabel());
+                group.getHeader().setRender(false);
+                CollectionGroupBase questionCollection = ComponentUtils.copy(collectionGroupPrototype);
+                questionCollection.setHeader((Header) ComponentFactory.getNewComponentInstance("Uif-SectionHeader"));
+                questionCollection.setHeaderText(answerHeader.getLabel() + (answerHeader.isCompleted() ? "[color=green] (Complete)" : " [color=gray](Incomplete)") + "[/color]");
+                questionCollection.setPropertyName("questionnaireHelper.answerHeaders[" + index + "].questions");
+                group.setItems(Collections.singletonList(questionCollection));
+                tabs.add(group);
+            }
             index++;
         }
 

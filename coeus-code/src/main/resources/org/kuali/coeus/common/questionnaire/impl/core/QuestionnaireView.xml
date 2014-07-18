@@ -56,9 +56,15 @@
 			</list>
 		</property>
 		<property name="layoutManager.subCollectionFieldGroupPrototype">
-			<bean parent="Uif-VerticalFieldGroup" p:fieldLabel.labelText="@{#lp.questionnaireQuestion.question.question}"
+			<bean parent="Uif-VerticalFieldGroup" p:fieldLabel.labelText="@{#lp.questionnaireQuestion.question.question} [0]"
 				p:fieldLabel.renderColon="false" p:additionalCssClasses="question"
 				p:hidden="@{!#lp.childMatched}">
+                <property name="fieldLabel.inlineComponents">
+                    <list>
+                        <bean parent="Uif-ActionLink" p:iconClass="icon-info" p:actionScript="jQuery(this).closest('.question').find('.uif-messageField').first().toggle();"/>
+                    </list>
+                </property>
+
 				<!-- data attributes to support the associated kradQuestionnaireAnswer.js 
 					which toggles display of questions based on questionnaire rules -->
 				<property name="dataAttributes">
@@ -82,6 +88,8 @@
 		p:propertyName="answers" p:renderAddLine="false" p:renderLineActions="false">
 		<property name="items">
 			<list>
+                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.getQuestionMoreInfo(#lp.questionnaireQuestion.question)}"
+                        p:hidden="true"/>
 				<bean parent="Questionnaire-InputField" p:order="10" />
 			</list>
 		</property>

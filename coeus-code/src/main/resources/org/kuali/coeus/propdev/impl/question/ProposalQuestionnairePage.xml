@@ -42,7 +42,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="There are no questions defined for this proposal."
-                        p:render="@{#emptyList(questionnaireHelper.answerHeaders) and #emptyList(s2sQuestionnaireHelper.answerHeaders)}"/>
+                        p:render="@{!#ViewHelper.areActiveQuestionnaires(questionnaireHelper.answerHeaders)}"/>
 			    <bean parent="PropDev-QuestionnairePage-TabGroup" p:order="10"/>
 			</list>
         </property>

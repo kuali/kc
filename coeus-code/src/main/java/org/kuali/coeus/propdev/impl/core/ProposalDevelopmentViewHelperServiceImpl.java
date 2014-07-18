@@ -19,6 +19,9 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.*;
 
+import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
+import org.kuali.coeus.common.questionnaire.framework.question.Question;
+import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -326,4 +329,29 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
   	  return proposalProgressCode;
   	 }
+
+    public boolean areActiveQuestionnaires(List<AnswerHeader> answerHeaders) {
+        for (AnswerHeader answerHeader : answerHeaders) {
+            if (answerHeader.isActive()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getQuestionMoreInfo(Question question) {
+        StringBuilder moreInfo = new StringBuilder();
+        moreInfo.append("\n" + question.getSequenceNumber() + " : " + question.getQuestion() + "\n");
+        for (QuestionExplanation explanation : question.getQuestionExplanations()){
+            if (StringUtils.isNotEmpty(explanation.getExplanation()) && explanation.getExplanationType().equals(Constants.QUESTION_EXPLANATION)){
+                moreInfo.append("Explanation : " + explanation.getExplanation() + "\n");
+            } else if (StringUtils.isNotEmpty(explanation.getExplanation()) && explanation.getExplanationType().equals(Constants.QUESTION_POLICY)) {
+                moreInfo.append("Policy : " + explanation.getExplanation() + "\n");
+            } else if (StringUtils.isNotEmpty(explanation.getExplanation()) && explanation.getExplanationType().equals(Constants.QUESTION_REGULATION)) {
+                moreInfo.append("Regulation : " + explanation.getExplanation() + "\n");
+            }
+        }
+
+        return moreInfo.toString();
+    }
 }
