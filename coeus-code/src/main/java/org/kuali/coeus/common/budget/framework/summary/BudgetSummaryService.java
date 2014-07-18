@@ -74,5 +74,5 @@ public interface BudgetSummaryService {
     public void defaultBudgetPeriods(Budget budget);
 
     public String defaultWarningMessage(Budget budget);
-
+        
 }

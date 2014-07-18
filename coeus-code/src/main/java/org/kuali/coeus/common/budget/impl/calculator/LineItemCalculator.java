@@ -52,14 +52,6 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
         budgetCalculationService = KcServiceLocator.getService(BudgetCalculationService.class);
     }
 
-    private boolean isDocumentOhRateSameAsFormOhRate() {
-        if(budget.getOhRateClassCode()!= null && getBudgetFormFromGlobalVariables()!= null && StringUtils.equalsIgnoreCase(budget.getOhRateClassCode(), getBudgetFormFromGlobalVariables().getOhRateClassCodePrevValue())){
-            return true;
-        }
-        
-        return false;        
-    }
-    
     private Map<String, Boolean> saveApplyRateFlagsForReset() {
         Map<String, Boolean> applyRateFlags = new HashMap<String, Boolean>();
         if(bli != null && CollectionUtils.isNotEmpty(bli.getBudgetLineItemCalculatedAmounts())) {
@@ -79,7 +71,7 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
             setCalculatedAmounts(budget,bli);
         }
 
-        if(!isDocumentOhRateSameAsFormOhRate() || getBudgetRateService().performSyncFlag(budget)){
+        if(getBudgetRateService().performSyncFlag(budget)){
             Long versionNumber = null;
             if (CollectionUtils.isNotEmpty(bli.getBudgetLineItemCalculatedAmounts())) {
                 versionNumber = bli.getBudgetLineItemCalculatedAmounts().get(0).getVersionNumber();

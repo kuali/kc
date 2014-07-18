@@ -132,4 +132,9 @@ public class TransactionalDocumentControllerServiceImpl extends TransactionalDoc
     public void setKcCommonControllerService(KcCommonControllerService kcCommonControllerService) {
         this.kcCommonControllerService = kcCommonControllerService;
     }
+
+    @Override
+    public ModelAndView showDialog(String dialogId, boolean confirmation, UifFormBase form) {
+        return super.showDialog(dialogId, confirmation, form);
+    }
 }

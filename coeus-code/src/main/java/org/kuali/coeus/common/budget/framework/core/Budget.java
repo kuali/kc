@@ -1750,5 +1750,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
     public java.util.Date getBudgetEndDate() {
     	throw new UnsupportedOperationException();
-    }    
+    }
+
 }

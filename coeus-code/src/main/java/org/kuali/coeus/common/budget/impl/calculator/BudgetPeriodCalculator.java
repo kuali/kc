@@ -79,9 +79,6 @@ public class BudgetPeriodCalculator {
             budgetPeriod.setUnderrecoveryAmount(budgetPeriod.getUnderrecoveryAmount().add(budgetLineItem.getUnderrecoveryAmount()));
             budgetPeriod.setCostSharingAmount(budgetPeriod.getCostSharingAmount().add(budgetLineItem.getTotalCostSharingAmount()));
         }
-        if(budget.getOhRateClassCode()!=null && budgetCalculationService.getBudgetFormFromGlobalVariables()!=null){
-            budgetCalculationService.getBudgetFormFromGlobalVariables().setOhRateClassCodePrevValue(budget.getOhRateClassCode());
-        }        
     }
 
     public void applyToLaterPeriods(Budget budget, BudgetPeriod currentBudgetPeriod, BudgetLineItem currentBudgetLineItem) {

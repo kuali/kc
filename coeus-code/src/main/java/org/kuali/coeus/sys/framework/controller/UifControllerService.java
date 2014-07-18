@@ -120,4 +120,6 @@ public interface UifControllerService extends KcCommonControllerService {
 
     public void getFileFromLine(UifFormBase uifForm, BindingResult result,
                                 HttpServletRequest request, HttpServletResponse response) throws Exception;
+    
+    ModelAndView showDialog(String dialogId, boolean confirmation, UifFormBase form);
 }

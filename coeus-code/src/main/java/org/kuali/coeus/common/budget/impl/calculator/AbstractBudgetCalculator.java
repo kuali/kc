@@ -943,9 +943,6 @@ public abstract class AbstractBudgetCalculator {
         this.lineItemPropRates = qlLineItemPropRates;
     }
     
-    protected BudgetForm getBudgetFormFromGlobalVariables() {
-        return budgetCalcultionService.getBudgetFormFromGlobalVariables();
-    }
     protected BudgetRatesService getBudgetRateService() {
         return KcServiceLocator.getService(BudgetRatesService.class);
     }
