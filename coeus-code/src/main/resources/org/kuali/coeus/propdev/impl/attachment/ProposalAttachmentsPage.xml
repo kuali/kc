@@ -57,11 +57,18 @@
     <bean id="PropDev-AttachmentPage-ProposalButtons-parentBean" abstract="true" parent="Uif-HorizontalBoxGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="markAllComplete" p:actionLabel="Mark all attachments"
+                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="markAllComplete" p:actionLabel="Set All Statuses"
                       p:actionParameters="@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_PATH}:document.developmentProposal.narratives"
                       p:cssClasses="pull-right" p:order="10"/>
+                <bean parent="Uif-InputField" p:propertyName="markAllStatus" p:cssClasses="pull-right"
+                      p:bindingInfo.bindingObjectPath="proposalDevelopmentAttachmentHelper" p:order="20">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder" value="#{T(org.kuali.rice.contrib.krad.SpringMethods).retrieveSpringBean('narrativeStatusValuesFinder')}" />
+                </bean>
                 <bean parent="PropDev-AttachmentPage-AddLineButton" p:successCallback="showDialog('PropDev-AttachmentsPage-ProposalDetails');"
-                      p:refreshId="PropDev-AttachmentsPage-ProposalDetails" p:order="20"/>
+                      p:refreshId="PropDev-AttachmentsPage-ProposalDetails" p:order="30"/>
             </list>
         </property>
     </bean>

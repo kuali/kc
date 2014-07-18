@@ -7,6 +7,7 @@ public class ProposalDevelopmentAttachmentHelper {
     private ProposalPersonBiography biography;
 
     private String selectedLineIndex;
+    private String markAllStatus;
 
     public ProposalDevelopmentAttachmentHelper() {
         narrative = new Narrative();
@@ -41,5 +42,13 @@ public class ProposalDevelopmentAttachmentHelper {
 
     public void setSelectedLineIndex(String selectedLineIndex) {
         this.selectedLineIndex = selectedLineIndex;
+    }
+
+    public String getMarkAllStatus() {
+        return markAllStatus;
+    }
+
+    public void setMarkAllStatus(String markAllStatus) {
+        this.markAllStatus = markAllStatus;
     }
 }
