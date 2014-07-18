@@ -44,9 +44,8 @@ public class CustomColumnsCollection extends CollectionGroupBase {
             }
         }
 
-
+            int index = 0;
             for (Object column : columnCollection) {
-                int index = 0;
                 DataFieldBase columnField = ComponentUtils.copy(columnFieldPrototype);
                 String columnLabel = StringUtils.isEmpty(columnLabelPropertyName)?"description":columnLabelPropertyName;
 
