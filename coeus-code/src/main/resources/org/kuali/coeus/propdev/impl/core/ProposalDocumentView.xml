@@ -177,8 +177,8 @@
 			<bean parent="Uif-ActionBar">
 				<property name="items">
 					<list>
-                        <bean parent="Uif-Message" p:renderWrapperTag="false" p:refreshWhenChangedPropertyNames="validateData" p:order="10">
-                            <property name="messageText" value="[0] @{validateData?'[color=#090](on)[/color]':'[color=red](off)[/color]'}"/>
+                        <bean parent="Uif-Message" p:renderWrapperTag="false" p:refreshWhenChangedPropertyNames="auditActivated" p:order="10">
+                            <property name="messageText" value="[0] @{auditActivated?'[color=#090](on)[/color]':'[color=red](off)[/color]'}"/>
                             <property name="inlineComponents">
                                 <list>
                                     <bean parent="Uif-ActionLink" p:methodToCall="validateData"

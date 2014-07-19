@@ -36,8 +36,14 @@
 	 	 <bean  parent="Uif-HorizontalBoxGroup" p:align="left">
 			<property name="items">		
 				<list>
-					<bean  p:actionLabel="Submit for Review" parent="Uif-PrimaryActionButton" p:methodToCall="submitForReview"  p:order="10" /> 
-					<bean  p:actionLabel="View Route Log " parent="Uif-ActionLink"   p:order="20" /> 	
+				<bean  p:actionLabel="Submit for Review" parent="Uif-PrimaryActionButton" p:methodToCall="submitForReview"  p:order="5" /> 
+				<!--<bean  p:actionLabel="Submit for Review" parent="Uif-PrimaryActionButton" p:methodToCall="toggleValidation"  p:successCallback="retrieveComponent('PropDev-DataValidationSection');showLightboxComponent('PropDev-DataValidationSection');"  p:order="10" />-->	 
+					<bean parent="Uif-LinkField" p:linkText="View Route Log" p:href="@{#ConfigProperties['application.url']}/kew/RouteLog.do?documentId=@{document.developmentProposal.proposalDocument.documentNumber}"  p:order="20">
+						<property name="lightBox">
+				   			<bean parent="Uif-LightBox"/>
+		  				</property>
+					</bean>
+					
 					<bean parent="Uif-Space"/><bean parent="Uif-Space"/>																				    
 					<bean  p:actionLabel="Save and Exit" parent="Uif-SecondaryActionButton" p:methodToCall="saveAndExit"   p:order="30" /> 					
 					<bean  p:actionLabel="Exit without Saving" parent="Uif-SecondaryActionButton"  p:methodToCall="returnToHub"  p:order="40" /> 

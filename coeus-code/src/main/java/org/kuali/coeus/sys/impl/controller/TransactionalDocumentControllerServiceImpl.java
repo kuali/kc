@@ -122,6 +122,11 @@ public class TransactionalDocumentControllerServiceImpl extends TransactionalDoc
     public DocumentAuthorizationException buildAuthorizationException(String action, Document document) {
         return super.buildAuthorizationException(action, document);
     }
+    
+    @Override
+    public ModelAndView showDialog(String dialogId, boolean confirmation, UifFormBase form) {	
+    	return super.showDialog(dialogId, confirmation, form);
+    }
 
     @Override
     public void sendFileFromLineResponse(UifFormBase uifForm, HttpServletRequest request, HttpServletResponse response,
