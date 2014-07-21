@@ -47,8 +47,6 @@ public class ProposalUserRoles implements Serializable {
      * @return the user's username.
      */
     public String getUsername() {
-System.err.println("PPPPPPPPPPPPPP ProposalUserRoles.getUsername called, this = " + this);
-System.err.println("    username = " + username);
         return username;
     }
 
@@ -70,8 +68,6 @@ System.err.println("    username = " + username);
      * @return the user's full name.
      */
     public String getFullname() {
-System.err.println("PPPPPPPPPPPPPP ProposalUserRoles.getFullname called, this = " + this);
-System.err.println("    fullname = " + fullname);
         return fullname;
     }
 
@@ -126,8 +122,6 @@ System.err.println("    fullname = " + fullname);
      * @return the user's role id in the proposal.
      */
     public List<String> getRoleNames() {
-System.err.println("PPPPPPPPPPPPPP ProposalUserRoles.getRoleNames called, this = " + this);
-System.err.println("    roleNames = " + roleNames);
         return roleNames;
     }
 

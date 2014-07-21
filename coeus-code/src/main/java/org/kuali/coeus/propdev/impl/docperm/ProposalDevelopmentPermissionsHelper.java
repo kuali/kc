@@ -22,6 +22,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -48,6 +51,8 @@ public class ProposalDevelopmentPermissionsHelper {
     private ProposalUserRoles newProposalUserRole;
     private transient List<ProposalUserRoles> oldUserRoles;
     private transient List<ProposalUserRoles> workingUserRoles;
+
+    private static final Log LOG = LogFactory.getLog(Budget.class);
 
     /**
      * Constructs a ProposalDevelopmentPermissionselper.
@@ -110,7 +115,7 @@ public class ProposalDevelopmentPermissionsHelper {
                			pendingRoleMap.put(person.getUserName(), newRole);
 		        	}
 		        } else {
-                    System.err.println("    person is null!");
+                    LOG.error("Attempting to get roles for null user role!");
                 }
 		    }
 		}
