@@ -1,11 +1,11 @@
 package org.kuali.coeus.sys.impl.model;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.model.KcDataObject;
 import org.kuali.coeus.sys.framework.model.KcDataObjectService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -19,6 +19,10 @@ public class KcDataObjectServiceImpl implements KcDataObjectService {
     @Autowired
     @Qualifier("identityService")
     private IdentityService identityService;
+
+    @Autowired
+    @Qualifier
+    private GlobalVariableService globalVariableService;
 
     @Override
     public void initVersionNumberForPersist(KcDataObject kcDataObject) {
@@ -58,8 +62,8 @@ public class KcDataObjectServiceImpl implements KcDataObjectService {
 
     private void setUpdateFields(KcDataObject kcDataObject) {
         if (!kcDataObject.isUpdateUserSet()) {
-            String principalName = GlobalVariables.getUserSession().getPrincipalName();
-            String lastPrincipalId = (String) GlobalVariables.getUserSession().retrieveObject(Constants.LAST_ACTION_PRINCIPAL_ID);
+            String principalName = globalVariableService.getUserSession().getPrincipalName();
+            String lastPrincipalId = (String) globalVariableService.getUserSession().retrieveObject(Constants.LAST_ACTION_PRINCIPAL_ID);
             if (StringUtils.isNotBlank(lastPrincipalId)) {
                 principalName = identityService.getPrincipal(lastPrincipalId).getPrincipalName();
             }
@@ -76,5 +80,13 @@ public class KcDataObjectServiceImpl implements KcDataObjectService {
 
     public void setIdentityService(IdentityService identityService) {
         this.identityService = identityService;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
     }
 }

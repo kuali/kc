@@ -17,6 +17,7 @@ package org.kuali.coeus.sys.impl.workflow;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
@@ -24,7 +25,6 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.*;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.PostProcessorService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -53,9 +53,13 @@ public class KcPostProcessorServiceImpl implements PostProcessorService {
     @Qualifier("postProcessorService")
     private PostProcessorService postProcessorService;
 
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
+
     @Override
     public ProcessDocReport doRouteStatusChange(final DocumentRouteStatusChange statusChangeEvent) throws Exception {
-        return GlobalVariables.doInNewGlobalVariables(establishPostProcessorUserSession(), new Callable<ProcessDocReport>() {
+        return globalVariableService.doInNewGlobalVariables(establishPostProcessorUserSession(), new Callable<ProcessDocReport>() {
             @Override
             public ProcessDocReport call() throws Exception {
                 establishLastActionPrincipalId(statusChangeEvent.getDocumentId());
@@ -66,7 +70,7 @@ public class KcPostProcessorServiceImpl implements PostProcessorService {
 
     @Override
     public ProcessDocReport doRouteLevelChange(final DocumentRouteLevelChange levelChangeEvent) throws Exception {
-        return GlobalVariables.doInNewGlobalVariables(establishPostProcessorUserSession(), new Callable<ProcessDocReport>() {
+        return globalVariableService.doInNewGlobalVariables(establishPostProcessorUserSession(), new Callable<ProcessDocReport>() {
             @Override
             public ProcessDocReport call() throws Exception {
                 establishLastActionPrincipalId(levelChangeEvent.getDocumentId());
@@ -82,7 +86,7 @@ public class KcPostProcessorServiceImpl implements PostProcessorService {
 
     @Override
     public ProcessDocReport doActionTaken(final ActionTakenEvent event) throws Exception {
-        return GlobalVariables.doInNewGlobalVariables(establishPostProcessorUserSession(), new Callable<ProcessDocReport>() {
+        return globalVariableService.doInNewGlobalVariables(establishPostProcessorUserSession(), new Callable<ProcessDocReport>() {
             @Override
             public ProcessDocReport call() throws Exception {
                 establishLastActionPrincipalId(event.getDocumentId());
@@ -113,7 +117,7 @@ public class KcPostProcessorServiceImpl implements PostProcessorService {
 
     /**
      * This finds the last workflow action taken on the Document that corresponds to the passed in event.  It then finds
-     * the principal who triggered that event and places the principal id in a {@link GlobalVariables#getUserSession()}.
+     * the principal who triggered that event and places the principal id in a {@link GlobalVariableService#getUserSession()}.
      * Once in the UserSession, the principal Id can be used with in any workflow callbacks.
      *
      * @param routeHeaderId the route header id (document id)
@@ -123,7 +127,7 @@ public class KcPostProcessorServiceImpl implements PostProcessorService {
         final ActionTaken lastActionTaken = findLastActionTaken(routeHeaderId);
 
         if (lastActionTaken != null) {
-            GlobalVariables.getUserSession().addObject(LAST_ACTION_PRINCIPAL_ID, lastActionTaken.getPrincipalId());
+            globalVariableService.getUserSession().addObject(LAST_ACTION_PRINCIPAL_ID, lastActionTaken.getPrincipalId());
         }
     }
 
@@ -149,10 +153,10 @@ public class KcPostProcessorServiceImpl implements PostProcessorService {
 
     /* Replicating utilitity methods from rice post processor service */
     protected UserSession establishPostProcessorUserSession() throws WorkflowException {
-        if (GlobalVariables.getUserSession() == null) {
+        if (globalVariableService.getUserSession() == null) {
             return new UserSession(KRADConstants.SYSTEM_USER);
         } else {
-            return GlobalVariables.getUserSession();
+            return globalVariableService.getUserSession();
         }
     }
 
