@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/util
+                    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<bean id="PropBudget-ProjectIncomePage" parent="PropBudget-ProjectIncomePage-parentBean" />
+	<bean id="PropBudget-ProjectIncomePage-parentBean"
+		parent="PropDev-DocumentPage" p:fieldBindingObjectPath="budget">
+		<property name="items">
+			<list>
+				<ref bean="PropBudget-ProjectIncomePage-CollectionGroup" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-ProjectIncomePage-CollectionGroup"
+		parent="PropBudget-ProjectIncomePage-CollectionGroup-parentBean" />
+	<bean
+		id="PropBudget-ProjectIncomePage-CollectionGroup-parentBean"
+		parent="Uif-TableCollectionSection" p:headerText="Project Income"
+		p:propertyName="budgetProjectIncomes"
+		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome"
+		p:addWithDialog="true" p:layoutManager.renderSequenceField="false">
+		<property name="addWithDialogAction">
+			<bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Income"
+				p:iconClass="icon-plus" />
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-MessageField" p:order="10"
+					p:messageText="1 [small class='text-muted'](05/14/2014 - 05/13/2015)[/small]" />
+				<bean parent="Uif-InputField" p:propertyName="description"
+					p:order="20"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome" />
+				<bean parent="Uif-InputField" p:propertyName="projectIncome"
+					p:order="30"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome" />
+			</list>
+		</property>
+		<property name="lineActions">
+			<list>
+				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="cancelEdit"
+					p:hidden="true" p:actionLabel="cancel" p:order="10" />
+				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="editLine"
+					p:hidden="false" p:actionLabel="Edit" p:order="20" />
+				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="saveLine"
+					p:hidden="true" p:actionLabel="Save" p:order="30" />
+				<bean parent="Uif-DeleteLineAction-IconOnly" p:order="40"
+					p:iconClass="icon-trash" />
+			</list>
+		</property>
+		<property name="addLineDialog">
+			<bean parent="Uif-AddLineDialog" p:headerText="Add Project Income">
+				<property name="items">
+					<list>
+						<bean parent="Uif-InputField" p:propertyName="budgetPeriodNumber"
+							p:order="10"
+							p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome" />
+						<bean parent="Uif-InputField" p:propertyName="description"
+							p:order="20"
+							p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome" />
+						<bean parent="Uif-InputField" p:propertyName="projectIncome"
+							p:order="30"
+							p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome" />
+					</list>
+				</property>
+				<property name="footer.items">
+					<list>
+						<bean parent="Uif-AddLineAction-Dialog" p:actionLabel="Add Income" />
+						<bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="layoutManager.richTable.templateOptions">
+			<map>
+				<entry key="sDom" value="tip" />
+				<entry key="bRetrieve" value="true" />
+				<entry key="bPaginate" value="false" />
+				<entry key="bInfo" value="false" />
+			</map>
+		</property>
+		<property name="header.lowerGroup">
+			<bean parent="Uif-HeaderLowerGroup">
+				<property name="items">
+					<list>
+						<bean parent="Uif-Message"
+							p:messageText="Verify and adjust additional program income costs as necessary for this budget."
+							p:order="10" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="header.rightGroup">
+			<bean parent="Uif-HeaderRightGroup">
+				<property name="items">
+					<list>
+						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="View Summary"
+							p:actionScript="showDialog('PropBudget-ProjectIncomePage-Summary')"
+							p:order="10" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-ProjectIncomePage-Summary"
+		parent="PropBudget-ProjectIncomePage-Summary-parentBean" />
+	<bean id="PropBudget-ProjectIncomePage-Summary-parentBean"
+		abstract="true" parent="Uif-DialogGroup" p:headerText="Income Summary By Period">
+		<property name="items">
+			<list>
+				<bean parent="PropBudget-ProjectIncomePage-SummaryTable"
+					p:order="10" />
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Recalculate"
+							p:order="10" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-ProjectIncomePage-SummaryTable"
+		parent="PropBudget-ProjectIncomePage-SummaryTable-parentBean" />
+	<bean id="PropBudget-ProjectIncomePage-SummaryTable-parentBean"
+		abstract="true" parent="Uif-TableCollectionSection" p:renderAddLine="false"
+		p:propertyName="projectIncomeSummary"
+		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome">
+		<property name="items">
+			<list>
+				<bean parent="Uif-DataField-condensedTable" p:propertyName="budgetPeriodNumber"
+					p:order="10"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome" />
+				<bean parent="Uif-DataField-condensedTable" p:propertyName="projectIncome"
+					p:order="20"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome" />
+			</list>
+		</property>
+	</bean>
+</beans>

@@ -45,7 +45,7 @@
 				<bean id="PropBudget-SubawardsPage" parent="PropBudget-UnderDevelopmentPage" />
 				<bean id="PropBudget-CostSharingPage" parent="PropBudget-UnderDevelopmentPage" />
 				<bean id="PropBudget-FandAPage" parent="PropBudget-UnderDevelopmentPage" />
-                <bean id="PropBudget-ProjectIncomePage" parent="PropBudget-MockView-ProjectIncomePage" />
+                <ref bean="PropBudget-ProjectIncomePage" />
 				<bean id="PropBudget-ModularPage" parent="PropBudget-UnderDevelopmentPage" />
 				<bean id="PropBudget-NotesPage" parent="PropBudget-UnderDevelopmentPage" />
 				<bean id="PropBudget-SummaryPage" parent="PropBudget-UnderDevelopmentPage" />				
