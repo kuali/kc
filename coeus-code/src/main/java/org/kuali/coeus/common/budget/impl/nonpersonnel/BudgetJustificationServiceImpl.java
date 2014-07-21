@@ -23,8 +23,8 @@ import org.kuali.coeus.common.budget.framework.core.BudgetException;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -41,13 +41,9 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
 
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
 
     @Override
     public void consolidateExpenseJustifications(Budget budget, BudgetJustificationWrapper budgetJustificationWrapper) throws BudgetException {
@@ -69,7 +65,7 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
      * @return
      */
     protected String getLoggedInUserNetworkId() {
-        return GlobalVariables.getUserSession().getPrincipalName();
+        return globalVariableService.getUserSession().getPrincipalName();
     }
     
     /**
@@ -201,5 +197,21 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
         String updateUser = getLoggedInUserNetworkId();
         budgetJustificationWrapper.setLastUpdateUser(updateUser);
         budgetJustificationWrapper.setLastUpdateTime(new Date(System.currentTimeMillis()));
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
     }
 }

@@ -24,6 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.framework.personnel.*;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
@@ -33,7 +34,6 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +60,10 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
     @Autowired
     @Qualifier("budgetCalculationService")
     private BudgetCalculationService budgetCalculationService;
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
 
     @Autowired
     @Qualifier("parameterService")
@@ -94,45 +98,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
         budgetLineItem.getBudgetPersonnelDetailsList().add(newBudgetPersonnelDetails);
     }
 
-    /**
-     * Gets the budgetPersonService attribute. 
-     * @return Returns the budgetPersonService.
-     */
-    public BudgetPersonService getBudgetPersonService() {
-        return budgetPersonService;
-    }
 
-    /**
-     * Sets the budgetPersonService attribute value.
-     * @param budgetPersonService The budgetPersonService to set.
-     */
-    public void setBudgetPersonService(BudgetPersonService budgetPersonService) {
-        this.budgetPersonService = budgetPersonService;
-    }
-
-    /**
-     * Gets the budgetCalculationService attribute. 
-     * @return Returns the budgetCalculationService.
-     */
-    public BudgetCalculationService getBudgetCalculationService() {
-        return budgetCalculationService;
-    }
-
-    /**
-     * Sets the budgetCalculationService attribute value.
-     * @param budgetCalculationService The budgetCalculationService to set.
-     */
-    public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
-        this.budgetCalculationService = budgetCalculationService;
-    }
-
-    protected ParameterService getParameterService() {
-        return this.parameterService;
-    }
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
 
     public List<BudgetPersonSalaryDetails> calculatePersonSalary(Budget budget, int personIndex){
        
@@ -190,7 +156,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
             BudgetPeriod budgetPeriod = budget.getBudgetPeriod(budgetPeriodNumber);
             Date personEffectiveDate =  budgetPersonnelDetails.getBudgetPerson().getEffectiveDate();
             if (personEffectiveDate.after(budgetPeriod.getEndDate())) {
-                MessageMap errorMap = GlobalVariables.getMessageMap();
+                MessageMap errorMap = globalVariableService.getMessageMap();
                 // salaryrequested is hidden field, so use person
                 errorMap.putError("document.budgetPeriod["+budgetPeriodNumber+"].budgetLineItems["+budgetPeriodNumber+"].budgetPersonnelDetailsList["+lineNumber+"].personSequenceNumber", KeyConstants.ERROR_EFFECTIVE_DATE_OUT_OF_RANGE, new String []{budgetPersonnelDetails.getBudgetPerson().getPersonName() });
 
@@ -257,5 +223,37 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
             LOG.debug("Removing " + toRemove);
             lineItem.getBudgetPersonnelDetailsList().remove(toRemove);
         }
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
+
+    public BudgetPersonService getBudgetPersonService() {
+        return budgetPersonService;
+    }
+
+    public void setBudgetPersonService(BudgetPersonService budgetPersonService) {
+        this.budgetPersonService = budgetPersonService;
+    }
+
+    public BudgetCalculationService getBudgetCalculationService() {
+        return budgetCalculationService;
+    }
+
+    public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
+        this.budgetCalculationService = budgetCalculationService;
+    }
+
+    protected ParameterService getParameterService() {
+        return this.parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

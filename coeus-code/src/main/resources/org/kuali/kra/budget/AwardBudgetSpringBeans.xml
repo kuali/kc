@@ -126,5 +126,5 @@
 	<bean id="awardBudgetFactBuilderService" class="org.kuali.kra.award.budget.service.impl.AwardBudgetFactBuilderServiceImpl">
 		  <property name="documentService" ref="documentService" />
 	</bean>
-    
+
 </beans>

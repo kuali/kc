@@ -21,7 +21,7 @@ import org.kuali.coeus.common.budget.api.rate.RateClassType;
 import org.kuali.coeus.common.budget.framework.calculator.*;
 import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.award.budget.AwardBudgetLineItemCalculatedAmountExt;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.common.budget.framework.query.operator.And;
 import org.kuali.coeus.common.budget.framework.query.operator.Equals;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType;
@@ -37,13 +37,9 @@ import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
-import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyStatusConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -68,6 +64,10 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     @Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
 
     @Override
     public void calculateBudget(Budget budget){
@@ -796,7 +796,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         BudgetPeriodCalculator periodCalculator = new BudgetPeriodCalculator();
         periodCalculator.syncToPeriodCostLimit(budget, budgetPeriod, budgetLineItem);
         List<String> errors = periodCalculator.getErrorMessages();
-        MessageMap errorMap = GlobalVariables.getMessageMap();
+        MessageMap errorMap = globalVariableService.getMessageMap();
         if(!errors.isEmpty()){
             for (String error : errors) {
                 errorMap.putError("document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["+ (budgetLineItem.getLineItemNumber() - 1) +"].lineItemCost", error);
@@ -808,7 +808,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         BudgetPeriodCalculator periodCalculator = new BudgetPeriodCalculator();
         periodCalculator.syncToPeriodDirectCostLimit(budget, budgetPeriod, budgetLineItem);
         List<String> errors = periodCalculator.getErrorMessages();
-        MessageMap errorMap = GlobalVariables.getMessageMap();
+        MessageMap errorMap = globalVariableService.getMessageMap();
         if(!errors.isEmpty()){
             for (String error : errors) {
                 errorMap.putError("document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["+ (budgetLineItem.getLineItemNumber() - 1) +"].lineItemCost", error);
@@ -821,7 +821,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         periodCalculator.applyToLaterPeriods(budget, budgetPeriod, budgetLineItem);
         List<String> errors = periodCalculator.getErrorMessages();
         if(!errors.isEmpty()){
-            MessageMap errorMap = GlobalVariables.getMessageMap();
+            MessageMap errorMap = globalVariableService.getMessageMap();
             for (String error : errors) {
                 errorMap.putError("document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["+ (budgetLineItem.getLineItemNumber() - 1) +"].costElement",error);
             }
@@ -892,4 +892,11 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         }
     }
 
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
 }

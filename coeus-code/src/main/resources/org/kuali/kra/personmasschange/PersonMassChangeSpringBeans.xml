@@ -76,4 +76,8 @@
         <property name="unitAdministratorPersonMassChangeService" ref="unitAdministratorPersonMassChangeService" />
     </bean>
 
+    <bean id="globalVariableService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="globalVariableService" />
+    </bean>
+
 </beans>

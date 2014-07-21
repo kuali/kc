@@ -21,10 +21,10 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
 import org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyDao;
 import org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyForm;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -51,6 +51,10 @@ public class SponsorHierarchyMaintenanceServiceImpl implements SponsorHierarchyM
 	@Autowired
 	@Qualifier("parameterService")
     private ParameterService parameterService;
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
 
     protected enum SponsorActionType {
         INSERT, UPDATE_NAME, UPDATE_SORT, DELETE;
@@ -261,10 +265,10 @@ public class SponsorHierarchyMaintenanceServiceImpl implements SponsorHierarchyM
     
     public void updateSponsorCodes(String sponsorCodes) {
 
-        if (GlobalVariables.getUserSession().retrieveObject("sponsorCodes") != null) {
-            GlobalVariables.getUserSession().removeObject("sponsorCodes");
+        if (globalVariableService.getUserSession().retrieveObject("sponsorCodes") != null) {
+            globalVariableService.getUserSession().removeObject("sponsorCodes");
         }
-        GlobalVariables.getUserSession().addObject("sponsorCodes", (Object)sponsorCodes);
+        globalVariableService.getUserSession().addObject("sponsorCodes", (Object)sponsorCodes);
     }
     
     public void insertSponsor(String hierarchyName, String[] sponsorCodes, String[] levels,
@@ -313,16 +317,16 @@ public class SponsorHierarchyMaintenanceServiceImpl implements SponsorHierarchyM
     
     @SuppressWarnings("unchecked")
     protected void addActionToBeSaved(SponsorAction action) {
-        List<SponsorAction> actions = (List)GlobalVariables.getUserSession().retrieveObject(SESSION_KEY);
+        List<SponsorAction> actions = (List)globalVariableService.getUserSession().retrieveObject(SESSION_KEY);
         if (actions == null) {
             actions = new ArrayList<SponsorAction>();
-            GlobalVariables.getUserSession().addObject(SESSION_KEY, actions);
+            globalVariableService.getUserSession().addObject(SESSION_KEY, actions);
         }
         actions.add(action);
     }
     
     public void executeActions() {
-        List<SponsorAction> actions = (List)GlobalVariables.getUserSession().retrieveObject(SESSION_KEY);
+        List<SponsorAction> actions = (List)globalVariableService.getUserSession().retrieveObject(SESSION_KEY);
         if (actions != null) {
             for (SponsorAction action : actions) {
                 if (action.actionType == SponsorActionType.INSERT) {
@@ -421,7 +425,7 @@ public class SponsorHierarchyMaintenanceServiceImpl implements SponsorHierarchyM
     }
     
     public void clearCurrentActions() {
-        GlobalVariables.getUserSession().removeObject(SESSION_KEY);
+        globalVariableService.getUserSession().removeObject(SESSION_KEY);
     }
 
     @Override
@@ -467,5 +471,12 @@ public class SponsorHierarchyMaintenanceServiceImpl implements SponsorHierarchyM
     protected void setSponsorHierarchyDao(SponsorHierarchyDao sponsorHierarchyDao) {
         this.sponsorHierarchyDao = sponsorHierarchyDao;
     }
-    
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
 }

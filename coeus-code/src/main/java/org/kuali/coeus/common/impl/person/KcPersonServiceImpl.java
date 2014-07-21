@@ -18,6 +18,7 @@ package org.kuali.coeus.common.impl.person;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.multicampus.MultiCampusConstants;
 import org.kuali.coeus.common.framework.multicampus.MultiCampusIdentityService;
@@ -25,7 +26,6 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.entity.EntityContract;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -52,7 +52,10 @@ public class KcPersonServiceImpl implements KcPersonService {
     @Qualifier("multiCampusIdentityService")
     private MultiCampusIdentityService multiCampusIdentityService;
 
-    
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
+
     /**
      * Modifies field values so that different field keys can be used for a lookup.
      * @param fieldValues the field values to modify
@@ -99,7 +102,7 @@ public class KcPersonServiceImpl implements KcPersonService {
                 Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, MultiCampusConstants.PARAMETER_MULTI_CAMPUS_ENABLED);
         
         if (multiCampusEnabled) {
-            String campusCode = (String) GlobalVariables.getUserSession().retrieveObject(MultiCampusConstants.USER_CAMPUS_CODE_KEY);
+            String campusCode = (String) globalVariableService.getUserSession().retrieveObject(MultiCampusConstants.USER_CAMPUS_CODE_KEY);
             String multiCampusUserName = this.multiCampusIdentityService.getMultiCampusPrincipalName(userName, campusCode);
             EntityContract entity = this.identityService.getEntityByPrincipalName(multiCampusUserName);
             if (entity != null) {
@@ -152,5 +155,24 @@ public class KcPersonServiceImpl implements KcPersonService {
     public void setMultiCampusIdentityService(MultiCampusIdentityService multiCampusIdentityService) {
         this.multiCampusIdentityService = multiCampusIdentityService;
     }
-    
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
+
+    public IdentityService getIdentityService() {
+        return identityService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public MultiCampusIdentityService getMultiCampusIdentityService() {
+        return multiCampusIdentityService;
+    }
 }

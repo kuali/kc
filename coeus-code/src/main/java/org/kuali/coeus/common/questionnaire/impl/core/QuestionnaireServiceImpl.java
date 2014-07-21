@@ -18,6 +18,7 @@ package org.kuali.coeus.common.questionnaire.impl.core;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireService;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -26,7 +27,6 @@ import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -52,6 +52,10 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     @Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
 
     private Map<String, String> permissionModuleMap;
 
@@ -122,7 +126,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         Collection<String> parameters = this.parameterService.getParameterValuesAsString(Constants.PARAMETER_MODULE_QUESTIONNAIRE, Constants.PARAMETER_COMPONENT_PERMISSION, PARAM_NAME);
         for (String permission : parameters) {
             String[] params = permission.split(":");
-            boolean unitAuthCheck = unitAuthorizationService.hasPermission(GlobalVariables.getUserSession().getPerson()
+            boolean unitAuthCheck = unitAuthorizationService.hasPermission(globalVariableService.getUserSession().getPerson()
                     .getPrincipalId(), params[1], params[0]);
             if (unitAuthCheck && !modules.contains(permissionModuleMap.get(permission))) {
                 modules.add(permissionModuleMap.get(permission));
@@ -179,4 +183,11 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         return parameterService;
     }
 
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
 }

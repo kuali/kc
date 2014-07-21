@@ -21,7 +21,7 @@ public class KcDataObjectServiceImpl implements KcDataObjectService {
     private IdentityService identityService;
 
     @Autowired
-    @Qualifier
+    @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
 
     @Override
