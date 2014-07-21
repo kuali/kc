@@ -29,6 +29,7 @@ import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 import org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
@@ -408,6 +409,7 @@ public class QuestionnaireAnswerServiceTest {
         workUsages.clear();
         workUsages.add(questionnaireUsage);
         questionnaire.setQuestionnaireUsages(workUsages);
+        final GlobalVariableService globalVariableService = context.mock(GlobalVariableService.class);
 
         //context.mock(BusinessObjectService.class);
         context.checking(new Expectations() {{
@@ -416,11 +418,13 @@ public class QuestionnaireAnswerServiceTest {
                     fieldValues2, SEQUENCE_NUMBER, false); will(returnValue(questionnaires));
             exactly(2).of(businessObjectService).findMatchingOrderBy(Questionnaire.class,
                             fieldValues3, SEQUENCE_NUMBER, false); will(returnValue(questionnaires1));
+            one(globalVariableService).getUserSession(); will(returnValue(null));
        }});
 
         
         questionnaireAnswerServiceImpl.setBusinessObjectService(businessObjectService);
         questionnaireAnswerServiceImpl.setQuestionnaireService(questionnaireServiceImpl);
+        questionnaireAnswerServiceImpl.setGlobalVariableService(globalVariableService);
         questionnaireServiceImpl.setBusinessObjectService(businessObjectService);
         
         
