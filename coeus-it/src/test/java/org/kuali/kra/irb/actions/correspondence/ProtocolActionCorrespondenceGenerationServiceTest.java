@@ -94,24 +94,4 @@ public class ProtocolActionCorrespondenceGenerationServiceTest extends KcIntegra
         fieldValues.put("PROTOCOL_ACTION_TYPE_CODE", "100");
         return (ProtocolActionType)this.businessObjectService.findByPrimaryKey(ProtocolActionType.class, fieldValues);
     }
-    
-    /*
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testBuildAndAttachProtocolAttachmentProtocol() {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("protocolNumber", protocol.getProtocolNumber());
-        fieldValues.put("sequenceNumber", protocol.getSequenceNumber().toString());
-        assertNotNull(protocol.getLastProtocolAction());
-        fieldValues.put("actionIdFk", protocol.getLastProtocolAction().getProtocolActionId().toString());
-        List<ProtocolCorrespondence> correspondenceList = (List<ProtocolCorrespondence>) businessObjectService.findMatching(ProtocolCorrespondence.class, fieldValues);
-        assertTrue(correspondenceList == null || correspondenceList.size() == 0);
-        byte[] data = {'a','b','c'};
-        //Generating a Protocol Optional Report #1
-        protocolActionCorrespondenceGenerationService.buildAndAttachProtocolCorrespondence(protocol, data, "foo bar attachment", "13");
-        correspondenceList = (List<ProtocolCorrespondence>) businessObjectService.findMatching(ProtocolCorrespondence.class, fieldValues);
-        assertNotNull(correspondenceList);
-        assertTrue(correspondenceList.size() == 1);
-    }*/
-
 }

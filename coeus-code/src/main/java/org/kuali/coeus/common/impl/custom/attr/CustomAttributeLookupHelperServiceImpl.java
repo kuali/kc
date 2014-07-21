@@ -17,18 +17,24 @@ package org.kuali.coeus.common.impl.custom.attr;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
+import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CustomAttributeLookupHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+@Component("customAttributeDocumentLookupableHelperService")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class CustomAttributeLookupHelperServiceImpl extends KcKualiLookupableHelperServiceImpl {
 
     private static final String EQUAL_CHAR = "=";
     private Collection<String> documentTypeParam;

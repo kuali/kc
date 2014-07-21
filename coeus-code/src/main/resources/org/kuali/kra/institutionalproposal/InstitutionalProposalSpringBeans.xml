@@ -115,10 +115,6 @@
         <property name="serviceName" value="persistenceStructureServiceOjb" />
     </bean>
     
-    <bean id="persistenceStructureServiceJpa" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="persistenceStructureServiceJpa" />
-    </bean>
-    
     <bean id="printingService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="printingService" />
     </bean>
@@ -200,7 +196,7 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
-    <bean id="proposalLogPrint" class="org.kuali.kra.institutionalproposal.proposallog.printing.ProposalLogPrint">
+    <bean id="proposalLogPrint" class="org.kuali.kra.institutionalproposal.proposallog.printing.ProposalLogPrint" scope="prototype">
         <property name="xmlStream" ref="proposalLogXmlStream" />
     </bean>  
        
@@ -287,7 +283,7 @@
         <property name="printingService" ref="printingService" />
     </bean>
     
-    <bean id="institutionalProposalPrint" class="org.kuali.kra.institutionalproposal.printing.print.InstitutionalProposalPrint">
+    <bean id="institutionalProposalPrint" class="org.kuali.kra.institutionalproposal.printing.print.InstitutionalProposalPrint" scope="prototype">
         <property name="xmlStream" ref="institutionalProposalXmlStream" />
     </bean>
     

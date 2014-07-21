@@ -30,7 +30,6 @@ import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 import org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
@@ -612,73 +611,6 @@ public class QuestionnaireAnswerServiceTest {
         Assert.assertEquals("Y", newAnswerHeader.getAnswers().get(1).getMatchedChild());
         Assert.assertEquals("N", newAnswerHeader.getAnswers().get(2).getMatchedChild());
         Assert.assertEquals("Y", newAnswerHeader.getAnswers().get(3).getMatchedChild());
-    }
-    
-    
-    @Test
-    public void testGetAnswerHeadersForProtocol() {
-        QuestionnaireAnswerServiceImpl questionnaireAnswerServiceImpl = new QuestionnaireAnswerServiceImpl();
-        final List<String> protocolNumbers = new ArrayList<String>();
-        protocolNumbers.add("0912000001");
-        protocolNumbers.add("0912000001A001");
-
-        final Map <String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(MODULE_ITEM_CODE, CoeusModule.IRB_MODULE_CODE);
-        fieldValues.put(MODULE_ITEM_KEY, protocolNumbers);
-        //fieldValues.put("moduleItemKey", "0912000001");
-
-       final Collection<AnswerHeader> headers = new ArrayList<AnswerHeader>();
-       AnswerHeader answerHeader1 = createAnswerHeaderForVersioning(1L, "0912000001", "0");
-       headers.add(answerHeader1);
-       AnswerHeader answerHeader2 = createAnswerHeaderForVersioning(1L, "0912000001A001", "0");
-       answerHeader2.setModuleSubItemCode("1");
-       headers.add(answerHeader2);
-       AnswerHeader answerHeader3 = createAnswerHeaderForVersioning(1L, "0912000001", "1");
-       answerHeader3.setModuleSubItemCode("2");
-       headers.add(answerHeader3);
-  
-        final Protocol protocol = new Protocol(){
-            @Override
-            public void refreshReferenceObject(String referenceObjectName) {
-                // do nothing
-            }
-
-        };
-        protocol.setProtocolNumber("0912000001");
-        protocol.setSequenceNumber(0);
-        final List<Protocol> protocols = new ArrayList<Protocol>();
-        Protocol protocol1 = new Protocol(){
-            @Override
-            public void refreshReferenceObject(String referenceObjectName) {
-                // do nothing
-            }
-
-        };
-        protocol1.setProtocolNumber("0912000001");
-        protocols.add(protocol1);
-        Protocol protocol2 = new Protocol(){
-            @Override
-            public void refreshReferenceObject(String referenceObjectName) {
-                // do nothing
-            }
-
-        };
-        protocol2.setProtocolNumber("0912000001A001");
-        protocols.add(protocol2);
-        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
-        final ProtocolFinderDao protocolFinderDao = context.mock(ProtocolFinderDao.class);
-        context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(AnswerHeader.class, fieldValues); will(returnValue(headers));
-            one(protocolFinderDao).findProtocols("0912000001"); will(returnValue(protocols));
-        }});
-        questionnaireAnswerServiceImpl.setBusinessObjectService(businessObjectService);
-        questionnaireAnswerServiceImpl.setProtocolFinderDao(protocolFinderDao);
-        
-        List<AnswerHeader> answerHeaders = questionnaireAnswerServiceImpl.getAnswerHeadersForProtocol("0912000001");
-        Assert.assertEquals(3, answerHeaders.size());
-        Assert.assertEquals("0", answerHeaders.get(0).getModuleSubItemKey());
-        Assert.assertEquals("0912000001", answerHeaders.get(0).getModuleItemKey());
-        //assertEquals(answerHeader, questionnaireAnswerServiceImpl.getNewVersionAnswerHeader(new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocol), questionnaire));
     }
 
 }

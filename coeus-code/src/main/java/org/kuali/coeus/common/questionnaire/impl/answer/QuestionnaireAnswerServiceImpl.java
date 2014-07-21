@@ -24,14 +24,12 @@ import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswer
 import org.kuali.kra.coi.questionnaire.DisclosureModuleQuestionnaireBean;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sModuleQuestionnaireBean;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonModuleQuestionnaireBean;
-import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.questionnaire.QuestionnaireHelperBase;
 import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
@@ -70,9 +68,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     @Autowired()
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
-    @Autowired
-    @Qualifier("protocolFinderDao")
-    private ProtocolFinderDao protocolFinderDao;
+
     @Autowired
     @Qualifier("questionnaireService")
     private QuestionnaireService questionnaireService;
@@ -84,9 +80,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         return businessObjectService;
     }
 
-    public ProtocolFinderDao getProtocolFinderDao() {
-        return protocolFinderDao;
-    }
 
 
     /*
@@ -766,10 +759,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
 
     }
-
-    public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
-        this.protocolFinderDao = protocolFinderDao;
-    }
     
     public List<AnswerHeader> getPrintAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber, QuestionnaireHelperBase questionnaireHelper) {
 
@@ -792,101 +781,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             return printAnswerHeaders;
         }
     }
-    
-    @Override
-    public List<AnswerHeader> getAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber, QuestionnaireHelperBase questionnaireHelper) {
-        boolean isAmendmentOrRenewal = protocolNumber.contains("A") || protocolNumber.contains("R");
-        String originalProtocolNumber = protocolNumber;
-        if (isAmendmentOrRenewal) {
-            originalProtocolNumber = protocolNumber.substring(0, 10);
-        }
-        questionnaireHelper.populateAnswers();        
-        List<AnswerHeader> answerHeaders = questionnaireHelper.getAnswerHeaders();
-        if (isAmendmentOrRenewal) {
-            List<AnswerHeader> headers = new ArrayList<AnswerHeader>();
-            for (AnswerHeader answerHeader : answerHeaders) {
-                if (!(CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode()) && answerHeader
-                        .getModuleItemKey().equals(originalProtocolNumber))
-                        && answerHeader.getModuleItemKey().equals(protocolNumber)) {
-                    headers.add(answerHeader);
-                }
-            }
-            return headers;
-        }
-        else {
-            return answerHeaders;
-        }
-    }
 
-
-    public List<AnswerHeader> getAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber) {
-        boolean isAmendmentOrRenewal = protocolNumber.contains("A") || protocolNumber.contains("R");
-        String originalProtocolNumber = protocolNumber;
-        if (isAmendmentOrRenewal) {
-            originalProtocolNumber = protocolNumber.substring(0, 10);
-        }
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(MODULE_ITEM_CODE, moduleQuestionnaireBean.getModuleItemCode());
-        fieldValues.put(MODULE_ITEM_KEY, protocolNumber);
-        List<AnswerHeader> answerHeaders = (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
-        if (isAmendmentOrRenewal) {
-            List<AnswerHeader> headers = new ArrayList<AnswerHeader>();
-            for (AnswerHeader answerHeader : answerHeaders) {
-                if (!(CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode()) && answerHeader
-                        .getModuleItemKey().equals(originalProtocolNumber))
-                        && answerHeader.getModuleItemKey().equals(protocolNumber)) {
-                    headers.add(answerHeader);
-                }
-            }
-            return headers;
-        }
-        else {
-            return answerHeaders;
-        }
-    }
-    
-    
-    @Override
-    public List<AnswerHeader> getAnswerHeadersForProtocol(String protocolNumber) {
-        boolean isAmendmentOrRenewal = protocolNumber.contains("A") || protocolNumber.contains("R");
-        String originalProtocolNumber = protocolNumber;
-        if (isAmendmentOrRenewal) {
-            originalProtocolNumber = protocolNumber.substring(0, 10);
-        }
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(MODULE_ITEM_CODE, CoeusModule.IRB_MODULE_CODE);
-        fieldValues.put(MODULE_ITEM_KEY, getProtocolNumbers(originalProtocolNumber));
-        // fieldValues.put(MODULE_ITEM_KEY, protocolNumber);
-        List<AnswerHeader> answerHeaders = (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
-        if (isAmendmentOrRenewal) {
-            List<AnswerHeader> headers = new ArrayList<AnswerHeader>();
-            for (AnswerHeader answerHeader : answerHeaders) {
-                if (!(CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode()) && answerHeader
-                        .getModuleItemKey().equals(originalProtocolNumber))
-                        && answerHeader.getModuleItemKey().equals(protocolNumber)) {
-                    headers.add(answerHeader);
-                }
-            }
-            return headers;
-        }
-        else {
-            return answerHeaders;
-        }
-    }
-
-    /*
-     * get the unique protocol numbers for the protocolnumber. The unique protocol numbers may contain amendment and renewal
-     * protocol's protocol numbers.
-     */
-    private List<String> getProtocolNumbers(String protocolNumber) {
-        List<String> protocolNumbers = new ArrayList<String>();
-        for (ProtocolBase protocol : protocolFinderDao.findProtocols(protocolNumber)) {
-            if (!protocolNumbers.contains(protocol.getProtocolNumber())) {
-                protocolNumbers.add(protocol.getProtocolNumber());
-            }
-        }
-        return protocolNumbers;
-    }
     
     private Map<String, Boolean> runApplicableRules(List<String> ruleIds, ModuleQuestionnaireBean moduleQuestionnaireBean) {
         KrmsRulesContext rulesContext = moduleQuestionnaireBean.getKrmsRulesContextFromBean();

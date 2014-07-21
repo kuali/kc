@@ -17,5 +17,6 @@
 	<param name="datasource.username">KCBND</param>
 	<param name="datasource.password">bndpass</param>
 	<param name="datasource.ojb.platform">MySQL</param>
+	<param name="datasource.pool.class">com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</param>
 	-->
 </config>

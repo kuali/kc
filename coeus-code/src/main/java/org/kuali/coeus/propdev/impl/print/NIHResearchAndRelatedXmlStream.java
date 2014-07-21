@@ -173,7 +173,7 @@ public class NIHResearchAndRelatedXmlStream extends
     private OrganizationRepositoryService organizationRepositoryService;
 
     @Autowired
-    @Qualifier
+    @Qualifier("submissionInfoService")
     private SubmissionInfoService submissionInfoService;
 
     private ScaleTwoDecimal cumulativeCalendarMonthsFunded = ScaleTwoDecimal.ZERO;

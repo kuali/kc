@@ -24,6 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.print.watermark.WatermarkBean;
 import org.kuali.coeus.common.framework.print.watermark.WatermarkConstants;
 import org.kuali.coeus.common.framework.print.watermark.WatermarkService;
+import org.springframework.stereotype.Component;
 
 import java.awt.*;
 import java.io.ByteArrayOutputStream;
@@ -34,6 +35,7 @@ import java.io.IOException;
  * This class for implementing the watermark service methods, which decorates the PDF Data with the appropriate watermark and return
  * that pdfByte Array
  */
+@Component("watermarkService")
 public class WatermarkServiceImpl implements WatermarkService {
 
 
@@ -113,7 +115,7 @@ public class WatermarkServiceImpl implements WatermarkService {
      * 
      * This method for Decorating the PDF with watermark.
      * 
-     * @param pdfStamper - wrapper for pdf content byte and assists in decorating PDF LOg the exception if cannot open/read the file
+     * @param watermarkPdfStamper - wrapper for pdf content byte and assists in decorating PDF LOg the exception if cannot open/read the file
      *        for decoration
      */
     private void decorateWatermark(PdfStamper watermarkPdfStamper, WatermarkBean watermarkBean) {
@@ -150,11 +152,6 @@ public class WatermarkServiceImpl implements WatermarkService {
 
     /**
      * This method is for setting the properties of watermark Text.
-     * 
-     * @param pdfContentByte
-     * @param pageWidth
-     * @param pageHeight
-     * @param watermarkBean
      */
     private void decoratePdfWatermarkText(PdfContentByte pdfContentByte, Rectangle rectangle, WatermarkBean watermarkBean) {
         float x, y, x1, y1, angle;
@@ -239,13 +236,7 @@ public class WatermarkServiceImpl implements WatermarkService {
    
     /**
      * This method is for setting the page properties of the document.
-     * 
-     * @param Document
-     * @param PdfWriter
-     * @param PdfReader
-     
      */
-
     private void watermarkPageDocument(Document document,PdfWriter writer,PdfReader reader){
         document.open();
         int totalPages;

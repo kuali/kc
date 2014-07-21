@@ -19,18 +19,23 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.coeus.common.framework.multicampus.MultiCampusConstants;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.location.impl.campus.CampusBo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,14 +44,20 @@ import java.util.Map;
 /**
  * Unit lookup that accounts for the extra parameter {@code campusCode} and filters the search results if it is defined.
  */
-public class UnitLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+@Component("unitLookupableHelperService")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class UnitLookupableHelperServiceImpl extends KcKualiLookupableHelperServiceImpl {
 
     private static final long serialVersionUID = -3661085880649722426L;
     
     private static final String CAMPUS_CODE_FIELD = "code";
     private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = CampusBo.class.getName();
 
+    @Autowired
+    @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
+
+    @Qualifier("unitAuthorizationService")
     private UnitAuthorizationService unitAuthorizationService;
     
     @Override

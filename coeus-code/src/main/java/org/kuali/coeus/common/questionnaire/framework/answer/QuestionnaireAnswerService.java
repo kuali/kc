@@ -107,36 +107,6 @@ public interface QuestionnaireAnswerService {
     public List<AnswerHeader> copyAnswerHeaders(ModuleQuestionnaireBean srcModuleQuestionnaireBean, ModuleQuestionnaireBean newModuleQuestionnaireBean);
 
     /**
-     * 
-     * This method is to get all the questionnaire answer for the protocol.
-     * Questionnaire answer may contain submit questionnaire, request submission questionnaire, amendment/renewal questionnaire.
-     * @param protocolNumber
-     * @return
-     */
-    List<AnswerHeader> getAnswerHeadersForProtocol(String protocolNumber);
-    
-    /**
-     * 
-     * This method is to get all the questionnaire answer for the protocol.
-     * Questionnaire answer may contain submit questionnaire, request submission questionnaire, amendment/renewal questionnaire.
-     * @param moduleQuestionnaireBean
-     * @param protocolNumber
-     * @return
-     */
-    public List<AnswerHeader> getAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber);
-    
-    /**
-     * 
-     * This method is to get all the questionnaire answer for the protocol.
-     * Questionnaire answer may contain submit questionnaire, request submission questionnaire, amendment/renewal questionnaire.
-     * @param moduleQuestionnaireBean
-     * @param protocolNumber
-     * @param questionnaireHelper
-     * @return
-     */
-    public List<AnswerHeader> getAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber, QuestionnaireHelperBase questionnaireHelper); 
-    
-    /**
      * Get the questionnaire usages for a module and submodule.
      * 
      * @param coeusModule the coeus module of the questionnaires you are looking for.

@@ -155,15 +155,22 @@
   <!-- printing related -->    
     
     <bean id="iacucCommitteePrintingService"
-		class="org.kuali.kra.iacuc.committee.print.service.impl.IacucCommitteePrintingServiceImpl" scope="prototype" parent="printingService">
+		class="org.kuali.kra.iacuc.committee.print.service.impl.IacucCommitteePrintingServiceImpl" scope="prototype">
 		<property name="committeeTemplatePrint" ref="iacucCommitteeTemplatePrint" />
 		<property name="scheduleTemplatePrint" ref="iacucScheduleTemplatePrint" />
 		<property name="protocolCorrespondenceTemplatePrint" ref="iacucProtocolCorrespondenceTemplatePrint" />
 		<property name="committeeRosterPrint" ref="iacucCommitteeRosterPrint" />
 		<property name="committeeFutureScheduledMeetingsPrint" ref="iacucCommitteeFutureScheduledMeetingsPrint" />
 		<property name="protocolBatchCorrespondencePrint" ref="iacucProtocolBatchCorrespondencePrint" />
+        <property name="dateTimeService" ref="dateTimeService"/>
+        <property name="kualiConfigurationService" ref="kualiConfigurationService" />
+        <property name="watermarkService" ref="watermarkService" />
 	</bean>
-	
+
+    <bean id="watermarkService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="watermarkService" />
+    </bean>
+
 	<bean id="iacucCommitteeTemplatePrint" class="org.kuali.kra.iacuc.committee.print.IacucCommitteeTemplatePrint"
 		scope="prototype" parent="templatePrint">
 		<property name="xmlStream" ref="iacucCommitteeXmlStream" />
@@ -203,8 +210,12 @@
         <property name="kcNotificationService" ref="kcNotificationService" />
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
-	
-	
+
+    <bean id="printBaseXmlStream" class="org.kuali.coeus.common.framework.print.stream.xml.PrintBaseXmlStream" abstract="true">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+    </bean>
+
 	<bean id="iacucCommitteeXmlStream" class="org.kuali.kra.iacuc.committee.print.IacucCommitteeXmlStream" parent="printBaseXmlStream">
 		<property name="printXmlUtilService" ref="iacucPrintXmlUtilService" />
 		<property name="scheduleXmlStream" ref="iacucScheduleXmlStream" />

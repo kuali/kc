@@ -603,6 +603,10 @@
         <property name="serviceName" value="dbPlatform" />
     </bean>
 
+    <bean id="organizationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="organizationService" />
+    </bean>
+
     <bean id="platformAwareDao" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb" abstract="true">
         <property name="jcdAlias" value="kradApplicationDataSource" />
         <property name="dbPlatform" ref="dbPlatform" />
@@ -785,7 +789,11 @@
         <property name="protocolActionCorrespondenceGenerationService" ref="iacucProtocolActionCorrespondenceGenerationService" />
         <property name="documentService" ref="documentService" />
     </bean>
-    
+
+    <bean id="questionnaireAnswerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="questionnaireAnswerService" />
+    </bean>
+
    <bean id="iacucProtocolVersionService" class="org.kuali.kra.iacuc.IacucProtocolVersionServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="businessObjectService" ref="businessObjectService" />
@@ -958,7 +966,11 @@
 		p:localServiceName="activeCommitteeMemberOnIacucProtocolDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
 
-    
+    <bean id="printBaseXmlStream" class="org.kuali.coeus.common.framework.print.stream.xml.PrintBaseXmlStream" abstract="true">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+    </bean>
+
     <bean id="iacucProtocolXmlStream"
         class="org.kuali.kra.iacuc.actions.print.IacucProtocolXmlStream" parent="printBaseXmlStream">
         <property name="printXmlUtilService">
@@ -989,8 +1001,7 @@
             </property>
     </bean>
 
-    <bean id="iacucCorrespondencePrint"
-    	parent="correspondencePrint">
+    <bean id="iacucCorrespondencePrint" class="org.kuali.coeus.common.questionnaire.framework.print.CorrespondencePrint" scope="prototype">
    		<property name="xmlStream" ref="iacucCorrespondenceXmlStream" />
    	</bean>
 
@@ -1012,11 +1023,18 @@
     </bean>
 
     <bean id="iacucProtocolPrintingService"
-        class="org.kuali.kra.iacuc.actions.print.IacucProtocolPrintingServiceImpl" parent="printingService">
+        class="org.kuali.kra.iacuc.actions.print.IacucProtocolPrintingServiceImpl">
         <property name="protocolFullProtocolPrint" ref="iacucProtocolFullProtocolPrint" />
         <property name="protocolHistoryPrint" ref="iacucProtocolHistoryPrint" />
         <property name="protocolReviewCommentsPrint" ref="iacucProtocolReviewCommentsPrint" />
         <property name="protocolSummaryViewPrint" ref="iacucProtocolSummaryViewPrint" />
+        <property name="dateTimeService" ref="dateTimeService"/>
+        <property name="kualiConfigurationService" ref="kualiConfigurationService" />
+        <property name="watermarkService" ref="watermarkService" />
+    </bean>
+
+    <bean id="watermarkService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="watermarkService" />
     </bean>
 
     <bean id="iacucProtocolQuestionnairePrintingService"
@@ -1135,6 +1153,11 @@
 		<property name="routeHeaderService" ref="routeHeaderService"/>
 		<property name="protocolCopyService" ref="iacucProtocolCopyService" />
     </bean>
+
+    <bean id="questionnairePrint" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="questionnairePrint" />
+    </bean>
+
 	<bean id="iacucQuestionnairePrintingService" class="org.kuali.kra.iacuc.questionnaire.print.IacucQuestionnairePrintingServiceImpl">
 		<property name="printingService">
 			<ref bean="printingService" />

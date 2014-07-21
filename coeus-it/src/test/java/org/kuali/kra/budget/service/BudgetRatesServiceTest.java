@@ -33,12 +33,14 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.coeus.common.framework.type.ActivityType;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.util.DateUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;
 import java.util.*;
@@ -154,7 +156,7 @@ public class BudgetRatesServiceTest extends KcIntegrationTestBase {
     
     @Before
     public void setUp() throws Exception {
-        budgetRatesService = new BudgetRatesServiceImpl();
+        budgetRatesService = new BudgetRatesServiceImpl(){};
         ((BudgetRatesServiceImpl)budgetRatesService).setBusinessObjectService(new MockBusinessObjectService());
         initializeBudgetDocument();
         initializeBudgetProposalRates();
@@ -419,7 +421,7 @@ public class BudgetRatesServiceTest extends KcIntegrationTestBase {
             } else if (clazz.equals(BudgetPerson.class)) {
                 results = findMatchingBudgetPersons(fieldValues);
             } else {
-                results = null;
+                return KcServiceLocator.getService(BusinessObjectService.class).findMatching(clazz, fieldValues);
             }
             
             return results;

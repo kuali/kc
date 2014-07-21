@@ -17,17 +17,12 @@ package org.kuali.coeus.common.questionnaire.impl.question;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
+import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.rice.core.api.encryption.EncryptionService;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.service.BusinessObjectMetaDataService;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -44,7 +39,7 @@ import java.util.Map;
  */
 @Component("questionLookupableHelperService")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+public class QuestionLookupableHelperServiceImpl extends KcKualiLookupableHelperServiceImpl {
 
     private static final long serialVersionUID = 7936563894902841571L;
 
@@ -57,69 +52,6 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
     @Autowired
     @Qualifier("questionAuthorizationService")
     private transient QuestionAuthorizationService questionAuthorizationService;
-
-    @Autowired
-    @Qualifier("businessObjectDictionaryService")
-    @Override
-    public void setBusinessObjectDictionaryService(BusinessObjectDictionaryService businessObjectDictionaryService) {
-        super.setBusinessObjectDictionaryService(businessObjectDictionaryService);
-    }
-
-    @Autowired
-    @Qualifier("businessObjectService")
-    @Override
-    public void setBusinessObjectService(BusinessObjectService businessObjectyService) {
-        super.setBusinessObjectService(businessObjectService);
-    }
-
-    @Autowired
-    @Qualifier("businessObjectMetaDataService")
-    @Override
-    public void setBusinessObjectMetaDataService(BusinessObjectMetaDataService businessObjectMetaDataService) {
-        super.setBusinessObjectMetaDataService(businessObjectMetaDataService);
-    }
-
-    @Autowired
-    @Qualifier("dataDictionaryService")
-    @Override
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        super.setDataDictionaryService(dataDictionaryService);
-    }
-
-    @Autowired
-    @Qualifier("encryptionService")
-    @Override
-    public void setEncryptionService(EncryptionService encryptionService) {
-        super.setEncryptionService(encryptionService);
-    }
-
-    @Autowired
-    @Qualifier("lookupResultsService")
-    @Override
-    public void setLookupResultsService(LookupResultsService lookupResultsService) {
-        super.setLookupResultsService(lookupResultsService);
-    }
-
-    @Autowired
-    @Qualifier("lookupService")
-    @Override
-    public void setLookupService(LookupService lookupService) {
-        super.setLookupService(lookupService);
-    }
-
-    @Autowired
-    @Qualifier("persistenceStructureService")
-    @Override
-    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
-        super.setPersistenceStructureService(persistenceStructureService);
-    }
-
-    @Autowired
-    @Qualifier("sequenceAccessorService")
-    @Override
-    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
-        super.setSequenceAccessorService(sequenceAccessorService);
-    }
 
     /**
      * Don't show the option to select active/inactive questions since Question is being versioned 

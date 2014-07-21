@@ -38,7 +38,6 @@ import org.kuali.coeus.common.budget.framework.query.operator.And;
 import org.kuali.coeus.common.budget.framework.query.operator.Equals;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
-import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
@@ -565,7 +564,6 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 
     /**
      * Copies budget version from previous one
-     * @see org.kuali.coeus.common.budget.framework.core.BudgetCommonService#copyBudgetVersion(org.kuali.coeus.common.budget.framework.core.BudgetDocument)
      */
     public BudgetDocument<Award> copyBudgetVersion(BudgetDocument<Award> budgetDocument) throws WorkflowException {
         return copyBudgetVersion(budgetDocument, false);

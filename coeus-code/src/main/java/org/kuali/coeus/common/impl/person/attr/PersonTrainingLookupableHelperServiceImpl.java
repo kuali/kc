@@ -19,18 +19,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.attr.PersonTraining;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.rice.core.api.encryption.EncryptionService;
+import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.service.BusinessObjectMetaDataService;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -47,72 +41,13 @@ import java.util.Map;
  */
 @Component("personTrainingLookupableHelperService")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class PersonTrainingLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
-    @Autowired
-    @Qualifier("businessObjectDictionaryService")
-    @Override
-    public void setBusinessObjectDictionaryService(BusinessObjectDictionaryService businessObjectDictionaryService) {
-        super.setBusinessObjectDictionaryService(businessObjectDictionaryService);
-    }
-
-    @Autowired
-    @Qualifier("businessObjectService")
-    @Override
-    public void setBusinessObjectService(BusinessObjectService businessObjectyService) {
-        super.setBusinessObjectService(businessObjectService);
-    }
-
-    @Autowired
-    @Qualifier("businessObjectMetaDataService")
-    @Override
-    public void setBusinessObjectMetaDataService(BusinessObjectMetaDataService businessObjectMetaDataService) {
-        super.setBusinessObjectMetaDataService(businessObjectMetaDataService);
-    }
-
-    @Autowired
-    @Qualifier("dataDictionaryService")
-    @Override
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        super.setDataDictionaryService(dataDictionaryService);
-    }
-
-    @Autowired
-    @Qualifier("encryptionService")
-    @Override
-    public void setEncryptionService(EncryptionService encryptionService) {
-        super.setEncryptionService(encryptionService);
-    }
-
-    @Autowired
-    @Qualifier("lookupResultsService")
-    @Override
-    public void setLookupResultsService(LookupResultsService lookupResultsService) {
-        super.setLookupResultsService(lookupResultsService);
-    }
-
-    @Autowired
-    @Qualifier("lookupService")
-    @Override
-    public void setLookupService(LookupService lookupService) {
-        super.setLookupService(lookupService);
-    }
-
-    @Autowired
-    @Qualifier("persistenceStructureService")
-    @Override
-    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
-        super.setPersistenceStructureService(persistenceStructureService);
-    }
-
-    @Autowired
-    @Qualifier("sequenceAccessorService")
-    @Override
-    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
-        super.setSequenceAccessorService(sequenceAccessorService);
-    }
+public class PersonTrainingLookupableHelperServiceImpl extends KcKualiLookupableHelperServiceImpl {
 
     private static final long serialVersionUID = 749587517623905557L;
+
+    @Autowired
+    @Qualifier("kcPersonService")
+    private KcPersonService kcPersonService;
 
     @SuppressWarnings("unchecked")
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames){
@@ -154,10 +89,6 @@ public class PersonTrainingLookupableHelperServiceImpl extends KualiLookupableHe
         
         return super.performLookup(lookupForm, resultTable, bounded);
     }
-    
-    public KcPersonService getKcPersonService() {
-        return (KcPersonService) KcServiceLocator.getService(KcPersonService.class);
-    }
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -185,5 +116,12 @@ public class PersonTrainingLookupableHelperServiceImpl extends KualiLookupableHe
         }
         return filteredList;
     }
-    
+
+    public KcPersonService getKcPersonService() {
+        return kcPersonService;
+    }
+
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
+    }
 }

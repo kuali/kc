@@ -20,6 +20,8 @@ import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.xml.transform.Source;
@@ -33,6 +35,7 @@ import java.util.List;
  * This class is the printable of Questionnaire
  */
 @Component("questionnairePrint")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class QuestionnairePrint extends AbstractPrint {
 
     private static final long serialVersionUID = -5905174316529503137L;

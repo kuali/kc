@@ -23,14 +23,12 @@ import org.kuali.coeus.common.budget.framework.rate.*;
 import org.kuali.coeus.common.framework.type.ActivityType;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.rate.AbstractInstituteRate;
 import org.kuali.coeus.common.budget.framework.rate.InstituteLaRate;
 import org.kuali.coeus.common.budget.framework.rate.InstituteRate;
 import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
-import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -38,6 +36,7 @@ import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.service.FiscalYearMonthService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -49,7 +48,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import java.sql.Date;
 import java.util.*;
 
-public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRatesService<T> {
+public abstract class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRatesService<T> {
     private static final String SPACE = " ";
     public static final String UNIT_NUMBER_KEY = "unitNumber";
     public static final String ACTIVITY_TYPE_CODE_KEY = "activityTypeCode";
@@ -65,6 +64,10 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     @Autowired
     @Qualifier("unitService")
     private UnitService unitService;
+
+    @Autowired
+    @Qualifier("fiscalYearMonthService")
+    private FiscalYearMonthService fiscalYearMonthService;
 
     @Override
     public void resetAllBudgetRates(Budget budget) {
@@ -134,7 +137,6 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     /**
      * 
      * Does nothing. Placeholder for Award Budget
-     * @param budgetDocument
      */
     @Override
     public void syncParentDocumentRates(Budget budget) {
@@ -196,8 +198,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     protected String getActivityTypeDescription(Budget budget) {
         BudgetParent budgetParent = budget.getBudgetParent();
 
-        if (budget.isRateSynced() || !KcServiceLocator.getService(BudgetService.class).
-                checkActivityTypeChange( budget)) {
+        if (budget.isRateSynced() || !checkActivityTypeChange(budget)) {
             if(budgetParent.getActivityType()!= null){
                 return budgetParent.getActivityType().getDescription().concat(SPACE);
             }
@@ -623,9 +624,6 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     
     /**
      * Get budget LA rates applicable for the proposal - based on unit number
-     * @param rateClassTypes
-     * @param budgetDocument
-     * @param allInstituteLaRates
      */
     protected void getBudgetLaRates(List<RateClassType> rateClassTypes, Budget budget, List<InstituteLaRate> allInstituteLaRates) {
         List<InstituteLaRate> instituteLaRates = budget.getInstituteLaRates();        
@@ -966,4 +964,53 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         return 0;
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public Collection<BudgetRate> getSavedBudgetRates(Budget budget) {
+        Map<String,Long> qMap = new HashMap<String, Long>();
+        qMap.put("budgetId",budget.getBudgetId());
+        Collection<BudgetRate> rates = businessObjectService.findMatching(BudgetRate.class, qMap);
+        for (BudgetRate rate : rates) {
+            java.util.Calendar startDate = new java.util.GregorianCalendar();
+            startDate.setTime(rate.getStartDate());
+            Integer newFY = this.getFiscalYearMonthService().getFiscalYearFromDate(startDate);
+            rate.setFiscalYear(newFY.toString());
+        }
+        return rates;
+    }
+
+    @Override
+    public boolean checkActivityTypeChange(Budget budget) {
+        return checkActivityTypeChange(getSavedBudgetRates(budget), budget.getBudgetParent().getActivityTypeCode());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean checkActivityTypeChange(Collection<BudgetRate> allPropRates, String activityTypeCode) {
+        if (CollectionUtils.isNotEmpty(allPropRates)) {
+            Equals equalsActivityType = new Equals("activityTypeCode", activityTypeCode);
+            QueryList matchActivityTypePropRates = new QueryList(allPropRates).filter(equalsActivityType);
+            if (CollectionUtils.isEmpty(matchActivityTypePropRates) || allPropRates.size() != matchActivityTypePropRates.size()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public UnitService getUnitService() {
+        return unitService;
+    }
+
+    public void setUnitService(UnitService unitService) {
+        this.unitService = unitService;
+    }
+
+    public FiscalYearMonthService getFiscalYearMonthService() {
+        return fiscalYearMonthService;
+    }
+
+    public void setFiscalYearMonthService(FiscalYearMonthService fiscalYearMonthService) {
+        this.fiscalYearMonthService = fiscalYearMonthService;
+    }
 }

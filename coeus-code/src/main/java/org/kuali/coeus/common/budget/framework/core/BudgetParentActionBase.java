@@ -16,6 +16,7 @@
 package org.kuali.coeus.common.budget.framework.core;
 
 import org.kuali.coeus.common.budget.framework.core.*;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
@@ -40,6 +41,7 @@ public class BudgetParentActionBase extends KcTransactionalDocumentActionBase {
     protected static final String QUESTION_TEXT = "A new version of the budget will be created based on version ";
     
     private BudgetService budgetService;
+    private BudgetRatesService budgetRatesService;
     
     /**
      * This method looks at the list of budgetVersions for the final version, then returns the version number.
@@ -131,6 +133,15 @@ public class BudgetParentActionBase extends KcTransactionalDocumentActionBase {
     public void setBudgetService(BudgetService budgetService) {
         this.budgetService = budgetService;
     }
-    
-    
+
+    public BudgetRatesService getBudgetRatesService() {
+        if (budgetRatesService == null) {
+            budgetRatesService = KcServiceLocator.getService(BudgetRatesService.class);
+        }
+        return budgetRatesService;
+    }
+
+    public void setBudgetRatesService(BudgetRatesService budgetRatesService) {
+        this.budgetRatesService = budgetRatesService;
+    }
 }

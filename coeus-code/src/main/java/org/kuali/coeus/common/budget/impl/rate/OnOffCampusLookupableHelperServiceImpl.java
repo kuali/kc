@@ -13,22 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.lookup;
+package org.kuali.coeus.common.budget.impl.rate;
 
+import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
-public class OnOffCampusLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    
+@Component("onOffCampusLookupableHelperService")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class OnOffCampusLookupableHelperServiceImpl extends KcKualiLookupableHelperServiceImpl {
+
     /**
      * 
      * This is for onoffcampusflag.  It's boolean, but saved as 'N/F'.  So, it caused trouble for lookup 
-     * @see org.kuali.core.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
-     * 
      */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         if (fieldValues.get(Constants.ON_OFF_CAMPUS_FLAG).equalsIgnoreCase("Y")) {

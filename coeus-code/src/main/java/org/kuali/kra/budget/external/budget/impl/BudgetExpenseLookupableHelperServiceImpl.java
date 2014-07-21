@@ -17,8 +17,8 @@ package org.kuali.kra.budget.external.budget.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
+import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.Field;
@@ -38,14 +38,13 @@ import java.util.Map;
 @Component("budgetExpenseLookupableHelperService")
 @Transactional
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class BudgetExpenseLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+public class BudgetExpenseLookupableHelperServiceImpl extends KcKualiLookupableHelperServiceImpl {
     
     private static final String KFS_ON_PARM_NMSPC_CD = "KC-AWARD";
     private static final String KFS_ON_PARM_DTL_TYP_CD = "Document";
     private static final String KFS_ON_PARM_NM = "FIN_SYSTEM_INTEGRATION_ON";
     private static final String KFS_ON_OFF_VALUE = "OFF";
     private static final String KFS_FIELD_NAME = "financialObjectCode";
- 
 
     @Override
     public List<Row> getRows() {

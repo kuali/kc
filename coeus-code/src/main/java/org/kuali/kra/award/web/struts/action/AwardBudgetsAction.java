@@ -166,6 +166,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
     public ActionForward openBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
+        BudgetRatesService budgetRatesService = KcServiceLocator.getService(BudgetRatesService.class);
         AwardBudgetService awardBudgetService = KcServiceLocator.getService(AwardBudgetService.class);
         if ("TRUE".equals(awardForm.getEditingMode().get("modifyAwardBudget"))) {
             save(mapping, form, request, response);
@@ -192,7 +193,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         	return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_AWARD_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
         	 }
-        if (budgetService.checkActivityTypeChange(allBudgetRates, newestAward.getActivityTypeCode())) {
+        if (budgetRatesService.checkActivityTypeChange(allBudgetRates, newestAward.getActivityTypeCode())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
         } else if(CollectionUtils.isEmpty(allBudgetRates)) {
@@ -396,10 +397,6 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
             HttpServletRequest request, HttpServletResponse response, String message) throws Exception {
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SYNCH_BUDGET_RATE,
                 message, "");
-    }    
-    
-    private BudgetRatesService getBudgetRatesService() {
-        return KcServiceLocator.getService(BudgetRatesService.class);
     }
 
     /**

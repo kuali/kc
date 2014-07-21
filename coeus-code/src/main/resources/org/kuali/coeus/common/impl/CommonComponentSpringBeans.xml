@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <context:annotation-config />
+    <context:component-scan base-package="org.kuali.coeus.common.api" />
+    <context:component-scan base-package="org.kuali.coeus.common.framework" />
+    <context:component-scan base-package="org.kuali.coeus.common.impl" />
+    <context:component-scan base-package="org.kuali.kra.external.unit.service.impl" />
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
+    </bean>
+
+    <import resource="classpath:org/kuali/coeus/sys/framework/ImportDataSourceSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/coeus/sys/framework/ImportRiceKradSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/coeus/common/impl/CommonImportRiceSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/coeus/common/impl/CommonImportModuleSpringBeans.xml"/>
+
+    <util:map id="KcFileMimeTypeIcons" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
+        <entry key="application/msword" value="static/images/word.gif" />
+        <entry key="application/vnd.openxmlformats-officedocument.wordprocessingml.document" value="static/images/word.gif" />
+        <entry key="application/vnd.ms-excel" value="static/images/xls.gif" />
+        <entry key="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" value="static/images/xls.gif" />
+        <entry key="application/pdf" value="static/images/epdf.gif" />
+        <entry key="text/xml" value="static/images/xml.gif" />
+        <entry key="application/xml" value="static/images/xml.gif" />
+        <entry key="default" value="static/images/ebinary_attachment.gif"/>
+    </util:map>
+
+    <bean id="platformAwareDao" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb" abstract="true">
+        <property name="jcdAlias" value="kradApplicationDataSource" />
+        <property name="dbPlatform" ref="dbPlatform" />
+    </bean>
+
+    <bean id="sponsorHierarchyDao" class="org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyDaoOjb" parent="platformAwareDao" />
+
+    <bean id="unitLookupDao" class="org.kuali.coeus.common.impl.unit.UnitLookupDaoOjb" parent="platformAwareDao" />
+
+    <bean id="rolodexDao" parent="platformAwareDao" class="org.kuali.coeus.common.impl.rolodex.RolodexDaoOjb" />
+
+    <bean id="versionHistoryLookupDao" parent="platformAwareDao" class="org.kuali.coeus.common.impl.version.history.VersionHistoryLookupDaoOjb">
+        <property name="lookupDao" ref="lookupDao" />
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>
+
+    <bean id="customAttributeDocumentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="customAttributeDocumentLookupableHelperService" />
+    </bean>
+
+    <bean id="kcPersonLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="kcPersonLookupableHelperService" />
+    </bean>
+
+    <bean id="kcPersonExtendedAttributesLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="kcPersonExtendedAttributesLookupableHelperService" />
+    </bean>
+
+    <bean id="organizationCorrespondentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="organizationCorrespondentLookupableHelperService" />
+    </bean>
+
+    <bean id="nonOrganizationalRolodexLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="nonOrganizationalRolodexHelperService" />
+    </bean>
+
+    <bean id="rolodexLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="rolodexLookupableHelperService" />
+    </bean>
+
+    <bean id="sponsorLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="sponsorLookupableHelperService" />
+    </bean>
+
+    <bean id="unitAdministratorLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="unitAdministratorLookupableHelperService" />
+    </bean>
+
+    <bean id="kcCoreCallbackService" abstract="true" class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
+          p:serviceBus-ref="rice.ksb.serviceBus">
+        <property name="serviceNameSpaceURI">
+            <util:constant static-field="org.kuali.kra.infrastructure.Constants.KC_CORE_SERVICE_NAMESPACE"/>
+        </property>
+    </bean>
+
+    <bean id="unitAdministratorDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="unitAdministratorDerivedRoleTypeService" p:localServiceName="unitAdministratorDerivedRoleTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+
+    <bean id="unitCorrespondentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="unitCorrespondentLookupableHelperService" />
+    </bean>
+
+    <bean id="personSignatureLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="personSignatureLookupableHelperService" />
+    </bean>
+
+    <bean id="storedFunctionDao" class="org.kuali.coeus.common.impl.krms.StoredFunctionDao" parent="platformAwareDao">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="unitAgendaTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="unitAgendaTypeService"
+          p:localServiceName="unitAgendaTypeService"
+          p:serviceInterface="org.kuali.rice.krms.framework.type.AgendaTypeService"/>
+
+    <bean id="storedFunctionTermResolverTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="storedFunctionTermResolverTypeService"
+          p:localServiceName="storedFunctionTermResolverTypeService"
+          p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
+
+    <bean id="javaFunctionTermResolverTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="javaFunctionTermResolverTypeService"
+          p:localServiceName="javaFunctionTermResolverTypeService"
+          p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
+
+
+    <bean id= "kcPeopleFlowTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="kcPeopleFlowTypeService"
+          p:localServiceName="kcPeopleFlowTypeService"
+          p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService" />
+
+    <bean id="unitHierarchyRoleTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="unitHierarchyRoleTypeService"
+          p:localServiceName="unitHierarchyRoleTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+
+    <bean id="unitRoleTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="unitRoleTypeService"
+          p:localServiceName="unitRoleTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+
+    <util:constant id="kc.integrationServiceNamespace" static-field="org.kuali.kra.infrastructure.Constants.FINANCIAL_INTEGRATION_KC_SERVICE_NAMESPACE"/>
+
+    <bean id="institutionalUnitServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition"
+                  p:service-ref="institutionalUnitService"
+                  p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+                  p:localServiceName="institutionalUnitService"
+                  p:serviceInterface="org.kuali.kra.external.unit.service.InstitutionalUnitService"
+                  p:busSecurity="${fin.system.integration.bus.security.on}"
+                  p:retryAttempts="1" />
+        </property>
+    </bean>
+
+    <bean id="institutionalUnitServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+                  p:service-ref="institutionalUnitService"
+                  p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+                  p:localServiceName="institutionalUnitSoapService"
+                  p:busSecurity="${fin.system.integration.bus.security.on}"
+                  p:jaxWsService="true" />
+        </property>
+    </bean>
+
+</beans>

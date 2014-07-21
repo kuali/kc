@@ -47,32 +47,6 @@ public interface BudgetService<T extends BudgetParent>  {
     public void updateDocumentDescription(BudgetVersionOverview budgetVersion);
     
     /**
-     * 
-     * This method check if activity type changed, then display confirmation message on 'open' budget version.
-     * @param budget
-     * @return
-     */
-    public boolean checkActivityTypeChange(Budget budget);
-  
-    /**
-     * 
-     * This method checks if activity type changed, then display confirmation message on 'open' budget version.
-     * @param allPropRates
-     * @param proposalActivityTypeCode
-     * @return
-     */
-    public boolean checkActivityTypeChange(Collection<BudgetRate> allPropRates, String proposalActivityTypeCode);
-   
-    /**
-     * 
-     * This method returns the saved Proposal Rates collection.
-     * @param budget
-     * @return Collection<BudgetRate>
-     */
-
-    public Collection<BudgetRate> getSavedBudgetRates(Budget budget);
-    
-    /**
      * check if this line item CE has inflation rate
      * @param budgetLineItem
      * @return

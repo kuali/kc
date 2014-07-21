@@ -36,6 +36,9 @@ import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import javax.xml.transform.*;
 import javax.xml.transform.sax.SAXResult;
@@ -52,14 +55,22 @@ import java.util.List;
  * object to generate XML, fetch XSL style-sheets, then transforms the XML to a PDF after applying the style sheet.
  * 
  */
-@org.springframework.stereotype.Component
+@Component("printingService")
 public class PrintingServiceImpl implements PrintingService {
 
 
     private static final Log LOG = LogFactory.getLog(PrintingServiceImpl.class);
 
+    @Autowired
+    @Qualifier("dateTimeService")
     private DateTimeService dateTimeService = null;
+
+    @Autowired
+    @Qualifier("watermarkService")
     private WatermarkService watermarkService;
+
+    @Autowired
+    @Qualifier("kualiConfigurationService")
     private ConfigurationService kualiConfigurationService;
 
 
@@ -362,22 +373,6 @@ public class PrintingServiceImpl implements PrintingService {
         DateFormat dateFormat = new SimpleDateFormat("M/d/yy h:mm a");
         return dateFormat.format(calendar.getTime());
     }
-
-    // /**
-    // *
-    // * This class populates the bytes of PDF document to be generated
-    // */
-    // protected class PrintableAttachment extends AttachmentDataSource {
-    // private byte[] streamData;
-    //
-    // public byte[] getContent() {
-    // return streamData;
-    // }
-    //
-    // public void setContent(byte[] streamData) {
-    // this.streamData = streamData;
-    // }
-    // }
 
     /**
      * @return the dateTimeService

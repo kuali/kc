@@ -26,7 +26,6 @@ import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.irb.Protocol;
@@ -48,7 +47,7 @@ import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.XmlObjectSerializerService;
 import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -109,6 +108,14 @@ public class QuestionnaireXmlStream implements XmlStream {
     @Autowired
     @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
+
+    @Autowired
+    @Qualifier("routeHeaderService")
+    private RouteHeaderService routeHeaderService;
+
+    @Autowired
+    @Qualifier("xmlObjectSerializerService")
+    private XmlObjectSerializerService xmlObjectSerializerService;
 
    /**
      * This method generates XML committee report. It uses data passed in
@@ -511,8 +518,8 @@ public class QuestionnaireXmlStream implements XmlStream {
         try {
             questionnaireDocument = (MaintenanceDocumentBase)documentService.getByDocumentHeaderId(documentNumber);
             if(questionnaireDocument!=null){
-                String content = KcServiceLocator.getService(RouteHeaderService.class).getContent(
-                questionnaireDocument.getDocumentHeader().getWorkflowDocument().getDocumentId()).getDocumentContent();
+                String content = routeHeaderService.getContent(
+                        questionnaireDocument.getDocumentHeader().getWorkflowDocument().getDocumentId()).getDocumentContent();
                 questionnaire = (org.kuali.coeus.common.questionnaire.framework.core.Questionnaire)getBusinessObjectFromXML(content,KualiDocumentXmlMaterializer.class.getName());
            }            
         }
@@ -532,7 +539,7 @@ public class QuestionnaireXmlStream implements XmlStream {
         String objXml = StringUtils.substringBetween(xmlDocumentContents, beginTag, endTag);
         objXml = beginTag + objXml + endTag;
 
-        MaintenanceDocumentBase maintenanceDocument = (MaintenanceDocumentBase)KRADServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
+        MaintenanceDocumentBase maintenanceDocument = (MaintenanceDocumentBase)xmlObjectSerializerService.fromXml(objXml);
         PersistableBusinessObject businessObject = (PersistableBusinessObject)maintenanceDocument.getDocumentBusinessObject();
         return businessObject;
     }
@@ -917,7 +924,20 @@ public class QuestionnaireXmlStream implements XmlStream {
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }
-    
-    
-    
+
+    public RouteHeaderService getRouteHeaderService() {
+        return routeHeaderService;
+    }
+
+    public void setRouteHeaderService(RouteHeaderService routeHeaderService) {
+        this.routeHeaderService = routeHeaderService;
+    }
+
+    public XmlObjectSerializerService getXmlObjectSerializerService() {
+        return xmlObjectSerializerService;
+    }
+
+    public void setXmlObjectSerializerService(XmlObjectSerializerService xmlObjectSerializerService) {
+        this.xmlObjectSerializerService = xmlObjectSerializerService;
+    }
 }

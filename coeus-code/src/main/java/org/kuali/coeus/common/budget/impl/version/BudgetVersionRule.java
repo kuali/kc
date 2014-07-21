@@ -41,7 +41,6 @@ import static org.springframework.util.StringUtils.hasText;
  * 
  **/
 @Component("budgetVersionRule")
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class BudgetVersionRule  implements AddBudgetVersionRule {
 
     private static final Log LOG = LogFactory.getLog(BudgetVersionRule.class);

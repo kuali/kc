@@ -60,7 +60,7 @@ import java.util.*;
  * the nodes and provides a method of retrieving related BOs for summary display.
  */
 @Component("medusaService")
-@Lazy(true)
+@Lazy
 public class MedusaServiceImpl implements MedusaService {
 
     private static final int INST_PROPOSAL_STATUS_FUNDED = 2;

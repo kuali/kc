@@ -19,13 +19,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.org.crrspndnt.OrganizationCorrespondent;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,11 +38,17 @@ import java.util.Map;
 
 /**
  * Lookupable helper service used for person id lookup
- */  
-public class OrganizationCorrespondentLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+ */
+@Component("organizationCorrespondentLookupableHelperService")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class OrganizationCorrespondentLookupableHelperServiceImpl extends KcKualiLookupableHelperServiceImpl {
 
 
     private static final long serialVersionUID = 749587517623905557L;
+
+    @Autowired
+    @Qualifier("kcPersonService")
+    private KcPersonService kcPersonService;
 
     @SuppressWarnings("unchecked")
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames){
@@ -82,7 +92,11 @@ public class OrganizationCorrespondentLookupableHelperServiceImpl extends KualiL
     }
     
     public KcPersonService getKcPersonService() {
-        return (KcPersonService) KcServiceLocator.getService(KcPersonService.class);
+        return kcPersonService;
+    }
+
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
     }
 
     @Override

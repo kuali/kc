@@ -21,6 +21,9 @@ import org.kuali.kra.budget.external.budget.service.BudgetCategoryDTO;
 import org.kuali.kra.budget.external.budget.service.BudgetCategoryService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,8 +32,11 @@ import java.util.List;
 /**
  * This class implements the budget categories service.
  */
+@Component("budgetCategoryService")
 public class BudgetCategoryServiceImpl implements BudgetCategoryService {
 
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
 
     /**

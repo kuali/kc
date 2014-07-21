@@ -16,15 +16,10 @@
 package org.kuali.coeus.common.budget.impl.period;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.rice.core.api.encryption.EncryptionService;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.service.BusinessObjectMetaDataService;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -40,74 +35,11 @@ import java.util.Map;
 @Component("budgetPeriodLookupableHelperService")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Lazy
-public class BudgetPeriodLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+public class BudgetPeriodLookupableHelperServiceImpl extends KcKualiLookupableHelperServiceImpl {
 
     @Autowired
     @Qualifier("awardBudgetService")
     protected AwardBudgetService awardBudgetService;
-
-    @Autowired
-    @Qualifier("businessObjectDictionaryService")
-    @Override
-    public void setBusinessObjectDictionaryService(BusinessObjectDictionaryService businessObjectDictionaryService) {
-        super.setBusinessObjectDictionaryService(businessObjectDictionaryService);
-    }
-
-    @Autowired
-    @Qualifier("businessObjectService")
-    @Override
-    public void setBusinessObjectService(BusinessObjectService businessObjectyService) {
-        super.setBusinessObjectService(businessObjectService);
-    }
-
-    @Autowired
-    @Qualifier("businessObjectMetaDataService")
-    @Override
-    public void setBusinessObjectMetaDataService(BusinessObjectMetaDataService businessObjectMetaDataService) {
-        super.setBusinessObjectMetaDataService(businessObjectMetaDataService);
-    }
-
-    @Autowired
-    @Qualifier("dataDictionaryService")
-    @Override
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        super.setDataDictionaryService(dataDictionaryService);
-    }
-
-    @Autowired
-    @Qualifier("encryptionService")
-    @Override
-    public void setEncryptionService(EncryptionService encryptionService) {
-        super.setEncryptionService(encryptionService);
-    }
-
-    @Autowired
-    @Qualifier("lookupResultsService")
-    @Override
-    public void setLookupResultsService(LookupResultsService lookupResultsService) {
-        super.setLookupResultsService(lookupResultsService);
-    }
-
-    @Autowired
-    @Qualifier("lookupService")
-    @Override
-    public void setLookupService(LookupService lookupService) {
-        super.setLookupService(lookupService);
-    }
-
-    @Autowired
-    @Qualifier("persistenceStructureService")
-    @Override
-    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
-        super.setPersistenceStructureService(persistenceStructureService);
-    }
-
-    @Autowired
-    @Qualifier("sequenceAccessorService")
-    @Override
-    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
-        super.setSequenceAccessorService(sequenceAccessorService);
-    }
 
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         String awardNumber = fieldValues.get("budgetParentId");

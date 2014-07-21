@@ -27,7 +27,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-@Component("peopleFlowTypeService")
+@Component("kcPeopleFlowTypeService")
 public class KcPeopleFlowTypeServiceImpl implements PeopleFlowTypeService {
 
     @Override

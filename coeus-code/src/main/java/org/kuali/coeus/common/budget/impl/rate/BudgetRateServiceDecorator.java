@@ -38,6 +38,7 @@ import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Component("budgetRatesService")
+@Lazy
 public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRatesServiceImpl<T> {
     
     private static final String AWARD_EB_RATE_CLASS_CODE = "awardBudgetEbRateClassCode";

@@ -24,21 +24,44 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
+@Component("budgetAdjustmentClient")
 public class BudgetAdjustmentClientFactoryBean implements FactoryBean {
 
-    private boolean sharedRice;
+    @Autowired
+    @Qualifier("documentService")
     private DocumentService documentService;
+
+    @Autowired
+    @Qualifier("parameterService")
     private ParameterService parameterService;
+
+    @Autowired
+    @Qualifier("institutionalUnitService")
     private InstitutionalUnitService institutionalUnitService;
+
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+
+    @Autowired
+    @Qualifier("budgetCalculationService")
     private BudgetCalculationService budgetCalculationService;
+
+    @Autowired
+    @Qualifier("budgetAdjustmentServiceHelper")
     private BudgetAdjustmentServiceHelper budgetAdjustmentServiceHelper;
+
+    @Autowired
+    @Qualifier("kualiConfigurationService")
     private ConfigurationService configurationService;
 
     public Object getObject() throws Exception {
         BudgetAdjustmentClient object = null; 
-        if(sharedRice)
+        if(configurationService.getPropertyValueAsBoolean("shared.rice"))
             object = (BudgetAdjustmentClient) (BudgetAdjustmentKSBClientImpl.getInstance());
         else
             object = (BudgetAdjustmentClient) (BudgetAdjustmentClientImpl.getInstance());
@@ -86,9 +109,6 @@ public class BudgetAdjustmentClientFactoryBean implements FactoryBean {
     
     public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
         this.budgetCalculationService = budgetCalculationService;
-    }
-    public void setSharedRice(boolean sharedRice) {
-        this.sharedRice = sharedRice;
     }
 
     public void setConfigurationService(ConfigurationService configurationService) {
