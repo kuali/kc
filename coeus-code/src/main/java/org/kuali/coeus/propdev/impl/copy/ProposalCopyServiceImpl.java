@@ -38,8 +38,8 @@ import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyAttachment;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.bo.*;
-import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -73,7 +73,6 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -197,7 +196,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 	@Autowired
 	@Qualifier("userAttachedFormService")
 	private UserAttachedFormService userAttachedFormService;
-	    
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
 
     /**
      * Each property in the document that can be copied is represented
@@ -833,7 +835,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param doc the proposal development document
      */
     protected void initializeAuthorization(ProposalDevelopmentDocument doc) {
-        String userId = GlobalVariables.getUserSession().getPrincipalId();
+        String userId = globalVariableService.getUserSession().getPrincipalId();
         getKcAuthorizationService().addRole(userId, RoleConstants.AGGREGATOR, doc);
     }
     
@@ -875,7 +877,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
  
             //remove the user performing the copy from the narrative permissions in case they had permissions other than modify.
             //they will default to modify during the copy as they are the aggregator of the new document.
-            removePersonNarrativePermission(GlobalVariables.getUserSession().getPrincipalId(), destNarrative);
+            removePersonNarrativePermission(globalVariableService.getUserSession().getPrincipalId(), destNarrative);
             narrativeService.addNarrative(dest, destNarrative);
         }
     }
@@ -1288,4 +1290,12 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 			UserAttachedFormService userAttachedFormService) {
 		this.userAttachedFormService = userAttachedFormService;
 	}
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
 }

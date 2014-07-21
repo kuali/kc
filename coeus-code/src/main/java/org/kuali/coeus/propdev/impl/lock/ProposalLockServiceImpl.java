@@ -17,6 +17,7 @@ package org.kuali.coeus.propdev.impl.lock;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.rice.kim.api.identity.Person;
@@ -42,6 +43,10 @@ public class ProposalLockServiceImpl extends PessimisticLockServiceImpl implemen
 
     private static final String FALSE = "FALSE";
     private static final String ADD_BUDGET = "addBudget";
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
 
     @Autowired
     @Qualifier("dataDictionaryService")
@@ -72,7 +77,7 @@ public class ProposalLockServiceImpl extends PessimisticLockServiceImpl implemen
     @SuppressWarnings("unchecked")
     @Override
     protected boolean isLockRequiredByUser(Document document, Map editMode, Person user) {
-        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        String activeLockRegion = (String) globalVariableService.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         
         // check for entry edit mode
         for (Iterator iterator = editMode.entrySet().iterator(); iterator.hasNext();) {
@@ -139,5 +144,13 @@ public class ProposalLockServiceImpl extends PessimisticLockServiceImpl implemen
         } else {
             return generateNewLock(document.getDocumentNumber(), user);
         }
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
     }
 }

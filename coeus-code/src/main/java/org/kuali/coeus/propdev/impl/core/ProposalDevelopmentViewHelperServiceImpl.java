@@ -23,6 +23,7 @@ import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
 import org.apache.log4j.Logger;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
@@ -32,7 +33,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentService;
-import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -58,14 +58,10 @@ import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.document.DocumentStatus;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 
 @Service("proposalDevelopmentViewHelperService")
 @Scope("prototype")
@@ -97,6 +93,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Autowired
 	@Qualifier("parameterService")
 	private ParameterService parameterService;
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
 
     @Autowired
     @Qualifier("keyPersonnelService")
@@ -135,14 +135,14 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         } else if (addLine instanceof Note) {
             Note note = (Note) addLine;
             note.setRemoteObjectIdentifier(document.getNoteTarget().getObjectId());
-            note.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPrincipalId());
+            note.setAuthorUniversalIdentifier(globalVariableService.getUserSession().getPrincipalId());
             note.setNotePostedTimestampToCurrent();
             note.setNoteTypeCode("BO");
         }
 
         if (addLine instanceof KcPersistableBusinessObjectBase) {
             ((KcPersistableBusinessObjectBase) addLine).setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
-            ((KcPersistableBusinessObjectBase) addLine).setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
+            ((KcPersistableBusinessObjectBase) addLine).setUpdateUser(globalVariableService.getUserSession().getPrincipalName());
         }
     }
 
@@ -370,6 +370,14 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         }
 
         return moreInfo.toString();
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
     }
 
     public void populateCreditSplits(ProposalDevelopmentDocumentForm form) {
