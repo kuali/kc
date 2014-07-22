@@ -125,7 +125,7 @@ public class OpportunitySchemaParserServiceImpl implements OpportunitySchemaPars
             String formName = fullFormName.substring(0, fullFormName.indexOf(CH_COLON));
             String minOccurs = ((Element) form).getAttribute(MIN_OCCURS);
             String nameSpace = schemaElement.getAttribute(XMLNS + formName);
-            FormMappingInfo info = formMappingService.getFormInfo(proposalNumber, nameSpace);
+            FormMappingInfo info = formMappingService.getFormInfo(nameSpace, proposalNumber);
             String displayFormName = info==null?formName:info.getFormName();
             formNames[formIndex] = nameSpace;
             for (int impIndex = 0; impIndex < importList.getLength(); impIndex++) {

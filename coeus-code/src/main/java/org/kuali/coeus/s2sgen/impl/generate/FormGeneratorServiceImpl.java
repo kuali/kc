@@ -123,7 +123,7 @@ public class FormGeneratorServiceImpl implements FormGeneratorService {
 			}
 			List<AttachmentData> formAttList = new ArrayList<AttachmentData>();
 			S2SBaseFormGenerator s2sFormGenerator = null;
-            FormMappingInfo info = formMappingService.getFormInfo(developmentProposal.getProposalNumber(),opportunityForm.getOppNameSpace());
+            FormMappingInfo info = formMappingService.getFormInfo(opportunityForm.getOppNameSpace(),developmentProposal.getProposalNumber());
             if(info==null) continue;
 			String namespace = info.getNameSpace();
             s2sFormGenerator = (S2SBaseFormGenerator)s2SFormGeneratorService.getS2SGenerator(developmentProposal.getProposalNumber(),namespace);
