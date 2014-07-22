@@ -59,7 +59,7 @@ public class S2SFormGeneratorRetrievalServiceImpl implements S2SFormGeneratorRet
      * @throws org.kuali.coeus.s2sgen.api.core.S2SException if form generator for given namespace is not available
      */
     public final S2SFormGenerator getS2SGenerator(String proposalNumber,String namespace) throws S2SException {
-        FormMappingInfo formInfo = formMappingService.getFormInfo(proposalNumber,namespace);
+        FormMappingInfo formInfo = formMappingService.getFormInfo(namespace,proposalNumber);
         S2SFormGenerator formGenerator = (S2SFormGenerator) applicationContext.getBean(formInfo.getGeneratorName());
         if (formGenerator == null) {
             throw new S2SException("Generator not found with name: " + formInfo.getGeneratorName());

@@ -84,7 +84,7 @@ public class FormMappingServiceImpl implements FormMappingService {
             throw new IllegalArgumentException("namespace is blank");
         }
 
-        return getFormInfo(null, namespace);
+        return getFormInfo(namespace, null);
     }
 
     @Override

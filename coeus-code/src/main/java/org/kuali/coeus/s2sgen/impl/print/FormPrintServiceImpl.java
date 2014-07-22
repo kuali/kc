@@ -357,7 +357,7 @@ public class FormPrintServiceImpl implements FormPrintService {
 	    getNarrativeService().deleteSystemGeneratedNarratives(pdDoc.getDevelopmentProposal().getNarratives());
 	    Forms forms = Forms.Factory.newInstance();
 		for (String namespace : sortedNameSpaces) {
-			info = formMappingService.getFormInfo(proposalNumber,namespace);
+			info = formMappingService.getFormInfo(namespace,proposalNumber);
 			if(info==null) continue;
 			s2sFormGenerator = (S2SBaseFormGenerator)s2SFormGeneratorService.getS2SGenerator(proposalNumber,info.getNameSpace());
 			s2sFormGenerator.setAuditErrors(errors);
