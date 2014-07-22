@@ -23,6 +23,9 @@ import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
 import org.apache.log4j.Logger;
+import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
+import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
+import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.apache.commons.lang3.StringUtils;
@@ -90,11 +93,14 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Autowired
     @Qualifier("noteService")
     private NoteService noteService;
-       
-    
+
     @Autowired
 	@Qualifier("parameterService")
 	private ParameterService parameterService;
+
+    @Autowired
+    @Qualifier("keyPersonnelService")
+    private KeyPersonnelService keyPersonnelService;
     
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
@@ -315,6 +321,17 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         this.noteService = noteService;
     }
 
+    public KeyPersonnelService getKeyPersonnelService() {
+        if (keyPersonnelService == null) {
+            keyPersonnelService = KcServiceLocator.getService(KeyPersonnelService.class);
+        }
+        return keyPersonnelService;
+    }
+
+    public void setKeyPersonnelService(KeyPersonnelService keyPersonnelService) {
+        this.keyPersonnelService = keyPersonnelService;
+    }
+
     public String displayProposalProgressCode(WorkflowDocument wd) {
   	  String proposalProgressCode;
   	  
@@ -353,5 +370,21 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         }
 
         return moreInfo.toString();
+    }
+
+    public void populateCreditSplits(ProposalDevelopmentDocumentForm form) {
+        getKeyPersonnelService().populateDocument(form.getProposalDevelopmentDocument());
+        form.setCreditSplitListItems(getKeyPersonnelService().createCreditSplitListItems(form.getDevelopmentProposal().getInvestigators()));
+    }
+
+    public void populateQuestionnaires(ProposalDevelopmentDocumentForm form) {
+        form.setQuestionnaireHelper(new ProposalDevelopmentQuestionnaireHelper(form));
+        form.setS2sQuestionnaireHelper(new ProposalDevelopmentS2sQuestionnaireHelper(form));
+
+        form.getQuestionnaireHelper().prepareView();
+        form.getQuestionnaireHelper().populateAnswers();
+
+        form.getS2sQuestionnaireHelper().prepareView();
+        form.getS2sQuestionnaireHelper().populateAnswers();
     }
 }
