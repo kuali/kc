@@ -57,16 +57,16 @@
     <bean id="PropDev-AttachmentPage-ProposalButtons-parentBean" abstract="true" parent="Uif-HorizontalBoxGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="markAllComplete" p:actionLabel="Set All Statuses"
-                      p:actionParameters="@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_PATH}:document.developmentProposal.narratives"
-                      p:cssClasses="pull-right" p:order="10"/>
                 <bean parent="Uif-InputField" p:propertyName="markAllStatus" p:cssClasses="pull-right"
-                      p:bindingInfo.bindingObjectPath="proposalDevelopmentAttachmentHelper" p:order="20">
+                      p:bindingInfo.bindingObjectPath="proposalDevelopmentAttachmentHelper" p:order="10">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder" value="#{T(org.kuali.rice.contrib.krad.SpringMethods).retrieveSpringBean('narrativeStatusValuesFinder')}" />
                 </bean>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="markAllComplete" p:actionLabel="Set All Statuses"
+                      p:actionParameters="@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_PATH}:document.developmentProposal.narratives"
+                      p:cssClasses="pull-right" p:order="20"/>
                 <bean parent="PropDev-AttachmentPage-AddLineButton" p:successCallback="showDialog('PropDev-AttachmentsPage-ProposalDetails');"
                       p:refreshId="PropDev-AttachmentsPage-ProposalDetails" p:order="30"/>
             </list>
@@ -386,7 +386,7 @@
 
     <bean id="PropDev-AttachmentPage-AddLineButton" parent="PropDev-AttachmentPage-AddLineButton-parentBean"/>
     <bean id="PropDev-AttachmentPage-AddLineButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
-          p:actionLabel="Add" p:methodToCall="prepareNarrative" p:iconClass="icon-plus" p:cssClasses="pull-right"/>
+          p:actionLabel="Add" p:methodToCall="prepareNarrative" p:iconClass="icon-plus" p:cssClasses="pull-left"/>
 
     <bean id="PropDev-AttachmentPage-DetailsButton" parent="PropDev-AttachmentPage-DetailsButton-parentBean"/>
     <bean id="PropDev-AttachmentPage-DetailsButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
