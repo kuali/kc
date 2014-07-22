@@ -39,7 +39,7 @@
     <bean id="systemAuthorizationService" parent="grlImporter" p:serviceName="systemAuthorizationService" />
     <bean id="taskAuthorizationService" parent="grlImporter" p:serviceName="taskAuthorizationService" />
     <bean id="unitAuthorizationService" parent="grlImporter" p:serviceName="unitAuthorizationService" />
-    <bean id="kcPersonLookupableHelperService" parent="grlImporter" p:serviceName="kcPersonLookupableHelperService" />
+    <bean id="kcPersonLookupableHelperService" parent="grlImporter" p:serviceName="kcPersonLookupableHelperService" p:singleton="false" />
     <bean id="pessimisticLockService" parent="grlImporter" p:serviceName="pessimisticLockService" />
 
     <!-- AWARD -->
