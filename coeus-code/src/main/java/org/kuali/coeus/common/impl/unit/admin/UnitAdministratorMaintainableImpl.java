@@ -74,7 +74,7 @@ public class UnitAdministratorMaintainableImpl extends KraMaintainableImpl imple
     }
     
     private void reportInvalidUnitId(UnitAdministrator unitAdministrator) {
-        ErrorReporter errorReporter = new ErrorReporter();
+        ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
         errorReporter.reportError("document.newMaintainableObject.unitNumber", 
                         UNIT_ID_INVALID_ERROR_KEY,
                         new String[]{});
@@ -83,7 +83,7 @@ public class UnitAdministratorMaintainableImpl extends KraMaintainableImpl imple
 
     
     private void reportInvalidPrincipalId(UnitAdministrator unitAdministrator) {
-        ErrorReporter errorReporter = new ErrorReporter();
+        ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
         errorReporter.reportError("document.newMaintainableObject.person.userName", 
                         PRINCIPAL_ID_INVALID_ERROR_KEY,
                         new String[]{});
@@ -92,7 +92,7 @@ public class UnitAdministratorMaintainableImpl extends KraMaintainableImpl imple
 
     
     private void reportInvalidUnitAdministratorTypeCode(UnitAdministrator unitAdministrator) {
-        ErrorReporter errorReporter = new ErrorReporter();
+        ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
         errorReporter.reportError("document.newMaintainableObject.unitAdministratorTypeCode", 
                         UNIT_ADMINISTRATOR_TYPE_CODE_INVALID_ERROR_KEY,
                         new String[]{});

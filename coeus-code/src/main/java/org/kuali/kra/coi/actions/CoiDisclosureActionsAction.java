@@ -18,7 +18,8 @@ package org.kuali.kra.coi.actions;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.coi.*;
 import org.kuali.kra.coi.disclosure.CoiDisclosureAdministratorActionRule;
 import org.kuali.kra.coi.notesandattachments.CoiNoteAndAttachmentAction;
@@ -41,10 +42,10 @@ public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
         CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
 
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        AuditActionHelper auditActionHelper = new AuditActionHelper();
+        AuditHelper auditHelper = KcServiceLocator.getService(AuditHelper.class);
         
         if (new CoiDisclosureAdministratorActionRule().isValidStatus(disclosureStatus, dispositionCode)) {
-            if (!auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {
+            if (!auditHelper.auditUnconditionally(coiDisclosureDocument)) {
                 coiDisclosureForm.setAuditActivated(true);
                 GlobalVariables.getMessageMap().putError("coiAdminActionErrors", KeyConstants.ERROR_COI_VALIDATION, "approving");
                 return forward;
@@ -68,10 +69,10 @@ public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
         CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
 
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        AuditActionHelper auditActionHelper = new AuditActionHelper();
+        AuditHelper auditHelper = KcServiceLocator.getService(AuditHelper.class);
         
         if (new CoiDisclosureAdministratorActionRule().isValidStatus(disclosureStatus, dispositionCode)) {
-            if (!auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {
+            if (!auditHelper.auditUnconditionally(coiDisclosureDocument)) {
                 coiDisclosureForm.setAuditActivated(true);
                 GlobalVariables.getMessageMap().putError("coiAdminActionErrors", KeyConstants.ERROR_COI_VALIDATION, "disapproving");
                 return forward;

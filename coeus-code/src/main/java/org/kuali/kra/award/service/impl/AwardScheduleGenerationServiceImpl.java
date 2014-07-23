@@ -153,7 +153,7 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
     }
     /*
     protected void reportError(String errorKey) {
-        new ErrorReporter().reportSoftError(errorKey, KeyConstants.ERROR_SCHEDULE_START_DATE_PRECEDES_END_DATE);
+        KcServiceLocator.getService(ErrorReporter.class).reportSoftError(errorKey, KeyConstants.ERROR_SCHEDULE_START_DATE_PRECEDES_END_DATE);
         
     }*/
     

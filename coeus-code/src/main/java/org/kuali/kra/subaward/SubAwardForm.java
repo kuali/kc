@@ -23,7 +23,7 @@ import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelp
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsForm;
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
-import org.kuali.coeus.sys.framework.model.AuditableForm;
+import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
@@ -55,7 +55,7 @@ import javax.servlet.http.HttpServletRequest;
  * This class represents the SubAward Form Struts class....
  */
 public class SubAwardForm extends KcTransactionalDocumentFormBase
-implements PermissionsForm, AuditableForm, CustomDataDocumentForm {
+implements PermissionsForm, Auditable, CustomDataDocumentForm {
 
     private static final long serialVersionUID = -1452575757578523254L;
 

@@ -31,7 +31,7 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -69,7 +69,7 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         
         if (KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
-            new AuditActionHelper().auditConditionally((InstitutionalProposalForm) form);
+            KcServiceLocator.getService(AuditHelper.class).auditConditionally((InstitutionalProposalForm) form);
         }
         
         if (institutionalProposalForm.isAuditActivated()){

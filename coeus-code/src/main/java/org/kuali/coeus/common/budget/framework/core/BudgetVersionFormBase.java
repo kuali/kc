@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.budget.framework.core;
 
 import org.apache.struts.action.ActionMapping;
-import org.kuali.coeus.sys.framework.model.AuditableForm;
+import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetService;
@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * This class contains methods common to ProposalDevelopment and Budget forms.
  */
-public abstract class BudgetVersionFormBase extends KcTransactionalDocumentFormBase implements AuditableForm {
+public abstract class BudgetVersionFormBase extends KcTransactionalDocumentFormBase implements Auditable {
     
     private static final long serialVersionUID = -7013211193142134599L;
     private String newBudgetVersionName;

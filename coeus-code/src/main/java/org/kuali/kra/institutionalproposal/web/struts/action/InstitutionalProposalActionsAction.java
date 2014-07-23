@@ -21,7 +21,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.print.PrintConstants;
 import org.kuali.coeus.common.proposal.framework.report.CurrentAndPendingReportService;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
@@ -61,7 +61,7 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
 	public ActionForward activate(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		return new AuditActionHelper().setAuditMode(mapping,
+		return KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping,
 				(InstitutionalProposalForm) form, true);
 	}
 
@@ -69,7 +69,7 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
 	public ActionForward deactivate(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		return new AuditActionHelper().setAuditMode(mapping,
+		return KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping,
 				(InstitutionalProposalForm) form, false);
 	}
 
@@ -254,7 +254,7 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
 
     private int submissionStatus(InstitutionalProposalDocument institutionalProposalDocument) {
         int state = OK;
-        boolean auditPassed = new AuditActionHelper().auditUnconditionally(institutionalProposalDocument);
+        boolean auditPassed = KcServiceLocator.getService(AuditHelper.class).auditUnconditionally(institutionalProposalDocument);
         if (!auditPassed) {
             state = WARNING;
             for (Iterator iter = KNSGlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();) {

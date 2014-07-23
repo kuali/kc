@@ -752,7 +752,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             getReportTrackingService().setReportTrackingListSelected(reportTrackings, true);
         } else {
             String fieldName = "methodToCall.selectAllMultEdit.AwardReportTermItemsIndex" + awardReportTermItemsIndex;
-            new ErrorReporter().reportError(fieldName, KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_NO_REPORT_TRACKING, "select");
+            KcServiceLocator.getService(ErrorReporter.class).reportError(fieldName, KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_NO_REPORT_TRACKING, "select");
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
@@ -766,7 +766,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             getReportTrackingService().setReportTrackingListSelected(reportTrackings, false);
         } else {
             String fieldName = "methodToCall.selectNoneMultiEdit.AwardReportTermItemsIndex" + awardReportTermItemsIndex;
-            new ErrorReporter().reportError(fieldName, KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_NO_REPORT_TRACKING, "unselect");
+            KcServiceLocator.getService(ErrorReporter.class).reportError(fieldName, KeyConstants.ERROR_AWARD_REPORT_TERM_ITEM_NO_REPORT_TRACKING, "unselect");
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }

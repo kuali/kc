@@ -82,7 +82,7 @@ public class IsrSsrReportGenerationAction extends KualiAction {
             }                                           
             streamToResponse(dataStream,response);
         } else {
-            (new ErrorReporter()).reportError("awardNo",
+            (KcServiceLocator.getService(ErrorReporter.class)).reportError("awardNo",
                     KeyConstants.REPORT_INPUT_PARAMETER_MISSING, "");
         }
         

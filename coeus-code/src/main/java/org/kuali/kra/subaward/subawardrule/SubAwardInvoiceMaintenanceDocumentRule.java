@@ -34,7 +34,7 @@ public class SubAwardInvoiceMaintenanceDocumentRule extends KcMaintenanceDocumen
     
     public SubAwardInvoiceMaintenanceDocumentRule() {
         dictionaryValidationService = KcServiceLocator.getService(DictionaryValidationService.class);
-        errorReporter = new ErrorReporter();
+        errorReporter = KcServiceLocator.getService(ErrorReporter.class);
         subAwardService = KcServiceLocator.getService(SubAwardService.class);
     }
     

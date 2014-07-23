@@ -34,7 +34,7 @@ import org.kuali.coeus.common.notification.impl.bo.NotificationType;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -205,12 +205,12 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        return new AuditActionHelper().setAuditMode(mapping, (ProtocolFormBase) form, true);
+        return KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (ProtocolFormBase) form, true);
     }
 
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        return new AuditActionHelper().setAuditMode(mapping, (ProtocolFormBase) form, false);
+        return KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (ProtocolFormBase) form, false);
     }
 
     /**
@@ -253,8 +253,8 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         if (isAuthorized(task)) {
             IacucProtocolSubmitAction submitAction = (IacucProtocolSubmitAction) protocolForm.getActionHelper().getProtocolSubmitAction();            
             if (applyRules(protocolForm,new IacucProtocolSubmitActionEvent(protocolDocument, submitAction))) {
-                AuditActionHelper auditActionHelper = new AuditActionHelper();
-                if (auditActionHelper.auditUnconditionally(protocolDocument)) {
+                AuditHelper auditHelper = KcServiceLocator.getService(AuditHelper.class);
+                if (auditHelper.auditUnconditionally(protocolDocument)) {
                     
                     if (isCommitteeMeetingAssignedMaxProtocols(submitAction.getNewCommitteeId(), submitAction.getNewScheduleId())) {
                         forward = confirm(buildSubmitForReviewConfirmationQuestion(mapping, form, request, response), CONFIRM_SUBMIT_FOR_REVIEW_KEY, "");

@@ -18,6 +18,7 @@ package org.kuali.kra.institutionalproposal.rules;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 
@@ -37,7 +38,7 @@ public class InstitutionalProposalNoteAddRule extends KcTransactionalDocumentRul
      */
     public boolean processRules(InstitutionalProposalNoteAddEvent event) {
         boolean rulePassed = true;
-        errorReporter = new ErrorReporter();
+        errorReporter = KcServiceLocator.getService(ErrorReporter.class);
         if (StringUtils.isBlank(event.getInstitutionalProposalNotepad().getNoteTopic())) {
             errorReporter.reportError("institutionalProposalNotepadBean.newInstitutionalProposalNotepad.noteTopic", RiceKeyConstants.ERROR_REQUIRED, new String[] {"Note Topic"});
                                       

@@ -16,6 +16,7 @@
 package org.kuali.kra.negotiations.rules;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
@@ -30,7 +31,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public class NegotiationActivityAttachmentRuleImpl implements NegotiationActivityAttachmentAddRule {
     
-    private final ErrorReporter errorReporter = new ErrorReporter();
+    private final ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
 
     @Override
     public boolean processAddAttachmentRule(NegotiationActivityAttachmentAddRuleEvent event) {

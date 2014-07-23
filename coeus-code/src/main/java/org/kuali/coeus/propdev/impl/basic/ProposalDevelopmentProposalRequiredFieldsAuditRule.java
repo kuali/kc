@@ -53,7 +53,10 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
             valid = false;
             auditErrors.add(new AuditError(Constants.PROJECT_TITLE_KEY, KeyConstants.ERROR_NIH_SPONSOR_PROJECT_TITLE_LENGTH, Constants.PROPOSAL_PAGE + "." + Constants.REQUIRED_FIELDS_PANEL_ANCHOR));
         }
-        Long proposalId = getSubmissionInfoService().getProposalContinuedFromVersionProposalId(proposal.getContinuedFrom());
+        Long proposalId = null;
+        if (StringUtils.isNotEmpty(proposal.getContinuedFrom())) {
+           proposalId = getSubmissionInfoService().getProposalContinuedFromVersionProposalId(proposal.getContinuedFrom());
+        }
         String changeCorrectedType = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, "s2s.submissiontype.changedCorrected");
         if (proposal.getS2sOpportunity() != null && isProposalTypeNew(proposal.getProposalTypeCode())
                 && StringUtils.equals(proposal.getS2sOpportunity().getS2sSubmissionTypeCode(), changeCorrectedType)) {

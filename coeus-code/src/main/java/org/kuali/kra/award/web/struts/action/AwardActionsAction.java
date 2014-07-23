@@ -20,7 +20,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.AwardNumberService;
@@ -161,14 +161,14 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             throws Exception {
         AwardForm awardForm = (AwardForm) form;
         awardForm.setUnitRulesMessages(getUnitRulesMessages(awardForm.getAwardDocument()));
-        return new AuditActionHelper().setAuditMode(mapping, (AwardForm) form, true);
+        return KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (AwardForm) form, true);
     }
 
     @Override
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ((AwardForm) form).clearUnitRulesMessages();
-        return new AuditActionHelper().setAuditMode(mapping, (AwardForm) form, false);
+        return KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (AwardForm) form, false);
     }
     
     /**

@@ -65,7 +65,7 @@ public class OrganizationMaintenanceDocumentRule  extends MaintenanceDocumentRul
      * @return
      */
     private boolean checkYNQ(MaintenanceDocument maintenanceDocument) {
-        ErrorReporter errorReporter = new ErrorReporter();
+        ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
         boolean valid = true;
         if (LOG.isDebugEnabled()) {
             LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
@@ -111,7 +111,7 @@ public class OrganizationMaintenanceDocumentRule  extends MaintenanceDocumentRul
     
     private boolean checkRolodexEntries( MaintenanceDocument maintenanceDocument) {
         boolean valid = true;
-        ErrorReporter errorReporter = new ErrorReporter();
+        ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
         Organization newOrganization = (Organization) maintenanceDocument.getNewMaintainableObject().getDataObject();
         RolodexService rolodexService = KcServiceLocator.getService(RolodexService.class);
         

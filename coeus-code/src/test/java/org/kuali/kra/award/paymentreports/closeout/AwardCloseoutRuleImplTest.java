@@ -19,6 +19,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -49,6 +50,7 @@ public class AwardCloseoutRuleImplTest {
     @Before
     public void setUp() throws Exception {
         awardCloseoutRuleImpl = new AwardCloseoutRuleImpl();
+        awardCloseoutRuleImpl.setErrorReporter(new ErrorReporter());
         newCloseoutItem = new AwardCloseout();
         closeoutItem = new AwardCloseout();
         closeoutItem.setCloseoutReportCode(CLOSE_OUT_REPORT_CODE_A);

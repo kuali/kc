@@ -18,6 +18,7 @@ package org.kuali.kra.committee.rules;
 import org.junit.Test;
 import org.kuali.coeus.common.committee.impl.rule.event.CommitteeActionFilterBatchCorrespondenceHistoryEvent;
 import org.kuali.coeus.common.committee.impl.rules.CommitteeActionFilterBatchCorrespondenceHistoryRule;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
 
@@ -38,6 +39,7 @@ public class CommitteeActionFilterBatchCorrespondenceHistoryRuleTest {
                 
                 event = new CommitteeActionFilterBatchCorrespondenceHistoryEvent(Constants.EMPTY_STRING, null, batchCorrespondenceTypeCode, startDate, endDate);
                 rule = new CommitteeActionFilterBatchCorrespondenceHistoryRule();
+                rule.setErrorReporter(new ErrorReporter());
                 expectedReturnValue = true;
             }
         };
@@ -56,6 +58,7 @@ public class CommitteeActionFilterBatchCorrespondenceHistoryRuleTest {
                 
                 event = new CommitteeActionFilterBatchCorrespondenceHistoryEvent(Constants.EMPTY_STRING, null, batchCorrespondenceTypeCode, startDate, endDate);
                 rule = new CommitteeActionFilterBatchCorrespondenceHistoryRule();
+                rule.setErrorReporter(new ErrorReporter());
                 expectedReturnValue = false;
             }
         };
@@ -74,6 +77,7 @@ public class CommitteeActionFilterBatchCorrespondenceHistoryRuleTest {
                 
                 event = new CommitteeActionFilterBatchCorrespondenceHistoryEvent(Constants.EMPTY_STRING, null, batchCorrespondenceTypeCode, startDate, endDate);
                 rule = new CommitteeActionFilterBatchCorrespondenceHistoryRule();
+                rule.setErrorReporter(new ErrorReporter());
                 expectedReturnValue = false;
             }
         };

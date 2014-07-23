@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.subcontracting.reporting;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -44,7 +45,7 @@ public class SubcontractingExpenditureAmountsInDateRangeRule {
             if(rangeEndDate.before(rangeStartDate)) {
                 rulePassed = false;
                 // report the error by putting the message in global map
-                ErrorReporter reporter = new ErrorReporter();
+                ErrorReporter reporter = KcServiceLocator.getService(ErrorReporter.class);
                 reporter.reportError(RANGE_START_DATE, KeyConstants.EXPENDITURES_RANGE_START_DATE_AFTER_END_DATE);
             }
         }

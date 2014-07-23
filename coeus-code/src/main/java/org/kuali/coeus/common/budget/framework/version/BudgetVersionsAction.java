@@ -24,7 +24,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.budget.framework.core.*;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetForm;
@@ -383,11 +383,11 @@ public class BudgetVersionsAction extends BudgetAction {
                     budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
 
                     if (form instanceof AwardBudgetForm) {
-                        //forward = new AuditActionHelper().setAuditMode(mapping, (AwardBudgetForm) form, true);
-                        new AuditActionHelper().setAuditMode(mapping, (AwardBudgetForm) form, true);
+                        //forward = KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (AwardBudgetForm) form, true);
+                        KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (AwardBudgetForm) form, true);
                     } else {
-                        //forward = new AuditActionHelper().setAuditMode(mapping, (BudgetForm) form, true);
-                        new AuditActionHelper().setAuditMode(mapping, (BudgetForm) form, true);
+                        //forward = KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (BudgetForm) form, true);
+                        KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (BudgetForm) form, true);
                     }
                     
                     return mapping.findForward(Constants.BUDGET_ACTIONS_PAGE);

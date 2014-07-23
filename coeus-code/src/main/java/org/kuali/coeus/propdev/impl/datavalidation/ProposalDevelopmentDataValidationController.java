@@ -5,13 +5,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.element.Header;
 import org.kuali.rice.krad.uif.view.ViewIndex;
 import org.kuali.rice.krad.util.ErrorMessage;
@@ -42,13 +41,17 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
     @Qualifier("krmsRulesExecutionService")
     private KrmsRulesExecutionService krmsRulesExecutionService;
 
+    @Autowired
+    @Qualifier("auditHelper")
+    private AuditHelper auditHelper;
+
     @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=validateData")
     public ModelAndView validateData(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        if (form.isValidateData()) {
-            form.setDataValidationItems(createDataValidationItems(form.getProposalDevelopmentDocument(),form.getView().getViewIndex()));
+        if (form.isAuditActivated()) {
+            form.setDataValidationItems(createDataValidationItems(form,form.getView().getViewIndex()));
         }
 
         return getTransactionalDocumentControllerService().getUIFModelAndView(form);
@@ -58,10 +61,9 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=toggleValidation")
     public ModelAndView toggleValidation(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
-        form.setValidateData(!form.isValidateData());
-
-        if(form.isValidateData()) {
-            form.setDataValidationItems(createDataValidationItems(form.getProposalDevelopmentDocument(),form.getView().getViewIndex()));
+        form.setAuditActivated(!form.isAuditActivated());
+        if(form.isAuditActivated()) {
+            form.setDataValidationItems(createDataValidationItems(form,form.getView().getViewIndex()));
         }
 
         return getTransactionalDocumentControllerService().getUIFModelAndView(form);
@@ -77,10 +79,11 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
         return getTransactionalDocumentControllerService().navigate(form,result,request,response);
     }
 
-    private List<ProposalDevelopmentDataValidationItem> createDataValidationItems(ProposalDevelopmentDocument document, ViewIndex viewIndex) {
+    private List<ProposalDevelopmentDataValidationItem> createDataValidationItems(ProposalDevelopmentDocumentForm form, ViewIndex viewIndex) {
+        ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
         List<ProposalDevelopmentDataValidationItem> dataValidationItems = new ArrayList<ProposalDevelopmentDataValidationItem>();
         KNSGlobalVariables.getAuditErrorMap().clear();
-        KRADServiceLocatorWeb.getKualiRuleService().applyRules(new RouteDocumentEvent(document));
+        getAuditHelper().auditConditionally(form);
         for (Entry<String,AuditCluster> entry : KNSGlobalVariables.getAuditErrorMap().entrySet()) {
             AuditCluster auditCluster = (AuditCluster) entry.getValue();
             List<AuditError> auditErrors = auditCluster.getAuditErrorList();
@@ -101,6 +104,8 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
                 dataValidationItems.add(dataValidationItem);
             }
         }
+
+
 
         List<Map<String,String>> krmsErrors = getKrmsRulesExecutionService().processUnitKcValidations(document.getLeadUnitNumber(),document);
         for (Map<String,String> error: krmsErrors) {
@@ -132,5 +137,13 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
 
     public void setKrmsRulesExecutionService(KrmsRulesExecutionService krmsRulesExecutionService) {
         this.krmsRulesExecutionService = krmsRulesExecutionService;
+    }
+
+    public AuditHelper getAuditHelper() {
+        return auditHelper;
+    }
+
+    public void setAuditHelper(AuditHelper auditHelper) {
+        this.auditHelper = auditHelper;
     }
 }

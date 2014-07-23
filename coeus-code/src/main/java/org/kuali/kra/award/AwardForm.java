@@ -23,7 +23,7 @@ import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelper;
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsForm;
-import org.kuali.coeus.sys.framework.model.AuditableForm;
+import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.framework.model.MultiLookupForm;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -89,7 +89,7 @@ import java.util.*;
  * 
  * This class represents the Award Form Struts class.
  */
-public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,AuditableForm,PermissionsForm,CustomDataDocumentForm {
+public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,Auditable,PermissionsForm,CustomDataDocumentForm {
 
     public static final String SAVE = "save";
     public static final String RELOAD = "reload";

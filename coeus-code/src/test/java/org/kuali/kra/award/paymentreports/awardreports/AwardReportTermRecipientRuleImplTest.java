@@ -19,6 +19,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -33,6 +34,7 @@ public class AwardReportTermRecipientRuleImplTest {
     @Before
     public void setUp() throws Exception {
         awardReportTermRecipientRuleImpl = new AwardReportTermRecipientRuleImpl();
+        awardReportTermRecipientRuleImpl.setErrorReporter(new ErrorReporter());
         awardReportTermRecipientItems = new ArrayList<AwardReportTermRecipient>();
         GlobalVariables.setMessageMap(new MessageMap());
     }

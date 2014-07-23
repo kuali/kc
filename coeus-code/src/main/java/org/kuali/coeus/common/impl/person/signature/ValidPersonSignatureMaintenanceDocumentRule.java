@@ -17,6 +17,7 @@ package org.kuali.coeus.common.impl.person.signature;
 
 import org.kuali.coeus.common.framework.person.signature.PersonSignature;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
@@ -62,7 +63,7 @@ public class ValidPersonSignatureMaintenanceDocumentRule extends KcMaintenanceDo
         PersonSignature personSignature = (PersonSignature)document.getNewMaintainableObject().getDataObject();
         
         if(personSignature.getTemplateFile() == null && personSignature.getFileName() == null) {
-            ErrorReporter errorReporter = new ErrorReporter();
+            ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
             errorReporter.reportError("document.newMaintainableObject.templateFile", 
                     PERSON_SIGNATURE_FILE_INVALID_ERROR_KEY,
                     new String[]{});
@@ -83,7 +84,7 @@ public class ValidPersonSignatureMaintenanceDocumentRule extends KcMaintenanceDo
             isValid = isRecordUpdateValid(fieldValues, personSignature);
         }
         if(!isValid) {
-            ErrorReporter errorReporter = new ErrorReporter();
+            ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
             errorReporter.reportError("document.newMaintainableObject.personId", 
                     PERSON_SIGNATURE_ID_INVALID_ERROR_KEY,
                     new String[]{});

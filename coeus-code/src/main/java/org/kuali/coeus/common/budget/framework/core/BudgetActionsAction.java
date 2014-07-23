@@ -28,8 +28,8 @@ import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardFiles;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardsRule;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper.ValidationState;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
+import org.kuali.coeus.sys.framework.validation.AuditHelper.ValidationState;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetForm;
@@ -443,7 +443,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             }    
         }
         ((AwardBudgetForm) form).setAuditActivated(true);
-        ValidationState state = new AuditActionHelper().isValidSubmission((AwardBudgetForm) form, true);
+        ValidationState state = KcServiceLocator.getService(AuditHelper.class).isValidSubmission((AwardBudgetForm) form, true);
         if (state != ValidationState.ERROR) {
             getAwardBudgetService().processSubmision(awardBudgetDocument);
             return super.route(mapping, form, request, response);
@@ -532,7 +532,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     public ActionForward disapprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm)form).getAwardBudgetDocument();
-        boolean auditPassed = new AuditActionHelper().auditUnconditionally(awardBudgetDocument);
+        boolean auditPassed = KcServiceLocator.getService(AuditHelper.class).auditUnconditionally(awardBudgetDocument);
         getAwardBudgetService().processDisapproval(awardBudgetDocument);   
         return super.disapprove(mapping, form, request, response);
     }
@@ -639,9 +639,9 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             HttpServletResponse response) throws Exception {
         ActionForward forward;
         if (form instanceof AwardBudgetForm) {
-            forward = new AuditActionHelper().setAuditMode(mapping, (AwardBudgetForm) form, true);
+            forward = KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (AwardBudgetForm) form, true);
         } else {
-            forward = new AuditActionHelper().setAuditMode(mapping, (BudgetForm) form, true);
+            forward = KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (BudgetForm) form, true);
         }
         return forward;
     }
@@ -651,9 +651,9 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             HttpServletResponse response) throws Exception {
         ActionForward forward;
         if (form instanceof AwardBudgetForm) {
-            forward = new AuditActionHelper().setAuditMode(mapping, (AwardBudgetForm) form, false);
+            forward = KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (AwardBudgetForm) form, false);
         } else {
-            forward = new AuditActionHelper().setAuditMode(mapping, (BudgetForm) form, false);
+            forward = KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (BudgetForm) form, false);
         }
         return forward;
     }

@@ -21,6 +21,7 @@ import org.kuali.coeus.common.committee.impl.rules.CommitteeScheduleTimeRule;
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.infrastructure.KeyConstants;
 
@@ -65,7 +66,7 @@ public class MeetingSaveRule  extends KcTransactionalDocumentRuleBase implements
     private boolean validateMeetingDetails(CommitteeScheduleBase committeeSchedule) {
 
         boolean rulePassed = true;
-        errorReporter = new ErrorReporter();
+        errorReporter = KcServiceLocator.getService(ErrorReporter.class);
         String time = committeeSchedule.getViewStartTime().getTime();
         rulePassed &= processTime(time, ID1.replace(VIEW_TIME, VIEW_START_TIME));
         time = committeeSchedule.getViewEndTime().getTime();
@@ -89,7 +90,7 @@ public class MeetingSaveRule  extends KcTransactionalDocumentRuleBase implements
     private boolean validateDuplicateAlternateFor(List<MemberPresentBean> memberPresentBeans) {
 
         boolean rulePassed = true;
-        errorReporter = new ErrorReporter();
+        errorReporter = KcServiceLocator.getService(ErrorReporter.class);
         int i = 0;
         for (MemberPresentBean memberPresentBean : memberPresentBeans) {
             if (StringUtils.isNotBlank(memberPresentBean.getAttendance().getAlternateFor())) {

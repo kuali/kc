@@ -16,6 +16,7 @@
 package org.kuali.kra.committee.rules;
 
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
@@ -31,6 +32,7 @@ public class CommitteeActionPrintCommitteeDocumentRuleTest {
             protected void prerequisite() {
                 event = new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, null, true, true);
                 rule = new CommitteeActionPrintCommitteeDocumentRule();
+                rule.setErrorReporter(new ErrorReporter());
                 expectedReturnValue = true;
             }
         };
@@ -45,6 +47,7 @@ public class CommitteeActionPrintCommitteeDocumentRuleTest {
             protected void prerequisite() {
                 event = new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, null, false, false);
                 rule = new CommitteeActionPrintCommitteeDocumentRule();
+                rule.setErrorReporter(new ErrorReporter());
                 expectedReturnValue = false;
             }
         };

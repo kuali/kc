@@ -680,7 +680,7 @@ public abstract class CommitteeDocumentRuleBase extends KcTransactionalDocumentR
         // if we found any inactive research areas in the above loop, report as a single error key suffixed by the list of indices of the inactive areas
         if(inactiveFound) { 
             String committeeResearchAreaInactiveErrorPropertyKey = INACTIVE_RESEARCH_AREAS_PREFIX + SEPERATOR + inactiveResearchAreaIndices.toString();
-            new ErrorReporter().reportError(committeeResearchAreaInactiveErrorPropertyKey, KeyConstants.ERROR_COMMITTEE_RESEARCH_AREA_INACTIVE);
+            KcServiceLocator.getService(ErrorReporter.class).reportError(committeeResearchAreaInactiveErrorPropertyKey, KeyConstants.ERROR_COMMITTEE_RESEARCH_AREA_INACTIVE);
         }
         
         return !inactiveFound;
@@ -691,7 +691,7 @@ public abstract class CommitteeDocumentRuleBase extends KcTransactionalDocumentR
         boolean valid = true;        
         if(StringUtils.isBlank(committee.getReviewTypeCode())) {
             // add error message
-            new ErrorReporter().reportError(REVIEW_TYPE_ERROR_PROPERTY_NAME, KeyConstants.ERROR_COMMITTEE_REVIEW_TYPE_REQUIRED);
+            KcServiceLocator.getService(ErrorReporter.class).reportError(REVIEW_TYPE_ERROR_PROPERTY_NAME, KeyConstants.ERROR_COMMITTEE_REVIEW_TYPE_REQUIRED);
             valid = false;        
         }
         return valid;

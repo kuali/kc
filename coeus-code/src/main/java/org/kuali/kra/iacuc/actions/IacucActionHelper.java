@@ -1026,7 +1026,7 @@ public class IacucActionHelper extends ActionHelperBase {
         //this got much more complex using anon keys
         if (attachment.getFile() == null || StringUtils.isBlank(attachment.getFile().getFileName())) {
             valid = false;
-            new ErrorReporter().reportError("actionHelper." + propertyName + ".newActionAttachment.file",
+            KcServiceLocator.getService(ErrorReporter.class).reportError("actionHelper." + propertyName + ".newActionAttachment.file",
                 KeyConstants.ERROR_ATTACHMENT_REQUIRED);
         }
         

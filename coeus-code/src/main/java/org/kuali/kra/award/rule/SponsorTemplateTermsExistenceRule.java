@@ -60,7 +60,7 @@ public class SponsorTemplateTermsExistenceRule extends KcMaintenanceDocumentRule
         
         for(SponsorTermType aType: types) {
             if(!currentTypeCodes.contains(aType.getSponsorTermTypeCode())) {
-                ErrorReporter errorReporter = new ErrorReporter();
+                ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
                 errorReporter.reportError("document.newMaintainableObject.templateTerms", 
                       KeyConstants.ERROR_TERM_REQUIRED, aType.getDescription());
                 valid = false;

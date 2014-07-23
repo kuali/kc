@@ -22,8 +22,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper.ValidationState;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
+import org.kuali.coeus.sys.framework.validation.AuditHelper.ValidationState;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
@@ -409,8 +409,8 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
 
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ActionForward actionForward = new AuditActionHelper().setAuditMode(mapping, (AwardForm) form, true);
-        ValidationState state = new AuditActionHelper().isValidSubmission((AwardForm) form, false);
+        ActionForward actionForward = KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (AwardForm) form, true);
+        ValidationState state = KcServiceLocator.getService(AuditHelper.class).isValidSubmission((AwardForm) form, false);
         if (state == ValidationState.ERROR) {
             actionForward = mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
         }

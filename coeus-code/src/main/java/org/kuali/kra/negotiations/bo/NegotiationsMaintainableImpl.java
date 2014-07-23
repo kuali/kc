@@ -16,6 +16,7 @@
 package org.kuali.kra.negotiations.bo;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
@@ -61,7 +62,7 @@ public class NegotiationsMaintainableImpl extends KraMaintainableImpl {
     }
     
     private void reportError(String codeValue) {
-        ErrorReporter errorReporter = new ErrorReporter();
+        ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
         errorReporter.reportError("document.newMaintainableObject.code", KeyConstants.NEGOTIATION_STATUS_USED, codeValue);
     }
 }

@@ -22,7 +22,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.budget.framework.core.*;
 import org.kuali.coeus.common.budget.framework.core.BudgetAction;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetForm;
@@ -149,9 +149,9 @@ public class BudgetParametersAction extends BudgetAction {
                     budget.setBudgetStatus(budgetStatusIncompleteCode);
 
                     if (form instanceof AwardBudgetForm) {
-                        new AuditActionHelper().setAuditMode(mapping, (AwardBudgetForm) form, true);
+                        KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (AwardBudgetForm) form, true);
                     } else {
-                        new AuditActionHelper().setAuditMode(mapping, (BudgetForm) form, true);
+                        KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (BudgetForm) form, true);
                     }
                     
                     return mapping.findForward(Constants.BUDGET_ACTIONS_PAGE);

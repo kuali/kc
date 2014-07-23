@@ -18,6 +18,7 @@ package org.kuali.coeus.common.committee.impl.meeting;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.infrastructure.KeyConstants;
 
@@ -39,7 +40,7 @@ public class MeetingPresentOtherOrVotingRule extends KcTransactionalDocumentRule
      */
 public boolean processRules(MeetingPresentOtherOrVotingEvent event) {
         boolean rulePassed = true;
-        errorReporter = new ErrorReporter();
+        errorReporter = KcServiceLocator.getService(ErrorReporter.class);
         for (MemberPresentBean memberPresentBean : event.getMeetingHelper().getMemberPresentBeans()) {
             if (isAlternateFor(memberPresentBean, event.getMemberAbsentBean())) {
                 errorReporter.reportError("meetingHelper.memberAbsentBean.attendance.personId",

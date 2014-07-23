@@ -18,6 +18,7 @@ package org.kuali.kra.committee.rules;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.ScheduleData;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleFilterEvent;
 import org.kuali.kra.infrastructure.Constants;
@@ -42,6 +43,7 @@ public class CommitteeScheduleFilterDatesRuleTest {
                 
                 event = new CommitteeScheduleFilterEvent(Constants.EMPTY_STRING, null, scheduleData, null, ErrorType.HARDERROR);
                 rule = new CommitteeScheduleFilterDatesRule();
+                rule.setErrorReporter(new ErrorReporter());
                 expectedReturnValue = true;
             }
         };
@@ -62,6 +64,7 @@ public class CommitteeScheduleFilterDatesRuleTest {
                 
                 event = new CommitteeScheduleFilterEvent(Constants.EMPTY_STRING, null, scheduleData, null, ErrorType.HARDERROR);
                 rule = new CommitteeScheduleFilterDatesRule();
+                rule.setErrorReporter(new ErrorReporter());
                 expectedReturnValue = false;
             }
         };

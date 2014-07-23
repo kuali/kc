@@ -24,7 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.coeus.common.committee.impl.meeting.MinuteEntryType;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
@@ -111,13 +111,13 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     @Override
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        return new AuditActionHelper().setAuditMode(mapping, (ProtocolForm) form, true);
+        return KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (ProtocolForm) form, true);
     }
 
     @Override
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        return new AuditActionHelper().setAuditMode(mapping, (ProtocolForm) form, false);
+        return KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (ProtocolForm) form, false);
     }
 
     /**

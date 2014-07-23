@@ -18,7 +18,8 @@ package org.kuali.kra.subaward.web.struts.action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
@@ -50,13 +51,13 @@ SubAwardAction implements AuditModeAction {
     ActionForm form, HttpServletRequest request,
     HttpServletResponse response)
     throws Exception {
-        return new AuditActionHelper().
+        return KcServiceLocator.getService(AuditHelper.class).
         setAuditMode(mapping, (SubAwardForm) form, true);
     }
     @Override
     public ActionForward deactivate(ActionMapping mapping,
     ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return new AuditActionHelper().setAuditMode(mapping, (SubAwardForm) form, false);
+        return KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (SubAwardForm) form, false);
     }
     @Override
     public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
