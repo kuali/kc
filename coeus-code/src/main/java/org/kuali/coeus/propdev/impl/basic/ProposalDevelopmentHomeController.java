@@ -26,6 +26,7 @@ import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialRevie
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption;
@@ -154,6 +155,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    @InitBinder
    protected void initBinder(WebDataBinder binder) throws Exception {
 	   binder.registerCustomEditor(List.class, "document.developmentProposal.propScienceKeywords", new PropScienceKeywordEditor());
+	   binder.registerCustomEditor(List.class, "document.permissionsHelper.userRoles", new ProposalPermissionEditor());
    }
    	  
    protected class PropScienceKeywordEditor extends CustomCollectionEditor {
@@ -168,9 +170,38 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 			return null;
 		}
 	}
-   
+
    protected ScienceKeyword getScienceKeyword(Object element) {
 	   return getDataObjectService().findUnique(ScienceKeyword.class, QueryByCriteria.Builder.forAttribute("code", element).build());
    }
+
+    protected class ProposalPermissionEditor extends CustomCollectionEditor {
+        public ProposalPermissionEditor() {
+            super(List.class);
+        }
+
+        protected Object convertElement(Object element) {
+            if (element instanceof String) {
+                return (String)element;
+            }
+            return null;
+        }
+    }
+
+    protected class PropSpecialReviewExemptionTypeEditor extends CustomCollectionEditor {
+		public PropSpecialReviewExemptionTypeEditor() {
+			super(List.class);
+		}
+
+		protected Object convertElement(Object element) {
+			if (element instanceof String) {
+				return new ProposalSpecialReviewExemption(null, getExemptionType(element));
+			}
+			return null;
+		}
+	}
    
+   protected ExemptionType getExemptionType(Object element) {
+	   return getDataObjectService().findUnique(ExemptionType.class, QueryByCriteria.Builder.forAttribute("code", element).build());
+   }
 }

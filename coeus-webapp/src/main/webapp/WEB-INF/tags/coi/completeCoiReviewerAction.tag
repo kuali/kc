@@ -17,7 +17,7 @@
 <c:set var="permissionsUserAttributes" value="${DataDictionary.PermissionsUser.attributes}" />
 <c:set var="canMaintainReviewers" value="${KualiForm.disclosureActionHelper.maintainReviewers}" />
 <c:set var="coiUserRoleAttributes" value="${DataDictionary.CoiUserRole.attributes}" />
-<c:set var="userRoles" value="${KualiForm.disclosureActionHelper.coiUserRoles}"/>
+<c:set var="oldUserRoles" value="${KualiForm.disclosureActionHelper.coiUserRoles}"/>
 <c:set var="readOnly" value="${!KualiForm.coiNotesAndAttachmentsHelper.performCoiDisclosureActions}"/>
 	<div class="tab-container" align="center">
 		<h3> 
@@ -39,7 +39,7 @@
             </tr>
             
 			<c:set var="userIndex" value="1"/>
-            <c:forEach var="user" items="${userRoles}" varStatus="status">
+            <c:forEach var="user" items="${oldUserRoles}" varStatus="status">
 				<html:hidden property="document.coiDisclosureList[0].coiUserRoles[${status.index}].oldCoiRecomendedTypeCode" />
             	<c:if test="${user.markedToCompleteReview}">
 	                 <tr>
