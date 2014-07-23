@@ -23,7 +23,6 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.event.DocumentAuditEvent;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -72,7 +71,7 @@ public final class AuditActionHelper {
      * @return the action forward
      * @throws NullPointerException if the mapping or form is null
      */
-    public <T extends KualiDocumentFormBase & AuditableForm> ActionForward setAuditMode(
+    public <T extends  AuditableForm> ActionForward setAuditMode(
             final ActionMapping mapping, final T form, final boolean audit) {
 
         if (mapping == null) {
@@ -94,7 +93,7 @@ public final class AuditActionHelper {
      * @return true if audit passed
      * @throws NullPointerException if the form is null
      */
-    public <T extends KualiDocumentFormBase & AuditableForm> boolean auditConditionally(final T form) {
+    public <T extends  AuditableForm> boolean auditConditionally(final T form) {
         return this.auditDocumentFromForm(form, false);
     }
     
@@ -105,7 +104,7 @@ public final class AuditActionHelper {
      * @return true if audit passed
      * @throws NullPointerException if the form is null
      */
-    public <T extends KualiDocumentFormBase & AuditableForm> boolean auditUnconditionally(final T form) {
+    public <T extends  AuditableForm> boolean auditUnconditionally(final T form) {
         return this.auditDocumentFromForm(form, true);
     }
     
@@ -131,7 +130,7 @@ public final class AuditActionHelper {
      * @return true if audit passed
      * @throws NullPointerException if the form is null
      */
-    private <T extends KualiDocumentFormBase & AuditableForm> boolean auditDocumentFromForm(final T form, final boolean alwaysApplyAudit) {
+    private <T extends AuditableForm> boolean auditDocumentFromForm(final T form, final boolean alwaysApplyAudit) {
         
         if (form == null) {
             throw new NullPointerException("the form is null");
@@ -152,7 +151,7 @@ public final class AuditActionHelper {
      * @param unconditionally
      * @return
      */
-    public <T extends KualiDocumentFormBase & AuditableForm> ValidationState isValidSubmission(final T form, boolean unconditionally) {
+    public <T extends AuditableForm> ValidationState isValidSubmission(final T form, boolean unconditionally) {
         ValidationState result = ValidationState.OK;
         boolean auditPassed;
         if (unconditionally) {
@@ -172,4 +171,6 @@ public final class AuditActionHelper {
         }
         return result;
     }    
+    
+    
 }

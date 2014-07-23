@@ -94,6 +94,8 @@ public interface UifControllerService extends KcCommonControllerService {
     ModelAndView tableJsonRetrieval(UifFormBase form, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response);
     
+    public ModelAndView showDialog(String dialogId, boolean confirmation, UifFormBase form);
+    
     //protected methods
 
     UifFormBase createInitialForm(HttpServletRequest request);
@@ -120,4 +122,7 @@ public interface UifControllerService extends KcCommonControllerService {
 
     public void getFileFromLine(UifFormBase uifForm, BindingResult result,
                                 HttpServletRequest request, HttpServletResponse response) throws Exception;
+    
+    
+    
 }

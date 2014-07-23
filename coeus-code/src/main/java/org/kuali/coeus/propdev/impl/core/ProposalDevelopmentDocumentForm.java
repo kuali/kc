@@ -28,6 +28,7 @@ import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionn
 import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelAddWizardHelper;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
+import org.kuali.coeus.sys.framework.model.AuditableForm;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.uif.component.Component;
@@ -42,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 @ChangeTracking
-public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBase {
+public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBase  implements AuditableForm{
 
     private static final long serialVersionUID = 1381360399393420225L;
     
@@ -56,11 +57,11 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private ProposalDevelopmentCustomDataHelper customDataHelper;
     private String selectedCustomDataGroup;
     private List<ProposalDevelopmentDataValidationItem> dataValidationItems;
-    private boolean validateData;
     private List<ProposalCreditSplitListDto> creditSplitListItems;
     private AddBudgetDto addBudgetDto;
     private ProposalDevelopmentAttachmentHelper proposalDevelopmentAttachmentHelper;
-
+    private boolean validateErrorData;
+    private boolean auditActivated;
     public ProposalDevelopmentDocumentForm() {
         super();
     }
@@ -254,4 +255,26 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     public void setS2sQuestionnaireHelper(ProposalDevelopmentS2sQuestionnaireHelper s2sQuestionnaireHelper) {
         this.s2sQuestionnaireHelper = s2sQuestionnaireHelper;
     }
+
+	public boolean isValidateErrorData() {
+		return validateErrorData;
+	}
+
+	public void setValidateErrorData(boolean validateErrorData) {
+		this.validateErrorData = validateErrorData;
+	}
+	
+	
+	 @Override
+	 public boolean isAuditActivated() {
+	        return this.auditActivated;
+     }
+
+	    @Override
+	    public void setAuditActivated(boolean auditActivated) {
+	        this.auditActivated = auditActivated;
+	    }
+	    
+
+    
 }
