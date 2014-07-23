@@ -48,7 +48,7 @@ import java.util.List;
 
 public class PrintingUtils {
 
-	private static String XSL_CONTEXT_DIR = "/org/kuali/kra/printing/stylesheet/";
+	private static String XSL_CONTEXT_DIR = "/org/kuali/kra/printing/stylesheet";
 	private static final String XSL_BUDGET_SUMMARY = "BudgetSummaryReport.xsl";
 	private static final String XSL_BUDGET_SALARY = "BudgetSalary.xsl";
 	private static final String XSL_BUDGET_TOTAL = "BudgetSummaryTotalPage.xsl";
@@ -254,7 +254,6 @@ public class PrintingUtils {
     public static ArrayList<Source> getXSLTforReportTemplate(String reportTemplate) {
         Source src = new StreamSource(PrintingUtils.class
                 .getResourceAsStream(XSL_CONTEXT_DIR + "/" + reportTemplate));
-
         ArrayList<Source> sourceList = new ArrayList<Source>();
         sourceList.add(src);
         return sourceList;
