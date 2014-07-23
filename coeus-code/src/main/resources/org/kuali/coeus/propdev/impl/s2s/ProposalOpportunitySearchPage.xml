@@ -152,23 +152,85 @@
 		parent="Uif-TableCollectionSection" p:headerText="Forms"
 		p:propertyName="s2sOppForms" p:collectionObjectClass="org.kuali.coeus.propdev.impl.s2s.S2sOppForms"
 		p:renderAddLine="false" p:layoutManager.renderSequenceField="false"
-		p:renderLineActions="false" p:pageSize="100"
-		p:layoutManager.richTable.disableTableSort="true"
-		p:layoutManager.richTable.showExportOption="false">
+		p:renderLineActions="false" p:layoutManager.richTable.render="false">
 		<property name="items">
 			<list>
 				<bean parent="Uif-DataField" p:propertyName="formName" />
 				<bean parent="Uif-MessageField" p:fieldLabel.labelText="Mandatory"
 					p:messageText="@{#lp.mandatory ? 'Yes' : 'No'}" />
 				<bean parent="Uif-InputField" p:propertyName="include"
-					p:readOnly="@{#lp.mandatory}" p:readOnlyDisplayReplacement="Yes" />
+					p:readOnly="@{#lp.mandatory}" p:readOnlyDisplayReplacement="Yes"
+                    p:fieldLabel.labelText="[0]">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:disabled="@{!#line.available}" />
+                    </property>
+                    <property name="fieldLabel.inlineComponents">
+                        <list>
+                            <bean parent="Uif-DropdownToggleMenu"
+                                  p:toggleText="Include">
+                                <property name="menuItems">
+                                    <list>
+                                        <bean parent="PropDev-OpportunityPage-SelectMenuAction" p:actionLabel="Select All" p:order="10"
+                                              p:actionScript="jQuery(&quot;input[name$='include']&quot;).not(&quot;input[disabled='disabled']&quot;).prop('checked', true);"/>
+                                        <bean parent="PropDev-OpportunityPage-SelectMenuAction" p:actionLabel="Select None"  p:order="20"
+                                              p:actionScript="jQuery(&quot;input[name$='include']&quot;).not(&quot;input[disabled='disabled']&quot;).prop('checked', false);"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
 				<bean parent="Uif-MessageField" p:fieldLabel.labelText="Description"
 					p:messageText="@{#lp.available ? 'Available' : 'Unavailable'}" />
 				<bean parent="Uif-InputField" p:propertyName="selectToPrint"
-					p:fieldLabel.labelText="PDF" />
+					p:fieldLabel.labelText="[0]" >
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:disabled="@{!#line.available}" />
+                    </property>
+                    <property name="fieldLabel.inlineComponents">
+                        <list>
+                            <bean parent="Uif-DropdownToggleMenu"
+                                  p:toggleText="Select">
+                                <property name="menuItems">
+                                    <list>
+                                        <bean parent="PropDev-OpportunityPage-SelectMenuAction" p:actionLabel="Select All" p:order="10"
+                                              p:actionScript="jQuery(&quot;input[name$='selectToPrint']&quot;).not(&quot;input[disabled='disabled']&quot;).prop('checked', true);"/>
+                                        <bean parent="PropDev-OpportunityPage-SelectMenuAction" p:actionLabel="Select None" p:order="20"
+                                              p:actionScript="jQuery(&quot;input[name$='selectToPrint']&quot;).not(&quot;input[disabled='disabled']&quot;).prop('checked', false);"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
 			</list>
 		</property>
+        <property name="layoutManager.libraryCssClasses">
+            <list>
+                <value>table</value>
+                <value>table-condensed</value>
+            </list>
+        </property>
+        <property name="layoutManager.cssClasses">
+            <null/>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Create PDF" p:methodToCall="refresh"
+                                p:refreshId="PropDev-OpportunityPage-Forms" p:order="10" p:cssClasses="pull-right"
+                                p:successCallback="window.location.href='@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=printForms&amp;formKey=@{formKey}';"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
 	</bean>
+
+    <bean id="PropDev-OpportunityPage-SelectMenuAction" parent="PropDev-OpportunityPage-SelectMenuAction-parentBean"/>
+    <bean id="PropDev-OpportunityPage-SelectMenuAction-parentBean" abstract="true" parent="Uif-MenuAction"
+          p:cssClasses="pull-left" p:refreshId="PropDev-OpportunityPage-Forms"/>
+
 	<bean id="PropDev-OpportunityPage-SubmissionDetails" parent="PropDev-OpportunityPage-SubmissionDetails-parentBean" />
 	<bean id="PropDev-OpportunityPage-SubmissionDetails-parentBean"
 		abstract="true" parent="Uif-GridSection" p:headerText="Submission Details" />
