@@ -19,12 +19,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.signature.PersonSignature;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,11 +37,17 @@ import java.util.Map;
 
 /**
  * Lookupable helper service used for person id lookup
- */  
-public class PersonSignatureLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+ */
+@Component("personSignatureLookupableHelperService")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class PersonSignatureLookupableHelperServiceImpl extends KcKualiLookupableHelperServiceImpl {
 
 
     private static final long serialVersionUID = 749587517623905557L;
+
+    @Autowired
+    @Qualifier("kcPersonService")
+    private KcPersonService kcPersonService;
 
     @Override
     public List<Row> getRows() {
@@ -64,10 +74,6 @@ public class PersonSignatureLookupableHelperServiceImpl extends KualiLookupableH
         }
         
         return super.performLookup(lookupForm, resultTable, bounded);
-    }
-    
-    public KcPersonService getKcPersonService() {
-        return (KcPersonService) KcServiceLocator.getService(KcPersonService.class);
     }
 
     @Override
@@ -96,5 +102,12 @@ public class PersonSignatureLookupableHelperServiceImpl extends KualiLookupableH
         }
         return filteredList;
     }
-    
+
+    public KcPersonService getKcPersonService() {
+        return kcPersonService;
+    }
+
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
+    }
 }

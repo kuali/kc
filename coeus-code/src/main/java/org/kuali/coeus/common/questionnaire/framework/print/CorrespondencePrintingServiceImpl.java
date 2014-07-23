@@ -42,9 +42,9 @@ public abstract class CorrespondencePrintingServiceImpl implements Correspondenc
     @Autowired
     @Qualifier("printingService")
     private PrintingService printingService;
-    @Autowired
-    @Qualifier("correspondencePrint")
+
     private AbstractPrint correspondencePrint;
+
     @Autowired
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;

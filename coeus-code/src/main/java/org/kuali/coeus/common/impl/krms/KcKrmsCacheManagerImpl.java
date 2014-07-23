@@ -32,8 +32,8 @@ import java.util.List;
 public class KcKrmsCacheManagerImpl implements KcKrmsCacheManager {
 
     @Autowired
-    @Qualifier("krmsDistributedCacheManager")
-    private CacheAdminService krmsDistributedCacheManager;
+    @Qualifier("krmsCacheAdminService")
+    private CacheAdminService krmsCacheAdminService;
 
     static final List<CacheTarget> cacheTargets= new ArrayList<CacheTarget>();
     static{
@@ -44,17 +44,16 @@ public class KcKrmsCacheManagerImpl implements KcKrmsCacheManager {
 
     @Override
     public void clearCache() {
-        if(krmsDistributedCacheManager!=null){
-            krmsDistributedCacheManager.flush(cacheTargets);   
+        if(krmsCacheAdminService!=null){
+            krmsCacheAdminService.flush(cacheTargets);
         }
     }
 
-    public CacheAdminService getKrmsDistributedCacheManager() {
-        return krmsDistributedCacheManager;
+    public CacheAdminService getKrmsCacheAdminService() {
+        return krmsCacheAdminService;
     }
 
-    public void setKrmsDistributedCacheManager(CacheAdminService krmsDistributedCacheManager) {
-        this.krmsDistributedCacheManager = krmsDistributedCacheManager;
+    public void setKrmsCacheAdminService(CacheAdminService krmsCacheAdminService) {
+        this.krmsCacheAdminService = krmsCacheAdminService;
     }
-
 }

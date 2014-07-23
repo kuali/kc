@@ -1,12 +1,15 @@
 package org.kuali.coeus.propdev.impl.core;
 import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Component("enrouteDevelopmentProposalLookupable")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class EnrouteDevelopmentProposalLookupable extends LookupableImpl {
 
 	private static final long serialVersionUID = 1L;

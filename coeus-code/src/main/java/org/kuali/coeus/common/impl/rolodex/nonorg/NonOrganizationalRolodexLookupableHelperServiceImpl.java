@@ -18,10 +18,15 @@ package org.kuali.coeus.common.impl.rolodex.nonorg;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
 import org.kuali.coeus.common.impl.rolodex.RolodexDao;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.BeanPropertyComparator;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
@@ -33,10 +38,15 @@ import java.util.Map;
  * 
  */
 @Transactional
-public class NonOrganizationalRolodexLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+@Component("nonOrganizationalRolodexHelperService")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class NonOrganizationalRolodexLookupableHelperServiceImpl extends KcKualiLookupableHelperServiceImpl {
     
 
     private static final long serialVersionUID = -3536764919498823536L;
+
+    @Autowired
+    @Qualifier("rolodexDao")
     private transient RolodexDao rolodexDao;
 
     @Override

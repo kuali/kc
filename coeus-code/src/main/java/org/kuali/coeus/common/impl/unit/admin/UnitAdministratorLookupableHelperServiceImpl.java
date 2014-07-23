@@ -19,13 +19,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,12 +38,17 @@ import java.util.Map;
 
 /**
  * Lookupable helper service used for proposal log lookup
- */  
-public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
+ */
+@Component("unitAdministratorLookupableHelperService")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class UnitAdministratorLookupableHelperServiceImpl extends KcKualiLookupableHelperServiceImpl {
 
     private static final long serialVersionUID = 2733736916454475501L;
-    
+
+    @Autowired
+    @Qualifier("kcPersonService")
+    private KcPersonService kcPersonService;
+
     @SuppressWarnings("unchecked")
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames){
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
@@ -80,10 +89,6 @@ public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupabl
         
         return super.performLookup(lookupForm, resultTable, bounded);
     }
-    
-    public KcPersonService getKcPersonService() {
-        return (KcPersonService) KcServiceLocator.getService(KcPersonService.class);
-    }
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -111,5 +116,12 @@ public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupabl
         }
         return filteredList;
     }
-    
+
+    public KcPersonService getKcPersonService() {
+        return kcPersonService;
+    }
+
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
+    }
 }

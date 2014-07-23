@@ -126,10 +126,6 @@
         <property name="serviceName" value="persistenceStructureServiceOjb" />
     </bean>
     
-    <bean id="persistenceStructureServiceJpa" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="persistenceStructureServiceJpa" />
-    </bean>
-    
     <bean id="printingService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="printingService" />
     </bean>
@@ -237,7 +233,7 @@
         <property name="negotiationActivityPrint" ref="negotiationActivityPrint" />
     </bean>
     
-    <bean id="negotiationActivityPrint" class="org.kuali.kra.negotiations.printing.print.NegotiationActivityprint">
+    <bean id="negotiationActivityPrint" class="org.kuali.kra.negotiations.printing.print.NegotiationActivityprint" scope="prototype">
         <property name="xmlStream" ref="negotiationActivityXmlStream" />
     </bean>
     

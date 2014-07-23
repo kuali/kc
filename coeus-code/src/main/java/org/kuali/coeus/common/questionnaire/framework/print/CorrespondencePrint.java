@@ -31,18 +31,9 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-@Component("correspondencePrint")
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class CorrespondencePrint extends AbstractPrint {
     private static final long serialVersionUID = -5905174316529503137L;
     private static final String XSL_CONTEXT_DIR = "/org/kuali/kra/printing/stylesheet/";
-
-    @Autowired
-    @Qualifier("correspondenceXmlStream")
-    @Override
-    public void setXmlStream(XmlStream correspondenceXmlStream) {
-        super.setXmlStream(correspondenceXmlStream);
-    }
 
     /**
      * This method fetches the XSL style-sheets required for transforming the

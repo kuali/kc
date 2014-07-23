@@ -10,5 +10,10 @@
 	<param name="datasource.username">KCUNIT</param>
 	<param name="datasource.password">untpass</param>
 	<param name="datasource.ojb.platform">MySQL</param>
+	<param name="server.datasource.pool.class">com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</param>
 	-->
+
+    <param name="keystore.file">${user.home}/kuali/test/${environment}/rice_embedded/rice.keystore</param>
+    <param name="keystore.alias">rice</param>
+    <param name="keystore.password">r1c3pw</param>
 </config>

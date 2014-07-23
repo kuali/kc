@@ -18,15 +18,21 @@ package org.kuali.coeus.common.impl.person;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.multicampus.MultiCampusConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.impl.identity.PersonImpl;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.location.impl.campus.CampusBo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
@@ -34,7 +40,10 @@ import java.util.Map;
 /**
  * Lookup helper that retrieves KcPerson BOs.
  */
-public class KcPersonLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+@Component("kcPersonLookupableHelperService")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Lazy
+public class KcPersonLookupableHelperServiceImpl extends KcKualiLookupableHelperServiceImpl {
     
     private static final long serialVersionUID = 1L;
     
@@ -42,6 +51,8 @@ public class KcPersonLookupableHelperServiceImpl extends KualiLookupableHelperSe
     private static final String PERSON_CAMPUS_CODE_FIELD = "campusCode";
     private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = CampusBo.class.getName();
 
+    @Autowired
+    @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
     
     @Override

@@ -21,12 +21,17 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-public class RolodexLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl{
+@Component("rolodexLookupableHelperService")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class RolodexLookupableHelperServiceImpl extends KcKualiLookupableHelperServiceImpl {
 
     private final Log LOG = LogFactory.getLog(RolodexLookupableHelperServiceImpl.class);
 

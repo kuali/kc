@@ -151,10 +151,6 @@
         <property name="serviceName" value="persistenceStructureServiceOjb" />
     </bean>
     
-    <bean id="persistenceStructureServiceJpa" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="persistenceStructureServiceJpa" />
-    </bean> 
-    
     <bean id="personService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="personService" />
     </bean>
@@ -424,27 +420,27 @@
         <property name="printingService" ref="printingService" />
     </bean>
     
-    <bean id="awardDeltaPrint" class="org.kuali.kra.award.printing.print.AwardDeltaPrint">
+    <bean id="awardDeltaPrint" class="org.kuali.kra.award.printing.print.AwardDeltaPrint" scope="prototype">
         <property name="xmlStream" ref="awardDeltaXmlStream" />
     </bean>
     
-    <bean id="awardNoticePrint" class="org.kuali.kra.award.printing.print.AwardNoticePrint">
+    <bean id="awardNoticePrint" class="org.kuali.kra.award.printing.print.AwardNoticePrint" scope="prototype">
         <property name="xmlStream" ref="awardNoticeXmlStream" />
     </bean>
     
-    <bean id="awardTemplatePrint" class="org.kuali.kra.award.printing.print.AwardTemplatePrint">
+    <bean id="awardTemplatePrint" class="org.kuali.kra.award.printing.print.AwardTemplatePrint" scope="prototype">
         <property name="xmlStream" ref="awardTemplateXmlStream" />
     </bean>
     
-    <bean id="moneyAndEndDatesHistoryPrint" class="org.kuali.kra.award.printing.print.MoneyAndEndDatesHistoryPrint">
+    <bean id="moneyAndEndDatesHistoryPrint" class="org.kuali.kra.award.printing.print.MoneyAndEndDatesHistoryPrint" scope="prototype">
         <property name="xmlStream" ref="awardMoneyAndEndDatesHistoryXmlStream" />
     </bean>
 
-    <bean id="awardBudgetHierarchyPrint" class="org.kuali.kra.award.printing.print.AwardBudgetHierarchyPrint">
+    <bean id="awardBudgetHierarchyPrint" class="org.kuali.kra.award.printing.print.AwardBudgetHierarchyPrint" scope="prototype">
         <property name="xmlStream" ref="awardBudgetHierarchyXmlStream" />
     </bean>
     
-    <bean id="awardBudgetHistoryTransactionPrint" class="org.kuali.kra.award.printing.print.AwardBudgetHistoryTransactionPrint">
+    <bean id="awardBudgetHistoryTransactionPrint" class="org.kuali.kra.award.printing.print.AwardBudgetHistoryTransactionPrint" scope="prototype">
         <property name="xmlStream" ref="awardBudgetHistoryTransactionXmlStream" />
     </bean>
             

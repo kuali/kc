@@ -27,5 +27,6 @@
     <bean id="kualiConfigurationService" parent="grlImporter" p:serviceName="kualiConfigurationService" />
     <bean id="dataObjectService" parent="grlImporter" p:serviceName="dataObjectService" />
     <bean id="documentDictionaryService" parent="grlImporter" p:serviceName="documentDictionaryService" />
+    <bean id="maintenanceDocumentDictionaryService" parent="grlImporter" p:serviceName="maintenanceDocumentDictionaryService" />
 
 </beans>

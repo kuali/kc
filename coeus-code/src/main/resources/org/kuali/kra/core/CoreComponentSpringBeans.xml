@@ -11,14 +11,11 @@
 
     <!-- This is only temporary as the "core" module is being dissolved -->
     <import resource="classpath:org/kuali/kra/CoreSpringBeans.xml"/>
-    <import resource="classpath:org/kuali/kra/budget/BudgetSpringBeans.xml"/>
     <import resource="classpath:org/kuali/kra/personmasschange/PersonMassChangeSpringBeans.xml"/>
-    <import resource="classpath:org/kuali/kra/questionnaire/QuestionnaireSpringBeans.xml"/>
     <import resource="classpath:org/kuali/kra/irb/IrbSpringBeans.xml"/>
     <import resource="classpath:org/kuali/kra/iacuc/IacucSpringBeans.xml"/>
     <import resource="classpath:org/kuali/kra/committee/CommitteeSpringBeans.xml"/>
     <import resource="classpath:org/kuali/kra/iacuc/IacucCommitteeSpringBeans.xml"/>
     <import resource="classpath:org/kuali/kra/committee/CommonCommitteeSpringBeans.xml"/>
-    <import resource="classpath:org/kuali/kra/reporting/ReportingSpringBeans.xml"/>
 
 </beans>

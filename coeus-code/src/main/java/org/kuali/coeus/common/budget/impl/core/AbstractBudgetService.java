@@ -25,8 +25,6 @@ import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.budget.impl.version.BudgetVersionRule;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.kra.award.budget.AwardBudgetExt;
-import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.api.rate.RateClassType;
 import org.kuali.coeus.common.budget.framework.query.operator.Equals;
@@ -50,11 +48,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
-import org.kuali.kra.service.FiscalYearMonthService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
@@ -68,7 +64,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -102,9 +97,6 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     @Autowired
     @Qualifier("budgetSummaryService")
     private BudgetSummaryService budgetSummaryService;
-    @Autowired
-    @Qualifier("fiscalYearMonthService")
-    private FiscalYearMonthService fiscalYearMonthService;
     @Autowired
     @Qualifier("kualiRuleService")
     private KualiRuleService kualiRuleService;
@@ -289,40 +281,6 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
             }
         }
         return false;
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    public Collection<BudgetRate> getSavedBudgetRates(Budget budget) {
-        Map<String,Long> qMap = new HashMap<String, Long>();
-        qMap.put("budgetId",budget.getBudgetId());
-        Collection<BudgetRate> rates = businessObjectService.findMatching(BudgetRate.class, qMap);
-        for (BudgetRate rate : rates) {
-            java.util.Calendar startDate = new java.util.GregorianCalendar();
-            startDate.setTime(rate.getStartDate());
-            Integer newFY = this.getFiscalYearMonthService().getFiscalYearFromDate(startDate);
-            rate.setFiscalYear(newFY.toString());
-        }
-        return rates;
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    public boolean checkActivityTypeChange(Collection<BudgetRate> allPropRates, String activityTypeCode) {
-        if (CollectionUtils.isNotEmpty(allPropRates)) {
-            Equals equalsActivityType = new Equals("activityTypeCode", activityTypeCode);
-            QueryList matchActivityTypePropRates = new QueryList(allPropRates).filter(equalsActivityType);
-            if (CollectionUtils.isEmpty(matchActivityTypePropRates) || allPropRates.size() != matchActivityTypePropRates.size()) {
-                return true;
-            }
-        }
-                
-        return false;
-    }
-
-    @Override
-    public boolean checkActivityTypeChange(Budget budget) {
-        return checkActivityTypeChange(getSavedBudgetRates(budget), budget.getBudgetParent().getActivityTypeCode());
     }
 
     @Override
@@ -768,14 +726,6 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
             }
         }
         return isAuthorized;
-    }
-
-    public FiscalYearMonthService getFiscalYearMonthService() {
-        return fiscalYearMonthService;
-    }
-
-    public void setFiscalYearMonthService(FiscalYearMonthService fiscalYearMonthService) {
-        this.fiscalYearMonthService = fiscalYearMonthService;
     }
 
     @Override

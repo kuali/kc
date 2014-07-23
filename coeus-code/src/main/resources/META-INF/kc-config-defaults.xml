@@ -37,6 +37,7 @@
 	<param name="dev.mode">true</param>
 
     <param name="kc.sys.mode">LOCAL</param>
+    <param name="kc.common.mode">LOCAL</param>
 	<param name="kc.core.mode">LOCAL</param>
 	<param name="kc.pd.mode">LOCAL</param>
 	<param name="kc.ip.mode">LOCAL</param>
@@ -118,6 +119,7 @@
 	<param name="server.datasource.pool.maxSize">${datasource.pool.maxSize}</param>
 	<param name="server.datasource.pool.size">${datasource.pool.size}</param>
 	<param name="server.datasource.connectionTimeout">${datasource.connectionTimeout}</param>
+    <param name="server.datasource.pool.class">${datasource.pool.class}</param>
 
 	<param name="keystore.alias">onestartsharedservices-devandtst</param>
 	<param name="keystore.file">kul</param>

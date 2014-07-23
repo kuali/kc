@@ -24,7 +24,6 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.framework.personnel.*;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
@@ -61,6 +60,10 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
     @Autowired
     @Qualifier("budgetCalculationService")
     private BudgetCalculationService budgetCalculationService;
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
 
     @Override
     public void addBudgetPersonnelDetails(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails) {
@@ -122,16 +125,15 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
     public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
         this.budgetCalculationService = budgetCalculationService;
     }
-    private ParameterService parameterService;
- 
-    
+
     protected ParameterService getParameterService() {
-        if (this.parameterService == null) {
-            this.parameterService = KcServiceLocator.getService(ParameterService.class);
-        }
         return this.parameterService;
     }
-   
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
     public List<BudgetPersonSalaryDetails> calculatePersonSalary(Budget budget, int personIndex){
        
         List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails = new ArrayList<BudgetPersonSalaryDetails>(); 

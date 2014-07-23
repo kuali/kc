@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.core;
 
+import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
@@ -60,14 +61,14 @@ public class ActivityTypeAuditRule  implements DocumentAuditRule{
     private boolean isActivityTypeChanged(BudgetDocument budgetDocument) {
         BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
         boolean syncRate = false;
-        Collection<BudgetRate> allBudgetRates = KcServiceLocator.getService(BudgetService.class).getSavedBudgetRates(budgetDocument.getBudget());
-        syncRate = getBudgetService().checkActivityTypeChange(allBudgetRates,
+        Collection<BudgetRate> allBudgetRates = getBudgetRatesService().getSavedBudgetRates(budgetDocument.getBudget());
+        syncRate = getBudgetRatesService().checkActivityTypeChange(allBudgetRates,
                                     parentDocument.getBudgetParent().getActivityTypeCode());
         return syncRate;
     }
 
-    private BudgetService getBudgetService() {
-        return KcServiceLocator.getService(BudgetService.class);
+    private BudgetRatesService getBudgetRatesService() {
+        return KcServiceLocator.getService(BudgetRatesService.class);
     }
 
 

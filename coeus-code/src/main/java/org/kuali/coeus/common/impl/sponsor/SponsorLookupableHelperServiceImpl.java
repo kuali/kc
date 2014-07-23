@@ -17,8 +17,7 @@ package org.kuali.coeus.common.impl.sponsor;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -26,13 +25,20 @@ import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class SponsorLookupableHelperServiceImpl  extends KualiLookupableHelperServiceImpl {
+@Component("sponsorLookupableHelperService")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class SponsorLookupableHelperServiceImpl  extends KcKualiLookupableHelperServiceImpl {
     private static final String HIERARCHY_NAME = "hierarchyName";
     private static final String SELECTED_HIERARCHY_NAME = "selectedHierarchyName";
     
@@ -40,9 +46,13 @@ public class SponsorLookupableHelperServiceImpl  extends KualiLookupableHelperSe
     protected static final String ACTIVE_FIELD_DEFAULT_VALUE_YES = "Y";
     protected static final String ACTIVE_FIELD_DEFAULT_VALUE_NO = "N";
 
+    @Autowired
+    @Qualifier("sponsorHierarchyMaintenanceService")
+    private SponsorHierarchyMaintenanceService sponsorHierarchyMaintenanceService;
+
+
     /**
      * 
-     * @see org.kuali.core.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      * This is primarily for multiple value lookup.  also need to take care of single value lookup
      */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -74,7 +84,6 @@ public class SponsorLookupableHelperServiceImpl  extends KualiLookupableHelperSe
             searchResults = (List<Sponsor>)super.getSearchResultsHelper(fieldValues, true);
         }
         
-        //searchResults = (List)KcServiceLocator.getService(BusinessObjectService.class).findAll(Sponsor.class);
         Object hierarchyName = GlobalVariables.getUserSession().retrieveObject(HIERARCHY_NAME);
         Object selectedHierarchyName = GlobalVariables.getUserSession().retrieveObject(SELECTED_HIERARCHY_NAME);
         String sponsorsCodes= "";
@@ -92,13 +101,13 @@ public class SponsorLookupableHelperServiceImpl  extends KualiLookupableHelperSe
         }
         
         if (selectedHierarchyName != null) {
-            sponsorsCodes = KcServiceLocator.getService(SponsorHierarchyMaintenanceService.class).loadToSponsorHierachyMt(selectedHierarchyName.toString());
+            sponsorsCodes = sponsorHierarchyMaintenanceService.loadToSponsorHierachyMt(selectedHierarchyName.toString());
             isNewHierarchy = true;
         }
         else {
             if (existSponsors == null) {
                 String hierarchyNameString = hierarchyName != null ? hierarchyName.toString() : "";
-                sponsorsCodes = KcServiceLocator.getService(SponsorHierarchyMaintenanceService.class).loadToSponsorHierachyMt(hierarchyNameString);
+                sponsorsCodes = sponsorHierarchyMaintenanceService.loadToSponsorHierachyMt(hierarchyNameString);
             } 
             else {
                 sponsorsCodes = existSponsors;
@@ -135,7 +144,14 @@ public class SponsorLookupableHelperServiceImpl  extends KualiLookupableHelperSe
             }
         }       
         return new CollectionIncomplete(searchResultsReturn, new Long(searchResults.size()));
-        //return new CollectionIncomplete(searchResultsReturn, ((CollectionIncomplete)searchResults).getActualSizeIfTruncated());
+    }
+
+    public SponsorHierarchyMaintenanceService getSponsorHierarchyMaintenanceService() {
+        return sponsorHierarchyMaintenanceService;
+    }
+
+    public void setSponsorHierarchyMaintenanceService(SponsorHierarchyMaintenanceService sponsorHierarchyMaintenanceService) {
+        this.sponsorHierarchyMaintenanceService = sponsorHierarchyMaintenanceService;
     }
 }
 

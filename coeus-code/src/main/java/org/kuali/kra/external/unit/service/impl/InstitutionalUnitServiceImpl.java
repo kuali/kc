@@ -25,6 +25,9 @@ import org.kuali.kra.external.unit.UnitDTO;
 import org.kuali.kra.external.unit.service.InstitutionalUnitService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,9 +42,15 @@ import java.util.List;
  *
  * @author Kuali Coeus Development Team
  */
+@Component("institutionalUnitService")
 public class InstitutionalUnitServiceImpl implements InstitutionalUnitService {
-    
+
+    @Autowired
+    @Qualifier("unitService")
     private UnitService unitService;
+
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
     private static final Log LOG = LogFactory.getLog(InstitutionalUnitServiceImpl.class);
 

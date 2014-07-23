@@ -82,14 +82,22 @@
     </bean> 
 
     <bean id="protocolResearchAreaService" class="org.kuali.kra.irb.protocol.research.ProtocolResearchAreaServiceImpl">
-    </bean> 
-    
+    </bean>
+
+    <bean id="organizationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="organizationService" />
+    </bean>
+
     <bean id="protocolLocationService" class="org.kuali.kra.irb.protocol.location.ProtocolLocationServiceImpl">
         <property name="organizationService" ref="organizationService" />
     </bean>
         
     <bean id="protocolParticipantTypeService" class="org.kuali.kra.irb.protocol.participant.ProtocolParticipantServiceImpl" />
-     
+
+    <bean id="sponsorService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="sponsorService" />
+    </bean>
+
     <bean id="protocolFundingSourceService" class="org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl" lazy-init="true">
         <property name="fundingSourceTypeService" ref="fundingSourceTypeService" />
         <property name="sponsorService" ref="sponsorService" />
@@ -776,7 +784,11 @@
             </list>
         </property>
     </bean>
-    
+
+    <bean id="questionnaireAnswerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="questionnaireAnswerService" />
+    </bean>
+
     <bean id="protocolAmendRenewService" class="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewServiceImpl">
         <property name="protocolCopyService" ref="protocolCopyService" />
         <property name="documentService" ref="documentService" />
@@ -987,12 +999,19 @@
         </bean>
         
         <bean id="protocolPrintingService"
-            class="org.kuali.kra.irb.actions.print.ProtocolPrintingServiceImpl" parent="printingService">
+            class="org.kuali.kra.irb.actions.print.ProtocolPrintingServiceImpl">
             <property name="protocolFullProtocolPrint" ref="protocolFullProtocolPrint" />
             <property name="protocolHistoryPrint" ref="protocolHistoryPrint" />
             <property name="protocolReviewCommentsPrint" ref="protocolReviewCommentsPrint" />
             <property name="protocolSummaryViewPrint" ref="protocolSummaryViewPrint" />
+            <property name="dateTimeService" ref="dateTimeService"/>
+            <property name="kualiConfigurationService" ref="kualiConfigurationService" />
+            <property name="watermarkService" ref="watermarkService" />
         </bean>
+
+    <bean id="watermarkService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="watermarkService" />
+    </bean>
 
         <bean id="protocolFullProtocolPrint"
             class="org.kuali.kra.irb.actions.print.ProtocolFullProtocolPrint" scope="prototype">
@@ -1139,11 +1158,10 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
     </bean>
- 	
-    <bean id="irbCorrespondencePrint"
-    	parent="correspondencePrint">
-   		<property name="xmlStream" ref="correspondenceXmlStream" />
-   	</bean>
+
+    <bean id="irbCorrespondencePrint" class="org.kuali.coeus.common.questionnaire.framework.print.CorrespondencePrint" scope="prototype">
+        <property name="xmlStream" ref="correspondenceXmlStream" />
+    </bean>
  	
 	<bean id="irbCorrespondencePrintingService" class="org.kuali.kra.irb.questionnaire.print.IrbCorrespondencePrintingServiceImpl">
 		<property name="printingService">
@@ -1187,7 +1205,16 @@
        	<property name="businessObjectService" ref="businessObjectService" />
     	<property name="parameterService" ref="parameterService" />
     </bean>
- 	 
+
+    <bean id="printBaseXmlStream" class="org.kuali.coeus.common.framework.print.stream.xml.PrintBaseXmlStream" abstract="true">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+    </bean>
+
+    <bean id="printingService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="printingService" />
+    </bean>
+
 </beans>
 
 

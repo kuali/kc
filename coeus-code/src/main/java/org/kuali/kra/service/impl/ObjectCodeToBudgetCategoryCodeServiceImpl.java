@@ -18,23 +18,24 @@ package org.kuali.kra.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.kra.service.ObjectCodeToBudgetCategoryCodeService;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.data.DataObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
-
+@Component("objectCodeToBudgetCategoryCodeService")
 public class ObjectCodeToBudgetCategoryCodeServiceImpl implements ObjectCodeToBudgetCategoryCodeService {
 
-    private BusinessObjectService businessObjectService;
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
     @Override
     public String getBudgetCategoryCodeForCostElment(String objectCode) {
         String budgetCategoryCode = null;
 
-        Map<String, String> primaryKeys = new HashMap<String, String>();
         if (StringUtils.isNotEmpty(objectCode)) {
-            primaryKeys.put("costElement", objectCode);
-            CostElement costElement = (CostElement)businessObjectService.findByPrimaryKey(CostElement.class, primaryKeys);
+            CostElement costElement = dataObjectService.find(CostElement.class, objectCode);
             if (costElement != null) {
                 budgetCategoryCode = costElement.getBudgetCategoryCode();
             }
@@ -43,20 +44,11 @@ public class ObjectCodeToBudgetCategoryCodeServiceImpl implements ObjectCodeToBu
         return budgetCategoryCode;
     }
 
-    /**
-     * Gets the businessObjectService attribute.
-     * @return Returns the businessObjectService.
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
     }
 
-    /**
-     * Sets the businessObjectService attribute value.
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
-
 }

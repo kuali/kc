@@ -121,7 +121,7 @@ public class BudgetVersionsAction extends BudgetAction {
         budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(parentDocument.getBudgetDocumentVersions()));
         setBudgetStatuses(budgetParent);
         AwardBudgetService awardBudgetService = KcServiceLocator.getService(AwardBudgetService.class);
-        BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
+        BudgetRatesService budgetService = KcServiceLocator.getService(BudgetRatesService.class);
         Collection<BudgetRate> savedBudgetRates = budgetService.getSavedBudgetRates(budget);
         Collection<BudgetRate> allPropRates = budgetService.getSavedBudgetRates(budget);
         if (isAwardBudget(budgetDocument)) {
@@ -196,8 +196,8 @@ public class BudgetVersionsAction extends BudgetAction {
      */
     public ActionForward openBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        
-        BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
+
+        BudgetRatesService budgetService = KcServiceLocator.getService(BudgetRatesService.class);
         
         if (!"TRUE".equals(budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
             save(mapping, form, request, response);

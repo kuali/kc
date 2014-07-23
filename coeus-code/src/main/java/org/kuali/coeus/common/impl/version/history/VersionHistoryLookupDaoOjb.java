@@ -17,7 +17,6 @@ package org.kuali.coeus.common.impl.version.history;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -30,6 +29,10 @@ import java.util.*;
 
 @SuppressWarnings("unchecked")
 public class VersionHistoryLookupDaoOjb extends LookupDaoOjb  implements VersionHistoryLookupDao {
+
+    private DataDictionaryService dataDictionaryService;
+
+    private LookupDao lookupDao;
 
     @SuppressWarnings({ "rawtypes", "deprecation" })
     public List<? extends BusinessObject> getSequenceOwnerSearchResults(Class sequenceOwnerClass,Map fieldValues, boolean usePrimaryKeys){
@@ -70,7 +73,6 @@ public class VersionHistoryLookupDaoOjb extends LookupDaoOjb  implements Version
     private Criteria getCollectionCriteriaFromMap(PersistableBusinessObject businessObject, Map formProps) {
         Criteria criteria = new Criteria();
         Iterator propsIter = formProps.keySet().iterator();
-        LookupDao lookupDao = KcServiceLocator.getService(LookupDao.class);
         while (propsIter.hasNext()) {
             String propertyName = (String) propsIter.next();
             if (formProps.get(propertyName) instanceof Collection) {
@@ -111,11 +113,25 @@ public class VersionHistoryLookupDaoOjb extends LookupDaoOjb  implements Version
     private boolean isCaseSensitive(PersistableBusinessObject persistBo, String  propertyName) {
         
         boolean caseInsensitive = false;
-        DataDictionaryService dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
         if (dataDictionaryService.isAttributeDefined(persistBo.getClass(), propertyName)) {
             caseInsensitive = !dataDictionaryService.getAttributeForceUppercase(persistBo.getClass(), propertyName);
         }
         return caseInsensitive;
     }
 
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
+
+    public LookupDao getLookupDao() {
+        return lookupDao;
+    }
+
+    public void setLookupDao(LookupDao lookupDao) {
+        this.lookupDao = lookupDao;
+    }
 }

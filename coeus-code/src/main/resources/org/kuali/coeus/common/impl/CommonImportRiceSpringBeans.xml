@@ -27,39 +27,38 @@
                            http://www.springframework.org/schema/util/spring-util.xsd">
 
     <bean id="grlImporter" abstract="true" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
-    <bean id="legacyDataAdapter" parent="grlImporter" p:serviceName="legacyDataAdapter" />
-    <bean id="dataObjectService" parent="grlImporter" p:serviceName="dataObjectService" />
-    <bean id="businessObjectService" parent="grlImporter" p:serviceName="businessObjectService" />
-    <bean id="businessObjectDictionaryService" parent="grlImporter" p:serviceName="businessObjectDictionaryService" />
-    <bean id="businessObjectMetaDataService" parent="grlImporter" p:serviceName="businessObjectMetaDataService" />
-    <bean id="dataDictionaryService" parent="grlImporter" p:serviceName="dataDictionaryService" />
-    <bean id="dateTimeService" parent="grlImporter" p:serviceName="dateTimeService" />
-    <bean id="documentService" parent="grlImporter" p:serviceName="documentService" />
-    <bean id="encryptionService" parent="grlImporter" p:serviceName="encryptionService" />
-    <bean id="identityService" parent="grlImporter" p:serviceName="identityService" />
-    <bean id="knsSessionDocumentService" parent="grlImporter" p:serviceName="knsSessionDocumentService" />
-    <bean id="kradWorkflowDocumentService" parent="grlImporter" p:serviceName="kradWorkflowDocumentService" />
-    <bean id="kualiConfigurationService" parent="grlImporter" p:serviceName="kualiConfigurationService" />
-    <bean id="kualiModuleService" parent="grlImporter" p:serviceName="kualiModuleService" />
-    <bean id="lookupService" parent="grlImporter" p:serviceName="lookupService" />
-    <bean id="lookupResultsService" parent="grlImporter" p:serviceName="lookupResultsService" />
-    <bean id="parameterService" parent="grlImporter" p:serviceName="parameterService" />
-    <bean id="persistenceStructureService" parent="grlImporter" p:serviceName="persistenceStructureService" />
-    <bean id="persistenceStructureServiceOjb" parent="grlImporter" p:serviceName="persistenceStructureServiceOjb" />
-    <bean id="personService" parent="grlImporter" p:serviceName="personService" />
-    <bean id="roleService" parent="grlImporter" p:serviceName="roleService" />
-    <bean id="sequenceAccessorService" parent="grlImporter" p:serviceName="sequenceAccessorService" />
-    <bean id="attachmentService" parent="grlImporter" p:serviceName="attachmentService" />
-    <bean id="kualiRuleService" parent="grlImporter" p:serviceName="kualiRuleService" />
-    <bean id="lookupCriteriaGenerator" parent="grlImporter" p:serviceName="lookupCriteriaGenerator" />
-    <bean id="lookupDao" parent="grlImporter" p:serviceName="lookupDao" />
-    <bean id="rice.ksb.serviceBus" parent="grlImporter" p:serviceName="rice.ksb.serviceBus" />
-    <bean id="dbPlatform" parent="grlImporter" p:serviceName="dbPlatform" />
-    <bean id="countryService" parent="grlImporter" p:serviceName="countryService" />
-    <bean id="mailService" parent="grlImporter" p:serviceName="mailService" />
-    <bean id="krmsRulesExecutionService" parent="grlImporter" p:serviceName="krmsRulesExecutionService"/>
-    <bean id="noteService" parent="grlImporter" p:serviceName="noteService"/>
-    <bean id="maintenanceDocumentDictionaryService" parent="grlImporter" p:serviceName="maintenanceDocumentDictionaryService" />
-    <bean id="documentHelperService" parent="grlImporter" p:serviceName="documentHelperService" />
 
+    <bean id="parameterService" parent="grlImporter" p:serviceName="parameterService" />
+    <bean id="countryService" parent="grlImporter" p:serviceName="countryService" />
+    <bean id="dataObjectService" parent="grlImporter" p:serviceName="dataObjectService" />
+    <bean id="businessObjectDictionaryService" parent="grlImporter" p:serviceName="businessObjectDictionaryService" />
+    <bean id="dataDictionaryService" parent="grlImporter" p:serviceName="dataDictionaryService" />
+    <bean id="businessObjectService" parent="grlImporter" p:serviceName="businessObjectService" />
+    <bean id="identityService" parent="grlImporter" p:serviceName="identityService" />
+    <bean id="lookupResultsService" parent="grlImporter" p:serviceName="lookupResultsService" />
+    <bean id="mailSender" parent="grlImporter" p:serviceName="mailSender" />
+    <bean id="kualiConfigurationService" parent="grlImporter" p:serviceName="kualiConfigurationService" />
+    <bean id="dbPlatform" parent="grlImporter" p:serviceName="dbPlatform" />
+    <bean id="stateService" parent="grlImporter" p:serviceName="stateService" />
+    <bean id="persistenceStructureService" parent="grlImporter" p:serviceName="persistenceStructureService" />
+    <bean id="encryptionService" parent="grlImporter" p:serviceName="encryptionService" />
+    <bean id="lookupService" parent="grlImporter" p:serviceName="lookupService" />
+    <bean id="businessObjectMetaDataService" parent="grlImporter" p:serviceName="businessObjectMetaDataService" />
+    <bean id="sequenceAccessorService" parent="grlImporter" p:serviceName="sequenceAccessorService" />
+    <bean id="dateTimeService" parent="grlImporter" p:serviceName="dateTimeService" />
+    <bean id="rice.ksb.serviceBus" parent="grlImporter" p:serviceName="rice.ksb.serviceBus" />
+    <bean id="documentService" parent="grlImporter" p:serviceName="documentService" />
+    <bean id="functionRepositoryService" parent="grlImporter" p:serviceName="functionRepositoryService" />
+    <bean id="dataSource" parent="grlImporter" p:serviceName="dataSource" />
+    <bean id="maintenanceDocumentDictionaryService" parent="grlImporter" p:serviceName="maintenanceDocumentDictionaryService" />
+    <bean id="pessimisticLockService" parent="grlImporter" p:serviceName="pessimisticLockService" />
+    <bean id="lookupDao" parent="grlImporter" p:serviceName="lookupDao" />
+    <bean id="xmlObjectSerializerService" parent="grlImporter" p:serviceName="xmlObjectSerializerService" />
+    <bean id="routeHeaderService" parent="grlImporter" p:serviceName="routeHeaderService" />
+
+    <bean id="repositoryToEngineTranslator" parent="grlImporter" p:serviceName="repositoryToEngineTranslator" />
+    <bean id="ruleRepositoryService" parent="grlImporter" p:serviceName="ruleRepositoryService" />
+    <bean id="rice.krms.engine" parent="grlImporter" p:serviceName="rice.krms.engine" />
+    <bean id="krmsTypeRepositoryService" parent="grlImporter" p:serviceName="krmsTypeRepositoryService" />
+    <bean id="krmsLocalCacheManager" parent="grlImporter" p:serviceName="krmsLocalCacheManager" />
 </beans>

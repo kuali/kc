@@ -87,7 +87,7 @@ public class OjbRepositoryMappingTest {
 
     public static final String REPOSITORY_XML = "classpath:repository.xml";
     public static final String REPOSITORY_AWARD_XML = "classpath:org/kuali/kra/award/repository-award.xml";
-    public static final String REPOSITORY_BUDGET_XML = "classpath:org/kuali/kra/budget/repository-budget.xml";
+    public static final String REPOSITORY_BUDGET_XML = "classpath:org/kuali/coeus/common/budget/impl/repository-budget.xml";
     public static final String REPOSITORY_COI_XML = "classpath:org/kuali/kra/coi/repository-coi.xml";
     public static final String REPOSITORY_COMMITTEE_XML = "classpath:org/kuali/kra/committee/repository-committee.xml";
     public static final String REPOSITORY_IACUC_XML = "classpath:org/kuali/kra/iacuc/repository-iacuc.xml";
@@ -96,7 +96,7 @@ public class OjbRepositoryMappingTest {
     public static final String REPOSITORY_NEGOTIATION_XML = "classpath:org/kuali/kra/negotiation/repository-negotiation.xml";
     public static final String REPOSITORY_PERSONMASSCHANGE_XML = "classpath:org/kuali/kra/personmasschange/repository-personmasschange.xml";
     public static final String REPOSITORY_PROPOSALDEVELOPMENT_XML = "classpath:org/kuali/coeus/propdev/impl/repository-proposaldevelopment.xml";
-    public static final String REPOSITORY_QUESTIONNAIRE_XML = "classpath:org/kuali/kra/questionnaire/repository-questionnaire.xml";
+    public static final String REPOSITORY_QUESTIONNAIRE_XML = "classpath:org/kuali/coeus/common/questionnaire/impl/repository-questionnaire.xml";
     public static final String REPOSITORY_SUB_AWARD_XML = "classpath:org/kuali/kra/subaward/repository-subAward.xml";
     public static final String REPOSITORY_TIMEANDMONEY_XML = "classpath:org/kuali/kra/timeandmoney/repository-timeandmoney.xml";
     public static final String REPOSITORY_IACUC_COMMITTEE_XML = "classpath:org/kuali/kra/iacuc/repository-iacucCommittee.xml";

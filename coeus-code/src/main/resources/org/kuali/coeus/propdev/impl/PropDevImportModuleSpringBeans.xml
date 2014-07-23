@@ -60,6 +60,7 @@
 
     <bean id="questionnaireService" parent="grlImporter" p:serviceName="questionnaireService" />
     <bean id="questionnaireAnswerService" parent="grlImporter" p:serviceName="questionnaireAnswerService" />
+    <bean id="questionnairePrint" parent="grlImporter" p:serviceName="questionnairePrint" p:singleton="false"/>
 
     <!-- COMMON OTHER -->
 

@@ -19,10 +19,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireAuthorizationService;
+import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.api.encryption.EncryptionService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KEWPropertyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
@@ -30,11 +28,6 @@ import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.service.BusinessObjectMetaDataService;
-import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -53,7 +46,7 @@ import java.util.*;
  */
 @Component("questionnaireLookupableHelperService")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+public class QuestionnaireLookupableHelperServiceImpl extends KcKualiLookupableHelperServiceImpl {
 
     private static final long serialVersionUID = 1800678175555048310L;
     private static final String VIEW = "view";
@@ -70,73 +63,10 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
     @Autowired
     @Qualifier("documentService")
     private DocumentService documentService;
+
     @Autowired
     @Qualifier("questionnaireAuthorizationService")
     private QuestionnaireAuthorizationService questionnaireAuthorizationService;
-
-    @Autowired
-    @Qualifier("businessObjectDictionaryService")
-    @Override
-    public void setBusinessObjectDictionaryService(BusinessObjectDictionaryService businessObjectDictionaryService) {
-        super.setBusinessObjectDictionaryService(businessObjectDictionaryService);
-    }
-
-    @Autowired
-    @Qualifier("businessObjectService")
-    @Override
-    public void setBusinessObjectService(BusinessObjectService businessObjectyService) {
-        super.setBusinessObjectService(businessObjectService);
-    }
-
-    @Autowired
-    @Qualifier("businessObjectMetaDataService")
-    @Override
-    public void setBusinessObjectMetaDataService(BusinessObjectMetaDataService businessObjectMetaDataService) {
-        super.setBusinessObjectMetaDataService(businessObjectMetaDataService);
-    }
-
-    @Autowired
-    @Qualifier("dataDictionaryService")
-    @Override
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        super.setDataDictionaryService(dataDictionaryService);
-    }
-
-    @Autowired
-    @Qualifier("encryptionService")
-    @Override
-    public void setEncryptionService(EncryptionService encryptionService) {
-        super.setEncryptionService(encryptionService);
-    }
-
-    @Autowired
-    @Qualifier("lookupResultsService")
-    @Override
-    public void setLookupResultsService(LookupResultsService lookupResultsService) {
-        super.setLookupResultsService(lookupResultsService);
-    }
-
-    @Autowired
-    @Qualifier("lookupService")
-    @Override
-    public void setLookupService(LookupService lookupService) {
-        super.setLookupService(lookupService);
-    }
-
-    @Autowired
-    @Qualifier("persistenceStructureService")
-    @Override
-    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
-        super.setPersistenceStructureService(persistenceStructureService);
-    }
-
-    @Autowired
-    @Qualifier("sequenceAccessorService")
-    @Override
-    public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
-        super.setSequenceAccessorService(sequenceAccessorService);
-    }
-
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {

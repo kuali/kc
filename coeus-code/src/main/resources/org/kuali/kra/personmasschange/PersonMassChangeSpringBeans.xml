@@ -23,13 +23,7 @@
                            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <context:annotation-config />
-    
-    <!-- Bring in annotated rolodex and person to autowire on person mass change services -->
-    <context:component-scan base-package="org.kuali.coeus.common.impl.rolodex" />
-    <context:component-scan base-package="org.kuali.coeus.common.impl.person" />
-    <context:component-scan base-package="org.kuali.coeus.common.impl.editable" />
-    <context:component-scan base-package="org.kuali.coeus.propdev.impl.person.masschange" />
-    <context:component-scan base-package="org.kuali.kra.service.impl" />
+
     <!-- Need to scan this package to pick up on Autowired and Qualifier once configured with @Component-->
     <context:component-scan base-package="org.kuali.kra.personmasschange.service.impl" />
 
@@ -41,7 +35,8 @@
             </list>
         </property>
     </bean>
-    
+
+
     <!-- Ready for Component annotation, person editable autowiring -->
     <bean id="iacucProtocolPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.IacucProtocolPersonMassChangeServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
@@ -50,7 +45,15 @@
         <property name="rolodexService" ref="rolodexService" />
         <property name="kcPersonService" ref="kcPersonService" />
     </bean>
-    
+
+    <bean id="personEditableService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="personEditableService" />
+    </bean>
+
+    <bean id="proposalDevelopmentPersonMassChangeService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="proposalDevelopmentPersonMassChangeService" />
+    </bean>
+
     <!-- Only base object's fields annotated with "Autowired" -->
     
     <bean id="protocolPersonMassChangeService" class="org.kuali.kra.personmasschange.service.impl.ProtocolPersonMassChangeServiceImpl">
@@ -61,7 +64,7 @@
         <property name="rolodexService" ref="rolodexService" />
     </bean>
     
-    <bean id="personMassChangeService" class="org.kuali.kra.personmasschange.service.impl.PersonMassChangeServiceImpl">
+    <bean id="personMassChangeService" class="org.kuali.kra.personmasschange.service.impl.PersonMassChangeServiceImpl" lazy-init="true">
         <property name="awardPersonMassChangeService" ref="awardPersonMassChangeService" />
         <property name="iacucProtocolPersonMassChangeService" ref="iacucProtocolPersonMassChangeService" />
         <property name="institutionalProposalPersonMassChangeService" ref="institutionalProposalPersonMassChangeService" />

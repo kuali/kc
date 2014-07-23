@@ -32,7 +32,10 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.kra.budget.external.budget.BudgetAdjustmentServiceHelper;
 import org.kuali.kra.budget.external.budget.RateClassRateType;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.data.DataObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -40,10 +43,12 @@ import java.util.*;
  * This class is a helper that does all the required calculation for setting the accounting line amounts
  * for the Budget Adjustment Service.
  */
-public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServiceHelper{
-    
-    
-    private BusinessObjectService businessObjectService;
+@Component("budgetAdjustmentServiceHelper")
+public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServiceHelper {
+
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
     private static final Log LOG = LogFactory.getLog(BudgetAdjustmentServiceHelperImpl.class);
 
@@ -215,26 +220,12 @@ public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServic
         return filteredLineItems;
     }
     
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-    
-    /**
-     * This method returns the business object service.
-     * @return
-     */
-    public BusinessObjectService getBusinessObjectService() {
-       return businessObjectService; 
-    }
-    
     /**
      * This method returns the budget category type with type code "P".
      * @return
      */
     protected BudgetCategoryType getPersonnelCategoryType() {
-        final Map<String, String> primaryKeys = new HashMap<String, String>();
-        primaryKeys.put("budgetCategoryTypeCode", "P");
-        return (BudgetCategoryType) this.getBusinessObjectService().findByPrimaryKey(BudgetCategoryType.class, primaryKeys);
+        return this.getDataObjectService().find(BudgetCategoryType.class, "P");
     }
     
     /**
@@ -270,8 +261,13 @@ public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServic
         LOG.error("The string is not in the format objectCode,personId  . Unable to retrieve object code.");
         throw new Exception("The string " + person + "is not in the format objectCode,personId  . Unable to retrieve object code.");
     }
-   
-    
-    
-    
+
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
 }

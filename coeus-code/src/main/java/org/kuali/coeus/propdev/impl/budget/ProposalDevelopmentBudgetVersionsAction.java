@@ -26,10 +26,8 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -40,7 +38,6 @@ import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.budget.framework.core.BudgetTDCValidator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.coeus.common.budget.framework.copy.CopyPeriodsQuestion;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -66,12 +63,10 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
     private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
 
-    private BudgetRatesService budgetRatesService;
-
     /**
      * Main execute method that is run. Populates A map of rate types in the {@link HttpServletRequest} instance to be used
      * in the JSP. The map is called <code>rateClassMap</code> this is set everytime execute is called in this class. This should only
-     * happen for the BudgetVersions tab. This ensures that even if {@link RateClass} persisted data may change, it will update the map
+     * happen for the BudgetVersions tab. This ensures that even if {@link org.kuali.coeus.common.budget.framework.rate.RateClass} persisted data may change, it will update the map
      * correctly.
      * 
      * @param mapping {@link ActionMapping}
@@ -126,7 +121,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
      */
     public ActionForward openBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        BudgetService budgetService = getBudgetService();
+        BudgetRatesService budgetService = getBudgetRatesService();
 
         if (StringUtils.equalsIgnoreCase("TRUE", (String) pdForm.getEditingMode().get("modifyProposalBudget"))) {
             save(mapping, form, request, response);
@@ -386,11 +381,5 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             HttpServletRequest request, HttpServletResponse response, String message) throws Exception {
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SYNCH_BUDGET_RATE,
                 message, "");
-    }    
-    
-    protected BudgetRatesService getBudgetRatesService() {
-        if (budgetRatesService == null)
-            budgetRatesService = KcServiceLocator.getService(BudgetRatesService.class);
-        return budgetRatesService;
     }
 }

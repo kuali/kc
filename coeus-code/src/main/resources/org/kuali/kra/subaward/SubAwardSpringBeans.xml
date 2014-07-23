@@ -117,10 +117,6 @@ R
         <property name="serviceName" value="persistenceStructureServiceOjb" />
     </bean>
     
-    <bean id="persistenceStructureServiceJpa" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="persistenceStructureServiceJpa" />
-    </bean>
-    
     <bean id="sequenceAccessorService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="sequenceAccessorService" />
     </bean>
@@ -160,10 +156,10 @@ R
     	<property name="subAwardFDPModification" ref="subAwardFDPModification" />
     </bean>
     
-    <bean id="subAwardSF294Print" class="org.kuali.kra.subaward.reporting.printing.print.SubAwardSF294Print">
+    <bean id="subAwardSF294Print" class="org.kuali.kra.subaward.reporting.printing.print.SubAwardSF294Print" scope="prototype">
         <property name="xmlStream" ref="subawardXmlStream" />
     </bean>
-    <bean id="subAwardSF295Print" class="org.kuali.kra.subaward.reporting.printing.print.SubAwardSF295Print">
+    <bean id="subAwardSF295Print" class="org.kuali.kra.subaward.reporting.printing.print.SubAwardSF295Print" scope="prototype">
         <property name="xmlStream" ref="subawardXmlStream" />
     </bean>
     
@@ -175,11 +171,11 @@ R
         <property name="serviceName" value="printingService" />
     </bean>
     
-    <bean id="subAwardFDPAgreement" class="org.kuali.kra.subawardReporting.printing.print.SubAwardFDPAgreement">
+    <bean id="subAwardFDPAgreement" class="org.kuali.kra.subawardReporting.printing.print.SubAwardFDPAgreement" scope="prototype">
         <property name="xmlStream" ref="subAwardFDPPrintXmlStream" />
     </bean>
     
-    <bean id="subAwardFDPModification" class="org.kuali.kra.subawardReporting.printing.print.SubAwardFDPModification">
+    <bean id="subAwardFDPModification" class="org.kuali.kra.subawardReporting.printing.print.SubAwardFDPModification" scope="prototype">
         <property name="xmlStream" ref="subAwardFDPPrintXmlStream" />
     </bean>
     
