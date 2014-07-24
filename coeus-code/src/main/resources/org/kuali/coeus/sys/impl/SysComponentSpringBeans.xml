@@ -119,4 +119,9 @@
         <value>awardBudgetsWebAuthorizer</value>
     </util:set>
 
+
+    <bean id="noEditLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="noEditLookupableHelperService" />
+    </bean>
+
 </beans>

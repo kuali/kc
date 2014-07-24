@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.lookup;
+package org.kuali.coeus.sys.framework.lookup;
 
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * 
@@ -24,7 +26,9 @@ import org.kuali.rice.krad.bo.BusinessObject;
  * will not be created in search result list.  currently Budget5categorymapping & validceratetype are 
  * using this as lookupable.
  */
-public class NoEditLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+@Component("noEditLookupableHelperService")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class NoEditLookupableHelperServiceImpl extends KcKualiLookupableHelperServiceImpl {
 
     @Override
     protected boolean allowsMaintenanceEditAction(BusinessObject businessObject) {

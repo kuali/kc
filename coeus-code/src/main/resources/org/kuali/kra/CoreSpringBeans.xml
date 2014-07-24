@@ -222,7 +222,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/CommScheduleMinuteDoc.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/location/CongressionalDistrict.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ContactType.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/Correspondent.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/crrspndnt/Correspondent.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CorrespondentType.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/core/CostElement.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CostShareType.xml</value>
@@ -1218,10 +1218,6 @@
         <property name="configurationService" ref="kualiConfigurationService" />
     </bean>
 
-    <bean id="customLookupable" class="org.kuali.kra.lookup.CustomLookupableImpl" scope="prototype">
-        <property name="lookupableHelperService" ref="lookupableHelperService" />
-    </bean>
-
     <bean id="fundingSourceTypeService" class="org.kuali.kra.service.impl.FundingSourceTypeServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
@@ -1340,17 +1336,6 @@
     <bean id="kraPersistenceStructureService" class="org.kuali.coeus.sys.impl.persistence.KcPersistenceStructureServiceImpl" >
         <property name="persistenceStructureServiceOjb" ref="persistenceStructureServiceOjb" />
     </bean>
-        
-
-    <bean id="noEditLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-        <property name="lookupableHelperService" ref="noEditLookupableHelperService" />
-    </bean>
-
-    <bean id="noEditLookupableHelperService" class="org.kuali.kra.lookup.NoEditLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
-          scope="prototype" />
-    
-    <bean id="correspondentLookupable" class="org.kuali.kra.service.impl.CorrespondentLookupableHelperServiceImpl"
-        parent="parentLookupableHelperService" scope="prototype"/>
     
     <bean id="iacucOrganizationCorrespondentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="iacucOrganizationCorrespondentLookupableHelperService" />
@@ -1388,13 +1373,6 @@
     <bean id="researchAreasService" class="org.kuali.kra.irb.service.impl.ResearchAreasServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
-    
-    <bean id="researchDocumentService" class="org.kuali.coeus.sys.impl.controller.DocHandlerServiceImpl">
-        <property name="routeHeaderService" ref="routeHeaderService" />
-    </bean>
-
-
-    
 
 	<bean id="iacucUnitCorrespondentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService" ref="iacucUnitCorrespondentLookupableHelperService" />
@@ -1402,13 +1380,6 @@
 
 	<bean id="iacucUnitCorrespondentLookupableHelperService" class="org.kuali.kra.service.impl.IacucUnitCrrspndntLookupableHelperServiceImpl"
 		parent="parentLookupableHelperService" scope="prototype" />
-
-    <bean id="personTrainingLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-        <property name="lookupableHelperService" ref="personTrainingLookupableHelperService" />
-    </bean>
-
-    <bean id="personTrainingLookupableHelperService" class="org.kuali.coeus.common.impl.person.attr.PersonTrainingLookupableHelperServiceImpl"
-          parent="parentLookupableHelperService" scope="prototype" />
 
     <!-- Cross-Module Services -->
 
@@ -1513,12 +1484,6 @@
         <property name="roleManagementService" ref="roleService" />
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
     </bean>
-
-    <bean id="kcConfirmationQuestion" class="org.kuali.coeus.sys.framework.controller.KcConfirmationQuestion">
-    </bean>         
-     
-    <bean id="nonCancellingRecallQuestion" class="org.kuali.coeus.sys.framework.controller.NonCancellingRecallQuestion">
-    </bean>  
      
     <bean id="kcNotificationDocumentSecurityTypeService" class="org.kuali.kra.authorization.KcNotificationSecurityAttribute">
     	<property name="actionListService" ref="actionListService" />
@@ -1529,8 +1494,4 @@
       p:localServiceName="kcNotificationDocumentSecurityTypeService"
       p:serviceInterface="org.kuali.rice.kew.framework.document.security.DocumentSecurityAttribute"/>
 
-    <bean id="sponsorCodeIncrementer" class="org.kuali.rice.krad.data.platform.MaxValueIncrementerFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="incrementerName" value="SEQ_SPONSOR_CODE" />
-    </bean>
 </beans>

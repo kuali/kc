@@ -16,9 +16,11 @@
 package org.kuali.coeus.sys.framework.controller;
 
 import org.kuali.rice.kns.question.QuestionBase;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
+@Component("nonCancellingRecallQuestion")
 public class NonCancellingRecallQuestion extends QuestionBase {
 
     public static final String YES = "0";

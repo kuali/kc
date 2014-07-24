@@ -16,6 +16,7 @@
 package org.kuali.coeus.sys.framework.controller;
 
 import org.kuali.rice.kns.question.QuestionBase;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ import java.util.ArrayList;
  * This class support the ConfirmationQuestion. For example: a Yes/No/Cancel dialog window.
  */
 
+@Component("kcConfirmationQuestion")
 public class KcConfirmationQuestion extends QuestionBase {
 
     public static final String YES = "0";

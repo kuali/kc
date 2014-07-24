@@ -55,7 +55,7 @@
     <bean id="lookupDao" parent="grlImporter" p:serviceName="lookupDao" />
     <bean id="xmlObjectSerializerService" parent="grlImporter" p:serviceName="xmlObjectSerializerService" />
     <bean id="routeHeaderService" parent="grlImporter" p:serviceName="routeHeaderService" />
-
+    <bean id="lookupableHelperService" parent="grlImporter" p:serviceName="lookupableHelperService" />
     <bean id="repositoryToEngineTranslator" parent="grlImporter" p:serviceName="repositoryToEngineTranslator" />
     <bean id="ruleRepositoryService" parent="grlImporter" p:serviceName="ruleRepositoryService" />
     <bean id="rice.krms.engine" parent="grlImporter" p:serviceName="rice.krms.engine" />

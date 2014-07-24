@@ -164,4 +164,17 @@
         </property>
     </bean>
 
+    <bean id="personTrainingLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="personTrainingLookupableHelperService" />
+    </bean>
+
+    <bean id="sponsorCodeIncrementer" class="org.kuali.rice.krad.data.platform.MaxValueIncrementerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="incrementerName" value="SEQ_SPONSOR_CODE" />
+    </bean>
+
+    <bean id="correspondentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="correspondentLookupableHelperService" />
+    </bean>
+
 </beans>
