@@ -67,7 +67,9 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
 
     @Override
     public void generateAllPeriods(Budget budget) {
-        
+        // calculate first period - only period 1 exists at this point 
+        calculateBudget(budget);
+    	
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
 
         /* get all period one line items */
@@ -151,6 +153,10 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
             budgetCalculationService.applyToLaterPeriods(budget, firstPeriod, budgetLineItem);
         }
         
+        //now we have generated all periods, calculate all periods
+        calculateBudget(budget);
+        // reset the old start/end date
+        setupOldStartEndDate(budget, true);
     }
 
     @Override
