@@ -13,19 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.coeus.common.framework.crrspndnt;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.org.crrspndnt.OrganizationCorrespondent;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,8 +37,10 @@ import java.util.Map;
 
 /**
  * Lookupable helper service used for person id lookup
- */  
-public class CorrespondentLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+ */
+@Component("correspondentLookupableHelperService")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class CorrespondentLookupableHelperServiceImpl extends KcKualiLookupableHelperServiceImpl {
 
 
     private static final long serialVersionUID = 749587517623905557L;

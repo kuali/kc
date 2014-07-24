@@ -13,28 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.lookup;
+package org.kuali.coeus.common.framework.custom.attr;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.lookup.keyvalue.LookupReturnValuesFinder;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
+import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.lookup.LookupUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.Iterator;
 import java.util.Map;
 
+@Component("customLookupable")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class CustomLookupableImpl extends KualiLookupableImpl {
+
+    @Autowired
+    @Qualifier("lookupableHelperService")
+    @Override
+    public void setLookupableHelperService(LookupableHelperService lookupableHelperService) {
+        super.setLookupableHelperService(lookupableHelperService);
+    }
 
     /**
      * This is to force to reload the lookupreturn dropdown list for the lookupform. It's not pretty. The
      * GlovalVaribles.getKualiForm() is not helping because the 'fields' on lookupForm is not set until all fields are set. So, the
      * lookupreturnvaluesfinder can't take advantage of that.
      * 
-     * @see org.kuali.core.lookup.KualiLookupableImpl#checkForAdditionalFields(java.util.Map)
      */
     public boolean checkForAdditionalFields(Map fieldValues) {
         String lookupReturnFieldName = (String) fieldValues.get("lookupReturn");
