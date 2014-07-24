@@ -29,8 +29,8 @@ import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper.ValidationState;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
+import org.kuali.coeus.sys.framework.validation.AuditHelper.ValidationState;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -217,7 +217,7 @@ public class AwardAction extends BudgetParentActionBase {
             awardForm.setUnitRulesMessages(getUnitRulesMessages(awardForm.getAwardDocument()));
         }
         if (KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
-            new AuditActionHelper().auditConditionally((AwardForm) form);
+            KcServiceLocator.getService(AuditHelper.class).auditConditionally((AwardForm) form);
         }
         
         return actionForward;
@@ -316,7 +316,7 @@ public class AwardAction extends BudgetParentActionBase {
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
         String methodToCall = ((KualiForm) form).getMethodToCall();
-        ValidationState status = new AuditActionHelper().isValidSubmission(awardForm, true);
+        ValidationState status = KcServiceLocator.getService(AuditHelper.class).isValidSubmission(awardForm, true);
         
         if (status == ValidationState.WARNING) {
             if(question == null){
@@ -346,7 +346,7 @@ public class AwardAction extends BudgetParentActionBase {
         if (getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(awardForm.getAwardDocument().getAward(),
                 awardForm.getAwardHierarchyBean().getRootNode().getAwardNumber())) {
             awardForm.setAuditActivated(true);
-            ValidationState status = new AuditActionHelper().isValidSubmission(awardForm, true);
+            ValidationState status = KcServiceLocator.getService(AuditHelper.class).isValidSubmission(awardForm, true);
             if (status == ValidationState.ERROR) {
                 GlobalVariables.getMessageMap().clearErrorMessages();
                 GlobalVariables.getMessageMap().putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION, new String[] {});
@@ -1814,7 +1814,7 @@ public class AwardAction extends BudgetParentActionBase {
 
         ValidationState status = ValidationState.OK;
         if (!awardForm.getDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
-            status = new AuditActionHelper().isValidSubmission(awardForm, true);
+            status = KcServiceLocator.getService(AuditHelper.class).isValidSubmission(awardForm, true);
         }
         if (status == ValidationState.WARNING) {
 

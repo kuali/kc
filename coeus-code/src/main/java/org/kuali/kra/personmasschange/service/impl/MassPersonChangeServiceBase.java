@@ -17,6 +17,7 @@ package org.kuali.kra.personmasschange.service.impl;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
@@ -34,7 +35,7 @@ public abstract class MassPersonChangeServiceBase {
     
     protected static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
 
-    protected final ErrorReporter errorReporter = new ErrorReporter();
+    protected final ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
     
     @Autowired
     @Qualifier("businessObjectService")

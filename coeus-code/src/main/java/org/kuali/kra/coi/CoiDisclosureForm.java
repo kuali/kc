@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelper;
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
-import org.kuali.coeus.sys.framework.model.AuditableForm;
+import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -45,7 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class CoiDisclosureForm extends KcTransactionalDocumentFormBase implements AuditableForm, QuestionableFormInterface  {
+public class CoiDisclosureForm extends KcTransactionalDocumentFormBase implements Auditable, QuestionableFormInterface  {
 
     private static final long serialVersionUID = -5620344612882618024L;
     private transient DisclosureHelper disclosureHelper;

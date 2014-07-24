@@ -17,7 +17,7 @@ package org.kuali.kra.institutionalproposal.web.struts.form;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelper;
-import org.kuali.coeus.sys.framework.model.AuditableForm;
+import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.coeus.sys.framework.model.MultiLookupForm;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -51,7 +51,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase implements AuditableForm, MultiLookupForm, ReportHelperBeanContainer,CustomDataDocumentForm {
+public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase implements Auditable, MultiLookupForm, ReportHelperBeanContainer,CustomDataDocumentForm {
 
 
     private static final long serialVersionUID = 4564236415580911082L;

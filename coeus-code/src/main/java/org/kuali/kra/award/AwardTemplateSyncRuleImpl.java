@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
@@ -28,7 +29,7 @@ public class AwardTemplateSyncRuleImpl implements AwardTemplateSyncRule {
     @Override
     public boolean processAwardTemplateSyncRules(AwardTemplateSyncEvent awardTemplateSyncEvent) {
         Award award = awardTemplateSyncEvent.getAward();
-        errorReporter = new ErrorReporter();
+        errorReporter = KcServiceLocator.getService(ErrorReporter.class);
         if(award.getTemplateCode()==null){
             errorReporter.reportError(awardTemplateSyncEvent.getErrorPathPrefix(), KeyConstants.ERROR_NO_TEMPLATE_CODE);
             return false;

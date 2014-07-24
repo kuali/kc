@@ -16,6 +16,7 @@
 package org.kuali.kra.protocol.noteattachment;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
@@ -32,7 +33,7 @@ public abstract class ProtocolAttachmentProtocolRuleHelperBase {
     protected static final String NOTES_AND_ATTACHMENT_AUDIT_ERRORS_KEY = "NoteAndAttachmentAuditErrors";
     protected static final String NOTE_AND_ATTACHMENT_LINK = "noteAndAttachment";
 
-    protected final ErrorReporter errorReporter = new ErrorReporter();
+    protected ErrorReporter errorReporter;
     protected String propertyPrefix;
     
 
@@ -97,5 +98,15 @@ public abstract class ProtocolAttachmentProtocolRuleHelperBase {
         }
         return true;
     }
-    
+
+    public ErrorReporter getErrorReporter() {
+        if (errorReporter == null) {
+            KcServiceLocator.getService(ErrorReporter.class);
+        }
+        return errorReporter;
+    }
+
+    public void setErrorReporter(ErrorReporter errorReporter) {
+        this.errorReporter = errorReporter;
+    }
 }

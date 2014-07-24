@@ -17,6 +17,7 @@ package org.kuali.kra.protocol.protocol.funding;
 
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.infrastructure.Constants;
@@ -27,7 +28,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
  */
 public class LookupProtocolFundingSourceRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<LookupProtocolFundingSourceEventBase> {
 
-    private final ErrorReporter errorReporter = new ErrorReporter();
+    private final ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
     
     @Override
     public boolean processRules(LookupProtocolFundingSourceEventBase event) {

@@ -21,7 +21,7 @@ import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelper;
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsForm;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.sys.framework.model.AuditableForm;
+import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -59,7 +59,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase implements PermissionsForm, AuditableForm, QuestionableFormInterface,
+public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase implements PermissionsForm, Auditable, QuestionableFormInterface,
                                                                                         CustomDataDocumentForm {
     
     private static final long serialVersionUID = 4646326030098259702L;

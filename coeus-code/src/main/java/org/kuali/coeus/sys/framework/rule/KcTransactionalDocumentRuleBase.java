@@ -47,7 +47,7 @@ import java.util.Map.Entry;
  */
 public abstract class KcTransactionalDocumentRuleBase extends DocumentRuleBase {
     public static final String DOCUMENT_ERROR_PATH = "document";
-    private final ErrorReporter errorReporter = new ErrorReporter();
+    private ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
 
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
@@ -237,4 +237,10 @@ public abstract class KcTransactionalDocumentRuleBase extends DocumentRuleBase {
         }
         return this.knsDictionaryValidationService;
     }
+
+    public void setErrorReporter(ErrorReporter errorReporter) {
+        this.errorReporter = errorReporter;
+    }
+
+
 }

@@ -19,7 +19,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -52,7 +52,7 @@ public abstract class CoiAction extends KcTransactionalDocumentActionBase {
             coiDisclosureForm.setUnitRulesMessages(getUnitRulesMessages(coiDisclosureForm.getCoiDisclosureDocument()));
         }
         if(KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
-            new AuditActionHelper().auditConditionally(coiDisclosureForm);
+            KcServiceLocator.getService(AuditHelper.class).auditConditionally(coiDisclosureForm);
         }
                 
         return super.execute(mapping, form, request, response);
@@ -164,7 +164,7 @@ public abstract class CoiAction extends KcTransactionalDocumentActionBase {
             HttpServletResponse response) throws Exception {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         coiDisclosureForm.setUnitRulesMessages(getUnitRulesMessages(coiDisclosureForm.getCoiDisclosureDocument()));
-        new AuditActionHelper().setAuditMode(mapping, coiDisclosureForm, true);
+        KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, coiDisclosureForm, true);
         return getDisclosureActionForward(coiDisclosureForm, mapping);
     }
 
@@ -182,7 +182,7 @@ public abstract class CoiAction extends KcTransactionalDocumentActionBase {
             HttpServletResponse response) throws Exception {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         coiDisclosureForm.clearUnitRulesMessages();
-        new AuditActionHelper().setAuditMode(mapping, coiDisclosureForm, false);
+        KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, coiDisclosureForm, false);
         return getDisclosureActionForward(coiDisclosureForm, mapping);
     }
     

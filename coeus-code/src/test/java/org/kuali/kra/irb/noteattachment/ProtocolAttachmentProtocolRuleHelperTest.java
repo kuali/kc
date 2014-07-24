@@ -22,6 +22,7 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -50,6 +51,7 @@ public class ProtocolAttachmentProtocolRuleHelperTest {
     public void validStatusBlankCode() {
         
         ProtocolAttachmentProtocolRuleHelper helper = new ProtocolAttachmentProtocolRuleHelper();
+        helper.setErrorReporter(new ErrorReporter());
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
@@ -69,6 +71,7 @@ public class ProtocolAttachmentProtocolRuleHelperTest {
     public void validStatus() {
         
         ProtocolAttachmentProtocolRuleHelper helper = new ProtocolAttachmentProtocolRuleHelper();
+        helper.setErrorReporter(new ErrorReporter());
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
@@ -91,6 +94,7 @@ public class ProtocolAttachmentProtocolRuleHelperTest {
     public void invalidStatusValidCodeForSubmissionNull() {
         
         ProtocolAttachmentProtocolRuleHelper helper = new ProtocolAttachmentProtocolRuleHelper();
+        helper.setErrorReporter(new ErrorReporter());
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
@@ -110,6 +114,7 @@ public class ProtocolAttachmentProtocolRuleHelperTest {
     public void invalidStatusValidCodeForSubmissionValidCode() {
         
         ProtocolAttachmentProtocolRuleHelper helper = new ProtocolAttachmentProtocolRuleHelper();
+        helper.setErrorReporter(new ErrorReporter());
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
@@ -129,6 +134,7 @@ public class ProtocolAttachmentProtocolRuleHelperTest {
     public void validStatusValidCodeForSubmission() {
         
         ProtocolAttachmentProtocolRuleHelper helper = new ProtocolAttachmentProtocolRuleHelper();
+        helper.setErrorReporter(new ErrorReporter());
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();

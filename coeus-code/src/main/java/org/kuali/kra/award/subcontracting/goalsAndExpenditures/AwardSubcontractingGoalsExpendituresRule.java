@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.award.subcontracting.goalsAndExpenditures;
 
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
@@ -29,7 +31,7 @@ import java.util.Map;
 
 
 @SuppressWarnings("deprecation")
-public class AwardSubcontractingGoalsExpendituresRule {
+public class AwardSubcontractingGoalsExpendituresRule extends KcTransactionalDocumentRuleBase {
 
     private String awardId;
     private DictionaryValidationService dictionaryValidationService;
@@ -69,8 +71,7 @@ public class AwardSubcontractingGoalsExpendituresRule {
             }
             else {
                 // put the error message in message map
-                ErrorReporter reporter = new ErrorReporter();
-                reporter.reportError(AWARD_NUMBER, KeyConstants.SUB_PLAN_AWARD_NOT_FOUND, awardNumber);
+                this.getErrorReporter().reportError(AWARD_NUMBER, KeyConstants.SUB_PLAN_AWARD_NOT_FOUND, awardNumber);
             }
         }
         return rulePassed;

@@ -17,6 +17,7 @@ package org.kuali.kra.irb.protocol.funding;
 
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.infrastructure.Constants;
@@ -27,14 +28,12 @@ import org.kuali.kra.infrastructure.KeyConstants;
  */
 public class LookupProtocolFundingSourceRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule<LookupProtocolFundingSourceEvent> {
 
-    private final ErrorReporter errorReporter = new ErrorReporter();
-    
     @Override
     public boolean processRules(LookupProtocolFundingSourceEvent event) {
         boolean valid = true;
         
         if (event.getFundingSourceTypeCode() == null) {
-            errorReporter.reportError(Constants.PROTOCOL_FUNDING_SOURCE_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_NOT_FOUND);
+            this.getErrorReporter().reportError(Constants.PROTOCOL_FUNDING_SOURCE_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_NOT_FOUND);
             valid = false;            
         } else {
             valid &= isValidLookup(event.getFundingSourceTypeCode());
@@ -56,7 +55,7 @@ public class LookupProtocolFundingSourceRule extends KcTransactionalDocumentRule
                 && !FundingSourceType.PROPOSAL_DEVELOPMENT.equals(fundingSourceTypeCode)
                 && !FundingSourceType.INSTITUTIONAL_PROPOSAL.equals(fundingSourceTypeCode)
                 && !FundingSourceType.AWARD.equals(fundingSourceTypeCode)) { 
-            errorReporter.reportError(Constants.PROTOCOL_FUNDING_SOURCE_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_UNAVAIL);
+            this.getErrorReporter().reportError(Constants.PROTOCOL_FUNDING_SOURCE_TYPE_CODE_FIELD, KeyConstants.ERROR_FUNDING_LOOKUP_UNAVAIL);
             isValid = false;
         }   
        

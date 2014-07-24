@@ -72,7 +72,7 @@ public class IacucUnitCorrespondentMaintainableImpl extends KraMaintainableImpl 
     }
     
     private void reportInvalidUnitId(IacucUnitCorrespondent unitCorrespondent) {
-        ErrorReporter errorReporter = new ErrorReporter();
+        ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
         errorReporter.reportError("document.newMaintainableObject.unitNumber", 
                         UNIT_ID_INVALID_ERROR_KEY,
                         new String[]{});
@@ -81,7 +81,7 @@ public class IacucUnitCorrespondentMaintainableImpl extends KraMaintainableImpl 
 
     
     private void reportInvalidPrincipalId(IacucUnitCorrespondent unitCorrespondent) {
-        ErrorReporter errorReporter = new ErrorReporter();
+        ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
         errorReporter.reportError("document.newMaintainableObject.person.userName", 
                         PRINCIPAL_ID_INVALID_ERROR_KEY,
                         new String[]{});
@@ -90,7 +90,7 @@ public class IacucUnitCorrespondentMaintainableImpl extends KraMaintainableImpl 
 
     
     private void reportInvalidCorrespondentTypeCode(IacucUnitCorrespondent unitCorrespondent) {
-        ErrorReporter errorReporter = new ErrorReporter();
+        ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
         errorReporter.reportError("document.newMaintainableObject.correspondentTypeCode", 
                         CORRESPONDENT_TYPE_CODE_INVALID_ERROR_KEY,
                         new String[]{});

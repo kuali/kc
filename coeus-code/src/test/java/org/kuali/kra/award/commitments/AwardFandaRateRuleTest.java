@@ -20,6 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -37,6 +38,7 @@ public class AwardFandaRateRuleTest {
     @Before
     public void setUp() throws Exception {
         awardFandaRateRule = new AwardFandaRateRule();
+        awardFandaRateRule.setErrorReporter(new ErrorReporter());
         awardFandaRate = new AwardFandaRate();
         awardFandaRate.setApplicableFandaRate(new ScaleTwoDecimal(5));
         awardFandaRate.setFiscalYear("2008");

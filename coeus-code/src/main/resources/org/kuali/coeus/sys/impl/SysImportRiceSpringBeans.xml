@@ -29,5 +29,6 @@
     <bean id="documentDictionaryService" parent="grlImporter" p:serviceName="documentDictionaryService" />
     <bean id="maintenanceDocumentDictionaryService" parent="grlImporter" p:serviceName="maintenanceDocumentDictionaryService" />
     <bean id="dataSource" parent="grlImporter" p:serviceName="dataSource" />
+    <bean id="kualiRuleService" parent="grlImporter" p:serviceName="kualiRuleService"/>
 
 </beans>

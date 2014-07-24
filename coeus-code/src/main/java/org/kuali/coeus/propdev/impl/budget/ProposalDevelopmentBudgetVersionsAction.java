@@ -26,6 +26,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
@@ -184,7 +185,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
                 }
             }
             if(aFlag){
-                ErrorReporter errorReporter = new ErrorReporter();
+                ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
                 errorReporter.reportSoftError("projectDatesChanged", KeyConstants.PROJECT_START_END_DATE_CHANGED);
             }
         }

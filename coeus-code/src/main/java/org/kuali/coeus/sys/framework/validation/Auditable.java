@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.sys.framework.model;
+package org.kuali.coeus.sys.framework.validation;
+
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Defines the methods required for an object that can be "audited".
  */
-public interface AuditableForm {
+public interface Auditable {
 
     /**
      * Gets whether or not audit has been activated.
@@ -32,4 +34,6 @@ public interface AuditableForm {
      * @param auditActivated true if audit is activated false if not.
      */
     public void setAuditActivated(boolean auditActivated);
+
+    public Document getDocument();
 }

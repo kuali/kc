@@ -56,7 +56,7 @@ public class UnitFormulatedCostRule extends KcMaintenanceDocumentRuleBase {
         Collection<UnitFormulatedCost> costs = businessObjectService.findMatching(UnitFormulatedCost.class, values);
         for (UnitFormulatedCost cost : costs) {
             if (!ObjectUtils.equals(newCost.getUnitFormulatedCostId(), cost.getUnitFormulatedCostId())) {
-                ErrorReporter errorReporter = new ErrorReporter();
+                ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
                 errorReporter.reportError("document.newMaintainableObject.formulatedTypeCode",
                         KeyConstants.ERROR_FORUMLATED_COST_DUPLICATE);
                 return false;

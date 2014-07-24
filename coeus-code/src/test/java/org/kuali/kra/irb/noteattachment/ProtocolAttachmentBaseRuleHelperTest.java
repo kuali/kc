@@ -22,6 +22,7 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.test.ProtocolTestUtil;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -57,7 +58,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
         
         ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
-        
+        helper.setErrorReporter(new ErrorReporter());
         ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
         attachment.setType(new ProtocolAttachmentType("3", "a desc"));
         
@@ -77,7 +78,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
         
         ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
-        
+        helper.setErrorReporter(new ErrorReporter());
         ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
         attachment.setType(new ProtocolAttachmentType("3", "a desc"));
         attachment.setDescription("a desc");
@@ -98,7 +99,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
         
         ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
-        
+        helper.setErrorReporter(new ErrorReporter());
         ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
         attachment.setType(new ProtocolAttachmentType("9", "a desc"));
         
@@ -127,6 +128,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
         
         ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
+        helper.setErrorReporter(new ErrorReporter());
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
@@ -157,6 +159,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
         
         ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
+        helper.setErrorReporter(new ErrorReporter());
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
@@ -178,6 +181,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
         
         ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
+        helper.setErrorReporter(new ErrorReporter());
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
@@ -209,6 +213,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
         
         ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
+        helper.setErrorReporter(new ErrorReporter());
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
@@ -232,7 +237,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
             one(paService).getTypeFromCode("9");
             will(returnValue(aType2));
         }});
-        
+        helper.setErrorReporter(new ErrorReporter());
         boolean valid = helper.validTypeForGroup(attachment);
         
         this.context.assertIsSatisfied();
@@ -249,6 +254,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
         
         ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
+        helper.setErrorReporter(new ErrorReporter());
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
@@ -283,6 +289,7 @@ public class ProtocolAttachmentBaseRuleHelperTest {
         final DictionaryValidationService ddService = this.context.mock(DictionaryValidationService.class);
         
         ProtocolAttachmentBaseRuleHelper helper = new ProtocolAttachmentBaseRuleHelper(paService, ddService);
+        helper.setErrorReporter(new ErrorReporter());
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();

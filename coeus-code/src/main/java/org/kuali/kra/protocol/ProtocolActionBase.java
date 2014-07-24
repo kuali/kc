@@ -24,7 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.coeus.sys.framework.controller.NonCancellingRecallQuestion;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -83,7 +83,7 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
             protocolForm.setUnitRulesMessages(getUnitRulesMessages(protocolForm.getProtocolDocument()));
         }
         if(KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
-            new AuditActionHelper().auditConditionally((ProtocolFormBase) form);
+            KcServiceLocator.getService(AuditHelper.class).auditConditionally((ProtocolFormBase) form);
         }
         
         return forward;
@@ -236,10 +236,10 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
         ProtocolBase protocol = protocolForm.getProtocolDocument().getProtocol();
         
         ProtocolTaskBase task = createNewModifyProtocolTaskInstanceHook(protocol);
-        AuditActionHelper auditActionHelper = new AuditActionHelper();
+        AuditHelper auditHelper = KcServiceLocator.getService(AuditHelper.class);
         
         if (isAuthorized(task)) {
-            if ( !protocol.isCorrectionMode() || auditActionHelper.auditUnconditionally(protocolForm.getDocument()) ) {
+            if ( !protocol.isCorrectionMode() || auditHelper.auditUnconditionally(protocolForm.getDocument()) ) {
                 protocolForm.setShowNotificationEditor(isInitialSave(protocolForm.getProtocolDocument()));
                 this.preSave(mapping, form, request, response);
                 actionForward = super.save(mapping, form, request, response);

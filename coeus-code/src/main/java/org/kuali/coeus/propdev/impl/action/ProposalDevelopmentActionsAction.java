@@ -38,7 +38,7 @@ import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.propdev.impl.state.ProposalStateService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -533,14 +533,14 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         proposalDevelopmentForm.setUnitRulesMessages(getUnitRulesMessages(proposalDevelopmentForm.getProposalDevelopmentDocument()));
-        return new AuditActionHelper().setAuditMode(mapping, (ProposalDevelopmentForm) form, true);
+        return KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (ProposalDevelopmentForm) form, true);
     }
     
     @Override
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ((ProposalDevelopmentForm) form).clearUnitRulesMessages();
-        return new AuditActionHelper().setAuditMode(mapping, (ProposalDevelopmentForm) form, false);
+        return KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (ProposalDevelopmentForm) form, false);
     }
     
     public ActionForward reject(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -815,7 +815,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
              * from its execute() method.  It will stay this way for the time being because I this is
              * what the code did before it was refactored.
              */
-            boolean auditPassed = new AuditActionHelper().auditUnconditionally(proposalDevelopmentDocument);
+            boolean auditPassed = KcServiceLocator.getService(AuditHelper.class).auditUnconditionally(proposalDevelopmentDocument);
             
             /*
              * Check for S2S validation if we have a Grants.gov Opportunity.  If there is no Grants.gov

@@ -84,7 +84,7 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
         int birtCounter = 0;
         String reportId = request.getParameter("custReportDetails.reportLabelDisplay");
         if (reportId.equalsIgnoreCase("0")) {
-            (new ErrorReporter()).reportError("custReportDetails.reportLabelDisplay",
+            (KcServiceLocator.getService(ErrorReporter.class)).reportError("custReportDetails.reportLabelDisplay",
                     KeyConstants.INVALID_BIRT_REPORT, "select");
             return mapping.findForward(MAPPING_BASIC);
         }       
@@ -115,7 +115,7 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
                       Date inputDate = KcServiceLocator.getService(DateTimeService.class).convertToDateTime( request.getParameter("reportParameterList[" + birtCounter + "].inputParameterText"));
                       parameters.put(parameterBean.getName(), inputDate);
                 } catch (Exception exception) {
-                    (new ErrorReporter()).reportError("reportParameterList[0].inputParameterText",
+                    (KcServiceLocator.getService(ErrorReporter.class)).reportError("reportParameterList[0].inputParameterText",
                             KeyConstants.REPORT_INPUT_PARAMETER_DATE_TYPE, "select");
                     return mapping.findForward(MAPPING_BASIC);
                 }
@@ -131,7 +131,7 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
         reportTask.setParameterValues(parameters);
         isValid = reportTask.validateParameters();
         if (!isValid) {
-            (new ErrorReporter()).reportError("reportParameterList[0].inputParameterText",
+            (KcServiceLocator.getService(ErrorReporter.class)).reportError("reportParameterList[0].inputParameterText",
                     KeyConstants.ERROR_BIRT_REPORT_INPUT_MISSING, "select");
         } else {
             RenderOption renderOption = null;

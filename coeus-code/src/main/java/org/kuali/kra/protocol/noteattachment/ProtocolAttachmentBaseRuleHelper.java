@@ -16,6 +16,7 @@
 package org.kuali.kra.protocol.noteattachment;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -29,7 +30,7 @@ public abstract class ProtocolAttachmentBaseRuleHelper {
 
     private final ProtocolAttachmentService attachmentService;
     private final DictionaryValidationService validationService;
-    private final ErrorReporter errorReporter = new ErrorReporter();
+    private ErrorReporter errorReporter;
     
     private String propertyPrefix;
  
@@ -176,5 +177,16 @@ public abstract class ProtocolAttachmentBaseRuleHelper {
         } finally {
             attachmentBase.setFileId(oldFileId);
         }
+    }
+
+    public ErrorReporter getErrorReporter() {
+        if (errorReporter == null) {
+            KcServiceLocator.getService(ErrorReporter.class);
+        }
+        return errorReporter;
+    }
+
+    public void setErrorReporter(ErrorReporter errorReporter) {
+        this.errorReporter = errorReporter;
     }
 }

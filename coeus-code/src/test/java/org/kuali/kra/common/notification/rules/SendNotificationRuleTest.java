@@ -21,6 +21,7 @@ import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
 import org.kuali.coeus.common.notification.impl.rule.SendNotificationRule;
 import org.kuali.coeus.common.notification.impl.rule.event.SendNotificationEvent;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.rules.TemplateRuleTest;
 
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ public class SendNotificationRuleTest  {
                 
                 event = new SendNotificationEvent(null, notification, notificationTypeRecipients);
                 rule = new SendNotificationRule();
+                rule.setErrorReporter(new ErrorReporter());
                 expectedReturnValue = true;
             }
             
@@ -67,6 +69,7 @@ public class SendNotificationRuleTest  {
                 
                 event = new SendNotificationEvent(null, notification, notificationTypeRecipients);
                 rule = new SendNotificationRule();
+                rule.setErrorReporter(new ErrorReporter());
                 expectedReturnValue = false;
             }
             

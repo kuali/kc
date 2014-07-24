@@ -21,6 +21,7 @@ import org.kuali.coeus.common.impl.custom.CustomDataRule;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.krad.document.Document;
 
@@ -35,7 +36,7 @@ public class SaveCustomDataEvent extends KcDocumentEventBaseExtension {
     private boolean validateRequiredFields = false;
     private List<? extends DocumentCustomData> customDataList;
     private Map<String, CustomAttributeDocument> customAttributeDocuments;
-    protected ErrorReporter errorReporter = new ErrorReporter();
+    protected ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
     
     /**
      * Constructs a SaveCustomAttributeEvent.

@@ -19,6 +19,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.sys.framework.validation.SoftError;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -45,6 +46,7 @@ public class AwardApprovedEquipmentRuleTest {
     @Before
     public void setUp() throws Exception {
         approvedEquipmentRule = prepareTestReadyAwardApprovedEquipmentRule();
+        approvedEquipmentRule.setErrorReporter(new ErrorReporter());
         award = new Award();
         award.setAwardId(1L);
         award.setAwardNumber("X1000");

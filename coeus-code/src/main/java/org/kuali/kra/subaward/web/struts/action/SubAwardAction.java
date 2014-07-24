@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.subaward.web.struts.action;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -31,8 +29,8 @@ import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper.ValidationState;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
+import org.kuali.coeus.sys.framework.validation.AuditHelper.ValidationState;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -56,11 +54,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.util.ActionFormUtilMap;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
@@ -105,7 +99,7 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
         ActionForward actionForward = super.
         execute(mapping, form, request, response);
         if (KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
-            new AuditActionHelper().auditConditionally((SubAwardForm) form);
+            KcServiceLocator.getService(AuditHelper.class).auditConditionally((SubAwardForm) form);
         }
 
         if(subAwardForm.getSubAwardDocument().getSubAwardList() != null) {
@@ -451,7 +445,7 @@ public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRe
 
     SubAwardForm subAwardForm = (SubAwardForm) form;
     subAwardForm.setAuditActivated(false);
-    ValidationState status = new AuditActionHelper().isValidSubmission(subAwardForm, true);
+    ValidationState status = KcServiceLocator.getService(AuditHelper.class).isValidSubmission(subAwardForm, true);
     Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
     Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
     String methodToCall = ((KualiForm) form).getMethodToCall();
@@ -486,7 +480,7 @@ public ActionForward blanketApprove(ActionMapping mapping,
     SubAwardForm subAwardForm = (SubAwardForm) form;
 
     subAwardForm.setAuditActivated(false);
-    ValidationState status = new AuditActionHelper().
+    ValidationState status = KcServiceLocator.getService(AuditHelper.class).
     isValidSubmission(subAwardForm, true);
     if ((status == ValidationState.OK) || (status == ValidationState.WARNING)) {
         super.blanketApprove(mapping, form, request, response);
@@ -507,7 +501,7 @@ public ActionForward blanketApprove(ActionMapping mapping,
    HttpServletResponse response) throws Exception {
       SubAwardForm subAwardForm = (SubAwardForm) form;
       ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-      ValidationState status = new AuditActionHelper().
+      ValidationState status = KcServiceLocator.getService(AuditHelper.class).
       isValidSubmission(subAwardForm, true);
 
       if ((status == ValidationState.OK) || (status == ValidationState.WARNING)) {

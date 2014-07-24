@@ -28,6 +28,7 @@ import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionn
 import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelAddWizardHelper;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
+import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.uif.component.Component;
@@ -42,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 @ChangeTracking
-public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBase {
+public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBase implements Auditable {
 
     private static final long serialVersionUID = 1381360399393420225L;
     
@@ -56,7 +57,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private ProposalDevelopmentCustomDataHelper customDataHelper;
     private String selectedCustomDataGroup;
     private List<ProposalDevelopmentDataValidationItem> dataValidationItems;
-    private boolean validateData;
+    private boolean auditActivated;
     private List<ProposalCreditSplitListDto> creditSplitListItems;
     private AddBudgetDto addBudgetDto;
     private ProposalDevelopmentAttachmentHelper proposalDevelopmentAttachmentHelper;
@@ -195,14 +196,6 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         this.dataValidationItems = dataValidationItems;
     }
 
-    public boolean isValidateData() {
-        return validateData;
-    }
-
-    public void setValidateData(boolean validateData) {
-        this.validateData = validateData;
-    }
-
     public List<ProposalCreditSplitListDto> getCreditSplitListItems() {
         return creditSplitListItems;
     }
@@ -253,5 +246,15 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     public void setS2sQuestionnaireHelper(ProposalDevelopmentS2sQuestionnaireHelper s2sQuestionnaireHelper) {
         this.s2sQuestionnaireHelper = s2sQuestionnaireHelper;
+    }
+
+    @Override
+    public boolean isAuditActivated() {
+        return auditActivated;
+    }
+
+    @Override
+    public void setAuditActivated(boolean auditActivated) {
+        this.auditActivated = auditActivated;
     }
 }

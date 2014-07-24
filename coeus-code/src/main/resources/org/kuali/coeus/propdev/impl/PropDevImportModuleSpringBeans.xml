@@ -42,6 +42,8 @@
     <bean id="kcPersonLookupableHelperService" parent="grlImporter" p:serviceName="kcPersonLookupableHelperService" p:singleton="false" />
     <bean id="pessimisticLockService" parent="grlImporter" p:serviceName="pessimisticLockService" />
     <bean id="globalVariableService" parent="grlImporter" p:serviceName="globalVariableService" />
+    <bean id="errorReporter" parent="grlImporter" p:serviceName="errorReporter"/>
+    <bean id="auditHelper" parent="grlImporter" p:serviceName="auditHelper"/>
 
     <!-- AWARD -->
     <bean id="awardService" parent="grlImporter" p:serviceName="awardService" />

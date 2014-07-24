@@ -17,6 +17,7 @@ package org.kuali.coeus.common.committee.impl.meeting;
 
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.infrastructure.KeyConstants;
 
@@ -34,7 +35,7 @@ public class MeetingDeleteOtherRule extends KcTransactionalDocumentRuleBase impl
      */
     public boolean processRules(MeetingDeleteOtherEvent event) {
         boolean rulePassed = true;
-        ErrorReporter errorReporter = new ErrorReporter();
+        ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
         
         int itemNumber = event.getOtherNumber();
         CommScheduleActItemBase deletedCommScheduleActItem = event.getMeetingHelper().getCommitteeSchedule().getCommScheduleActItems().get(itemNumber);

@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.coi.notesandattachments;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
@@ -23,7 +24,7 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 
 public class CoiDisclosureAttachmentRuleHelper {
     private final DictionaryValidationService validationService;
-    private final ErrorReporter errorReporter = new ErrorReporter();
+    private final ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
     private final String propertyPrefix = "coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment";
 
 

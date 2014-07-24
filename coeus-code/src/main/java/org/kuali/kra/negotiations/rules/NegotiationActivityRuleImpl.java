@@ -16,6 +16,7 @@
 package org.kuali.kra.negotiations.rules;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
@@ -34,7 +35,7 @@ public class NegotiationActivityRuleImpl implements NegotiationActivityAddRule {
     private static final String START_DATE_PROPERTY = "startDate";
     private static final String END_DATE_PROPERTY = "endDate";
 
-    private final ErrorReporter errorReporter = new ErrorReporter();
+    private final ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
     
     @Override
     public boolean processAddNegotiationActivityRule(NegotiationActivityAddRuleEvent event) {

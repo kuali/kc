@@ -32,8 +32,8 @@
                     <bean parent="Uif-VerticalBoxGroup">
                         <property name="items">
                             <list>
-                                <bean parent="Uif-PrimaryActionButton" p:actionLabel="@{validateData?'Turn Off':'Turn On'}" p:methodToCall="toggleValidation"
-                                      p:order="10" p:cssClasses="@{validateData?'btn-success':'btn-danger'}" p:successCallback="retrieveComponent('PropDev-DataValidationSection');"/>
+                                <bean parent="Uif-PrimaryActionButton" p:actionLabel="@{auditActivated?'Turn Off':'Turn On'}" p:methodToCall="toggleValidation"
+                                      p:order="10" p:cssClasses="@{auditActivated?'btn-success':'btn-danger'}" p:successCallback="retrieveComponent('PropDev-DataValidationSection');"/>
                             </list>
                         </property>
                     </bean>
@@ -42,8 +42,8 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="PropDev-DataValidationSection-Collection" p:render="@{validateData}" p:order="10"/>
-                <bean parent="Uif-Message" p:messageText="Data Validation is currently off."  p:render="@{!validateData}"
+                <bean parent="PropDev-DataValidationSection-Collection" p:render="@{auditActivated}" p:order="10"/>
+                <bean parent="Uif-Message" p:messageText="Data Validation is currently off."  p:render="@{!auditActivated}"
                       p:order="20"/>
             </list>
         </property>

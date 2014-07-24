@@ -24,6 +24,7 @@ import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -35,6 +36,7 @@ import java.util.*;
  * subclass ResearchDocumentRuleBase to report an error using these convenient methods.
  * </p>
  */
+@Component("errorReporter")
 public class ErrorReporter {
 
     private static final Log LOG = LogFactory.getLog(ErrorReporter.class);

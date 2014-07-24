@@ -26,7 +26,7 @@ import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.print.watermark.WatermarkService;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.controller.SysFrameworkControllerConstants;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -550,8 +550,8 @@ public class CoiDisclosureAction extends CoiAction {
         if (checkRule(new CertifyDisclosureEvent("disclosureHelper.certifyDisclosure", coiDisclosure))) {
             coiDisclosureForm.setAuditActivated(true);
             coiDisclosureForm.setUnitRulesMessages(getUnitRulesMessages(coiDisclosureForm.getCoiDisclosureDocument()));
-            AuditActionHelper auditActionHelper = new AuditActionHelper();
-            if (auditActionHelper.auditUnconditionally(coiDisclosureDocument) && !coiDisclosureForm.isUnitRulesErrorsExist()) {
+            AuditHelper auditHelper = KcServiceLocator.getService(AuditHelper.class);
+            if (auditHelper.auditUnconditionally(coiDisclosureDocument) && !coiDisclosureForm.isUnitRulesErrorsExist()) {
                 // Certification occurs after the audit rules pass.
                 if (coiDisclosure.getCoiDisclosureId() == null) {
                     coiDisclosure.initRequiredFields();            

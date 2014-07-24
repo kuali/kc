@@ -17,6 +17,7 @@ package org.kuali.kra.irb.protocol.questionnaire;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.questionnaire.SaveProtocolQuestionnaireEvent;
 import org.kuali.kra.irb.questionnaire.SaveProtocolQuestionnaireRule;
@@ -43,6 +44,7 @@ public class SaveProtocolQuestionnaireRuleTest {
                 List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
                 event = new SaveProtocolQuestionnaireEvent(null, answerHeaders);
                 rule = new SaveProtocolQuestionnaireRule();
+                rule.setErrorReporter(new ErrorReporter());
                 expectedReturnValue = true;
             }
             
@@ -65,6 +67,7 @@ public class SaveProtocolQuestionnaireRuleTest {
                 
                 event = new SaveProtocolQuestionnaireEvent(null, answerHeaders);
                 rule = new SaveProtocolQuestionnaireRule();
+                rule.setErrorReporter(new ErrorReporter());
                 expectedReturnValue = true;
             }
             
@@ -97,6 +100,7 @@ public class SaveProtocolQuestionnaireRuleTest {
                 
                 event = new SaveProtocolQuestionnaireEvent(null, answerHeaders);
                 rule = new SaveProtocolQuestionnaireRule();
+                rule.setErrorReporter(new ErrorReporter());
                 expectedReturnValue = false;
             }
             

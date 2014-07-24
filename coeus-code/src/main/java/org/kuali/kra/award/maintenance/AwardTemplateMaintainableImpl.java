@@ -113,7 +113,7 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
         // get the new line from the map
         AwardTemplateReportTermRecipient addLine = (AwardTemplateReportTermRecipient) newCollectionLines.get(collectionName);
 
-        ErrorReporter errorReporter = new ErrorReporter();
+        ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
         if (addLine != null) {
             // mark the isNewCollectionRecord so the option to delete this line will be presented
             addLine.setNewCollectionRecord(true);
@@ -207,7 +207,7 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
     }
     
     private void reportInvalidAwardBasisError(AwardTemplate awardTemplate) {
-        ErrorReporter errorReporter = new ErrorReporter();
+        ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
         awardTemplate.refreshNonUpdateableReferences();
         errorReporter.reportError("document.newMaintainableObject.basisOfPaymentCode", 
                         KeyConstants.INVALID_BASIS_PAYMENT,

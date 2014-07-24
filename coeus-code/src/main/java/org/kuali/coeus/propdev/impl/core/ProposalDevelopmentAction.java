@@ -41,7 +41,7 @@ import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographySer
 import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
 import org.kuali.coeus.s2sgen.api.print.FormPrintResult;
 import org.kuali.coeus.sys.api.model.KcFile;
-import org.kuali.coeus.sys.framework.controller.AuditActionHelper;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.controller.NonCancellingRecallQuestion;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
@@ -316,7 +316,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             proposalDevelopmentForm.setUnitRulesMessages(getUnitRulesMessages(proposalDevelopmentForm.getProposalDevelopmentDocument()));
         }
         if( KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
-            new AuditActionHelper().auditConditionally(proposalDevelopmentForm);
+            KcServiceLocator.getService(AuditHelper.class).auditConditionally(proposalDevelopmentForm);
         }
         proposalDevelopmentForm.setProposalDataOverrideMethodToCalls(getProposalDevelopmentService().constructColumnsToAlterLookupMTCs(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
         getProposalDevelopmentService().sortS2sForms(document.getDevelopmentProposal());    
@@ -655,7 +655,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
      * @return ActionForward to forward to ("auditMode")
      */
     public ActionForward auditMode(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        new AuditActionHelper().auditConditionally((ProposalDevelopmentForm) form);
+        KcServiceLocator.getService(AuditHelper.class).auditConditionally((ProposalDevelopmentForm) form);
         return mapping.findForward("auditMode");
     }
     

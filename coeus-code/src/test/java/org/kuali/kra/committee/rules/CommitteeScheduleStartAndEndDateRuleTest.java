@@ -19,6 +19,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.*;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -206,7 +207,9 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
      * This method is helper method to assert false condition.
      */
     private void testAssertFalse() {
-        boolean val = new CommitteeScheduleStartAndEndDateRule().processRules(event);
+        CommitteeScheduleStartAndEndDateRule rule = new CommitteeScheduleStartAndEndDateRule();
+        rule.setErrorReporter(new ErrorReporter());
+        boolean val = rule.processRules(event);
         assertFalse(val);
     }
     

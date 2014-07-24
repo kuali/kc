@@ -20,7 +20,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.custom.CustomDataHelperBase;
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsForm;
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase;
-import org.kuali.coeus.sys.framework.model.AuditableForm;
+import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class ProtocolOnlineReviewFormBase extends KcTransactionalDocumentFormBase implements PermissionsForm, AuditableForm {
+public abstract class ProtocolOnlineReviewFormBase extends KcTransactionalDocumentFormBase implements PermissionsForm, Auditable {
     
     private static final long serialVersionUID = -7633960906991275328L;
     
