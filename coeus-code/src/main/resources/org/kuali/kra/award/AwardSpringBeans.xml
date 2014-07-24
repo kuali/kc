@@ -323,7 +323,11 @@
        <property name="businessObjectService" ref="businessObjectService" />  
        <property name="fiscalYearMonthService" ref="fiscalYearMonthService" />           
     </bean>
-    
+
+    <bean id="globalVariableService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="globalVariableService" />
+    </bean>
+
     <bean id="keywordsService" class="org.kuali.coeus.common.impl.keyword.KeywordsServiceImpl" />
     
     <bean id="awardHierarchyService" class="org.kuali.kra.award.awardhierarchy.AwardHierarchyServiceImpl">

@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.budget.impl.lock;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.lock.BudgetLockService;
@@ -27,7 +27,6 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.impl.PessimisticLockServiceImpl;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -44,6 +43,10 @@ import java.util.Map;
 public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements BudgetLockService {
 
     private static final String ADD_BUDGET = "addBudget";
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
 
     @Autowired
     @Qualifier("dataObjectService")
@@ -63,7 +66,7 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
     @SuppressWarnings("unchecked")
     @Override
     protected boolean isLockRequiredByUser(Document document, Map editMode, Person user) {
-        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        String activeLockRegion = (String) globalVariableService.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         
         // check for entry edit mode
         for (Iterator iterator = editMode.entrySet().iterator(); iterator.hasNext();) {
@@ -127,5 +130,13 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
         }
         
         return false;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
     }
 }

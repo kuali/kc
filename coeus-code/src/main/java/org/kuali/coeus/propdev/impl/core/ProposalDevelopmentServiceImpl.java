@@ -37,6 +37,7 @@ import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
 import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
@@ -47,7 +48,6 @@ import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -72,7 +72,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -133,6 +132,9 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
 
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
 
     public void setKcAuthorizationService (KcAuthorizationService kcAuthorizationService){
         this.kcAuthorizationService = kcAuthorizationService;
@@ -376,8 +378,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     protected String populateProposalEditableFieldMetaData(String proposalNumber, String editableFieldDBColumn) {
         String returnValue = "";
-        if (GlobalVariables.getMessageMap() != null) {
-            GlobalVariables.getMessageMap().clearErrorMessages();
+        if (globalVariableService.getMessageMap() != null) {
+            globalVariableService.getMessageMap().clearErrorMessages();
         }
 
         Object fieldValue = getProposalFieldValueFromDBColumnName(proposalNumber, editableFieldDBColumn);
@@ -508,14 +510,14 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     private boolean isAuthorizedToAccess(String proposalNumber) {
         boolean isAuthorized = true;
         if (proposalNumber.contains(Constants.COLON)) {
-            if (GlobalVariables.getUserSession() != null) {
+            if (globalVariableService.getUserSession() != null) {
                 String[] invalues = StringUtils.split(proposalNumber, Constants.COLON);
                 String docFormKey = invalues[1];
                 if (StringUtils.isBlank(docFormKey)) {
                     isAuthorized = false;
                 }
                 else {
-                    Object formObj = GlobalVariables.getUserSession().retrieveObject(docFormKey);
+                    Object formObj = globalVariableService.getUserSession().retrieveObject(docFormKey);
                     if (formObj == null || !(formObj instanceof ProposalDevelopmentForm)) {
                         isAuthorized = false;
                     }
@@ -611,8 +613,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             String documentNumber, String editableFieldDBColumn) {
         String returnValue  = "";
 
-        if (GlobalVariables.getMessageMap() != null) {
-            GlobalVariables.getMessageMap().clearErrorMessages();
+        if (globalVariableService.getMessageMap() != null) {
+            globalVariableService.getMessageMap().clearErrorMessages();
         }      
         Object fieldValue = getBudgetFieldValueFromDBColumnName(documentNumber, editableFieldDBColumn);
         
@@ -648,7 +650,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
     
     public boolean canSaveProposalXml(ProposalDevelopmentDocument document) {
-        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+        String principalId = globalVariableService.getUserSession().getPerson().getPrincipalId();
         Role roleInfo  = getRoleService().getRoleByNamespaceCodeAndName(RoleConstants.OSP_ROLE_TYPE, RoleConstants.OSP_ADMINISTRATOR);
         List<String> roleIds = new ArrayList<String>();
         roleIds.add(roleInfo.getId());
@@ -662,7 +664,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         List<String> users = proposalAuthService.getPrincipalsInRole(document, RoleConstants.AGGREGATOR);
 
         for (String user : users) {
-            if(GlobalVariables.getUserSession().getPrincipalId().equals(user)){
+            if(globalVariableService.getUserSession().getPrincipalId().equals(user)){
                 return true;
             }
         }
@@ -957,5 +959,13 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     public UnitAuthorizationService getUnitAuthorizationService() {
         return unitAuthorizationService;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
     }
 }

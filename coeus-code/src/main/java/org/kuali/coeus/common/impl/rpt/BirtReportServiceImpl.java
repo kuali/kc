@@ -17,9 +17,9 @@ package org.kuali.coeus.common.impl.rpt;
 
 import org.kuali.coeus.common.impl.rpt.cust.CustReportDetails;
 import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -39,13 +39,16 @@ public class BirtReportServiceImpl implements BirtReportService{
     @Autowired
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+
     @Autowired
     @Qualifier("unitAuthorizationService")
-
     private UnitAuthorizationService unitAuthorizationService;
 
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
+
     private BirtHelper birtHelper;
-    
 
     /**
      * Fetch input parameters from  template
@@ -84,8 +87,8 @@ public class BirtReportServiceImpl implements BirtReportService{
      */
     public List<CustReportDetails> getReports() {
 
-        String principalId = GlobalVariables.getUserSession().getPrincipalId();
-        String departmentCode = GlobalVariables.getUserSession().getPerson().getPrimaryDepartmentCode();
+        String principalId = globalVariableService.getUserSession().getPrincipalId();
+        String departmentCode = globalVariableService.getUserSession().getPerson().getPrimaryDepartmentCode();
         List<CustReportDetails> custReportDetailsList = (List<CustReportDetails>) getBusinessObjectService().findAll(CustReportDetails.class);
         List<CustReportDetails> custReportDetails = new ArrayList<CustReportDetails>();
         for (CustReportDetails custReportDetail : custReportDetailsList) {
@@ -116,5 +119,13 @@ public class BirtReportServiceImpl implements BirtReportService{
 
     public UnitAuthorizationService getUnitAuthorizationService() {
         return unitAuthorizationService;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
     }
 }

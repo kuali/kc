@@ -20,11 +20,11 @@ import org.kuali.coeus.common.framework.keyword.AbstractScienceKeyword;
 import org.kuali.coeus.common.framework.keyword.KeywordsManager;
 import org.kuali.coeus.common.framework.keyword.KeywordsService;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.model.MultiLookupForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -45,6 +45,10 @@ public class KeywordsServiceImpl implements KeywordsService {
     @Autowired
     @Qualifier("lookupResultsService")
     private LookupResultsService lookupResultsService;
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
 
     @Override
     public void addKeyword(KeywordsManager document, ScienceKeyword scienceKeyword) {
@@ -95,7 +99,7 @@ public class KeywordsServiceImpl implements KeywordsService {
                 if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                     Class lookupResultsBOClass = Class.forName(multiLookUpForm.getLookupResultsBOClassName());
                     Collection<PersistableBusinessObject> rawValues = lookupResultsService
-                    		.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getPrincipalId());
+                    		.retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, globalVariableService.getUserSession().getPrincipalId());
                     if (lookupResultsBOClass.isAssignableFrom(ScienceKeyword.class)) {
                         for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
                             ScienceKeyword scienceKeyword = (ScienceKeyword) iter.next();
@@ -116,5 +120,13 @@ public class KeywordsServiceImpl implements KeywordsService {
 
     public void setLookupResultsService(LookupResultsService lookupResultsService) {
         this.lookupResultsService = lookupResultsService;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
     }
 }

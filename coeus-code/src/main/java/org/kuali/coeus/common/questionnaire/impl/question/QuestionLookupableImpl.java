@@ -16,6 +16,7 @@
 package org.kuali.coeus.common.questionnaire.impl.question;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.lookup.keyvalue.LookupReturnValuesFinder;
@@ -23,7 +24,6 @@ import org.kuali.rice.kns.lookup.KualiLookupableImpl;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.lookup.LookupUtils;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -51,7 +51,11 @@ public class QuestionLookupableImpl extends KualiLookupableImpl {
     @Autowired
     @Qualifier("questionAuthorizationService")
     private transient QuestionAuthorizationService questionAuthorizationService;
-    
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
+
     /**
      * Only create the URL to create a new Question when proper permission is given.
      * @see org.kuali.rice.kns.lookup.KualiLookupableImpl#getCreateNewUrl()
@@ -70,8 +74,6 @@ public class QuestionLookupableImpl extends KualiLookupableImpl {
      * This is to force to reload the lookupreturn dropdown list for the lookupform. It's not pretty. The
      * GlovalVaribles.getKualiForm() is not helping because the 'fields' on lookupForm is not set until all fields are set. So, the
      * lookupreturnvaluesfinder can't take advantage of that.
-     * 
-     * @see org.kuali.core.lookup.KualiLookupableImpl#checkForAdditionalFields(java.util.Map)
      */
     public boolean checkForAdditionalFields(Map fieldValues) {
         String lookupReturnFieldName = (String) fieldValues.get(LOOKUP_RETURN);
@@ -82,11 +84,11 @@ public class QuestionLookupableImpl extends KualiLookupableImpl {
                 for (Iterator iterator = row.getFields().iterator(); iterator.hasNext();) {
                     Field field = (Field) iterator.next();
                     if (field.getPropertyName().equals(LOOKUP_RETURN)) {
-                        GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object) lookupClassName);
+                        globalVariableService.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object) lookupClassName);
                         LookupReturnValuesFinder finder = new LookupReturnValuesFinder();
                         field.setFieldValidValues(finder.getKeyValues());
-                        GlobalVariables.getUserSession().removeObject(Constants.LOOKUP_RETURN_FIELDS);
-                        GlobalVariables.getUserSession().removeObject(Constants.LOOKUP_CLASS_NAME);
+                        globalVariableService.getUserSession().removeObject(Constants.LOOKUP_RETURN_FIELDS);
+                        globalVariableService.getUserSession().removeObject(Constants.LOOKUP_CLASS_NAME);
                         if (StringUtils.isNotBlank(lookupReturnFieldName)) {
                             field.setPropertyValue(lookupReturnFieldName);
                             field.setPropertyValue(LookupUtils.forceUppercase(this.getBusinessObjectClass(), lookupReturnFieldName, field.getPropertyValue()));
@@ -107,4 +109,11 @@ public class QuestionLookupableImpl extends KualiLookupableImpl {
         return questionAuthorizationService;
     }
 
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
 }

@@ -17,6 +17,7 @@ import org.kuali.coeus.propdev.impl.s2s.connect.OpportunitySchemaParserService;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorService;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
 import org.kuali.coeus.s2sgen.api.generate.FormGenerationResult;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -25,7 +26,6 @@ import org.kuali.coeus.s2sgen.api.core.S2SException;
 import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
 import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -79,6 +79,10 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
     @Qualifier("opportunitySchemaParserService")
     private OpportunitySchemaParserService opportunitySchemaParserService;
 
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
+
     @Override
     public Long createS2sOpportunityDetails(DevelopmentProposal proposal, S2sOpportunity s2sOpportunity, Long versionNumberForS2sOpportunity) {
         Long result = versionNumberForS2sOpportunity;
@@ -102,9 +106,9 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
                     ex.setErrorMessage(s2sOpportunity.getOpportunityId());
                 }
                 if(ex.getTabErrorKey()!=null){
-                    GlobalVariables.getMessageMap().putError(ex.getTabErrorKey(), ex.getErrorKey(),ex.getMessageWithParams());
+                    globalVariableService.getMessageMap().putError(ex.getTabErrorKey(), ex.getErrorKey(),ex.getMessageWithParams());
                 }else{
-                    GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
+                    globalVariableService.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
                 }
             }
             List<String> mandatoryForms = new ArrayList<String>();
@@ -122,7 +126,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
                 proposal.setS2sOpportunity(s2sOpportunity);
                 result = null;
             }else{
-                GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,s2sOpportunity.getOpportunityId(),mandatoryForms.toString());
+                globalVariableService.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,s2sOpportunity.getOpportunityId(),mandatoryForms.toString());
                 proposal.setS2sOpportunity(new S2sOpportunity());
             }
         }
@@ -679,5 +683,13 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
 
     public void setOpportunitySchemaParserService(OpportunitySchemaParserService opportunitySchemaParserService) {
         this.opportunitySchemaParserService = opportunitySchemaParserService;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
     }
 }

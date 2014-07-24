@@ -39,6 +39,7 @@ import org.apache.xpath.XPathAPI;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.s2sgen.api.core.InfastructureConstants;
 import org.kuali.coeus.s2sgen.api.hash.GrantApplicationHashService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.s2sgen.api.core.S2SException;
 import org.kuali.coeus.s2sgen.api.generate.FormMappingInfo;
@@ -46,7 +47,6 @@ import org.kuali.coeus.s2sgen.api.generate.FormMappingService;
 import org.kuali.coeus.s2sgen.impl.validate.S2SValidatorService;
 import org.kuali.coeus.s2sgen.api.core.AuditError;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -87,6 +87,10 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
     @Autowired
     @Qualifier("grantApplicationHashService")
     private GrantApplicationHashService grantApplicationHashService;
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
 
     @Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -393,7 +397,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
     }
     protected void setValidationErrorMessage(List<AuditError> errors) {
         for (AuditError error : errors) {
-            GlobalVariables.getMessageMap().putError("userAttachedFormsErrors", KeyConstants.S2S_USER_ATTACHED_FORM_NOT_VALID, error.getMessageKey());
+            globalVariableService.getMessageMap().putError("userAttachedFormsErrors", KeyConstants.S2S_USER_ATTACHED_FORM_NOT_VALID, error.getMessageKey());
         }
     }
     public String createPackageName(String namespace) {
@@ -591,5 +595,13 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
 
     public void setGrantApplicationHashService(GrantApplicationHashService grantApplicationHashService) {
         this.grantApplicationHashService = grantApplicationHashService;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
     }
 }

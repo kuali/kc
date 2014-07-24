@@ -44,6 +44,7 @@ import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.rate.ValidCeRateType;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.budget.framework.core.BudgetForm;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
@@ -60,7 +61,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.rules.rule.event.DocumentAuditEvent;
 import org.kuali.rice.krad.service.*;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -104,13 +104,17 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     @Autowired
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
-    
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
+
     /**
      * Service method for adding a {@link BudgetVersionOverview} to a {@link ProposalDevelopmentDocument}. If a 
      * {@link BudgetVersionOverview} instance with the  <code>versionName</code> already exists 
      * in the {@link ProposalDevelopmentDocument}, then a hard error will occur. Try it and you'll see what I mean.
      * 
-     * @param document instance to add {@link BudgetVersionOverview} to
+     * @param budgetParentDocument instance to add {@link BudgetVersionOverview} to
      * @param versionName of the {@link BudgetVersionOverview}
      */
     @Override
@@ -623,7 +627,6 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
      * budgetprojectincomes is a collection of 'budget', but it also reference to budgetperiod.
      * During copy budgetperiodid is set to null.  If save with budgetdocument, then budgetperiodid will not be set.
      * So, has to use this to set manually.
-     * @param budgetDocument
      * @param projectIncomes
      */
     protected void updateProjectIncomes(Budget budget, List<BudgetProjectIncome> projectIncomes) {
@@ -641,7 +644,6 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     /**
      * 
      * Do this so that new personnel details(or copied ones) can be calculated
-     * @param budgetDocument
      */
     protected void copyLineItemToPersonnelDetails(Budget budget) {
         for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
@@ -701,14 +703,14 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     private boolean isAuthorizedToAccess(String budgetCategoryTypeCode) {
         boolean isAuthorized = true;
         if(budgetCategoryTypeCode.contains(Constants.COLON)){
-            if (GlobalVariables.getUserSession() != null) {
+            if (globalVariableService.getUserSession() != null) {
                 // jquery/ajax in rice 2.0
                 String[] invalues = StringUtils.split(budgetCategoryTypeCode, Constants.COLON);
                 String docFormKey = invalues[1];
                 if (StringUtils.isBlank(docFormKey)) {
                     isAuthorized = false;
                 } else {
-                    Object formObj = GlobalVariables.getUserSession().retrieveObject(docFormKey);
+                    Object formObj = globalVariableService.getUserSession().retrieveObject(docFormKey);
                     if (formObj == null || !(formObj instanceof BudgetForm)) {
                         isAuthorized = false;
                     } else {
@@ -833,4 +835,11 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
         this.dataObjectService = dataObjectService;
     }
 
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
 }

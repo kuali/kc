@@ -1043,6 +1043,14 @@
         <property name="serviceName" value="kualiConfigurationService" />
     </bean>
     
+    <bean id="kualiGroupService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kualiGroupService" />
+    </bean>
+
+    <bean id="globalVariableService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="globalVariableService" />
+    </bean>
+
     <bean id="kualiModuleService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kualiModuleService" />
     </bean>

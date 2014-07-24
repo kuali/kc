@@ -34,6 +34,7 @@ import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyAttachment;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
@@ -75,7 +76,6 @@ import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
@@ -151,6 +151,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     @Qualifier("budgetPersonnelBudgetService")
     private BudgetPersonnelBudgetService budgetPersonnelBudgetService;
 
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
+
     //Setters for dependency injection
     public void setIdentityService(IdentityService identityService) {
         this.identityService = identityService;
@@ -220,8 +224,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         // since a person with MAINTAIN_PROPOSAL_HIERARCHY permission is allowed to initiate IF they are creating a parent
         // we circumvent the initiator step altogether. 
         try {
-            WorkflowDocument workflowDocument = kradWorkflowDocumentService.createWorkflowDocument(PROPOSAL_DEVELOPMENT_DOCUMENT_TYPE, GlobalVariables.getUserSession().getPerson());
-            knsSessionDocumentService.addDocumentToUserSession(GlobalVariables.getUserSession(), workflowDocument);
+            WorkflowDocument workflowDocument = kradWorkflowDocumentService.createWorkflowDocument(PROPOSAL_DEVELOPMENT_DOCUMENT_TYPE, globalVariableService.getUserSession().getPerson());
+            knsSessionDocumentService.addDocumentToUserSession(globalVariableService.getUserSession(), workflowDocument);
             DocumentHeader documentHeader = new DocumentHeader();
             documentHeader.setWorkflowDocument(workflowDocument);
             documentHeader.setDocumentNumber(workflowDocument.getDocumentId().toString());
@@ -252,7 +256,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         LOG.info(String.format("***New Hierarchy Parent (#%s) budget created", hierarchy.getProposalNumber()));
         
         // add aggregator to the document
-        String userId = GlobalVariables.getUserSession().getPrincipalId();
+        String userId = globalVariableService.getUserSession().getPrincipalId();
         kcAuthorizationService.addRole(userId, RoleConstants.AGGREGATOR, newDoc);
 
         initializeBudget(hierarchy, initialChild);
@@ -1590,9 +1594,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             narrative.setNarrativeStatus(status);
             narrative.setModuleStatusCode(status.getCode());
             narrative.setModuleTitle("Proposal rejection attachment.");
-            narrative.setContactName(GlobalVariables.getUserSession().getPrincipalName());
-            narrative.setPhoneNumber(GlobalVariables.getUserSession().getPerson().getPhoneNumber());
-            narrative.setEmailAddress(GlobalVariables.getUserSession().getPerson().getEmailAddress());
+            narrative.setContactName(globalVariableService.getUserSession().getPrincipalName());
+            narrative.setPhoneNumber(globalVariableService.getUserSession().getPerson().getPhoneNumber());
+            narrative.setEmailAddress(globalVariableService.getUserSession().getPerson().getEmailAddress());
             pDoc.getDevelopmentProposal().addInstituteAttachment(narrative);
             this.businessObjectService.save(pDoc);
         }
@@ -1723,7 +1727,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     public void calculateAndSetProposalAppDocStatus( ProposalDevelopmentDocument doc, DocumentRouteStatusChange dto  ) throws ProposalHierarchyException {
-        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        String principalId = globalVariableService.getUserSession().getPrincipalId();
         if( StringUtils.equals( dto.getNewRouteStatus(), KewApiConstants.ROUTE_HEADER_ENROUTE_CD )) {
             updateAppDocStatus( doc, principalId, HIERARCHY_ENROUTE_APPSTATUS );
         } else if ( StringUtils.equals(dto.getNewRouteStatus(), KewApiConstants.ROUTE_HEADER_CANCEL_CD)) {
@@ -1900,5 +1904,20 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     protected BudgetCalculationService getBudgetCalculationService(){return budgetCalculationService;}
     protected BudgetPersonnelBudgetService getBudgetPersonnelBudgetService () {return budgetPersonnelBudgetService;}
     protected DeepCopyPostProcessor getDeepCopyPostProcessor (){ return  deepCopyPostProcessor;}
-    
+
+    public IdentityService getIdentityService() {
+        return identityService;
+    }
+
+    public WorkflowDocumentService getKradWorkflowDocumentService() {
+        return kradWorkflowDocumentService;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
 }

@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -35,7 +36,6 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
@@ -68,6 +68,10 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KcKualiLookupable
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
 
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
+
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         LookupUtils.removeHiddenCriteriaFields(getBusinessObjectClass(), fieldValues);
         setBackLocation(fieldValues.get(KRADConstants.BACK_LOCATION));
@@ -79,7 +83,7 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KcKualiLookupable
         String cfdaNumber = fieldValues.get(Constants.CFDA_NUMBER);
         String opportunityId = fieldValues.get(Constants.OPPORTUNITY_ID);
         if (StringUtils.isBlank(providerCode)) {
-            GlobalVariables.getMessageMap().putError(Constants.PROVIDER_CODE, KeyConstants.ERROR_S2S_PROVIDER_INVALID);
+            globalVariableService.getMessageMap().putError(Constants.PROVIDER_CODE, KeyConstants.ERROR_S2S_PROVIDER_INVALID);
             return new ArrayList<S2sOpportunity>();
         }
         if (StringUtils.isNotBlank(cfdaNumber) || StringUtils.isNotBlank(opportunityId)) {
@@ -87,7 +91,7 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KcKualiLookupable
                 s2sOpportunity = s2sSubmissionService.searchOpportunity(providerCode, cfdaNumber, opportunityId, "");
             }catch (S2sCommunicationException e) {
                 LOG.error(e.getMessage(), e);
-                GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
+                globalVariableService.getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
                 return new ArrayList<S2sOpportunity>();
             }
             if (s2sOpportunity != null && s2sOpportunity.size()!=0) {
@@ -97,17 +101,17 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KcKualiLookupable
                     s2sOpportunity = s2sSubmissionService.searchOpportunity(providerCode, cfdaNumber, "", "");
                 }catch (S2sCommunicationException e) {
                     LOG.error(e.getMessage(), e);
-                    GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
+                    globalVariableService.getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
                     return new ArrayList<S2sOpportunity>();
                 }
                 if (s2sOpportunity != null) {
                     return s2sOpportunity;
                 } else{
                     if (StringUtils.isNotBlank(cfdaNumber)) {
-                        GlobalVariables.getMessageMap().putError(Constants.CFDA_NUMBER, KeyConstants.ERROR_IF_CFDANUMBER_IS_INVALID);
+                        globalVariableService.getMessageMap().putError(Constants.CFDA_NUMBER, KeyConstants.ERROR_IF_CFDANUMBER_IS_INVALID);
                     }
                     if (StringUtils.isNotBlank(opportunityId)) {
-                        GlobalVariables.getMessageMap().putError(Constants.OPPORTUNITY_ID,
+                        globalVariableService.getMessageMap().putError(Constants.OPPORTUNITY_ID,
                                 KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID);
                     }
                 }
@@ -116,7 +120,7 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KcKualiLookupable
              return new ArrayList<S2sOpportunity>();
         }
         else {
-            GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL);
+            globalVariableService.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL);
             return s2sOpportunity;
         }
     }
@@ -206,5 +210,13 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KcKualiLookupable
 
     public void setS2sSubmissionService(S2sSubmissionService s2sSubmissionService) {
         this.s2sSubmissionService = s2sSubmissionService;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
     }
 }
