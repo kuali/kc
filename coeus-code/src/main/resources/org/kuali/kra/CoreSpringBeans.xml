@@ -39,9 +39,7 @@
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportDataSourceSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportRiceKradSpringBeans.xml"/>
     <import resource="classpath:org/kuali/rice/krad/config/KRADDependentModuleCommonImports.xml" />
-    <import resource="CoreJpaSpringBeans.xml"/>
 
-    
     <bean id="coreModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
         <property name="moduleConfiguration" ref="coreModuleConfiguration"/>
         <property name="kualiModuleService" ref="kualiModuleService"/>
@@ -949,7 +947,14 @@
         </property>
     </bean>
 
-   
+    <bean id="jpaPersistenceProvider" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="jpaPersistenceProvider" />
+    </bean>
+
+    <bean id="metadataProvider" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="metadataProvider" />
+    </bean>
+
   	<context:annotation-config />
 	<context:component-scan base-package="org.kuali.kra.web.krad"/>
 

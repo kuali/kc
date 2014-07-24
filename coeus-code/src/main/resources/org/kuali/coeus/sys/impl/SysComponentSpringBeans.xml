@@ -35,7 +35,33 @@
                 <value>org.kuali.coeus.sys</value>
             </list>
         </property>
+        <property name="providers">
+            <list>
+                <ref bean="jpaPersistenceProvider"/>
+                <ref bean="metadataProvider"/>
+            </list>
+        </property>
     </bean>
+
+    <alias alias="kradApplicationDataSource" name="dataSource" />
+
+    <bean id="jpaPersistenceUnitName" class="java.lang.String">
+        <!-- due to lack of modularity kc has to load it's entirety in a single persistence unit -->
+        <constructor-arg value="KC" />
+    </bean>
+
+    <util:list id="jpaPackagesToScan">
+        <value>org.kuali.coeus</value>
+        <value>org.kuali.kra</value>
+    </util:list>
+
+    <util:list id="managedClassNames" />
+
+    <util:list id="additionalMetadataProviders" />
+
+    <util:list id="springMetadataFileLocations" />
+
+    <import resource="classpath:org/kuali/rice/krad/config/KRADSpringBeans-jpa-common.xml" />
 
     <bean id="kcPessimisticLockingJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="kcPessimisticLockService" />
