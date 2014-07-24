@@ -36,33 +36,15 @@
           p:addWithDialog="false" p:layoutManager.renderSequenceField="false">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="startDate"
-                      p:order="10"
-                      p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.period.BudgetPeriod"/>
-                <bean parent="Uif-InputField" p:propertyName="endDate"
-                      p:order="20"
-                      p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.period.BudgetPeriod"/>
-                <bean parent="Uif-InputField" p:propertyName="numberOfMonths" p:label="Months"
-                      p:order="30"
-                      p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.period.BudgetPeriod"/>
-                <bean parent="Uif-InputField" p:propertyName="totalCost"
-                      p:order="40"
-                      p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.period.BudgetPeriod"/>
-                <bean parent="Uif-InputField" p:propertyName="totalDirectCost"
-                      p:order="50"
-                      p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.period.BudgetPeriod"/>
-                <bean parent="Uif-InputField" p:propertyName="totalIndirectCost"
-                      p:order="60"
-                      p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.period.BudgetPeriod"/>
-                <bean parent="Uif-InputField" p:propertyName="costSharingAmount"
-                      p:order="70"
-                      p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.period.BudgetPeriod"/>
-                <bean parent="Uif-InputField" p:propertyName="totalCostLimit"
-                      p:order="80"
-                      p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.period.BudgetPeriod"/>
-                <bean parent="Uif-InputField" p:propertyName="directCostLimit"
-                      p:order="90"
-                      p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.period.BudgetPeriod"/>
+                <bean parent="Uif-InputField" p:propertyName="startDate" p:order="10"/>
+                <bean parent="Uif-InputField" p:propertyName="endDate" p:order="20"/>
+                <bean parent="Uif-InputField" p:propertyName="numberOfMonths" p:label="Months" p:order="30"/>
+                <bean parent="Uif-InputField" p:propertyName="totalCost" p:order="40"/>
+                <bean parent="Uif-InputField" p:propertyName="totalDirectCost" p:order="50"/>
+                <bean parent="Uif-InputField" p:propertyName="totalIndirectCost" p:order="60"/>
+                <bean parent="Uif-InputField" p:propertyName="costSharingAmount" p:order="70"/>
+                <bean parent="Uif-InputField" p:propertyName="totalCostLimit" p:order="80"/>
+                <bean parent="Uif-InputField" p:propertyName="directCostLimit" p:order="90"/>
             </list>
         </property>
         <property name="lineActions">
@@ -101,13 +83,15 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Recalculate with changes"
-                              p:order="10"/>
+                              p:methodToCall="recalculateBudgetWithChanges" p:order="10"/>
                         <bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Reset to period defaults"
-                              p:order="20"/>
+                              p:methodToCall="resetToBudgetPeriodDefault" p:order="20"/>
                     </list>
                 </property>
             </bean>
         </property>
     </bean>
-
+	<!-- this dialog will be triggered from the controller -->
+	<bean id="PropBudget-ConfirmPeriodChangesDialog" parent="Uif-DialogGroup-YesNo" p:promptText="@{defaultBudgetPeriodWarningMessage}"/>
+      
 </beans>

@@ -56,14 +56,6 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
         salaryCalculator.calculate(boundary);
     }
 
-    private boolean isDocumentOhRateSameAsFormOhRate() {
-        if(budget.getOhRateClassCode()!= null && getBudgetFormFromGlobalVariables()!= null && StringUtils.equalsIgnoreCase(budget.getOhRateClassCode(), getBudgetFormFromGlobalVariables().getOhRateClassCodePrevValue())){
-            return true;
-        }
-        
-        return false;
-    }
-    
     private Map<String, Boolean> saveApplyRateFlagsForReset() { 
         Map<String, Boolean> applyRateFlags = new HashMap<String, Boolean>();
         if(budgetPersonnelLineItem != null && CollectionUtils.isNotEmpty(budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts())) {
@@ -83,7 +75,7 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
        Long versionNumber = -1L;
        Map<String, Boolean> applyRateFlags = null;
        
-       if (!isDocumentOhRateSameAsFormOhRate() || getBudgetRateService().performSyncFlag(budget)){
+       if (getBudgetRateService().performSyncFlag(budget)){
            if (budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().size() > 0) {
                versionNumber = budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().get(0).getVersionNumber();
            }

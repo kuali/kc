@@ -13,6 +13,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 public class ProposalBudgetForm extends UifFormBase {
 
 	private ProposalDevelopmentBudgetExt budget;
+	private String defaultBudgetPeriodWarningMessage;
 
 	public ProposalDevelopmentBudgetExt getBudget() {
 		return budget;
@@ -50,5 +51,12 @@ public class ProposalBudgetForm extends UifFormBase {
         }
         return 0;
     }
+    
+	public String getDefaultBudgetPeriodWarningMessage() {
+		return defaultBudgetPeriodWarningMessage;
+	}
+	public void setDefaultBudgetPeriodWarningMessage(String defaultBudgetPeriodWarningMessage) {
+		this.defaultBudgetPeriodWarningMessage = defaultBudgetPeriodWarningMessage;
+	}
 
 }

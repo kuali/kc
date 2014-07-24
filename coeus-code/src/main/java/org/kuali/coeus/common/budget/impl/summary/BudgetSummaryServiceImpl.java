@@ -24,7 +24,6 @@ import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
 import org.kuali.coeus.common.budget.framework.core.BudgetCommonServiceFactory;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyPostProcessor;
-import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
@@ -33,7 +32,6 @@ import org.kuali.kra.infrastructure.OnOffCampusFlagConstants;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -51,9 +49,6 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     private static final String BUDGET_DATE_CHANGE_AND_DELETE_WARNING_MSG = "Changing the budget period dates will result in changes being made to line item Expenses & recalculation of the budget, and one or more periods to be deleted have expense line items that will be deleted. Are you sure you want to proceed? ";
     private static final String BUDGET_PERIOD_DELETE_WARNING_MSG = "One or more periods to be deleted have expense line items that will be deleted. Are you sure you want to proceed?";
 
-    @Autowired
-    @Qualifier("businessObjectService")
-    private BusinessObjectService businessObjectService;
     @Autowired
     @Qualifier("budgetCalculationService")
     private BudgetCalculationService budgetCalculationService;
@@ -203,7 +198,6 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         //remove any existing periods beyond the number of default periods
         while (budget.getBudgetPeriods().size() > newPeriods.size()) {
             deleteBudgetPeriod(budget, budget.getBudgetPeriods().size()-1);
-           //budget.getBudgetPeriods().remove(budget.getBudgetPeriods().size()-1);
         }
         //loop through the new periods and correct the dates to match the default set
         //or add a new period if one does not exist
@@ -334,22 +328,6 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         
     }
     
-    /**
-     * Gets the businessObjectService attribute.
-     * @return Returns the businessObjectService.
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    /**
-     * Sets the businessObjectService attribute value.
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
     public final BudgetCalculationService getBudgetCalculationService() {
         return budgetCalculationService;
     }
@@ -360,7 +338,6 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     @Override
     public void updateOnOffCampusFlag(Budget budget, String onOffCampusFlag) {
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
-        //List<BudgetPersonnelDetails> budgetPersonnelDetails = budget.getBudgetPersonnelDetailsList();
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
             /* update line items */
             if (budgetPeriod.getBudgetLineItems() != null) {

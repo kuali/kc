@@ -133,6 +133,5 @@ public interface BudgetCalculationService {
      */
     public void syncToPeriodDirectCostLimit(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
     
-    public BudgetForm getBudgetFormFromGlobalVariables();
 
 }

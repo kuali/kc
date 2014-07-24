@@ -72,28 +72,10 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     @Override
     public void calculateBudget(Budget budget){
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
-        String ohRateClassCodePrevValue = null;
-        
-        BudgetForm form = getBudgetFormFromGlobalVariables();
-
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             if(isCalculationRequired(budget,budgetPeriod)){
-                String workOhCode = null;
-                if(budget.getOhRateClassCode()!=null && form!=null && budget.getBudgetPeriods().size() > budgetPeriod.getBudgetPeriod()){
-                    workOhCode = form.getOhRateClassCodePrevValue();
-                }
                 calculateBudgetPeriod(budget, budgetPeriod);
-                if(budget.getOhRateClassCode()!=null && form!=null && budget.getBudgetPeriods().size() > budgetPeriod.getBudgetPeriod()){
-                        // this should be set at the last period, otherwise, only the first period will be updated properly because lots of places check prevohrateclass
-                    ohRateClassCodePrevValue = form.getOhRateClassCodePrevValue();
-                    form.setOhRateClassCodePrevValue(workOhCode);
-                }
             }
-        }
-        if (form!=null && form.getOhRateClassCodePrevValue() == null && ohRateClassCodePrevValue != null) {
-            // if not all periods are calculated, then this code has potential to be null, and this will force
-            // to create calamts again
-            form.setOhRateClassCodePrevValue(ohRateClassCodePrevValue);            
         }
         if(budgetPeriods!=null && !budgetPeriods.isEmpty()){
             syncCostsToBudget(budget);
@@ -909,22 +891,5 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             }
         }
     }
-    @Override
-    public BudgetForm getBudgetFormFromGlobalVariables() {
-        BudgetForm budgetForm = null;
-        KualiForm form = KNSGlobalVariables.getKualiForm();
-        if (form != null && form instanceof BudgetForm) {
-            budgetForm = (BudgetForm)form;
-        }
-        return budgetForm;
-    }
 
-    protected void addBudgetLimits(List<ScaleTwoDecimal> budgetLimits, AwardBudgetLineItemCalculatedAmountExt awardCalcAmt, boolean isPrevBudget) {
-        if (isPrevBudget) {
-            budgetLimits.set(1, budgetLimits.get(1).add(awardCalcAmt.getCalculatedCost()));
-        } else {
-            budgetLimits.set(0, budgetLimits.get(0).add(awardCalcAmt.getCalculatedCost()));
-        }
-        budgetLimits.set(2, budgetLimits.get(2).add(awardCalcAmt.getCalculatedCost()));
-    }
 }
