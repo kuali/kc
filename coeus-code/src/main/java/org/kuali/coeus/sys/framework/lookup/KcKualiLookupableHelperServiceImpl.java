@@ -27,7 +27,7 @@ public abstract class KcKualiLookupableHelperServiceImpl extends KualiLookupable
     @Autowired
     @Qualifier("businessObjectService")
     @Override
-    public void setBusinessObjectService(BusinessObjectService businessObjectyService) {
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         super.setBusinessObjectService(businessObjectService);
     }
 
