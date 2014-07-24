@@ -25,7 +25,6 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.s2s.generator.S2SModularBudgetTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-@SuppressWarnings("deprecation")
 public class RRSF424_2_0_V2GeneratorTest extends S2SModularBudgetTestBase<RRSF424_2_0_V2Generator>{
 
 	private BusinessObjectService businessObjectService = null;
@@ -33,7 +32,6 @@ public class RRSF424_2_0_V2GeneratorTest extends S2SModularBudgetTestBase<RRSF42
 	@Override
 	protected void prepareData(ProposalDevelopmentDocument document)
 			throws Exception {
-		// TODO Auto-generated method stub
 		businessObjectService = KcServiceLocator
 				.getService(BusinessObjectService.class);
 
