@@ -312,15 +312,8 @@ public class BudgetSummaryAction extends BudgetAction {
                 KcServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
                         budget.getOnOffCampusFlag());
             }
-            /* calculate first period - only period 1 exists at this point */
-            getBudgetSummaryService().calculateBudget(budget);
             /* generate all periods */
             getBudgetSummaryService().generateAllPeriods(budget);
-
-            /* calculate all periods */
-            getBudgetSummaryService().calculateBudget(budget);
-            // reset the old start/end date if it is changed for some reason
-            getBudgetSummaryService().setupOldStartEndDate(budget, true);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

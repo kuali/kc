@@ -65,4 +65,24 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
         return getUifControllerService().getUIFModelAndView(form);
     }    
 		
+	@MethodAccessible
+    @RequestMapping(params="methodToCall=generateAllPeriods")
+    public ModelAndView generateAllPeriods(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentBudgetExt budget = form.getBudget();
+        DialogResponse dialogResponse = form.getDialogResponse(CONFIRM_PERIOD_CHANGES_DIALOG_ID);
+        boolean confirmRecalculate = true;
+    	if(dialogResponse == null) {
+    		form.setDefaultBudgetPeriodWarningMessage(getKualiConfigurationService().getPropertyValueAsString(QUESTION_RECALCULATE_BUDGET_CONFIRMATION));
+        	return getUifControllerService().showDialog(CONFIRM_PERIOD_CHANGES_DIALOG_ID, true, form);
+    	}else {
+        	confirmRecalculate = dialogResponse.getResponseAsBoolean();
+    	}
+        if(confirmRecalculate) {
+        	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
+            getBudgetSummaryService().generateAllPeriods(budget);
+        }
+		
+        return getUifControllerService().getUIFModelAndView(form);
+	}
+	
 }
