@@ -55,7 +55,6 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalInitiatePage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalInitiateView.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalMedusaSection.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalSummarySection.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalSubmitPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/ProposalOpportunitySearchPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/deliver/ProposalDeliveryInfoPage.xml</value>

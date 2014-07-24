@@ -23,6 +23,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -130,15 +131,8 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ModelAndView mv = super.navigate(form,result,request,response);
-        populateCreditSplits(form);
+        ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).populateCreditSplits(form);
         return mv;
-    }
-
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=populateCreditSplits")
-    public void populateCreditSplits(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
-        getKeyPersonnelService().populateDocument(form.getProposalDevelopmentDocument());
-        form.setCreditSplitListItems(getKeyPersonnelService().createCreditSplitListItems(form.getDevelopmentProposal().getInvestigators()));
-
     }
 
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=save", "pageId=PropDev-CreditAllocationPage"})

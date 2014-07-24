@@ -56,7 +56,7 @@
 				<ref bean="PropDev-CreditAllocationPage"  />
 				<ref bean="PropDev-BudgetPage"/>
 				<ref bean="PropDev-SupplementalPage"/>
-				<bean id="PropDev-SummarySubmit" parent="PropDev-SubmitPage" />
+				<ref bean="PropDev-SubmitPage" />
 			</list>
 		</property>
 		<property name="dialogs">
@@ -147,7 +147,7 @@
 
 	<bean id="PropDev-NavigationMenu-Submit" parent="PropDev-NavigationMenu-Submit-parentBean" />
 	<bean id="PropDev-NavigationMenu-Submit-parentBean" parent="Uif-NavigationActionLink"
-		p:navigateToPageId="PropDev-SummarySubmit" p:actionLabel="Summary/Submit"
+		p:navigateToPageId="PropDev-SubmitPage" p:actionLabel="Summary/Submit"
 		p:iconClass="icon-signout" />
 
 	<bean id="PropDev-DocumentHeader" parent="PropDev-DocumentHeader-parentBean" />
@@ -200,8 +200,6 @@
 							p:iconClass="icon-list-ol" p:order="50" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Access"
 							p:iconClass="icon-lock" p:order="60" />
-                        <bean parent="Uif-ActionLink" p:actionLabel="Summary" p:methodToCall="populateCreditSplits"
-                              p:iconClass="icon-eye" p:order="70" p:successCallback="showLightboxComponent('PropDev-SummarySection');" />
 					</list>
 				</property>
 			</bean>

@@ -17,16 +17,18 @@
 		parent="Uif-DocumentPage" p:headerText="Submit">
 		<property name="items">
 			<list>
-		      <bean parent="Uif-StepProgressBar" p:order="10" >
-		     <property name="currentStep" value="@{#ViewHelper.displayProposalProgressCode(document.documentHeader.workflowDocument)}"/>
-              <property name="steps">
-                     <map>
-                     <entry key="#{T(org.kuali.rice.kew.api.document.DocumentStatus).SAVED.name()}" value="Saved"/>
-                     <entry key="#{T(org.kuali.rice.kew.api.document.DocumentStatus).ENROUTE.name()}" value="Routing"/>
-                     <entry key="#{T(org.kuali.rice.kew.api.document.DocumentStatus).FINAL.name()}" value="Approved"/>
-                     </map>
-              </property>
-       </bean>				
+		        <bean parent="Uif-StepProgressBar" p:order="10" >
+                    <property name="currentStep" value="@{#ViewHelper.displayProposalProgressCode(document.documentHeader.workflowDocument)}"/>
+                    <property name="steps">
+                         <map>
+                         <entry key="#{T(org.kuali.rice.kew.api.document.DocumentStatus).SAVED.name()}" value="Saved"/>
+                         <entry key="#{T(org.kuali.rice.kew.api.document.DocumentStatus).ENROUTE.name()}" value="Routing"/>
+                         <entry key="#{T(org.kuali.rice.kew.api.document.DocumentStatus).FINAL.name()}" value="Approved"/>
+                         </map>
+                    </property>
+                </bean>
+                <bean parent="PropDev-SubmitPage-SummaryTabGroup"  p:render="@{#ViewHelper.isCreditSplitEnabled()}" p:order="20"/>
+                <bean parent="PropDev-SubmitPage-NoCreditAllocation-SummaryTabGroup"  p:render="@{!#ViewHelper.isCreditSplitEnabled()}" p:order="30"/>
 			</list>
 		</property>
 		<property name="header">
@@ -51,12 +53,208 @@
 					       <bean parent="Uif-MenuAction" p:actionLabel="Delete Proposal" p:methodToCall="deleteProposal" p:order="40"/>
 					    </list>
 					  </property>
-					 </bean> 
+					 </bean>
 				</list>
 			</property>
 		</bean> 
 	
 	 </property>
 	</bean>
+
+    <bean id="PropDev-SubmitPage-SummaryTabGroup" parent="PropDev-SubmitPage-SummaryTabGroup-parentBean" />
+    <bean id="PropDev-SubmitPage-SummaryTabGroup-parentBean" abstract="true"
+          parent="PropDev-SubmitPage-NoCreditAllocation-SummaryTabGroup">
+        <property name="items">
+            <list merge="true">
+                <bean parent="PropDev-SubmitPage-CreditAllocation" p:readOnly="true" p:order="30" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-SubmitPage-NoCreditAllocation-SummaryTabGroup" parent="PropDev-SubmitPage-NoCreditAllocation-SummaryTabGroup-parentBean" />
+    <bean id="PropDev-SubmitPage-NoCreditAllocation-SummaryTabGroup-parentBean" abstract="true"
+          parent="Uif-TabGroup">
+        <property name="items">
+            <list>
+                <bean parent="PropDev-SubmitPage-ProposalSummary" p:order="10" />
+                <bean parent="PropDev-SubmitPage-Personnel" p:order="20" />
+                <bean parent="PropDev-SubmitPage-Questionnaire" p:order="40" />
+                <bean parent="PropDev-SubmitPage-SupplementalInfo" p:order="50" />
+            </list>
+        </property>
+    </bean>
+
+
+
+    <bean id="PropDev-SubmitPage-ProposalSummary" parent="PropDev-SubmitPage-ProposalSummary-parentBean" />
+    <bean id="PropDev-SubmitPage-ProposalSummary-parentBean" abstract="true"
+          parent="Uif-GridCondensedSection" p:headerText="Proposal Summary" p:fieldBindingObjectPath="document.developmentProposal">
+        <property name="items">
+            <list>
+                <bean parent="PropDev-DataField-NoColon" p:propertyName="title" p:fieldLabel.labelText="Title"
+                      p:order="10" />
+                <bean parent="PropDev-DataField-NoColon" p:propertyName="principalInvestigatorName"
+                      p:order="20" />
+                <bean parent="Uif-MessageField" p:messageText="@{document.developmentProposal.ownedByUnitNumber} - @{document.developmentProposal.ownedByUnit.unitName}"
+                      p:fieldLabel.labelText="Lead Unit" p:fieldLabel.renderColon="false"
+                      p:order="30" />
+                <bean parent="PropDev-DataField-NoColon" p:propertyName="activityType.description"
+                      p:order="40" />
+                <bean parent="PropDev-DataField-NoColon" p:propertyName="proposalNumber"
+                      p:order="50" />
+                <bean parent="PropDev-DataField-NoColon" p:propertyName="requestedStartDateInitial"
+                      p:order="60" />
+                <bean parent="PropDev-DataField-NoColon" p:propertyName="requestedEndDateInitial"
+                      p:order="70" />
+                <bean parent="Uif-MessageField"  p:messageText="@{document.developmentProposal.subcontracts ne null?document.developmentProposal.subcontracts?'Yes':'No':'No'}"
+                      p:fieldLabel.labelText="Include Subaward(s)?" p:fieldLabel.renderColon="false" p:order="80" />
+                <bean parent="PropDev-DataField-NoColon" p:propertyName="sponsor.sponsorName"
+                      p:order="90"  />
+                <bean parent="PropDev-DataField-NoColon" p:propertyName="deadlineDate"
+                      p:order="100" />
+                <bean parent="PropDev-DataField-NoColon" p:propertyName="deadlineTypeRef.description"
+                      p:fieldLabel.labelText="Sponsor Deadline Type"
+                      p:order="110" />
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="PropDev-SubmitPage-Personnel" parent="PropDev-SubmitPage-Personnel-parentBean" />
+    <bean id="PropDev-SubmitPage-Personnel-parentBean" abstract="true"
+          parent="Uif-TableCollectionSection" p:headerText="Personnel"
+          p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
+          p:propertyName="document.developmentProposal.proposalPersons" p:fieldBindingObjectPath="document.developmentProposal"
+          p:renderAddLine="false" p:layoutManager.richTable.render="false" p:renderInactiveToggleButton="false"
+          p:renderLineActions="false" p:layoutManager.renderSequenceField="false"  >
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="fullName" p:fieldLabel.labelText="Key Person" p:order="10"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.getRole().getDescription()}" p:fieldLabel.labelText="Role" p:order="20"/>
+                <bean parent="Uif-FieldGroupBase" p:fieldLabel.labelText="Unit" p:order="30">
+                    <property name="group">
+                        <bean parent="PropDev-SubmitPage-UnitCollectionGroup" />
+                    </property>
+                </bean>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.isQuestionnairesCompleted()?'complete':'incomplete'} [0]"
+                      p:fieldLabel.labelText="Proposal Person Certification"
+                      p:order="40">
+                    <property name="inlineComponents">
+                        <list>
+                            <bean parent="Uif-ActionLink" p:methodToCall=""
+                                  p:actionLabel="(view)"
+                                  p:style="padding-left:0px;margin-right:0px"
+                                  p:order="10"  />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="layoutManager.libraryCssClasses">
+            <list>
+                <value>table</value>
+                <value>table-condensed</value>
+            </list>
+        </property>
+        <property name="layoutManager.cssClasses">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="PropDev-SubmitPage-CertificationDetail" parent="PropDev-SubmitPage-CertificationDetail-parentBean"/>
+    <bean id="PropDev-SubmitPage-CertificationDetail-parentBean" abstract="true" parent="Uif-DialogGroup">
+        <property name="items">
+            <bean parent="Uif-FieldGroupBase">
+                <property name="group">
+                    <bean parent="PropDev-PersonnelPage-Questionnaire">
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+
+
+    <bean id="PropDev-SubmitPage-UnitCollectionGroup" parent="PropDev-SubmitPage-UnitCollectionGroup-parentBean"/>
+    <bean id="PropDev-SubmitPage-UnitCollectionGroup-parentBean" abstract="true" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-ListCollectionGroup" p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPersonUnit"
+                      p:propertyName="units">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:fieldLabel.render="false" p:propertyName="unit.unitName"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-SubmitPage-CreditAllocation" parent="PropDev-SubmitPage-CreditAllocation-parentBean" />
+    <bean id="PropDev-SubmitPage-CreditAllocation-parentBean" abstract="true"
+          parent="PropDev-CreditAllocation-Section">
+        <property name="items">
+            <list merge="true">
+                <bean parent="PropDev-SubmitPage-CreditAllocationCollection"
+                      p:render="@{!#emptyList(document.developmentProposal.investigators)}" p:order="10"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-SubmitPage-CreditAllocationCollection" parent="PropDev-SubmitPage-CreditAllocationCollection-parentBean"/>
+    <bean id="PropDev-SubmitPage-CreditAllocationCollection-parentBean" abstract="true" parent="PropDev-CreditAllocation-Collection">
+        <property name="header.rightGroup">
+            <null/>
+        </property>
+        <property name="columnFieldPrototype">
+            <bean parent="Uif-DataField"  p:cssClasses="@{#line ne null?#line.getClass().equals(#collectionGroup.collectionObjectClass)?#line.lineType:'':''}" />
+        </property>
+    </bean>
+
+    <bean id="PropDev-SubmitPage-Questionnaire" parent="PropDev-SubmitPage-Questionnaire-parentBean" />
+    <bean id="PropDev-SubmitPage-Questionnaire-parentBean" abstract="true"
+          parent="PropDev-QuestionnairePage-Section" p:readOnly="true"/>
+
+
+    <bean id="PropDev-SubmitPage-SupplementalInfo" parent="PropDev-SubmitPage-SupplementalInfo-parentBean" />
+    <bean id="PropDev-SubmitPage-SupplementalInfo-parentBean" abstract="true"
+          parent="Uif-TableCollectionSection"
+          p:collectionObjectClass="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue"
+          p:propertyName="document.customDataList"
+          p:fieldBindingObjectPath="document"
+          p:renderLineActions="false" p:renderAddLine="false"
+          p:layoutManager.richTable.render="true" p:layoutManager.renderSequenceField="false"
+          p:header.headerText="Supplemental Info">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:fieldLabel.labelText=" "
+                      p:propertyName="customAttribute.label" p:order="10"/>
+                <bean parent="Uif-DataField" p:propertyName="value" p:order="20" />
+            </list>
+        </property>
+        <property name="layoutManager.groupingPropertyNames">
+            <list>
+                <value>customAttribute.groupName</value>
+            </list>
+        </property>
+        <property name="layoutManager.richTable.templateOptions">
+            <map>
+                <entry key="bPaginate" value="false" />
+                <entry key="bFilter" value="false"/>
+                <entry key="bInfo" value="false"/>
+                <entry key="aaSorting" value="[[1,'asc']]" />
+            </map>
+        </property>
+        <property name="layoutManager.libraryCssClasses">
+            <list>
+                <value>table</value>
+                <value>table-condensed</value>
+            </list>
+        </property>
+        <property name="layoutManager.cssClasses">
+            <null/>
+        </property>
+    </bean>
 
 </beans>
