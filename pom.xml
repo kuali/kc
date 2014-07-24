@@ -110,7 +110,7 @@
         <velocity.version>1.6.4</velocity.version>
         <xalan.version>2.7.1</xalan.version>
         <xercesImpl.version>2.9.1</xercesImpl.version>
-        <xmlbeans.version>2.6.0</xmlbeans.version>
+        <xmlbeans.version>2.4.0</xmlbeans.version>
         <xmlsec.version>1.5.6</xmlsec.version>
         <xstream.version>1.2.2</xstream.version>
         <extra-enforcer-rules.version>1.0-beta-2</extra-enforcer-rules.version>
@@ -596,13 +596,6 @@
                         <verbose>false</verbose>
                         <quiet>true</quiet>
                     </configuration>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.apache.xmlbeans</groupId>
-                            <artifactId>xmlbeans</artifactId>
-                            <version>${xmlbeans.version}</version>
-                        </dependency>
-                    </dependencies>
                 </plugin>
                 
                 <plugin>
