@@ -38,5 +38,6 @@
     <bean id="awardService" parent="grlImporter" p:serviceName="awardService" />
     <bean id="institutionalProposalService" parent="grlImporter" p:serviceName="institutionalProposalService" />
     <bean id="krmsCacheAdminService" parent="grlImporter" p:serviceName="krmsCacheAdminService" />
+    <bean id="globalVariableService" parent="grlImporter" p:serviceName="globalVariableService" />
 
 </beans>
