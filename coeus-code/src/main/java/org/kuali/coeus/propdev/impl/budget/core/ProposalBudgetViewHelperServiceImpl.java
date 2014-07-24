@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.budget.core;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +23,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +46,21 @@ public class ProposalBudgetViewHelperServiceImpl extends ViewHelperServiceImpl {
    			 action.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, propBudgetForm.getOrderedNavigationActions().get(indexOfCurrentAction+1).getNavigateToPageId());
    		 }
    	 }
-    }    
+    }
 
+    public boolean isBudgetLineItemEditable(String selectedCollectionPath, String index, HashMap<String,List<String>> editableBudgetLineItem) {
+    	boolean retVal = false;
+        if (editableBudgetLineItem.containsKey(selectedCollectionPath)) {
+            if (editableBudgetLineItem.get(selectedCollectionPath).contains(index)) {
+                retVal = true;
+            }
+        }
+        return retVal;
+    }
+
+    @Override
+    public void processAfterSaveLine(ViewModel model, Object lineObject, String collectionId, String collectionPath) {
+    	getDataObjectService().save(lineObject);
+    }
+    
 }

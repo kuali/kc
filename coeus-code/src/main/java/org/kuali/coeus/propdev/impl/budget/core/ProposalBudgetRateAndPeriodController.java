@@ -1,10 +1,8 @@
 package org.kuali.coeus.propdev.impl.budget.core;
 
 import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_RECALCULATE_BUDGET_CONFIRMATION;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
@@ -84,5 +82,5 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
 		
         return getUifControllerService().getUIFModelAndView(form);
 	}
-	
+    
 }

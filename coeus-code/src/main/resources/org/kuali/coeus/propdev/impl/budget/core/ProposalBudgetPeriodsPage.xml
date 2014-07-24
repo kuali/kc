@@ -36,26 +36,48 @@
           p:addWithDialog="false" p:layoutManager.renderSequenceField="false">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="startDate" p:order="10"/>
-                <bean parent="Uif-InputField" p:propertyName="endDate" p:order="20"/>
-                <bean parent="Uif-InputField" p:propertyName="numberOfMonths" p:label="Months" p:order="30"/>
-                <bean parent="Uif-InputField" p:propertyName="totalCost" p:order="40"/>
-                <bean parent="Uif-InputField" p:propertyName="totalDirectCost" p:order="50"/>
-                <bean parent="Uif-InputField" p:propertyName="totalIndirectCost" p:order="60"/>
-                <bean parent="Uif-InputField" p:propertyName="costSharingAmount" p:order="70"/>
-                <bean parent="Uif-InputField" p:propertyName="totalCostLimit" p:order="80"/>
-                <bean parent="Uif-InputField" p:propertyName="directCostLimit" p:order="90"/>
+                <bean parent="Uif-InputField" p:propertyName="startDate"
+                      p:order="10"
+                      p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                <bean parent="Uif-InputField" p:propertyName="endDate"
+                      p:order="20"
+                      p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                <bean parent="Uif-InputField" p:propertyName="numberOfMonths" p:label="Months"
+                      p:order="30"
+                      p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                <bean parent="Uif-InputField" p:propertyName="totalCost"
+                      p:order="40"
+                      p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                <bean parent="Uif-InputField" p:propertyName="totalDirectCost"
+                      p:order="50"
+                      p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                <bean parent="Uif-InputField" p:propertyName="totalIndirectCost"
+                      p:order="60"
+                      p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                <bean parent="Uif-InputField" p:propertyName="costSharingAmount"
+                      p:order="70"
+                      p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                <bean parent="Uif-InputField" p:propertyName="totalCostLimit"
+                      p:order="80"
+                      p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                <bean parent="Uif-InputField" p:propertyName="directCostLimit"
+                      p:order="90"
+                      p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
             </list>
         </property>
         <property name="lineActions">
             <list>
                 <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="saveLine"
-                      p:hidden="true" p:actionLabel="Save" p:order="10"/>
-                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="cancelEdit"
-                      p:hidden="true" p:actionLabel="cancel" p:order="20"/>
-                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="editLine"
-                      p:hidden="false" p:actionLabel="Edit" p:order="30"/>
+                      p:render="@{#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" 
+                      p:actionLabel="Save" p:order="10"/>
+                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="cancelEditLineItem"
+                      p:render="@{#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" 
+                      p:actionLabel="Cancel" p:order="20"/>
+                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="editLineItem"
+                      p:render="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" 
+                      p:actionLabel="Edit" p:order="30"/>
                 <bean parent="Uif-DeleteLineAction-IconOnly" p:order="40"
+                      p:render="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" 
                       p:iconClass="icon-trash"/>
             </list>
         </property>

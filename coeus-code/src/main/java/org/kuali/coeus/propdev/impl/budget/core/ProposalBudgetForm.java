@@ -1,20 +1,28 @@
 package org.kuali.coeus.propdev.impl.budget.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.ToggleMenu;
+import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 public class ProposalBudgetForm extends UifFormBase {
 
 	private ProposalDevelopmentBudgetExt budget;
 	private String defaultBudgetPeriodWarningMessage;
+    private Map<String,List<String>> editableBudgetLineItems;
 
+    public void initialize() {
+    	editableBudgetLineItems = new HashMap<String,List<String>>();
+    }
+    
 	public ProposalDevelopmentBudgetExt getBudget() {
 		return budget;
 	}
@@ -58,5 +66,15 @@ public class ProposalBudgetForm extends UifFormBase {
 	public void setDefaultBudgetPeriodWarningMessage(String defaultBudgetPeriodWarningMessage) {
 		this.defaultBudgetPeriodWarningMessage = defaultBudgetPeriodWarningMessage;
 	}
+
+	public Map<String, List<String>> getEditableBudgetLineItems() {
+		return editableBudgetLineItems;
+	}
+
+	public void setEditableBudgetLineItems(
+			Map<String, List<String>> editableBudgetLineItems) {
+		this.editableBudgetLineItems = editableBudgetLineItems;
+	}
+    
 
 }

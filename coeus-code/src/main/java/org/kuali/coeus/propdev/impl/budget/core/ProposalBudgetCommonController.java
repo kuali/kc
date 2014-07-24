@@ -1,6 +1,8 @@
 package org.kuali.coeus.propdev.impl.budget.core;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +12,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.field.AttributeQueryResult;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +44,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	@RequestMapping(params="methodToCall=start")
 	public ModelAndView start(@RequestParam("budgetId") String budgetId, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		form.setBudget(getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("budgetId", Long.valueOf(budgetId))).build()));
+		form.initialize();
 		return getUifControllerService().getUIFModelAndViewWithInit(form, "PropBudget-DefaultView");
 	}
 	
@@ -74,6 +78,13 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 
 	@RequestMapping(params="methodToCall=saveLine")
 	public ModelAndView saveLine(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        
+        if(form.getEditableBudgetLineItems() != null && selectedCollectionPath !=null && form.getEditableBudgetLineItems().containsKey(selectedCollectionPath)){
+            form.getEditableBudgetLineItems().get(selectedCollectionPath).remove(selectedLine);
+        }
+		
 		return getUifControllerService().saveLine(form, result, request, response);
 	}
 
@@ -167,6 +178,33 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 		return uifExportControllerService.retrieveCollectionPage(form, result, request, response);
 	}
 
+    @RequestMapping(params="methodToCall=editLineItem")
+    public ModelAndView editLineItem(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result,
+                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
+        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if(form.getEditableBudgetLineItems().containsKey(selectedCollectionPath)) {
+            form.getEditableBudgetLineItems().get(selectedCollectionPath).add(selectedLine);
+        } else {
+            List<String> newKeyList = new ArrayList<String>();
+            newKeyList.add(selectedLine);
+            form.getEditableBudgetLineItems().put(selectedCollectionPath,newKeyList);
+        }
+        return getUifControllerService().refresh(form, result, request, response);
+    }
+
+    @RequestMapping(params="methodToCall=cancelEditLineItem")
+    public ModelAndView cancelEditLineItem(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result,
+                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
+        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+
+        if(form.getEditableBudgetLineItems().containsKey(selectedCollectionPath)){
+            form.getEditableBudgetLineItems().get(selectedCollectionPath).remove(selectedLine);
+        }
+        return getUifControllerService().refresh(form, result, request, response);
+    }
+    
 	public UifExportControllerService getUifExportControllerService() {
 		return uifExportControllerService;
 	}
