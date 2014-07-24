@@ -100,13 +100,6 @@
         <property name="lookupableHelperService" ref="lookupableDevelopmentProposalLookupableHelperService" />
     </bean>
 
-    <bean id="lookupableDevelopmentProposalLookupableHelperService" class="org.kuali.coeus.propdev.impl.core.LookupableDevelopmentProposalLookupableHelperServiceImpl"
-          scope="prototype">
-        <property name="proposalPersonDao" ref="proposalPersonDao" />
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="documentService" ref="documentService" />
-    </bean>
-
     <bean id="kcCoreCallbackService" abstract="true" class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
           p:serviceBus-ref="rice.ksb.serviceBus">
         <property name="serviceNameSpaceURI">
