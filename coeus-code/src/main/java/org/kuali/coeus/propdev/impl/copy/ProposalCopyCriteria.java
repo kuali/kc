@@ -37,13 +37,13 @@ public class ProposalCopyCriteria extends BusinessObjectBase {
      * <code>BUDGET_ALL_VERSIONS</code> is the value for BudgetVersions
      * to indicate that all budget versions are to be copied.
      */
-    public static final String BUDGET_ALL_VERSIONS = "all versions";
+    public static final String BUDGET_ALL_VERSIONS = "ALL";
     
     /**
      * <code>BUDGET_FINAL_VERSION</code> is the value for BudgetVersions
      * to indicate that only the final budget is to be copied.
      */
-    public static final String BUDGET_FINAL_VERSION = "final version";
+    public static final String BUDGET_FINAL_VERSION = "FINAL";
     
     private boolean includeAttachments;
     private boolean includeBudget;
@@ -94,7 +94,7 @@ public class ProposalCopyCriteria extends BusinessObjectBase {
 
     /**
      * Sets the includeQuestionnaires attribute value.
-     * @param includeQuestionnaires The includeQuestionnaires to set.
+     * @param includeQuestionnaire The includeQuestionnaires to set.
      */
     public void setIncludeQuestionnaire(boolean includeQuestionnaire) {
         this.includeQuestionnaire = includeQuestionnaire;

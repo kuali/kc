@@ -25,8 +25,8 @@ http://www.springframework.org/schema/util
 http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 
-  <bean id="PropDev-CopySection" parent="PropDev-CopySection-ParentBean" />
-  <bean id="PropDev-CopySection-ParentBean" abstract="true" parent="Uif-DialogBase"
+  <bean id="PropDev-CopyDialog-Section" parent="PropDev-CopyDialog-Section-ParentBean" />
+  <bean id="PropDev-CopyDialog-Section-ParentBean" abstract="true" parent="Uif-DialogBase"
         p:fieldBindingObjectPath="proposalCopyCriteria" p:resetDataOnRefresh="true"
         p:retrieveViaAjax="true">
       <property name="header">
@@ -34,7 +34,7 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
       </property>
       <property name="items">
           <list>
-              <bean parent="PropDev-CopySectionPage1" p:order="10" />
+              <bean parent="PropDev-CopyDialog" p:order="10" />
           </list>
       </property>
 
@@ -42,7 +42,7 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
           <bean parent="Uif-FooterBase">
               <property name="items">
                   <list>
-                      <bean parent="PropDev-CopySectionButton-Continue" p:ajaxSubmit="false"
+                      <bean parent="PropDev-CopyDialog-Button-Continue" p:ajaxSubmit="false"
                             p:actionLabel="Copy..." p:methodToCall="copy" p:successCallback="dismissDialog('PropDev-CopySection');" p:performClientSideValidation="false" p:order="10"/>
                       <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close"
                             p:dialogDismissOption="IMMEDIATE" p:dialogResponse="false" p:order="20"/>
@@ -52,8 +52,8 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
       </property>
     </bean>
 
-    <bean id="PropDev-CopySectionPage1" parent="PropDev-CopySectionPage1-parentBean" />
-    <bean id="PropDev-CopySectionPage1-parentBean" abstract="true"
+    <bean id="PropDev-CopyDialog" parent="PropDev-CopyDialog-parentBean" />
+    <bean id="PropDev-CopyDialog-parentBean" abstract="true"
           parent="Uif-CssGridSection-1FieldLabelColumn">
         <property name="items">
             <list>
@@ -63,7 +63,7 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
                       p:fieldLabel.labelText="Original Lead Unit" p:fieldLabel.renderColon="false"
                       p:order="20" />
 
-                <bean parent="PropDev-CopySection-OwnedByUnitNumberField" p:propertyName="leadUnitNumber"
+                <bean parent="PropDev-CopyDialog-OwnedByUnitNumberField" p:propertyName="leadUnitNumber"
                       p:enableAutoQuickfinder="false"
                       p:order="30"/>
 
@@ -73,7 +73,7 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
                     </property>
                 </bean>
 
-                <bean id="PropDev-CopySectionPage1-BudgetSelection" parent="PropDev-CopySectionPage1-BudgetSelection-parentBean"
+                <bean id="PropDev-CopyDialog-BudgetSelection" parent="PropDev-CopyDialog-BudgetSelection-parentBean"
                       p:order="50"/>
 
                 <bean parent="Uif-InputField" p:propertyName="includeAttachments" p:order="60" p:fieldLabel.renderColon="false">
@@ -92,8 +92,8 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
     </bean>
 
-    <bean id="PropDev-CopySection-OwnedByUnitNumberField" parent="PropDev-CopySection-OwnedByUnitNumberField-parentBean" />
-    <bean id="PropDev-CopySection-OwnedByUnitNumberField-parentBean"
+    <bean id="PropDev-CopyDialog-OwnedByUnitNumberField" parent="PropDev-CopyDialog-OwnedByUnitNumberField-parentBean" />
+    <bean id="PropDev-CopyDialog-OwnedByUnitNumberField-parentBean"
           abstract="true" parent="Uif-InputField" p:fieldLabel.renderColon="false" >
         <property name="control">
             <bean parent="Uif-DropdownControl"/>
@@ -103,23 +103,23 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
         </property>
     </bean>
 
-    <bean id="PropDev-CopySectionPage1-BudgetSelection-parentBean"
+    <bean id="PropDev-CopyDialog-BudgetSelection-parentBean"
           abstract="true" parent="Uif-InputField" p:fieldLabel.renderColon="false"
-          p:propertyName="budgetVersions" p:label="Budget Vaersion">
+          p:propertyName="budgetVersions" p:label="Budget Version">
         <property name="control">
             <bean parent="Uif-DropdownControl">
                 <property name="options">
                     <list>
-                        <bean parent="Uif-KeyLabelPair" p:key="all version" p:value="All Versions" />
-                        <bean parent="Uif-KeyLabelPair" p:key="final version" p:value="Final Version" />
+                        <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria).BUDGET_ALL_VERSIONS}" p:value="All Versions" />
+                        <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria).BUDGET_FINAL_VERSION}" p:value="Final Version" />
                     </list>
                 </property>
             </bean>
         </property>
     </bean>
 
-    <bean id="PropDev-CopySectionButton-Continue" parent="PropDev-CopySectionButton-Continue-parentBean" />
-    <bean id="PropDev-CopySectionButton-Continue-parentBean"
+    <bean id="PropDev-CopyDialog-Button-Continue" parent="PropDev-CopyDialog-Button-Continue-parentBean" />
+    <bean id="PropDev-CopyDialog-Button-Continue-parentBean"
           abstract="true" parent="Uif-PrimaryActionButton" />
 
 </beans>

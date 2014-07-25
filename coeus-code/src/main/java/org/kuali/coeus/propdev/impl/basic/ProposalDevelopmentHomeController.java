@@ -33,7 +33,6 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.PessimisticLockService;
@@ -60,6 +59,22 @@ import java.util.Map;
 
 @Controller
 public class ProposalDevelopmentHomeController extends ProposalDevelopmentControllerBase {
+
+   @Autowired
+   @Qualifier("pessimisticLockService")
+   private PessimisticLockService pessimisticLockService;
+
+   @Autowired
+   @Qualifier("dataObjectService")
+   private DataObjectService dataObjectService;
+
+   @Autowired
+   @Qualifier("documentService")
+   private DocumentService documentService;
+
+   @Autowired
+   @Qualifier("proposalCopyService")
+   private ProposalCopyService proposalCopyService;
 
    @MethodAccessible
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createProposal")
@@ -88,12 +103,11 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
                 String proposalNumber = proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber();
                 keyMap.put("proposalNumber", proposalNumber);
             }
-            DataObjectService dataObjectService = KcServiceLocator.getService(DataObjectService.class);
             List<S2sAppSubmission> s2sAppSubmissionProposalList =
-                    dataObjectService.findMatching(S2sAppSubmission.class,
+                    getDataObjectService().findMatching(S2sAppSubmission.class,
                             QueryByCriteria.Builder.andAttributes(keyMap).build()).getResults();
 
-            KcServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(proposalDevelopmentDocument.getPessimisticLocks(), GlobalVariables.getUserSession().getPerson());
+            getPessimisticLockService().releaseAllLocksForUser(proposalDevelopmentDocument.getPessimisticLocks(), GlobalVariables.getUserSession().getPerson());
 
             ProposalCopyCriteria proposalCopyCriteria = null;
             proposalCopyCriteria = form.getProposalCopyCriteria();
@@ -110,8 +124,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
                 copiedDocument.getDevelopmentProposal().setPrevGrantsGovTrackingID(s2sAppSubmissionListValue.getGgTrackingId());
             }
 
-            DocumentService docService = KcServiceLocator.getService(DocumentService.class);
-            docService.saveDocument(copiedDocument);
+            getDocumentService().saveDocument(copiedDocument);
 
             form.initialize();
             form.getView().setReadOnly(false);
@@ -119,8 +132,6 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        return this.getTransactionalDocumentControllerService().reload(form);
 
    }
-   protected ProposalCopyService getProposalCopyService (){return KcServiceLocator.getService(ProposalCopyService.class);}
-
    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=save")
    public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -232,4 +243,37 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    protected ScienceKeyword getScienceKeyword(Object element) {
 	   return getDataObjectService().findUnique(ScienceKeyword.class, QueryByCriteria.Builder.forAttribute("code", element).build());
    }
+
+    public PessimisticLockService getPessimisticLockService() {
+        return pessimisticLockService;
+    }
+
+    public void setPessimisticLockService(PessimisticLockService pessimisticLockService) {
+        this.pessimisticLockService = pessimisticLockService;
+    }
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
+
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    public void setProposalCopyService(ProposalCopyService proposalCopyService) {
+        this.proposalCopyService = proposalCopyService;
+    }
+
+    public ProposalCopyService getProposalCopyService() {
+        return proposalCopyService;
+    }
+
 }
