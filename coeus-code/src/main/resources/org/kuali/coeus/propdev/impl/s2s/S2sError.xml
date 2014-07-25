@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
+  <bean id="S2sError" parent="S2sError-parentBean" />
+  <bean id="S2sError-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.s2s.S2sError" />
+		<property name="objectLabel" value="S2s Error" />
+    <property name="inquiryDefinition" >
+      <ref bean="S2sError-inquiryDefinition" />
+    </property>
+    <property name="lookupDefinition" >
+      <ref bean="S2sError-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>
+        <ref bean="S2sError-id" />
+        <ref bean="S2sError-key" />
+        <ref bean="S2sError-message" />
+        <ref bean="S2sError-link" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+    <bean id="S2sError-id" parent="S2sError-id-parentBean" />
+    <bean id="S2sError-id-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="id" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="S2s Error Id" />
+        <property name="shortLabel" value="S2s Error Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="12" />
+        </property>
+        <property name="summary" value="S2s Error Id" />
+        <property name="description" value="S2s Error Id" />
+    </bean>
+
+    <bean id="S2sError-key" parent="S2sError-key-parentBean" />
+    <bean id="S2sError-key-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="key" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Key" />
+        <property name="shortLabel" value="Key" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="50" />
+        </property>
+        <property name="summary" value="Key" />
+        <property name="description" value="Key" />
+    </bean>
+
+    <bean id="S2sError-message" parent="S2sError-message-parentBean" />
+    <bean id="S2sError-message-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="message" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Message" />
+        <property name="shortLabel" value="Message" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="50" />
+        </property>
+        <property name="summary" value="Message" />
+        <property name="description" value="Message" />
+    </bean>
+
+    <bean id="S2sError-link" parent="S2sError-link-parentBean" />
+    <bean id="S2sError-link-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="link" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Link" />
+        <property name="shortLabel" value="Link" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="50" />
+        </property>
+        <property name="summary" value="Link" />
+        <property name="description" value="Link" />
+    </bean>
+
+<!-- Business Object Inquiry Definition -->
+  <bean id="S2sError-inquiryDefinition" parent="S2sError-inquiryDefinition-parentBean" />
+  <bean id="S2sError-InquiryView" parent="S2sError-InquiryView-parentBean"/>
+  <bean id="S2sError-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="S2s Error" />
+    <property name="inquirySections" >
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="S2s Error" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields" >
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="key"/>
+              <bean parent="FieldDefinition" p:attributeName="message" />
+              <bean parent="FieldDefinition" p:attributeName="link"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="S2sError-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="S2s Error"/>
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.s2s.S2sError"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="S2s Error"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="key" parent="Uif-DataField"/>
+              <bean p:propertyName="message" parent="Uif-DataField"/>
+              <bean p:propertyName="link" parent="Uif-DataField"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Business Object Lookup Definition -->
+  <bean id="S2sError-lookupDefinition" parent="S2sError-lookupDefinition-parentBean" />
+  <bean id="S2sError-LookupView" parent="S2sError-LookupView-parentBean"/>
+  <bean id="S2sError-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="S2s Error" /><property name="defaultSort" >
+      <bean parent="SortDefinition"/>
+    </property>
+    <property name="lookupFields" >
+      <list>
+          <bean parent="FieldDefinition" p:attributeName="key"/>
+          <bean parent="FieldDefinition" p:attributeName="message" />
+          <bean parent="FieldDefinition" p:attributeName="link"/>
+      </list>
+    </property>
+    <property name="resultFields" >
+      <list>
+          <bean parent="FieldDefinition" p:attributeName="key"/>
+          <bean parent="FieldDefinition" p:attributeName="message" />
+          <bean parent="FieldDefinition" p:attributeName="link"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="S2sError-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.s2s.S2sError"/>
+    <property name="headerText" value="S2s Error"/>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="key" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="message" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="link" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+          <bean p:propertyName="key" parent="Uif-LookupCriteriaInputField"/>
+          <bean p:propertyName="message" parent="Uif-LookupCriteriaInputField"/>
+          <bean p:propertyName="link" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

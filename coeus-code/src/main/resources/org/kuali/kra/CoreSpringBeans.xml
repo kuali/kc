@@ -580,6 +580,8 @@
                 <value>classpath:org/kuali/kra/datadictionary/RiskLevel.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/rolodex/Rolodex.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sAppAttachments.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sError.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sErrorMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sApplication.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sAppSubmission.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/question/S2sOppFormQuestionnaire.xml</value>
