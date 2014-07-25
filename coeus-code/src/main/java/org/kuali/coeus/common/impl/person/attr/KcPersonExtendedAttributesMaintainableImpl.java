@@ -219,7 +219,7 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
         }
     }
 
-    protected CustomDataHelper getCustomDataHelper() {
+    public CustomDataHelper getCustomDataHelper() {
         return customDataHelper;
     }
 

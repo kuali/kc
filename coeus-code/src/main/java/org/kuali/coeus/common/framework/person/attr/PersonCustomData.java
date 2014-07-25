@@ -34,6 +34,11 @@ public class PersonCustomData extends KcPersistableBusinessObjectBase implements
         return personCustomDataId;
     }
 
+    // putting in getter for "id" since custom data jsp/tag files are expecting it
+    public Long getId() {
+        return personCustomDataId;
+    }
+
     public void setPersonCustomDataId(Long personCustomDataId) {
         this.personCustomDataId = personCustomDataId;
     }
