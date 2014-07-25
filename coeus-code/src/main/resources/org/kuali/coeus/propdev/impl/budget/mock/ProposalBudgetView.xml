@@ -189,7 +189,8 @@
 						<bean parent="Uif-ActionLink" p:actionLabel="Budget Versions"
 							p:iconClass="icon-money" p:order="40" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Autocalculate Periods"
-							p:iconClass="icon-stack" p:order="50" />
+							p:iconClass="icon-stack" p:order="50"
+							p:actionScript="showDialog('PropBudget-MockView-Autocalculate-Periods');" />
 					</list>
 				</property>
 			</bean>
@@ -228,6 +229,18 @@
 					</list>
 				</property>
 			</bean>
+		</property>
+	</bean>
+	
+	<bean id="PropBudget-MockView-Autocalculate-Periods" parent="PropBudget-MockView-Autocalculate-Periods-parentBean" />
+	<bean id="PropBudget-MockView-Autocalculate-Periods-parentBean"
+		parent="Uif-DialogGroup" p:headerText="Autocalculate Periods"
+		p:promptText="You are about to autocalculate data for each period based on the current period (1).[br/]Are you sure you want to do this?">
+		<property name="footer.items">
+			<list>
+				<bean parent="Uif-DialogConfirmButton" p:actionLabel="Yes, Autocalculate All Periods" />
+				<bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" />
+			</list>
 		</property>
 	</bean>
 	
