@@ -33,7 +33,7 @@
                         <property name="items">
                             <list>
                                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="@{auditActivated?'Turn Off':'Turn On'}" p:methodToCall="toggleValidation"
-                                      p:order="10" p:cssClasses="@{auditActivated?'btn-success':'btn-danger'}" p:refreshId="PropDev-DataValidationSection"/>
+                                      p:order="10" p:cssClasses="@{auditActivated?'btn-success':'btn-danger'}" p:successCallback="retrieveComponent('PropDev-DataValidationSection');"/>
                             </list>
                         </property>
                     </bean>

@@ -929,10 +929,10 @@
 		<property name="shortLabel" value="Proposal State" />
 		<property name="maxLength" value="200" />
 		<property name="validationPattern">
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true" />
 		</property>
     <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
+      <bean parent="AlphaNumericPatternConstraint" p:allowWhitespace="true"/>
     </property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="20" />

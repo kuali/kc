@@ -142,18 +142,20 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
         boolean valid = true;
 
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
-        
-        GlobalVariables.getMessageMap().addToErrorPath("document.developmentProposalList[0]");
-        valid &= processProposalRequiredFieldsBusinessRule(proposalDevelopmentDocument);
-        
-        valid &= processProposalYNQBusinessRule(proposalDevelopmentDocument, false);
-        valid &= processBudgetVersionsBusinessRule(proposalDevelopmentDocument, false);
-        valid &= processProposalGrantsGovBusinessRule(proposalDevelopmentDocument);
-        valid &= processSponsorProgramBusinessRule(proposalDevelopmentDocument);
-        valid &= processKeywordBusinessRule(proposalDevelopmentDocument);
-        valid &= proccessValidateSponsor(proposalDevelopmentDocument);
-        GlobalVariables.getMessageMap().removeFromErrorPath("document.developmentProposalList[0]");
-     
+
+        if (!proposalDevelopmentDocument.isProposalDeleted()){
+            GlobalVariables.getMessageMap().addToErrorPath("document.developmentProposal");
+            valid &= processProposalRequiredFieldsBusinessRule(proposalDevelopmentDocument);
+
+            valid &= processProposalYNQBusinessRule(proposalDevelopmentDocument, false);
+            valid &= processBudgetVersionsBusinessRule(proposalDevelopmentDocument, false);
+            valid &= processProposalGrantsGovBusinessRule(proposalDevelopmentDocument);
+            valid &= processSponsorProgramBusinessRule(proposalDevelopmentDocument);
+            valid &= processKeywordBusinessRule(proposalDevelopmentDocument);
+            valid &= proccessValidateSponsor(proposalDevelopmentDocument);
+            GlobalVariables.getMessageMap().removeFromErrorPath("document.developmentProposal");
+        }
+
         return valid;
     }
     

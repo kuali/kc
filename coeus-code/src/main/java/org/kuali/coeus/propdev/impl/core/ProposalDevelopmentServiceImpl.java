@@ -475,7 +475,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
         // because the devproplist was cleared above the dev prop and associated BOs will be
         // deleted upon save
-        proposalDocument = getDataObjectService().save(proposalDocument);
+        proposalDocument = (ProposalDevelopmentDocument)getDocumentService().saveDocument(proposalDocument);
         return (ProposalDevelopmentDocument) getDocumentService().cancelDocument(proposalDocument, "Delete Proposal");
     }
 

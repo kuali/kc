@@ -395,4 +395,14 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         form.getS2sQuestionnaireHelper().prepareView();
         form.getS2sQuestionnaireHelper().populateAnswers();
     }
+
+    public boolean displayProposalDevelopmentActions(WorkflowDocument wd) {
+        boolean success = false;
+
+        if (wd.isSaved() || wd.isInitiated()){
+            success = true;
+        }
+
+        return success;
+    }
 }
