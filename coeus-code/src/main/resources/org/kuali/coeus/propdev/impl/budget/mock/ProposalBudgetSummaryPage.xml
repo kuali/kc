@@ -109,4 +109,77 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="PropBudget-MockView-UnifiedHeader-SummaryLink"
+	parent="PropBudget-MockView-UnifiedHeader-SummaryLink-parentBean" />
+	<bean id="PropBudget-MockView-UnifiedHeader-SummaryLink-parentBean"
+		abstract="true" parent="Uif-DialogGroup" p:headerText="Summary">
+		<property name="items">
+			<list>
+				<bean parent="PropBudget-MockView-SummaryLink-CollectionGroup"
+					p:order="10" />
+			</list>
+		</property>
+		<property name="footer.items">
+			<list>
+				<bean parent="Uif-DialogDismissButton" p:actionLabel="Okay"
+					p:order="10" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-MockView-SummaryLink-CollectionGroup"
+		parent="PropBudget-MockView-SummaryLink-CollectionGroup-parentBean" />
+	<bean id="PropBudget-MockView-SummaryLink-CollectionGroup-parentBean"
+		parent="Uif-TableCollectionSection" abstract="true" p:headerText=""
+		p:propertyName="budgetSubAwards"
+		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.period.BudgetPeriod"
+		p:addWithDialog="false" p:renderAddLine="false"
+		p:layoutManager.renderSequenceField="false" p:renderLineActions="false">
+		<property name="layoutManager.richTable.templateOptions">
+			<map>
+				<entry key="sDom" value="tip" />
+				<entry key="bRetrieve" value="true" />
+				<entry key="bPaginate" value="false" />
+				<entry key="bInfo" value="false" />
+			</map>
+		</property>
+		<property name="header.lowerGroup">
+			<bean parent="Uif-HeaderLowerGroup">
+				<property name="items">
+					<list>
+						<bean parent="Uif-Message" p:messageText="Here's a summary of your current budget."
+							p:order="10" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="header.rightGroup">
+			<bean parent="Uif-HeaderRightGroup">
+				<property name="items">
+					<list>
+						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Export"
+							p:order="10" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:label="" p:order="10"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.period.BudgetPeriod" />
+				<bean parent="Uif-InputField" p:label="P1" p:order="20"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.period.BudgetPeriod" />
+				<bean parent="Uif-InputField" p:label="P2" p:order="30"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.period.BudgetPeriod" />
+				<bean parent="Uif-InputField" p:label="P3" p:order="40"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.period.BudgetPeriod" />
+				<bean parent="Uif-InputField" p:label="P4" p:order="50"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.period.BudgetPeriod" />
+				<bean parent="Uif-InputField" p:label="P5" p:order="60"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.period.BudgetPeriod" />
+				<bean parent="Uif-InputField" p:label="Totals" p:order="70"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.period.BudgetPeriod" />
+			</list>
+		</property>
+	</bean>
 </beans>

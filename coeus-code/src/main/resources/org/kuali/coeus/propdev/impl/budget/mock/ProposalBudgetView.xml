@@ -185,6 +185,7 @@
 						<bean parent="Uif-ActionLink"
 							p:actionLabel="Budget Settings" p:iconClass="icon-cog" p:order="20" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Summary"
+						  p:actionScript="showDialog('PropBudget-MockView-UnifiedHeader-SummaryLink');"
 							p:iconClass="ucon-eye" p:order="30" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Budget Versions"
 							p:iconClass="icon-money" p:order="40" />
