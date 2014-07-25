@@ -182,7 +182,7 @@
 						<bean parent="Uif-ActionLink" 
                             p:actionLabel="Data Validation"
                             p:iconClass="icon-ok" p:order="10" />
-						<bean parent="Uif-ActionLink"
+						<bean parent="Uif-ActionLink" p:actionScript="showDialog('PropBudget-MockView-BudgetSettings-Details')"
 							p:actionLabel="Budget Settings" p:iconClass="icon-cog" p:order="20" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Summary"
 						  p:actionScript="showDialog('PropBudget-MockView-UnifiedHeader-SummaryLink');"
@@ -260,4 +260,209 @@
 			<null />
 		</property>
 	</bean>
+	
+	<bean id="PropBudget-MockView-BudgetSettings-Details" parent="PropBudget-MockView-BudgetSettings-Details-parent" />
+	<bean id="PropBudget-MockView-BudgetSettings-Details-parent"
+		abstract="true" parent="Uif-DialogGroup" p:headerText="Budget Settings">
+		<property name="items">
+			<list>
+				<ref bean="PropBudget-MockView-BudgetSettings-Details-Section" />
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="Uif-PrimaryActionButton" p:actionLabel="Apply Changes"
+							p:order="10" />
+						<bean parent="Uif-DialogDismissButton" p:actionLabel="Close"
+							p:order="20" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-MockView-BudgetSettings-Details-Section"
+		parent="PropBudget-MockView-BudgetSettings-Details-Section-parent" />
+	<bean id="PropBudget-MockView-BudgetSettings-Details-Section-parent"
+		parent="Uif-VerticalBoxSubSection" abstract="true">
+		<property name="items">
+			<list>
+				<ref bean="PropBudget-MockView-BudgetSettings-Section" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-MockView-BudgetSettings-Section" parent="PropBudget-MockView-BudgetSettings-Section-parent" />
+	<bean id="PropBudget-MockView-BudgetSettings-Section-parent"
+		parent="Uif-CssGridSection-1FieldLabelColumn">
+		<property name="layoutManager.labelColumnSizes.mdSize" value="6" />
+		<property name="layoutManager.fieldColumnSizes.mdSize" value="6" />
+		<property name="items">
+			<list>
+				<bean parent="Uif-DataField" p:propertyName="startDate"
+					p:order="10" p:label="Project Start" p:fieldLabel.renderColon="false"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.core.Budget">
+					<property name="fieldLabel">
+						<bean parent="Uif-Label">
+							<property name="toolTip">
+								<bean parent="Uif-Tooltip"
+									p:tooltipContent="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." />
+							</property>
+						</bean>
+					</property>
+				</bean>
+				<bean parent="Uif-DataField" p:propertyName="endDate"
+					p:order="20" p:label="Project End" p:fieldLabel.renderColon="false"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.core.Budget">
+					<property name="fieldLabel">
+						<bean parent="Uif-Label">
+							<property name="toolTip">
+								<bean parent="Uif-Tooltip"
+									p:tooltipContent="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." />
+							</property>
+						</bean>
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="totalDirectCostLimit"
+					p:order="30" p:label="Total Direct Cost Limit" p:fieldLabel.renderColon="false"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.core.Budget">
+					<property name="fieldLabel">
+						<bean parent="Uif-Label">
+							<property name="toolTip">
+								<bean parent="Uif-Tooltip"
+									p:tooltipContent="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." />
+							</property>
+						</bean>
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="budgetStatus"
+					p:order="40" p:label="Budget Status" p:width="auto" p:fieldLabel.renderColon="false"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.core.Budget">
+					<property name="control">
+						<bean parent="Uif-DropdownControl">
+							<property name="options">
+								<list>
+									<bean parent="Uif-KeyLabelPair" p:key="1" p:value="Complete" />
+									<bean parent="Uif-KeyLabelPair" p:key="2" p:value="Incomplete" />
+								</list>
+							</property>
+						</bean>
+					</property>
+					<property name="fieldLabel">
+						<bean parent="Uif-Label">
+							<property name="toolTip">
+								<bean parent="Uif-Tooltip"
+									p:tooltipContent="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." />
+							</property>
+						</bean>
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="onOffCampusFlag"
+					p:order="50" p:label="On/Off Campus" p:width="auto" p:fieldLabel.renderColon="false"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.core.Budget">
+					<property name="control">
+						<bean parent="Uif-DropdownControl">
+							<property name="options">
+								<list>
+									<bean parent="Uif-KeyLabelPair" p:key="1" p:value="All On" />
+									<bean parent="Uif-KeyLabelPair" p:key="2" p:value="All Off" />
+								</list>
+							</property>
+						</bean>
+					</property>
+					<property name="fieldLabel">
+						<bean parent="Uif-Label">
+							<property name="toolTip">
+								<bean parent="Uif-Tooltip"
+									p:tooltipContent="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." />
+							</property>
+						</bean>
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="residualFunds"
+					p:order="60" p:label="Residual Funds" p:fieldLabel.renderColon="false"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.core.Budget">
+					<property name="fieldLabel">
+						<bean parent="Uif-Label">
+							<property name="toolTip">
+								<bean parent="Uif-Tooltip"
+									p:tooltipContent="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." />
+							</property>
+						</bean>
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="totalCostLimit"
+					p:order="70" p:label="Total Cost Limit" p:fieldLabel.renderColon="false"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.core.Budget">
+					<property name="fieldLabel">
+						<bean parent="Uif-Label">
+							<property name="toolTip">
+								<bean parent="Uif-Tooltip"
+									p:tooltipContent="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." />
+							</property>
+						</bean>
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="urRateClassCode"
+					p:order="80" p:label="Unrecovered F&amp;A Rate Type" p:fieldLabel.renderColon="false"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.core.Budget">
+					<property name="fieldLabel">
+						<bean parent="Uif-Label">
+							<property name="toolTip">
+								<bean parent="Uif-Tooltip"
+									p:tooltipContent="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." />
+							</property>
+						</bean>
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="ohRateClassCode"
+					p:order="90" p:label="F&amp;A Rate Type" p:fieldLabel.renderColon="false"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.core.Budget">
+					<property name="fieldLabel">
+						<bean parent="Uif-Label">
+							<property name="toolTip">
+								<bean parent="Uif-Tooltip"
+									p:tooltipContent="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." />
+							</property>
+						</bean>
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="comments"
+					p:order="100" p:label="Comments" p:fieldLabel.renderColon="false"
+					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.core.Budget">
+					<property name="control">
+						<bean parent="Uif-TextAreaControl" />
+					</property>
+					<property name="fieldLabel">
+						<bean parent="Uif-Label">
+							<property name="toolTip">
+								<bean parent="Uif-Tooltip"
+									p:tooltipContent="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." />
+							</property>
+						</bean>
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="" p:fieldLabel.renderColon="false"
+					p:order="110">
+					<property name="control">
+						<bean parent="Uif-CheckboxControl" p:checkboxLabel="Modular Budget" />
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="" p:fieldLabel.renderColon="false"
+					p:order="120">
+					<property name="control">
+						<bean parent="Uif-CheckboxControl" p:checkboxLabel="Submit Cost Sharing" />
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="" p:fieldLabel.renderColon="false"
+					p:order="130">
+					<property name="control">
+						<bean parent="Uif-CheckboxControl" p:checkboxLabel="Submit this budget with your proposal" />
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>	
 </beans>
