@@ -38,5 +38,6 @@
     <bean id="navigationControllerService" parent="grlImporter" p:serviceName="navigationControllerService" />
     <bean id="queryControllerService" parent="grlImporter" p:serviceName="queryControllerService" />
     <bean id="refreshControllerService" parent="grlImporter" p:serviceName="refreshControllerService" />
+    <bean id="saveControllerService" parent="grlImporter" p:serviceName="saveControllerService" />
 
 </beans>

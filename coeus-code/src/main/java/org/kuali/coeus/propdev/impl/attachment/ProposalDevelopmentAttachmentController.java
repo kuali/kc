@@ -73,7 +73,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             form.getEditableAttachments().put(selectedCollectionPath,newKeyList);
         }
 
-        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
+        return getRefreshControllerService().refresh(form);
     }
 
 
@@ -87,7 +87,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             form.getEditableAttachments().get(selectedCollectionPath).remove(selectedLine);
         }
 
-        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
+        return getRefreshControllerService().refresh(form);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveAttachment")
@@ -100,7 +100,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             form.getEditableAttachments().get(selectedCollectionPath).remove(selectedLine);
         }
 
-        return getTransactionalDocumentControllerService().saveLine(form, result, request, response);
+        return getCollectionControllerService().saveLine(form);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addAttachment")
@@ -117,8 +117,9 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             form.getEditableAttachments().get(selectedCollectionPath).clear();
             form.getEditableAttachments().get(selectedCollectionPath).addAll(indexes);
         }
-        return getTransactionalDocumentControllerService().addLine(form, result, request, response);
+        return getCollectionControllerService().addLine(form);
     }
+
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addFileUploadLine")
     public ModelAndView addFileUploadLine(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                           MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -139,19 +140,19 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             form.getEditableAttachments().put(selectedCollectionPath,newKeyList);
         }
 
-        return getTransactionalDocumentControllerService().addFileUploadLine(form,result,request,response);
+        return getFileControllerService().addFileUploadLine(form);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=deleteFileUploadLine")
     public ModelAndView deleteFileUploadLine(@ModelAttribute("KualiForm") final UifFormBase uifForm,
                                              BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return getTransactionalDocumentControllerService().deleteFileUploadLine(uifForm,result,request,response);
+        return getFileControllerService().deleteFileUploadLine(uifForm);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=getFileFromLine")
     public void getFileFromLine(@ModelAttribute("KualiForm") final UifFormBase uifForm, BindingResult result,
                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
-        getTransactionalDocumentControllerService().getFileFromLine(uifForm,result,request,response);
+        getFileControllerService().getFileFromLine(uifForm,response);
     }
 
     @MethodAccessible
@@ -169,7 +170,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         }
         propDevForm.getDevelopmentProposal().setInstituteAttachments(filteredInstituteAttachments);
         propDevForm.getDevelopmentProposal().setNarratives(filteredNarratives);
-        return getTransactionalDocumentControllerService().navigate(form, result, request, response);
+        return getNavigationControllerService().navigate(form);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=markAllComplete")
@@ -184,7 +185,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
                 getDataObjectService().wrap(object).fetchRelationship("narrativeStatus");
             }
         }
-        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
+        return getRefreshControllerService().refresh(form);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareNarrative")
@@ -200,7 +201,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
            form.getProposalDevelopmentAttachmentHelper().setNarrative(tmpNarrative);
        }
 
-       return getTransactionalDocumentControllerService().refresh(form, result, request, response);
+        return getRefreshControllerService().refresh(form);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareBiography")
@@ -216,7 +217,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             form.getProposalDevelopmentAttachmentHelper().setBiography(tmpBiography);
         }
 
-        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
+        return getRefreshControllerService().refresh(form);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addNarrative")
@@ -240,7 +241,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         }
 
         form.getProposalDevelopmentAttachmentHelper().reset();
-        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
+        return getRefreshControllerService().refresh(form);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addBiography")
@@ -261,7 +262,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         }
         form.getDevelopmentProposal().getPropPersonBios().add(biography);
         form.getProposalDevelopmentAttachmentHelper().reset();
-        return getTransactionalDocumentControllerService().refresh(form, result, request, response);
+        return getRefreshControllerService().refresh(form);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveNarrative")
@@ -278,7 +279,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         }
         form.getDevelopmentProposal().getNarratives().set(selectedLineIndex,narrative);
         form.getProposalDevelopmentAttachmentHelper().reset();
-        return getTransactionalDocumentControllerService().refresh(form,result,request,response);
+        return getRefreshControllerService().refresh(form);
     }
 
     public LegacyNarrativeService getLegacyNarrativeService() {

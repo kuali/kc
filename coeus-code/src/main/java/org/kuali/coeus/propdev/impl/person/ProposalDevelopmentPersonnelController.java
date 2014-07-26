@@ -65,7 +65,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
             person.setDevelopmentProposal(propDevForm.getProposalDevelopmentDocument().getDevelopmentProposal());
             person.getQuestionnaireHelper().populateAnswers();
         }
-        return getTransactionalDocumentControllerService().navigate(form, result, request, response);
+        return getNavigationControllerService().navigate(form);
     } 
     
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=save", "pageId=PropDev-PersonnelPage"})
@@ -104,7 +104,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
                form.getAddKeyPersonHelper().getResults().add(newPerson);
            }
        }
-       return getTransactionalDocumentControllerService().refresh(form, result, request, response);
+       return getRefreshControllerService().refresh(form);
    }
 
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addPerson")
@@ -122,7 +122,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        getKeyPersonnelService().addProposalPerson(newProposalPerson, form.getProposalDevelopmentDocument());
        form.getAddKeyPersonHelper().reset();
        refreshPersonCertificaitonAnswerHeaders(form);
-       return getTransactionalDocumentControllerService().refresh(form, result, request, response);
+       return getRefreshControllerService().refresh(form);
    }
 
     @MethodAccessible

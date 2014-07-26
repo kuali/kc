@@ -32,6 +32,7 @@
 
     <bean id="uifExportControllerService" parent="grlImporter" p:serviceName="uifExportControllerService" />
     <bean id="kcCommonControllerService" parent="grlImporter" p:serviceName="kcCommonControllerService" />
+    <bean id="controllerService" parent="grlImporter" p:serviceName="controllerService" />
     <bean id="kcAuthorizationService" parent="grlImporter" p:serviceName="kcAuthorizationService" />
     <bean id="kcDocumentRejectionService" parent="grlImporter" p:serviceName="kcDocumentRejectionService" />
     <bean id="kcPersistenceStructureService" parent="grlImporter" p:serviceName="kcPersistenceStructureService" />

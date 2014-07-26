@@ -44,6 +44,6 @@ public class ProposalDevelopmentSubmitController extends
     public ModelAndView navigateToSubmit(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).populateCreditSplits(form);
         ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).populateQuestionnaires(form);
-        return getTransactionalDocumentControllerService().navigate(form, result, request, response);
+        return getNavigationControllerService().navigate(form);
     }
 }

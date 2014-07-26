@@ -28,16 +28,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value = "/proposalBudget")
 public class ProposalBudgetCommonController extends ProposalBudgetControllerBase {
-	
-	@Autowired
-	@Qualifier("uifExportControllerService")
-	private UifExportControllerService uifExportControllerService;	
+
 
 	@MethodAccessible
 	@RequestMapping(params="methodToCall=defaultMapping")
 	public ModelAndView defaultMapping(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
-		return getUifControllerService().defaultMapping(form, result, request, response);
+        return getTransactionalDocumentControllerService().start(form);
 	}
 
 	@MethodAccessible
@@ -45,7 +42,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	public ModelAndView start(@RequestParam("budgetId") String budgetId, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		form.setBudget(getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("budgetId", Long.valueOf(budgetId))).build()));
 		form.initialize();
-		return getUifControllerService().getUIFModelAndViewWithInit(form, "PropBudget-DefaultView");
+        return getModelAndViewService().getModelAndViewWithInit(form, "PropBudget-DefaultView");
 	}
 	
 	@MethodAccessible
@@ -55,25 +52,25 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	}
 
 	public void checkViewAuthorization(@ModelAttribute("KualiForm") ProposalBudgetForm form, String methodToCall) throws AuthorizationException {
-		getUifControllerService().checkViewAuthorization(form, methodToCall);
+        getTransactionalDocumentControllerService().checkViewAuthorization(form);
 	}
 
 	@MethodAccessible
 	@RequestMapping(params="methodToCall=sessionTimeout")
 	public ModelAndView sessionTimeout(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
-		return getUifControllerService().sessionTimeout(form, result, request, response);
+        return getTransactionalDocumentControllerService().sessionTimeout(form);
 	}
 
 	@RequestMapping(params="methodToCall=addLine")
 	public ModelAndView addLine(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-		return getUifControllerService().addLine(form, result, request, response);
+        return getCollectionControllerService().addLine(form);
 	}
 
 	@RequestMapping(params = "methodToCall=addBlankLine")
 	public ModelAndView addBlankLine(@ModelAttribute("KualiForm") ProposalBudgetForm uifForm, HttpServletRequest request,
 			HttpServletResponse response) {
-		return getUifControllerService().addBlankLine(uifForm, request, response);
+        return getCollectionControllerService().addBlankLine(uifForm);
 	}
 
 	@RequestMapping(params="methodToCall=saveLine")
@@ -84,98 +81,98 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
         if(form.getEditableBudgetLineItems() != null && selectedCollectionPath !=null && form.getEditableBudgetLineItems().containsKey(selectedCollectionPath)){
             form.getEditableBudgetLineItems().get(selectedCollectionPath).remove(selectedLine);
         }
-		
-		return getUifControllerService().saveLine(form, result, request, response);
+
+        return getCollectionControllerService().saveLine(form);
 	}
 
 	@RequestMapping(params="methodToCall=deleteLine")
 	public ModelAndView deleteLine(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
-		return getUifControllerService().deleteLine(form, result, request, response);
+        return getCollectionControllerService().deleteLine(form);
 	}
 
 	@RequestMapping(params="methodToCall=back")
 	public ModelAndView back(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-		return getUifControllerService().back(form, result, request, response);
+		return getNavigationControllerService().back(form);
 	}
 
 	@RequestMapping(params="methodToCall=returnToPrevious")
 	public ModelAndView returnToPrevious(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
-		return getUifControllerService().returnToPrevious(form);
+		return getNavigationControllerService().returnToPrevious(form);
 	}
 
 	@RequestMapping(params="methodToCall=returnToHub")
 	public ModelAndView returnToHub(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
-		return getUifControllerService().returnToHub(form);
+		return getNavigationControllerService().returnToHub(form);
 	}
 
 	@RequestMapping(params="methodToCall=returnToHistory")
 	public ModelAndView returnToHistory(@ModelAttribute("KualiForm") ProposalBudgetForm form, boolean homeFlag) {
-		return getUifControllerService().returnToHistory(form, homeFlag);
+		return getNavigationControllerService().returnToHistory(form, false, homeFlag, false);
 	}
 
 	@MethodAccessible
 	@RequestMapping(params="methodToCall=refresh")
 	public ModelAndView refresh(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		return getUifControllerService().refresh(form, result, request, response);
+		return getRefreshControllerService().refresh(form);
 	}
 
 	@RequestMapping(params="methodToCall=performLookup")
 	public ModelAndView performLookup(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
-		return getUifControllerService().performLookup(form, result, request, response);
+		return getQueryControllerService().performLookup(form);
 	}
 
 	@RequestMapping(params="methodToCall=checkForm")
 	public ModelAndView checkForm(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-		return getUifControllerService().checkForm(form, result, request, response);
+		return getModelAndViewService().checkForm(form);
 	}
 
 	@MethodAccessible
 	@RequestMapping(params="methodToCall=performFieldSuggest")
 	public @ResponseBody AttributeQueryResult performFieldSuggest(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
-		return getUifControllerService().performFieldSuggest(form, result, request, response);
+		return getQueryControllerService().performFieldSuggest(form);
 	}
 
 	@MethodAccessible
 	@RequestMapping(params="methodToCall=performFieldQuery")
 	public @ResponseBody AttributeQueryResult performFieldQuery(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
-		return getUifControllerService().performFieldQuery(form, result, request, response);
+		return getQueryControllerService().performFieldQuery(form);
 	}
 
 	@RequestMapping(params="methodToCall=tableCsvRetrieval", produces = {"text/csv"})
 	@ResponseBody
 	public String tableCsvRetrieval(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-		return uifExportControllerService.tableCsvRetrieval(form, request, response);
+		return  getUifExportControllerService().tableCsvRetrieval(form, request, response);
 	}
 
 	@RequestMapping(params="methodToCall=tableXlsRetrieval", produces = {"text/csv"})
 	@ResponseBody
 	public String tableXlsRetrieval(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-		return uifExportControllerService.tableXlsRetrieval(form, request, response);
+		return getUifExportControllerService().tableXlsRetrieval(form, request, response);
 	}
 
 	@RequestMapping(params="methodToCall=tableXmlRetrieval", produces = {"text/csv"})
 	@ResponseBody
 	public String tableXmlRetrieval(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-		return uifExportControllerService.tableXmlRetrieval(form, request, response);
+		return getUifExportControllerService().tableXmlRetrieval(form, request, response);
 	}
 
 	@MethodAccessible
 	@RequestMapping(params="methodToCall=tableJsonRetrieval")
 	public ModelAndView tableJsonRetrieval(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
-		return uifExportControllerService.tableJsonRetrieval(form, result, request, response);
+		return getCollectionControllerService().tableJsonRetrieval(form);
 	}
 	
     @MethodAccessible
     @RequestMapping(params = "methodToCall=retrieveCollectionPage")
 	public ModelAndView retrieveCollectionPage(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		return uifExportControllerService.retrieveCollectionPage(form, result, request, response);
+		return getCollectionControllerService().retrieveCollectionPage(form);
 	}
 
     @RequestMapping(params="methodToCall=editLineItem")
@@ -190,7 +187,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
             newKeyList.add(selectedLine);
             form.getEditableBudgetLineItems().put(selectedCollectionPath,newKeyList);
         }
-        return getUifControllerService().refresh(form, result, request, response);
+        return getRefreshControllerService().refresh(form);
     }
 
     @RequestMapping(params="methodToCall=cancelEditLineItem")
@@ -202,15 +199,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
         if(form.getEditableBudgetLineItems().containsKey(selectedCollectionPath)){
             form.getEditableBudgetLineItems().get(selectedCollectionPath).remove(selectedLine);
         }
-        return getUifControllerService().refresh(form, result, request, response);
+        return getRefreshControllerService().refresh(form);
     }
-    
-	public UifExportControllerService getUifExportControllerService() {
-		return uifExportControllerService;
-	}
 
-	public void setUifExportControllerService(
-			UifExportControllerService uifExportControllerService) {
-		this.uifExportControllerService = uifExportControllerService;
-	}	
 }

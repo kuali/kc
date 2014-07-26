@@ -28,7 +28,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
         if (StringUtils.isNotBlank(warningMessage)) {
             if(dialogResponse == null) {
             	form.setDefaultBudgetPeriodWarningMessage(warningMessage);
-            	return getUifControllerService().showDialog(CONFIRM_PERIOD_CHANGES_DIALOG_ID, true, form);
+            	return getModelAndViewService().showDialog(CONFIRM_PERIOD_CHANGES_DIALOG_ID, true, form);
             }else {
                 boolean confirmResetDefault = dialogResponse.getResponseAsBoolean();
                 if(confirmResetDefault) {
@@ -39,7 +39,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
         }else {
         	getBudgetSummaryService().defaultBudgetPeriods(budget);
         }
-        return getUifControllerService().getUIFModelAndView(form);
+        return getModelAndViewService().getModelAndView(form);
     }    
 	
 	@MethodAccessible
@@ -51,7 +51,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
         
     	if(dialogResponse == null) {
     		form.setDefaultBudgetPeriodWarningMessage(getKualiConfigurationService().getPropertyValueAsString(QUESTION_RECALCULATE_BUDGET_CONFIRMATION));
-        	return getUifControllerService().showDialog(CONFIRM_PERIOD_CHANGES_DIALOG_ID, true, form);
+        	return getModelAndViewService().showDialog(CONFIRM_PERIOD_CHANGES_DIALOG_ID, true, form);
     	}else {
         	confirmRecalculate = dialogResponse.getResponseAsBoolean();
     	}
@@ -60,7 +60,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
         	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
         	getBudgetSummaryService().calculateBudget(budget);
         }
-        return getUifControllerService().getUIFModelAndView(form);
+        return getModelAndViewService().getModelAndView(form);
     }    
 		
 	@MethodAccessible
@@ -71,7 +71,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
         boolean confirmRecalculate = true;
     	if(dialogResponse == null) {
     		form.setDefaultBudgetPeriodWarningMessage(getKualiConfigurationService().getPropertyValueAsString(QUESTION_RECALCULATE_BUDGET_CONFIRMATION));
-        	return getUifControllerService().showDialog(CONFIRM_PERIOD_CHANGES_DIALOG_ID, true, form);
+        	return getModelAndViewService().showDialog(CONFIRM_PERIOD_CHANGES_DIALOG_ID, true, form);
     	}else {
         	confirmRecalculate = dialogResponse.getResponseAsBoolean();
     	}
@@ -80,7 +80,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
             getBudgetSummaryService().generateAllPeriods(budget);
         }
 		
-        return getUifControllerService().getUIFModelAndView(form);
+        return getModelAndViewService().getModelAndView(form);
 	}
     
 }

@@ -22,13 +22,15 @@ import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentServ
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.sys.framework.controller.TransactionalDocumentControllerService;
+import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
+import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.DocumentBase;
+import org.kuali.rice.krad.document.TransactionalDocumentControllerService;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.DocumentEventBase;
 import org.kuali.rice.krad.service.AttachmentService;
@@ -40,6 +42,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krad.web.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.BindingResult;
@@ -52,6 +55,38 @@ import javax.servlet.http.HttpServletResponse;
 public abstract class ProposalDevelopmentControllerBase {
 
     protected static final String PROPDEV_DEFAULT_VIEW_ID = "PropDev-DefaultView";
+
+    @Autowired
+    @Qualifier("uifExportControllerService")
+    private UifExportControllerService uifExportControllerService;
+
+    @Autowired
+    @Qualifier("kcCommonControllerService")
+    private KcCommonControllerService kcCommonControllerService;
+
+    @Autowired
+    @Qualifier("collectionControllerService")
+    private CollectionControllerService collectionControllerService;
+
+    @Autowired
+    @Qualifier("fileControllerService")
+    private FileControllerService fileControllerService;
+
+    @Autowired
+    @Qualifier("modelAndViewService")
+    private ModelAndViewService modelAndViewService;
+
+    @Autowired
+    @Qualifier("navigationControllerService")
+    private NavigationControllerService navigationControllerService;
+
+    @Autowired
+    @Qualifier("queryControllerService")
+    private QueryControllerService queryControllerService;
+
+    @Autowired
+    @Qualifier("refreshControllerService")
+    private RefreshControllerService refreshControllerService;
 
     @Autowired
     @Qualifier("transactionalDocumentControllerService")
@@ -99,10 +134,10 @@ public abstract class ProposalDevelopmentControllerBase {
     
     @ModelAttribute(value = "KualiForm")
     public UifFormBase initForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        UifFormBase form =  getTransactionalDocumentControllerService().initForm(this.createInitialForm(request), request, response);
+        UifFormBase form =  getKcCommonControllerService().initForm(this.createInitialForm(request), request, response);
         return form;
     }
-    
+
     /**
      * Create the original set of Proposal Users for a new Proposal Development Document.
      * The creator the proposal is assigned to the AGGREGATOR role.
@@ -140,15 +175,15 @@ public abstract class ProposalDevelopmentControllerBase {
          getProposalDevelopmentAttachmentService().prepareAttachmentsForSave(pdForm.getDevelopmentProposal());
 
          saveAnswerHeaders(pdForm,request.getParameter(UifParameters.PAGE_ID));
-         getTransactionalDocumentControllerService().save(form, result, request, response);
+         getTransactionalDocumentControllerService().save(form);
          
          initializeProposalUsers(proposalDevelopmentDocument);
          String pageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
          ModelAndView view = null;
          if (StringUtils.isNotBlank(pageId)) {
-             view = getTransactionalDocumentControllerService().getUIFModelAndView(form, pageId);
+             view = getModelAndViewService().getModelAndView(form, pageId);
          } else {
-             view = getTransactionalDocumentControllerService().getUIFModelAndView(form);
+             view = getModelAndViewService().getModelAndView(form);
          }
          
          return view;
@@ -167,15 +202,15 @@ public abstract class ProposalDevelopmentControllerBase {
          saveAnswerHeaders(pdForm,request.getParameter(UifParameters.PAGE_ID));
 
          if (eventClazz == null) {
-             getTransactionalDocumentControllerService().save(form, result, request, response);
+             getTransactionalDocumentControllerService().save(form);
          } else {
              performCustomSave(proposalDevelopmentDocument, SaveDocumentSpecialReviewEvent.class);
          }
          String pageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
          if (StringUtils.isNotBlank(pageId)) {
-             view = getTransactionalDocumentControllerService().getUIFModelAndView(form, pageId);
+             view = getModelAndViewService().getModelAndView(form, pageId);
          } else {
-             view = getTransactionalDocumentControllerService().getUIFModelAndView(form);
+             view = getModelAndViewService().getModelAndView(form);
          }
          initializeProposalUsers(proposalDevelopmentDocument);
          
@@ -204,6 +239,17 @@ public abstract class ProposalDevelopmentControllerBase {
 		form.setDirtyForm(false);
 		return save(form, result, request, response);
      }
+
+    public void saveAnswerHeaders(ProposalDevelopmentDocumentForm pdForm) {
+        for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+            if (person.getQuestionnaireHelper() != null && person.getQuestionnaireHelper().getAnswerHeaders() != null
+                    && !person.getQuestionnaireHelper().getAnswerHeaders().isEmpty()) {
+                for (AnswerHeader answerHeader : person.getQuestionnaireHelper().getAnswerHeaders()) {
+                    getLegacyDataAdapter().save(answerHeader);
+                }
+            }
+        }
+    }
 
     protected KcAuthorizationService getKraAuthorizationService() {
         return kraAuthorizationService;
@@ -302,4 +348,68 @@ public abstract class ProposalDevelopmentControllerBase {
             }
         }
 	}
+
+    public UifExportControllerService getUifExportControllerService() {
+        return uifExportControllerService;
+    }
+
+    public void setUifExportControllerService(UifExportControllerService uifExportControllerService) {
+        this.uifExportControllerService = uifExportControllerService;
+    }
+
+    public KcCommonControllerService getKcCommonControllerService() {
+        return kcCommonControllerService;
+    }
+
+    public void setKcCommonControllerService(KcCommonControllerService kcCommonControllerService) {
+        this.kcCommonControllerService = kcCommonControllerService;
+    }
+
+    public CollectionControllerService getCollectionControllerService() {
+        return collectionControllerService;
+    }
+
+    public void setCollectionControllerService(CollectionControllerService collectionControllerService) {
+        this.collectionControllerService = collectionControllerService;
+    }
+
+    public FileControllerService getFileControllerService() {
+        return fileControllerService;
+    }
+
+    public void setFileControllerService(FileControllerService fileControllerService) {
+        this.fileControllerService = fileControllerService;
+    }
+
+    public ModelAndViewService getModelAndViewService() {
+        return modelAndViewService;
+    }
+
+    public void setModelAndViewService(ModelAndViewService modelAndViewService) {
+        this.modelAndViewService = modelAndViewService;
+    }
+
+    public NavigationControllerService getNavigationControllerService() {
+        return navigationControllerService;
+    }
+
+    public void setNavigationControllerService(NavigationControllerService navigationControllerService) {
+        this.navigationControllerService = navigationControllerService;
+    }
+
+    public QueryControllerService getQueryControllerService() {
+        return queryControllerService;
+    }
+
+    public void setQueryControllerService(QueryControllerService queryControllerService) {
+        this.queryControllerService = queryControllerService;
+    }
+
+    public RefreshControllerService getRefreshControllerService() {
+        return refreshControllerService;
+    }
+
+    public void setRefreshControllerService(RefreshControllerService refreshControllerService) {
+        this.refreshControllerService = refreshControllerService;
+    }
 }

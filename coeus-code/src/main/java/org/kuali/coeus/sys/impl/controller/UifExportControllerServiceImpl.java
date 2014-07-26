@@ -12,18 +12,4 @@ import java.util.Properties;
 @Component("uifExportControllerService")
 public class UifExportControllerServiceImpl extends UifExportController implements UifExportControllerService {
 
-    @Override
-    public ModelAndView performRedirect(UifFormBase form, String baseUrl, Properties urlParameters) {
-        return super.performRedirect(form, baseUrl, urlParameters);
-    }
-
-    @Override
-    public ModelAndView performRedirect(UifFormBase form, String redirectUrl) {
-        return super.performRedirect(form, redirectUrl);
-    }
-
-    @Override
-    public ModelAndView getMessageView(UifFormBase form, String headerText, String messageText) {
-        return super.getMessageView(form, headerText, messageText);
-    }
 }

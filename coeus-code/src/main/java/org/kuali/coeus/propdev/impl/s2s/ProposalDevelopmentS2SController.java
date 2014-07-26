@@ -110,7 +110,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
            globalVariableService.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
            proposal.setS2sOpportunity(new S2sOpportunity());
        }
-       return getTransactionalDocumentControllerService().refresh(form, result, request, response);
+       return getRefreshControllerService().refresh(form);
    }
    
    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=clearOpportunity"})
@@ -123,7 +123,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
        //Reset Opportunity Title and Opportunity ID in the Sponsor & Program Information section
        proposal.setProgramAnnouncementTitle("");
        proposal.setProgramAnnouncementNumber("");
-       return getTransactionalDocumentControllerService().refresh(form, result, request, response);
+       return getRefreshControllerService().refresh(form);
    }
 
     public S2sSubmissionService getS2sSubmissionService() {

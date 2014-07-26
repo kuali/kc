@@ -128,19 +128,12 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
 
     @PostPersist
     protected void postPersist() {
-        DocumentHeader temp = getDocumentHeaderService().getDocumentHeaderById(documentNumber);
-        if (temp != null && temp.getWorkflowDocument() != null) {
-            documentHeader = temp;
-        }
+
     }
 
     @Override
     public void postProcessSave(DocumentEvent event) {
         super.postProcessSave(event);
-        DocumentHeader temp =  getDocumentHeaderService().getDocumentHeaderById(documentNumber);
-        if (temp != null && temp.getWorkflowDocument() != null) {
-            documentHeader = temp;
-        }
     }
     
     @LegacyDataFramework
