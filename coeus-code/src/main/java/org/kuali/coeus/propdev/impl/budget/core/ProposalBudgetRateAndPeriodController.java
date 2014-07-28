@@ -4,9 +4,13 @@ import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_RECALCULATE_BUD
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DialogResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,6 +22,14 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControllerBase {
 
 	private static final String CONFIRM_PERIOD_CHANGES_DIALOG_ID = "PropBudget-ConfirmPeriodChangesDialog";
+
+    @Autowired
+    @Qualifier("budgetSummaryService")
+    private BudgetSummaryService budgetSummaryService;
+
+    @Autowired
+    @Qualifier("kualiConfigurationService")
+    private ConfigurationService kualiConfigurationService;
 
 	@MethodAccessible
     @RequestMapping(params="methodToCall=resetToBudgetPeriodDefault")
@@ -82,5 +94,20 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
 		
         return getModelAndViewService().getModelAndView(form);
 	}
-    
+
+    public BudgetSummaryService getBudgetSummaryService() {
+        return budgetSummaryService;
+    }
+
+    public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
+        this.budgetSummaryService = budgetSummaryService;
+    }
+
+    public ConfigurationService getKualiConfigurationService() {
+        return kualiConfigurationService;
+    }
+
+    public void setKualiConfigurationService(ConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
 }

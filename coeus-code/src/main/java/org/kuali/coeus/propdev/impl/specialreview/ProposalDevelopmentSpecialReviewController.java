@@ -45,10 +45,6 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
     @Qualifier("proposalDevelopmentSpecialReviewService")
     private ProposalDevelopmentSpecialReviewService proposalDevelopmentSpecialReviewService;
 
-    @Autowired
-    @Qualifier("dataObjectService")
-    private DataObjectService dataObjectService;
-
     @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=linkProtocol")
     public ModelAndView linkProtocol(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
@@ -104,12 +100,4 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
  			ProposalDevelopmentSpecialReviewService proposalDevelopmentSpecialReviewService) {
  		this.proposalDevelopmentSpecialReviewService = proposalDevelopmentSpecialReviewService;
  	}
-
-    public DataObjectService getDataObjectService() {
-        return dataObjectService;
-    }
-
-    public void setDataObjectService(DataObjectService dataObjectService) {
-        this.dataObjectService = dataObjectService;
-    }
 }

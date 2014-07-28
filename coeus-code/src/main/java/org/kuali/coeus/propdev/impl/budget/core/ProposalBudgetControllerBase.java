@@ -3,12 +3,8 @@ package org.kuali.coeus.propdev.impl.budget.core;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.kuali.coeus.common.budget.framework.core.BudgetService;
-import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.TransactionalDocumentControllerService;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -56,22 +52,10 @@ public abstract class ProposalBudgetControllerBase {
     @Autowired
     @Qualifier("refreshControllerService")
     private RefreshControllerService refreshControllerService;
-
-    @Autowired
-	@Qualifier("proposalBudgetService")
-	private BudgetService<DevelopmentProposal> budgetService;
 	
 	@Autowired
 	@Qualifier("dataObjectService")
 	private DataObjectService dataObjectService;
-	
-	@Autowired
-	@Qualifier("budgetSummaryService")
-    private BudgetSummaryService budgetSummaryService;
-
-    @Autowired
-    @Qualifier("kualiConfigurationService")
-    private ConfigurationService kualiConfigurationService;
 
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalBudgetForm();
@@ -94,36 +78,12 @@ public abstract class ProposalBudgetControllerBase {
 		return save(form);
     }
 
-	public BudgetService<DevelopmentProposal> getBudgetService() {
-		return budgetService;
-	}
-
-	public void setBudgetService(BudgetService<DevelopmentProposal> budgetService) {
-		this.budgetService = budgetService;
-	}
-
 	public DataObjectService getDataObjectService() {
 		return dataObjectService;
 	}
 
 	public void setDataObjectService(DataObjectService dataObjectService) {
 		this.dataObjectService = dataObjectService;
-	}
-	
-	public ConfigurationService getKualiConfigurationService() {
-		return kualiConfigurationService;
-	}
-
-	public void setKualiConfigurationService(ConfigurationService kualiConfigurationService) {
-		this.kualiConfigurationService = kualiConfigurationService;
-	}
-	
-	public BudgetSummaryService getBudgetSummaryService() {
-		return budgetSummaryService;
-	}
-
-	public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
-		this.budgetSummaryService = budgetSummaryService;
 	}
 
     public UifExportControllerService getUifExportControllerService() {

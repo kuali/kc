@@ -33,10 +33,8 @@ import org.kuali.rice.krad.document.DocumentBase;
 import org.kuali.rice.krad.document.TransactionalDocumentControllerService;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.DocumentEventBase;
-import org.kuali.rice.krad.service.AttachmentService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
-import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -105,10 +103,6 @@ public abstract class ProposalDevelopmentControllerBase {
     private ProposalDevelopmentService proposalDevelopmentService;
 
     @Autowired
-    @Qualifier("attachmentService")
-    private AttachmentService attachmentService;
-
-    @Autowired
     @Qualifier("proposalDevelopmentAttachmentService")
     private ProposalDevelopmentAttachmentService proposalDevelopmentAttachmentService;
 
@@ -119,10 +113,6 @@ public abstract class ProposalDevelopmentControllerBase {
     @Autowired
     @Qualifier("proposalRoleTemplateService")
     private ProposalRoleTemplateService proposalRoleTemplateService;
-
-    @Autowired
-    @Qualifier("lookupService")
-    private LookupService lookupService;
 
     @Autowired
     @Qualifier("dataObjectService")
@@ -267,14 +257,6 @@ public abstract class ProposalDevelopmentControllerBase {
         this.proposalDevelopmentService = proposalDevelopmentService;
     }
 
-    protected AttachmentService getAttachmentService() {
-        return attachmentService;
-    }
-
-    public void setAttachmentService(AttachmentService attachmentService) {
-        this.attachmentService = attachmentService;
-    }
-
     public ProposalDevelopmentAttachmentService getProposalDevelopmentAttachmentService() {
         return proposalDevelopmentAttachmentService;
     }
@@ -315,14 +297,6 @@ public abstract class ProposalDevelopmentControllerBase {
 			ProposalRoleTemplateService proposalRoleTemplateService) {
 		this.proposalRoleTemplateService = proposalRoleTemplateService;
 	}    
-    
-	protected LookupService getLookupService() {
-		return lookupService;
-	}
-
-	public void setLookupService(LookupService lookupService) {
-		this.lookupService = lookupService;
-	}
 
 	protected DataObjectService getDataObjectService() {
 		return dataObjectService;
