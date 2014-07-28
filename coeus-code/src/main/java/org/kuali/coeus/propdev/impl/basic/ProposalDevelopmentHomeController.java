@@ -47,10 +47,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ProposalDevelopmentHomeController extends ProposalDevelopmentControllerBase {
 
-    @Autowired
-    @Qualifier("dataObjectService")
-    private DataObjectService dataObjectService;
-
    @MethodAccessible
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createProposal")
    public ModelAndView createProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
@@ -176,12 +172,4 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    protected ScienceKeyword getScienceKeyword(Object element) {
 	   return getDataObjectService().findUnique(ScienceKeyword.class, QueryByCriteria.Builder.forAttribute("code", element).build());
    }
-
-    public DataObjectService getDataObjectService() {
-        return dataObjectService;
-    }
-
-    public void setDataObjectService(DataObjectService dataObjectService) {
-        this.dataObjectService = dataObjectService;
-    }
 }

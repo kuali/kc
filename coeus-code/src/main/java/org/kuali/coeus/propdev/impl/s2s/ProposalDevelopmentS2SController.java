@@ -47,10 +47,6 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
     @Autowired
     @Qualifier("s2sSubmissionService")
     private S2sSubmissionService s2sSubmissionService;
-    
-    @Autowired
-    @Qualifier("dataObjectService")
-    private DataObjectService dataObjectService;
 
     @Autowired
     @Qualifier("globalVariableService")
@@ -73,7 +69,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
        }
 
        S2sOpportunity s2sOpportunity = proposal.getS2sOpportunity();
-       s2sOpportunity.setS2sProvider(dataObjectService.find(S2sProvider.class, s2sOpportunity.getProviderCode()));
+       s2sOpportunity.setS2sProvider(getDataObjectService().find(S2sProvider.class, s2sOpportunity.getProviderCode()));
        Boolean mandatoryFormNotAvailable = false;
        List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
        try {
@@ -133,14 +129,6 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
     public void setS2sSubmissionService(S2sSubmissionService s2sSubmissionService) {
         this.s2sSubmissionService = s2sSubmissionService;
     }
-    
-    public DataObjectService getDataObjectService() {
-		return dataObjectService;
-	}
-
-	public void setDataObjectService(DataObjectService dataObjectService) {
-		this.dataObjectService = dataObjectService;
-	}
 
     public GlobalVariableService getGlobalVariableService() {
         return globalVariableService;
