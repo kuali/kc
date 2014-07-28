@@ -449,11 +449,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jdom</groupId>
-            <artifactId>jdom</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.jmock</groupId>
             <artifactId>jmock</artifactId>
         </dependency>

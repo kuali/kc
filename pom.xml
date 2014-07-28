@@ -73,7 +73,6 @@
         <jackson.version>1.8.8</jackson.version>
         <javax.persistence.version>2.1.0</javax.persistence.version>
         <jaxb-impl.version>2.2.6</jaxb-impl.version>
-        <jdom.version>1.1</jdom.version>
         <jetty9.javax.servlet.version>3.0.0.v201112011016</jetty9.javax.servlet.version>
         <jetty.javax.servlet.version>${jetty9.javax.servlet.version}</jetty.javax.servlet.version>
         <jetty9.javax.servlet.jsp.version>2.2.0.v201112011158</jetty9.javax.servlet.jsp.version>
@@ -1356,12 +1355,6 @@
                     </exclusion>
                 </exclusions>
                 <scope>runtime</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.jdom</groupId>
-                <artifactId>jdom</artifactId>
-                <version>${jdom.version}</version>
             </dependency>
 
             <dependency>
