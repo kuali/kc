@@ -17,6 +17,8 @@ package org.kuali.coeus.org.kuali.rice.krad.uif.container;
 
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.DialogGroup;
+import org.kuali.rice.krad.uif.container.Group;
+import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
@@ -41,7 +43,15 @@ public class WizardGroup extends DialogGroup {
             Component component = getItems().get(i);
 
             if (i == step) {
-                currentItems.add(component);
+            	Component componentCopy = ComponentUtils.copy(component);
+                if (componentCopy instanceof Group) {
+                	Group group = (Group) componentCopy;
+	                if (group.getFooter() != null) {
+	                	setFooter(group.getFooter());
+	                	group.setFooter(null);
+	                }
+                }
+                currentItems.add(componentCopy);
             }
         }
 

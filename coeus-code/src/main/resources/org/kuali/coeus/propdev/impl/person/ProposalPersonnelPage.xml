@@ -49,7 +49,7 @@
 		p:fieldBindingObjectPath="addKeyPersonHelper" p:resetDataOnRefresh="true"
 		p:retrieveViaAjax="true">
 		<property name="header">
-			<bean parent="Uif-HeaderOne" p:headerText="Add Personnel" />
+			<bean parent="Uif-DialogHeader" p:headerText="Add Personnel" />
 		</property>
 		<property name="layoutManager">
 			<bean parent="Uif-VerticalBoxLayout"/>
@@ -125,7 +125,7 @@
 			</list>
 		</property>
 		<property name="footer">
-			<bean parent="Uif-FooterBase">
+			<bean parent="Uif-DialogFooter">
 				<property name="items">
 					<list>
 						<bean parent="PropDev-PersonnelPage-WizardButton-Continue"
@@ -168,7 +168,7 @@
 			</list>
 		</property>
 		<property name="footer">
-			<bean parent="Uif-FooterBase">
+			<bean parent="Uif-DialogFooter">
 				<property name="items">
 					<list>
 						<bean parent="PropDev-PersonnelPage-WizardButton-Back"
@@ -248,7 +248,7 @@
 			</list>
 		</property>
 		<property name="footer">
-			<bean parent="Uif-FooterBase">
+			<bean parent="Uif-DialogFooter">
 				<property name="items">
 					<list>
 						<bean parent="PropDev-PersonnelPage-WizardButton-Back"
