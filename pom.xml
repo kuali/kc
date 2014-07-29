@@ -101,7 +101,7 @@
         <org.eclipse.persistence.version>2.5.1</org.eclipse.persistence.version>
         <pdfbox.version>1.8.6</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
-        <rice.version>2.5.0-M5-r47560</rice.version>
+        <rice.version>2.5.0-M5-r47636</rice.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.7</slf4j.version>
         <spring.version>4.0.5.RELEASE</spring.version>
