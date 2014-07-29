@@ -16,8 +16,12 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
                     
 	<bean id="PropDev-MedusaSection" parent="PropDev-MedusaSection-parentBean"/>
-	<bean id="PropDev-MedusaSection-parentBean" abstract="true" parent="Uif-VerticalBoxSection"
-		p:headerText="Medusa">
+	<bean id="PropDev-MedusaSection-parentBean" abstract="true" parent="Uif-DialogBase" p:resetDataOnRefresh="true" 
+		p:retrieveViaAjax="true">
+        <property name="header">
+          <bean parent="Uif-DialogHeader" p:headerText="Medusa"/>
+       </property>
+       
 		<property name="items"><list>
 		<bean parent="Uif-FieldGroupBase" p:order="10">
 			<property name="group">
@@ -25,6 +29,18 @@
 			</property>
 		</bean>
 		</list></property>
+		
+		<property name="footer">
+          <bean parent="Uif-FooterBase">
+              <property name="items">
+                  <list>
+                      <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close"
+                            p:dialogDismissOption="IMMEDIATE" p:dialogResponse="false" p:order="10"/>
+                  </list>
+              </property>
+          </bean>
+      </property>
+      <property name="onShowDialogScript" value="Kc.Medusa.minimizeMedusaTrees();"/>
 	</bean>
 
 	<bean id="PropDev-MedusaSection-TabGroup" parent="PropDev-MedusaSection-TabGroup-parentBean"/>

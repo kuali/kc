@@ -26,6 +26,7 @@
 		<property name="additionalScriptFiles">
 			<list>
 				<value>scripts/common/questionnaire.js</value>
+				<value>scripts/common/medusa.js</value>
 				<value>scripts/propdev/core.js</value>
 				<value>scripts/propdev/person.js</value>
 				<value>scripts/propdev/attachments.js</value>
@@ -195,7 +196,7 @@
                         <bean parent="Uif-ActionLink" p:actionLabel="Copy"
                               p:iconClass="icon-eye" p:order="20" p:actionScript="showDialog('PropDev-CopyDialog-Section');" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Medusa"
-							p:iconClass="icon-tasks" p:order="40" p:actionScript="showLightboxComponent('PropDev-MedusaSection');" />
+							p:iconClass="icon-tasks" p:order="40" p:actionScript="showDialog('PropDev-MedusaSection');" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Hierachy"
 							p:iconClass="icon-list-ol" p:order="50" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Access"
