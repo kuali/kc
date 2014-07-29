@@ -23,12 +23,20 @@ import javax.servlet.http.HttpServletResponse;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
+import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
+import org.kuali.coeus.propdev.impl.copy.ProposalCopyService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.PessimisticLockService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +52,29 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
 public class ProposalDevelopmentHomeController extends ProposalDevelopmentControllerBase {
+
+   @Autowired
+   @Qualifier("pessimisticLockService")
+   private PessimisticLockService pessimisticLockService;
+
+   @Autowired
+   @Qualifier("dataObjectService")
+   private DataObjectService dataObjectService;
+
+   @Autowired
+   @Qualifier("documentService")
+   private DocumentService documentService;
+
+   @Autowired
+   @Qualifier("proposalCopyService")
+   private ProposalCopyService proposalCopyService;
 
    @MethodAccessible
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createProposal")
@@ -60,8 +89,50 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        form.setPageId(null);
        return getModelAndViewService().getModelAndViewWithInit(form, PROPDEV_DEFAULT_VIEW_ID);
    }
-   
-   @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=save"})
+
+   @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=copy")
+   public ModelAndView copy(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
+
+        ProposalCopyService proposalCopyService = getProposalCopyService();
+        if (proposalCopyService != null) {
+            Map<String, Object> keyMap = new HashMap<String, Object>();
+            if (proposalDevelopmentDocument != null) {
+                String proposalNumber = proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber();
+                keyMap.put("proposalNumber", proposalNumber);
+            }
+            List<S2sAppSubmission> s2sAppSubmissionProposalList =
+                    getDataObjectService().findMatching(S2sAppSubmission.class,
+                            QueryByCriteria.Builder.andAttributes(keyMap).build()).getResults();
+
+            getPessimisticLockService().releaseAllLocksForUser(proposalDevelopmentDocument.getPessimisticLocks(), GlobalVariables.getUserSession().getPerson());
+
+            ProposalCopyCriteria proposalCopyCriteria = null;
+            proposalCopyCriteria = form.getProposalCopyCriteria();
+
+            String newDocNum = null;
+
+            newDocNum = proposalCopyService.copyProposal(proposalDevelopmentDocument, proposalCopyCriteria);
+            form.setDocId(newDocNum);
+
+            ProposalDevelopmentDocument copiedDocument = form.getProposalDevelopmentDocument();
+            getProposalRoleTemplateService().initializeProposalUsers(copiedDocument);//add in any default permissions
+            copiedDocument.getDevelopmentProposal().setS2sAppSubmission(new ArrayList<S2sAppSubmission>());
+            for (S2sAppSubmission s2sAppSubmissionListValue : s2sAppSubmissionProposalList) {
+                copiedDocument.getDevelopmentProposal().setPrevGrantsGovTrackingID(s2sAppSubmissionListValue.getGgTrackingId());
+            }
+
+            getDocumentService().saveDocument(copiedDocument);
+
+            form.initialize();
+            form.getView().setReadOnly(false);
+        }
+       return this.getTransactionalDocumentControllerService().reload(form);
+
+   }
+   @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=save")
    public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        return super.save(form, result, request, response);
@@ -172,4 +243,37 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    protected ScienceKeyword getScienceKeyword(Object element) {
 	   return getDataObjectService().findUnique(ScienceKeyword.class, QueryByCriteria.Builder.forAttribute("code", element).build());
    }
+
+    public PessimisticLockService getPessimisticLockService() {
+        return pessimisticLockService;
+    }
+
+    public void setPessimisticLockService(PessimisticLockService pessimisticLockService) {
+        this.pessimisticLockService = pessimisticLockService;
+    }
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
+
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    public void setProposalCopyService(ProposalCopyService proposalCopyService) {
+        this.proposalCopyService = proposalCopyService;
+    }
+
+    public ProposalCopyService getProposalCopyService() {
+        return proposalCopyService;
+    }
+
 }

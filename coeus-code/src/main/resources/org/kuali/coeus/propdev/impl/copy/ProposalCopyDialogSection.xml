@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+Copyright 2005-2014 The Kuali Foundation
+
+Licensed under the Educational Community License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.opensource.org/licenses/ecl2.php
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/util
+http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+
+  <bean id="PropDev-CopyDialog-Section" parent="PropDev-CopyDialog-Section-ParentBean" />
+  <bean id="PropDev-CopyDialog-Section-ParentBean" abstract="true" parent="Uif-DialogBase"
+        p:fieldBindingObjectPath="proposalCopyCriteria" p:resetDataOnRefresh="true"
+        p:retrieveViaAjax="true">
+      <property name="header">
+          <bean parent="Uif-DialogHeader" p:headerText="Copy To New Document"/>
+      </property>
+      <property name="items">
+          <list>
+              <bean parent="PropDev-CopyDialog" p:order="10" />
+          </list>
+      </property>
+
+      <property name="footer">
+          <bean parent="Uif-FooterBase">
+              <property name="items">
+                  <list>
+                      <bean parent="PropDev-CopyDialog-Button-Continue" p:ajaxSubmit="false"
+                            p:actionLabel="Copy..." p:methodToCall="copy" p:successCallback="dismissDialog('PropDev-CopySection');" p:performClientSideValidation="false" p:order="10"/>
+                      <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close"
+                            p:dialogDismissOption="IMMEDIATE" p:dialogResponse="false" p:order="20"/>
+                  </list>
+              </property>
+          </bean>
+      </property>
+    </bean>
+
+    <bean id="PropDev-CopyDialog" parent="PropDev-CopyDialog-parentBean" />
+    <bean id="PropDev-CopyDialog-parentBean" abstract="true"
+          parent="Uif-CssGridSection-1FieldLabelColumn">
+        <property name="items">
+            <list>
+
+                <bean parent="Uif-MessageField" p:messageText="Yes" p:fieldLabel.labelText="Proposal" p:fieldLabel.renderColon="false" p:order="10"/>
+                <bean parent="Uif-MessageField" p:messageText="@{document.developmentProposal.ownedByUnitNumber} - @{document.developmentProposal.ownedByUnit.unitName}"
+                      p:fieldLabel.labelText="Original Lead Unit" p:fieldLabel.renderColon="false"
+                      p:order="20" />
+
+                <bean parent="PropDev-CopyDialog-OwnedByUnitNumberField" p:propertyName="leadUnitNumber"
+                      p:enableAutoQuickfinder="false"
+                      p:order="30"/>
+
+                <bean parent="Uif-InputField" p:propertyName="includeBudget" p:order="40" p:fieldLabel.renderColon="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes. Include Budget(s)." p:disabled="false"/>
+                    </property>
+                </bean>
+
+                <bean id="PropDev-CopyDialog-BudgetSelection" parent="PropDev-CopyDialog-BudgetSelection-parentBean"
+                      p:order="50"/>
+
+                <bean parent="Uif-InputField" p:propertyName="includeAttachments" p:order="60" p:fieldLabel.renderColon="false">
+                     <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes. Include attachment." p:disabled="false"/>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField" p:propertyName="includeQuestionnaire" p:order="70" p:fieldLabel.renderColon="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes. Include questionnaire" p:disabled="false"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+    </bean>
+
+    <bean id="PropDev-CopyDialog-OwnedByUnitNumberField" parent="PropDev-CopyDialog-OwnedByUnitNumberField-parentBean" />
+    <bean id="PropDev-CopyDialog-OwnedByUnitNumberField-parentBean"
+          abstract="true" parent="Uif-InputField" p:fieldLabel.renderColon="false" >
+        <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.coeus.propdev.impl.basic.LeadUnitValuesFinder" p:addBlankOption="false"/>
+        </property>
+    </bean>
+
+    <bean id="PropDev-CopyDialog-BudgetSelection-parentBean"
+          abstract="true" parent="Uif-InputField" p:fieldLabel.renderColon="false"
+          p:propertyName="budgetVersions" p:label="Budget Version">
+        <property name="control">
+            <bean parent="Uif-DropdownControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria).BUDGET_ALL_VERSIONS}" p:value="All Versions" />
+                        <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria).BUDGET_FINAL_VERSION}" p:value="Final Version" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="PropDev-CopyDialog-Button-Continue" parent="PropDev-CopyDialog-Button-Continue-parentBean" />
+    <bean id="PropDev-CopyDialog-Button-Continue-parentBean"
+          abstract="true" parent="Uif-PrimaryActionButton" />
+
+</beans>

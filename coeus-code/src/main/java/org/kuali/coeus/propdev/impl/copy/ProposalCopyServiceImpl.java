@@ -230,7 +230,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             copyProposal(doc, newDoc, criteria);
             fixProposal(doc, newDoc, criteria);
 
-            getDocumentService().saveDocument(newDoc); 
+            newDoc = (ProposalDevelopmentDocument) getDocumentService().saveDocument(newDoc);
             
             // Can't initialize authorization until a proposal is saved
             // and we have a new proposal number.
@@ -293,7 +293,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         setLeadUnit(newDoc, criteria.getLeadUnitNumber());
         
         newDoc.getDocumentHeader().setDocumentTemplateNumber(srcDoc.getDocumentNumber());
-        getDocumentService().saveDocument(newDoc);
+        newDoc = (ProposalDevelopmentDocument)getDocumentService().saveDocument(newDoc);
         
         return newDoc;
     }
@@ -347,7 +347,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * Copies over the "normal" Proposal Development Document properties.
      * Only the properties declared within the ProposalDevelopmentDocument
      * class are copied.  Properties from parent classes are not copied.
-     * 
+     *
      * @param src the source proposal development document, i.e. the original.
      * @param dest the destination proposal development document, i.e. the new document.
      * @throws Exception if the copy fails for any reason.
@@ -384,9 +384,11 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     //Or I could use an anonymous filter class???
             
     protected void copyProperties(DevelopmentProposal src, DevelopmentProposal dest, List<DocProperty> properties) throws Exception {
+        ObjectUtils.materializeSubObjectsToDepth(src, 5);
         for (DocProperty property : properties) {
             Object value = property.getter.invoke(src);
             if (value instanceof Serializable) {
+                ObjectUtils.materializeSubObjectsToDepth(src, 5);
                 // Just to be careful, we don't want the two documents
                 // referencing the same data.  Each must have its own
                 // local copies of the data.
@@ -399,6 +401,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 // cannot be the same as the original it was copied from.
                 
                 if (value instanceof PersistableBusinessObjectBase) {
+                    ObjectUtils.materializeSubObjectsToDepth(src, 5);
                     PersistableBusinessObjectBase obj = (PersistableBusinessObjectBase) value;
                     obj.setVersionNumber(null);
                 }
@@ -1066,7 +1069,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             budgetDocument.getBudget().getBudgetRates().clear();
             budgetDocument.getBudget().getBudgetLaRates().clear();
         }
-        getDocumentService().saveDocument(budgetDocument);
+        budgetDocument = (BudgetDocument) getDocumentService().saveDocument(budgetDocument);
         getDocumentService().routeDocument(budgetDocument, "Route to Final", new ArrayList());
         budgetDocument.getBudget().getBudgetParent().getDocument().refreshBudgetDocumentVersions();
     }
