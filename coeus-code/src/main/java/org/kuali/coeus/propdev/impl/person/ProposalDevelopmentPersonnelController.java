@@ -26,6 +26,7 @@ import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
+import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
@@ -56,6 +57,10 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     @Qualifier("keyPersonnelService")
 	private KeyPersonnelService keyPersonnelService;
 
+    @Autowired
+    @Qualifier("lookupService")
+    private LookupService lookupService;
+
     @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-PersonnelPage"})
     public ModelAndView navigateToPersonnel(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
@@ -65,7 +70,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
             person.setDevelopmentProposal(propDevForm.getProposalDevelopmentDocument().getDevelopmentProposal());
             person.getQuestionnaireHelper().populateAnswers();
         }
-        return getTransactionalDocumentControllerService().navigate(form, result, request, response);
+        return getNavigationControllerService().navigate(form);
     } 
     
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=save", "pageId=PropDev-PersonnelPage"})
@@ -104,7 +109,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
                form.getAddKeyPersonHelper().getResults().add(newPerson);
            }
        }
-       return getTransactionalDocumentControllerService().refresh(form, result, request, response);
+       return getRefreshControllerService().refresh(form);
    }
 
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addPerson")
@@ -122,7 +127,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        getKeyPersonnelService().addProposalPerson(newProposalPerson, form.getProposalDevelopmentDocument());
        form.getAddKeyPersonHelper().reset();
        refreshPersonCertificaitonAnswerHeaders(form);
-       return getTransactionalDocumentControllerService().refresh(form, result, request, response);
+       return getRefreshControllerService().refresh(form);
    }
 
     @MethodAccessible
@@ -185,4 +190,12 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 			person.setQuestionnaireHelper(qh);
 	    }
 	}
+
+    public LookupService getLookupService() {
+        return lookupService;
+    }
+
+    public void setLookupService(LookupService lookupService) {
+        this.lookupService = lookupService;
+    }
 }

@@ -337,7 +337,7 @@
 <bean id="EnrouteDevelopmentProposals-LookupViewId" parent="EnrouteDevelopmentProposals-lookupView-parentBean"/>    
 <bean id="EnrouteDevelopmentProposals-lookupView-parentBean" abstract="true" parent="DevelopmentProposal-LookupView"     p:viewName="EnrouteLookupableDevelopmentProposals-LookupViewName" p:headerText="Enroute Development Proposals Lookup" 
      p:viewHelperServiceClass="org.kuali.coeus.propdev.impl.core.EnrouteDevelopmentProposalLookupable"
-     p:viewHelperService="@{T(org.kuali.rice.contrib.krad.SpringMethods).retrieveSpringBean('enrouteDevelopmentProposalLookupable')}">
+     p:viewHelperService="@{T(org.kuali.coeus.org.kuali.rice.krad.SpringMethods).retrieveSpringBean('enrouteDevelopmentProposalLookupable')}">
      <property name="criteriaFields">
       <list>
         <bean p:propertyName="proposalNumber" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField" p:order="10"/>

@@ -50,7 +50,7 @@
 
     <bean id="PropDev-QuestionnairePage-TabGroup" parent="PropDev-QuestionnairePage-TabGroup-parentBean"/>
     <bean id="PropDev-QuestionnairePage-TabGroup-parentBean" abstract="true" parent="Uif-TabGroup"
-          class="org.kuali.rice.contrib.uif.element.QuestionnaireTabGroup">
+          class="org.kuali.coeus.propdev.impl.questionnaire.QuestionnaireTabGroup">
             <property name="collectionGroupPrototype">
                 <bean parent="Questionnaire-QuestionsGroup"/>
             </property>

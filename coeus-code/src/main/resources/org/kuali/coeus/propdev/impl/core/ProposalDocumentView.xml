@@ -19,7 +19,7 @@
 		p:formClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm"
 		p:documentClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument"
 		p:viewHelperServiceClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl"
-		p:viewHelperService="@{T(org.kuali.rice.contrib.krad.SpringMethods).retrieveSpringBean('proposalDevelopmentViewHelperService')}"
+		p:viewHelperService="@{T(org.kuali.coeus.org.kuali.rice.krad.SpringMethods).retrieveSpringBean('proposalDevelopmentViewHelperService')}"
 		p:stickyApplicationHeader="true" p:stickyFooter="true"
 		p:breadcrumbs.render="false" p:cssClasses="uif-formView"
 		p:unifiedHeader="false" p:defaultBindingObjectPath="">

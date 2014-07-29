@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl;
-import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.stereotype.Controller;
@@ -37,7 +36,7 @@ public class ProposalDevelopmentQuestionnaireController extends ProposalDevelopm
         @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-QuestionnairePage"})
         public ModelAndView navigateToQuestionnaire(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
             ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).populateQuestionnaires(form);
-            return getTransactionalDocumentControllerService().navigate(form, result, request, response);
+            return getNavigationControllerService().navigate(form);
         }    
         
        @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveQuestionnaire")

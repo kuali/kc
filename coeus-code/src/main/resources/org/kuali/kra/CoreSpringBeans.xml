@@ -958,6 +958,14 @@
   	<context:annotation-config />
 	<context:component-scan base-package="org.kuali.kra.web.krad"/>
 
+    <bean id="controllerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="controllerService" />
+    </bean>
+
+    <bean id="kcCommonControllerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kcCommonControllerService" />
+    </bean>
+
     <bean class="org.kuali.rice.core.framework.util.spring.NamedOrderedListBean">
         <property name="name" value="scriptConfigurationFilePaths" />
         <property name="listItem" value="classpath:org/kuali/kra/dwr-kra.xml" />

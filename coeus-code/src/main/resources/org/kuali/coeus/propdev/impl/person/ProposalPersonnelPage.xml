@@ -45,7 +45,7 @@
 
 	<bean id="PropDev-PersonnelPage-Wizard" parent="PropDev-PersonnelPage-Wizard-parentBean" />
 	<bean id="PropDev-PersonnelPage-Wizard-parentBean" abstract="true"
-		parent="Uif-DialogGroup" class="org.kuali.rice.contrib.uif.element.WizardGroup"
+		parent="Uif-DialogGroup" class="org.kuali.coeus.org.kuali.rice.krad.uif.container.WizardGroup"
 		p:fieldBindingObjectPath="addKeyPersonHelper" p:resetDataOnRefresh="true"
 		p:retrieveViaAjax="true">
 		<property name="header">

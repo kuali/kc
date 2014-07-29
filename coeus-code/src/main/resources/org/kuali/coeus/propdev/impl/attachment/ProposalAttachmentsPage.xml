@@ -62,7 +62,7 @@
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
-                    <property name="optionsFinder" value="#{T(org.kuali.rice.contrib.krad.SpringMethods).retrieveSpringBean('narrativeStatusValuesFinder')}" />
+                    <property name="optionsFinder" value="#{T(org.kuali.coeus.org.kuali.rice.krad.SpringMethods).retrieveSpringBean('narrativeStatusValuesFinder')}" />
                 </bean>
                 <bean parent="Uif-SecondaryActionButton" p:methodToCall="markAllComplete" p:actionLabel="Set All Statuses"
                       p:actionParameters="@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_PATH}:document.developmentProposal.narratives"
@@ -316,7 +316,7 @@
                       p:fieldLabel.labelText="Type"
                       p:enableAutoQuickfinder="false"
                       p:order="10">
-                    <property name="optionsFinder" value="#{T(org.kuali.rice.contrib.krad.SpringMethods).retrieveSpringBean('instituteAttachmentTypeValuesFinder')}" />
+                    <property name="optionsFinder" value="#{T(org.kuali.coeus.org.kuali.rice.krad.SpringMethods).retrieveSpringBean('instituteAttachmentTypeValuesFinder')}" />
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="narrative.moduleTitle" p:order="20" />
                 <bean parent="Uif-InputField" p:propertyName="narrative.multipartFile" p:fieldLabel.labelText="File"
@@ -350,7 +350,7 @@
             p:readOnlyDisplayReplacementPropertyName="narrativeType.description"
             p:fieldLabel.labelText="Type"
             p:enableAutoQuickfinder="false">
-        <property name="optionsFinder" value="#{T(org.kuali.rice.contrib.krad.SpringMethods).retrieveSpringBean('instituteAttachmentTypeValuesFinder')}" />
+        <property name="optionsFinder" value="#{T(org.kuali.coeus.org.kuali.rice.krad.SpringMethods).retrieveSpringBean('instituteAttachmentTypeValuesFinder')}" />
     </bean>
 
     <bean id="PropDev-AttachmentsPage-NotesSection" parent="PropDev-AttachmentsPage-NotesSection-parentBean" />

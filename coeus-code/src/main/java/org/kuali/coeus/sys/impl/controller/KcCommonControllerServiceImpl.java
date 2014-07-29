@@ -100,16 +100,6 @@ public class KcCommonControllerServiceImpl implements KcCommonControllerService 
         return requestForm;
     }
 
-    @Override
-    public DocumentFormBase createInitialForm(HttpServletRequest request) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public UifFormBase initForm(HttpServletRequest request, HttpServletResponse response) {
-        throw new UnsupportedOperationException();
-    }
-
     public GlobalVariableService getGlobalVariableService() {
         return globalVariableService;
     }

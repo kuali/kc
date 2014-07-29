@@ -11,9 +11,5 @@ import javax.servlet.http.HttpServletResponse;
 public interface KcCommonControllerService {
 
     UifFormBase initForm(UifFormBase requestForm, HttpServletRequest request, HttpServletResponse response);
-
-    UifFormBase createInitialForm(HttpServletRequest request);
-
-    UifFormBase initForm(HttpServletRequest request, HttpServletResponse response);
 }
 

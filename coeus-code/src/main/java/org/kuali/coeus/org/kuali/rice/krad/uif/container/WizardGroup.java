@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.rice.contrib.uif.element;
+package org.kuali.coeus.org.kuali.rice.krad.uif.container;
 
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.DialogGroup;
-import org.kuali.rice.krad.uif.container.GroupBase;
 import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.rice.krad.web.form.UifFormBase;
 

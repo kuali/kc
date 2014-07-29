@@ -41,6 +41,7 @@
 
     <bean id="kualiModuleService" parent="grlImporter" p:serviceName="kualiModuleService" />
     <bean id="transactionManager" parent="grlImporter" p:serviceName="transactionManager" />
+    <bean id="modelAndViewService" parent="grlImporter" p:serviceName="modelAndViewService" />
 
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
@@ -83,7 +84,9 @@
     </bean>
 
     <bean id="uifControllerHandlerInterceptor"
-          class="org.kuali.rice.krad.web.controller.UifControllerHandlerInterceptor"/>
+          class="org.kuali.rice.krad.web.controller.UifControllerHandlerInterceptor">
+        <property name="modelAndViewService" ref="modelAndViewService" />
+    </bean>
 
     <bean id="moduleLockingHandlerInterceptor" class="org.kuali.rice.krad.web.controller.ModuleLockingHandlerInterceptor">
         <property name="moduleLockedMapping" value="module-locked"/>

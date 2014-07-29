@@ -1,4 +1,4 @@
-package org.kuali.rice.contrib.krad;
+package org.kuali.coeus.org.kuali.rice.krad;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 

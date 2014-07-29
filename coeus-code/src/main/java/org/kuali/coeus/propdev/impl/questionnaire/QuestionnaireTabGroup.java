@@ -1,4 +1,4 @@
-package org.kuali.rice.contrib.uif.element;
+package org.kuali.coeus.propdev.impl.questionnaire;
 
 
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;

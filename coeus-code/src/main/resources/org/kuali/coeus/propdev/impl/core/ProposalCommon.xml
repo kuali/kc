@@ -124,7 +124,7 @@
 
     <bean id="PropDev-CollectionToggleMenu" abstract="true" parent="PropDev-CollectionToggleMenu-parentBean"/>
     <bean id="PropDev-CollectionToggleMenu-parentBean" abstract="true"
-          class="org.kuali.rice.contrib.uif.element.CollectionToggleMenu" parent="Uif-SidebarToggleMenu">
+          class="org.kuali.coeus.org.kuali.rice.krad.uif.element.CollectionToggleMenu" parent="Uif-SidebarToggleMenu">
         <property name="bindingInfo">
             <ref bean="Uif-BindingInfo"/>
         </property>

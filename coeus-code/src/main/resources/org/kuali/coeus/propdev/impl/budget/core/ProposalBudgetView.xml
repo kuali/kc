@@ -17,7 +17,7 @@
 	<bean id="PropBudget-DefaultView-parentBean" abstract="true"
 		parent="Uif-FormView" p:headerText="Proposal Development Document"
 		p:viewHelperServiceClass="org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetViewHelperServiceImpl"
-		p:viewHelperService="@{T(org.kuali.rice.contrib.krad.SpringMethods).retrieveSpringBean('proposalBudgetViewHelperService')}"
+		p:viewHelperService="@{T(org.kuali.coeus.org.kuali.rice.krad.SpringMethods).retrieveSpringBean('proposalBudgetViewHelperService')}"
 		p:stickyApplicationHeader="true" p:stickyFooter="true"
 		p:breadcrumbs.render="false" p:cssClasses="uif-formView"
 		p:unifiedHeader="false" p:defaultBindingObjectPath="">

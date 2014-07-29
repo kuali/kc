@@ -133,7 +133,7 @@
  		<property name="control">
  			<bean parent="Uif-DropdownControl"/>
  		</property> 
- 		<property name="optionsFinder" value="#{T(org.kuali.rice.contrib.krad.SpringMethods).retrieveSpringBean('s2sSubmissionTypeValueFinder')}">
+ 		<property name="optionsFinder" value="#{T(org.kuali.coeus.org.kuali.rice.krad.SpringMethods).retrieveSpringBean('s2sSubmissionTypeValueFinder')}">
         </property>
  	</bean> 
  
@@ -143,7 +143,7 @@
  		<property name="control">
  			<bean parent="Uif-DropdownControl"/>
  		</property>
- 		<property name="optionsFinder" value="#{T(org.kuali.rice.contrib.krad.SpringMethods).retrieveSpringBean('s2sRevisionTypeValueFinder')}">
+ 		<property name="optionsFinder" value="#{T(org.kuali.coeus.org.kuali.rice.krad.SpringMethods).retrieveSpringBean('s2sRevisionTypeValueFinder')}">
         </property>
     </bean>
 

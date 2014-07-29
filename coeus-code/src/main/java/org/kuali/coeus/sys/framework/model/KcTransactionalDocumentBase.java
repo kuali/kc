@@ -107,7 +107,6 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
 
     @LegacyDataFramework
     public final void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        //setObjectId(UUID.randomUUID().toString());
         setObjectId(null);
         prePersist();
     }
@@ -128,19 +127,7 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
 
     @PostPersist
     protected void postPersist() {
-        DocumentHeader temp = getDocumentHeaderService().getDocumentHeaderById(documentNumber);
-        if (temp != null && temp.getWorkflowDocument() != null) {
-            documentHeader = temp;
-        }
-    }
 
-    @Override
-    public void postProcessSave(DocumentEvent event) {
-        super.postProcessSave(event);
-        DocumentHeader temp =  getDocumentHeaderService().getDocumentHeaderById(documentNumber);
-        if (temp != null && temp.getWorkflowDocument() != null) {
-            documentHeader = temp;
-        }
     }
     
     @LegacyDataFramework
@@ -414,13 +401,13 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
     void setCustomAttributeService(CustomAttributeService customAttributeService) {
         this.customAttributeService = customAttributeService;
     }
-    
+
     @Override
     public PersistableBusinessObjectExtension getExtension() {
     	return (PersistableBusinessObjectExtension) super.getExtension();
     }
-    
-    @Override 
+
+    @Override
     public void setExtension(PersistableBusinessObjectExtension extension) {
     	super.setExtension(extension);
     }

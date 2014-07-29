@@ -18,7 +18,7 @@
 		p:formClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm"
 		p:documentClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument"
 		p:viewHelperServiceClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl"
-		p:viewHelperService="@{T(org.kuali.rice.contrib.krad.SpringMethods).retrieveSpringBean('proposalDevelopmentViewHelperService')}"
+		p:viewHelperService="@{T(org.kuali.coeus.org.kuali.rice.krad.SpringMethods).retrieveSpringBean('proposalDevelopmentViewHelperService')}"
 		p:viewName="initiate" p:stickyFooter="true" p:singlePageView="true">
 		<property name="additionalScriptFiles">
 			<list>

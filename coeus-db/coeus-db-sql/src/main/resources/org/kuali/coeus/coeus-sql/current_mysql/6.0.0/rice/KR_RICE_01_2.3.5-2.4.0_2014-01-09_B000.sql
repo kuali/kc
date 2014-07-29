@@ -16,8 +16,11 @@
 
 -- KULRICE-9198 - krms_attr_defn_t.attr_defn_id is a varchar(255),
 --                but referencing columns are a mixture of varchar(40) and varchar(255)
+DELIMITER /
 
 ALTER TABLE KRMS_TYP_ATTR_T MODIFY ATTR_DEFN_ID VARCHAR(40)
 /
 ALTER TABLE KRMS_ATTR_DEFN_T MODIFY ATTR_DEFN_ID VARCHAR(40)
 /
+
+DELIMITER;

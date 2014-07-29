@@ -13,7 +13,7 @@
                     http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="Uif-NavigationBar" parent="Uif-NavigationBar-parentBean"
-		class="org.kuali.rice.krad.uif.element.NavigationBarCustomLink">
+		class="org.kuali.coeus.org.kuali.rice.krad.uif.element.NavigationBarCustomLink">
     	<property name="template" value="/WEB-INF/ftl/krad/components/element/navigationBar.ftl"/>
 	</bean>
 </beans>

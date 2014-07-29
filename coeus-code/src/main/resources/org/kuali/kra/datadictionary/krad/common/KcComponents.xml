@@ -27,11 +27,6 @@
 	</bean>
 	<bean id="Uif-DropdownControl" parent="Uif-DropdownControl-parentBean"
 		p:additionalCssClasses="advanced_select"/>
-		
-  <!-- override dialog base to use local ftl file that defaults to standard size instead of small dialog -->
-  <bean id="Uif-DialogBase" parent="Uif-DialogBase-parentBean">
-  	<property name="template" value="/WEB-INF/ftl/krad/components/group/dialogGroup.ftl"/>
-  </bean>
   
   <bean id="Uif-LookupView" parent="Kc-LookupView"/>
   <bean id="Kc-LookupView" abstract="true" parent="Kc-LookupView-parentBean"/>
