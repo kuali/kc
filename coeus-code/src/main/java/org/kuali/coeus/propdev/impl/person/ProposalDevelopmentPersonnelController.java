@@ -73,6 +73,12 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         return getNavigationControllerService().navigate(form);
     } 
     
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigateToPersonError"})
+    public ModelAndView navigateToPersonError(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+        form.setAjaxReturnType("update-page");
+    	return navigateToPersonnel(form, result, request, response);
+    } 
+    
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=save", "pageId=PropDev-PersonnelPage"})
     public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, 
     		HttpServletRequest request, HttpServletResponse response) throws Exception {

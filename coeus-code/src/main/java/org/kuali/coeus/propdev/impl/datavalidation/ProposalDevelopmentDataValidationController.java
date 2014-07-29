@@ -55,7 +55,7 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
             form.setDataValidationItems(createDataValidationItems(form,form.getView().getViewIndex()));
         }
 
-        return getModelAndViewService().getModelAndView(form);
+        return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
     }
 
     @MethodAccessible
@@ -66,8 +66,7 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
         if(form.isAuditActivated()) {
             form.setDataValidationItems(createDataValidationItems(form,form.getView().getViewIndex()));
         }
-
-        return getModelAndViewService().getModelAndView(form);
+        return getRefreshControllerService().refresh(form);
 
     }
 
@@ -100,6 +99,9 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
                 dataValidationItem.setDescription(KRADUtils.getMessageText(errorMessage,false));
                 dataValidationItem.setSeverity(auditCluster.getCategory());
                 dataValidationItem.setNavigateToPageId(links[0]);
+                if(links[0] != null && links[0].equals(org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE)) {
+                	dataValidationItem.setMetodToCall("navigateToPersonError");
+                }
                 dataValidationItem.setNavigateToSectionId(links[1]);
 
                 dataValidationItems.add(dataValidationItem);
