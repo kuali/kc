@@ -490,7 +490,7 @@
 		parent="Uif-TableCollectionSection" p:headerText="Unit Details"
 		p:propertyName="units"
 		p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPersonUnit"
-		p:renderAddLine="false" 
+		p:renderAddLine="false"
 		p:layoutManager.renderSequenceField="false"	>
 		<property name="lineActions">
 			<list>
@@ -522,10 +522,9 @@
 		parent="Uif-TableCollectionSection" p:headerText="Degrees"
 		p:propertyName="proposalPersonDegrees"
 		p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPersonDegree"
-		p:layoutManager.renderSequenceField="false" 
-		p:addLinePlacement="BOTTOM"
-		p:renderAddBlankLineButton="true">
-		<!-- following will be used when lightbox JIRA is fixed in KRAD 
+		p:layoutManager.renderSequenceField="false"
+		p:addLinePlacement="BOTTOM">
+		<!-- following will be used when lightbox JIRA is fixed in KRAD
 		p:addViaLightbox="true">
  		<property name="addViaLightBoxAction">
    			<bean parent="Uif-AddViaLightBoxAction" p:actionLabel="Degree" p:iconClass="icon-plus"/>
@@ -533,13 +532,13 @@
 		-->
 		<property name="items">
 			<list>
-  				<bean parent="Uif-InputField" p:propertyName="code"
+                <bean parent="Uif-InputField" p:propertyName="degreeCode"
 					p:enableAutoQuickfinder="false" p:order="10" >
   					<property name="inquiry">
                     	<bean parent="Uif-Inquiry" p:render="false" />
                     </property>
                 </bean>
-				<bean parent="Uif-InputField" p:propertyName="degree" p:order="20" />	
+				<bean parent="Uif-InputField" p:propertyName="degree" p:order="20" />
 				<bean parent="Uif-InputField" p:propertyName="graduationYear" p:order="30" />
 				<bean parent="Uif-InputField" p:propertyName="school" p:order="40" />
 			</list>

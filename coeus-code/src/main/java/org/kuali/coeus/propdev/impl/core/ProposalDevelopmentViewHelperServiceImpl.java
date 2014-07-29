@@ -142,7 +142,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
         if (addLine instanceof KcPersistableBusinessObjectBase) {
             ((KcPersistableBusinessObjectBase) addLine).setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
-            ((KcPersistableBusinessObjectBase) addLine).setUpdateUser(globalVariableService.getUserSession().getPrincipalName());
+            ((KcPersistableBusinessObjectBase) addLine).setUpdateUser(getGlobalVariableService().getUserSession().getPrincipalName());
         }
     }
 
@@ -373,6 +373,9 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     }
 
     public GlobalVariableService getGlobalVariableService() {
+        if (globalVariableService == null){
+            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        }
         return globalVariableService;
     }
 
