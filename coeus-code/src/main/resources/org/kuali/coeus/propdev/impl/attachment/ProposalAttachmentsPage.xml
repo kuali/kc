@@ -137,11 +137,11 @@
                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="addNarrative"
                               p:refreshId="PropDev-AttachmentsPage-ProposalCollection-Collection"
                               p:actionParameters="propertyName:narratives"
-                              p:successCallback="dismissDialog('PropDev-AttachmentsPage-ProposalDetails')"
+                              p:onClickScript="dismissDialog('PropDev-AttachmentsPage-ProposalDetails')"
                               p:render="@{proposalDevelopmentAttachmentHelper.selectedLineIndex eq null}" p:order="10"/>
                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="saveNarrative"
                               p:refreshId="PropDev-AttachmentsPage-ProposalCollection-Collection"
-                              p:successCallback="dismissDialog('PropDev-AttachmentsPage-ProposalDetails')"
+                              p:onClickScript="dismissDialog('PropDev-AttachmentsPage-ProposalDetails')"
                               p:render="@{proposalDevelopmentAttachmentHelper.selectedLineIndex ne null}" p:order="20"/>
                         <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" p:order="30"/>
                     </list>
@@ -222,7 +222,7 @@
                     <list>
                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="addBiography"
                               p:refreshId="PropDev-AttachmentsPage-PersonnelCollection-Collection"
-                              p:successCallback="dismissDialog('PropDev-AttachmentsPage-PersonnelDetails')" p:order="10"/>
+                              p:onClickScript="dismissDialog('PropDev-AttachmentsPage-PersonnelDetails')" p:order="10"/>
                         <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" p:order="20"/>
                     </list>
                 </property>
@@ -334,7 +334,7 @@
                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="addNarrative"
                               p:refreshId="PropDev-AttachmentsPage-InternalCollection-Collection"
                               p:actionParameters="propertyName:instituteAttachments"
-                              p:successCallback="dismissDialog('PropDev-AttachmentsPage-InternalDetails')"
+                              p:onClickScript="dismissDialog('PropDev-AttachmentsPage-InternalDetails')"
                               p:order="10"/>
                         <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" p:order="20"/>
                     </list>
