@@ -119,7 +119,7 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
         getKcDataObjectService().initUpdateFieldsForPersist(this);
         getKcDataObjectService().initObjectIdForPersist(this);
     }
-    
+
     @LegacyDataFramework
     public final void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
     	postPersist();
