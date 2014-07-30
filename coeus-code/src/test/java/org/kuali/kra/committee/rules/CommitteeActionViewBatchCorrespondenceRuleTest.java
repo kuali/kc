@@ -20,6 +20,7 @@ import org.kuali.coeus.common.committee.impl.bo.CommitteeBatchCorrespondenceBase
 import org.kuali.coeus.common.committee.impl.rule.event.CommitteeActionViewBatchCorrespondenceEvent;
 import org.kuali.coeus.common.committee.impl.rules.CommitteeActionViewBatchCorrespondenceRule;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail;
 import org.kuali.kra.infrastructure.Constants;
@@ -46,7 +47,7 @@ public class CommitteeActionViewBatchCorrespondenceRuleTest {
                 
                 event = new CommitteeActionViewBatchCorrespondenceEvent(Constants.EMPTY_STRING, null, committeeBatchCorrespondences, false);
                 rule = new CommitteeActionViewBatchCorrespondenceRule();
-                rule.setErrorReporter(new ErrorReporter());
+                rule.setErrorReporter(new ErrorReporterImpl());
                 expectedReturnValue = true;
             }
         };
@@ -62,7 +63,7 @@ public class CommitteeActionViewBatchCorrespondenceRuleTest {
                 List<CommitteeBatchCorrespondenceBase> committeeBatchCorrespondences = new ArrayList<CommitteeBatchCorrespondenceBase>();
                 event = new CommitteeActionViewBatchCorrespondenceEvent(Constants.EMPTY_STRING, null, committeeBatchCorrespondences, false);
                 rule = new CommitteeActionViewBatchCorrespondenceRule();
-                rule.setErrorReporter(new ErrorReporter());
+                rule.setErrorReporter(new ErrorReporterImpl());
                 expectedReturnValue = false;
             }
         };

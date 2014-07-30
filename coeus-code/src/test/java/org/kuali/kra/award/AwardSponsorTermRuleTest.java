@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.sponsor.term.SponsorTerm;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
 import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -56,7 +57,7 @@ public class AwardSponsorTermRuleTest {
     public void setUp() throws Exception {
         awardSponsorTerms = new ArrayList<AwardSponsorTerm>();
         awardSponsorTermRule = new AwardSponsorTermRuleImpl();
-        awardSponsorTermRule.setErrorReporter(new ErrorReporter());
+        awardSponsorTermRule.setErrorReporter(new ErrorReporterImpl());
         awardSponsorTerm1 = new AwardSponsorTerm();
         awardSponsorTerm2 = new AwardSponsorTerm();
         awardSponsorTerm3 = new AwardSponsorTerm();

@@ -20,6 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
 import org.kuali.kra.award.home.Award;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -52,7 +53,7 @@ public class AwardDirectFandADistributionRuleTest {
     public void setUp() throws Exception {
         awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
         awardDirectFandADistributionRuleImpl = new AwardDirectFandADistributionRuleImpl();
-        awardDirectFandADistributionRuleImpl.setErrorReporter(new ErrorReporter());
+        awardDirectFandADistributionRuleImpl.setErrorReporter(new ErrorReporterImpl());
         award = new Award();
         setAwardDatesToDefault();
         createAndSetDefaultDatesForAwardDirectFandADistributions();

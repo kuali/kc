@@ -20,6 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.*;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleStartAndEndDateEvent;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -208,7 +209,7 @@ public class CommitteeScheduleStartAndEndDateRuleTest  {
      */
     private void testAssertFalse() {
         CommitteeScheduleStartAndEndDateRule rule = new CommitteeScheduleStartAndEndDateRule();
-        rule.setErrorReporter(new ErrorReporter());
+        rule.setErrorReporter(new ErrorReporterImpl());
         boolean val = rule.processRules(event);
         assertFalse(val);
     }

@@ -21,6 +21,7 @@ import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.ScheduleDa
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.StyleKey;
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.YearlyScheduleDetails;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDayEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.infrastructure.Constants;
@@ -39,7 +40,7 @@ public class CommitteeScheduleDayRuleTest {
                 scheduleData.getMonthlySchedule().setMonthOption(MonthlyScheduleDetails.optionValues.XDAYANDXMONTH.toString());               
                 event = new CommitteeScheduleDayEvent(Constants.EMPTY_STRING, null, scheduleData, null, ErrorType.HARDERROR);
                 rule = new CommitteeScheduleDayRule();
-                rule.setErrorReporter(new ErrorReporter());
+                rule.setErrorReporter(new ErrorReporterImpl());
                 expectedReturnValue = true;
             }
         };
@@ -56,7 +57,7 @@ public class CommitteeScheduleDayRuleTest {
                 scheduleData.getMonthlySchedule().setMonthOption(MonthlyScheduleDetails.optionValues.XDAYANDXMONTH.toString());
                 event = new CommitteeScheduleDayEvent(Constants.EMPTY_STRING, null, scheduleData, null, ErrorType.HARDERROR);
                 rule = new CommitteeScheduleDayRule();
-                rule.setErrorReporter(new ErrorReporter());
+                rule.setErrorReporter(new ErrorReporterImpl());
                 expectedReturnValue = false;
             }
         };
@@ -73,7 +74,7 @@ public class CommitteeScheduleDayRuleTest {
                 scheduleData.getYearlySchedule().setYearOption(YearlyScheduleDetails.yearOptionValues.XDAY.toString());               
                 event = new CommitteeScheduleDayEvent(Constants.EMPTY_STRING, null, scheduleData, null, ErrorType.HARDERROR);
                 rule = new CommitteeScheduleDayRule();
-                rule.setErrorReporter(new ErrorReporter());
+                rule.setErrorReporter(new ErrorReporterImpl());
                 expectedReturnValue = true;
             }
         };
@@ -90,7 +91,7 @@ public class CommitteeScheduleDayRuleTest {
                 scheduleData.getYearlySchedule().setYearOption(YearlyScheduleDetails.yearOptionValues.XDAY.toString());               
                 event = new CommitteeScheduleDayEvent(Constants.EMPTY_STRING, null, scheduleData, null, ErrorType.HARDERROR);
                 rule = new CommitteeScheduleDayRule();
-                rule.setErrorReporter(new ErrorReporter());
+                rule.setErrorReporter(new ErrorReporterImpl());
                 expectedReturnValue = false;
             }
         };
