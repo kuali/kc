@@ -17,6 +17,12 @@
 			<bean parent="Uif-CheckboxControl" />
 		</property>
 	</bean>
+
+    <!-- override dialog base to use standard size instead of small dialog -->
+    <bean id="Uif-DialogBase" parent="Uif-DialogBase-parentBean">
+        <property name="dialogCssClass" value="" />
+    </bean>
+
 	<bean id="Uif-Lookup-MaintenanceReturnLink" parent="Uif-Lookup-MaintenanceReturnLink-parentBean" />
 	<bean id="Uif-Lookup-MaintenanceReturnLink-parentBean" abstract="true"
 		parent="Uif-Link">
