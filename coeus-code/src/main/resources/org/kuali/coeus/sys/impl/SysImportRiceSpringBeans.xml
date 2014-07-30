@@ -30,6 +30,14 @@
     <bean id="maintenanceDocumentDictionaryService" parent="grlImporter" p:serviceName="maintenanceDocumentDictionaryService" />
     <bean id="dataSource" parent="grlImporter" p:serviceName="dataSource" />
     <bean id="kualiRuleService" parent="grlImporter" p:serviceName="kualiRuleService"/>
+    <bean id="lookupService" parent="grlImporter" p:serviceName="lookupService" />
+    <bean id="sequenceAccessorService" parent="grlImporter" p:serviceName="sequenceAccessorService" />
+    <bean id="lookupResultsService" parent="grlImporter" p:serviceName="lookupResultsService" />
+    <bean id="persistenceStructureService" parent="grlImporter" p:serviceName="persistenceStructureService" />
+    <bean id="dataDictionaryService" parent="grlImporter" p:serviceName="dataDictionaryService" />
+    <bean id="businessObjectDictionaryService" parent="grlImporter" p:serviceName="businessObjectDictionaryService" />
+    <bean id="encryptionService" parent="grlImporter" p:serviceName="encryptionService" />
+    <bean id="businessObjectMetaDataService" parent="grlImporter" p:serviceName="businessObjectMetaDataService" />
 
     <bean id="collectionControllerService" parent="grlImporter" p:serviceName="collectionControllerService" />
     <bean id="controllerService" parent="grlImporter" p:serviceName="controllerService" />

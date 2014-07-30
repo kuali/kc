@@ -18,6 +18,7 @@ import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.krad.uif.service.ViewHelperService;
+import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.BeanIsAbstractException;
 import org.springframework.context.ApplicationContext;
 
@@ -69,10 +70,16 @@ public class SpringBeanConfigurationTest extends KcIntegrationTestBase {
             public void r(ApplicationContext context, String name) {
                 context.getBean(name);
             }
-        });
+        }, false);
     }
 
-    private void toEachSpringBean(VoidFunction function) {
+    /**
+     * Apply a void function to each spring bean available in each spring context available from each spring resource loader.
+     *
+     * @param function the function to apply
+     * @param ignoreCreationException whether to ignore exception that occurs when creating a bean
+     */
+    private void toEachSpringBean(VoidFunction function, boolean ignoreCreationException) {
         Map<QName, List<KeyValue<String, Exception>>> failedBeans = new HashMap<>();
 
         for (SpringResourceLoader r : springResourceLoaders) {
@@ -83,6 +90,12 @@ public class SpringBeanConfigurationTest extends KcIntegrationTestBase {
                         function.r(context, name);
                     } catch (BeanIsAbstractException e) {
                         //ignore since the bean can't be created
+                    } catch (BeanCreationException e) {
+                        //if there is no way to ignore creation errors all tests will fail even if one bean is bad regardless of the type
+                        //we do want this type of failure to be tested by at least one test method but not all tests
+                        if (!ignoreCreationException) {
+                            throw e;
+                        }
                     } catch (RuntimeException e) {
                         LOG.error("bean failed to execute function", e);
                         List<KeyValue<String, Exception>> rlFailures = failedBeans.get(r.getName());
@@ -130,27 +143,27 @@ public class SpringBeanConfigurationTest extends KcIntegrationTestBase {
 
     @Test
     public void test_view_helper_service_are_prototype_scope() {
-        toEachSpringBean(new PrototypeVerification(ViewHelperService.class));
+        toEachSpringBean(new PrototypeVerification(ViewHelperService.class), true);
     }
 
     @Test
     public void test_lookupables_are_prototype_scope() {
-        toEachSpringBean(new PrototypeVerification(Lookupable.class));
+        toEachSpringBean(new PrototypeVerification(Lookupable.class), true);
     }
 
     @Test
     public void test_lookup_helper_service_are_prototype_scope() {
-        toEachSpringBean(new PrototypeVerification(LookupableHelperService.class));
+        toEachSpringBean(new PrototypeVerification(LookupableHelperService.class), true);
     }
 
     @Test
     public void test_generators_are_prototype_scope() {
-        toEachSpringBean(new PrototypeVerification(S2SFormGenerator.class));
+        toEachSpringBean(new PrototypeVerification(S2SFormGenerator.class), true);
     }
 
     @Test
     public void test_printables_are_prototype_scope() {
-        toEachSpringBean(new PrototypeVerification(Printable.class));
+        toEachSpringBean(new PrototypeVerification(Printable.class), true);
     }
 
     /**
@@ -178,7 +191,7 @@ public class SpringBeanConfigurationTest extends KcIntegrationTestBase {
                     nonPrototypes.add(name);
                 }
             }
-        });
+        }, true);
         final Collection<String> misConfigured = CollectionUtils.retainAll(nonPrototypes, prototypes);
         Assert.assertTrue("The following beans are prototypes in one spring context and non-prototypes in another spring context: " + misConfigured, misConfigured.isEmpty());
     }
@@ -218,7 +231,7 @@ public class SpringBeanConfigurationTest extends KcIntegrationTestBase {
                 }
 
             }
-        });
+        }, true);
 
         final Set<Map.Entry<String, Set<Class<?>>>> entrySet = new HashSet<>(beans.entrySet());
         CollectionUtils.filter(entrySet, new Predicate<Map.Entry<String, Set<Class<?>>>>() {

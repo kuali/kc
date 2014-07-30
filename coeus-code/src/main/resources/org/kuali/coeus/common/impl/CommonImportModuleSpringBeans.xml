@@ -30,6 +30,7 @@
 
     <bean id="unitAuthorizationService" parent="grlImporter" p:serviceName="unitAuthorizationService" />
     <bean id="protocolFinderDao" parent="grlImporter" p:serviceName="protocolFinderDao" />
+    <bean id="iacucProtocolFinderDao" parent="grlImporter" p:serviceName="iacucProtocolFinderDao" />
     <bean id="awardBudgetService" parent="grlImporter" p:serviceName="awardBudgetService" />
     <bean id="fiscalYearMonthService" parent="grlImporter" p:serviceName="fiscalYearMonthService" />
     <bean id="awardAmountInfoService" parent="grlImporter" p:serviceName="awardAmountInfoService" />
