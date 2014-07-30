@@ -13,7 +13,7 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>key</value>
+        <value>id</value>
       </list>
     </property>
 	<property name="allowsRecordDeletion" value="true" />
@@ -30,7 +30,7 @@
     <property name="title" value="Edit S2S Error"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="key" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="key" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="message" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="link" p:required="true"/>
       </list>

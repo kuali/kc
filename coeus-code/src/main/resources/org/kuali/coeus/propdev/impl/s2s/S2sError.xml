@@ -140,8 +140,15 @@
   <bean id="S2sError-lookupDefinition" parent="S2sError-lookupDefinition-parentBean" />
   <bean id="S2sError-LookupView" parent="S2sError-LookupView-parentBean"/>
   <bean id="S2sError-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="S2s Error" /><property name="defaultSort" >
-      <bean parent="SortDefinition"/>
+    <property name="title" value="S2s Error" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+          <property name="attributeNames">
+              <list>
+                  <value>key</value>
+              </list>
+          </property>
+      </bean>
     </property>
     <property name="lookupFields" >
       <list>
@@ -162,6 +169,11 @@
   <bean id="S2sError-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.s2s.S2sError"/>
     <property name="headerText" value="S2s Error"/>
+    <property name="defaultSortAttributeNames">
+      <list>
+          <value>key</value>
+      </list>
+    </property>
     <property name="criteriaFields">
       <list>
         <bean p:propertyName="key" parent="Uif-LookupCriteriaInputField"/>
