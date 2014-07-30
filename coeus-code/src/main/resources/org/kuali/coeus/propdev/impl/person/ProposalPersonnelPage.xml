@@ -255,7 +255,7 @@
 							p:actionParameters="PropDev-PersonnelPage-Wizard.step:1" p:order="10" />
 						<bean parent="PropDev-PersonnelPage-WizardButton-Continue"
 							p:actionParameters="PropDev-PersonnelPage-Wizard.step:2"
-							p:actionLabel="Add Person" p:refreshId="PropDev-PersonnelPage-Section"
+							p:actionLabel="Add Person" p:ajaxSubmit="false"
 							p:methodToCall="addPerson" p:successCallback="dismissDialog('PropDev-PersonnelPage-Wizard');"
 							p:order="20" />
 					</list>
