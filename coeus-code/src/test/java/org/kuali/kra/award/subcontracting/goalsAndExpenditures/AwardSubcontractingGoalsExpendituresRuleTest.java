@@ -28,6 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.lookup.Lookupable;
@@ -77,7 +78,7 @@ public class AwardSubcontractingGoalsExpendituresRuleTest {
         GlobalVariables.setMessageMap(new MessageMap());
         //set up rule with mocks
         this.rule = new AwardSubcontractingGoalsExpendituresRule();
-        this.rule.setErrorReporter(new ErrorReporter());
+        this.rule.setErrorReporter(new ErrorReporterImpl());
         this.rule.setAwardLookupable(context.mock(Lookupable.class));
         this.rule.setDictionaryValidationService(context.mock(DictionaryValidationService.class));
         // add the 'never invoked' conditions common to all tests

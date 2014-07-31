@@ -18,6 +18,7 @@ package org.kuali.kra.committee.rules;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDeadlineEvent;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
@@ -47,7 +48,7 @@ public class CommitteeScheduleDeadlineRuleTest {
                 
                 event = new CommitteeScheduleDeadlineEvent(Constants.EMPTY_STRING, null, null, committeeSchedules, ErrorType.HARDERROR);
                 rule = new CommitteeScheduleDeadlineDateRule();
-                rule.setErrorReporter(new ErrorReporter());
+                rule.setErrorReporter(new ErrorReporterImpl());
                 expectedReturnValue = true;
             }
         };
@@ -68,7 +69,7 @@ public class CommitteeScheduleDeadlineRuleTest {
                 
                 event = new CommitteeScheduleDeadlineEvent(Constants.EMPTY_STRING, null, null, committeeSchedules, ErrorType.HARDERROR);
                 rule = new CommitteeScheduleDeadlineDateRule();
-                rule.setErrorReporter(new ErrorReporter());
+                rule.setErrorReporter(new ErrorReporterImpl());
                 expectedReturnValue = false;
             }
         };

@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.print;
 
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
 import org.kuali.kra.rules.TemplateRuleTest;
 
 public class ProtocolActionPrintRuleTest {
@@ -28,7 +29,7 @@ public class ProtocolActionPrintRuleTest {
 
                 event = new ProtocolActionPrintEvent(null, true, false, false, false);
                 rule = new ProtocolActionPrintRule();
-                rule.setErrorReporter(new ErrorReporter());
+                rule.setErrorReporter(new ErrorReporterImpl());
                 expectedReturnValue = true;
             }
         };
@@ -44,7 +45,7 @@ public class ProtocolActionPrintRuleTest {
 
                 event = new ProtocolActionPrintEvent(null, false, false, false, false);
                 rule = new ProtocolActionPrintRule();
-                rule.setErrorReporter(new ErrorReporter());
+                rule.setErrorReporter(new ErrorReporterImpl());
                 expectedReturnValue = false;
             }
         };

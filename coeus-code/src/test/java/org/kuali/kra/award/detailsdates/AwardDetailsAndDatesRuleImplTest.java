@@ -23,6 +23,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -74,7 +75,7 @@ public class AwardDetailsAndDatesRuleImplTest {
         sponsor.setSponsorCode("1");
         award = new Award();
         awardDetailsAndDatesRule = new AwardDetailsAndDatesRuleImpl();
-        awardDetailsAndDatesRule.setErrorReporter(new ErrorReporter());
+        awardDetailsAndDatesRule.setErrorReporter(new ErrorReporterImpl());
         event = new AddAwardTransferringSponsorEvent("", null, award, sponsor);
         GlobalVariables.setMessageMap(new MessageMap());
     }

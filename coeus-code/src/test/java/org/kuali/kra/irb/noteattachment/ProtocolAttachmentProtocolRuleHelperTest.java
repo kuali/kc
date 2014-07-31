@@ -23,6 +23,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -51,7 +52,7 @@ public class ProtocolAttachmentProtocolRuleHelperTest {
     public void validStatusBlankCode() {
         
         ProtocolAttachmentProtocolRuleHelper helper = new ProtocolAttachmentProtocolRuleHelper();
-        helper.setErrorReporter(new ErrorReporter());
+        helper.setErrorReporter(new ErrorReporterImpl());
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
@@ -71,7 +72,7 @@ public class ProtocolAttachmentProtocolRuleHelperTest {
     public void validStatus() {
         
         ProtocolAttachmentProtocolRuleHelper helper = new ProtocolAttachmentProtocolRuleHelper();
-        helper.setErrorReporter(new ErrorReporter());
+        helper.setErrorReporter(new ErrorReporterImpl());
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
@@ -94,7 +95,7 @@ public class ProtocolAttachmentProtocolRuleHelperTest {
     public void invalidStatusValidCodeForSubmissionNull() {
         
         ProtocolAttachmentProtocolRuleHelper helper = new ProtocolAttachmentProtocolRuleHelper();
-        helper.setErrorReporter(new ErrorReporter());
+        helper.setErrorReporter(new ErrorReporterImpl());
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
@@ -114,7 +115,7 @@ public class ProtocolAttachmentProtocolRuleHelperTest {
     public void invalidStatusValidCodeForSubmissionValidCode() {
         
         ProtocolAttachmentProtocolRuleHelper helper = new ProtocolAttachmentProtocolRuleHelper();
-        helper.setErrorReporter(new ErrorReporter());
+        helper.setErrorReporter(new ErrorReporterImpl());
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();
@@ -134,7 +135,7 @@ public class ProtocolAttachmentProtocolRuleHelperTest {
     public void validStatusValidCodeForSubmission() {
         
         ProtocolAttachmentProtocolRuleHelper helper = new ProtocolAttachmentProtocolRuleHelper();
-        helper.setErrorReporter(new ErrorReporter());
+        helper.setErrorReporter(new ErrorReporterImpl());
         helper.resetPropertyPrefix("fooPrefix");
         
         final ProtocolAttachmentProtocol attachment = new ProtocolAttachmentProtocol();

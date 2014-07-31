@@ -18,6 +18,7 @@ package org.kuali.kra.irb.actions.amendrenew;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -44,7 +45,7 @@ public class ProtocolCreateRenewalRuleTest {
         CreateRenewalEvent event = new CreateRenewalEvent(null, PROPERTY_KEY, SUMMARY);
 
         CreateRenewalRule rule = new CreateRenewalRule();
-        rule.setErrorReporter(new ErrorReporter());
+        rule.setErrorReporter(new ErrorReporterImpl());
         assertTrue(rule.processRules(event));
     }
 
@@ -55,7 +56,7 @@ public class ProtocolCreateRenewalRuleTest {
         CreateRenewalEvent event = new CreateRenewalEvent(null, PROPERTY_KEY, "");
 
         CreateRenewalRule rule = new CreateRenewalRule();
-        rule.setErrorReporter(new ErrorReporter());
+        rule.setErrorReporter(new ErrorReporterImpl());
         assertFalse(rule.processRules(event));
         assertError(PROPERTY_KEY, KeyConstants.ERROR_PROTOCOL_SUMMARY_IS_REQUIRED);
     }

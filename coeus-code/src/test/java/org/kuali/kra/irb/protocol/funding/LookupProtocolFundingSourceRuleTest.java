@@ -17,6 +17,7 @@ package org.kuali.kra.irb.protocol.funding;
 
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolEventBase;
@@ -34,7 +35,7 @@ public class LookupProtocolFundingSourceRuleTest {
                 event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceType.AWARD, 
                         ProtocolEventBase.ErrorType.HARDERROR );
                 rule = new LookupProtocolFundingSourceRule();
-                rule.setErrorReporter(new ErrorReporter());
+                rule.setErrorReporter(new ErrorReporterImpl());
                 expectedReturnValue = true;
             }
         };
@@ -48,7 +49,7 @@ public class LookupProtocolFundingSourceRuleTest {
                 event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceType.PROPOSAL_DEVELOPMENT, 
                         ProtocolEventBase.ErrorType.HARDERROR );
                 rule = new LookupProtocolFundingSourceRule();
-                rule.setErrorReporter(new ErrorReporter());
+                rule.setErrorReporter(new ErrorReporterImpl());
                 expectedReturnValue = true;
             }
         };
@@ -61,7 +62,7 @@ public class LookupProtocolFundingSourceRuleTest {
                 event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceType.UNIT, 
                         ProtocolEventBase.ErrorType.HARDERROR );
                 rule = new LookupProtocolFundingSourceRule();
-                rule.setErrorReporter(new ErrorReporter());
+                rule.setErrorReporter(new ErrorReporterImpl());
                 expectedReturnValue = true;
             }
         };
@@ -74,7 +75,7 @@ public class LookupProtocolFundingSourceRuleTest {
                 event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceType.OTHER, 
                         ProtocolEventBase.ErrorType.HARDERROR );
                 rule = new LookupProtocolFundingSourceRule();
-                rule.setErrorReporter(new ErrorReporter());
+                rule.setErrorReporter(new ErrorReporterImpl());
                 expectedReturnValue = false;
             }
         };
@@ -87,7 +88,7 @@ public class LookupProtocolFundingSourceRuleTest {
                 event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceType.SPONSOR, 
                         ProtocolEventBase.ErrorType.HARDERROR );
                 rule = new LookupProtocolFundingSourceRule();
-                rule.setErrorReporter(new ErrorReporter());
+                rule.setErrorReporter(new ErrorReporterImpl());
                 expectedReturnValue = true;
             }
         };
@@ -100,7 +101,7 @@ public class LookupProtocolFundingSourceRuleTest {
                 event = new LookupProtocolFundingSourceEvent(Constants.EMPTY_STRING, null, FundingSourceType.INSTITUTIONAL_PROPOSAL, 
                         ProtocolEventBase.ErrorType.HARDERROR );
                 rule = new LookupProtocolFundingSourceRule();
-                rule.setErrorReporter(new ErrorReporter());
+                rule.setErrorReporter(new ErrorReporterImpl());
                 expectedReturnValue = true;
             }
         };

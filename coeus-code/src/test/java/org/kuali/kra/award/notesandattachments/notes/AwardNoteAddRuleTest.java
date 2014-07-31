@@ -17,6 +17,7 @@ package org.kuali.kra.award.notesandattachments.notes;
 
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
 import org.kuali.kra.award.notesandattachments.notes.AwardNoteEventBase.ErrorType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
@@ -33,7 +34,7 @@ public class AwardNoteAddRuleTest {
                 awardNotepad.setNoteTopic("test");
                 event = new AwardNoteAddEvent(Constants.EMPTY_STRING, null, awardNotepad, ErrorType.HARDERROR);
                 rule = new AwardNoteAddRule();
-                rule.setErrorReporter(new ErrorReporter());
+                rule.setErrorReporter(new ErrorReporterImpl());
                 expectedReturnValue = true;
             }
         };
@@ -51,7 +52,7 @@ public class AwardNoteAddRuleTest {
                 awardNotepad.setNoteTopic("");
                 event = new AwardNoteAddEvent(Constants.EMPTY_STRING, null, awardNotepad, ErrorType.HARDERROR);
                 rule = new AwardNoteAddRule();
-                rule.setErrorReporter(new ErrorReporter());
+                rule.setErrorReporter(new ErrorReporterImpl());
                 expectedReturnValue = false;
             }
         };
