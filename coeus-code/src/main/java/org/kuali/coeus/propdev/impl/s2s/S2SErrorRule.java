@@ -26,16 +26,19 @@ public class S2SErrorRule extends MaintenanceDocumentRuleBase {
 
         final S2sError s2sError = (S2sError) document.getNewMaintainableObject().getDataObject();
 
-        if (StringUtils.isNotBlank(s2sError.getKey()) && StringUtils.isNotBlank(s2sError.getKey())
+        if (StringUtils.isNotBlank(s2sError.getKey())
                 && !KRADConstants.MAINTENANCE_DELETE_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
             final List<S2sError> errors = getDataObjectService().findMatching(S2sError.class,
                     QueryByCriteria.Builder.andAttributes(Collections.singletonMap("key", s2sError.getKey()))
                             .build())
                     .getResults();
-            if (!errors.isEmpty() && errors.get(0).getKey().equals(s2sError.getKey())) {
-                getGlobalVariableService().getMessageMap().putError("document.newMaintainableObject.key",
-                        UNIQUE_S2S_ERROR_KEY, "");
-                valid = false;
+            if (!errors.isEmpty()) {
+                final S2sError existingError = errors.get(0);
+                if (existingError.getKey().equals(s2sError.getKey()) && !existingError.getId().equals(s2sError.getId())) {
+                    getGlobalVariableService().getMessageMap().putError("document.newMaintainableObject.key",
+                            UNIQUE_S2S_ERROR_KEY, "");
+                    valid = false;
+                }
             }
         }
 
