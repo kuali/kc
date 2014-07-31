@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="S2sErrorMaintenanceDocument" parent="S2sErrorMaintenanceDocument-parentBean"/>
+
+  <bean id="S2sErrorMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.s2s.S2sError"/>
+    <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+    <property name="businessRulesClass" value="org.kuali.coeus.propdev.impl.s2s.S2SErrorRule" />
+    <property name="maintainableSections">
+      <list>
+        <ref bean="S2sErrorMaintenanceDocument-Edit"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>id</value>
+      </list>
+    </property>
+	<property name="allowsRecordDeletion" value="true" />
+
+    <property name="documentTypeName" value="S2sErrorMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+  <bean id="S2sErrorMaintenanceDocument-Edit" parent="S2sErrorMaintenanceDocument-Edit-parentBean"/>
+  <bean id="S2sErrorMaintenanceDocument-Edit-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit S2S Error"/>
+    <property name="title" value="Edit S2S Error"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="key" p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="message" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="link" p:required="true"/>
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -880,10 +880,20 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
-	</class-descriptor>	
-	
-	
-	<!-- KIM OJB Mappings -->
+	</class-descriptor>
+
+    <class-descriptor class="org.kuali.coeus.propdev.impl.s2s.S2sError" table="S2S_ERROR">
+        <field-descriptor name="id" column="S2S_ERROR_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="SEQ_S2S_ERROR_ID" />
+        <field-descriptor name="key" column="MESSAGE_KEY" jdbc-type="VARCHAR" />
+        <field-descriptor name="message" column="MESSAGE" jdbc-type="VARCHAR" />
+        <field-descriptor name="link" column="FIX_LINK" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
+    </class-descriptor>
+
+    <!-- KIM OJB Mappings -->
     
     <class-descriptor class="org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplate" table="PROP_ROLE_TEMPLATE">
         <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROP_ROLE_TEMPLATE_ID" />
