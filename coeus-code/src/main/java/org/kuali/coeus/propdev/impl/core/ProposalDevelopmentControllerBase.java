@@ -145,17 +145,25 @@ public abstract class ProposalDevelopmentControllerBase {
      }
      
      protected void initialSave(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-         proposalDevelopmentDocument.getDocumentHeader().setDocumentDescription("Testing");
+         preSave(proposalDevelopmentDocument);
          proposalDevelopmentService.initializeUnitOrganizationLocation(
                  proposalDevelopmentDocument);
          proposalDevelopmentService.initializeProposalSiteNumbers(
                  proposalDevelopmentDocument);
      }
-     
+
+     protected void preSave(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+         if (proposalDevelopmentDocument.isDefaultDocumentDescription()) {
+             proposalDevelopmentDocument.setDefaultDocumentDescription();
+         }
+     }
+
      public ModelAndView save(DocumentFormBase form, BindingResult result,
              HttpServletRequest request, HttpServletResponse response) throws Exception {
          ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
          ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
+
+         preSave(proposalDevelopmentDocument);
 
          proposalDevelopmentService.initializeUnitOrganizationLocation(
                  proposalDevelopmentDocument);
