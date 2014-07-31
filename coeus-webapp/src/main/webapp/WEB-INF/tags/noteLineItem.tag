@@ -35,8 +35,8 @@
 <c:if test="${displayFinancialEntityId == null}"><c:set var="displayFinancialEntityId" value="${false}" /></c:if>
 <c:if test="${isMasterDisclosure == null}"><c:set var="isMasterDisclosure" value="${false}" /></c:if>
 
-<c:set var="notesAttributes" value="${DataDictionary.CoiDisclosureNotepad.attributes}" />
-
+<c:set var="notesAttributes" value="${DataDictionary.ProtocolNotepad.attributes}" />
+<c:set var="COInotesAttributes" value="${DataDictionary.CoiDisclosureNotepad.attributes}" />
 
 <%--<c:if test="${viewRestrictedNotes || !protocolNotepad.restrictedView}"> --%>
 <c:if test="${!noteObject.restrictedView || (viewRestrictedNotes && noteObject.restrictedView)}">
@@ -123,19 +123,6 @@
 					                    </c:otherwise>
 				                    </c:choose>
 		                    	</c:forEach>
-		                    	<%--
-			                    <c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureProjectValuesFinder', paramMap1)}" var="option">
-				                    <c:choose>
-				                        <c:when test="${noteObject.projectId == option.key}">
-						                    <option value="${option.key}" selected>${option.value}</option>
-					                    </c:when>
-					                    <c:otherwise>
-						                    <c:out value="${option.value}" />
-						                    <option value="${option.key}">${option.value}</option>
-					                    </c:otherwise>
-				                    </c:choose>
-			                    </c:forEach>
-			                     --%>
 		                    </html:select>
 	                    </c:when>
 	                    <c:otherwise>
@@ -150,7 +137,7 @@
 			<td valign="middle">
 				<div align="left">
 					<kul:htmlControlAttribute property="${noteParmeterString }.financialEntityId" 
-						attributeEntry="${notesAttributes.financialEntityId}" readOnly="${!modifyPermission || !noteObject.editable}" />
+						attributeEntry="${COInotesAttributes.financialEntityId}" readOnly="${!modifyPermission || !noteObject.editable}" />
 				</div>
 			</td>
 		</c:if>
