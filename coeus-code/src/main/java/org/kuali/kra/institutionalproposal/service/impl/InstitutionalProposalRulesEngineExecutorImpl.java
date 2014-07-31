@@ -39,7 +39,7 @@ public class InstitutionalProposalRulesEngineExecutorImpl extends KcRulesEngineE
         contextQualifiers.put("name", KcKrmsConstants.InstitutionalProposal.INSTITUTIONAL_PROPOSAL_CONTEXT);
         // extract facts from routeContext
         String docContent = routeContext.getDocument().getDocContent();
-        String unitNumber = getElementValue(docContent, "//document/institutionalProposalList[1]/" + InstitutionalProposal.class + "[1]/unitNumber[1]");
+        String unitNumber = getElementValue(docContent, "//document/institutionalProposalList[1]/" + InstitutionalProposal.class.getName() + "[1]/unitNumber[1]");
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
                 Collections.singletonMap("Unit Number", unitNumber));
         KcKrmsFactBuilderServiceHelper fbService = KcServiceLocator.getService("institutionalProposalFactBuilderService");
