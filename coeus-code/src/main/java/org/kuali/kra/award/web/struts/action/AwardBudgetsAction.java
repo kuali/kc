@@ -55,6 +55,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -120,7 +121,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         AwardDocument awardDoc = awardForm.getAwardDocument();
         ActionForward actionForward = activate(mapping, form, request, response);
             if(actionForward == mapping.findForward(Constants.MAPPING_BASIC)) { 
-                Budget newBudget = getBudgetService().addBudgetVersion(awardDoc, awardForm.getNewBudgetVersionName());
+                Budget newBudget = getBudgetService().addBudgetVersion(awardDoc, awardForm.getNewBudgetVersionName(), Collections.EMPTY_MAP);
                 if(newBudget!=null){
                     awardForm.setNewBudgetVersionName("");
                 }

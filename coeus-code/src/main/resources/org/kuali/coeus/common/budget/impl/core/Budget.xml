@@ -60,10 +60,10 @@
   <bean id="Budget-finalVersionFlag" parent="Budget-finalVersionFlag-parentBean"/>
   <bean id="Budget-finalVersionFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
     <property name="name" value="finalVersionFlag"/>
-    <property name="label" value="Final?"/>
+    <property name="label" value="Submit"/>
     <property name="shortLabel" value="Final"/>
-    <property name="summary" value="Final Version Flag"/>
-    <property name="description" value="Final Version Flag"/>
+    <property name="summary" value="Budget To Submit"/>
+    <property name="description" value="Budget To Submit"/>
   </bean>
 
   <bean id="Budget-modularBudgetFlag" parent="Budget-modularBudgetFlag-parentBean"/>

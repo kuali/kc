@@ -61,6 +61,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private boolean auditActivated;
     private List<ProposalCreditSplitListDto> creditSplitListItems;
     private AddBudgetDto addBudgetDto;
+    private AddBudgetDto copyBudgetDto;
     private ProposalCopyCriteria proposalCopyCriteria;
     private ProposalDevelopmentAttachmentHelper proposalDevelopmentAttachmentHelper;
 
@@ -230,11 +231,11 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     	this.medusaService = medusaService;
     }
 
-	public AddBudgetDto getAddBudgetDTO() {
+	public AddBudgetDto getAddBudgetDto() {
 		return addBudgetDto;
 	}
 
-	public void setAddBudgetDTO(AddBudgetDto addBudgetDto) {
+	public void setAddBudgetDto(AddBudgetDto addBudgetDto) {
 		this.addBudgetDto = addBudgetDto;
 	}
 
@@ -268,5 +269,13 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
     }
+
+	public AddBudgetDto getCopyBudgetDto() {
+		return copyBudgetDto;
+	}
+
+	public void setCopyBudgetDto(AddBudgetDto copyBudgetDto) {
+		this.copyBudgetDto = copyBudgetDto;
+	}
 
 }

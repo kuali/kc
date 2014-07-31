@@ -248,7 +248,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         // persist the document and add a budget
         try {
             documentService.saveDocument(newDoc);
-            budgetService.addBudgetVersion(newDoc, "Hierarchy Budget");
+            budgetService.addBudgetVersion(newDoc, "Hierarchy Budget", Collections.EMPTY_MAP);
         }
         catch (WorkflowException x) {
             throw new ProposalHierarchyException("Error saving new document: " + x);

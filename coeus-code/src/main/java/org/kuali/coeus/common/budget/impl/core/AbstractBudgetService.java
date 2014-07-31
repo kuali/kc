@@ -118,19 +118,19 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
      * @param versionName of the {@link BudgetVersionOverview}
      */
     @Override
-    public Budget addBudgetVersion(BudgetParentDocument budgetParentDocument, String versionName) {
+    public Budget addBudgetVersion(BudgetParentDocument budgetParentDocument, String versionName, Map options) {
         if (!isBudgetVersionNameValid(budgetParentDocument, versionName)) {
             LOG.debug("Buffered Version not Valid");
             return null;
         }
 
-        Budget newBudgetDoc = getNewBudgetVersion(budgetParentDocument, versionName);
+        Budget newBudgetDoc = getNewBudgetVersion(budgetParentDocument, versionName, options);
         if(newBudgetDoc==null) return null;
         
         return newBudgetDoc;
     }
 
-    protected abstract Budget getNewBudgetVersion(BudgetParentDocument<T> parent, String versionName);
+    protected abstract Budget getNewBudgetVersion(BudgetParentDocument<T> parent, String versionName, Map<String, Object> options);
 
     /**
      * Runs business rules on the given name of a {@link BudgetVersionOverview} instance and {@link ProposalDevelopmentDocument} instance to 

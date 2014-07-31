@@ -1,10 +1,14 @@
 package org.kuali.coeus.propdev.impl.budget.core;
 
+import java.util.Collections;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.TransactionalDocumentControllerService;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -65,8 +69,12 @@ public abstract class ProposalBudgetControllerBase {
     public UifFormBase initForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
         UifFormBase form =  getKcCommonControllerService().initForm(this.createInitialForm(request), request, response);
         return form;
-    }	
-    
+    }
+
+    protected ProposalDevelopmentBudgetExt loadBudget(Long budgetId) {
+    	return getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("budgetId", Long.valueOf(budgetId))).build());
+    }
+
     public ModelAndView save(ProposalBudgetForm form) throws Exception {
     	getDataObjectService().save(form.getBudget());
         return getModelAndViewService().getModelAndView(form);

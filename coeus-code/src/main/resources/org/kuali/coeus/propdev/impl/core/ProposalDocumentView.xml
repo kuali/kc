@@ -30,6 +30,7 @@
 				<value>scripts/propdev/core.js</value>
 				<value>scripts/propdev/person.js</value>
 				<value>scripts/propdev/attachments.js</value>
+				<value>scripts/propdev/budget.js</value>
 			</list>
 		</property>
 		<property name="additionalCssFiles">
@@ -63,9 +64,10 @@
 		<property name="dialogs">
 			<list>
 				<ref bean="PropDev-PersonnelPage-Wizard" />
-				<ref bean="PropDev-BudgetPage-AddBudgetDialog"/>
                 <ref bean="PropDev-AttachmentsPage-ProposalDetails"/>
                 <ref bean="PropDev-MedusaSection"/>
+				<ref bean="PropDev-BudgetPage-NewBudgetDialog"/>
+				<ref bean="PropDev-BudgetPage-CopyBudgetDialog"/>
 			</list>
 		</property>
 	</bean>
