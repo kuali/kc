@@ -124,7 +124,7 @@ public class SubAwardFinancialAction extends SubAwardAction{
         SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
         if (getKualiRuleService().applyRules(new SaveDocumentEvent("document", subAward.getSubAwardDocument()))) {
             this.save(mapping, subAwardForm, request, response);
-            response.sendRedirect("kr/maintenance.do?businessObjectClassName=" + SubAwardAmountReleased.class + "&methodToCall=start" +
+            response.sendRedirect("kr/maintenance.do?businessObjectClassName=" + SubAwardAmountReleased.class.getName() + "&methodToCall=start" +
                     "&subAwardId=" + subAward.getSubAwardId() + "&subAwardCode=" + subAward.getSubAwardCode() + 
                     "&sequenceNumber=" + subAward.getSequenceNumber());
         }
