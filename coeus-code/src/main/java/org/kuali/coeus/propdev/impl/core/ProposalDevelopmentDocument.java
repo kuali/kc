@@ -610,7 +610,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getDevelopmentProposal().getAllUnitNumbers());
     }
 
-    public void defaultDocumentDescription() {
+    public void setDefaultDocumentDescription() {
         DevelopmentProposal proposal = getDevelopmentProposal();
         String desc = String.format("%s; Proposal No: %s; PI: %s; Sponsor: %s; Due Date: %s", proposal.getTitle() != null ? proposal.getTitle().substring(0, Math.min(proposal.getTitle().length(), 19)) : "null", proposal.getProposalNumber(), proposal.getPrincipalInvestigatorName(), proposal.getSponsorName(), proposal.getDeadlineDate() != null ? getDateTimeService().toDateString(proposal.getDeadlineDate()) : "null");
         getDocumentHeader().setDocumentDescription(desc);
