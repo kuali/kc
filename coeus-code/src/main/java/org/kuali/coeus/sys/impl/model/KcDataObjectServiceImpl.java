@@ -61,7 +61,7 @@ public class KcDataObjectServiceImpl implements KcDataObjectService {
     }
 
     private void setUpdateFields(KcDataObject kcDataObject) {
-        if (!kcDataObject.isUpdateUserSet()) {
+        if (!kcDataObject.isUpdateUserSet() && globalVariableService.getUserSession() != null) {
             String principalName = globalVariableService.getUserSession().getPrincipalName();
             String lastPrincipalId = (String) globalVariableService.getUserSession().retrieveObject(Constants.LAST_ACTION_PRINCIPAL_ID);
             if (StringUtils.isNotBlank(lastPrincipalId)) {
@@ -70,8 +70,12 @@ public class KcDataObjectServiceImpl implements KcDataObjectService {
 
             kcDataObject.setUpdateUser(principalName);
         }
+
         kcDataObject.setUpdateTimestamp(new Timestamp(new java.util.Date().getTime()));
-        kcDataObject.setUpdateUser(StringUtils.substring(kcDataObject.getUpdateUser(), 0, KcDataObject.UPDATE_USER_LENGTH));
+
+        if (kcDataObject.getUpdateUser() != null) {
+            kcDataObject.setUpdateUser(StringUtils.substring(kcDataObject.getUpdateUser(), 0, KcDataObject.UPDATE_USER_LENGTH));
+        }
     }
 
     public IdentityService getIdentityService() {

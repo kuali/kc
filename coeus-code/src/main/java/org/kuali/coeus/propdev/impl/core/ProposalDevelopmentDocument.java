@@ -304,7 +304,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
             String pCode = getDevelopmentProposal().getProposalStateTypeCode();
             getDevelopmentProposal().setProposalStateTypeCode(getProposalStateService().getProposalStateTypeCode(this, false, getKcDocumentRejectionService().isDocumentOnInitialNode(this)));
             if (!StringUtils.equals(pCode, getDevelopmentProposal().getProposalStateTypeCode())) {
-                getDevelopmentProposal().refresh();
                 getDataObjectService().save(getDevelopmentProposal());
             }
             if (getDevelopmentProposal().isChild() && StringUtils.equals(KewApiConstants.ACTION_TAKEN_CANCELED_CD, actionTaken.getActionTaken().getCode())) {
