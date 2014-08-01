@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.budget.impl.core;
 
+import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.keyvalue.KeyValueFinderService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -23,6 +24,7 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.uif.view.ViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,10 +70,21 @@ public class BudgetPeriodValuesFinder extends FormViewAwareUifKeyValuesFinderBas
     }
     private List<KeyValue> buildKeyValues(List<BudgetPeriod> budgetPeriods) {
         List<KeyValue> KeyValues = new ArrayList<KeyValue>();
-        KeyValues.add(new ConcreteKeyValue(null, "Select"));
+        KeyValues.add(new ConcreteKeyValue("", "Select"));
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
             KeyValues.add(new ConcreteKeyValue(budgetPeriod.getBudgetPeriod().toString(), budgetPeriod.getLabel()));
         }
         return KeyValues;
+    }
+
+    @Override
+    public List<KeyValue> getKeyValues(ViewModel viewModel) {
+        List<KeyValue> keyValues = null;
+        List<BudgetPeriod> budgetPeriods = ((ProposalBudgetForm)viewModel).getBudget().getBudgetPeriods();
+        if (budgetPeriods.size() > 0) {
+            keyValues = buildKeyValues(budgetPeriods);
+        }
+        return keyValues;
+
     }
 }

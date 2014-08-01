@@ -62,10 +62,10 @@
     </property>
     <property name="required" value="true" />
     <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.budget.impl.period.BudgetExpensePeriodValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.budget.impl.core.BudgetPeriodValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.coeus.common.budget.impl.period.BudgetExpensePeriodValuesFinder"/>
+      <bean class="org.kuali.coeus.common.budget.impl.core.BudgetPeriodValuesFinder"/>
     </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
