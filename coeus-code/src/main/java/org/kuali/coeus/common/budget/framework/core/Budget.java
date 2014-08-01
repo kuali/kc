@@ -142,8 +142,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
     @Column(name = "BUDGET_ADJUSTMENT_DOC_NBR")
     private String budgetAdjustmentDocumentNumber;
 
-    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
+    @OneToMany(mappedBy="budget", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetPerson> budgetPersons;
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })

@@ -65,4 +65,7 @@ public interface BudgetPersonService {
             ProposalPersonContract proposalPerson,
             BudgetPersonnelDetailsContract budgetPersonnelDetails);
 
+
+    public void refreshBudgetPerson(BudgetPerson budgetPerson);
+
 }

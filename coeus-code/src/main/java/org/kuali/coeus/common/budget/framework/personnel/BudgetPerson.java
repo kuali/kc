@@ -25,6 +25,7 @@ import javax.persistence.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonContract;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.DateSortable;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -116,13 +117,29 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
     @Transient
     private BudgetPersonSalaryDetails personSalaryDetails;
 
-    @Transient
+    @OneToMany(mappedBy="budgetPerson", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "TBN_ID", referencedColumnName = "TBN_ID", insertable = false, updatable = false)
     private TbnPerson tbnPerson;
 
+    @Transient
+    private boolean selected;
+
+    @Transient
+    private String userName;
+
+    @Transient
+    private String directoryTitle;
+
+    @Transient
+    private String school;
+    
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
+    private Budget budget;
+    
     public BudgetPerson() {
         super();
         budgetPersonSalaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
@@ -135,6 +152,9 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
         this.personName = person.getFullName();
         this.salaryAnniversaryDate = person.getExtendedAttributes().getSalaryAnniversaryDate();
         this.nonEmployeeFlag = false;
+        this.userName = person.getUserName();
+        this.directoryTitle = person.getDirectoryTitle();
+        this.school = person.getSchool();
     }
 
     public BudgetPerson(Rolodex rolodex) {
@@ -165,18 +185,19 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
     }
 
     public List<BudgetPersonSalaryDetails> getBudgetPersonSalaryDetails() {
-        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
-        List<BudgetPersonSalaryDetails> salaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
-        if (this.budgetPersonSalaryDetails == null || this.budgetPersonSalaryDetails.isEmpty()) {
-            HashMap budgetMap = new HashMap();
-            budgetMap.put("budgetId", getBudgetId());
-            Collection<BudgetPeriod> periods = boService.findMatching(BudgetPeriod.class, budgetMap);
-            for (BudgetPeriod budgetPeriod : periods) {
-                salaryDetails.add(new BudgetPersonSalaryDetails());
-            }
-            this.budgetPersonSalaryDetails = salaryDetails;
-        }
-        return budgetPersonSalaryDetails;
+      List<BudgetPersonSalaryDetails> salaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
+      if (this.budgetPersonSalaryDetails == null || this.budgetPersonSalaryDetails.isEmpty()) {
+          for (BudgetPeriod budgetPeriod : getBudget().getBudgetPeriods()) {
+        	  BudgetPersonSalaryDetails budgetPersonSalaryDetails = new BudgetPersonSalaryDetails();
+        	  budgetPersonSalaryDetails.setBudgetId(getBudgetId());
+        	  budgetPersonSalaryDetails.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
+        	  budgetPersonSalaryDetails.setPersonId(getPersonId());
+        	  budgetPersonSalaryDetails.setPersonSequenceNumber(getPersonSequenceNumber());
+              salaryDetails.add(budgetPersonSalaryDetails);
+          }
+          this.budgetPersonSalaryDetails = salaryDetails;
+      }
+    	return budgetPersonSalaryDetails;
     }
 
     public void setBudgetPersonSalaryDetails(List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails) {
@@ -493,4 +514,44 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
     public void setTbnPerson(TbnPerson tbnPerson) {
         this.tbnPerson = tbnPerson;
     }
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+
+	public Budget getBudget() {
+		return budget;
+	}
+
+	public void setBudget(Budget budget) {
+		this.budget = budget;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getDirectoryTitle() {
+		return directoryTitle;
+	}
+
+	public void setDirectoryTitle(String directoryTitle) {
+		this.directoryTitle = directoryTitle;
+	}
+
+	public String getSchool() {
+		return school;
+	}
+
+	public void setSchool(String school) {
+		this.school = school;
+	}
 }

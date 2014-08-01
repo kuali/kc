@@ -125,7 +125,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 
 	@MethodAccessible
 	@RequestMapping(params="methodToCall=refresh")
-	public ModelAndView refresh(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView refresh(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		return getRefreshControllerService().refresh(form);
 	}

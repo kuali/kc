@@ -31,6 +31,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,9 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     @Autowired
     @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
+	@Autowired
+	@Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
     
     
     @Override
@@ -74,8 +78,8 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
 
     protected void populateBudgetPersonData(Budget budget, BudgetPerson budgetPerson) {
         budgetPerson.setBudgetId(budget.getBudgetId());
+        budgetPerson.setBudget(budget);
         budgetPerson.setPersonSequenceNumber(budget.getHackedDocumentNextValue(Constants.PERSON_SEQUENCE_NUMBER));
-        
         populatePersonDefaultDataIfEmpty(budget, budgetPerson);
     }
 
@@ -207,7 +211,14 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
             budgetPerson.setAppointmentTypeCode(this.parameterService.getParameterValueAsString(
                     BudgetDocument.class, Constants.BUDGET_PERSON_DEFAULT_APPOINTMENT_TYPE));
         }
+  	    refreshPersonAppointmentType(budgetPerson);
     }
+
+    private void refreshPersonAppointmentType(BudgetPerson budgetPerson) {
+		if(StringUtils.isNotEmpty(budgetPerson.getAppointmentTypeCode())) {
+			getDataObjectService().wrap(budgetPerson).fetchRelationship("appointmentType");
+		}
+	}
 
     public ParameterService getParameterService() { return parameterService;}
 
@@ -274,5 +285,17 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }
+
+	public DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
     
+	public void refreshBudgetPerson(BudgetPerson budgetPerson) {
+		refreshPersonAppointmentType(budgetPerson);
+	}
+	
 }
