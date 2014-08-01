@@ -364,9 +364,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     private String budgetStatusDescription;
 
     @Transient
-    private List<ProposalPerson> investigators;
-
-    @Transient
     private Collection<InvestigatorCreditType> investigatorCreditTypes;
 
     @Transient
@@ -538,7 +535,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         propPersonBios = new ArrayList<ProposalPersonBiography>();
         proposalYnqs = new ArrayList<ProposalYnq>();
         ynqGroupNames = new ArrayList<YnqGroupName>();
-        investigators = new ArrayList<ProposalPerson>();
         s2sOppForms = new ArrayList<S2sOppForms>();
         s2sAppSubmission = new ArrayList<S2sAppSubmission>();
         proposalChangedDataList = new ArrayList<ProposalChangedData>();
@@ -584,12 +580,14 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         }
     }
 
-    public void setInvestigators(List<ProposalPerson> investigators) {
-        this.investigators = investigators;
-    }
-
     @Override
     public List<ProposalPerson> getInvestigators() {
+        List<ProposalPerson> investigators = new ArrayList<ProposalPerson>();
+        for (ProposalPerson proposalPerson : this.getProposalPersons()){
+            if (proposalPerson.isInvestigator()) {
+                investigators.add(proposalPerson);
+            }
+        }
         return investigators;
     }
 

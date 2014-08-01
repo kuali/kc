@@ -795,7 +795,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 ynq.setAnswer(null);
             }
         }
-        doc.getDevelopmentProposal().setInvestigators(new ArrayList<ProposalPerson>());
         getKeyPersonnelService().populateDocument(doc);
     }
     
