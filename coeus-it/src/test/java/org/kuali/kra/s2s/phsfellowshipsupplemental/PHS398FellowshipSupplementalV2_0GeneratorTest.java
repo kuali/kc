@@ -57,7 +57,6 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 		principalInvestigator.setCitizenshipType(citizenshipType);
 		proposalPersons.add(principalInvestigator);
 		document.getDevelopmentProposal().setProposalPersons(proposalPersons);
-		document.getDevelopmentProposal().setInvestigators(proposalPersons);
 
 		ProposalType proposalType = new ProposalType();
 		proposalType.setCode("1");

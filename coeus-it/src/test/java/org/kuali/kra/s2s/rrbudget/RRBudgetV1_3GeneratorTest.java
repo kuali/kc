@@ -90,7 +90,6 @@ public class RRBudgetV1_3GeneratorTest extends
 		principalInvestigator.setRolodexId(0010);
 		proposalPersons.add(principalInvestigator);
 		document.getDevelopmentProposal().setProposalPersons(proposalPersons);
-		document.getDevelopmentProposal().setInvestigators(proposalPersons);
 
 		ProposalDevelopmentBudgetExt proposalDevelopmentBudgetExt = new ProposalDevelopmentBudgetExt();
 		proposalDevelopmentBudgetExt.setBudgetVersionNumber(1);

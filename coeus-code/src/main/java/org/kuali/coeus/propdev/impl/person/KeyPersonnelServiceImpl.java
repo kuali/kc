@@ -106,14 +106,12 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                     }
                 }
             }
-            document.getDevelopmentProposal().setInvestigatorCreditTypes(usedCreditTypes);          
+            document.getDevelopmentProposal().setInvestigatorCreditTypes(usedCreditTypes);
         }else
         {
             document.getDevelopmentProposal().setInvestigatorCreditTypes(getInvestigatorCreditTypes());
         }
         if (document.getDevelopmentProposal().getInvestigators().isEmpty() && !document.getDevelopmentProposal().getProposalPersons().isEmpty()) {
-            LOG.info("Need to repopulate investigator list");
-            populateInvestigators(document);
             if(!(document.getDocumentHeader().getWorkflowDocument().getStatus().getCode().equals("R"))){
                 populateActiveCredittypesPerson(document);
             }
@@ -170,28 +168,6 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         }
     }
 
-    /**
-     * Populate investigators
-     * 
-     * @param document The <code>{@link ProposalDevelopmentDocument}</code> to populate
-     * investigators on
-     */
-    public void populateInvestigators(ProposalDevelopmentDocument document) {
-        // Populate Investigators from a proposal document's persons
-        LOG.debug("Populating Investigators");
-        LOG.debug("Clearing investigator list");
-        document.getDevelopmentProposal().getInvestigators().clear();
-
-        for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
-            LOG.debug(person.getFullName() + " is " + person.isInvestigator());
-
-            if (person.isInvestigator()) {
-                LOG.info("Adding investigator " + person.getFullName());
-                document.getDevelopmentProposal().getInvestigators().add(person);
-            }
-        }
-    }
-    
     public void addProposalPerson(ProposalPerson proposalPerson, ProposalDevelopmentDocument document) {
     	getPersonEditableService().populateContactFields(proposalPerson);
         document.getDevelopmentProposal().addProposalPerson(proposalPerson);
