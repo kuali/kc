@@ -391,6 +391,10 @@
                 	<name>DOCUMENT_STATUS_POLICY</name>
                 	<stringValue>app</stringValue>
                 </policy>
+                <policy>
+                    <name>DOC_SEARCH_TARGET</name>
+                    <stringValue>_parent</stringValue>
+                </policy>
 			</policies>
 			<attributes>
 				<attribute>
