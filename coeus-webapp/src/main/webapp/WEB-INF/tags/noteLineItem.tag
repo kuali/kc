@@ -36,7 +36,6 @@
 <c:if test="${isMasterDisclosure == null}"><c:set var="isMasterDisclosure" value="${false}" /></c:if>
 
 <c:set var="notesAttributes" value="${DataDictionary.ProtocolNotepad.attributes}" />
-<c:set var="COInotesAttributes" value="${DataDictionary.CoiDisclosureNotepad.attributes}" />
 
 <%--<c:if test="${viewRestrictedNotes || !protocolNotepad.restrictedView}"> --%>
 <c:if test="${!noteObject.restrictedView || (viewRestrictedNotes && noteObject.restrictedView)}">
@@ -136,6 +135,7 @@
 		<c:if test="${displayFinancialEntityId }">
 			<td valign="middle">
 				<div align="left">
+					<c:set var="COInotesAttributes" value="${DataDictionary.CoiDisclosureNotepad.attributes}" />
 					<kul:htmlControlAttribute property="${noteParmeterString }.financialEntityId" 
 						attributeEntry="${COInotesAttributes.financialEntityId}" readOnly="${!modifyPermission || !noteObject.editable}" />
 				</div>
