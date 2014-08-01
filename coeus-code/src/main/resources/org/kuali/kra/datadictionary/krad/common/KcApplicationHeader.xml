@@ -211,8 +211,8 @@
 				<bean parent="Uif-SimpleHeaderFour" p:headerText="Lists"
 					p:order="50" />
 				<bean parent="Uif-MenuAction" p:actionLabel="Search Proposals"
-					p:actionUrl.viewId="SearchDevelopmentProposals-LookupViewId"
-					p:actionParameters="viewName:SearchLookupableDevelopmentProposals-LookupViewName"
+					p:actionUrl.viewId="DevelopmentProposals-LookupViewId"
+					p:actionParameters="viewName:DevelopmentProposals-LookupViewName"
 					p:actionUrl.controllerMapping="/lookup" 
 					p:order="60" />
 				<bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Search Proposal Log" p:order="70">

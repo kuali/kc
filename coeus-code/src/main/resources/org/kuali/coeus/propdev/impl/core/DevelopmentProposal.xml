@@ -414,7 +414,7 @@
 		<property name="shortLabel" value="Sponsor Deadline Date" />
 		<property name="required" value="false" />
 		<property name="summary" value="The Deadline Date of the Proposal" />
-    <property name="description" value="The date in which the proposal is due to the sponsoring agency.  Additional deadlines may be set by the office authorized to submit proposals on behalf of the institution (e.g. sponsored programs, etc.)."/>
+    	<property name="description" value="The date in which the proposal is due to the sponsoring agency.  Additional deadlines may be set by the office authorized to submit proposals on behalf of the institution (e.g. sponsored programs, etc.)."/>
 	</bean>
 	
 	<bean id="DevelopmentProposal-deadlineTime" parent="DevelopmentProposal-deadlineTime-parentBean" />
@@ -1192,21 +1192,14 @@
 		</property>
 		<property name="resultSetLimit" value="50" />
 	</bean>
+
+   <bean id="DevelopmentProposals-LookupViewId" parent="DevelopmentProposal-LookupView-parentBean" 
+   		p:viewName="DevelopmentProposals-LookupViewName" p:headerText="Development Proposal Lookup"/>
+   
   
   <bean id="DevelopmentProposal-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.core.DevelopmentProposal"/>
     <property name="headerText" value="Development Proposal Lookup"/>
-    <property name="page.header.lowerGroup">
-      <bean parent="Uif-HeaderLowerGroup">
-        <property name="items">
-          <list merge="true">
-            <bean parent="Uif-Message">
-              <property name="messageText" value="[&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;]"/>
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
     <property name="defaultSortAttributeNames">
       <list>
         <value>proposalNumber</value>
@@ -1218,7 +1211,7 @@
         <bean p:propertyName="proposalTypeCode" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="proposalStateTypeCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="title" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="deadlineDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="deadlineDate" parent="Uif-LookupCriteriaInputField"  p:ranged="true"/>
         <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="sponsor.sponsorName" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="ownedByUnitNumber" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
