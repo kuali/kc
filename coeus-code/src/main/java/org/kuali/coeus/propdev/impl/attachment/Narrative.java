@@ -163,7 +163,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         NarrativeAttachment attachment = new NarrativeAttachment();
         attachment.setType(multipartFile.getContentType());
         attachment.setData(multipartFile.getBytes());
-        attachment.setName(multipartFile.getName());
+        attachment.setName(multipartFile.getOriginalFilename());
         setNarrativeAttachment(attachment);
     }
 
