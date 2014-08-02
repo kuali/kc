@@ -728,7 +728,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
         if (propNextValue == 1) {
             BusinessObjectService bos = KcServiceLocator.getService(BusinessObjectService.class);
             Map<String, Object> pkMap = new HashMap<String, Object>();
-            pkMap.put("documentKey", getBudgetId());
+            pkMap.put("documentKey", this.getObjectId());
             pkMap.put("propertyName", propertyName);
             DocumentNextvalue documentNextvalue = (DocumentNextvalue) bos.findByPrimaryKey(DocumentNextvalue.class, pkMap);
             if (documentNextvalue != null) {
@@ -743,7 +743,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
             DocumentNextvalue documentNextvalue = new DocumentNextvalue();
             documentNextvalue.setNextValue(propNextValue + 1);
             documentNextvalue.setPropertyName(propertyName);
-            documentNextvalue.setDocumentKey(getDocumentNumber());
+            documentNextvalue.setDocumentKey(this.getObjectId());
             getDocumentNextvalues().add(documentNextvalue);
         }
         setDocumentNextvalues(getDocumentNextvalues());
