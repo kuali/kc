@@ -36,6 +36,7 @@ public abstract class QuestionnairePrintingServiceImpl implements QuestionnaireP
 
     private static final String PROTOCOL_NUMBER = "protocolNumber";
     private static final String SUBMISSION_NUMBER = "submissionNumber";
+    private static final String SEQUENCE_NUMBER = "SEQUENCE_NUMBER";
     public static final String QUESTIONNAIRE_SEQ_ID = "questionnaireSeqId";
     public static final String TEMPLATE = "template";
     public static final String MODULE_SUB_ITEM_CODE = "moduleSubItemCode";
@@ -64,7 +65,9 @@ public abstract class QuestionnairePrintingServiceImpl implements QuestionnaireP
                 Map<String, Object> reportParameters = new HashMap<String, Object>();
                 Questionnaire questionnaire = getQuestionnaire(printOption.getQuestionnaireId());
                 reportParameters.put(QUESTIONNAIRE_SEQ_ID, questionnaire.getQuestionnaireSeqIdAsInteger());
+                reportParameters.put(ID, questionnaire.getId());
                 reportParameters.put(TEMPLATE, questionnaire.getTemplate());
+                //reportParameters.put("documentNumber", questionnaire.getDocumentNumber());
                 //  will be used by amendquestionnaire
                 reportParameters.put(MODULE_SUB_ITEM_CODE, printOption.getSubItemCode());
                 if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(printOption.getSubItemCode())) {
@@ -98,7 +101,7 @@ public abstract class QuestionnairePrintingServiceImpl implements QuestionnaireP
         else {
             Map keyValues = new HashMap();
             keyValues.put(PROTOCOL_NUMBER, printOption.getItemKey());
-            keyValues.put(SUBMISSION_NUMBER, printOption.getSubItemKey());
+            keyValues.put(SEQUENCE_NUMBER, printOption.getSubItemKey());
             return ((List<ProtocolBase>) businessObjectService.findMatching(getProtocolBOClassHook(), keyValues)).get(0);
         }
 

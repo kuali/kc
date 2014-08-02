@@ -39,7 +39,7 @@ import java.util.List;
 public class QuestionnairePrint extends AbstractPrint {
 
     private static final long serialVersionUID = -5905174316529503137L;
-    private static final String XSL_CONTEXT_DIR = "/org/kuali/kra/printing/stylesheet/";
+    private static final String XSL_CONTEXT_DIR = "/org/kuali/kra/printing/stylesheet";
 
     @Autowired
     @Qualifier("questionnaireXmlStream")

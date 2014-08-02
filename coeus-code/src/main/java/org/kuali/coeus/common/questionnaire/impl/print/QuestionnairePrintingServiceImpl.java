@@ -104,6 +104,7 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
                 Map<String, Object> reportParameters = new HashMap<String, Object>();
                 Questionnaire questionnaire = getQuestionnaire(printOption.getQuestionnaireId());
                 reportParameters.put("questionnaireSeqId", questionnaire.getQuestionnaireSeqIdAsInteger());
+                reportParameters.put("id", questionnaire.getId());
                 reportParameters.put("template", questionnaire.getTemplate());
                 //  will be used by amendquestionnaire
                 reportParameters.put("moduleSubItemCode", printOption.getSubItemCode());

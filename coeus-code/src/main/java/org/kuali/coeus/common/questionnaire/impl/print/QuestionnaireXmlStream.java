@@ -68,7 +68,6 @@ import java.util.*;
 public class QuestionnaireXmlStream implements XmlStream {
 
     public static final String DOCUMENT_NUMBER = "documentNumber";
-    public static final String QUESTIONNAIRE_ID = "questionnaireId";
     public static final String QUESTIONNAIRE = "questionnaire";
     public static final String QUESTIONNAIRE_QUESTIONS = "questionnaireQuestions";
     public static final String ID = "id";
@@ -174,13 +173,13 @@ public class QuestionnaireXmlStream implements XmlStream {
         Questionnaire questionnaireType = questionnaireDocument.addNewQuestionnaire();
         
         String documentNumber = (String)params.get(DOCUMENT_NUMBER);
-        Integer questionnaireId = (Integer)params.get(QUESTIONNAIRE_ID);
+        Long questionnaireId = (Long)params.get(ID);
         org.kuali.coeus.common.questionnaire.framework.core.Questionnaire questionnaire =
                 (org.kuali.coeus.common.questionnaire.framework.core.Questionnaire)params.get(QUESTIONNAIRE);
         if (questionnaire == null) {
             if (questionnaireId != null) { 
-                Map<String,Integer> qParam = new HashMap<String,Integer>();
-                qParam.put(QUESTIONNAIRE_ID, questionnaireId);
+                Map<String,Long> qParam = new HashMap<String,Long>();
+                qParam.put(ID, questionnaireId);
                 List<org.kuali.coeus.common.questionnaire.framework.core.Questionnaire> questionnaires =
                     (List)businessObjectService.findMatchingOrderBy(
                             org.kuali.coeus.common.questionnaire.framework.core.Questionnaire.class, qParam, ID, false);
