@@ -31,6 +31,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public interface AwardBudgetService extends BudgetCommonService<Award> {
 
@@ -140,7 +141,7 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      */
     public boolean checkRateChange(Collection<BudgetRate> allPropRates,Award award);
     
-    public BudgetDocument<Award> getNewBudgetVersionDocument(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription)
+    public BudgetDocument<Award> getNewBudgetVersionDocument(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription, Map<String, Object> options)
     	    throws WorkflowException;    
     
 }

@@ -47,6 +47,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -167,7 +168,7 @@ public class BudgetVersionsAction extends BudgetAction {
         BudgetParent budgetParent = budgetDocument.getBudget().getBudgetParent();
         
         
-        getBudgetService().addBudgetVersion(parentDocument, budgetForm.getNewBudgetVersionName());
+        getBudgetService().addBudgetVersion(parentDocument, budgetForm.getNewBudgetVersionName(), Collections.EMPTY_MAP);
         budgetForm.setNewBudgetVersionName("");
         
         return mapping.findForward(Constants.MAPPING_BASIC);

@@ -15,6 +15,8 @@
  */
 package org.kuali.coeus.common.budget.framework.core;
 
+import java.util.Map;
+
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
@@ -30,7 +32,7 @@ public interface BudgetCommonService<T extends BudgetParent> extends BudgetServi
      * @return BudgetDocument
      * @throws WorkflowException
      */
-    public Budget getNewBudgetVersion(BudgetParentDocument<T> parent, String documentDescription);
+    public Budget getNewBudgetVersion(BudgetParentDocument<T> parent, String documentDescription, Map<String, Object> options);
     /**
      * Returns a new finalized BudgetDocument with the data from the given BudgetDocument copied over.
      * @param budgetDocument

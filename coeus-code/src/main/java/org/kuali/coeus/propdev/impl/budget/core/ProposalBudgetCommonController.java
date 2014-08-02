@@ -39,12 +39,24 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 
 	@MethodAccessible
 	@RequestMapping(params="methodToCall=start")
-	public ModelAndView start(@RequestParam("budgetId") String budgetId, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
-		form.setBudget(getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("budgetId", Long.valueOf(budgetId))).build()));
+	public ModelAndView start(@RequestParam("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
+		form.setBudget(loadBudget(budgetId));
 		form.initialize();
         return getModelAndViewService().getModelAndViewWithInit(form, "PropBudget-DefaultView");
 	}
 	
+	@MethodAccessible
+	@RequestMapping(params="methodToCall=initiate")
+	public ModelAndView initiate(@RequestParam("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
+		form.setBudget(loadBudget(budgetId));
+		form.initialize();
+		if (!form.getBudget().isSummaryBudget()) {
+			return getModelAndViewService().getModelAndViewWithInit(form, "PropBudget-DefaultView", ProposalBudgetConstants.KradConstants.PERSONNEL_PAGE_ID);
+		} else {
+			return getModelAndViewService().getModelAndViewWithInit(form, "PropBudget-DefaultView", ProposalBudgetConstants.KradConstants.PERIODS_AND_TOTALS_PAGE_ID);
+		}
+	}
+
 	@MethodAccessible
 	@RequestMapping(params = "methodToCall=navigate")
 	public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {

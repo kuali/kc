@@ -36,6 +36,7 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
+import java.util.Collections;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -84,7 +85,7 @@ public class BudgetServiceTest extends KcIntegrationTestBase {
         
         pdDocument.addPessimisticLock(lock);
         
-        Budget budget = budgetCommonService.getNewBudgetVersion(pdDocument, testDocumentDescription);
+        Budget budget = budgetCommonService.getNewBudgetVersion(pdDocument, testDocumentDescription, Collections.EMPTY_MAP);
         
         // Verify that status is final
 //        assertTrue(budgetDocument.getDocumentHeader().getWorkflowDocument().isApproved());
@@ -108,7 +109,7 @@ public class BudgetServiceTest extends KcIntegrationTestBase {
         String testProposalNumber = pdDocument.getDevelopmentProposal().getProposalNumber();
         String testDocumentDescription = "Test Copy Budget Doc";
         
-        Budget budgetDocument = budgetCommonService.getNewBudgetVersion(pdDocument, testDocumentDescription);
+        Budget budgetDocument = budgetCommonService.getNewBudgetVersion(pdDocument, testDocumentDescription, Collections.EMPTY_MAP);
         
         Budget copyBudgetDocument = budgetCommonService.copyBudgetVersion(budgetDocument);
         

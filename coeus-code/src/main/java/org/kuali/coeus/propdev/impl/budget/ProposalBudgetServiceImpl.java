@@ -39,6 +39,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class process requests for ProposalBudget
@@ -63,7 +64,7 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     private PropDevBudgetSubAwardService propDevBudgetSubAwardService;
     
     @Override
-    public Budget getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,String budgetName){
+    public Budget getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,String budgetName, Map<String, Object> options){
         Integer budgetVersionNumber = parentDocument.getNextBudgetVersionNumber();
         DevelopmentProposal budgetParent = parentDocument.getBudgetParent();
         ProposalDevelopmentBudgetExt budget = new ProposalDevelopmentBudgetExt();
@@ -79,6 +80,8 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         budget.setUrRateClassCode(this.parameterService.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
         budget.setModularBudgetFlag(this.parameterService.getParameterValueAsBoolean(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
         budget.setBudgetStatus(this.parameterService.getParameterValueAsString(BudgetDocument.class, budgetParent.getDefaultBudgetStatusParameter()));
+        budget.setModularBudgetFlag((Boolean) options.get("modularBudgetFlag"));
+        budget.setSummaryBudget((Boolean) options.get("summaryBudget"));
         boolean success;
 		try {
 			success = new BudgetVersionRule().processAddBudgetVersion(new AddBudgetVersionEvent("document.parentDocument.budgetDocumentVersion",parentDocument,budget));

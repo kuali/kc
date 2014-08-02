@@ -15,36 +15,22 @@
  */
 package org.kuali.coeus.propdev.impl.budget.core;
 
-import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
-import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
-import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
-import org.kuali.rice.kns.lookup.LookupableHelperService;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
-import org.kuali.rice.krad.web.form.DocumentFormBase;
-import org.kuali.rice.krad.web.service.ModelAndViewService;
-import org.kuali.rice.krad.web.service.RefreshControllerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
 
 @Controller
 @RequestMapping(value="/proposalDevelopment")
@@ -56,18 +42,37 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
 	
 	@MethodAccessible
     @RequestMapping(params="methodToCall=addBudget")
-    public ModelAndView addBudget(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
-        ProposalDevelopmentBudgetExt budget = (ProposalDevelopmentBudgetExt) getBudgetService().addBudgetVersion(propDevForm.getProposalDevelopmentDocument(), propDevForm.getAddBudgetDTO().getBudgetName());
+    public ModelAndView addBudget(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+		Map<String, Object> options = new HashMap<String, Object>();
+		options.put("modularBudgetFlag", form.getAddBudgetDto().getModularBudget() != null ? form.getAddBudgetDto().getModularBudget() : Boolean.FALSE);
+		options.put("summaryBudget", form.getAddBudgetDto().getSummaryBudget() != null ? form.getAddBudgetDto().getSummaryBudget() : Boolean.FALSE);
+        ProposalDevelopmentBudgetExt budget = (ProposalDevelopmentBudgetExt) getBudgetService().addBudgetVersion(form.getProposalDevelopmentDocument(), form.getAddBudgetDto().getBudgetName(), options);
         if (budget != null) {
 	        Properties props = new Properties();
-	        props.put("methodToCall", "start");
+	        props.put("methodToCall", "initiate");
 	        props.put("budgetId", budget.getBudgetId().toString());
-	        return getModelAndViewService().performRedirect(propDevForm, "proposalBudget", props);
+	        return getModelAndViewService().performRedirect(form, "proposalBudget", props);
         } else {
-        	return getRefreshControllerService().refresh(propDevForm);
+        	return this.getModelAndViewService().getModelAndView(form);
         }
-    }    
+    }
+
+	@MethodAccessible
+    @RequestMapping(params="methodToCall=copyBudget")
+	public ModelAndView copyBudget(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+		ProposalDevelopmentBudgetExt originalBudget = getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.forAttribute("budgetId", form.getCopyBudgetDto().getOriginalBudgetId()).build());
+		ProposalDevelopmentBudgetExt budget = (ProposalDevelopmentBudgetExt) getBudgetService().copyBudgetVersion(originalBudget, false);
+        if (budget != null) {
+        	budget.setName(form.getCopyBudgetDto().getBudgetName());
+        	budget = getDataObjectService().save(budget);
+	        Properties props = new Properties();
+	        props.put("methodToCall", "initiate");
+	        props.put("budgetId", budget.getBudgetId().toString());
+	        return getModelAndViewService().performRedirect(form, "proposalBudget", props);
+        } else {
+        	return this.getModelAndViewService().getModelAndView(form);
+        }		
+	}
 
 	public BudgetService getBudgetService() {
 		return budgetService;

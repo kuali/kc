@@ -18,8 +18,10 @@ package org.kuali.coeus.propdev.impl.budget;
 import javax.persistence.*;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 /**
  * This class is just to hold the ProposalDevelopmentBudget. We should move PD Budget stuffs to this class later. 
@@ -37,6 +39,17 @@ public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDeve
     @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "PROPOSAL_NUMBER")
     private DevelopmentProposal developmentProposal;
+    
+    @Column(name = "STATUS_CODE")
+    private String budgetStatus;
+    
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "STATUS_CODE", referencedColumnName = "BUDGET_STATUS_CODE", insertable = false, updatable = false)
+    private BudgetStatus budgetStatusDo;
+    
+    @Column(name = "IS_SUMMARY_BUDGET")
+    @Convert(converter = BooleanYNConverter.class)
+    private Boolean summaryBudget;
     
     @Column(name = "HIERARCHY_HASH_CODE")
     private Integer hierarchyLastSyncHashCode;
@@ -75,4 +88,28 @@ public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDeve
         return getDevelopmentProposal().getRequestedEndDateInitial();
 
     }
+
+	public String getBudgetStatus() {
+		return budgetStatus;
+	}
+
+	public void setBudgetStatus(String budgetStatus) {
+		this.budgetStatus = budgetStatus;
+	}
+
+	public BudgetStatus getBudgetStatusDo() {
+		return budgetStatusDo;
+	}
+
+	public void setBudgetStatusDo(BudgetStatus budgetStatusDo) {
+		this.budgetStatusDo = budgetStatusDo;
+	}
+
+	public Boolean isSummaryBudget() {
+		return summaryBudget;
+	}
+
+	public void setSummaryBudget(Boolean summaryBudget) {
+		this.summaryBudget = summaryBudget;
+	}
 }

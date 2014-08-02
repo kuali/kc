@@ -50,6 +50,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -104,7 +105,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
 
         Budget budgetDocument = 
-                getBudgetService().addBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName());
+                getBudgetService().addBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName(), Collections.EMPTY_MAP);
         pdForm.setNewBudgetVersionName("");
 
         return mapping.findForward(Constants.MAPPING_BASIC); 
