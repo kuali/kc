@@ -22,7 +22,7 @@ alter table EPS_PROPOSAL_BUDGET_EXT drop column DOCUMENT_NUMBER
 alter table EPS_PROPOSAL_BUDGET_EXT modify PROPOSAL_NUMBER varchar2(12) not null
 /
 
-alter table EPS_PROPOSAL_BUDGET_EXT add column STATUS_CODE char(1)
+alter table EPS_PROPOSAL_BUDGET_EXT add STATUS_CODE char(1)
 /
 
 update EPS_PROPOSAL_BUDGET_EXT prop_budget set STATUS_CODE = (select BUDGET_STATUS from EPS_PROPOSAL prop where prop.PROPOSAL_NUMBER = prop_budget.PROPOSAL_NUMBER) where (select FINAL_VERSION_FLAG from BUDGET where prop_budget.BUDGET_ID = BUDGET.BUDGET_ID) = 'Y'
@@ -31,14 +31,14 @@ update EPS_PROPOSAL_BUDGET_EXT prop_budget set STATUS_CODE = (select BUDGET_STAT
 update EPS_PROPOSAL_BUDGET_EXT prop_budget set STATUS_CODE = '2' where STATUS_CODE is null
 /
 
-alter table EPS_PROPOSAL_BUDGET_EXT modify column STATUS_CODE char(1) not null
+alter table EPS_PROPOSAL_BUDGET_EXT modify STATUS_CODE char(1) not null
 /
 
-alter table EPS_PROPOSAL_BUDGET_EXT add column IS_SUMMARY_BUDGET char(1)
+alter table EPS_PROPOSAL_BUDGET_EXT add IS_SUMMARY_BUDGET char(1)
 /
 
 update EPS_PROPOSAL_BUDGET_EXT set IS_SUMMARY_BUDGET = 'N'
 /
 
-alter table EPS_PROPOSAL_BUDGET_EXT modify column IS_SUMMARY_BUDGET char(1) not null
+alter table EPS_PROPOSAL_BUDGET_EXT modify IS_SUMMARY_BUDGET char(1) not null
 /
