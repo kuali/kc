@@ -3,17 +3,21 @@ package org.kuali.coeus.propdev.impl.budget.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.field.AttributeQueryResult;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -42,7 +46,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	public ModelAndView start(@RequestParam("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		form.setBudget(loadBudget(budgetId));
 		form.initialize();
-        return getModelAndViewService().getModelAndViewWithInit(form, "PropBudget-DefaultView");
+        return getModelAndViewService().getModelAndViewWithInit(form, ProposalBudgetConstants.KradConstants.BUDGET_DEFAULT_VIEW);
 	}
 	
 	@MethodAccessible
@@ -51,10 +55,25 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 		form.setBudget(loadBudget(budgetId));
 		form.initialize();
 		if (!form.getBudget().isSummaryBudget()) {
-			return getModelAndViewService().getModelAndViewWithInit(form, "PropBudget-DefaultView", ProposalBudgetConstants.KradConstants.PERSONNEL_PAGE_ID);
+			return getModelAndViewService().getModelAndViewWithInit(form, ProposalBudgetConstants.KradConstants.BUDGET_DEFAULT_VIEW, ProposalBudgetConstants.KradConstants.PERSONNEL_PAGE_ID);
 		} else {
-			return getModelAndViewService().getModelAndViewWithInit(form, "PropBudget-DefaultView", ProposalBudgetConstants.KradConstants.PERIODS_AND_TOTALS_PAGE_ID);
+			return getModelAndViewService().getModelAndViewWithInit(form, ProposalBudgetConstants.KradConstants.BUDGET_DEFAULT_VIEW, ProposalBudgetConstants.KradConstants.PERIODS_AND_TOTALS_PAGE_ID);
 		}
+	}
+	
+	@RequestMapping(params="methodToCall=openProposal")
+	public ModelAndView openProposal(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
+        Properties props = new Properties();
+        props.put("methodToCall", KRADConstants.DOC_HANDLER_METHOD);
+        props.put("command", KewApiConstants.DOCSEARCH_COMMAND);
+        props.put("pageId", ProposalDevelopmentConstants.KradConstants.BUDGET_PAGE);
+        props.put("docId", form.getBudget().getDevelopmentProposal().getProposalDocument().getDocumentNumber());
+        return getModelAndViewService().performRedirect(form, "proposalDevelopment", props);
+	}
+	
+	@RequestMapping(params="methodToCall=save")
+	public ModelAndView save(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		return super.save(form);
 	}
 
 	@MethodAccessible
