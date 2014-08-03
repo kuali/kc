@@ -13,34 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.sys.framework.auth;
+package org.kuali.coeus.common.framework.auth;
 
 import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.action.ActionType;
-import org.kuali.rice.kew.api.document.node.RouteNodeInstance;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.bo.authorization.BusinessObjectAuthorizerBase;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.TransactionalDocumentAuthorizer;
+import org.kuali.rice.krad.document.TransactionalDocumentAuthorizerBase;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Base class for all KC document authorizers.  The document authorizer determines both the
  * edit modes and the document actions.
  */
-public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObjectAuthorizerBase implements TransactionalDocumentAuthorizer{
+public abstract class KcKradTransactionalDocumentAuthorizerBase extends TransactionalDocumentAuthorizerBase implements TransactionalDocumentAuthorizer {
 
     private ParameterService parameterService;
     
@@ -57,10 +58,6 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
     
     public static final String PRE_ROUTING_ROUTE_NAME = "PreRoute";
 
-    @Override
-    public Set<String> getDocumentActions(Document document, Person user, Set<String> oldDocumentActions) {
-        return getDocumentActions(document, user);
-    }
     
     /**
      * Get the document actions.  This method can be overridden by a subclass, but that is
@@ -574,7 +571,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
         }
     }
 
-    private void addStandardAttributes(Document document,
+    protected void addStandardAttributes(Document document,
             Map<String, String> attributes) {
         WorkflowDocument wd = document.getDocumentHeader()
                 .getWorkflowDocument();
@@ -647,74 +644,4 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
     public boolean canRecall(Document document, Person user) {
         return false;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean canSuperUserTakeAction(Document document, Person user) {
-        if (!document.getDocumentHeader().hasWorkflowDocument()) {
-            return false;
-        }
-
-        String principalId = user.getPrincipalId();
-
-        String documentTypeId = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeId();
-        if (KewApiServiceLocator.getDocumentTypeService().isSuperUserForDocumentTypeId(principalId, documentTypeId)) {
-            return true;
-        }
-
-        String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
-        List<RouteNodeInstance> routeNodeInstances = document.getDocumentHeader().getWorkflowDocument().getRouteNodeInstances();
-        String documentStatus =  document.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
-        return KewApiServiceLocator.getDocumentTypeService().canSuperUserApproveSingleActionRequest(
-                principalId, documentTypeName, routeNodeInstances, documentStatus);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean canSuperUserApprove(Document document, Person user) {
-        if (!document.getDocumentHeader().hasWorkflowDocument()) {
-            return false;
-        }
-
-        String principalId = user.getPrincipalId();
-
-        String documentTypeId = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeId();
-        if (KewApiServiceLocator.getDocumentTypeService().isSuperUserForDocumentTypeId(principalId, documentTypeId)) {
-            return true;
-        }
-
-        String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
-        List<RouteNodeInstance> routeNodeInstances = document.getDocumentHeader().getWorkflowDocument().getRouteNodeInstances();
-        String documentStatus =  document.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
-        return KewApiServiceLocator.getDocumentTypeService().canSuperUserApproveDocument(
-                principalId, documentTypeName, routeNodeInstances, documentStatus);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean canSuperUserDisapprove(Document document, Person user) {
-        if (!document.getDocumentHeader().hasWorkflowDocument()) {
-            return false;
-        }
-
-        String principalId = user.getPrincipalId();
-
-        String documentTypeId = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeId();
-        if (KewApiServiceLocator.getDocumentTypeService().isSuperUserForDocumentTypeId(principalId, documentTypeId)) {
-            return true;
-        }
-
-        String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
-        List<RouteNodeInstance> routeNodeInstances = document.getDocumentHeader().getWorkflowDocument().getRouteNodeInstances();
-        String documentStatus =  document.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
-        return KewApiServiceLocator.getDocumentTypeService().canSuperUserDisapproveDocument(
-                principalId, documentTypeName, routeNodeInstances, documentStatus);
-    }
-
 }
