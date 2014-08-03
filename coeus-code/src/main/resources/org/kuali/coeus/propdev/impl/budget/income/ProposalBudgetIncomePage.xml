@@ -39,7 +39,8 @@
     </property>
        <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:fieldLabel.renderColon="false" p:propertyName="budgetPeriodNumber" p:order="10">
+                <bean parent="Uif-InputField" p:fieldLabel.renderColon="false" p:propertyName="budgetPeriodNumber"
+                      p:readOnly="@{!#isAddLine}" p:order="10">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -48,11 +49,9 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="description"
-                      p:order="20"
-                      p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome" />
+                      p:readOnly="@{!#isAddLine}" p:order="20" />
                 <bean parent="Uif-InputField" p:propertyName="projectIncome"
-                      p:order="30"
-                      p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome" />
+                      p:readOnly="@{!#isAddLine}" p:order="30" />
             </list>
         </property>
         <property name="lineActions">
@@ -129,12 +128,8 @@
           p:collectionObjectClass="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome">
         <property name="items">
             <list>
-                <bean parent="Uif-DataField-condensedTable" p:propertyName="budgetPeriodNumber"
-                      p:order="10"
-                      p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome" />
-                <bean parent="Uif-DataField-condensedTable" p:propertyName="projectIncome"
-                      p:order="20"
-                      p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome" />
+                <bean parent="Uif-DataField-condensedTable" p:propertyName="budgetPeriodNumber"  p:order="10" />
+                <bean parent="Uif-DataField-condensedTable" p:propertyName="projectIncome" p:order="20" />
             </list>
         </property>
     </bean>
