@@ -124,6 +124,12 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	    return getModelAndViewService().getModelAndView(form);
 	}
 	
+	@RequestMapping(params="methodToCall=syncFromProposal")
+	public ModelAndView syncFromProposal(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+	    getBudgetPersonService().synchBudgetPersonsToProposal(form.getBudget());
+	    return getModelAndViewService().getModelAndView(form);
+	}
+	
 	public LookupableHelperService getKcPersonLookupableHelperService() {
 		return kcPersonLookupableHelperService;
 	}
