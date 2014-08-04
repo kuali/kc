@@ -28,6 +28,8 @@ import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
 import org.kuali.coeus.s2sgen.impl.generate.FormVersion;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -49,6 +51,21 @@ public class RRSubAwardBudget10_30V1_2Generator extends S2SAdobeFormAttachmentBa
 
     private static final String RR_BUDGET10_11_NAMESPACE_URI = "http://apply.grants.gov/forms/RR_Budget10-V1.1";
     private static final String RR_BUDGET10_11_LOCAL_NAME = "RR_Budget10";
+
+    @Value("http://apply.grants.gov/forms/RR_SubawardBudget10_30-V1.2")
+    private String namespace;
+
+    @Value("RR_SubawardBudget10_30-V1.2")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/RR_SubawardBudget10_30-V1.2.fo.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.rrSubawardBudget1030V12")
+    private String packageName;
+
+    @Value("179")
+    private int sortIndex;
 
     /**
      * 
@@ -256,4 +273,48 @@ public class RRSubAwardBudget10_30V1_2Generator extends S2SAdobeFormAttachmentBa
         return getRRSubawardBudgetDocument();
     }
 
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
+    }
 }

@@ -61,6 +61,8 @@ import org.kuali.coeus.s2sgen.impl.person.DepartmentalPersonDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -77,6 +79,21 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 			.getLog(RRSF424V1_2Generator.class);
 
     private static final String MODULAR_BUDGET_REQUIRED = "s2s.budget.modularbudget.required";
+
+    @Value("http://apply.grants.gov/forms/RR_SF424_1_2-V1.2")
+    private String namespace;
+
+    @Value("RR_SF424_1_2-V1.2")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/RR_SF424-V1.2.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.rrSF42412V12")
+    private String packageName;
+
+    @Value("120")
+    private int sortIndex;
 
     @Autowired
     @Qualifier("s2SErrorHandlerService")
@@ -874,5 +891,50 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 
     public void setS2SErrorHandlerService(S2SErrorHandlerService s2SErrorHandlerService) {
         this.s2SErrorHandlerService = s2SErrorHandlerService;
+    }
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }

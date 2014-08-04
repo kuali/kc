@@ -34,11 +34,16 @@ import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.propdev.api.attachment.NarrativeService;
 import org.kuali.coeus.s2sgen.api.core.InfastructureConstants;
 import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
+import org.kuali.coeus.s2sgen.api.generate.FormMappingInfo;
+import org.kuali.coeus.s2sgen.api.generate.FormMappingService;
 import org.kuali.coeus.s2sgen.impl.generate.support.GlobalLibraryV1_0Generator;
 import org.kuali.coeus.s2sgen.impl.generate.support.GlobalLibraryV2_0Generator;
 import org.kuali.coeus.s2sgen.api.core.AuditError;
+import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.Resource;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -56,23 +61,25 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
+public abstract class S2SBaseFormGenerator implements S2SFormGenerator, InitializingBean, BeanNameAware {
 
     private static final Log LOG = LogFactory.getLog(S2SBaseFormGenerator.class);
-    public static final String NOT_ANSWERED = "No";
-    private List<AttachmentData> attachments;
-    public static final String KEY_VALUE_SEPARATOR = "-";
-    public static final String AREAS_AFFECTED_ABSTRACT_TYPE_CODE="16";
-    private static final String NARRATIVE_ATTACHMENT_FILE_LOCATION = "att:FileLocation";
-       
+
+    protected static final String NOT_ANSWERED = "No";
+    protected static final String KEY_VALUE_SEPARATOR = "-";
+    protected static final String AREAS_AFFECTED_ABSTRACT_TYPE_CODE="16";
     protected static final int ORGANIZATON_NAME_MAX_LENGTH = 60;
     protected static final int DUNS_NUMBER_MAX_LENGTH = 13;
     protected static final int PRIMARY_TITLE_MAX_LENGTH = 45;
     protected static final int CONGRESSIONAL_DISTRICT_MAX_LENGTH = 6;
+    private static final String NARRATIVE_ATTACHMENT_FILE_LOCATION = "att:FileLocation";
+    protected static final String DEFAULT_SORT_INDEX = "1000";
 
     protected ProposalDevelopmentDocumentContract pdDoc = null;
-    private List<AuditError> auditErrors;
-    private String namespace;
+    private List<AuditError> auditErrors = new ArrayList<>();
+    private List<AttachmentData> attachments = new ArrayList<>();
+
+    private String beanName;
 
     @Autowired
     @Qualifier("narrativeService")
@@ -89,6 +96,10 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     @Autowired
     @Qualifier("sponsorHierarchyService")
     private SponsorHierarchyService sponsorHierarchyService;
+
+    @Autowired
+    @Qualifier("formMappingService")
+    private FormMappingService formMappingService;
 
     /*
      * Reference to global library generators are defined here. The actual form generator will decide which object to be used for
@@ -522,21 +533,24 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
         return childAnswer;
     }
 
-    /**
-     * Gets the namespace attribute. 
-     * @return Returns the namespace.
-     */
-    public String getNamespace() {
-        return namespace;
+    @Override
+    public void setBeanName(String beanName) {
+        this.beanName = beanName;
     }
 
-    /**
-     * Sets the namespace attribute value.
-     * @param namespace The namespace to set.
-     */
-    public void setNamespace(String namespace) {
-        this.namespace = namespace;
+    public abstract String getNamespace();
+
+    public String getGeneratorName() {
+        return beanName;
     }
+
+    public abstract String getFormName();
+
+    public abstract Resource getStylesheet();
+
+    public abstract String getPackageName();
+
+    public abstract int getSortIndex();
 
     public NarrativeService getNarrativeService() {
         return narrativeService;
@@ -570,6 +584,14 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
         this.sponsorHierarchyService = sponsorHierarchyService;
     }
 
+    public FormMappingService getFormMappingService() {
+        return formMappingService;
+    }
+
+    public void setFormMappingService(FormMappingService formMappingService) {
+        this.formMappingService = formMappingService;
+    }
+
     public GlobalLibraryV1_0Generator getGlobLibV10Generator() {
         return globLibV10Generator;
     }
@@ -584,5 +606,10 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
 
     public void setGlobLibV20Generator(GlobalLibraryV2_0Generator globLibV20Generator) {
         this.globLibV20Generator = globLibV20Generator;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        formMappingService.registerForm(new FormMappingInfo(getNamespace(), getGeneratorName(), getFormName(), getStylesheet().getURL().getPath(), getSortIndex(), false));
     }
 }

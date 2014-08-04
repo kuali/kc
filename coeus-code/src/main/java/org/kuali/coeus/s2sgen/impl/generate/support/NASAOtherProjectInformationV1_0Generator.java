@@ -34,7 +34,8 @@ import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
 import org.kuali.coeus.s2sgen.impl.generate.FormVersion;
 import org.kuali.coeus.s2sgen.impl.generate.S2SBaseFormGenerator;
-
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 
 import java.math.BigDecimal;
@@ -93,7 +94,22 @@ public class NASAOtherProjectInformationV1_0Generator extends
     private static final int FISCAL_YEAR_4 = 3;
     private static final int FISCAL_YEAR_5 = 4;
     private static final int FISCAL_YEAR_6 = 5;
-    
+
+    @Value("http://apply.grants.gov/forms/NASA_OtherProjectInformation-V1.0")
+    private String namespace;
+
+    @Value("NASA_OtherProjectInformation-V1.0")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/NASA_OtherProjectInformation-V1.0.fo.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.nasaOtherProjectInformationV10")
+    private String packageName;
+
+    @Value(DEFAULT_SORT_INDEX)
+    private int sortIndex;
+
     List<? extends AnswerHeaderContract> answerHeaders;
 
     /**
@@ -524,5 +540,50 @@ public class NASAOtherProjectInformationV1_0Generator extends
         this.pdDoc = proposalDevelopmentDocument;
         answerHeaders = getPropDevQuestionAnswerService().getQuestionnaireAnswerHeaders(pdDoc.getDevelopmentProposal().getProposalNumber());
         return getNasaOtherProjectInformation();
+    }
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }

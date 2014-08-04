@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.s2sgen.impl.budget;
 
-import org.kuali.coeus.s2sgen.impl.budget.IndirectCostDetailsDto;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.util.ArrayList;

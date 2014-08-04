@@ -33,7 +33,8 @@ import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
 import org.kuali.coeus.s2sgen.impl.generate.FormVersion;
-
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 
 import java.util.ArrayList;
@@ -48,6 +49,20 @@ import java.util.List;
 @FormGenerator("RROtherProjectInfoV1_1Generator")
 public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGenerator {
 
+    @Value("http://apply.grants.gov/forms/RR_OtherProjectInfo-V1.1")
+    private String namespace;
+
+    @Value("RR_OtherProjectInfo-V1.1")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/RR_OtherProjectInfo-V1.1.fo.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.rrOtherProjectInfoV11")
+    private String packageName;
+
+    @Value("140")
+    private int sortIndex;
 
     private static final Log LOG = LogFactory.getLog(RROtherProjectInfoV1_1Generator.class);
     List<? extends AnswerHeaderContract> answerHeaders;
@@ -360,5 +375,50 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
     public XmlObject getFormObject(ProposalDevelopmentDocumentContract proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
         return getRROtherProjectInfo();
+    }
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }

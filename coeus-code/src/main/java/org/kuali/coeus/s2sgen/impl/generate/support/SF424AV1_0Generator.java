@@ -50,6 +50,8 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.api.core.category.BudgetCategoryMapContract;
 import org.kuali.coeus.common.budget.api.core.category.BudgetCategoryMappingContract;
 import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -68,6 +70,21 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
     private static final Log LOG = LogFactory.getLog(SF424AV1_0Generator.class);
 
     private BudgetContract budget = null;
+
+    @Value("http://apply.grants.gov/forms/SF424A-V1.0")
+    private String namespace;
+
+    @Value("SF424A-V1.0")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/SF424A-V1.0.fo.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.sf424AV10")
+    private String packageName;
+
+    @Value(DEFAULT_SORT_INDEX)
+    private int sortIndex;
 
     /**
      * 
@@ -452,5 +469,50 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
     public XmlObject getFormObject(ProposalDevelopmentDocumentContract proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
         return getSF424A();
+    }
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }

@@ -29,6 +29,8 @@ import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
 import org.kuali.coeus.s2sgen.impl.generate.FormVersion;
 import org.kuali.coeus.s2sgen.impl.generate.S2SBaseFormGenerator;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 
 import java.io.ByteArrayInputStream;
@@ -56,6 +58,21 @@ public class PHS398ResTrainProgPlanV2_0Generator extends S2SBaseFormGenerator{
     private static final int PHS_RES_TRAINING_PLAN_DATA_TABLES_124 = 124;
     private static final int PHS_RES_TRAINING_PLAN_SUPPORT_LETTERS_125 = 125;
     private static final int PHS_RES_TRAINING_PLAN_APPENDIX_126 = 126;
+
+    @Value("http://apply.grants.gov/forms/PHS398_ResearchTrainingProgramPlan_2_0-V2.0")
+    private String namespace;
+
+    @Value("PHS398_ResearchTrainingProgramPlan_2_0")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/PHS398_ResearchTrainProPlan_V2.0.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.phs398ResearchTrainingProgramPlan20V20")
+    private String packageName;
+
+    @Value("220")
+    private int sortIndex;
 
     private PHS398ResearchTrainingProgramPlan20 getPHS398ResearchTrainingProgramPlan(ProposalDevelopmentDocumentContract proposalDevelopmentDocument) throws S2SException {
         DevelopmentProposalContract developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
@@ -211,4 +228,48 @@ public class PHS398ResTrainProgPlanV2_0Generator extends S2SBaseFormGenerator{
         return pHS398ResearchTrainingProgramPlan20Document;
     }
 
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
+    }
 }

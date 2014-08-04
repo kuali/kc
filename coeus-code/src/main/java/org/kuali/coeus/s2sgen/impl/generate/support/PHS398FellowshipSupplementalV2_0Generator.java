@@ -58,6 +58,8 @@ import org.kuali.coeus.s2sgen.impl.citizenship.CitizenshipType;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.s2sgen.api.core.ConfigurationConstants;
 import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 
 import java.math.BigDecimal;
@@ -120,6 +122,21 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
     private static final String ANSWER_YES = "Yes";
     private static final String ANSWER_NO = "No";
 
+    @Value("http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_2_0-V2.0")
+    private String namespace;
+
+    @Value("PHS_Fellowship_Supplemental_2_0")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/PHS_fellowship_supplemental-V2.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.phsFellowshipSupplemental20V20")
+    private String packageName;
+
+    @Value("211")
+    private int sortIndex;
+
     /*
      * This method is used to get PHSFellowshipSupplemental20 XMLObject and set the data to it from DevelopmentProposal data.
      */
@@ -161,10 +178,7 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
             List<? extends QuestionnaireQuestionContract> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
             for (QuestionnaireQuestionContract questionnaireQuestion : questionnaireQuestions) {
                 AnswerContract answerBO = getAnswer(questionnaireQuestion, answerHeader);
-                String answer = null;
-                if (answerBO != null) {
-                	answer = answerBO.getAnswer();
-                }
+                String answer = answerBO.getAnswer();
                 QuestionContract question = questionnaireQuestion.getQuestion();
                 Integer questionNumber = questionnaireQuestion.getQuestionNumber();
                 Integer parentQuestionNumber = questionnaireQuestion.getParentQuestionNumber();
@@ -1000,11 +1014,48 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
         return getPHSFellowshipSupplemental20();
     }
 
-    public String getFormName() {
-        return "PHS_Fellowship_Supplemental_2_0-V2.0";
+    @Override
+    public String getNamespace() {
+        return namespace;
     }
 
-    public String getNamespace() {
-        return "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_2_0-V2.0";
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }

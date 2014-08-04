@@ -39,8 +39,6 @@ import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods5.IndirectCost5;
 import gov.grants.apply.forms.phs398ModularBudgetV11.PHS398ModularBudgetDocument.PHS398ModularBudget.Periods5.IndirectCost5.IndirectCostItems5;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.api.org.OrganizationContract;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
@@ -54,6 +52,8 @@ import org.kuali.coeus.s2sgen.impl.generate.FormVersion;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -70,8 +70,21 @@ import java.util.List;
 public class PHS398ModularBudgetV1_1Generator extends
 		PHS398ModularBudgetBaseGenerator {
 
-	private static final Log LOG = LogFactory
-			.getLog(PHS398ModularBudgetV1_1Generator.class);
+
+    @Value("http://apply.grants.gov/forms/PHS398_ModularBudget-V1.1")
+    private String namespace;
+
+    @Value("PHS398_ModularBudget-V1.1")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/PHS398_ModularBudget-V1.1.fo.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.phs398ModularBudgetV11")
+    private String packageName;
+
+    @Value("190")
+    private int sortIndex;
 
 	private ScaleTwoDecimal cumulativeConsortiumFandA = ScaleTwoDecimal.ZERO;
 	private ScaleTwoDecimal cumulativeDirectCostLessConsortiumFandA = ScaleTwoDecimal.ZERO;
@@ -956,4 +969,49 @@ public class PHS398ModularBudgetV1_1Generator extends
 		this.pdDoc = proposalDevelopmentDocument;
 		return getPHS398ModularBudget();
 	}
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
+    }
 }

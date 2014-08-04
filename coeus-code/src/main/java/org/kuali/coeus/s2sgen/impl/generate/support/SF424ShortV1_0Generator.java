@@ -32,6 +32,8 @@ import org.kuali.coeus.s2sgen.impl.generate.FormVersion;
 import org.kuali.coeus.s2sgen.impl.person.DepartmentalPersonDto;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.s2sgen.impl.util.FieldValueConstants;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 
 import java.util.Calendar;
@@ -56,6 +58,21 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
     private static final int OFFICE_PHONE_MAX_LENGTH = 25;
     private static final int EMAIL_ADDRESS_MAX_LENGTH = 60;
     private static final int FAX_NUMBER_MAX_LENGTH = 25;
+
+    @Value("http://apply.grants.gov/forms/SF424_Short-V1.0")
+    private String namespace;
+
+    @Value("SF424_Short-V1.0")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/SF424_Short-V1.0.fo.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.sf424ShortV10")
+    private String packageName;
+
+    @Value(DEFAULT_SORT_INDEX)
+    private int sortIndex;
 
     /**
      * 
@@ -337,5 +354,50 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
     public XmlObject getFormObject(ProposalDevelopmentDocumentContract proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
         return getsf424ShortDocument();
+    }
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }

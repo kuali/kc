@@ -34,6 +34,8 @@ import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
 import org.kuali.coeus.s2sgen.impl.generate.FormVersion;
 import org.kuali.coeus.s2sgen.impl.person.DepartmentalPersonDto;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 
 import java.util.Calendar;
@@ -49,6 +51,21 @@ import java.util.Calendar;
 public class SFLLLV1_1Generator extends SFLLLBaseGenerator {
 
     private DepartmentalPersonDto aorInfo;
+
+    @Value("http://apply.grants.gov/forms/SFLLL-V1.1")
+    private String namespace;
+
+    @Value("SFLLL-V1.1")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/SFLLL-V1.1.fo.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.sflllV11")
+    private String packageName;
+
+    @Value(DEFAULT_SORT_INDEX)
+    private int sortIndex;
 
     /**
      * 
@@ -277,5 +294,50 @@ public class SFLLLV1_1Generator extends SFLLLBaseGenerator {
         this.pdDoc = proposalDevelopmentDocument;
         aorInfo = departmentalPersonService.getDepartmentalPerson(pdDoc);
         return getLobbyingActivitiesDisclosure();
+    }
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }

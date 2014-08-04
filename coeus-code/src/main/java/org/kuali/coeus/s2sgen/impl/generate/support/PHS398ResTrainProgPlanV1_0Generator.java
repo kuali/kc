@@ -35,6 +35,8 @@ import org.kuali.coeus.s2sgen.impl.generate.S2SBaseFormGenerator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -65,6 +67,21 @@ public class PHS398ResTrainProgPlanV1_0Generator extends S2SBaseFormGenerator{
     @Autowired
     @Qualifier("s2SConfigurationService")
     private S2SConfigurationService s2SConfigurationService;
+
+    @Value("http://apply.grants.gov/forms/PHS398_ResearchTrainingProgramPlan-V1.0")
+    private String namespace;
+
+    @Value("PHS398_ResearchTrainingProgramPlan-V1.0")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/PHS398_ResearchTrainProPlan_V1.0.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.phs398ResearchTrainingProgramPlanV10")
+    private String packageName;
+
+    @Value("220")
+    private int sortIndex;
 
     private PHS398ResearchTrainingProgramPlan getPHS398ResearchTrainingProgramPlan(ProposalDevelopmentDocumentContract proposalDevelopmentDocument) throws S2SException {
         DevelopmentProposalContract developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
@@ -254,5 +271,50 @@ public class PHS398ResTrainProgPlanV1_0Generator extends S2SBaseFormGenerator{
 
     public void setS2SConfigurationService(S2SConfigurationService s2SConfigurationService) {
         this.s2SConfigurationService = s2SConfigurationService;
+    }
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }

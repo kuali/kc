@@ -28,6 +28,8 @@ import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
 import org.kuali.coeus.s2sgen.impl.generate.FormVersion;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -47,6 +49,20 @@ import java.util.List;
 @FormGenerator("RRSubAwardBudgetV1_0Generator")
 public class RRSubAwardBudgetV1_0Generator extends S2SAdobeFormAttachmentBaseGenerator {
 
+    @Value("http://apply.grants.gov/forms/RR_SubawardBudget-V1.0")
+    private String namespace;
+
+    @Value("RR_SubawardBudget-V1.0")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/RR_SubawardBudget-V1.0.fo.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.rrSubawardBudgetV10")
+    private String packageName;
+
+    @Value("177")
+    private int sortIndex;
 
     /**
      * 
@@ -175,5 +191,50 @@ public class RRSubAwardBudgetV1_0Generator extends S2SAdobeFormAttachmentBaseGen
     public XmlObject getFormObject(ProposalDevelopmentDocumentContract proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
         return getRRSubawardBudgetDocument();
+    }
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }

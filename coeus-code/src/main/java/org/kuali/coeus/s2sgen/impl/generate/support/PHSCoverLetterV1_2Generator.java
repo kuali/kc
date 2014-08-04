@@ -24,10 +24,27 @@ import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
 import org.kuali.coeus.s2sgen.impl.generate.FormVersion;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 
 @FormGenerator("PHSCoverLetterV1_2Generator")
 public class PHSCoverLetterV1_2Generator extends PHSCoverLetterBaseGenerator {
+
+    @Value("http://apply.grants.gov/forms/PHS_CoverLetter_1_2-V1.2")
+    private String namespace;
+
+    @Value("PHS_CoverLetter_1_2-V1.2")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/PHS_CoverLetter-V1.2.fo.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.phsCoverLetter12V12")
+    private String packageName;
+
+    @Value("110")
+    private int sortIndex;
 
 	/**
 	 * This method is used to get PHSCoverLetter12Document attachment from the
@@ -76,4 +93,49 @@ public class PHSCoverLetterV1_2Generator extends PHSCoverLetterBaseGenerator {
 		this.pdDoc = proposalDevelopmentDocument;
 		return getPHSCoverLetter();
 	}
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
+    }
 }

@@ -1,6 +1,5 @@
 package org.kuali.coeus.s2sgen.impl.budget;
 
-import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 

@@ -35,6 +35,8 @@ import gov.grants.apply.forms.phs398ModularBudget12V12.PHS398ModularBudget12Docu
 import gov.grants.apply.forms.phs398ModularBudget12V12.PHS398ModularBudget12Document.PHS398ModularBudget12.Periods.IndirectCost;
 import gov.grants.apply.forms.phs398ModularBudget12V12.PHS398ModularBudget12Document.PHS398ModularBudget12.Periods.IndirectCost.IndirectCostItems;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 @FormGenerator("PHS398ModularBudgetV1_2Generator")
 public class PHS398ModularBudgetV1_2Generator extends
@@ -48,6 +50,21 @@ PHS398ModularBudgetBaseGenerator{
 	private ScaleTwoDecimal cumulativeTotalFundsRequestedDirectCosts = ScaleTwoDecimal.ZERO;
 	private ScaleTwoDecimal cumulativeTotalFundsRequestedDirectIndirectCosts = ScaleTwoDecimal.ZERO;
 	private ScaleTwoDecimal cumulativeTotalFundsRequestedIndirectCost = ScaleTwoDecimal.ZERO;
+
+    @Value("http://apply.grants.gov/forms/PHS398_ModularBudget_1_2-V1.2")
+    private String namespace;
+
+    @Value("PHS398_ModularBudget_1_2-V1.2")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/PHS398_ModularBudget-V1.2.fo.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.phs398ModularBudget12V12")
+    private String packageName;
+
+    @Value("190")
+    private int sortIndex;
 
 	/**
 	 * 
@@ -338,4 +355,49 @@ PHS398ModularBudgetBaseGenerator{
 		this.pdDoc = proposalDevelopmentDocument;
 		return getPHS398ModularBudget();
 	}
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
+    }
 }

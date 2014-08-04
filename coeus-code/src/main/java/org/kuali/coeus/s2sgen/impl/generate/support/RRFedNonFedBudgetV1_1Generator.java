@@ -54,6 +54,8 @@ import org.kuali.coeus.s2sgen.impl.print.S2SPrintingService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -83,6 +85,21 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
     private static final String ADDITIONAL_EQUIPMENT_NARRATIVE_TYPE_CODE ="12";
     private static final String ADDITIONAL_EQUIPMENT_NARRATIVE_COMMENT = "RRFEDNONFED_ADDITIONAL_EQUIPMENT";
     private BudgetContract budget;
+
+    @Value("http://apply.grants.gov/forms/RR_FedNonFedBudget-V1.1")
+    private String namespace;
+
+    @Value("RR_FedNonFedBudget-V1.1")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/RR_FedNonFedBudget-V1.1.fo.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.rrFedNonFedBudgetV11")
+    private String packageName;
+
+    @Value("169")
+    private int sortIndex;
 
     @Autowired
     @Qualifier("s2SPrintingService")
@@ -1822,5 +1839,50 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
 
     public void setS2SPrintingService(S2SPrintingService s2SPrintingService) {
         this.s2SPrintingService = s2SPrintingService;
+    }
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }

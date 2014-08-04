@@ -28,6 +28,8 @@ import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
 import org.kuali.coeus.s2sgen.impl.generate.FormVersion;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -47,6 +49,20 @@ import java.util.List;
 @FormGenerator("RRFedNonFedSubAwardBudgetV1_2Generator")
 public class RRFedNonFedSubAwardBudgetV1_2Generator extends S2SAdobeFormAttachmentBaseGenerator {
 
+    @Value("http://apply.grants.gov/forms/RR_FedNonFed_SubawardBudget-V1.2")
+    private String namespace;
+
+    @Value("RR_FedNonFed_SubawardBudget-V1.2")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/RR_FedNonFedSubawardBudget-V1.2.fo.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.rrFedNonFedSubawardBudgetV12")
+    private String packageName;
+
+    @Value("172")
+    private int sortIndex;
 
     private static final String RR_FED_NON_FED_BUDGET_11_NAMESPACE_URI = "http://apply.grants.gov/forms/RR_FedNonFedBudget-V1.1";
     private static final String LOCAL_FED_NON_FED_NAME = "RR_FedNonFedBudget";
@@ -176,5 +192,50 @@ public class RRFedNonFedSubAwardBudgetV1_2Generator extends S2SAdobeFormAttachme
     public XmlObject getFormObject(ProposalDevelopmentDocumentContract proposalDevelopmentDocument) {
         pdDoc=proposalDevelopmentDocument;
         return getRRFedNonFedSubawardBudgetDocument();
+    }
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }

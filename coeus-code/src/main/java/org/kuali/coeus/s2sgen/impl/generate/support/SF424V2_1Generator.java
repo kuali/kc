@@ -60,6 +60,8 @@ import org.kuali.coeus.s2sgen.impl.person.DepartmentalPersonDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 /**
  * This Class is used to generate XML object for grants.gov SF424V2.1. This form is generated using XMLBean classes and is based on
@@ -82,6 +84,21 @@ public class SF424V2_1Generator extends SF424BaseGenerator {
     public static final int DEBT_EXPLANATION_ATTACHMENT = 136;
     public static final int ADDITIONAL_PROJECT_TITLE_ATTACHMENT = 137;
     public static final int ADDITIONAL_CONGRESSIONAL_DISTRICTS_ATTACHMENT = 138;
+
+    @Value("http://apply.grants.gov/forms/SF424_2_1-V2.1")
+    private String namespace;
+
+    @Value("SF424-V2.1")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/SF424-V2.1.fo.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.sf424V21")
+    private String packageName;
+
+    @Value(DEFAULT_SORT_INDEX)
+    private int sortIndex;
 
     @Autowired
     @Qualifier("s2SConfigurationService")
@@ -572,5 +589,50 @@ public class SF424V2_1Generator extends SF424BaseGenerator {
 
     public void setS2SConfigurationService(S2SConfigurationService s2SConfigurationService) {
         this.s2SConfigurationService = s2SConfigurationService;
+    }
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }

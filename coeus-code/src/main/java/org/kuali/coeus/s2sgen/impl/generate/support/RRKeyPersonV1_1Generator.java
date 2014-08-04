@@ -39,6 +39,8 @@ import org.kuali.coeus.s2sgen.impl.generate.FormVersion;
 import org.kuali.coeus.s2sgen.impl.util.FieldValueConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,6 +56,21 @@ import java.util.List;
 public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
 
 	RolodexContract rolodex;
+
+    @Value("http://apply.grants.gov/forms/RR_KeyPerson-V1.1")
+    private String namespace;
+
+    @Value("RR_KeyPerson-V1.1")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/RR_KeyPerson-V1.1.fo.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.rrKeyPersonV11")
+    private String packageName;
+
+    @Value("150")
+    private int sortIndex;
 
     @Autowired
     @Qualifier("rolodexService")
@@ -346,5 +363,50 @@ public class RRKeyPersonV1_1Generator extends RRKeyPersonBaseGenerator {
 
     public void setRolodexService(RolodexService rolodexService) {
         this.rolodexService = rolodexService;
+    }
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }
