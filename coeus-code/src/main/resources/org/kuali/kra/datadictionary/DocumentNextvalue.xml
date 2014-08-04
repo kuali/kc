@@ -55,12 +55,12 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Document Number" />
     <property name="shortLabel" value="Document Number" />
-    <property name="maxLength" value="12" />
+    <property name="maxLength" value="40" />
     <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
+      <bean parent="AnyCharacterValidationPattern" />
     </property>
     <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
+      <bean parent="AnyCharacterPatternConstraint"/>
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="12"/>

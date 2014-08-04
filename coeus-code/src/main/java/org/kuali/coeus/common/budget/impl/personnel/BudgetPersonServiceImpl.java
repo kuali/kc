@@ -114,8 +114,24 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
                         populateBudgetPersonData(budget, newBudgetPerson);
                         budget.addBudgetPerson(newBudgetPerson);                        
                     }
-                    //
                 }
+            }
+        }
+        reconcilePersonnelRoles(budget);
+    }
+
+    protected void reconcilePersonnelRoles(Budget budget) {
+    	// Populate the person's proposal roles, if they exist
+        BudgetParent budgetParent = budget.getBudgetParent();
+        List<BudgetPerson> budgetPersons = budget.getBudgetPersons();
+        
+        for (BudgetPerson budgetPerson: budgetPersons) {
+            if (budgetPerson.getRolodexId() != null) {
+                PersonRolodex person = budgetParent.getProposalNonEmployee(budgetPerson.getRolodexId());
+                if (person != null) { budgetPerson.setRole(person.getInvestigatorRoleDescription()); }
+            } else if (budgetPerson.getPersonId() != null) {
+                PersonRolodex person = budgetParent.getProposalEmployee(budgetPerson.getPersonId());
+                if (person != null) { budgetPerson.setRole(person.getInvestigatorRoleDescription()); }
             }
         }
     }

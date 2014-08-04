@@ -48,6 +48,7 @@
 					<list>
 						<ref bean="PropBudget-ProjectPersonnelPage-AddButton" />
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Sync from Proposal"
+							p:methodToCall="syncFromProposal"
 							p:order="20" />
 					</list>
 				</property>
@@ -68,7 +69,7 @@
 			<list>
 				<bean parent="Uif-DataField" p:propertyName="personName"
 					p:order="10" p:label="Person"/>
-				<bean parent="Uif-DataField" p:propertyName="jobCode" p:order="20"
+				<bean parent="Uif-DataField" p:propertyName="jobTitle" p:order="20"
 					p:label="Job Code"/>
 				<bean parent="Uif-DataField" p:propertyName="appointmentType.description"
 					p:order="30" p:label="Appointment Type"/>
