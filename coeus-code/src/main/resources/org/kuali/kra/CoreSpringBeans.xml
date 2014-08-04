@@ -222,6 +222,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/CommScheduleMinuteDoc.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/location/CongressionalDistrict.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ContactType.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/ContactUsage.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/crrspndnt/Correspondent.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/CorrespondentType.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/core/CostElement.xml</value>
@@ -712,6 +713,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/CommmitteeMembershipTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/CommmitteeTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ContactTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/docs/ContactUsageMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/CorrespondentTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/core/CostElementMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/CostShareTypeMaintenanceDocument.xml</value>
