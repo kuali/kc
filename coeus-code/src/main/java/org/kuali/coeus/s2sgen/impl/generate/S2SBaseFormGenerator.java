@@ -610,6 +610,6 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator, Initiali
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        formMappingService.registerForm(new FormMappingInfo(getNamespace(), getGeneratorName(), getFormName(), getStylesheet().getURL().getPath(), getSortIndex(), false));
+        formMappingService.registerForm(new FormMappingInfo(getNamespace(), getGeneratorName(), getFormName(), getStylesheet().getURL().toString(), getSortIndex(), false));
     }
 }
