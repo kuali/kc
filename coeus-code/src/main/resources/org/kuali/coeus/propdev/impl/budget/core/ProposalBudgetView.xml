@@ -15,7 +15,7 @@
 	<!-- Proposal Document View -->
 	<bean id="PropBudget-DefaultView" parent="PropBudget-DefaultView-parentBean" />
 	<bean id="PropBudget-DefaultView-parentBean" abstract="true"
-		parent="Uif-FormView" p:headerText="Proposal Development Document"
+		parent="Uif-FormView" p:headerText="Budget #@{budget.budgetVersionNumber}: @{budget.name}"
 		p:viewHelperServiceClass="org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetViewHelperServiceImpl"
 		p:viewHelperService="@{T(org.kuali.coeus.org.kuali.rice.krad.SpringMethods).retrieveSpringBean('proposalBudgetViewHelperService')}"
 		p:stickyApplicationHeader="true" p:stickyFooter="true"
@@ -81,12 +81,12 @@
 		</property>
 	</bean>
 
-	<!-- Proposal Menu -->
 	<bean id="PropBudget-Menu" parent="PropBudget-Menu-parentBean" />
 	<bean id="PropBudget-Menu-parentBean" abstract="true"
-		parent="Uif-MenuNavigationGroup">
+		parent="Uif-MenuNavigationGroup" p:defaultItemIconClass="">
 		<property name="items">
 			<list>
+				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="openProposal" p:actionLabel="« Return to proposal"/>
 				<bean parent="PropBudget-NavigationMenu-PeriodsAndTotals" p:order="10" />
 				<bean parent="PropBudget-NavigationMenu-Rates" p:order="20" />
 				<bean parent="PropBudget-NavigationMenu-PersonnelCosts" p:order="30" />
@@ -160,7 +160,7 @@
 	<bean id="PropBudget-DocumentHeader" parent="PropBudget-DocumentHeader-parentBean" />
 	<bean id="PropBudget-DocumentHeader-parentBean" abstract="true"
 		parent="Uif-ViewHeader" p:headerText="Budget: Version 1"
-		p:areaTitleText="Proposal #12345 &gt; Budget version 5">
+		p:areaTitleText="[action=openProposal]Proposal #@{budget.developmentProposal.proposalNumber}[/action] &gt; Budget #@{budget.budgetVersionNumber}">
 		<property name="rightGroup">
 			<bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="uif-documentInfo">
 				<property name="items">
@@ -170,7 +170,7 @@
 						<bean parent="Uif-MessageField" p:label="Created"
 							p:messageText="1/25/14" p:order="20" />
 						<bean parent="Uif-MessageField" p:label="Parent proposal"
-							p:messageText="#12345"
+							p:messageText="#@{budget.developmentProposal.proposalNumber}"
 							p:order="30" />
 						<bean parent="PropBudget-DocumentHeader-MoreInfo" p:order="40" />
 					</list>
