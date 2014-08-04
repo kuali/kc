@@ -155,24 +155,6 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         getFileControllerService().getFileFromLine(uifForm,response);
     }
 
-    @MethodAccessible
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-AttachmentsPage"})
-    public ModelAndView navigateToAttachment(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-        ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
-        List<Narrative> filteredInstituteAttachments = new ArrayList<Narrative>();
-        List<Narrative> filteredNarratives = new ArrayList<Narrative>();
-        for (Narrative narrative : propDevForm.getDevelopmentProposal().getNarratives()){
-            if(narrative.getNarrativeType().getNarrativeTypeGroup().equals("P")) {
-                filteredNarratives.add(narrative);
-            } else {
-                filteredInstituteAttachments.add(narrative);
-            }
-        }
-        propDevForm.getDevelopmentProposal().setInstituteAttachments(filteredInstituteAttachments);
-        propDevForm.getDevelopmentProposal().setNarratives(filteredNarratives);
-        return getNavigationControllerService().navigate(form);
-    }
-
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=markAllComplete")
     public ModelAndView markAllComplete(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
                                         BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception{

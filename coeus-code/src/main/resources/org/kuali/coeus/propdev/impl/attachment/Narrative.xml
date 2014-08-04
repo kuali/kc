@@ -253,7 +253,6 @@
         <property name="allowWhitespace" value="true"/>
       </bean>
     </property>
-    <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="52"/>
     </property>
