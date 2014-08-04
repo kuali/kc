@@ -123,7 +123,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
     private List<BudgetProjectIncome> budgetProjectIncomes;
     
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "BUDGET_ID")
+    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "OBJ_ID")
     private List<DocumentNextvalue> documentNextvalues;
     
 
