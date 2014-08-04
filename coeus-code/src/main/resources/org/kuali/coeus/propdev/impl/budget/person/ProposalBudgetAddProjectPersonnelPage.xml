@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/util
+                    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<bean id="PropBudget-ProjectPersonnelPage-AddButton" parent="PropBudget-ProjectPersonnelPage-AddButton-parentBean" />
+	<bean id="PropBudget-ProjectPersonnelPage-AddButton-parentBean" abstract="true"
+		parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Add Personnel"
+		p:refreshId="PropBudget-ProjectPersonnelPage-Wizard" p:methodToCall="refresh"
+		p:successCallback="showDialog('PropBudget-ProjectPersonnelPage-Wizard');"
+		p:actionParameters="PropBudget-ProjectPersonnelPage-Wizard.step:0" p:iconClass="icon-plus" />
+
+	<bean id="PropBudget-ProjectPersonnelPage-Wizard" parent="PropBudget-ProjectPersonnelPage-Wizard-parentBean" />
+	<bean id="PropBudget-ProjectPersonnelPage-Wizard-parentBean" abstract="true"
+		parent="Uif-DialogGroup" p:headerText="Add Personnel" class="org.kuali.coeus.org.kuali.rice.krad.uif.container.WizardGroup"
+		p:fieldBindingObjectPath="addProjectPersonnelHelper" p:resetDataOnRefresh="true"
+		p:retrieveViaAjax="true">
+		<property name="layoutManager">
+			<bean parent="Uif-VerticalBoxLayout"/>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="PropBudget-ProjectPersonnelPage-SearchCriteria" p:order="10" />
+				<bean parent="PropBudget-ProjectPersonnelPage-SearchResults" p:order="20" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PropBudget-ProjectPersonnelPage-WizardButton" parent="PropBudget-ProjectPersonnelPage-WizardButton-parentBean" />
+	<bean id="PropBudget-ProjectPersonnelPage-WizardButton-parentBean" abstract="true"
+		parent="Uif-PrimaryActionButton" p:refreshId="PropBudget-ProjectPersonnelPage-Wizard"
+		p:methodToCall="refresh" p:actionParameters="PropBudget-ProjectPersonnelPage-Wizard.step:1" />
+
+	<bean id="PropBudget-ProjectPersonnelPage-WizardButton-Continue" parent="PropBudget-ProjectPersonnelPage-WizardButton-Continue-parentBean" />
+	<bean id="PropBudget-ProjectPersonnelPage-WizardButton-Continue-parentBean"
+		abstract="true" parent="PropBudget-ProjectPersonnelPage-WizardButton"
+		p:actionLabel="Search"/>
+
+	<bean id="PropBudget-ProjectPersonnelPage-WizardButton-Back" parent="PropBudget-ProjectPersonnelPage-WizardButton-Back-parentBean" />
+	<bean id="PropBudget-ProjectPersonnelPage-WizardButton-Back-parentBean"
+		abstract="true" parent="PropBudget-ProjectPersonnelPage-WizardButton"
+		p:actionLabel="Refine Search" />
+
+	<bean id="PropBudget-ProjectPersonnelPage-SearchCriteria" parent="PropBudget-ProjectPersonnelPage-SearchCriteria-parentBean" />
+	<bean id="PropBudget-ProjectPersonnelPage-SearchCriteria-parentBean" abstract="true"
+		parent="Uif-VerticalBoxSubSection">
+		<property name="items">
+			<list>
+				<bean parent="PropBudget-ProjectPersonnelPage-TypeSelection" p:order="10" />
+				<bean parent="PropBudget-ProjectPersonnelPage-EmployeeInputFields" p:order="20" />
+				<bean parent="PropBudget-ProjectPersonnelPage-NonEmployeeInputFields" p:order="30" />
+				<bean parent="PropBudget-ProjectPersonnelPage-TBN-CollectionGroup" p:order="40" />
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="PropBudget-ProjectPersonnelPage-WizardButton-Continue"
+							p:progressiveRender="@{#fp.addProjectPersonnelHelper.personType != 'T'}"
+							p:methodToCall="searchProjectPersonnel" p:actionParameters="PropBudget-ProjectPersonnelPage-Wizard.step:1"
+							p:order="10" />
+						<bean parent="Uif-DialogDismissButton" p:progressiveRender="@{#fp.addProjectPersonnelHelper.personType != '#{T(org.kuali.kra.infrastructure.PersonTypeConstants).TBN.code}'}" p:actionLabel="Cancel" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="PropBudget-ProjectPersonnelPage-PersonInputField" parent="PropBudget-ProjectPersonnelPage-PersonInputField-parentBean" />
+	<bean id="PropBudget-ProjectPersonnelPage-PersonInputField-parentBean"
+		abstract="true" parent="Uif-InputField" p:fieldLabel.renderColon="false"
+		p:dictionaryObjectEntry="org.kuali.coeus.common.framework.person.KcPerson" />
+
+	<bean id="PropBudget-Rolodex-InputField" parent="PropBudget-Rolodex-InputField-parentBean" />
+	<bean id="PropBudget-Rolodex-InputField-parentBean"
+		abstract="true" parent="Uif-InputField" p:fieldLabel.renderColon="false"
+		p:dictionaryObjectEntry="org.kuali.coeus.common.framework.rolodex.Rolodex" />
+
+	<bean id="PropBudget-ProjectPersonnelPage-SearchResults" parent="PropBudget-ProjectPersonnelPage-SearchResults-parentBean" />
+	<bean id="PropBudget-ProjectPersonnelPage-SearchResults-parentBean" abstract="true"
+		parent="Uif-CssGridGroup">
+		<property name="items">
+			<list>
+				<bean parent="PropBudget-ProjectPersonnelPage-Search-Result-Details"
+					p:order="10" />
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="PropBudget-ProjectPersonnelPage-WizardButton-Back"
+							p:actionParameters="PropBudget-ProjectPersonnelPage-Wizard.step:0" p:order="10" />
+						<bean parent="PropDev-PersonnelPage-WizardButton-Continue"
+							p:actionParameters="PropDev-PersonnelPage-Wizard.step:2"
+							p:actionLabel="Add Selected Personnel" p:refreshId="PropBudget-ProjectPersonnelPage-CollectionGroup"
+							p:methodToCall="addProjectPersonnel" p:successCallback="dismissDialog('PropBudget-ProjectPersonnelPage-Wizard');"
+							p:order="20" />
+						<bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="PropBudget-ProjectPersonnelPage-Search-Result-Details" parent="PropBudget-ProjectPersonnelPage-Search-Result-Details-parentBean" />
+	<bean id="PropBudget-ProjectPersonnelPage-Search-Result-Details-parentBean"
+		abstract="true" parent="Uif-TableCollectionSection" p:headerText="Search Results"
+		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson"
+		p:propertyName="results" p:additionalCssClasses="kc-personnel-table"
+		p:renderAddLine="false" p:renderLineActions="false"
+		p:layoutManager.renderSequenceField="false">
+		<property name="layoutManager.richTable.templateOptions">
+			<map>
+				<entry key="bAutoWidth" value="false" />
+				<entry key="sDom" value="tip" />
+				<entry key="bRetrieve" value="true" />
+				<entry key="sPaginationType" value="full_numbers" />
+				<entry key="aaSorting" value="[[1,'asc']]" />
+				<entry key="aoColumnDefs"
+					value="[{'sWidth' : '20px', 'bSortable':false, 'aTargets' : [0]}]" />
+			</map>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="selected"
+					p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
+					<property name="control">
+						<bean parent="Uif-CheckboxControl"/>
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="personName"
+					p:label="Full Name" p:readOnly="true" p:order="20" />
+				<bean parent="Uif-InputField" p:propertyName="userName"
+					p:label="User ID" p:readOnly="true" p:order="30" />
+				<bean parent="Uif-InputField" p:propertyName="directoryTitle"
+					p:label="Directory Title" p:readOnly="true" p:order="40" />
+				<bean parent="Uif-InputField" p:propertyName="school"
+					p:label="School" p:readOnly="true" p:order="50" />
+				<bean parent="Uif-InputField" p:propertyName="personId"
+					p:label="Kc Pers ID" p:readOnly="true" p:order="50" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-ProjectPersonnelPage-TypeSelection" parent="Uif-CssGridSection-1FieldLabelColumn">
+		<property name="items">
+        	<list>
+				<bean parent="Uif-InputField" p:propertyName="personType" p:order="10" 
+					p:label="Search for" p:defaultValue="E" p:fieldLabel.renderColon="false">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder" value="#{T(org.kuali.coeus.org.kuali.rice.krad.SpringMethods).retrieveSpringBean('personTypeValuesFinder')}" />
+				</bean>
+            </list>
+        </property>
+    </bean>
+	
+	<bean id="PropBudget-ProjectPersonnelPage-EmployeeInputFields" parent="Uif-CssGridSection-1FieldLabelColumn"
+		p:progressiveRender="@{#fp.addProjectPersonnelHelper.personType == '#{T(org.kuali.kra.infrastructure.PersonTypeConstants).EMPLOYEE.code}'}">
+		<property name="items">
+        	<list>
+				<bean parent="PropBudget-ProjectPersonnelPage-PersonInputField"
+					p:propertyName="lookupFieldValues['lastName']" p:order="20"
+					p:dictionaryAttributeName="lastName" />
+				<bean parent="PropBudget-ProjectPersonnelPage-PersonInputField"
+					p:propertyName="lookupFieldValues['firstName']" p:order="30"
+					p:dictionaryAttributeName="firstName" />
+				<bean parent="PropBudget-ProjectPersonnelPage-PersonInputField"
+					p:propertyName="lookupFieldValues['userName']" p:order="40"
+					p:dictionaryAttributeName="userName" />
+				<bean parent="PropBudget-ProjectPersonnelPage-PersonInputField"
+					p:propertyName="lookupFieldValues['emailAddress']" p:order="50"
+					p:dictionaryAttributeName="emailAddress" />
+				<bean parent="PropBudget-ProjectPersonnelPage-PersonInputField"
+					p:propertyName="lookupFieldValues['officePhone']" p:order="60"
+					p:dictionaryAttributeName="officePhone" />
+				<bean parent="PropBudget-ProjectPersonnelPage-PersonInputField"
+					p:propertyName="lookupFieldValues['organizationIdentifier']"
+					p:order="70" p:dictionaryAttributeName="organizationIdentifier" />
+				<bean parent="PropBudget-ProjectPersonnelPage-PersonInputField"
+					p:propertyName="lookupFieldValues['campusCode']" p:order="80"
+					p:dictionaryAttributeName="campusCode" />
+				<bean parent="PropBudget-ProjectPersonnelPage-PersonInputField"
+					p:propertyName="lookupFieldValues['active']" p:order="90"
+					p:dictionaryAttributeName="active">
+					<property name="control">
+						<bean parent="Uif-HorizontalRadioControl">
+							<property name="options">
+								<list>
+									<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes" />
+									<bean parent="Uif-KeyLabelPair" p:key="N" p:value="No" />
+									<bean parent="Uif-KeyLabelPair" p:key="" p:value="Both" />
+								</list>
+							</property>
+						</bean>
+					</property>
+				</bean>
+            </list>
+        </property>
+    </bean>
+            	
+	<bean id="PropBudget-ProjectPersonnelPage-NonEmployeeInputFields" parent="Uif-CssGridSection-1FieldLabelColumn"
+		p:progressiveRender="@{#fp.addProjectPersonnelHelper.personType == '#{T(org.kuali.kra.infrastructure.PersonTypeConstants).NONEMPLOYEE.code}'}">
+		<property name="items">
+        	<list>
+				<bean parent="PropBudget-Rolodex-InputField"
+					p:propertyName="lookupFieldValues['rolodexId']"
+					p:dictionaryAttributeName="rolodexId" p:order="20" />
+				<bean parent="PropBudget-Rolodex-InputField"
+					p:propertyName="lookupFieldValues['organization']"
+					p:dictionaryAttributeName="organization" p:order="30" />
+				<bean parent="PropBudget-Rolodex-InputField"
+					p:propertyName="lookupFieldValues['ownedByUnit']"
+					p:dictionaryAttributeName="ownedByUnit" p:order="40" />
+				<bean parent="PropBudget-Rolodex-InputField"
+					p:propertyName="lookupFieldValues['sponsorAddressFlag']"
+					p:dictionaryAttributeName="sponsorAddressFlag" p:order="50" />
+				<bean parent="PropBudget-Rolodex-InputField"
+					p:propertyName="lookupFieldValues['title']"
+					p:dictionaryAttributeName="title" p:order="60" />
+            </list>
+        </property>
+    </bean>
+
+	<bean id="PropBudget-ProjectPersonnelPage-TBN-CollectionGroup" parent="PropBudget-ProjectPersonnelPage-TBN-CollectionGroup-parentBean" />
+	<bean id="PropBudget-ProjectPersonnelPage-TBN-CollectionGroup-parentBean"
+		parent="Uif-TableCollectionSection" abstract="true" p:propertyName="tbnPersons"
+		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.personnel.TbnPerson"
+		p:layoutManager.renderSequenceField="false" p:renderLineActions="false"
+		p:progressiveRender="@{#fp.addProjectPersonnelHelper.personType == '#{T(org.kuali.kra.infrastructure.PersonTypeConstants).TBN.code}'}">
+		<property name="layoutManager.richTable.templateOptions">
+			<map>
+				<entry key="sDom" value="tip" />
+				<entry key="bRetrieve" value="true" />
+				<entry key="bPaginate" value="false" />
+				<entry key="bInfo" value="false" />
+			</map>
+		</property>
+		<property name="header.lowerGroup">
+			<bean parent="Uif-HeaderLowerGroup">
+				<property name="items">
+					<list>
+						<bean parent="Uif-Message"
+							p:messageText="Select the quantity of each 'to be named' person category to be returned to your budget."
+							p:order="10" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-DataField" p:propertyName="personName"
+					p:order="10" p:label="Person Category"/>
+				<bean parent="Uif-InputField" p:propertyName="quantity"
+					p:order="20" p:label="Quantity" />
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="Uif-PrimaryActionButton" p:actionLabel="Add TBN Personnel to Budget" 
+							p:refreshId="PropBudget-ProjectPersonnelPage-CollectionGroup"
+							p:successCallback="dismissDialog('PropBudget-ProjectPersonnelPage-Wizard');"
+							p:methodToCall="addProjectPersonnel"/>
+						<bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+</beans> 

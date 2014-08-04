@@ -40,6 +40,9 @@ public class TbnPerson extends KcPersistableBusinessObjectBase implements TbnPer
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "JOB_CODE", referencedColumnName = "JOB_CODE", insertable = false, updatable = false)
     private JobCode jobCodeReference;
+    
+    @Transient
+    private int quantity;
 
     public String getJobCode() {
         return jobCode;
@@ -79,4 +82,12 @@ public class TbnPerson extends KcPersistableBusinessObjectBase implements TbnPer
     public String getId() {
         return getTbnId();
     }
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 }

@@ -39,7 +39,7 @@
 			<list>
 				<ref bean="PropBudget-PeriodsPage" />
 				<bean id="PropBudget-RatesPage" parent="PropBudget-UnderDevelopmentPage" />
-				<bean id="PropBudget-PersonnelPage" parent="PropBudget-UnderDevelopmentPage" />
+				<ref bean="PropBudget-ProjectPersonnelPage" />
 				<bean id="PropBudget-PersonnelPeriodsPage" parent="PropBudget-UnderDevelopmentPage" />
 				<bean id="PropBudget-NonPersonnel" parent="PropBudget-UnderDevelopmentPage" />
 				<bean id="PropBudget-SubawardsPage" parent="PropBudget-UnderDevelopmentPage" />
@@ -113,7 +113,7 @@
 		parent="Uif-SidebarToggleMenu" p:toggleText="Personnel Costs" p:iconClass="icon-user3">
 		<property name="menuItems">
 			<list>
-				<bean parent="Uif-MenuAction" p:navigateToPageId="PropBudget-PersonnelPage"
+				<bean parent="Uif-MenuAction" p:navigateToPageId="PropBudget-ProjectPersonnelPage"
 					p:actionLabel="Project Personnel" p:order="10" />
 				<bean parent="Uif-MenuAction" p:navigateToPageId="PropBudget-PersonnelPeriodsPage"
 					p:actionLabel="Assign Personnel to Periods" p:order="20" />

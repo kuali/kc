@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.coeus.propdev.impl.budget.person.AddProjectPersonnelHelper;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.ToggleMenu;
@@ -18,10 +19,12 @@ public class ProposalBudgetForm extends UifFormBase {
 	private ProposalDevelopmentBudgetExt budget;
 	private String defaultBudgetPeriodWarningMessage;
     private Map<String,List<String>> editableBudgetLineItems;
+    private AddProjectPersonnelHelper addProjectPersonnelHelper;
 
     public void initialize() {
     	editableBudgetLineItems = new HashMap<String,List<String>>();
-    }
+    	addProjectPersonnelHelper = new AddProjectPersonnelHelper();
+   }
     
 	public ProposalDevelopmentBudgetExt getBudget() {
 		return budget;
@@ -74,6 +77,15 @@ public class ProposalBudgetForm extends UifFormBase {
 	public void setEditableBudgetLineItems(
 			Map<String, List<String>> editableBudgetLineItems) {
 		this.editableBudgetLineItems = editableBudgetLineItems;
+	}
+
+	public AddProjectPersonnelHelper getAddProjectPersonnelHelper() {
+		return addProjectPersonnelHelper;
+	}
+
+	public void setAddProjectPersonnelHelper(
+			AddProjectPersonnelHelper addProjectPersonnelHelper) {
+		this.addProjectPersonnelHelper = addProjectPersonnelHelper;
 	}
     
 
