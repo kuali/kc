@@ -174,7 +174,7 @@
 		<property name="layoutManager.columnCalculations">
 			<list>
 				<bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="fundsRequested"
-					p:totalField.fieldLabel.labelText="Total" />
+					p:totalField.fieldLabel.labelText="Total" p:order="10" />
 			</list>
 		</property>
 		<property name="footer">
