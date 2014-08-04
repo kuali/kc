@@ -3,8 +3,6 @@ package org.kuali.coeus.propdev.impl.core;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
-import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -27,7 +25,7 @@ public class ProposalDevelopmentSubmitController extends
     @Qualifier("auditHelper")
     private AuditHelper auditHelper;
 
-	
+
     @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=deleteProposal")
     public ModelAndView deleteProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -46,14 +44,16 @@ public class ProposalDevelopmentSubmitController extends
    		return getNavigationControllerService().returnToHub(form);
 	}
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=submitForReview")
-    public  ModelAndView submitForReview(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)throws Exception {	
+    public  ModelAndView submitForReview(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)throws Exception {
+        form.setAuditActivated(true);
 
         AuditHelper.ValidationState state = getAuditHelper().isValidSubmission(form, true);
         if (state != AuditHelper.ValidationState.ERROR){
         	form.getDevelopmentProposal().setSubmitFlag(true);
     		return getTransactionalDocumentControllerService().route(form);
     	}else{
-    		GlobalVariables.getMessageMap().clearErrorMessages(); 
+    		GlobalVariables.getMessageMap().clearErrorMessages();
+            form.setDataValidationItems(((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateDataValidation(form,form.getView().getViewIndex()));
     		return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
     	}
    } 
