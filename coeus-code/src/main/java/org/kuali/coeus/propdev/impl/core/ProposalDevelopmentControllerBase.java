@@ -24,6 +24,7 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
@@ -117,6 +118,10 @@ public abstract class ProposalDevelopmentControllerBase {
     @Autowired
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
+    
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
 
     protected DocumentFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalDevelopmentDocumentForm();
@@ -178,7 +183,8 @@ public abstract class ProposalDevelopmentControllerBase {
          initializeProposalUsers(proposalDevelopmentDocument);
          String pageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
          ModelAndView view = null;
-         if (StringUtils.isNotBlank(pageId)) {
+         if (StringUtils.isNotBlank(pageId) && getGlobalVariableService().getMessageMap().hasNoErrors()) {
+        	 form.setDirtyForm(false);
              view = getModelAndViewService().getModelAndView(form, pageId);
          } else {
              view = getModelAndViewService().getModelAndView(form);
@@ -205,7 +211,8 @@ public abstract class ProposalDevelopmentControllerBase {
              performCustomSave(proposalDevelopmentDocument, SaveDocumentSpecialReviewEvent.class);
          }
          String pageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
-         if (StringUtils.isNotBlank(pageId)) {
+         if (StringUtils.isNotBlank(pageId) && getGlobalVariableService().getMessageMap().hasNoErrors()) {
+        	 form.setDirtyForm(false);
              view = getModelAndViewService().getModelAndView(form, pageId);
          } else {
              view = getModelAndViewService().getModelAndView(form);
@@ -233,9 +240,7 @@ public abstract class ProposalDevelopmentControllerBase {
      }
      
      protected ModelAndView navigate(DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		form.setPageId(form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID));
-		form.setDirtyForm(false);
-		return save(form, result, request, response);
+    	return save(form, result, request, response);
      }
 
     public void saveAnswerHeaders(ProposalDevelopmentDocumentForm pdForm) {
@@ -394,4 +399,12 @@ public abstract class ProposalDevelopmentControllerBase {
     public void setRefreshControllerService(RefreshControllerService refreshControllerService) {
         this.refreshControllerService = refreshControllerService;
     }
+
+	public GlobalVariableService getGlobalVariableService() {
+		return globalVariableService;
+	}
+
+	public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+		this.globalVariableService = globalVariableService;
+	}
 }
