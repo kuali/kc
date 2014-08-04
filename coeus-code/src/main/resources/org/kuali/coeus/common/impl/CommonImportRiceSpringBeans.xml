@@ -61,4 +61,6 @@
     <bean id="rice.krms.engine" parent="grlImporter" p:serviceName="rice.krms.engine" />
     <bean id="krmsTypeRepositoryService" parent="grlImporter" p:serviceName="krmsTypeRepositoryService" />
     <bean id="krmsLocalCacheManager" parent="grlImporter" p:serviceName="krmsLocalCacheManager" />
+    <bean id="legacyDataAdapter" parent="grlImporter" p:serviceName="legacyDataAdapter" />
+
 </beans>
