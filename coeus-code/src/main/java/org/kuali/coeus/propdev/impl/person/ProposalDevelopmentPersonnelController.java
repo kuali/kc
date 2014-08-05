@@ -25,6 +25,7 @@ import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
+import org.kuali.kra.infrastructure.PersonTypeConstants;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -65,6 +66,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-PersonnelPage"})
     public ModelAndView navigateToPersonnel(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
+        propDevForm.getAddKeyPersonHelper().setPersonType(PersonTypeConstants.EMPLOYEE.getCode());
         for (ProposalPerson person : propDevForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
             //workaround for the document associated with the OJB retrived dev prop not having a workflow doc.
             person.setDevelopmentProposal(propDevForm.getProposalDevelopmentDocument().getDevelopmentProposal());
@@ -97,7 +99,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 				entry.setValue("");
 			}
        }
-       if (StringUtils.equals(form.getAddKeyPersonHelper().getPersonType(), "E")) {
+       if (StringUtils.equals(form.getAddKeyPersonHelper().getPersonType(), PersonTypeConstants.EMPLOYEE.getCode())) {
           List<KcPerson> results = (List<KcPerson>) getKcPersonLookupableHelperService().getSearchResults(form.getAddKeyPersonHelper().getLookupFieldValues());
           for (KcPerson person: results) {
               ProposalPerson newPerson = new ProposalPerson();
