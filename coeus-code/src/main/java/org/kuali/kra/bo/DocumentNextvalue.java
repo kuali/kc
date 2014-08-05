@@ -33,6 +33,8 @@ public class DocumentNextvalue extends KcPersistableBusinessObjectBase {
     @Column(name = "PROPERTY_NAME")
     private String propertyName;
 
+    //Traditionally this held just the document number, but with BudgetDocument removal we
+    //are now storing either documentNumber when available or OJB_ID in cases where not
     @Id
     @Column(name = "DOCUMENT_NUMBER")
     private String documentKey;
