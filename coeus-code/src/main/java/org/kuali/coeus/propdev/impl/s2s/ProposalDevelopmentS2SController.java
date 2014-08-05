@@ -31,8 +31,6 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -84,12 +82,12 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
        }
 
        S2sOpportunity s2sOpportunity = proposal.getS2sOpportunity();
-       s2sOpportunity.setS2sProvider(getDataObjectService().find(S2sProvider.class, s2sOpportunity.getProviderCode()));
-       Boolean mandatoryFormNotAvailable = false;
-       List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
+
        try {
            if (s2sOpportunity != null && s2sOpportunity.getSchemaUrl() != null) {
-               s2sOppForms = getS2sSubmissionService().parseOpportunityForms(s2sOpportunity);
+               Boolean mandatoryFormNotAvailable = false;
+               s2sOpportunity.setS2sProvider(getDataObjectService().find(S2sProvider.class, s2sOpportunity.getProviderCode()));
+               List<S2sOppForms> s2sOppForms = getS2sSubmissionService().parseOpportunityForms(s2sOpportunity);
                if(s2sOppForms!=null){
                    for(S2sOppForms s2sOppForm:s2sOppForms){
                        if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
@@ -109,6 +107,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
                        }
                    });
                    s2sOpportunity.setS2sOppForms(s2sOppForms);
+                   proposal.setS2sOppForms(s2sOppForms);
                }else{
                    globalVariableService.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID, s2sOpportunity.getOpportunityId());
                    proposal.setS2sOpportunity(new S2sOpportunity());
@@ -132,6 +131,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
        DevelopmentProposal proposal = document.getDevelopmentProposal();
        getLegacyDataAdapter().delete(proposal.getS2sOpportunity());
        proposal.setS2sOpportunity(null);
+       proposal.setS2sOppForms(new ArrayList<S2sOppForms>());
        //Reset Opportunity Title and Opportunity ID in the Sponsor & Program Information section
        proposal.setProgramAnnouncementTitle("");
        proposal.setProgramAnnouncementNumber("");
