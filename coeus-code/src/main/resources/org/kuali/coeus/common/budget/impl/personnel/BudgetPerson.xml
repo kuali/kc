@@ -22,6 +22,7 @@
         <ref bean="BudgetPerson-personId" />
         <ref bean="BudgetPerson-versionNumber" />
         <ref bean="BudgetPerson-appointmentType" />
+        <ref bean="BudgetPerson-appointmentTypeCode" />
         <ref bean="BudgetPerson-calculationBase" />
         <ref bean="BudgetPerson-personName" />
         <ref bean="BudgetPerson-jobTitle" />
@@ -148,6 +149,39 @@
     <property name="description" value="Appointment Type" />
   </bean>
 
+  <bean id="BudgetPerson-appointmentTypeCode" parent="BudgetPerson-appointmentTypeCode-parentBean"/>
+  <bean id="BudgetPerson-appointmentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="appointmentTypeCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Appointment Type" />
+    <property name="shortLabel" value="Appointment Type" />
+    <property name="maxLength" value="2" />
+    <property name="validationPattern" >
+      <bean parent="AlphaNumericValidationPattern" />
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AlphaNumericPatternConstraint"/>
+    </property>
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.budget.framework.personnel.AppointmentType" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="appointmentTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.personnel.AppointmentType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="appointmentTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
+    </property>
+    <property name="summary" value="Appointment Type" />
+    <property name="description" value="Appointment Type" />
+  </bean>
+  
   <bean id="BudgetPerson-calculationBase" parent="BudgetPerson-calculationBase-parentBean"/>
   <bean id="BudgetPerson-calculationBase-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="calculationBase" />
