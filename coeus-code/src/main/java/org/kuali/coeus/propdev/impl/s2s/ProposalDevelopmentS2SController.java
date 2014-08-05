@@ -121,6 +121,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
            globalVariableService.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
            proposal.setS2sOpportunity(new S2sOpportunity());
        }
+       proposal.setS2sOppForms(proposal.getS2sOpportunity().getS2sOppForms());
        super.save(form,result,request,response);
        return getRefreshControllerService().refresh(form);
    }
