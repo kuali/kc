@@ -39,10 +39,11 @@
 			<property name="items">
 				<list>
 					<bean  p:actionLabel="Submit for Review" parent="Uif-PrimaryActionButton" p:methodToCall="submitForReview"  p:order="10" />
-
-                    <bean parent="Uif-LinkField" p:linkText="View Route Log"
-                          p:href="@{#ConfigProperties['application.url']}/kew/RouteLog.do?documentId=@{document.developmentProposal.proposalDocument.documentNumber}"  p:order="20"
-                    p:link.openInDialog="true" />
+					<bean parent="Uif-LinkField" p:linkText="View Route Log" p:href="@{#ConfigProperties['application.url']}/kew/RouteLog.do?documentId=@{document.developmentProposal.proposalDocument.documentNumber}"  p:order="20">
+						<property name="lightBox">
+				   			<bean parent="Uif-LightBox"/>
+		  				</property>
+					</bean>
 
 					<bean parent="Uif-Space"/><bean parent="Uif-Space"/>																				    
 					<bean  p:actionLabel="Save and Exit" parent="Uif-SecondaryActionButton" p:methodToCall="saveAndExit"   p:order="30" /> 					
