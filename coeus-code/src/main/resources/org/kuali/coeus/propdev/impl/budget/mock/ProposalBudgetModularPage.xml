@@ -262,21 +262,19 @@
 	<bean id="PropBudget-Modular-Overview-Section-Details" parent="PropBudget-Modular-Overview-Section-Details-parentBean" />
 	<bean id="PropBudget-Modular-Overview-Section-Details-parentBean"
 		parent="Uif-CssGridSection-1FieldLabelColumn">
-		<property name="layoutManager.labelColumnSizes.mdSize" value="6" />
-		<property name="layoutManager.fieldColumnSizes.mdSize" value="6" />
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="startDate"
+				<bean parent="Uif-DataField" p:propertyName="startDate"
 					p:order="10" p:label="Period 1 Start" p:fieldLabel.renderColon="false"
 					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.core.Budget" />
-				<bean parent="Uif-InputField" p:propertyName="startDate"
+				<bean parent="Uif-DataField" p:propertyName="startDate"
 					p:order="20" p:label="Period 1 End" p:fieldLabel.renderColon="false"
 					p:dictionaryObjectEntry="org.kuali.coeus.common.budget.framework.core.Budget" />
-				<bean parent="Uif-InputField" p:propertyName="totalRequestedCost"
+				<bean parent="Uif-DataField" p:propertyName="totalRequestedCost"
 					p:order="30" p:label="Period 1 Total Requested Cost"
 					p:fieldLabel.renderColon="false"
 					p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.budget.modular.BudgetModular" />
-				<bean parent="Uif-InputField" p:propertyName="totalFnaRequested"
+				<bean parent="Uif-DataField" p:propertyName="totalFnaRequested"
 					p:order="40" p:label="Project Total Requested Cost"
 					p:fieldLabel.renderColon="false"
 					p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.budget.modular.BudgetModular" />
