@@ -19,6 +19,10 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.persistence.annotations.Customizer;
 import org.eclipse.persistence.config.DescriptorCustomizer;
+import org.eclipse.persistence.descriptors.ClassDescriptor;
+import org.eclipse.persistence.expressions.Expression;
+import org.eclipse.persistence.expressions.ExpressionBuilder;
+import org.eclipse.persistence.mappings.ForeignReferenceMapping;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.noo.NoticeOfOpportunity;
 import org.kuali.coeus.common.framework.org.Organization;
@@ -41,6 +45,7 @@ import org.kuali.coeus.propdev.impl.attachment.NarrativeStatus;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
+import org.kuali.coeus.propdev.impl.hierarchy.ProposalHiddenInHierarchyCustomizerValue;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
@@ -54,7 +59,6 @@ import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.persistence.CompositeDescriptorCustomizer;
-import org.kuali.coeus.sys.framework.persistence.FilterByMapDescriptorCustomizer;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.AwardType;
 import org.kuali.kra.award.home.ContactRole;
@@ -80,6 +84,7 @@ import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.data.jpa.FilterGenerator;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -286,13 +291,16 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     private List<ProposalSite> proposalSites;
 
     @OneToMany(mappedBy="developmentProposal", orphanRemoval = true, cascade = { CascadeType.ALL })
+    @FilterGenerator(attributeName = "hiddenInHierarchy", attributeResolverClass=ProposalHiddenInHierarchyCustomizerValue.class)
     private List<ProposalSpecialReview> propSpecialReviews;
 
     @OneToMany(mappedBy="developmentProposal", orphanRemoval = true, cascade = { CascadeType.ALL })
+    @FilterGenerator(attributeName = "hiddenInHierarchy", attributeResolverClass=ProposalHiddenInHierarchyCustomizerValue.class)
     private List<PropScienceKeyword> propScienceKeywords;
 
     @OneToMany(mappedBy="developmentProposal", orphanRemoval = true, cascade = { CascadeType.ALL })
     @OrderBy("ordinalPosition")
+    @FilterGenerator(attributeName = "hiddenInHierarchy", attributeResolverClass=ProposalHiddenInHierarchyCustomizerValue.class)
     private List<ProposalPerson> proposalPersons;
 
     @OneToMany(cascade = { CascadeType.REFRESH })
@@ -2203,59 +2211,31 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
         }
         return StringUtils.join(unitNumbers,',');
     }
-    public abstract static class AbstractHiddenInHierarchyCustomizer extends FilterByMapDescriptorCustomizer {
 
-        @Override
-        public Map<String, ?> getFilterMap() {
-            return Collections.singletonMap("hiddenInHierarchy", "N");
+    public static class NarrativeCustomizer  implements DescriptorCustomizer{
+        public void customize(ClassDescriptor descriptor) throws Exception {
+            final String value = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
+            ForeignReferenceMapping frMapping = (ForeignReferenceMapping) descriptor.getMappingForAttributeName("narratives");
+
+            ExpressionBuilder eb = new ExpressionBuilder(Narrative.class);
+            Expression fkExp = eb.getField("PROPOSAL_NUMBER").equal(eb.getParameter("PROPOSAL_NUMBER"));
+            frMapping.setSelectionCriteria(fkExp.and(eb.get("narrativeType").get("narrativeTypeGroup").equal(value)));
+        }
+
+        protected ParameterService getParameterService() {
+            return KcServiceLocator.getService(ParameterService.class);
         }
     }
 
-    public static class NarrativeCustomizer extends AbstractHiddenInHierarchyCustomizer {
+    public static class InstituteAttachmentsCustomizer implements DescriptorCustomizer {
 
-        @Override
-        public String getAttributeName() {
-            return "narratives";
-        }
-    }
+        public void customize(ClassDescriptor descriptor) throws Exception {
+            final String value = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.INSTITUTE_NARRATIVE_TYPE_GROUP);
+            ForeignReferenceMapping frMapping = (ForeignReferenceMapping) descriptor.getMappingForAttributeName("instituteAttachments");
 
-    public static class ProposalSpecialReviewCustomizer extends AbstractHiddenInHierarchyCustomizer {
-
-        @Override
-        public String getAttributeName() {
-            return "propSpecialReviews";
-        }
-    }
-
-    public static class PropScienceKeywordCustomizer extends AbstractHiddenInHierarchyCustomizer {
-
-        @Override
-        public String getAttributeName() {
-            return "propScienceKeywords";
-        }
-    }
-
-    public static class ProposalPersonCustomizer extends AbstractHiddenInHierarchyCustomizer {
-
-        @Override
-        public String getAttributeName() {
-            return "proposalPersons";
-        }
-    }
-
-    public static class InstituteAttachmentsCustomizer extends FilterByMapDescriptorCustomizer {
-
-        private static final String ATTR_NAME = "narrativeType.narrativeTypeGroup";
-
-        @Override
-        public String getAttributeName() {
-            return "instituteAttachments";
-        }
-
-        @Override
-        public Map<String, ?> getFilterMap() {
-            final String value = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, ATTR_NAME, "0");
-            return Collections.singletonMap("narrativeType.narrativeTypeGroup", value);
+            ExpressionBuilder eb = new ExpressionBuilder(Narrative.class);
+            Expression fkExp = eb.getField("PROPOSAL_NUMBER").equal(eb.getParameter("PROPOSAL_NUMBER"));
+            frMapping.setSelectionCriteria(fkExp.and(eb.get("narrativeType").get("narrativeTypeGroup").equal(value)));
         }
 
         protected ParameterService getParameterService() {
@@ -2271,9 +2251,6 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
             final Collection<DescriptorCustomizer> customizers = new ArrayList<DescriptorCustomizer>();
             customizers.add(new NarrativeCustomizer());
             customizers.add(new InstituteAttachmentsCustomizer());
-            customizers.add(new ProposalSpecialReviewCustomizer());
-            customizers.add(new PropScienceKeywordCustomizer());
-            customizers.add(new ProposalPersonCustomizer());
             CUSTOMIZERS = Collections.unmodifiableCollection(customizers);
         }
 
