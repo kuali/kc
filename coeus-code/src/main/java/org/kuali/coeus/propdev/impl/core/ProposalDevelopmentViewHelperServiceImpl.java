@@ -192,6 +192,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
    	 }
     }    
 
+    public void setInvestigatorCreditTypes(Object model) {
+        ((ProposalDevelopmentDocumentForm) model).getDevelopmentProposal().setInvestigatorCreditTypes(getKeyPersonnelService().getInvestigatorCreditTypes());
+    }
+
     @Override   
     protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId,
             String collectionPath) {

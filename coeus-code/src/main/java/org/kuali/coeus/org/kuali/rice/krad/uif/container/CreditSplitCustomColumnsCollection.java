@@ -6,6 +6,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.component.BindingInfo;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroupBase;
@@ -17,8 +18,8 @@ import org.kuali.rice.krad.uif.util.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomColumnsCollection extends CollectionGroupBase {
-    private static final Logger LOG = Logger.getLogger(CustomColumnsCollection.class);
+public class CreditSplitCustomColumnsCollection extends CollectionGroupBase {
+    private static final Logger LOG = Logger.getLogger(CreditSplitCustomColumnsCollection.class);
 
     private DataFieldBase columnFieldPrototype;
     private BindingInfo columnBindingInfo;
@@ -32,7 +33,10 @@ public class CustomColumnsCollection extends CollectionGroupBase {
 
     @Override
     public void performApplyModel(Object model, LifecycleElement parent) {
-        if (CollectionUtils.isNotEmpty(((ProposalDevelopmentDocumentForm) model).getDevelopmentProposal().getInvestigators())){
+
+        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) model;
+        ((ProposalDevelopmentViewHelperServiceImpl) pdForm.getViewHelperService()).setInvestigatorCreditTypes(pdForm);
+        if (CollectionUtils.isNotEmpty(((ProposalDevelopmentDocumentForm) model).getDevelopmentProposal().getInvestigators())) {
         List<Object> columnCollection = ObjectPropertyUtils.getPropertyValue(model,
                 getColumnBindingInfo().getBindingPath());
 
