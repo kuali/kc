@@ -43,9 +43,7 @@ public class BudgetSubAwardsServiceImpl implements BudgetSubAwardsService {
         }
 
         return ListUtils.emptyIfNull(getDataObjectService().findMatching(BudgetSubAwards.class,
-                QueryByCriteria.Builder.fromPredicates(
-                        and(equal("budgetId", budgetId),
-                                equal("namespace", namespace)))
+                QueryByCriteria.Builder.fromPredicates(equal("budgetId", budgetId), equal("namespace", namespace))
         ).getResults());
     }
 
@@ -56,9 +54,7 @@ public class BudgetSubAwardsServiceImpl implements BudgetSubAwardsService {
         }
 
         return ListUtils.emptyIfNull(getDataObjectService().findMatching(BudgetSubAwards.class,
-                QueryByCriteria.Builder.fromPredicates(
-                        and(equal("budgetId", budgetId),
-                                isNull("namespace")))
+                QueryByCriteria.Builder.fromPredicates(equal("budgetId", budgetId), isNull("namespace"))
         ).getResults());
     }
 
