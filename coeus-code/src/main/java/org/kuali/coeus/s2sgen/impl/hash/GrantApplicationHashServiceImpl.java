@@ -1,6 +1,6 @@
 package org.kuali.coeus.s2sgen.impl.hash;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.s2sgen.api.hash.GrantApplicationHashService;
 import org.springframework.stereotype.Component;
