@@ -98,13 +98,6 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
     public void initialize() {
     }
 
-    @Override
-    public void prepareForSave() {
-        super.prepareForSave();
-
-        documentHeader = getDocumentHeaderService().saveDocumentHeader(documentHeader);
-    }
-
     @LegacyDataFramework
     public final void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
         setObjectId(null);
@@ -383,7 +376,7 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
         this.kcDataObjectService = kcDataObjectService;
     }
 
-    DocumentHeaderService getDocumentHeaderService() {
+    public DocumentHeaderService getDocumentHeaderService() {
         if (this.documentHeaderService == null) {
             this.documentHeaderService = KcServiceLocator.getService(DocumentHeaderService.class);
         }

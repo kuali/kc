@@ -383,6 +383,9 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     @Override
     public void prepareForSave() {
         super.prepareForSave();
+
+        documentHeader = getDocumentHeaderService().saveDocumentHeader(documentHeader);
+
         if (!isProposalDeleted()) {
             getDevelopmentProposal().updateS2sOpportunity();
             getProposalBudgetStatusService().saveBudgetFinalVersionStatus(this);
