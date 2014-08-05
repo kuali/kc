@@ -4,23 +4,23 @@ import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsService;
-import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
-import org.kuali.rice.krad.service.BusinessObjectService;
+
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
 
 @Service("budgetSubAwardsService")
 public class BudgetSubAwardsServiceImpl implements BudgetSubAwardsService {
 
     @Autowired
-    @Qualifier("businessObjectService")
-    private BusinessObjectService businessObjectService;
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
     @Override
     public List<? extends BudgetSubAwardsContract> findBudgetSubAwardsByBudgetId(Long budgetId) {
@@ -28,8 +28,8 @@ public class BudgetSubAwardsServiceImpl implements BudgetSubAwardsService {
             throw new IllegalArgumentException("budgetId is null");
         }
 
-        return ListUtils.emptyIfNull((List<BudgetSubAwards>) getBusinessObjectService().findMatching(BudgetSubAwards.class, Collections.singletonMap("budgetId", budgetId)));
-
+        return ListUtils.emptyIfNull(getDataObjectService().findMatching(BudgetSubAwards.class,
+                QueryByCriteria.Builder.fromPredicates(equal("budgetId", budgetId))).getResults());
     }
 
     @Override
@@ -39,13 +39,12 @@ public class BudgetSubAwardsServiceImpl implements BudgetSubAwardsService {
         }
 
         if (StringUtils.isBlank(namespace)) {
-            throw new IllegalArgumentException("mappingName is blank");
+            throw new IllegalArgumentException("namespace is blank");
         }
 
-        final Map<String,Object> paramMap = new HashMap<String,Object>();
-        paramMap.put("budgetId", budgetId);
-        paramMap.put("namespace", namespace);
-        return ListUtils.emptyIfNull((List<BudgetSubAwards>) getBusinessObjectService().findMatching(BudgetSubAwards.class, paramMap));
+        return ListUtils.emptyIfNull(getDataObjectService().findMatching(BudgetSubAwards.class,
+                QueryByCriteria.Builder.fromPredicates(equal("budgetId", budgetId), equal("namespace", namespace))
+        ).getResults());
     }
 
     @Override
@@ -54,17 +53,16 @@ public class BudgetSubAwardsServiceImpl implements BudgetSubAwardsService {
             throw new IllegalArgumentException("budgetId is null");
         }
 
-        final Map<String,Object> paramMap = new HashMap<String,Object>();
-        paramMap.put("budgetId", budgetId);
-        paramMap.put("namespace", null);
-        return ListUtils.emptyIfNull((List<BudgetSubAwards>) getBusinessObjectService().findMatching(BudgetSubAwards.class, paramMap));
+        return ListUtils.emptyIfNull(getDataObjectService().findMatching(BudgetSubAwards.class,
+                QueryByCriteria.Builder.fromPredicates(equal("budgetId", budgetId), isNull("namespace"))
+        ).getResults());
     }
 
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
     }
 
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
 }
