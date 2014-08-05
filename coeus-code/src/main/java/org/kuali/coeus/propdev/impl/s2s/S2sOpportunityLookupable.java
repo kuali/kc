@@ -42,7 +42,7 @@ public class S2sOpportunityLookupable extends LookupableImpl {
         final String cfdaNumber = searchCriteria.get(Constants.CFDA_NUMBER);
         final String opportunityId = searchCriteria.get(Constants.OPPORTUNITY_ID);
         if (StringUtils.isBlank(providerCode)) {
-            globalVariableService.getMessageMap().putError(Constants.PROVIDER_CODE, KeyConstants.ERROR_S2S_PROVIDER_INVALID);
+            getGlobalVariableService().getMessageMap().putError(Constants.PROVIDER_CODE, KeyConstants.ERROR_S2S_PROVIDER_INVALID);
             return Collections.emptyList();
         }
 
@@ -52,7 +52,7 @@ public class S2sOpportunityLookupable extends LookupableImpl {
                 s2sOpportunity = getS2sSubmissionService().searchOpportunity(providerCode, cfdaNumber, opportunityId, "");
             }catch (S2sCommunicationException e) {
                 LOG.error(e.getMessage(), e);
-                globalVariableService.getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
+                getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
                 return Collections.emptyList();
             }
             if (s2sOpportunity != null && !s2sOpportunity.isEmpty()) {
@@ -62,17 +62,17 @@ public class S2sOpportunityLookupable extends LookupableImpl {
                     s2sOpportunity = getS2sSubmissionService().searchOpportunity(providerCode, cfdaNumber, "", "");
                 }catch (S2sCommunicationException e) {
                     LOG.error(e.getMessage(), e);
-                    globalVariableService.getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
+                    getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
                     return Collections.emptyList();
                 }
                 if (s2sOpportunity != null) {
                     return s2sOpportunity;
                 } else {
                     if (StringUtils.isNotBlank(cfdaNumber)) {
-                        globalVariableService.getMessageMap().putError(Constants.CFDA_NUMBER, KeyConstants.ERROR_IF_CFDANUMBER_IS_INVALID);
+                        getGlobalVariableService().getMessageMap().putError(Constants.CFDA_NUMBER, KeyConstants.ERROR_IF_CFDANUMBER_IS_INVALID);
                     }
                     if (StringUtils.isNotBlank(opportunityId)) {
-                        globalVariableService.getMessageMap().putError(Constants.OPPORTUNITY_ID,
+                        getGlobalVariableService().getMessageMap().putError(Constants.OPPORTUNITY_ID,
                                 KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID);
                     }
                 }
@@ -81,7 +81,7 @@ public class S2sOpportunityLookupable extends LookupableImpl {
             return Collections.emptyList();
         }
         else {
-            globalVariableService.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL);
+            getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL);
             return s2sOpportunity;
         }
     }
@@ -99,6 +99,9 @@ public class S2sOpportunityLookupable extends LookupableImpl {
 	}
 
     public GlobalVariableService getGlobalVariableService() {
+        if (globalVariableService == null) {
+            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        }
         return globalVariableService;
     }
 
