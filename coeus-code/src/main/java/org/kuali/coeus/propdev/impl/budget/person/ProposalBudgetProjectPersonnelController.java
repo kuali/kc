@@ -7,8 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonSalaryDetails;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelBudgetService;
 import org.kuali.coeus.common.budget.framework.personnel.TbnPerson;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
@@ -40,6 +43,10 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	@Autowired
 	@Qualifier("budgetPersonService")
 	private BudgetPersonService budgetPersonService;
+	
+	@Autowired
+	@Qualifier("budgetPersonnelBudgetService")
+	BudgetPersonnelBudgetService budgetPersonnelBudgetService;
 
 	private static final String EDIT_PROJECT_PERSONNEL_DIALOG_ID = "PropBudget-EditPersonnel-Section";
 	
@@ -107,6 +114,16 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	    return getModelAndViewService().getModelAndView(form);
 	}
 	
+	@RequestMapping(params="methodToCall=calculatePersonSalaryDetails")
+	public ModelAndView calculatePersonSalaryDetails(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+	    Budget budget = form.getBudget();
+	    int selectedLine = Integer.parseInt(form.getAddProjectPersonnelHelper().getEditLineIndex());
+	    List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
+        budgetPersonSalaryDetails =  budgetPersonnelBudgetService.calculatePersonSalary(budget, selectedLine);        
+        form.getBudget().getBudgetPerson(selectedLine).setBudgetPersonSalaryDetails(budgetPersonSalaryDetails);
+	    return getModelAndViewService().getModelAndView(form);
+	}
+	
 	public LookupableHelperService getKcPersonLookupableHelperService() {
 		return kcPersonLookupableHelperService;
 	}
@@ -130,6 +147,15 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 
 	public void setBudgetPersonService(BudgetPersonService budgetPersonService) {
 		this.budgetPersonService = budgetPersonService;
+	}
+
+	public BudgetPersonnelBudgetService getBudgetPersonnelBudgetService() {
+		return budgetPersonnelBudgetService;
+	}
+
+	public void setBudgetPersonnelBudgetService(
+			BudgetPersonnelBudgetService budgetPersonnelBudgetService) {
+		this.budgetPersonnelBudgetService = budgetPersonnelBudgetService;
 	}
 
 }
