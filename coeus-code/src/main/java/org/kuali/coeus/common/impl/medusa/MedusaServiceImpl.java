@@ -40,7 +40,6 @@ import org.kuali.coeus.common.framework.medusa.MedusaNode;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.subaward.bo.SubAward;
@@ -948,9 +947,6 @@ public class MedusaServiceImpl implements MedusaService {
     }
 
     protected NegotiationService getNegotiationService() {
-    	if (negotiationService == null) {
-    		negotiationService = KcServiceLocator.getService(NegotiationService.class);
-    	}
         return negotiationService;
     }
 

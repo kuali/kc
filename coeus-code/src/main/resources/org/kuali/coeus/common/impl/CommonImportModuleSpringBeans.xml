@@ -34,7 +34,9 @@
     <bean id="awardBudgetService" parent="grlImporter" p:serviceName="awardBudgetService" />
     <bean id="fiscalYearMonthService" parent="grlImporter" p:serviceName="fiscalYearMonthService" />
     <bean id="awardAmountInfoService" parent="grlImporter" p:serviceName="awardAmountInfoService" />
-    <bean id="negotiationService" parent="grlImporter" p:serviceName="negotiationService" />
+    <!-- making singleton false to prevent caching and avoid an NPE,
+         eventually the negotiation service will be part of common and this wont be needed -->
+    <bean id="negotiationService" parent="grlImporter" p:serviceName="negotiationService" p:singleton="false"/>
     <bean id="subAwardService" parent="grlImporter" p:serviceName="subAwardService" />
     <bean id="awardService" parent="grlImporter" p:serviceName="awardService" />
     <bean id="institutionalProposalService" parent="grlImporter" p:serviceName="institutionalProposalService" />
