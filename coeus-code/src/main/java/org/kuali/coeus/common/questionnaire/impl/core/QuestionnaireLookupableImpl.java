@@ -18,6 +18,7 @@ package org.kuali.coeus.common.questionnaire.impl.core;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireAuthorizationService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
+import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -56,5 +57,12 @@ public class QuestionnaireLookupableImpl extends KualiLookupableImpl {
 
     public QuestionnaireAuthorizationService getQuestionnaireAuthorizationService() {
         return questionnaireAuthorizationService;
+    }
+    
+    @Autowired
+    @Qualifier("lookupableHelperService")
+    @Override
+    public void setLookupableHelperService(LookupableHelperService lookupableHelperService) {
+        super.setLookupableHelperService(lookupableHelperService);
     }
 }
