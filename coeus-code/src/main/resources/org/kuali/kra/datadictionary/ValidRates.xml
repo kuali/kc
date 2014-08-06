@@ -148,14 +148,14 @@
 		<property name="shortLabel" value="Rate Class Type" />
 		<property name="maxLength" value="20" />
         <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.budget.framework.rate.RateClassType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="true" p:includeBlankRow="false" p:keyAttribute="rateClassType" p:labelAttribute="description"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.budget.framework.rate.RateClassType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="true" p:includeBlankRow="false" p:keyAttribute="code" p:labelAttribute="description"/>
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
         <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.rate.RateClassType"/>
         <property name="includeKeyInDescription" value="true"/>
         <property name="includeBlankRow" value="false"/>
-        <property name="keyAttributeName" value="rateClassType"/>
+        <property name="keyAttributeName" value="code"/>
         <property name="labelAttributeName" value="description"/>
       </bean>
     </property>
