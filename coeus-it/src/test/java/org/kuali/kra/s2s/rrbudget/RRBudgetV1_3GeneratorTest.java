@@ -46,8 +46,7 @@ public class RRBudgetV1_3GeneratorTest extends
 		ProposalSite applicantOrganization = new ProposalSite();
 		applicantOrganization.setLocationTypeCode(2);
 		applicantOrganization.setOrganization(organization);
-		applicantOrganization.setProposalNumber(document
-				.getDevelopmentProposal().getProposalNumber());
+
 		applicantOrganization.setSiteNumber(1);
 		applicantOrganization.setLocationName(organization
 				.getOrganizationName());

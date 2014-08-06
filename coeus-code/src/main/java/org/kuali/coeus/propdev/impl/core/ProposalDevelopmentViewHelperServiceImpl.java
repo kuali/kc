@@ -149,7 +149,13 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         	ProposalSpecialReview proposalSpecialReview = (ProposalSpecialReview) addLine;
         	proposalSpecialReview.setDevelopmentProposal(document.getDevelopmentProposal());
         } else if (addLine instanceof ProposalSite) {
-       	 	((ProposalSite) addLine).setLocationTypeCode(ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);        	
+            ProposalSite newProposalSite = (ProposalSite) addLine;
+            if (newProposalSite.getOrganizationId() != null){
+                ((ProposalSite) addLine).setLocationTypeCode(ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);
+            }
+            else if (newProposalSite.getRolodexId() != null){
+                ((ProposalSite) addLine).setLocationTypeCode(ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE);
+            }
        	 	((ProposalSite) addLine).setDevelopmentProposal(document.getDevelopmentProposal());
         } else if (addLine instanceof CongressionalDistrict) {
        	 	CongressionalDistrict congressionalDistrict =(CongressionalDistrict) addLine;

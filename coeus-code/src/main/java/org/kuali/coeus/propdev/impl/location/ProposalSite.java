@@ -301,16 +301,6 @@ public class ProposalSite extends KcPersistableBusinessObjectBase implements Pro
 	public Integer getSiteNumber() {
 		return siteNumber;
 	}
-
-	/**
-     * 
-     * This method returns the concatation of proposalNumber + "|" + proposalPersonNumber.
-     * Those two fields are the combined primary key on the table.
-     * @return
-     */
-    public String getUniqueId() {
-        return this.getDevelopmentProposal().getProposalNumber() + "|" + this.getSiteNumber();
-    }
     
 	public void setSiteNumber(Integer siteNumber) {
 		this.siteNumber = siteNumber;

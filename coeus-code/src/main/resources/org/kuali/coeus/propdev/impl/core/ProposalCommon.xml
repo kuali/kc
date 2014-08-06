@@ -53,60 +53,6 @@
 		</property>
 	</bean>
 
-	<!-- shared parent collection -->
-	<bean id="PropDev-Attachment-Collection" abstract="true"
-		parent="PropDev-Attachment-Collection-parentBean" />
-	<bean id="PropDev-Attachment-Collection-parentBean" abstract="true"
-		parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.attachment.Narrative"
-		p:propertyName="narratives"
-        p:addWithDialog="true">
-        <property name="addWithDialogAction">
-            <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add entry" p:iconClass="icon-plus"/>
-        </property>
-        <property name="addLineActions">
-            <list>
-                <bean parent="Uif-ActionLink" p:actionScript="closeLightbox();"
-                      p:actionLabel="cancel" p:style="float:right" p:order="10"/>
-                <bean parent="Uif-AddLineAction" p:style="float:right" p:order="20" p:actionLabel="Add Entry"/>
-            </list>
-        </property>
-        <property name="lineActions">
-            <list>
-                <bean parent="Uif-ActionLink" p:methodToCall="cancelAttachment"
-                      p:hidden="@{!#ViewHelper.isAttachmentEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableAttachments)}"
-                      p:actionLabel="cancel" p:style="float:right" p:order="10"/>
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="editAttachment"
-                      p:hidden="@{#ViewHelper.isAttachmentEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableAttachments)}"
-                      p:actionLabel="Edit" p:style="float:right" p:order="20"/>
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="saveAttachment"
-                      p:hidden="@{!#ViewHelper.isAttachmentEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableAttachments)}"
-                      p:actionLabel="Save" p:style="float:right" p:order="30"/>
-            </list>
-        </property>
-        <property name="layoutManager.lineGroupPrototype">
-            <bean parent="Uif-CollectionHorizontalBoxItem"
-                  p:disclosure.render="true" p:disclosure.defaultOpen="false">
-                <property name="layoutManager">
-                    <bean parent="Uif-SimpleLayout" />
-                </property>
-                <property name="header">
-                    <bean parent="Uif-HeaderFour">
-                        <property name="rightGroup">
-                            <bean parent="Uif-VerticalBoxGroup">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-DeleteLineAction" p:actionLabel=""
-                                              p:iconClass="icon-close" p:order="10" />
-                                    </list>
-                                </property>
-                            </bean>
-                        </property>
-                    </bean>
-                </property>
-            </bean>
-        </property>
-	</bean>
-
 	<bean id="PropDev-HeaderLowerGroup" parent="PropDev-HeaderLowerGroup-parentBean" />
 	<bean id="PropDev-HeaderLowerGroup-parentBean" abstract="true"
 		parent="Uif-VerticalBoxGroup">
