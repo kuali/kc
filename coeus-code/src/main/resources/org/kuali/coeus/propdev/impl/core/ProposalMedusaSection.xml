@@ -55,7 +55,7 @@
 	  <property name="nodePrototypeMap">            
 	      <map key-type="java.lang.Class">        
 	        <entry key="#{ T(org.kuali.coeus.propdev.impl.core.DevelopmentProposal) }">        
-			 <bean parent="Proposal-MedusaSection-PropDevSummary"/>			 
+			 <bean parent="Proposal-MedusaSection-PropDevSummary"/>		 
 			</entry>
 			<entry key="#{ T(org.kuali.kra.institutionalproposal.home.InstitutionalProposal)}">
 				<bean parent="Proposal-MedusaSection-InstPropSummary"/>
@@ -86,34 +86,85 @@
            <property name="items">
                 <list>
                 	<bean parent="Uif-DataField" p:propertyName="proposalNumber" 
-                	    p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                	    p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" p:order="10" />
                 	<bean parent="Uif-DataField" p:propertyName="proposalState.description" 
-                	    p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                	    p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" p:order="20" />
                 	<bean parent="Uif-DataField" p:propertyName="ownedByUnitNumber" 
-                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" p:order="30" />
                 	<bean parent="Uif-DataField" p:propertyName="requestedStartDateInitial" 
-                	    p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                	    p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" p:order="40" />
                 	<bean parent="Uif-DataField" p:propertyName="requestedEndDateInitial" 
-                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" p:order="50" />
                 	<bean parent="Uif-DataField" p:propertyName="title" 
-                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" p:order="60" />
                 	<bean parent="Uif-DataField" p:propertyName="nsfCode" 
-                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
-                	<bean parent="Uif-DataField" p:propertyName="sponsorName" 
-                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
-                	<bean parent="Uif-DataField" p:propertyName="primeSponsorCode" 
-                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" p:order="70" />
+                	<bean parent="Uif-DataField" p:propertyName="sponsorName" p:label="Sponsor Name"
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" p:order="80" />
+                	<bean parent="Uif-DataField" p:propertyName="primeSponsor.sponsorName" p:label="Prime Sponsor Name"
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" p:order="90" />
                 	<bean parent="Uif-DataField" p:propertyName="sponsorProposalNumber" 
-                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" p:order="100" />
                 	<bean parent="Uif-DataField" p:propertyName="programAnnouncementTitle" 
-                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" p:order="110" />
                 	<bean parent="Uif-DataField" p:propertyName="noticeOfOpportunityCode" 
-                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" p:order="120" />              		
+                	<bean parent="Uif-DataField" p:propertyName="proposalType.description" 
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" p:order="130" />	
+                	<bean parent="Uif-DataField" p:propertyName="programAnnouncementNumber" 
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" p:order="140" />
+                	<bean parent="Uif-DataField" p:propertyName="agencyProgramCode" 
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" p:order="150" />
+                	<bean parent="Uif-DataField" p:propertyName="budgetStatus" 
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" p:order="160" />
+                	<bean parent="Uif-DataField" p:propertyName="attachmentsStatus" p:label="Attachment Status"
+                		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" p:order="170" />
+                	<!--  I am showing this here for the reviewer to see how I want to add the person summary section
+                		It isn't working correctly like this, and am unsure how this should be done.
+                	<bean parent="Proposal-MedusaSection-PropDevProposalPersonsSummary"/>  -->
                 </list>
            </property>
         </bean>
       </property>
 	</bean>
+	<bean id="Proposal-MedusaSection-PropDevProposalPersonsSummary" parent="Proposal-MedusaSection-PropDevProposalPersonsSummary-parentBean" />
+    <bean id="Proposal-MedusaSection-PropDevProposalPersonsSummary-parentBean" abstract="true"
+          parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
+          p:propertyName="document.developmentProposal.proposalPersons"
+          p:renderAddLine="false">
+        <property name="lineActions">
+            <list />
+        </property>
+        <property name="layoutManager.lineGroupPrototype">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                            <property name="labelPrototype">
+                                <bean parent="Uif-Message" p:renderWrapperTag="false"/>
+                            </property>
+                            <property name="dataGroupPrototype">
+                                <bean parent="Uif-CssGridSection-1FieldLabelColumn">
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="Uif-DataField" p:propertyName="fullName"
+                                                  p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.person.ProposalPerson" p:order="10" />
+                                            <bean parent="Uif-DataField" p:propertyName="proposalPersonRoleId"  
+                                	  			p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.person.ProposalPerson" p:order="20" />
+                                            <bean parent="Uif-DataField" p:propertyName="homeUnit"
+                                                  p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.person.ProposalPerson" p:order="30" />
+                                        </list>
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+	
+	
     <bean id="Proposal-MedusaSection-InstPropSummary" class="org.kuali.rice.krad.uif.container.NodePrototype">           
        <property name="labelPrototype">             
          <bean parent="Uif-Message" p:renderWrapperTag="false"/>           
@@ -123,23 +174,23 @@
            <property name="items">
                 <list>
                 	<bean parent="Uif-DataField" p:propertyName="proposalNumber" 
-                	    p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+                	    p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" p:order="10" />
                 	<bean parent="Uif-DataField" p:propertyName="unitNumber" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" p:order="20" />
                 	<bean parent="Uif-DataField" p:propertyName="requestedStartDateInitial" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" p:order="30" />
                 	<bean parent="Uif-DataField" p:propertyName="requestedEndDateInitial" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" p:order="40" />
                 	<bean parent="Uif-DataField" p:propertyName="requestedStartDateTotal" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" p:order="50" />
                 	<bean parent="Uif-DataField" p:propertyName="requestedEndDateTotal" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" p:order="60" />
                 	<bean parent="Uif-DataField" p:propertyName="title" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" p:order="70" />
                 	<bean parent="Uif-DataField" p:propertyName="sponsor.sponsorName" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" p:order="80" />
                 	<bean parent="Uif-DataField" p:propertyName="sponsorName" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" p:order="90" />
                 </list>
            </property>
         </bean>
@@ -155,23 +206,23 @@
            <property name="items">
                 <list>
                 	<bean parent="Uif-DataField" p:propertyName="proposalNumber" 
-                	    p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
+                	    p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" p:order="10" />
                 	<bean parent="Uif-DataField" p:propertyName="unitNumber" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" p:order="20" />
                 	<bean parent="Uif-DataField" p:propertyName="title" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" p:order="30" />
                 	<bean parent="Uif-DataField" p:propertyName="piName" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" p:order="40" />
                 	<bean parent="Uif-DataField" p:propertyName="sponsorName" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" p:order="50" />
                 	<bean parent="Uif-DataField" p:propertyName="logStatus" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" p:order="60" />
                 	<bean parent="Uif-DataField" p:propertyName="fiscalMonth" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" p:order="70" />
                 	<bean parent="Uif-DataField" p:propertyName="fiscalYear" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" p:order="80" />
                 	<bean parent="Uif-DataField" p:propertyName="instProposalNumber" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
+                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" p:order="90" />
                 </list>
            </property>
         </bean>
@@ -186,17 +237,17 @@
            <property name="items">
                 <list>
                 	<bean parent="Uif-DataField" p:propertyName="awardNumber" 
-                	    p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" />
+                	    p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" p:order="10" />
                 	<bean parent="Uif-DataField" p:propertyName="unitNumber" 
-                		p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" />
+                		p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" p:order="20" />
                 	<bean parent="Uif-DataField" p:propertyName="awardStatus.description" 
-                		p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" />
+                		p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" p:order="30" />
                 	<bean parent="Uif-DataField" p:propertyName="ospAdministratorName" 
-                		p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" />
+                		p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" p:order="40" />
                 	<bean parent="Uif-DataField" p:propertyName="principalInvestigatorName" 
-                		p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" />
+                		p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" p:order="50" />
                 	<bean parent="Uif-DataField" p:propertyName="sponsorName" 
-                		p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" />
+                		p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" p:order="60" />
                 </list>
            </property>
         </bean>
@@ -211,23 +262,23 @@
            <property name="items">
                 <list>
                 	<bean parent="Uif-DataField" p:propertyName="protocolNumber" 
-                	    p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />
+                	    p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" p:order="10" />
                 	<bean parent="Uif-DataField" p:propertyName="leadUnitNumber" 
-                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />	
+                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" p:order="20" />	
                 	<bean parent="Uif-DataField" p:propertyName="active" 
-                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />
+                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" p:order="30" />
                 	<bean parent="Uif-DataField" p:propertyName="title" 
-                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />
+                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" p:order="40" />
                 	<bean parent="Uif-DataField" p:propertyName="description" 
-                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />
+                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" p:order="50" />
                 	<bean parent="Uif-DataField" p:propertyName="approvalDate" 
-                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />
+                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" p:order="60" />
                 	<bean parent="Uif-DataField" p:propertyName="expirationDate" 
-                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />
+                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" p:order="60" />
                 	<bean parent="Uif-DataField" p:propertyName="protocolStatus.description" 
-                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />
+                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" p:order="80" />
                 	<bean parent="Uif-DataField" p:propertyName="protocolType.description" 
-                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />
+                		p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" p:order="90" />
                 </list>
            </property>
         </bean>
@@ -242,23 +293,23 @@
            <property name="items">
                 <list>
                 	<bean parent="Uif-DataField" p:propertyName="protocolNumber" 
-                	    p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
+                	    p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" p:order="10" />
                 	<bean parent="Uif-DataField" p:propertyName="leadUnitNumber" 
-                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
+                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" p:order="20" />
                 	<bean parent="Uif-DataField" p:propertyName="active" 
-                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
+                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" p:order="30" />
                 	<bean parent="Uif-DataField" p:propertyName="title" 
-                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
+                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" p:order="40" />
                 	<bean parent="Uif-DataField" p:propertyName="description" 
-                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
+                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" p:order="50" />
                 	<bean parent="Uif-DataField" p:propertyName="approvalDate" 
-                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
+                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" p:order="60" />
                 	<bean parent="Uif-DataField" p:propertyName="expirationDate" 
-                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
+                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" p:order="70" />
                 	<bean parent="Uif-DataField" p:propertyName="protocolStatus.description" 
-                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
+                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" p:order="80" />
                 	<bean parent="Uif-DataField" p:propertyName="protocolType.description" 
-                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
+                		p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" p:order="90" />
                 </list>
            </property>
         </bean>
