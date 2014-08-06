@@ -21,6 +21,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.lookup.keyvalue.LookupReturnValuesFinder;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
+import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.lookup.LookupUtils;
@@ -115,5 +116,12 @@ public class QuestionLookupableImpl extends KualiLookupableImpl {
 
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
+    }
+    
+    @Autowired
+    @Qualifier("lookupableHelperService")
+    @Override
+    public void setLookupableHelperService(LookupableHelperService lookupableHelperService) {
+        super.setLookupableHelperService(lookupableHelperService);
     }
 }
