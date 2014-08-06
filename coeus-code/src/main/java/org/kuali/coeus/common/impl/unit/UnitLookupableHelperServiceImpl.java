@@ -57,6 +57,7 @@ public class UnitLookupableHelperServiceImpl extends KcKualiLookupableHelperServ
     @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
 
+    @Autowired
     @Qualifier("unitAuthorizationService")
     private UnitAuthorizationService unitAuthorizationService;
     
