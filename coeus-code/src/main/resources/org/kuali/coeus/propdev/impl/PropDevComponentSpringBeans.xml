@@ -90,6 +90,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetSubawardsPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetSummaryPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetModularPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetDataValidationSection.xml</value>
             </list>
         </property>
     </bean>

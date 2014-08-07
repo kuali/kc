@@ -180,7 +180,7 @@
 				<property name="items">
 					<list>
 						<bean parent="Uif-ActionLink" 
-                            p:actionLabel="Data Validation"
+                            p:actionLabel="Data Validation" p:actionScript="showDialog('PropDev-Budget-DataValidationSection')"
                             p:iconClass="icon-ok" p:order="10" />
 						<bean parent="Uif-ActionLink" p:actionScript="showDialog('PropBudget-MockView-BudgetSettings-Details')"
 							p:actionLabel="Budget Settings" p:iconClass="icon-cog" p:order="20" />

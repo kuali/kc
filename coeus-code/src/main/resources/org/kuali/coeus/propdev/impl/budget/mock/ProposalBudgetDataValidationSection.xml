@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/util
+                    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<bean id="PropDev-Budget-DataValidationSection" parent="PropDev-Budget-DataValidationSection-parentBean" />
+	<bean id="PropDev-Budget-DataValidationSection-parentBean" parent="Uif-DialogGroup"
+		p:resetDataOnRefresh="true">
+		<property name="header">
+			<bean parent="Uif-DialogHeader" p:headerText="Data Validation">
+				<property name="rightGroup">
+					<bean parent="Uif-VerticalBoxGroup">
+						<property name="items">
+							<list>
+								<bean parent="Uif-PrimaryActionButton" p:actionLabel="Turn Off"
+									p:methodToCall="toggleValidation" p:order="10"
+									p:successCallback="retrieveComponent('PropDev-Budget-DataValidationSection');"
+									p:cssClasses="btn-success" />
+							</list>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="PropDev-Budget-DataValidationSection-Collection"
+					p:order="10" />
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-DialogFooter">
+				<property name="items">
+					<list>
+						<bean parent="Uif-DialogDismissButton" p:actionLabel="Close"
+							p:order="10" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="PropDev-Budget-DataValidationSection-Collection" parent="PropDev-Budget-DataValidationSection-Collection-parent" />
+	<bean id="PropDev-Budget-DataValidationSection-Collection-parent"
+		parent="Uif-TableCollectionSection"
+		p:collectionObjectClass="org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem"
+		p:propertyName="dataValidationItems" p:layoutManager.richTable.render="false"
+		p:layoutManager.renderSequenceField="false">
+		<property name="items">
+			<list>
+				<bean parent="Uif-DataField" p:propertyName="area"
+					p:fieldLabel.labelText="Area" p:order="10" />
+				<bean parent="Uif-DataField" p:propertyName="section"
+					p:fieldLabel.labelText="Section" p:order="20" />
+				<bean parent="Uif-DataField" p:propertyName="description"
+					p:fieldLabel.labelText="Description" p:order="30" />
+				<bean parent="Uif-DataField" p:propertyName="severity"
+					p:fieldLabel.labelText="Severity" p:order="40" p:cssClasses="label,label-danger" />
+			</list>
+		</property>
+		<property name="addLineActions">
+			<list>
+				<bean parent="Uif-ActionLink" p:actionLabel="Fix It"
+					p:methodToCall="navigateToError" p:order="10" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
