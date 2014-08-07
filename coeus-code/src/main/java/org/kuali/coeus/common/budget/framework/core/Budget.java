@@ -771,7 +771,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
         }
     }
 
-    private Long getBudgetPeriodId(BudgetProjectIncome budgetProjectIncome) {
+    public Long getBudgetPeriodId(BudgetProjectIncome budgetProjectIncome) {
         //BudgetPeriod budgetPeriod = getBudgetPeriod(budgetProjectIncome.getBudgetPeriodNumber());  
         List<BudgetPeriod> bPeriods = getBudgetPeriods();
         if (bPeriods != null && bPeriods.size() > 0) {
