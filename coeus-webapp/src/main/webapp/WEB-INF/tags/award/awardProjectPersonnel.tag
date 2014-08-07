@@ -242,13 +242,6 @@
 		    				        <kul:htmlControlAttribute property="projectPersonnelBean.projectPersonnel[${awardContactRowStatus.index}].keyPersonRole" 
 		    										           attributeEntry="${awardPersonAttributes.keyPersonRole}"/>
 	    					    </span>
-	    					    <c:if test="${KualiForm.document.awardList[0].sponsorNihMultiplePi}">
-	    					    <span class="coionly">
-	    					    	<kul:htmlAttributeLabel attributeEntry="${awardPersonAttributes.multiplePi}" noColon="false" />
-		    				        <kul:htmlControlAttribute property="projectPersonnelBean.projectPersonnel[${awardContactRowStatus.index}].multiplePi" 
-		    										           attributeEntry="${awardPersonAttributes.multiplePi}"/>	    					    
-	    					    </span>
-	    					    </c:if>
     	                	</div>
     	                	${KualiForm.valueFinderResultCache}
     	                	 
