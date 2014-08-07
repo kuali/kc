@@ -26,8 +26,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonDao;
 import org.kuali.coeus.propdev.impl.auth.ProposalDevelopmentDocumentAuthorizer;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonService;
 import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -49,8 +49,8 @@ public class LookupableDevelopmentProposalLookupableHelperServiceImpl extends Kc
     private static final Log LOG = LogFactory.getLog(LookupableDevelopmentProposalLookupableHelperServiceImpl.class);
 
     @Autowired
-    @Qualifier("proposalPersonDao")
-    private ProposalPersonDao proposalPersonDao;
+    @Qualifier("proposalPersonService")
+    private ProposalPersonService proposalPersonService;
 
     @Autowired
     @Qualifier("documentService")
@@ -62,19 +62,29 @@ public class LookupableDevelopmentProposalLookupableHelperServiceImpl extends Kc
         // find matching names for potential PI's
         List<String>matchingProposals = new ArrayList<String>();
         Map<String, Object>proposalFields = new HashMap<String, Object>();
+        // only going to do lookup if either no investigator search is given, or if it
+        // is given and investigator lookup returns some entries
+        boolean doLookup = true;
         for (String key: fieldValues.keySet()) {
             String value = fieldValues.get(key);
             if (StringUtils.isNotEmpty(value)) {
                 if (StringUtils.equals(key, "investigator")) {
-                    List<ProposalPerson> proposalPersons = proposalPersonDao.getProposalPersonsByName(value);
+                    List<ProposalPerson> proposalPersons = proposalPersonService.getProposalPersonsByPartialName(value);
                     for (ProposalPerson potentialPerson: proposalPersons) {
                         matchingProposals.add(potentialPerson.getDevelopmentProposal().getProposalNumber());
                     }
-                    proposalFields.put("proposalNumber",matchingProposals);
+                    if (matchingProposals.size() > 0) {
+                        proposalFields.put("proposalNumber",matchingProposals);
+                    } else {
+                        doLookup = false;
+                    }
                 } else if (VALID_LOOKUP_FIELDS.contains(key)){
                     proposalFields.put(key, fieldValues.get(key));
                 }
             }
+        }
+        if (!doLookup) {
+            return new ArrayList<LookupableDevelopmentProposal>();
         }
         List<LookupableDevelopmentProposal> unboundedResults = 
             (List<LookupableDevelopmentProposal>) businessObjectService.findMatching(LookupableDevelopmentProposal.class,proposalFields);
@@ -142,10 +152,6 @@ public class LookupableDevelopmentProposalLookupableHelperServiceImpl extends Kc
         return true;
     }
     
-    public void setProposalPersonDao(ProposalPersonDao proposalPersonDao) {
-        this.proposalPersonDao = proposalPersonDao;
-    }
-
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
