@@ -268,7 +268,11 @@
 	<bean id="PropDev-PersonnelPage-Collection-parentBean" abstract="true"
 		parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
 		p:propertyName="document.developmentProposal.proposalPersons"
-		p:layoutManager.summaryTitle="@{#lp.fullName} (@{#lp.proposalPersonRoleId=='COI'?'Co-I':#lp.proposalPersonRoleId}) (@{#lp.questionnairesCompleted eq true ? 'Certification Completed' : 'Certification Incomplete'})"
+		p:layoutManager.summaryTitle="@{#lp.fullName}
+		                                (@{#lp.proposalPersonRoleId=='COI'?'Co-I': #lp.proposalPersonRoleId == 'KP' ? 'Key Person' : #lp.proposalPersonRoleId}
+                                            @{#lp.keyPerson eq true ? ': ' + #lp.projectRole : '' })
+		                                        (@{#lp.questionnairesCompleted eq true ? 'Certification Completed' : 'Certification Incomplete'})"
+
 		p:renderAddLine="false">
 		<property name="items">
 			<list>
