@@ -31,9 +31,7 @@
 		<property name="render" value="@{#view.renderReturnLink}" />
 		<property name="additionalCssClasses" value="btn,btn-primary,btn-xs" />
 	</bean>
-	<bean id="Uif-DropdownControl" parent="Uif-DropdownControl-parentBean"
-		p:additionalCssClasses="advanced_select"/>
-  
+
   <bean id="Uif-LookupView" parent="Kc-LookupView"/>
   <bean id="Kc-LookupView" abstract="true" parent="Kc-LookupView-parentBean"/>
   <bean id="Kc-LookupView-parentBean" abstract="true" parent="Uif-LookupView-parentBean" p:criteriaGroup.footer.render="@{!#view.hideCriteriaOnSearch}"
