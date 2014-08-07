@@ -392,8 +392,10 @@
 					p:order="200" />					
 				<bean parent="Uif-InputField" p:propertyName="officeLocation"
 					p:order="210" />
+                <bean parent="Uif-DataField" p:propertyName="salaryAnniversaryDate"
+                    p:order="220" />
 				<bean parent="Uif-InputField" p:propertyName="facultyFlag"
-					p:order="220" />
+					p:order="230" />
 			</list>
 		</property>
 	</bean>
