@@ -27,6 +27,7 @@ Syntel Inc., rSmart, and The University of Utah (http://www.kuali.org/rice).
 
 APACHE
 This product includes software developed by the Apache Software Foundation (http://www.apache.org).
+maven-artifact, 3.2.2. Copyright (c) 2002-2014 The Apache Foundation, Licensed under the terms of Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
 commons-beanutils-1.8.3-kuali-4.jar, v1.8.3-kuali-4. Copyright (c) 2002-2014 The Apache Foundation, Modified from the original source licensed under the terms of Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
 commons-codec-1.6.jar, v1.6. Copyright (c) 2002-2014 The Apache Foundation, Licensed under the terms of Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
 commons-collections-3.2.1.jar, v3.2.1. Copyright (c) 2002-2014 The Apache Foundation Licensed under the terms of Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
