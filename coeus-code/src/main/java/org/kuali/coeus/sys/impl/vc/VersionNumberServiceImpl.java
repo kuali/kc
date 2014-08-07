@@ -44,7 +44,7 @@ public class VersionNumberServiceImpl implements VersionNumberService {
             throw new IllegalArgumentException("left is blank");
         }
 
-        if (StringUtils.isBlank(left)) {
+        if (StringUtils.isBlank(right)) {
             throw new IllegalArgumentException("right is blank");
         }
 
