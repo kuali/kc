@@ -432,6 +432,11 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         return this.fullName;
     }
 
+    public Date getSalaryAnniversaryDate() {
+        return getPerson().getExtendedAttributes().getSalaryAnniversaryDate();
+    }
+
+
     public boolean getInvestigatorFlag() {
         return isPrincipalInvestigator() || isMultiplePi() || isCoInvestigator()
                 || (isKeyPerson() && getOptInUnitStatus());

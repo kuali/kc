@@ -38,6 +38,7 @@
         <ref bean="ProposalPerson-officeLocation" />
         <ref bean="ProposalPerson-officePhone" />
         <ref bean="ProposalPerson-secondaryOfficeLocation" />
+        <ref bean="ProposalPerson-salaryAnniversaryDate" />
         <ref bean="ProposalPerson-secondaryOfficePhone" />
         <ref bean="ProposalPerson-school" />
         <ref bean="ProposalPerson-yearGraduated" />
@@ -184,6 +185,8 @@
   <bean id="ProposalPerson-officePhone-parentBean" abstract="true" parent="KcPerson-officePhone"/>
   <bean id="ProposalPerson-secondaryOfficeLocation" parent="ProposalPerson-secondaryOfficeLocation-parentBean" />
   <bean id="ProposalPerson-secondaryOfficeLocation-parentBean" abstract="true" parent="KcPersonExtendedAttributes-secondaryOfficeLocation"/>
+  <bean id="ProposalPerson-salaryAnniversaryDate" parent="ProposalPerson-salaryAnniversaryDate-parentBean"/>
+  <bean id="ProposalPerson-salaryAnniversaryDate-parentBean" abstract="true" parent="KcPersonExtendedAttributes-salaryAnniversaryDate"/>
   <bean id="ProposalPerson-secondaryOfficePhone" parent="ProposalPerson-secondaryOfficePhone-parentBean" />
   <bean id="ProposalPerson-secondaryOfficePhone-parentBean" abstract="true" parent="KcPerson-secondaryOfficePhone"/>
   <bean id="ProposalPerson-school" parent="ProposalPerson-school-parentBean" />
