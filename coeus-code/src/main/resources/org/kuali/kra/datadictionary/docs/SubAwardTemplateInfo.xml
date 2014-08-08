@@ -100,7 +100,7 @@
     <property name="control" >
     <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kra.award.home.ContactType"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"
             p:keyAttribute="contactTypeCode"
@@ -124,7 +124,7 @@
     <property name="control" >
     <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kra.award.home.ContactType"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"
             p:keyAttribute="contactTypeCode"
@@ -148,7 +148,7 @@
     <property name="control" >
     <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kra.award.home.ContactType"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"
             p:keyAttribute="contactTypeCode"
@@ -172,7 +172,7 @@
     <property name="control" >
     <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kra.award.home.ContactType"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"
             p:keyAttribute="contactTypeCode"
@@ -196,7 +196,7 @@
     <property name="control" >
     <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kra.award.home.ContactType"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"
             p:keyAttribute="contactTypeCode"
@@ -322,7 +322,7 @@
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kra.subaward.bo.SubAwardCopyRightsType"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"
             p:keyAttribute="copyRightTypeCode"
@@ -362,7 +362,7 @@
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kra.award.home.ContactType"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"
             p:keyAttribute="contactTypeCode"
