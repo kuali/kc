@@ -63,7 +63,7 @@
                 <bean parent="MaintainableFieldDefinition"
                     p:name="id" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="questionId" />
+                    p:name="questionSeqId" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="sequenceNumber" />
                 <bean parent="MaintainableFieldDefinition"
@@ -95,7 +95,7 @@
                     <property name="maintainableFields">
                         <list>
                             <bean parent="MaintainableFieldDefinition" 
-                                p:name="questionId" />
+                                p:name="id" />
                             <bean parent="MaintainableFieldDefinition" 
                                 p:name="explanation" />
                         </list>
