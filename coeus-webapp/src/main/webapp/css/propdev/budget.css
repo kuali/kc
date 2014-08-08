@@ -1,0 +1,11 @@
+tr.finalBudget {
+	background-color: #dff0d8;
+}
+
+tr div.submissionMessage {
+	display:none;
+}
+
+tr.finalBudget div.submissionMessage {
+	display: block;
+}

@@ -338,6 +338,10 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     @OneToMany(mappedBy="developmentProposal", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<ProposalDevelopmentBudgetExt> budgets;
+    
+    @OneToOne(cascade = { CascadeType.ALL })
+    @JoinColumn(name = "FINAL_BUDGET_ID", referencedColumnName = "BUDGET_ID")
+    private ProposalDevelopmentBudgetExt finalBudget;    
 
     @OneToOne(mappedBy = "developmentProposal", cascade = CascadeType.ALL)
     private S2sOpportunity s2sOpportunity;
@@ -345,7 +349,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @OneToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = true, updatable = true)
     private ProposalDevelopmentDocument proposalDocument;
-
+    
 	@Transient
     private NsfCode nsfCodeBo;
 
@@ -2286,18 +2290,6 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
 	}
 
     @Override
-    public ProposalDevelopmentBudgetExt getFinalBudget() {
-        if (getBudgets() != null) {
-            for (ProposalDevelopmentBudgetExt budget : getBudgets()) {
-                if (budget.isFinalVersionFlag()) {
-                    return budget;
-                }
-            }
-        }
-        return null;
-    }
-
-    @Override
     public ProposalDevelopmentBudgetExt getLatestBudget() {
         if (getBudgets() != null) {
             ProposalDevelopmentBudgetExt latest = null;
@@ -2360,4 +2352,14 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
         }
         return this.sponsorHierarchyService;
     }
+    
+    @Override
+    public ProposalDevelopmentBudgetExt getFinalBudget() {
+    	return finalBudget;
+    }
+    
+
+	public void setFinalBudget(ProposalDevelopmentBudgetExt finalBudget) {
+		this.finalBudget = finalBudget;
+	}
 }

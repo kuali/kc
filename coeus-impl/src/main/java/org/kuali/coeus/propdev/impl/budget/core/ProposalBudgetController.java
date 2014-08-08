@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.budget.core;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
@@ -26,6 +27,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
@@ -72,6 +74,18 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
         } else {
         	return this.getModelAndViewService().getModelAndView(form);
         }		
+	}
+	
+	@RequestMapping(params="methodToCall=markForSubmission")
+	public ModelAndView markForSubmission(@RequestParam("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
+		ProposalDevelopmentBudgetExt finalBudget = null;
+		for (ProposalDevelopmentBudgetExt curBudget : form.getProposalDevelopmentDocument().getDevelopmentProposal().getBudgets()) {
+			if (ObjectUtils.equals(budgetId, curBudget.getBudgetId())) {
+				finalBudget = curBudget;
+			}
+		}
+		form.getProposalDevelopmentDocument().getDevelopmentProposal().setFinalBudget(finalBudget);
+		return getModelAndViewService().getModelAndView(form);
 	}
 
 	public BudgetService getBudgetService() {

@@ -34,23 +34,24 @@
 		p:headerText="Budgets" 
 		p:collectionObjectClass="org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt"
 		p:renderAddLine="false" p:renderLineActions="true" p:layoutManager.renderSequenceField="false">
+        <property name="layoutManager.conditionalRowCssClasses">
+            <map>
+                <entry key="@{#line.budgetId == document.developmentProposal.finalBudget.budgetId}" value="finalBudget"/>
+            </map>
+        </property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="finalVersionFlag" 
-					p:label="Submit" p:readOnly="false" p:order="10">
-					<property name="control">
-						<bean parent="Uif-VerticalRadioControl">
-							<property name="options">
-								<list>
-									<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="" />
-								</list>
-							</property>
-						</bean>
+				<bean parent="Uif-SimpleFieldGroup" p:order="10" p:label="Name">
+					<property name="items">
+						<list>
+							<bean parent="Uif-LinkField"
+								p:href="proposalBudget?methodToCall=start&amp;budgetId=@{#line.budgetId}"
+								p:linkText="@{#line.name}" p:order="10" />
+							<bean parent="Uif-MessageField" p:messageText="[small](for submission)[/small]" 
+								p:additionalCssClasses="submissionMessage" p:order="20"/>
+						</list>
 					</property>
 				</bean>
-				<bean parent="Uif-LinkField" p:label="Name"
-					p:href="proposalBudget?methodToCall=start&amp;budgetId=@{#line.budgetId}"
-					p:linkText="@{#line.name}" p:order="20" />
 				<bean parent="Uif-DataField" p:label="Direct Cost" p:propertyName="totalDirectCost" p:order="30" />
 				<bean parent="Uif-DataField" p:label="F&amp;A" p:propertyName="totalIndirectCost" p:order="40" />
 				<bean parent="Uif-DataField" p:label="Total" p:propertyName="totalCost" p:order="50" />
@@ -64,7 +65,9 @@
 				<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Copy" p:iconClass="icon-copy" 
 					p:actionScript="showDialog('PropDev-BudgetPage-CopyBudgetDialog', {showHandler: function(e) {Kc.PropDev.Budget.copyBudget(@{#line.budgetId}, e)}})" p:order="20"/>
 				<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Print" p:iconClass="icon-print" p:order="30"/>
-				<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Submit with Proposal" p:iconClass="icon-ok" p:order="40"/>
+				<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Submit with Proposal" 
+					p:methodToCall="markForSubmission" p:additionalSubmitData="budgetId:@{#line.budgetId}" 
+					p:iconClass="icon-ok" p:order="40"/>
 			</list>
 		</property>
 		<property name="header.rightGroup">
