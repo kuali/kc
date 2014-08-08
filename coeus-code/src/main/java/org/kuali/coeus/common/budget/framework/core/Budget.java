@@ -515,9 +515,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
                 }
             }
         }
-        //        for (BudgetPeriod budgetPeriod: getBudgetPeriods()) {  
-        //            managedLists.addAll(budgetPeriod.buildListOfDeletionAwareLists());  
-        //        }  
         List<BudgetSubAwardFiles> subAwardFiles = new ArrayList<BudgetSubAwardFiles>();
         List<BudgetSubAwardAttachment> subAwardAttachments = new ArrayList<BudgetSubAwardAttachment>();
         List<BudgetSubAwardPeriodDetail> subAwardPeriodDetails = new ArrayList<BudgetSubAwardPeriodDetail>();
@@ -772,7 +769,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
     }
 
     public Long getBudgetPeriodId(BudgetProjectIncome budgetProjectIncome) {
-        //BudgetPeriod budgetPeriod = getBudgetPeriod(budgetProjectIncome.getBudgetPeriodNumber());  
         List<BudgetPeriod> bPeriods = getBudgetPeriods();
         if (bPeriods != null && bPeriods.size() > 0) {
             for (BudgetPeriod bPeriod : bPeriods) {
