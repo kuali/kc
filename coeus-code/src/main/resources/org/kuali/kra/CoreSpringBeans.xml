@@ -629,6 +629,8 @@
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardStatus.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubawardTemplateType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubcontractingExpenditureCategoryAmountsInDateRange.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/docs/SubAwardTemplateInfo.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/SubAwardReports.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/personnel/TbnPerson.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/TimeAndMoneyDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/Training.xml</value>

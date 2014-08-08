@@ -48,6 +48,22 @@ public class SubAwardCustomData extends SubAwardAssociate implements DocumentCus
     public void setCustomAttributeId(Long customAttributeId) {
         this.customAttributeId = customAttributeId;
     }
+    
+    /**
+     * Need this function to get along with with the custom data framework, this can be removed after this class has been refactored
+     * @return customAttributeId
+     */
+    public Long getId() {
+        return customAttributeId;
+    }
+    
+    /**
+     * Need this function to get along with with the custom data framework, this can be removed after this class has been refactored
+     * @param customAttributeId
+     */
+    public void setId(Long customAttributeId) {
+        this.customAttributeId = customAttributeId;
+    }
 
     /**
      * Gets the subAwardCustomDataId attribute. 
