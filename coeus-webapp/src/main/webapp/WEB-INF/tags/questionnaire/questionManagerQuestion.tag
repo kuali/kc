@@ -35,11 +35,11 @@
         </tr>
         <tr>
             <th align="right" valign="middle">
-                <kul:htmlAttributeLabel attributeEntry="${DataDictionary.Question.attributes.questionId}" />
+                <kul:htmlAttributeLabel attributeEntry="${DataDictionary.Question.attributes.id}" />
             </th>
             <td align="left" valign="middle">
-                <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.questionId" 
-                                          attributeEntry="${DataDictionary.Question.attributes.questionId}" 
+                <kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.id" 
+                                          attributeEntry="${DataDictionary.Question.attributes.id}" 
                                           readOnly="true" />
             </td>
             <th align="right" valign="middle">
