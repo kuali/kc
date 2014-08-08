@@ -28,7 +28,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Document Component Id" />
     <property name="shortLabel" value="Document Component Id" />
-    <property name="maxLength" value="3" />
+    <property name="maxLength" value="5" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
@@ -82,17 +82,17 @@
     <property name="shortLabel" value="Project Income" />
     <property name="maxLength" value="19" />
     <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern" p:precision="19" p:scale="2"/>
+      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2"/>
     </property>
     <property name="validCharactersConstraint">
       <bean parent="FixedPointPatternConstraint">
-        <property name="precision" value="19"/>
+        <property name="precision" value="12"/>
         <property name="scale" value="2"/>
       </bean>
     </property>
     <property name="required" value="true" />
     <property name="control" >
-      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="27" p:size="19"/>
+      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="19" p:size="19"/>
     </property>
     <property name="controlField">
       <bean p:size="19" p:maxLength="27" parent="Uif-CurrencyTextControl"/>
@@ -107,7 +107,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Description" />
     <property name="shortLabel" value="Description" />
-    <property name="maxLength" value="200" />
+    <property name="maxLength" value="2000" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
@@ -121,7 +121,7 @@
       <bean parent="TextControlDefinition" p:size="60"/>
     </property>
     <property name="controlField">
-      <bean p:size="60" parent="Uif-TextControl"/>
+      <bean p:rows="4" p:cols="60" parent="Uif-TextAreaControl"/>
     </property>
     <property name="summary" value="Description" />
     <property name="description" value="Description" />
