@@ -47,9 +47,13 @@ public class PHS398CareerDevelopmentAwardSupV2_0GeneratorTest extends
 		narrativeType.setSystemGenerated(false);
 		narrativeType.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType);
-		narrative.setNarrativeType(narrativeType);
+        narrative.setName("exercise1");
+        narrative.setNarrativeType(narrativeType);
 		narrative.setNarrativeTypeCode("128");
 		narrative.setNarrativeAttachment(narrativeAttachment);
+        narrative.setModuleNumber(1);
+        narrative.setModuleSequenceNumber(1);
+        narrative.setModuleStatusCode("C");
 		narrativeList.add(narrative);
 		document.getDevelopmentProposal().setNarratives(narrativeList);		
 	}

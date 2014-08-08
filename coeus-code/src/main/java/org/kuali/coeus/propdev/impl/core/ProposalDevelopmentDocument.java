@@ -387,7 +387,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         documentHeader = getDocumentHeaderService().saveDocumentHeader(documentHeader);
 
         if (!isProposalDeleted()) {
-            getDevelopmentProposal().updateS2sOpportunity();
             getProposalBudgetStatusService().saveBudgetFinalVersionStatus(this);
             if (getBudgetDocumentVersions() != null) {
                 updateDocumentDescriptions(getBudgetDocumentVersions());

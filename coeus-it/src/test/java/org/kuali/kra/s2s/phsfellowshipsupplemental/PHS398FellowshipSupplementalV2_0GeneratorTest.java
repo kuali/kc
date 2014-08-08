@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
 import org.kuali.coeus.common.framework.type.ProposalType;
@@ -21,8 +22,6 @@ import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
-import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
-import org.kuali.coeus.propdev.impl.s2s.S2sOppForms.S2sOppFormsId;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.s2sgen.impl.generate.support.PHS398FellowshipSupplementalV2_0Generator;
@@ -42,6 +41,14 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 		return PHS398FellowshipSupplementalV2_0Generator.class.getSimpleName();
 	}
 
+    @Override
+    protected void prepareS2sData(ProposalDevelopmentDocument document) {
+        super.prepareS2sData(document);
+
+        S2sOpportunity s2sOpportunity = document.getDevelopmentProposal().getS2sOpportunity();
+        s2sOpportunity.setOpportunityId("PA-C-R01");
+    }
+
 	@Override
 	protected void prepareData(ProposalDevelopmentDocument document)
 			throws Exception {
@@ -52,6 +59,8 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 		principalInvestigator.setLastName("MCAFEE");
 		principalInvestigator.setProposalPersonRoleId("PI");
 		principalInvestigator.setPersonId("0001");
+        principalInvestigator.setProposalPersonNumber(1);
+        principalInvestigator.setDevelopmentProposal(document.getDevelopmentProposal());
 		CitizenshipType citizenshipType = new CitizenshipType();
 		citizenshipType.setCode(1);
 		principalInvestigator.setCitizenshipType(citizenshipType);
@@ -62,25 +71,18 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 		proposalType.setCode("1");
 		document.getDevelopmentProposal().setProposalType(proposalType);
 
-		List<S2sOppForms> S2sOppFormsList = new ArrayList<S2sOppForms>();
-		S2sOppForms s2sOppForms = new S2sOppForms();
-		S2sOppFormsId s2sOppFormsId = new S2sOppFormsId();
-		s2sOppFormsId
-				.setOppNameSpace("http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_2_0-V2.0");
-		s2sOppForms.setFormName("PHS_Fellowship_Supplemental_2_0");
-		s2sOppForms.setS2sOppFormsId(s2sOppFormsId);
-		S2sOppFormsList.add(s2sOppForms);
-		S2sOpportunity s2sOpportunity = new S2sOpportunity();
-		s2sOpportunity.setOpportunityId("PA-C-R01");
-		s2sOpportunity.setS2sOppForms(S2sOppFormsList);
-		document.getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
-
 		List<ProposalSpecialReview> proposalSpecialReviewList = new ArrayList<ProposalSpecialReview>();
 		ProposalSpecialReview proposalSpecialReview = new ProposalSpecialReview();
 		SpecialReviewType specialReviewType = new SpecialReviewType();
 		specialReviewType.setSpecialReviewTypeCode("2");
-		proposalSpecialReview.setSpecialReviewType(specialReviewType);
-		proposalSpecialReviewList.add(proposalSpecialReview);
+        proposalSpecialReview.setSpecialReviewTypeCode("2");
+        proposalSpecialReview.setSpecialReviewType(specialReviewType);
+        proposalSpecialReview.setApprovalTypeCode("1");
+        SpecialReviewApprovalType approvalType = new SpecialReviewApprovalType();
+        approvalType.setApprovalTypeCode("1");
+        proposalSpecialReview.setApprovalType(approvalType);
+
+        proposalSpecialReviewList.add(proposalSpecialReview);
 		document.getDevelopmentProposal().setPropSpecialReviews(
 				proposalSpecialReviewList);
 
@@ -103,9 +105,14 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 		narrativeType.setSystemGenerated(false);
 		narrativeType.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType);
-		narrative.setNarrativeType(narrativeType);
+		narrative.setName("exercise1");
+        narrative.setNarrativeType(narrativeType);
 		narrative.setNarrativeTypeCode("96");
 		narrative.setNarrativeAttachment(narrativeAttachment);
+        narrative.setModuleNumber(0);
+        narrative.setModuleSequenceNumber(0);
+        narrative.setModuleStatusCode("C");
+        narrative.setDevelopmentProposal(document.getDevelopmentProposal());
 		narrativeList.add(narrative);
 
 		Narrative narrative1 = new Narrative();
@@ -116,114 +123,159 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 		narrativeType1.setSystemGenerated(false);
 		narrativeType1.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType1);
-		narrative1.setNarrativeType(narrativeType1);
+        narrative1.setName("exercise1");
+        narrative1.setNarrativeType(narrativeType1);
 		narrative1.setNarrativeTypeCode("98");
 		narrative1.setNarrativeAttachment(narrativeAttachment);
-		narrativeList.add(narrative1);
+        narrative1.setModuleNumber(1);
+        narrative1.setModuleSequenceNumber(1);
+        narrative1.setModuleStatusCode("C");
+        narrative1.setDevelopmentProposal(document.getDevelopmentProposal());
+        narrativeList.add(narrative1);
 
 		Narrative narrative2 = new Narrative();
-		narrative.setDevelopmentProposal(document.getDevelopmentProposal());
+		narrative2.setDevelopmentProposal(document.getDevelopmentProposal());
 		NarrativeType narrativeType2 = new NarrativeType();
 		narrativeType2.setCode("127");
 		narrativeType2.setAllowMultiple(true);
 		narrativeType2.setSystemGenerated(false);
 		narrativeType2.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType2);
-		narrative2.setNarrativeType(narrativeType2);
+        narrative2.setName("exercise1");
+        narrative2.setNarrativeType(narrativeType2);
 		narrative2.setNarrativeTypeCode("127");
 		narrative2.setNarrativeAttachment(narrativeAttachment);
-		narrativeList.add(narrative2);
+        narrative2.setModuleNumber(2);
+        narrative2.setModuleSequenceNumber(2);
+        narrative2.setModuleStatusCode("C");
+        narrative2.setDevelopmentProposal(document.getDevelopmentProposal());
+        narrativeList.add(narrative2);
 
 		Narrative narrative3 = new Narrative();
-		narrative.setDevelopmentProposal(document.getDevelopmentProposal());
+		narrative3.setDevelopmentProposal(document.getDevelopmentProposal());
 		NarrativeType narrativeType3 = new NarrativeType();
 		narrativeType3.setCode("88");
 		narrativeType3.setAllowMultiple(true);
 		narrativeType3.setSystemGenerated(false);
 		narrativeType3.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType3);
-		narrative3.setNarrativeType(narrativeType3);
+        narrative3.setName("exercise1");
+        narrative3.setNarrativeType(narrativeType3);
 		narrative3.setNarrativeTypeCode("88");
 		narrative3.setNarrativeAttachment(narrativeAttachment);
-		narrativeList.add(narrative3);
+        narrative3.setModuleNumber(3);
+        narrative3.setModuleSequenceNumber(3);
+        narrative3.setModuleStatusCode("C");
+        narrative3.setDevelopmentProposal(document.getDevelopmentProposal());
+        narrativeList.add(narrative3);
 
 		Narrative narrative4 = new Narrative();
-		narrative.setDevelopmentProposal(document.getDevelopmentProposal());
+		narrative4.setDevelopmentProposal(document.getDevelopmentProposal());
 		NarrativeType narrativeType4 = new NarrativeType();
 		narrativeType4.setCode("89");
 		narrativeType4.setAllowMultiple(true);
 		narrativeType4.setSystemGenerated(false);
 		narrativeType4.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType4);
-		narrative4.setNarrativeType(narrativeType4);
+        narrative4.setName("exercise1");
+        narrative4.setNarrativeType(narrativeType4);
 		narrative4.setNarrativeTypeCode("89");
 		narrative4.setNarrativeAttachment(narrativeAttachment);
-		narrativeList.add(narrative4);
+        narrative4.setModuleNumber(4);
+        narrative4.setModuleSequenceNumber(4);
+        narrative4.setModuleStatusCode("C");
+        narrative4.setDevelopmentProposal(document.getDevelopmentProposal());
+        narrativeList.add(narrative4);
 
 		Narrative narrative5 = new Narrative();
-		narrative.setDevelopmentProposal(document.getDevelopmentProposal());
+		narrative5.setDevelopmentProposal(document.getDevelopmentProposal());
 		NarrativeType narrativeType5 = new NarrativeType();
 		narrativeType5.setCode("90");
 		narrativeType5.setAllowMultiple(true);
 		narrativeType5.setSystemGenerated(false);
 		narrativeType5.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType5);
-		narrative5.setNarrativeType(narrativeType5);
+        narrative5.setName("exercise1");
+        narrative5.setNarrativeType(narrativeType5);
 		narrative5.setNarrativeTypeCode("90");
 		narrative5.setNarrativeAttachment(narrativeAttachment);
-		narrativeList.add(narrative5);
+        narrative5.setModuleNumber(5);
+        narrative5.setModuleSequenceNumber(5);
+        narrative5.setModuleStatusCode("C");
+        narrative5.setDevelopmentProposal(document.getDevelopmentProposal());
+        narrativeList.add(narrative5);
 
 		Narrative narrative6 = new Narrative();
-		narrative.setDevelopmentProposal(document.getDevelopmentProposal());
+		narrative6.setDevelopmentProposal(document.getDevelopmentProposal());
 		NarrativeType narrativeType6 = new NarrativeType();
 		narrativeType6.setCode("104");
 		narrativeType6.setAllowMultiple(true);
 		narrativeType6.setSystemGenerated(false);
 		narrativeType6.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType5);
-		narrative6.setNarrativeType(narrativeType6);
+        narrative6.setName("exercise1");
+        narrative6.setNarrativeType(narrativeType6);
 		narrative6.setNarrativeTypeCode("104");
 		narrative6.setNarrativeAttachment(narrativeAttachment);
-		narrativeList.add(narrative6);
+        narrative6.setModuleNumber(6);
+        narrative6.setModuleSequenceNumber(6);
+        narrative6.setModuleStatusCode("C");
+        narrative6.setDevelopmentProposal(document.getDevelopmentProposal());
+        narrativeList.add(narrative6);
 
 		Narrative narrative7 = new Narrative();
-		narrative.setDevelopmentProposal(document.getDevelopmentProposal());
+		narrative7.setDevelopmentProposal(document.getDevelopmentProposal());
 		NarrativeType narrativeType7 = new NarrativeType();
 		narrativeType7.setCode("92");
 		narrativeType7.setAllowMultiple(true);
 		narrativeType7.setSystemGenerated(false);
 		narrativeType7.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType7);
-		narrative7.setNarrativeType(narrativeType7);
+        narrative7.setName("exercise1");
+        narrative7.setNarrativeType(narrativeType7);
 		narrative7.setNarrativeTypeCode("92");
 		narrative7.setNarrativeAttachment(narrativeAttachment);
-		narrativeList.add(narrative7);
+        narrative7.setModuleNumber(7);
+        narrative7.setModuleSequenceNumber(7);
+        narrative7.setModuleStatusCode("C");
+        narrative7.setDevelopmentProposal(document.getDevelopmentProposal());
+        narrativeList.add(narrative7);
 
 		Narrative narrative8 = new Narrative();
-		narrative.setDevelopmentProposal(document.getDevelopmentProposal());
+		narrative8.setDevelopmentProposal(document.getDevelopmentProposal());
 		NarrativeType narrativeType8 = new NarrativeType();
 		narrativeType8.setCode("94");
 		narrativeType8.setAllowMultiple(true);
 		narrativeType8.setSystemGenerated(false);
 		narrativeType8.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType8);
-		narrative8.setNarrativeType(narrativeType8);
+        narrative8.setName("exercise1");
+        narrative8.setNarrativeType(narrativeType8);
 		narrative8.setNarrativeTypeCode("94");
 		narrative8.setNarrativeAttachment(narrativeAttachment);
-		narrativeList.add(narrative8);
+        narrative8.setModuleNumber(8);
+        narrative8.setModuleSequenceNumber(8);
+        narrative8.setModuleStatusCode("C");
+        narrative8.setDevelopmentProposal(document.getDevelopmentProposal());
+        narrativeList.add(narrative8);
 
 		Narrative narrative9 = new Narrative();
-		narrative.setDevelopmentProposal(document.getDevelopmentProposal());
+		narrative9.setDevelopmentProposal(document.getDevelopmentProposal());
 		NarrativeType narrativeType9 = new NarrativeType();
 		narrativeType9.setCode("134");
 		narrativeType9.setAllowMultiple(true);
 		narrativeType9.setSystemGenerated(false);
 		narrativeType9.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType9);
-		narrative9.setNarrativeType(narrativeType9);
+        narrative9.setName("exercise1");
+        narrative9.setNarrativeType(narrativeType9);
 		narrative9.setNarrativeTypeCode("134");
 		narrative9.setNarrativeAttachment(narrativeAttachment);
-		narrativeList.add(narrative9);
+        narrative9.setModuleNumber(9);
+        narrative9.setModuleSequenceNumber(9);
+        narrative9.setModuleStatusCode("C");
+        narrative9.setDevelopmentProposal(document.getDevelopmentProposal());
+        narrativeList.add(narrative9);
 
 		document.getDevelopmentProposal().setNarratives(narrativeList);
 
