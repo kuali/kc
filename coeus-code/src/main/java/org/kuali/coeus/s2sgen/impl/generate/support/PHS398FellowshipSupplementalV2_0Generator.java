@@ -178,7 +178,7 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
             List<? extends QuestionnaireQuestionContract> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
             for (QuestionnaireQuestionContract questionnaireQuestion : questionnaireQuestions) {
                 AnswerContract answerBO = getAnswer(questionnaireQuestion, answerHeader);
-                String answer = answerBO.getAnswer();
+                String answer = answerBO != null ? answerBO.getAnswer() : null;
                 QuestionContract question = questionnaireQuestion.getQuestion();
                 Integer questionNumber = questionnaireQuestion.getQuestionNumber();
                 Integer parentQuestionNumber = questionnaireQuestion.getParentQuestionNumber();
