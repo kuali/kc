@@ -58,6 +58,8 @@ import org.kuali.coeus.s2sgen.impl.citizenship.CitizenshipType;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.s2sgen.api.core.ConfigurationConstants;
 import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 
 import java.io.ByteArrayInputStream;
@@ -120,7 +122,20 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
     
     private static final int APPENDIX = 96;
 
-    
+    @Value("http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_1-V1.1")
+    private String namespace;
+
+    @Value("PHS_Fellowship_Supplemental_1_1-V1.1")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/PHS_fellowship_supplemental-V1.1.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.phsFellowshipSupplemental11V11")
+    private String packageName;
+
+    @Value("210")
+    private int sortIndex;
     
 	/*
 	 * This method is used to get PHSFellowshipSupplemental11 XMLObject and set
@@ -1072,13 +1087,6 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
         return phsFellowshipSupplementalDocument;
 	}
 
-    public String getFormName() {
-        return "PHS_Fellowship_Supplemental_1_1-V1.1";
-    }
-
-    public String getNamespace() {
-        return "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_1-V1.1";
-    }
     private List<AnswerContract> getAnswers(Long questonnaireQuestionId, AnswerHeaderContract answerHeader) {
         List<AnswerContract> returnAnswers = new ArrayList<AnswerContract>();
         if (answerHeader != null) {
@@ -1169,5 +1177,50 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
         public void setParentAnswers(List<InternalAnswer> parentAnswers) {
             this.parentAnswers = parentAnswers;
         }
+    }
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }

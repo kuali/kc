@@ -26,6 +26,8 @@ import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
 import org.kuali.coeus.s2sgen.impl.generate.FormVersion;
 import org.kuali.coeus.s2sgen.impl.generate.S2SBaseFormGenerator;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 
 /**
@@ -39,6 +41,21 @@ import org.kuali.coeus.s2sgen.impl.generate.S2SBaseFormGenerator;
 public class AttachmentsV1_1Generator extends S2SBaseFormGenerator {
 
     private static final int NARRATIVECODE_ATTACHMENTS = 61;
+
+    @Value("http://apply.grants.gov/forms/Attachments-V1.1")
+    private String namespace;
+
+    @Value("Attachments-V1.1")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/Attachments-V1.1.fo.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.attachmentsV11")
+    private String packageName;
+
+    @Value("240")
+    private int sortIndex;
 
     /**
      * 
@@ -175,5 +192,50 @@ public class AttachmentsV1_1Generator extends S2SBaseFormGenerator {
 
         this.pdDoc = proposalDevelopmentDocument;
         return getAttachment();
+    }
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }

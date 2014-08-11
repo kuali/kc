@@ -21,7 +21,6 @@ import org.kuali.coeus.propdev.api.s2s.S2SConfigurationService;
 import org.kuali.coeus.s2sgen.impl.budget.S2SCommonBudgetService;
 import org.kuali.coeus.s2sgen.impl.datetime.S2SDateTimeService;
 import org.kuali.coeus.s2sgen.impl.generate.S2SBaseFormGenerator;
-import org.kuali.coeus.s2sgen.impl.generate.S2SQuestionnairing;
 import org.kuali.coeus.s2sgen.impl.person.S2SProposalPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,7 +36,7 @@ import java.util.List;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public abstract class PHS398FellowshipSupplementalBaseGenerator extends
-		S2SBaseFormGenerator implements S2SQuestionnairing{
+		S2SBaseFormGenerator {
 
     @Autowired
     @Qualifier("s2SProposalPersonService")

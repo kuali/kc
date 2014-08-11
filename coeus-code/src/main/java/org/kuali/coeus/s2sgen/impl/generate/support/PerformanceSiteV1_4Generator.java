@@ -33,6 +33,8 @@ import org.kuali.coeus.s2sgen.impl.validate.S2SErrorHandlerService;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 import java.util.List;
 
@@ -51,6 +53,21 @@ public class PerformanceSiteV1_4Generator extends PerformanceSiteBaseGenerator {
     private static final int PERFORMING_ORG_LOCATION_TYPE_CODE = 2;
     private static final int OTHER_ORG_LOCATION_TYPE_CODE = 3;
     private static final int PERFORMANCE_SITE_LOCATION_TYPE_CODE = 4;
+
+    @Value("http://apply.grants.gov/forms/PerformanceSite_1_4-V1.4")
+    private String namespace;
+
+    @Value("PerformanceSite_1_4")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/PerformanceSite-V1.4.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.performanceSite14V14")
+    private String packageName;
+
+    @Value("130")
+    private int sortIndex;
 
     @Autowired
     @Qualifier("rolodexService")
@@ -177,5 +194,50 @@ public class PerformanceSiteV1_4Generator extends PerformanceSiteBaseGenerator {
 
     public void setS2SErrorHandlerService(S2SErrorHandlerService s2SErrorHandlerService) {
         this.s2SErrorHandlerService = s2SErrorHandlerService;
+    }
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }

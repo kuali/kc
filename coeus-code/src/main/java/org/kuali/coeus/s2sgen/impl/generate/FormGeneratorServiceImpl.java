@@ -121,15 +121,11 @@ public class FormGeneratorServiceImpl implements FormGeneratorService {
 			if (!opportunityForm.getInclude()) {
 				continue;
 			}
-			List<AttachmentData> formAttList = new ArrayList<AttachmentData>();
-			S2SBaseFormGenerator s2sFormGenerator = null;
             FormMappingInfo info = formMappingService.getFormInfo(opportunityForm.getOppNameSpace(),developmentProposal.getProposalNumber());
             if(info==null) continue;
 			String namespace = info.getNameSpace();
-            s2sFormGenerator = (S2SBaseFormGenerator)s2SFormGeneratorService.getS2SGenerator(developmentProposal.getProposalNumber(),namespace);
-		    s2sFormGenerator.setAuditErrors(auditErrors);
-		    s2sFormGenerator.setAttachments(formAttList);
-		    s2sFormGenerator.setNamespace(info.getNameSpace());
+            S2SFormGenerator s2sFormGenerator = s2SFormGeneratorService.getS2SGenerator(developmentProposal.getProposalNumber(),namespace);
+            auditErrors.addAll(s2sFormGenerator.getAuditErrors());
 			try {
 				XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
 				if (s2SValidatorService.validate(formObject, auditErrors)) {
@@ -139,7 +135,7 @@ public class FormGeneratorServiceImpl implements FormGeneratorService {
 				} else {
 					validationSucceeded = false;
 				}
-				attList.addAll(formAttList);
+				attList.addAll(s2sFormGenerator.getAttachments());
 			} catch (Exception ex) {
 				LOG.error(
 						"Unknown error from " + opportunityForm.getFormName(),

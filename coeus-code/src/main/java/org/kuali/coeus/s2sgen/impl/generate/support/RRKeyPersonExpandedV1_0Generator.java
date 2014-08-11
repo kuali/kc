@@ -40,6 +40,8 @@ import org.kuali.coeus.s2sgen.impl.util.FieldValueConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,6 +58,21 @@ import java.util.List;
 public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGenerator {
 
     private static final Log LOG = LogFactory.getLog(RRKeyPersonExpandedV1_0Generator.class);
+
+    @Value("http://apply.grants.gov/forms/RR_KeyPersonExpanded-V1.0")
+    private String namespace;
+
+    @Value("RR_KeyPersonExpanded-V1.0")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/RR_KeyPersonExpanded-V1.0.fo.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.rrKeyPersonExpandedV10")
+    private String packageName;
+
+    @Value("155")
+    private int sortIndex;
 
     @Autowired
     @Qualifier("sponsorHierarchyService")
@@ -319,5 +336,50 @@ public class RRKeyPersonExpandedV1_0Generator extends RRKeyPersonExpandedBaseGen
 
     public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {
         this.sponsorHierarchyService = sponsorHierarchyService;
+    }
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }

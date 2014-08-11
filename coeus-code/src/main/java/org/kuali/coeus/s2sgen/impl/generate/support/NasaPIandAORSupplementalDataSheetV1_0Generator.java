@@ -40,6 +40,8 @@ import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -57,6 +59,21 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 		S2SBaseFormGenerator {
 	private static final Log LOG = LogFactory
 			.getLog(NasaPIandAORSupplementalDataSheetV1_0Generator.class);
+
+    @Value("http://apply.grants.gov/forms/Nasa_PIandAORSupplementalDataSheet-V1.0")
+    private String namespace;
+
+    @Value("Nasa_PIandAORSupplementalDataSheet-V1.0")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/Nasa_PIandAORSupplementalDataSheet-V1.0.fo.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.nasaPIandAORSupplementalDataSheetV10")
+    private String packageName;
+
+    @Value(DEFAULT_SORT_INDEX)
+    private int sortIndex;
 
     @Autowired
     @Qualifier("departmentalPersonService")
@@ -258,5 +275,50 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
 
     public void setS2SProposalPersonService(S2SProposalPersonService s2SProposalPersonService) {
         this.s2SProposalPersonService = s2SProposalPersonService;
+    }
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }

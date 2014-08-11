@@ -48,6 +48,8 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.s2sgen.api.core.S2SException;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -66,6 +68,21 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 
 	private static final Log LOG = LogFactory
 			.getLog(RRBudgetV1_0Generator.class);
+
+    @Value("http://apply.grants.gov/forms/RR_Budget-V1.0")
+    private String namespace;
+
+    @Value("RR_Budget-V1.0")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/RR_Budget-V1.0.fo.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.rrBudgetV10")
+    private String packageName;
+
+    @Value("165")
+    private int sortIndex;
 
 	/**
 	 * This method returns RRBudgetDocument object based on proposal development
@@ -1235,4 +1252,49 @@ public class RRBudgetV1_0Generator extends RRBudgetBaseGenerator {
 		this.pdDoc = proposalDevelopmentDocument;
 		return getRRBudget();
 	}
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
+    }
 }

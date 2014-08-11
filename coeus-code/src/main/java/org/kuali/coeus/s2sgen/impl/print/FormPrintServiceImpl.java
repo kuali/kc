@@ -33,6 +33,7 @@ import org.kuali.coeus.s2sgen.api.generate.FormMappingInfo;
 import org.kuali.coeus.s2sgen.api.generate.FormMappingService;
 import org.kuali.coeus.s2sgen.api.print.FormPrintService;
 import org.kuali.coeus.s2sgen.api.print.FormPrintResult;
+import org.kuali.coeus.s2sgen.impl.generate.S2SFormGenerator;
 import org.kuali.coeus.s2sgen.impl.util.XPathExecutor;
 import org.kuali.coeus.s2sgen.impl.datetime.S2SDateTimeService;
 import org.kuali.coeus.s2sgen.impl.generate.S2SFormGeneratorRetrievalService;
@@ -42,10 +43,12 @@ import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.s2sgen.api.core.ConfigurationConstants;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.propdev.api.attachment.NarrativeService;
-import org.kuali.coeus.s2sgen.impl.generate.S2SBaseFormGenerator;
 import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
+import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;
 
@@ -160,29 +163,29 @@ public class FormPrintServiceImpl implements FormPrintService {
             File attachmentFile = new File(grantsGovXmlDirectoryFile,"Attachments");
             attachmentFile.mkdir();
             File attachedFile = new File(attachmentFile,attachmentData.getFileName());
-            FileOutputStream output = new FileOutputStream(attachedFile);
-            output.write(attachmentData.getContent());
-            output.close();
+            try (FileOutputStream output = new FileOutputStream(attachedFile)) {
+                output.write(attachmentData.getContent());
+            }
         }
         for (S2sAppAttachmentsContract attAppAttachments : attachmentLists) {
             File attachmentFile = new File(grantsGovXmlDirectoryFile,"Attachments");   
             attachmentFile.mkdir();
             KcFile ads = getAttributeContent(pdDoc,attAppAttachments.getContentId());
             File attachedFile = new File(attachmentFile,ads.getName());
-            FileOutputStream output = new FileOutputStream(attachedFile);
-            output.write(getAttContent(pdDoc,attAppAttachments.getContentId()));
-            output.close();
+            try (FileOutputStream output = new FileOutputStream(attachedFile)) {
+                output.write(getAttContent(pdDoc, attAppAttachments.getContentId()));
+            }
         }
         File xmlFile= new File(grantsGovXmlDirectoryFile,opportunityId + "." + proposalnumber + "." + exportDate+".xml");
-        BufferedWriter out = new BufferedWriter(new FileWriter(xmlFile));
-        out.write(formObject.xmlText());
-        out.close();
-        ZipOutputStream zipOutputStream = null;
-        FileOutputStream fileOutputStream = new FileOutputStream(grantsGovXmlDirectoryFile+".zip");
-        zipOutputStream = new ZipOutputStream(fileOutputStream);
-        addFolderToZip("", grantsGovXmlDirectoryFile.getPath(), zipOutputStream);
-        zipOutputStream.flush();
-        zipOutputStream.close();
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(xmlFile))) {
+            out.write(formObject.xmlText());
+        }
+
+        try (FileOutputStream fileOutputStream = new FileOutputStream(grantsGovXmlDirectoryFile+".zip"); ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream)) {
+            addFolderToZip("", grantsGovXmlDirectoryFile.getPath(), zipOutputStream);
+            zipOutputStream.flush();
+        }
+
 	}
 	
     protected void addFolderToZip(String path, String sourceFolder, ZipOutputStream zipOutputStream) throws Exception {
@@ -256,71 +259,75 @@ public class FormPrintServiceImpl implements FormPrintService {
 			frmXpath = "//*[namespace-uri(.) = '"+namespace+"']";               
             frmAttXpath = "//*[namespace-uri(.) = '"+namespace+"']//*[local-name(.) = 'FileLocation' and namespace-uri(.) = 'http://apply.grants.gov/system/Attachments-V1.0']";           
 
-				byte[] formXmlBytes = formFragment.xmlText().getBytes();
-                GenericPrintable formPrintable = new GenericPrintable();
+            byte[] formXmlBytes = formFragment.xmlText().getBytes();
+            GenericPrintable formPrintable = new GenericPrintable();
 
-				ArrayList<Source> templates = new ArrayList<Source>();
-				Source xsltSource = new StreamSource(getClass()
-						.getResourceAsStream("/" + info.getStyleSheet()));
-				templates.add(xsltSource);
-				formPrintable.setXSLTemplates(templates);
+            ArrayList<Source> templates = new ArrayList<Source>();
+            DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
+            Resource resource = resourceLoader.getResource(info.getStyleSheet());
 
-				// Linkedhashmap is used to preserve the order of entry.
-				Map<String, byte[]> formXmlDataMap = new LinkedHashMap<String, byte[]>();
-				formXmlDataMap.put(info.getFormName(), formXmlBytes);
-				formPrintable.setStreamMap(formXmlDataMap);
-				S2sApplicationContract s2sApplciation = s2sApplicationService.findS2sApplicationByProposalNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
-				List<? extends S2sAppAttachmentsContract> attachmentList = s2sApplciation.getS2sAppAttachmentList();
+            Source xsltSource = null;
+            try {
+                xsltSource = new StreamSource(resource.getInputStream());
+            } catch (IOException e) {
+                throw new S2SException(e);
+            }
+            templates.add(xsltSource);
+            formPrintable.setXSLTemplates(templates);
 
-				Map<String, byte[]> formAttachments = new LinkedHashMap<String, byte[]>();
+            // Linkedhashmap is used to preserve the order of entry.
+            Map<String, byte[]> formXmlDataMap = new LinkedHashMap<String, byte[]>();
+            formXmlDataMap.put(info.getFormName(), formXmlBytes);
+            formPrintable.setStreamMap(formXmlDataMap);
+            S2sApplicationContract s2sApplciation = s2sApplicationService.findS2sApplicationByProposalNumber(pdDoc.getDevelopmentProposal().getProposalNumber());
+            List<? extends S2sAppAttachmentsContract> attachmentList = s2sApplciation.getS2sAppAttachmentList();
+
+            Map<String, byte[]> formAttachments = new LinkedHashMap<String, byte[]>();
 				
-		  try{
-		      XPathExecutor executer = new XPathExecutor(formFragment.toString());
-              org.w3c.dom.Node d = executer.getNode(frmXpath);                    
-              org.w3c.dom.NodeList attList = XPathAPI.selectNodeList(d, frmAttXpath); 
-              int attLen = attList.getLength();   
-              
+            try{
+              XPathExecutor executer = new XPathExecutor(formFragment.toString());
+              org.w3c.dom.Node d = executer.getNode(frmXpath);
+              org.w3c.dom.NodeList attList = XPathAPI.selectNodeList(d, frmAttXpath);
+              int attLen = attList.getLength();
+
               for(int i=0;i<attLen;i++){
                   org.w3c.dom.Node attNode = attList.item(i);
-                  String contentId = ((Element)attNode).getAttributeNS("http://apply.grants.gov/system/Attachments-V1.0","href"); 
-				
+                  String contentId = ((Element)attNode).getAttributeNS("http://apply.grants.gov/system/Attachments-V1.0","href");
+
                   if (attachmentList != null && !attachmentList.isEmpty()) {
-					for (S2sAppAttachmentsContract attAppAttachments : attachmentList) {
-					  if(attAppAttachments.getContentId().equals(contentId)){
-						ByteArrayOutputStream attStream = new ByteArrayOutputStream();
-						try {
-							attStream.write(getAttContent(pdDoc,
-									attAppAttachments.getContentId()));
-						} catch (IOException e) {
-							LOG.error(e.getMessage(), e);
-							throw new S2SException(e);
-						}
-						StringBuilder attachment = new StringBuilder();
-						attachment.append("   ATT : ");
-						attachment.append(attAppAttachments.getContentId());
-						formAttachments.put(attachment.toString(),
-								getAttContent(pdDoc, attAppAttachments
-										.getContentId()));
-					 }
-				    }
+                    for (S2sAppAttachmentsContract attAppAttachments : attachmentList) {
+                      if(attAppAttachments.getContentId().equals(contentId)){
+                        try (ByteArrayOutputStream attStream = new ByteArrayOutputStream()) {
+                            attStream.write(getAttContent(pdDoc,
+                                    attAppAttachments.getContentId()));
+                        } catch (IOException e) {
+                            LOG.error(e.getMessage(), e);
+                            throw new S2SException(e);
+                        }
+                        StringBuilder attachment = new StringBuilder();
+                        attachment.append("   ATT : ");
+                        attachment.append(attAppAttachments.getContentId());
+                        formAttachments.put(attachment.toString(),
+                                getAttContent(pdDoc, attAppAttachments
+                                        .getContentId()));
+                     }
+                    }
                   }
               }
-		    }
-		  catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-          }		
-          try {
+            } catch (Exception e) {
+                LOG.error(e.getMessage(), e);
+            }
+            try {
               if(developmentProposal.getGrantsGovSelectFlag()){
-              	List<AttachmentData> attachmentLists = new ArrayList<AttachmentData>();
-              	saveGrantsGovXml(pdDoc,formEntryFlag,formFragment,attachmentLists,attachmentList);
-              	formEntryFlag = false;
+                List<AttachmentData> attachmentLists = new ArrayList<AttachmentData>();
+                saveGrantsGovXml(pdDoc,formEntryFlag,formFragment,attachmentLists,attachmentList);
+                formEntryFlag = false;
               }
-          }
-          catch (Exception e) {
+            } catch (Exception e) {
                   LOG.error(e.getMessage(), e);
-          }
-				formPrintable.setAttachments(formAttachments);
-				formPrintables.add(formPrintable);
+            }
+            formPrintable.setAttachments(formAttachments);
+            formPrintables.add(formPrintable);
 		}
         PrintableResult result = new PrintableResult();
         result.printables = formPrintables;
@@ -344,8 +351,7 @@ public class FormPrintServiceImpl implements FormPrintService {
 	 */
 	protected PrintableResult getPDFStream(ProposalDevelopmentDocumentContract pdDoc)
 			throws S2SException {
-		FormMappingInfo info = null;
-		S2SBaseFormGenerator s2sFormGenerator = null;
+
 		List<AuditError> errors = new ArrayList<AuditError>();
 		DevelopmentProposalContract developmentProposal = pdDoc
 				.getDevelopmentProposal();
@@ -357,12 +363,10 @@ public class FormPrintServiceImpl implements FormPrintService {
 	    getNarrativeService().deleteSystemGeneratedNarratives(pdDoc.getDevelopmentProposal().getNarratives());
 	    Forms forms = Forms.Factory.newInstance();
 		for (String namespace : sortedNameSpaces) {
-			info = formMappingService.getFormInfo(namespace,proposalNumber);
+            FormMappingInfo info = formMappingService.getFormInfo(namespace,proposalNumber);
 			if(info==null) continue;
-			s2sFormGenerator = (S2SBaseFormGenerator)s2SFormGeneratorService.getS2SGenerator(proposalNumber,info.getNameSpace());
-			s2sFormGenerator.setAuditErrors(errors);
-			s2sFormGenerator.setAttachments(new ArrayList<AttachmentData>());
-			s2sFormGenerator.setNamespace(namespace);
+            S2SFormGenerator s2sFormGenerator = s2SFormGeneratorService.getS2SGenerator(proposalNumber,info.getNameSpace());
+            errors.addAll(s2sFormGenerator.getAuditErrors());
 			XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
 			
 			if (s2SValidatorService.validate(formObject, errors) && errors.isEmpty()) {
@@ -376,9 +380,17 @@ public class FormPrintServiceImpl implements FormPrintService {
 				formPrintable.setStreamMap(formXmlDataMap);
 
 				ArrayList<Source> templates = new ArrayList<Source>();
-				Source xsltSource = new StreamSource(getClass()
-						.getResourceAsStream("/" + info.getStyleSheet()));
-				templates.add(xsltSource);
+
+                DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
+                Resource resource = resourceLoader.getResource(info.getStyleSheet());
+
+                Source xsltSource = null;
+                try {
+                    xsltSource = new StreamSource(resource.getInputStream());
+                } catch (IOException e) {
+                    throw new S2SException(e);
+                }
+                templates.add(xsltSource);
 				formPrintable.setXSLTemplates(templates);
 
 				List<AttachmentData> attachmentList = s2sFormGenerator.getAttachments();
@@ -528,9 +540,9 @@ public class FormPrintServiceImpl implements FormPrintService {
 	 */
 	protected List<String> getSortedNameSpaces(String proposalNumber,List<? extends S2sOppFormsContract> s2sOppForms) {
 		List<String> orderedNamespaces = new ArrayList<String>();
-		List<String> namespaces;
+		Set<String> namespaces;
         formMappingService.getBindings();
-		Map<Integer, List<String>> sortedNamespaces = formMappingService.getSortedNameSpaces();
+		Map<Integer, Set<String>> sortedNamespaces = formMappingService.getSortedNameSpaces();
 		List<Integer> sortedIndices = new ArrayList<Integer>(sortedNamespaces
 				.keySet());
 		int index = 0;

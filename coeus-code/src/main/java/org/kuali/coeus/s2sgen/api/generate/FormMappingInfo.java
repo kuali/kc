@@ -36,6 +36,19 @@ public class FormMappingInfo{
     private static final String KEY_FORM_NAME = "formName";
     private static final String KEY_STYLE_SHEET = "stylesheet";
 
+    public FormMappingInfo() {
+        super();
+    }
+
+    public FormMappingInfo(String nameSpace, String generatorName, String formName, String stylesheet, int sortIndex, Boolean userAttachedForm) {
+        this.nameSpace = nameSpace;
+        this.generatorName = generatorName;
+        this.formName = formName;
+        this.stylesheet = stylesheet;
+        this.sortIndex = sortIndex;
+        this.userAttachedForm = userAttachedForm;
+    }
+
     public String getGeneratorName() {
         return generatorName;
     }

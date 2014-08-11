@@ -61,8 +61,13 @@ public class S2SFormGeneratorRetrievalServiceImpl implements S2SFormGeneratorRet
     public final S2SFormGenerator getS2SGenerator(String proposalNumber,String namespace) throws S2SException {
         FormMappingInfo formInfo = formMappingService.getFormInfo(namespace,proposalNumber);
         S2SFormGenerator formGenerator = (S2SFormGenerator) applicationContext.getBean(formInfo.getGeneratorName());
+
         if (formGenerator == null) {
             throw new S2SException("Generator not found with name: " + formInfo.getGeneratorName());
+        }
+
+        if (formGenerator instanceof DynamicNamespace) {
+            ((DynamicNamespace) formGenerator).setNamespace(namespace);
         }
 
         return formGenerator;

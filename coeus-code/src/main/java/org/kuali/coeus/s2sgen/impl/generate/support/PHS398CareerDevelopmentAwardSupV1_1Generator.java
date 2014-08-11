@@ -33,6 +33,8 @@ import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
 import org.kuali.coeus.s2sgen.impl.generate.FormVersion;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 
 import java.io.ByteArrayInputStream;
@@ -50,6 +52,21 @@ import java.util.List;
 public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 		PHS398CareerDevelopmentAwardSupBaseGenerator {
 	private static final String PROPOSAL_TYPE_TASK_ORDER = "6";
+
+    @Value("http://apply.grants.gov/forms/PHS398_CareerDevelopmentAwardSup_1_1-V1.1")
+    private String namespace;
+
+    @Value("PHS398_CareerDevelopmentAwardSup_1_1-V1.1")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/PHS398_CareerDevelopmentAwardSup-V1.1.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11")
+    private String packageName;
+
+    @Value("200")
+    private int sortIndex;
 
 	private XmlObject getPHS398CareerDevelopmentAwardSup() {
 		PHS398CareerDevelopmentAwardSup11Document phs398CareerDevelopmentAwardSup11Document = PHS398CareerDevelopmentAwardSup11Document.Factory
@@ -397,4 +414,49 @@ public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 		this.pdDoc = proposalDevelopmentDocument;
 		return getPHS398CareerDevelopmentAwardSup();
 	}
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
+    }
 }

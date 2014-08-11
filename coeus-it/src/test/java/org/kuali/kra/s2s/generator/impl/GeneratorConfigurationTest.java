@@ -103,7 +103,7 @@ public class GeneratorConfigurationTest extends KcIntegrationTestBase {
 
         for (FormMappingInfo info : mappings.values()) {
             DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
-            Resource resource = resourceLoader.getResource("classpath:" + info.getStyleSheet());
+            Resource resource = resourceLoader.getResource(info.getStyleSheet());
             if (!resource.exists()) {
                 notFound.add(info.getStyleSheet());
             }

@@ -16,8 +16,6 @@
 package org.kuali.coeus.s2sgen.impl.budget;
 
 
-import org.kuali.coeus.s2sgen.impl.budget.CompensationDto;
-
 public class OtherPersonnelDto {
 
 

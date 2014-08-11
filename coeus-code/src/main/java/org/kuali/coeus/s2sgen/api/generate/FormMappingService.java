@@ -1,7 +1,7 @@
 package org.kuali.coeus.s2sgen.api.generate;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This service retrieves information about the currently configured form
@@ -39,5 +39,8 @@ public interface FormMappingService {
      * Gets form generation info for all namespaces, keyed by namespace.
      * @return returns a map.  always non-null
      */
-    Map<Integer, List<String>> getSortedNameSpaces();
+    Map<Integer, Set<String>> getSortedNameSpaces();
+
+
+    void registerForm(FormMappingInfo info);
 }

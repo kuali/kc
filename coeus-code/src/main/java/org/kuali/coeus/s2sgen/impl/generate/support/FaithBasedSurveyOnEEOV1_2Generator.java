@@ -24,6 +24,8 @@ import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
 import org.kuali.coeus.s2sgen.impl.generate.FormVersion;
 import org.kuali.coeus.s2sgen.impl.generate.S2SBaseFormGenerator;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 
 /**
@@ -36,6 +38,20 @@ import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 @FormGenerator("FaithBasedSurveyOnEEOV1_2Generator")
 public class FaithBasedSurveyOnEEOV1_2Generator extends S2SBaseFormGenerator {
 
+    @Value("http://apply.grants.gov/forms/FaithBased_SurveyOnEEO-V1.2")
+    private String namespace;
+
+    @Value("FaithBased_SurveyOnEEO-V1.2")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/FaithBased_SurveyOnEEO-V1.2.fo.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.faithBasedSurveyOnEEOV12")
+    private String packageName;
+
+    @Value(DEFAULT_SORT_INDEX)
+    private int sortIndex;
 
     /**
      * 
@@ -95,5 +111,50 @@ public class FaithBasedSurveyOnEEOV1_2Generator extends S2SBaseFormGenerator {
 
         this.pdDoc = proposalDevelopmentDocument;
         return getSurveyOnEEO();
+    }
+
+    @Override
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }

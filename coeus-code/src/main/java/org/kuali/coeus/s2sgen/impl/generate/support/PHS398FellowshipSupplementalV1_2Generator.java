@@ -58,6 +58,8 @@ import org.kuali.coeus.s2sgen.impl.citizenship.CitizenshipType;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.coeus.s2sgen.api.core.ConfigurationConstants;
 import org.kuali.coeus.s2sgen.impl.generate.FormGenerator;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
 
 import java.math.BigDecimal;
@@ -74,7 +76,6 @@ import java.util.*;
 @FormGenerator("PHS398FellowshipSupplementalV1_2Generator")
 public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipSupplementalBaseGenerator {
 
-    private static final Log LOG = LogFactory.getLog(PHS398FellowshipSupplementalV1_2Generator.class);
 
     private static final int HUMAN = 1;
     private static final int VERT = 4;
@@ -118,6 +119,21 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
     
     private static final String ANSWER_YES = "Yes";
     private static final String ANSWER_NO = "No";
+
+    @Value("http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_2-V1.2")
+    private String namespace;
+
+    @Value("PHS_Fellowship_Supplemental_1_2-V1.2")
+    private String formName;
+
+    @Value("classpath:org/kuali/coeus/s2sgen/impl/generate/support/PHS_fellowship_supplemental-V1.2.xsl")
+    private Resource stylesheet;
+
+    @Value("gov.grants.apply.forms.phsFellowshipSupplemental12V12")
+    private String packageName;
+
+    @Value("210")
+    private int sortIndex;
 
     /*
      * This method is used to get PHSFellowshipSupplemental12 XMLObject and set the data to it from DevelopmentProposal data.
@@ -1013,11 +1029,48 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
         return getPHSFellowshipSupplemental12();
     }
 
-    public String getFormName() {
-        return "PHS_Fellowship_Supplemental_1_2-V1.2";
+    @Override
+    public String getNamespace() {
+        return namespace;
     }
 
-    public String getNamespace() {
-        return "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_2-V1.2";
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    @Override
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    @Override
+    public Resource getStylesheet() {
+        return stylesheet;
+    }
+
+    public void setStylesheet(Resource stylesheet) {
+        this.stylesheet = stylesheet;
+    }
+
+    @Override
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    @Override
+    public int getSortIndex() {
+        return sortIndex;
+    }
+
+    public void setSortIndex(int sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }

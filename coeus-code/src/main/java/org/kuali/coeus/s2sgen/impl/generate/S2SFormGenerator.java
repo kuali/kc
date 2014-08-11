@@ -34,27 +34,12 @@ public interface S2SFormGenerator {
 
     /**
      * 
-     * This method creates an XML document using the APIs generated using XMLBEans by compiling the form's schema and returns it
+     * This method creates an XML document using the APIs generated using XMLBeans by compiling the form's schema and returns it
      * as XmlObject.
      */
     XmlObject getFormObject(ProposalDevelopmentDocumentContract proposalDevelopmentDocument) throws S2SException;
 
-    /**
-     * 
-     * This method returns all the attachments required for a form in a Map
-     * 
-     * @return Map
-     */
     List<AttachmentData> getAttachments();
-    
-    /**
-     * 
-     */
+
     List<AuditError> getAuditErrors();
-    
-    /**
-     * 
-     * This method returns namespace for the form
-     */
-    String getNamespace();
 }
