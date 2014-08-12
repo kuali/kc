@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.auth;
 
+import org.kuali.coeus.common.framework.auth.KcKradTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
@@ -43,7 +44,7 @@ import java.util.Set;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
+public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDocumentAuthorizerBase {
 
     private TaskAuthorizationService taskAuthenticationService;
     protected  TaskAuthorizationService getTaskAuthenticationService (){
@@ -250,10 +251,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
         ProposalTask task = new ProposalTask(taskName, doc);       
         TaskAuthorizationService taskAuthenticationService = getTaskAuthenticationService();
         return taskAuthenticationService.isAuthorized(userId, task);
-    }
-    
-    public boolean canInitiate(String documentTypeName, Person user) {
-        return canCreateProposal(user);
     }
     
     public boolean canOpen(Document document, Person user) {
