@@ -61,6 +61,7 @@
         <commons-lang3.version>3.3.2</commons-lang3.version>
         <commons-net.version>3.3</commons-net.version>
         <commons-pool.version>1.5.7</commons-pool.version>
+        <commons-validator.version>1.4.0</commons-validator.version>
         <cxf.version>2.7.12</cxf.version>
         <db-ojb.version>1.0.4-patch8</db-ojb.version>
         <displaytag.version>1.2</displaytag.version>
@@ -103,7 +104,7 @@
         <org.eclipse.persistence.version>2.5.2</org.eclipse.persistence.version>
         <pdfbox.version>1.8.6</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
-        <rice.version>2.5.0-M6-r47915</rice.version>
+        <rice.version>2.5.0-M6-r47983</rice.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.7</slf4j.version>
         <spring.version>4.0.5.RELEASE</spring.version>
@@ -802,6 +803,28 @@
                 <groupId>commons-pool</groupId>
                 <artifactId>commons-pool</artifactId>
                 <version>${commons-pool.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-validator</groupId>
+                <artifactId>commons-validator</artifactId>
+                <version>${commons-validator.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>commons-logging</artifactId>
+                        <groupId>commons-logging</groupId>
+                    </exclusion>
+                    <!-- excluding because tiles requires a newer version than is brought in from 1.3.1 of commons-validator -->
+                    <exclusion>
+                        <groupId>commons-digester</groupId>
+                        <artifactId>commons-digester</artifactId>
+                    </exclusion>
+
+                    <exclusion>
+                        <artifactId>commons-beanutils</artifactId>
+                        <groupId>commons-beanutils</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
