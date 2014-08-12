@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.sys.framework.auth;
+package org.kuali.coeus.common.framework.auth;
 
-import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;

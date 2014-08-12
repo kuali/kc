@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.test;
 
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.RoleConstants;

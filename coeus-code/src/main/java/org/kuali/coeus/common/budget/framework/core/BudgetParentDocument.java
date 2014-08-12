@@ -17,8 +17,8 @@ package org.kuali.coeus.common.budget.framework.core;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
-import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
-import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
+import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;

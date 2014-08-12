@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.sys.impl.auth;
+package org.kuali.coeus.common.impl.auth;
 
-import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;

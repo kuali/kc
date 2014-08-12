@@ -23,7 +23,7 @@ import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsServ
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;

@@ -86,40 +86,6 @@
         </property>
     </bean>
 
-    <util:set id="taskAuthorizerGroupNames">
-        <value>applicationTaskAuthorizers</value>
-        <value>proposalTaskAuthorizers</value>
-        <value>proposalBudgetTaskAuthorizers</value>
-        <value>narrativeTaskAuthorizers</value>
-        <value>awardTaskAuthorizers</value>
-        <value>awardBudgetTaskAuthorizers</value>
-        <value>subAwardTaskAuthorizers</value>
-        <value>timeAndMoneyTaskAuthorizers</value>
-        <value>negotiationTaskAuthorizers</value>
-        <value>protocolTaskAuthorizers</value>
-        <value>protocolOnlineReviewTaskAuthorizers</value>
-        <value>iacucProtocolTaskAuthorizers</value>
-        <value>iacucProtocolOnlineReviewTaskAuthorizers</value>
-        <value>coiDisclosureTaskAuthorizers</value>
-        <value>committeeTaskAuthorizers</value>
-        <value>iacucCommitteeTaskAuthorizers</value>
-    </util:set>
-
-    <util:set id="webAuthorizerNames">
-        <value>proposalDevelopmentWebAuthorizer</value>
-        <value>proposalGrantsGovWebAuthorizer</value>
-        <value>proposalKeyPersonnelWebAuthorizer</value>
-        <value>proposalAbstractsAttachmentsWebAuthorizer</value>
-        <value>proposalBudgetVersionsWebAuthorizer</value>
-        <value>proposalPermissionsWebAuthorizer</value>
-        <value>proposalActionsWebAuthorizer</value>
-        <value>budgetWebAuthorizer</value>
-        <value>budgetVersionsWebAuthorizer</value>
-        <value>budgetActionsWebAuthorizer</value>
-        <value>awardBudgetsWebAuthorizer</value>
-    </util:set>
-
-
     <bean id="noEditLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="noEditLookupableHelperService" />
     </bean>

@@ -22,7 +22,7 @@ import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeTas
 import org.kuali.coeus.common.committee.impl.service.CommitteeScheduleServiceBase;
 import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.ScheduleData;
-import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;

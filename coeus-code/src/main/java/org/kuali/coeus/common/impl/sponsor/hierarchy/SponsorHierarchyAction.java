@@ -23,7 +23,7 @@ import org.kuali.coeus.common.impl.sponsor.SponsorHierarchyMaintenanceService;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
-import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.Constants;

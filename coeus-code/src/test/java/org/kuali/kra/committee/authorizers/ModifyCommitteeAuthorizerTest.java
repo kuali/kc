@@ -17,8 +17,8 @@ package org.kuali.kra.committee.authorizers;
 
 import org.junit.Test;
 import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeTaskBase;
-import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.document.authorizer.ModifyCommitteeAuthorizer;

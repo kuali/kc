@@ -16,7 +16,7 @@
 package org.kuali.coeus.propdev.impl.auth.task;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.kra.infrastructure.TaskGroupName;
 
 /**

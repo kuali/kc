@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.budget.document.authorizer;
 
-import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.authorization.AwardBudgetTask;
 import org.kuali.coeus.common.budget.framework.auth.task.BudgetAuthorizer;

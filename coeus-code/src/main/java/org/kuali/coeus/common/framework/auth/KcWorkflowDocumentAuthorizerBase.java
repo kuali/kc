@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.sys.framework.auth;
+package org.kuali.coeus.common.framework.auth;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kew.api.KewApiConstants;

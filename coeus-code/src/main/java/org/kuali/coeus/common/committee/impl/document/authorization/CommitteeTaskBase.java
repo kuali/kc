@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.committee.impl.document.authorization;
 
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
-import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.common.framework.auth.task.Task;
 
 /**
  * A CommitteeBase Task is a task that performs an action against a

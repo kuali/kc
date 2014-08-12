@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.impl.unit;
 
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
 import org.kuali.rice.kns.lookup.LookupableHelperService;

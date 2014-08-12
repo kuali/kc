@@ -23,7 +23,7 @@ import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.common.framework.keyword.KeywordsService;
-import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.CommentType;

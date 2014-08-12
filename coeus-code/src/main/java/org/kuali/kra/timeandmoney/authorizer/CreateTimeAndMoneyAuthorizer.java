@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.timeandmoney.authorizer;
 
-import org.kuali.coeus.sys.framework.auth.task.Task;
-import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
+import org.kuali.coeus.common.framework.auth.task.Task;
+import org.kuali.coeus.common.framework.auth.task.TaskAuthorizerBase;
 
 /**
  * The Create Protocol Authorizer checks to see if the user has 

@@ -57,7 +57,7 @@
         <property name="iacucProtocolTableService" ref="iacucProtocolTableService" />
     </bean>
 
-    <bean id="iacucProtocolTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
+    <bean id="iacucProtocolTaskAuthorizers" class="org.kuali.coeus.common.framework.auth.task.TaskAuthorizerGroup">
         <property name="groupName" value="iacucProtocol" />
         <property name="taskAuthorizers">
             <list>
@@ -883,7 +883,7 @@
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
     </bean>
 
-    <bean id="iacucProtocolOnlineReviewTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
+    <bean id="iacucProtocolOnlineReviewTaskAuthorizers" class="org.kuali.coeus.common.framework.auth.task.TaskAuthorizerGroup">
         <property name="groupName" value="iacucProtocolOnlineReview" />
         <property name="taskAuthorizers">
             <list>

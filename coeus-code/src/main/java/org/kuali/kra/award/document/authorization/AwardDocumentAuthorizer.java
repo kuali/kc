@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.award.document.authorization;
 
-import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
-import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
@@ -233,7 +233,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     /**
      * @throws WorkflowException 
      * @throws WorkflowException 
-     * @see org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     * @see org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canCancel(Document document, Person user) {

@@ -17,7 +17,7 @@ package org.kuali.coeus.propdev.impl.auth.perm;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;

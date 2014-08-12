@@ -16,25 +16,20 @@
 package org.kuali.kra.iacuc;
 
 import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JUnit4Mockery;
-import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.protocol.ProtocolLookupHelperServiceTestBase;
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
-import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;

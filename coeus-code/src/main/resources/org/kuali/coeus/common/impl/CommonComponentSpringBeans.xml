@@ -26,6 +26,39 @@
     <import resource="classpath:org/kuali/coeus/common/impl/CommonImportRiceSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/common/impl/CommonImportModuleSpringBeans.xml"/>
 
+    <util:set id="taskAuthorizerGroupNames">
+        <value>applicationTaskAuthorizers</value>
+        <value>proposalTaskAuthorizers</value>
+        <value>proposalBudgetTaskAuthorizers</value>
+        <value>narrativeTaskAuthorizers</value>
+        <value>awardTaskAuthorizers</value>
+        <value>awardBudgetTaskAuthorizers</value>
+        <value>subAwardTaskAuthorizers</value>
+        <value>timeAndMoneyTaskAuthorizers</value>
+        <value>negotiationTaskAuthorizers</value>
+        <value>protocolTaskAuthorizers</value>
+        <value>protocolOnlineReviewTaskAuthorizers</value>
+        <value>iacucProtocolTaskAuthorizers</value>
+        <value>iacucProtocolOnlineReviewTaskAuthorizers</value>
+        <value>coiDisclosureTaskAuthorizers</value>
+        <value>committeeTaskAuthorizers</value>
+        <value>iacucCommitteeTaskAuthorizers</value>
+    </util:set>
+
+    <util:set id="webAuthorizerNames">
+        <value>proposalDevelopmentWebAuthorizer</value>
+        <value>proposalGrantsGovWebAuthorizer</value>
+        <value>proposalKeyPersonnelWebAuthorizer</value>
+        <value>proposalAbstractsAttachmentsWebAuthorizer</value>
+        <value>proposalBudgetVersionsWebAuthorizer</value>
+        <value>proposalPermissionsWebAuthorizer</value>
+        <value>proposalActionsWebAuthorizer</value>
+        <value>budgetWebAuthorizer</value>
+        <value>budgetVersionsWebAuthorizer</value>
+        <value>budgetActionsWebAuthorizer</value>
+        <value>awardBudgetsWebAuthorizer</value>
+    </util:set>
+
     <util:map id="KcFileMimeTypeIcons" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
         <entry key="application/msword" value="static/images/word.gif" />
         <entry key="application/vnd.openxmlformats-officedocument.wordprocessingml.document" value="static/images/word.gif" />

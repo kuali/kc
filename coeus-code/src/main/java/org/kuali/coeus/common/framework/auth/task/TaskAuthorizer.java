@@ -13,20 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.sys.framework.auth.task;
+package org.kuali.coeus.common.framework.auth.task;
 
 /**
- * The Task Authorization Service is responsible for determining
- * if a user has the authority to execute a given task.
+ * A Task Authorizer determines if a user can execute a specific task.
  */
-public interface TaskAuthorizationService {
-
+public interface TaskAuthorizer {
+    
     /**
-     * Is the user authorized to perform the given task?
+     * Get the name of the task.
+     * @return the task's name
+     */
+    public String getTaskName();
+    
+    /**
+     * Is the user authorized to execute the given task?
      * @param userId the user's unique username
-     * @param task the task to perform
+     * @param task the task
      * @return true if the user is authorized; otherwise false
      */
-    boolean isAuthorized(String userId, Task task);
-
+    public boolean isAuthorized(String userId, Task task);
 }

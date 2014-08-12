@@ -13,22 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.sys.framework.auth.task;
-
-import org.apache.struts.action.ActionForm;
-
-import javax.servlet.http.HttpServletRequest;
+package org.kuali.coeus.common.framework.auth.task;
 
 /**
- * A Web Task Factory is responsible for building a Task.
+ * The Task Authorization Service is responsible for determining
+ * if a user has the authority to execute a given task.
  */
-public interface WebTaskFactory {
-    
+public interface TaskAuthorizationService {
+
     /**
-     * Create a Task.
-     * @param form the form
-     * @param request the HTTP request
-     * @return the new Task
+     * Is the user authorized to perform the given task?
+     * @param userId the user's unique username
+     * @param task the task to perform
+     * @return true if the user is authorized; otherwise false
      */
-    public Task createTask(ActionForm form, HttpServletRequest request);
+    boolean isAuthorized(String userId, Task task);
+
 }

@@ -21,7 +21,7 @@ import org.kuali.coeus.common.committee.impl.document.CommitteeDocumentBase;
 import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
-import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.coi.CoiReviewType;

@@ -22,7 +22,7 @@ import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipRole;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeResearchAreaBase;
 import org.kuali.coeus.common.committee.impl.document.CommitteeDocumentBase;
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.ResearchArea;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;

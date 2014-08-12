@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.auth;
 
-import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 
 /**
  * This service loads the KraAuthorizationService with the proper access control list based on 

@@ -27,7 +27,7 @@ import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
-import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.AwardType;

@@ -250,7 +250,7 @@
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
     </bean>
     
-    <bean id="negotiationTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
+    <bean id="negotiationTaskAuthorizers" class="org.kuali.coeus.common.framework.auth.task.TaskAuthorizerGroup">
         <property name="groupName" value="negotiation" />
         <property name="taskAuthorizers">
             <list>

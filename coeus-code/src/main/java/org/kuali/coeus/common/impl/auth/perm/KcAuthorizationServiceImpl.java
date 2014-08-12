@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.sys.impl.auth.perm;
+package org.kuali.coeus.common.impl.auth.perm;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
+import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
 import org.kuali.rice.kim.api.permission.PermissionService;

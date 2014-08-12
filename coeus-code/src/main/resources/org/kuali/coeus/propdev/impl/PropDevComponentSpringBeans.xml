@@ -140,7 +140,7 @@
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
     </bean>
 
-    <bean id="proposalTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
+    <bean id="proposalTaskAuthorizers" class="org.kuali.coeus.common.framework.auth.task.TaskAuthorizerGroup">
         <property name="groupName" value="proposal" />
         <property name="taskAuthorizers">
             <list>
@@ -267,7 +267,7 @@
 
     <!-- Narrative Task Authorizers -->
 
-    <bean id="narrativeTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
+    <bean id="narrativeTaskAuthorizers" class="org.kuali.coeus.common.framework.auth.task.TaskAuthorizerGroup">
         <property name="groupName" value="narrative" />
         <property name="taskAuthorizers">
             <list>
@@ -294,7 +294,7 @@
         </property>
     </bean>
 
-    <bean id="proposalDevelopmentWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+    <bean id="proposalDevelopmentWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
         <property name="classname" value="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction" />
         <property name="mappings">
             <map>
@@ -307,7 +307,7 @@
         </property>
     </bean>
 
-    <bean id="proposalGrantsGovWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+    <bean id="proposalGrantsGovWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
         <property name="classname" value="org.kuali.coeus.propdev.impl.s2s.ProposalDevelopmentGrantsGovAction" />
         <property name="mappings">
             <map>
@@ -320,7 +320,7 @@
         </property>
     </bean>
 
-    <bean id="proposalKeyPersonnelWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+    <bean id="proposalKeyPersonnelWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
         <property name="classname" value="org.kuali.coeus.propdev.impl.person.ProposalDevelopmentKeyPersonnelAction" />
         <property name="mappings">
             <map>
@@ -348,7 +348,7 @@
         </property>
     </bean>
 
-    <bean id="proposalAbstractsAttachmentsWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+    <bean id="proposalAbstractsAttachmentsWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
         <property name="classname" value="org.kuali.coeus.propdev.impl.abstrct.ProposalDevelopmentAbstractsAttachmentsAction" />
         <property name="mappings">
             <map>
@@ -411,7 +411,7 @@
         </property>
     </bean>
 
-    <bean id="proposalBudgetVersionsWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+    <bean id="proposalBudgetVersionsWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
         <property name="classname" value="org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetVersionsAction" />
         <property name="mappings">
             <map>
@@ -434,7 +434,7 @@
         </property>
     </bean>
 
-    <bean id="proposalPermissionsWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+    <bean id="proposalPermissionsWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
         <property name="classname" value="org.kuali.coeus.propdev.impl.docperm.ProposalDevelopmentPermissionsAction" />
         <property name="mappings">
             <map>
@@ -457,7 +457,7 @@
         </property>
     </bean>
 
-    <bean id="proposalActionsWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+    <bean id="proposalActionsWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
         <property name="classname" value="org.kuali.coeus.propdev.impl.action.ProposalDevelopmentActionsAction" />
         <property name="mappings">
             <map>
@@ -739,7 +739,7 @@
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
     </bean>
 
-    <bean id="proposalBudgetTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
+    <bean id="proposalBudgetTaskAuthorizers" class="org.kuali.coeus.common.framework.auth.task.TaskAuthorizerGroup">
         <property name="groupName" value="proposalBudget" />
         <property name="taskAuthorizers">
             <list>
@@ -773,7 +773,7 @@
         </property>
     </bean>
 
-    <bean id="budgetWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+    <bean id="budgetWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
         <property name="classname" value="org.kuali.coeus.common.budget.framework.core.BudgetAction" />
         <property name="mappings">
             <map>
@@ -791,7 +791,7 @@
         </property>
     </bean>
 
-    <bean id="budgetVersionsWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+    <bean id="budgetVersionsWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
         <property name="classname" value="org.kuali.coeus.common.budget.framework.version.BudgetVersionsAction" />
         <property name="mappings">
             <map>
@@ -814,7 +814,7 @@
         </property>
     </bean>
 
-    <bean id="budgetActionsWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+    <bean id="budgetActionsWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
         <property name="classname" value="org.kuali.coeus.common.budget.framework.core.BudgetActionsAction" />
         <property name="mappings">
             <map>

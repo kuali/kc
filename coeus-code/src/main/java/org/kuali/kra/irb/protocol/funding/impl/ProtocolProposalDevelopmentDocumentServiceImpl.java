@@ -20,7 +20,7 @@ import org.kuali.coeus.common.framework.person.editable.PersonEditableService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;

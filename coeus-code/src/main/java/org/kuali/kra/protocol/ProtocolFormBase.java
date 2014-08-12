@@ -20,7 +20,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelper;
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsForm;
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;

@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
-import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;

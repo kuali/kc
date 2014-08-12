@@ -17,7 +17,7 @@ package org.kuali.kra.iacuc;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;

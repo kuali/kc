@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.core;
 
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.rice.kim.api.identity.Person;

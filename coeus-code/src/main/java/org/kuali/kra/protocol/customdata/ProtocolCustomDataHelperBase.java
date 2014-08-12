@@ -18,7 +18,7 @@ package org.kuali.kra.protocol.customdata;
 import org.kuali.coeus.common.framework.custom.CustomDataHelperBase;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
-import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;

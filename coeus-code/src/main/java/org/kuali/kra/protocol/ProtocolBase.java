@@ -22,7 +22,7 @@ import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
-import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.protocol.auth.UnitAclLoadable;

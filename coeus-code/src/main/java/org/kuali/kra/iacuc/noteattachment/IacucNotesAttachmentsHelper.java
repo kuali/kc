@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;

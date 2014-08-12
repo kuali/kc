@@ -20,7 +20,7 @@ import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
-import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.protocol.auth.UnitAclLoadable;
 import org.kuali.kra.infrastructure.Constants;

@@ -20,7 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewHelperBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
-import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
 import java.util.ArrayList;

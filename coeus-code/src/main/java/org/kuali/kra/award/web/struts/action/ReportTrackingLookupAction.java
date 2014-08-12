@@ -25,7 +25,7 @@ import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
-import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.DocHandlerService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;

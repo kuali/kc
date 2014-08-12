@@ -17,8 +17,8 @@ package org.kuali.coeus.propdev.impl.budget.auth.task;
 
 import org.apache.struts.action.ActionForm;
 import org.kuali.coeus.common.budget.framework.auth.task.BudgetTask;
-import org.kuali.coeus.sys.framework.auth.task.Task;
-import org.kuali.coeus.sys.framework.auth.task.WebTaskFactoryBase;
+import org.kuali.coeus.common.framework.auth.task.Task;
+import org.kuali.coeus.common.framework.auth.task.WebTaskFactoryBase;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetForm;

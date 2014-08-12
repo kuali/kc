@@ -45,7 +45,7 @@ import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.controller.NonCancellingRecallQuestion;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
-import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;

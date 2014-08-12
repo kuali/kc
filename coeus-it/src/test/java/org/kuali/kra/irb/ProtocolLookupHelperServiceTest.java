@@ -23,7 +23,7 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.protocol.ProtocolLookupHelperServiceTestBase;
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.personnel.ProtocolPerson;

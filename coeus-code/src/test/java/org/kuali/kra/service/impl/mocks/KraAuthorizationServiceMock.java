@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.service.impl.mocks;
 
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 
 import java.util.List;
 

@@ -19,7 +19,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionRequestService;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;

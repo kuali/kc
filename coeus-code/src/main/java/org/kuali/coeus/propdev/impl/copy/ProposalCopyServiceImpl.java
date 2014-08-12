@@ -37,7 +37,7 @@ import org.kuali.coeus.propdev.impl.person.ProposalPersonYnq;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyAttachment;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.bo.*;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;

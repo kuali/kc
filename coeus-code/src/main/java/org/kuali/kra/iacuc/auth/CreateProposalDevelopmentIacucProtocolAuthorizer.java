@@ -16,8 +16,8 @@
 package org.kuali.kra.iacuc.auth;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
-import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolBase;
