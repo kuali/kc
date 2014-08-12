@@ -21,7 +21,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerAware;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.eclipse.persistence.internal.weaving.RelationshipInfo;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
@@ -30,12 +29,8 @@ import org.kuali.coeus.sys.framework.workflow.SimpleBooleanSplitNodeAware;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.RolePersons;
-import org.kuali.coeus.common.budget.framework.core.BudgetService;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtension;
@@ -43,7 +38,6 @@ import org.kuali.rice.krad.data.jpa.DisableVersioning;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
-import org.kuali.rice.krad.service.DocumentHeaderService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.LegacyDataFramework;
@@ -83,9 +77,6 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
 
     @Transient
     private transient KcDataObjectService kcDataObjectService;
-
-    @Transient
-    private transient DocumentHeaderService documentHeaderService;
 
     @Transient
     private transient CustomAttributeService customAttributeService;
@@ -159,17 +150,6 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
 
             LOG.error(String.format("ValidationException when validating event: %s. Check log entries preceding this error for details. Errors: %s", event.getName(), errors));
             throw e;
-        }
-    }
-
-    public void updateDocumentDescriptions(List<BudgetDocumentVersion> budgetVersionOverviews) {
-        BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
-        for (BudgetDocumentVersion budgetDocumentVersion : budgetVersionOverviews) {
-            BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
-            if (budgetVersion.isDescriptionUpdatable() && !StringUtils.isBlank(budgetVersion.getDocumentDescription())) {
-                budgetService.updateDocumentDescription(budgetVersion);
-                budgetVersion.setDescriptionUpdatable(false);
-            }
         }
     }
 
@@ -374,17 +354,6 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
 
     void setKcDataObjectService(KcDataObjectService kcDataObjectService) {
         this.kcDataObjectService = kcDataObjectService;
-    }
-
-    public DocumentHeaderService getDocumentHeaderService() {
-        if (this.documentHeaderService == null) {
-            this.documentHeaderService = KcServiceLocator.getService(DocumentHeaderService.class);
-        }
-        return this.documentHeaderService;
-    }
-
-    void setDocumentHeaderService(DocumentHeaderService documentHeaderService) {
-        this.documentHeaderService = documentHeaderService;
     }
 
     CustomAttributeService getCustomAttributeService() {

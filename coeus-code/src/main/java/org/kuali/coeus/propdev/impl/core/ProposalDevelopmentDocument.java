@@ -68,6 +68,7 @@ import org.kuali.rice.krad.datadictionary.DocumentEntry;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.krad.service.DocumentHeaderService;
 import org.kuali.rice.krad.util.NoteType;
 import org.kuali.rice.krad.workflow.DocumentInitiator;
 import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
@@ -98,7 +99,10 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     private static final String RETURN_TO_PROPOSAL_METHOD_TO_CALL = "methodToCall.returnToProposal";
 
     private static final String HIERARCHY_CHILD_SPLITNODE_QUESTION = "isHierarchyChild";
-    
+
+    @Transient
+    private transient DocumentHeaderService documentHeaderService;
+
     @Transient
     private transient ProposalHierarchyService  proposalHierarchyService;
     
@@ -670,5 +674,14 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         return notes;
     }
 
+    public DocumentHeaderService getDocumentHeaderService() {
+        if (this.documentHeaderService == null) {
+            this.documentHeaderService = KcServiceLocator.getService(DocumentHeaderService.class);
+        }
+        return this.documentHeaderService;
+    }
 
+    void setDocumentHeaderService(DocumentHeaderService documentHeaderService) {
+        this.documentHeaderService = documentHeaderService;
+    }
 }
