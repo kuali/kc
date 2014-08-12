@@ -29,8 +29,8 @@ import java.util.List;
 public class S2sOpportunity extends KcPersistableBusinessObjectBase implements S2sOpportunityContract {
 
 	@Id
-	@ManyToOne(cascade = { CascadeType.REFRESH })
-	@JoinColumn(name = "PROPOSAL_NUMBER")
+	@OneToOne(cascade = { CascadeType.REFRESH })
+	@JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = true, updatable = true)
 	private DevelopmentProposal developmentProposal;
 
     @Column(name = "CFDA_NUMBER")

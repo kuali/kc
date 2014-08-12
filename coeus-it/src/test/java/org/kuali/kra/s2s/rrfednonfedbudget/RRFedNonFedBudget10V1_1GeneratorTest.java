@@ -75,9 +75,13 @@ public class RRFedNonFedBudget10V1_1GeneratorTest extends
 		narrativeType.setSystemGenerated(false);
 		narrativeType.setDescription("Testing for Attachments Attachment");
 		getService(DataObjectService.class).save(narrativeType);
-		narrative.setNarrativeType(narrativeType);
+        narrative.setName("exercise1");
+        narrative.setNarrativeType(narrativeType);
 		narrative.setNarrativeTypeCode("133");
 		narrative.setNarrativeAttachment(narrativeAttachment);
+        narrative.setModuleNumber(1);
+        narrative.setModuleSequenceNumber(1);
+        narrative.setModuleStatusCode("C");
 		narrativeList.add(narrative);
 		document.getDevelopmentProposal().setNarratives(narrativeList);
 
@@ -88,10 +92,13 @@ public class RRFedNonFedBudget10V1_1GeneratorTest extends
 		principalInvestigator.setProposalPersonRoleId("PI");
 		principalInvestigator.setPersonId("0001");
 		principalInvestigator.setRolodexId(0010);
+        principalInvestigator.setProposalPersonNumber(1);
+        principalInvestigator.setDevelopmentProposal(document.getDevelopmentProposal());
 		proposalPersons.add(principalInvestigator);
 		document.getDevelopmentProposal().setProposalPersons(proposalPersons);
 
 		ProposalDevelopmentBudgetExt proposalDevelopmentBudgetExt = new ProposalDevelopmentBudgetExt();
+        proposalDevelopmentBudgetExt.setDevelopmentProposal(document.getDevelopmentProposal());
 		proposalDevelopmentBudgetExt.setBudgetVersionNumber(1);
 		proposalDevelopmentBudgetExt.setFinalVersionFlag(true);
 		proposalDevelopmentBudgetExt.setBudgetStatus("1");

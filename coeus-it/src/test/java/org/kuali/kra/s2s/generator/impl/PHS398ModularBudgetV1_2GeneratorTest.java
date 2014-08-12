@@ -35,6 +35,7 @@ public class PHS398ModularBudgetV1_2GeneratorTest extends
 		budget.setUrRateClassCode("1");
 		budget.setModularBudgetFlag(false);
         budget.setParentDocumentTypeCode("PRDV");
+        budget.setDevelopmentProposal(document.getDevelopmentProposal());
 
 		budget = getService(DataObjectService.class).save(budget);
 

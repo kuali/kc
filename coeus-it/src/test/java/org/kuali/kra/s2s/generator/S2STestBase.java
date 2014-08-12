@@ -15,7 +15,10 @@
  */
 package org.kuali.kra.s2s.generator;
 
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -23,7 +26,17 @@ import org.junit.Test;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
+import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
+import org.kuali.coeus.s2sgen.api.core.S2SException;
+import org.kuali.coeus.s2sgen.api.generate.FormMappingInfo;
+import org.kuali.coeus.s2sgen.api.generate.FormMappingService;
+import org.kuali.coeus.s2sgen.api.print.FormPrintResult;
+import org.kuali.coeus.s2sgen.api.print.FormPrintService;
 import org.kuali.coeus.s2sgen.impl.generate.S2SBaseFormGenerator;
+import org.kuali.coeus.s2sgen.impl.generate.S2SFormGenerator;
+import org.kuali.coeus.s2sgen.impl.generate.S2SFormGeneratorRetrievalService;
+import org.kuali.coeus.s2sgen.impl.print.FormPrintServiceImpl;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
 import org.kuali.coeus.s2sgen.impl.validate.S2SValidatorService;
@@ -40,6 +53,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -60,6 +74,24 @@ public abstract class S2STestBase<T> extends KcIntegrationTestBase {
         GlobalVariables.setUserSession(null);
     }
 
+
+    public FormPrintService getFormPrintService() {
+        FormPrintService formPrintService = KcServiceLocator.getService(FormPrintService.class);
+        ((FormPrintServiceImpl) formPrintService).setS2SFormGeneratorService(new S2SFormGeneratorRetrievalService() {
+            @Override
+            public S2SFormGenerator getS2SGenerator(String proposalNumber, String nameSpace) throws S2SException {
+                return generatorObject;
+            }
+
+            @Override
+            public XmlOptions getXmlOptionsPrefixes() {
+                return KcServiceLocator.getService(S2SFormGeneratorRetrievalService.class).getXmlOptionsPrefixes();
+            }
+        });
+
+        return formPrintService;
+    }
+
     protected abstract void prepareData(ProposalDevelopmentDocument document) throws Exception;
     protected abstract String getFormGeneratorName();
 
@@ -69,13 +101,41 @@ public abstract class S2STestBase<T> extends KcIntegrationTestBase {
         ProposalDevelopmentDocument document = initializeApp();
 
         prepareData(document);
+        prepareS2sData(document);
+
         document = saveDocument(document);
+
         ArrayList<AuditError> errors = new ArrayList<AuditError>();
         generatorObject.setAuditErrors(errors);
         generatorObject.setAttachments(new ArrayList<AttachmentData>());
         XmlObject object=generatorObject.getFormObject(document);
         getService(S2SValidatorService.class).validate(object, errors);
         for (AuditError auditError : errors) {
+            assertNull(auditError.getMessageKey()+":"+auditError.getErrorKey(),auditError.getErrorKey());
+        }
+    }
+
+    @Test
+    public void testPrintForm() throws Exception {
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
+        ProposalDevelopmentDocument document = initializeApp();
+
+        prepareData(document);
+        prepareS2sData(document);
+
+        document = saveDocument(document);
+
+        selectForm(document);
+
+        FormPrintService formPrintService = getFormPrintService();
+        FormPrintResult result = formPrintService.printForm(document);
+
+        Assert.assertNotNull(result.getFile());
+        Assert.assertTrue(ArrayUtils.isNotEmpty(result.getFile().getData()));
+        Assert.assertTrue(StringUtils.isNotBlank(result.getFile().getName()));
+        Assert.assertTrue(StringUtils.isNotBlank(result.getFile().getType()));
+
+        for (AuditError auditError : result.getErrors()) {
             assertNull(auditError.getMessageKey()+":"+auditError.getErrorKey(),auditError.getErrorKey());
         }
     }
@@ -139,5 +199,44 @@ public abstract class S2STestBase<T> extends KcIntegrationTestBase {
         document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentHeader().getDocumentNumber());
         assertNotNull(document.getDevelopmentProposal());
         return document;
+    }
+
+    protected void prepareS2sData(ProposalDevelopmentDocument document) {
+        S2sOpportunity opportunity = new S2sOpportunity();
+        opportunity.setDevelopmentProposal(document.getDevelopmentProposal());
+        opportunity.setProviderCode("1");
+        opportunity.setOpportunity("An opportunity");
+
+        List<S2sOppForms> forms = new ArrayList<>();
+
+        S2sOppForms form = new S2sOppForms();
+        form.setAvailable(true);
+
+        S2sOppForms.S2sOppFormsId id = new S2sOppForms.S2sOppFormsId();
+        id.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+        id.setOppNameSpace(findNamespace());
+        form.setS2sOppFormsId(id);
+
+        forms.add(form);
+
+        opportunity.setS2sOppForms(forms);
+
+        document.getDevelopmentProposal().setS2sOpportunity(opportunity);
+    }
+
+    protected String findNamespace() {
+        FormMappingService ms = KcServiceLocator.getService(FormMappingService.class);
+        for (FormMappingInfo info : ms.getBindings().values()) {
+            if (getFormGeneratorName().equals(info.getGeneratorName())) {
+                return info.getNameSpace();
+            }
+        }
+        return null;
+    }
+
+    protected void selectForm(ProposalDevelopmentDocument document) {
+        for (S2sOppForms form : document.getDevelopmentProposal().getS2sOppForms()) {
+            form.setSelectToPrint(true);
+        }
     }
 }

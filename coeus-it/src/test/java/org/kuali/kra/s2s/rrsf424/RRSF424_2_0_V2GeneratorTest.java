@@ -28,7 +28,23 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 public class RRSF424_2_0_V2GeneratorTest extends S2SModularBudgetTestBase<RRSF424_2_0_V2Generator>{
 
 	private BusinessObjectService businessObjectService = null;
-	
+
+    @Override
+    protected void prepareS2sData(ProposalDevelopmentDocument document) {
+        super.prepareS2sData(document);
+
+        S2sOpportunity s2sOpportunity = document.getDevelopmentProposal().getS2sOpportunity();
+        S2sSubmissionType s2sSubmissionType = new S2sSubmissionType();
+        s2sSubmissionType.setCode("1");
+        s2sSubmissionType.setDescription("Preapplication");
+        s2sOpportunity.setS2sSubmissionType(s2sSubmissionType);
+        S2sRevisionType s2sRevisionType = new S2sRevisionType();
+        s2sRevisionType.setCode("A");
+        s2sOpportunity.setS2sRevisionType(s2sRevisionType);
+        s2sOpportunity.setRevisionOtherDescription("revisionOtherDescription");
+        document.getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
+    }
+
 	@Override
 	protected void prepareData(ProposalDevelopmentDocument document)
 			throws Exception {
@@ -37,17 +53,6 @@ public class RRSF424_2_0_V2GeneratorTest extends S2SModularBudgetTestBase<RRSF42
 
 		DevelopmentProposal developmentProposal = document
 				.getDevelopmentProposal();
-
-		S2sOpportunity s2sOpportunity = new S2sOpportunity();
-		S2sSubmissionType s2sSubmissionType = new S2sSubmissionType();
-		s2sSubmissionType.setCode("1");
-		s2sSubmissionType.setDescription("Preapplication");
-		s2sOpportunity.setS2sSubmissionType(s2sSubmissionType);
-		S2sRevisionType s2sRevisionType = new S2sRevisionType();
-		s2sRevisionType.setCode("A");
-		s2sOpportunity.setS2sRevisionType(s2sRevisionType);
-		s2sOpportunity.setRevisionOtherDescription("revisionOtherDescription");
-		developmentProposal.setS2sOpportunity(s2sOpportunity);
 
 		ProposalType proposalType = new ProposalType();
 		proposalType.setDescription("New");
@@ -146,7 +151,8 @@ public class RRSF424_2_0_V2GeneratorTest extends S2SModularBudgetTestBase<RRSF42
 		}
 
 		ProposalPerson person = new ProposalPerson();
-		person.setProposalPersonRoleId("PI");
+		person.setProposalPersonNumber(1);
+        person.setProposalPersonRoleId("PI");
 		person.setFirstName("firstname");
 		person.setLastName("argLastName");
 		person.setMiddleName("argMiddleName");

@@ -305,10 +305,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     @OneToMany(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER")
-    private List<S2sOppForms> s2sOppForms;
-
-    @OneToMany(cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER")
     private List<S2sAppSubmission> s2sAppSubmission;
 
     @OneToMany(mappedBy="developmentProposal", cascade = { CascadeType.ALL })
@@ -342,16 +338,15 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @OneToMany(mappedBy="developmentProposal",orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<ProposalPersonBiography> propPersonBios;
 
+    @OneToMany(mappedBy="developmentProposal", orphanRemoval = true, cascade = { CascadeType.ALL })
+    private List<ProposalDevelopmentBudgetExt> budgets;
+
     @OneToOne(mappedBy = "developmentProposal", cascade = CascadeType.ALL)
     private S2sOpportunity s2sOpportunity;
 
     @OneToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = true, updatable = true)
     private ProposalDevelopmentDocument proposalDocument;
-
-    @OneToMany(mappedBy="developmentProposal", orphanRemoval = true, cascade = { CascadeType.ALL })
-    private List<ProposalDevelopmentBudgetExt> budgets;
-
 
 	@Transient
     private NsfCode nsfCodeBo;
@@ -543,7 +538,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         propPersonBios = new ArrayList<ProposalPersonBiography>();
         proposalYnqs = new ArrayList<ProposalYnq>();
         ynqGroupNames = new ArrayList<YnqGroupName>();
-        s2sOppForms = new ArrayList<S2sOppForms>();
         s2sAppSubmission = new ArrayList<S2sAppSubmission>();
         proposalChangedDataList = new ArrayList<ProposalChangedData>();
         s2sUserAttachedForms = new ArrayList<S2sUserAttachedForm>();
@@ -1209,10 +1203,9 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         S2sOpportunity opportunity = this.getS2sOpportunity();
         if (opportunity != null) {
             opportunities.add(opportunity);
-            s2sOppForms = opportunity.getS2sOppForms();
         }
-        if (s2sOppForms != null && s2sOppForms.size() > 0) {
-            managedLists.add(s2sOppForms);
+        if (opportunity != null && opportunity.getS2sOppForms() != null && opportunity.getS2sOppForms().size() > 0) {
+            managedLists.add(opportunity.getS2sOppForms());
         } else {
             managedLists.add(new ArrayList<S2sOppForms>());
         }
@@ -1685,21 +1678,20 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     }
 
     public List<S2sOppForms> getS2sOppForms() {
-        return s2sOppForms;
+        if (s2sOpportunity != null) {
+            return getS2sOpportunity().getS2sOppForms();
+        }
+        return null;
     }
 
     public List<S2sOppForms> getSelectedS2sOppForms() {
         List<S2sOppForms> aList = new ArrayList<S2sOppForms>();
-        for (S2sOppForms oppForm : s2sOppForms) {
+        for (S2sOppForms oppForm : getS2sOppForms()) {
             if (Boolean.TRUE.equals(oppForm.getSelectToPrint())) {
                 aList.add(oppForm);
             }
         }
         return aList;
-    }
-
-    public void setS2sOppForms(List<S2sOppForms> oppForms) {
-        s2sOppForms = oppForms;
     }
 
     public void setS2sOpportunity(S2sOpportunity s2sOpportunity) {
@@ -1892,12 +1884,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
                 }
                 this.getProposalChangeHistory().get(proposalChangedData.getEditableColumn().getColumnLabel()).add(proposalChangedData);
             }
-        }
-    }
-
-    public void updateS2sOpportunity() {
-        if (s2sOpportunity != null && s2sOpportunity.getOpportunityId() == null) {
-            s2sOpportunity = null;
         }
     }
 

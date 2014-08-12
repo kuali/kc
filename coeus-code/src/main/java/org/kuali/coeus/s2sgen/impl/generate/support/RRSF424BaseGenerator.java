@@ -166,10 +166,7 @@ public abstract class RRSF424BaseGenerator extends CommonSF424BaseGenerator {
         S2sOpportunityContract opportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
         if (opportunity != null) {
             String submissionTypeCode = opportunity.getS2sSubmissionType().getCode();
-            String submissionTypeDescription = "";
-            if (opportunity.getS2sSubmissionType() != null) {
-                submissionTypeDescription = opportunity.getS2sSubmissionType().getDescription();
-            }
+            String submissionTypeDescription = opportunity.getS2sSubmissionType().getDescription();
             String revisionCode = opportunity.getS2sRevisionType().getCode();
             String revisionOtherDescription = opportunity.getRevisionOtherDescription();
 

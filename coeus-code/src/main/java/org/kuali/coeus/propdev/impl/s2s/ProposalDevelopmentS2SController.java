@@ -107,7 +107,6 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
                        }
                    });
                    s2sOpportunity.setS2sOppForms(s2sOppForms);
-                   proposal.setS2sOppForms(s2sOppForms);
                }else{
                    globalVariableService.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID, s2sOpportunity.getOpportunityId());
                    proposal.setS2sOpportunity(new S2sOpportunity());
@@ -120,7 +119,6 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
            globalVariableService.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
            proposal.setS2sOpportunity(new S2sOpportunity());
        }
-       proposal.setS2sOppForms(proposal.getS2sOpportunity().getS2sOppForms());
        super.save(form,result,request,response);
        return getRefreshControllerService().refresh(form);
    }
@@ -132,7 +130,6 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
        DevelopmentProposal proposal = document.getDevelopmentProposal();
        getLegacyDataAdapter().delete(proposal.getS2sOpportunity());
        proposal.setS2sOpportunity(null);
-       proposal.setS2sOppForms(new ArrayList<S2sOppForms>());
        //Reset Opportunity Title and Opportunity ID in the Sponsor & Program Information section
        proposal.setProgramAnnouncementTitle("");
        proposal.setProgramAnnouncementNumber("");

@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
@@ -93,7 +94,9 @@ public class PrintFormTest extends KcIntegrationTestBase {
         forms.getS2sOppFormsId().setOppNameSpace("http://apply.grants.gov/forms/RR_PerformanceSite-V1.0");
         List<S2sOppForms> oppForms = new ArrayList<S2sOppForms>();
         oppForms.add(forms);
-        document.getDevelopmentProposal().setS2sOppForms(oppForms);
+        S2sOpportunity opportunity = new S2sOpportunity();
+        opportunity.setS2sOppForms(oppForms);
+        document.getDevelopmentProposal().setS2sOpportunity(opportunity);
         FormPrintService printService = KcServiceLocator.getService(FormPrintService.class);
         printService.printForm(document);
     }

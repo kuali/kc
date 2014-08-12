@@ -27,7 +27,7 @@ public class S2sErrorServiceImpl implements S2sErrorService {
 
         final List<S2sError> errors = dataObjectService.findMatching(S2sError.class,
                 QueryByCriteria.Builder.andAttributes(Collections.singletonMap("key", key)).build()).getResults();
-        return errors.isEmpty() ? errors.get(0) : null;
+        return !errors.isEmpty() ? errors.get(0) : null;
     }
 
     public DataObjectService getDataObjectService() {

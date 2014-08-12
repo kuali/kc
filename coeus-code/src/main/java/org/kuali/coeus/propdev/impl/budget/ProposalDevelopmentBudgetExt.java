@@ -112,4 +112,10 @@ public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDeve
 	public void setSummaryBudget(Boolean summaryBudget) {
 		this.summaryBudget = summaryBudget;
 	}
+
+    //this is here due to a bug in org.kuali.rice.krad.util.ObjectUtils.getPropertyValue()
+    //where isSummaryBudget() is not recognized as a valid accessor
+    public Boolean getSummaryBudget() {
+        return isSummaryBudget();
+    }
 }
