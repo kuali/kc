@@ -282,7 +282,7 @@
         <property name="coiDisclosureService" ref="coiDisclosureService" />
     </bean>
 
-    <bean id="coiDisclosureTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
+    <bean id="coiDisclosureTaskAuthorizers" class="org.kuali.coeus.common.framework.auth.task.TaskAuthorizerGroup">
         <property name="groupName" value="coiDisclosure" />
         <property name="taskAuthorizers">
             <list>

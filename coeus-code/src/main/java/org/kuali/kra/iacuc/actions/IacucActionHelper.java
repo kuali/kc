@@ -32,7 +32,7 @@ import org.kuali.coeus.common.committee.impl.lookup.keyvalue.CommitteeIdByUnitVa
 import org.kuali.coeus.common.committee.impl.service.CommitteeScheduleServiceBase;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
-import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.iacuc.IacucProtocol;

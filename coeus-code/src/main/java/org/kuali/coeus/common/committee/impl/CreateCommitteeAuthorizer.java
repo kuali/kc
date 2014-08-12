@@ -15,8 +15,8 @@
  */
 package org.kuali.coeus.common.committee.impl;
 
-import org.kuali.coeus.sys.framework.auth.task.Task;
-import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
+import org.kuali.coeus.common.framework.auth.task.Task;
+import org.kuali.coeus.common.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 

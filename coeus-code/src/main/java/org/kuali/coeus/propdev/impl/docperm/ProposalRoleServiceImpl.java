@@ -16,7 +16,7 @@
 package org.kuali.coeus.propdev.impl.docperm;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.type.KimType;

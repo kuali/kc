@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.sys.framework.auth;
+package org.kuali.coeus.common.framework.auth;
 
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.type.KimType;

@@ -19,9 +19,9 @@ import org.kuali.coeus.common.framework.auth.KcKradTransactionalDocumentAuthoriz
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
-import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
-import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
-import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;

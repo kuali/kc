@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.onlinereview.authorization;
 
-import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
-import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
-import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.TaskName;

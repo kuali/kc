@@ -28,7 +28,6 @@
 
     <bean id="grlImporter" abstract="true" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
 
-    <bean id="unitAuthorizationService" parent="grlImporter" p:serviceName="unitAuthorizationService" />
     <bean id="protocolFinderDao" parent="grlImporter" p:serviceName="protocolFinderDao" />
     <bean id="iacucProtocolFinderDao" parent="grlImporter" p:serviceName="iacucProtocolFinderDao" />
     <bean id="awardBudgetService" parent="grlImporter" p:serviceName="awardBudgetService" />

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.coi.auth;
 
-import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.infrastructure.TaskGroupName;
 

@@ -10,9 +10,6 @@
     <bean id="kualiModuleService" parent="grlImporter" p:serviceName="kualiModuleService" />
     <bean id="parameterService" parent="grlImporter" p:serviceName="parameterService" />
     <bean id="dateTimeService" parent="grlImporter" p:serviceName="dateTimeService" />
-    <bean id="permissionService" parent="grlImporter" p:serviceName="kimPermissionService" />
-    <bean id="roleService" parent="grlImporter" p:serviceName="kimRoleService" />
-    <bean id="kimTypeInfoService" parent="grlImporter" p:serviceName="kimTypeInfoService" />
     <bean id="routeHeaderService" parent="grlImporter" p:serviceName="enDocumentRouteHeaderService" />
     <bean id="businessObjectService" parent="grlImporter" p:serviceName="businessObjectService" />
     <bean id="persistenceStructureServiceOjb" parent="grlImporter" p:serviceName="persistenceStructureServiceOjb" />

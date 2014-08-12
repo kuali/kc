@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.auth;
 
-import org.kuali.coeus.sys.framework.auth.task.GenericTaskAuthorizer;
+import org.kuali.coeus.common.framework.auth.task.GenericTaskAuthorizer;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 

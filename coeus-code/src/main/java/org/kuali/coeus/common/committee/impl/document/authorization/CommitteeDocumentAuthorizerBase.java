@@ -17,8 +17,8 @@ package org.kuali.coeus.common.committee.impl.document.authorization;
 
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.common.committee.impl.document.CommitteeDocumentBase;
-import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
-import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;

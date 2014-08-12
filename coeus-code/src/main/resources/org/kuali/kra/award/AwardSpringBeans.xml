@@ -826,7 +826,7 @@
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
     </bean>
 
-    <bean id="awardTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
+    <bean id="awardTaskAuthorizers" class="org.kuali.coeus.common.framework.auth.task.TaskAuthorizerGroup">
         <property name="groupName" value="award" />
         <property name="taskAuthorizers">
             <list>
@@ -858,7 +858,7 @@
          </property>
      </bean>
      
-    <bean id="awardBudgetsWebAuthorizer" class="org.kuali.coeus.sys.framework.auth.task.WebAuthorizer">
+    <bean id="awardBudgetsWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
         <property name="classname" value="org.kuali.kra.award.web.struts.action.AwardBudgetsAction" />
         <property name="mappings">
             <map>

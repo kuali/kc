@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.auth;
 
-import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 
 /**
  * This interface defines a document class to be load able with a unit access control list.

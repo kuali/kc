@@ -22,7 +22,7 @@ import org.kuali.coeus.common.committee.impl.meeting.*;
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.DayOfWeek;
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
-import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;

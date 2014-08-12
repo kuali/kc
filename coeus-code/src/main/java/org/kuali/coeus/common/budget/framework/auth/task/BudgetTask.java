@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.auth.task;
 
-import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 
 /**
