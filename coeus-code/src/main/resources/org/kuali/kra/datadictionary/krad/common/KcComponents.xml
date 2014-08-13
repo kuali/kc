@@ -43,8 +43,8 @@
               p:additionalSubmitData="displayResults:false" p:iconClass="icon-chevron-left" p:ajaxSubmit="false"
               p:render="@{displayResults}"/>
         <bean parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"
-              p:render="@{!renderedInLightBox and displayResults}"/>
-        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:render="@{renderedInLightBox}"
+              p:render="@{!renderedInDialog and displayResults}"/>
+        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:render="@{renderedInDialog}"
               p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
         <bean parent="Uif-SecondaryActionButton" p:methodToCall="clearValues" p:actionLabel="Clear Values"
               p:refreshId="uLookupCriteria" p:render="@{!displayResults}" p:ajaxSubmit="false"/>
