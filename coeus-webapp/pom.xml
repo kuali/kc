@@ -61,7 +61,7 @@
     <dependencies>
         <dependency>
             <groupId>org.kuali.coeus</groupId>
-            <artifactId>coeus-code</artifactId>
+            <artifactId>coeus-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

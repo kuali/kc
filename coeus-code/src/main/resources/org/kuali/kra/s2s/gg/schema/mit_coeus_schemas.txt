@@ -1,3 +1,0 @@
-AdditionalEquipmentAttachment.xsd
-ExtraKeyPersonAttachment.xsd
-PersonProfile.xsd

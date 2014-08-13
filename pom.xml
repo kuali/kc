@@ -34,10 +34,8 @@
     </prerequisites>
 
     <modules>
-        <module>coeus-api</module>
-        <module>coeus-code</module>
+        <module>coeus-impl</module>
         <module>coeus-db</module>
-        <module>coeus-form</module>
         <module>coeus-help</module>
         <module>coeus-it</module>
         <module>coeus-tool</module>
@@ -48,8 +46,10 @@
         <!--dependency versions-->
         <aopalliance.version>1.0</aopalliance.version>
         <avalon-framework.version>4.3.1</avalon-framework.version>
+        <bouncycastle.version>1.51</bouncycastle.version>
         <cas-client-core.version>3.2.1</cas-client-core.version>
         <cglib-nodep.version>2.2.2</cglib-nodep.version>
+        <coeus-s2sgen.version>6.0-SNAPSHOT</coeus-s2sgen.version>
         <commons-beanutils.version>1.8.3-kuali-4</commons-beanutils.version>
         <commons-codec.version>1.9</commons-codec.version>
         <commons-collections.version>3.2.1</commons-collections.version>
@@ -301,6 +301,7 @@
                                             <exclude>jdom</exclude>
                                             <exclude>groovy</exclude>
                                             <exclude>bouncycastle</exclude>
+                                            <exclude>org.bouncycastle</exclude>
                                             <exclude>org.opensymphony.quartz</exclude>
                                             <exclude>opensymphony:quartz</exclude>
                                             <exclude>javassist</exclude>
@@ -319,10 +320,6 @@
 
                                             <!-- already including cglib-nodep -->
                                             <exclude>cglib:cglib</exclude>
-                                            <!-- already including the jdk16 version -->
-                                            <exclude>org.bouncycastle:bcprov-jdk14</exclude>
-                                            <!-- already including the jdk16 version -->
-                                            <exclude>org.bouncycastle:bcprov-jdk15</exclude>
 
                                             <!-- excluding old jstl implementations which can cause hard-to-detect errors -->
                                             <exclude>taglibs:standard</exclude>
@@ -437,6 +434,9 @@
                                         </excludes>
 
                                         <includes>
+                                            <include>org.bouncycastle:bcprov-jdk15on:${bouncycastle.version}</include>
+                                            <include>org.bouncycastle:bcmail-jdk15on:${bouncycastle.version}</include>
+                                            <include>org.bouncycastle:bcpkix-jdk15on:${bouncycastle.version}</include>
                                             <include>org.slf4j:*:${slf4j.version}</include>
                                             <include>net.sf.ehcache:*:${ehcache.version}:jar:runtime</include>
                                             <include>com.sun.xml.bind:jaxb-impl:${jaxb-impl.version}</include>
@@ -599,6 +599,13 @@
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>xmlbeans-maven-plugin</artifactId>
                     <version>${xmlbeans-maven-plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.xmlbeans</groupId>
+                            <artifactId>xmlbeans</artifactId>
+                            <version>${xmlbeans.version}</version>
+                        </dependency>
+                    </dependencies>
                     <configuration>
                         <memoryInitialSize>512m</memoryInitialSize>
                         <memoryMaximumSize>1024m</memoryMaximumSize>
@@ -703,16 +710,24 @@
                 <version>${itext.version}</version>
                 <exclusions>
                     <exclusion>
-                        <artifactId>bcprov-jdk14</artifactId>
-                        <groupId>bouncycastle</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>bcmail-jdk14</artifactId>
-                        <groupId>bouncycastle</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>bcprov-jdk14</artifactId>
                         <groupId>org.bouncycastle</groupId>
+                        <artifactId>bcprov-jdk14</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.bouncycastle</groupId>
+                        <artifactId>bcmail-jdk14</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.bouncycastle</groupId>
+                        <artifactId>bctsp-jdk14</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>bouncycastle</groupId>
+                        <artifactId>bcprov-jdk14</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>bouncycastle</groupId>
+                        <artifactId>bcmail-jdk14</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -1150,6 +1165,24 @@
             </dependency>
 
             <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15on</artifactId>
+                <version>${bouncycastle.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcmail-jdk15on</artifactId>
+                <version>${bouncycastle.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcpkix-jdk15on</artifactId>
+                <version>${bouncycastle.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.codehaus.jackson</groupId>
                 <artifactId>jackson-mapper-asl</artifactId>
                 <version>${jackson.version}</version>
@@ -1436,6 +1469,25 @@
             </dependency>
 
             <dependency>
+                <groupId>org.kuali.coeus</groupId>
+                <artifactId>coeus-api-all</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.coeus</groupId>
+                <artifactId>coeus-s2sgen-api</artifactId>
+                <version>${coeus-s2sgen.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.coeus</groupId>
+                <artifactId>coeus-s2sgen-impl</artifactId>
+                <version>${coeus-s2sgen.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>org.kuali.commons</groupId>
                 <artifactId>commons-beanutils</artifactId>
                 <version>${commons-beanutils.version}</version>
@@ -1526,6 +1578,10 @@
                 <artifactId>rice-impl</artifactId>
                 <version>${rice.version}</version>
                 <exclusions>
+                    <exclusion>
+                        <groupId>org.bouncycastle</groupId>
+                        <artifactId>bcprov-jdk16</artifactId>
+                    </exclusion>
                     <exclusion>
                         <groupId>javax.servlet</groupId>
                         <artifactId>servlet-api</artifactId>
