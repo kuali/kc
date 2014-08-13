@@ -71,7 +71,10 @@
 			</tr>
 		</table>
 		<c:if test="${auditActivated}">
-			<c:set var="categories" value="${empty categories ? 'Validation Errors,Warnings' : categories}" />
+			<c:set var="AUDIT_ERRORS" value="<%=org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS%>" />
+			<c:set var="AUDIT_WARNINGS" value="<%=org.kuali.kra.infrastructure.Constants.AUDIT_WARNINGS%>" />
+			<c:set var="defaultCategories" value="${AUDIT_ERRORS},${AUDIT_WARNINGS}"/>
+			<c:set var="categories" value="${empty categories ? defaultCategories : categories}" />
 			<table cellpadding="0" cellspacing="0" summary="">
 			<c:forEach items="${categories}" var="category">
 				<kul:auditSet category="${category}" />

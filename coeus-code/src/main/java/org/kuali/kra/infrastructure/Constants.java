@@ -129,7 +129,7 @@ public interface Constants {
     public static final String AUDIT_ERRORS = "Error";
     public static final String AUDIT_WARNINGS = "Warnings";
     public static final String GRANTSGOV_ERRORS= "Grants.Gov Errors";
-    public static final String KNS_AUDIT_ERRORS = "Validation Errors";
+    public static final String KNS_AUDIT_ERRORS = AUDIT_ERRORS;
     
     public static final String CURRENT_PENDING_REPORT_GROUP_NAME = "CURRENT_PENDING_REPORT_GROUP_NAME";
     //public static final String PROPOSAL_ACTIONS_PAGE = "proposalActions";

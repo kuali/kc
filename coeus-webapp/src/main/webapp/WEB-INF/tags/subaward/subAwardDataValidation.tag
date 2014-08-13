@@ -15,9 +15,9 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-
-
-<kra:dataValidation auditActivated="${KualiForm.auditActivated}" categories="Validation Errors,Warnings" topTab="true">
+<c:set var="AUDIT_ERRORS" value="<%=org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS%>" />
+<c:set var="AUDIT_WARNINGS" value="<%=org.kuali.kra.infrastructure.Constants.AUDIT_WARNINGS%>" />
+<kra:dataValidation auditActivated="${KualiForm.auditActivated}" categories="${AUDIT_ERRORS},${AUDIT_WARNINGS}" topTab="true">
                     <p>You can activate a Validation check to determine any errors or incomplete information. The following Validations types will be determined:</p>
                     <ul>
                       <li>errors that prevent submission into routing</li>
