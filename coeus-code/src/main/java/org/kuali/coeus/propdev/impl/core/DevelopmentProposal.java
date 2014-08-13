@@ -1681,7 +1681,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         if (s2sOpportunity != null) {
             return getS2sOpportunity().getS2sOppForms();
         }
-        return null;
+        return Collections.EMPTY_LIST;
     }
 
     public List<S2sOppForms> getSelectedS2sOppForms() {
