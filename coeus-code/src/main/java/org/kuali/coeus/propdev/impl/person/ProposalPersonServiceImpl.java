@@ -21,7 +21,8 @@ import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.krad.data.DataObjectService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,8 +38,8 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
     private static final Integer UNIT_HEIRARCHY_NODE = 3;
     
     @Autowired
-    @Qualifier("businessObjectService")
-    private BusinessObjectService businessObjectService;
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
     @Autowired
     @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
@@ -46,11 +47,12 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
     @Qualifier("unitService")
     private UnitService unitService;
 
-    protected BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
+    protected DataObjectService getDataObjectService() {
+        return dataObjectService;
     }
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
     
     /**
@@ -73,10 +75,8 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
     public String getPersonName(ProposalDevelopmentDocument doc, String userId) {
         String propPersonName = null;
         List<ProposalPerson> proposalPersons = doc.getDevelopmentProposal().getProposalPersons();
-        if(proposalPersons.isEmpty()){
-            Map<String,String> queryMap = new HashMap<String,String>();
-            queryMap.put("proposalNumber", doc.getDevelopmentProposal().getProposalNumber());
-            proposalPersons = (List)getBusinessObjectService().findMatching(ProposalPerson.class, queryMap);
+        if(proposalPersons.isEmpty()) {
+            proposalPersons = getProposalKeyPersonnel(doc.getDevelopmentProposal().getProposalNumber());
         }
         for (ProposalPerson proposalPerson : proposalPersons) {
             if(StringUtils.equals(proposalPerson.getPersonId(), userId)){
@@ -93,9 +93,11 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
     
     public List<ProposalPerson> getProposalKeyPersonnel(String proposalNumber) {
         Map<String, String> keys = new HashMap<String, String>();
-        keys.put("proposalNumber", proposalNumber.toString());
-          
-        return (List<ProposalPerson>) getBusinessObjectService().findMatching(ProposalPerson.class, keys);
+        keys.put("developmentProposal.proposalNumber", proposalNumber);
+
+        final List<ProposalPerson> persons = dataObjectService.findMatching(ProposalPerson.class,
+                QueryByCriteria.Builder.andAttributes(keys).build()).getResults();
+        return persons;
     }
     
     /**
