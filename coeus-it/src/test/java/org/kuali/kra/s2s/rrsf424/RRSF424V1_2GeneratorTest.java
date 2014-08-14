@@ -52,6 +52,7 @@ public class RRSF424V1_2GeneratorTest extends
 		businessObjectService = KcServiceLocator
 				.getService(BusinessObjectService.class);
 
+		prepareS2sData(document);
 		DevelopmentProposal developmentProposal = document
 				.getDevelopmentProposal();
 
