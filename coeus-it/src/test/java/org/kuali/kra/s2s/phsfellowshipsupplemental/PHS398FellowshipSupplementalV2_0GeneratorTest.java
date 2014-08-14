@@ -22,6 +22,8 @@ import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
+import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
+import org.kuali.coeus.propdev.impl.s2s.S2sOppForms.S2sOppFormsId;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.s2sgen.impl.generate.support.PHS398FellowshipSupplementalV2_0Generator;
@@ -47,12 +49,23 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 
         S2sOpportunity s2sOpportunity = document.getDevelopmentProposal().getS2sOpportunity();
         s2sOpportunity.setOpportunityId("PA-C-R01");
+        List<S2sOppForms> S2sOppFormsList = new ArrayList<S2sOppForms>();
+		S2sOppForms s2sOppForms = new S2sOppForms();
+		S2sOppFormsId s2sOppFormsId = new S2sOppFormsId();
+		s2sOppFormsId.setOppNameSpace("http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_2_0-V2.0");
+		s2sOppForms.setFormName("PHS_Fellowship_Supplemental_2_0");
+		s2sOppForms.setS2sOppFormsId(s2sOppFormsId);		
+		s2sOppForms.getS2sOppFormsId().setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+		S2sOppFormsList.add(s2sOppForms);
+		s2sOpportunity.setS2sOppForms(S2sOppFormsList);
+		document.getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
     }
 
 	@Override
 	protected void prepareData(ProposalDevelopmentDocument document)
 			throws Exception {
-
+		
+		prepareS2sData(document);
 		List<ProposalPerson> proposalPersons = new ArrayList<ProposalPerson>();
 		ProposalPerson principalInvestigator = new ProposalPerson();
 		principalInvestigator.setFirstName("ALAN");
