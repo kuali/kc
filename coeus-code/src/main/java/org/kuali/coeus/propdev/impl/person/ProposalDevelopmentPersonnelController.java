@@ -24,11 +24,13 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl;
+import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.kra.infrastructure.PersonTypeConstants;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,14 +39,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Controller
@@ -154,6 +154,27 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         ModelAndView retVal = super.save(form, result, request, response);
         getKeyPersonnelService().populateDocument(form.getProposalDevelopmentDocument());
         return retVal;
+    }
+
+
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=deleteLine", "pageId=PropDev-PersonnelPage"})
+    public ModelAndView deletePerson(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
+        @RequestParam("actionParameters[" + UifParameters.SELECTED_COLLECTION_PATH + "]") String selectedCollectionPath,
+        @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine) throws Exception {
+        if (selectedCollectionPath.equals("document.developmentProposal.proposalPersons")) {
+            Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
+            Object deleteLine = ((List<Object>) collection).get(Integer.parseInt(selectedLine));String personId = ((ProposalPerson)deleteLine).getPersonId();
+
+            List<ProposalPersonBiography> tmpBios= new ArrayList<ProposalPersonBiography>();
+            for (ProposalPersonBiography biography : form.getDevelopmentProposal().getPropPersonBios()) {
+                if (!biography.getPersonId().equals(personId)) {
+                    tmpBios.add(biography);
+                }
+            }
+            form.getDevelopmentProposal().setPropPersonBios(tmpBios);
+        }
+
+        return getCollectionControllerService().deleteLine(form);
     }
 
    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=clearAnswers")
