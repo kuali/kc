@@ -29,7 +29,7 @@
 	</bean>
 
 	<bean id="PropDev-BudgetPage-Collection" parent="PropDev-BudgetPage-Collection-parentBean"/>
-	<bean id="PropDev-BudgetPage-Collection-parentBean" abstract="true" parent="PropDev-BudgetPage-GenericCollection"
+	<bean id="PropDev-BudgetPage-Collection-parentBean" abstract="true" parent="PropDev-BudgetVersions-GenericCollection"
 		p:propertyName="document.developmentProposal.budgets">
 		<property name="layoutManager.conditionalRowCssClasses">
             <map>
@@ -37,10 +37,17 @@
             </map>
         </property>
 		<property name="lineActions">
-			<list merge="true">        
-        		<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Submit with Proposal" 
-					p:methodToCall="markForSubmission" p:additionalSubmitData="budgetId:@{#line.budgetId}" 
-					p:iconClass="icon-ok" p:order="40"/>
+			<list>
+				<bean parent="PropDev-BudgetVersions-GenericActions" p:order="10">
+					<property name="listPrototype.items">
+						<list merge="true">
+							<bean parent="Uif-MenuDivider" p:order="40"/>
+			        		<bean parent="Uif-ActionLink" p:actionLabel="Submit with Proposal" 
+								p:methodToCall="markForSubmission" p:additionalSubmitData="budgetId:@{#line.budgetId}"
+								p:iconClass="icon-ok" p:order="50"/>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>

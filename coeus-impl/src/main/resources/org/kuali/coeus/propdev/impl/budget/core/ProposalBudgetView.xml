@@ -266,7 +266,7 @@
 	</bean>
 	
 	<bean id="PropBudget-BudgetVersions-Collection" parent="PropBudget-BudgetVersions-Collection-parentBean"/>
-	<bean id="PropBudget-BudgetVersions-Collection-parentBean" abstract="true" parent="PropDev-BudgetPage-GenericCollection"
+	<bean id="PropBudget-BudgetVersions-Collection-parentBean" abstract="true" parent="PropDev-BudgetVersions-GenericCollection"
 		p:propertyName="budget.budgetParent.budgets" p:headerText="">
 		<property name="layoutManager.conditionalRowCssClasses">
            <map>

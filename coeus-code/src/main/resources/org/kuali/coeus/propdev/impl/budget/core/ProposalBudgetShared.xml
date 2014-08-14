@@ -12,8 +12,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="PropDev-BudgetPage-GenericCollection" parent="PropDev-BudgetPage-GenericCollection-parentBean" />
-	<bean id="PropDev-BudgetPage-GenericCollection-parentBean"
+	<bean id="PropDev-BudgetVersions-GenericCollection" parent="PropDev-BudgetVersions-GenericCollection-parentBean" />
+	<bean id="PropDev-BudgetVersions-GenericCollection-parentBean"
 		parent="Uif-TableCollectionSection" p:title="Budget"
 		p:headerText="Budgets" 
 		p:collectionObjectClass="org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt"
@@ -40,10 +40,7 @@
 		</property>
 		<property name="lineActions">
 			<list>
-				<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="View Summary" p:iconClass="icon-eye-open" p:order="10"/>
-				<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Copy" p:iconClass="icon-copy" 
-					p:actionScript="showDialog('PropDev-BudgetPage-CopyBudgetDialog', {showHandler: function(e) {Kc.PropDev.Budget.copyBudget(@{#line.budgetId}, e)}})" p:order="20"/>
-				<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Print" p:iconClass="icon-print" p:order="30"/>
+				<bean parent="PropDev-BudgetVersions-GenericActions" p:order="10"/>
 			</list>
 		</property>
 		<property name="header.rightGroup">
@@ -76,7 +73,19 @@
 				<entry key="bInfo" value="false" />
 			</map>
 		</property>
-	</bean>	
+	</bean>
+	
+	<bean id="PropDev-BudgetVersions-GenericActions" parent="PropDev-BudgetVersions-GenericActions-parentBean"/>
+	<bean id="PropDev-BudgetVersions-GenericActions-parentBean" abstract="true" parent="Kc-Dropdown-Button">
+		<property name="listPrototype.items">
+			<list>
+				<bean parent="Uif-ActionLink" p:actionLabel="View Summary" p:iconClass="icon-eye-open" p:order="10"/>
+				<bean parent="Uif-ActionLink" p:actionLabel="Copy" p:iconClass="icon-copy" 
+					p:actionScript="showDialog('PropDev-BudgetPage-CopyBudgetDialog', {showHandler: function(e) {Kc.PropDev.Budget.copyBudget(@{#line.budgetId}, e)}})" p:order="20"/>
+				<bean parent="Uif-ActionLink" p:actionLabel="Print" p:iconClass="icon-print" p:order="30"/>
+			</list>
+		</property>
+	</bean>
 	
 	<bean id="PropDev-BudgetPage-AddBudgetDialog" parent="PropDev-BudgetPage-AddBudgetDialog-parentBean"/>
 	<bean id="PropDev-BudgetPage-AddBudgetDialog-parentBean" abstract="true" parent="Uif-DialogGroup" p:dialogCssClass="">
