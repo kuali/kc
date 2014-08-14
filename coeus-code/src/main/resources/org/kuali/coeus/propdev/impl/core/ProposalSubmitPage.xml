@@ -53,6 +53,8 @@
 					      <bean parent="Uif-MenuAction" p:actionLabel="Resend notifications" p:order="10"  />		 
 					      <bean parent="Uif-MenuAction" p:actionLabel="Reload proposal"  p:methodToCall="reload" p:order="20" />					 
 					      <bean parent="Uif-MenuAction" p:actionLabel="Cancel proposal" p:methodToCall="cancelProposal" p:order="30" />
+					      <bean parent="Uif-MenuAction" p:actionLabel="Blanket Approve" p:methodToCall="blanketApprove" p:order="50" 
+					      		p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
 						  <bean parent="Uif-MenuDivider"/>
 					       <bean parent="Uif-MenuAction" p:actionLabel="Delete Proposal" p:methodToCall="deleteProposal" p:order="40"/>
 					    </list>

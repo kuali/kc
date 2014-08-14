@@ -1,11 +1,16 @@
 package org.kuali.coeus.propdev.impl.core;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
-import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DialogResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +29,10 @@ public class ProposalDevelopmentSubmitController extends
     @Autowired
     @Qualifier("auditHelper")
     private AuditHelper auditHelper;
+    
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
 
 
     @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=deleteProposal")
@@ -45,17 +54,13 @@ public class ProposalDevelopmentSubmitController extends
 	}
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=submitForReview")
     public  ModelAndView submitForReview(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)throws Exception {
-        form.setAuditActivated(true);
-
-        AuditHelper.ValidationState state = getAuditHelper().isValidSubmission(form, true);
-        if (state != AuditHelper.ValidationState.ERROR){
-        	form.getDevelopmentProposal().setSubmitFlag(true);
-    		return getTransactionalDocumentControllerService().route(form);
-    	}else{
-    		GlobalVariables.getMessageMap().clearErrorMessages();
-            form.setDataValidationItems(((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateDataValidation(form,form.getView().getViewIndex()));
-    		return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
-    	}
+        
+ 	   if(proposalValidToSubmit(form)) {
+ 		  return getTransactionalDocumentControllerService().route(form);
+	   }
+	   else {
+		   return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
+	   }
    } 
    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=cancelProposal")
     public ModelAndView cancelProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
@@ -78,4 +83,42 @@ public class ProposalDevelopmentSubmitController extends
     public void setAuditHelper(AuditHelper auditHelper) {
         this.auditHelper = auditHelper;
     }
+   
+   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=blanketApprove")
+   public  ModelAndView blanketApprove(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
+       
+	   if(proposalValidToSubmit(form)) {
+		   return getTransactionalDocumentControllerService().blanketApprove(form);
+	   }
+	   else {
+		   return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
+	   }
+   	}
+  
+  boolean proposalValidToSubmit(ProposalDevelopmentDocumentForm form) {
+	  boolean isValid = true;
+	  form.setAuditActivated(true);
+	  List<ProposalDevelopmentDataValidationItem> dataValidationItems = ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService())
+			  															.populateDataValidation(form,form.getView().getViewIndex());
+	  if(dataValidationItems != null && dataValidationItems.size() > 0 ) {
+		  for(ProposalDevelopmentDataValidationItem validationItem : dataValidationItems) {
+			  if (StringUtils.equalsIgnoreCase(validationItem.getSeverity(), Constants.AUDIT_ERRORS)) {
+				  isValid = false;
+				  form.setDataValidationItems(dataValidationItems);
+	              break;
+	          }
+		  }
+	  }
+	  getGlobalVariableService().getMessageMap().clearErrorMessages();
+      return isValid;
+  }
+   
+  public GlobalVariableService getGlobalVariableService() {
+      return globalVariableService;
+  }
+
+  public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+      this.globalVariableService = globalVariableService;
+  }
+   
 }
