@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.person.AddProjectPersonnelHelper;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.ToggleMenu;
@@ -20,6 +21,8 @@ public class ProposalBudgetForm extends UifFormBase {
 	private String defaultBudgetPeriodWarningMessage;
     private Map<String,List<String>> editableBudgetLineItems;
     private AddProjectPersonnelHelper addProjectPersonnelHelper;
+    private AddBudgetDto addBudgetDto;
+    private AddBudgetDto copyBudgetDto;
 
     public void initialize() {
     	editableBudgetLineItems = new HashMap<String,List<String>>();
@@ -31,6 +34,10 @@ public class ProposalBudgetForm extends UifFormBase {
 	}
 	public void setBudget(ProposalDevelopmentBudgetExt budget) {
 		this.budget = budget;
+	}
+	
+	public DevelopmentProposal getDevelopmentProposal() {
+		return getBudget().getDevelopmentProposal();
 	}
 
 	public List<Action> getOrderedNavigationActions() {
@@ -86,6 +93,22 @@ public class ProposalBudgetForm extends UifFormBase {
 	public void setAddProjectPersonnelHelper(
 			AddProjectPersonnelHelper addProjectPersonnelHelper) {
 		this.addProjectPersonnelHelper = addProjectPersonnelHelper;
+	}
+
+	public AddBudgetDto getAddBudgetDto() {
+		return addBudgetDto;
+	}
+
+	public void setAddBudgetDto(AddBudgetDto addBudgetDto) {
+		this.addBudgetDto = addBudgetDto;
+	}
+
+	public AddBudgetDto getCopyBudgetDto() {
+		return copyBudgetDto;
+	}
+
+	public void setCopyBudgetDto(AddBudgetDto copyBudgetDto) {
+		this.copyBudgetDto = copyBudgetDto;
 	}
     
 

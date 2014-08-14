@@ -23,12 +23,13 @@
 		p:unifiedHeader="false" p:defaultBindingObjectPath="">
 		<property name="additionalScriptFiles">
 			<list>
-
+				<value>scripts/propdev/budget.js</value>
 			</list>
 		</property>
 		<property name="additionalCssFiles">
 			<list>
 				<value>css/common/core.css</value>
+				<value>css/propdev/budget.css</value>
 			</list>
 		</property>
 		<property name="header" ref="PropBudget-DocumentHeader" />
@@ -188,7 +189,7 @@
 							p:actionLabel="Budget Settings" p:iconClass="icon-cog" p:order="20" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Summary"
 							p:iconClass="ucon-eye" p:order="30" />
-						<bean parent="Uif-ActionLink" p:actionLabel="Budget Versions"
+						<bean parent="Uif-ActionLink" p:actionLabel="Budget Versions" p:actionScript="showDialog('PropBudget-BudgetVersions-Dialog');"
 							p:iconClass="icon-money" p:order="40" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Autocalculate Periods" p:methodToCall="generateAllPeriods"
 							p:iconClass="icon-stack" p:order="50" />
@@ -248,4 +249,30 @@
 			<null />
 		</property>
 	</bean>
+	
+	<bean id="PropBudget-BudgetVersions-Dialog" parent="PropBudget-BudgetVersions-Dialog-parentBean"/>
+	<bean id="PropBudget-BudgetVersions-Dialog-parentBean" abstract="true" parent="Uif-DialogGroup"
+		p:dialogCssClass="modal-lg" p:headerText="Budgets">
+		<property name="items">
+			<list>
+				<bean parent="PropBudget-BudgetVersions-Collection" p:order="10"/>
+			</list>
+		</property>
+		<property name="footer.items">
+			<list>
+				<bean parent="Uif-DialogDismissButton" p:actionLabel="Okay"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PropBudget-BudgetVersions-Collection" parent="PropBudget-BudgetVersions-Collection-parentBean"/>
+	<bean id="PropBudget-BudgetVersions-Collection-parentBean" abstract="true" parent="PropDev-BudgetPage-GenericCollection"
+		p:propertyName="budget.budgetParent.budgets" p:headerText="">
+		<property name="layoutManager.conditionalRowCssClasses">
+           <map>
+               <entry key="@{#line.budgetId == developmentProposal.finalBudget?.budgetId}" value="finalBudget"/>
+           </map>
+		</property>
+	</bean>
+		
 </beans>

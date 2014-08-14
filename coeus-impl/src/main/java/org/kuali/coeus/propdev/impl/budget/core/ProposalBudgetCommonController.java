@@ -2,7 +2,9 @@ package org.kuali.coeus.propdev.impl.budget.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -81,6 +83,40 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		return super.navigate(form);
 	}
+	
+	@MethodAccessible
+    @RequestMapping(params="methodToCall=addBudget")
+    public ModelAndView addBudget(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		Map<String, Object> options = new HashMap<String, Object>();
+		options.put("modularBudgetFlag", form.getAddBudgetDto().getModularBudget() != null ? form.getAddBudgetDto().getModularBudget() : Boolean.FALSE);
+		options.put("summaryBudget", form.getAddBudgetDto().getSummaryBudget() != null ? form.getAddBudgetDto().getSummaryBudget() : Boolean.FALSE);
+        ProposalDevelopmentBudgetExt budget = (ProposalDevelopmentBudgetExt) getBudgetService().addBudgetVersion(form.getDevelopmentProposal().getProposalDocument(), form.getAddBudgetDto().getBudgetName(), options);
+        if (budget != null) {
+	        Properties props = new Properties();
+	        props.put("methodToCall", "initiate");
+	        props.put("budgetId", budget.getBudgetId().toString());
+	        return getModelAndViewService().performRedirect(form, "proposalBudget", props);
+        } else {
+        	return this.getModelAndViewService().getModelAndView(form);
+        }
+    }
+
+	@MethodAccessible
+    @RequestMapping(params="methodToCall=copyBudget")
+	public ModelAndView copyBudget(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		ProposalDevelopmentBudgetExt originalBudget = getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.forAttribute("budgetId", form.getCopyBudgetDto().getOriginalBudgetId()).build());
+		ProposalDevelopmentBudgetExt budget = (ProposalDevelopmentBudgetExt) getBudgetService().copyBudgetVersion(originalBudget, false);
+        if (budget != null) {
+        	budget.setName(form.getCopyBudgetDto().getBudgetName());
+        	budget = getDataObjectService().save(budget);
+	        Properties props = new Properties();
+	        props.put("methodToCall", "initiate");
+	        props.put("budgetId", budget.getBudgetId().toString());
+	        return getModelAndViewService().performRedirect(form, "proposalBudget", props);
+        } else {
+        	return this.getModelAndViewService().getModelAndView(form);
+        }		
+	}	
 
 	public void checkViewAuthorization(@ModelAttribute("KualiForm") ProposalBudgetForm form, String methodToCall) throws AuthorizationException {
         getTransactionalDocumentControllerService().checkViewAuthorization(form);
