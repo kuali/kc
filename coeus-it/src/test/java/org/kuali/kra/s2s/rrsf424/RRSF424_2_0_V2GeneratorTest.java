@@ -51,6 +51,7 @@ public class RRSF424_2_0_V2GeneratorTest extends S2SModularBudgetTestBase<RRSF42
 		businessObjectService = KcServiceLocator
 				.getService(BusinessObjectService.class);
 
+		prepareS2sData(document);
 		DevelopmentProposal developmentProposal = document
 				.getDevelopmentProposal();
 
