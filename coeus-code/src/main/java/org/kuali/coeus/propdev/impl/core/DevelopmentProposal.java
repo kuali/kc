@@ -869,7 +869,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     public void setMailingAddressId(Integer mailingAddressId) {
         this.mailingAddressId = mailingAddressId;
-        refreshRolodex();
     }
 
     @Override
@@ -1138,19 +1137,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     public void setPropSpecialReviews(List<ProposalSpecialReview> propSpecialReviews) {
         this.propSpecialReviews = propSpecialReviews;
-    }
-
-    /*
-     * Refreshes the rolodex from the mailingAddressId
-     */
-    protected void refreshRolodex() {
-        NonOrganizationalRolodex rolodex;
-        if (mailingAddressId != null) {
-            rolodex = (NonOrganizationalRolodex) getBusinessObjectService().findByPrimaryKey(NonOrganizationalRolodex.class, getIdentifierMap(ROLODEX_ID_FIELD_NAME, mailingAddressId));
-        } else {
-            rolodex = null;
-        }
-        setRolodex(rolodex);
     }
 
     /**

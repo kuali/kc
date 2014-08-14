@@ -69,15 +69,15 @@
 
 	<bean id="PropDev-DeliveryInfoPage-MailingAddressId" parent="PropDev-DeliveryInfoPage-MailingAddressId-parentBean" />
 	<bean id="PropDev-DeliveryInfoPage-MailingAddressId-parentBean"
-		abstract="true" parent="Uif-InputField" p:propertyName="rolodex.rolodexId"
-		p:label=" ">
+		abstract="true" parent="Uif-InputField" p:propertyName="mailingAddressId"
+		p:label=" " p:postInputCssClasses="">
 		<property name="control">
 			<bean parent="Uif-HiddenControl" />
 		</property>
 		<property name="quickfinder">
 			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.coeus.common.framework.rolodex.Rolodex"
 				p:hideCriteriaOnSearch="true"
-				p:fieldConversions="rolodexId:mailingAddressId,rolodexId:rolodex.rolodexId,fullName:rolodex.fullName,organization:rolodex.organization,addressLine1:rolodex.addressLine1,addressLine2:rolodex.addressLine2,addressLine3:rolodex.addressLine3,city:rolodex.city,state:rolodex.state,postalCode:rolodex.postalCode">
+				p:fieldConversions="rolodexId:mailingAddressId" p:returnByScript="false" p:referencesToRefresh="rolodex">
 				<property name="quickfinderAction">
 					<bean parent="Uif-ActionLink" p:methodToCall="performLookup"
 						p:actionLabel="Change" />
@@ -89,7 +89,7 @@
 	<bean id="PropDev-DeliveryInfoPage-MailingAddressDetails"
 		parent="PropDev-DeliveryInfoPage-MailingAddressDetails-parentBean" />
 	<bean id="PropDev-DeliveryInfoPage-MailingAddressDetails-parentBean"
-		abstract="true" parent="Uif-VerticalBoxGroup">
+		abstract="true" parent="Uif-VerticalBoxGroup" p:render="@{document.developmentProposal.mailingAddressId != null}">
 		<property name="items">
 			<list>
 				<bean parent="Uif-DataField" p:propertyName="rolodex.organization"

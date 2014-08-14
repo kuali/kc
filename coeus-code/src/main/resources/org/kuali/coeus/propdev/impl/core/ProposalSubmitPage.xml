@@ -104,7 +104,8 @@
                 <bean parent="Uif-MessageField" p:messageText="@{document.developmentProposal.ownedByUnitNumber} - @{document.developmentProposal.ownedByUnit.unitName}"
                       p:fieldLabel.labelText="Lead Unit" p:fieldLabel.renderColon="false"
                       p:order="30" />
-                <bean parent="PropDev-DataField-NoColon" p:propertyName="activityType.description"
+                <bean parent="Uif-MessageField" p:messageText="@{document.developmentProposal.activityType?.description}"
+                      p:fieldLabel.labelText="Activity Type"
                       p:order="40" />
                 <bean parent="PropDev-DataField-NoColon" p:propertyName="proposalNumber"
                       p:order="50" />
@@ -118,7 +119,7 @@
                       p:order="90"  />
                 <bean parent="PropDev-DataField-NoColon" p:propertyName="deadlineDate"
                       p:order="100" />
-                <bean parent="PropDev-DataField-NoColon" p:propertyName="deadlineTypeRef.description"
+                <bean parent="Uif-MessageField" p:messageText="@{document.developmentProposal.deadlineTypeRef?.description}"
                       p:fieldLabel.labelText="Sponsor Deadline Type"
                       p:order="110" />
             </list>
