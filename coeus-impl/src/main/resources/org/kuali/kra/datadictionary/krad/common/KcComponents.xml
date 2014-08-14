@@ -53,5 +53,17 @@
               p:render="@{!displayResults}" p:defaultEnterKeyAction="true" p:performClientSideValidation="true"/>
       </list>
     </property>
-  </bean>  
+  </bean>
+  
+  <bean id="Kc-Dropdown-Button" parent="Uif-HorizontalBoxGroup" 
+  	p:additionalCssClasses="btn-group" class="org.kuali.coeus.org.kuali.rice.krad.uif.container.DropdownButton" scope="prototype">
+  	<property name="buttonPrototype">
+  		<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Action" p:actionScript="return false;" 
+  		p:iconClass="caret" p:actionIconPlacement="RIGHT" p:dataAttributes="toggle:dropdown" p:additionalCssClasses="dropdown-toggle"/>
+  	</property>
+  	<property name="listPrototype">
+  		<bean parent="Uif-SimpleListGroup" p:layoutManager.libraryCssClasses="dropdown-menu">
+  		</bean>
+  	</property>
+  </bean>
 </beans>
