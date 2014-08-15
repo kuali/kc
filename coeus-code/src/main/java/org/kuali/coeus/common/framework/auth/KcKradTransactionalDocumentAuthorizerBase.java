@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.framework.auth;
 
-import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -594,7 +594,7 @@ public abstract class KcKradTransactionalDocumentAuthorizerBase extends Transact
      * @return
      */
     protected final TaskAuthorizationService getTaskAuthorizationService(){
-        return (TaskAuthorizationService) KcServiceLocator.getService(TaskAuthorizationService.class);
+        return KcServiceLocator.getService(TaskAuthorizationService.class);
     }
     
     @Override

@@ -1,6 +1,6 @@
 package org.kuali.kra.protocol;
 
-import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.kra.bo.RolePersons;
 
 import java.util.List;

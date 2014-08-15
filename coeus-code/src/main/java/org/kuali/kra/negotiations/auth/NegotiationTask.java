@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.negotiations.auth;
 
-import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 

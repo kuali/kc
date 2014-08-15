@@ -101,7 +101,7 @@
 		 
 <!-- committee authorizers -->    
    
-    <bean id="iacucCommitteeTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
+    <bean id="iacucCommitteeTaskAuthorizers" class="org.kuali.coeus.common.framework.auth.task.TaskAuthorizerGroup">
 		<property name="groupName" value="iacucCommittee" />
 		<property name="taskAuthorizers">
 			<list>

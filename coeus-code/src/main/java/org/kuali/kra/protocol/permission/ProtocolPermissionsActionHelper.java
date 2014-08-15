@@ -26,7 +26,7 @@ import org.kuali.coeus.common.permissions.impl.web.bean.User;
 import org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsActionHelperBase;
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsForm;
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase;
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolActionBase;

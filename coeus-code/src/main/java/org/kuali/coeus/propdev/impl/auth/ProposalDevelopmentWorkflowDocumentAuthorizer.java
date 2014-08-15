@@ -16,8 +16,8 @@
 package org.kuali.coeus.propdev.impl.auth;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.auth.KcWorkflowDocumentAuthorizerBase;
-import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
+import org.kuali.coeus.common.framework.auth.KcWorkflowDocumentAuthorizerBase;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public class

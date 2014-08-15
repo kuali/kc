@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.onlinereview.authorization;
 
-import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;

@@ -16,10 +16,9 @@
 package org.kuali.kra.protocol.auth;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
-import org.kuali.kra.protocol.auth.UnitAclLoadService;
+import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;

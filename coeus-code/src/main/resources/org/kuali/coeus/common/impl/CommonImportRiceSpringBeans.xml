@@ -62,5 +62,8 @@
     <bean id="krmsTypeRepositoryService" parent="grlImporter" p:serviceName="krmsTypeRepositoryService" />
     <bean id="krmsLocalCacheManager" parent="grlImporter" p:serviceName="krmsLocalCacheManager" />
     <bean id="legacyDataAdapter" parent="grlImporter" p:serviceName="legacyDataAdapter" />
+    <bean id="permissionService" parent="grlImporter" p:serviceName="kimPermissionService" />
+    <bean id="roleService" parent="grlImporter" p:serviceName="kimRoleService" />
+    <bean id="kimTypeInfoService" parent="grlImporter" p:serviceName="kimTypeInfoService" />
 
 </beans>

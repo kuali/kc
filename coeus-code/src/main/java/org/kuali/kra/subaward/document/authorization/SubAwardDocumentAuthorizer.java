@@ -18,8 +18,8 @@ package org.kuali.kra.subaward.document.authorization;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
-import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;

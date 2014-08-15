@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.sys.impl.auth.task;
+package org.kuali.coeus.common.impl.auth.task;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
-import org.kuali.coeus.sys.framework.auth.task.*;
+import org.kuali.coeus.common.framework.auth.task.*;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +56,7 @@ public class WebAuthorizationServiceImpl implements WebAuthorizationService, Ini
      * and the Task Authorization is invoked to determine if the user can perform the
      * task.
      * 
-     * @see org.kuali.coeus.sys.framework.auth.task.WebAuthorizationService#isAuthorized(java.lang.String, java.lang.Class, java.lang.String,
+     * @see org.kuali.coeus.common.framework.auth.task.WebAuthorizationService#isAuthorized(java.lang.String, java.lang.Class, java.lang.String,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
      */
     public boolean isAuthorized(String userId, Class actionClass, String methodName, ActionForm form, HttpServletRequest request) {

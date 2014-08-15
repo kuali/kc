@@ -16,8 +16,8 @@
 package org.kuali.kra.award.web.struts.authorization;
 
 import org.apache.struts.action.ActionForm;
-import org.kuali.coeus.sys.framework.auth.task.Task;
-import org.kuali.coeus.sys.framework.auth.task.WebTaskFactoryBase;
+import org.kuali.coeus.common.framework.auth.task.Task;
+import org.kuali.coeus.common.framework.auth.task.WebTaskFactoryBase;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.infrastructure.TaskGroupName;

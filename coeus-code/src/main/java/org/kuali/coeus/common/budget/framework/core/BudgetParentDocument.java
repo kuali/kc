@@ -15,8 +15,10 @@
  */
 package org.kuali.coeus.common.budget.framework.core;
 
-import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
-import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
+import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
@@ -51,6 +53,17 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTra
             }
         }
         return null;
+    }
+
+    public void updateDocumentDescriptions(List<BudgetDocumentVersion> budgetVersionOverviews) {
+        BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
+        for (BudgetDocumentVersion budgetDocumentVersion : budgetVersionOverviews) {
+            BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
+            if (budgetVersion.isDescriptionUpdatable() && !StringUtils.isBlank(budgetVersion.getDocumentDescription())) {
+                budgetService.updateDocumentDescription(budgetVersion);
+                budgetVersion.setDescriptionUpdatable(false);
+            }
+        }
     }
 
     /**

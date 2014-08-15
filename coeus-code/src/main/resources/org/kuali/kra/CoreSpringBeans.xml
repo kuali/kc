@@ -1447,11 +1447,11 @@
 
     <!-- Application Task Authorizers -->
     
-    <bean id="parentAuthorizer" abstract="true" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase">
+    <bean id="parentAuthorizer" abstract="true" class="org.kuali.coeus.common.framework.auth.task.TaskAuthorizerBase">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
     </bean>
     
-    <bean id="applicationTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup" lazy-init="true">
+    <bean id="applicationTaskAuthorizers" class="org.kuali.coeus.common.framework.auth.task.TaskAuthorizerGroup" lazy-init="true">
         <property name="groupName" value="application" />
         <property name="taskAuthorizers">
             <list>

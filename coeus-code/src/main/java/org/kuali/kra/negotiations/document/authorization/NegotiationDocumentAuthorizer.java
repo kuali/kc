@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.negotiations.document.authorization;
 
-import org.kuali.coeus.sys.framework.auth.KcTransactionalDocumentAuthorizerBase;
-import org.kuali.coeus.sys.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.negotiations.auth.NegotiationTask;
 import org.kuali.kra.negotiations.document.NegotiationDocument;

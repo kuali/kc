@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.sys.framework.auth.task;
+package org.kuali.coeus.common.framework.auth.task;
 
 /**
  * An Application Task is a task that is global to the application.

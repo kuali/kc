@@ -178,7 +178,7 @@
         <property name="protocolAmendRenewService" ref="protocolAmendRenewService" />
     </bean>
 	
-    <bean id="protocolTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
+    <bean id="protocolTaskAuthorizers" class="org.kuali.coeus.common.framework.auth.task.TaskAuthorizerGroup">
         <property name="groupName" value="protocol" />
         <property name="taskAuthorizers">
             <list>
@@ -613,7 +613,7 @@
     </bean>
   
 
-	<bean id="protocolOnlineReviewTaskAuthorizers" class="org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerGroup">
+	<bean id="protocolOnlineReviewTaskAuthorizers" class="org.kuali.coeus.common.framework.auth.task.TaskAuthorizerGroup">
 		<property name="groupName" value="protocolOnlineReview" />
 		<property name="taskAuthorizers">
 			<list>

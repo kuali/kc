@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.impl.rpt;
 
 import org.kuali.coeus.common.impl.rpt.cust.CustReportDetails;
-import org.kuali.coeus.sys.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;

@@ -1,7 +1,7 @@
 package org.kuali.kra.protocol;
 
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.sys.framework.auth.perm.Permissionable;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.infrastructure.RoleConstants;
 

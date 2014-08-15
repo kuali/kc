@@ -17,8 +17,8 @@ package org.kuali.coeus.propdev.impl.attachment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
-import org.kuali.coeus.sys.framework.auth.task.Task;
-import org.kuali.coeus.sys.framework.auth.task.WebTaskFactoryBase;
+import org.kuali.coeus.common.framework.auth.task.Task;
+import org.kuali.coeus.common.framework.auth.task.WebTaskFactoryBase;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.rice.krad.util.KRADConstants;
 

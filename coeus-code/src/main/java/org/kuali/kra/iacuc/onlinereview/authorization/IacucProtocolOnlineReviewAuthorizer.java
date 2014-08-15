@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.onlinereview.authorization;
 
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.sys.framework.auth.task.Task;
-import org.kuali.coeus.sys.framework.auth.task.TaskAuthorizerBase;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.task.Task;
+import org.kuali.coeus.common.framework.auth.task.TaskAuthorizerBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 
 public abstract class IacucProtocolOnlineReviewAuthorizer extends TaskAuthorizerBase {

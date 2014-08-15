@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.auth;
 
-import org.kuali.coeus.sys.framework.auth.task.Task;
+import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.kra.protocol.ProtocolBase;
 
 public abstract class ProtocolTaskBase extends Task {

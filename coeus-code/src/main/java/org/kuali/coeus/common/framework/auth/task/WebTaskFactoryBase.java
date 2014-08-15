@@ -13,24 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.sys.framework.auth.task;
+package org.kuali.coeus.common.framework.auth.task;
 
 /**
- * A Task Authorizer determines if a user can execute a specific task.
+ * Base implementation class for Test Factories.
  */
-public interface TaskAuthorizer {
+public abstract class WebTaskFactoryBase implements WebTaskFactory {
+
+    private String taskName;
+    
+    /**
+     * Set the name of the Task.  Injected by the Spring Framework.
+     * @param taskName the name of the task
+     */
+    public final void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
     
     /**
      * Get the name of the task.
      * @return the task's name
      */
-    public String getTaskName();
+    public final String getTaskName() {
+        return taskName;
+    }
     
     /**
-     * Is the user authorized to execute the given task?
-     * @param userId the user's unique username
-     * @param task the task
-     * @return true if the user is authorized; otherwise false
+     * Get the name of the task's group.
+     * @return the task's group name
      */
-    public boolean isAuthorized(String userId, Task task);
+    public abstract String getTaskGroupName();
+
 }
