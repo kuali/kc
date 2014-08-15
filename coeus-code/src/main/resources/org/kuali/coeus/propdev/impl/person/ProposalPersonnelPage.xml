@@ -187,7 +187,8 @@
 		p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
 		p:propertyName="results" p:additionalCssClasses="kc-personnel-table"
 		p:renderAddLine="false" p:renderLineActions="false"
-		p:layoutManager.renderSequenceField="false">
+		p:layoutManager.renderSequenceField="false"
+		p:renderInactiveToggleButton="false">
 		<property name="layoutManager.richTable.templateOptions">
 			<map>
 				<entry key="bAutoWidth" value="false" />
@@ -273,7 +274,8 @@
                                             @{#lp.keyPerson eq true ? ': ' + #lp.projectRole : '' })
 		                                        (@{#lp.questionnairesCompleted eq true ? 'Certification Completed' : 'Certification Incomplete'})"
 
-		p:renderAddLine="false">
+		p:renderAddLine="false"
+		p:renderInactiveToggleButton="false">
 		<property name="items">
 			<list>
 				<bean parent="Uif-FieldGroupBase" p:order="10">
