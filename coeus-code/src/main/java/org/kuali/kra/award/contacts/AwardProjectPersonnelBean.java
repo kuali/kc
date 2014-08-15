@@ -67,23 +67,29 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
             getAward().add(awardPerson);
             init();
             if(awardPerson.isPrincipalInvestigator()) {
-                awardPerson.getUnits().add(new AwardPersonUnit(awardPerson, getAward().getLeadUnit(), true));
+            	addPersonUnitToPerson(awardPerson, new AwardPersonUnit(awardPerson, getAward().getLeadUnit(), true));
             } else {
                 if(awardPerson.isEmployee() && !awardPerson.isKeyPerson()) {
                     // no reason to add null unit, it just confuses things...
                     if (awardPerson.getPerson().getUnit() != null) {
-                        awardPerson.getUnits().add(new AwardPersonUnit(awardPerson, awardPerson.getPerson().getUnit(), false));
+                    	addPersonUnitToPerson(awardPerson, new AwardPersonUnit(awardPerson, awardPerson.getPerson().getUnit(), false));
                     }
                 }
                 else {
                     if (!awardPerson.isEmployee()) {
-                        awardPerson.getUnits().add(new AwardPersonUnit(awardPerson,awardPerson.getRolodex().getUnit(),false));
+                    	addPersonUnitToPerson(awardPerson, new AwardPersonUnit(awardPerson,awardPerson.getRolodex().getUnit(),false));
                     }                    
                 }
             }
             return awardPerson;
         } else {
             return null;
+        }
+    }
+    
+    public void addPersonUnitToPerson(AwardPerson awardPerson, AwardPersonUnit newPersonUnit) {
+    	if (!awardPerson.getUnits().contains(newPersonUnit)) {
+        	awardPerson.getUnits().add(newPersonUnit);
         }
     }
 
