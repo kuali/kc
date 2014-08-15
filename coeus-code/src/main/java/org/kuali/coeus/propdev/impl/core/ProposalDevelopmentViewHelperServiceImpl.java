@@ -149,7 +149,14 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         	ProposalSpecialReview proposalSpecialReview = (ProposalSpecialReview) addLine;
         	proposalSpecialReview.setDevelopmentProposal(document.getDevelopmentProposal());
         } else if (addLine instanceof ProposalSite) {
-       	 	((ProposalSite) addLine).setLocationTypeCode(ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);        	
+            ProposalSite newProposalSite = (ProposalSite) addLine;
+            if (newProposalSite.getOrganizationId() != null){
+                ((ProposalSite) addLine).setLocationTypeCode(ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);
+            }
+            else if (newProposalSite.getRolodexId() != null){
+                ((ProposalSite) addLine).setLocationTypeCode(ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE);
+            }
+       	 	((ProposalSite) addLine).setDevelopmentProposal(document.getDevelopmentProposal());
         } else if (addLine instanceof CongressionalDistrict) {
        	 	CongressionalDistrict congressionalDistrict =(CongressionalDistrict) addLine;
        	 	((CongressionalDistrict) addLine).setCongressionalDistrict(congressionalDistrict.getNewState(), congressionalDistrict.getNewDistrictNumber());
@@ -176,21 +183,21 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         }
     }
     public void finalizeNavigationLinks(Action action, Object model, String direction) {
-   	 ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) model;
-   	 List<Action> actions = pdForm.getOrderedNavigationActions();
-   	 int indexOfCurrentAction = pdForm.findIndexOfPageId(actions);
-   	 if (StringUtils.equals(direction, ProposalDevelopmentConstants.KradConstants.PREVIOUS_PAGE_ARG)) {
-   		 action.setRender(indexOfCurrentAction > 0);
-   		 if (indexOfCurrentAction > 0) {
-   			 action.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, pdForm.getOrderedNavigationActions().get(indexOfCurrentAction-1).getNavigateToPageId());
-   		 }
-   	 } else if (StringUtils.equals(direction, ProposalDevelopmentConstants.KradConstants.NEXT_PAGE_ARG)) {
-   		 action.setRender(indexOfCurrentAction < actions.size());
-   		 if (indexOfCurrentAction < actions.size()) {
-   			 action.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, pdForm.getOrderedNavigationActions().get(indexOfCurrentAction+1).getNavigateToPageId());
-   		 }
-   	 }
-    }    
+     ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) model;
+     List<Action> actions = pdForm.getOrderedNavigationActions();
+     int indexOfCurrentAction = pdForm.findIndexOfPageId(actions);
+     if (StringUtils.equals(direction, ProposalDevelopmentConstants.KradConstants.PREVIOUS_PAGE_ARG)) {
+  		 action.setRender(indexOfCurrentAction > 0);
+  		 if (indexOfCurrentAction > 0) {
+  			 action.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, pdForm.getOrderedNavigationActions().get(indexOfCurrentAction-1).getNavigateToPageId());
+  		 }
+  	 } else if (StringUtils.equals(direction, ProposalDevelopmentConstants.KradConstants.NEXT_PAGE_ARG)) {
+  		 action.setRender(indexOfCurrentAction < actions.size());
+  		 if (indexOfCurrentAction < actions.size()) {
+  			 action.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, pdForm.getOrderedNavigationActions().get(indexOfCurrentAction+1).getNavigateToPageId());
+  		 }
+  	 }
+   }    
 
     public void setInvestigatorCreditTypes(Object model) {
         ((ProposalDevelopmentDocumentForm) model).getDevelopmentProposal().setInvestigatorCreditTypes(getKeyPersonnelService().getInvestigatorCreditTypes());

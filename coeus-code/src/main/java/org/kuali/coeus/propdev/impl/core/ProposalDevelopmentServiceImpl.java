@@ -176,6 +176,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
             // get Organzation assoc. w/ Lead Unit, set applicant org
             applicantOrganization = createProposalSite(applicantOrganizationId, getNextSiteNumber(proposalDevelopmentDocument));
+            applicantOrganization.setDevelopmentProposal(developmentProposal);
             developmentProposal.setApplicantOrganization(applicantOrganization);
         }
 
@@ -185,6 +186,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
                 && developmentProposal.getOwnedByUnitNumber() != null) {
             String performingOrganizationId = developmentProposal.getOwnedByUnit().getOrganizationId();
             performingOrganization = createProposalSite(performingOrganizationId, getNextSiteNumber(proposalDevelopmentDocument));
+            performingOrganization.setDevelopmentProposal(developmentProposal);
             developmentProposal.setPerformingOrganization(performingOrganization);
         }
     }
@@ -210,10 +212,14 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     // see interface for Javadoc
     public void initializeProposalSiteNumbers(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        for (ProposalSite proposalSite : proposalDevelopmentDocument.getDevelopmentProposal().getProposalSites())
+        for (ProposalSite proposalSite : proposalDevelopmentDocument.getDevelopmentProposal().getProposalSites()){
             if (proposalSite.getSiteNumber() == null) {
                 proposalSite.setSiteNumber(getNextSiteNumber(proposalDevelopmentDocument));
             }
+        	if (proposalSite.getDevelopmentProposal() == null) {
+        		proposalSite.setDevelopmentProposal(proposalDevelopmentDocument.getDevelopmentProposal());
+        	}
+        }   
     }
 
     public List<Unit> getDefaultModifyProposalUnitsForUser(String userId) {

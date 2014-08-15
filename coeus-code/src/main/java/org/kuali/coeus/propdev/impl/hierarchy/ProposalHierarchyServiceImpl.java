@@ -456,10 +456,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         hierarchyProposal.getProposalSites().clear();
         for (ProposalSite site : srcProposal.getProposalSites()) {
             newSite = (ProposalSite)ObjectUtils.deepCopy(site);
-            newSite.setProposalNumber(null);
+            newSite.setDevelopmentProposal(null);
             newSite.setVersionNumber(null);
             for (CongressionalDistrict cd : newSite.getCongressionalDistricts()) {
-                cd.setProposalNumber(null);
+                cd.setProposalSite(newSite);
                 cd.setId(null);
                 cd.setVersionNumber(null);
             }

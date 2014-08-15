@@ -32,11 +32,12 @@
 				<list>
 					<bean parent="PropDev-ApplicantOrganizationPage-Section" p:headerText="Applicant Organization" p:order="10" />
 					<bean parent="PropDev-PerformingOrganizationPage-Section" p:headerText="Performing Organization" p:order="20" />
+					<bean parent="PropDev-PerformanceSitesPage-Section"	p:headerText="Performance Site Locations" p:order="30" />
 					<bean parent="PropDev-OtherOrganizationsPage-Section" p:headerText="Other Organizations" p:order="40" />
 				</list>
 			</property>
 	</bean>
-	
+
 	<bean id="PropDev-ApplicantOrganizationPage-Section" parent="PropDev-ApplicantOrganizationPage-Section-parentBean" />
 	<bean id="PropDev-ApplicantOrganizationPage-Section-parentBean"
 		parent="Uif-VerticalBoxSubSection" p:fieldBindingObjectPath="document.developmentProposal.applicantOrganization">
@@ -103,7 +104,7 @@
 		</property>
 	 </bean>
 
-	 <bean id="PropDev-PerformingOrganizationPage-Details" parent="PropDev-PerformingOrganizationPage-Details-parentBean" />
+	<bean id="PropDev-PerformingOrganizationPage-Details" parent="PropDev-PerformingOrganizationPage-Details-parentBean" />
 	<bean id="PropDev-PerformingOrganizationPage-Details-parentBean"
 		abstract="true" parent="Uif-GridCondensedSubSection">
 		<property name="items">
@@ -126,28 +127,6 @@
 		</property>
 	</bean>
 
-	<bean id="PropDev-CongressionalDistricts-Section" parent="PropDev-CongressionalDistricts-Section-parentBean" />
-	<bean id="PropDev-CongressionalDistricts-Section-parentBean" abstract="true"
-		parent="PropDev-Attachment-Collection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.location.CongressionalDistrict"
-		p:propertyName="congressionalDistricts" p:layoutManager.summaryTitle="@{#lp.congressionalDistrict}">
-		<property name="addWithDialogAction">
-            <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Congressioanl District" p:iconClass="icon-plus"/>
-        </property>	
-		<property name="lineActions">
-            <list>
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="editAttachment"
-                      p:hidden="true" p:actionLabel="Edit" p:style="float:right" p:render="false" p:order="10"/>
-            </list>
-        </property>
-		<property name="items">
-			<list>
-				<bean parent="Uif-InputField" p:propertyName="newState" p:render="@{#isAddLine}" p:order="10" />
-				<bean parent="Uif-InputField" p:propertyName="newDistrictNumber" p:render="@{#isAddLine}" p:order="20" />
-				<bean parent="Uif-DataField" p:propertyName="congressionalDistrict"	p:render="@{!#isAddLine}" p:order="30"/>
-			</list>
-		</property>
-	</bean>
-
 	<bean id="PropDev-OtherOrganizationsPage-Section" parent="PropDev-OtherOrganizationsPage-Section-parentBean" />
 	<bean id="PropDev-OtherOrganizationsPage-Section-parentBean" abstract="true"  
 	parent="Uif-VerticalBoxSection">
@@ -157,7 +136,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="PropDev-OtherOrganizationsPage-Details" parent="PropDev-OtherOrganizationsPage-Details-parentBean" />
 	<bean id="PropDev-OtherOrganizationsPage-Details-parentBean" abstract="true"
 		parent="Uif-StackedCollectionSection" p:headerText=""  
@@ -169,65 +148,161 @@
 		</property>		
 		<property name="collectionLookup">
 			<bean parent="Uif-CollectionQuickFinder" p:dataObjectClassName="org.kuali.coeus.common.framework.org.Organization" 
-				p:fieldConversions="organizationId:organization.organizationId,organizationName:organization.organizationName" >
+				p:fieldConversions="organizationId:organizationId" >
 				<property name="quickfinderAction">
-					<bean parent="Uif-PrimaryActionButton" p:iconClass="icon-office" p:actionLabel="Add Organization" p:methodToCall="performLookup"/>
+					<bean parent="Uif-PrimaryActionButton" p:iconClass="icon-search" p:actionLabel="Add Organization" p:methodToCall="performLookup"/>
 				</property>
 			</bean>		
 		</property>		
-		<property name="items"  >
-			<list>
-			<bean parent="Uif-HorizontalFieldGroup" p:label="Organization" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_OTHER_ORGANIZATION}" >
-        		<property name="items">
-          			<list>
-						<bean parent="Uif-DataField" p:propertyName="organization.organizationName"	p:order="10" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_OTHER_ORGANIZATION}" p:label=" " />
-						<bean  parent="Uif-InputField" p:order="20" p:propertyName="organization.organizationId" p:label=" " p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_OTHER_ORGANIZATION}">
-							<property name="control">
-								<bean parent="Uif-HiddenControl" />
-							</property>
-							<property name="quickfinder">
-								<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.coeus.common.framework.org.Organization"
-									p:hideCriteriaOnSearch="true"
-									p:fieldConversions="organizationId:organization.organizationId,organizationName:organization.organizationName,address:organization.address">
-									<property name="quickfinderAction">
-										<bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:actionLabel="Change" />
-									</property>
-								</bean>
-							</property>
-						</bean>
-					</list>
-				</property>
-			</bean>				
-			<bean parent="Uif-DataField"  p:order="30" p:propertyName="organization.address" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_OTHER_ORGANIZATION}"/>
-			</list>
-		</property>
-		<property name="subCollections">
-			<list>
-				<bean parent="PropDev-OtherOrganizationsPage-CongressionalDistricts" p:render="@{#line.locationTypeCode == #line.PROPOSAL_SITE_OTHER_ORGANIZATION}" p:order="30" />
-			</list>
-		</property>		
-	</bean>	
-	
-	<bean id="PropDev-OtherOrganizationsPage-CongressionalDistricts" parent="PropDev-OtherOrganizationsPage-CongressionalDistricts-parentBean" />
-	<bean id="PropDev-OtherOrganizationsPage-CongressionalDistricts-parentBean" abstract="true" parent="PropDev-Attachment-Collection" 
-		p:collectionObjectClass="org.kuali.coeus.propdev.impl.location.CongressionalDistrict" p:propertyName="congressionalDistricts"
-		p:layoutManager.summaryTitle="@{#lp.congressionalDistrict}" >
-		<property name="addWithDialogAction">
-            <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Congressioanl District" p:iconClass="icon-plus"/>
-        </property>	
-		<property name="lineActions">
-            <list>                
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="editAttachment"
-                      p:hidden="true" p:order="10"
-                      p:actionLabel="Edit" p:style="float:right" p:render="false"/>                
-            </list>
-        </property>	
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="newState" p:render="@{#isAddLine}" p:order="10"/>					
-				<bean parent="Uif-InputField" p:propertyName="newDistrictNumber" p:render="@{#isAddLine}" p:order="20"/>
-				<bean parent="Uif-DataField" p:propertyName="congressionalDistrict"	p:render="@{!#isAddLine}" p:order="30"/>
+                <bean parent="Uif-HorizontalFieldGroup" p:label="Organization" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_OTHER_ORGANIZATION}" >
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="organization.organizationName"	p:order="10" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_OTHER_ORGANIZATION}" p:label=" " />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField"  p:order="30" p:propertyName="organization.address" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_OTHER_ORGANIZATION}"/>
 			</list>
 		</property>
-	</bean>	
+		<property name="lineActions">
+            <list>
+                <bean parent="Uif-DeleteLineAction-IconOnly">
+                    <property name="confirmationDialog">
+                        <bean parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to delete this Organization?"/>
+                    </property>
+                </bean>
+            </list>
+        </property>	
+		<property name="subCollections">
+			<list>
+				<bean parent="PropDev-CongressionalDistricts-SubSection" p:render="@{#line != null and #line.locationTypeCode == #line.PROPOSAL_SITE_OTHER_ORGANIZATION}" p:order="10" />
+			</list>
+		</property>
+	</bean>
+
+    <!-- 	performance site locations  -->
+    <bean id="PropDev-PerformanceSitesPage-Section" parent="PropDev-PerformanceSitesPage-Section-parentBean" />
+    <bean id="PropDev-PerformanceSitesPage-Section-parentBean" abstract="true"
+          parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="PropDev-PerformanceSitesPage-Details" p:order="10" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-PerformanceSitesPage-Details" parent="PropDev-PerformanceSitesPage-Details-parentBean" />
+    <bean id="PropDev-PerformanceSitesPage-Details-parentBean" abstract="true"
+          parent="Uif-StackedCollectionSection" p:headerText=""
+          p:propertyName="document.developmentProposal.proposalSites"
+          p:collectionObjectClass="org.kuali.coeus.propdev.impl.location.ProposalSite"
+          p:renderAddLine="false">
+        <property name="layoutManager.pagerWidget">
+            <null />
+        </property>
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:dataObjectClassName="org.kuali.coeus.common.framework.rolodex.Rolodex"
+                  p:fieldConversions="rolodexId:rolodexId">
+                <property name="quickfinderAction">
+                    <bean parent="Uif-PrimaryActionButton" p:iconClass="icon-search" p:actionLabel="Add Performance Site" p:methodToCall="performLookup"/>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="rolodex.organization"	p:order="10" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_PERFORMANCE_SITE}"  />
+                <bean parent="Uif-DataField" p:propertyName="rolodex.city"	p:order="20" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_PERFORMANCE_SITE}"  />
+                <bean parent="Uif-DataField" p:propertyName="rolodex.state"	p:order="30" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_PERFORMANCE_SITE}"  />
+                <bean parent="Uif-DataField" p:propertyName="rolodex.addressLine1"	p:order="40" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_PERFORMANCE_SITE}"  />
+                <bean parent="Uif-DataField" p:propertyName="rolodex.addressLine2"	p:order="50" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_PERFORMANCE_SITE}"  />
+                <bean parent="Uif-DataField" p:propertyName="rolodex.postalCode"	p:order="60" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_PERFORMANCE_SITE}"  />
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-DeleteLineAction-IconOnly">
+                    <property name="confirmationDialog">
+                        <bean parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to delete this Performance Site?"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <bean parent="PropDev-CongressionalDistricts-SubSection" p:render="@{#line != null and #line.locationTypeCode == #line.PROPOSAL_SITE_PERFORMANCE_SITE}" p:order="10" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Congressional District beans-->
+    <bean id="PropDev-CongressionalDistricts-Section" parent="PropDev-CongressionalDistricts-Section-parentBean" />
+    <bean id="PropDev-CongressionalDistricts-Section-parentBean" abstract="true"
+          parent="Uif-StackedCollectionSection"
+          p:collectionObjectClass="org.kuali.coeus.propdev.impl.location.CongressionalDistrict"
+          p:propertyName="congressionalDistricts"
+          p:layoutManager.summaryTitle="@{#lp.congressionalDistrict}"
+          p:addWithDialog="true">
+        <property name="addWithDialogAction">
+            <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Congressional District" p:iconClass="icon-plus"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="newState" p:render="@{#isAddLine}" p:order="10" />
+                <bean parent="Uif-InputField" p:propertyName="newDistrictNumber" p:render="@{#isAddLine}" p:order="20" />
+                <bean parent="Uif-DataField" p:propertyName="congressionalDistrict"	p:render="@{!#isAddLine}" p:order="30"/>
+            </list>
+        </property>
+        <property name="layoutManager.lineGroupPrototype">
+            <bean parent="PropDev-CongressionalDistricts-BoxItem" />
+        </property>
+    </bean>
+
+    <bean id="PropDev-CongressionalDistricts-SubSection" parent="PropDev-CongressionalDistricts-SubSection-parentBean" />
+    <bean id="PropDev-CongressionalDistricts-SubSection-parentBean" abstract="true"
+          parent="Uif-StackedSubCollection-WithinSubSection"
+          p:collectionObjectClass="org.kuali.coeus.propdev.impl.location.CongressionalDistrict"
+          p:propertyName="congressionalDistricts"
+          p:layoutManager.summaryTitle="@{#lp.congressionalDistrict}"
+          p:addWithDialog="true">
+        <property name="addWithDialogAction">
+            <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Congressional District" p:iconClass="icon-plus"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="newState" p:render="@{#isAddLine}" p:order="10" />
+                <bean parent="Uif-InputField" p:propertyName="newDistrictNumber" p:render="@{#isAddLine}" p:order="20" />
+                <bean parent="Uif-DataField" p:propertyName="congressionalDistrict"	p:render="@{!#isAddLine}" p:order="30"/>
+            </list>
+        </property>
+        <property name="layoutManager.lineGroupPrototype">
+            <bean parent="PropDev-CongressionalDistricts-BoxItem" />
+        </property>
+    </bean>
+
+
+    <bean id="PropDev-CongressionalDistricts-BoxItem" parent="Uif-CollectionHorizontalBoxItem"
+          p:disclosure.render="true" p:disclosure.defaultOpen="false">
+        <property name="layoutManager">
+            <bean parent="Uif-SimpleLayout" />
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderFour">
+                <property name="rightGroup">
+                    <bean parent="Uif-VerticalBoxGroup">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-DeleteLineAction-IconOnly">
+                                    <property name="confirmationDialog">
+                                        <bean parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to delete this Congressional District?"/>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
 </beans>

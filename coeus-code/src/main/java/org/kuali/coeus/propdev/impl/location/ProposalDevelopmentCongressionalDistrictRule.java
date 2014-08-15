@@ -16,9 +16,10 @@
 package org.kuali.coeus.propdev.impl.location;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -28,6 +29,8 @@ import java.util.regex.Pattern;
  */
 public class ProposalDevelopmentCongressionalDistrictRule extends ProposalSiteRule {
     Pattern districtValidationPattern = Pattern.compile("^[a-zA-Z][a-zA-Z]-[0-9]{1,3}|[a-zA-Z][a-zA-Z]-all|00-000|US-all$");   // see Organization.xml
+
+    private GlobalVariableService globalVariableService;
 
     /**
      * Checks that the site index is valid, and that a valid state code and district number has been entered.
@@ -45,7 +48,8 @@ public class ProposalDevelopmentCongressionalDistrictRule extends ProposalSiteRu
             
         String districtString = newDistrict.getCongressionalDistrict();
         if (!districtValidationPattern.matcher(districtString).matches()) {
-              reportError("newDistrictNumber", KeyConstants.ERROR_PROPOSAL_SITES_DISTRICT_INVALID_FORMAT);
+            getGlobalVariableService().getMessageMap().putErrorForSectionId(addCongressionalDistrictEvent.getCollectionId(), KeyConstants.ERROR_PROPOSAL_SITES_DISTRICT_INVALID_FORMAT,
+                    addCongressionalDistrictEvent.getCollectionLabel(),congressionalDistrict.getCongressionalDistrict());
               isValid = false;
         }
         
@@ -71,7 +75,7 @@ public class ProposalDevelopmentCongressionalDistrictRule extends ProposalSiteRu
         
         for (CongressionalDistrict existingDistrict: addCongressionalDistrictEvent.getCongressionalDistricts()) {
             if (StringUtils.equals(newDistrict.getCongressionalDistrict(), existingDistrict.getCongressionalDistrict())) {
-                GlobalVariables.getMessageMap().putErrorForSectionId(addCongressionalDistrictEvent.getCollectionId(), RiceKeyConstants.ERROR_DUPLICATE_ELEMENT,
+                getGlobalVariableService().getMessageMap().putErrorForSectionId(addCongressionalDistrictEvent.getCollectionId(), RiceKeyConstants.ERROR_DUPLICATE_ELEMENT,
             			addCongressionalDistrictEvent.getCollectionLabel(),congressionalDistrict.getCongressionalDistrict());
                 isValid = false;
             }
@@ -91,5 +95,14 @@ public class ProposalDevelopmentCongressionalDistrictRule extends ProposalSiteRu
         
         return isIndexValid(siteIndexStr, "Site Index") && isIndexValid(districtIndexStr, "District Index");
     }
-        
+
+    public GlobalVariableService getGlobalVariableService() {
+        if (globalVariableService == null)
+            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
 }

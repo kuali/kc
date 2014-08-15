@@ -40,11 +40,9 @@ public class CongressionalDistrict extends KcPersistableBusinessObjectBase imple
     @Column(name = "CONG_DISTRICT_ID")
     private Long id;
 
-    @Column(name = "PROPOSAL_NUMBER")
-    private String proposalNumber;
-
-    @Column(name = "SITE_NUMBER")
-    private Integer siteNumber;
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @JoinColumn(name = "SITE_NUMBER", referencedColumnName = "SITE_NUMBER") })
+    private ProposalSite proposalSite;
 
     @Column(name = "CONG_DISTRICT")
     private String congressionalDistrict;
@@ -64,25 +62,6 @@ public class CongressionalDistrict extends KcPersistableBusinessObjectBase imple
         return id;
     }
 
-    public void setProposalNumber(String proposalNumber) {
-        this.proposalNumber = proposalNumber;
-    }
-
-    @Override
-    public String getProposalNumber() {
-        return proposalNumber;
-    }
-
-    public void setSiteNumber(Integer siteNumber) {
-        this.siteNumber = siteNumber;
-    }
-
-    @Override
-    public Integer getSiteNumber() {
-        return siteNumber;
-    }
-
-    @Override
     public String getCongressionalDistrict() {
         return congressionalDistrict;
     }
@@ -113,5 +92,28 @@ public class CongressionalDistrict extends KcPersistableBusinessObjectBase imple
 	public void setNewDistrictNumber(String newDistrictNumber) {
 		this.newDistrictNumber = newDistrictNumber;
 	}
-    
+
+	public ProposalSite getProposalSite() {
+		return proposalSite;
+	}
+
+	public void setProposalSite(ProposalSite proposalSite) {
+		this.proposalSite = proposalSite;
+	}
+
+    public Integer getSiteNumber(){
+        if (getProposalSite() != null){
+            return getProposalSite().getSiteNumber();
+        }
+        return null;
+    }
+
+    public String getProposalNumber(){
+        if (getProposalSite() != null){
+            if (getProposalSite().getDevelopmentProposal() != null){
+                return getProposalSite().getDevelopmentProposal().getProposalNumber();
+            }
+        }
+        return null;
+    }
 }
