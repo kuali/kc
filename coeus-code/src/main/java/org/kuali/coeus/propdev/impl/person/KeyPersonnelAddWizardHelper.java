@@ -39,7 +39,7 @@ public class KeyPersonnelAddWizardHelper {
         personType = "E";
         lookupFieldValues.clear();
         results.clear();
-        personRole = "PI";
+        personRole = null;
     }
 
     public String getPersonType() {
