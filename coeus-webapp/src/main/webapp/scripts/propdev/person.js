@@ -28,4 +28,7 @@ Kc.PropDev.Personnel = Kc.PropDev.Personnel || {};
 		messageSummariesShown = false;
 		return valid;
 	};
+    namespace.selectFirstRadio = function(id) {
+        $(id).find('input').first().prop('checked', true);
+    };
 })(Kc.PropDev.Personnel, jQuery);

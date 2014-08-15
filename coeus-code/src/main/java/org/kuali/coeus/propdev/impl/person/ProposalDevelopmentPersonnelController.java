@@ -17,10 +17,9 @@ package org.kuali.coeus.propdev.impl.person;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl;
@@ -41,10 +40,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Controller
@@ -72,6 +68,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
             person.setDevelopmentProposal(propDevForm.getProposalDevelopmentDocument().getDevelopmentProposal());
             person.getQuestionnaireHelper().populateAnswers();
         }
+        sortPersonnelCollection(propDevForm.getDevelopmentProposal().getProposalPersons());
         return getNavigationControllerService().navigate(form);
     } 
     
@@ -102,19 +99,23 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        if (StringUtils.equals(form.getAddKeyPersonHelper().getPersonType(), PersonTypeConstants.EMPLOYEE.getCode())) {
           List<KcPerson> results = (List<KcPerson>) getKcPersonLookupableHelperService().getSearchResults(form.getAddKeyPersonHelper().getLookupFieldValues());
           for (KcPerson person: results) {
-              ProposalPerson newPerson = new ProposalPerson();
-              newPerson.setPersonId(person.getPersonId());
-              newPerson.setFullName(person.getFullName());
-              newPerson.setUserName(person.getUserName());
-              form.getAddKeyPersonHelper().getResults().add(newPerson);
+              if (!personAlreadyExists(person.getPersonId(),form.getDevelopmentProposal().getProposalPersons())){
+                  ProposalPerson newPerson = new ProposalPerson();
+                  newPerson.setPersonId(person.getPersonId());
+                  newPerson.setFullName(person.getFullName());
+                  newPerson.setUserName(person.getUserName());
+                  form.getAddKeyPersonHelper().getResults().add(newPerson);
+              }
           }
        } else {
            Collection<Rolodex> results = getLookupService().findCollectionBySearchHelper(Rolodex.class, form.getAddKeyPersonHelper().getLookupFieldValues(), Collections.EMPTY_LIST, false, 100);
            for (Rolodex rolodex : results) {
+               if (!personAlreadyExists(rolodex.getRolodexId().toString(),form.getDevelopmentProposal().getProposalPersons())){
                ProposalPerson newPerson = new ProposalPerson();
                newPerson.setRolodexId(rolodex.getRolodexId());
                newPerson.setFullName(rolodex.getFullName());
                form.getAddKeyPersonHelper().getResults().add(newPerson);
+               }
            }
        }
        return getRefreshControllerService().refresh(form);
@@ -133,6 +134,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        newProposalPerson.setProposalPersonRoleId(form.getAddKeyPersonHelper().getPersonRole());
        newProposalPerson.setProjectRole(form.getAddKeyPersonHelper().getKeyPersonProjectRole());
        getKeyPersonnelService().addProposalPerson(newProposalPerson, form.getProposalDevelopmentDocument());
+       sortPersonnelCollection(form.getDevelopmentProposal().getProposalPersons());
        form.getAddKeyPersonHelper().reset();
        refreshPersonCertificaitonAnswerHeaders(form);
        return getRefreshControllerService().refresh(form);
@@ -174,6 +176,42 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 	   ModelAndView mv = this.save(pdForm, result, request, response);
 	   return mv;
    }
+
+    protected boolean personAlreadyExists(String personId, List<ProposalPerson> existingPersons) {
+        for (ProposalPerson existingPerson: existingPersons ) {
+            if (personId.equals(existingPerson.getPersonId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private void sortPersonnelCollection(List<ProposalPerson> proposalPersons ) {
+        Collections.sort(proposalPersons, new Comparator<ProposalPerson>(){
+            public int compare(ProposalPerson p1, ProposalPerson p2) {
+                int c = convertRoleForSort(p1.getRole()).compareTo(convertRoleForSort(p2.getRole()));
+                if (c == 0) {
+                    c = p1.getLastName().compareTo(p2.getLastName());
+                }
+                if (c == 0) {
+                    c = p1.getFirstName().compareTo(p2.getFirstName());
+                }
+                return c;
+            }
+        });
+    }
+
+    private String convertRoleForSort(PropAwardPersonRole role) {
+        if (role.getCode().equals(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR)) {
+            return "A";
+        } else if (role.getCode().equals(PropAwardPersonRole.MULTI_PI)) {
+            return "B";
+        } else if (role.getCode().equals(PropAwardPersonRole.CO_INVESTIGATOR)) {
+            return "C";
+        } else if (role.getCode().equals(PropAwardPersonRole.KEY_PERSON)) {
+            return "D";
+        }
+        return "Z";
+    }
 
     protected LookupableHelperService getKcPersonLookupableHelperService() {
         return kcPersonLookupableHelperService;

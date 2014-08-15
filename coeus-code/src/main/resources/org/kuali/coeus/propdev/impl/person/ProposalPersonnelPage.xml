@@ -228,9 +228,9 @@
 		parent="Uif-CssGridSection" p:header.headerText="Assign a role">
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:required="true"
+				<bean id="PropDev-PersonnelPage-WizardPage3-personRoleRadio" parent="Uif-InputField" p:required="true"
 					p:propertyName="personRole" p:label="Assign a role"
-					p:order="10">
+					p:order="10" p:onDocumentReadyScript="Kc.PropDev.Personnel.selectFirstRadio('#PropDev-PersonnelPage-WizardPage3-personRoleRadio');">
 					<property name="control">
 						<bean parent="Uif-VerticalRadioControl" />
 					</property>
