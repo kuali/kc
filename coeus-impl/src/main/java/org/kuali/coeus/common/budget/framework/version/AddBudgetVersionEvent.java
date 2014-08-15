@@ -18,20 +18,20 @@ package org.kuali.coeus.common.budget.framework.version;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
-import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.event.RuleEventBase;
 
 import static org.apache.commons.lang3.StringUtils.substringAfterLast;
 import static org.kuali.kra.infrastructure.Constants.EMPTY_STRING;
 
-public class AddBudgetVersionEvent extends KcDocumentEventBase {
+public class AddBudgetVersionEvent extends RuleEventBase {
 
     private static final Log LOG = LogFactory.getLog(AddBudgetVersionEvent.class);
 
     private String versionName;
-    private Budget budget;
+    private BudgetParent budgetParent;
 
     /**
      * Convenience constructor for {@link #AddBudgetVersionEvent(String, Document, String)}
@@ -39,8 +39,8 @@ public class AddBudgetVersionEvent extends KcDocumentEventBase {
      * @param document {@link ProposalDevelopmentDocument} instance the version is to be added to
      * @param versionName
      */
-    public AddBudgetVersionEvent(Document document, String versionName) {
-        this(EMPTY_STRING, document, versionName);
+    public AddBudgetVersionEvent(BudgetParent budgetParent, String versionName) {
+        this(EMPTY_STRING, budgetParent, versionName);
     }
 
     /**
@@ -50,22 +50,10 @@ public class AddBudgetVersionEvent extends KcDocumentEventBase {
      * @param document {@link ProposalDevelopmentDocument} instance the version is to be added to
      * @param versionName
      */
-    public AddBudgetVersionEvent(String errorPathPrefix, Document document, String versionName) {
-        super("adding budget version to document " + getDocumentId(document), errorPathPrefix, document);
-        setVersionName(versionName);
-        logEvent();
-    }
-
-    /**
-     * Instantiate the event describing that a Budget Version is to be added
-     * 
-     * @param errorPathPrefix
-     * @param document {@link ProposalDevelopmentDocument} instance the version is to be added to
-     * @param budgetVersionOverview
-     */
-    public AddBudgetVersionEvent(String errorPathPrefix, Document document, Budget budgetVersionOverview) {
-        super("adding budget version to document " + getDocumentId(document), errorPathPrefix, document);
-        setBudget(budgetVersionOverview);
+    public AddBudgetVersionEvent(String errorPathPrefix, BudgetParent budgetParent, String versionName) {
+        super("adding budget version to document " + budgetParent.getParentNumber(), errorPathPrefix);
+        this.versionName = versionName;
+        this.budgetParent = budgetParent;
         logEvent();
     }
 
@@ -107,21 +95,20 @@ public class AddBudgetVersionEvent extends KcDocumentEventBase {
             return false;
         }
     }
-    
-    /**
-     * Gets the budget attribute. 
-     * @return Returns the budget.
-     */
-    public Budget getBudget() {
-        return budget;
-    }
 
-    /**
-     * Sets the budget attribute value.
-     * @param budget The budget to set.
-     */
-    public void setBudget(Budget budget) {
-        this.budget = budget;
-    }
+	@Override
+	public void validate() {
+		if (getBudgetParent() != null) {
+			throw new IllegalArgumentException("invalid (null) event document");
+		}
+	}
+
+	public BudgetParent getBudgetParent() {
+		return budgetParent;
+	}
+
+	public void setBudgetParent(BudgetParent budgetParent) {
+		this.budgetParent = budgetParent;
+	}
 }
 

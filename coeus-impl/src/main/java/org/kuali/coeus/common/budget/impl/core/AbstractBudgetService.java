@@ -20,9 +20,9 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.*;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
+import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionRule;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
-import org.kuali.coeus.common.budget.impl.version.BudgetVersionRule;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.query.QueryList;
@@ -92,9 +92,6 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     @Qualifier("pessimisticLockService")
     private PessimisticLockService pessimisticLockService;
     @Autowired
-    @Qualifier("budgetVersionRule")
-    private BudgetVersionRule budgetVersionRule;
-    @Autowired
     @Qualifier("budgetSummaryService")
     private BudgetSummaryService budgetSummaryService;
     @Autowired
@@ -125,7 +122,6 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
         }
 
         Budget newBudgetDoc = getNewBudgetVersion(budgetParentDocument, versionName, options);
-        if(newBudgetDoc==null) return null;
         
         return newBudgetDoc;
     }
@@ -146,7 +142,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     @Override
     public boolean isBudgetVersionNameValid(BudgetParentDocument document,  String name) {
         LOG.debug("Invoking budgetrule getBudgetVersionRule()");
-        return new AddBudgetVersionEvent(document, name).invokeRuleMethod(getBudgetVersionRule());
+        return new AddBudgetVersionEvent(document.getBudgetParent(), name).invokeRuleMethod(getAddBudgetVersionRule());
     }
     /**
      * Retrieve injected <code>{@link PessimisticLockService}</code> singleton
@@ -170,19 +166,8 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
      * 
      * @return AddBudgetVersionRule
      */
-    public BudgetVersionRule getBudgetVersionRule() {
-        return budgetVersionRule;
-    }
-
-    /**
-     * Inject <code>{@link org.kuali.coeus.common.budget.framework.version.AddBudgetVersionRule}</code> singleton
-     * 
-     * @return AddBudgetVersionRule
-     */
-    public void setBudgetVersionRule(BudgetVersionRule budgetVersionRule) {
-        this.budgetVersionRule = budgetVersionRule;
-    }
-    
+    public abstract AddBudgetVersionRule getAddBudgetVersionRule();
+        
     @Override
     public void updateDocumentDescription(BudgetVersionOverview budgetVersion) {
         DataObjectService doService = getDataObjectService();

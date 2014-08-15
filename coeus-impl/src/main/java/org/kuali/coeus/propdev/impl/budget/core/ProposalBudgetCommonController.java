@@ -35,7 +35,10 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/proposalBudget")
 public class ProposalBudgetCommonController extends ProposalBudgetControllerBase {
 
-
+	@Autowired
+	@Qualifier("proposalBudgetSharedController")
+	private ProposalBudgetSharedController proposalBudgetSharedController;
+	
 	@MethodAccessible
 	@RequestMapping(params="methodToCall=defaultMapping")
 	public ModelAndView defaultMapping(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request,
@@ -53,10 +56,11 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	
 	@MethodAccessible
 	@RequestMapping(params="methodToCall=initiate")
-	public ModelAndView initiate(@RequestParam("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
+	public ModelAndView initiate(@RequestParam("budgetId") Long budgetId, @RequestParam(value = "summaryBudget", required = false) Boolean summaryBudget, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		form.setBudget(loadBudget(budgetId));
 		form.initialize();
-		if (!form.getBudget().isSummaryBudget()) {
+		if ((summaryBudget != null && !summaryBudget)
+				|| (summaryBudget == null && !form.getBudget().isSummaryBudget())) {
 			return getModelAndViewService().getModelAndViewWithInit(form, ProposalBudgetConstants.KradConstants.BUDGET_DEFAULT_VIEW, ProposalBudgetConstants.KradConstants.PERSONNEL_PAGE_ID);
 		} else {
 			return getModelAndViewService().getModelAndViewWithInit(form, ProposalBudgetConstants.KradConstants.BUDGET_DEFAULT_VIEW, ProposalBudgetConstants.KradConstants.PERIODS_AND_TOTALS_PAGE_ID);
@@ -86,37 +90,20 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	
 	@MethodAccessible
     @RequestMapping(params="methodToCall=addBudget")
-    public ModelAndView addBudget(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
-		Map<String, Object> options = new HashMap<String, Object>();
-		options.put("modularBudgetFlag", form.getAddBudgetDto().getModularBudget() != null ? form.getAddBudgetDto().getModularBudget() : Boolean.FALSE);
-		options.put("summaryBudget", form.getAddBudgetDto().getSummaryBudget() != null ? form.getAddBudgetDto().getSummaryBudget() : Boolean.FALSE);
-        ProposalDevelopmentBudgetExt budget = (ProposalDevelopmentBudgetExt) getBudgetService().addBudgetVersion(form.getDevelopmentProposal().getProposalDocument(), form.getAddBudgetDto().getBudgetName(), options);
-        if (budget != null) {
-	        Properties props = new Properties();
-	        props.put("methodToCall", "initiate");
-	        props.put("budgetId", budget.getBudgetId().toString());
-	        return getModelAndViewService().performRedirect(form, "proposalBudget", props);
-        } else {
-        	return this.getModelAndViewService().getModelAndView(form);
-        }
+    public ModelAndView addBudget(@RequestParam("addBudgetDto.budgetName") String budgetName, 
+    		@RequestParam("addBudgetDto.summaryBudget") Boolean summaryBudget, 
+    		@RequestParam("addBudgetDto.modularBudget") Boolean modularBudget, 
+    		@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		return getProposalBudgetSharedController().addBudget(budgetName, summaryBudget, modularBudget, form.getDevelopmentProposal(), form);
     }
 
 	@MethodAccessible
     @RequestMapping(params="methodToCall=copyBudget")
-	public ModelAndView copyBudget(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
-		ProposalDevelopmentBudgetExt originalBudget = getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.forAttribute("budgetId", form.getCopyBudgetDto().getOriginalBudgetId()).build());
-		ProposalDevelopmentBudgetExt budget = (ProposalDevelopmentBudgetExt) getBudgetService().copyBudgetVersion(originalBudget, false);
-        if (budget != null) {
-        	budget.setName(form.getCopyBudgetDto().getBudgetName());
-        	budget = getDataObjectService().save(budget);
-	        Properties props = new Properties();
-	        props.put("methodToCall", "initiate");
-	        props.put("budgetId", budget.getBudgetId().toString());
-	        return getModelAndViewService().performRedirect(form, "proposalBudget", props);
-        } else {
-        	return this.getModelAndViewService().getModelAndView(form);
-        }		
-	}	
+	public ModelAndView copyBudget(@RequestParam("copyBudgetDto.budgetName") String budgetName, 
+			@RequestParam("copyBudgetDto.originalBudgetId") Long originalBudgetId, 
+			@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		return getProposalBudgetSharedController().copyBudget(budgetName, originalBudgetId, form.getDevelopmentProposal(), form);
+	}
 
 	public void checkViewAuthorization(@ModelAttribute("KualiForm") ProposalBudgetForm form, String methodToCall) throws AuthorizationException {
         getTransactionalDocumentControllerService().checkViewAuthorization(form);
@@ -268,5 +255,14 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
         }
         return getRefreshControllerService().refresh(form);
     }
+
+	public ProposalBudgetSharedController getProposalBudgetSharedController() {
+		return proposalBudgetSharedController;
+	}
+
+	public void setProposalBudgetSharedController(
+			ProposalBudgetSharedController proposalBudgetSharedController) {
+		this.proposalBudgetSharedController = proposalBudgetSharedController;
+	}
 
 }
