@@ -43,9 +43,17 @@ public abstract class PropAwardPersonRoleValuesFinder extends UifKeyValuesFinder
     
     @Override
     public List<KeyValue> getKeyValues(ViewModel model, InputField field){
-        return getKeyValues(getSponsorCodeFromModel(model));
+        List<KeyValue> keyValues = getKeyValues(getSponsorCodeFromModel(model));
+        if (piAlreadyExists(model,field)) {
+            for (KeyValue keyValue : keyValues) {
+                if (keyValue.getKey().equals(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR)) {
+                    ((ConcreteKeyValue)keyValue).setDisabled(true);
+                }
+            }
+        }
+        return keyValues;
     }
-    
+
     public List<KeyValue> getKeyValues(String sponsorCode) {
         Collection<PropAwardPersonRole> roles = new ArrayList<PropAwardPersonRole>();
         roles.addAll(getPropAwardPersonRoleService().getRolesByHierarchy(sponsorCode));
@@ -90,6 +98,8 @@ public abstract class PropAwardPersonRoleValuesFinder extends UifKeyValuesFinder
 		}
 		return propAwardPersonRoleService;
 	}
+
+    protected abstract boolean piAlreadyExists(ViewModel model, InputField field);
 
 	public void setPropAwardPersonRoleService(
 			PropAwardPersonRoleService propAwardPersonRoleService) {
