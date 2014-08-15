@@ -12,6 +12,7 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krad.web.service.ModelAndViewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,7 @@ public class ProposalBudgetSharedController {
 	        props.put("summaryBudget", summaryBudget.toString());
 	        return getModelAndViewService().performRedirect(form, "proposalBudget", props);
         } else {
+        	form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
         	form.setUpdateComponentId("PropDev-BudgetPage-NewBudgetDialog");
         	return this.getModelAndViewService().getModelAndView(form);
         }
@@ -62,7 +64,7 @@ public class ProposalBudgetSharedController {
 
 	public ModelAndView copyBudget(String budgetName, Long originalBudgetId, DevelopmentProposal developmentProposal, UifFormBase form) throws Exception {
 		ProposalDevelopmentBudgetExt budget = null;
-		if (new AddBudgetVersionEvent("addBudgetDto", developmentProposal, budgetName).invokeRuleMethod(getAddBudgetVersionRule())) {
+		if (new AddBudgetVersionEvent("copyBudgetDto", developmentProposal, budgetName).invokeRuleMethod(getAddBudgetVersionRule())) {
 			ProposalDevelopmentBudgetExt originalBudget = getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.forAttribute("budgetId", originalBudgetId).build());
 			budget = (ProposalDevelopmentBudgetExt) getBudgetService().copyBudgetVersion(originalBudget, false);
 		}
@@ -74,6 +76,7 @@ public class ProposalBudgetSharedController {
 	        props.put("budgetId", budget.getBudgetId().toString());
 	        return getModelAndViewService().performRedirect(form, "proposalBudget", props);
         } else {
+        	form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
         	form.setUpdateComponentId("PropDev-BudgetPage-CopyBudgetDialog");
         	return this.getModelAndViewService().getModelAndView(form);
         }		
