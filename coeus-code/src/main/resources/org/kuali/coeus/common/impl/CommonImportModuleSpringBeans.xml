@@ -38,8 +38,8 @@
          eventually the negotiation service will be part of common and this wont be needed -->
     <bean id="negotiationService" parent="grlImporter" p:serviceName="negotiationService" p:singleton="false"/>
     <bean id="subAwardService" parent="grlImporter" p:serviceName="subAwardService" />
-    <bean id="awardService" parent="grlImporter" p:serviceName="awardService" />
-    <bean id="institutionalProposalService" parent="grlImporter" p:serviceName="institutionalProposalService" />
+    <bean id="awardService" parent="grlImporter" p:serviceName="awardService" p:singleton="false"/>
+    <bean id="institutionalProposalService" parent="grlImporter" p:serviceName="institutionalProposalService" p:singleton="false"/>
     <bean id="krmsCacheAdminService" parent="grlImporter" p:serviceName="krmsCacheAdminService" />
     <bean id="globalVariableService" parent="grlImporter" p:serviceName="globalVariableService" />
 
