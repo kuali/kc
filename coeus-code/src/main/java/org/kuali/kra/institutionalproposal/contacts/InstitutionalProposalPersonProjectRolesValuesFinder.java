@@ -21,6 +21,7 @@ import org.kuali.coeus.common.framework.person.PropAwardPersonRoleValuesFinder;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.view.ViewModel;
 
 public class InstitutionalProposalPersonProjectRolesValuesFinder extends PropAwardPersonRoleValuesFinder {
@@ -36,4 +37,8 @@ public class InstitutionalProposalPersonProjectRolesValuesFinder extends PropAwa
 		return getKeyValues(form.getInstitutionalProposalDocument().getInstitutionalProposal().getSponsorCode());
     }
 
+    @Override
+    protected boolean piAlreadyExists(ViewModel model, InputField field) {
+        return false;
+    }
 }

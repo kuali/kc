@@ -21,6 +21,7 @@ import org.kuali.coeus.common.framework.person.PropAwardPersonRoleValuesFinder;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.view.ViewModel;
 
 public class AwardPersonProjectRolesValuesFinder extends PropAwardPersonRoleValuesFinder {
@@ -34,6 +35,11 @@ public class AwardPersonProjectRolesValuesFinder extends PropAwardPersonRoleValu
     public List<KeyValue> getKeyValues(){
     	AwardForm form = (AwardForm) KNSGlobalVariables.getKualiForm();
 		return getKeyValues(form.getAwardDocument().getAward().getSponsorCode());
+    }
+
+    @Override
+    protected boolean piAlreadyExists(ViewModel model, InputField field) {
+        return false;
     }
 	
 }

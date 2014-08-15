@@ -29,6 +29,6 @@ Kc.PropDev.Personnel = Kc.PropDev.Personnel || {};
 		return valid;
 	};
     namespace.selectFirstRadio = function(id) {
-        $(id).find('input').first().prop('checked', true);
+        $(id).find('input').not("input[disabled='disabled']").first().prop('checked', true);
     };
 })(Kc.PropDev.Personnel, jQuery);
