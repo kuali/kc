@@ -62,7 +62,7 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
 	}
 	
 	@RequestMapping(params="methodToCall=markForSubmission")
-	public ModelAndView markForSubmission(@RequestParam("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
+	public ModelAndView markForSubmission(@RequestParam("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
 		ProposalDevelopmentBudgetExt finalBudget = null;
 		for (ProposalDevelopmentBudgetExt curBudget : form.getProposalDevelopmentDocument().getDevelopmentProposal().getBudgets()) {
 			if (ObjectUtils.equals(budgetId, curBudget.getBudgetId())) {
@@ -70,7 +70,7 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
 			}
 		}
 		form.getProposalDevelopmentDocument().getDevelopmentProposal().setFinalBudget(finalBudget);
-		return getModelAndViewService().getModelAndView(form);
+		return super.save(form);
 	}
 
 	public ProposalBudgetSharedController getProposalBudgetSharedController() {

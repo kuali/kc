@@ -163,10 +163,13 @@ public abstract class ProposalDevelopmentControllerBase {
          }
      }
 
-     public ModelAndView save(DocumentFormBase form, BindingResult result,
+     public ModelAndView save(ProposalDevelopmentDocumentForm form, BindingResult result,
              HttpServletRequest request, HttpServletResponse response) throws Exception {
-         ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
+    	 return save(form);
+     }
+     
+     public ModelAndView save(ProposalDevelopmentDocumentForm form) throws Exception {
+         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) form.getDocument();
 
          preSave(proposalDevelopmentDocument);
 
@@ -175,9 +178,10 @@ public abstract class ProposalDevelopmentControllerBase {
          proposalDevelopmentService.initializeProposalSiteNumbers(
                  proposalDevelopmentDocument);
 
-         getProposalDevelopmentAttachmentService().prepareAttachmentsForSave(pdForm.getDevelopmentProposal());
-         ((ProposalDevelopmentViewHelperServiceImpl)pdForm.getViewHelperService()).setOrdinalPosition(pdForm.getDevelopmentProposal().getProposalPersons());
-         saveAnswerHeaders(pdForm,request.getParameter(UifParameters.PAGE_ID));
+         getProposalDevelopmentAttachmentService().prepareAttachmentsForSave(form.getDevelopmentProposal());
+         ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).setOrdinalPosition(form.getDevelopmentProposal().getProposalPersons());
+         saveAnswerHeaders(form, form.getPageId());
+
          getTransactionalDocumentControllerService().save(form);
          
          initializeProposalUsers(proposalDevelopmentDocument);
@@ -239,8 +243,8 @@ public abstract class ProposalDevelopmentControllerBase {
          }
      }
      
-     protected ModelAndView navigate(DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	return save(form, result, request, response);
+     protected ModelAndView navigate(ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	return save(form);
      }
 
     public void saveAnswerHeaders(ProposalDevelopmentDocumentForm pdForm) {
