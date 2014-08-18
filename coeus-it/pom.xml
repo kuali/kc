@@ -50,7 +50,7 @@
     <dependencies>
         <dependency>
             <groupId>org.kuali.coeus</groupId>
-            <artifactId>coeus-code</artifactId>
+            <artifactId>coeus-impl</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
             <!--exclude provided app server deps, allow app server implementation to include them for integration tests -->
@@ -80,6 +80,12 @@
                     <artifactId>javax.servlet.jsp.jstl</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.coeus</groupId>
+            <artifactId>coeus-s2sgen-impl</artifactId>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>

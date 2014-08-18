@@ -29,7 +29,7 @@ public class OjbToJpaConversionDriver {
 
     private static void setupConfig() {
         ConversionConfig cfg = ConversionConfig.getInstance();
-        cfg.setProjectHomeDir("/Users/Travis/Documents/idea/ws/kuali/kc/kc/coeus-code");
+        cfg.setProjectHomeDir("/Users/Travis/Documents/idea/ws/kuali/kc/kc/coeus-impl");
         cfg.setProjectResourceDir("/src/main/resources");
         cfg.setProjectSourceDir("/src/main/java");
 
