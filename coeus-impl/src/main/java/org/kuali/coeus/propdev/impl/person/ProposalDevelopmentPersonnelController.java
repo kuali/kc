@@ -48,7 +48,7 @@ import java.util.*;
 
 @Controller
 public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentControllerBase {
-   
+
 	@Autowired
 	@Qualifier("kcPersonLookupableHelperService")
     private LookupableHelperService kcPersonLookupableHelperService;
@@ -71,7 +71,6 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
             person.setDevelopmentProposal(propDevForm.getProposalDevelopmentDocument().getDevelopmentProposal());
             person.getQuestionnaireHelper().populateAnswers();
         }
-        sortPersonnelCollection(propDevForm.getDevelopmentProposal().getProposalPersons());
         return getNavigationControllerService().navigate(form);
     } 
     
@@ -89,7 +88,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     	refreshPersonCertificaitonAnswerHeaders(pdForm);
     	return mv;
     }
-   
+
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=performPersonnelSearch")
    public ModelAndView performPersonnelSearch(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -137,7 +136,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        newProposalPerson.setProposalPersonRoleId(form.getAddKeyPersonHelper().getPersonRole());
        newProposalPerson.setProjectRole(form.getAddKeyPersonHelper().getKeyPersonProjectRole());
        getKeyPersonnelService().addProposalPerson(newProposalPerson, form.getProposalDevelopmentDocument());
-       sortPersonnelCollection(form.getDevelopmentProposal().getProposalPersons());
+       Collections.sort(form.getDevelopmentProposal().getProposalPersons(), new ProposalPersonComparator());
        form.getAddKeyPersonHelper().reset();
        refreshPersonCertificaitonAnswerHeaders(form);
        return getRefreshControllerService().refresh(form);
@@ -201,6 +200,47 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 	   return mv;
    }
 
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=movePersonUp"})
+    public ModelAndView movePersonUp(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
+                                     @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine) throws Exception {
+
+        swapAdjacentPersonnel(form.getDevelopmentProposal().getProposalPersons(), Integer.parseInt(selectedLine), MoveOperationEnum.MOVING_PERSON_UP);
+
+        return getRefreshControllerService().refresh(form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=movePersonDown"})
+    public ModelAndView movePersonDown(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
+                                     @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine) throws Exception {
+
+        swapAdjacentPersonnel(form.getDevelopmentProposal().getProposalPersons(), Integer.parseInt(selectedLine), MoveOperationEnum.MOVING_PERSON_DOWN);
+
+        return getRefreshControllerService().refresh(form);
+    }
+
+    private enum MoveOperationEnum {
+        MOVING_PERSON_DOWN (1),
+        MOVING_PERSON_UP(-1);
+
+        private int offset;
+
+        private MoveOperationEnum(int offset) {
+            this.offset = offset;
+        }
+
+        public int getOffset() { return offset; }
+    };
+
+    private void swapAdjacentPersonnel(List<ProposalPerson> keyPersonnel, int index1, MoveOperationEnum op) {
+        ProposalPerson movingPerson = keyPersonnel.get(index1);
+
+        if ((op == MoveOperationEnum.MOVING_PERSON_DOWN && movingPerson.isMoveDownAllowed()) || (op == MoveOperationEnum.MOVING_PERSON_UP && movingPerson.isMoveUpAllowed())) {
+            int index2 = index1 + op.getOffset();
+            keyPersonnel.set(index1, keyPersonnel.get(index2));
+            keyPersonnel.set(index2, movingPerson);
+        }
+    }
+
     protected boolean personAlreadyExists(String personId, List<ProposalPerson> existingPersons) {
         for (ProposalPerson existingPerson: existingPersons ) {
             if (personId.equals(existingPerson.getPersonId())) {
@@ -208,33 +248,6 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
             }
         }
         return false;
-    }
-    private void sortPersonnelCollection(List<ProposalPerson> proposalPersons ) {
-        Collections.sort(proposalPersons, new Comparator<ProposalPerson>(){
-            public int compare(ProposalPerson p1, ProposalPerson p2) {
-                int c = convertRoleForSort(p1.getRole()).compareTo(convertRoleForSort(p2.getRole()));
-                if (c == 0) {
-                    c = p1.getLastName().compareTo(p2.getLastName());
-                }
-                if (c == 0) {
-                    c = p1.getFirstName().compareTo(p2.getFirstName());
-                }
-                return c;
-            }
-        });
-    }
-
-    private String convertRoleForSort(PropAwardPersonRole role) {
-        if (role.getCode().equals(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR)) {
-            return "A";
-        } else if (role.getCode().equals(PropAwardPersonRole.MULTI_PI)) {
-            return "B";
-        } else if (role.getCode().equals(PropAwardPersonRole.CO_INVESTIGATOR)) {
-            return "C";
-        } else if (role.getCode().equals(PropAwardPersonRole.KEY_PERSON)) {
-            return "D";
-        }
-        return "Z";
     }
 
     protected LookupableHelperService getKcPersonLookupableHelperService() {

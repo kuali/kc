@@ -297,11 +297,15 @@
 				<property name="header">
 					<bean parent="Uif-HeaderFour">
 						<property name="rightGroup">
-							<bean parent="Uif-VerticalBoxGroup">
+							<bean parent="Uif-HorizontalBoxGroup">
 								<property name="items">
 									<list>
+                                        <bean parent="Uif-ActionLink" p:iconClass="icon-arrow-up" p:render="@{#line.moveUpAllowed}"
+                                              p:actionLabel="" p:methodToCall="movePersonUp" p:order="10"/>
+                                        <bean parent="Uif-ActionLink" p:iconClass="icon-arrow-down" p:render="@{#line.moveDownAllowed}"
+                                              p:actionLabel="" p:methodToCall="movePersonDown" p:order="20"/>
 										<bean parent="Uif-DeleteLineAction" p:actionLabel=""
-											p:iconClass="icon-trash" p:order="10" />
+											p:iconClass="icon-trash" p:order="30" />
 									</list>
 								</property>
 							</bean>

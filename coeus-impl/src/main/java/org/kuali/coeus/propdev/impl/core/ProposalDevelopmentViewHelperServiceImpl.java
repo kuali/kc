@@ -26,6 +26,7 @@ import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
 import org.apache.log4j.Logger;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
@@ -516,5 +517,13 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             LOG.error("SectionID does not have a header property");
         }
         return null;
+    }
+
+    public void setOrdinalPosition(List<ProposalPerson> proposalPersons) {
+        int index = 0;
+        for (ProposalPerson proposalPerson : proposalPersons) {
+            proposalPerson.setOrdinalPosition(index);
+            index++;
+        }
     }
 }
