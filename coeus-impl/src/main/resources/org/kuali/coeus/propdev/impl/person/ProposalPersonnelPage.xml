@@ -301,7 +301,7 @@
 								<property name="items">
 									<list>
 										<bean parent="Uif-DeleteLineAction" p:actionLabel=""
-											p:iconClass="icon-close" p:order="10" />
+											p:iconClass="icon-trash" p:order="10" />
 									</list>
 								</property>
 							</bean>
