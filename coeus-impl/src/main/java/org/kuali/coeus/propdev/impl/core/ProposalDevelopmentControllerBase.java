@@ -176,7 +176,7 @@ public abstract class ProposalDevelopmentControllerBase {
                  proposalDevelopmentDocument);
 
          getProposalDevelopmentAttachmentService().prepareAttachmentsForSave(pdForm.getDevelopmentProposal());
-
+         ((ProposalDevelopmentViewHelperServiceImpl)pdForm.getViewHelperService()).setOrdinalPosition(pdForm.getDevelopmentProposal().getProposalPersons());
          saveAnswerHeaders(pdForm,request.getParameter(UifParameters.PAGE_ID));
          getTransactionalDocumentControllerService().save(form);
          
