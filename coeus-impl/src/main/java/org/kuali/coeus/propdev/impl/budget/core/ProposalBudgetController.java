@@ -64,9 +64,11 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
 	@RequestMapping(params="methodToCall=markForSubmission")
 	public ModelAndView markForSubmission(@RequestParam("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
 		ProposalDevelopmentBudgetExt finalBudget = null;
-		for (ProposalDevelopmentBudgetExt curBudget : form.getProposalDevelopmentDocument().getDevelopmentProposal().getBudgets()) {
-			if (ObjectUtils.equals(budgetId, curBudget.getBudgetId())) {
-				finalBudget = curBudget;
+		if (form.getProposalDevelopmentDocument().getDevelopmentProposal().getBudgets() != null) {
+			for (ProposalDevelopmentBudgetExt curBudget : form.getProposalDevelopmentDocument().getDevelopmentProposal().getBudgets()) {
+				if (ObjectUtils.equals(budgetId, curBudget.getBudgetId())) {
+					finalBudget = curBudget;
+				}
 			}
 		}
 		form.getProposalDevelopmentDocument().getDevelopmentProposal().setFinalBudget(finalBudget);
