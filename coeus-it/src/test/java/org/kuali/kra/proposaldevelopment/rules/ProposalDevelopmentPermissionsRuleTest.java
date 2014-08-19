@@ -59,7 +59,7 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
     public void testAddOK() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
-        ProposalUser proposalUser = createProposalUser("majors");
+        ProposalUserRoles proposalUser = createProposalUserRoles("majors");
         assertTrue(rule.processAddProposalUserBusinessRules(document, proposalUserRolesList, proposalUser));
     }
     
@@ -72,7 +72,7 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
     public void testAddInvalidUser() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
-        ProposalUser proposalUser = createProposalUser("xxx");
+        ProposalUserRoles proposalUser = createProposalUserRoles("xxx");
         assertFalse(rule.processAddProposalUserBusinessRules(document, proposalUserRolesList, proposalUser));
         assertError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".username", KeyConstants.ERROR_UNKNOWN_USERNAME);
     }
@@ -86,7 +86,7 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
     public void testAddDuplicate() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
-        ProposalUser proposalUser = createProposalUser("quickstart");
+        ProposalUserRoles proposalUser = createProposalUserRoles("quickstart");
         assertFalse(rule.processAddProposalUserBusinessRules(document, proposalUserRolesList, proposalUser));
         assertError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".username", KeyConstants.ERROR_DUPLICATE_PROPOSAL_USER);
     }
@@ -125,8 +125,8 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
     public void testEditOK() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
-        ProposalUserEditRoles editRoles = createProposalUserEditRoles("chew");
-        editRoles.setRoleState(RoleConstants.NARRATIVE_WRITER, Boolean.TRUE);
+        ProposalUserRoles editRoles = createProposalUserRoles("chew");
+        editRoles.addRoleName(RoleConstants.NARRATIVE_WRITER);
         assertTrue(rule.processEditProposalUserRolesBusinessRules(document, proposalUserRolesList, editRoles));
     }
 
@@ -139,30 +139,13 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
     public void testEditAggregatorOnly() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
-        ProposalUserEditRoles editRoles = createProposalUserEditRoles("chew");
-        editRoles.setRoleState(RoleConstants.AGGREGATOR, Boolean.TRUE);
-        editRoles.setRoleState(RoleConstants.NARRATIVE_WRITER, Boolean.TRUE);
+        ProposalUserRoles editRoles = createProposalUserRoles("chew");
+        editRoles.addRoleName(RoleConstants.AGGREGATOR);
+        editRoles.addRoleName(RoleConstants.NARRATIVE_WRITER);
         assertFalse(rule.processEditProposalUserRolesBusinessRules(document, proposalUserRolesList, editRoles));
         assertError(Constants.EDIT_ROLES_PROPERTY_KEY, KeyConstants.ERROR_AGGREGATOR_INCLUSIVE);
     }
-    
-    /**
-     * Create a Proposal Edit Roles.  The standard proposal roles will be added
-     * and their states will be set to false.
-     * @param username the username of the user
-     * @return a Proposal Edit Roles
-     */
-    private ProposalUserEditRoles createProposalUserEditRoles(String username) {
-        ProposalUserEditRoles editRoles = new ProposalUserEditRoles();
-        editRoles.setUsername(username);
-        List<ProposalRoleState> roleStates = new ArrayList<ProposalRoleState>();
-        roleStates.add(new ProposalRoleState(RoleConstants.AGGREGATOR));
-        roleStates.add(new ProposalRoleState(RoleConstants.NARRATIVE_WRITER));
-        roleStates.add(new ProposalRoleState(RoleConstants.BUDGET_CREATOR));
-        roleStates.add(new ProposalRoleState(RoleConstants.VIEWER));
-        editRoles.setRoleStates(roleStates);
-        return editRoles;
-    }
+
 
     /**
      * Try removing the Aggregator role from the last user to have that role.
@@ -173,8 +156,8 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
     public void testEditLastAggregator() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
-        ProposalUserEditRoles editRoles = createProposalUserEditRoles("quickstart");
-        editRoles.setRoleState(RoleConstants.NARRATIVE_WRITER, Boolean.TRUE);
+        ProposalUserRoles editRoles = createProposalUserRoles("quickstart");
+        editRoles.addRoleName(RoleConstants.NARRATIVE_WRITER);
         assertFalse(rule.processEditProposalUserRolesBusinessRules(document, proposalUserRolesList, editRoles));
         assertError(Constants.EDIT_ROLES_PROPERTY_KEY, KeyConstants.ERROR_LAST_AGGREGATOR);
     }
@@ -204,10 +187,10 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
      * @param username
      * @return
      */
-    private ProposalUser createProposalUser(String username) {
-        ProposalUser proposalUser = new ProposalUser();
+    private ProposalUserRoles createProposalUserRoles(String username) {
+        ProposalUserRoles proposalUser = new ProposalUserRoles();
         proposalUser.setUsername(username);
-        proposalUser.setRoleName("Aggregator");
+        proposalUser.getRoleNames().add("Aggregator");
         return proposalUser;
     }
     

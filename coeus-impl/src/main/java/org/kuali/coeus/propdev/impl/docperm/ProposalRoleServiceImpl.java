@@ -17,14 +17,12 @@ package org.kuali.coeus.propdev.impl.docperm;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.auth.SystemAuthorizationService;
-import org.kuali.coeus.sys.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.type.KimType;
@@ -54,6 +52,19 @@ public class ProposalRoleServiceImpl implements ProposalRoleService {
     @Autowired
     @Qualifier("unitService")
     private UnitService unitService;
+
+    @Autowired
+    @Qualifier("kcAuthorizationService")
+    private KcAuthorizationService kraAuthorizationService;
+
+
+    public KcAuthorizationService getKraAuthorizationService() {
+        return kraAuthorizationService;
+    }
+
+    public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
+        this.kraAuthorizationService = kraAuthorizationService;
+    }
 
     public void setSystemAuthorizationService(SystemAuthorizationService systemAuthorizationService) {
         this.systemAuthorizationService = systemAuthorizationService;
@@ -133,10 +144,9 @@ public class ProposalRoleServiceImpl implements ProposalRoleService {
 
     public List<ProposalUserRoles> getUserRoles(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         List<ProposalUserRoles> proposalUserRolesList = new ArrayList<ProposalUserRoles>();
-        ProposalRoleService proposalRoleService = KcServiceLocator.getService(ProposalRoleService.class);
 
         // Add persons into the ProposalUserRolesList for each of the roles.
-        Collection<Role> roles = proposalRoleService.getRolesForDisplay();
+        Collection<Role> roles = getRolesForDisplay();
         for (Role role : roles) {
             addPersons(proposalUserRolesList, role.getName(), proposalDevelopmentDocument);
         }
@@ -152,9 +162,7 @@ public class ProposalRoleServiceImpl implements ProposalRoleService {
      * @param roleName the name of role to query for persons assigned to that role
      */
     private void addPersons(List<ProposalUserRoles> propUserRolesList, String roleName, ProposalDevelopmentDocument document) {
-        KcAuthorizationService proposalAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
-
-        List<String> persons = proposalAuthService.getPrincipalsInRole(document, roleName);
+        List<String> persons = getKraAuthorizationService().getPrincipalsInRole(document, roleName);
         for (String person : persons) {
             ProposalUserRoles proposalUserRoles = findProposalUserRoles(propUserRolesList, person);
             if (proposalUserRoles != null) {
@@ -203,8 +211,7 @@ public class ProposalRoleServiceImpl implements ProposalRoleService {
 
         // Query the database to find the name of the unit.
 
-        UnitService unitService = KcServiceLocator.getService(UnitService.class);
-        Unit unit = unitService.getUnit(person.getOrganizationIdentifier());
+        Unit unit = getUnitService().getUnit(person.getOrganizationIdentifier());
         if (unit != null) {
             proposalUserRoles.setUnitName(unit.getUnitName());
         }

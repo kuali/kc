@@ -25,8 +25,12 @@ import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
 import org.apache.log4j.Logger;
+import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
+import org.kuali.coeus.propdev.impl.docperm.AddProposalUserEvent;
+import org.kuali.coeus.propdev.impl.docperm.DeleteProposalUserEvent;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.docperm.AddProposalUserEvent;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
@@ -129,7 +133,15 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Autowired
     @Qualifier("auditHelper")
     private AuditHelper auditHelper;
-    
+
+    @Autowired
+    @Qualifier("kualiRuleService")
+    private KualiRuleService kualiRuleService;
+
+    @Autowired
+    @Qualifier("proposalDevelopmentPermissionsService")
+    private ProposalDevelopmentPermissionsService proposalDevelopmentPermissionsService;
+
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
@@ -173,8 +185,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             note.setAuthorUniversalIdentifier(globalVariableService.getUserSession().getPrincipalId());
             note.setNotePostedTimestampToCurrent();
             note.setNoteTypeCode("BO");
-        } else if (addLine instanceof ProposalUserRoles) {
-            ProposalUserRoles newRole = (ProposalUserRoles)addLine;
         }
 
         if (addLine instanceof KcPersistableBusinessObjectBase) {
@@ -187,8 +197,12 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     public void processAfterAddLine(ViewModel model, Object lineObject, String collectionId, String collectionPath,
                                     boolean isValidLine) {
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
+        ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
         if (lineObject instanceof Note) {
             getNoteService().save((Note)lineObject);
+        }
+        else if (lineObject instanceof ProposalUserRoles){
+            getProposalDevelopmentPermissionsService().processAddPermission(document,(ProposalUserRoles)lineObject);
         }
     }
     public void finalizeNavigationLinks(Action action, Object model, String direction) {
@@ -220,11 +234,16 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     	String collectionLabel = (String) viewModel.getViewPostMetadata().getComponentPostData(collectionId,UifConstants.PostMetadata.COLL_LABEL);
     	ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) viewModel;
         ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
-        Collection<CongressionalDistrict> CongressionalDistricts= ObjectPropertyUtils.getPropertyValue(viewModel, collectionPath);
-        if (newLine instanceof CongressionalDistrict) {        	
-        	isValid = KcServiceLocator.getService(KualiRuleService.class).applyRules(
-        			new AddProposalCongressionalDistrictEvent(document, (List<CongressionalDistrict>) CongressionalDistricts,(CongressionalDistrict) newLine,collectionId,collectionLabel));
+
+        if (newLine instanceof CongressionalDistrict) {
+            Collection<CongressionalDistrict> CongressionalDistricts= ObjectPropertyUtils.getPropertyValue(viewModel, collectionPath);
+        	isValid = getKualiRuleService().applyRules(
+                    new AddProposalCongressionalDistrictEvent(document, (List<CongressionalDistrict>) CongressionalDistricts, (CongressionalDistrict) newLine, collectionId, collectionLabel));
         	
+        }
+        else if (newLine instanceof ProposalUserRoles){
+            ProposalUserRoles newProposalUserRoles = (ProposalUserRoles) newLine;
+            isValid = getProposalDevelopmentPermissionsService().validateAddPermissions(document, form.getPermissionsHelper().getWorkingUserRoles(),newProposalUserRoles);
         }
         return isValid;
     }
@@ -249,6 +268,24 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
                }
            }
     }
+
+    @Override
+    protected boolean performDeleteLineValidation(ViewModel model, String collectionId, String collectionPath, Object deleteLine) {
+        ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
+        ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
+        Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(model, collectionPath);
+        int index = ((List<Object>) collection).indexOf(deleteLine);
+        boolean isValid = true;
+        if (deleteLine instanceof ProposalUserRoles){
+            isValid = getProposalDevelopmentPermissionsService().validateDeletePermissions(document, form.getPermissionsHelper().getWorkingUserRoles(),index);
+            if (isValid){
+                getProposalDevelopmentPermissionsService().processDeletePermission(document,((ProposalUserRoles)deleteLine));
+            }
+        }
+
+        return isValid;
+    }
+
 
     public static class SponsorSuggestResult {
         private Sponsor sponsor;
@@ -279,10 +316,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         return result;
     }
 
-    public boolean isAttachmentEditable(String selectedCollectionPath, String index, HashMap<String,List<String>> editableAttachments) {
+    public boolean isCollectionLineEditable(String selectedCollectionPath, String index, HashMap<String,List<String>> editableCollectionLines) {
         boolean retVal = false;
-        if (editableAttachments.containsKey(selectedCollectionPath)) {
-            if (editableAttachments.get(selectedCollectionPath).contains(index)) {
+        if (editableCollectionLines.containsKey(selectedCollectionPath)) {
+            if (editableCollectionLines.get(selectedCollectionPath).contains(index)) {
                 retVal = true;
             }
         }
@@ -515,6 +552,28 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             LOG.error("SectionID does not have a header property");
         }
         return null;
+    }
+
+    public KualiRuleService getKualiRuleService() {
+        if (kualiRuleService == null){
+            kualiRuleService = KcServiceLocator.getService(KualiRuleService.class);
+        }
+        return kualiRuleService;
+    }
+
+    public void setKualiRuleService(KualiRuleService kualiRuleService) {
+        this.kualiRuleService = kualiRuleService;
+    }
+
+    public ProposalDevelopmentPermissionsService getProposalDevelopmentPermissionsService() {
+        if (proposalDevelopmentPermissionsService == null){
+            proposalDevelopmentPermissionsService = KcServiceLocator.getService(ProposalDevelopmentPermissionsService.class);
+        }
+        return proposalDevelopmentPermissionsService;
+    }
+
+    public void setProposalDevelopmentPermissionsService(ProposalDevelopmentPermissionsService proposalDevelopmentPermissionsService) {
+        this.proposalDevelopmentPermissionsService = proposalDevelopmentPermissionsService;
     }
 
     public void setOrdinalPosition(List<ProposalPerson> proposalPersons) {

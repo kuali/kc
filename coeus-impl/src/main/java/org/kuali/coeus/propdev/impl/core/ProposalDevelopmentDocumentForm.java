@@ -59,7 +59,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private S2sOpportunity newS2sOpportunity;
     private ProposalDevelopmentPermissionsHelper permissionsHelper;
     private transient MedusaService medusaService;
-    private Map<String,List<String>> editableAttachments;
+    private Map<String,List<String>> editableCollectionLines;
     private ProposalDevelopmentCustomDataHelper customDataHelper;
     private List<ProposalDevelopmentCustomDataGroupDto> customDataGroups;
     private List<ProposalDevelopmentDataValidationItem> dataValidationItems;
@@ -98,7 +98,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
         permissionsHelper = new ProposalDevelopmentPermissionsHelper(getProposalDevelopmentDocument());
 
-        editableAttachments = new HashMap<String,List<String>>();
+        editableCollectionLines = new HashMap<String,List<String>>();
 
         customDataHelper = new ProposalDevelopmentCustomDataHelper(this.getProposalDevelopmentDocument());
 
@@ -192,12 +192,12 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         this.newS2sOpportunity = newOpportunity;
     }
 
-    public Map<String, List<String>> getEditableAttachments() {
-        return editableAttachments;
+    public Map<String, List<String>> getEditableCollectionLines() {
+        return editableCollectionLines;
     }
 
-    public void setEditableAttachments(Map<String, List<String>> editableAttachments) {
-        this.editableAttachments = editableAttachments;
+    public void setEditableCollectionLines(Map<String, List<String>> editableCollectionLines) {
+        this.editableCollectionLines = editableCollectionLines;
     }
 
     public ProposalDevelopmentPermissionsHelper getPermissionsHelper() {

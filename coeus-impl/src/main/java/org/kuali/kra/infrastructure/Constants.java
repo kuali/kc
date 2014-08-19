@@ -137,6 +137,7 @@ public interface Constants {
     public static final String PROPOSAL_PAGE = "proposal";
     public static final String CUSTOM_ATTRIBUTES_PAGE = "customData";
     public static final String QUESTIONS_PAGE = "PropDev-QuestionnairePage";
+    public static final String PROP_DEV_PERMISSIONS_PAGE = "PropDev-PermissionsPage";
     public static final String PERMISSIONS_PAGE = "permissions";
     public static final String PROPOSAL_ACTIONS_PAGE = "actions";
     public static final String HIERARCHY_PAGE = "hierarchy";
@@ -224,7 +225,9 @@ public interface Constants {
     
     // Key Permissions Info
     public static final String CONFIRM_DELETE_PROPOSAL_USER_KEY = "confirmDeleteProposalUser";
-    public static final String PERMISSION_PROPOSAL_USERS_PROPERTY_KEY = "newProposalUser";
+    public static final String PERMISSION_PROPOSAL_USERS_COLLECTION_PROPERTY_KEY = "permissionsHelper.workingUserRoles";
+    public static final String PERMISSION_PROPOSAL_USERS_PROPERTY_KEY = "newCollectionLines['" + PERMISSION_PROPOSAL_USERS_COLLECTION_PROPERTY_KEY + "']";
+    public static final String PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY = "PropDev-PermissionsPage-UserTable";
     public static final String EDIT_ROLES_PROPERTY_KEY = "proposalUserEditRole";
     public static final String PERMISSIONS_EDIT_ROLES_PROPERTY_KEY = "permissionsUserEditRole";
     public static final String MAPPING_PERMISSIONS_ROLE_RIGHTS_PAGE = "permissionsRoleRights";

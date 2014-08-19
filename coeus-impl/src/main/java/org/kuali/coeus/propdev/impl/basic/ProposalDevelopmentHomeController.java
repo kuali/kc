@@ -33,6 +33,7 @@ import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.PessimisticLockService;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
@@ -78,7 +79,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
        initialSave(proposalDevelopmentDocument);
        save(form, result, request, response);
-       initializeProposalUsers(proposalDevelopmentDocument);
+       initializeProposalUsers(form.getProposalDevelopmentDocument());
        //setting to null so the previous page id(PropDev-InitiatePage) doesn't override the default 
        form.setPageId(null);
        return getModelAndViewService().getModelAndViewWithInit(form, PROPDEV_DEFAULT_VIEW_ID);
@@ -214,6 +215,22 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        propDevForm.getCustomDataHelper().prepareCustomData();
        return modelAndView;
    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=editCollectionLine")
+    public ModelAndView editCollectionLine(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+
+        if(form.getEditableCollectionLines().containsKey(selectedCollectionPath)) {
+            form.getEditableCollectionLines().get(selectedCollectionPath).add(selectedLine);
+        } else {
+            List<String> newKeyList = new ArrayList<String>();
+            newKeyList.add(selectedLine);
+            form.getEditableCollectionLines().put(selectedCollectionPath,newKeyList);
+        }
+
+        return getRefreshControllerService().refresh(form);
+    }
    
     public PessimisticLockService getPessimisticLockService() {
         return pessimisticLockService;

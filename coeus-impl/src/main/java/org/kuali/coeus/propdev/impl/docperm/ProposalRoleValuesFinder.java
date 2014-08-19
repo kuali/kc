@@ -48,7 +48,6 @@ public class ProposalRoleValuesFinder extends UifKeyValuesFinderBase {
         for (Role role : proposalRoles) {
             KeyValue pair = new ConcreteKeyValue(role.getName(), role.getName());
             keyValues.add(pair);
-System.err.println("new role, name = "+role.getName());
         }
         
         return keyValues;

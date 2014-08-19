@@ -381,7 +381,7 @@
 
     <bean id="PropDev-AttachmentPage-EditField" parent="PropDev-AttachmentPage-EditField-parentBean"/>
     <bean id="PropDev-AttachmentPage-EditField-parentBean" abstract="true" parent="Uif-InputField"
-          p:readOnly="@{!#ViewHelper.isAttachmentEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableAttachments)}"/>
+          p:readOnly="@{!#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
 
     <bean id="PropDev-AttachmentPage-AddLineButton" parent="PropDev-AttachmentPage-AddLineButton-parentBean"/>
     <bean id="PropDev-AttachmentPage-AddLineButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
@@ -394,13 +394,13 @@
 
     <bean id="PropDev-AttachmentPage-EditButton" parent="PropDev-AttachmentPage-EditButton-parentBean"/>
     <bean id="PropDev-AttachmentPage-EditButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
-          p:methodToCall="editAttachment" p:actionLabel="Edit"
-          p:hidden="@{#ViewHelper.isAttachmentEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableAttachments)}"/>
+          p:methodToCall="editCollectionLine" p:actionLabel="Edit"
+          p:hidden="@{#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
 
     <bean id="PropDev-AttachmentPage-SaveButton" parent="PropDev-AttachmentPage-SaveButton-parentBean"/>
     <bean id="PropDev-AttachmentPage-SaveButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
           p:methodToCall="saveAttachment" p:actionLabel="Save"
-          p:hidden="@{!#ViewHelper.isAttachmentEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableAttachments)}"/>
+          p:hidden="@{!#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
 
     <bean id="PropDev-AttachmentPage-DeleteFileButton" parent="PropDev-AttachmentPage-DeleteFileButton-parentBean"/>
     <bean id="PropDev-AttachmentPage-DeleteFileButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
@@ -437,10 +437,10 @@
         <property name="collection.items">
             <list merge="true">
                 <bean parent="PropDev-AttachmentPage-LinkField"
-                      p:render="@{!#ViewHelper.isAttachmentEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableAttachments)}"
+                      p:render="@{!#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"
                       p:order="10"/>
                 <bean parent="Uif-InputField" p:propertyName="multipartFile" p:fieldLabel.labelText="File"
-                      p:render="@{#ViewHelper.isAttachmentEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableAttachments)}"
+                      p:render="@{#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"
                       p:order="20">
                     <property name="control">
                         <bean parent="Uif-FileControl"/>

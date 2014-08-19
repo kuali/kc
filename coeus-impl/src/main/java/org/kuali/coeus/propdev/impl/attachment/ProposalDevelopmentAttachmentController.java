@@ -63,33 +63,15 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     @Autowired
     @Qualifier("kcFileControllerService")
     private FileControllerService kcFileControllerService;
-
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=editAttachment")
-    public ModelAndView editAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
-        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-
-        if(form.getEditableAttachments().containsKey(selectedCollectionPath)) {
-            form.getEditableAttachments().get(selectedCollectionPath).add(selectedLine);
-        } else {
-            List<String> newKeyList = new ArrayList<String>();
-            newKeyList.add(selectedLine);
-            form.getEditableAttachments().put(selectedCollectionPath,newKeyList);
-        }
-
-        return getRefreshControllerService().refresh(form);
-    }
-
-
+    
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=cancelAttachment")
     public ModelAndView cancelAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
         final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
 
-        if(form.getEditableAttachments().containsKey(selectedCollectionPath)){
-            form.getEditableAttachments().get(selectedCollectionPath).remove(selectedLine);
+        if(form.getEditableCollectionLines().containsKey(selectedCollectionPath)){
+            form.getEditableCollectionLines().get(selectedCollectionPath).remove(selectedLine);
         }
 
         return getRefreshControllerService().refresh(form);
@@ -101,8 +83,8 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
 
-        if(form.getEditableAttachments().containsKey(selectedCollectionPath)){
-            form.getEditableAttachments().get(selectedCollectionPath).remove(selectedLine);
+        if(form.getEditableCollectionLines().containsKey(selectedCollectionPath)){
+            form.getEditableCollectionLines().get(selectedCollectionPath).remove(selectedLine);
         }
 
         return getCollectionControllerService().saveLine(form);
@@ -113,14 +95,14 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
         final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
 
-        if(form.getEditableAttachments().containsKey(selectedCollectionPath)) {
+        if(form.getEditableCollectionLines().containsKey(selectedCollectionPath)) {
             List<String> indexes = new ArrayList<String>();
-            for (String index : form.getEditableAttachments().get(selectedCollectionPath)) {
+            for (String index : form.getEditableCollectionLines().get(selectedCollectionPath)) {
                 Integer newIndex= Integer.parseInt(index) + 1;
                 indexes.add(newIndex.toString());
             }
-            form.getEditableAttachments().get(selectedCollectionPath).clear();
-            form.getEditableAttachments().get(selectedCollectionPath).addAll(indexes);
+            form.getEditableCollectionLines().get(selectedCollectionPath).clear();
+            form.getEditableCollectionLines().get(selectedCollectionPath).addAll(indexes);
         }
         return getCollectionControllerService().addLine(form);
     }
@@ -130,19 +112,19 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
                                           MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
         final String selectedCollectionPath = request.getParameter("bindingPath");
 
-        if(form.getEditableAttachments().containsKey(selectedCollectionPath)) {
+        if(form.getEditableCollectionLines().containsKey(selectedCollectionPath)) {
             List<String> indexes = new ArrayList<String>();
             indexes.add("0");
-            for (String index : form.getEditableAttachments().get(selectedCollectionPath)) {
+            for (String index : form.getEditableCollectionLines().get(selectedCollectionPath)) {
                 Integer newIndex= Integer.parseInt(index) + 1;
                 indexes.add(newIndex.toString());
             }
-            form.getEditableAttachments().get(selectedCollectionPath).clear();
-            form.getEditableAttachments().get(selectedCollectionPath).addAll(indexes);
+            form.getEditableCollectionLines().get(selectedCollectionPath).clear();
+            form.getEditableCollectionLines().get(selectedCollectionPath).addAll(indexes);
         } else {
             List<String> newKeyList = new ArrayList<String>();
             newKeyList.add("0");
-            form.getEditableAttachments().put(selectedCollectionPath,newKeyList);
+            form.getEditableCollectionLines().put(selectedCollectionPath,newKeyList);
         }
 
         return getFileControllerService().addFileUploadLine(form);

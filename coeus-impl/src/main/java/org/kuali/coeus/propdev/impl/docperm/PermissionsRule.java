@@ -16,9 +16,6 @@
 package org.kuali.coeus.propdev.impl.docperm;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.docperm.ProposalUser;
-import org.kuali.coeus.propdev.impl.docperm.ProposalUserEditRoles;
-import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 import java.util.List;
@@ -41,7 +38,7 @@ public interface PermissionsRule extends BusinessRule {
      */
     public boolean processAddProposalUserBusinessRules(ProposalDevelopmentDocument document,
                                                        List<ProposalUserRoles> proposalUserRolesList,
-                                                       ProposalUser proposalUser);
+                                                       ProposalUserRoles proposalUser);
     /**
      * Determines the legality of deleting a proposal user from the
      * given proposal development document.
@@ -65,5 +62,5 @@ public interface PermissionsRule extends BusinessRule {
      */
     public boolean processEditProposalUserRolesBusinessRules(ProposalDevelopmentDocument document,
                                                              List<ProposalUserRoles> proposalUserRolesList,
-                                                             ProposalUserEditRoles editRoles);
+                                                             ProposalUserRoles editRoles);
 }

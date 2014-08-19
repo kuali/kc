@@ -58,7 +58,7 @@ public interface LegacyNarrativeService {
      * @param proposalDevelopmentDocument the Proposal Development Document
      * @param roleName the initial proposal role of the user
      */
-    public void addPerson(String userId, ProposalDevelopmentDocument proposalDevelopmentDocument, String roleName);
+    public void addPerson(String userId, ProposalDevelopmentDocument proposalDevelopmentDocument, List<String> roleNames);
     
 
     /**

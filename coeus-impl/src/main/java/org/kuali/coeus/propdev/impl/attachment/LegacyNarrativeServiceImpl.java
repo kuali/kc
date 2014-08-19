@@ -410,21 +410,23 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
     }
 
     
-    public void addPerson(String userName, ProposalDevelopmentDocument proposalDevelopmentDocument, String roleName) {
+    public void addPerson(String userName, ProposalDevelopmentDocument proposalDevelopmentDocument, List<String> roleNames) {
         KcPerson person = getKcPersonService().getKcPersonByUserName(userName);
         List<Narrative> narratives = proposalDevelopmentDocument.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
             List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
-           
-            NarrativeRight narrativeRight = getNarrativeAuthZService().getDefaultNarrativeRight(roleName);
-            NarrativeUserRights narrUserRight = new NarrativeUserRights();
-            narrUserRight.setProposalNumber(narrative.getProposalNumber());
-            narrUserRight.setModuleNumber(narrative.getModuleNumber());
-            narrUserRight.setUserId(person.getPersonId());
-            narrUserRight.setAccessType(narrativeRight.getAccessType());
-            narrUserRight.setPersonName(person.getFullName());
-            updateUserTimestamp(narrUserRight);
-            userRights.add(narrUserRight);
+
+            for (String roleName : roleNames){
+                NarrativeRight narrativeRight = getNarrativeAuthZService().getDefaultNarrativeRight(roleName);
+                NarrativeUserRights narrUserRight = new NarrativeUserRights();
+                narrUserRight.setProposalNumber(narrative.getProposalNumber());
+                narrUserRight.setModuleNumber(narrative.getModuleNumber());
+                narrUserRight.setUserId(person.getPersonId());
+                narrUserRight.setAccessType(narrativeRight.getAccessType());
+                narrUserRight.setPersonName(person.getFullName());
+                updateUserTimestamp(narrUserRight);
+                userRights.add(narrUserRight);
+            }
         }
     }
     

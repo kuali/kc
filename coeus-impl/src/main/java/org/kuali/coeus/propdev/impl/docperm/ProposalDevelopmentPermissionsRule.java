@@ -23,6 +23,7 @@ import org.kuali.coeus.propdev.impl.attachment.NarrativeRight;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
@@ -42,16 +43,17 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
     private transient KcPersonService kcPersonService;
     private transient KcWorkflowService kcWorkflowService;
     private transient SystemAuthorizationService systemAuthorizationService;
+    private transient GlobalVariableService globalVariableService;
     
     @Override
-    public boolean processAddProposalUserBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUser proposalUser) {
+    public boolean processAddProposalUserBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUserRoles proposalUser) {
         boolean isValid = true;
         
         //KRACOEUS-5530 Check if user name is Null or Empty
         
         if(StringUtils.isEmpty(proposalUser.getUsername())){
             isValid = false;
-            this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".username", 
+            this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".username",
                              KeyConstants.ERROR_EMPTY_USERNAME);
         }
        
@@ -60,7 +62,7 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
             
         else if (!isValidUser(proposalUser.getUsername())) {
             isValid = false;
-            this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".username", 
+            this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".username",
                              KeyConstants.ERROR_UNKNOWN_USERNAME);
         }
             
@@ -69,7 +71,7 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
             
         else if (isDuplicate(proposalUser.getUsername(), proposalUserRolesList)) {
             isValid = false;
-            this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".username", 
+            this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".username",
                              KeyConstants.ERROR_DUPLICATE_PROPOSAL_USER);
         }
         
@@ -92,40 +94,39 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
         String username = proposalUserRole.getUsername();
 
         if (hasModifyNarrativePermission(username, proposalUserRolesList)) {
-            isValid &= !testForLastModifier(username, document.getDevelopmentProposal().getNarratives(), Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY, "Proposal Attachment");
-            isValid &= !testForLastModifier(username, document.getDevelopmentProposal().getInstituteAttachments(), Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY, "Internal Attachment");
+            isValid &= !testForLastModifier(username, document.getDevelopmentProposal().getNarratives(), Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, "Proposal Attachment");
+            isValid &= !testForLastModifier(username, document.getDevelopmentProposal().getInstituteAttachments(), Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, "Internal Attachment");
         }
         
         // The user cannot delete the last Aggregator on a proposal.
             
         if (isLastAggregator(username, proposalUserRolesList)) {
             isValid = false;
-            this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY, 
-                             KeyConstants.ERROR_LAST_AGGREGATOR);
+            getGlobalVariableService().getMessageMap().putErrorForSectionId(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_LAST_AGGREGATOR);
         } else if (isAggregatorInitiator(document, proposalUserRole)) {
             isValid = false;
-            this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY, 
-                    KeyConstants.ERROR_PROP_DEV_PERM_INITIATOR);            
+            getGlobalVariableService().getMessageMap().putErrorForSectionId(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_PROP_DEV_PERM_INITIATOR);
         }
         
         // Can only add viewers after doc is workflowed
         else if (kraWorkflowService.isInWorkflow(document)) {
             isValid = false;
-            this.reportError(Constants.EDIT_ROLES_PROPERTY_KEY, 
-                    KeyConstants.ERROR_PERMISSION_VIEWER_ONLY_KEY);
+            getGlobalVariableService().getMessageMap().putErrorForSectionId(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_PERMISSION_VIEWER_ONLY_KEY);
         }
         
         return isValid;
     }
     
     @Override
-    public boolean processEditProposalUserRolesBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUserEditRoles editRoles) {
+    public boolean processEditProposalUserRolesBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUserRoles editRoles) {
         boolean isValid = true;
         KcWorkflowService kraWorkflowService = getKcWorkflowService();
         String username = editRoles.getUsername();
+        int index = proposalUserRolesList.indexOf(editRoles);
+
         if (isRemovingModifyNarrativePermission(proposalUserRolesList, editRoles)) {
-            isValid &= !testForLastModifier(username, document.getDevelopmentProposal().getNarratives(), Constants.EDIT_ROLES_PROPERTY_KEY, "Proposal Attachment");
-            isValid &= !testForLastModifier(username, document.getDevelopmentProposal().getInstituteAttachments(), Constants.EDIT_ROLES_PROPERTY_KEY, "Internal Attachment");
+            isValid &= !testForLastModifier(username, document.getDevelopmentProposal().getNarratives(), Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, "Proposal Attachment");
+            isValid &= !testForLastModifier(username, document.getDevelopmentProposal().getInstituteAttachments(), Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, "Internal Attachment");
         }
 
         // The Aggregator encompasses all of the other roles.  Therefore, if the
@@ -134,23 +135,20 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
         
         if (hasAggregator(editRoles) && hasNonAggregator(editRoles)) {
             isValid = false;
-            this.reportError(Constants.EDIT_ROLES_PROPERTY_KEY, 
-                             KeyConstants.ERROR_AGGREGATOR_INCLUSIVE);
+            getGlobalVariableService().getMessageMap().putErrorForSectionId(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_AGGREGATOR_INCLUSIVE);
         }
             
         // The user cannot delete the last Aggregator on a proposal.
             
         else if (!hasAggregator(editRoles) && isLastAggregator(username, proposalUserRolesList)) {
             isValid = false;
-            this.reportError(Constants.EDIT_ROLES_PROPERTY_KEY, 
-                             KeyConstants.ERROR_LAST_AGGREGATOR);
+            getGlobalVariableService().getMessageMap().putErrorForSectionId(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_LAST_AGGREGATOR);
         }
 
         // Can only add viewers after doc is workflowed
         else if (kraWorkflowService.isInWorkflow(document)) {
             isValid = false;
-            this.reportError(Constants.EDIT_ROLES_PROPERTY_KEY, 
-                    KeyConstants.ERROR_PERMISSION_VIEWER_ONLY_KEY);
+            getGlobalVariableService().getMessageMap().putErrorForSectionId(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_PERMISSION_VIEWER_ONLY_KEY);
         }
         
         return isValid;
@@ -200,22 +198,20 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
     }
     /**
      * This method tests if the user is having modify narrative permissions removed.  It does this by seeing if the user in the 
-     * ProposalUserEditRoles has modify narrative permissions in ProposalUserEditRoles but not in the list of ProposalUserRoles.
+     * ProposalUserRoles has modify narrative permissions in ProposalUserRoles but not in the list of ProposalUserRoles.
      * @param proposalUserRolesList the list of all users' existing roles
      * @param editRoles the proposed new roles for the user in question
-     * @return true if the user has modify narrative permissions in the list but not in the ProposalUserEditRoles
+     * @return true if the user has modify narrative permissions in the list but not in the ProposalUserRoles
      */
-    private boolean isRemovingModifyNarrativePermission(List<ProposalUserRoles> proposalUserRolesList, ProposalUserEditRoles editRoles) {
+    private boolean isRemovingModifyNarrativePermission(List<ProposalUserRoles> proposalUserRolesList, ProposalUserRoles editRoles) {
         boolean newListContainsModifyNarrative = false;
         SystemAuthorizationService systemAuthorizationService = getSystemAuthorizationService();
         List<String> matchingRoleNames = systemAuthorizationService.getRoleNamesForPermission(PermissionConstants.MODIFY_NARRATIVE, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
 
-        for (ProposalRoleState roleState : editRoles.getRoleStates()) {
-            if(roleState.getState()) {
-                if(matchingRoleNames.contains(roleState.getName())) {
-                    newListContainsModifyNarrative = true;
-                    break;
-                }
+        for (String roleName : editRoles.getRoleNames()) {
+            if(matchingRoleNames.contains(roleName)) {
+                newListContainsModifyNarrative = true;
+                break;
             }
         }
 
@@ -258,9 +254,7 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
         for (Narrative attachment : attachments) {
             if (isOnlyModifier(username, attachment)) {
                 reportedError = true;
-                this.reportError(errorLocationKey,
-                        KeyConstants.ERROR_REQUIRE_ONE_NARRATIVE_MODIFY_WITH_ARG,
-                        errorLabel + " " + index);
+                getGlobalVariableService().getMessageMap().putErrorForSectionId(errorLocationKey, KeyConstants.ERROR_REQUIRE_ONE_NARRATIVE_MODIFY_WITH_ARG,errorLabel + " " + index);
             }
             index++;
         }
@@ -272,14 +266,10 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
      * @param editRoles the Proposal Edit Roles
      * @return true if the Aggregator is selected; otherwise false
      */
-    private boolean hasAggregator(ProposalUserEditRoles editRoles) {
-        List<ProposalRoleState> roleStates = editRoles.getRoleStates();
-        for (ProposalRoleState roleState : roleStates) {
-            if (roleState.getState()) {
-                String roleName = roleState.getName();
-                if (StringUtils.equals(roleName, RoleConstants.AGGREGATOR)) {
-                    return true;
-                }
+    private boolean hasAggregator(ProposalUserRoles editRoles) {
+        for (String roleName : editRoles.getRoleNames()) {
+            if (StringUtils.equals(roleName, RoleConstants.AGGREGATOR)) {
+                return true;
             }
         }
         return false;
@@ -290,14 +280,10 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
      * @param editRoles the Proposal Edit Roles
      * @return true if a role other than Aggregator has been selected; otherwise false
      */
-    private boolean hasNonAggregator(ProposalUserEditRoles editRoles) {
-        List<ProposalRoleState> roleStates = editRoles.getRoleStates();
-        for (ProposalRoleState roleState : roleStates) {
-            if (roleState.getState()) {
-                String roleName = roleState.getName();
-                if (!StringUtils.equals(roleName, RoleConstants.AGGREGATOR)) {
-                    return true;
-                }
+    private boolean hasNonAggregator(ProposalUserRoles editRoles) {
+        for (String roleName : editRoles.getRoleNames()) {
+            if (!StringUtils.equals(roleName, RoleConstants.AGGREGATOR)) {
+                return true;
             }
         }
         return false;
@@ -368,7 +354,18 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
      * @param proposalUser the ProposalUser
      * @return true if the role is Viewer
      */
-    private boolean isAddingViewerOnly(ProposalUser proposalUser) {
-        return StringUtils.equals(proposalUser.getRoleName(), RoleConstants.VIEWER);
+    private boolean isAddingViewerOnly(ProposalUserRoles proposalUser) {
+        return proposalUser.getRoleNames().size() == 1 && StringUtils.equals(proposalUser.getRoleNames().get(0), RoleConstants.VIEWER);
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        if (this.globalVariableService == null) {
+            this.globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        }
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
     }
 }
