@@ -43,11 +43,12 @@ public abstract class PropAwardPersonRoleValuesFinder extends UifKeyValuesFinder
     
     @Override
     public List<KeyValue> getKeyValues(ViewModel model, InputField field){
-        List<KeyValue> keyValues = getKeyValues(getSponsorCodeFromModel(model));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.addAll(getKeyValues(getSponsorCodeFromModel(model)));
         if (piAlreadyExists(model,field)) {
-            for (KeyValue keyValue : keyValues) {
+            for (KeyValue keyValue : getKeyValues(getSponsorCodeFromModel(model))) {
                 if (keyValue.getKey().equals(PropAwardPersonRole.PRINCIPAL_INVESTIGATOR)) {
-                    ((ConcreteKeyValue)keyValue).setDisabled(true);
+                    keyValues.remove(keyValue);
                 }
             }
         }
