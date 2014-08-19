@@ -49,8 +49,7 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
 
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "BUDGET_ID")
-    @Id
+    @Column(name = "BUDGET_ID", insertable = false, updatable = false)
     private Long budgetId;
 
     @Column(name = "EFFECTIVE_DATE")
@@ -136,8 +135,9 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
     @Transient
     private String school;
     
+    @Id
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private Budget budget;
     
     public BudgetPerson() {

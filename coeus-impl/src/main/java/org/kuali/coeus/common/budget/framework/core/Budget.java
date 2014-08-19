@@ -40,9 +40,9 @@ import org.kuali.coeus.sys.api.model.ScaleThreeDecimal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.bo.NextValueBase;
 import org.kuali.coeus.common.budget.framework.rate.InstituteLaRate;
 import org.kuali.coeus.common.budget.framework.rate.InstituteRate;
-import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
@@ -58,6 +58,7 @@ import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetNextValue;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetNumberOfMonthsService;
@@ -122,12 +123,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     @OrderBy("budgetPeriodNumber")
-    private List<BudgetProjectIncome> budgetProjectIncomes;
-    
-    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "OBJ_ID")
-    private List<DocumentNextvalue> documentNextvalues;
-    
+    private List<BudgetProjectIncome> budgetProjectIncomes;    
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
@@ -697,19 +693,23 @@ public class Budget extends AbstractBudget implements BudgetContract {
         }
     }
 
-    public void setDocumentNextvalues(List<DocumentNextvalue> documentNextvalues) {
-        this.documentNextvalues = documentNextvalues;
+    public List<? extends NextValueBase> getNextValues() {
+    	throw new UnsupportedOperationException("Not supported in Budget parent class");
     }
-
-    public List<DocumentNextvalue> getDocumentNextvalues() {
-        return documentNextvalues;
+    
+    public NextValueBase getNewNextValue() {
+    	throw new UnsupportedOperationException("Not supported in Budget parent class");
+    }
+    
+    public void add(NextValueBase nextValue) {
+    	throw new UnsupportedOperationException("Not supported in Budget parent class");
     }
 
     public Integer getHackedDocumentNextValue(String propertyName) {
         Integer propNextValue = 1;
         // search for property and get the latest number - increment for next call 
-        for (Object element : getDocumentNextvalues()) {
-            DocumentNextvalue documentNextvalue = (DocumentNextvalue) element;
+        for (Object element : getNextValues()) {
+        	NextValueBase documentNextvalue = (NextValueBase) element;
             if (documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
                 propNextValue = documentNextvalue.getNextValue();
                 BusinessObjectService bos = KcServiceLocator.getService(BusinessObjectService.class);
@@ -729,29 +729,13 @@ public class Budget extends AbstractBudget implements BudgetContract {
             }
         }
 
-        /*****BEGIN BLOCK *****/
-        if (propNextValue == 1) {
-            BusinessObjectService bos = KcServiceLocator.getService(BusinessObjectService.class);
-            Map<String, Object> pkMap = new HashMap<String, Object>();
-            pkMap.put("documentKey", this.getObjectId());
-            pkMap.put("propertyName", propertyName);
-            DocumentNextvalue documentNextvalue = (DocumentNextvalue) bos.findByPrimaryKey(DocumentNextvalue.class, pkMap);
-            if (documentNextvalue != null) {
-                propNextValue = documentNextvalue.getNextValue();
-                documentNextvalue.setNextValue(propNextValue + 1);
-                getDocumentNextvalues().add(documentNextvalue);
-            }
-        }
-        /*****END BLOCK********/
         // property does not exist - set initial value and increment for next call 
         if (propNextValue == 1) {
-            DocumentNextvalue documentNextvalue = new DocumentNextvalue();
+        	NextValueBase documentNextvalue = getNewNextValue();
             documentNextvalue.setNextValue(propNextValue + 1);
             documentNextvalue.setPropertyName(propertyName);
-            documentNextvalue.setDocumentKey(this.getObjectId());
-            getDocumentNextvalues().add(documentNextvalue);
+            add(documentNextvalue);
         }
-        setDocumentNextvalues(getDocumentNextvalues());
         return propNextValue;
     }
     
@@ -847,6 +831,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
     public void addBudgetPerson(BudgetPerson budgetPerson) {
         getBudgetPersons().add(budgetPerson);
+        budgetPerson.setBudget(this);
     }
 
     /**

@@ -22,23 +22,31 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
 
-@Entity
+@MappedSuperclass
 @Table(name = "DOCUMENT_NEXTVALUE")
-@IdClass(DocumentNextvalue.DocumentNextvalueId.class)
-public class DocumentNextvalue extends KcPersistableBusinessObjectBase implements NextValue {
+@IdClass(NextValueBase.DocumentNextvalueId.class)
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="DOCUMENT_NEXT_VALUE_TYPE", discriminatorType = DiscriminatorType.STRING)
+public abstract class NextValueBase<T> extends KcPersistableBusinessObjectBase implements NextValue {
 
     @Id
     @Column(name = "PROPERTY_NAME")
     private String propertyName;
 
+    //Traditionally this held just the document number, but with BudgetDocument removal we
+    //are now storing either documentNumber when available or OJB_ID in cases where not
     @Id
-    @Column(name = "DOCUMENT_NUMBER")
+    @Column(name = "DOCUMENT_NUMBER", insertable=false, updatable=false)
     private String documentKey;
 
     @Column(name = "NEXT_VALUE")
     private Integer nextValue;
+    
+    public abstract T getParentObject();
+    public abstract void setParentObject(T parentObject);
 
     public String getPropertyName() {
         return propertyName;
@@ -63,7 +71,7 @@ public class DocumentNextvalue extends KcPersistableBusinessObjectBase implement
     public void setDocumentKey(String documentKey) {
         this.documentKey = documentKey;
     }
-    
+	
     public static final class DocumentNextvalueId implements Serializable, Comparable<DocumentNextvalueId> {
 
         private String propertyName;
@@ -112,6 +120,6 @@ public class DocumentNextvalue extends KcPersistableBusinessObjectBase implement
         public int compareTo(DocumentNextvalueId other) {
             return new CompareToBuilder().append(this.propertyName, other.propertyName).append(this.documentKey, other.documentKey).toComparison();
         }
-    }    
+    }	
 
 }

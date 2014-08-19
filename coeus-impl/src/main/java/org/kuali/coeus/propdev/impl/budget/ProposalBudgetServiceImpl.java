@@ -22,6 +22,7 @@ import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionRule;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
@@ -68,6 +69,10 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     @Autowired
     @Qualifier("proposalBudgetVersionRule")
     private AddBudgetVersionRule addBudgetVersionRule;
+
+    @Autowired
+    @Qualifier("budgetPersonService")
+    private BudgetPersonService budgetPersonService;
     
     @Override
     public Budget getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,String budgetName, Map<String, Object> options){
@@ -99,10 +104,8 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         //load budget rates
         budget.setRateClassTypesReloaded(true);
         budget.getRateClassTypes();
-
-        budget = saveBudget(budget);
-
-        return budget;
+        getBudgetPersonService().synchBudgetPersonsToProposal(budget);
+        return saveBudget(budget);
     }
 
     @Override
@@ -225,5 +228,13 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
 
 	public void setAddBudgetVersionRule(AddBudgetVersionRule addBudgetVersionRule) {
 		this.addBudgetVersionRule = addBudgetVersionRule;
+	}
+	
+	public BudgetPersonService getBudgetPersonService() {
+		return budgetPersonService;
+	}
+
+	public void setBudgetPersonService(BudgetPersonService budgetPersonService) {
+		this.budgetPersonService = budgetPersonService;
 	}
 }
