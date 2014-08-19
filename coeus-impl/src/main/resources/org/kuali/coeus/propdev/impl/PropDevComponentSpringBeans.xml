@@ -834,6 +834,4 @@
         <property name="addBlankOption" value="false"/>
     </bean>
     
-    <bean id="proposalSpecialReviewApprovalTypeValuesFinder" class="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewApprovalTypeValuesFinder"/>
-    
 </beans>
