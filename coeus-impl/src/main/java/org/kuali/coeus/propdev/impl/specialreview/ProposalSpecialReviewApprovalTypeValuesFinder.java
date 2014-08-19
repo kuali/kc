@@ -28,10 +28,12 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.springframework.stereotype.Component;
 
 /**
  * See {@link #getKeyValues()}.
  */
+@Component("proposalSpecialReviewApprovalTypeValuesFinder")
 public class ProposalSpecialReviewApprovalTypeValuesFinder extends SpecialReviewApprovalTypeValuesFinder {
     
     /**
