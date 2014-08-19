@@ -16,8 +16,9 @@
     <bean id="PropDev-CreditAllocationPage-parentBean" parent="PropDev-DocumentPage">
         <property name="items">
             <list>
-                <ref bean="PropDev-CreditAllocation-Section" />
-            </list>
+             <bean parent="PropDev-CreditAllocation-Section"  p:render="@{#ViewHelper.isCreditSplitEnabled()}" p:order="10"/>
+           	<bean parent="PropDev-NoCreditAllocation-Section"  p:render="@{!#ViewHelper.isCreditSplitEnabled()}" p:order="20"/>
+           </list>
         </property>
         <property name="header">
             <bean parent="Uif-PageHeader" />
@@ -36,7 +37,19 @@
                 </list>
             </property>
     </bean>
-
+    
+	 <bean id="PropDev-NoCreditAllocation-Section" parent="PropDev-NoCreditAllocation-Section-parentBean"/>
+    <bean id="PropDev-NoCreditAllocation-Section-parentBean" abstract="true" parent="Uif-VerticalBoxSection"
+          p:header.headerText="Credit Allocation">
+            <property name="items">
+                <list>
+                 
+                    <bean parent="Uif-Message" p:messageText="There are no investigators for this proposal."
+                          p:render="@{#emptyList(document.developmentProposal.getInvestigators())}" p:order="20"/>
+                </list>
+            </property>
+    </bean>
+	 
 
     <bean id="PropDev-CreditAllocation-Collection" parent="PropDev-CreditAllocation-Collection-parentBean"/>
     <bean id="PropDev-CreditAllocation-Collection-parentBean" abstract="true" parent="Uif-TableCollectionSection"
