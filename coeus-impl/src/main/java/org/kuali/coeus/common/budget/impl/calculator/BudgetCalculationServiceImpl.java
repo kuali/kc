@@ -438,7 +438,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     
     protected BudgetCategoryType getPersonnelCategoryType() {
         final Map<String, String> primaryKeys = new HashMap<String, String>();
-        primaryKeys.put("budgetCategoryTypeCode", "P");
+        primaryKeys.put("code", "P");
         return this.getBusinessObjectService().findByPrimaryKey(BudgetCategoryType.class, primaryKeys);
     }
 
