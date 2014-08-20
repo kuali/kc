@@ -39,8 +39,8 @@
     </property>
        <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:fieldLabel.renderColon="false" p:propertyName="budgetPeriodNumber"
-                      p:readOnly="@{!#isAddLine}" p:order="10">
+                <bean parent="Uif-InputField" p:fieldLabel.renderColon="false" p:propertyName="budgetPeriodNumber" p:order="10"
+                      p:readOnly="@{!#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" >
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -48,21 +48,27 @@
                         <bean class="org.kuali.coeus.common.budget.impl.core.BudgetPeriodValuesFinder" p:addBlankOption="false"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="description"
-                      p:readOnly="@{!#isAddLine}" p:order="20" />
-                <bean parent="Uif-InputField" p:propertyName="projectIncome"
-                      p:readOnly="@{!#isAddLine}" p:order="30" />
+                <bean parent="Uif-InputField" p:propertyName="description" p:order="20"
+                      p:readOnlyDisplayReplacementPropertyName="description"
+                      p:readOnly="@{!#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                <bean parent="Uif-InputField" p:propertyName="projectIncome" p:order="30"
+                      p:readOnlyDisplayReplacementPropertyName="projectIncome"
+                      p:readOnly="@{!#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" />
             </list>
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="cancelEdit"
-                      p:hidden="true" p:actionLabel="cancel" p:order="10" />
-                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="editLine"
-                      p:hidden="false" p:actionLabel="Edit" p:order="20" />
                 <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="saveLine"
-                      p:hidden="true" p:actionLabel="Save" p:order="30" />
+                      p:render="@{#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"
+                      p:actionLabel="Save" p:order="10" />
+                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="editLineItem"
+                      p:render="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"
+                      p:actionLabel="Edit" p:order="20" />
+                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="cancelEditLineItem"
+                      p:render="@{#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"
+                      p:actionLabel="cancel" p:order="30" />
                 <bean parent="Uif-DeleteLineAction-IconOnly" p:order="40"
+                      p:render="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"
                       p:iconClass="icon-trash" />
             </list>
         </property>
