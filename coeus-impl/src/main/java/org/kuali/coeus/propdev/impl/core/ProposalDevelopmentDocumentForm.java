@@ -23,6 +23,7 @@ import org.kuali.coeus.propdev.impl.budget.core.AddBudgetDto;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto;
+import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
@@ -66,6 +67,15 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private ProposalCopyCriteria proposalCopyCriteria;
     private ProposalDevelopmentAttachmentHelper proposalDevelopmentAttachmentHelper;
     private OrganizationAddWizardHelper addOrganizationHelper;
+    private ProposalPersonQuestionnaireHelper proposalPersonQuestionnaireHelper;
+
+    public ProposalPersonQuestionnaireHelper getProposalPersonQuestionnaireHelper() {
+        return proposalPersonQuestionnaireHelper;
+    }
+
+    public void setProposalPersonQuestionnaireHelper(ProposalPersonQuestionnaireHelper proposalPersonQuestionnaireHelper) {
+        this.proposalPersonQuestionnaireHelper = proposalPersonQuestionnaireHelper;
+    }
 
     public ProposalDevelopmentDocumentForm() {
         super();

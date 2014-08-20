@@ -77,6 +77,7 @@
     <bean id="sponsorHierarchyService" parent="grlImporter" p:serviceName="sponsorHierarchyService" />
     <bean id="kcAttachmentService" parent="grlImporter" p:serviceName="kcAttachmentService"/>
     <bean id="fiscalYearMonthService" parent="grlImporter" p:serviceName="fiscalYearMonthService" />
+    <bean id="questionnairePrintingService" parent="grlImporter" p:serviceName="questionnairePrintingService"/>
 
     <!-- IRB -->
 
