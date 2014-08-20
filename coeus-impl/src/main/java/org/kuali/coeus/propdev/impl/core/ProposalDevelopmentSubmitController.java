@@ -95,6 +95,11 @@ public class ProposalDevelopmentSubmitController extends
 		   return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
 	   }
    	}
+   
+   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=recall")
+   public  ModelAndView recall(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)throws Exception {
+	   return getTransactionalDocumentControllerService().recall(form);
+  } 
   
   boolean proposalValidToSubmit(ProposalDevelopmentDocumentForm form) {
 	  boolean isValid = true;
