@@ -262,7 +262,10 @@
       <bean parent="TextControlDefinition" p:size="5"/>
     </property>
     <property name="controlField">
-      <bean p:size="5" parent="Uif-TextControl"/>
+      <bean p:size="5" parent="Uif-CurrencyTextControl"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint" p:precision="5" p:scale="2"/>
     </property>
     <property name="summary" value="Applicable Rate" />
     <property name="description" value="Applicable Rate" />
@@ -280,7 +283,10 @@
       <bean parent="TextControlDefinition" p:size="5"/>
     </property>
     <property name="controlField">
-      <bean p:size="5" parent="Uif-TextControl"/>
+      <bean p:size="5" parent="Uif-CurrencyTextControl"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint" p:precision="5" p:scale="2"/>
     </property>
     <property name="summary" value="Institute Rate" />
     <property name="description" value="Institute Rate" />

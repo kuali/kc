@@ -936,6 +936,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/krad/common/KcApplicationHeader.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/common/KcComponents.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/common/LandingPageView.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/common/KcPropertyEditors.xml</value>
                 <value>classpath:org/kuali/coeus/common/questionnaire/impl/core/QuestionnaireView.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/rice-contrib/UifNavigationBar.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/rice-contrib/UifMultiSelect.xml</value>

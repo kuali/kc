@@ -75,7 +75,7 @@
   <bean id="RateType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
     <property name="name" value="description" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Rate Type Description" />
+    <property name="label" value="Description" />
   </bean>
 
   <bean id="RateType-versionNumber" parent="RateType-versionNumber-parentBean" />

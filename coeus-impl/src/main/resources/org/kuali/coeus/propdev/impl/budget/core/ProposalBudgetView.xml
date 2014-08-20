@@ -39,7 +39,7 @@
 		<property name="items">
 			<list>
 				<ref bean="PropBudget-PeriodsPage" />
-				<bean id="PropBudget-RatesPage" parent="PropBudget-UnderDevelopmentPage" />
+				<ref bean="PropBudget-RatesPage" />
 				<ref bean="PropBudget-ProjectPersonnelPage" />
 				<bean id="PropBudget-PersonnelPeriodsPage" parent="PropBudget-UnderDevelopmentPage" />
 				<bean id="PropBudget-NonPersonnel" parent="PropBudget-UnderDevelopmentPage" />
