@@ -20,7 +20,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
+
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
@@ -28,12 +28,9 @@ import org.kuali.coeus.propdev.impl.copy.ProposalCopyService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
-import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -41,11 +38,8 @@ import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -220,28 +214,6 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        propDevForm.initialize();
        propDevForm.getCustomDataHelper().prepareCustomData();
        return modelAndView;
-   }
-   
-   @InitBinder
-   protected void initBinder(WebDataBinder binder) throws Exception {
-	   binder.registerCustomEditor(List.class, "document.developmentProposal.propScienceKeywords", new PropScienceKeywordEditor());
-   }
-   	  
-   protected class PropScienceKeywordEditor extends CustomCollectionEditor {
-		public PropScienceKeywordEditor() {
-			super(List.class);
-		}
-
-		protected Object convertElement(Object element) {
-			if (element instanceof String) {
-				return new PropScienceKeyword(null, getScienceKeyword(element));
-			}
-			return null;
-		}
-	}
-   
-   protected ScienceKeyword getScienceKeyword(Object element) {
-	   return getDataObjectService().findUnique(ScienceKeyword.class, QueryByCriteria.Builder.forAttribute("code", element).build());
    }
 
     public PessimisticLockService getPessimisticLockService() {
