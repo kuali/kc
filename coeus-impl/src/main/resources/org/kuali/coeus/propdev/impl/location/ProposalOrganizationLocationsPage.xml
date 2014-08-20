@@ -94,7 +94,7 @@
 		<property name="quickfinder">
 			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.coeus.common.framework.org.Organization"
 				p:hideCriteriaOnSearch="true"
-				p:fieldConversions="organizationId:organization.organizationId,rolodex.rolodexId:rolodex.rolodexId,organizationName:organization.organizationName,rolodex.addressLine1:rolodex.addressLine1,rolodex.addressLine2,rolodex.addressLine2,rolodex.addressLine3,rolodex.addressLine3,rolodex.city:rolodex.city,rolodex.state:rolodex.state,rolodex.postalCode:rolodex.postalCode">
+                p:fieldConversions="rolodex.rolodexId:rolodexId,organizationId:organizationId">
 				<property name="quickfinderAction">
 					<bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="performLookup"
 					    p:focusOnIdAfterSubmit="NEXT_INPUT" p:wrapperCssClasses="input-group-btn"
