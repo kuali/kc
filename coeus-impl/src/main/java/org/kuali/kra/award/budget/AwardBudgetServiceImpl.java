@@ -48,6 +48,7 @@ import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
+import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionRule;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
@@ -84,6 +85,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     private AwardBudgetCalculationService awardBudgetCalculationService;
     private VersionHistoryService versionHistoryService;
     private AwardService awardService;
+    private AddBudgetVersionRule addBudgetVersionRule;
 
     @Override
     public void post(AwardBudgetDocument awardBudgetDocument) {
@@ -274,7 +276,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
             throws WorkflowException {
         boolean success = new AwardBudgetVersionRule().processAddBudgetVersion(
                 new AddBudgetVersionEvent(BUDGET_VERSION_ERROR_PREFIX,
-                        parentDocument,documentDescription));
+                        parentDocument.getBudgetParent(), documentDescription));
         if (!success) {
             return null;
         }
@@ -989,6 +991,17 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     public void setAwardService(AwardService awardService) {
         this.awardService = awardService;
     }
+
+	public AddBudgetVersionRule getAddBudgetVersionRule() {
+		if (addBudgetVersionRule == null) {
+			addBudgetVersionRule = new AwardBudgetVersionRule();
+		}
+		return addBudgetVersionRule;
+	}
+
+	public void setAddBudgetVersionRule(AddBudgetVersionRule addBudgetVersionRule) {
+		this.addBudgetVersionRule = addBudgetVersionRule;
+	}
 
 
 }

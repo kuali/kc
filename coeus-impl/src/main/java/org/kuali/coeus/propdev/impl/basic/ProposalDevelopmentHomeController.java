@@ -133,14 +133,13 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 
    }
    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=save")
-   public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
-           HttpServletRequest request, HttpServletResponse response) throws Exception {
-       return super.save(form, result, request, response);
+   public ModelAndView save(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+       return super.save(form);
    }
    
    @MethodAccessible
    @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=navigate")
-   public ModelAndView navigate(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+   public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
 		   HttpServletRequest request, HttpServletResponse response) throws Exception {
 	   return super.navigate(form, result, request, response);
    }

@@ -21,6 +21,9 @@ import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionCollection;
 import org.kuali.coeus.common.budget.impl.version.BudgetVersionRule;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetVersionRule;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.rice.krad.document.Document;
@@ -40,25 +43,26 @@ public class BudgetVersionRuleTest {
     private static final String VERSION_NAME = "test version";
     private static final String DEFAULT_BUD_VER_NAME = "Default Budget Name";
 
-    private BudgetVersionCollection proposal;
+    private DevelopmentProposal proposal;
     
 
     @Before
     public void setUp() throws Exception {
-        proposal = new PseudoProposalDevelopmentDocument();
+        proposal = new DevelopmentProposal();
+        proposal.setBudgets(new ArrayList<ProposalDevelopmentBudgetExt>());
     }
         
     @Test
     public void testExistingBudgetVersion() {
         addNewBudgetVersion(proposal, VERSION_NAME);
         
-        boolean ruleStatus = new AddBudgetVersionEvent("", (Document) proposal, VERSION_NAME).invokeRuleMethod(new BudgetVersionRule());
+        boolean ruleStatus = new AddBudgetVersionEvent("", proposal, VERSION_NAME).invokeRuleMethod(new ProposalBudgetVersionRule());
         assertFalse(ruleStatus);
     }
 
     @Test
     public void testNewBudgetVersion() {
-        boolean ruleStatus = new AddBudgetVersionEvent("", (Document) proposal, VERSION_NAME).invokeRuleMethod(new BudgetVersionRule());
+        boolean ruleStatus = new AddBudgetVersionEvent("", proposal, VERSION_NAME).invokeRuleMethod(new ProposalBudgetVersionRule());
 
         assertTrue(ruleStatus);
     }
@@ -70,7 +74,7 @@ public class BudgetVersionRuleTest {
      */
     @Test
     public void testOK() throws Exception {
-        assertTrue(new AddBudgetVersionEvent("", (Document) proposal, DEFAULT_BUD_VER_NAME).invokeRuleMethod(new BudgetVersionRule()));
+        assertTrue(new AddBudgetVersionEvent("", proposal, DEFAULT_BUD_VER_NAME).invokeRuleMethod(new ProposalBudgetVersionRule()));
     }
     
     /**
@@ -80,7 +84,7 @@ public class BudgetVersionRuleTest {
      */
     @Test
     public void testNegativeNullName() throws Exception {
-        assertFalse(new AddBudgetVersionEvent("", (Document) proposal, (String)null).invokeRuleMethod(new BudgetVersionRule()));
+        assertFalse(new AddBudgetVersionEvent("", proposal, (String)null).invokeRuleMethod(new ProposalBudgetVersionRule()));
     }
     
     /**
@@ -90,7 +94,7 @@ public class BudgetVersionRuleTest {
      */
     @Test
     public void testNegativeEmptyName() throws Exception {
-        assertFalse(new AddBudgetVersionEvent("", (Document) proposal, "").invokeRuleMethod(new BudgetVersionRule()));
+        assertFalse(new AddBudgetVersionEvent("", proposal, "").invokeRuleMethod(new ProposalBudgetVersionRule()));
     }
     
     /**
@@ -99,41 +103,11 @@ public class BudgetVersionRuleTest {
      * @param document document to add {@link org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview} to
      * @param name of the {@link org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview} to add
      */
-    public void addNewBudgetVersion(BudgetVersionCollection document, String name) {
-        document.getBudgetDocumentVersions().add(new PseudoBudgetVersionOverview(name));
+    public void addNewBudgetVersion(DevelopmentProposal proposal, String name) {
+    	ProposalDevelopmentBudgetExt budget = new ProposalDevelopmentBudgetExt();
+    	budget.setName(name);
+        proposal.getBudgets().add(budget);
     }
 
-    /**
-     * Fake {@link BudgetDocument} with a name constructor
-     */
-    public class PseudoBudgetVersionOverview extends BudgetDocumentVersion {
-        public PseudoBudgetVersionOverview(String name) {
-//            setDocumentDescription(name);
-        }
-    }
-
-    /**
-     * Fake {@link ProposalDevelopmentDocument} to get around using Spring for quicker unit tests that test just what we want to test.
-     *
-     */
-    public class PseudoProposalDevelopmentDocument extends DocumentBase implements BudgetVersionCollection {
-        private List<BudgetDocumentVersion> overviews;
-
-        public PseudoProposalDevelopmentDocument() {
-            setBudgetDocumentVersions(new ArrayList<BudgetDocumentVersion>());
-        }
-
-        public List<BudgetDocumentVersion> getBudgetDocumentVersions() {
-            return overviews;
-        }
-        
-        public void setBudgetDocumentVersions(List<BudgetDocumentVersion> budgetVersionOverviews) {
-            overviews = budgetVersionOverviews;
-        }
-        
-        public void refreshBudgetDocumentVersions() {
-            
-        }
-    }
 }
 

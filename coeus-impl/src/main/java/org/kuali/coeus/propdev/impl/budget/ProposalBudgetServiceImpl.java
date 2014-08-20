@@ -22,6 +22,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
+import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionRule;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
@@ -63,6 +64,10 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     @Qualifier("propDevBudgetSubAwardService")
     private PropDevBudgetSubAwardService propDevBudgetSubAwardService;
     
+    @Autowired
+    @Qualifier("proposalBudgetVersionRule")
+    private AddBudgetVersionRule addBudgetVersionRule;
+    
     @Override
     public Budget getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,String budgetName, Map<String, Object> options){
         Integer budgetVersionNumber = parentDocument.getNextBudgetVersionNumber();
@@ -81,10 +86,9 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         budget.setModularBudgetFlag(this.parameterService.getParameterValueAsBoolean(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
         budget.setBudgetStatus(this.parameterService.getParameterValueAsString(BudgetDocument.class, budgetParent.getDefaultBudgetStatusParameter()));
         budget.setModularBudgetFlag((Boolean) options.get("modularBudgetFlag"));
-        budget.setSummaryBudget((Boolean) options.get("summaryBudget"));
         boolean success;
 		try {
-			success = new BudgetVersionRule().processAddBudgetVersion(new AddBudgetVersionEvent("document.parentDocument.budgetDocumentVersion",parentDocument,budget));
+			success = getAddBudgetVersionRule().processAddBudgetVersion(new AddBudgetVersionEvent("addBudgetDto", parentDocument.getBudgetParent(), budgetName));
 		} catch (WorkflowException e) {
 			throw new RuntimeException(e);
 		}
@@ -209,5 +213,13 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     public void setPropDevBudgetSubAwardService(PropDevBudgetSubAwardService propDevBudgetSubAwardService) {
         this.propDevBudgetSubAwardService = propDevBudgetSubAwardService;
     }
+
+	public AddBudgetVersionRule getAddBudgetVersionRule() {
+		return addBudgetVersionRule;
+	}
+
+	public void setAddBudgetVersionRule(AddBudgetVersionRule addBudgetVersionRule) {
+		this.addBudgetVersionRule = addBudgetVersionRule;
+	}
 
 }

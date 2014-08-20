@@ -38,6 +38,7 @@
 				<value>css/common/core.css</value>
 				<value>css/common/questionnaire.css</value>
 				<value>css/propdev/person.css</value>
+				<value>css/propdev/budget.css</value>
 			</list>
 		</property>
 		<property name="header" ref="PropDev-DocumentHeader" />
@@ -211,6 +212,8 @@
 							p:iconClass="icon-list-ol" p:order="50" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Access"
 							p:iconClass="icon-lock" p:order="60" />
+						<bean parent="Uif-ActionLink" p:actionLabel="Budget Versions" p:actionScript="showDialog('PropDev-BudgetVersions-Dialog');"
+							p:iconClass="icon-money" p:order="70" />							
 					</list>
 				</property>
 			</bean>

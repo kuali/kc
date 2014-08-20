@@ -15,7 +15,10 @@
  */
 package org.kuali.coeus.propdev.impl.budget.core;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
+import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
+import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionRule;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
@@ -26,6 +29,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
@@ -35,50 +39,48 @@ import java.util.Properties;
 @Controller
 @RequestMapping(value="/proposalDevelopment")
 public class ProposalBudgetController extends ProposalDevelopmentControllerBase {
-   
+
 	@Autowired
-	@Qualifier("proposalBudgetService")
-    private BudgetService budgetService;
-	
+	@Qualifier("proposalBudgetSharedController")
+	private ProposalBudgetSharedController proposalBudgetSharedController;
+    
 	@MethodAccessible
     @RequestMapping(params="methodToCall=addBudget")
-    public ModelAndView addBudget(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
-		Map<String, Object> options = new HashMap<String, Object>();
-		options.put("modularBudgetFlag", form.getAddBudgetDto().getModularBudget() != null ? form.getAddBudgetDto().getModularBudget() : Boolean.FALSE);
-		options.put("summaryBudget", form.getAddBudgetDto().getSummaryBudget() != null ? form.getAddBudgetDto().getSummaryBudget() : Boolean.FALSE);
-        ProposalDevelopmentBudgetExt budget = (ProposalDevelopmentBudgetExt) getBudgetService().addBudgetVersion(form.getProposalDevelopmentDocument(), form.getAddBudgetDto().getBudgetName(), options);
-        if (budget != null) {
-	        Properties props = new Properties();
-	        props.put("methodToCall", "initiate");
-	        props.put("budgetId", budget.getBudgetId().toString());
-	        return getModelAndViewService().performRedirect(form, "proposalBudget", props);
-        } else {
-        	return this.getModelAndViewService().getModelAndView(form);
-        }
+    public ModelAndView addBudget(@RequestParam("addBudgetDto.budgetName") String budgetName, 
+    		@RequestParam("addBudgetDto.summaryBudget") Boolean summaryBudget, 
+    		@RequestParam("addBudgetDto.modularBudget") Boolean modularBudget, 
+    		@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+		return getProposalBudgetSharedController().addBudget(budgetName, summaryBudget, modularBudget, form.getDevelopmentProposal(), form);
     }
 
 	@MethodAccessible
     @RequestMapping(params="methodToCall=copyBudget")
-	public ModelAndView copyBudget(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
-		ProposalDevelopmentBudgetExt originalBudget = getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.forAttribute("budgetId", form.getCopyBudgetDto().getOriginalBudgetId()).build());
-		ProposalDevelopmentBudgetExt budget = (ProposalDevelopmentBudgetExt) getBudgetService().copyBudgetVersion(originalBudget, false);
-        if (budget != null) {
-        	budget.setName(form.getCopyBudgetDto().getBudgetName());
-        	budget = getDataObjectService().save(budget);
-	        Properties props = new Properties();
-	        props.put("methodToCall", "initiate");
-	        props.put("budgetId", budget.getBudgetId().toString());
-	        return getModelAndViewService().performRedirect(form, "proposalBudget", props);
-        } else {
-        	return this.getModelAndViewService().getModelAndView(form);
-        }		
+	public ModelAndView copyBudget(@RequestParam("copyBudgetDto.budgetName") String budgetName, 
+			@RequestParam("copyBudgetDto.originalBudgetId") Long originalBudgetId, 
+			@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+		return getProposalBudgetSharedController().copyBudget(budgetName, originalBudgetId, form.getDevelopmentProposal(), form);
+	}
+	
+	@RequestMapping(params="methodToCall=markForSubmission")
+	public ModelAndView markForSubmission(@RequestParam("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+		ProposalDevelopmentBudgetExt finalBudget = null;
+		if (form.getProposalDevelopmentDocument().getDevelopmentProposal().getBudgets() != null) {
+			for (ProposalDevelopmentBudgetExt curBudget : form.getProposalDevelopmentDocument().getDevelopmentProposal().getBudgets()) {
+				if (ObjectUtils.equals(budgetId, curBudget.getBudgetId())) {
+					finalBudget = curBudget;
+				}
+			}
+		}
+		form.getProposalDevelopmentDocument().getDevelopmentProposal().setFinalBudget(finalBudget);
+		return super.save(form);
 	}
 
-	public BudgetService getBudgetService() {
-		return budgetService;
+	public ProposalBudgetSharedController getProposalBudgetSharedController() {
+		return proposalBudgetSharedController;
 	}
 
-	public void setBudgetService(BudgetService budgetService) {
-		this.budgetService = budgetService;
+	public void setProposalBudgetSharedController(
+			ProposalBudgetSharedController proposalBudgetSharedController) {
+		this.proposalBudgetSharedController = proposalBudgetSharedController;
 	}
 }

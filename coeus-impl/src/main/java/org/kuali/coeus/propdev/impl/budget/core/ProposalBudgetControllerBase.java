@@ -5,6 +5,7 @@ import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
@@ -60,6 +61,10 @@ public abstract class ProposalBudgetControllerBase {
 	@Autowired
 	@Qualifier("dataObjectService")
 	private DataObjectService dataObjectService;
+	
+	@Autowired
+	@Qualifier("proposalBudgetService")
+	private ProposalBudgetService budgetService;
 
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalBudgetForm();
@@ -164,5 +169,13 @@ public abstract class ProposalBudgetControllerBase {
     public void setRefreshControllerService(RefreshControllerService refreshControllerService) {
         this.refreshControllerService = refreshControllerService;
     }
+
+	public ProposalBudgetService getBudgetService() {
+		return budgetService;
+	}
+
+	public void setBudgetService(ProposalBudgetService budgetService) {
+		this.budgetService = budgetService;
+	}
 
 }

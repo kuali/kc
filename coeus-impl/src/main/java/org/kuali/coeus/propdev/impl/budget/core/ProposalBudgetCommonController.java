@@ -2,7 +2,9 @@ package org.kuali.coeus.propdev.impl.budget.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +35,10 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/proposalBudget")
 public class ProposalBudgetCommonController extends ProposalBudgetControllerBase {
 
-
+	@Autowired
+	@Qualifier("proposalBudgetSharedController")
+	private ProposalBudgetSharedController proposalBudgetSharedController;
+	
 	@MethodAccessible
 	@RequestMapping(params="methodToCall=defaultMapping")
 	public ModelAndView defaultMapping(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request,
@@ -51,10 +56,11 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	
 	@MethodAccessible
 	@RequestMapping(params="methodToCall=initiate")
-	public ModelAndView initiate(@RequestParam("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
+	public ModelAndView initiate(@RequestParam("budgetId") Long budgetId, @RequestParam(value = "summaryBudget", required = false) Boolean summaryBudget, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		form.setBudget(loadBudget(budgetId));
 		form.initialize();
-		if (!form.getBudget().isSummaryBudget()) {
+		if ((summaryBudget != null && !summaryBudget)
+				|| (summaryBudget == null && !form.getBudget().isSummaryBudget())) {
 			return getModelAndViewService().getModelAndViewWithInit(form, ProposalBudgetConstants.KradConstants.BUDGET_DEFAULT_VIEW, ProposalBudgetConstants.KradConstants.PERSONNEL_PAGE_ID);
 		} else {
 			return getModelAndViewService().getModelAndViewWithInit(form, ProposalBudgetConstants.KradConstants.BUDGET_DEFAULT_VIEW, ProposalBudgetConstants.KradConstants.PERIODS_AND_TOTALS_PAGE_ID);
@@ -80,6 +86,23 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	@RequestMapping(params = "methodToCall=navigate")
 	public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		return super.navigate(form);
+	}
+	
+	@MethodAccessible
+    @RequestMapping(params="methodToCall=addBudget")
+    public ModelAndView addBudget(@RequestParam("addBudgetDto.budgetName") String budgetName, 
+    		@RequestParam("addBudgetDto.summaryBudget") Boolean summaryBudget, 
+    		@RequestParam("addBudgetDto.modularBudget") Boolean modularBudget, 
+    		@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		return getProposalBudgetSharedController().addBudget(budgetName, summaryBudget, modularBudget, form.getDevelopmentProposal(), form);
+    }
+
+	@MethodAccessible
+    @RequestMapping(params="methodToCall=copyBudget")
+	public ModelAndView copyBudget(@RequestParam("copyBudgetDto.budgetName") String budgetName, 
+			@RequestParam("copyBudgetDto.originalBudgetId") Long originalBudgetId, 
+			@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		return getProposalBudgetSharedController().copyBudget(budgetName, originalBudgetId, form.getDevelopmentProposal(), form);
 	}
 
 	public void checkViewAuthorization(@ModelAttribute("KualiForm") ProposalBudgetForm form, String methodToCall) throws AuthorizationException {
@@ -232,5 +255,14 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
         }
         return getRefreshControllerService().refresh(form);
     }
+
+	public ProposalBudgetSharedController getProposalBudgetSharedController() {
+		return proposalBudgetSharedController;
+	}
+
+	public void setProposalBudgetSharedController(
+			ProposalBudgetSharedController proposalBudgetSharedController) {
+		this.proposalBudgetSharedController = proposalBudgetSharedController;
+	}
 
 }

@@ -81,10 +81,10 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     } 
     
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=save", "pageId=PropDev-PersonnelPage"})
-    public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, 
+    public ModelAndView save(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, 
     		HttpServletRequest request, HttpServletResponse response) throws Exception {
     	ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
-    	ModelAndView mv = super.save(form, result, request, response);
+    	ModelAndView mv = super.save(form);
     	refreshPersonCertificaitonAnswerHeaders(pdForm);
     	return mv;
     }

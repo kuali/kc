@@ -46,7 +46,7 @@ public class AwardBudgetVersionRule extends BudgetVersionRule {
         //budget will already have been created. So must check the rules against the award only.
         //Also the budget is null in the event when this is called right now.
         boolean success = true;
-        Award award = ((AwardDocument) event.getDocument()).getAward();
+        Award award = (Award) event.getBudgetParent();
         if(!award.getObligatedDistributableTotal().isPositive()){
             GlobalVariables.getMessageMap().putError(event.getErrorPathPrefix(), 
                   KeyConstants.ERROR_BUDGET_OBLIGATED_AMOUNT_INVALID, "Name");

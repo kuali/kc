@@ -33,13 +33,5 @@ update EPS_PROPOSAL_BUDGET_EXT prop_budget set STATUS_CODE = '2' where STATUS_CO
 alter table EPS_PROPOSAL_BUDGET_EXT modify column STATUS_CODE char(1) not null
 /
 
-alter table EPS_PROPOSAL_BUDGET_EXT add column IS_SUMMARY_BUDGET char(1)
-/
-
-update EPS_PROPOSAL_BUDGET_EXT set IS_SUMMARY_BUDGET = 'N'
-/
-
-alter table EPS_PROPOSAL_BUDGET_EXT modify column IS_SUMMARY_BUDGET char(1) not null
-/
 
 DELIMITER ;
