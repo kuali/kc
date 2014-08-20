@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.coeus.common.impl.fiscalyear;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.framework.fiscalyear.FiscalYearMonthService;
+import org.kuali.coeus.common.impl.fiscalyear.FiscalYearMonthServiceImpl;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.service.FiscalYearMonthService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;

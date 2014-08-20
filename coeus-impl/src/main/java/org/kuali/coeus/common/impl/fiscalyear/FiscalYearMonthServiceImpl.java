@@ -13,19 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.coeus.common.impl.fiscalyear;
 
-import org.kuali.kra.service.FiscalYearMonthService;
+import org.kuali.coeus.common.framework.fiscalyear.FiscalYearMonthService;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Service("fiscalYearMonthService")
 public class FiscalYearMonthServiceImpl implements FiscalYearMonthService {
     
+	@Autowired
+	@Qualifier("parameterService")
     private ParameterService parameterService;
     protected static final String FISCAL_YEAR_MONTH_PARAMETER_NAME = "KC_FISCAL_START_MONTH";
     protected static final String KC_GENERAL_NAMESPACE = "KC-GEN";
