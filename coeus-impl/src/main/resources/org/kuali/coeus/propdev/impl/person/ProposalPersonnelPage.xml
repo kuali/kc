@@ -520,7 +520,7 @@
 			<list>
 				<bean parent="Uif-DataField" p:propertyName="unit.unitName"
 					p:readOnly="true" p:order="10" />
-				<bean parent="Uif-DataField" p:propertyName="unitNumber"
+				<bean parent="Uif-DataField" p:propertyName="unitNumber" p:enableAutoInquiry="false"
 					p:readOnly="true" p:order="20" />
  				<bean parent="Uif-MessageField" p:messageText="@{#lp.leadUnit ? 'Lead Unit - Cannot delete' : ' '}"
 					p:readOnly="true" p:order="30"
