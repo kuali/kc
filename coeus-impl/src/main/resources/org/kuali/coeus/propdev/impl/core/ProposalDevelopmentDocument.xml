@@ -139,12 +139,12 @@
           <property name="workflowProperties">
             <list>
               <bean parent="WorkflowProperty" p:path="documentHeader"/>
-              <bean parent="WorkflowProperty" p:path="developmentProposalList.proposalNumber"/>
-              <bean parent="WorkflowProperty" p:path="developmentProposalList.ownedByUnitNumber"/>
+              <bean parent="WorkflowProperty" p:path="developmentProposal.proposalNumber"/>
+              <bean parent="WorkflowProperty" p:path="developmentProposal.ownedByUnitNumber"/>
               <bean parent="WorkflowProperty" p:path="budgetDocumentVersions.budgetVersionOverview.totalCost"/>
-              <bean parent="WorkflowProperty" p:path="developmentProposalList.principalInvestigatorName"/>
-              <bean parent="WorkflowProperty" p:path="developmentProposalList.title"/>
-              <bean parent="WorkflowProperty" p:path="developmentProposalList.sponsor.sponsorCode"/>
+              <bean parent="WorkflowProperty" p:path="developmentProposal.principalInvestigatorName"/>
+              <bean parent="WorkflowProperty" p:path="developmentProposal.title"/>
+              <bean parent="WorkflowProperty" p:path="developmentProposal.sponsor.sponsorCode"/>
 			 </list>
           </property>
         </bean>

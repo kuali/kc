@@ -165,7 +165,7 @@
 					</display>
 					<fieldEvaluation>
 						<xpathexpression>
-							//document/developmentProposalList[1]/proposalNumber
+							//document/developmentProposal/proposalNumber
 						</xpathexpression>
 					</fieldEvaluation>
 				</fieldDef>
@@ -198,7 +198,7 @@
 					<validation required="false" />
 					<fieldEvaluation>
 						<xpathexpression>
-						  	wf:xstreamsafe('//document/developmentProposalList[1]/org.kuali.coeus.propdev.impl.core.DevelopmentProposal/ownedByUnitNumber')= wf:ruledata('ownedByUnitNumber')
+						  	wf:xstreamsafe('//document/developmentProposal/ownedByUnitNumber')= wf:ruledata('ownedByUnitNumber')
 						</xpathexpression>
 					</fieldEvaluation>
 				</fieldDef>
@@ -227,7 +227,7 @@
 					<validation required="false" />
 					<fieldEvaluation>
 						<xpathexpression>
-							wf:xstreamsafe('//document/developmentProposalList[1]/ownedByUnitNumber')= 'IN-CARD' and wf:xstreamsafe("//budgetDocumentVersions/budgetVersionOverview/org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview/totalCost/value") &gt;= wf:ruledata('totalCost')
+							wf:xstreamsafe('//document/developmentProposal/ownedByUnitNumber')= 'IN-CARD' and wf:xstreamsafe("//budgetDocumentVersions/budgetVersionOverview/org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview/totalCost/value") &gt;= wf:ruledata('totalCost')
 						</xpathexpression>
 					</fieldEvaluation>
 				</fieldDef>
@@ -338,7 +338,7 @@
 			<serviceNamespace>KC</serviceNamespace>
 			<resolverConfig>
 				<attributes name="proposal">
-					<xPathExpression>//document/developmentProposalList[1]/org.kuali.coeus.propdev.impl.core.DevelopmentProposal[1]/proposalNumber[1]</xPathExpression>
+					<xPathExpression>//document/developmentProposal/proposalNumber</xPathExpression>
 				</attributes>
 			</resolverConfig>
 		</ruleAttribute>
@@ -352,7 +352,7 @@
 			<serviceNamespace>KC</serviceNamespace>
 			<resolverConfig>
 				<attributes name="unitNumber">
-					<xPathExpression>//document/developmentProposalList[1]/org.kuali.coeus.propdev.impl.core.DevelopmentProposal[1]/ownedByUnitNumber[1]</xPathExpression>
+					<xPathExpression>//document/developmentProposal/ownedByUnitNumber</xPathExpression>
 				</attributes>
 			</resolverConfig>
 		</ruleAttribute>
