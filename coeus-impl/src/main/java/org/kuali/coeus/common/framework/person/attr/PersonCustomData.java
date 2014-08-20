@@ -15,11 +15,13 @@
  */
 package org.kuali.coeus.common.framework.person.attr;
 
+import java.io.Serializable;
+
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class PersonCustomData extends KcPersistableBusinessObjectBase implements DocumentCustomData {
+public class PersonCustomData extends KcPersistableBusinessObjectBase implements DocumentCustomData, Serializable {
 
     private static final long serialVersionUID = 7498061394015743173L;
     
@@ -36,7 +38,7 @@ public class PersonCustomData extends KcPersistableBusinessObjectBase implements
 
     // putting in getter for "id" since custom data jsp/tag files are expecting it
     public Long getId() {
-        return personCustomDataId;
+        return customAttributeId;
     }
 
     public void setPersonCustomDataId(Long personCustomDataId) {
