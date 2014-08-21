@@ -22,7 +22,7 @@ public class ProposalCountryServiceImplTest {
     public void setUpMockery() {
         context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }}; 
         countryService = context.mock(CountryService.class);
-        countryListBuilder = GenericQueryResults.Builder.create();
+        countryListBuilder = GenericQueryResults.Builder.<CountryBo>create();
         countryListBuilder.setResults(new ArrayList<CountryBo>(){{
         	add(createCountryBo("AU", "AUS", "AUSTRALIA"));
         }});
