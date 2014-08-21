@@ -41,19 +41,6 @@ public class NotificationTypeRecipientRoleNameValuesFinder extends FormViewAware
     private KeyValuesService keyValuesService;
 
     @Override
-   	public Map<String, String> getKeyLabelMap() {
-           Map<String, String> keyLabelMap = new HashMap<String, String>();
-
-           List<KeyValue> keyLabels = getKeyValues();
-           if (keyLabels != null) {
-            for (KeyValue keyLabel : keyLabels) {
-           	    keyLabelMap.put(keyLabel.getKey(), keyLabel.getValue());
-            }
-           }
-           return keyLabelMap;
-     }
-    
-    @Override
     public List<KeyValue> getKeyValues() {
 
         String moduleCode = null;
