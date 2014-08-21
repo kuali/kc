@@ -200,6 +200,16 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 	   return mv;
    }
 
+
+    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=viewCertification")
+    public ModelAndView viewCertification(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
+                                       @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine) throws Exception {
+    ProposalPerson person = form.getDevelopmentProposal().getProposalPerson(Integer.parseInt(selectedLine));
+    person.getQuestionnaireHelper().populateAnswers();
+    form.setProposalPersonQuestionnaireHelper(person.getQuestionnaireHelper());
+    return getModelAndViewService().showDialog("PropDev-SubmitPage-CertificationDetail",true,form);
+    }
+
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=movePersonUp"})
     public ModelAndView movePersonUp(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
                                      @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine) throws Exception {
