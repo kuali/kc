@@ -16,12 +16,14 @@
 package org.kuali.coeus.common.budget.framework.core;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.persistence.sessions.Record;
 import org.eclipse.persistence.sessions.Session;
 import org.kuali.coeus.common.budget.api.core.BudgetContract;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType;
+import org.kuali.coeus.common.budget.framework.rate.AbstractBudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
@@ -606,6 +608,13 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
     public void setBudgetLaRates(List<BudgetLaRate> budgetLaRates) {
         this.budgetLaRates = budgetLaRates;
+    }
+
+    public List<AbstractBudgetRate> getAllBudgetRates() {
+    	ArrayList<AbstractBudgetRate> result = new ArrayList<AbstractBudgetRate>();
+    	result.addAll(getBudgetRates());
+    	result.addAll(getBudgetLaRates());
+    	return result;
     }
 
     public String getActivityTypeCode() {

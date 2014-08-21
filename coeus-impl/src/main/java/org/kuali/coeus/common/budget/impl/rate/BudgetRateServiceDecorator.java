@@ -47,7 +47,6 @@ import java.util.Collection;
 import java.util.List;
 
 @Component("budgetRatesService")
-@Lazy
 public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRatesServiceImpl<T> {
     
     private static final String AWARD_EB_RATE_CLASS_CODE = "awardBudgetEbRateClassCode";

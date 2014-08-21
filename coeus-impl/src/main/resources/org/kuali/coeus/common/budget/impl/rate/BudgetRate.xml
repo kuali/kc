@@ -61,8 +61,8 @@
   <bean id="BudgetRate-onOffCampusFlag-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="onOffCampusFlag" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="On CampusContract" />
-    <property name="shortLabel" value="On CampusContract" />
+    <property name="label" value="On Campus" />
+    <property name="shortLabel" value="On Campus" />
     <property name="maxLength" value="1" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
@@ -76,8 +76,8 @@
     <property name="controlField">
       <bean p:size="1" parent="Uif-TextControl"/>
     </property>
-    <property name="summary" value="On Off CampusContractContract Flag" />
-    <property name="description" value="On Off CampusContractContract Flag" />
+    <property name="summary" value="On Off Campus Flag" />
+    <property name="description" value="On Off Campus Flag" />
   </bean>
 
   <bean id="BudgetRate-viewLocation" parent="BudgetRate-viewLocation-parentBean"/>
@@ -262,7 +262,10 @@
       <bean parent="TextControlDefinition" p:size="5"/>
     </property>
     <property name="controlField">
-      <bean p:size="5" parent="Uif-TextControl"/>
+      <bean p:size="5" parent="Uif-CurrencyTextControl"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint" p:precision="5" p:scale="2"/>
     </property>
     <property name="summary" value="Applicable Rate" />
     <property name="description" value="Applicable Rate" />
@@ -280,7 +283,10 @@
       <bean parent="TextControlDefinition" p:size="5"/>
     </property>
     <property name="controlField">
-      <bean p:size="5" parent="Uif-TextControl"/>
+      <bean p:size="5" parent="Uif-CurrencyTextControl"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint" p:precision="5" p:scale="2"/>
     </property>
     <property name="summary" value="Institute Rate" />
     <property name="description" value="Institute Rate" />

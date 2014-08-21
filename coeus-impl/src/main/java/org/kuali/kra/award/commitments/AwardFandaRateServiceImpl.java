@@ -16,9 +16,9 @@
 package org.kuali.kra.award.commitments;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.fiscalyear.FiscalYearMonthService;
 import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.service.FiscalYearMonthService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 

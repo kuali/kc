@@ -936,6 +936,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/krad/common/KcApplicationHeader.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/common/KcComponents.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/common/LandingPageView.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/common/KcPropertyEditors.xml</value>
                 <value>classpath:org/kuali/coeus/common/questionnaire/impl/core/QuestionnaireView.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/rice-contrib/UifNavigationBar.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/rice-contrib/UifMultiSelect.xml</value>
@@ -1245,10 +1246,6 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
-    <bean id="fiscalYearMonthService" class="org.kuali.kra.service.impl.FiscalYearMonthServiceImpl">
-		<property name="parameterService" ref="parameterService" />
-	</bean>
-
     <bean id="unitService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="unitService" />
     </bean>

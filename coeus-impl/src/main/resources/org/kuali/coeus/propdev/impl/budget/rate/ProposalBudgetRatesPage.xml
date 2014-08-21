@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="PropBudget-RatesPage" parent="PropBudget-RatesPage-parentBean" />
+	<bean id="PropBudget-RatesPage-parentBean" abstract="true"
+		parent="Uif-DocumentPage">
+		<property name="items">
+			<list>
+				<bean parent="PropBudget-RatesPage-TabGroup" p:order="10"/>
+				<bean parent="Uif-MessageField" p:messageText="No rates defined for this budget. Press Sync All Rates to sync rates with current unit and activity type." p:order="20" p:render="@{budget.rateClassTypes.empty}"/>
+			</list>
+		</property>
+		<property name="header">
+			<bean parent="Uif-PageHeader" />
+		</property>
+		<property name="footer">
+			<bean parent="PropBudget-DocumentFooter"/>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-RatesPage-TabGroup" parent="PropBudget-RatesPage-TabGroup-parentBean"/>
+	<bean id="PropBudget-RatesPage-TabGroup-parentBean" abstract="true" parent="Kc-DynamicTabSection"
+		p:tabCollectionPropertyName="budget.rateClassTypes" p:expressionProperties="rateClassType:code,rateClassDescription:description"
+		p:idSuffixPropertyName="code" p:header.headerText="Rates">
+		<property name="groupPrototype"><bean parent="PropBudget-RatesPage-RateTab"/></property>
+		<property name="header.lowerGroup">
+			<bean parent="Uif-HeaderLowerGroup">
+				<property name="items">
+					<list>
+						<bean parent="Uif-Message"
+							p:messageText="Verify the default rates set by your institution. You can override them if necessary by clicking the edit icon to the right of each row."
+							p:order="10" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="header.rightGroup">
+			<bean parent="Uif-HeaderRightGroup">
+				<property name="items">
+					<list>
+						<bean parent="PropBudget-RatesPage-RefreshAllRateAction" p:order="10"/>
+						<bean parent="PropBudget-RatesPage-SyncAllRatesAction" p:order="20"/>
+					</list>
+				</property>
+			</bean>
+		</property>		
+	</bean>
+	
+	<bean id="PropBudget-RatesPage-RefreshAllRateAction" parent="PropBudget-RatesPage-RefreshAllRateAction-parentBean"/>
+	<bean id="PropBudget-RatesPage-RefreshAllRateAction-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini" 
+		p:actionLabel="Refresh All Rates" p:methodToCall="refreshAllRates">
+		<property name="confirmationDialog">
+			<bean parent="Uif-DialogGroup-OkCancel"
+				p:promptText="Do you want to undo all rate type changes within the Applicable Rate fields and reset rates to match existing Institute Rates?  This action will cause recalculation of the budget."
+				p:header.headerText="Refresh All Rates?"/>
+		</property>
+	</bean>
+	
+	<bean id="PropBudget-RatesPage-SyncAllRatesAction" parent="PropBudget-RatesPage-SyncAllRatesAction-parentBean"/>
+	<bean id="PropBudget-RatesPage-SyncAllRatesAction-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini" 
+		p:actionLabel="Sync All Rates" p:methodToCall="syncAllRates">
+		<property name="confirmationDialog">
+			<bean parent="Uif-DialogGroup-OkCancel" 
+				p:promptText="Do you want to sync all rate type Institute Rates &amp; Applicable Rates with the current Institute Rates identified in the Unit Hierarchy rate table?  This will override the existing rates within both columns and cause recalculation of the budget."
+				p:header.headerText="Sync All Rates?"/>
+		</property>							
+	</bean>
+	
+	<bean id="PropBudget-RatesPage-SyncRatesAction" parent="PropBudget-RatesPage-SyncRatesAction-parentBean"/>
+	<bean id="PropBudget-RatesPage-SyncRatesAction-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini" 
+		p:actionLabel="Sync to Current Institutional Rates" p:methodToCall="syncRates">
+		<property name="additionalSubmitData">
+			<map>
+				<entry key="rateClassTypeCode" value="@{#rateClassType}"/>
+			</map>
+		</property>
+		<property name="confirmationDialog">
+			<bean parent="Uif-DialogGroup-OkCancel" 
+				p:promptText="Do you want to sync this rate type's Institute Rates &amp; Applicable Rates with the current Institute Rates identified in the Unit Hierarchy rate table?  This will override the existing rates within both columns and cause recalculation of the budget."
+				p:header.headerText="Sync to Current Institutional Rates?"/>
+		</property>		
+	</bean>
+	
+	<bean id="PropBudget-RatesPage-ResetRates" parent="PropBudget-RatesPage-ResetRates-parentBean"/>
+	<bean id="PropBudget-RatesPage-ResetRates-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini" 
+		p:actionLabel="Reset to Default Rates" p:methodToCall="resetRates">
+		<property name="additionalSubmitData">
+			<map>
+				<entry key="rateClassTypeCode" value="@{#rateClassType}"/>
+			</map>
+		</property>		
+		<property name="confirmationDialog">
+			<bean parent="Uif-DialogGroup-OkCancel" 
+				p:promptText="Do you want to undo changes within this rate type's Applicable Rate fields and reset rates to match existing Institute Rates?  This action will cause recalculation of the budget."
+				p:header.headerText="Reset to Default Rates?"/>
+		</property>									
+	</bean>	
+
+	<bean id="PropBudget-RatesPage-RateTab"
+		parent="PropBudget-RatesPage-RateTab-parentBean" />
+	<bean id="PropBudget-RatesPage-RateTab-parentBean"
+		abstract="true" parent="Uif-TableCollectionSection" p:headerText="@{#rateClassDescription}"
+		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.rate.BudgetRate"
+		p:propertyName="budget.allBudgetRates" p:renderAddLine="false"
+		p:layoutManager.renderSequenceField="false" p:renderLineActions="true"
+		p:renderInactiveToggleButton="false">
+		<property name="filters">
+			<list>
+				<bean parent="Uif-ConditionalCollectionFilter" p:expression="@{#line.rateClassType == #rateClassType and #line.displayLocation}"/>
+			</list>
+		</property>
+		<property name="layoutManager.richTable.templateOptions">
+			<map>
+				<entry key="sDom" value="tip" />
+				<entry key="bRetrieve" value="true" />
+				<entry key="bPaginate" value="false" />
+				<entry key="bInfo" value="false" />
+			</map>
+		</property>
+		<property name="header.rightGroup">
+			<bean parent="Uif-HeaderRightGroup">
+				<property name="items">
+					<list>
+						<bean parent="PropBudget-RatesPage-SyncRatesAction" p:order="10"/>
+						<bean parent="PropBudget-RatesPage-ResetRates" p:order="20"/>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-DataField" p:propertyName="rateType.description" p:order="10"/>
+				<bean parent="Uif-DataField" p:propertyName="onOffCampusFlag" p:readOnlyDisplayReplacement="@{#line.onOffCampusFlag?'Yes':'No'}" 
+					p:order="20"/>
+				<bean parent="Uif-DataField" p:propertyName="fiscalYear" p:order="30"/>
+				<bean parent="Uif-DataField" p:propertyName="startDate" p:order="40"/>
+				<bean parent="Uif-DataField" p:propertyName="instituteRate" p:order="50">
+					<property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="applicableRate" p:order="60" 
+					p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}">
+					<property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
+				</bean>
+			</list>
+		</property>
+		<property name="lineActions">
+			<list>
+                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="saveLine" p:performClientSideValidation="true"
+                      p:render="@{#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" 
+                      p:actionLabel="Save" p:order="10"/>
+                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="cancelEditLineItem"
+                      p:render="@{#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" 
+                      p:actionLabel="Cancel" p:order="20"/>
+                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="editLineItem"
+                      p:render="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" 
+                      p:actionLabel="Edit" p:order="30"/>
+			</list>
+		</property>
+	</bean>
+</beans>
+                    

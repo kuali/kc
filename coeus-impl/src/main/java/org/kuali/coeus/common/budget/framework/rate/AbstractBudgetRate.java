@@ -30,6 +30,7 @@ import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 
 @MappedSuperclass
+@IdClass(AbstractBudgetRate.AbstractBudgetRateId.class)
 public abstract class AbstractBudgetRate extends AbstractInstituteRate implements IdentifiableBudget {
 
     private static final long serialVersionUID = -7152006670699620080L;

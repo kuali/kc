@@ -66,4 +66,7 @@
   		</bean>
   	</property>
   </bean>
+  
+  <bean id="Kc-DynamicTabGroup" abstract="true" parent="Uif-TabGroup" class="org.kuali.coeus.org.kuali.rice.krad.uif.container.DynamicTabGroupBase"/>
+  <bean id="Kc-DynamicTabSection" abstract="true" parent="Uif-TabSection" class="org.kuali.coeus.org.kuali.rice.krad.uif.container.DynamicTabGroupBase"/>
 </beans>

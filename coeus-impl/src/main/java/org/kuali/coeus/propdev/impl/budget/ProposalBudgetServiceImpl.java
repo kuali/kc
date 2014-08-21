@@ -17,6 +17,7 @@ package org.kuali.coeus.propdev.impl.budget;
 
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.query.QueryList;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
@@ -95,9 +96,13 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         if(!success)
             return null;
 
-        //Rates-Refresh Scenario-1
+        //load budget rates
         budget.setRateClassTypesReloaded(true);
-        return saveBudget(budget);
+        budget.getRateClassTypes();
+
+        budget = saveBudget(budget);
+
+        return budget;
     }
 
     @Override
@@ -221,5 +226,4 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
 	public void setAddBudgetVersionRule(AddBudgetVersionRule addBudgetVersionRule) {
 		this.addBudgetVersionRule = addBudgetVersionRule;
 	}
-
 }

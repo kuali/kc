@@ -16,10 +16,10 @@
 package org.kuali.kra.institutionalproposal.proposallog;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.fiscalyear.FiscalYearMonthService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
-import org.kuali.kra.service.FiscalYearMonthService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;

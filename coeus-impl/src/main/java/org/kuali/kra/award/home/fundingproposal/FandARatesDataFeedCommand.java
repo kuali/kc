@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.home.fundingproposal;
 
+import org.kuali.coeus.common.framework.fiscalyear.FiscalYearMonthService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.home.Award;
@@ -22,7 +23,6 @@ import org.kuali.kra.award.home.AwardCommentFactory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
-import org.kuali.kra.service.FiscalYearMonthService;
 
 import java.sql.Date;
 import java.util.List;
