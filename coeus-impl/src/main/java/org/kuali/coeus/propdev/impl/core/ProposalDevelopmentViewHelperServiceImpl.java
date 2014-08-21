@@ -432,16 +432,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         form.getS2sQuestionnaireHelper().populateAnswers();
     }
 
-    public boolean displayProposalDevelopmentActions(WorkflowDocument wd) {
-        boolean success = false;
-
-        if (wd.isSaved() || wd.isInitiated()){
-            success = true;
-        }
-
-        return success;
-    }
-
     public List<ProposalDevelopmentDataValidationItem> populateDataValidation(ProposalDevelopmentDocumentForm form, ViewIndex viewIndex) {
         ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
         List<ProposalDevelopmentDataValidationItem> dataValidationItems = new ArrayList<ProposalDevelopmentDataValidationItem>();

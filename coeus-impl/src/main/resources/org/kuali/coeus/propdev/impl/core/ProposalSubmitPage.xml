@@ -35,24 +35,39 @@
 			<bean parent="Uif-PageHeader" />
 		</property>
 		<property name="footer">
-	 	 <bean  parent="Uif-HorizontalBoxGroup" p:align="left" p:render="@{#ViewHelper.displayProposalDevelopmentActions(document.documentHeader.workflowDocument)}">
+	 	 <bean  parent="Uif-HorizontalBoxGroup" p:align="left" >
 			<property name="items">
 				<list>
-					<bean  p:actionLabel="Submit for Review" parent="Uif-PrimaryActionButton" p:methodToCall="submitForReview"  p:order="10" />
+					<bean  p:actionLabel="Submit for Review" parent="Uif-PrimaryActionButton" p:methodToCall="submitForReview"  p:order="10" 
+						p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
 
                     <bean parent="Uif-LinkField" p:linkText="View Route Log"
                           p:href="@{#ConfigProperties['application.url']}/kew/RouteLog.do?documentId=@{document.developmentProposal.proposalDocument.documentNumber}"  p:order="20"
                     p:link.openInDialog="true" />
+                    
+                    <bean parent="Uif-RecallAction" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RECALL]}"  p:order="30">
+              			<property name="confirmationDialog">
+             				<bean id="ConfirmRecallDialog" parent="Uif-DialogGroup-OkCancelExpl" p:promptText="Reason for recall?"/>
+            			</property>
+           			</bean>
 
 					<bean parent="Uif-Space"/><bean parent="Uif-Space"/>																				    
-					<bean  p:actionLabel="Save and Exit" parent="Uif-SecondaryActionButton" p:methodToCall="saveAndExit"   p:order="30" /> 					
-					<bean  p:actionLabel="Exit without Saving" parent="Uif-SecondaryActionButton"  p:methodToCall="returnToHub"  p:order="40" /> 
-					<bean parent="Uif-DropdownToggleMenu" p:toggleText="More Actions"  p:align="right" p:order="50">
+					<bean  p:actionLabel="Save and Exit" parent="Uif-SecondaryActionButton" p:methodToCall="saveAndExit"   p:order="40" 
+						p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/> 					
+					<bean  p:actionLabel="Exit without Saving" parent="Uif-SecondaryActionButton"  p:methodToCall="returnToHub"  p:order="50" 
+						p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/> 
+					<bean parent="Uif-DropdownToggleMenu" p:toggleText="More Actions"  p:align="right" p:order="60">
 					  <property name="menuItems">
 					    <list>
-					      <bean parent="Uif-MenuAction" p:actionLabel="Resend notifications" p:order="10"  />		 
-					      <bean parent="Uif-MenuAction" p:actionLabel="Reload proposal"  p:methodToCall="reload" p:order="20" />					 
-					      <bean parent="Uif-MenuAction" p:actionLabel="Cancel proposal" p:methodToCall="cancelProposal" p:order="30" />
+					      <bean parent="Uif-MenuAction" p:actionLabel="Resend notifications" p:order="10"  
+					      	p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_NOTE_FYI]}"/>	
+					      	 
+					      <bean parent="Uif-MenuAction" p:actionLabel="Reload proposal"  p:methodToCall="reload" p:order="20"  
+					      	p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}"/>		
+					      				 
+					      <bean parent="Uif-MenuAction" p:actionLabel="Cancel proposal" p:methodToCall="cancelProposal" p:order="30" 
+					      	p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+					      	
 					      <bean parent="Uif-MenuAction" p:actionLabel="Blanket Approve" p:methodToCall="blanketApprove" p:order="50" 
 					      		p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
 						  <bean parent="Uif-MenuDivider"/>
