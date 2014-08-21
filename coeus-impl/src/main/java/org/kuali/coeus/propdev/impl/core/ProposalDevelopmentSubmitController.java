@@ -11,6 +11,9 @@ import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DialogResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,7 +101,18 @@ public class ProposalDevelopmentSubmitController extends
    
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=recall")
    public  ModelAndView recall(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)throws Exception {
-	   return getTransactionalDocumentControllerService().recall(form);
+	   String successMessageKey = null;
+	   Document document = form.getDocument();
+	   if (getDocumentService().documentExists(document.getDocumentNumber())) {
+           String recallExplanation = form.getDialogExplanations().get(KRADConstants.QUESTION_ACTION_RECALL_REASON);
+           document = getDocumentService().recallDocument(document, recallExplanation, false);
+           successMessageKey = RiceKeyConstants.MESSAGE_ROUTE_RECALLED;
+       }
+       if (successMessageKey != null) {
+           getGlobalVariableService().getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, successMessageKey);
+       }
+	   
+	   return getModelAndViewService().getModelAndView(form);
   } 
   
   boolean proposalValidToSubmit(ProposalDevelopmentDocumentForm form) {
