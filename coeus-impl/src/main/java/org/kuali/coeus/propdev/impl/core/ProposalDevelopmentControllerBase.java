@@ -16,10 +16,12 @@
 package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentService;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
+import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
@@ -27,6 +29,7 @@ import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -44,12 +47,16 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krad.web.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public abstract class ProposalDevelopmentControllerBase {
 
@@ -339,6 +346,29 @@ public abstract class ProposalDevelopmentControllerBase {
             }
         }
 	}
+
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) throws Exception {
+        binder.registerCustomEditor(List.class, "document.developmentProposal.propScienceKeywords", new PropScienceKeywordEditor());
+    }
+
+    protected class PropScienceKeywordEditor extends CustomCollectionEditor {
+        public PropScienceKeywordEditor() {
+            super(List.class);
+        }
+
+        protected Object convertElement(Object element) {
+            if (element instanceof String) {
+                return new PropScienceKeyword(null, getScienceKeyword(element));
+            }
+            return null;
+        }
+    }
+
+    protected ScienceKeyword getScienceKeyword(Object element) {
+        return getDataObjectService().findUnique(ScienceKeyword.class, QueryByCriteria.Builder.forAttribute("code", element).build());
+    }
 
     public UifExportControllerService getUifExportControllerService() {
         return uifExportControllerService;
