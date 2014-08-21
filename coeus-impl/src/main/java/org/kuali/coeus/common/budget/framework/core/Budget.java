@@ -16,7 +16,6 @@
 package org.kuali.coeus.common.budget.framework.core;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.persistence.sessions.Record;
@@ -64,7 +63,6 @@ import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetNumberOfMonthsService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.data.jpa.FilterGenerator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -73,7 +71,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.*;
-
 
 /**
  * This class represent Budget BO
@@ -228,7 +225,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
     @Transient
     private boolean rateClassTypesReloaded = false;
-
 
     public Budget() {
         super();
@@ -1150,7 +1146,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return parmValue.equalsIgnoreCase(TRUE_FLAG);
     }
 
-    private Map<Integer, ScaleTwoDecimal> mapProjectIncomeTotalsToBudgetPeriodNumbers() {
+    public Map<Integer, ScaleTwoDecimal> mapProjectIncomeTotalsToBudgetPeriodNumbers() {
         Map<Integer, ScaleTwoDecimal> budgetPeriodProjectIncomeMap = new TreeMap<Integer, ScaleTwoDecimal>();
         for (BudgetProjectIncome budgetProjectIncome : budgetProjectIncomes) {
             Integer budgetPeriodNumber = budgetProjectIncome.getBudgetPeriodNumber();

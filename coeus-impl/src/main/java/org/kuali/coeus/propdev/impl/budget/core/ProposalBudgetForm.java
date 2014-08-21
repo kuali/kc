@@ -6,13 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.income.BudgetPeriodIncomeTotal;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.person.AddProjectPersonnelHelper;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.ToggleMenu;
-import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 public class ProposalBudgetForm extends UifFormBase {
@@ -23,6 +24,8 @@ public class ProposalBudgetForm extends UifFormBase {
     private AddProjectPersonnelHelper addProjectPersonnelHelper;
     private AddBudgetDto addBudgetDto;
     private AddBudgetDto copyBudgetDto;
+    private List<BudgetPeriodIncomeTotal>budgetPeriodIncomeTotalSummary;
+
 
     public void initialize() {
     	editableBudgetLineItems = new HashMap<String,List<String>>();
@@ -110,6 +113,16 @@ public class ProposalBudgetForm extends UifFormBase {
 	public void setCopyBudgetDto(AddBudgetDto copyBudgetDto) {
 		this.copyBudgetDto = copyBudgetDto;
 	}
-    
+
+    public List<BudgetPeriodIncomeTotal> getBudgetPeriodIncomeTotalSummary() {
+        this.budgetPeriodIncomeTotalSummary = new ArrayList<BudgetPeriodIncomeTotal>();
+        Map <Integer,ScaleTwoDecimal> periodTotalMap = getBudget().mapProjectIncomeTotalsToBudgetPeriodNumbers();
+        for (Map.Entry<Integer,ScaleTwoDecimal> entry : periodTotalMap.entrySet()){
+            budgetPeriodIncomeTotalSummary.add (new BudgetPeriodIncomeTotal((Integer)entry.getKey(),(ScaleTwoDecimal)entry.getValue()));
+        }
+        return budgetPeriodIncomeTotalSummary;
+    }
+
+
 
 }
