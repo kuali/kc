@@ -44,7 +44,7 @@
                       p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
                 <bean parent="Uif-InputField" p:propertyName="numberOfMonths" p:label="Months"
                       p:order="30"
-                      p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                      p:readOnly="true"/>
                 <bean parent="Uif-InputField" p:propertyName="totalCost"
                       p:order="40"
                       p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
