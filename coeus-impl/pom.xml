@@ -503,6 +503,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-legacy-web</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.opensaml</groupId>
             <artifactId>opensaml</artifactId>
         </dependency>
