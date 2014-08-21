@@ -1757,6 +1757,12 @@
             </dependency>
 
             <dependency>
+                <groupId>org.kuali.rice</groupId>
+                <artifactId>rice-legacy-web</artifactId>
+                <version>${rice.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.opensaml</groupId>
                 <artifactId>opensaml</artifactId>
                 <version>${opensaml.version}</version>
