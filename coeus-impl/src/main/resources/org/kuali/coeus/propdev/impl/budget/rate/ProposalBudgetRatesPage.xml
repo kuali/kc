@@ -30,7 +30,7 @@
 	</bean>
 
 	<bean id="PropBudget-RatesPage-TabGroup" parent="PropBudget-RatesPage-TabGroup-parentBean"/>
-	<bean id="PropBudget-RatesPage-TabGroup-parentBean" abstract="true" parent="Uif-TabSection" class="org.kuali.coeus.org.kuali.rice.krad.uif.container.DynamicTabGroup"
+	<bean id="PropBudget-RatesPage-TabGroup-parentBean" abstract="true" parent="Kc-DynamicTabSection"
 		p:tabCollectionPropertyName="budget.rateClassTypes" p:expressionProperties="rateClassType:code,rateClassDescription:description"
 		p:idSuffixPropertyName="code" p:header.headerText="Rates">
 		<property name="groupPrototype"><bean parent="PropBudget-RatesPage-RateTab"/></property>

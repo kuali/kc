@@ -68,7 +68,7 @@ public class ProposalBudgetRatesController extends ProposalBudgetControllerBase 
         Budget budget = form.getBudget();
         getBudgetRatesService().syncBudgetRatesForRateClassType(rateClassTypeCode, budget);
         budget.setRateClassTypesReloaded(false);
-        if (rateClassTypeCode.equals("O")) {
+        if (rateClassTypeCode.equals(org.kuali.coeus.common.budget.api.rate.RateClassType.OVERHEAD.getRateClassType())) {
             budget.setRateSynced(true);
         }
         return getModelAndViewService().getModelAndView(form);
