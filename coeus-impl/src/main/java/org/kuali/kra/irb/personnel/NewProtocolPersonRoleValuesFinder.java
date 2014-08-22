@@ -26,20 +26,6 @@ import java.util.*;
 
 public class NewProtocolPersonRoleValuesFinder extends UifKeyValuesFinderBase {
 
-
-    @Override
-    public Map<String, String> getKeyLabelMap() {
-        Map<String, String> keyLabelMap = new HashMap<String, String>();
-
-        List<KeyValue> keyLabels = getKeyValues();
-        if (keyLabels != null) {
-            for (KeyValue keyLabel : keyLabels) {
-                keyLabelMap.put(keyLabel.getKey(), keyLabel.getValue());
-            }
-        }
-        return keyLabelMap;
-    }
-
     /**
      * Constructs the list of Protocol Person Roles.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
