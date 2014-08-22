@@ -50,13 +50,20 @@
              				<bean id="ConfirmRecallDialog" parent="Uif-DialogGroup-OkCancelExpl" p:promptText="Reason for recall?"/>
             			</property>
            			</bean>
+           			
+           			<bean parent="Uif-SecondaryActionButton" p:methodToCall="disapprove" p:actionLabel="Disapprove"
+			              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}" p:order="40">
+			          <property name="confirmationDialog">
+			          		<bean id="DisapproveExplanationDialog" parent="Uif-DialogGroup-OkCancelExpl" p:promptText="Reason for disapprove?"/>
+			          </property>
+			        </bean>
 
 					<bean parent="Uif-Space"/><bean parent="Uif-Space"/>																				    
-					<bean  p:actionLabel="Save and Exit" parent="Uif-SecondaryActionButton" p:methodToCall="saveAndExit"   p:order="40" 
+					<bean  p:actionLabel="Save and Exit" parent="Uif-SecondaryActionButton" p:methodToCall="saveAndExit"   p:order="50" 
 						p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/> 					
-					<bean  p:actionLabel="Exit without Saving" parent="Uif-SecondaryActionButton"  p:methodToCall="returnToHub"  p:order="50" 
+					<bean  p:actionLabel="Exit without Saving" parent="Uif-SecondaryActionButton"  p:methodToCall="returnToHub"  p:order="60" 
 						p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/> 
-					<bean parent="Uif-DropdownToggleMenu" p:toggleText="More Actions"  p:align="right" p:order="60">
+					<bean parent="Uif-DropdownToggleMenu" p:toggleText="More Actions"  p:align="right" p:order="70">
 					  <property name="menuItems">
 					    <list>
 					      <bean parent="Uif-MenuAction" p:actionLabel="Resend notifications" p:order="10"  
