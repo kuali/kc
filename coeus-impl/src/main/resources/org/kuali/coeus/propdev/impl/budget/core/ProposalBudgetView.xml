@@ -22,6 +22,7 @@
 		p:unifiedHeader="false" p:defaultBindingObjectPath="">
 		<property name="additionalScriptFiles">
 			<list>
+				<value>scripts/common/dialog.js</value>
 				<value>scripts/propdev/budget.js</value>
 			</list>
 		</property>
@@ -156,7 +157,7 @@
 						<bean parent="Uif-ActionLink" 
                             p:actionLabel="Data Validation"
                             p:iconClass="icon-ok" p:order="10" />
-						<bean parent="Uif-ActionLink"
+						<bean parent="Uif-ActionLink" p:actionScript="showDialog('PropBudget-BudgetSettings-Dialog');"
 							p:actionLabel="Budget Settings" p:iconClass="icon-cog" p:order="20" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Summary"
 							p:iconClass="ucon-eye" p:order="30" />

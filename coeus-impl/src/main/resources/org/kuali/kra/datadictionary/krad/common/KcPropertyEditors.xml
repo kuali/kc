@@ -13,13 +13,14 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
           
     <bean id="Kc-ScaleTwoPercentageEditor" parent="Kc-ScaleTwoPercentageEditor-parentBean"/>          
-	<bean id="Kc-ScaleTwoPercentageEditor-parentBean" abstract="true" class="org.springframework.beans.propertyeditors.CustomNumberEditor">
-		<constructor-arg value="org.kuali.coeus.sys.api.model.ScaleTwoDecimal" />
+	<bean id="Kc-ScaleTwoPercentageEditor-parentBean" abstract="true" parent="Kc-ScaleTwoEditor"/>
+    <bean id="Kc-ScaleTwoEditor" parent="Kc-ScaleTwoEditor-parentBean"/>          
+	<bean id="Kc-ScaleTwoEditor-parentBean" abstract="true" class="org.kuali.coeus.sys.framework.model.ScaleTwoDecimalEditor">
 		<constructor-arg>
 			<bean class="java.text.DecimalFormat">
 				<constructor-arg value="##0.00"/>
 			</bean>
 		</constructor-arg>
 		<constructor-arg value="true" />
-	</bean>
+	</bean>	
 </beans>

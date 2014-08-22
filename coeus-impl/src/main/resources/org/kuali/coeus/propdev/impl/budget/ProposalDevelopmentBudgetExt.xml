@@ -3,5 +3,28 @@
   <bean id="ProposalDevelopmentBudgetExt" parent="ProposalDevelopmentBudgetExt-parentBean"/>
   <bean id="ProposalDevelopmentBudgetExt-parentBean" abstract="true" parent="Budget-parentBean">
     <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt" />
+    <property name="attributes">
+      <list merge="true">
+        <ref bean="ProposalDevelopmentBudgetExt-budgetStatus"/>
+      </list>
+    </property>    
+  </bean>
+  
+  <bean id="ProposalDevelopmentBudgetExt-budgetStatus" parent="ProposalDevelopmentBudgetExt-budgetStatus-parentBean"/>
+  <bean id="ProposalDevelopmentBudgetExt-budgetStatus-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetStatus"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Budget Status"/>
+    <property name="shortLabel" value="Budget Status"/>
+    <property name="maxLength" value="1"/>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
+    <property name="optionsFinder" value="#{T(org.kuali.coeus.org.kuali.rice.krad.SpringMethods).retrieveSpringBean('budgetStatusValuesFinder')}"/>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
+    </property>
+    <property name="summary" value="F&amp;A Rate Type"/>
+    <property name="description" value="F&amp;A Rate Type"/>
   </bean>
 </beans>
