@@ -16,7 +16,7 @@
     <bean id="PropDev-SupplementalPage-parentBean" parent="PropDev-DocumentPage">
         <property name="items">
             <list>
-                <bean parent="PropDev-Supplemental-Collection"></bean>
+                <bean parent="PropDev-Supplemental-TabGroup"></bean>
             </list>
         </property>
         <property name="header">
@@ -24,23 +24,93 @@
         </property>
     </bean>
 
+    <bean id="PropDev-Supplemental-TabGroup" parent="PropDev-Supplemental-TabGroup-parentBean"/>
+    <bean id="PropDev-Supplemental-TabGroup-parentBean" abstract="true" parent="Kc-DynamicTabSection"
+            p:tabCollectionPropertyName="customDataGroups"
+            p:expressionProperties="groupName:description"
+            p:idSuffixPropertyName="idSuffix">
+        <property name="groupPrototype">
+            <bean parent="PropDev-Supplemental-Section"/>
+        </property>
+    </bean>
+
+    <bean id="PropDev-Supplemental-Section" parent="PropDev-Supplemental-Section-parentBean"/>
+    <bean id="PropDev-Supplemental-Section-parentBean" abstract="true" parent="Uif-VerticalBoxGroup">
+        <property name="header">
+             <bean parent="Uif-SectionHeader" p:headerText="@{#groupName}"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="PropDev-Supplemental-Collection"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="PropDev-Supplemental-Collection" parent="PropDev-Supplemental-Collection-parentBean"/>
     <bean id="PropDev-Supplemental-Collection-parentBean" abstract="true" parent="Uif-ListCollectionSection"
             p:collectionObjectClass="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue"
             p:propertyName="document.customDataList"
-            p:renderAddLine="false"
-            p:header.headerText="@{selectedCustomDataGroup}">
+            p:renderAddLine="false">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:fieldLabel.labelText="@{#line.customAttribute ne null ? #line.customAttribute.label : &quot;Custom Attribute&quot;}" p:propertyName="value"/>
+                <bean parent="Uif-InputField" p:fieldLabel.labelText="@{#line.customAttribute ne null ? #line.customAttribute.label : &quot;Custom Attribute&quot;}" p:propertyName="value">
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="quickfinder"
+                                  p:condition="!#empty(#line.customAttribute.lookupClass)">
+                                <property name="replacement">
+                                    <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="@{#line.customAttribute.lookupClass}"
+                                          p:fieldConversions="@{#line.customAttribute.lookupReturn}:value"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="quickfinder"
+                                  p:condition="#line.customAttribute.lookupClass eq 'org.kuali.coeus.common.framework.custom.arg.ArgValueLookup'">
+                                <property name="replacement">
+                                    <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="@{#line.customAttribute.lookupClass}"
+                                          p:lookupParameters="customAttribute.lookupReturn:argumentName"
+                                          p:fieldConversions="value:value"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="suggest"
+                                  p:condition="!#empty(#line.customAttribute.lookupClass)">
+                                <property name="replacement">
+                                    <bean parent="Uif-Suggest" p:render="true"
+                                          p:valuePropertyName="value"
+                                          p:returnFullQueryObject="true">
+                                        <property name="templateOptions">
+                                            <map>
+                                                <entry key="minLength" value="1" />
+                                                <entry key="delay" value="1" />
+                                                <entry key="html" value="true" />
+                                            </map>
+                                        </property>
+                                        <property name="suggestQuery">
+                                            <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="performCustomDataFieldSuggest" p:queryMethodArgumentFieldList="customAttribute.lookupClass,customAttribute.lookupReturn" />
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="control"
+                                  p:condition="#line.customAttribute.dataTypeCode eq '3'">
+                                <property name="replacement">
+                                    <bean parent="Uif-DateControl"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="lineActions">
             <null/>
         </property>
-        <property name="filters">
+       <property name="filters">
             <bean parent="Uif-ConditionalCollectionFilter"
-                  p:expression="#line.customAttribute.groupName eq selectedCustomDataGroup"/>
+                  p:expression="#line.customAttribute.groupName eq #groupName"/>
         </property>
     </bean>
 

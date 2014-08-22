@@ -36,6 +36,9 @@ import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern;
 import org.kuali.rice.krad.datadictionary.validation.ValidationPattern;
+import org.kuali.rice.krad.service.LegacyDataAdapter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -55,8 +58,10 @@ public class CustomDataRule extends KcTransactionalDocumentRuleBase implements K
     private static final String DATE_REGEX = "(0?[1-9]|1[012])/(0?[1-9]|[12][0-9]|3[01])/(19|2[0-9])[0-9]{2}";
     private static Map<String, ValidationPattern> VALIDATION_CLASSES = new HashMap<String, ValidationPattern>();
 
+    @Autowired
+    @Qualifier("legacyDataAdapter")
+    private LegacyDataAdapter legacyDataAdapter;
 
-    
     private CustomAttributeService customAttributeService;
     
     static {
@@ -179,27 +184,20 @@ public class CustomDataRule extends KcTransactionalDocumentRuleBase implements K
                 }
             } else if (lookupClass != null && lookupClass.equals(ArgValueLookup.class.getName()))
             {
-                    ArgValueLookupValuesFinder finder = new  ArgValueLookupValuesFinder();
-                    finder.setArgName(customAttribute.getLookupReturn());
-                    List<KeyValue> kv = finder.getKeyValues();
-                    Iterator<KeyValue> i = kv.iterator();
-                    boolean found = false;
-                    while (i.hasNext())
-                    {
-                        KeyValue element = (KeyValue) i.next();
-                        String label = element.getKey().toLowerCase();
-                        if (label.equals(attributeValue.toLowerCase()))
-                        {
-                            found = true;
-                        }      
+                Collection<ArgValueLookup> searchResults = getLegacyDataAdapter().findMatching(ArgValueLookup.class,Collections.singletonMap("argumentName","yes_no_flag"));
+                boolean argValueValid = false;
+                for (ArgValueLookup argValueLookup : searchResults) {
+                    if (customAttribute.getValue().equals(argValueLookup.getValue())){
+                        argValueValid = true;
+                        break;
                     }
-                    if (!found) {
-                        validFormat = getValidFormat(customAttributeDataType.getDescription());
-                        event.reportError(customAttribute, errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
-                              customAttribute.getLabel(), attributeValue, validFormat);
-                        isValid = false;
-                    }
-                        
+                }
+                if (!argValueValid) {
+                    validFormat = getValidFormat(customAttributeDataType.getDescription());
+                    event.reportError(customAttribute, errorKey, RiceKeyConstants.ERROR_EXISTENCE,
+                            customAttribute.getLabel(), attributeValue, validFormat);
+                    isValid = false;
+                }
             }
             else if (lookupClass != null)
             {    
@@ -260,5 +258,14 @@ public class CustomDataRule extends KcTransactionalDocumentRuleBase implements K
         return KcServiceLocator.getService(KcPersonService.class);
     }
 
-    
+    public LegacyDataAdapter getLegacyDataAdapter() {
+        if (legacyDataAdapter == null) {
+            legacyDataAdapter = KcServiceLocator.getService(LegacyDataAdapter.class);
+        }
+        return legacyDataAdapter;
+    }
+
+    public void setLegacyDataAdapter(LegacyDataAdapter legacyDataAdapter) {
+        this.legacyDataAdapter = legacyDataAdapter;
+    }
 }

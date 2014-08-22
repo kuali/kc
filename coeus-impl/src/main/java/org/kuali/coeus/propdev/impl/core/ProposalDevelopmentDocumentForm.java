@@ -20,6 +20,7 @@ import org.kuali.coeus.common.framework.medusa.MedusaNode;
 import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
 import org.kuali.coeus.propdev.impl.budget.core.AddBudgetDto;
+import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataGroupDto;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto;
@@ -58,7 +59,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private transient MedusaService medusaService;
     private Map<String,List<String>> editableAttachments;
     private ProposalDevelopmentCustomDataHelper customDataHelper;
-    private String selectedCustomDataGroup;
+    private List<ProposalDevelopmentCustomDataGroupDto> customDataGroups;
     private List<ProposalDevelopmentDataValidationItem> dataValidationItems;
     private boolean auditActivated;
     private List<ProposalCreditSplitListDto> creditSplitListItems;
@@ -106,6 +107,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         ProposalCopyCriteria proposalCopyCriteria1= new ProposalCopyCriteria(getProposalDevelopmentDocument());
 
         addOrganizationHelper = new OrganizationAddWizardHelper();
+
+        customDataGroups = new ArrayList<ProposalDevelopmentCustomDataGroupDto>();
     }
 
     public int findIndexOfPageId(List<Action> actions) {
@@ -201,12 +204,12 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         this.customDataHelper = customDataHelper;
     }
 
-    public String getSelectedCustomDataGroup() {
-        return selectedCustomDataGroup;
+    public List<ProposalDevelopmentCustomDataGroupDto> getCustomDataGroups() {
+        return customDataGroups;
     }
 
-    public void setSelectedCustomDataGroup(String selectedCustomDataGroup) {
-        this.selectedCustomDataGroup = selectedCustomDataGroup;
+    public void setCustomDataGroups(List<ProposalDevelopmentCustomDataGroupDto> customDataGroups) {
+        this.customDataGroups = customDataGroups;
     }
 
     public List<ProposalDevelopmentDataValidationItem> getDataValidationItems() {

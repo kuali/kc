@@ -1,5 +1,7 @@
 package org.kuali.coeus.propdev.impl.custom;
 
+import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
@@ -19,7 +21,21 @@ public class ProposalDevelopmentCustomDataController extends ProposalDevelopment
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=customDataNavigate")
     public ModelAndView customDataNavigate(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
-        form.setSelectedCustomDataGroup(form.getActionParamaterValue("actionLabel"));
+        for (CustomAttributeDocValue customAttributeDocValue : form.getProposalDevelopmentDocument().getCustomDataList()) {
+            boolean groupNamePresent = false;
+            for(ProposalDevelopmentCustomDataGroupDto customDataGroupDto : form.getCustomDataGroups()) {
+               if (customDataGroupDto.getDescription().equals(customAttributeDocValue.getCustomAttribute().getGroupName())){
+                   groupNamePresent = true;
+                   break;
+               }
+           }
+            if (!groupNamePresent) {
+                ProposalDevelopmentCustomDataGroupDto customDataGroupDto = new ProposalDevelopmentCustomDataGroupDto();
+                customDataGroupDto.setDescription(customAttributeDocValue.getCustomAttribute().getGroupName());
+                customDataGroupDto.setIdSuffix(customAttributeDocValue.getCustomAttribute().getGroupName().replace(" ","_"));
+                form.getCustomDataGroups().add(customDataGroupDto);
+            }
+        }
         return super.navigate(form,result,request,response);
     }
 }

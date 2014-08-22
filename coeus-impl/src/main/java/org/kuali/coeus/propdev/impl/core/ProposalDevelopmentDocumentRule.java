@@ -18,7 +18,9 @@ package org.kuali.coeus.propdev.impl.core;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.custom.KcDocumentBaseAuditRule;
+import org.kuali.coeus.common.framework.custom.SaveCustomDataEvent;
 import org.kuali.coeus.common.framework.ynq.YnqGroupName;
+import org.kuali.coeus.common.impl.custom.CustomDataRule;
 import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalDevelopmentAbstractsRule;
 import org.kuali.coeus.propdev.impl.attachment.*;
@@ -129,7 +131,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
         retval &= super.processCustomRouteDocumentBusinessRules(document);
         retval &= new KeyPersonnelAuditRule().processRunAuditBusinessRules(document);
         retval &= new KeyPersonnelCertificationRule().processRouteDocument(document);
-        
+
         return retval;
     }
 
@@ -153,6 +155,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
             valid &= processSponsorProgramBusinessRule(proposalDevelopmentDocument);
             valid &= processKeywordBusinessRule(proposalDevelopmentDocument);
             valid &= proccessValidateSponsor(proposalDevelopmentDocument);
+            valid &= processCustomDataRule(proposalDevelopmentDocument);
             GlobalVariables.getMessageMap().removeFromErrorPath("document.developmentProposal");
         }
 
@@ -568,6 +571,10 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
     
     public boolean processResubmissionPromptBusinessRules(ResubmissionRuleEvent resubmissionRuleEvent) {
         return new ProposalDevelopmentResubmissionPromptRule().processResubmissionPromptBusinessRules(resubmissionRuleEvent);
+    }
+
+    public boolean processCustomDataRule(ProposalDevelopmentDocument document) {
+        return new CustomDataRule().processRules(new SaveCustomDataEvent(document));
     }
 
     public boolean processRules(KcDocumentEventBaseExtension event) {
