@@ -79,13 +79,14 @@
 		<property name="items">
 			<list>
 				<bean parent="PropDev-NavigationMenu-Basics" p:order="10" />
-				<bean parent="PropDev-NavigationMenu-Personnel" p:order="20" />
-				<bean parent="PropDev-NavigationMenu-Compliance" p:order="30" />
-				<bean parent="PropDev-NavigationMenu-Attachments" p:order="40" />
-				<bean parent="PropDev-NavigationMenu-Questionnaire" p:order="50" />
-				<bean parent="PropDev-NavigationMenu-Budget" p:order="60" />
-				<bean parent="PropDev-NavigationMenu-CustomData" p:order="70" />
-				<bean parent="PropDev-NavigationMenu-Submit" p:order="80" />
+				<bean parent="PropDev-NavigationMenu-Personnel"  p:render="@{#ViewHelper.isCreditSplitEnabled()}" p:order="20"/>
+	           	<bean parent="PropDev-NoCreditAllocation-NavigationMenu-PersonnelSection"  p:render="@{!#ViewHelper.isCreditSplitEnabled()}" p:order="30"/>
+				<bean parent="PropDev-NavigationMenu-Compliance" p:order="40" />
+				<bean parent="PropDev-NavigationMenu-Attachments" p:order="50" />
+				<bean parent="PropDev-NavigationMenu-Questionnaire" p:order="60" />
+				<bean parent="PropDev-NavigationMenu-Budget" p:order="70" />
+				<bean parent="PropDev-NavigationMenu-CustomData" p:order="80" />
+				<bean parent="PropDev-NavigationMenu-Submit" p:order="90" />
 			</list>
 		</property>
 	</bean>
@@ -118,6 +119,17 @@
 					p:actionLabel="Personnel" p:order="10" />
 				<bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-CreditAllocationPage"
 					p:actionLabel="Credit Allocation" p:order="20" />
+			</list>
+		</property>
+	</bean>
+	<bean id="PropDev-NoCreditAllocation-NavigationMenu-PersonnelSection" parent="PropDev-NoCreditAllocation-NavigationMenu-Personnel-parentBean" />
+	<bean id="PropDev-NoCreditAllocation-NavigationMenu-Personnel-parentBean" abstract="true"
+		parent="Uif-SidebarToggleMenu" p:toggleText="Key Personnel"
+		p:iconClass="icon-user">
+		<property name="menuItems">
+			<list>
+				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-PersonnelPage"
+					p:actionLabel="Personnel" p:order="10" />
 			</list>
 		</property>
 	</bean>

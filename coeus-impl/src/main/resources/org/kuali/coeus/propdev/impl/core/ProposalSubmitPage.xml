@@ -28,7 +28,7 @@
               </property>
        </bean>				
                 <bean parent="PropDev-SubmitPage-SummaryTabGroup"  p:render="@{#ViewHelper.isCreditSplitEnabled()}" p:order="20"/>
-                <bean parent="PropDev-SubmitPage-NoCreditAllocation-SummaryTabGroup"  p:render="@{!#ViewHelper.isCreditSplitEnabled()}" p:order="30"/>
+                <bean parent="PropDev-SubmitPage-NoCreditAllocation-SummaryTabGroup"  p:render="@{!#ViewHelper.isCreditSplitEnabled() }" p:order="30"/>
 			</list>
 		</property>
 		<property name="header">
@@ -88,8 +88,13 @@
     <bean id="PropDev-SubmitPage-SummaryTabGroup-parentBean" abstract="true"
           parent="PropDev-SubmitPage-NoCreditAllocation-SummaryTabGroup">
         <property name="items">
-            <list merge="true">
+            <list>
+             <bean parent="PropDev-SubmitPage-ProposalSummary" p:order="10" />
+                <bean parent="PropDev-SubmitPage-Personnel" p:order="20" />
                 <bean parent="PropDev-SubmitPage-CreditAllocation" p:readOnly="true" p:order="30" />
+                <bean parent="PropDev-SubmitPage-Questionnaire" p:order="40" />
+                <bean parent="PropDev-SubmitPage-SupplementalInfo" p:order="50" />
+                
             </list>
         </property>
     </bean>

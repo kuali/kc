@@ -17,14 +17,14 @@
         <property name="items">
             <list>
                 <ref bean="PropDev-CreditAllocation-Section" />
+     
             </list>
         </property>
         <property name="header">
             <bean parent="Uif-PageHeader" />
         </property>
     </bean>
-
-    <bean id="PropDev-CreditAllocation-Section" parent="PropDev-CreditAllocation-Section-parentBean"/>
+	<bean id="PropDev-CreditAllocation-Section" parent="PropDev-CreditAllocation-Section-parentBean"/>
     <bean id="PropDev-CreditAllocation-Section-parentBean" abstract="true" parent="Uif-VerticalBoxSection"
           p:header.headerText="Credit Allocation">
             <property name="items">

@@ -340,8 +340,8 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         this.proposalDevelopmentAttachmentService = proposalDevelopmentAttachmentService;
     }
     public boolean isCreditSplitEnabled(){
-    	return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.CREDIT_SPLIT_ENABLED_RULE_NAME);
-   	}
+    	return getKeyPersonnelService().isCreditSplitEnabled();
+    }
 
     public NoteService getNoteService() {
         if (noteService == null) {
@@ -441,7 +441,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             AuditCluster auditCluster = (AuditCluster) entry.getValue();
             List<AuditError> auditErrors = auditCluster.getAuditErrorList();
             for (AuditError auditError : auditErrors) {
-                ProposalDevelopmentDataValidationItem dataValidationItem = new ProposalDevelopmentDataValidationItem();
+            	ProposalDevelopmentDataValidationItem dataValidationItem = new ProposalDevelopmentDataValidationItem();
                 String links[] = StringUtils.split(auditError.getLink(),".");
                 ErrorMessage errorMessage = new ErrorMessage();
                 errorMessage.setErrorKey(auditError.getMessageKey());
