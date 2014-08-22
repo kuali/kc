@@ -11,6 +11,7 @@ import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -37,6 +38,9 @@ public class ProposalDevelopmentSubmitController extends
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
 
+    @Autowired
+    @Qualifier("kualiConfigurationService")
+    private ConfigurationService configurationService;
 
     @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=deleteProposal")
     public ModelAndView deleteProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
@@ -115,6 +119,13 @@ public class ProposalDevelopmentSubmitController extends
 	   return getModelAndViewService().getModelAndView(form);
   } 
   
+   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=disapprove")
+   public  ModelAndView disapprove(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
+	   String applicationUrl = getConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY);
+	   form.setReturnLocation(applicationUrl);
+	   return   getTransactionalDocumentControllerService().disapprove(form);
+   } 
+   
   boolean proposalValidToSubmit(ProposalDevelopmentDocumentForm form) {
 	  boolean isValid = true;
 	  form.setAuditActivated(true);
@@ -139,6 +150,14 @@ public class ProposalDevelopmentSubmitController extends
 
   public void setGlobalVariableService(GlobalVariableService globalVariableService) {
       this.globalVariableService = globalVariableService;
+  }
+  
+  public ConfigurationService getConfigurationService() {
+	  return configurationService;
+  }
+	
+  public void setConfigurationService(ConfigurationService configurationService) {
+	  this.configurationService = configurationService;
   }
    
 }
