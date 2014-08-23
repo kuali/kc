@@ -20,7 +20,10 @@ import java.sql.Timestamp;
 import java.util.*;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.ClassUtils;
+import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
+import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
@@ -33,6 +36,7 @@ import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnai
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.apache.commons.lang3.StringUtils;
@@ -53,6 +57,7 @@ import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -111,6 +116,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
+
+    @Autowired
+    @Qualifier("personService")
+    private PersonService personService;
 
     @Autowired
     @Qualifier("keyPersonnelService")
@@ -269,6 +278,37 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             result.add(new SponsorSuggestResult(sponsor));
         }
         return result;
+    }
+
+    public List<String> performCustomDataFieldSuggest(String dataObjectClass, String searchCriteria, String value) {
+        List<String> results = new ArrayList<String>();
+        Class clazz = null;
+        try {
+            clazz = ClassUtils.getClass(dataObjectClass);
+        } catch (Exception e) {
+            throw new RiceRuntimeException("Custom data object class does not exist",e);
+        }
+        String searchString = "%" + value + "%";
+        Collection<? extends Object> searchResults = new ArrayList<Object>();
+        if (clazz == KcPerson.class) {
+            searchCriteria="principalName";
+            searchResults = getPersonService().findPeople(Collections.singletonMap(searchCriteria, searchString));
+        } else if (clazz == ArgValueLookup.class) {
+            searchResults = getLegacyDataAdapter().findMatching(clazz,Collections.singletonMap("argumentName",searchCriteria));
+            searchCriteria = "value";
+        } else {
+            searchResults = getDataObjectService().findMatching(clazz, QueryByCriteria.Builder.fromPredicates(PredicateFactory.likeIgnoreCase(searchCriteria,searchString))).getResults();
+        }
+
+        for (Object object : searchResults) {
+
+            try {
+                results.add(PropertyUtils.getNestedProperty(object, searchCriteria).toString());
+            } catch (Exception e) {
+                LOG.error("object does not contains search field",e);
+            }
+        }
+        return results;
     }
 
     public boolean isAttachmentEditable(String selectedCollectionPath, String index, HashMap<String,List<String>> editableAttachments) {
@@ -515,5 +555,16 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             proposalPerson.setOrdinalPosition(index);
             index++;
         }
+    }
+
+    public PersonService getPersonService() {
+        if (personService == null){
+            personService = KcServiceLocator.getService(PersonService.class);
+        }
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 }
