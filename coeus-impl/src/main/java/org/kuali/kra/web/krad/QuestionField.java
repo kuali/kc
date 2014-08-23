@@ -16,7 +16,10 @@
 package org.kuali.kra.web.krad;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
+import org.kuali.coeus.common.impl.custom.arg.ArgValueLookupValuesFinder;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.uif.control.Control;
 import org.kuali.rice.krad.uif.field.InputFieldBase;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
@@ -43,7 +46,14 @@ public class QuestionField extends InputFieldBase {
         Answer answer = (Answer) myBo;
         setControl((Control) ComponentFactory.getNewComponentInstance(getControlMappings().get(answer.getQuestion().getQuestionTypeId().toString())));
         getControl().getCssClasses().add("answer");
-        if (StringUtils.isNotBlank(answer.getQuestion().getLookupClass())) {
+
+        if (answer.getQuestion().getQuestionTypeId().equals(Constants.QUESTION_RESPONSE_TYPE_LOOKUP) && answer.getQuestion().getLookupClass().equals(ArgValueLookup.class.getName())) {
+            setControl((Control) ComponentFactory.getNewComponentInstance("Uif-DropdownControl"));
+            ArgValueLookupValuesFinder valuesFinder = new ArgValueLookupValuesFinder();
+            valuesFinder.setArgName(answer.getQuestion().getLookupReturn());
+            valuesFinder.setAddBlankOption(false);
+            setOptionsFinder(valuesFinder);
+        } else if (StringUtils.isNotBlank(answer.getQuestion().getLookupClass())) {
             if (useSuggest) {
                 getSuggest().setRender(true);
                 getSuggest().setValuePropertyName(answer.getQuestion().getLookupReturn());
