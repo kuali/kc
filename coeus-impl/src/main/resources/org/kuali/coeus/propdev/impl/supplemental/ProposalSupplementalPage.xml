@@ -97,7 +97,7 @@
                                   p:propertyName="control"
                                   p:condition="#line.customAttribute.dataTypeCode eq '3'">
                                 <property name="replacement">
-                                    <bean parent="Uif-DateControl"/>
+                                    <bean parent="Uif-DateControlOnFocus" p:watermarkText="mm/dd/yyyy" />
                                 </property>
                             </bean>
                         </list>
