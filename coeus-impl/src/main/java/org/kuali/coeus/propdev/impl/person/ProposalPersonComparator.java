@@ -48,8 +48,21 @@ public class ProposalPersonComparator implements Comparator<ProposalPerson> {
                    retval++;
                }
             }
+
+            if (retval == 0) {
+                if (person1.isMultiplePi()
+                        || person2.isMultiplePi()) {
+                    if (person1.isMultiplePi()) {
+                        retval--;
+                    }
+
+                    if (person2.isMultiplePi()) {
+                        retval++;
+                    }
+                }
+            }
         }
-        
+
         if (retval == 0) {
             retval = massageOrdinalNumber(person1).compareTo(massageOrdinalNumber(person2));
         }
