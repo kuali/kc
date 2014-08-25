@@ -92,7 +92,6 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
 
     @Override
     public void synchBudgetPersonsToProposal(Budget budget) {
-        budget.refreshReferenceObject("documentNextvalues");
         BudgetParent budgetParent = budget.getBudgetParent();
         for (PersonRolodex proposalPerson: budgetParent.getPersonRolodexList()) {
             if (!proposalPerson.isOtherSignificantContributorFlag()) {

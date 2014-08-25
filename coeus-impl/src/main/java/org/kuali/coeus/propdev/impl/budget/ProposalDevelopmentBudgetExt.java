@@ -15,12 +15,17 @@
  */
 package org.kuali.coeus.propdev.impl.budget;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
+import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetNextValue;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.kra.bo.NextValueBase;
 
 /**
  * This class is just to hold the ProposalDevelopmentBudget. We should move PD Budget stuffs to this class later. 
@@ -48,6 +53,14 @@ public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDeve
     
     @Column(name = "HIERARCHY_HASH_CODE")
     private Integer hierarchyLastSyncHashCode;
+    
+    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "OBJ_ID")
+    private List<ProposalBudgetNextValue> nextValues;
+    
+    public ProposalDevelopmentBudgetExt() {
+    	nextValues = new ArrayList<ProposalBudgetNextValue>();
+    }
 
     public Integer getHierarchyLastSyncHashCode() {
         return hierarchyLastSyncHashCode;
@@ -107,5 +120,22 @@ public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDeve
 			}
 		}
 		return true;
+	}
+    
+    public NextValueBase getNewNextValue() {
+    	return new ProposalBudgetNextValue();
+    }
+    
+    public void add(NextValueBase nextValue) {
+    	((ProposalBudgetNextValue) nextValue).setParentObject(this);
+    	nextValues.add((ProposalBudgetNextValue) nextValue);
+    }
+
+	public List<ProposalBudgetNextValue> getNextValues() {
+		return nextValues;
+	}
+
+	public void setNextValues(List<ProposalBudgetNextValue> nextValues) {
+		this.nextValues = nextValues;
 	}
 }
