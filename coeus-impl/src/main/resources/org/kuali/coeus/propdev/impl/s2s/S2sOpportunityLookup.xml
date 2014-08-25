@@ -21,7 +21,7 @@
 
 		<property name="criteriaFields">
 			<list>
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="providerCode"
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="providerCode" p:required="true"
 					p:label="Search Domain" p:fieldLabel.renderColon="false" p:order="10">
 					<property name="control">
 						<bean parent="Uif-DropdownControl" />
