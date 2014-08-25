@@ -82,16 +82,18 @@
 	                    </c:if>                      
 	                    <c:if test="${!empty KualiForm.document.institutionalProposal.rolodex.addressLine3}" >
 	                    <span id="mailingAddressLine3"><c:out value="${KualiForm.document.institutionalProposal.rolodex.addressLine3}"/></span><br/>
-	                    </c:if>                      
+	                    </c:if>                                          
 	                    <c:if test="${!empty KualiForm.document.institutionalProposal.rolodex.city}" >
-	                    <span id="mailingCity"><c:out value="${KualiForm.document.institutionalProposal.rolodex.city}"/></span><br/>
+	                    	<span id="mailingCityStateZipLine">
+	                    		<c:out value="${KualiForm.document.institutionalProposal.rolodex.city}"/>
+	                    		<c:if test="${!empty KualiForm.document.institutionalProposal.rolodex.state}" >
+	                    			&nbsp;<c:out value="${KualiForm.document.institutionalProposal.rolodex.state}"/>
+	                    			<c:if test="${!empty KualiForm.document.institutionalProposal.rolodex.postalCode}" >
+	                    				&nbsp;<c:out value="${KualiForm.document.institutionalProposal.rolodex.postalCode}"/>
+	                    			</c:if>
+	                    		</c:if>
+	                    	</span>
 	                    </c:if>                      
-	                    <c:if test="${!empty KualiForm.document.institutionalProposal.rolodex.state}" >
-	                    <span id="mailingState"><c:out value="${KualiForm.document.institutionalProposal.rolodex.state}"/>&nbsp;-&nbsp;<c:out value="${KualiForm.document.institutionalProposal.rolodex.postalCode}"/></span><br/>
-	                    </c:if>
-                        <c:if test="${!empty KualiForm.document.institutionalProposal.rolodex.postalCode}" >
-                        <span id="mailingPostalCode"><c:out value="${KualiForm.document.institutionalProposal.rolodex.postalCode}"/></span><br/>
-                        </c:if>
 	                    <div align="right" style="float: right;"> 
 	                       <c:if test="${!readOnly}" >
 	                          <kul:lookup boClassName="org.kuali.coeus.common.framework.rolodex.Rolodex" fieldConversions="rolodexId:document.institutionalProposal.rolodexId" anchor="${currentTabIndex}"/>
