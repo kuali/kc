@@ -2177,7 +2177,8 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
         }
     }
     public String getAllUnitNumbers() {
-        List<String> unitNumbers = new ArrayList<String>();
+        Set<String> unitNumbers = new HashSet<String>();
+        unitNumbers.add(this.getOwnedByUnitNumber());
         List<ProposalPerson> proposalPersons = getProposalPersons();
         for (ProposalPerson proposalPerson : proposalPersons) {
             List<ProposalPersonUnit> proposalPersonUnits = proposalPerson.getUnits();
