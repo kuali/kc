@@ -22,16 +22,24 @@ public class QuestionnaireTabGroup extends TabGroup {
 
     @Override
     public void performInitialization(Object model) {
-        List<AnswerHeader> answerHeaders = ((ProposalDevelopmentDocumentForm)model).getQuestionnaireHelper().getAnswerHeaders();
-        answerHeaders.addAll(((ProposalDevelopmentDocumentForm)model).getS2sQuestionnaireHelper().getAnswerHeaders());
         List<Component> tabs = new ArrayList<Component>();
 
-        Collections.sort(answerHeaders, new Comparator<AnswerHeader>(){
-            public int compare(AnswerHeader a1, AnswerHeader a2) {
-                return a1.getLabel().compareTo(a2.getLabel());
+        tabs.addAll(createTabs(((ProposalDevelopmentDocumentForm)model).getQuestionnaireHelper().getAnswerHeaders(),"questionnaireHelper"));
+        tabs.addAll(createTabs(((ProposalDevelopmentDocumentForm)model).getS2sQuestionnaireHelper().getAnswerHeaders(),"s2sQuestionnaireHelper"));
+
+        Collections.sort(tabs, new Comparator<Component>(){
+            public int compare(Component c1, Component c2) {
+                return ((GroupBase)c1).getHeader().getHeaderText().compareTo(((GroupBase) c2).getHeader().getHeaderText());
             }
         });
 
+        this.setItems(tabs);
+
+        super.performInitialization(model);
+    }
+
+    private List<Component> createTabs(List<AnswerHeader> answerHeaders, String helper) {
+        List<Component> tabs = new ArrayList<Component>();
         int index = 0;
         for (AnswerHeader answerHeader : answerHeaders) {
             if (answerHeader.isActive()) {
@@ -42,16 +50,14 @@ public class QuestionnaireTabGroup extends TabGroup {
                 CollectionGroupBase questionCollection = ComponentUtils.copy(collectionGroupPrototype);
                 questionCollection.setHeader((Header) ComponentFactory.getNewComponentInstance("Uif-SectionHeader"));
                 questionCollection.setHeaderText(answerHeader.getLabel() + (answerHeader.isCompleted() ? "[color=green] (Complete)" : " [color=gray](Incomplete)") + "[/color]");
-                questionCollection.setPropertyName("questionnaireHelper.answerHeaders[" + index + "].questions");
+                questionCollection.setPropertyName(helper + ".answerHeaders[" + index + "].questions");
                 group.setItems(Collections.singletonList(questionCollection));
                 tabs.add(group);
             }
             index++;
         }
 
-        this.setItems(tabs);
-
-        super.performInitialization(model);
+        return tabs;
     }
 
     public CollectionGroupBase getCollectionGroupPrototype() {
