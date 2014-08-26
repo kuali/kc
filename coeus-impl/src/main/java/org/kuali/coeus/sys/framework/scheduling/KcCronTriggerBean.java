@@ -1,3 +1,4 @@
+
 /*
  * Copyright 2005-2014 The Kuali Foundation
  * 
@@ -50,12 +51,8 @@ public class KcCronTriggerBean extends CronTriggerBean {
      * We need to set the Cron Expression based upon the value in the system parameters.
      */
     @Override
-    public void afterPropertiesSet() {
-        try {
-            setCronExpression(getSystemCronExpression());
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+    public void afterPropertiesSet() throws Exception {
+        setCronExpression(getSystemCronExpression());
         setStartTime(getCronStartTime());
         super.afterPropertiesSet();
     }
