@@ -29,6 +29,7 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krad.web.service.FileControllerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -58,6 +59,10 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
+
+    @Autowired
+    @Qualifier("kcFileControllerService")
+    private FileControllerService kcFileControllerService;
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=editAttachment")
     public ModelAndView editAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
@@ -152,7 +157,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=getFileFromLine")
     public void getFileFromLine(@ModelAttribute("KualiForm") final UifFormBase uifForm, BindingResult result,
                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
-        getFileControllerService().getFileFromLine(uifForm,response);
+        getKcFileControllerService().getFileFromLine(uifForm,response);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=markAllComplete")
@@ -286,5 +291,13 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
 
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
+    }
+
+    public FileControllerService getKcFileControllerService() {
+        return kcFileControllerService;
+    }
+
+    public void setKcFileControllerService(FileControllerService kcFileControllerService) {
+        this.kcFileControllerService = kcFileControllerService;
     }
 }
