@@ -95,7 +95,7 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImpl implements ProposalD
 
     public List<QuestionnaireUsage> getQuestionnaireUsages(String oppNameSpace, String formName, DevelopmentProposal proposal) {
         Set<QuestionnaireUsage> result = new HashSet<QuestionnaireUsage>();
-        ModuleQuestionnaireBean questionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(proposal);
+        ModuleQuestionnaireBean questionnaireBean = getModuleQnBean(proposal);
         questionnaireBean.setModuleSubItemCode(CoeusSubModule.PROPOSAL_S2S_SUBMODULE);
         List<QuestionnaireUsage> usages = getQuestionnaireAnswerService().getPublishedQuestionnaire(questionnaireBean);
         List<S2sOppFormQuestionnaire> s2sOppFormQuestionnaires = findOppFormToQuestionnaires(oppNameSpace,formName);
