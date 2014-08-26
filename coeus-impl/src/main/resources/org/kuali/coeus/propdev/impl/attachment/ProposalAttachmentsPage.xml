@@ -88,12 +88,11 @@
         <property name="collection.items">
             <list>
                 <bean parent="PropDev-AttachmentPage-LinkField" p:order="10"/>
-                <bean parent="Uif-DataField" p:propertyName="narrativeTypeCode" p:readOnlyDisplayReplacementPropertyName="narrativeType.description"
-                      p:fieldLabel.labelText="Type" p:order="20"/>
-                <bean parent="Uif-DataField" p:propertyName="moduleStatusCode"
+                <bean parent="Uif-InputField" p:propertyName="narrativeTypeCode" p:readOnlyDisplayReplacementPropertyName="narrativeType.description"
+                      p:fieldLabel.labelText="Type" p:enableAutoQuickfinder="false" p:width="5%" p:order="20" />
+               <bean parent="Uif-InputField" p:propertyName="moduleStatusCode"
                       p:readOnlyDisplayReplacementPropertyName="narrativeStatus.description"
-                      p:required="true" p:order="30"/>
-
+                      p:required="true" p:enableAutoQuickfinder="false" p:width="25%" p:order="30"/>
             </list>
         </property>
 	</bean>
