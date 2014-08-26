@@ -53,54 +53,15 @@
             p:renderAddLine="false">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:fieldLabel.labelText="@{#line.customAttribute ne null ? #line.customAttribute.label : &quot;Custom Attribute&quot;}" p:propertyName="value">
-                    <property name="propertyReplacers">
-                        <list>
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                                  p:propertyName="quickfinder"
-                                  p:condition="!#empty(#line.customAttribute.lookupClass)">
-                                <property name="replacement">
-                                    <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="@{#line.customAttribute.lookupClass}"
-                                          p:fieldConversions="@{#line.customAttribute.lookupReturn}:value"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                                  p:propertyName="quickfinder"
-                                  p:condition="#line.customAttribute.lookupClass eq 'org.kuali.coeus.common.framework.custom.arg.ArgValueLookup'">
-                                <property name="replacement">
-                                    <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="@{#line.customAttribute.lookupClass}"
-                                          p:lookupParameters="customAttribute.lookupReturn:argumentName"
-                                          p:fieldConversions="value:value"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                                  p:propertyName="suggest"
-                                  p:condition="!#empty(#line.customAttribute.lookupClass)">
-                                <property name="replacement">
-                                    <bean parent="Uif-Suggest" p:render="true"
-                                          p:valuePropertyName="value"
-                                          p:returnFullQueryObject="true">
-                                        <property name="templateOptions">
-                                            <map>
-                                                <entry key="minLength" value="1" />
-                                                <entry key="delay" value="1" />
-                                                <entry key="html" value="true" />
-                                            </map>
-                                        </property>
-                                        <property name="suggestQuery">
-                                            <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="performCustomDataFieldSuggest" p:queryMethodArgumentFieldList="customAttribute.lookupClass,customAttribute.lookupReturn" />
-                                        </property>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                                  p:propertyName="control"
-                                  p:condition="#line.customAttribute.dataTypeCode eq '3'">
-                                <property name="replacement">
-                                    <bean parent="Uif-DateControlOnFocus" p:watermarkText="mm/dd/yyyy" />
-                                </property>
-                            </bean>
-                        </list>
+                <bean parent="Uif-InputField" class="org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataField"
+                      p:fieldLabel.labelText="@{#line.customAttribute ne null ? #line.customAttribute.label : &quot;Custom Attribute&quot;}"
+                      p:propertyName="value">
+
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="false" />
+                    </property>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:render="false" />
                     </property>
                 </bean>
             </list>
@@ -113,5 +74,4 @@
                   p:expression="#line.customAttribute.groupName eq #groupName"/>
         </property>
     </bean>
-
 </beans>

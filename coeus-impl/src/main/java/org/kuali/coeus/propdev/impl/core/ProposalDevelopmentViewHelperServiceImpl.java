@@ -20,10 +20,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang3.ClassUtils;
-import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
-import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
@@ -36,7 +33,6 @@ import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnai
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.krms.KcKrmsConstants;
-import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.apache.commons.lang3.StringUtils;
@@ -278,37 +274,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             result.add(new SponsorSuggestResult(sponsor));
         }
         return result;
-    }
-
-    public List<String> performCustomDataFieldSuggest(String dataObjectClass, String searchCriteria, String value) {
-        List<String> results = new ArrayList<String>();
-        Class clazz = null;
-        try {
-            clazz = ClassUtils.getClass(dataObjectClass);
-        } catch (Exception e) {
-            throw new RiceRuntimeException("Custom data object class does not exist",e);
-        }
-        String searchString = "%" + value + "%";
-        Collection<? extends Object> searchResults = new ArrayList<Object>();
-        if (clazz == KcPerson.class) {
-            searchCriteria="principalName";
-            searchResults = getPersonService().findPeople(Collections.singletonMap(searchCriteria, searchString));
-        } else if (clazz == ArgValueLookup.class) {
-            searchResults = getLegacyDataAdapter().findMatching(clazz,Collections.singletonMap("argumentName",searchCriteria));
-            searchCriteria = "value";
-        } else {
-            searchResults = getDataObjectService().findMatching(clazz, QueryByCriteria.Builder.fromPredicates(PredicateFactory.likeIgnoreCase(searchCriteria,searchString))).getResults();
-        }
-
-        for (Object object : searchResults) {
-
-            try {
-                results.add(PropertyUtils.getNestedProperty(object, searchCriteria).toString());
-            } catch (Exception e) {
-                LOG.error("object does not contains search field",e);
-            }
-        }
-        return results;
     }
 
     public boolean isAttachmentEditable(String selectedCollectionPath, String index, HashMap<String,List<String>> editableAttachments) {
