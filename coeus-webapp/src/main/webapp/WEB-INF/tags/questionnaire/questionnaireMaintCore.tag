@@ -105,7 +105,7 @@
 	<input type="hidden" id="questionNumber" name="questionNumber" value = "${KualiForm.questionNumber}"/>
     <%--  <input type="hidden" id="sqlScripts" name="sqlScripts" value = "${KualiForm.sqlScripts}"/> --%>
 	<input type="hidden" id="document.newMaintainableObject.businessObject.id" name="document.newMaintainableObject.businessObject.id" value = "${KualiForm.document.newMaintainableObject.businessObject.id}"/>
-    <input type="hidden" id="document.newMaintainableObject.businessObject.questionnaireId" name="document.newMaintainableObject.businessObject.questionnaireId" value = "${KualiForm.document.newMaintainableObject.businessObject.questionnaireId}"/>
+    <input type="hidden" id="document.newMaintainableObject.businessObject.questionnaireSeqId" name="document.newMaintainableObject.businessObject.questionnaireSeqId" value = "${KualiForm.document.newMaintainableObject.businessObject.questionnaireSeqId}"/>
     <input type="hidden" id="document.newMaintainableObject.businessObject.sequenceNumber" name="document.newMaintainableObject.businessObject.sequenceNumber" value = "${KualiForm.document.newMaintainableObject.businessObject.sequenceNumber}"/>
 	<%--  <input type="hidden" id="retData" name="retData" value = "${KualiForm.retData}"/> --%>
 	<input type="hidden" id="editData" name="editData" value = "${KualiForm.editData}"/>

@@ -99,7 +99,7 @@ public class QuestionnaireMaintenanceDocumentRule extends MaintenanceDocumentRul
         }
         
         if (newQuestionnaire.getObjectId() != null 
-                && checkForLatestQuuestionnaireSequenceNumber(newQuestionnaire.getQuestionnaireSeqId(), newQuestionnaire.getSequenceNumber())) {
+                && checkForLatestQuuestionnaireSequenceNumber(newQuestionnaire.getId(), newQuestionnaire.getSequenceNumber())) {
             errorMap.putError("document.newMaintainableObject.businessObject.name", ALREADY_EDITED_ERROR, "");
             valid = false;
         }
@@ -126,9 +126,9 @@ public class QuestionnaireMaintenanceDocumentRule extends MaintenanceDocumentRul
      * @param sequenceNumber
      * @return
      */
-    protected boolean checkForLatestQuuestionnaireSequenceNumber(String questionnnaireId, Integer sequenceNumber) {
+    protected boolean checkForLatestQuuestionnaireSequenceNumber(Long id, Integer sequenceNumber) {
         Map fieldValues = new HashMap();
-        fieldValues.put("QUESTIONNAIRE_ID", questionnnaireId);
+        fieldValues.put("QUESTIONNAIRE_REF_ID", id);
         boolean sortAscending = true;
         Collection<Questionnaire> questionnaires = getBusinessObjectService().findMatchingOrderBy(Questionnaire.class, fieldValues, "SEQUENCE_NUMBER", sortAscending);
         boolean foundCurrentSequence = false;

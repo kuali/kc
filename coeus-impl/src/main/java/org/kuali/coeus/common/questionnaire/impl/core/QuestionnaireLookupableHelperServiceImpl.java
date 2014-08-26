@@ -21,6 +21,7 @@ import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireAuthorizationService;
 import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kew.api.KEWPropertyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
@@ -29,6 +30,7 @@ import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +56,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KcKualiLookupableH
     private static final String MAINTENANCE = "maintenance";
     private static final String NEW_MAINTENANCE = "../maintenanceQn";
     private static final String DOC_ROUTE_STATUS = "docRouteStatus";
-    private static final String QUESTIONNAIRE_ID = "questionnaireId";
+    private static final String QUESTIONNAIRE_ID = "questionnaireSeqId";
     private List<MaintenanceDocumentBase> questionnaireMaintenanceDocs;
     private List<MaintenanceDocumentBase> newQuestionnaireDocs;
     private List<String> questionnaireIds;
@@ -63,6 +65,10 @@ public class QuestionnaireLookupableHelperServiceImpl extends KcKualiLookupableH
     @Autowired
     @Qualifier("documentService")
     private DocumentService documentService;
+    
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
     @Autowired
     @Qualifier("questionnaireAuthorizationService")
@@ -88,9 +94,9 @@ public class QuestionnaireLookupableHelperServiceImpl extends KcKualiLookupableH
         int qId = 0;
         for (BusinessObject questionnaire : searchResults) {
             if (qId != ((Questionnaire) questionnaire).getQuestionnaireSeqIdAsInteger()) {
-                qId = ((Questionnaire) questionnaire).getQuestionnaireSeqIdAsInteger();
                 if (isCurrent((Questionnaire) questionnaire)) {
                     questionnaires.add((Questionnaire) questionnaire);
+                    qId = ((Questionnaire) questionnaire).getQuestionnaireSeqIdAsInteger();
                 }
             }
         }
@@ -112,12 +118,12 @@ public class QuestionnaireLookupableHelperServiceImpl extends KcKualiLookupableH
         return questionnaire.getId().equals(currentQnaire.getId());
     }
 
-    protected Questionnaire getQuestionnaireById(String questionnaireId) {
+    protected Questionnaire getQuestionnaireById(String questionnaireSeqId) {
         Questionnaire questionnaire = null;
-        if (questionnaireId != null) {
+        if (questionnaireSeqId != null) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put(QUESTIONNAIRE_ID, questionnaireId);
-            Collection<Questionnaire> questionnaires = getBusinessObjectService().findMatching(Questionnaire.class, fieldValues);
+            fieldValues.put(QUESTIONNAIRE_ID, questionnaireSeqId);
+            Collection<Questionnaire> questionnaires = getBusinessObjectService().findMatchingOrderBy(Questionnaire.class, fieldValues, "UPDATE_TIMESTAMP", false);
             if (questionnaires.size() > 0) {
                 questionnaire = Collections.max(questionnaires);
             }
@@ -224,8 +230,8 @@ public class QuestionnaireLookupableHelperServiceImpl extends KcKualiLookupableH
         fieldValues.clear();
         fieldValues.put(KEWPropertyConstants.DOCUMENT_TYPE_ID, docTypeIds);
         fieldValues.put(DOC_ROUTE_STATUS, KewApiConstants.ROUTE_HEADER_SAVED_CD);
-        List<DocumentRouteHeaderValue> docHeaders = (List<DocumentRouteHeaderValue>) getBusinessObjectService().findMatching(
-                DocumentRouteHeaderValue.class, fieldValues);
+        List<DocumentRouteHeaderValue> docHeaders = 
+        		getDataObjectService().findMatching(DocumentRouteHeaderValue.class, QueryByCriteria.Builder.andAttributes(fieldValues).build()).getResults();
         try {
             for (DocumentRouteHeaderValue docHeader : docHeaders) {
                 MaintenanceDocumentBase doc = (MaintenanceDocumentBase) documentService.getByDocumentHeaderId(docHeader
@@ -264,5 +270,13 @@ public class QuestionnaireLookupableHelperServiceImpl extends KcKualiLookupableH
     public DocumentService getDocumentService() {
         return documentService;
     }
+
+	public DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
 
 }
