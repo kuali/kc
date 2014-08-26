@@ -118,7 +118,7 @@ public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService 
             Map<String,String> agendaQualifiers = new HashMap<String,String>();
             rulesContext.populateAgendaQualifiers(agendaQualifiers);
             agendaQualifiers.put("typeId", agendaTypeId);
-    
+
             contextQualifiers.put("namespaceCode", namespace);
             SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers, agendaQualifiers);
     
