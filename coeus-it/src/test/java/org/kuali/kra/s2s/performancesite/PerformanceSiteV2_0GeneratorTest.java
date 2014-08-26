@@ -50,13 +50,14 @@ public class PerformanceSiteV2_0GeneratorTest extends S2STestBase<PerformanceSit
 	    performingOrganization.setOrganization(organization);
 	    performingOrganization.setSiteNumber(++siteNumber);
 	    performingOrganization.setLocationName(organization.getOrganizationName());
+	    performingOrganization.setDevelopmentProposal(document.getDevelopmentProposal());
 	   
 	    CongressionalDistrict congressionalDistrict = 	new CongressionalDistrict();
 	    congressionalDistrict.setId((long) 001111111);
 	    congressionalDistrict.setCongressionalDistrict("MA-008");
+	    congressionalDistrict.setProposalSite(performingOrganization);	   
 	    congressionalDistricts.add(congressionalDistrict);
 	    performingOrganization.setCongressionalDistricts(congressionalDistricts);
-	    getService(DataObjectService.class).save(performingOrganization);
 	    proposalSites.add(performingOrganization);
 	    document.getDevelopmentProposal().setProposalSites(proposalSites);
    
