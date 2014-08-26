@@ -78,7 +78,8 @@
     <bean id="kcAttachmentService" parent="grlImporter" p:serviceName="kcAttachmentService"/>
     <bean id="fiscalYearMonthService" parent="grlImporter" p:serviceName="fiscalYearMonthService" />
     <bean id="questionnairePrintingService" parent="grlImporter" p:serviceName="questionnairePrintingService"/>
-
+    <bean id="kcFileControllerService" parent="grlImporter" p:serviceName="kcFileControllerService"/>
+    
     <!-- IRB -->
 
     <bean id="proposalDevelopmentProtocolDocumentService" parent="grlImporter" p:serviceName="proposalDevelopmentProtocolDocumentService" />
