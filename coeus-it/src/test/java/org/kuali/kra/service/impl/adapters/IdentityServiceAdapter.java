@@ -29,7 +29,9 @@ import org.kuali.rice.kim.api.identity.residency.EntityResidency;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.identity.visa.EntityVisa;
 
+import javax.jws.WebParam;
 import java.util.List;
+import java.util.Map;
 
 public class IdentityServiceAdapter implements IdentityService {
 
@@ -446,6 +448,16 @@ public class IdentityServiceAdapter implements IdentityService {
 
     @Override
     public EntityNamePrincipalName getDefaultNamesForPrincipalId(String principalId) {
+        return null;
+    }
+
+    @Override
+    public Map<String, EntityNamePrincipalName> getDefaultNamesForPrincipalIds(@WebParam(name = "principalIds") List<String> principalIds) {
+        return null;
+    }
+
+    @Override
+    public EntityPrivacyPreferences getPrivacyPreferencesForPrincipalId(@WebParam(name = "principalId") String principalId) {
         return null;
     }
 
