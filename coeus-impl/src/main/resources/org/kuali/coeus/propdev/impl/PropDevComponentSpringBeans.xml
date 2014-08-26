@@ -67,6 +67,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalDataValidationSection.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/person/creditsplit/ProposalCreditAllocationPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/copy/ProposalCopyDialogSection.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalPrintPage.xml</value>
                 
                 <!--  PD Budget -->
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetShared.xml</value>
