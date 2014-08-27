@@ -57,13 +57,20 @@
 			          		<bean id="DisapproveExplanationDialog" parent="Uif-DialogGroup-OkCancelExpl" p:promptText="Reason for disapprove?"/>
 			          </property>
 			        </bean>
+			        
+			   		<bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel proposal" p:methodToCall="cancelProposal" p:order="50" 
+						p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}">
+					 	<property name="confirmationDialog">
+			          		<bean id="ProposalCancelDialog" parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to cancel ?"/>
+			          	</property>
+					</bean>
 
 					<bean parent="Uif-Space"/><bean parent="Uif-Space"/>																				    
-					<bean  p:actionLabel="Save and Exit" parent="Uif-SecondaryActionButton" p:methodToCall="saveAndExit"   p:order="50" 
+					<bean  p:actionLabel="Save and Exit" parent="Uif-SecondaryActionButton" p:methodToCall="saveAndExit"   p:order="60" 
 						p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/> 					
-					<bean  p:actionLabel="Exit without Saving" parent="Uif-SecondaryActionButton"  p:methodToCall="returnToHub"  p:order="60" 
+					<bean  p:actionLabel="Exit without Saving" parent="Uif-SecondaryActionButton"  p:methodToCall="returnToHub"  p:order="70" 
 						p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/> 
-					<bean parent="Uif-DropdownToggleMenu" p:toggleText="More Actions"  p:align="right" p:order="70">
+					<bean parent="Uif-DropdownToggleMenu" p:toggleText="More Actions"  p:align="right" p:order="80">
 					  <property name="menuItems">
 					    <list>
 					      <bean parent="Uif-MenuAction" p:actionLabel="Resend notifications" p:order="10"  
@@ -72,9 +79,6 @@
 					      <bean parent="Uif-MenuAction" p:actionLabel="Reload proposal"  p:methodToCall="reload" p:order="20"  
 					      	p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}"/>		
 					      				 
-					      <bean parent="Uif-MenuAction" p:actionLabel="Cancel proposal" p:methodToCall="cancelProposal" p:order="30" 
-					      	p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
-					      	
 					      <bean parent="Uif-MenuAction" p:actionLabel="Blanket Approve" p:methodToCall="blanketApprove" p:order="50" 
 					      		p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
 						  <bean parent="Uif-MenuDivider"/>
