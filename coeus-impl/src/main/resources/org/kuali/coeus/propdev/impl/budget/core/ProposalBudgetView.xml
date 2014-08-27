@@ -54,34 +54,6 @@
 		</property>
 	</bean>
 
-	<bean id="PropBudget-DocumentFooter" parent="PropBudget-DocumentFooter-parentBean" />
-	<bean id="PropBudget-DocumentFooter-parentBean" abstract="true"
-		parent="Uif-FooterBase">
-		<property name="items">
-			<list>
-				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:performClientSideValidation="true"
-					p:methodToCall="previousPage" p:actionLabel="Back"
-					p:iconClass="icon-chevron-left" p:actionIconPlacement="LEFT"
-					p:order="10" />
-				<bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false"
-					p:performClientSideValidation="true" p:methodToCall="saveAndContinue"
-					p:actionLabel="Continue"
-					p:iconClass="icon-chevron-right" p:actionIconPlacement="RIGHT"
-					p:order="20" />					
-				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
-					p:performClientSideValidation="true" p:methodToCall="save"
-					p:actionLabel="Save" p:order="30" />
-				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
-					p:performClientSideValidation="false" p:methodToCall="reload"
-					p:actionLabel="Reload" p:order="40" />
-				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
-					p:performClientSideValidation="true" p:methodToCall="completeBudget"
-					p:actionLabel="Complete Budget"
-					p:order="50" />
-			</list>
-		</property>
-	</bean>
-
 	<bean id="PropBudget-Menu" parent="PropBudget-Menu-parentBean" />
 	<bean id="PropBudget-Menu-parentBean" abstract="true"
 		parent="Uif-MenuNavigationGroup" p:defaultItemIconClass="">

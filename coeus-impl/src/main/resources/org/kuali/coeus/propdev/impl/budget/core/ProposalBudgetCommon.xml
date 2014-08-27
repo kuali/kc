@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2014 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+             
+	<bean id="PropBudget-Page" parent="PropBudget-Page-parentBean"/>
+	<bean id="PropBudget-Page-parentBean" abstract="true" parent="Uif-Page">
+		<property name="footer">
+			<bean parent="PropBudget-Footer" p:order="10"/>
+		</property>
+	</bean>      
+	
+	<bean id="PropBudget-Footer" parent="PropBudget-Footer-parentBean" />
+	<bean id="PropBudget-Footer-parentBean" abstract="true" parent="Uif-FooterBase"
+		p:dataAttributes="sticky_footer:true">
+		<property name="items">
+			<list>
+				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:performClientSideValidation="true"
+					p:methodToCall="previousPage" p:actionLabel="Back"
+					p:iconClass="icon-chevron-left" p:actionIconPlacement="LEFT"
+					p:order="10" />
+				<bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false"
+					p:performClientSideValidation="true" p:methodToCall="saveAndContinue"
+					p:actionLabel="Continue"
+					p:iconClass="icon-chevron-right" p:actionIconPlacement="RIGHT"
+					p:order="20" />					
+				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
+					p:performClientSideValidation="true" p:methodToCall="save"
+					p:actionLabel="Save" p:order="30" />
+				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
+					p:performClientSideValidation="true" p:methodToCall="completeBudget"
+					p:actionLabel="Complete Budget"
+					p:order="50" />
+			</list>
+		</property>
+	</bean>	      
+</beans>

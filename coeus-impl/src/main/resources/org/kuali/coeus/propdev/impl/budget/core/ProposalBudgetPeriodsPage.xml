@@ -17,7 +17,7 @@
 
 
 	<bean id="PropBudget-PeriodsPage" parent="PropBudget-PeriodsPage-parentBean" />
-	<bean id="PropBudget-PeriodsPage-parentBean" parent="PropDev-DocumentPage" p:fieldBindingObjectPath="budget">
+	<bean id="PropBudget-PeriodsPage-parentBean" parent="PropBudget-Page" p:fieldBindingObjectPath="budget">
 		<property name="items">
 			<list>
 				<ref bean="PropBudget-PeriodsPage-CollectionGroup" />
