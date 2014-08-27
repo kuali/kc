@@ -956,8 +956,7 @@
   </bean>
 
   <bean id="KcPerson-LookupView-parentBean" abstract="true" parent="Uif-LookupView"
-        p:viewHelperServiceClass="org.kuali.coeus.common.impl.person.KcPersonLookupable"
-        p:viewHelperService="@{#getService('enrouteDevelopmentProposalLookupable')}">
+        p:viewHelperService="#{#getService('enrouteDevelopmentProposalLookupable')}">
     <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.person.KcPerson"/>
     <property name="headerText" value="KcPerson Lookup"/>
     <property name="criteriaFields">

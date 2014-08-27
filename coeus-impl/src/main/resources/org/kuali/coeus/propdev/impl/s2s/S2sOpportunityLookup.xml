@@ -16,8 +16,7 @@
 	<bean id="S2sOpportunity-LookupView-parentBean" abstract="true"
 		parent="Uif-LookupView" p:header.headerText="Opportunity Search"
 		p:dataObjectClassName="org.kuali.coeus.propdev.impl.s2s.S2sOpportunity"
-		p:viewHelperServiceClass="org.kuali.coeus.propdev.impl.s2s.S2sOpportunityLookupable"
-		p:viewHelperService="@{#getService('s2sOpportunityLookupable')}">
+		p:viewHelperService="#{#getService('s2sOpportunityLookupable')}">
 
 		<property name="criteriaFields">
 			<list>

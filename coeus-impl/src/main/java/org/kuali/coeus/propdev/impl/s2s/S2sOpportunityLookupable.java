@@ -87,10 +87,6 @@ public class S2sOpportunityLookupable extends LookupableImpl {
     }
 
     protected S2sSubmissionService getS2sSubmissionService() {
-        if (s2sSubmissionService == null) {
-            s2sSubmissionService = KcServiceLocator.getService(S2sSubmissionService.class);
-        }
-
         return s2sSubmissionService;
     }
 
@@ -99,9 +95,6 @@ public class S2sOpportunityLookupable extends LookupableImpl {
 	}
 
     public GlobalVariableService getGlobalVariableService() {
-        if (globalVariableService == null) {
-            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
-        }
         return globalVariableService;
     }
 
