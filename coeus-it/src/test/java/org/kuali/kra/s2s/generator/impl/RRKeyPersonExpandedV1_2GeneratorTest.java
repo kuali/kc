@@ -101,6 +101,7 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
 
 		Organization organization = new Organization();
 		organization.setOrganizationName("Espace");
+		organization.setOrganizationId("000001");
 		Unit unit = new Unit();
 		unit.setUnitName("University");
         unit.setUnitNumber("1");
