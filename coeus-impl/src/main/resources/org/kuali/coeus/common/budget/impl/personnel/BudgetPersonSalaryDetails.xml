@@ -145,13 +145,13 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Base Salary" />
     <property name="shortLabel" value="Salary" />
-    <property name="maxLength" value="10" />
+    <property name="maxLength" value="12" />
     <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern" p:precision="2" p:scale="2" p:allowNegative="false"/>
+      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="false"/>
     </property>
     <property name="validCharactersConstraint">
       <bean parent="FixedPointPatternConstraint">
-        <property name="precision" value="2"/>
+        <property name="precision" value="12"/>
         <property name="scale" value="2"/>
         <property name="allowNegative" value="false"/>
       </bean>
