@@ -16,7 +16,7 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<bean id="PropBudget-ProjectPersonnelPage" parent="PropBudget-ProjectPersonnelPage-parentBean" />
-	<bean id="PropBudget-ProjectPersonnelPage-parentBean" parent="PropDev-DocumentPage" p:fieldBindingObjectPath="budget">
+	<bean id="PropBudget-ProjectPersonnelPage-parentBean" parent="PropBudget-Page" p:fieldBindingObjectPath="budget">
 		<property name="items">
 			<list>
 				<ref bean="PropBudget-ProjectPersonnelPage-CollectionGroup" />

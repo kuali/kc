@@ -14,7 +14,7 @@
 
 	<bean id="PropBudget-RatesPage" parent="PropBudget-RatesPage-parentBean" />
 	<bean id="PropBudget-RatesPage-parentBean" abstract="true"
-		parent="Uif-DocumentPage">
+		parent="PropBudget-Page">
 		<property name="items">
 			<list>
 				<bean parent="PropBudget-RatesPage-TabGroup" p:order="10"/>
@@ -23,9 +23,6 @@
 		</property>
 		<property name="header">
 			<bean parent="Uif-PageHeader" />
-		</property>
-		<property name="footer">
-			<bean parent="PropBudget-DocumentFooter"/>
 		</property>
 	</bean>
 

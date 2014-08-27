@@ -17,7 +17,7 @@
     <!-- Proposal Budget Income Page -->
     <bean id="PropBudget-ProjectIncomePage" parent="PropBudget-ProjectIncomePage-parentBean" />
     <bean id="PropBudget-ProjectIncomePage-parentBean"
-          parent="PropDev-DocumentPage" p:fieldBindingObjectPath="budget">
+          parent="PropBudget-Page" p:fieldBindingObjectPath="budget">
         <property name="items">
             <list>
                 <ref bean="PropBudget-ProjectIncomePage-CollectionGroup" />
