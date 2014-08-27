@@ -1839,7 +1839,9 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     public String getProposalStateTypeCode() {
         return proposalStateTypeCode;
     }
-
+    public void setProposalState(ProposalState proposalState) {
+		this.proposalState = proposalState;
+    }
     public void setProposalStateTypeCode(String proposalStateTypeCode) {
         this.proposalStateTypeCode = proposalStateTypeCode;
     }

@@ -84,8 +84,9 @@
 							<bean parent="Uif-VerticalBoxGroup">
 								<property name="items">
 									<list>
+									
 										<bean parent="Uif-DeleteLineAction" p:actionLabel=""
-											p:iconClass="icon-trash" p:order="10" />
+											p:iconClass="icon-trash"  p:methodToCall="complianceDeleteAction" p:order="10" />
 									</list>
 								</property>
 							</bean>
@@ -185,5 +186,7 @@
 		p:progressiveRender="@{(#lp.specialReviewTypeCode != '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).HUMAN_SUBJECTS}' and specialReviewHelper.IsIrbProtocolLinkingEnabled) or 
 				(#lp.specialReviewTypeCode != '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).ANIMAL_USAGE}' and specialReviewHelper.IsIacucProtocolLinkingEnabled)}">
 	</bean>
-
+	
+   <bean id="PropDev-CompliancePage-deleteComplianceConfirm" parent="Uif-DialogGroup-OkCancel"
+          p:promptText="Are you sure you want to delete this Compliance?"/>
 </beans>

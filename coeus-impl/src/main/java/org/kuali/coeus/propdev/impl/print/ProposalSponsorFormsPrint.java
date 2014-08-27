@@ -68,7 +68,8 @@ public class ProposalSponsorFormsPrint extends AbstractPrint {
 	 */
 	public Map<String,Source> getXSLTemplateWithBookmarks() {
 		Map<String,Source> sourceMap = new LinkedHashMap<String,Source>(); 
-		List<SponsorFormTemplate> printFormTemplates = (List<SponsorFormTemplate>)getReportParameters().get(ProposalDevelopmentPrintingServiceImpl.SELECTED_TEMPLATES);
+		List<SponsorFormTemplate> printFormTemplates = (List<SponsorFormTemplate>)this. getReportParameters().get(ProposalDevelopmentPrintingServiceImpl.SELECTED_TEMPLATES);
+		
 		for (SponsorFormTemplate sponsorFormTemplate : printFormTemplates) {
 		    SponsorFormTemplate sponsorTemplate = (SponsorFormTemplate) getBusinessObjectService().findBySinglePrimaryKey(SponsorFormTemplate.class, 
 		            sponsorFormTemplate.getSponsorFormTemplateId());

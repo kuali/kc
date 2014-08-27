@@ -27,6 +27,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
+import org.kuali.rice.krad.web.form.DialogResponse;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -68,6 +69,15 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
         ProposalSpecialReview proposalSpecialReview = (ProposalSpecialReview) pdForm.getNewCollectionLines().get("document.developmentProposal.propSpecialReviews");
         getProposalDevelopmentSpecialReviewService().createProtocol(proposalSpecialReview, document);
         return getModelAndViewService().getModelAndView(form);
+    }
+    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=complianceDeleteAction")
+    public ModelAndView complianceDeleteAction(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DialogResponse disapproveConfirm = form.getDialogResponse("PropDev-CompliancePage-deleteComplianceConfirm");
+        if (disapproveConfirm == null) {
+            return getModelAndViewService().showDialog("PropDev-CompliancePage-deleteComplianceConfirm", true, form);
+        }
+        return getCollectionControllerService().deleteLine(form);
     }
     
     @InitBinder

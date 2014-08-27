@@ -647,7 +647,8 @@ public class NIHResearchAndRelatedXmlStream extends
     }
 
     private String getLeadUnit(DevelopmentProposal developmentProposal) {
-        return developmentProposal.getOwnedByUnit().getUnitNumber();
+        //return developmentProposal.getOwnedByUnit().getUnitNumber();
+    	 return developmentProposal.getOwnedByUnitNumber();
     }
 
     /*

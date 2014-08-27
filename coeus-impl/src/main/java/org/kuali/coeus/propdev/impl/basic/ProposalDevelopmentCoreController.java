@@ -20,9 +20,47 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
+import org.kuali.coeus.propdev.impl.print.CurrentOrPendingOrSelectedReportPrint;
+import org.kuali.coeus.propdev.impl.print.ProposalDevelopmentPrintingService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
+ 
 @Controller
 public class ProposalDevelopmentCoreController extends ProposalDevelopmentControllerBase {
+	
+	@Lazy
+	@Autowired
+	@Qualifier("proposalDevelopmentPrintingService")
+	protected ProposalDevelopmentPrintingService proposalDevelopmentPrintingService;
+
+	private CurrentOrPendingOrSelectedReportPrint currentOrPendingOrSelectedReportPrint;
+
+	public CurrentOrPendingOrSelectedReportPrint getCurrentOrPendingOrSelectedReportPrint() {
+		if( currentOrPendingOrSelectedReportPrint == null) {
+			currentOrPendingOrSelectedReportPrint = new CurrentOrPendingOrSelectedReportPrint();
+		}
+		return currentOrPendingOrSelectedReportPrint;
+	}
+
+	public void setCurrentOrPendingOrSelectedReportPrint(
+			CurrentOrPendingOrSelectedReportPrint currentOrPendingOrSelectedReportPrint) {
+		this.currentOrPendingOrSelectedReportPrint = currentOrPendingOrSelectedReportPrint;
+	}
+
+	public ProposalDevelopmentPrintingService getProposalDevelopmentPrintingService() {
+		if (proposalDevelopmentPrintingService == null) {
+			proposalDevelopmentPrintingService = KcServiceLocator
+					.getService(ProposalDevelopmentPrintingService.class);
+		}
+		return proposalDevelopmentPrintingService;
+	}
+
+	public void setProposalDevelopmentPrintingService(
+			ProposalDevelopmentPrintingService proposalDevelopmentPrintingService) {
+		this.proposalDevelopmentPrintingService = proposalDevelopmentPrintingService;
+	}
 
 	@MethodAccessible
 	@RequestMapping(value = "/proposalDevelopment", params="methodToCall=defaultMapping")
@@ -178,4 +216,26 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 			HttpServletResponse response) throws Exception {
     	return getTransactionalDocumentControllerService().supervisorFunctions(form);
     }
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=printCurrentReport"})
+    public ModelAndView printCurrentReport(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        getCurrentOrPendingOrSelectedReportPrint().printCurrentReportPdf(form, request, response);
+        return getModelAndViewService().getModelAndView(form);
+
+    }
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=printPendingReport"})
+    public ModelAndView printPendingReport(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+    	getCurrentOrPendingOrSelectedReportPrint().printPendingReportPdf(form, request, response);
+        return getModelAndViewService().getModelAndView(form);
+    }
+	@RequestMapping(value = "/proposalDevelopment", params={"methodToCall=printSelected"})
+    public ModelAndView printSelected(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+		getCurrentOrPendingOrSelectedReportPrint().printSelectedTemplates(form, request, response, getProposalDevelopmentPrintingService());
+        return getModelAndViewService().getModelAndView(form);
+
+    }
+    
+    
 }

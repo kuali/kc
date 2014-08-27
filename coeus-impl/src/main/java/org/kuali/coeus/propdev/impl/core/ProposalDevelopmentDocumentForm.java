@@ -18,6 +18,8 @@ package org.kuali.coeus.propdev.impl.core;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.medusa.MedusaNode;
 import org.kuali.coeus.common.framework.medusa.MedusaService;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplateList;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
 import org.kuali.coeus.propdev.impl.budget.core.AddBudgetDto;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataGroupDto;
@@ -31,10 +33,14 @@ import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionn
 import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
 import org.kuali.coeus.propdev.impl.location.OrganizationAddWizardHelper;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelAddWizardHelper;
+import org.kuali.coeus.propdev.impl.print.ProposalDevelopmentPrintingService;
+import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
+import org.kuali.coeus.propdev.impl.s2s.S2sProvider;
 import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.util.tree.Tree;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.ToggleMenu;
@@ -69,7 +75,10 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private ProposalDevelopmentAttachmentHelper proposalDevelopmentAttachmentHelper;
     private OrganizationAddWizardHelper addOrganizationHelper;
     private ProposalPersonQuestionnaireHelper proposalPersonQuestionnaireHelper;
-
+    private Sponsor sponsor;
+    private List<S2sOppForms> s2sOppForms;
+    private List<SponsorFormTemplateList> sponsorFormTemplates;
+    private ProposalDevelopmentPrintingService proposalDevelopmentPrintService;
     public ProposalPersonQuestionnaireHelper getProposalPersonQuestionnaireHelper() {
         return proposalPersonQuestionnaireHelper;
     }
@@ -109,6 +118,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         addOrganizationHelper = new OrganizationAddWizardHelper();
 
         customDataGroups = new ArrayList<ProposalDevelopmentCustomDataGroupDto>();
+        sponsor = new Sponsor();
     }
 
     public int findIndexOfPageId(List<Action> actions) {
@@ -304,6 +314,77 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
 	public void setCopyBudgetDto(AddBudgetDto copyBudgetDto) {
 		this.copyBudgetDto = copyBudgetDto;
+	}
+	
+	public List<SponsorFormTemplateList> getSponsorFormTemplates() {
+		if (sponsorFormTemplates == null) {
+			sponsorFormTemplates = new ArrayList<SponsorFormTemplateList>();
+		}
+		if (sponsorFormTemplates.isEmpty()) {
+			try {
+				ProposalDevelopmentDocument proposalDevelopmentDocument = this
+						.getProposalDevelopmentDocument();
+				DevelopmentProposal proposal = proposalDevelopmentDocument
+						.getDevelopmentProposal();
+				proposalDevelopmentPrintService = KcServiceLocator
+						.getService(ProposalDevelopmentPrintingService.class);
+				proposalDevelopmentPrintService.populateSponsorForms(
+						sponsorFormTemplates, proposal.getSponsorCode());
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+		return sponsorFormTemplates;
+	}
+
+	public void setSponsorFormTemplates(
+			List<SponsorFormTemplateList> sponsorFormTemplates) {
+
+		this.sponsorFormTemplates = sponsorFormTemplates;
+	}
+
+	public SponsorFormTemplateList getSponsorFormTemplate(int index) {
+		while (getSponsorFormTemplates().size() <= index) {
+			getSponsorFormTemplates().add(new SponsorFormTemplateList());
+		}
+
+		return getSponsorFormTemplates().get(index);
+	}
+
+	public Sponsor getSponsor() {
+		return sponsor;
+	}
+
+	public void setSponsor(Sponsor sponsor) {
+		this.sponsor = sponsor;
+	}
+
+	public List<S2sOppForms> getS2sOppForms() {
+		if (s2sOppForms == null) {
+			s2sOppForms = new ArrayList<S2sOppForms>();
+		}
+		if (s2sOppForms.isEmpty()) {
+			try {
+				ProposalDevelopmentDocument proposalDevelopmentDocument = this
+						.getProposalDevelopmentDocument();
+				DevelopmentProposal proposal = proposalDevelopmentDocument
+						.getDevelopmentProposal();
+				S2sOpportunity s2sOpportunity = proposal.getS2sOpportunity();
+				if (s2sOpportunity != null) {
+					s2sOpportunity.setS2sProvider(KcServiceLocator.getService(DataObjectService.class).find(S2sProvider.class,s2sOpportunity.getProviderCode()));
+					s2sOppForms = s2sOpportunity.getS2sOppForms();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return s2sOppForms;
+	}
+
+	public void setS2sOppForms(List<S2sOppForms> s2sOppForms) {
+		this.s2sOppForms = s2sOppForms;
 	}
 
 }
