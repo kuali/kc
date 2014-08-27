@@ -112,7 +112,9 @@
 					<list>
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Save Changes" p:methodToCall="updatePersonDetails"
 							p:refreshId="PropBudget-ProjectPersonnelPage-CollectionGroup"
-                      		p:actionParameters="@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_PATH}:budget.budgetPersons,@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_LINE_INDEX}:@{addProjectPersonnelHelper.editLineIndex}"
+                      		p:actionParameters="@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_PATH}:budget.budgetPersons,
+                      		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_ID}:PropBudget-ProjectPersonnelPage-CollectionGroup,
+                      		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_LINE_INDEX}:@{addProjectPersonnelHelper.editLineIndex}"
 							p:successCallback="dismissDialog('PropBudget-EditPersonnel-Section');"
 							p:order="10" />
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Cancel" p:methodToCall="refresh"
