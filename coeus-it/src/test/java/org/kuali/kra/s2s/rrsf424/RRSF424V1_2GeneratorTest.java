@@ -138,10 +138,19 @@ public class RRSF424V1_2GeneratorTest extends
 		organization = businessObjectService.findBySinglePrimaryKey(
 				Organization.class, "000001");
 		if (organization != null) {
+			List<ProposalSite> proposalSites = null;
+			proposalSites = developmentProposal.getProposalSites();
+			int siteNumber = 0;
+			for (ProposalSite proposalSite : proposalSites) {
+				if (proposalSite.getLocationTypeCode() == 1) {
+					siteNumber = proposalSite.getSiteNumber();
+				}
+			}
 			ProposalSite applicantOrganization = new ProposalSite();
 			applicantOrganization.setOrganization(organization);
 			CongressionalDistrict congressionalDistrict = new CongressionalDistrict();
 			congressionalDistrict.setCongressionalDistrict("CONDI");
+			congressionalDistrict.setProposalSite(applicantOrganization);
 			List<CongressionalDistrict> congressionalDistricts = new ArrayList<CongressionalDistrict>();
 			congressionalDistricts.add(congressionalDistrict);
 			applicantOrganization
@@ -149,6 +158,7 @@ public class RRSF424V1_2GeneratorTest extends
 			applicantOrganization.setObjectId(organization.getOrganizationId());
 			applicantOrganization.setLocationName(organization
 					.getOrganizationName());
+			applicantOrganization.setSiteNumber(siteNumber);
 			developmentProposal.setApplicantOrganization(applicantOrganization);
 		}
 
