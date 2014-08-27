@@ -20,6 +20,7 @@ import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentService;
+import org.kuali.coeus.propdev.impl.docperm.ProposalDevelopmentPermissionsHelper;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -27,7 +28,9 @@ import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
@@ -52,11 +55,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public abstract class ProposalDevelopmentControllerBase {
 
@@ -111,6 +117,10 @@ public abstract class ProposalDevelopmentControllerBase {
     private ProposalDevelopmentService proposalDevelopmentService;
 
     @Autowired
+    @Qualifier("proposalDevelopmentPermissionsService")
+    private ProposalDevelopmentPermissionsService proposalDevelopmentPermissionsService;
+
+    @Autowired
     @Qualifier("proposalDevelopmentAttachmentService")
     private ProposalDevelopmentAttachmentService proposalDevelopmentAttachmentService;
 
@@ -147,7 +157,6 @@ public abstract class ProposalDevelopmentControllerBase {
      protected void initializeProposalUsers(ProposalDevelopmentDocument doc) {
          
          // Assign the creator of the proposal to the AGGREGATOR role.
-         
          String userId = GlobalVariables.getUserSession().getPrincipalId();
          if (!kraAuthorizationService.hasRole(userId, doc, RoleConstants.AGGREGATOR))
              kraAuthorizationService.addRole(userId, RoleConstants.AGGREGATOR, doc);
@@ -178,6 +187,9 @@ public abstract class ProposalDevelopmentControllerBase {
      public ModelAndView save(ProposalDevelopmentDocumentForm form) throws Exception {
          ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) form.getDocument();
 
+         if (StringUtils.equalsIgnoreCase(form.getPageId(), Constants.PROP_DEV_PERMISSIONS_PAGE)) {
+             saveDocumentPermissions(form);
+         }
          preSave(proposalDevelopmentDocument);
 
          proposalDevelopmentService.initializeUnitOrganizationLocation(
@@ -190,8 +202,7 @@ public abstract class ProposalDevelopmentControllerBase {
          saveAnswerHeaders(form, form.getPageId());
 
          getTransactionalDocumentControllerService().save(form);
-         
-         initializeProposalUsers(proposalDevelopmentDocument);
+
          String pageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
          ModelAndView view = null;
          if (StringUtils.isNotBlank(pageId) && getGlobalVariableService().getMessageMap().hasNoErrors()) {
@@ -329,7 +340,7 @@ public abstract class ProposalDevelopmentControllerBase {
 	public void setDataObjectService(DataObjectService dataObjectService) {
 		this.dataObjectService = dataObjectService;
 	}
-	
+
 	public void saveAnswerHeaders(ProposalDevelopmentDocumentForm pdForm,String pageId) {
         if (StringUtils.equalsIgnoreCase(pageId, Constants.KEY_PERSONNEL_PAGE)) {
             for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
@@ -347,6 +358,21 @@ public abstract class ProposalDevelopmentControllerBase {
         }
 	}
 
+    /**
+     * Method calls the permissions service, where it will determine if any user permissions need to be added and/or removed.
+     *
+     * @param pdForm ProposalDevelopmentDocumentForm that contains the permissions helper
+     */
+    public void saveDocumentPermissions(ProposalDevelopmentDocumentForm pdForm) {
+        List<String> editableLines = pdForm.getEditableCollectionLines().get(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_PROPERTY_KEY);
+        if (editableLines != null && editableLines.size() > 0) {
+            getGlobalVariableService().getMessageMap().putErrorForSectionId(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_UNFINISHED_PERMISSIONS);
+        }
+        else {
+            ProposalDevelopmentPermissionsHelper helper = pdForm.getPermissionsHelper();
+            getProposalDevelopmentPermissionsService().savePermissions(pdForm.getProposalDevelopmentDocument(), helper.getUserRoles(), helper.getWorkingUserRoles());
+        }
+    }
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) throws Exception {
@@ -441,4 +467,12 @@ public abstract class ProposalDevelopmentControllerBase {
 	public void setGlobalVariableService(GlobalVariableService globalVariableService) {
 		this.globalVariableService = globalVariableService;
 	}
+
+    protected ProposalDevelopmentPermissionsService getProposalDevelopmentPermissionsService() {
+        return proposalDevelopmentPermissionsService;
+    }
+
+    public void setProposalDevelopmentPermissionsService(ProposalDevelopmentPermissionsService proposalDevelopmentPermissionsService) {
+        this.proposalDevelopmentPermissionsService = proposalDevelopmentPermissionsService;
+    }
 }

@@ -27,4 +27,16 @@ public interface ProposalDevelopmentPermissionsService {
     public void saveProposalUser(ProposalUserRoles proposalUser, ProposalDevelopmentDocument doc);
     
     public void deleteProposalUser(ProposalUserRoles proposalUser, ProposalDevelopmentDocument doc);
+
+    public boolean validateAddPermissions(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUserRoles proposalUser);
+
+    public boolean validateDeletePermissions(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, int index);
+
+    public boolean validateUpdatePermissions(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUserRoles proposalUser);
+
+    public void processAddPermission(ProposalDevelopmentDocument document, ProposalUserRoles proposalUser);
+
+    public void processDeletePermission(ProposalDevelopmentDocument document, ProposalUserRoles proposalUser);
+
+    public void processUpdatePermission(ProposalDevelopmentDocument document, ProposalUserRoles proposalUser);
 }

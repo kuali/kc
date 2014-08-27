@@ -19,8 +19,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * A ProposalUserRoles corresponds to one user with access to a proposal. That user can have one or more assigned roles. This class
@@ -35,8 +34,7 @@ public class ProposalUserRoles implements Serializable {
     private String unitNumber = "";
     private String unitName = "";
     private List<String> roleNames;
-
-
+    
     public ProposalUserRoles() {
         roleNames = new ArrayList<String>();
     }
@@ -51,7 +49,7 @@ public class ProposalUserRoles implements Serializable {
     }
 
     /**
-     * Set the user's unique username.
+     * List the user's unique username.
      * 
      * @param username the user's username
      */
@@ -69,7 +67,7 @@ public class ProposalUserRoles implements Serializable {
     }
 
     /**
-     * Set the user's full name.
+     * List the user's full name.
      * 
      * @param fullname the user's full name
      */
@@ -87,7 +85,7 @@ public class ProposalUserRoles implements Serializable {
     }
 
     /**
-     * Set the user's home unit number.
+     * List the user's home unit number.
      * 
      * @param unitNumber the user's home unit number
      */
@@ -105,7 +103,7 @@ public class ProposalUserRoles implements Serializable {
     }
 
     /**
-     * Set the user's home unit name.
+     * List the user's home unit name.
      * 
      * @param unitName the user's home unit name
      */
@@ -119,13 +117,16 @@ public class ProposalUserRoles implements Serializable {
      * @return the user's role id in the proposal.
      */
     public List<String> getRoleNames() {
+        if (roleNames == null){
+            roleNames = new ArrayList<String>();
+        }
         return roleNames;
     }
 
     /**
-     * Set the user's role id.
+     * List the user's role id.
      * 
-     * @param roleId the user's role id
+     * @param roleNames the user role names we want to keep
      */
     public void setRoleNames(List<String> roleNames) {
         this.roleNames = roleNames;
@@ -137,18 +138,9 @@ public class ProposalUserRoles implements Serializable {
      * @param roleName the role name
      */
     public void addRoleName(String roleName) {
-        this.roleNames.add(roleName);
+        roleNames.add(roleName);
     }
-
-    /**
-     * Get the user's role labels in the proposal.
-     * 
-     * @return the user's role labels in the proposal.
-     */
-    public List<String> getRoleLabels() {
-        return roleNames;
-    }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -164,7 +156,7 @@ public class ProposalUserRoles implements Serializable {
         isEqual &= StringUtils.equals(this.unitName, theOther.unitName);
         isEqual &= StringUtils.equals(this.unitNumber, theOther.unitNumber);
         isEqual &= StringUtils.equals(this.username, theOther.username);
-        isEqual &= this.roleNames.size() == theOther.roleNames.size();
+        isEqual &= this.getRoleNames().size() == theOther.getRoleNames().size();
 
         if (isEqual) {
             int i = 0;
@@ -173,7 +165,6 @@ public class ProposalUserRoles implements Serializable {
                 i++;
             }
         }
-
         return isEqual;
     }
 
@@ -189,6 +180,4 @@ public class ProposalUserRoles implements Serializable {
         }
         return hash;
     }
-
-
 }

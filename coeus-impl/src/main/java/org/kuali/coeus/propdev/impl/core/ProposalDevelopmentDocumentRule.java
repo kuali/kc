@@ -526,7 +526,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
     }
     
     @Override
-    public boolean processAddProposalUserBusinessRules(ProposalDevelopmentDocument document,List<ProposalUserRoles> list, ProposalUser proposalUser) {
+    public boolean processAddProposalUserBusinessRules(ProposalDevelopmentDocument document,List<ProposalUserRoles> list, ProposalUserRoles proposalUser) {
         return new ProposalDevelopmentPermissionsRule().processAddProposalUserBusinessRules(document, list, proposalUser);
     }
     
@@ -536,7 +536,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
     }
     
     @Override
-    public boolean processEditProposalUserRolesBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> list, ProposalUserEditRoles editRoles) {
+    public boolean processEditProposalUserRolesBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> list, ProposalUserRoles editRoles) {
         return new ProposalDevelopmentPermissionsRule().processEditProposalUserRolesBusinessRules(document, list, editRoles);
     }
 

@@ -33,8 +33,6 @@ import org.kuali.coeus.propdev.impl.approve.ProposalDevelopmentApproverViewDO;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.docperm.ProposalAssignedRole;
-import org.kuali.coeus.propdev.impl.docperm.ProposalUser;
-import org.kuali.coeus.propdev.impl.docperm.ProposalUserEditRoles;
 import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
@@ -140,10 +138,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private boolean grantsGovAuditActivated;
     private ProposalCopyCriteria copyCriteria;
     private Map<String, Parameter> proposalDevelopmentParameters;
-    private ProposalUser newProposalUser;
     private String newBudgetVersionName;
     private List<ProposalUserRoles> proposalUserRolesList = null;
-    private ProposalUserEditRoles proposalUserEditRoles;
     private boolean newProposalPersonRoleRendered;
     private List<NarrativeUserRights> newNarrativeUserRights;
     private S2sOpportunity newS2sOpportunity;
@@ -306,7 +302,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         setNewProposalPersonDegree(new ArrayList<ProposalPersonDegree>());
         setNewProposalPersonUnit(new ArrayList<Unit>());
         setNewProposalAbstract(new ProposalAbstract());
-        setNewProposalUser(new ProposalUser());
         setNewS2sOpportunity(new S2sOpportunity());
         setNewS2sUserAttachedForm(new S2sUserAttachedForm());
         setNewPerformanceSite(new ProposalSite());
@@ -480,13 +475,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             propScienceKeyword.setSelectKeyword(false);
         }
 
-        
-        // Clear the edit roles so that they can then be set by struts
-        // when the form is submitted.
-        ProposalUserEditRoles editRoles = this.getProposalUserEditRoles();
-        if (editRoles != null) {
-            editRoles.clear();
-        }
         setResubmissionOption(null);
     }
 
@@ -792,20 +780,20 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public Integer getAnswerYesNoNA() {
         return Constants.ANSWER_YES_NO_NA;
     }
-    
+
     /**
-     * Used by the Assigned Roles panel in the Permissions page.  
+     * Used by the Assigned Roles panel in the Permissions page.
      * @return
      */
     public List<ProposalAssignedRole> getProposalAssignedRoles() {
         PerformanceLogger perfLog = new PerformanceLogger();
-        
+
         List<ProposalAssignedRole> assignedRoles = new ArrayList<ProposalAssignedRole>();
-        
+
         Collection<Role> roles = getKimProposalRoles();
         for (Role role : roles) {
             if (!StringUtils.equals(role.getName(), RoleConstants.UNASSIGNED)) {
-                ProposalAssignedRole assignedRole = 
+                ProposalAssignedRole assignedRole =
                     new ProposalAssignedRole(role.getName(), getUsersInRole(role.getName()));
                 assignedRoles.add(assignedRole);
             }
@@ -814,7 +802,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         perfLog.log("Time to execute getProposalAssignedRoles method.", true);
         return assignedRoles;
     }
-    
+
     /**
      * Get the full names of the users with the given role in the proposal.
      * @param roleName the name of the role
@@ -828,15 +816,15 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
                 names.add(proposalUser.getFullname());
             }
         }
-        
+
         // Sort the list of names.
-        
+
         Collections.sort(names, new Comparator<String>() {
             public int compare(String name1, String name2) {
                 if (name1 == null && name2 == null) {
                     return 0;
                 }
-                
+
                 if (name1 == null) {
                     return -1;
                 }
@@ -845,27 +833,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         });
         return names;
     }
-    
-    /** 
-     * Gets the new proposal user.  This is the proposal user that is filled
-     * in by the user on the form before pressing the add button.
-     *
-     * @return the new proposal user
-     */
-    public ProposalUser getNewProposalUser() {
-        return newProposalUser;
-    }
 
-    /**
-     * Sets the new proposal user.  This is the proposal user that will be
-     * shown on the form.
-     *
-     * @param newProposalUser the new proposal user
-     */
-    public void setNewProposalUser(ProposalUser newProposalUser) {
-        this.newProposalUser = newProposalUser;
-    }
-    
+
     /**
      * Get the list of all of the Proposal roles (filter out unassigned).
      * @return the list of proposal roles of type org.kuali.coeus.common.permissions.impl.web.bean.Role
@@ -956,14 +925,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             }
         });
     }
-    
-    public void addProposalUser(ProposalUser proposalUser) {
-        KcPerson person = getKcPersonService().getKcPersonByUserName(proposalUser.getUsername());
-        ProposalUserRoles userRoles = buildProposalUserRoles(person, proposalUser.getRoleName());
-        proposalUserRolesList.add(userRoles);
-        sortProposalUsers();
-    }
-    
+
+
     /**
      * Gets the KC Person Service.
      * @return KC Person Service.
@@ -1059,24 +1022,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         this.proposalUserRolesList = null;
         
     }
-    
-    /**
-     * Get the Edit Roles BO that is simply a form filled in by a
-     * user via the Edit Roles web page.
-     * 
-     * @return the edit roles object
-     */
-    public ProposalUserEditRoles getProposalUserEditRoles() {
-        return proposalUserEditRoles;
-    }
 
-    /**
-     * Set the Edit Roles BO.
-     * @param proposalUserEditRoles the Edit Roles BO
-     */
-    public void setProposalUserEditRoles(ProposalUserEditRoles proposalUserEditRoles) {
-        this.proposalUserEditRoles = proposalUserEditRoles;
-    }
 
     @Override
     public String getNewBudgetVersionName() {

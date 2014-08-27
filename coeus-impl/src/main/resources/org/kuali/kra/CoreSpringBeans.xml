@@ -474,7 +474,6 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/person/ProposalPersonDegree.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/person/ProposalPersonUnit.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/person/ProposalPersonYnq.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/docperm/ProposalRoleState.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/docperm/ProposalRoleTemplate.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/location/ProposalSite.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/specialreview/ProposalSpecialReview.xml</value>
@@ -487,8 +486,6 @@
                 <value>classpath:org/kuali/kra/datadictionary/ProposalStatus.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/type/ProposalType.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/person/creditsplit/ProposalUnitCreditSplit.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/docperm/ProposalUser.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/docperm/ProposalUserEditRoles.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/ynq/ProposalYnq.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/person/attachment/PropPerDocType.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/keyword/PropScienceKeyword.xml</value>

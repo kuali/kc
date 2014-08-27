@@ -58,6 +58,7 @@
 				<ref bean="PropDev-DeliveryInfoPage" />
 				<ref bean="PropDev-CreditAllocationPage"  />
 				<ref bean="PropDev-BudgetPage"/>
+                <ref bean="PropDev-PermissionsPage"/>
 				<ref bean="PropDev-SupplementalPage"/>
 				<ref bean="PropDev-SubmitPage" />
 			</list>
@@ -68,6 +69,7 @@
                 <ref bean="PropDev-MedusaSection"/>
 				<ref bean="PropDev-BudgetPage-NewBudgetDialog"/>
 				<ref bean="PropDev-BudgetPage-CopyBudgetDialog"/>
+                <ref bean="PropDev-PermissionsDialog"/>
 			</list>
 		</property>
 	</bean>
@@ -85,8 +87,9 @@
 				<bean parent="PropDev-NavigationMenu-Attachments" p:order="50" />
 				<bean parent="PropDev-NavigationMenu-Questionnaire" p:order="60" />
 				<bean parent="PropDev-NavigationMenu-Budget" p:order="70" />
-				<bean parent="PropDev-NavigationMenu-CustomData" p:order="80" />
-				<bean parent="PropDev-NavigationMenu-Submit" p:order="90" />
+                <bean parent="PropDev-NavigationMenu-Access" p:order="80" />
+				<bean parent="PropDev-NavigationMenu-CustomData" p:order="90" />
+				<bean parent="PropDev-NavigationMenu-Submit" p:order="100" />
 			</list>
 		</property>
 	</bean>
@@ -149,6 +152,9 @@
 	<bean id="PropDev-NavigationMenu-Budget" parent="PropDev-NavigationMenu-Budget-parentBean" />
 	<bean id="PropDev-NavigationMenu-Budget-parentBean" abstract="true" p:navigateToPageId="PropDev-BudgetPage"
 		parent="Uif-NavigationActionLink" p:actionLabel="Budget" p:iconClass="icon-money"/>
+    <bean id="PropDev-NavigationMenu-Access" parent="PropDev-NavigationMenu-Access-parentBean" />
+    <bean id="PropDev-NavigationMenu-Access-parentBean" abstract="true" p:navigateToPageId="PropDev-PermissionsPage"
+          parent="Uif-MenuAction" p:actionLabel="Access" p:iconClass="icon-lock"/>
 	<bean id="PropDev-NavigationMenu-CustomData" parent="PropDev-NavigationMenu-CustomData-parentBean" />
 	<bean id="PropDev-NavigationMenu-CustomData-parentBean" abstract="true"
 		parent="Uif-MenuAction" p:navigateToPageId="PropDev-SupplementalPage" p:actionLabel="Supplemental Information"
@@ -215,10 +221,11 @@
 							p:iconClass="icon-tasks" p:order="40" p:actionScript="showDialog('PropDev-MedusaSection');" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Hierachy"
 							p:iconClass="icon-list-ol" p:order="50" />
-						<bean parent="Uif-ActionLink" p:actionLabel="Access"
-							p:iconClass="icon-lock" p:order="60" />
+                        <bean parent="Uif-ActionLink" p:actionLabel="Access"
+                              p:iconClass="icon-lock" p:order="60" p:actionScript="showDialog('PropDev-PermissionsDialog');" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Budget Versions" p:actionScript="showDialog('PropDev-BudgetVersions-Dialog');"
 							p:iconClass="icon-money" p:order="70" />							
+                        
 					</list>
 				</property>
 			</bean>

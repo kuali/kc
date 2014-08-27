@@ -31,8 +31,8 @@ import java.util.List;
  */
 public class AddProposalUserEvent extends KcDocumentEventBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AddProposalUserEvent.class);
-    
-    private ProposalUser proposalUser;
+
+    private ProposalUserRoles proposalUserRoles;
     private List<ProposalUserRoles> list;
     
     /**
@@ -40,9 +40,9 @@ public class AddProposalUserEvent extends KcDocumentEventBase {
      * 
      * @param document proposal development document
      * @param list the list of proposal user roles
-     * @param proposalUser the proposal user that is being added
+     * @param proposalUserRoles the proposal user that is being added
      */
-    public AddProposalUserEvent(ProposalDevelopmentDocument document, List<ProposalUserRoles> list, ProposalUser proposalUser) {
+    public AddProposalUserEvent(ProposalDevelopmentDocument document, List<ProposalUserRoles> list, ProposalUserRoles proposalUserRoles) {
         super("adding proposal user to document " + getDocumentId(document), "", document);
         
         this.list = list;
@@ -50,7 +50,7 @@ public class AddProposalUserEvent extends KcDocumentEventBase {
         // by doing a deep copy, we are ensuring that the business rule class can't update
         // the original object by reference
         
-        this.proposalUser = (ProposalUser) ObjectUtils.deepCopy(proposalUser);
+        this.proposalUserRoles = (ProposalUserRoles) ObjectUtils.deepCopy(proposalUserRoles);
     
         logEvent();
     }
@@ -58,7 +58,7 @@ public class AddProposalUserEvent extends KcDocumentEventBase {
     @Override
     public void validate() {
         super.validate();
-        if (this.proposalUser == null) {
+        if (this.proposalUserRoles == null) {
             throw new IllegalArgumentException("invalid (null) proposal user");
         }
     }
@@ -69,11 +69,11 @@ public class AddProposalUserEvent extends KcDocumentEventBase {
         logMessage.append(" with ");
 
         // vary logging detail as needed
-        if (this.proposalUser == null) {
+        if (this.proposalUserRoles == null) {
             logMessage.append("null proposalUser");
         }
         else {
-            logMessage.append(this.proposalUser.toString());
+            logMessage.append(this.proposalUserRoles.toString());
         }
 
         LOG.debug(logMessage);
@@ -87,6 +87,6 @@ public class AddProposalUserEvent extends KcDocumentEventBase {
     @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((PermissionsRule) rule).processAddProposalUserBusinessRules((ProposalDevelopmentDocument) this.getDocument(), 
-                                                                            list, this.proposalUser);
+                                                                            list, this.proposalUserRoles);
     }
 }

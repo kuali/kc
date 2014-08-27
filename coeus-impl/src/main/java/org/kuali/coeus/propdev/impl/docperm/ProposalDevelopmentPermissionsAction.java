@@ -57,7 +57,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
     
     private ProposalDevelopmentPermissionsService proposalDevelopmentPermissionsService;
     private PersonService personService;
-    
+
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -126,26 +126,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
      */
     public ActionForward addProposalUser(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        
-        ProposalUser proposalUser = proposalDevelopmentForm.getNewProposalUser();
-        
-        // check any business rules
-        boolean rulePassed = getKualiRuleService().applyRules(new AddProposalUserEvent(doc, proposalDevelopmentForm.getProposalUserRoles(), proposalUser));
-        
-        // if the rule evaluation passed, let's add it
-        if (rulePassed) {
-            proposalDevelopmentForm.addProposalUser(proposalUser);
-            proposalDevelopmentForm.setNewProposalUser(new ProposalUser());
-            
-            // Add the person to the narratives.
-            
-            LegacyNarrativeService narrativeService = KcServiceLocator.getService(LegacyNarrativeService.class);
-            narrativeService.addPerson(proposalUser.getUsername(), doc, proposalUser.getRoleName());
-        }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -250,31 +231,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalUserRoles proposalUserRoles = proposalDevelopmentForm.getProposalUserRoles().get(lineNum);
         
-        // Create an Edit Roles BO that will be used by the form for setting
-        // the boolean flags for Aggregator, Budget Creator, Narrative Writer, and Viewer.
-        // Note that the Edit Roles BO is set according to the roles that the user
-        // currently possesses.
-        
-        ProposalUserEditRoles editRoles = new ProposalUserEditRoles();
-        editRoles.setLineNum(lineNum);
-        editRoles.setJavaScriptEnabled(isJavaScriptEnabled(request));
-        editRoles.setUsername(proposalUserRoles.getUsername());
-        
-        List<ProposalRoleState> roleStates = new ArrayList<ProposalRoleState>();
-        Collection<Role> proposalRoles = proposalDevelopmentForm.getKimProposalRoles();
-        for (Role proposalRole : proposalRoles) {
-            if (!StringUtils.equals(proposalRole.getName(), RoleConstants.UNASSIGNED)) {
-                ProposalRoleState roleState = new ProposalRoleState(proposalRole.getName());
-                roleStates.add(roleState);
-            }
-        }
-        editRoles.setRoleStates(roleStates);
-        
-        List<String> roleNames = proposalUserRoles.getRoleNames();
-        for (String roleName : roleNames) {
-            editRoles.setRoleState(roleName, Boolean.TRUE);
-        }
-        proposalDevelopmentForm.setProposalUserEditRoles(editRoles);
+
         return mapping.findForward(Constants.MAPPING_PERMISSIONS_EDIT_ROLES_PAGE);
     }
     
@@ -303,66 +260,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
         
         // The Edit Roles BO contains the username, javascriptEnabled, and the new set of
         // roles to set for the user in the proposal.
-        
-        ProposalUserEditRoles editRoles = proposalDevelopmentForm.getProposalUserEditRoles();
-       
-        // check any business rules
-        boolean rulePassed = getKualiRuleService().applyRules(new EditUserProposalRolesEvent(doc, proposalDevelopmentForm.getProposalUserRoles(), editRoles));
-        
-        if (!rulePassed) {
-            
-            // If the user can't perform the save of the roles, then we will report the
-            // error on the Edit Roles web page.  This allows the user to fix the error
-            // and re-submit the save.
-            
-            actionForward = mapping.findForward(Constants.MAPPING_PERMISSIONS_EDIT_ROLES_PAGE);
-        } 
-        else {
-            
-            // Remove the previous set of roles that the user was assigned to.
-            
-            int lineNum = editRoles.getLineNum();
-            ProposalUserRoles proposalUserRoles = proposalDevelopmentForm.getProposalUserRoles().get(lineNum);
-            String username = proposalUserRoles.getUsername();
-            
-            List<String> roleNames = new ArrayList<String>();
-            
-            // Assign the user to the new roles for the proposal.
-            
-            List<ProposalRoleState> roleStates = editRoles.getRoleStates();
-            for (ProposalRoleState roleState : roleStates) {
-                if (roleState.getState()) {
-                    roleNames.add(roleState.getName());
-                }
-            }
-            
-            // If the user isn't assigned to any of the standard proposal roles, then he/she will
-            // be given the unassigned role.  
-            
-            if (roleNames.size() == 0) {
-                roleNames.add(RoleConstants.UNASSIGNED);
-            }
-            
-            proposalUserRoles.setRoleNames(roleNames); 
-            
-            // Re-adjust the narrative rights for this user.  If the user has lost some
-            // permissions regarding narratives, his/her narrative rights may need to
-            // be down-graded.
-            
-            LegacyNarrativeService narrativeService = KcServiceLocator.getService(LegacyNarrativeService.class);
-            narrativeService.readjustRights(getPersonService().getPersonByPrincipalName(proposalUserRoles.getUsername()).getPrincipalId(), doc, roleNames); 
-       
-            // If Javascript was enabled, we can simply cause the pop-up window to close.
-            // If not, then we must return the user to the Permissions page.
-            
-            if (editRoles.getJavaScriptEnabled()) {
-                actionForward = mapping.findForward(Constants.MAPPING_PERMISSIONS_CLOSE_EDIT_ROLES_PAGE);
-            } 
-            else {
-                actionForward = mapping.findForward(Constants.MAPPING_BASIC);
-            }
-        }
-        
+
         return actionForward;
     }
 

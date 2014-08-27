@@ -183,7 +183,8 @@ public final class KeyConstants {
     public static final String ERROR_LAST_AGGREGATOR = "error.last.aggregator"; 
     public static final String ERROR_EMPTY_USERNAME = "error.empty.username";
     public static final String ERROR_PROP_DEV_PERM_INITIATOR = "error.propdev.perm.initiator";
-    
+    public static final String ERROR_UNFINISHED_PERMISSIONS = "error.unsaved.permissions";
+
     public static final String ERROR_REQUIRE_ONE_NARRATIVE_MODIFY="error.narrative.one.modify";
     public static final String ERROR_REQUIRE_ONE_NARRATIVE_MODIFY_WITH_ARG="error.narrative.one.modify.with.arg";
     public static final String ERROR_NARRATIVE_USER_RIGHT_NO_PERMISSION="error.narrative.no.permission";

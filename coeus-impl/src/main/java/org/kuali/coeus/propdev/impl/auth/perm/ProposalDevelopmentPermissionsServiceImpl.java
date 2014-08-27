@@ -15,11 +15,16 @@
  */
 package org.kuali.coeus.propdev.impl.auth.perm;
 
+import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.docperm.AddProposalUserEvent;
+import org.kuali.coeus.propdev.impl.docperm.DeleteProposalUserEvent;
+import org.kuali.coeus.propdev.impl.docperm.EditUserProposalRolesEvent;
 import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -27,7 +32,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component("ProposalDevelopmentPermissionsService")
+@Component("proposalDevelopmentPermissionsService")
 public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelopmentPermissionsService {
 
     @Autowired
@@ -37,7 +42,15 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
     @Autowired
     @Qualifier("personService")
     private PersonService personService;
-    
+
+    @Autowired
+    @Qualifier("kualiRuleService")
+    private KualiRuleService kualiRuleService;
+
+    @Autowired
+    @Qualifier("legacyNarrativeService")
+    private LegacyNarrativeService narrativeService;
+
     @Override
     public void savePermissions(ProposalDevelopmentDocument document, List<ProposalUserRoles> persistedUsers,
             List<ProposalUserRoles> newUsers) {
@@ -54,7 +67,7 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
         }
 
     }
-    
+
     public void deleteProposalUser(ProposalUserRoles proposalUser, ProposalDevelopmentDocument doc) {
         List<String> roleNames = proposalUser.getRoleNames();
         for (String roleName :roleNames) {
@@ -76,6 +89,36 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
         }
     }
 
+    @Override
+    public boolean validateAddPermissions(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUserRoles proposalUser){
+        return getKualiRuleService().applyRules(new AddProposalUserEvent(document, proposalUserRolesList, proposalUser));
+    }
+
+    @Override
+    public boolean validateDeletePermissions(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, int index){
+        return getKualiRuleService().applyRules(new DeleteProposalUserEvent(document, proposalUserRolesList, index));
+    }
+
+    @Override
+    public boolean validateUpdatePermissions(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUserRoles proposalUser){
+        return getKualiRuleService().applyRules(new EditUserProposalRolesEvent(document, proposalUserRolesList, proposalUser));
+    }
+
+    @Override
+    public void processAddPermission(ProposalDevelopmentDocument document, ProposalUserRoles proposalUser) {
+        getNarrativeService().addPerson(proposalUser.getUsername(), document, proposalUser.getRoleNames());
+    }
+
+    @Override
+    public void processDeletePermission(ProposalDevelopmentDocument document, ProposalUserRoles proposalUser) {
+        getNarrativeService().deletePerson(getPersonService().getPersonByPrincipalName(proposalUser.getUsername()).getPrincipalId(), document);
+    }
+
+    @Override
+    public void processUpdatePermission(ProposalDevelopmentDocument document, ProposalUserRoles proposalUser) {
+        getNarrativeService().readjustRights(getPersonId(proposalUser.getUsername()), document, proposalUser.getRoleNames());
+    }
+
     public KcAuthorizationService getKraAuthorizationService() {
         return kraAuthorizationService;
     }
@@ -90,5 +133,21 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
 
     public void setPersonService(PersonService personService) {
         this.personService = personService;
+    }
+
+    public KualiRuleService getKualiRuleService() {
+        return kualiRuleService;
+    }
+
+    public void setKualiRuleService(KualiRuleService kualiRuleService) {
+        this.kualiRuleService = kualiRuleService;
+    }
+
+    public LegacyNarrativeService getNarrativeService() {
+        return narrativeService;
+    }
+
+    public void setNarrativeService(LegacyNarrativeService narrativeService) {
+        this.narrativeService = narrativeService;
     }
 }

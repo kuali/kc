@@ -32,7 +32,7 @@ import java.util.List;
 public class EditUserProposalRolesEvent extends KcDocumentEventBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(EditUserProposalRolesEvent.class);
     
-    private ProposalUserEditRoles editRoles;
+    private ProposalUserRoles editRoles;
     private List<ProposalUserRoles> list;
     
     /**
@@ -42,7 +42,7 @@ public class EditUserProposalRolesEvent extends KcDocumentEventBase {
      * @param list the list of proposal user roles
      * @param proposalAbstract the proposal abstract that is being added
      */
-    public EditUserProposalRolesEvent(ProposalDevelopmentDocument document, List<ProposalUserRoles> list, ProposalUserEditRoles editRoles) {
+    public EditUserProposalRolesEvent(ProposalDevelopmentDocument document, List<ProposalUserRoles> list, ProposalUserRoles editRoles) {
         super("editing proposal roles for document " + getDocumentId(document), "", document);
         
         this.list = list;
@@ -50,7 +50,7 @@ public class EditUserProposalRolesEvent extends KcDocumentEventBase {
         // by doing a deep copy, we are ensuring that the business rule class can't update
         // the original object by reference
         
-        this.editRoles = (ProposalUserEditRoles) ObjectUtils.deepCopy(editRoles);
+        this.editRoles = (ProposalUserRoles) ObjectUtils.deepCopy(editRoles);
     
         logEvent();
     }
