@@ -19,12 +19,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.AbstractUnitAdministrator;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.coeus.common.framework.unit.admin.AbstractUnitAdministratorDerivedRoleTypeService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -42,6 +44,10 @@ public class ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl extends Abst
     @Qualifier("unitService")
     private UnitService unitService;
 
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
+
     public void setUnitService(UnitService unitService) {
         this.unitService = unitService;
     }
@@ -49,13 +55,21 @@ public class ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl extends Abst
     protected UnitService getUnitService() {
         return unitService;
     }
-    
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
+
     @Override
     public List<? extends AbstractUnitAdministrator> getUnitAdministrators(Map<String, String> qualifiers) {
         String proposalNumber = qualifiers.get(KcKimAttributes.PROPOSAL);
         List<UnitAdministrator> result = new ArrayList<UnitAdministrator>();
         if (proposalNumber != null) {
-            DevelopmentProposal proposal = getBusinessObjectService().findBySinglePrimaryKey(DevelopmentProposal.class, proposalNumber);
+            DevelopmentProposal proposal = getDataObjectService().find(DevelopmentProposal.class,proposalNumber);
             HashSet<String> units = new HashSet<String>();
             for (ProposalPerson person : proposal.getProposalPersons()) {
                 for (ProposalPersonUnit unit : person.getUnits()) {
