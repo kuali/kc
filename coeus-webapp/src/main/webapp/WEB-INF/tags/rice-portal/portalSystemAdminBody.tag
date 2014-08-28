@@ -24,7 +24,6 @@
 </td>
 <td class="content" valign="top">
       <administrationChannel:identity />
-      <channel:systemAdminAccess />
 </td>
 
 <td class="content" valign="top">

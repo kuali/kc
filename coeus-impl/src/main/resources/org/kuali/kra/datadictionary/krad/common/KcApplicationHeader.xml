@@ -65,14 +65,47 @@
 				<bean parent="Uif-MenuAction" p:actionLabel="MAINTENANCE"
 					p:actionUrl.href="../portal.do?selectedTab=portalMaintenanceBody"
 					p:order="40" />
-				<bean parent="Kc-Header-DefaultMenu" p:toggleText="SYSTEM ADMIN"
-					p:order="50" />
+				<bean parent="Kc-Header-SystemAdminMenu" p:order="50"/>
 				<bean parent="Uif-MenuAction" p:actionLabel="KNS PORTAL"
 					p:actionUrl.href="../portal.do" p:order="60" />
 			</list>
 		</property>
 	</bean>
 
+    <bean id="Kc-Header-SystemAdminMenu" parent="Kc-Header-SystemAdminMenu-parentBean" />
+    <bean id="Kc-Header-SystemAdminMenu-parentBean" abstract="true" parent="Kc-Header-DefaultMenu" p:toggleText="SYSTEM ADMIN">
+        <property name="menuGroup">
+            <bean parent="Uif-AppMenuGroup"
+                  p:layoutManager.defaultItemSize="3">
+                <property name="items">
+                    <list>
+                        <bean parent="Kc-Header-IdentityAccessGroup" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="Kc-Header-IdentityAccessGroup" parent="Kc-Header-IdentityAccess-parentBean" />
+    <bean id="Kc-Header-IdentityAccess-parentBean" abstract="true"
+          parent="Uif-SimpleGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MenuList" p:headerText="Identity &amp; Access">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-SimpleHeaderFour" p:headerText="Identity" />
+                            <bean parent="Uif-MenuAction" p:actionLabel="Link" />
+                            <bean parent="Uif-MenuAction" p:actionLabel="Link" />
+                            <bean parent="Uif-MenuAction" p:actionLabel="Link" />
+                            <bean parent="Uif-SimpleHeaderFour" p:headerText="Access" />
+                            <bean parent="Uif-MenuAction" p:actionLabel="Document Access" p:actionUrl.href="@{#ConfigProperties['krad.url']}/lookup?methodToCall=start&amp;viewId=DocumentAccess-LookupView"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
 	<bean id="Kc-Header-ApplicationToolbar" parent="Kc-Header-ApplicationToolbar-parentBean" />
 	<bean id="Kc-Header-ApplicationToolbar-parentBean" abstract="true"

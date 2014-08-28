@@ -32,6 +32,17 @@ public class DocumentAccess extends KcPersistableBusinessObjectBase implements I
     @Column(name = "NMSPC_CD")
     private String namespaceCode;
 
+    public DocumentAccess() {
+        super();
+    }
+
+    public DocumentAccess(String documentNumber, String principalId, String roleName, String namespaceCode) {
+        this.documentNumber = documentNumber;
+        this.principalId = principalId;
+        this.roleName = roleName;
+        this.namespaceCode = namespaceCode;
+    }
+
     @Override
     public String getId() {
         return id;
@@ -54,7 +65,7 @@ public class DocumentAccess extends KcPersistableBusinessObjectBase implements I
         return principalId;
     }
 
-    public void setPrincipalId(String principalName) {
+    public void setPrincipalId(String principalId) {
         this.principalId = principalId;
     }
 

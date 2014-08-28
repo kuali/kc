@@ -17,21 +17,26 @@ package org.kuali.coeus.common.impl.auth.perm;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.common.framework.auth.docperm.DocumentAccess;
 import org.kuali.coeus.common.framework.auth.perm.DocumentLevelPermissionable;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+
+import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
 
 /**
  * The KC Authorization Service Implementation.
@@ -57,6 +62,10 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
     @Qualifier("permissionService")
     private PermissionService permissionService;
 
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
+
     @Override
     public List<String> getUserNames(Permissionable permissionable, String roleName) {
         List<String> userNames = new ArrayList<String>();
@@ -73,14 +82,48 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
 
     @Override
     public void addRole(String userId, String roleName, Permissionable permissionable) {
-        final Map<String, String> qualifiedRoleAttributes = createStandardQualifiers(permissionable);
-        roleManagementService.assignPrincipalToRole(userId, permissionable.getNamespace(), roleName, new HashMap<String, String>(qualifiedRoleAttributes));
+        if (permissionable instanceof DocumentLevelPermissionable) {
+            validateDocumentLevelArguments(((DocumentLevelPermissionable) permissionable).getDocumentNumber(), userId, roleName, permissionable.getNamespace());
+            dataObjectService.save(new DocumentAccess(((DocumentLevelPermissionable) permissionable).getDocumentNumber(),
+                    userId, roleName, permissionable.getNamespace()));
+        } else {
+            final Map<String, String> qualifiedRoleAttributes = createStandardQualifiers(permissionable);
+            roleManagementService.assignPrincipalToRole(userId, permissionable.getNamespace(), roleName, new HashMap<String, String>(qualifiedRoleAttributes));
+        }
     }
 
     @Override
     public void removeRole(String userId, String roleName, Permissionable permissionable) {
-        final Map<String, String> qualifiedRoleAttributes = createStandardQualifiers(permissionable);
-        roleManagementService.removePrincipalFromRole(userId, permissionable.getNamespace(), roleName, new HashMap<String, String>(qualifiedRoleAttributes));
+        if (permissionable instanceof DocumentLevelPermissionable) {
+            validateDocumentLevelArguments(((DocumentLevelPermissionable) permissionable).getDocumentNumber(), userId, roleName, permissionable.getNamespace());
+            dataObjectService.deleteMatching(DocumentAccess.class, QueryByCriteria.Builder.fromPredicates(
+                equal("documentNumber", ((DocumentLevelPermissionable) permissionable).getDocumentNumber()),
+                equal("principalId", userId),
+                equal("roleName", roleName),
+                equal("namespaceCode", permissionable.getNamespace())
+            ));
+        } else {
+            final Map<String, String> qualifiedRoleAttributes = createStandardQualifiers(permissionable);
+            roleManagementService.removePrincipalFromRole(userId, permissionable.getNamespace(), roleName, new HashMap<String, String>(qualifiedRoleAttributes));
+        }
+    }
+
+    protected void validateDocumentLevelArguments(String documentNumber, String principalId, String roleName, String namespaceCode) {
+        if (StringUtils.isBlank(documentNumber)) {
+            throw new IllegalArgumentException("documentNumber is blank");
+        }
+
+        if (StringUtils.isBlank(principalId)) {
+            throw new IllegalArgumentException("principalId is blank");
+        }
+
+        if (StringUtils.isBlank(roleName)) {
+            throw new IllegalArgumentException("roleName is blank");
+        }
+
+        if (StringUtils.isBlank(namespaceCode)) {
+            throw new IllegalArgumentException("namespaceCode is blank");
+        }
     }
 
     @Override
