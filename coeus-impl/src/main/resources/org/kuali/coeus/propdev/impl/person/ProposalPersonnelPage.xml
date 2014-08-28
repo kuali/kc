@@ -535,13 +535,10 @@
 		p:propertyName="proposalPersonDegrees"
 		p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPersonDegree"
 		p:layoutManager.renderSequenceField="false"
-		p:addLinePlacement="BOTTOM">
-		<!-- following will be used when lightbox JIRA is fixed in KRAD
-		p:addViaLightbox="true">
- 		<property name="addViaLightBoxAction">
-   			<bean parent="Uif-AddViaLightBoxAction" p:actionLabel="Degree" p:iconClass="icon-plus"/>
-		</property>
-		-->
+        p:addWithDialog="true">
+        <property name="addWithDialogAction">
+            <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Degree" p:cssClasses="pull-right" p:iconClass="icon-plus"/>
+        </property>
 		<property name="items">
 			<list>
                 <bean parent="Uif-InputField" p:propertyName="degreeCode"
