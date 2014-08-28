@@ -15,20 +15,10 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-
-<td class="content" valign="top">
-      <channel:systemAdminSystem />
-      <channel:systemAdminBatch />
-      <administrationChannel:configuration />
-      <administrationChannel:misc />   
-</td>
-<td class="content" valign="top">
-      <administrationChannel:identity />
-      <channel:systemAdminAccess />
-</td>
-
-<td class="content" valign="top">
-      <administrationChannel:workflow />
-      <administrationChannel:sendNotification />
-      <administrationChannel:serviceBus />
-</td>
+<channel:portalChannelTop channelTitle="Access" />
+<div class="body">
+  <ul class="chan">
+    <li><portal:portalLink displayTitle="true" title="Document Access" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.coeus.common.framework.auth.docperm.DocumentAccess&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
+  </ul>
+</div>
+<channel:portalChannelBottom />

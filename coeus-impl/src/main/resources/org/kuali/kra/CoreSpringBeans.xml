@@ -937,6 +937,9 @@
                 <value>classpath:org/kuali/coeus/common/questionnaire/impl/core/QuestionnaireView.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/rice-contrib/UifNavigationBar.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/krad/rice-contrib/UifMultiSelect.xml</value>
+
+                <value>classpath:org/kuali/coeus/common/impl/auth/docperm/DocumentAccess.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/auth/docperm/DocumentAccessMaintenanceDocument.xml</value>
             </list>
         </property>
         <property name="databaseRepositoryFilePaths">
