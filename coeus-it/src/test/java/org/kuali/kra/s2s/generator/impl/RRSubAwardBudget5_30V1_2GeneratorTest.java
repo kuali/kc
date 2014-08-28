@@ -70,8 +70,10 @@ public class RRSubAwardBudget5_30V1_2GeneratorTest extends
 		budgetSubAwards.setBudgetId(1L);
 		budgetSubAwards
 				.setNamespace("http://apply.grants.gov/forms/RR_Budget-V1.1");
-		budgetSubAwards.setOrganizationName("University of Maine");
-		budgetSubAwards.setOrganizationId("000040");
+		Organization testOrg = new Organization();
+		testOrg.setOrganizationName("University of Maine");
+		testOrg.setOrganizationId("000040");
+		budgetSubAwards.setOrganization(testOrg);
 		budgetSubAwards.setSubAwardStatusCode(1);
 		budgetSubAwards.setHiddenInHierarchy(false);
 

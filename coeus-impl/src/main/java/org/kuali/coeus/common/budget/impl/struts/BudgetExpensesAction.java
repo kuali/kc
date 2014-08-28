@@ -164,7 +164,6 @@ public class BudgetExpensesAction extends BudgetAction {
             BudgetPeriod budgetPeriodBO = budget.getBudgetPeriod(budgetPeriod-1);
             BudgetLineItem budgetLineItem = budgetPeriodBO.getBudgetLineItem(lineItemNumber);
             newBudgetFormulatedCost.setFormulatedNumber(budget.getNextValue(Constants.BUDGET_FORMULATED_NUMBER));
-            newBudgetFormulatedCost.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
             newBudgetFormulatedCost.setBudgetLineItem(budgetLineItem);
             calculateBudgetFormulatedCost(newBudgetFormulatedCost);
             budgetLineItem.getBudgetFormulatedCosts().add(newBudgetFormulatedCost);

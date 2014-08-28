@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -76,6 +77,10 @@ public abstract class ProposalBudgetControllerBase {
     @Autowired
     @Qualifier("budgetCalculationService")
     private BudgetCalculationService budgetCalculationService;
+    
+    @Autowired
+    @Qualifier("kcBusinessRulesEngine")
+    private KcBusinessRulesEngine kcBusinessRulesEngine;
 
 	@Autowired
     @Qualifier("kualiConfigurationService")
@@ -216,4 +221,11 @@ public abstract class ProposalBudgetControllerBase {
 		this.kualiConfigurationService = kualiConfigurationService;
 	}
 
+	public KcBusinessRulesEngine getKcBusinessRulesEngine() {
+		return kcBusinessRulesEngine;
+	}
+
+	public void setKcBusinessRulesEngine(KcBusinessRulesEngine kcBusinessRulesEngine) {
+		this.kcBusinessRulesEngine = kcBusinessRulesEngine;
+	}
 }

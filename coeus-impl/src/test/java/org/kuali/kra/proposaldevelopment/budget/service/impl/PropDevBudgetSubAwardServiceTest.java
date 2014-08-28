@@ -34,6 +34,7 @@ import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionRule;
+import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
@@ -65,7 +66,10 @@ public class PropDevBudgetSubAwardServiceTest {
         subAward = new BudgetSubAwards();
         subAward.setBudgetId(budget.getBudgetId());
         subAward.setSubAwardNumber(1+206);
-        subAward.setOrganizationName("My Testing Organization");
+		Organization testOrg = new Organization();
+		testOrg.setOrganizationName("University of Maine");
+		testOrg.setOrganizationId("000040");
+		subAward.setOrganization(testOrg);
         budget.getBudgetSubAwards().add(subAward);
         for (int i = 0; i < 2; i++) {
             BudgetPeriod period = new BudgetPeriod();
@@ -75,7 +79,7 @@ public class PropDevBudgetSubAwardServiceTest {
             period.setBudgetPeriodId(i+1029L);
             budget.getBudgetPeriods().add(period);
             BudgetSubAwardPeriodDetail detail = new BudgetSubAwardPeriodDetail(subAward, period);
-            detail.setSubAwardNumber(subAward.getSubAwardNumber());
+            detail.setBudgetSubAward(subAward);
             subAward.getBudgetSubAwardPeriodDetails().add(detail);
         }
         final ParameterService parmService = context.mock(ParameterService.class);

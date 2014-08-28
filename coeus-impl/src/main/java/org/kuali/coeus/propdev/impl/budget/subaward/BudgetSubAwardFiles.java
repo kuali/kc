@@ -15,6 +15,8 @@
  */
 package org.kuali.coeus.propdev.impl.budget.subaward;
 
+import java.io.Serializable;
+
 import javax.persistence.*;
 
 import org.apache.commons.lang3.builder.CompareToBuilder;
@@ -24,22 +26,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardFilesContract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-import java.io.Serializable;
-
 @Entity
 @Table(name = "BUDGET_SUB_AWARD_FILES")
 @IdClass(BudgetSubAwardFiles.BudgetSubAwardFilesId.class)
 public class BudgetSubAwardFiles extends KcPersistableBusinessObjectBase implements BudgetSubAwardFilesContract {
 
     private static final long serialVersionUID = 9212512161341725983L;
-
-    @Column(name = "BUDGET_ID")
-    @Id
-    private Long budgetId;
-
-    @Id
-    @Column(name = "SUB_AWARD_NUMBER")
-    private Integer subAwardNumber;
 
     @Column(name = "SUB_AWARD_XFD_FILE")
     private byte[] subAwardXfdFileData;
@@ -51,32 +43,11 @@ public class BudgetSubAwardFiles extends KcPersistableBusinessObjectBase impleme
     @Basic(fetch = FetchType.LAZY)
     @Lob
     private String subAwardXmlFileData;
-
-    @Override
-    public Long getBudgetId() {
-        return budgetId;
-    }
-
-    public void setBudgetId(Long budgetId) {
-        this.budgetId = budgetId;
-    }
-
-    /**
-     * Gets the subAwardNumber attribute. 
-     * @return Returns the subAwardNumber.
-     */
-    @Override
-    public Integer getSubAwardNumber() {
-        return subAwardNumber;
-    }
-
-    /**
-     * Sets the subAwardNumber attribute value.
-     * @param subAwardNumber The subAwardNumber to set.
-     */
-    public void setSubAwardNumber(Integer subAwardNumber) {
-        this.subAwardNumber = subAwardNumber;
-    }
+    
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID"), @JoinColumn(name = "SUB_AWARD_NUMBER", referencedColumnName = "SUB_AWARD_NUMBER") })
+    private BudgetSubAwards budgetSubAward;    
 
     /**
      * Gets the subAwardXfdFileData attribute. 
@@ -129,31 +100,39 @@ public class BudgetSubAwardFiles extends KcPersistableBusinessObjectBase impleme
         this.subAwardXmlFileData = subAwardXmlFileData;
     }
 
+	public BudgetSubAwards getBudgetSubAward() {
+		return budgetSubAward;
+	}
+
+	public void setBudgetSubAward(BudgetSubAwards budgetSubAward) {
+		this.budgetSubAward = budgetSubAward;
+	}
+
+	@Override
+	public Integer getSubAwardNumber() {
+		if (budgetSubAward != null) {
+			return budgetSubAward.getSubAwardNumber();
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public Long getBudgetId() {
+		if (budgetSubAward != null) {
+			return budgetSubAward.getBudgetId();
+		} else {
+			return null;
+		}		
+	}
+	
     public static final class BudgetSubAwardFilesId implements Serializable, Comparable<BudgetSubAwardFilesId> {
 
-        private Integer subAwardNumber;
-
-        private Long budgetId;
-
-        public Integer getSubAwardNumber() {
-            return subAwardNumber;
-        }
-
-        public void setSubAwardNumber(Integer subAwardNumber) {
-            this.subAwardNumber = subAwardNumber;
-        }
-
-        public Long getBudgetId() {
-            return budgetId;
-        }
-
-        public void setBudgetId(Long budgetId) {
-            this.budgetId = budgetId;
-        }
+        private BudgetSubAwards.BudgetSubAwardsId budgetSubAward;
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this).append("budgetId", this.budgetId).append("subAwardNumber", this.subAwardNumber).toString();
+            return new ToStringBuilder(this).append("budgetSubAward", this.budgetSubAward).toString();
         }
 
         @Override
@@ -165,17 +144,25 @@ public class BudgetSubAwardFiles extends KcPersistableBusinessObjectBase impleme
             if (other.getClass() != this.getClass())
                 return false;
             final BudgetSubAwardFilesId rhs = (BudgetSubAwardFilesId) other;
-            return new EqualsBuilder().append(this.budgetId, rhs.budgetId).append(this.subAwardNumber, rhs.subAwardNumber).isEquals();
+            return new EqualsBuilder().append(this.budgetSubAward, rhs.budgetSubAward).isEquals();
         }
 
         @Override
         public int hashCode() {
-            return new HashCodeBuilder(17, 37).append(this.budgetId).append(this.subAwardNumber).toHashCode();
+            return new HashCodeBuilder(17, 37).append(this.budgetSubAward).toHashCode();
         }
 
         @Override
         public int compareTo(BudgetSubAwardFilesId other) {
-            return new CompareToBuilder().append(this.budgetId, other.budgetId).append(this.subAwardNumber, other.subAwardNumber).toComparison();
+            return new CompareToBuilder().append(this.budgetSubAward, other.budgetSubAward).toComparison();
         }
-    }
+
+		public BudgetSubAwards.BudgetSubAwardsId getBudgetSubAward() {
+			return budgetSubAward;
+		}
+
+		public void setBudgetSubAward(BudgetSubAwards.BudgetSubAwardsId budgetSubAward) {
+			this.budgetSubAward = budgetSubAward;
+		}
+    }	
 }

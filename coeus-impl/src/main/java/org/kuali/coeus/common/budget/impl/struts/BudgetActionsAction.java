@@ -204,9 +204,9 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         }
         boolean success = true;
         if (newBudgetSubAward.getNewSubAwardFile() != null) {
-            String fileName = newBudgetSubAward.getNewSubAwardFile().getFileName();
-            byte[] fileData = newBudgetSubAward.getNewSubAwardFile().getFileData(); 
-            success = updateBudgetAttachment(awardBudgetDocument.getBudget(), newBudgetSubAward, fileName, fileData, "newSubAward");
+            String fileName = newBudgetSubAward.getNewSubAwardFile().getName();
+            byte[] fileData = newBudgetSubAward.getNewSubAwardFile().getBytes(); 
+            success = updateBudgetAttachment(budgetForm.getBudget(), newBudgetSubAward, fileName, fileData, "newSubAward");
         }
         String contentType = newBudgetSubAward.getNewSubAwardFile().getContentType();
         if (success && contentType.equalsIgnoreCase(Constants.PDF_REPORT_CONTENT_TYPE)) {
@@ -270,10 +270,9 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         BudgetForm budgetForm = (BudgetForm)form;
         AwardBudgetDocument awardBudgetDocument = budgetForm.getBudgetDocument();
         BudgetSubAwards subAward = getSelectedBudgetSubAward(form, request);
-        FormFile subAwardFile = subAward.getNewSubAwardFile();
-        byte[] subAwardData = subAwardFile.getFileData();
-        String subAwardFileName = subAwardFile.getFileName();
-        updateBudgetAttachment(awardBudgetDocument.getBudget(), subAward, subAwardFileName, subAwardData, 
+        byte[] subAwardData = subAward.getNewSubAwardFile().getBytes();
+        String subAwardFileName = subAward.getNewSubAwardFile().getName();
+        updateBudgetAttachment(budgetForm.getBudget(), subAward, subAwardFileName, subAwardData, 
                 SUBAWARD_BUDGET_EDIT_LINE_STARTER + getSelectedLine(request) + SUBAWARD_BUDGET_EDIT_LINE_ENDER);
         Collections.sort(awardBudgetDocument.getBudget().getBudgetSubAwards());
         return mapping.findForward(Constants.MAPPING_BASIC);        
@@ -292,8 +291,8 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     
     protected boolean updateSubAwardBudgetDetails(Budget budget, BudgetSubAwards subAward) throws Exception {
         List<String[]> errorMessages = new ArrayList<String[]>();
-        boolean success = getKcBusinessRulesEngine().applyRules(new BudgetSubAwardsEvent(subAward));
-        if (subAward.getNewSubAwardFile().getFileData().length == 0) {
+        boolean success = getKcBusinessRulesEngine().applyRules(new BudgetSubAwardsEvent(subAward, budget, ""));
+        if (subAward.getNewSubAwardFile().getBytes().length == 0) {
             success = false;
         }
         if (success) {
