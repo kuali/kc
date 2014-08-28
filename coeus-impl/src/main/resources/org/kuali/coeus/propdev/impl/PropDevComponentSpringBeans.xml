@@ -81,6 +81,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/person/ProposalBudgetAddProjectPersonnelPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/rate/ProposalBudgetRatesPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetCommon.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetSettings.xml</value>
 
                 <!-- Budget Mock View -->
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetView.xml</value>
@@ -839,5 +840,24 @@
         <property name="labelAttributeName" value="description"/>
         <property name="addBlankOption" value="false"/>
     </bean>
+    
+    <bean id="budgetStatusValuesFinder" class="org.kuali.coeus.sys.framework.keyvalue.DataObjectValuesFinder">
+        <property name="dataObjectClass" value="org.kuali.coeus.propdev.impl.budget.BudgetStatus"/>
+        <property name="keyAttributeName" value="budgetStatusCode"/>
+        <property name="labelAttributeName" value="description"/>
+        <property name="addBlankOption" value="false"/>
+    </bean>
+    
+    <bean id="budgetRateTypeValuesFinder" class="org.kuali.coeus.sys.framework.keyvalue.DataObjectValuesFinder">
+        <property name="dataObjectClass" value="org.kuali.coeus.common.budget.framework.rate.RateClass"/>
+        <property name="keyAttributeName" value="code"/>
+        <property name="labelAttributeName" value="description"/>
+        <property name="addBlankOption" value="false"/>
+        <property name="matchingCriteria">
+        	<map>
+        		<entry key="rateClassTypeCode" value="O"/>
+        	</map>
+        </property>
+    </bean>        
     
 </beans>

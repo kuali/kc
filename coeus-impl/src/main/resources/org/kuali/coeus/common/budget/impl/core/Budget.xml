@@ -101,9 +101,7 @@
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.budget.impl.core.BudgetRateTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
-    <property name="optionsFinder">
-      <bean class="org.kuali.coeus.common.budget.impl.core.BudgetRateTypeValuesFinder"/>
-    </property>
+	<property name="optionsFinder" value="#{T(org.kuali.coeus.org.kuali.rice.krad.SpringMethods).retrieveSpringBean('budgetRateTypeValuesFinder')}"/>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
     </property>
@@ -223,9 +221,7 @@
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.budget.impl.core.BudgetRateTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
-    <property name="optionsFinder">
-      <bean class="org.kuali.coeus.common.budget.impl.core.BudgetRateTypeValuesFinder"/>
-    </property>
+    <property name="optionsFinder" value="#{T(org.kuali.coeus.org.kuali.rice.krad.SpringMethods).retrieveSpringBean('budgetRateTypeValuesFinder')}"/>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
     </property>

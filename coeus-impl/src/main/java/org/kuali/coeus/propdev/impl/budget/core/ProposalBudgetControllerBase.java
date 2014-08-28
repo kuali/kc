@@ -1,14 +1,18 @@
 package org.kuali.coeus.propdev.impl.budget.core;
 
+import java.text.DecimalFormat;
 import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
+import org.kuali.coeus.sys.framework.model.ScaleTwoDecimalEditor;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.TransactionalDocumentControllerService;
@@ -17,6 +21,9 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krad.web.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -65,7 +72,7 @@ public abstract class ProposalBudgetControllerBase {
 	@Autowired
 	@Qualifier("proposalBudgetService")
 	private ProposalBudgetService budgetService;
-
+	
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalBudgetForm();
     }
@@ -89,6 +96,11 @@ public abstract class ProposalBudgetControllerBase {
 		form.setPageId(form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID));
 		form.setDirtyForm(false);
 		return save(form);
+    }
+    
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) throws Exception {
+        binder.registerCustomEditor(ScaleTwoDecimal.class, new ScaleTwoDecimalEditor(new DecimalFormat("##0.00"), true));
     }
 
 	public DataObjectService getDataObjectService() {

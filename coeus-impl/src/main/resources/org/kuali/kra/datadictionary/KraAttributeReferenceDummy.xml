@@ -371,7 +371,7 @@
     </property>
     <property name="controlField">
       <bean p:size="13" p:maxLength="15" parent="Uif-CurrencyTextControl"/>
-    </property>
+    </property>    
     <property name="summary" value="&amp;nbsp;" />
     <property name="description" value="This attribute should always be overriden on the descriptive elements." />
   </bean>

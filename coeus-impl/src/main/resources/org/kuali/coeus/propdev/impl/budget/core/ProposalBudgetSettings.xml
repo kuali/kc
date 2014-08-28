@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2014 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+	<bean id="PropBudget-BudgetSettings-Dialog" parent="PropBudget-BudgetSettings-Dialog-parent" />
+	<bean id="PropBudget-BudgetSettings-Dialog-parent"
+		abstract="true" parent="Uif-DialogGroup" p:headerText="Budget Settings"
+		p:onHideDialogScript="Kc.Dialog.resetDialogFields(this, e);">
+		<property name="items">
+			<list>
+				<ref bean="PropBudget-BudgetSettings-Section" />
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-DialogFooter">
+				<property name="items">
+					<list>
+						<bean parent="Uif-PrimaryActionButton" p:actionLabel="Apply Changes" p:methodToCall="save"
+							p:successCallback="dismissDialog('PropBudget-BudgetSettings-Dialog');"
+							p:order="10" />
+						<bean parent="Uif-DialogDismissButton" p:actionLabel="Close"
+							p:order="20" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-BudgetSettings-Section" parent="PropBudget-BudgetSettings-Section-parent" />
+	<bean id="PropBudget-BudgetSettings-Section-parent"
+		parent="Uif-CssGridSection-1FieldLabelColumn" p:fieldBindingObjectPath="budget">
+		<property name="items">
+			<list>
+				<bean parent="Uif-DataField" p:propertyName="startDate"
+					p:order="10" p:fieldLabel.renderColon="false"/>
+				<bean parent="Uif-DataField" p:propertyName="endDate"
+					p:order="20" p:fieldLabel.renderColon="false"/>
+				<bean parent="Uif-InputField" p:propertyName="totalDirectCostLimit"
+					p:order="30" p:fieldLabel.renderColon="false"/>
+				<bean parent="Uif-InputField" p:propertyName="budgetStatus"
+					p:order="40" p:fieldLabel.renderColon="false" p:enableAutoQuickfinder="false"/>
+				<bean parent="Uif-InputField" p:propertyName="onOffCampusFlag"
+					p:order="50" p:fieldLabel.renderColon="false"/>
+				<bean parent="Uif-InputField" p:propertyName="residualFunds"
+					p:order="60" p:fieldLabel.renderColon="false"/>
+				<bean parent="Uif-InputField" p:propertyName="totalCostLimit"
+					p:order="70" p:fieldLabel.renderColon="false"/>
+				<bean parent="Uif-InputField" p:propertyName="urRateClassCode" p:enableAutoQuickfinder="false"
+					p:order="80" p:fieldLabel.renderColon="false"/>
+				<bean parent="Uif-InputField" p:propertyName="ohRateClassCode" p:enableAutoQuickfinder="false"
+					p:order="90" p:fieldLabel.renderColon="false"/>
+				<bean parent="Uif-InputField" p:propertyName="comments"
+					p:order="100" p:fieldLabel.renderColon="false">
+					<property name="control">
+						<bean parent="Uif-TextAreaControl" />
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="modularBudgetFlag" p:fieldLabel.render="false"
+					p:order="110">
+					<property name="control">
+						<bean parent="Uif-CheckboxControl" p:checkboxLabel="Modular Budget" />
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="submitCostSharingFlag" p:fieldLabel.render="false"
+					p:order="120">
+					<property name="control">
+						<bean parent="Uif-CheckboxControl" p:checkboxLabel="Submit Cost Sharing" />
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>	
+</beans>
