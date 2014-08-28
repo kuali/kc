@@ -85,8 +85,8 @@
 					<bean parent="Uif-DropdownToggleMenu" p:toggleText="More Actions"  p:align="right" p:order="90">
 					  <property name="menuItems">
 					    <list>
-					      <bean parent="Uif-MenuAction" p:actionLabel="Resend notifications" p:order="10"  
-					      	p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_NOTE_FYI]}"/>	
+					      <bean parent="Uif-MenuAction" p:actionLabel="Send Notifications" p:order="10" p:refreshId="Kc-SendNotification-Wizard" p:methodToCall="prepareNotificationWizard"
+                                p:successCallback="showDialog('Kc-SendNotification-Wizard');"/>
 					      	 
 					      <bean parent="Uif-MenuAction" p:actionLabel="Reload proposal"  p:methodToCall="reload" p:order="20"  
 					      	p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}"/>		

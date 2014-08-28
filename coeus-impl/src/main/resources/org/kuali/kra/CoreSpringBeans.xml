@@ -29,7 +29,7 @@
     <context:annotation-config />
 
     <context:component-scan base-package="org.kuali.coeus.common.notification.impl.service.impl"/>
-
+    <context:component-scan base-package="org.kuali.coeus.common.view.wizard"/>
 	<context:component-scan base-package="org.kuali.kra.service.impl"/>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

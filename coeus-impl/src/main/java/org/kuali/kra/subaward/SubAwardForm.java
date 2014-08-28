@@ -19,7 +19,7 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
-import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelper;
+import org.kuali.coeus.common.notification.impl.NotificationHelper;
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsForm;
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelperBase;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;

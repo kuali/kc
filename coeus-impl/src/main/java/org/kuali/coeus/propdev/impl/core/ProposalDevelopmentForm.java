@@ -27,7 +27,7 @@ import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplateList;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
-import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelper;
+import org.kuali.coeus.common.notification.impl.NotificationHelper;
 import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentRejectionBean;
 import org.kuali.coeus.propdev.impl.approve.ProposalDevelopmentApproverViewDO;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational
+	Community License, Version 2.0 (the "License"); you may not use this file
+	except in compliance with the License. You may obtain a copy of the License
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable
+	law or agreed to in writing, software distributed under the License is distributed
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+	express or implied. See the License for the specific language governing permissions
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+     http://www.springframework.org/schema/util
+     http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+    <bean id="Kc-SendNotification-Wizard" parent="Kc-Wizard"
+          p:header.headerText="Send Notifications">
+        <property name="items">
+            <list>
+                <bean parent="Kc-SendNotification-WizardPage1" p:order="10" />
+                <bean parent="Kc-SendNotification-WizardPage2" p:order="20" />
+                <bean parent="Kc-SendNotification-WizardPage3" p:order="30" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-SendNotification-WizardPage1" parent="Kc-SendNotification-WizardPage1-parentBean" />
+    <bean id="Kc-SendNotification-WizardPage1-parentBean" abstract="true"
+          parent="Uif-VerticalBoxSubSection"
+          p:fieldBindingObjectPath="addRecipientHelper">
+        <property name="items">
+            <list>
+                <bean parent="Kc-SendNotification-TypeSelection" p:order="10" />
+                <bean parent="Kc-SendNotification-RoleInputFields" p:order="20"/>
+                <bean parent="Kc-SendNotification-EmployeeInputFields" p:order="30" />
+                <bean parent="Kc-SendNotification-NonEmployeeInputFields" p:order="40"/>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-DialogFooter">
+                <property name="items">
+                    <list>
+                        <bean parent="Kc-SendNotification-WizardButton-Continue"
+                              p:methodToCall="performRecipientSearch" p:actionParameters="Kc-SendNotification-Wizard.step:1"
+                              p:order="10" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="Kc-SendNotification-TypeSelection" parent="Uif-CssGridSection-1FieldLabelColumn">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="lineType">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="" p:value="Role"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).EMPLOYEE.code}"
+                                          p:value="#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).EMPLOYEE.description}" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).NONEMPLOYEE.code}"
+                                          p:value="#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).NONEMPLOYEE.description}" />
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="Kc-SendNotification-RoleInputFields" parent="Kc-Wizard-RoleInputFields"
+          p:progressiveRender="@{#empty(#fp.addRecipientHelper.lineType)}"/>
+
+    <bean id="Kc-SendNotification-EmployeeInputFields" parent="Kc-Wizard-EmployeeInputFields"
+          p:progressiveRender="@{#fp.addRecipientHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).EMPLOYEE.code}'}" />
+
+    <bean id="Kc-SendNotification-NonEmployeeInputFields" parent="Kc-Wizard-NonEmployeeInputFields"
+          p:progressiveRender="@{#fp.addRecipientHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).NONEMPLOYEE.code}'}" />
+
+    <bean id="Kc-SendNotification-WizardButton" parent="Kc-SendNotification-WizardButton-parentBean" />
+    <bean id="Kc-SendNotification-WizardButton-parentBean" abstract="true"
+          parent="Uif-PrimaryActionButton" p:refreshId="Kc-SendNotification-Wizard"
+          p:methodToCall="refresh" p:actionParameters="Kc-SendNotification-Wizard.step:1" />
+
+    <bean id="Kc-SendNotification-WizardButton-Continue" parent="Kc-SendNotification-WizardButton-Continue-parentBean" />
+    <bean id="Kc-SendNotification-WizardButton-Continue-parentBean"
+          abstract="true" parent="Kc-SendNotification-WizardButton"
+          p:actionLabel="Continue..."/>
+
+    <bean id="Kc-SendNotification-WizardButton-Back" parent="Kc-SendNotification-WizardButton-Back-parentBean" />
+    <bean id="Kc-SendNotification-WizardButton-Back-parentBean"
+          abstract="true" parent="Kc-SendNotification-WizardButton"
+          p:actionLabel="Go back" />
+
+    <bean id="Kc-SendNotification-WizardPage2" parent="Kc-SendNotification-WizardPage2-parentBean" />
+    <bean id="Kc-SendNotification-WizardPage2-parentBean" abstract="true"
+          parent="Uif-CssGridGroup"
+          p:fieldBindingObjectPath="addRecipientHelper">
+        <property name="items">
+            <list>
+                <bean parent="Kc-Wizard-RoleResults"
+                      p:progressiveRender="@{#empty(#fp.addRecipientHelper.lineType)}"
+                      p:order="10" />
+                <bean parent="Kc-SendNotification-PersonnelResults"
+                      p:progressiveRender="@{!#empty(#fp.addRecipientHelper.lineType)}"
+                      p:order="20" />
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-DialogFooter">
+                <property name="items">
+                    <list>
+                        <bean parent="Kc-SendNotification-WizardButton-Back"
+                              p:actionParameters="Kc-SendNotification-Wizard.step:0" p:order="10" />
+                        <bean parent="Kc-SendNotification-WizardButton-Continue"
+                              p:methodToCall="addRecipients"
+                              p:actionParameters="Kc-SendNotification-Wizard.step:2" p:order="20" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="Kc-SendNotification-PersonnelResults" parent="Kc-Wizard-PersonnelResults">
+        <property name="items">
+            <list merge="true">
+                <bean parent="Uif-InputField" p:propertyName="parameterMap[select]"
+                      p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-SendNotification-WizardPage3" parent="Kc-SendNotification-WizardPage3-parentBean" />
+    <bean id="Kc-SendNotification-WizardPage3-parentBean" abstract="true" parent="Uif-VerticalBoxGroup"
+          p:fieldBindingObjectPath="notificationHelper">
+        <property name="items">
+            <list>
+                <bean parent="Kc-SendNotification-WizardButton-Back" p:actionLabel="Add More Recipients"
+                      p:actionParameters="Kc-SendNotification-Wizard.step:0" p:order="10" />
+                <bean parent="Uif-FieldGroupBase" p:order="20">
+                    <property name="group">
+                        <bean parent="Uif-VerticalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Kc-SendNotification-Recipients"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="notification.subject" p:order="30"/>
+                <bean parent="Uif-InputField" p:propertyName="notification.message" p:order="40"/>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-DialogFooter">
+                <property name="items">
+                    <list merge="true">
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Send Notifications" p:methodToCall="sendNotifications"
+                              p:order="10" p:successCallback="dismissDialog('Kc-SendNotification-Wizard');"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="Kc-SendNotification-Recipients" parent="Kc-SendNotification-Recipients-parentBean"/>
+    <bean id="Kc-SendNotification-Recipients-parentBean" abstract="true" parent="Uif-TableCollectionGroup"
+          p:collectionObjectClass="org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient"
+          p:propertyName="notificationRecipients"
+          p:layoutManager.richTable.render="false" p:layoutManager.renderSequenceField="false"
+          p:renderAddLine="false">
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-DeleteLineAction" p:actionLabel="" p:order="10" p:iconClass="icon-trash"/>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="fullName" p:fieldLabel.labelText="Recipient" p:order="10"/>
+            </list>
+        </property>
+
+    </bean>
+</beans>

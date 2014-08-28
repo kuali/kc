@@ -25,7 +25,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
-import org.kuali.coeus.common.notification.impl.web.struts.form.NotificationHelper;
+import org.kuali.coeus.common.notification.impl.NotificationHelper;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.*;

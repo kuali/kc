@@ -36,6 +36,8 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.view.wizard.framework.WizardResultsDto;
 import org.kuali.coeus.common.notification.impl.NotificationContext;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.common.notification.impl.bo.NotificationType;
@@ -61,6 +63,7 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
+import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -94,8 +97,8 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     private RolodexService rolodexService;
     private ParameterService parameterService;
     private IdentityService identityService;
-    private KcEmailService kcEmailService;    
-    
+    private KcEmailService kcEmailService;
+
     @Override
     public NotificationType getNotificationType(NotificationContext context) {
         return getNotificationType(context.getModuleCode(), context.getActionTypeCode());
@@ -592,6 +595,28 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             sendNotification(context, notification, notificationTypeRecipients);
             notification.persistOwningObject(object);
         }
+    }
+
+    public List<NotificationTypeRecipient> addRecipient(List<Object> results) {
+        List<NotificationTypeRecipient> recipients = new ArrayList<NotificationTypeRecipient>();
+        for (Object object : results) {
+            WizardResultsDto result = (WizardResultsDto) object;
+            NotificationTypeRecipient recipient = new NotificationTypeRecipient();
+            if (result.getParameter("select").equals("on")){
+                if (result.getParameter("resultClass").equals(KcPerson.class.getName())) {
+                    recipient.setPersonId((String)result.getParameter("personId"));
+                    recipient.setFullName((String)result.getParameter("personName"));
+                } else if (result.getParameter("resultClass").equals(Rolodex.class.getName())) {
+                    recipient.setRolodexId((String)result.getParameter("rolodexId"));
+                    recipient.setFullName((String)result.getParameter("personName"));
+                } else if (result.getParameter("resultClass").equals(Role.class.getName())) {
+                    recipient.setRoleName((String)result.getParameter("name"));
+                    recipient.setFullName((String)result.getParameter("name"));
+                }
+                recipients.add(recipient);
+            }
+        }
+        return recipients;
     }
 
     public BusinessObjectService getBusinessObjectService() {

@@ -22,7 +22,7 @@
 		p:successCallback="showDialog('PropBudget-ProjectPersonnelPage-Wizard');"
 		p:actionParameters="PropBudget-ProjectPersonnelPage-Wizard.step:0" p:iconClass="icon-plus" />
 
-    <bean id="PropBudget-ProjectPersonnelPage-Wizard" parent="PropDev-Personnel-Wizard"
+    <bean id="PropBudget-ProjectPersonnelPage-Wizard" parent="Kc-Wizard"
           p:fieldBindingObjectPath="addProjectPersonnelHelper">
         <property name="items">
             <list>
@@ -63,10 +63,10 @@
 				<property name="items">
 					<list>
 						<bean parent="PropBudget-ProjectPersonnelPage-WizardButton-Continue"
-							p:progressiveRender="@{#fp.addProjectPersonnelHelper.personType != 'T'}"
+							p:progressiveRender="@{#fp.addProjectPersonnelHelper.lineType != 'T'}"
 							p:methodToCall="searchProjectPersonnel" p:actionParameters="PropBudget-ProjectPersonnelPage-Wizard.step:1"
 							p:order="10" />
-						<bean parent="Uif-DialogDismissButton" p:progressiveRender="@{#fp.addProjectPersonnelHelper.personType != '#{T(org.kuali.kra.infrastructure.PersonTypeConstants).TBN.code}'}" p:actionLabel="Cancel" />
+						<bean parent="Uif-DialogDismissButton" p:progressiveRender="@{#fp.addProjectPersonnelHelper.lineType != '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).TBN.code}'}" p:actionLabel="Cancel" />
 					</list>
 				</property>
 			</bean>
@@ -101,11 +101,11 @@
 		</property>
 	</bean>
 
-	<bean id="PropBudget-ProjectPersonnelPage-Search-Result-Details" parent="PropDev-ProjectPersonnel-Search-Result-Details"
+	<bean id="PropBudget-ProjectPersonnelPage-Search-Result-Details" parent="Kc-Wizard-PersonnelResults"
 		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson">
 		<property name="items">
 			<list merge="true">
-				<bean parent="Uif-InputField" p:propertyName="selected"
+				<bean parent="Uif-InputField" p:propertyName="parameterMap[select]"
 					p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
 					<property name="control">
 						<bean parent="Uif-CheckboxControl"/>
@@ -125,11 +125,11 @@
         </property>
     </bean>
 	
-	<bean id="PropBudget-ProjectPersonnelPage-EmployeeInputFields" parent="PropDev-EmployeeInputFields"
-          p:progressiveRender="@{#fp.addProjectPersonnelHelper.personType == '#{T(org.kuali.kra.infrastructure.PersonTypeConstants).EMPLOYEE.code}'}" />
+	<bean id="PropBudget-ProjectPersonnelPage-EmployeeInputFields" parent="Kc-Wizard-EmployeeInputFields"
+          p:progressiveRender="@{#fp.addProjectPersonnelHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).EMPLOYEE.code}'}" />
 
-    <bean id="PropBudget-ProjectPersonnelPage-NonEmployeeInputFields" parent="PropDev-Personnel-NonEmployeeInputFields"
-          p:progressiveRender="@{#fp.addProjectPersonnelHelper.personType == '#{T(org.kuali.kra.infrastructure.PersonTypeConstants).NONEMPLOYEE.code}'}" />
+    <bean id="PropBudget-ProjectPersonnelPage-NonEmployeeInputFields" parent="Kc-Wizard-NonEmployeeInputFields"
+          p:progressiveRender="@{#fp.addProjectPersonnelHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).NONEMPLOYEE.code}'}" />
 
 	<bean id="PropBudget-ProjectPersonnelPage-TBN-CollectionGroup" parent="PropBudget-ProjectPersonnelPage-TBN-CollectionGroup-parentBean" />
 	<bean id="PropBudget-ProjectPersonnelPage-TBN-CollectionGroup-parentBean"
@@ -137,7 +137,7 @@
 		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.personnel.TbnPerson"
 		p:layoutManager.renderSequenceField="false" p:renderLineActions="false"
 		p:progressiveRenderAndRefresh="true"
-		p:progressiveRender="@{addProjectPersonnelHelper.personType == '#{T(org.kuali.kra.infrastructure.PersonTypeConstants).TBN.code}'}">
+		p:progressiveRender="@{addProjectPersonnelHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).TBN.code}'}">
 		<property name="layoutManager.richTable.templateOptions">
 			<map>
 				<entry key="sDom" value="tip" />

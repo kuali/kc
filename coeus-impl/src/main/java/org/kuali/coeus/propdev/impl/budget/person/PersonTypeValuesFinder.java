@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
-import org.kuali.kra.infrastructure.PersonTypeConstants;
+import org.kuali.coeus.common.framework.person.PersonTypeConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;

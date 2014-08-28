@@ -24,6 +24,7 @@ import org.kuali.rice.ken.api.notification.NotificationRecipient;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -132,5 +133,9 @@ public interface KcNotificationService {
      * @param notificationRecipients
      */
     void sendNotification(String contextName, String subject, String message, Collection<NotificationRecipient.Builder> notificationRecipients);
-    
+
+
+    public List<NotificationTypeRecipient> addRecipient(List<Object> results);
+
+
 }
