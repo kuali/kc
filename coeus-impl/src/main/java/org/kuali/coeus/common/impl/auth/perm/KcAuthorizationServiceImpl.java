@@ -17,8 +17,10 @@ package org.kuali.coeus.common.impl.auth.perm;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.DocumentLevelPermissionable;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
 import org.kuali.rice.kim.api.permission.PermissionService;
@@ -58,8 +60,7 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
     @Override
     public List<String> getUserNames(Permissionable permissionable, String roleName) {
         List<String> userNames = new ArrayList<String>();
-        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
+        final Map<String, String> qualifiedRoleAttributes = createStandardQualifiers(permissionable);
         Collection<String> users = roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), roleName,new HashMap<String,String>(qualifiedRoleAttributes));
         for(String userId: users) {
             PrincipalContract principal = identityManagementService.getPrincipal(userId);
@@ -72,15 +73,13 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
 
     @Override
     public void addRole(String userId, String roleName, Permissionable permissionable) {
-        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
+        final Map<String, String> qualifiedRoleAttributes = createStandardQualifiers(permissionable);
         roleManagementService.assignPrincipalToRole(userId, permissionable.getNamespace(), roleName, new HashMap<String, String>(qualifiedRoleAttributes));
     }
 
     @Override
     public void removeRole(String userId, String roleName, Permissionable permissionable) {
-        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
+        final Map<String, String> qualifiedRoleAttributes = createStandardQualifiers(permissionable);
         roleManagementService.removePrincipalFromRole(userId, permissionable.getNamespace(), roleName, new HashMap<String, String>(qualifiedRoleAttributes));
     }
 
@@ -92,8 +91,7 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
     @Override
     public boolean hasPermission(String userId, Permissionable permissionable, String permissionNamespace, String permissionName) {
         boolean userHasPermission = false;
-        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
+        final Map<String, String> qualifiedRoleAttributes = createStandardQualifiers(permissionable);
         permissionable.populateAdditionalQualifiedRoleAttributes(qualifiedRoleAttributes);
 
         String unitNumber = permissionable.getLeadUnitNumber();
@@ -109,8 +107,7 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
 
     @Override
     public boolean hasRole(String userId, Permissionable permissionable, String roleName) {
-        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
+        final Map<String, String> qualifiedRoleAttributes = createStandardQualifiers(permissionable);
         Role role = roleManagementService.getRoleByNamespaceCodeAndName(permissionable.getNamespace(), roleName);
         if(role != null) {
             return roleManagementService.principalHasRole(userId, Collections.singletonList(role.getId()),new HashMap<String,String>(qualifiedRoleAttributes));
@@ -122,8 +119,7 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
     public List<String> getRoles(String userId, Permissionable permissionable) {
         Set<String> roleNames = new HashSet<String>();
         String documentNumber = permissionable.getDocumentNumberForPermission();
-        Map<String, String> qualifiedRoleAttrs = new HashMap<String, String>();
-        qualifiedRoleAttrs.put(permissionable.getDocumentKey(), documentNumber);
+        final Map<String, String> qualifiedRoleAttrs = createStandardQualifiers(permissionable);
         if (documentNumber != null) {
             List<String> roleIds = new ArrayList<String>();
             Map<String, String> roleNameIdMap = new HashMap<String, String>();
@@ -146,7 +142,7 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
     @Override
     public List<String> getPrincipalsInRole(Permissionable permissionable, String roleName) {
         if(permissionable != null && StringUtils.isNotBlank(roleName)) {
-            return new ArrayList<String>(roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), roleName, Collections.singletonMap(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission())));
+            return new ArrayList<String>(roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), roleName, createStandardQualifiers(permissionable)));
         } 
         return new ArrayList<String>();
     }
@@ -158,6 +154,19 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
             return roleManagementService.principalHasRole(userId, Collections.singletonList(role.getId()), null);
         }
         return false;
+    }
+
+    protected  Map<String, String> createStandardQualifiers(Permissionable permissionable) {
+        final Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
+        qualifiedRoleAttributes.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
+        addDocumentQualifiers(permissionable, qualifiedRoleAttributes);
+        return qualifiedRoleAttributes;
+    }
+
+    protected void addDocumentQualifiers(Permissionable permissionable, Map<String, String> qualifiers) {
+        if (permissionable instanceof DocumentLevelPermissionable && qualifiers != null) {
+            qualifiers.put(KcKimAttributes.DOCUMENT_NUMBER, ((DocumentLevelPermissionable) permissionable).getDocumentNumber());
+        }
     }
 
     public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
