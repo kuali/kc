@@ -135,8 +135,8 @@
           p:collectionObjectClass="org.kuali.coeus.common.budget.framework.income.BudgetPeriodIncomeTotal">
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="Period @{#line.budgetPeriodNumber}" p:order="10" />
-                <bean parent="Uif-DataField-condensedTable" p:propertyName="projectIncomePeriodTotal" p:order="20" />
+                <bean parent="Uif-MessageField" p:messageText="Period @{#line.budgetPeriodNumber}" p:fieldLabel.labelText="Period" p:order="10" />
+                <bean parent="Uif-DataField-condensedTable" p:propertyName="projectIncomePeriodTotal" p:fieldLabel.labelText="Amount" p:order="20" />
             </list>
         </property>
         <property name="layoutManager.columnCalculations">
