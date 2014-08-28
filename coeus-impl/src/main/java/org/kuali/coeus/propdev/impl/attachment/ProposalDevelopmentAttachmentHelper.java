@@ -4,17 +4,20 @@ import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 
 public class ProposalDevelopmentAttachmentHelper {
     private Narrative narrative;
+    private Narrative instituteAttachment;
     private ProposalPersonBiography biography;
 
     private String selectedLineIndex;
     private String markAllStatus;
 
     public ProposalDevelopmentAttachmentHelper() {
+        instituteAttachment = new Narrative();
         narrative = new Narrative();
         biography = new ProposalPersonBiography();
     }
 
     public void reset() {
+        instituteAttachment = new Narrative();
         narrative = new Narrative();
         biography = new ProposalPersonBiography();
         selectedLineIndex = null;
@@ -50,5 +53,13 @@ public class ProposalDevelopmentAttachmentHelper {
 
     public void setMarkAllStatus(String markAllStatus) {
         this.markAllStatus = markAllStatus;
+    }
+
+    public Narrative getInstituteAttachment() {
+        return instituteAttachment;
+    }
+
+    public void setInstituteAttachment(Narrative instituteAttachment) {
+        this.instituteAttachment = instituteAttachment;
     }
 }
