@@ -20,7 +20,7 @@
     <property name="validCharactersConstraint">
       <bean parent="NumericPatternConstraint"/>
     </property>
-    <property name="optionsFinder" value="#{T(org.kuali.coeus.org.kuali.rice.krad.SpringMethods).retrieveSpringBean('budgetStatusValuesFinder')}"/>
+    <property name="optionsFinder" value="#{#getService('budgetStatusValuesFinder')}"/>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
     </property>
