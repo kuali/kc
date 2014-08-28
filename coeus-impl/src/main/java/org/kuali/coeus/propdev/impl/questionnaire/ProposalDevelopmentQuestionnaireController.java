@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
+import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.print.QuestionnairePrintingService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
@@ -41,6 +42,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.ByteArrayInputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -67,6 +69,39 @@ public class ProposalDevelopmentQuestionnaireController extends ProposalDevelopm
        pdForm.getQuestionnaireHelper().populateAnswers();
        return super.save(pdForm, result, request, response);
    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=clearQuestionnaire")
+    public ModelAndView clearQuestionnaire(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, HttpServletResponse response,
+                                           @RequestParam("actionParameters[index]") String index,  @RequestParam("actionParameters[helper]") String helper ) throws Exception {
+        if(helper.equals("questionnaireHelper")) {
+            clearAnswers(form.getQuestionnaireHelper().getAnswerHeaders().get(Integer.parseInt(index)).getAnswers());
+        } else if (helper.equals("s2sQuestionnaireHelper")) {
+            clearAnswers(form.getS2sQuestionnaireHelper().getAnswerHeaders().get(Integer.parseInt(index)).getAnswers());
+        }
+
+        return getModelAndViewService().getModelAndView(form);
+    }
+
+    protected void clearAnswers(List<Answer> answers) {
+        for (Answer answer: answers) {
+            answer.setAnswer(null);
+        }
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=updateQuestionnaire")
+    public ModelAndView updateQuestionnaire(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, HttpServletResponse response,
+                                           @RequestParam("actionParameters[index]") String index,  @RequestParam("actionParameters[helper]") String helper ) throws Exception {
+
+        if(helper.equals("questionnaireHelper")) {
+            form.getQuestionnaireHelper().updateQuestionnaireAnswer(Integer.parseInt(index));
+            getLegacyDataAdapter().save(form.getQuestionnaireHelper().getAnswerHeaders().get(Integer.parseInt(index)));
+        } else if (helper.equals("s2sQuestionnaireHelper")) {
+            form.getS2sQuestionnaireHelper().updateQuestionnaireAnswer(Integer.parseInt(index));
+            getLegacyDataAdapter().save(form.getS2sQuestionnaireHelper().getAnswerHeaders().get(Integer.parseInt(index)));
+        }
+
+        return getModelAndViewService().getModelAndView(form);
+    }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=printQuestionnaire")
     public ModelAndView printQuestionnaire(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, HttpServletResponse response,

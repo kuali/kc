@@ -52,8 +52,35 @@
     <bean id="PropDev-QuestionnairePage-TabGroup-parentBean" abstract="true" parent="Uif-TabGroup"
           class="org.kuali.coeus.propdev.impl.questionnaire.QuestionnaireTabGroup">
             <property name="collectionGroupPrototype">
-                <bean parent="Questionnaire-QuestionsGroup"/>
+                <bean parent="Questionnaire-QuestionsGroup">
+                       <property name="header">
+                           <bean parent="Uif-SectionHeader">
+                               <property name="rightGroup">
+                                   <bean parent="Uif-VerticalBoxGroup">
+                                        <property name="items">
+                                            <list>
+                                                <bean parent="PropDev-QuestionnairePage-ActionMenu"/>
+                                            </list>
+                                        </property>
+                                   </bean>
+                               </property>
+                           </bean>
+                       </property>
+                </bean>
             </property>
           </bean>
 
+
+    <bean id="PropDev-QuestionnairePage-ActionMenu" parent="PropDev-QuestionnairePage-ActionMenu-parentBean"/>
+    <bean id="PropDev-QuestionnairePage-ActionMenu-parentBean" abstract="true" parent="Uif-DropdownToggleMenu"
+          p:toggleText="Actions"  p:align="right" p:cssClasses="btn,btn-default">
+        <property name="menuItems">
+            <list>
+                <bean parent="Uif-MenuAction" p:actionLabel="Clear" p:methodToCall="clearQuestionnaire" p:style="float:left" p:order="10"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Print" p:style="float:left" p:order="20"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="Update" p:methodToCall="updateQuestionnaire" p:style="float:left" p:order="30"/>
+
+            </list>
+        </property>
+    </bean>
 </beans>

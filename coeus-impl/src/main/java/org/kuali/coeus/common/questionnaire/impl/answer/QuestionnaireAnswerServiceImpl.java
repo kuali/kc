@@ -179,7 +179,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         List<QuestionnaireUsage> usages = getPublishedQuestionnaire(moduleQuestionnaireBean);
         for (QuestionnaireUsage questionnaireUsage : usages) {
             if (questionnaireUsage.getQuestionnaire().getQuestionnaireSeqId().equals(questionnaire.getQuestionnaireSeqId())
-                    && questionnaireUsage.getQuestionnaire().getSequenceNumber() > questionnaire.getSequenceNumber()) {
+                    && questionnaireUsage.getQuestionnaire().getSequenceNumber() >= questionnaire.getSequenceNumber()) {
                 answerHeader = setupAnswerForQuestionnaire(questionnaireUsage, moduleQuestionnaireBean);
             }
         }
