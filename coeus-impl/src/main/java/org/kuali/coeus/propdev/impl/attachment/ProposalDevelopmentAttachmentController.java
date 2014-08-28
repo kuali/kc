@@ -190,27 +190,31 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addNarrative")
-    public ModelAndView addNarrative(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-                                    HttpServletRequest request, HttpServletResponse response) throws Exception{
-        final String propertyName = form.getActionParamaterValue("propertyName");
+    public ModelAndView addNarrative(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getNarrative();
-        narrative.setNarrativeTypeCode(StringUtils.strip(narrative.getNarrativeTypeCode(),","));
-        getLegacyNarrativeService().prepareNarrative(form.getProposalDevelopmentDocument(),narrative);
+        initializeNarrative(narrative, form.getProposalDevelopmentDocument());
+        form.getDevelopmentProposal().getNarratives().add(narrative);
+        form.getProposalDevelopmentAttachmentHelper().reset();
+        return getRefreshControllerService().refresh(form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addInstituteAttachment")
+    public ModelAndView addInstituteAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getInstituteAttachment();
+        initializeNarrative(narrative,form.getProposalDevelopmentDocument());
+        narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
+        form.getDevelopmentProposal().getInstituteAttachments().add(narrative);
+        form.getProposalDevelopmentAttachmentHelper().reset();
+        return getRefreshControllerService().refresh(form);
+    }
+
+    protected void initializeNarrative(Narrative narrative, ProposalDevelopmentDocument document) {
+        getLegacyNarrativeService().prepareNarrative(document,narrative);
         try {
             narrative.init(narrative.getMultipartFile());
         } catch (Exception e) {
             LOG.info("No File Attached");
         }
-
-        if(propertyName.equals("instituteAttachments")) {
-            narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
-            form.getDevelopmentProposal().getInstituteAttachments().add(narrative);
-        } else if (propertyName.equals("narratives")) {
-            form.getDevelopmentProposal().getNarratives().add(narrative);
-        }
-
-        form.getProposalDevelopmentAttachmentHelper().reset();
-        return getRefreshControllerService().refresh(form);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addBiography")
