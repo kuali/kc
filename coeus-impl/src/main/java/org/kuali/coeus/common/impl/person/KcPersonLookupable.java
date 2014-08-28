@@ -29,11 +29,28 @@ public class KcPersonLookupable extends LookupableImpl {
     @Override
     public List<?> performSearch(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
         getKcPersonService().modifyFieldValues(searchCriteria);
-        this.setDataObjectClass(PersonImpl.class);
+        convertToPersonImpl(form.getViewPostMetadata().getLookupCriteria());
         List<Person> personResults = (List<Person>) super.performSearch(form, searchCriteria, unbounded);
-        this.setDataObjectClass(KcPerson.class);
+        convertToKcPerson(form.getViewPostMetadata().getLookupCriteria(),searchCriteria);
         return getKcPersonService().createKcPersonsFromPeople(personResults);
 
+    }
+
+    protected void convertToPersonImpl(Map<String,Map<String,Object>> lookupCriteria) {
+        lookupCriteria.put("principalName",lookupCriteria.get("userName"));
+        lookupCriteria.put("principalId",lookupCriteria.get("personId"));
+        lookupCriteria.put("phoneNumber",lookupCriteria.get("officePhone"));
+        lookupCriteria.put("primaryDepartmentCode",lookupCriteria.get("organizationIdentifier"));
+        this.setDataObjectClass(PersonImpl.class);
+    }
+
+    protected void convertToKcPerson(Map<String,Map<String,Object>> lookupCriteria, Map<String,String> searchCriteria) {
+        lookupCriteria.remove("principalName");
+        lookupCriteria.remove("principalId");
+        lookupCriteria.remove("phoneNumber");
+        lookupCriteria.remove("primaryDepartmentCode");
+        searchCriteria.clear();
+        this.setDataObjectClass(KcPerson.class);
     }
 
     public KcPersonService getKcPersonService() {

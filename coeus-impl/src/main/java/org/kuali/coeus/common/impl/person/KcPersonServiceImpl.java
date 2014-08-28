@@ -23,6 +23,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.multicampus.MultiCampusConstants;
 import org.kuali.coeus.common.framework.multicampus.MultiCampusIdentityService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.entity.EntityContract;
@@ -131,7 +132,9 @@ public class KcPersonServiceImpl implements KcPersonService {
         List<KcPerson> persons = new ArrayList<KcPerson>();
         
         for (Person person : people) {
-            persons.add(KcPerson.fromPersonId(person.getPrincipalId()));
+            if (person.getEntityTypeCode().equals(KimConstants.EntityTypes.PERSON)) {
+                persons.add(KcPerson.fromPersonId(person.getPrincipalId()));
+            }
             /*for (PrincipalContract principal : person.getPrincipals()) {
                 persons.add(KcPerson.fromEntityAndPersonId(entity, principal.getPrincipalId()));
             }*/
