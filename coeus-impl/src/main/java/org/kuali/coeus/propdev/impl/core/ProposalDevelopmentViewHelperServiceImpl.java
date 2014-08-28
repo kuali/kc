@@ -44,7 +44,6 @@ import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.location.AddProposalCongressionalDistrictEvent;
@@ -238,8 +237,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         if (newLine instanceof CongressionalDistrict) {
             Collection<CongressionalDistrict> CongressionalDistricts= ObjectPropertyUtils.getPropertyValue(viewModel, collectionPath);
         	isValid = getKualiRuleService().applyRules(
-                    new AddProposalCongressionalDistrictEvent(document, (List<CongressionalDistrict>) CongressionalDistricts, (CongressionalDistrict) newLine, collectionId, collectionLabel));
-        	
+                    new AddProposalCongressionalDistrictEvent(document, (List<CongressionalDistrict>) CongressionalDistricts, (CongressionalDistrict) newLine, collectionId, collectionLabel));        	
         }
         else if (newLine instanceof ProposalUserRoles){
             ProposalUserRoles newProposalUserRoles = (ProposalUserRoles) newLine;
@@ -334,9 +332,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     }
 
     protected LegacyNarrativeService getNarrativeService() {
-    	if (narrativeService == null) {
-    		narrativeService = KcServiceLocator.getService(LegacyNarrativeService.class);
-    	}
         return narrativeService;
     }
 
@@ -345,9 +340,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     }
     
     protected LookupService getLookupService() {
-    	if (lookupService == null) {
-    		lookupService = KcServiceLocator.getService(LookupService.class);
-    	}
         return lookupService;
     }
 
@@ -356,9 +348,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     }
 
     public DateTimeService getDateTimeService() {
-        if (dateTimeService == null) {
-            dateTimeService = KcServiceLocator.getService(DateTimeService.class);
-        }
         return dateTimeService;
     }
 
@@ -369,16 +358,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         this.parameterService = parameterService;
     }
     protected ParameterService getParameterService (){
-    	if(parameterService==null){
-    		parameterService= KcServiceLocator.getService(ParameterService.class);
-    	}
     	return parameterService;
     }
     
     public ProposalDevelopmentAttachmentService getProposalDevelopmentAttachmentService() {
-        if (proposalDevelopmentAttachmentService == null) {
-            proposalDevelopmentAttachmentService = KcServiceLocator.getService(ProposalDevelopmentAttachmentService.class);
-        }        return proposalDevelopmentAttachmentService;
+        return proposalDevelopmentAttachmentService;
     }
 
     public void setProposalDevelopmentAttachmentService(ProposalDevelopmentAttachmentService proposalDevelopmentAttachmentService) {
@@ -389,9 +373,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     }
 
     public NoteService getNoteService() {
-        if (noteService == null) {
-            noteService = KcServiceLocator.getService(NoteService.class);
-        }
         return noteService;
     }
 
@@ -400,9 +381,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     }
 
     public KeyPersonnelService getKeyPersonnelService() {
-        if (keyPersonnelService == null) {
-            keyPersonnelService = KcServiceLocator.getService(KeyPersonnelService.class);
-        }
         return keyPersonnelService;
     }
 
@@ -451,9 +429,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     }
 
     public GlobalVariableService getGlobalVariableService() {
-        if (globalVariableService == null){
-            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
-        }
         return globalVariableService;
     }
 
@@ -523,9 +498,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     }
 
     public KrmsRulesExecutionService getKrmsRulesExecutionService() {
-        if (krmsRulesExecutionService == null){
-            krmsRulesExecutionService = KcServiceLocator.getService(KrmsRulesExecutionService.class);
-        }
         return krmsRulesExecutionService;
     }
 
@@ -534,9 +506,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     }
 
     public AuditHelper getAuditHelper() {
-        if (auditHelper == null){
-            auditHelper = KcServiceLocator.getService(AuditHelper.class);
-        }
         return auditHelper;
     }
 
@@ -555,9 +524,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     }
 
     public KualiRuleService getKualiRuleService() {
-        if (kualiRuleService == null){
-            kualiRuleService = KcServiceLocator.getService(KualiRuleService.class);
-        }
         return kualiRuleService;
     }
 
@@ -566,9 +532,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     }
 
     public ProposalDevelopmentPermissionsService getProposalDevelopmentPermissionsService() {
-        if (proposalDevelopmentPermissionsService == null){
-            proposalDevelopmentPermissionsService = KcServiceLocator.getService(ProposalDevelopmentPermissionsService.class);
-        }
         return proposalDevelopmentPermissionsService;
     }
 
@@ -585,9 +548,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     }
 
     public PersonService getPersonService() {
-        if (personService == null){
-            personService = KcServiceLocator.getService(PersonService.class);
-        }
         return personService;
     }
 

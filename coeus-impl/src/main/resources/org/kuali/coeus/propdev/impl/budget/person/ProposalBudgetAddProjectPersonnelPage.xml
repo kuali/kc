@@ -163,7 +163,7 @@
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
-                    <property name="optionsFinder" value="#{T(org.kuali.coeus.org.kuali.rice.krad.SpringMethods).retrieveSpringBean('personTypeValuesFinder')}" />
+                    <property name="optionsFinder" value="#{#getService('personTypeValuesFinder')}" />
 				</bean>
             </list>
         </property>
