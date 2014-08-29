@@ -68,7 +68,6 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImpl implements ProposalD
      */
     protected List<AnswerHeader> getProposalS2sAnswerHeaders(DevelopmentProposal developmentProposal,String oppNameSpace, String formName) {
         
-        Set<AnswerHeader> result = new HashSet<AnswerHeader>(); 
         S2sOpportunity opp = developmentProposal.getS2sOpportunity();
         Set<AnswerHeader> results = new HashSet<AnswerHeader>();
         List<AnswerHeader> rawAnswerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(getModuleQnBean(developmentProposal));

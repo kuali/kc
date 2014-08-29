@@ -255,7 +255,7 @@
             <null/>
         </property>
         <property name="columnFieldPrototype">
-            <bean parent="Uif-DataField"  p:cssClasses="@{#line ne null?#line.getClass().equals(#collectionGroup.collectionObjectClass)?#line.lineType:'':''}" />
+            <bean parent="Uif-DataField"  p:cssClasses="@{#line ne null?#line.getClass().getName().equals(#collectionGroup.collectionObjectClass)?#line.lineType:'':''}" />
         </property>
     </bean>
 
