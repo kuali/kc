@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="PropDev-HierachySection" parent="PropDev-HierachySection-parentBean" />
+	<bean id="PropDev-HierachySection-parentBean" abstract="true" parent="Uif-DialogBase" p:fieldBindingObjectPath="document.developmentProposal">
+		<property name="header">
+			<bean parent="Uif-DialogHeader" p:headerText="Hierarchy"  />
+		</property>
+		<property name="items">
+			<list>
+			 <bean parent="Uif-MessageField" p:messageText="You are currently viewing Proposal @{document.developmentProposal.proposalNumber} (Document # @{document.documentNumber}), which is currently unlinked to a proposal hierarchy." p:order="10"/>
+			 <bean parent="Uif-InputField" p:label="Link Child Proposal" p:propertyName="hierarchyOriginatingChildProposalNumber" p:order="20"/>
+      		<bean parent="PropDev-HierarchysPage-OwnedByUnitNumberField"  p:order="30" />
+		</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-DialogFooter">
+				<property name="items">
+					<list>
+						<bean p:actionLabel="Link to Hierarchy" parent="Uif-PrimaryActionButton" p:methodToCall="linkToHierarchy" />
+						<bean p:actionLabel="Create Hierarchy" parent="Uif-SecondaryActionButton" p:methodToCall="createHierarchy"/>
+					 	<bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" p:methodToCall="hierarchyActionCanceled"/>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="PropDev-HierarchyPage-linkToHierarchyConfirm" parent="Uif-DialogGroup-OkCancel"
+          p:promptText="Are you sure you want to link  this Hierarchy?"/>
+          
+	<bean id="PropDev-HierarchysPage-OwnedByUnitNumberField" parent="PropDev-HierarchysPage-OwnedByUnitNumberField-parentBean" />
+     <bean id="PropDev-HierarchysPage-OwnedByUnitNumberField-parentBean" parent="Uif-InputField" p:propertyName="ownedByUnitNumber"  p:optionsFinderClass="org.kuali.coeus.propdev.impl.hierarchy.HierarchyBudgetTypeValuesFinder"  p:enableAutoQuickfinder="false">
+	  <property name="control" >
+		<bean parent="Uif-DropdownControl" p:additionalCssClasses="ignoreValid"/>
+	  </property>
+     </bean>
+
+</beans>
