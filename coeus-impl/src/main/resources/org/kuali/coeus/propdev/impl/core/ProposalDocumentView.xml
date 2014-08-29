@@ -219,7 +219,7 @@
 						<bean parent="Uif-ActionLink" p:actionLabel="Medusa"
 							p:iconClass="icon-tasks" p:order="40" p:actionScript="showDialog('PropDev-MedusaSection');" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Hierachy"
-							p:iconClass="icon-list-ol" p:order="50" />
+							p:iconClass="icon-list-ol" p:order="50"  p:actionScript="showDialog('PropDev-HierachySection');" />
                         <bean parent="Uif-ActionLink" p:actionLabel="Access"
                               p:iconClass="icon-lock" p:order="60" p:actionScript="showDialog('PropDev-PermissionsDialog');" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Budget Versions" p:actionScript="showDialog('PropDev-BudgetVersions-Dialog');"

@@ -76,6 +76,7 @@ import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
@@ -208,16 +209,13 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     public void setDeepCopyPostProcessor (DeepCopyPostProcessor deepCopyPostProcessor){
         this.deepCopyPostProcessor = deepCopyPostProcessor;
     }
-
     @Override
     public String createHierarchy(DevelopmentProposal initialChild) throws ProposalHierarchyException {
         LOG.info(String.format("***Create Hierarchy using Proposal #%s", initialChild.getProposalNumber()));
-        if (initialChild.isInHierarchy()) {
+        if (!validateChildCandidate(initialChild)) {
             throw new ProposalHierarchyException("Cannot create hierarchy: proposal " + initialChild.getProposalNumber()
-                    + " is already a member of a hierarchy.");
+                    + " is not a valid candidate for hierarchy.");
         }
-
-        // create a new proposal document
         ProposalDevelopmentDocument newDoc;
         
         // manually assembling a new PDDoc here because the DocumentService will deny initiator permission without context
@@ -454,7 +452,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         // Organization/location
         ProposalSite newSite;
         hierarchyProposal.getProposalSites().clear();
-        for (ProposalSite site : srcProposal.getProposalSites()) {
+    
+          for (ProposalSite site : srcProposal.getProposalSites()) {
             newSite = (ProposalSite)ObjectUtils.deepCopy(site);
             newSite.setDevelopmentProposal(null);
             newSite.setVersionNumber(null);
@@ -1140,14 +1139,15 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     protected BudgetDocument<DevelopmentProposal> getHierarchyBudget(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
-        String budgetDocumentNumber = hierarchyProposal.getProposalDocument().getBudgetDocumentVersions().get(0).getBudgetVersionOverview().getDocumentNumber();
-        BudgetDocument<DevelopmentProposal> budgetDocument = null;
-        try {
-            budgetDocument = (BudgetDocument<DevelopmentProposal>) documentService.getByDocumentHeaderId(budgetDocumentNumber);
-        }
-        catch (WorkflowException e) {
-            throw new ProposalHierarchyException(e);
-        }
+   	BudgetDocument<DevelopmentProposal> budgetDocument = null;
+		if (hierarchyProposal.getProposalDocument().getBudgetDocumentVersions().size() > 0) {
+			String budgetDocumentNumber = hierarchyProposal.getProposalDocument().getBudgetDocumentVersions().get(0).getBudgetVersionOverview().getDocumentNumber();
+			try {
+				budgetDocument = (BudgetDocument<DevelopmentProposal>) documentService.getByDocumentHeaderId(budgetDocumentNumber);
+			} catch (WorkflowException e) {
+				throw new ProposalHierarchyException(e);
+			}
+		}
         return budgetDocument;
     }
  
@@ -1920,4 +1920,34 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
     }
+    
+    private boolean validateChildCandidate(DevelopmentProposal proposal) {
+        boolean valid = true;
+        proposal.getProposalDocument().refreshBudgetDocumentVersions();
+        if (proposal.isInHierarchy()) {
+            return false;
+        }
+        if (proposal.getProposalDocument().getBudgetDocumentVersions().isEmpty()) {
+            valid = false;
+        }
+        else {
+            if (!hasFinalBudget(proposal)) {
+            }
+        }
+        if (proposal.getPrincipalInvestigator() == null) {
+            valid = false;
+        }
+        return valid;
+    }
+    private boolean hasFinalBudget(DevelopmentProposal proposal) {
+        boolean retval = false;
+        for (BudgetDocumentVersion version : proposal.getProposalDocument().getBudgetDocumentVersions()) {
+            if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
+                retval = true;
+                break;
+            }
+        }
+        return retval;
+    }
+
 }

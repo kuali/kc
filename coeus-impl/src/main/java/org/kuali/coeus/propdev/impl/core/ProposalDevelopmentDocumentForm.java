@@ -71,7 +71,10 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private ProposalDevelopmentAttachmentHelper proposalDevelopmentAttachmentHelper;
     private OrganizationAddWizardHelper addOrganizationHelper;
     private ProposalPersonQuestionnaireHelper proposalPersonQuestionnaireHelper;
-
+    private String newHierarchyBudgetTypeCode;
+ 	private String newHierarchyChildProposalNumber;
+    private String newHierarchyProposalNumber;
+    
     public ProposalPersonQuestionnaireHelper getProposalPersonQuestionnaireHelper() {
         return proposalPersonQuestionnaireHelper;
     }
@@ -318,4 +321,28 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 		this.copyBudgetDto = copyBudgetDto;
 	}
 
+	public String getNewHierarchyBudgetTypeCode() {
+		return newHierarchyBudgetTypeCode;
+	}
+
+	public void setNewHierarchyBudgetTypeCode(String newHierarchyBudgetTypeCode) {
+		this.newHierarchyBudgetTypeCode = newHierarchyBudgetTypeCode;
+	}
+
+	public String getNewHierarchyChildProposalNumber() {
+		return newHierarchyChildProposalNumber;
+	}
+
+	public void setNewHierarchyChildProposalNumber(
+			String newHierarchyChildProposalNumber) {
+		this.newHierarchyChildProposalNumber = newHierarchyChildProposalNumber;
+	}
+
+	public String getNewHierarchyProposalNumber() {
+		return newHierarchyProposalNumber;
+	}
+
+	public void setNewHierarchyProposalNumber(String newHierarchyProposalNumber) {
+		this.newHierarchyProposalNumber = newHierarchyProposalNumber;
+	}
 }

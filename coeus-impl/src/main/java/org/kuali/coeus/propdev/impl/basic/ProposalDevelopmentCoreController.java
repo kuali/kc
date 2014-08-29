@@ -6,13 +6,20 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants;
+import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.uif.field.AttributeQueryResult;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
+import org.kuali.rice.krad.web.form.DialogResponse;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -20,10 +27,29 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.beans.factory.annotation.Qualifier;
 
+@SuppressWarnings("deprecation")
 @Controller
 public class ProposalDevelopmentCoreController extends ProposalDevelopmentControllerBase {
+	
+	@Autowired
+	@Qualifier("proposalHierarchyService")
+	ProposalHierarchyService proposalHierarchyService;
 
+	public ProposalHierarchyService getProposalHierarchyService() {
+		if (proposalHierarchyService == null) {
+			proposalHierarchyService = KcServiceLocator.getService(ProposalHierarchyService.class);
+		}
+		return proposalHierarchyService;
+	}
+
+	public void setProposalHierarchyService(
+			ProposalHierarchyService proposalHierarchyService) {
+		this.proposalHierarchyService = proposalHierarchyService;
+	}
+
+	
 	@MethodAccessible
 	@RequestMapping(value = "/proposalDevelopment", params="methodToCall=defaultMapping")
 	public ModelAndView defaultMapping(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
@@ -178,4 +204,41 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 			HttpServletResponse response) throws Exception {
     	return getTransactionalDocumentControllerService().supervisorFunctions(form);
     }
+
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=createHierarchy"})
+    public ModelAndView createHierarchy(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+         DevelopmentProposal initialChildProposal = form.getProposalDevelopmentDocument().getDevelopmentProposal();
+        
+         getProposalHierarchyService().createHierarchy(initialChildProposal);
+         DevelopmentProposal newChildProposal = new DevelopmentProposal();
+         newChildProposal.setProposalNumber(form.getDevelopmentProposal().getHierarchyOriginatingChildProposalNumber());
+         getProposalHierarchyService().linkToHierarchy(initialChildProposal, newChildProposal, form.getNewHierarchyBudgetTypeCode());
+         return getRefreshControllerService().refresh(form);
+         
+    }
+    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=linkToHierarchy")
+    public ModelAndView linkToHierarchy(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DialogResponse disapproveConfirm = form.getDialogResponse("PropDev-HierarchyPage-linkToHierarchyConfirm");
+        if (disapproveConfirm == null) {
+            return getModelAndViewService().showDialog("PropDev-HierarchyPage-linkToHierarchyConfirm", true, form);
+        }
+      
+        DevelopmentProposal hierarchyProposal = new DevelopmentProposal();
+        hierarchyProposal.setProposalNumber(form.getDevelopmentProposal().getHierarchyOriginatingChildProposalNumber());
+        DevelopmentProposal newChildProposal = form.getProposalDevelopmentDocument().getDevelopmentProposal();
+        String hierarchyBudgetTypeCode = form.getNewHierarchyBudgetTypeCode();
+        getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
+        return getRefreshControllerService().refresh(form);
+    }
+    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=hierarchyActionCanceled")
+    public ModelAndView hierarchyActionCanceled(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	KNSGlobalVariables.getMessageList().add(ProposalHierarchyKeyConstants.MESSAGE_ACTION_CANCEL);
+    	return getNavigationControllerService().back(form);
+    	
+    }
+
+    
 }
