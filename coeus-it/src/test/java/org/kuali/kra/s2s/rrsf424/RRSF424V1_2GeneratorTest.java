@@ -17,6 +17,8 @@ import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
+import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
+import org.kuali.coeus.propdev.impl.s2s.S2sOppForms.S2sOppFormsId;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.s2s.S2sRevisionType;
 import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionType;
@@ -43,6 +45,16 @@ public class RRSF424V1_2GeneratorTest extends
         s2sRevisionType.setCode("A");
         s2sOpportunity.setS2sRevisionType(s2sRevisionType);
         s2sOpportunity.setRevisionOtherDescription("revisionOtherDescription");
+        List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
+        S2sOppForms oppForms = new S2sOppForms();
+        oppForms.setInclude(true);
+        oppForms.setFormName("RR_SF424_1_2-V1.2");
+        S2sOppFormsId oppFormsId = new S2sOppFormsId();
+        oppFormsId.setOppNameSpace("http://apply.grants.gov/forms/RR_SF424_1_2-V1.2");
+        oppFormsId.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+        oppForms.setS2sOppFormsId(oppFormsId);
+        s2sOppForms.add(oppForms);
+        s2sOpportunity.setS2sOppForms(s2sOppForms);
         document.getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
     }
 
