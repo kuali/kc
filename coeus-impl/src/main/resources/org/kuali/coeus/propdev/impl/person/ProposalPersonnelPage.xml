@@ -43,17 +43,8 @@
 		p:successCallback="showDialog('PropDev-PersonnelPage-Wizard');"
 		p:actionParameters="PropDev-PersonnelPage-Wizard.step:0" p:iconClass="icon-user" />
 
-	<bean id="PropDev-PersonnelPage-Wizard" parent="PropDev-PersonnelPage-Wizard-parentBean" />
-	<bean id="PropDev-PersonnelPage-Wizard-parentBean" abstract="true"
-		parent="Uif-DialogGroup" class="org.kuali.coeus.org.kuali.rice.krad.uif.container.WizardGroup"
-		p:fieldBindingObjectPath="addKeyPersonHelper" p:resetDataOnRefresh="true"
-		p:retrieveViaAjax="true">
-		<property name="header">
-			<bean parent="Uif-DialogHeader" p:headerText="Add Personnel" />
-		</property>
-		<property name="layoutManager">
-			<bean parent="Uif-VerticalBoxLayout"/>
-		</property>
+	<bean id="PropDev-PersonnelPage-Wizard" parent="PropDev-Personnel-Wizard"
+		p:fieldBindingObjectPath="addKeyPersonHelper">
 		<property name="items">
 			<list>
 				<bean parent="PropDev-PersonnelPage-WizardPage1" p:order="10" />
@@ -62,6 +53,50 @@
 			</list>
 		</property>
 	</bean>
+
+    <bean id="PropDev-PersonnelPage-WizardPage1" parent="PropDev-PersonnelPage-WizardPage1-parentBean" />
+    <bean id="PropDev-PersonnelPage-WizardPage1-parentBean" abstract="true"
+          parent="Uif-VerticalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean parent="PropDev-PersonnelPage-TypeSelection" p:order="10" />
+                <bean parent="PropDev-PersonnelPage-EmployeeInputFields" p:order="20" />
+                <bean parent="PropDev-PersonnelPage-NonEmployeeInputFields" p:order="30" />
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-DialogFooter">
+                <property name="items">
+                    <list>
+                        <bean parent="PropDev-PersonnelPage-WizardButton-Continue"
+                              p:methodToCall="performPersonnelSearch" p:actionParameters="PropDev-PersonnelPage-Wizard.step:1"
+                              p:order="10" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="PropDev-PersonnelPage-TypeSelection" parent="Uif-CssGridSection-1FieldLabelColumn">
+        <property name="items">
+            <list>
+                <bean parent="PropDev-Personnel-TypeSelection-InputField">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.kra.infrastructure.PersonTypeConstants).EMPLOYEE.code}"
+                                          p:value="#{T(org.kuali.kra.infrastructure.PersonTypeConstants).EMPLOYEE.description}" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.kra.infrastructure.PersonTypeConstants).NONEMPLOYEE.code}"
+                                          p:value="#{T(org.kuali.kra.infrastructure.PersonTypeConstants).NONEMPLOYEE.description}" />
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
 	<bean id="PropDev-PersonnelPage-WizardButton" parent="PropDev-PersonnelPage-WizardButton-parentBean" />
 	<bean id="PropDev-PersonnelPage-WizardButton-parentBean" abstract="true"
@@ -78,85 +113,11 @@
 		abstract="true" parent="PropDev-PersonnelPage-WizardButton"
 		p:actionLabel="Go back" />
 
-	<bean id="PropDev-PersonnelPage-WizardPage1" parent="PropDev-PersonnelPage-WizardPage1-parentBean" />
-	<bean id="PropDev-PersonnelPage-WizardPage1-parentBean" abstract="true"
-		parent="Uif-CssGridSection-1FieldLabelColumn">
-		<property name="items">
-			<list>
-				<bean parent="PropDev-PersonnelPage-WizardPage1-TypeSelection"
-					p:order="10" />
+	<bean id="PropDev-PersonnelPage-EmployeeInputFields" parent="PropDev-EmployeeInputFields"
+          p:progressiveRender="@{#fp.addKeyPersonHelper.personType == '#{T(org.kuali.kra.infrastructure.PersonTypeConstants).EMPLOYEE.code}'}" />
 
-				<bean parent="PropDev-PersonnelPage-WizardInputField"
-					p:propertyName="lookupFieldValues['lastName']" p:order="20"
-					p:dictionaryAttributeName="lastName" />
-				<bean parent="PropDev-PersonnelPage-WizardInputField"
-					p:propertyName="lookupFieldValues['firstName']" p:order="30"
-					p:dictionaryAttributeName="firstName" />
-				<bean parent="PropDev-PersonnelPage-WizardInputField"
-					p:propertyName="lookupFieldValues['userName']" p:order="40"
-					p:dictionaryAttributeName="userName" />
-				<bean parent="PropDev-PersonnelPage-WizardInputField"
-					p:propertyName="lookupFieldValues['emailAddress']" p:order="50"
-					p:dictionaryAttributeName="emailAddress" />
-				<bean parent="PropDev-PersonnelPage-WizardInputField"
-					p:propertyName="lookupFieldValues['officePhone']" p:order="60"
-					p:dictionaryAttributeName="officePhone" />
-				<bean parent="PropDev-PersonnelPage-WizardInputField"
-					p:propertyName="lookupFieldValues['organizationIdentifier']"
-					p:order="70" p:dictionaryAttributeName="organizationIdentifier" />
-				<bean parent="PropDev-PersonnelPage-WizardInputField"
-					p:propertyName="lookupFieldValues['campusCode']" p:order="80"
-					p:dictionaryAttributeName="campusCode" />
-				<bean parent="PropDev-PersonnelPage-WizardInputField"
-					p:propertyName="lookupFieldValues['active']" p:order="90"
-					p:dictionaryAttributeName="active">
-					<property name="control">
-						<bean parent="Uif-HorizontalRadioControl">
-							<property name="options">
-								<list>
-									<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes" />
-									<bean parent="Uif-KeyLabelPair" p:key="N" p:value="No" />
-									<bean parent="Uif-KeyLabelPair" p:key="" p:value="Both" />
-								</list>
-							</property>
-						</bean>
-					</property>
-				</bean>
-			</list>
-		</property>
-		<property name="footer">
-			<bean parent="Uif-DialogFooter">
-				<property name="items">
-					<list>
-						<bean parent="PropDev-PersonnelPage-WizardButton-Continue"
-							p:methodToCall="performPersonnelSearch" p:actionParameters="PropDev-PersonnelPage-Wizard.step:1"
-							p:order="10" />
-					</list>
-				</property>
-			</bean>
-		</property>
-	</bean>
-	<bean id="PropDev-PersonnelPage-WizardPage1-TypeSelection"
-		parent="PropDev-PersonnelPage-WizardPage1-TypeSelection-parentBean" />
-	<bean id="PropDev-PersonnelPage-WizardPage1-TypeSelection-parentBean"
-		abstract="true" parent="Uif-InputField" p:fieldLabel.renderColon="false"
-		p:propertyName="personType" p:label="Search for" p:defaultValue="E">
-		<property name="control">
-			<bean parent="Uif-VerticalRadioControl">
-				<property name="options">
-					<list>
-						<bean parent="Uif-KeyLabelPair" p:key="E" p:value="Employees" />
-						<bean parent="Uif-KeyLabelPair" p:key="N" p:value="Non-employees" />
-					</list>
-				</property>
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="PropDev-PersonnelPage-WizardInputField" parent="PropDev-PersonnelPage-WizardInputField-parentBean" />
-	<bean id="PropDev-PersonnelPage-WizardInputField-parentBean"
-		abstract="true" parent="Uif-InputField" p:fieldLabel.renderColon="false"
-		p:dictionaryObjectEntry="org.kuali.coeus.common.framework.person.KcPerson" />
+    <bean id="PropDev-PersonnelPage-NonEmployeeInputFields" parent="PropDev-Personnel-NonEmployeeInputFields-parentBean"
+          p:progressiveRender="@{#fp.addKeyPersonHelper.personType == '#{T(org.kuali.kra.infrastructure.PersonTypeConstants).NONEMPLOYEE.code}'}" />
 
 	<bean id="PropDev-PersonnelPage-WizardPage2" parent="PropDev-PersonnelPage-WizardPage2-parentBean" />
 	<bean id="PropDev-PersonnelPage-WizardPage2-parentBean" abstract="true"
@@ -181,48 +142,27 @@
 			</bean>
 		</property>
 	</bean>
-	<bean id="PropDev-PersonnelPage-WizardPage2-Results" parent="PropDev-PersonnelPage-WizardPage2-Results-parentBean" />
-	<bean id="PropDev-PersonnelPage-WizardPage2-Results-parentBean"
-		abstract="true" parent="Uif-TableCollectionSection" p:headerText="Search Results"
-		p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
-		p:propertyName="results" p:additionalCssClasses="kc-personnel-table"
-		p:renderAddLine="false" p:renderLineActions="false"
-		p:layoutManager.renderSequenceField="false"
-		p:renderInactiveToggleButton="false">
-		<property name="layoutManager.richTable.templateOptions">
-			<map>
-				<entry key="bAutoWidth" value="false" />
-				<entry key="sDom" value="tip" />
-				<entry key="bRetrieve" value="true" />
-				<entry key="sPaginationType" value="full_numbers" />
-				<entry key="aaSorting" value="[[1,'asc']]" />
-				<entry key="aoColumnDefs"
-					value="[{'sWidth' : '20px', 'bSortable':false, 'aTargets' : [0]}]" />
-			</map>
-		</property>
-		<property name="items">
-			<list>
-				<bean parent="Uif-InputField" p:propertyName="selected"
-					p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
-					<property name="control">
-						<bean parent="Uif-VerticalRadioControl">
-							<property name="options">
-								<list>
-									<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="" />
-								</list>
-							</property>
-						</bean>
-					</property>
-					<property name="onClickScript"
-						value="Kc.PropDev.Personnel.unselectCollectionRadioButtons(this, &quot;input[name$='selected']&quot;);" />
-				</bean>
-				<bean parent="Uif-InputField" p:propertyName="fullName"
-					p:label="Name" p:readOnly="true" p:order="20" />
-				<bean parent="Uif-InputField" p:propertyName="userName"
-					p:label="User ID" p:readOnly="true" p:order="30" />
-			</list>
-		</property>
-	</bean>
+
+    <bean id="PropDev-PersonnelPage-WizardPage2-Results" parent="PropDev-ProjectPersonnel-Search-Result-Details"
+          p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson">
+        <property name="items">
+            <list merge="true">
+                <bean parent="Uif-InputField" p:propertyName="selected"
+                      p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="" />
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="onClickScript" value="Kc.PropDev.Personnel.unselectCollectionRadioButtons(this, &quot;input[name$='selected']&quot;);" />
+                </bean>
+            </list>
+        </property>
+    </bean>
 
 	<bean id="PropDev-PersonnelPage-WizardPage3" parent="PropDev-PersonnelPage-WizardPage3-parentBean" />
 	<bean id="PropDev-PersonnelPage-WizardPage3-parentBean" abstract="true"
