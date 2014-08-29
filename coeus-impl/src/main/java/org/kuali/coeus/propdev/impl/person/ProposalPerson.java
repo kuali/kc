@@ -1712,4 +1712,8 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     public void setPersonTrainings(List<PersonTraining> personTrainings) {
         this.personTrainings = personTrainings;
     }
+
+    public String getPersonName(){
+        return getFullName();
+    }
 }

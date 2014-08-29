@@ -29,6 +29,7 @@
 		<property name="additionalCssFiles">
 			<list>
 				<value>css/common/core.css</value>
+                <value>css/propdev/person.css</value>
 				<value>css/propdev/budget.css</value>
 			</list>
 		</property>
