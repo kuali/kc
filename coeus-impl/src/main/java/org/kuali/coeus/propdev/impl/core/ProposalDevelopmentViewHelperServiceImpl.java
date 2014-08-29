@@ -462,20 +462,21 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             List<AuditError> auditErrors = auditCluster.getAuditErrorList();
             for (AuditError auditError : auditErrors) {
             	ProposalDevelopmentDataValidationItem dataValidationItem = new ProposalDevelopmentDataValidationItem();
-                String links[] = StringUtils.split(auditError.getLink(),".");
+                String page = StringUtils.substringBefore(auditError.getLink()," ");
+                String section = StringUtils.substringAfter(auditError.getLink()," ");
                 ErrorMessage errorMessage = new ErrorMessage();
                 errorMessage.setErrorKey(auditError.getMessageKey());
                 errorMessage.setMessageParameters(auditError.getParams());
 
                 dataValidationItem.setArea(auditCluster.getLabel());
-                dataValidationItem.setSection(getComponentLabel(links[1],viewIndex));
+                dataValidationItem.setSection(getComponentLabel(section,viewIndex));
                 dataValidationItem.setDescription(KRADUtils.getMessageText(errorMessage, false));
                 dataValidationItem.setSeverity(auditCluster.getCategory());
-                dataValidationItem.setNavigateToPageId(links[0]);
-                if(links[0] != null && links[0].equals(org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE)) {
+                dataValidationItem.setNavigateToPageId(page);
+                if(page != null && page.equals(org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE)) {
                     dataValidationItem.setMetodToCall("navigateToPersonError");
                 }
-                dataValidationItem.setNavigateToSectionId(links[1]);
+                dataValidationItem.setNavigateToSectionId(section);
 
                 dataValidationItems.add(dataValidationItem);
             }
