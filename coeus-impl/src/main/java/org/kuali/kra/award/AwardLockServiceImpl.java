@@ -110,9 +110,9 @@ public class AwardLockServiceImpl extends PessimisticLockServiceImpl implements 
     protected PessimisticLock createNewPessimisticLock(Document document, Map editMode, Person user) {
         if (document.useCustomLockDescriptors()) {
             String lockDescriptor = document.getCustomLockDescriptor(user);
-            AwardDocument pdDocument = (AwardDocument) document;
+            AwardDocument awardDocument = (AwardDocument) document;
             if(StringUtils.isNotEmpty(lockDescriptor) && lockDescriptor.contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
-                List<AwardBudgetDocumentVersion> awardBudgetDocuments = pdDocument.getBudgetDocumentVersions();
+                List<AwardBudgetDocumentVersion> awardBudgetDocuments = awardDocument.getBudgetDocumentVersions();
                 for(BudgetDocumentVersion budgetOverview: awardBudgetDocuments) {
                     generateNewLock(budgetOverview.getDocumentNumber(), lockDescriptor, user);
                 }  

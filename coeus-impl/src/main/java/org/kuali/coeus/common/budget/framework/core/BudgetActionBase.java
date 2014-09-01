@@ -72,8 +72,8 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
      * @param budgetVersions
      * @return
      */
-    protected Integer getFinalBudgetVersion(List<? extends Budget> budgetVersions) {
-        for (Budget budgetVersion: budgetVersions) {
+    protected Integer getFinalBudgetVersion(List<? extends AbstractBudget> budgetVersions) {
+        for (AbstractBudget budgetVersion: budgetVersions) {
             if (budgetVersion.isFinalVersionFlag()) {
                 return budgetVersion.getBudgetVersionNumber();
             }
@@ -87,7 +87,7 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
      * @param parentDocument
      */
     protected void setBudgetParentStatus(BudgetParent budgetParent) {
-        for (Budget budgetVersion: budgetParent.getBudgets()) {
+        for (AbstractBudget budgetVersion: budgetParent.getBudgets()) {
             if (budgetVersion.isFinalVersionFlag()) {
                 budgetParent.setBudgetStatus(budgetVersion.getBudgetStatus());
                 return;

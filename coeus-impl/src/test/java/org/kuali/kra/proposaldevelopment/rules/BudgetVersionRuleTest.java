@@ -18,20 +18,12 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionCollection;
-import org.kuali.coeus.common.budget.impl.version.BudgetVersionRule;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetVersionRule;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.document.DocumentBase;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

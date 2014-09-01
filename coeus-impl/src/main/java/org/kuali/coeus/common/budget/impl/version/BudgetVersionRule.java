@@ -41,6 +41,8 @@ import static org.springframework.util.StringUtils.hasText;
  * so it does not use or require an event.
  * 
  **/
+@Component("budgetVersionRule")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public abstract class BudgetVersionRule  implements AddBudgetVersionRule {
 
     private static final Log LOG = LogFactory.getLog(BudgetVersionRule.class);
@@ -52,7 +54,6 @@ public abstract class BudgetVersionRule  implements AddBudgetVersionRule {
      * @returns true if it passed, false if it failed
      */
     public boolean processAddBudgetVersionName(AddBudgetVersionEvent event) {
-        BudgetVersionCollection versionCollection = (BudgetVersionCollection) (event.getBudgetParent());
         boolean retval = true;
 
         if (!isNameValid(event.getVersionName())) {
@@ -61,7 +62,7 @@ public abstract class BudgetVersionRule  implements AddBudgetVersionRule {
                     ERROR_BUDGET_NAME_MISSING, "Name");
         }
         
-        if (containsVersionOverview(versionCollection, event.getVersionName())) {
+        if (containsVersionName(event.getBudgetParent().getBudgets(), event.getVersionName())) {
             retval = false;
             GlobalVariables.getMessageMap().putError("document.parentDocument.budgetDocumentVersion", BUDGET_VERSION_EXISTS);
         }
@@ -88,8 +89,8 @@ public abstract class BudgetVersionRule  implements AddBudgetVersionRule {
      * @param versionName is the name of the {@link BudgetVersionOverview} to look for
      * @returns true if it found <code>versionName</code> inside <code>document</code>, false otherwise
      */
-    private boolean containsVersionOverview(BudgetVersionCollection document, String versionName) {
-        for (Budget version : document.getBudgetDocumentVersions()) {            
+    private boolean containsVersionName(List<? extends Budget> existingBudgets, String versionName) {
+        for (Budget version : existingBudgets) {            
             LOG.info("Comparing " + version.getName() + " to " + versionName);
             if (version.getName().equals(versionName)) {
                 return true;

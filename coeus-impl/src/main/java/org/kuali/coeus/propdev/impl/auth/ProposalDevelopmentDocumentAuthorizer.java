@@ -17,6 +17,7 @@ package org.kuali.coeus.propdev.impl.auth;
 
 import org.kuali.coeus.common.framework.auth.KcKradTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
@@ -66,7 +67,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         Set<String> editModes = new HashSet<String>();
          
         ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) document;
-        String proposalNbr = proposalDoc.getDevelopmentProposal().getProposalNumber();
+        DevelopmentProposal developmentProposal = proposalDoc.getDevelopmentProposal();
+		String proposalNbr = developmentProposal.getProposalNumber();
         
         // The getEditMode() method is invoked when a proposal is accessed for creation and when it
         // is accessed for modification.  New proposals under creation don't have a proposal number.
@@ -360,8 +362,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         if (!parentDocument.isComplete()) {
             return false;
         }
-        for (Budget budgetVersion: parentDocument.getBudgetDocumentVersions()) {
-            if (budgetVersion.isFinalVersionFlag()) {
+        for (Budget budget: parentDocument.getBudgetParent().getBudgets()) {
+            if (budget.isFinalVersionFlag()) {
                 return true;
             }
         }

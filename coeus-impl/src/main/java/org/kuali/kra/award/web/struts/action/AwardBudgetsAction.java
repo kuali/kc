@@ -85,7 +85,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         //since the award budget versions panel is usually(always??) only usable when the award is
         //read only we need to make sure to perform post budget copy stuff here
         if (!StringUtils.equals(awardForm.getMethodToCall(), "save") && awardForm.isSaveAfterCopy()) {
-            final List<BudgetDocumentVersion> overviews = awardForm.getAwardDocument().getBudgetDocumentVersions();
+            final List<AwardBudgetDocumentVersion> overviews = awardForm.getAwardDocument().getBudgetDocumentVersions();
             final BudgetDocumentVersion copiedDocumentOverview = overviews.get(overviews.size() - 1);
             BudgetVersionOverview copiedOverview = copiedDocumentOverview.getBudgetVersionOverview();
             final String copiedName = copiedOverview.getName();
@@ -97,7 +97,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
             if (!valid) {
                 return mapping.findForward(Constants.MAPPING_BASIC);
             } else {
-                awardForm.getAwardDocument().updateDocumentDescriptions(awardForm.getAwardDocument().getBudgetDocumentVersions());
+                awardForm.getAwardDocument().updateBudgetDescriptions(awardForm.getAwardDocument().getAward().getBudgets());
             }
         }
         
@@ -343,7 +343,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final ActionForward forward = super.reload(mapping, form, request, response);
         final AwardForm awardForm = (AwardForm) form;
-        awardForm.setFinalBudgetVersion(getFinalBudgetVersion(awardForm.getAwardDocument().getBudgetDocumentVersions()));
+        awardForm.setFinalBudgetVersion(getFinalBudgetVersion(awardForm.getAwardDocument().getAward().getBudgets()));
         setBudgetStatuses(awardForm.getAwardDocument());
         
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);

@@ -226,12 +226,11 @@ public class ProposalHierarcyActionHelper {
     
     private boolean validateChildCandidate(DevelopmentProposal proposal) {
         boolean valid = true;
-        proposal.getProposalDocument().refreshBudgetDocumentVersions();
         if (proposal.isInHierarchy()) {
             GlobalVariables.getMessageMap().putError(FIELD_CHILD_NUMBER, ERROR_LINK_ALREADY_MEMBER, new String[0]);
             return false;
         }
-        if (proposal.getProposalDocument().getBudgetDocumentVersions().isEmpty()) {
+        if (proposal.getBudgets().isEmpty()) {
             GlobalVariables.getMessageMap().putError(FIELD_CHILD_NUMBER, ERROR_LINK_NO_BUDGET_VERSION, new String[0]);
             valid = false;
         }
@@ -380,7 +379,7 @@ public class ProposalHierarcyActionHelper {
         boolean retval = false;
         String completeCode = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
 
-        for (ProposalDevelopmentBudgetExt version : pdDoc.getBudgetDocumentVersions()) {
+        for (ProposalDevelopmentBudgetExt version : pdDoc.getDevelopmentProposal().getBudgets()) {
             if (!(version.getBudgetStatus() == null ) && version.getBudgetStatus().equalsIgnoreCase(completeCode)) {
                 retval = true;
                 break;

@@ -110,21 +110,17 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     }
 
     @Override
-    public BudgetDocument<DevelopmentProposal> getFinalBudgetVersion(ProposalDevelopmentDocument parentDocument) throws WorkflowException {
-        BudgetDocument<DevelopmentProposal> budgetDocument = null;
-
-        if (parentDocument.getFinalBudgetVersion() != null) {
-            budgetDocument = (BudgetDocument<DevelopmentProposal>) documentService.getByDocumentHeaderId(parentDocument.getFinalBudgetVersion().getDocumentNumber());
-        } else {
-            final List<ProposalDevelopmentBudgetExt> budgetVersions = parentDocument.getBudgetDocumentVersions();
-            if (budgetVersions != null && !budgetVersions.isEmpty()) {
+    public ProposalDevelopmentBudgetExt getFinalBudgetVersion(ProposalDevelopmentDocument parentDocument) throws WorkflowException {
+        ProposalDevelopmentBudgetExt finalBudget = parentDocument.getDevelopmentProposal().getFinalBudget();
+        if (finalBudget == null) {
+	        final List<ProposalDevelopmentBudgetExt> budgetVersions = parentDocument.getDevelopmentProposal().getBudgets();
+	        if (budgetVersions != null && !budgetVersions.isEmpty()) {
 	            QueryList<ProposalDevelopmentBudgetExt> budgetVersionsQuery = new QueryList<ProposalDevelopmentBudgetExt>();
 	            budgetVersionsQuery.sort("budgetVersionNumber", false);
-	            ProposalDevelopmentBudgetExt budgetVersionOverview = budgetVersionsQuery.get(0);
-	            budgetDocument = (BudgetDocument<DevelopmentProposal>) documentService.getByDocumentHeaderId(budgetVersionOverview.getDocumentNumber());
-            }
+	            finalBudget = budgetVersionsQuery.get(0);
+	        }
         }
-        return budgetDocument;
+        return finalBudget;
     }
 
     public boolean isRateOverridden(BudgetPeriod budgetPeriod){

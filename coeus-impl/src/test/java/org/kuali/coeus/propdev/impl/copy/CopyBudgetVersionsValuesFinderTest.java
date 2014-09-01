@@ -18,6 +18,8 @@ package org.kuali.coeus.propdev.impl.copy;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
@@ -44,14 +46,16 @@ public class CopyBudgetVersionsValuesFinderTest {
         this.finalVerFinder = new CopyBudgetVersionsValuesFinder() {
             @Override
             protected ProposalDevelopmentDocument getDocument() {
-                List<Budget> overviews = new ArrayList<Budget>();
-                overviews.add(new Budget());
-                Budget o = new Budget();
+                List<ProposalDevelopmentBudgetExt> overviews = new ArrayList<ProposalDevelopmentBudgetExt>();
+                overviews.add(new ProposalDevelopmentBudgetExt());
+                ProposalDevelopmentBudgetExt o = new ProposalDevelopmentBudgetExt();
                 o.setFinalVersionFlag(true);
                 overviews.add(o);
                 
                 ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
-                document.setBudgetDocumentVersions(overviews);
+                DevelopmentProposal devProp = new DevelopmentProposal();
+                devProp.setBudgets(overviews);
+                document.setDevelopmentProposal(devProp);
                 
                 return document;
             }  
@@ -67,13 +71,15 @@ public class CopyBudgetVersionsValuesFinderTest {
         this.nonFinalVerFinder = new CopyBudgetVersionsValuesFinder() {
             @Override
             protected ProposalDevelopmentDocument getDocument() {
-                List<Budget> overviews = new ArrayList<Budget>();
-                overviews.add(new Budget());
-                Budget o = new Budget();
+                List<ProposalDevelopmentBudgetExt> overviews = new ArrayList<ProposalDevelopmentBudgetExt>();
+                overviews.add(new ProposalDevelopmentBudgetExt());
+                ProposalDevelopmentBudgetExt o = new ProposalDevelopmentBudgetExt();
                 overviews.add(o);
                 
                 ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
-                document.setBudgetDocumentVersions(overviews);
+                DevelopmentProposal devProp = new DevelopmentProposal();
+                devProp.setBudgets(overviews);
+                document.setDevelopmentProposal(devProp);
                 
                 return document;
             }  

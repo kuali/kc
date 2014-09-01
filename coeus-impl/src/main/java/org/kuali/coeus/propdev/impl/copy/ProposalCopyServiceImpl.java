@@ -720,7 +720,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param doc the proposal development document
      */
     protected void fixBudgetVersions(ProposalDevelopmentDocument doc) {
-        if (doc.getBudgetDocumentVersions().size() > 0) {
+        if (doc.getDevelopmentProposal().getBudgets().size() > 0) {
             String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
                     BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
             
@@ -974,7 +974,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             }
         } else if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_ALL_VERSIONS)) {
             int i = 1;
-            for (ProposalDevelopmentBudgetExt budgetVersion: src.getBudgetDocumentVersions()) {
+            for (ProposalDevelopmentBudgetExt budgetVersion: src.getDevelopmentProposal().getBudgets()) {
                 copyAndFinalizeBudgetVersion(budgetVersion, dest, i++,
                         StringUtils.equals(src.getDevelopmentProposal().getHierarchyStatus(), HierarchyStatusConstants.Parent.code()));
             }

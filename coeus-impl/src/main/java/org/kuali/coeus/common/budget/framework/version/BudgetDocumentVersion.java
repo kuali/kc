@@ -82,7 +82,9 @@ public class BudgetDocumentVersion extends KcPersistableBusinessObjectBase imple
 
     public Budget getFinalBudget() {
         BudgetVersionOverview budgetVersionOverview = this.getBudgetVersionOverview();
-        if (budgetVersionOverview != null && budgetVersionOverview.getBudgetStatus() != null && budgetVersionOverview.getBudgetStatus().equals(BUDGET_COMPLETE) && budgetVersionOverview.isFinalVersionFlag()) {
+        if (budgetVersionOverview != null && budgetVersionOverview.getBudgetStatus() != null 
+        			&& budgetVersionOverview.getBudgetStatus().equals(BUDGET_COMPLETE) 
+        				&& budgetVersionOverview.isFinalVersionFlag()) {
             Budget result = findBudget();
             if (result != null) {
                 return (Budget) result;

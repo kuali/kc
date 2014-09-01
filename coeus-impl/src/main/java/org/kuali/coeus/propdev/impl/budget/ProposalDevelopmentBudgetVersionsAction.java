@@ -281,7 +281,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
                 GlobalVariables.getMessageMap().putError(
                         "document.budgetDocumentVersion[" + (errorBudgetVersion - 1) + "].budgetVersionOverview.budgetStatus",
                         KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
-                for (Budget budgetVersion: pdDoc.getBudgetDocumentVersions()) {
+                for (Budget budgetVersion: pdDoc.getDevelopmentProposal().getBudgets()) {
 
                         String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
                                 BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
@@ -318,12 +318,11 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         
         ProposalDevelopmentDocument document = pdForm.getProposalDevelopmentDocument();
         int i = 1;
-        if(document != null && CollectionUtils.isNotEmpty(document.getBudgetDocumentVersions())) {
-            for(Budget budget : document.getBudgetDocumentVersions()) {
+        List<ProposalDevelopmentBudgetExt> budgets = document.getDevelopmentProposal().getBudgets();
+		if(document != null && CollectionUtils.isNotEmpty(budgets)) {
+            for(Budget budget : budgets) {
                 if(budget.isFinalVersionFlag()) {
-                    // if copied budgetversion, the list may not be in version order.  so has to change it.
                     return i;
-                   // return budget.getBudgetVersionNumber().intValue();
                 }
                 i++;
             }
@@ -336,7 +335,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final ActionForward forward = super.reload(mapping, form, request, response);
         final ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getProposalDevelopmentDocument().getBudgetDocumentVersions()));
+        pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getProposalDevelopmentDocument().getBudgetParent().getBudgets()));
         setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
         
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);

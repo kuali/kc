@@ -362,7 +362,7 @@ public class BudgetVersionsAction extends BudgetAction {
                                     KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
             } 
         if (budgetForm.isSaveAfterCopy()) {
-            List<? extends Budget> overviews = parentDocument.getBudgetDocumentVersions();
+            List<? extends Budget> overviews = parentDocument.getBudgetParent().getBudgets();
             Budget copiedOverview = overviews.get(overviews.size() - 1);
             String copiedName = copiedOverview.getName();
             copiedOverview.setName("copied placeholder");
@@ -373,7 +373,7 @@ public class BudgetVersionsAction extends BudgetAction {
         }
 
         if (!valid) {
-            for (Budget budgetVersion: parentDocument.getBudgetDocumentVersions()) {
+            for (Budget budgetVersion: parentDocument.getBudgetParent().getBudgets()) {
 
                     String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
                             BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
@@ -429,7 +429,7 @@ public class BudgetVersionsAction extends BudgetAction {
     }
     
     private Budget getSelectedVersion(BudgetForm budgetForm, HttpServletRequest request) {
-        return budgetForm.getBudgetDocument().getBudget().getBudgetParent().getBudgetVersionOverviews().get(getSelectedLine(request));
+        return budgetForm.getBudgetDocument().getBudget().getBudgetParent().getBudgets().get(getSelectedLine(request));
     }
     
     private void copyBudget(ActionForm form, HttpServletRequest request, boolean copyPeriodOneOnly) throws WorkflowException {

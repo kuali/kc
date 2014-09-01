@@ -144,17 +144,17 @@ public final class BudgetModularTotalDirectCostRule {
 
         boolean passed = true;
 
-        final List<? extends Budget> budgetOverviews = parentDocument.getBudgetDocumentVersions();
+        final List<? extends Budget> budgets = parentDocument.getBudgetParent().getBudgets();
 
-        for (int i = 0; i < budgetOverviews.size(); i++) {
-            final Budget budgetOverview = budgetOverviews.get(i);
+        for (int i = 0; i < budgets.size(); i++) {
+            final Budget budget = budgets.get(i);
 
             if (this.budgetStatusCompleteCode.equalsIgnoreCase(
-                budgetOverview.getBudgetStatus())) {
+                budget.getBudgetStatus())) {
 
                 final BudgetDocument budgetDocument = this.getBudgetDocument(
-                    budgetOverview.getDocumentNumber());
-                updateDocumentBudget(budgetDocument, budgetOverview);
+                    budget.getDocumentNumber());
+                updateDocumentBudget(budgetDocument, budget);
                 passed &= this.checkTotalDirectCost(budgetDocument, i, reportErrors, warningMessages);
             }
         }

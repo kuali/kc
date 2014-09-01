@@ -63,7 +63,7 @@ public class CopyBudgetVersionsValuesFinder extends FormViewAwareUifKeyValuesFin
         
         final ProposalDevelopmentDocument document = this.getDocument();
         if (document != null) {
-            for (final Budget overview : document.getBudgetDocumentVersions()) {
+            for (final Budget overview : document.getDevelopmentProposal().getBudgets()) {
                 if (overview.isFinalVersionFlag()) {
                     return true;
                 }

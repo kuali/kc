@@ -84,7 +84,7 @@ public class ProposalBudgetDataOverrideRule extends KcTransactionalDocumentRuleB
         DataDictionaryService dataDictionaryService = getDataDictionaryService();
         String overriddenValue = budgetOverriddenData.getChangedValue();
         KcPersistenceStructureService kraPersistenceStructureService = getKcPersistenceStructureService();
-        Map<String, String> columnToAttributesMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(BudgetVersionOverview.class);
+        Map<String, String> columnToAttributesMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(Budget.class);
         String overriddenName = dataDictionaryService.getAttributeErrorLabel(Budget.class, columnToAttributesMap.get(budgetOverriddenData.getColumnName()));
         Boolean isRequiredField = dataDictionaryService.isAttributeRequired(Budget.class, columnToAttributesMap.get(budgetOverriddenData.getColumnName()));
         
@@ -186,18 +186,18 @@ public class ProposalBudgetDataOverrideRule extends KcTransactionalDocumentRuleB
         DevelopmentProposal developmentProposal = boService.findByPrimaryKey(DevelopmentProposal.class, documentMap);
         
         Map budgetMap = new HashMap();
-        budgetMap.put("parentDocumentKey", developmentProposal.getProposalDocument().getDocumentNumber());
-        BudgetDocument budgetDocument = null;
-        Collection<BudgetDocument> budgetDocuments = boService.findMatching(BudgetDocument.class, budgetMap);
-        for (BudgetDocument document : budgetDocuments) {
-            if (document.getBudget().getFinalVersionFlag()) {
-                budgetDocument = document;
+        budgetMap.put("parentDocumentKey", developmentProposal.getProposalNumber());
+        Budget finalBudget = null;
+        Collection<Budget> budgets = boService.findMatching(Budget.class, budgetMap);
+        for (Budget budget : budgets) {
+            if (budget.getFinalVersionFlag()) {
+            	finalBudget = budget;
                 break;
             }
         }
         
         Object currentValue = proposalDevelopmentService.getBudgetFieldValueFromDBColumnName(
-                budgetDocument.getDocumentNumber(), budgetOverriddenData.getColumnName());
+        		finalBudget.getParentDocumentKey(), budgetOverriddenData.getColumnName());
         if (currentValue instanceof ScaleTwoDecimal) {
             try {
                 Double overriddenValueToInt = Double.parseDouble(overriddenValue); 

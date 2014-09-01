@@ -46,10 +46,10 @@ import java.util.*;
  */
 public class BudgetModularTotalDirectCostRuleTest extends KcIntegrationTestBase {
 
-    private static final List<Budget> ONE_COMPLETE = new ArrayList<Budget>();
-    private static final List<Budget> TWO_COMPLETE = new ArrayList<Budget>();
-    private static final List<Budget> ONE_INCOMPLETE = new ArrayList<Budget>();
-    private static final List<Budget> TWO_INCOMPLETE = new ArrayList<Budget>();
+    private static final List<ProposalDevelopmentBudgetExt> ONE_COMPLETE = new ArrayList<>();
+    private static final List<ProposalDevelopmentBudgetExt> TWO_COMPLETE = new ArrayList<>();
+    private static final List<ProposalDevelopmentBudgetExt> ONE_INCOMPLETE = new ArrayList<>();
+    private static final List<ProposalDevelopmentBudgetExt> TWO_INCOMPLETE = new ArrayList<>();
     static {
         ProposalDevelopmentBudgetExt docver1 = new ProposalDevelopmentBudgetExt();
         docver1.setBudgetStatus("1");
@@ -169,7 +169,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcIntegrationTestBase 
     
 
     private void testNoErrors(final DocumentService service) {
-        this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
+    	this.pdDocument.getDevelopmentProposal().setBudgets(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
         BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(CoreApiServiceLocator.getKualiConfigurationService(), service,
                 CoreFrameworkServiceLocator.getParameterService());
         Set<String> warnings = new HashSet<String>();
@@ -178,7 +178,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcIntegrationTestBase 
         Assert.assertTrue("The validation should not have produced any warnings " + warnings, warnings.isEmpty());
 
         warnings = new HashSet<String>();
-        this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.TWO_COMPLETE);
+        this.pdDocument.getDevelopmentProposal().setBudgets(BudgetModularTotalDirectCostRuleTest.TWO_COMPLETE);
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
         Assert.assertTrue("The validation should not have produced any errors " + GlobalVariables.getMessageMap(), GlobalVariables.getMessageMap().hasNoErrors());
         Assert.assertTrue("The validation should not have produced any warnings " + warnings, warnings.isEmpty());
@@ -209,7 +209,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcIntegrationTestBase 
             }
         };
 
-        this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.ONE_INCOMPLETE);
+        this.pdDocument.getDevelopmentProposal().setBudgets(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
         BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(CoreApiServiceLocator.getKualiConfigurationService(), service,
                 CoreFrameworkServiceLocator.getParameterService());
         Set<String> warnings = new HashSet<String>();
@@ -218,7 +218,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcIntegrationTestBase 
         Assert.assertTrue("The validation should not have produced any warnings " + warnings, warnings.isEmpty());
 
         warnings = new HashSet<String>();
-        this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.TWO_INCOMPLETE);
+        this.pdDocument.getDevelopmentProposal().setBudgets(BudgetModularTotalDirectCostRuleTest.TWO_COMPLETE);
         rule.validateTotalDirectCost(this.pdDocument, true, warnings);
         Assert.assertTrue("The validation should not have produced any errors " + GlobalVariables.getMessageMap(), GlobalVariables.getMessageMap().hasNoErrors());
         Assert.assertTrue("The validation should not have produced any warnings " + warnings, warnings.isEmpty());
@@ -361,7 +361,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcIntegrationTestBase 
             }
         };
         
-        this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
+        this.pdDocument.getDevelopmentProposal().setBudgets(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
         BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(CoreApiServiceLocator.getKualiConfigurationService(), service,
                 CoreFrameworkServiceLocator.getParameterService());
         Set<String> warnings = new HashSet<String>();
@@ -374,7 +374,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcIntegrationTestBase 
         Assert.assertTrue("The warning was incorrect, warning: "
             + warnings, warnings.contains(getWarning(rule)));
 
-        this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.TWO_COMPLETE);
+        this.pdDocument.getDevelopmentProposal().setBudgets(BudgetModularTotalDirectCostRuleTest.TWO_COMPLETE);
         rule = new BudgetModularTotalDirectCostRule(CoreApiServiceLocator.getKualiConfigurationService(), service,
                 CoreFrameworkServiceLocator.getParameterService());
         warnings = new HashSet<String>();
@@ -418,7 +418,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcIntegrationTestBase 
             }
         };
 
-        this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
+        this.pdDocument.getDevelopmentProposal().setBudgets(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
         BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(CoreApiServiceLocator.getKualiConfigurationService(), service,
                 CoreFrameworkServiceLocator.getParameterService());
         Set<String> warnings = new HashSet<String>();
@@ -432,7 +432,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcIntegrationTestBase 
             + GlobalVariables.getMessageMap().getErrorMessages().size(), 1, GlobalVariables.getMessageMap().getErrorMessages().size());
 
         GlobalVariables.getMessageMap().clearErrorMessages();
-        this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.TWO_COMPLETE);
+        this.pdDocument.getDevelopmentProposal().setBudgets(BudgetModularTotalDirectCostRuleTest.TWO_COMPLETE);
         rule = new BudgetModularTotalDirectCostRule(CoreApiServiceLocator.getKualiConfigurationService(), service,
                 CoreFrameworkServiceLocator.getParameterService());
         warnings = new HashSet<String>();
@@ -476,7 +476,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcIntegrationTestBase 
             }
         };
 
-        this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
+        this.pdDocument.getDevelopmentProposal().setBudgets(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
         BudgetModularTotalDirectCostRule rule = new BudgetModularTotalDirectCostRule(CoreApiServiceLocator.getKualiConfigurationService(), service,
                 CoreFrameworkServiceLocator.getParameterService());
         Set<String> warnings = new HashSet<String>();
@@ -487,8 +487,7 @@ public class BudgetModularTotalDirectCostRuleTest extends KcIntegrationTestBase 
         Assert.assertTrue("The warning was incorrect, warning: "
             + warnings, warnings.contains(getWarning(rule)));
 
-        
-        this.pdDocument.setBudgetDocumentVersions(BudgetModularTotalDirectCostRuleTest.ONE_COMPLETE);
+        this.pdDocument.getDevelopmentProposal().setBudgets(BudgetModularTotalDirectCostRuleTest.TWO_COMPLETE);
         rule = new BudgetModularTotalDirectCostRule(CoreApiServiceLocator.getKualiConfigurationService(), service,
                 CoreFrameworkServiceLocator.getParameterService());
         warnings = new HashSet<String>();

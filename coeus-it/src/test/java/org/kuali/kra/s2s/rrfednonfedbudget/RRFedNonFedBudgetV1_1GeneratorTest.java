@@ -101,8 +101,8 @@ public class RRFedNonFedBudgetV1_1GeneratorTest extends
 		proposalDevelopmentBudgetExt.setFinalVersionFlag(true);
 		proposalDevelopmentBudgetExt.setBudgetStatus("1");
 		proposalDevelopmentBudgetExt.setBudgetId(1L);
-		proposalDevelopmentBudgetExt
-				.setDocumentDescription("test Document Description");
+//		proposalDevelopmentBudgetExt
+//				.setDocumentDescription("test Document Description");
 		proposalDevelopmentBudgetExt.setOnOffCampusFlag("Y");
 		proposalDevelopmentBudgetExt.setDocumentNumber(budgetDocument
 				.getDocumentNumber());

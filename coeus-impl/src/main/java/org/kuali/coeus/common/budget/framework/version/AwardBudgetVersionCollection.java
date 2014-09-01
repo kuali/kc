@@ -17,6 +17,7 @@ package org.kuali.coeus.common.budget.framework.version;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
+import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 
 import java.util.List;
 
@@ -27,11 +28,11 @@ import java.util.List;
  * instances
  *
  */
-public interface BudgetVersionCollection {
+public interface AwardBudgetVersionCollection {
    
-    public List<? extends Budget> getBudgetDocumentVersions();
+    public List<AwardBudgetDocumentVersion> getBudgetDocumentVersions();
 
-    public void setBudgetDocumentVersions(List<? extends Budget> budgetDocumentVersions);
+    public void setBudgetDocumentVersions(List<AwardBudgetDocumentVersion> budgetDocumentVersions);
     
     void refreshBudgetDocumentVersions();
 }

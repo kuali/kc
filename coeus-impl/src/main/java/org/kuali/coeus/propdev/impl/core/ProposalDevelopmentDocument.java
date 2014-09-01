@@ -140,9 +140,9 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     @OneToOne(mappedBy = "proposalDocument", cascade = CascadeType.ALL)
     private DevelopmentProposal developmentProposal;
 
-    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "PARENT_DOCUMENT_KEY", referencedColumnName = "DOCUMENT_NUMBER")
-    private List<BudgetDocumentVersion> budgetDocumentVersions;
+//    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
+//    @JoinColumn(name = "PARENT_DOCUMENT_KEY", referencedColumnName = "DOCUMENT_NUMBER")
+//    private List<BudgetDocumentVersion> budgetDocumentVersions;
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = true, updatable = true)
@@ -162,7 +162,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         DevelopmentProposal newProposal = new DevelopmentProposal();
         newProposal.setProposalDocument(this);
         developmentProposal = newProposal;
-        budgetDocumentVersions = new ArrayList<BudgetDocumentVersion>();
+//        budgetDocumentVersions = new ArrayList<BudgetDocumentVersion>();
         customDataList = new ArrayList<CustomAttributeDocValue>();
     }
     @Override
@@ -347,7 +347,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
 
     public Budget getFinalBudgetForThisProposal() {
-        return this.getFinalBudgetVersion();
+        return getFinalBudgetVersion();
     }
 
     public String getFinalrateClassCode() {
@@ -390,8 +390,9 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
         if (!isProposalDeleted()) {
             getProposalBudgetStatusService().saveBudgetFinalVersionStatus(this);
-            if (getBudgetDocumentVersions() != null) {
-                updateDocumentDescriptions(getBudgetDocumentVersions());
+            List<? extends Budget> versions = getBudgetParent().getBudgets();
+            if (versions != null) {
+                updateBudgetDescriptions(versions);
             }
         }
     }
@@ -446,24 +447,24 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         return managedLists;
     }
 
-    /**
-     * Sets the budgetDocumentVersions attribute value.
-     * @param budgetDocumentVersions The budgetDocumentVersions to set.
-     */
-    @Override
-    public void setBudgetDocumentVersions(List<? extends Budget> budgetDocumentVersions) {
-    	if (budgetDocumentVersions == null) {
-    		getDevelopmentProposal().setBudgets(null);
-    	} else {
-    		getDevelopmentProposal().setBudgets((List<ProposalDevelopmentBudgetExt>) budgetDocumentVersions);
-    	}
-    }
-
-
-    @Override
-    public List<ProposalDevelopmentBudgetExt> getBudgetDocumentVersions() {
-    	return getDevelopmentProposal().getBudgets();
-    }
+//    /**
+//     * Sets the budgetDocumentVersions attribute value.
+//     * @param budgetDocumentVersions The budgetDocumentVersions to set.
+//     */
+//    @Override
+//    public void setBudgetDocumentVersions(List<? extends Budget> budgetDocumentVersions) {
+//    	if (budgetDocumentVersions == null) {
+//    		getDevelopmentProposal().setBudgets(null);
+//    	} else {
+//    		getDevelopmentProposal().setBudgets((List<ProposalDevelopmentBudgetExt>) budgetDocumentVersions);
+//    	}
+//    }
+//
+//
+//    @Override
+//    public List<ProposalDevelopmentBudgetExt> getBudgetDocumentVersions() {
+//    	return getDevelopmentProposal().getBudgets();
+//    }
 
     @Override
     public Task getParentAuthZTask(String taskName) {
@@ -601,11 +602,11 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         this.proposalDeleted = proposalDeleted;
     }
 
-    public void refreshBudgetDocumentVersions() {
-        final List<BudgetDocumentVersion> v = new ArrayList<BudgetDocumentVersion>(getDataObjectService().findMatching(BudgetDocumentVersion.class,
-                QueryByCriteria.Builder.andAttributes(Collections.singletonMap("parentDocumentKey",documentNumber)).build()).getResults());
-        budgetDocumentVersions = v;
-    }
+//    public void refreshBudgetDocumentVersions() {
+//        final List<BudgetDocumentVersion> v = new ArrayList<BudgetDocumentVersion>(getDataObjectService().findMatching(BudgetDocumentVersion.class,
+//                QueryByCriteria.Builder.andAttributes(Collections.singletonMap("parentDocumentKey",documentNumber)).build()).getResults());
+//        budgetDocumentVersions = v;
+//    }
 
     public void populateContextQualifiers(Map<String, String> qualifiers) {
         qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);

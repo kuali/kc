@@ -15,10 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.budget;
 
-import java.util.Map;
-
 import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -33,5 +30,5 @@ public interface ProposalBudgetService extends BudgetCommonService<DevelopmentPr
      * @return parentDocument final version of budget corresponding to the parentDocument object.
      * @throws org.kuali.rice.kew.api.exception.WorkflowException
      */
-    public BudgetDocument<DevelopmentProposal> getFinalBudgetVersion(ProposalDevelopmentDocument parentDocument) throws WorkflowException;
+    public ProposalDevelopmentBudgetExt getFinalBudgetVersion(ProposalDevelopmentDocument parentDocument) throws WorkflowException;
 }

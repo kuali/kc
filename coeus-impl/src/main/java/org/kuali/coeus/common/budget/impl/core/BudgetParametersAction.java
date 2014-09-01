@@ -483,10 +483,9 @@ public class BudgetParametersAction extends BudgetAction {
     private void reconcileFinalBudgetFlags(BudgetForm budgetForm) {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
-        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
         if (budget.getFinalVersionFlag()) {
             // This version has been marked as final - update other versions.
-            for (Budget version : parentDocument.getBudgetDocumentVersions()) {
+            for (Budget version : budget.getBudgetParent().getBudgets()) {
                 if (!budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
                     version.setFinalVersionFlag(false);
                 }
@@ -546,9 +545,8 @@ public class BudgetParametersAction extends BudgetAction {
 
     private void updateThisBudgetVersion(BudgetDocument budgetDocument) {
         Budget budget = budgetDocument.getBudget();
-        BudgetParentDocument proposal = budgetDocument.getBudget().getBudgetParent().getDocument();
         
-        for (Budget version : proposal.getBudgetDocumentVersions()) {
+        for (Budget version : budget.getBudgetParent().getBudgets()) {
             if (budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
                 version.setFinalVersionFlag(budget.getFinalVersionFlag());
                 version.setBudgetStatus(budget.getBudgetStatus());

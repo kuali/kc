@@ -388,9 +388,10 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         final ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         //if the proposal hasn't been saved yet, the s2sopp proposal number will be null. We need to save it in the form until we
         //have a proposal number to set due to OJBs difficulty in dealing with 1-to-1 relationships.
-        S2sOpportunity s2sOpportunity = proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getS2sOpportunity();
+        DevelopmentProposal developmentProposal = doc.getDevelopmentProposal();
+		S2sOpportunity s2sOpportunity = developmentProposal.getS2sOpportunity();
         if(s2sOpportunity!=null && s2sOpportunity.getProposalNumber()==null){
-            proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().setS2sOpportunity(null);
+            developmentProposal.setS2sOpportunity(null);
             proposalDevelopmentForm.setS2sOpportunity(s2sOpportunity);
         }
         updateProposalDocument(proposalDevelopmentForm);
@@ -404,15 +405,16 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         }
         s2sOpportunity=proposalDevelopmentForm.getS2sOpportunity();
         if(s2sOpportunity!=null) {
-            doc.getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
+        	developmentProposal.setS2sOpportunity(s2sOpportunity);
             s2sOpportunity.setDevelopmentProposal(doc.getDevelopmentProposal());
             getBusinessObjectService().save(s2sOpportunity);
             proposalDevelopmentForm.setS2sOpportunity(null);
         }
         
-        doc.getDevelopmentProposal().updateProposalNumbers();
+        developmentProposal.updateProposalNumbers();
 
-        proposalDevelopmentForm.setFinalBudgetVersion(getFinalBudgetVersion(doc.getBudgetDocumentVersions()));
+        List<ProposalDevelopmentBudgetExt> budgets = developmentProposal.getBudgets();
+		proposalDevelopmentForm.setFinalBudgetVersion(getFinalBudgetVersion(budgets));
         setBudgetStatuses(doc);
         
         //if not on budget page
@@ -422,11 +424,11 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
             tdcValidator.validateGeneratingErrorsAndWarnings(doc);
         }
-        if (doc.getBudgetDocumentVersions() != null && !doc.getBudgetDocumentVersions().isEmpty()) {
-            for (Budget budget : doc.getBudgetDocumentVersions()) {
+        if (budgets != null && !budgets.isEmpty()) {
+            for (Budget budget : budgets) {
                 if (!budget.getFinalVersionFlag()) {
-                    budget.setStartDate(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getRequestedStartDateInitial());
-                    budget.setEndDate(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getRequestedEndDateInitial());
+                    budget.setStartDate(developmentProposal.getRequestedStartDateInitial());
+                    budget.setEndDate(developmentProposal.getRequestedEndDateInitial());
                     this.getBusinessObjectService().save(budget);
                 }
             }
@@ -570,7 +572,8 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if(StringUtils.isEmpty(headerTabCall)) {
             pdForm.getDocument().refreshPessimisticLocks();
         }        
-        pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getProposalDevelopmentDocument().getBudgetDocumentVersions()));
+        List<ProposalDevelopmentBudgetExt> budgets = pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getBudgets();
+		pdForm.setFinalBudgetVersion(getFinalBudgetVersion(budgets));
         getBudgetService().setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
         
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
@@ -894,9 +897,8 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();   
         getKeyPersonnelService().populateDocument(pdform.getProposalDevelopmentDocument());
-        BudgetDocument budgetDocument = getProposalBudgetService() .getFinalBudgetVersion(document);
-        if(budgetDocument != null) {
-            Budget budget = budgetDocument.getBudget();
+        Budget budget = getProposalBudgetService() .getFinalBudgetVersion(document);
+        if(budget != null) {
             if(budget.getFinalVersionFlag()){
                 final Map<String, Object> fieldValues = new HashMap<String, Object>();
                 fieldValues.put("budgetId", budget.getBudgetId()); 

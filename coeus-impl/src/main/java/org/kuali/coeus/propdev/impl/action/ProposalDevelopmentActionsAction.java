@@ -1163,7 +1163,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         BudgetDocument budgetDocument = null;
         String forward = null;
         try {
-            for (Budget budgetVersion: pdDoc.getBudgetDocumentVersions()) {
+            for (Budget budgetVersion: pdDoc.getDevelopmentProposal().getBudgets()) {
                 if (budgetVersion.isFinalVersionFlag()) {
                     DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
                     budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetVersion.getDocumentNumber());
@@ -1173,7 +1173,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             forward = buildForwardUrl(routeHeaderId);
         } catch (Exception e) {
             LOG.info("forward to budgetsummary "+e.getStackTrace());
-            //TODO what is the forward here
         }
         return forward;
 

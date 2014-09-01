@@ -29,7 +29,7 @@ public class ProposalBudgetVersionRule extends BudgetVersionRule {
                     ERROR_BUDGET_NAME_MISSING, "Name");
         }
         
-        for (Budget budget : event.getBudgetParent().getBudgetVersionOverviews()) {
+        for (Budget budget : event.getBudgetParent().getBudgets()) {
         	if (StringUtils.equals(budget.getName(), event.getVersionName())) {
 	            retval = false;
 	            getGlobalVariableService().getMessageMap().putError(event.getErrorPathPrefix() + ".budgetName", BUDGET_VERSION_EXISTS);

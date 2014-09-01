@@ -102,7 +102,7 @@ public class RRBudget10V1_3GeneratorTest extends
 		proposalDevelopmentBudgetExt.setBudgetStatus("1");
 		proposalDevelopmentBudgetExt.setBudgetId(1L);
 		proposalDevelopmentBudgetExt
-				.setDocumentDescription("test Document Description");
+				.setName("test Document Description");
 		proposalDevelopmentBudgetExt.setOnOffCampusFlag("Y");
 		proposalDevelopmentBudgetExt.setDocumentNumber(budgetDocument
 				.getDocumentNumber());

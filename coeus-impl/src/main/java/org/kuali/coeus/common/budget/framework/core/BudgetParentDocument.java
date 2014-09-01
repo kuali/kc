@@ -23,7 +23,7 @@ import org.apache.commons.lang.builder.CompareToBuilder;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionCollection;
+import org.kuali.coeus.common.budget.framework.version.AwardBudgetVersionCollection;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
@@ -38,7 +38,7 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
-public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTransactionalDocumentBase implements BudgetVersionCollection, BudgetDocumentTypeChecker, Permissionable {
+public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTransactionalDocumentBase implements BudgetDocumentTypeChecker, Permissionable {
 
     /**
      * Looks up and returns the ParameterService.
@@ -91,6 +91,15 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTra
         return getBudgetParent().getBudgets().get(selectedLine);
     }
 
+    public void updateBudgetDescriptions(List<? extends AbstractBudget> budgetVersions) {
+        BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
+        for (AbstractBudget budgetVersion : budgetVersions) {
+            if (budgetVersion.isNameUpdatable() && !StringUtils.isBlank(budgetVersion.getName())) {
+                budgetVersion.setNameUpdatable(false);
+            }
+        }
+    }
+    
     public abstract Permissionable getBudgetPermissionable();
 
     public abstract boolean isComplete();

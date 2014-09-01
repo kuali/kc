@@ -278,7 +278,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     public String costElementVersionLimit(DevelopmentProposal developmentProposal, String versionNumber, String costElementName, String limit) {
         Long versionNumberLong = Long.parseLong(versionNumber);
         float limitLong = Float.parseFloat(limit);
-        for (Budget bdv : developmentProposal.getProposalDocument().getBudgetDocumentVersions()) {
+        for (Budget bdv : developmentProposal.getBudgets()) {
             if (bdv.getVersionNumber().equals(versionNumberLong)) {
                 try {
                     BudgetDocument budgetDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(bdv.getDocumentNumber());
@@ -340,7 +340,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
      */
     @Override
     public String budgetSubawardOrganizationnameRule(DevelopmentProposal developmentProposal) {
-        for (Budget budget : developmentProposal.getProposalDocument().getBudgetDocumentVersions()) {
+        for (Budget budget : developmentProposal.getBudgets()) {
             if (budget.isFinalVersionFlag()) {
                 for (BudgetSubAwards bsa : budget.getBudgetSubAwards()) {
                     if (StringUtils.equals(FALSE, specialCharacterRule(bsa.getOrganizationName()))) {

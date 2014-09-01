@@ -417,7 +417,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
         boolean budgetVersionsExists = false;
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         String budgetStatusCompleteCode = this.parameterService.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
-        for (Budget budgetVersion : parentDocument.getBudgetDocumentVersions()) {
+        for (Budget budgetVersion : parentDocument.getBudgetParent().getBudgets()) {
             budgetVersionsExists = true;
             if (budgetVersion.isFinalVersionFlag()) {
                 valid &= applyAuditRuleForBudgetDocument(budgetVersion);
@@ -441,10 +441,10 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     }
 
     @Override
-    public boolean validateBudgetAuditRuleBeforeSaveBudgetVersion(BudgetParentDocument<T> proposalDevelopmentDocument)
+    public boolean validateBudgetAuditRuleBeforeSaveBudgetVersion(BudgetParentDocument<T> budgetParentDocument)
             throws Exception {
         boolean valid = true;
-        for (Budget budgetVersion : proposalDevelopmentDocument.getBudgetDocumentVersions()) {
+        for (Budget budgetVersion : budgetParentDocument.getBudgetParent().getBudgets()) {
             
             String budgetStatusCompleteCode = this.parameterService.getParameterValueAsString(BudgetDocument.class,
                     Constants.BUDGET_STATUS_COMPLETE_CODE);
@@ -767,7 +767,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
         String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
                 BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
         
-        for (Budget budgetVersion: parentDocument.getBudgetDocumentVersions()) {
+        for (Budget budgetVersion: parentDocument.getBudgetParent().getBudgets()) {
             if (budgetVersion.isFinalVersionFlag()) {
                 budgetVersion.setBudgetStatus(parentDocument.getBudgetParent().getBudgetStatus());
             }

@@ -137,7 +137,7 @@ public class ProposalLockServiceImpl extends PessimisticLockServiceImpl implemen
             String lockDescriptor = document.getCustomLockDescriptor(user);
             ProposalDevelopmentDocument pdDocument = (ProposalDevelopmentDocument) document;
             if(StringUtils.isNotEmpty(lockDescriptor) && lockDescriptor.contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
-                for(ProposalDevelopmentBudgetExt budgetOverview: pdDocument.getBudgetDocumentVersions()) {
+                for(ProposalDevelopmentBudgetExt budgetOverview: pdDocument.getDevelopmentProposal().getBudgets()) {
                     generateNewLock(budgetOverview.getDocumentNumber(), lockDescriptor, user);
                 }  
             }
