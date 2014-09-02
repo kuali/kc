@@ -90,10 +90,6 @@
         <property name="lookupableHelperService" ref="customAttributeDocumentLookupableHelperService" />
     </bean>
 
-    <bean id="kcPersonLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-        <property name="lookupableHelperService" ref="kcPersonLookupableHelperService" />
-    </bean>
-
     <bean id="kcPersonExtendedAttributesLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="kcPersonExtendedAttributesLookupableHelperService" />
     </bean>
