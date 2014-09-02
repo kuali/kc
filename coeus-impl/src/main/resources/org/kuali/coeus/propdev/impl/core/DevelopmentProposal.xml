@@ -1196,8 +1196,7 @@
    <bean id="DevelopmentProposals-LookupViewId" parent="DevelopmentProposal-LookupView-parentBean" 
    		p:viewName="DevelopmentProposals-LookupViewName" p:headerText="Development Proposal Lookup"/>
    
-  
-  <bean id="DevelopmentProposal-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+  <bean id="DevelopmentProposal-LookupView-parentBean" abstract="true" parent="Uif-LookupView" p:viewHelperService="#{#getService('propDevLookupableHelperService')}">
     <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.core.DevelopmentProposal"/>
     <property name="headerText" value="Development Proposal Lookup"/>
     <property name="defaultSortAttributeNames">
@@ -1240,6 +1239,33 @@
         <bean p:propertyName="proposalDocument.documentNumber" parent="Uif-DataField"/>
       </list>
     </property>
+    <property name="resultsGroup">
+      <bean parent="Uif-LookupResultsCollectionSection" p:renderLineActions="@{#ViewHelper.showActionUrls(!#emptyList(#form.lookupResults) ? #form.lookupResults : null)}">
+      	    <property name="lineActions">
+		      <list>
+		        <bean parent="Development-Proposal-Lookup-result-ViewLink" p:order="10"/>
+		        <bean parent="Development-Proposal-Lookup-result-EditLink" p:order="20"/>		  
+		      </list>
+		    </property>
+      </bean>
+    </property>
   </bean>
-
+  <bean id="Development-Proposal-Lookup-result-ViewLink" parent="Uif-Link">
+  	<property name="finalizeMethodToCall" value="buildPropDevViewActionLink"/>
+    <property name="href" value="@{#line.document.documentNumber}"/>
+    <property name="finalizeMethodAdditionalArguments">
+      <list>
+        <value>view</value>
+      </list>
+    </property>
+  </bean>
+  <bean id="Development-Proposal-Lookup-result-EditLink" parent="Uif-Link">
+  	<property name="finalizeMethodToCall" value="buildPropDevEditActionLink"/>
+    <property name="href" value="@{#line.document.documentNumber}"/>
+    <property name="finalizeMethodAdditionalArguments">
+      <list>
+        <value>edit</value>
+      </list>
+    </property>
+  </bean>
 </beans>
