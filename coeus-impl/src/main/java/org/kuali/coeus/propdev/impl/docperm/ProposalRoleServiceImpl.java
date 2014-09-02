@@ -109,10 +109,12 @@ public class ProposalRoleServiceImpl implements ProposalRoleService {
         List<Role> finalRoleList = new ArrayList<Role>();
 
         for (Role role : proposalRoles) {
-            if (isRoleUnassigned(role.getName())) {
-                finalRoleList.add(role);
-            } else if (isStandardProposalRole(role.getName())){
-                finalRoleList.add(role);
+            if (!StringUtils.equals(role.getName(), RoleConstants.VIEW_INSTITUTIONALLY_MAINTAINED_SALARIES)){
+                if (isRoleUnassigned(role.getName())) {
+                    finalRoleList.add(role);
+                } else if (isStandardProposalRole(role.getName())){
+                    finalRoleList.add(role);
+                }
             }
         }
         
@@ -120,8 +122,10 @@ public class ProposalRoleServiceImpl implements ProposalRoleService {
          * Now add in all of the other user-defined proposal roles.
          */
         for (Role role : proposalRoles) {
-            if (!isRoleUnassigned(role.getName()) && !isStandardProposalRole(role.getName())) {
-                finalRoleList.add(role);
+            if (!StringUtils.equals(role.getName(), RoleConstants.VIEW_INSTITUTIONALLY_MAINTAINED_SALARIES)){
+                if (!isRoleUnassigned(role.getName()) && !isStandardProposalRole(role.getName())) {
+                    finalRoleList.add(role);
+                }
             }
         }
 
