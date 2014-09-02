@@ -69,7 +69,7 @@
                 <bean parent="Uif-DataField" p:propertyName="section" p:fieldLabel.labelText="Section" p:order="20"/>
                 <bean parent="Uif-DataField" p:propertyName="description" p:fieldLabel.labelText="Description" p:order="30"/>
                 <bean parent="Uif-DataField" p:propertyName="severity" p:fieldLabel.labelText="Severity" p:order="40"
-                      p:cssClasses="label,@{#line.severity eq 'Error'?'label-danger':#line.severity eq 'Warning'?'label-warning':'label-info'}"/>
+                      p:cssClasses="label,@{#ViewHelper.setErrorCssClass(#line.severity)}"/>
             </list>
         </property>
         <property name="lineActions">

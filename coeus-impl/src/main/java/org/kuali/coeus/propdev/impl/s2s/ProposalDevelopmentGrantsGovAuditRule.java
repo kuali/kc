@@ -90,8 +90,8 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
                         error.getMessageKey(), error.getLink(),
                         new String[] { }));
             }
-
-            KNSGlobalVariables.getAuditErrorMap().put("grantsGovAuditWarnings", new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, knsAuditErrors, Constants.AUDIT_ERRORS));
+            String s2sprovider = proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getS2sProvider().getDescription();
+            KNSGlobalVariables.getAuditErrorMap().put("grantsGovAuditWarnings", new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, knsAuditErrors, s2sprovider + " " + Constants.AUDIT_ERRORS));
         }
         return valid;
     }
