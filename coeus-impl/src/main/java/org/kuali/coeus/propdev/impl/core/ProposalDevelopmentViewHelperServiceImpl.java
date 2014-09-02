@@ -555,4 +555,13 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     public void setPersonService(PersonService personService) {
         this.personService = personService;
     }
+
+    public String setErrorCssClass(String severity) {
+        if (severity.endsWith(Constants.AUDIT_ERRORS)) {
+            return "label-danger";
+        } else if (severity.equals(Constants.AUDIT_WARNINGS)) {
+            return "label-warning";
+        }
+        return "label-info";
+    }
 }
