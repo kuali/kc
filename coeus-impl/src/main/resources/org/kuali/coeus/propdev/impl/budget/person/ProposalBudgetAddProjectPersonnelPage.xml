@@ -45,7 +45,7 @@
 	<bean id="PropBudget-ProjectPersonnelPage-WizardButton-Back" parent="PropBudget-ProjectPersonnelPage-WizardButton-Back-parentBean" />
 	<bean id="PropBudget-ProjectPersonnelPage-WizardButton-Back-parentBean"
 		abstract="true" parent="PropBudget-ProjectPersonnelPage-WizardButton"
-		p:actionLabel="Refine Search" />
+		p:actionLabel="Refine Search"/>
 
 	<bean id="PropBudget-ProjectPersonnelPage-SearchCriteria" parent="PropBudget-ProjectPersonnelPage-SearchCriteria-parentBean" />
 	<bean id="PropBudget-ProjectPersonnelPage-SearchCriteria-parentBean" abstract="true"
@@ -136,7 +136,8 @@
 		parent="Uif-TableCollectionSection" abstract="true" p:propertyName="tbnPersons"
 		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.personnel.TbnPerson"
 		p:layoutManager.renderSequenceField="false" p:renderLineActions="false"
-		p:progressiveRender="@{#fp.addProjectPersonnelHelper.personType == '#{T(org.kuali.kra.infrastructure.PersonTypeConstants).TBN.code}'}">
+		p:progressiveRenderAndRefresh="true"
+		p:progressiveRender="@{addProjectPersonnelHelper.personType == '#{T(org.kuali.kra.infrastructure.PersonTypeConstants).TBN.code}'}">
 		<property name="layoutManager.richTable.templateOptions">
 			<map>
 				<entry key="sDom" value="tip" />

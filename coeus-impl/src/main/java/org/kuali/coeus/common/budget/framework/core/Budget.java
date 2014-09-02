@@ -138,6 +138,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
     private String budgetAdjustmentDocumentNumber;
 
     @OneToMany(mappedBy="budget", orphanRemoval = true, cascade = { CascadeType.ALL })
+    @OrderBy("personSequenceNumber")
     private List<BudgetPerson> budgetPersons;
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
@@ -208,6 +209,10 @@ public class Budget extends AbstractBudget implements BudgetContract {
     	throw new UnsupportedOperationException("Not defined in parent class.");
     }
 
+    public String getParentDocumentGroupName() {
+    	throw new UnsupportedOperationException("Not defined in parent class.");
+    }
+    
     @Transient
     private boolean rateSynced;
 

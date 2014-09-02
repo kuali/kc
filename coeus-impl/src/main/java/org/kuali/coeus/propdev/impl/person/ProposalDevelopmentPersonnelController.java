@@ -106,6 +106,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
                   newPerson.setPersonId(person.getPersonId());
                   newPerson.setFullName(person.getFullName());
                   newPerson.setUserName(person.getUserName());
+                  newPerson.setHomeUnitRef(person.getUnit());
                   form.getAddKeyPersonHelper().getResults().add(newPerson);
               }
           }
@@ -116,6 +117,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
                ProposalPerson newPerson = new ProposalPerson();
                newPerson.setRolodexId(rolodex.getRolodexId());
                newPerson.setFullName(rolodex.getFullName());
+               newPerson.setHomeUnitRef(rolodex.getUnit());
                form.getAddKeyPersonHelper().getResults().add(newPerson);
                }
            }
