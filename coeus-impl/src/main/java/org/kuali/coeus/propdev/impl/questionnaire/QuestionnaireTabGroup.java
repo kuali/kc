@@ -7,14 +7,15 @@ import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroupBase;
 import org.kuali.rice.krad.uif.container.GroupBase;
 import org.kuali.rice.krad.uif.container.TabGroup;
+import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.Header;
+import org.kuali.rice.krad.uif.element.ToggleMenu;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class QuestionnaireTabGroup extends TabGroup {
 
@@ -23,9 +24,9 @@ public class QuestionnaireTabGroup extends TabGroup {
     @Override
     public void performInitialization(Object model) {
         List<Component> tabs = new ArrayList<Component>();
-
-        tabs.addAll(createTabs(((ProposalDevelopmentDocumentForm)model).getQuestionnaireHelper().getAnswerHeaders(),"questionnaireHelper"));
-        tabs.addAll(createTabs(((ProposalDevelopmentDocumentForm)model).getS2sQuestionnaireHelper().getAnswerHeaders(),"s2sQuestionnaireHelper"));
+        String formKey =  ((ProposalDevelopmentDocumentForm)model).getFormKey();
+        tabs.addAll(createTabs(((ProposalDevelopmentDocumentForm)model).getQuestionnaireHelper().getAnswerHeaders(),"questionnaireHelper",formKey));
+        tabs.addAll(createTabs(((ProposalDevelopmentDocumentForm)model).getS2sQuestionnaireHelper().getAnswerHeaders(),"s2sQuestionnaireHelper",formKey));
 
         Collections.sort(tabs, new Comparator<Component>(){
             public int compare(Component c1, Component c2) {
@@ -38,7 +39,7 @@ public class QuestionnaireTabGroup extends TabGroup {
         super.performInitialization(model);
     }
 
-    private List<Component> createTabs(List<AnswerHeader> answerHeaders, String helper) {
+    private List<Component> createTabs(List<AnswerHeader> answerHeaders, String helper, String formKey) {
         List<Component> tabs = new ArrayList<Component>();
         int index = 0;
         for (AnswerHeader answerHeader : answerHeaders) {
@@ -48,7 +49,7 @@ public class QuestionnaireTabGroup extends TabGroup {
                 group.setHeaderText(answerHeader.getLabel());
                 group.getHeader().setRender(false);
                 CollectionGroupBase questionCollection = ComponentUtils.copy(collectionGroupPrototype);
-                questionCollection.setHeader((Header) ComponentFactory.getNewComponentInstance("Uif-SectionHeader"));
+                initiateActionMenuItems((ToggleMenu) questionCollection.getHeader().getRightGroup().getItems().get(0),index,helper,formKey);
                 questionCollection.setHeaderText(answerHeader.getLabel() + (answerHeader.isCompleted() ? "[color=green] (Complete)" : " [color=gray](Incomplete)") + "[/color]");
                 questionCollection.setPropertyName(helper + ".answerHeaders[" + index + "].questions");
                 group.setItems(Collections.singletonList(questionCollection));
@@ -59,6 +60,26 @@ public class QuestionnaireTabGroup extends TabGroup {
 
         return tabs;
     }
+
+    protected void initiateActionMenuItems(ToggleMenu actionMenu,int index, String helper, String formKey) {
+        for (Component component : actionMenu.getMenuItems()) {
+            Action menuItem = (Action) component;
+            if (menuItem.getActionLabel().equals("Print")) {
+                Properties parameters = new Properties();
+                parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "printQuestionnaire");
+                parameters.put(KRADConstants.FORM_KEY, formKey);
+                parameters.put("helper", helper);
+                parameters.put("index", String.valueOf(index));
+                menuItem.getActionUrl().setHref(UrlFactory.parameterizeUrl("../kc-pd-krad/proposalDevelopment", parameters));
+            } else {
+                menuItem.addActionParameter("helper",helper);
+                menuItem.addActionParameter("index",String.valueOf(index));
+            }
+        }
+
+    }
+
+
 
     public CollectionGroupBase getCollectionGroupPrototype() {
         return collectionGroupPrototype;
