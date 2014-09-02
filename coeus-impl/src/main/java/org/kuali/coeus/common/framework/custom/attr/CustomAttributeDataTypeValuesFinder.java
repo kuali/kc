@@ -28,7 +28,7 @@ public class CustomAttributeDataTypeValuesFinder extends UifKeyValuesFinderBase 
 
     @Override
     public List<KeyValue> getKeyValues() {
-        return keyValueFinderService.getKeyValues(CustomAttributeDataType.class, "dataTypeCode", "description");
+        return keyValueFinderService.getKeyValues(CustomAttributeDataType.class, "code", "description");
     }
 
 }
