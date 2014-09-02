@@ -58,7 +58,7 @@ public class QuestionnaireUsage extends KcPersistableBusinessObjectBase implemen
     
     private transient boolean delete;
 
-    private BusinessObjectService businessObjectService;
+    private transient BusinessObjectService businessObjectService;
 
     protected BusinessObjectService getBusinessObjectService (){
         if (businessObjectService == null)

@@ -60,7 +60,7 @@ public class QuestionnaireLookupableImpl extends KualiLookupableImpl {
     }
     
     @Autowired
-    @Qualifier("lookupableHelperService")
+    @Qualifier("questionnaireLookupableHelperService")
     @Override
     public void setLookupableHelperService(LookupableHelperService lookupableHelperService) {
         super.setLookupableHelperService(lookupableHelperService);

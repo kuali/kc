@@ -209,7 +209,7 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
     }
 
     public int compareTo(Questionnaire argQuestionnaire) {
-        if (ObjectUtils.equals(this.getQuestionnaireSeqId(), argQuestionnaire.getQuestionnaireSeqId())) {
+        if (ObjectUtils.equals(this.getId(), argQuestionnaire.getId())) {
             return this.getSequenceNumber().compareTo(argQuestionnaire.getSequenceNumber());
         } else {
             return this.getQuestionnaireSeqIdAsInteger().compareTo(argQuestionnaire.getQuestionnaireSeqIdAsInteger());
