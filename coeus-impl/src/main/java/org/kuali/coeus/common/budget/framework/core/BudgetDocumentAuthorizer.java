@@ -44,24 +44,25 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
         Set<String> editModes = new HashSet<String>();
                  
         BudgetDocument budgetDoc = (BudgetDocument) document;
-        BudgetParentDocument parentDocument = budgetDoc.getBudget().getBudgetParent().getDocument();
+        Budget budget = budgetDoc.getBudget();
+        BudgetParentDocument parentDocument = budget.getBudgetParent().getDocument();
         String userId = user.getPrincipalId(); 
         
-        if (canExecuteBudgetTask(userId, budgetDoc, TaskName.VIEW_SALARIES )) {
+        if (canExecuteBudgetTask(userId, budget, TaskName.VIEW_SALARIES )) {
             editModes.add(TaskName.VIEW_SALARIES); 
             setPermissions(userId, parentDocument, editModes);
         }
       
-        if (canExecuteBudgetTask(userId, budgetDoc, TaskName.MODIFY_BUDGET)) {
+        if (canExecuteBudgetTask(userId, budget, TaskName.MODIFY_BUDGET)) {
             editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             editModes.add("modifyBudgets");
             editModes.add("viewBudgets");
-            if (canExecuteBudgetTask(userId, budgetDoc, TaskName.MODIFY_PROPOSAL_RATE)) {
+            if (canExecuteBudgetTask(userId, budget, TaskName.MODIFY_PROPOSAL_RATE)) {
                 editModes.add("modifyProposalBudgetRates");
             }
             setPermissions(userId, parentDocument, editModes);
         }
-        else if (canExecuteBudgetTask(userId, budgetDoc, TaskName.VIEW_BUDGET)) {
+        else if (canExecuteBudgetTask(userId, budget, TaskName.VIEW_BUDGET)) {
             editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
             editModes.add("viewBudgets");
             
@@ -71,7 +72,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
             editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
         }
         
-        if (canExecuteBudgetTask(userId, budgetDoc, TaskName.MAINTAIN_PROPOSAL_HIERARCHY)) {
+        if (canExecuteBudgetTask(userId, budget, TaskName.MAINTAIN_PROPOSAL_HIERARCHY)) {
             editModes.add("maintainProposalHierarchy");
         }
         
@@ -144,18 +145,18 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
      * @param taskName the name of the task
      * @return true if has permission; otherwise false
      */
-    private boolean canExecuteBudgetTask(String userId, BudgetDocument budgetDocument, String taskName) {
+    private boolean canExecuteBudgetTask(String userId, Budget budget, String taskName) {
         //reloads the parent using the doc service if the workflow document is null
         //this is needed as some budget tasks must check the workflow doc for perms
         
         String taskGroupName = getTaskGroupName();
-        Task task = createNewBudgetTask(taskGroupName,taskName, budgetDocument);       
+        Task task = createNewBudgetTask(taskGroupName,taskName, budget);       
         TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
     }
     
-    protected Task createNewBudgetTask(String taskGroupName, String taskName, BudgetDocument budgetDocument) {
-        return new BudgetTask(taskGroupName,taskName, budgetDocument);
+    protected Task createNewBudgetTask(String taskGroupName, String taskName, Budget budget) {
+        return new BudgetTask(taskGroupName,taskName, budget);
     }
 
     protected String getTaskGroupName() {
@@ -170,12 +171,12 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
     @Override
     public boolean canOpen(Document document, Person user) {
         BudgetDocument budgetDocument = (BudgetDocument) document;
-        return canExecuteBudgetTask(user.getPrincipalId(), budgetDocument, TaskName.VIEW_BUDGET);
+        return canExecuteBudgetTask(user.getPrincipalId(), budgetDocument.getBudget(), TaskName.VIEW_BUDGET);
     }
     
     @Override
     public boolean canEdit(Document document, Person user) {
-        return canExecuteBudgetTask(user.getPrincipalId(), (BudgetDocument) document, TaskName.MODIFY_BUDGET);
+        return canExecuteBudgetTask(user.getPrincipalId(), ((BudgetDocument) document).getBudget(), TaskName.MODIFY_BUDGET);
     }
     
     @Override

@@ -767,10 +767,6 @@
                     <property name="taskName" value="viewBudget" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
-                <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.RejectProposalBudgetAuthorizer" parent="parentBudgetAuthorizer">
-                    <property name="taskName" value="rejectBudget" />
-                    <property name="requiresWritableDoc" value="true" />
-                </bean>
                 <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ModifyProposalBudgetRatesAuthorizer" parent="parentBudgetAuthorizer">
                     <property name="taskName" value="modifyProposalBudgetRates" />
                     <property name="requiresWritableDoc" value="true" />
@@ -795,11 +791,6 @@
                 <entry key="save">
                     <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ProposalBudgetTaskFactory">
                         <property name="taskName" value="modifyBudget" />
-                    </bean>
-                </entry>
-                <entry key="reject">
-                    <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ProposalBudgetTaskFactory">
-                        <property name="taskName" value="rejectBudget" />
                     </bean>
                 </entry>
             </map>

@@ -41,7 +41,7 @@ public class ProposalBudgetTaskFactory extends WebTaskFactoryBase {
         if(parentDocument!=null ){
             taskGroupName = budgetDocument.getBudget().getBudgetParent().getDocument().getTaskGroupName();
         }
-        return new BudgetTask(getTaskName(), getTaskGroupName(),budgetDocument);
+        return new BudgetTask(getTaskName(), getTaskGroupName(),budgetDocument.getBudget());
     }
 
     @Override

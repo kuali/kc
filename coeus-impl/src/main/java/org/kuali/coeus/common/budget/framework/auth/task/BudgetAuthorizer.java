@@ -34,7 +34,7 @@ public abstract class BudgetAuthorizer extends TaskAuthorizerBase {
     
     public boolean isAuthorized(String userId, Task task) {
         BudgetTask budgetTask = (BudgetTask)task;
-        if (isRequiresWritableDoc() && budgetTask.getBudgetDocument().isViewOnly()) {
+        if (isRequiresWritableDoc() && budgetTask.getBudget().isViewOnly()) {
             return false;
         } else {
             return isAuthorized(userId, budgetTask);

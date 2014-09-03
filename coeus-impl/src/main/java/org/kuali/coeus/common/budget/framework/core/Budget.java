@@ -230,6 +230,9 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
     @Transient
     private boolean rateClassTypesReloaded = false;
+    
+    @Transient
+    private Boolean viewOnly = Boolean.FALSE;
 
     public Budget() {
         super();
@@ -1744,5 +1747,17 @@ public class Budget extends AbstractBudget implements BudgetContract {
     public java.util.Date getBudgetEndDate() {
     	throw new UnsupportedOperationException();
     }
+
+	public Boolean getViewOnly() {
+		return viewOnly;
+	}
+	
+	public Boolean isViewOnly() {
+		return viewOnly;
+	}
+
+	public void setViewOnly(Boolean viewOnly) {
+		this.viewOnly = viewOnly;
+	}
 
 }
