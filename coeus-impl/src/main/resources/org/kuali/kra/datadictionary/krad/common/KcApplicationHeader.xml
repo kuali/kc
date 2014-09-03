@@ -167,7 +167,7 @@
 					<list>
 						<bean parent="Kc-Header-Researcher-Group1" p:order="10" />
 						<bean parent="Kc-Header-Researcher-Group2" p:order="20" />
-						<bean parent="Kc-Header-Researcher-Group2" p:order="30" />
+						<bean parent="Kc-Header-Researcher-Group3" p:order="30" />
 						<bean parent="Kc-Header-Researcher-Group2" p:order="40" />
 					</list>
 				</property>
@@ -385,8 +385,15 @@
 			<list>
 				<bean parent="Uif-SimpleHeaderFour" p:headerText="Actions"
 					p:order="10" />
-				<bean parent="Uif-MenuAction" p:actionLabel="Create IACUC Protocol"
-					p:order="20" />
+				<bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
+					p:actionLabel="Create IACUC Protocol" p:order="20">
+					<property name="actionUrl.requestParameters">
+						<map>
+							<entry key="href"
+								value="@{#ConfigProperties['application.url']}/iacucProtocolProtocol.do?methodToCall=docHandler&amp;command=initiate&amp;docFormKey=88888888&amp;docTypeName=IacucProtocolDocument" />
+						</map>
+					</property>
+				</bean>
 				<bean parent="Uif-SimpleHeaderFour" p:headerText="Lists"
 					p:order="30" />
 				<bean parent="Uif-MenuAction" p:actionLabel="All My Protocols"
