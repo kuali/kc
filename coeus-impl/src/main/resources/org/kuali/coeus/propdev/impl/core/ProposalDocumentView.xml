@@ -18,6 +18,8 @@
 		parent="Uif-TransactionalDocumentView" p:headerText="Proposal Development Document"
 		p:formClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm"
 		p:documentClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument"
+		p:authorizer="#{#getService('kcKradTransactionalDocumentViewAuthorizerBase')}"
+		p:presentationController="#{#getService('proposalDevelopmentDocumentViewPresentationController')}"
 		p:viewHelperService="#{#getService('proposalDevelopmentViewHelperService')}"
 		p:stickyApplicationHeader="true" p:stickyFooter="true"
 		p:breadcrumbs.render="false" p:cssClasses="uif-formView"

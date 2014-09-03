@@ -41,7 +41,7 @@ import java.util.Set;
  * Base class for all KC document authorizers.  The document authorizer determines both the
  * edit modes and the document actions.
  */
-public abstract class KcKradTransactionalDocumentAuthorizerBase extends TransactionalDocumentAuthorizerBase implements TransactionalDocumentAuthorizer {
+public abstract class KcKradTransactionalDocumentAuthorizerBase extends TransactionalDocumentAuthorizerBase implements KcKradTransactionalDocumentAuthorizer {
 
     private ParameterService parameterService;
     
@@ -143,6 +143,17 @@ public abstract class KcKradTransactionalDocumentAuthorizerBase extends Transact
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_COMPLETE);
         }
         return documentActions;
+    }
+    
+    /**
+     * can the user delete document
+     * this default implementation returns false, individual document authorizer can override. 
+     * @param document the document
+     * @param user - principal
+     * @return false
+     */
+    public boolean canDeleteDocument(Document document, Person user) {
+    	return false;
     }
     
     /*Only enable the complete button if document is in EXCEPTION status.*/

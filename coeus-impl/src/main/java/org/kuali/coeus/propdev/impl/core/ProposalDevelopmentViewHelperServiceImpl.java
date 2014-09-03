@@ -15,11 +15,13 @@
  */
 package org.kuali.coeus.propdev.impl.core;
 
+
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.*;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.kuali.coeus.common.framework.auth.KcAuthConstants;
 import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
@@ -27,15 +29,13 @@ import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanati
 import org.apache.log4j.Logger;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
-import org.kuali.coeus.propdev.impl.docperm.AddProposalUserEvent;
-import org.kuali.coeus.propdev.impl.docperm.DeleteProposalUserEvent;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.docperm.AddProposalUserEvent;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -70,12 +70,16 @@ import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.Header;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.ViewIndex;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.KRADUtils;
+import org.kuali.rice.krad.web.form.DocumentFormBase;
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.framework.type.ValidationActionTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -141,6 +145,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Qualifier("proposalDevelopmentPermissionsService")
     private ProposalDevelopmentPermissionsService proposalDevelopmentPermissionsService;
 
+    @Autowired
+    @Qualifier("kcWorkflowService")
+    private KcWorkflowService kcWorkflowService; 
+    
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
@@ -428,7 +436,25 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         return moreInfo.toString();
     }
 
-    public GlobalVariableService getGlobalVariableService() {
+    @Override
+    public void retrieveEditModesAndActionFlags() {
+    	super.retrieveEditModesAndActionFlags();
+    	View view = ViewLifecycle.getView();
+        UifFormBase model = (UifFormBase) ViewLifecycle.getModel();
+    	if(! getKcWorkflowService().isInWorkflow(((DocumentFormBase) model).getDocument())) {
+    		view.getActionFlags().put(KcAuthConstants.DocumentActions.DELETE_DOCUMENT, Boolean.TRUE);
+    	}
+    }
+    
+    public KcWorkflowService getKcWorkflowService() {
+		return kcWorkflowService;
+	}
+
+	public void setKcWorkflowService(KcWorkflowService kcWorkflowService) {
+		this.kcWorkflowService = kcWorkflowService;
+	}
+
+	public GlobalVariableService getGlobalVariableService() {
         return globalVariableService;
     }
 
