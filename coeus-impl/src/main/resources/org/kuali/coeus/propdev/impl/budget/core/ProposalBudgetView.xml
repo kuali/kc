@@ -17,9 +17,11 @@
 	<bean id="PropBudget-DefaultView-parentBean" abstract="true"
 		parent="Uif-FormView" p:headerText="Budget #@{budget.budgetVersionNumber}: @{budget.name}"
 		p:viewHelperService="#{#getService('proposalBudgetViewHelperService')}"
+		p:authorizer="#{#getService('proposalBudgetAuthorizer')}"
 		p:stickyApplicationHeader="true" p:stickyFooter="true"
 		p:breadcrumbs.render="false" p:cssClasses="uif-formView"
-		p:unifiedHeader="false" p:defaultBindingObjectPath="">
+		p:unifiedHeader="false" p:defaultBindingObjectPath=""
+		p:readOnly="@{!#view.editModes.containsKey(T(org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode).FULL_ENTRY)}">
 		<property name="additionalScriptFiles">
 			<list>
 				<value>scripts/common/dialog.js</value>

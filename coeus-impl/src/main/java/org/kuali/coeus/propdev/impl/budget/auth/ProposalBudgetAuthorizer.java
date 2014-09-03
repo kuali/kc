@@ -13,22 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.framework.core;
+package org.kuali.coeus.propdev.impl.budget.auth;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.auth.task.BudgetTask;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewAuthorizerBase;
+import org.kuali.rice.krad.uif.view.ViewModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -37,15 +50,22 @@ import java.util.Set;
  * This class is the Budget Document Authorizer.  It determines the edit modes and
  * document actions for all budget documents.
  */
-public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
+@Component("proposalBudgetAuthorizer")
+public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
     
+	@Autowired
+	@Qualifier("parameterService")
+	private ParameterService parameterService;
+	
+	@Autowired
+	@Qualifier("taskAuthorizationService")
+	private TaskAuthorizationService taskAuthorizationService;
+	
     @Override
-    public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
-        Set<String> editModes = new HashSet<String>();
-                 
-        BudgetDocument budgetDoc = (BudgetDocument) document;
-        Budget budget = budgetDoc.getBudget();
-        BudgetParentDocument parentDocument = budget.getBudgetParent().getDocument();
+    public Set<String> getEditModes(View view, ViewModel model, Person user, Set<String> editModes) {
+    	ProposalBudgetForm form = (ProposalBudgetForm) model;
+        Budget budget = form.getBudget();
+        ProposalDevelopmentDocument parentDocument = (ProposalDevelopmentDocument) budget.getBudgetParent().getDocument();
         String userId = user.getPrincipalId(); 
         
         if (canExecuteBudgetTask(userId, budget, TaskName.VIEW_SALARIES )) {
@@ -76,7 +96,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
             editModes.add("maintainProposalHierarchy");
         }
         
-        if (isBudgetComplete(budgetDoc.getBudget())) {
+        if (isBudgetComplete(budget)) {
             editModes.remove("modifyBudgets");
             editModes.remove("addBudget");
             if (editModes.contains("modifyBudgets")) {
@@ -133,8 +153,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
      */
     private boolean canExecuteParentDocumentTask(String userId, BudgetParentDocument doc, String taskName) {
         Task task = doc.getParentAuthZTask(taskName);       
-        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthenticationService.isAuthorized(userId, task);
+        return getTaskAuthorizationService().isAuthorized(userId, task);
     }
 
     /**
@@ -146,13 +165,9 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
      * @return true if has permission; otherwise false
      */
     private boolean canExecuteBudgetTask(String userId, Budget budget, String taskName) {
-        //reloads the parent using the doc service if the workflow document is null
-        //this is needed as some budget tasks must check the workflow doc for perms
-        
         String taskGroupName = getTaskGroupName();
         Task task = createNewBudgetTask(taskGroupName,taskName, budget);       
-        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthenticationService.isAuthorized(userId, task);
+        return getTaskAuthorizationService().isAuthorized(userId, task);
     }
     
     protected Task createNewBudgetTask(String taskGroupName, String taskName, Budget budget) {
@@ -163,48 +178,22 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
         return TaskGroupName.PROPOSAL_BUDGET;
     }
 
-    @Override
-    public boolean canInitiate(String documentTypeName, Person user) {
-        return true;
+    public boolean canOpen(ProposalDevelopmentBudgetExt budget, Person user) {
+        return canExecuteBudgetTask(user.getPrincipalId(), budget, TaskName.VIEW_BUDGET);
     }
     
-    @Override
-    public boolean canOpen(Document document, Person user) {
-        BudgetDocument budgetDocument = (BudgetDocument) document;
-        return canExecuteBudgetTask(user.getPrincipalId(), budgetDocument.getBudget(), TaskName.VIEW_BUDGET);
+    public boolean canEdit(ProposalDevelopmentBudgetExt budget, Person user) {
+        return canExecuteBudgetTask(user.getPrincipalId(), budget, TaskName.MODIFY_BUDGET);
     }
     
-    @Override
-    public boolean canEdit(Document document, Person user) {
-        return canExecuteBudgetTask(user.getPrincipalId(), ((BudgetDocument) document).getBudget(), TaskName.MODIFY_BUDGET);
+    public boolean canSave(ProposalDevelopmentBudgetExt budget, Person user) {
+        return canEdit(budget, user);
     }
     
-    @Override
-    public boolean canSave(Document document, Person user) {
-        return canEdit(document, user);
+    public boolean canReload(ProposalDevelopmentBudgetExt budget, Person user) {
+        return canEdit(budget, user);
     }
-    
-    @Override
-    public boolean canCancel(Document document, Person user) {
-        //KRACOEUS-3057 THE CANCEL BUTTON SHOULD ALWAYS BE DISABLED.
-        return false; 
-    }
-    
-    @Override
-    public boolean canReload(Document document, Person user) {
-        return canEdit(document, user);
-    }
-    
-    @Override
-    public boolean canRoute(Document document, Person user) {
-        return true;
-    }
-    
-    @Override
-    public boolean canCopy(Document document, Person user) {
-        return false;
-    }
-    
+
     /**
      * Is the Budget in the final state?
      * @param parentDocument
@@ -213,36 +202,23 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
      */
     private boolean isBudgetComplete(Budget budget) {
 		String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
-		return budget.isFinalVersionFlag() && StringUtils.equals(budgetStatusCompleteCode, budget.getBudgetStatus());
-    }
-    
-
-    
-    private WorkflowDocument getWorkflowDocument(Document doc) {
-        WorkflowDocument workflowDocument = null;
-        if (doc != null) {
-            DocumentHeader header = doc.getDocumentHeader();
-            if (header != null) {
-                try {
-                    workflowDocument = header.getWorkflowDocument();
-                } 
-                catch (RuntimeException ex) {
-                    // do nothing; there is no workflow document
-                }
-            }
-        }     
-        return workflowDocument;
+		return StringUtils.equals(budgetStatusCompleteCode, budget.getBudgetStatus());
     }
 
-    @Override
-    public boolean canSendNoteFyi(Document document, Person user) {
-        return false;
-    }
-    
-    @Override
-    public boolean canFyi(Document document, Person user) {
-        return false;
-    }
+	public ParameterService getParameterService() {
+		return parameterService;
+	}
 
-    
+	public void setParameterService(ParameterService parameterService) {
+		this.parameterService = parameterService;
+	}
+
+	public TaskAuthorizationService getTaskAuthorizationService() {
+		return taskAuthorizationService;
+	}
+
+	public void setTaskAuthorizationService(
+			TaskAuthorizationService taskAuthorizationService) {
+		this.taskAuthorizationService = taskAuthorizationService;
+	}
 }
