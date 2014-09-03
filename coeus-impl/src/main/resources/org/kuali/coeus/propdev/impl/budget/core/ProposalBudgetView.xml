@@ -48,7 +48,7 @@
 				<bean id="PropBudget-NonPersonnel" parent="PropBudget-UnderDevelopmentPage" />
 				<bean id="PropBudget-SubawardsPage" parent="PropBudget-UnderDevelopmentPage" />
 				<bean id="PropBudget-CostSharingPage" parent="PropBudget-UnderDevelopmentPage" />
-				<bean id="PropBudget-FandAPage" parent="PropBudget-UnderDevelopmentPage" />
+                <ref bean="PropBudget-UnrecoveredFandAPage" />
                 <ref bean="PropBudget-ProjectIncomePage" />
 				<bean id="PropBudget-ModularPage" parent="PropBudget-UnderDevelopmentPage" />
 				<bean id="PropBudget-NotesPage" parent="PropBudget-UnderDevelopmentPage" />
@@ -111,7 +111,7 @@
 			<list>
 				<bean parent="Uif-MenuAction" p:navigateToPageId="PropBudget-CostSharingPage"
 					p:actionLabel="Cost Sharing" p:order="10" />
-				<bean parent="Uif-MenuAction" p:navigateToPageId="PropBudget-FandAPage"
+				<bean parent="Uif-MenuAction" p:navigateToPageId="PropBudget-UnrecoveredFandAPage"
 					p:actionLabel="Unrecovered F &amp; A" p:order="20" />
 			</list>
 		</property>
