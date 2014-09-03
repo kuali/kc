@@ -16,7 +16,6 @@
 package org.kuali.kra.service.impl;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
@@ -57,7 +56,7 @@ public class KraAuthorizationServiceImplTest extends KcIntegrationTestBase {
     /**
      * Test the getUsernames() service method.
      */
-    @Test @Ignore("KCINFR-982")
+    @Test
     public void testGetUsernames() throws Exception {
         ProposalDevelopmentDocument doc = createProposal("Proposal-1", "000001");
         List<String> usernames = kraAuthService.getUserNames(doc, RoleConstants.AGGREGATOR);
@@ -67,7 +66,7 @@ public class KraAuthorizationServiceImplTest extends KcIntegrationTestBase {
     /**
      * Test the addRole() service method.
      */
-    @Test @Ignore("KCINFR-982")
+    @Test
     public void testAddRole() throws Exception {
         ProposalDevelopmentDocument doc = createProposal("Proposal-2", "000001");
         PrincipalContract userMajors = identityManagementService.getPrincipalByPrincipalName("majors");
@@ -132,7 +131,6 @@ public class KraAuthorizationServiceImplTest extends KcIntegrationTestBase {
         ProposalDevelopmentDocument doc = createProposal("Proposal-5", "000001");
         PrincipalContract userChew = identityManagementService.getPrincipalByPrincipalName("chew");
         kraAuthService.addRole(userChew.getPrincipalId(), RoleConstants.BUDGET_CREATOR, doc);
-        //assertTrue(kraAuthService.hasRole(GlobalVariables.getUserSession().getPrincipalId(), doc, RoleConstants.AGGREGATOR));
         assertTrue(kraAuthService.hasRole(userChew.getPrincipalId(), doc, RoleConstants.BUDGET_CREATOR));
     }
     
@@ -154,7 +152,7 @@ public class KraAuthorizationServiceImplTest extends KcIntegrationTestBase {
     /**
      * Test the getPersonsInRole() service method.
      */
-    @Test @Ignore("KCINFR-982")
+    @Test
     public void testGetPersonsInRole() throws Exception {
         ProposalDevelopmentDocument doc = createProposal("Proposal-7", "000001");
         PrincipalContract userChew = identityManagementService.getPrincipalByPrincipalName("chew");

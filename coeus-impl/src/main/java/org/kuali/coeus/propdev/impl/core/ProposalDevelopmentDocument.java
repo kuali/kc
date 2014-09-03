@@ -18,6 +18,7 @@ package org.kuali.coeus.propdev.impl.core;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.auth.perm.DocumentLevelPermissionable;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
@@ -86,7 +87,7 @@ import java.util.Map;
 @COMPONENT(component = ParameterConstants.DOCUMENT_COMPONENT)
 @Entity
 @Table(name = "EPS_PROPOSAL_DOCUMENT")
-public class ProposalDevelopmentDocument extends BudgetParentDocument<DevelopmentProposal> implements Copyable, SessionDocument, Permissionable, KrmsRulesContext, ProposalDevelopmentDocumentContract {
+public class ProposalDevelopmentDocument extends BudgetParentDocument<DevelopmentProposal> implements Copyable, SessionDocument, DocumentLevelPermissionable, KrmsRulesContext, ProposalDevelopmentDocumentContract {
 
     private static Log LOG = LogFactory.getLog(ProposalDevelopmentDocument.class);
 

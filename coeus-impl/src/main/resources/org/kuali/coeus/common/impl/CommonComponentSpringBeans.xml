@@ -206,4 +206,9 @@
         <property name="lookupableHelperService" ref="correspondentLookupableHelperService" />
     </bean>
 
+    <bean id="documentAccessDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="documentAccessDerivedRoleTypeService"
+          p:localServiceName="documentAccessDerivedRoleTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+
 </beans>
