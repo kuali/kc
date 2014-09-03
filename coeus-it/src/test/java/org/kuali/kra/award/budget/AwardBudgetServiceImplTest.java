@@ -21,7 +21,6 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalBoLite;
@@ -94,13 +93,6 @@ public class AwardBudgetServiceImplTest extends KcIntegrationTestBase {
             assertEquals(proposalId, value);
             ProposalAdminDetails temp = new ProposalAdminDetails();
             temp.setDevProposalNumber(devProposalNumber);
-            result.add(temp);
-        } else if (clazz == BudgetDocumentVersion.class) {
-            assertEquals(devPropDocNumber, value);
-            BudgetDocumentVersion temp = new BudgetDocumentVersion();
-            BudgetVersionOverview overview = new BudgetVersionOverview();
-            overview.setBudgetId(budgetId);
-            temp.setBudgetVersionOverview(overview);
             result.add(temp);
         }
         return result;

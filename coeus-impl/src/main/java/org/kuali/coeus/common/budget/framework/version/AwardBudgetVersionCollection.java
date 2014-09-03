@@ -16,7 +16,6 @@
 package org.kuali.coeus.common.budget.framework.version;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 
 import java.util.List;

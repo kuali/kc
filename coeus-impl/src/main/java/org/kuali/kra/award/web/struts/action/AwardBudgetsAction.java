@@ -27,6 +27,7 @@ import org.kuali.coeus.sys.framework.validation.AuditHelper.ValidationState;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
@@ -39,7 +40,6 @@ import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.budget.framework.core.BudgetTDCValidator;
 import org.kuali.kra.infrastructure.Constants;
@@ -86,7 +86,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         //read only we need to make sure to perform post budget copy stuff here
         if (!StringUtils.equals(awardForm.getMethodToCall(), "save") && awardForm.isSaveAfterCopy()) {
             final List<AwardBudgetDocumentVersion> overviews = awardForm.getAwardDocument().getBudgetDocumentVersions();
-            final BudgetDocumentVersion copiedDocumentOverview = overviews.get(overviews.size() - 1);
+            final AwardBudgetDocumentVersion copiedDocumentOverview = overviews.get(overviews.size() - 1);
             BudgetVersionOverview copiedOverview = copiedDocumentOverview.getBudgetVersionOverview();
             final String copiedName = copiedOverview.getName();
             copiedOverview.setName("copied placeholder");
@@ -326,10 +326,8 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         }
         
         AwardDocument document = awardForm.getAwardDocument();
-        if(document != null && CollectionUtils.isNotEmpty(document.getBudgetDocumentVersions())) {
-            List<AwardBudgetDocumentVersion> awardBudgetDocuments = document.getBudgetDocumentVersions();
-            for(BudgetDocumentVersion budgetDocumentVersion : awardBudgetDocuments) {
-                BudgetVersionOverview budget = budgetDocumentVersion.getBudgetVersionOverview();
+        if(document != null && CollectionUtils.isNotEmpty(document.getAward().getBudgets())) {
+            for(AwardBudgetExt budget : document.getAward().getBudgets()) {
                 if(budget.isFinalVersionFlag()) {
                     return budget.getBudgetVersionNumber().intValue();
                 }

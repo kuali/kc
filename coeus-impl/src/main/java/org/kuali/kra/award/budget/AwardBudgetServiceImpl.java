@@ -49,7 +49,6 @@ import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionRule;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
 import org.kuali.kra.infrastructure.Constants;
@@ -413,26 +412,18 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 
     protected AwardBudgetExt getLatestPostedBudget(AwardDocument awardDocument) {
         List<AwardBudgetDocumentVersion> documentVersions = awardDocument.getBudgetDocumentVersions();
-        QueryList<AwardBudgetVersionOverviewExt> awardBudgetVersionOverviews = new QueryList<AwardBudgetVersionOverviewExt>();
-        for (BudgetDocumentVersion budgetDocumentVersion : documentVersions) {
-            awardBudgetVersionOverviews.add((AwardBudgetVersionOverviewExt)budgetDocumentVersion.getBudgetVersionOverview());
+        QueryList<AwardBudgetExt> awardBudgetVersionOverviews = new QueryList<>();
+        for (AwardBudgetExt budget : awardDocument.getAward().getBudgets()) {
+            awardBudgetVersionOverviews.add(budget);
         }
         
         Equals eqPostedStatus = new Equals("awardBudgetStatusCode",getAwardPostedStatusCode()); 
-        QueryList<AwardBudgetVersionOverviewExt> postedVersions = awardBudgetVersionOverviews.filter(eqPostedStatus);
-        AwardBudgetExt postedBudget = null;
+        QueryList<AwardBudgetExt> postedVersions = awardBudgetVersionOverviews.filter(eqPostedStatus);
         if(!postedVersions.isEmpty()){
             postedVersions.sort("budgetVersionNumber",false);
-            AwardBudgetVersionOverviewExt postedVersion = postedVersions.get(0);
-            try {
-                AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument)documentService.getByDocumentHeaderId(postedVersion.getDocumentNumber());
-                postedBudget = awardBudgetDocument.getAwardBudget();
-            }
-            catch (WorkflowException e) {
-                LOG.error(e.getMessage(), e);
-            }
+            return postedVersions.get(0);
         }
-        return postedBudget;
+        return null;
     }
 
     @Override
@@ -453,11 +444,9 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
      * @return
      */
     protected ScaleTwoDecimal getPostedTotalAmount(AwardDocument awardDocument) {
-        List<AwardBudgetDocumentVersion> documentVersions = awardDocument.getBudgetDocumentVersions();
         String postedStatusCode = getAwardPostedStatusCode();
         ScaleTwoDecimal postedTotalAmount = ScaleTwoDecimal.ZERO;
-        for (BudgetDocumentVersion budgetDocumentVersion : documentVersions) {
-            AwardBudgetVersionOverviewExt budget = (AwardBudgetVersionOverviewExt)budgetDocumentVersion.getBudgetVersionOverview();
+        for (AwardBudgetExt budget : awardDocument.getAward().getBudgets()) {
             if(budget.getAwardBudgetStatusCode().equals(postedStatusCode)){
                 postedTotalAmount = postedTotalAmount.add(budget.getTotalCost());
             }
@@ -471,10 +460,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
      */
     protected boolean isPostedBudgetExist(AwardDocument awardDocument) {
         boolean exist = false;
-        List<AwardBudgetDocumentVersion> documentVersions = awardDocument.getBudgetDocumentVersions();
         String postedStatusCode = getAwardPostedStatusCode();
-        for (BudgetDocumentVersion budgetDocumentVersion : documentVersions) {
-            AwardBudgetVersionOverviewExt budget = (AwardBudgetVersionOverviewExt)budgetDocumentVersion.getBudgetVersionOverview();
+        for (AwardBudgetExt budget : awardDocument.getAward().getBudgets()) {
             if(budget.getAwardBudgetStatusCode().equals(postedStatusCode)){
                 exist = true;
                 break;
@@ -645,23 +632,15 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                                                                                         "instProposalId",instProp.getProposalId());
                         for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
                             String developmentProposalNumber = proposalAdminDetail.getDevProposalNumber();
-                            DevelopmentProposal proposalDevelopmentDocument = businessObjectService.findBySinglePrimaryKey(
-                                                                                    DevelopmentProposal.class, developmentProposalNumber);
-                            List<BudgetDocumentVersion> budgetDocumentVersions =  
-                                findObjectsWithSingleKey(BudgetDocumentVersion.class, 
-                                        "parentDocumentKey", proposalDevelopmentDocument.getProposalDocument().getDocumentNumber());
-                            for (BudgetDocumentVersion budgetDocumentVersion : budgetDocumentVersions) {
-                                Budget budget = getBusinessObjectService().findBySinglePrimaryKey(ProposalDevelopmentBudgetExt.class, 
-                                                                                budgetDocumentVersion.getBudgetVersionOverview().getBudgetId());
-                                if (budget.isFinalVersionFlag()) {
-                                    //if this result set is being used by @see org.kuali.kra.lookup.BudgetPeriodLookupableHelperServiceImpl
-                                    //we need to populate these additional fields so always populate them.
-                                    for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-                                        budgetPeriod.setInstitutionalProposalNumber(instProp.getProposalNumber());
-                                        budgetPeriod.setInstitutionalProposalVersion(instProp.getSequenceNumber());
-                                        budgetPeriods.add(budgetPeriod);
-                                    }
-                                }
+                            DevelopmentProposal proposalDevelopment = 
+                            		businessObjectService.findBySinglePrimaryKey(DevelopmentProposal.class, developmentProposalNumber);
+                            ProposalDevelopmentBudgetExt budget = proposalDevelopment.getFinalBudget();
+                            //if this result set is being used by @see org.kuali.kra.lookup.BudgetPeriodLookupableHelperServiceImpl
+                            //we need to populate these additional fields so always populate them.
+                            for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+                                budgetPeriod.setInstitutionalProposalNumber(instProp.getProposalNumber());
+                                budgetPeriod.setInstitutionalProposalVersion(instProp.getSequenceNumber());
+                                budgetPeriods.add(budgetPeriod);
                             }
                         }
                     }
@@ -737,20 +716,16 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     }         
     
     protected AwardBudgetExt getNewestBudgetByStatus(AwardDocument awardDocument, List<String> statuses) { 
-        AwardBudgetVersionOverviewExt budgetVersion = null;
+        AwardBudgetExt result = null;
         List<AwardBudgetDocumentVersion> awardBudgetDocuments = awardDocument.getBudgetDocumentVersions();
-        for (BudgetDocumentVersion version : awardBudgetDocuments) {
-            AwardBudgetVersionOverviewExt curVersion = (AwardBudgetVersionOverviewExt) version.getBudgetVersionOverview();
-            if (statuses.contains(curVersion.getAwardBudgetStatusCode())) {
-                if (budgetVersion == null || curVersion.getBudgetVersionNumber() > budgetVersion.getBudgetVersionNumber()) {
-                    budgetVersion = curVersion;
+        for (AwardBudgetExt version : awardDocument.getAward().getBudgets()) {
+            if (statuses.contains(version.getAwardBudgetStatusCode())) {
+                if (result == null || version.getBudgetVersionNumber() > result.getBudgetVersionNumber()) {
+                    result = version;
                 }
             }
         }
-        AwardBudgetExt result = null;
-        if (budgetVersion != null) {
-            result = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, budgetVersion.getBudgetId());
-        }
+
         if (result == null) {
             result = new AwardBudgetExt();
         }
