@@ -23,12 +23,14 @@
 		<property name="additionalScriptFiles">
 			<list>
 				<value>scripts/common/dialog.js</value>
+				<value>scripts/common/inlineEdit.js</value>
 				<value>scripts/propdev/budget.js</value>
 			</list>
 		</property>
 		<property name="additionalCssFiles">
 			<list>
 				<value>css/common/core.css</value>
+				<value>css/common/inlineEdit.css</value>
                 <value>css/propdev/person.css</value>
 				<value>css/propdev/budget.css</value>
 			</list>
