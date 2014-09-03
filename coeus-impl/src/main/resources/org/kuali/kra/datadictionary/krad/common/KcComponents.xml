@@ -69,4 +69,8 @@
   
   <bean id="Kc-DynamicTabGroup" abstract="true" parent="Uif-TabGroup" class="org.kuali.coeus.org.kuali.rice.krad.uif.container.DynamicTabGroupBase"/>
   <bean id="Kc-DynamicTabSection" abstract="true" parent="Uif-TabSection" class="org.kuali.coeus.org.kuali.rice.krad.uif.container.DynamicTabGroupBase"/>
+  
+  <bean id="Kc-InlineEdit-InputField" parent="Kc-InlineEdit-InputField-parentBean"/>
+  <bean id="Kc-InlineEdit-InputField-parentBean" abstract="true" parent="Uif-InputField"
+  	p:additionalCssClasses="uif-inline"/>
 </beans>

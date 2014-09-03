@@ -1,0 +1,13 @@
+.uif-hidden {
+    border: 0;
+    box-shadow: none;
+    border-bottom: 1px dashed;
+    background-image: none;
+    background: transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+.uif-hidden:hover {
+	cursor: pointer;
+}
