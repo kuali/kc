@@ -21,7 +21,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "VALID_NARR_FORMS")
-public class ValidNarrForms {
+public class ValidNarrForms extends KcPersistableBusinessObjectBase{
 
 
     private static final long serialVersionUID = -5530788098530332763L;
