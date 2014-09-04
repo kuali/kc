@@ -61,7 +61,7 @@
 				<bean parent="PropDev-DeliveryInfoPage-MailingAddressId"
 					p:colSpan="2" p:order="70" />				
 				<bean parent="Uif-ActionLinkField" p:action.methodToCall="clearMailingNameAddress"
-					p:fieldLabel.labelText="" p:actionLabel="Clear" p:colSpan="2"
+					p:fieldLabel.labelText="" p:actionLabel="Clear" p:colSpan="2" p:render="@{!#parent.readOnly}"
 					p:order="80" />
 			</list>
 		</property>

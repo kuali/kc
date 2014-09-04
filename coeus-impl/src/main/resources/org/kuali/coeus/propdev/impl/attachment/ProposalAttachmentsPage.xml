@@ -66,7 +66,7 @@
                 </bean>
                 <bean parent="Uif-SecondaryActionButton" p:methodToCall="markAllComplete" p:actionLabel="Set All Statuses"
                       p:actionParameters="@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_PATH}:document.developmentProposal.narratives"
-                      p:cssClasses="pull-right" p:order="20"/>
+                      p:cssClasses="pull-right" p:render="@{!#parent.readOnly}" p:order="20"/>
                 <bean parent="PropDev-AttachmentPage-AddLineButton" p:successCallback="showDialog('PropDev-AttachmentsPage-ProposalDetails');"
                       p:refreshId="PropDev-AttachmentsPage-ProposalDetails" p:order="30"/>
             </list>
@@ -246,7 +246,8 @@
           parent="PropDev-AttachmentPage-Collection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract"
           p:propertyName="proposalAbstracts">
         <property name="addWithDialogAction">
-            <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Abstract" p:cssClasses="pull-right" p:iconClass="icon-plus"/>
+            <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Abstract" p:cssClasses="pull-right" p:iconClass="icon-plus"
+                  p:render="@{!#parent.readOnly}"/>
         </property>
         <property name="addLineItems">
             <list>
@@ -367,7 +368,8 @@
     <bean id="PropDev-AttachmentsPage-NotesCollection-parentBean" abstract="true" parent="PropDev-AttachmentPage-Collection"
           p:collectionObjectClass="org.kuali.rice.krad.bo.Note" p:propertyName="notes" p:renderLineActions="false">
         <property name="addWithDialogAction">
-            <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Note" p:cssClasses="pull-right" p:iconClass="icon-plus"/>
+            <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Note" p:cssClasses="pull-right" p:iconClass="icon-plus"
+                  p:render="@{!#parent.readOnly}"/>
         </property>
         <property name="items">
             <list>
@@ -385,7 +387,8 @@
 
     <bean id="PropDev-AttachmentPage-AddLineButton" parent="PropDev-AttachmentPage-AddLineButton-parentBean"/>
     <bean id="PropDev-AttachmentPage-AddLineButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
-          p:actionLabel="Add" p:methodToCall="prepareNarrative" p:iconClass="icon-plus" p:cssClasses="pull-left"/>
+          p:actionLabel="Add" p:methodToCall="prepareNarrative" p:iconClass="icon-plus" p:cssClasses="pull-left"
+          p:render="@{!#parent.readOnly}"/>
 
     <bean id="PropDev-AttachmentPage-DetailsButton" parent="PropDev-AttachmentPage-DetailsButton-parentBean"/>
     <bean id="PropDev-AttachmentPage-DetailsButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
