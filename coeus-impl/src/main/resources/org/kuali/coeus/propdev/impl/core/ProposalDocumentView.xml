@@ -65,7 +65,6 @@
 		<property name="dialogs">
 			<list>
 				<ref bean="PropDev-PersonnelPage-Wizard" />
-                <ref bean="PropDev-MedusaSection"/>
 				<ref bean="PropDev-BudgetPage-NewBudgetDialog"/>
 				<ref bean="PropDev-BudgetPage-CopyBudgetDialog"/>
                 <ref bean="PropDev-PermissionsDialog"/>

@@ -39,6 +39,7 @@ import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.ToggleMenu;
+import org.kuali.rice.krad.uif.util.SessionTransient;
 import org.kuali.rice.krad.web.bind.ChangeTracking;
 import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 
@@ -74,6 +75,9 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private String newHierarchyBudgetTypeCode;
  	private String newHierarchyChildProposalNumber;
     private String newHierarchyProposalNumber;
+    
+    @SessionTransient
+    private Tree<Object, String> medusaTree;
     
     public ProposalPersonQuestionnaireHelper getProposalPersonQuestionnaireHelper() {
         return proposalPersonQuestionnaireHelper;
@@ -253,14 +257,17 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 	}
 
     public Tree<Object, String> getMedusaTreeView() {
-    	 Tree<Object, String> tree = new Tree<Object, String>();
-    	 MedusaNode rootNode = new MedusaNode();
-    	 rootNode.setNodeLabel("Medusa Tree");
-    	 tree.setRootElement(rootNode);
-         if (getDevelopmentProposal().getProposalNumber() != null) {
-             rootNode.setChildNodes(getMedusaService().getMedusaByProposal("DP", Long.valueOf(getDevelopmentProposal().getProposalNumber())));
-         }
-    	 return tree;
+    	if (medusaTree == null) {
+			medusaTree = new Tree<Object, String>();
+			MedusaNode rootNode = new MedusaNode();
+			rootNode.setNodeLabel("Medusa Tree");
+			medusaTree.setRootElement(rootNode);
+			if (getDevelopmentProposal().getProposalNumber() != null) {
+			    rootNode.setChildNodes(getMedusaService().getMedusaByProposal("DP", Long.valueOf(getDevelopmentProposal().getProposalNumber())));
+			}
+			return medusaTree;
+    	}
+    	return medusaTree;
     }
     
     protected MedusaService getMedusaService() {
