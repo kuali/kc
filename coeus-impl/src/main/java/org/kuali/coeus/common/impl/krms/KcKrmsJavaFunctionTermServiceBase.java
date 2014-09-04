@@ -19,19 +19,30 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 public abstract class KcKrmsJavaFunctionTermServiceBase {
     public static final String TRUE = "true";
     public static final String FALSE = "false";
     public static final String[] restrictedElements = { " ", "`", "@", "#", "!", "$", "%", "^", "&", "*", "(", ")", "[", "]", "{",
             "}", "|", "\\", "/", "?", "<", ">", ",", ";", ":", "'", "\"", "`", "+" };
+
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+
+    @Autowired
+    @Qualifier("parameterService")
     private ParameterService parameterService;
+
+    @Autowired
+    @Qualifier("documentService")
     private DocumentService documentService;
 
     protected String[] buildArrayFromCommaList(String commaList) {
         String[] newArray = commaList.split(","); // MIT Equity Interests
-        if (commaList != null && newArray.length == 0) {
+        if (newArray.length == 0) {
             newArray = new String[] { commaList.trim() };
         }
         return newArray;
@@ -40,9 +51,6 @@ public abstract class KcKrmsJavaFunctionTermServiceBase {
     /**
      * 
      * This method returns 'true' if 'stringToCheck' does not contain a special character, otherwise returns 'false'.
-     * 
-     * @param stringToCheck
-     * @return
      */
     protected String specialCharacterRule(String stringToCheck) {
         for (String element : restrictedElements) {
