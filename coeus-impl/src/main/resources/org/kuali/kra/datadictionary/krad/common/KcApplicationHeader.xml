@@ -134,8 +134,8 @@
 					<list>
 						<bean parent="Kc-Header-Researcher-Group1" p:order="10" />
 						<bean parent="Kc-Header-Researcher-Group2" p:order="20" />
-						<bean parent="Kc-Header-Researcher-Group2" p:order="30" />
-						<bean parent="Kc-Header-Researcher-Group2" p:order="40" />
+						<bean parent="Kc-Header-Researcher-Group3" p:order="30" />
+						<bean parent="Kc-Header-Researcher-Group4" p:order="40" />
 					</list>
 				</property>
 			</bean>
@@ -319,24 +319,64 @@
 			<list>
 				<bean parent="Uif-SimpleHeaderFour" p:headerText="My Financial Entities"
 					p:order="10" />
-				<bean parent="Uif-MenuAction" p:actionLabel="Financial Entity"
-					p:order="20" />
-				<bean parent="Uif-MenuAction" p:actionLabel="View/Edit Financial Entities"
-					p:order="30" />
+		<bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"  p:actionLabel="Financial Entity"
+					p:order="20">
+			<property name="actionUrl.requestParameters">
+						<map>
+							<entry key="href" value="@{#ConfigProperties['application.url']}/financialEntityManagement.do?methodToCall=management" />
+						</map>
+					</property>
+				</bean>
+
+		<bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"  p:actionLabel="View/Edit Financial Entities"
+					p:order="30">	
+		<property name="actionUrl.requestParameters">
+						<map>
+							<entry key="href" value="@{#ConfigProperties['application.url']}/financialEntityManagement.do?methodToCall=editList" />
+						</map>
+					</property>
+		</bean>
 				<bean parent="Uif-MenuAction" p:actionLabel="All My Financial Entities"
 					p:order="40" />
 				<bean parent="Uif-SimpleHeaderFour" p:headerText="My Disclosures"
 					p:order="50" />
-				<bean parent="Uif-MenuAction" p:actionLabel="Master Disclosure"
-					p:order="60" />
-				<bean parent="Uif-MenuAction" p:actionLabel="Create Annual Disclosure"
-					p:order="70" />
-				<bean parent="Uif-MenuAction" p:actionLabel="Create Manual Disclosure"
-					p:order="80" />
-				<bean parent="Uif-MenuAction" p:actionLabel="New Project Disclosures To Complete"
-					p:order="90" />
-				<bean parent="Uif-MenuAction" p:actionLabel="Update Master Disclosure"
-					p:order="100" />
+				<bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"  p:actionLabel="Master Disclosure"
+					p:order="60">
+				<property name="actionUrl.requestParameters">
+						<map>
+							<entry key="href" value="@{#ConfigProperties['application.url']}/coiDisclosure.do?methodToCall=viewMasterDisclosure" />
+						</map>
+					</property>
+				</bean>
+				<bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"  p:actionLabel="Create Annual Disclosure"
+					p:order="70" >
+				<property name="actionUrl.requestParameters">
+						<map>
+							<entry key="href" value="@{#ConfigProperties['application.url']}/coiDisclosure.do?methodToCall=docHandler&amp;command=initiate&amp;docTypeName=CoiDisclosureDocument" />
+						</map>
+					</property>
+				</bean>
+				<bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Create Manual Disclosure" p:order="80" >
+					<property name="actionUrl.requestParameters">
+						<map>
+							<entry key="href" value="@{#ConfigProperties['application.url']}/coiDisclosure.do?methodToCall=docHandler&amp;command=initiate_12&amp;docTypeName=CoiDisclosureDocument" />
+						</map>
+					</property>
+				</bean>
+				<bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"  p:actionLabel="New Project Disclosures To Complete" p:order="90" >
+				<property name="actionUrl.requestParameters">
+						<map>
+							<entry key="href" value="@{#ConfigProperties['application.url']}/projectEventDisclosure.do?methodToCall=getDisclosuresToComplete" />
+						</map>
+					</property>
+				</bean>
+				<bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"  p:actionLabel="Update Master Disclosure" p:order="100" >
+				<property name="actionUrl.requestParameters">
+						<map>
+							<entry key="href" value="@{#ConfigProperties['application.url']}/coiDisclosure.do?methodToCall=docHandler&amp;command=initiate_6&amp;docTypeName=CoiDisclosureDocument" />
+						</map>
+					</property>
+				</bean>
 				<bean parent="Uif-MenuAction" p:actionLabel="All My Disclosures"
 					p:order="110" />
 				<bean parent="Uif-MenuAction" p:actionLabel="Search Disclosures"
@@ -346,8 +386,7 @@
 	</bean>
 
 	<bean id="Kc-Header-Researcher-IacucGroup" parent="Kc-Header-Researcher-IacucGroup-parentBean" />
-	<bean id="Kc-Header-Researcher-IacucGroup-parentBean" abstract="true"
-		parent="Uif-MenuList" p:headerText="IACUC Protocols">
+	<bean id="Kc-Header-Researcher-IacucGroup-parentBean" abstract="true" parent="Uif-MenuList" p:headerText="IACUC Protocols">
 		<property name="items">
 			<list>
 				<bean parent="Uif-SimpleHeaderFour" p:headerText="Actions"
