@@ -9,9 +9,13 @@
 	and limitations under the License. -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+     http://www.springframework.org/schema/util
+     http://www.springframework.org/schema/util/spring-util.xsd">
 
+	<util:constant id="deleteDocument" static-field="org.kuali.coeus.common.framework.auth.KcAuthConstants.DocumentActions.DELETE_DOCUMENT"/>
 	<bean id="PropDev-SubmitPage" parent="PropDev-SubmitPage-parentBean" />
 	<bean id="PropDev-SubmitPage-parentBean" abstract="true"
 		parent="Uif-DocumentPage" p:headerText="Submit">
@@ -70,7 +74,15 @@
 						p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/> 					
 					<bean  p:actionLabel="Exit without Saving" parent="Uif-SecondaryActionButton"  p:methodToCall="returnToHub"  p:order="70" 
 						p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/> 
-					<bean parent="Uif-DropdownToggleMenu" p:toggleText="More Actions"  p:align="right" p:order="80">
+					 
+					 <bean parent="Uif-SecondaryActionButton" p:actionLabel="Delete Proposal" p:methodToCall="deleteProposal" p:order="80" 
+					 	p:render="@{#actionFlags[#{deleteDocument}]}">
+					 	<property name="confirmationDialog">
+			          		<bean id="ProposalDeleteDialog" parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to delete ?"/>
+			          	</property>
+					 </bean>						
+						
+					<bean parent="Uif-DropdownToggleMenu" p:toggleText="More Actions"  p:align="right" p:order="90">
 					  <property name="menuItems">
 					    <list>
 					      <bean parent="Uif-MenuAction" p:actionLabel="Resend notifications" p:order="10"  
@@ -82,7 +94,7 @@
 					      <bean parent="Uif-MenuAction" p:actionLabel="Blanket Approve" p:methodToCall="blanketApprove" p:order="50" 
 					      		p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
 						  <bean parent="Uif-MenuDivider"/>
-					       <bean parent="Uif-MenuAction" p:actionLabel="Delete Proposal" p:methodToCall="deleteProposal" p:order="40"/>
+					      
 					    </list>
 					  </property>
 					 </bean> 

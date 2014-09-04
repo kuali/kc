@@ -20,12 +20,15 @@ import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
@@ -33,6 +36,8 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.HashSet;
 import java.util.List;
@@ -47,6 +52,9 @@ import java.util.Set;
 public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDocumentAuthorizerBase {
 
     private TaskAuthorizationService taskAuthenticationService;
+    
+    private KcAuthorizationService kcAuthorizationService;
+    
     protected  TaskAuthorizationService getTaskAuthenticationService (){
         if (taskAuthenticationService == null)
             taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
@@ -99,6 +107,16 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         return editModes;
     }
 
+    @Override
+    public boolean canDeleteDocument(Document document, Person user) {
+    	if(document != null && document instanceof Permissionable)
+    		return getKcAuthorizationService().hasPermission(user.getPrincipalId(), (Permissionable)document, PermissionConstants.DELETE_PROPOSAL);
+    	else 
+    		return false;
+    }
+    
+    
+    
     /**
      * Set the permissions to be used during the creation of the web pages.  
      * The JSP files can access the editModeMap (editingMode) to determine what
@@ -383,5 +401,15 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     public boolean canRecall(Document document, Person user) {
         return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument)document, TaskName.RECALL_PROPOSAL);
     }
+
+	public KcAuthorizationService getKcAuthorizationService() {
+		if(kcAuthorizationService == null) 
+			kcAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
+		return kcAuthorizationService;
+	}
+
+	public void setKcAuthorizationService(KcAuthorizationService kcAuthorizationService) {
+		this.kcAuthorizationService = kcAuthorizationService;
+	}
 
 }

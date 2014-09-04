@@ -11,12 +11,12 @@ import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
-import org.kuali.rice.krad.web.form.DialogResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-@SuppressWarnings("deprecation")
 @Controller
 public class ProposalDevelopmentSubmitController extends
 		ProposalDevelopmentControllerBase {
@@ -43,16 +42,16 @@ public class ProposalDevelopmentSubmitController extends
     private ConfigurationService configurationService;
 
     @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=deleteProposal")
-    public ModelAndView deleteProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        DialogResponse disapproveConfirm = form.getDialogResponse("PropDev-SubmitPage-ConfirmDelete");
-        if (disapproveConfirm == null) {
-            return getModelAndViewService().showDialog("PropDev-SubmitPage-ConfirmDelete", true, form);
+    public ModelAndView deleteProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+
+        if (form.getProposalDevelopmentDocument().getDevelopmentProposal().isInHierarchy()) {
+        	getGlobalVariableService().getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETE_PROPOSAL_IN_HIERARCHY);
+            return getModelAndViewService().getModelAndView(form);
         }
-
-        getProposalDevelopmentService().deleteProposal(form.getProposalDevelopmentDocument());
-        return getNavigationControllerService().returnToHub(form);
-
+        else {
+        	getProposalDevelopmentService().deleteProposal(form.getProposalDevelopmentDocument());
+            return getNavigationControllerService().returnToHub(form);
+        }
     }
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveAndExit")
     public  ModelAndView saveAndExit(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)throws Exception{	
