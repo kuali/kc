@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.attachment;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
@@ -22,12 +23,16 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.*;
 
@@ -47,46 +52,69 @@ import java.util.*;
  */
 public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValuesFinderBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalNarrativeTypeValuesFinder.class);
+
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
+
+    @Autowired
+    @Qualifier("parameterService")
     private ParameterService parameterService;
-    private  BusinessObjectService businessObjectService;
 
-    /**
-     * Looks up and returns the ParameterService.
-     * @return the parameter service. 
-     */
-    protected ParameterService getParameterService() {
-        if (this.parameterService == null) {
-            this.parameterService = KcServiceLocator.getService(ParameterService.class);
+    public ParameterService getParameterService() {
+        if (parameterService == null) {
+            parameterService = KcServiceLocator.getService(ParameterService.class);
         }
-        return this.parameterService;
+        return parameterService;
     }
 
-    protected BusinessObjectService getBusinessObjectService() {
-        if (businessObjectService == null)
-            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-        return businessObjectService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
-    
+
+    public DataObjectService getDataObjectService() {
+        if (dataObjectService == null) {
+            dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+        }
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
+
+    @Override
+    public List<KeyValue> getKeyValues(ViewModel model, InputField field){
+        String narrativeTypeCode = "";
+        try {
+            narrativeTypeCode = (String) PropertyUtils.getProperty(model, field.getBindingInfo().getBindingPath());
+        } catch (Exception e) {
+            throw new RiceRuntimeException("could not retrieve narrative type from the input field", e);
+        }
+        DevelopmentProposal developmentProposal = ((ProposalDevelopmentDocumentForm) model).getDevelopmentProposal();
+        Collection<NarrativeType> allNarrativeTypes = loadAllNarrativeTypes(developmentProposal);
+        return getFilteredKeyValues(allNarrativeTypes,developmentProposal,narrativeTypeCode);
+    }
+
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         DevelopmentProposal developmentProposal = ((ProposalDevelopmentDocumentForm) model).getDevelopmentProposal();
-        Narrative selectedNarrative = ((ProposalDevelopmentDocumentForm) model).getProposalDevelopmentAttachmentHelper().getNarrative();
         Collection<NarrativeType> allNarrativeTypes = loadAllNarrativeTypes(developmentProposal);
-        return getFilteredKeyValues(allNarrativeTypes,developmentProposal,selectedNarrative);
+        return getFilteredKeyValues(allNarrativeTypes,developmentProposal,"");
     }
     
-    public List<KeyValue> getFilteredKeyValues(Collection<NarrativeType> allNarrativeTypes, DevelopmentProposal developmentProposal, Narrative selectedNarrative) {
-        Collection<NarrativeType> filteredCollection = filterCollection(allNarrativeTypes,developmentProposal,selectedNarrative);
+    public List<KeyValue> getFilteredKeyValues(Collection<NarrativeType> allNarrativeTypes, DevelopmentProposal developmentProposal, String narrativeTypeCode) {
+        Collection<NarrativeType> filteredCollection = filterCollection(allNarrativeTypes,developmentProposal,narrativeTypeCode);
         return buildKeyValuesCollection(filteredCollection);
         
     }
 
-    protected Collection<NarrativeType> filterCollection(Collection<NarrativeType> narrativeTypes, DevelopmentProposal developmentProposal, Narrative selectedNarrative) {
+    protected Collection<NarrativeType> filterCollection(Collection<NarrativeType> narrativeTypes, DevelopmentProposal developmentProposal, String narrativeTypeCode) {
         Collection<NarrativeType> forRemoval = new ArrayList<NarrativeType>();        
         for (NarrativeType narrativeType : narrativeTypes) {
             for (Narrative narrative : developmentProposal.getNarratives()) {
                 if (narrative.getNarrativeType() != null && filterCondition(narrative.getNarrativeType(), narrativeType) &&
-                        !isSelectedNarrative(narrative, selectedNarrative)) {
+                        !narrative.getNarrativeTypeCode().equals(narrativeTypeCode)) {
                     forRemoval.add(narrativeType);
                 } else {
                     LOG.debug("Not removing narrative type " + narrativeType.getDescription());
@@ -122,8 +150,8 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
             String proposalNarrativeTypeGroup = this.getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
             Map<String,String> queryMap = new HashMap<String,String>();
             queryMap.put("narrativeTypeGroup", proposalNarrativeTypeGroup);
-            List<ValidNarrForms> validNarrativeForms = (List<ValidNarrForms>)getBusinessObjectService().findAll(ValidNarrForms.class);
-            List<NarrativeType> allNarrativeTypes = (List)getBusinessObjectService().findMatching(NarrativeType.class, queryMap);
+            List<ValidNarrForms> validNarrativeForms = (List<ValidNarrForms>)getDataObjectService().findAll(ValidNarrForms.class).getResults();
+            List<NarrativeType> allNarrativeTypes = (List)getDataObjectService().findMatching(NarrativeType.class, QueryByCriteria.Builder.andAttributes(queryMap).build()).getResults();
             validS2SFormNarratives = removeValidNarrativeForms(allNarrativeTypes,validNarrativeForms);
         }
         return validS2SFormNarratives;
@@ -155,14 +183,14 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
     public DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
         Map<String, String> pk = new HashMap<String, String>();
         pk.put("proposalNumber", proposalNumber);
-        return (DevelopmentProposal) (getBusinessObjectService().findByPrimaryKey(DevelopmentProposal.class, pk));
+        return (DevelopmentProposal) (getDataObjectService().find(DevelopmentProposal.class, proposalNumber));
     }
     private List<NarrativeType> populateValidFormNarratives(DevelopmentProposal developmentProposal, List<NarrativeType> validaNarrativeTypes) {
         List<S2sOppForms> s2sOpportunityForms = developmentProposal.getS2sOppForms();
         for (S2sOppForms oppForms : s2sOpportunityForms) {
             Map<String, String> queryMap = new HashMap<String, String>();
             queryMap.put("formName", oppForms.getFormName());
-            List<ValidNarrForms>  validNarrativeForms = (List)getBusinessObjectService().findMatching(ValidNarrForms.class, queryMap);
+            List<ValidNarrForms>  validNarrativeForms = (List)getDataObjectService().findMatching(ValidNarrForms.class,QueryByCriteria.Builder.andAttributes(queryMap).build()).getResults();
             for (ValidNarrForms validNarrForms : validNarrativeForms) {
                 if(isProposalGroup(validNarrForms)){
                     if(!isNarrativeAlreadyAdded(validaNarrativeTypes,validNarrForms.getNarrativeType()) && !validNarrForms.getNarrativeType().isSystemGenerated()){
@@ -200,7 +228,7 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
     private Map<String, String> populateGenericValidNarrativeTypes(List<NarrativeType> validaNarrativeTypes) {
         Map<String,String> queryMap = new HashMap<String,String>();
         queryMap.put("formName", "ALL");
-        List<ValidNarrForms> validNarrativeForms = (List)getBusinessObjectService().findMatching(ValidNarrForms.class, queryMap);
+        List<ValidNarrForms> validNarrativeForms = (List)getDataObjectService().findMatching(ValidNarrForms.class, QueryByCriteria.Builder.andAttributes(queryMap).build()).getResults();
         for (ValidNarrForms validNarrForms : validNarrativeForms) {
             if(isProposalGroup(validNarrForms)){
                 validaNarrativeTypes.add(validNarrForms.getNarrativeType());
@@ -215,11 +243,5 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
 
     private boolean multiplesNotAllowed(NarrativeType narrativeType) {
         return !narrativeType.isAllowMultiple();
-    } 
-    private boolean isSelectedNarrative(Narrative narrative, Narrative selectedNarrative) {
-        if (selectedNarrative.getNarrativeTypeCode() != null && selectedNarrative.getNarrativeTypeCode().equals(narrative.getNarrativeTypeCode())) {
-            return true;
-        }
-        return false;
     }
 }

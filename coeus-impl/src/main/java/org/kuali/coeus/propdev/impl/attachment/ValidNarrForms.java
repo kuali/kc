@@ -17,19 +17,30 @@ package org.kuali.coeus.propdev.impl.attachment;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
-public class ValidNarrForms extends KcPersistableBusinessObjectBase {
+import javax.persistence.*;
+
+@Entity
+@Table(name = "VALID_NARR_FORMS")
+public class ValidNarrForms {
 
 
     private static final long serialVersionUID = -5530788098530332763L;
 
+    @Id
+    @Column(name = "VALID_NARR_FORMS_ID")
     private Integer validNarrFormsId;
 
+    @Column(name = "FORM_NAME")
     private String formName;
 
+    @Column(name = "NARRATIVE_TYPE_CODE")
     private String narrativeTypeCode;
 
+    @Column(name = "MANDATORY")
     private String mandatory;
 
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "NARRATIVE_TYPE_CODE", referencedColumnName = "NARRATIVE_TYPE_CODE", insertable = false, updatable = false)
     private NarrativeType narrativeType;
 
     public ValidNarrForms() {

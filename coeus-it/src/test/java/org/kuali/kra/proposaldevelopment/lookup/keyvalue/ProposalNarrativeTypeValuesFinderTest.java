@@ -58,17 +58,17 @@ public class ProposalNarrativeTypeValuesFinderTest extends KcIntegrationTestBase
     @Test
     public void testFindingNarrativeValues() throws Exception {
         document.getDevelopmentProposal().getNarratives().add(createNarrative(proposalNarrativeType));
-        Assert.assertEquals(3, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),new Narrative()).size());
-        Assert.assertEquals(4, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),createNarrative(proposalNarrativeType)).size());
+        Assert.assertEquals(3, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),"").size());
+        Assert.assertEquals(4, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),createNarrative(proposalNarrativeType).getNarrativeTypeCode()).size());
         document.getDevelopmentProposal().getNarratives().clear();
         
         document.getDevelopmentProposal().getNarratives().add(createNarrative(bioNarrativeType));
-        Assert.assertEquals(3, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),new Narrative()).size());
-        Assert.assertEquals(4, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),createNarrative(bioNarrativeType)).size());
+        Assert.assertEquals(3, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),"").size());
+        Assert.assertEquals(4, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),createNarrative(bioNarrativeType).getNarrativeTypeCode()).size());
         document.getDevelopmentProposal().getNarratives().clear();
         
         document.getDevelopmentProposal().getNarratives().add(createNarrative(otherNarrativeType));
-        Assert.assertEquals(4, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),new Narrative()).size());
+        Assert.assertEquals(4, finder.getFilteredKeyValues(copyMasterNarrativeTypeList(),document.getDevelopmentProposal(),"").size());
         document.getDevelopmentProposal().getNarratives().clear();
     }
 

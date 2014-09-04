@@ -32,7 +32,6 @@
                 <ref bean="ValidNarrForms-formName" />
                 <ref bean="ValidNarrForms-narrativeTypeCode" />
                 <ref bean="ValidNarrForms-mandatory" />
-                <ref bean="ValidNarrForms-versionNumber" />
             </list>
         </property>
     </bean>
@@ -132,8 +131,6 @@
         <property name="description" value="Mandatory" />
     </bean>
 
-    <bean id="ValidNarrForms-versionNumber" parent="ValidNarrForms-versionNumber-parentBean" />
-  <bean id="ValidNarrForms-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
     <!-- Business Object Inquiry Definition -->
     <bean id="ValidNarrForms-inquiryDefinition" parent="ValidNarrForms-inquiryDefinition-parentBean" />
   <bean id="ValidNarrForms-InquiryView" parent="ValidNarrForms-InquiryView-parentBean"/>
