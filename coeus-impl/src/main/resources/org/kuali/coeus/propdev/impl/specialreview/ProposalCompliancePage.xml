@@ -47,7 +47,7 @@
 		p:layoutManager.summaryTitle="@{#line.specialReviewType.description} @{#line.approvalType.description} @{#line.protocolNumber}"
 		p:addWithDialog="true">
 		<property name="addWithDialogAction">
-			<bean parent="Uif-AddWithDialogAction" p:actionLabel="Add compliance entry" p:iconClass="icon-plus"/>
+			<bean parent="Uif-AddWithDialogAction" p:actionLabel="Add compliance entry" p:iconClass="icon-plus" p:render="@{!#parent.readOnly}"/>
 		</property>
 		<property name="items">
 			<list>
@@ -84,7 +84,7 @@
 							<bean parent="Uif-VerticalBoxGroup">
 								<property name="items">
 									<list>
-										<bean parent="Uif-DeleteLineAction" p:actionLabel=""
+										<bean parent="Uif-DeleteLineAction" p:actionLabel="" p:render="@{!#parent.readOnly}"
 											p:iconClass="icon-trash" p:order="10">
 											<property name="confirmationDialog">
 											<bean id="PropDev-CompliancePage-deleteComplianceConfirm" parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to delete this entry?"/>

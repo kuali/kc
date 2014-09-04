@@ -49,7 +49,7 @@
 					<list>
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Add Budget"
 							p:actionScript="showDialog('PropDev-BudgetPage-NewBudgetDialog')" p:iconClass="icon-plus"
-							p:order="10" />
+                            p:render="@{!#parent.readOnly}" p:order="10" />
 					</list>
 				</property>
 			</bean>
