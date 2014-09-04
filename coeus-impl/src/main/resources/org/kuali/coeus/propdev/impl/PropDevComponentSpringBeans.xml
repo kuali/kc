@@ -82,6 +82,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/rate/ProposalBudgetRatesPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetCommon.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetSettings.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/budget/distribution/ProposalBudgetFandAPage.xml</value>
 
                 <!-- Budget Mock View -->
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetView.xml</value>
