@@ -15,8 +15,10 @@
  */
 package org.kuali.coeus.common.budget.framework.personnel;
 
+import org.kuali.coeus.common.budget.api.personnel.BudgetPersonContract;
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelDetailsContract;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 
 /**
@@ -67,5 +69,13 @@ public interface BudgetPersonService {
 
 
     public void refreshBudgetPerson(BudgetPerson budgetPerson);
+    
+    /**
+     * This method is to get budget person details
+     * @param budget
+     * @param budgetPerson
+     * @return
+     */
+    public PersonRolodex getBudgetPersonRolodex(Budget budget, BudgetPersonContract budgetPerson);
 
 }

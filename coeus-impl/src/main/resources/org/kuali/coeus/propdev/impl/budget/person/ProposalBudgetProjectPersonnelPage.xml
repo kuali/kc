@@ -34,6 +34,11 @@
 		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson"
 		p:addWithDialog="false" p:renderAddLine="false"
 		p:layoutManager.renderSequenceField="false">
+		<property name="layoutManager.groupingPropertyNames">
+    		<list>
+      			<value>personGroup</value>
+    		</list>
+  		</property>
 		<property name="layoutManager.richTable.templateOptions">
 			<map>
 				<entry key="sDom" value="tip" />
@@ -67,10 +72,10 @@
 		</property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-DataField" p:propertyName="personName"
+ 				<bean parent="Uif-MessageField" p:messageText="@{#lp.personName} @{#lp.contactRoleCode != null ? '[color=#C0C0C0](' + #lp.contactRoleCode + ')[/color]' : ' '}"
 					p:order="10" p:label="Person"/>
-				<bean parent="Uif-DataField" p:propertyName="jobTitle" p:order="20"
-					p:label="Job Code"/>
+ 				<bean parent="Uif-MessageField" p:messageText="@{#lp.jobTitle} @{#lp.jobCode != null ? '[color=#C0C0C0](' + #lp.jobCode + ')[/color]' : ' '}"
+					p:order="20" p:label="Job Code"/>
 				<bean parent="Uif-DataField" p:propertyName="appointmentType.description"
 					p:order="30" p:label="Appointment Type"/>
 				<bean parent="Uif-DataField" p:propertyName="calculationBase"

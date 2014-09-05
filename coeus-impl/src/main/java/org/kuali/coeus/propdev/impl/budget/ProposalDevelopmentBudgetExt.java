@@ -38,6 +38,7 @@ import org.kuali.kra.bo.NextValueBase;
 public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDevelopmentBudgetExtContract {
 
     private static final long serialVersionUID = 8234453927894053540L;
+    private static final String BUDGET_PERSON_GROUP_PD = "From Proposal Development";
 
     @Id
     @ManyToOne(cascade = { CascadeType.REFRESH })
@@ -87,6 +88,10 @@ public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDeve
 	public String getParentDocumentKey() {
 		return developmentProposal.getProposalNumber();
 	}
+
+    public String getParentDocumentGroupName() {
+    	return BUDGET_PERSON_GROUP_PD;
+    }
 	
     public java.util.Date getBudgetStartDate() {
         return getDevelopmentProposal().getRequestedStartDateInitial();

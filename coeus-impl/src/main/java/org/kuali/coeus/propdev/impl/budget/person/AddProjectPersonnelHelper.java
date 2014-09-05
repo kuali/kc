@@ -34,6 +34,7 @@ public class AddProjectPersonnelHelper {
     private BudgetPerson editBudgetPerson;
     private String editLineIndex;
     private DataObjectService dataObjectService;
+    private List<TbnPerson> tbnPersons;
     
     public AddProjectPersonnelHelper() {
         lookupFieldValues = new HashMap<String, String>();
@@ -101,7 +102,14 @@ public class AddProjectPersonnelHelper {
 	}
 
 	public List<TbnPerson> getTbnPersons() {
-		return getDataObjectService().findAll(TbnPerson.class).getResults();
+		if(tbnPersons.isEmpty()) {
+			this.tbnPersons = getDataObjectService().findAll(TbnPerson.class).getResults();
+		}
+		return tbnPersons;
+	}
+
+	public void setTbnPersons(List<TbnPerson> tbnPersons) {
+		this.tbnPersons = tbnPersons;
 	}
 	
 }

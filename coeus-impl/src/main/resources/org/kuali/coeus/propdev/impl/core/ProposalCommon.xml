@@ -230,16 +230,20 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="personName"
-                      p:label="Full Name" p:readOnly="true" p:order="20" />
-                <bean parent="Uif-InputField" p:propertyName="userName"
-                      p:label="User ID" p:readOnly="true" p:order="30" />
-                <bean parent="Uif-InputField" p:propertyName="directoryTitle"
-                      p:label="Directory Title" p:readOnly="true" p:order="40" />
-                <bean parent="Uif-InputField" p:propertyName="school"
-                      p:label="School" p:readOnly="true" p:order="50" />
-                <bean parent="Uif-InputField" p:propertyName="personId"
-                      p:label="Kc Pers ID" p:readOnly="true" p:order="60" />
+				<bean parent="Uif-DataField" p:propertyName="personName"
+					p:label="Full Name" p:order="20" />
+				<bean parent="Uif-DataField" p:propertyName="userName"
+					p:label="User ID" p:order="30" />
+				<bean parent="Uif-DataField" p:propertyName="emailAddress"
+					p:label="Email Address" p:order="40" />
+				<bean parent="Uif-DataField" p:propertyName="unit.unitNumber"
+					p:label="Unit Number" p:order="50" />
+				<bean parent="Uif-DataField" p:propertyName="unit.unitName"
+					p:label="Unit Name" p:order="60" />
+				<bean parent="Uif-DataField" p:propertyName="organization"
+					p:label="Organization" p:order="70" />
+				<bean parent="Uif-DataField" p:propertyName="city"
+					p:label="City" p:order="80" />
             </list>
         </property>
     </bean>

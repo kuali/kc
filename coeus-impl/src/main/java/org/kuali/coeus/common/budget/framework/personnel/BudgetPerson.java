@@ -32,6 +32,7 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -106,6 +107,9 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
     @Transient
     private transient KcPersonService kcPersonService;
 
+    @Transient
+    private transient BudgetPersonService budgetPersonService;
+
     @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
 
@@ -130,15 +134,29 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
     private String userName;
 
     @Transient
-    private String directoryTitle;
+    private String emailAddress;
 
     @Transient
-    private String school;
+    private Unit unit;
+
+    @Transient
+    private String organization;
+    
+    @Transient
+    private String city;
+    
+    @Transient
+    private PersonRolodex personRolodex;
+
+    @Transient
+    private String contactRoleCode;
     
     @Id
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private Budget budget;
+
+    private static final String BUDGET_PERSON_GROUP_OTHER = "Other Personnel";
     
     public BudgetPerson() {
         super();
@@ -153,8 +171,8 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
         this.salaryAnniversaryDate = person.getExtendedAttributes().getSalaryAnniversaryDate();
         this.nonEmployeeFlag = false;
         this.userName = person.getUserName();
-        this.directoryTitle = person.getDirectoryTitle();
-        this.school = person.getSchool();
+        this.emailAddress = person.getEmailAddress();
+        this.unit = person.getUnit();
     }
 
     public BudgetPerson(Rolodex rolodex) {
@@ -162,6 +180,9 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
         this.rolodexId = rolodex.getRolodexId();
         this.personName = rolodex.getFirstName() + " " + rolodex.getLastName();
         this.nonEmployeeFlag = true;
+        this.organization = rolodex.getOrganization();
+        this.emailAddress = rolodex.getEmailAddress();
+        this.city = rolodex.getCity();
     }
 
     public BudgetPerson(TbnPerson tbn) {
@@ -539,19 +560,71 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
 		this.userName = userName;
 	}
 
-	public String getDirectoryTitle() {
-		return directoryTitle;
+	public String getPersonGroup() {
+		return getPersonRolodex() != null ? getBudget().getParentDocumentGroupName() : BUDGET_PERSON_GROUP_OTHER;
 	}
 
-	public void setDirectoryTitle(String directoryTitle) {
-		this.directoryTitle = directoryTitle;
+	protected BudgetPersonService getBudgetPersonService() {
+        if (this.budgetPersonService == null) {
+            this.budgetPersonService = KcServiceLocator.getService(BudgetPersonService.class);
+        }
+        return this.budgetPersonService;
+    }
+
+	public String getContactRoleCode() {
+		if(getPersonRolodex() != null) {
+			this.contactRoleCode = getPersonRolodex().getContactRole().getRoleCode();
+		}
+		return contactRoleCode;
 	}
 
-	public String getSchool() {
-		return school;
+	public void setContactRoleCode(String contactRoleCode) {
+		this.contactRoleCode = contactRoleCode;
+	}
+	
+	@PostLoad
+	protected void syncPersonRoldex() {
+		setPersonRolodex(getBudgetPersonService().getBudgetPersonRolodex(getBudget(), this));
 	}
 
-	public void setSchool(String school) {
-		this.school = school;
+	public String getEmailAddress() {
+		return emailAddress;
 	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+
+	public Unit getUnit() {
+		return unit;
+	}
+
+	public void setUnit(Unit unit) {
+		this.unit = unit;
+	}
+
+	public String getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(String organization) {
+		this.organization = organization;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public PersonRolodex getPersonRolodex() {
+		return personRolodex;
+	}
+
+	public void setPersonRolodex(PersonRolodex personRolodex) {
+		this.personRolodex = personRolodex;
+	}
+
 }
