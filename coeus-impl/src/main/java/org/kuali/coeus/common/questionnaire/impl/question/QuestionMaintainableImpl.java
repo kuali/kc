@@ -148,7 +148,7 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
         Question newQuestion = (Question) businessObject;
         QuestionService questionService = KcServiceLocator.getService(QuestionService.class);
         Question oldQuestion = questionService.getQuestionById(newQuestion.getQuestionSeqId());
-        if (oldQuestion != null) {
+        if (oldQuestion != null && !oldQuestion.getId().equals(newQuestion.getId())) {
             oldQuestion.setSequenceStatus(SEQUENCE_STATUS_ARCHIVED);
             KNSServiceLocator.getBusinessObjectService().save(oldQuestion);
         }

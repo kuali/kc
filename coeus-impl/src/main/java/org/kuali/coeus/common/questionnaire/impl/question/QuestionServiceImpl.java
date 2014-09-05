@@ -67,11 +67,11 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Question getQuestionById(Integer questionId) {
+    public Question getQuestionById(Integer questionSeqId) {
         Question question = null;
-        if (questionId != null) {
+        if (questionSeqId != null) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put(QUESTION_ID, questionId);
+            fieldValues.put(QUESTION_ID, questionSeqId);
             Collection<Question> questions = businessObjectService.findMatching(Question.class, fieldValues);
             if (questions.size() > 0) {
                 /*
