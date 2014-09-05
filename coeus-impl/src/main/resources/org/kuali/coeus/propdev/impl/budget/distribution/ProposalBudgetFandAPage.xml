@@ -20,12 +20,6 @@
 				<ref bean="PropBudget-UnrecoveredFandAPage-Group" />
 			</list>
 		</property>
-		<property name="header">
-			<bean parent="Uif-PageHeader" />
-		</property>
-		<property name="footer">
-			<null />
-		</property>
 	</bean>
 
 	<bean id="PropBudget-UnrecoveredFandAPage-Group"
