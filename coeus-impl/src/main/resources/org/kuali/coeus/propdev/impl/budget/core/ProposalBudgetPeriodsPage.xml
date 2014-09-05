@@ -54,6 +54,9 @@
                 <bean parent="Uif-InputField" p:propertyName="totalIndirectCost"
                       p:order="60"
                       p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                <bean parent="Uif-InputField" p:propertyName="underrecoveryAmount"
+                      p:order="65"
+                      p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
                 <bean parent="Uif-InputField" p:propertyName="costSharingAmount"
                       p:order="70"
                       p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
@@ -87,6 +90,7 @@
                 <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="totalCost"/>
                 <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="totalDirectCost"/>
                 <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="totalIndirectCost"/>
+                <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="underrecoveryAmount"/>
                 <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="costSharingAmount"/>
                 <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="totalCostLimit"/>
                 <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="directCostLimit"/>
