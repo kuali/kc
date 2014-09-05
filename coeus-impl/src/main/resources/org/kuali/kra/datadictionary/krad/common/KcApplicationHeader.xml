@@ -168,7 +168,7 @@
 						<bean parent="Kc-Header-Researcher-Group1" p:order="10" />
 						<bean parent="Kc-Header-Researcher-Group2" p:order="20" />
 						<bean parent="Kc-Header-Researcher-Group3" p:order="30" />
-						<bean parent="Kc-Header-Researcher-Group2" p:order="40" />
+						<bean parent="Kc-Header-Researcher-Group4" p:order="40" />
 					</list>
 				</property>
 			</bean>
@@ -442,9 +442,12 @@
 	<bean id="Kc-Header-Researcher-WorkflowGroup-parentBean" abstract="true"
 		parent="Uif-MenuList" p:headerText="Workflow">
 		<property name="items">
-			<list>
-				<bean parent="Uif-MenuAction" p:actionLabel="Preferences"
-					p:order="10" />
+			<list>			
+			<bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Preferences" p:order="10">
+				      <property name="actionUrl.requestParameters">
+                         <map><entry key="href" value="@{#ConfigProperties['application.url']}/kew/Preferences.do"/></map>
+                      </property>
+			    </bean>	
 			</list>
 		</property>
 	</bean>
@@ -462,7 +465,7 @@
 						<bean parent="Kc-Header-SampleGroup" />
 						<bean parent="Kc-Header-SampleGroup" />
 						<bean parent="Kc-Header-SampleGroup" />
-						<bean parent="Kc-Header-SampleGroup" />
+						<bean parent="Kc-Header-Unit-Group6" p:order="60" />
 						<bean parent="Kc-Header-SampleGroup" />
 						<bean parent="Kc-Header-SampleGroup" />
 						<bean parent="Kc-Header-SampleGroup" />
@@ -471,7 +474,6 @@
 			</bean>
 		</property>
 	</bean>
-
 	<bean id="Kc-Header-SampleGroup" parent="Kc-Header-SampleGroup-parentBean" />
 	<bean id="Kc-Header-SampleGroup-parentBean" abstract="true"
 		parent="Uif-SimpleGroup">
@@ -494,7 +496,65 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="Kc-Header-Unit-Group6" parent="Kc-Header-Unit-Group6-parentBean" />
+<bean id="Kc-Header-Unit-Group6-parentBean" abstract="true"
+parent="Uif-SimpleGroup">
+<property name="items">
+<list>
+<bean parent="Uif-MenuList" p:headerText="Workflow">
+<property name="items">
+	<list>
+		<bean parent="Kc-Header-IframeMenuAction"
+			p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="People Flow"
+			p:order="10">
+			<property name="actionUrl.requestParameters">
+				<map>
+					<entry key="href"
+						value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.award.home.Award&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true" />
+				</map>
+			</property>
+		</bean>
 
+		<bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Preferences" p:order="20">
+				      <property name="actionUrl.requestParameters">
+                         <map><entry key="href" value="@{#ConfigProperties['application.url']}/kew/Preferences.do"/></map>
+                      </property>
+			    </bean>	
+	
+	<bean parent="Kc-Header-IframeMenuAction"
+			p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Routing Report"
+			p:order="30">
+			<property name="actionUrl.requestParameters">
+				<map>
+					<entry key="href" value="@{#ConfigProperties['application.url']}/kew/RoutingReport.do" />
+				</map>
+			</property>
+		</bean>
+		
+	<bean parent="Kc-Header-IframeMenuAction"
+			p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Rules"
+			p:order="40">
+			<property name="actionUrl.requestParameters">
+				 <map><entry key="href" value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.rice.kew.rule.RuleBaseValues&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupActionNotifyIRBProtocol=true"/></map>
+			</property>
+		</bean>
+		
+	<bean parent="Kc-Header-IframeMenuAction"
+			p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Rule QuickLinks"
+			p:order="50">
+			<property name="actionUrl.requestParameters">
+				<map><entry key="href" value="@{#ConfigProperties['application.url']}/kew/RuleQuickLinks.do" /></map>
+			</property>
+		</bean>
+		
+	</list>
+</property>
+</bean>
+</list>
+</property>
+</bean>
+	
 	<bean id="Kc-Header-Actionlist" parent="Kc-Header-Actionlist-parentBean" />
 	<bean id="Kc-Header-Actionlist-parentBean" abstract="true"
 		parent="Uif-DropdownToggleMenu">
