@@ -181,7 +181,7 @@
       <bean parent="RegexValidationPattern" p:pattern="(([0][1-9])|([1][0-2])):[0-5][0-9]" p:validationErrorMessageKey="error.committeeSchedule.viewtime"/>
     </property>
     <property name="validCharactersConstraint">
-      <bean parent="JavaClassPatternConstraint">
+      <bean parent="ValidCharactersConstraint">
         <property name="value" value="(([0][1-9])|([1][0-2])):[0-5][0-9]"/>
         <property name="messageKey" value="error.committeeSchedule.viewtime"/>
       </bean>

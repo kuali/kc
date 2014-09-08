@@ -365,22 +365,13 @@
 	</bean>
 
 	<bean id="DevelopmentProposal-currentAwardNumber" parent="DevelopmentProposal-currentAwardNumber-parentBean" />
-        <bean id="DevelopmentProposal-currentAwardNumber-parentBean" abstract="true" parent="Award-awardNumber-parentBean">
+        <bean id="DevelopmentProposal-currentAwardNumber-parentBean" abstract="true" parent="KraAttributeReferenceDummy-awardNumber">
 		<property name="name" value="currentAwardNumber" />
 		<property name="label" value="Award ID" />
 		<property name="shortLabel" value="Award ID" />
 		<property name="required" value="false" />
 		<property name="summary" value="The Sponsor Award Number for this Proposal." />
                 <property name="description" value="A unique institutionally assigned number of a previously funded application."/>
-		<property name="validationPattern">
-                        <bean parent="RegexValidationPattern" p:pattern="\d\d\d\d\d\d-\d\d\d\d\d" p:validationErrorMessageKey="error.missing"/>
-                </property>
-                <property name="validCharactersConstraint">
-                        <bean parent="JavaClassPatternConstraint">
-                                <property name="value" value="\d\d\d\d\d\d-\d\d\d\d\d"/>
-                                <property name="messageKey" value="error.missing"/>
-                        </bean>
-		</property>
 	</bean>
 
 	<bean id="DevelopmentProposal-continuedFrom" parent="DevelopmentProposal-continuedFrom-parentBean" />

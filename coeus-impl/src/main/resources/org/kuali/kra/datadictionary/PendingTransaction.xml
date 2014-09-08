@@ -73,61 +73,39 @@
     </bean>
 
     <bean id="PendingTransaction-sourceAwardNumber" parent="PendingTransaction-sourceAwardNumber-parentBean" />
-    <bean id="PendingTransaction-sourceAwardNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="PendingTransaction-sourceAwardNumber-parentBean" abstract="true" parent="KraAttributeReferenceDummy-awardNumber" >
         <property name="name" value="sourceAwardNumber" />
-        <property name="forceUppercase" value="false" />
         <property name="label" value="Source Award" />
         <property name="shortLabel" value="Source Award" />
-        <property name="maxLength" value="12" />
-        <property name="validationPattern" >
-      <bean parent="RegexValidationPattern" p:pattern="\d\d\d\d\d\d-\d\d\d" p:validationErrorMessageKey="error.invalid.awardId"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="JavaClassPatternConstraint">
-        <property name="value" value="\d\d\d\d\d\d-\d\d\d"/>
-        <property name="messageKey" value="error.invalid.awardId"/>
-      </bean>
-    	</property>
         <property name="required" value="true" />
-        <property name="control" >			
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.timeandmoney.PendingTransactionAwardValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-    <property name="optionsFinder">
-      <bean class="org.kuali.kra.timeandmoney.PendingTransactionAwardValuesFinder"/>
-    </property>
-    <property name="controlField">
-      <bean parent="Uif-DropdownControl"/>
-		</property>
+        <property name="control" >
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.timeandmoney.PendingTransactionAwardValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+        <property name="optionsFinder">
+          <bean class="org.kuali.kra.timeandmoney.PendingTransactionAwardValuesFinder"/>
+        </property>
+        <property name="controlField">
+          <bean parent="Uif-DropdownControl"/>
+	    </property>
         <property name="summary" value="Source Award" />
         <property name="description" value="Source Award" />
     </bean>
 
     <bean id="PendingTransaction-destinationAwardNumber" parent="PendingTransaction-destinationAwardNumber-parentBean" />
-    <bean id="PendingTransaction-destinationAwardNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="PendingTransaction-destinationAwardNumber-parentBean" abstract="true" parent="KraAttributeReferenceDummy-awardNumber" >
         <property name="name" value="destinationAwardNumber" />
-        <property name="forceUppercase" value="false" />
         <property name="label" value="Destination Award" />
         <property name="shortLabel" value="Destination Award" />
-        <property name="maxLength" value="12" />
         <property name="required" value="true" />
-         <property name="validationPattern" >
-      <bean parent="RegexValidationPattern" p:pattern="\d\d\d\d\d\d-\d\d\d" p:validationErrorMessageKey="error.invalid.awardId"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="JavaClassPatternConstraint">
-        <property name="value" value="\d\d\d\d\d\d-\d\d\d"/>
-        <property name="messageKey" value="error.invalid.awardId"/>
-      </bean>
-    	</property>
         <property name="control" >			
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.timeandmoney.PendingTransactionAwardValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-    <property name="optionsFinder">
-      <bean class="org.kuali.kra.timeandmoney.PendingTransactionAwardValuesFinder"/>
-    </property>
-    <property name="controlField">
-      <bean parent="Uif-DropdownControl"/>
-		</property>
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.timeandmoney.PendingTransactionAwardValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.kra.timeandmoney.PendingTransactionAwardValuesFinder"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
         <property name="summary" value="Destination Award" />
         <property name="description" value="Destination Award" />
     </bean>

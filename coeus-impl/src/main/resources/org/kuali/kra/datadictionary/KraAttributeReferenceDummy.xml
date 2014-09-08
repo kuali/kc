@@ -533,5 +533,32 @@
 		<property name="summary" value="Sponsor/S2S" />
 		<property name="description" value="Sponsor/S2S" />
 	</bean>
-  
+
+    <bean id="KraAttributeReferenceDummy-awardNumber" parent="KraAttributeReferenceDummy-awardNumber-parentBean" />
+    <bean id="KraAttributeReferenceDummy-awardNumber-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="Award Number" />
+        <property name="label" value="Award Number" />
+        <property name="shortLabel" value="Award Number" />
+        <property name="forceUppercase" value="false" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="RegexValidationPattern" p:pattern="\d\d\d\d\d\d-\d\d\d\d\d" p:validationErrorMessageKey="error.invalid.awardId"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="JavaClassPatternConstraint">
+                <property name="value" value="\d\d\d\d\d\d-\d\d\d\d\d"/>
+                <property name="messageKey" value="error.invalid.awardId"/>
+            </bean>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="12"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="12" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Award Number" />
+        <property name="description" value="Award Number" />
+    </bean>
+
+
 </beans>
