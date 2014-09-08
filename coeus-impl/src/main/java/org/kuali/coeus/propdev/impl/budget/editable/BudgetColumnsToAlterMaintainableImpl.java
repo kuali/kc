@@ -15,9 +15,9 @@
  */
 package org.kuali.coeus.propdev.impl.budget.editable;
 
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaNumericValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaValidationPattern;
@@ -47,11 +47,11 @@ public class BudgetColumnsToAlterMaintainableImpl  extends KraMaintainableImpl {
         
         KcPersistenceStructureService persistenceStructureService =
             KcServiceLocator.getService(KcPersistenceStructureService.class);
-        Map<String, String> columnToAttrMap = persistenceStructureService.getDBColumnToObjectAttributeMap(Budget.class);
+        Map<String, String> columnToAttrMap = persistenceStructureService.getDBColumnToObjectAttributeMap(ProposalDevelopmentBudgetExt.class);
         
         DataDictionaryService dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
         AttributeDefinition attrDefinition = dataDictionaryService.getDataDictionary().
-            getBusinessObjectEntry(Budget.class.getName()).
+            getBusinessObjectEntry(ProposalDevelopmentBudgetExt.class.getName()).
             getAttributeDefinition(columnToAttrMap.get(budgetCol.getColumnName()));
         
         if (attrDefinition == null) {
