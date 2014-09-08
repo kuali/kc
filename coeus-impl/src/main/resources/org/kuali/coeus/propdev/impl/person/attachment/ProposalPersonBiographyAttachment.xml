@@ -102,12 +102,6 @@
     <property name="label" value="Bio Attachment File" />
     <property name="shortLabel" value="Bio Attachment File" />
     <property name="maxLength" value="0" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="0"/>
     </property>
