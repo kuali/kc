@@ -6,5 +6,6 @@ Kc.Medusa = Kc.Medusa || {};
 		$('div.jstree li a').off('click.medusa');
 		$('div.jstree li a').on('click.medusa', function()
 				{ $(this).parent().find('div.row').toggle(); return false;} );
+        $(".uif-listCollectionSection").find('ins').hide();
 	}
 })(Kc.Medusa, jQuery);

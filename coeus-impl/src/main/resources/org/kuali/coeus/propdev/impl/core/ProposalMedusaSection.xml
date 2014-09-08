@@ -82,7 +82,7 @@
          <bean parent="Uif-Message" p:renderWrapperTag="false"/>           
       </property>
       <property name="dataGroupPrototype">              
-        <bean parent="Uif-CssGridSection-1FieldLabelColumn">                
+        <bean parent="Uif-CssGridSection-1FieldLabelColumn">
            <property name="items">
                 <list>
                 	<bean parent="Uif-DataField" p:propertyName="proposalNumber" 
@@ -119,51 +119,61 @@
                 		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" p:order="160" />
                 	<bean parent="Uif-DataField" p:propertyName="attachmentsStatus" p:label="Attachment Status"
                 		p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" p:order="170" />
-                	<!--  I am showing this here for the reviewer to see how I want to add the person summary section
-                		It isn't working correctly like this, and am unsure how this should be done.
-                	<bean parent="Proposal-MedusaSection-PropDevProposalPersonsSummary"/>  -->
+                	<bean parent="Uif-MessageField" p:fieldLabel.labelText="Investigators"  p:order="180"
+                          p:fieldLabel.renderColon="false" />
+                    <bean parent="Uif-FieldGroupBase" p:order="190">
+                        <property name="group">
+                            <bean parent="Proposal-MedusaSection-Investigators"/>
+                        </property>
+                    </bean>
                 </list>
            </property>
         </bean>
       </property>
 	</bean>
-	<bean id="Proposal-MedusaSection-PropDevProposalPersonsSummary" parent="Proposal-MedusaSection-PropDevProposalPersonsSummary-parentBean" />
-    <bean id="Proposal-MedusaSection-PropDevProposalPersonsSummary-parentBean" abstract="true"
-          parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
-          p:propertyName="document.developmentProposal.proposalPersons"
-          p:renderAddLine="false">
-        <property name="lineActions">
-            <list />
-        </property>
-        <property name="layoutManager.lineGroupPrototype">
-            <bean parent="Uif-VerticalBoxGroup">
-                <property name="items">
-                    <list>
-                        <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
-                            <property name="labelPrototype">
-                                <bean parent="Uif-Message" p:renderWrapperTag="false"/>
-                            </property>
-                            <property name="dataGroupPrototype">
-                                <bean parent="Uif-CssGridSection-1FieldLabelColumn">
-                                    <property name="items">
-                                        <list>
-                                            <bean parent="Uif-DataField" p:propertyName="fullName"
-                                                  p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.person.ProposalPerson" p:order="10" />
-                                            <bean parent="Uif-DataField" p:propertyName="proposalPersonRoleId"  
-                                	  			p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.person.ProposalPerson" p:order="20" />
-                                            <bean parent="Uif-DataField" p:propertyName="homeUnit"
-                                                  p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.person.ProposalPerson" p:order="30" />
-                                        </list>
-                                    </property>
-                                </bean>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
+
+    <bean id="Proposal-MedusaSection-Investigators" parent="Uif-ListCollectionSection"
+          p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
+          p:propertyName="investigators" p:renderAddLine="false"
+          p:renderInactiveToggleButton="false">
+            <property name="items">
+                <list>
+                    <bean parent="Uif-FieldGroupBase">
+                        <property name="group">
+                             <bean parent="Uif-CssGridSection-1FieldLabelColumn">
+                                 <property name="items">
+                                    <list>
+                                        <bean parent="Uif-MessageField" p:messageText="@{#line.fullName} (@{#line.role.description})"
+                                              p:fieldLabel.labelText="Investigator" p:order="10" />
+                                        <bean parent="Uif-FieldGroupBase" p:fieldLabel.labelText="Units" p:order="20">
+                                            <property name="group">
+                                                <bean parent="Proposal-MedusaSection-Investigators-Units" />
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </property>
+                    </bean>
+                </list>
+            </property>
+    </bean>
+
+    <bean id="Proposal-MedusaSection-Investigators-Units" parent="Proposal-MedusaSection-Investigators-Units-parentBean"/>
+    <bean id="Proposal-MedusaSection-Investigators-Units-parentBean" abstract="true" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-ListCollectionGroup" p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPersonUnit"
+                      p:propertyName="units">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField" p:messageText="@{#line.unitNumber} : @{#line.unit.unitName}" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
         </property>
     </bean>
-	
 	
     <bean id="Proposal-MedusaSection-InstPropSummary" class="org.kuali.rice.krad.uif.container.NodePrototype">           
        <property name="labelPrototype">             

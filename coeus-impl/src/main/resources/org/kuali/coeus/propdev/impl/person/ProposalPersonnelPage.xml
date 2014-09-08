@@ -210,7 +210,7 @@
 		parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
 		p:propertyName="document.developmentProposal.proposalPersons"
 		p:layoutManager.summaryTitle="@{#lp.fullName}
-		                                (@{#lp.proposalPersonRoleId=='COI'?'Co-I': #lp.proposalPersonRoleId == 'KP' ? 'Key Person' : #lp.proposalPersonRoleId}
+		                                (@{#lp.role.description}
                                             @{#lp.keyPerson eq true ? ': ' + #lp.projectRole : '' })
 		                                        (@{#lp.questionnairesCompleted eq true ? 'Certification Completed' : 'Certification Incomplete'})"
 
