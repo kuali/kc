@@ -2,11 +2,11 @@ package org.kuali.coeus.propdev.impl.budget.core;
 
 import java.text.DecimalFormat;
 import java.util.Collections;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -21,7 +21,6 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krad.web.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -72,7 +71,11 @@ public abstract class ProposalBudgetControllerBase {
 	@Autowired
 	@Qualifier("proposalBudgetService")
 	private ProposalBudgetService budgetService;
-	
+
+    @Autowired
+    @Qualifier("budgetCalculationService")
+    private BudgetCalculationService budgetCalculationService;
+
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalBudgetForm();
     }
@@ -88,6 +91,7 @@ public abstract class ProposalBudgetControllerBase {
     }
 
     public ModelAndView save(ProposalBudgetForm form) throws Exception {
+        getBudgetCalculationService().calculateBudget(form.getBudget());
     	getDataObjectService().save(form.getBudget());
         return getModelAndViewService().getModelAndView(form);
     }
@@ -190,4 +194,11 @@ public abstract class ProposalBudgetControllerBase {
 		this.budgetService = budgetService;
 	}
 
+    public BudgetCalculationService getBudgetCalculationService() {
+        return budgetCalculationService;
+    }
+
+    public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
+        this.budgetCalculationService = budgetCalculationService;
+    }
 }
