@@ -923,7 +923,7 @@
   <bean id="KcPerson-LookupView" parent="KcPerson-LookupView-parentBean"/>
   <bean id="KcPerson-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="KcPerson Lookup" />
-    <property name="lookupableID" value="kcPersonLookupable" /><property name="defaultSort" >
+    <property name="lookupableID" value="kcPersonLookupableKNS" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
     <property name="lookupFields" >
