@@ -467,8 +467,15 @@
 			<list>
 				<bean parent="Uif-MenuAction" p:actionLabel="Degree Information"
 					p:order="10" />
-				<bean parent="Uif-MenuAction" p:actionLabel="Current &amp; Pending Support"
-					p:order="20" />
+				<bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
+					p:actionLabel="Current &amp; Pending Support" p:order="20">
+					<property name="actionUrl.requestParameters">
+						<map>
+							<entry key="href"
+								value="@{#ConfigProperties['application.url']}/currentOrPendingReport.do" />
+						</map>
+					</property>
+				</bean>
 				<bean parent="Uif-MenuAction" p:actionLabel="Bio-sketches"
 					p:order="30" />
 				<bean parent="Uif-MenuAction" p:actionLabel="All my Training"
