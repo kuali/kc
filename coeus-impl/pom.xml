@@ -438,11 +438,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jasig.cas.client</groupId>
-            <artifactId>cas-client-core</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.jmock</groupId>
             <artifactId>jmock</artifactId>
         </dependency>

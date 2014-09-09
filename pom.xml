@@ -47,7 +47,6 @@
         <aopalliance.version>1.0</aopalliance.version>
         <avalon-framework.version>4.3.1</avalon-framework.version>
         <bouncycastle.version>1.51</bouncycastle.version>
-        <cas-client-core.version>3.2.1</cas-client-core.version>
         <cglib-nodep.version>3.1</cglib-nodep.version>
         <coeus-s2sgen.version>6.0-SNAPSHOT</coeus-s2sgen.version>
         <commons-beanutils.version>1.8.3-kuali-4</commons-beanutils.version>
@@ -1433,19 +1432,6 @@
                 <artifactId>hamcrest-library</artifactId>
                 <version>${hamcrest.version}</version>
                 <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.jasig.cas.client</groupId>
-                <artifactId>cas-client-core</artifactId>
-                <version>${cas-client-core.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>commons-logging</artifactId>
-                        <groupId>commons-logging</groupId>
-                    </exclusion>
-                </exclusions>
-                <scope>runtime</scope>
             </dependency>
 
             <dependency>
