@@ -17,7 +17,6 @@ package org.kuali.coeus.propdev.impl.budget;
 
 import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
@@ -36,9 +35,9 @@ public class BudgetColumnsValuesFinder extends UifKeyValuesFinderBase {
     @Override
     public List<KeyValue> getKeyValues() {
         BusinessObjectEntry proposalEntry = 
-            (BusinessObjectEntry) getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(Budget.class.getName());
+            (BusinessObjectEntry) getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(ProposalDevelopmentBudgetExt.class.getName());
         KcPersistenceStructureService persistenceStructureService = getKcPersistenceStructureService();
-        Map<String, String> attrToColumnMap = persistenceStructureService.getPersistableAttributesColumnMap(Budget.class);        
+        Map<String, String> attrToColumnMap = persistenceStructureService.getPersistableAttributesColumnMap(ProposalDevelopmentBudgetExt.class);        
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (AttributeDefinition entry : proposalEntry.getAttributes()) {
             if (attrToColumnMap.get(entry.getName()) == null) {
