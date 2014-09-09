@@ -91,7 +91,7 @@ public class KraAuthorizationServiceImplTest extends KcIntegrationTestBase {
 
     @Test
     public void testRemoveRole() throws Exception {
-        ProposalDevelopmentDocument  currentDoc = createProposal("Proposal-3", "000001");
+        ProposalDevelopmentDocument  currentDoc = createProposal("Proposal-4", "000001");
         kraAuthService.removeRole(GlobalVariables.getUserSession().getPrincipalId(), RoleConstants.AGGREGATOR, currentDoc);
         List<String> names = kraAuthService.getUserNames(currentDoc, RoleConstants.AGGREGATOR);
         assertTrue(names.size() == 0);  
@@ -100,7 +100,7 @@ public class KraAuthorizationServiceImplTest extends KcIntegrationTestBase {
     @Test
     public void testRemoveNarrativeWriterRole() throws Exception {
         PrincipalContract userChew = identityManagementService.getPrincipalByPrincipalName("chew");
-        ProposalDevelopmentDocument  currentDoc = createProposal("Proposal-3", "000001");
+        ProposalDevelopmentDocument  currentDoc = createProposal("Proposal-5", "000001");
         kraAuthService.addRole(userChew.getPrincipalId(), RoleConstants.NARRATIVE_WRITER, currentDoc);
         List<String> usernames = kraAuthService.getUserNames(currentDoc, RoleConstants.NARRATIVE_WRITER);
         assertTrue(usernames.size() == 1);
@@ -117,7 +117,7 @@ public class KraAuthorizationServiceImplTest extends KcIntegrationTestBase {
     @Test
     public void testHasPermission() throws Exception {
         PrincipalContract userChew = identityManagementService.getPrincipalByPrincipalName("chew");
-        ProposalDevelopmentDocument doc = createProposal("Proposal-4", "000001");
+        ProposalDevelopmentDocument doc = createProposal("Proposal-6", "000001");
         kraAuthService.addRole(userChew.getPrincipalId(), RoleConstants.NARRATIVE_WRITER, doc);
         assertTrue(kraAuthService.hasPermission(userChew.getPrincipalId(), doc, PermissionConstants.MODIFY_NARRATIVE));
         assertFalse(kraAuthService.hasPermission(userChew.getPrincipalId(), doc, PermissionConstants.MODIFY_BUDGET));
@@ -128,7 +128,7 @@ public class KraAuthorizationServiceImplTest extends KcIntegrationTestBase {
      */
     @Test
     public void testHasRole() throws Exception {
-        ProposalDevelopmentDocument doc = createProposal("Proposal-5", "000001");
+        ProposalDevelopmentDocument doc = createProposal("Proposal-7", "000001");
         PrincipalContract userChew = identityManagementService.getPrincipalByPrincipalName("chew");
         kraAuthService.addRole(userChew.getPrincipalId(), RoleConstants.BUDGET_CREATOR, doc);
         assertTrue(kraAuthService.hasRole(userChew.getPrincipalId(), doc, RoleConstants.BUDGET_CREATOR));
@@ -139,7 +139,7 @@ public class KraAuthorizationServiceImplTest extends KcIntegrationTestBase {
      */
     @Test
     public void testGetRoles() throws Exception {
-        ProposalDevelopmentDocument doc = createProposal("Proposal-6", "000001");
+        ProposalDevelopmentDocument doc = createProposal("Proposal-8", "000001");
         PrincipalContract userChew = identityManagementService.getPrincipalByPrincipalName("chew");
         kraAuthService.addRole(userChew.getPrincipalId(), RoleConstants.NARRATIVE_WRITER, doc);
         kraAuthService.addRole(userChew.getPrincipalId(), RoleConstants.BUDGET_CREATOR, doc);
@@ -154,7 +154,7 @@ public class KraAuthorizationServiceImplTest extends KcIntegrationTestBase {
      */
     @Test
     public void testGetPersonsInRole() throws Exception {
-        ProposalDevelopmentDocument doc = createProposal("Proposal-7", "000001");
+        ProposalDevelopmentDocument doc = createProposal("Proposal-9", "000001");
         PrincipalContract userChew = identityManagementService.getPrincipalByPrincipalName("chew");
         kraAuthService.addRole(userChew.getPrincipalId(), RoleConstants.AGGREGATOR, doc);
         List<String> persons = kraAuthService.getPrincipalsInRole(doc, RoleConstants.AGGREGATOR);

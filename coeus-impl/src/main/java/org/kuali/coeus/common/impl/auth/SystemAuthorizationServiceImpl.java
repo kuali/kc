@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -92,6 +93,15 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
             roleNames.add(role.getId());
         }
         return roleNames;
+    }
+
+    @Override
+    public boolean hasRole(String userId, String namespace, String roleName) {
+        Role role = roleManagementService.getRoleByNamespaceCodeAndName(namespace, roleName);
+        if(role != null) {
+            return roleManagementService.principalHasRole(userId, Collections.singletonList(role.getId()), null);
+        }
+        return false;
     }
     
     @Override

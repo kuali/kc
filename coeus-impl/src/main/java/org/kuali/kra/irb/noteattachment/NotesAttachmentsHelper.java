@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -44,7 +44,7 @@ public class NotesAttachmentsHelper extends NotesAttachmentsHelperBase {
     public NotesAttachmentsHelper(final ProtocolForm form) {
         super(form, KcServiceLocator.getService(ProtocolAttachmentService.class),
                    KcServiceLocator.getService(TaskAuthorizationService.class),
-                   KcServiceLocator.getService(KcAuthorizationService.class),
+                   KcServiceLocator.getService(SystemAuthorizationService.class),
                    KcServiceLocator.getService(DateTimeService.class),
                    KcServiceLocator.getService(ProtocolNotepadService.class),
                    KcServiceLocator.getService(ParameterService.class),
@@ -79,7 +79,7 @@ public class NotesAttachmentsHelper extends NotesAttachmentsHelperBase {
     }
 
     public boolean isProtocolAdmin() {
-        return this.kraAuthorizationService.hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IRB_ADMINISTRATOR);
+        return this.systemAuthorizationService.hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IRB_ADMINISTRATOR);
     }
     
     @Override

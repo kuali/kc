@@ -44,7 +44,7 @@ public abstract class ProtocolAuthorizer extends ProtocolAuthorizerBase {
     
     /**
      * Is the user authorized to execute the given protocol task?
-     * @param username the user's unique username
+     * @param userId the user's unique user id
      * @param task the protocol task
      * @return true if the user is authorized; otherwise false
      */
@@ -55,7 +55,7 @@ public abstract class ProtocolAuthorizer extends ProtocolAuthorizerBase {
     }
     
     public boolean isIrbAdmin(String userId) {
-        return kraAuthorizationService.hasRole(userId, NAMESPACE, RoleConstants.IRB_ADMINISTRATOR);
+        return systemAuthorizationService.hasRole(userId, NAMESPACE, RoleConstants.IRB_ADMINISTRATOR);
     }
     
     /**

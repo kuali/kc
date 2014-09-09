@@ -46,6 +46,7 @@
     <bean id="parentIacucProtocolAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
+        <property name="systemAuthorizationService" ref="systemAuthorizationService" />
         <property name="protocolActionService" ref="iacucProtocolActionService" />
     </bean>
 

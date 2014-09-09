@@ -533,8 +533,8 @@ public class AwardAction extends BudgetParentActionBase {
     protected void createInitialAwardUsers(Award award) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
-        if (!kraAuthService.hasRole(userId, KraAuthorizationConstants.KC_AWARD_NAMESPACE, AwardRoleConstants.AWARD_MODIFIER.getAwardRole())) {
-            kraAuthService.addRole(userId, AwardRoleConstants.AWARD_MODIFIER.getAwardRole(), award); 
+        if (!kraAuthService.hasRole(userId, award, AwardRoleConstants.AWARD_MODIFIER.getAwardRole())) {
+            kraAuthService.addRole(userId, AwardRoleConstants.AWARD_MODIFIER.getAwardRole(), award);
         }
     }
 

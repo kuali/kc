@@ -56,14 +56,5 @@ public class KraAuthorizationServiceMock implements KcAuthorizationService {
     public void removeRole(String username, String roleName, Permissionable permissionable) {
         
     }
-    @Override
-    public boolean hasRole(String userId, String namespace, String roleName) {
-        return false;
-    }
-
-    @Override
-    public boolean hasPermission(String userId, Permissionable permissionable, String permissionNamespace, String permissionName) {
-        return hasPermission;
-    }
     
 }

@@ -24,7 +24,7 @@ public class AdminApproveIacucProtocolAuthorizer extends IacucProtocolAuthorizer
     @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         return  canExecuteAction(task.getProtocol(), IacucProtocolActionType.ADMINISTRATIVE_APPROVAL) && 
-                kraAuthorizationService.hasRole(userId, NAMESPACE, RoleConstants.IACUC_ADMINISTRATOR);
+                systemAuthorizationService.hasRole(userId, NAMESPACE, RoleConstants.IACUC_ADMINISTRATOR);
     }
 
 }

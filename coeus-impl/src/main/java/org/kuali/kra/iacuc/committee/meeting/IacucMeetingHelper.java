@@ -86,7 +86,7 @@ public class IacucMeetingHelper extends MeetingHelperBase {
     }
     
     public boolean isAdmin() {
-        return getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IACUC_ADMINISTRATOR);
+        return getSystemAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IACUC_ADMINISTRATOR);
     }
 
     @Override

@@ -23,8 +23,8 @@ public class AdminWithdrawIacucProtocolAuthorizer extends IacucProtocolAuthorize
     
     @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
-        return  canExecuteAction(task.getProtocol(), IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN) && 
-                kraAuthorizationService.hasRole(userId, NAMESPACE, RoleConstants.IACUC_ADMINISTRATOR);
+        return  canExecuteAction(task.getProtocol(), IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN) &&
+                systemAuthorizationService.hasRole(userId, NAMESPACE, RoleConstants.IACUC_ADMINISTRATOR);
     }
 
 }

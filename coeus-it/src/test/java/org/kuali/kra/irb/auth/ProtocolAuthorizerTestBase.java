@@ -21,6 +21,7 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.After;
 import org.junit.Before;
+import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
@@ -135,7 +136,6 @@ public abstract class ProtocolAuthorizerTestBase extends KcIntegrationTestBase {
         
     protected KcAuthorizationService buildKraAuthorizationService(final ProtocolDocument protocolDocument, final String permissionConstant, final boolean hasPermission, final String roleConstant, final boolean hasRole) {    
         final KcAuthorizationService service = context.mock(KcAuthorizationService.class);
-        
         context.checking(new Expectations() {{
             allowing(service).hasPermission(USERNAME, protocolDocument.getProtocol(), permissionConstant); 
             will(returnValue(hasPermission));
@@ -146,19 +146,27 @@ public abstract class ProtocolAuthorizerTestBase extends KcIntegrationTestBase {
                 allowing(service).hasPermission(USERNAME, protocolDocument.getProtocol(), PermissionConstants.CREATE_ANY_RENEWAL); 
                 will(returnValue(hasPermission));
             }
-            //set roles for appropriate namespace based on role passed in when admin role check is required in the authorizer
-            if(RoleConstants.PROTOCOL_AGGREGATOR.equals(roleConstant)) {
-                allowing(service).hasRole(USERNAME, KC_PROTOCOL_NAMESPACE, RoleConstants.PROTOCOL_AGGREGATOR); 
-                will(returnValue(hasRole));
-            } else if (RoleConstants.IRB_ADMINISTRATOR.equals(roleConstant)) {
-                allowing(service).hasRole(USERNAME, KC_UNIT_NAMESPACE, roleConstant); 
-                will(returnValue(hasRole));
-            }
         }});
         
         return service;
     }
-    
+
+    protected SystemAuthorizationService buildSystemAuthorizationService(final ProtocolDocument protocolDocument, final String permissionConstant, final boolean hasPermission, final String roleConstant, final boolean hasRole) {
+        final SystemAuthorizationService service = context.mock(SystemAuthorizationService.class);
+        context.checking(new Expectations() {{
+            //set roles for appropriate namespace based on role passed in when admin role check is required in the authorizer
+            if(RoleConstants.PROTOCOL_AGGREGATOR.equals(roleConstant)) {
+                allowing(service).hasRole(USERNAME, KC_PROTOCOL_NAMESPACE, RoleConstants.PROTOCOL_AGGREGATOR);
+                will(returnValue(hasRole));
+            } else if (RoleConstants.IRB_ADMINISTRATOR.equals(roleConstant)) {
+                allowing(service).hasRole(USERNAME, KC_UNIT_NAMESPACE, roleConstant);
+                will(returnValue(hasRole));
+            }
+        }});
+
+        return service;
+    }
+
     protected KcWorkflowService buildKraWorkflowService(final ProtocolDocument protocolDocument, final boolean isInWorkflow) {
         final KcWorkflowService service = context.mock(KcWorkflowService.class);
         

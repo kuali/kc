@@ -1407,7 +1407,7 @@ public class ActionHelper extends ActionHelperBase {
     }
 
     public boolean isIrbAdmin() {
-        return getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IRB_ADMINISTRATOR);
+        return getSystemAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IRB_ADMINISTRATOR);
     }
 
     @Override

@@ -59,16 +59,6 @@ public interface KcAuthorizationService {
      * @return true if the user has permission; otherwise false
      */
     public boolean hasPermission(String userId, Permissionable permissionable, String permissionName);
-    
-    /**
-     * Does the user have the given permission in the given namespace?
-     * @param userId the user's userId
-     * @param permissionable the Permissionable
-     * @param permissionNamespace the permission namespace
-     * @param permissionName the name of the Permission
-     * @return true if the user has permission; otherwise false
-     */
-    boolean hasPermission(String userId, Permissionable permissionable, String permissionNamespace, String permissionName);    
 
     /**
      * Does the user have the given role for the given Permissionable?
@@ -94,6 +84,4 @@ public interface KcAuthorizationService {
      * @return the list of principal ids in the role for the permissionable
      */
     public List<String> getPrincipalsInRole(Permissionable permissionable, String roleName);
-    
-    public boolean hasRole(String userId, String namespace, String roleName);
 }
