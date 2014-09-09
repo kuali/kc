@@ -414,7 +414,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
     public String getQuestionMoreInfo(Question question) {
         StringBuilder moreInfo = new StringBuilder();
-        moreInfo.append("\n" + question.getSequenceNumber() + " : " + question.getQuestion() + "\n");
+        moreInfo.append("\n" + "Question Id : " + question.getQuestionSeqId() + "\n");
         for (QuestionExplanation explanation : question.getQuestionExplanations()){
             if (StringUtils.isNotEmpty(explanation.getExplanation()) && explanation.getExplanationType().equals(Constants.QUESTION_EXPLANATION)){
                 moreInfo.append("Explanation : " + explanation.getExplanation() + "\n");
