@@ -56,20 +56,9 @@ public class WizardControllerServiceImpl implements WizardControllerService {
         List<Person> persons = getPersonService().findPeople(filterCriteria(searchCriteria));
         List<KcPerson> kcPersons = getKcPersonService().createKcPersonsFromPeople(persons);
         for (KcPerson person: kcPersons) {
-            WizardResultsDto wizardResult = new WizardResultsDto();
-            wizardResult.addParameter("resultClass",KcPerson.class.getName());
-            wizardResult.addParameter("personId",person.getPersonId());
-            wizardResult.addParameter("personName", person.getFullName());
-            wizardResult.addParameter("userName", person.getUserName());
-            wizardResult.addParameter("emailAddress", person.getEmailAddress());
-            if (person.getUnit() != null) {
-                wizardResult.addParameter("unitNumber",person.getUnit().getUnitNumber());
-                wizardResult.addParameter("unitName",person.getUnit().getUnitName());
-            }
-            wizardResult.addParameter("organization",person.getContactOrganizationName());
-            wizardResult.addParameter("city",person.getCity());
-
-            results.add(wizardResult);
+            WizardResultsDto result = new WizardResultsDto();
+            result.setKcPerson(person);
+            results.add(result);
         }
         return results;
     }
@@ -78,11 +67,9 @@ public class WizardControllerServiceImpl implements WizardControllerService {
         List<Object> results = new ArrayList<Object>();
         Collection<Rolodex> rolodexes = getLookupService().findCollectionBySearchHelper(Rolodex.class, filterCriteria(searchCriteria), Collections.EMPTY_LIST, false, 100);
         for (Rolodex rolodex : rolodexes) {
-            WizardResultsDto wizardResult = new WizardResultsDto();
-            wizardResult.addParameter("resultClass",Rolodex.class.getName());
-            wizardResult.addParameter("rolodexId",rolodex.getRolodexId());
-            wizardResult.addParameter("fullName",rolodex.getFullName());
-            results.add(wizardResult);
+            WizardResultsDto result = new WizardResultsDto();
+            result.setRolodex(rolodex);
+            results.add(result);
         }
         return results;
     }
@@ -91,14 +78,9 @@ public class WizardControllerServiceImpl implements WizardControllerService {
         List<Object> results = new ArrayList<Object>();
         Collection<Role> roles = getRoleService().findRoles(QueryByCriteria.Builder.andAttributes(filterCriteria(searchCriteria)).build()).getResults();
         for (Role role : roles) {
-            WizardResultsDto wizardResult = new WizardResultsDto();
-            wizardResult.addParameter("resultClass",Role.class.getName());
-            wizardResult.addParameter("name",role.getName());
-            wizardResult.addParameter("description",role.getDescription());
-            wizardResult.addParameter("namespaceCode",role.getNamespaceCode());
-            wizardResult.addParameter("kimTypeId",role.getKimTypeId());
-            wizardResult.addParameter("kimTypeName", RoleBo.from(role).getKimRoleType().getName());
-            results.add(wizardResult);
+            WizardResultsDto result = new WizardResultsDto();
+            result.setRole(RoleBo.from(role));
+            results.add(result);
         }
         return results;
     }

@@ -10,8 +10,6 @@ import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonSalaryDetai
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelBudgetService;
 import org.kuali.coeus.common.budget.framework.personnel.TbnPerson;
-import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.view.wizard.framework.WizardControllerService;
 import org.kuali.coeus.common.view.wizard.framework.WizardResultsDto;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetControllerBase;
@@ -63,16 +61,18 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	       for (Object object : form.getAddProjectPersonnelHelper().getResults()) {
                WizardResultsDto wizardResult = (WizardResultsDto) object;
                BudgetPerson newBudgetPerson = new BudgetPerson();
-	           if (wizardResult.getParameter("select").equals("on")) {
-                   if (wizardResult.getParameter("resultClass").equals(KcPerson.class.getName())) {
-                       newBudgetPerson.setPersonId((String)wizardResult.getParameter("personId"));
-                       newBudgetPerson.setUserName((String)wizardResult.getParameter("userName"));
-                       newBudgetPerson.setPersonName((String)wizardResult.getParameter("personName"));
-                   } else if (wizardResult.getParameter("resultClass").equals(Rolodex.class.getName())){
-                       newBudgetPerson.setRolodexId((Integer)wizardResult.getParameter("rolodexId"));
-                       newBudgetPerson.setPersonName((String)wizardResult.getParameter("personName"));
+	           if (wizardResult.isSelected() == true) {
+                   if (wizardResult.isSelected() == true) {
+                       if (wizardResult.getKcPerson() != null) {
+                           newBudgetPerson.setPersonId(wizardResult.getKcPerson().getPersonId());
+                           newBudgetPerson.setPersonName(wizardResult.getKcPerson().getFullName());
+                           newBudgetPerson.setUserName(wizardResult.getKcPerson().getUserName());
+                       } else if (wizardResult.getRolodex() != null) {
+                           newBudgetPerson.setRolodexId(wizardResult.getRolodex().getRolodexId());
+                           newBudgetPerson.setPersonName(wizardResult.getRolodex().getFullName());
+                       }
+                       getBudgetPersonService().addBudgetPerson(form.getBudget(), newBudgetPerson);
                    }
-                   getBudgetPersonService().addBudgetPerson(form.getBudget(), newBudgetPerson);
 	           }
 	       }
 	   }

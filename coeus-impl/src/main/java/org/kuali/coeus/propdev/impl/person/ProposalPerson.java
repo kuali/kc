@@ -433,7 +433,10 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
     }
 
     public Date getSalaryAnniversaryDate() {
-        return getPerson().getExtendedAttributes().getSalaryAnniversaryDate();
+        if (getPerson() != null){
+         return getPerson().getExtendedAttributes().getSalaryAnniversaryDate();
+        }
+       return null;
     }
 
 

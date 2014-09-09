@@ -36,7 +36,6 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.view.wizard.framework.WizardResultsDto;
 import org.kuali.coeus.common.notification.impl.NotificationContext;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
@@ -63,7 +62,6 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
-import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -602,16 +600,18 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         for (Object object : results) {
             WizardResultsDto result = (WizardResultsDto) object;
             NotificationTypeRecipient recipient = new NotificationTypeRecipient();
-            if (result.getParameter("select").equals("on")){
-                if (result.getParameter("resultClass").equals(KcPerson.class.getName())) {
-                    recipient.setPersonId((String)result.getParameter("personId"));
-                    recipient.setFullName((String)result.getParameter("personName"));
-                } else if (result.getParameter("resultClass").equals(Rolodex.class.getName())) {
-                    recipient.setRolodexId((String)result.getParameter("rolodexId"));
-                    recipient.setFullName((String)result.getParameter("personName"));
-                } else if (result.getParameter("resultClass").equals(Role.class.getName())) {
-                    recipient.setRoleName((String)result.getParameter("name"));
-                    recipient.setFullName((String)result.getParameter("name"));
+            if (result.isSelected() == true){
+                if (result.getKcPerson() != null) {
+                    recipient.setPersonId(result.getKcPerson().getPersonId());
+                    recipient.setFullName(result.getKcPerson().getFullName());
+                } else if (result.getRolodex() != null) {
+                    recipient.setRolodexId(result.getRolodex().getRolodexId().toString());
+                    recipient.setFullName(result.getRolodex().getFullName());
+                } else if (result.getRole() != null) {
+                    recipient.setRoleName(result.getRole().getName());
+                    recipient.setFullName(result.getRole().getName());
+                } else {
+                    continue;
                 }
                 recipients.add(recipient);
             }

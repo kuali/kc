@@ -109,8 +109,11 @@
                       p:progressiveRender="@{#empty(#fp.addRecipientHelper.lineType)}"
                       p:order="10" />
                 <bean parent="Kc-SendNotification-PersonnelResults"
-                      p:progressiveRender="@{!#empty(#fp.addRecipientHelper.lineType)}"
+                      p:progressiveRender="@{#fp.addRecipientHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).EMPLOYEE.code}'}"
                       p:order="20" />
+                <bean parent="Kc-SendNotification-RolodexResults"
+                      p:progressiveRender="@{#fp.addRecipientHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).NONEMPLOYEE.code}'}"
+                      p:order="30" />
             </list>
         </property>
         <property name="footer">
@@ -131,7 +134,20 @@
     <bean id="Kc-SendNotification-PersonnelResults" parent="Kc-Wizard-PersonnelResults">
         <property name="items">
             <list merge="true">
-                <bean parent="Uif-InputField" p:propertyName="parameterMap[select]"
+                <bean parent="Uif-InputField" p:propertyName="selected"
+                      p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-SendNotification-RolodexResults" parent="Kc-Wizard-RolodexResults">
+        <property name="items">
+            <list merge="true">
+                <bean parent="Uif-InputField" p:propertyName="selected"
                       p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>

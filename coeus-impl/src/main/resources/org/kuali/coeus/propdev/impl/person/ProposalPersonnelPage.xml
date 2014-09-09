@@ -125,8 +125,12 @@
 		parent="Uif-CssGridGroup">
 		<property name="items">
 			<list>
-				<bean parent="PropDev-PersonnelPage-WizardPage2-Results"
-					p:order="10" />
+				<bean parent="PropDev-PersonnelPage-WizardPage2-PersonnelResults"
+                      p:progressiveRender="@{#fp.addKeyPersonHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).EMPLOYEE.code}'}"
+					  p:order="10" />
+                <bean parent="PropDev-PersonnelPage-WizardPage2-RolodexResults"
+                      p:progressiveRender="@{#fp.addKeyPersonHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).NONEMPLOYEE.code}'}"
+                      p:order="20" />
 			</list>
 		</property>
 		<property name="footer">
@@ -144,10 +148,30 @@
 		</property>
 	</bean>
 
-    <bean id="PropDev-PersonnelPage-WizardPage2-Results" parent="Kc-Wizard-PersonnelResults">
+    <bean id="PropDev-PersonnelPage-WizardPage2-PersonnelResults" parent="Kc-Wizard-PersonnelResults">
         <property name="items">
             <list merge="true">
-                <bean parent="Uif-InputField" p:propertyName="parameterMap[select]"
+                <bean parent="Uif-InputField" p:propertyName="selected"
+                      p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="" />
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="onClickScript" value="Kc.PropDev.Personnel.unselectCollectionRadioButtons(this, &quot;input[name$='selected']&quot;);" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-PersonnelPage-WizardPage2-RolodexResults" parent="Kc-Wizard-RolodexResults">
+        <property name="items">
+            <list merge="true">
+                <bean parent="Uif-InputField" p:propertyName="selected"
                       p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl">

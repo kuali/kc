@@ -79,8 +79,12 @@
 		parent="Uif-CssGridGroup">
 		<property name="items">
 			<list>
-				<bean parent="PropBudget-ProjectPersonnelPage-Search-Result-Details"
-					p:order="10" />
+				<bean parent="PropBudget-ProjectPersonnelPage-PersonnelResults"
+                      p:progressiveRender="@{#fp.addProjectPersonnelHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).EMPLOYEE.code}'}"
+					  p:order="10" />
+                <bean parent="PropBudget-ProjectPersonnelPage-RolodexResults"
+                      p:progressiveRender="@{#fp.addProjectPersonnelHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).NONEMPLOYEE.code}'}"
+                      p:order="20" />
 			</list>
 		</property>
 		<property name="footer">
@@ -101,11 +105,10 @@
 		</property>
 	</bean>
 
-	<bean id="PropBudget-ProjectPersonnelPage-Search-Result-Details" parent="Kc-Wizard-PersonnelResults"
-		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson">
+	<bean id="PropBudget-ProjectPersonnelPage-PersonnelResults" parent="Kc-Wizard-PersonnelResults">
 		<property name="items">
 			<list merge="true">
-				<bean parent="Uif-InputField" p:propertyName="parameterMap[select]"
+				<bean parent="Uif-InputField" p:propertyName="selected"
 					p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
 					<property name="control">
 						<bean parent="Uif-CheckboxControl"/>
@@ -115,7 +118,18 @@
 		</property>
 	</bean>
 
-
+    <bean id="PropBudget-ProjectPersonnelPage-RolodexResults" parent="Kc-Wizard-RolodexResults">
+        <property name="items">
+            <list merge="true">
+                <bean parent="Uif-InputField" p:propertyName="selected"
+                      p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
     <bean id="PropBudget-ProjectPersonnelPage-TypeSelection" parent="Uif-CssGridSection-1FieldLabelColumn">
         <property name="items">

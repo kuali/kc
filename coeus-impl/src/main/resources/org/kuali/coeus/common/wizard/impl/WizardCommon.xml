@@ -162,19 +162,41 @@
     <bean id="Kc-Wizard-PersonnelResults-parentBean" abstract="true" parent="Kc-Wizard-Results">
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="parameterMap[personName]"
+                <bean parent="Uif-DataField" p:propertyName="kcPerson.fullName"
                       p:label="Full Name" p:order="20" />
-                <bean parent="Uif-DataField" p:propertyName="parameterMap[userName]"
+                <bean parent="Uif-DataField" p:propertyName="kcPerson.userName"
                       p:label="User ID" p:order="30" />
-                <bean parent="Uif-DataField" p:propertyName="parameterMap[emailAddress]"
+                <bean parent="Uif-DataField" p:propertyName="kcPerson.emailAddress"
                       p:label="Email Address" p:order="40" />
-                <bean parent="Uif-DataField" p:propertyName="parameterMap[unitNumber]"
+                <bean parent="Uif-MessageField" p:messageText="@{#line.kcPerson.unit != null ? #line.kcPerson.unit.unitNumber:''}"
                       p:label="Unit Number" p:order="50" />
-                <bean parent="Uif-DataField" p:propertyName="parameterMap[unitName]"
+                <bean parent="Uif-MessageField" p:messageText="@{#line.kcPerson.unit != null ? #line.kcPerson.unit.unitName:''}"
                       p:label="Unit Name" p:order="60" />
-                <bean parent="Uif-DataField" p:propertyName="parameterMap[organization]"
+                <bean parent="Uif-DataField" p:propertyName="kcPerson.contactOrganizationName"
                       p:label="Organization" p:order="70" />
-                <bean parent="Uif-DataField" p:propertyName="parameterMap[city]"
+                <bean parent="Uif-DataField" p:propertyName="kcPerson.city"
+                      p:label="City" p:order="80" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-Wizard-RolodexResults" parent="Kc-Wizard-RolodexResults-parentBean" />
+    <bean id="Kc-Wizard-RolodexResults-parentBean" abstract="true" parent="Kc-Wizard-Results">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="rolodex.fullName"
+                      p:label="Full Name" p:order="20" />
+                <bean parent="Uif-MessageField"
+                      p:label="User ID" p:order="30" />
+                <bean parent="Uif-DataField" p:propertyName="rolodex.emailAddress"
+                      p:label="Email Address" p:order="40" />
+                <bean parent="Uif-MessageField" p:messageText="@{#line.rolodex.unit != null ? #line.rolodex.unit.unitNumber:''}"
+                      p:label="Unit Number" p:order="50" />
+                <bean parent="Uif-MessageField" p:messageText="@{#line.rolodex.unit != null ? #line.rolodex.unit.unitName:''}"
+                      p:label="Unit Name" p:order="60" />
+                <bean parent="Uif-DataField" p:propertyName="rolodex.organization"
+                      p:label="Organization" p:order="70" />
+                <bean parent="Uif-DataField" p:propertyName="rolodex.city"
                       p:label="City" p:order="80" />
             </list>
         </property>
@@ -186,19 +208,19 @@
           p:showInactiveLines="true">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="parameterMap[select]"
+                <bean parent="Uif-InputField" p:propertyName="selected"
                       p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:propertyName="parameterMap[kimRoleTypeName]"
+                <bean parent="Uif-DataField" p:propertyName="role.kimRoleType.name"
                       p:label="Role Type Name" p:order="20" />
-                <bean parent="Uif-DataField" p:propertyName="parameterMap[namespaceCode]"
+                <bean parent="Uif-DataField" p:propertyName="role.namespaceCode"
                       p:label="Namespace" p:order="30" />
-                <bean parent="Uif-DataField" p:propertyName="parameterMap[name]"
+                <bean parent="Uif-DataField" p:propertyName="role.name"
                       p:label="Role Name" p:order="40" />
-                <bean parent="Uif-DataField" p:propertyName="parameterMap[description]"
+                <bean parent="Uif-DataField" p:propertyName="role.description"
                       p:label="Description" p:order="50" />
             </list>
         </property>

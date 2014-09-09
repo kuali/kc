@@ -16,8 +16,6 @@
 package org.kuali.coeus.propdev.impl.person;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.view.wizard.framework.WizardControllerService;
 import org.kuali.coeus.common.view.wizard.framework.WizardResultsDto;
 import org.kuali.coeus.propdev.impl.core.*;
@@ -99,7 +97,8 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 
        for (Object object : getWizardControllerService().performWizardSearch(form.getAddKeyPersonHelper().getLookupFieldValues(),form.getAddKeyPersonHelper().getLineType())) {
            WizardResultsDto wizardResult = (WizardResultsDto) object;
-           if (!personAlreadyExists((String)wizardResult.getParameter("personId"),form.getDevelopmentProposal().getProposalPersons())) {
+           String personId = wizardResult.getKcPerson() != null ? wizardResult.getKcPerson().getPersonId() : wizardResult.getRolodex().getRolodexId().toString();
+           if (!personAlreadyExists(personId,form.getDevelopmentProposal().getProposalPersons())) {
                results.add(object);
            }
        }
@@ -114,15 +113,15 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        ProposalPerson newProposalPerson = new ProposalPerson();
        for (Object object : form.getAddKeyPersonHelper().getResults()) {
            WizardResultsDto wizardResult = (WizardResultsDto) object;
-           if (wizardResult.getParameter("select").equals("Y")) {
-               if (wizardResult.getParameter("resultClass").equals(KcPerson.class.getName())) {
-                   newProposalPerson.setSchool((String)wizardResult.getParameter("school"));
-                   newProposalPerson.setPersonId((String)wizardResult.getParameter("personId"));
-                   newProposalPerson.setFullName((String)wizardResult.getParameter("personName"));
-                   newProposalPerson.setUserName((String)wizardResult.getParameter("userName"));
-               } else if (wizardResult.getParameter("resultClass").equals(Rolodex.class.getName())) {
-                   newProposalPerson.setRolodexId((Integer)wizardResult.getParameter("rolodexId"));
-                   newProposalPerson.setFullName((String)wizardResult.getParameter("personName"));
+           if (wizardResult.isSelected() == true) {
+               if (wizardResult.getKcPerson() != null) {
+                   newProposalPerson.setPersonId(wizardResult.getKcPerson().getPersonId());
+                   newProposalPerson.setFullName(wizardResult.getKcPerson().getFullName());
+                   newProposalPerson.setUserName(wizardResult.getKcPerson().getUserName());
+               } else if (wizardResult.getRolodex() != null) {
+                   newProposalPerson.setRolodexId(wizardResult.getRolodex().getRolodexId());
+                   newProposalPerson.setFullName(wizardResult.getRolodex().getFullName());
+
                }
                break;
            }

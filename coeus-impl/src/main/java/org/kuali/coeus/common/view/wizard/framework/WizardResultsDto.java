@@ -1,29 +1,44 @@
 package org.kuali.coeus.common.view.wizard.framework;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.rice.kim.impl.role.RoleBo;
 
 public class WizardResultsDto {
-    private Map<String,Object> parameterMap;
+    private boolean selected;
+    private RoleBo role;
+    private Rolodex rolodex;
+    private KcPerson kcPerson;
 
-    public WizardResultsDto() {
-        parameterMap = new HashMap<String,Object>();
-        parameterMap.put("select",false);
+    public boolean isSelected() {
+        return selected;
     }
 
-    public Map<String, Object> getParameterMap() {
-        return parameterMap;
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
-    public void setParameterMap(Map<String, Object> parameterMap) {
-        this.parameterMap = parameterMap;
+    public RoleBo getRole() {
+        return role;
     }
 
-    public Object getParameter(String key) {
-        return getParameterMap().get(key);
+    public void setRole(RoleBo role) {
+        this.role = role;
     }
 
-    public void addParameter(String key, Object value) {
-        getParameterMap().put(key,value);
+    public Rolodex getRolodex() {
+        return rolodex;
+    }
+
+    public void setRolodex(Rolodex rolodex) {
+        this.rolodex = rolodex;
+    }
+
+    public KcPerson getKcPerson() {
+        return kcPerson;
+    }
+
+    public void setKcPerson(KcPerson kcPerson) {
+        this.kcPerson = kcPerson;
     }
 }
