@@ -791,6 +791,9 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     public void setPrimeSponsorCode(String primeSponsorCode) {
         this.primeSponsorCode = primeSponsorCode;
+        if (StringUtils.isBlank(primeSponsorCode)){
+            primeSponsor = null;
+        }
     }
 
     @Override
