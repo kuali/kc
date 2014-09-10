@@ -16,75 +16,114 @@
 package org.kuali.coeus.propdev.impl.editable;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
+import javax.persistence.*;
 import java.sql.Date;
 
+@Entity
+@Table(name = "EPS_PROPOSAL")
 public class ProposalOverview extends KcPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
 
+    @Transient
     private String documentNumber;
 
+    @Column(name = "PROPOSAL_TYPE_CODE")
     private String proposalTypeCode;
 
+    @Column(name = "CONTINUED_FROM")
     private String continuedFrom;
 
+    @Column(name = "SPONSOR_CODE")
     private String sponsorCode;
 
+    @Column(name = "ACTIVITY_TYPE_CODE")
     private String activityTypeCode;
 
+    @Column(name = "OWNED_BY_UNIT")
     private String ownedByUnitNumber;
 
+    @Column(name = "REQUESTED_START_DATE_INITIAL")
     private Date requestedStartDateInitial;
 
+    @Column(name = "REQUESTED_END_DATE_INITIAL")
     private Date requestedEndDateInitial;
 
+    @Column(name = "TITLE")
     private String title;
 
+    @Column(name = "CURRENT_AWARD_NUMBER")
     private String currentAwardNumber;
 
+    @Column(name = "DEADLINE_DATE")
     private Date deadlineDate;
 
+    @Column(name = "NOTICE_OF_OPPORTUNITY_CODE")
     private String noticeOfOpportunityCode;
 
+    @Column(name = "DEADLINE_TYPE")
     private String deadlineType;
 
+    @Column(name = "CFDA_NUMBER")
     private String cfdaNumber;
 
+    @Column(name = "PROGRAM_ANNOUNCEMENT_NUMBER")
     private String programAnnouncementNumber;
 
+    @Column(name = "PRIME_SPONSOR_CODE")
     private String primeSponsorCode;
 
+    @Column(name = "SPONSOR_PROPOSAL_NUMBER")
     private String sponsorProposalNumber;
 
+    @Column(name = "NSF_CODE")
     private String nsfCode;
 
+    @Column(name = "SUBCONTRACT_FLAG")
+    @Convert(converter = BooleanYNConverter.class)
     private Boolean subcontracts;
 
+    @Column(name = "AGENCY_DIVISION_CODE")
     private String agencyDivisionCode;
 
+    @Column(name = "AGENCY_PROGRAM_CODE")
     private String agencyProgramCode;
 
+    @Column(name = "PROGRAM_ANNOUNCEMENT_TITLE")
     private String programAnnouncementTitle;
 
+    @Column(name = "MAIL_BY")
     private String mailBy;
 
+    @Column(name = "MAIL_TYPE")
     private String mailType;
 
+    @Column(name = "MAIL_ACCOUNT_NUMBER")
     private String mailAccountNumber;
 
+    @Column(name = "MAIL_DESCRIPTION")
     private String mailDescription;
 
+    @Column(name = "MAILING_ADDRESS_ID")
     private Integer mailingAddressId;
 
+    @Column(name = "NUMBER_OF_COPIES")
     private String numberOfCopies;
 
+    @Transient
     private String organizationId;
 
+    @Transient
     private String performingOrganizationId;
 
+    @Transient
     private String budgetStatus;
 
+    @Column(name = "CREATION_STATUS_CODE")
     private String creationStatusCode;
 
     public String getProposalNumber() {

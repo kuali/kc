@@ -15,15 +15,18 @@
  */
 package org.kuali.coeus.propdev.impl.editable;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.propdev.api.editable.ProposalChangedDataContract;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 
 @Entity
 @Table(name = "EPS_PROP_CHANGED_DATA")
@@ -57,9 +60,6 @@ public class ProposalChangedData extends KcPersistableBusinessObjectBase impleme
     @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "COLUMN_NAME", referencedColumnName = "COLUMN_NAME", insertable = false, updatable = false)
     private ProposalColumnsToAlter editableColumn;
-
-    @Transient
-    private String attributeName;
 
     public ProposalChangedData() {
         super();
@@ -138,11 +138,16 @@ public class ProposalChangedData extends KcPersistableBusinessObjectBase impleme
     }
 
     public String getAttributeName() {
-        return attributeName;
-    }
+        String attributeName = "";
+       for (Field field : DevelopmentProposal.class.getDeclaredFields()) {
+           Column column = field.getAnnotation(Column.class);
+           if (column != null && column.name().equals(getColumnName())){
+               attributeName = field.getName();
+               break;
+           }
+       }
 
-    public void setAttributeName(String attributeName) {
-        this.attributeName = attributeName;
+        return attributeName;
     }
 
     public static final class ProposalChangedDataId implements Serializable, Comparable<ProposalChangedDataId> {

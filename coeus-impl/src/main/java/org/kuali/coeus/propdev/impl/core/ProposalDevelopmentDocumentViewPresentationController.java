@@ -25,8 +25,8 @@ public class ProposalDevelopmentDocumentViewPresentationController extends Trans
 	@Autowired
 	@Qualifier("kcWorkflowService")
 	private KcWorkflowService kcWorkflowService;
-	
-	
+
+
 	@Override
     public Set<String> getActionFlags(View view, UifFormBase model) {
 		Set<String> documentActions = super.getActionFlags(view, model);

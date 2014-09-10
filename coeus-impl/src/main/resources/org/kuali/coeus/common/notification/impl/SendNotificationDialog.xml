@@ -17,7 +17,7 @@
 
 
     <bean id="Kc-SendNotification-Wizard" parent="Kc-Wizard"
-          p:header.headerText="Send Notifications">
+          p:header.headerText="Send Notifications" p:readOnly="false">
         <property name="items">
             <list>
                 <bean parent="Kc-SendNotification-WizardPage1" p:order="10" />

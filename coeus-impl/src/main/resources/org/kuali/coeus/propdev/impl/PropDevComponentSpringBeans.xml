@@ -69,7 +69,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/copy/ProposalCopyDialogSection.xml</value>
 				<value>classpath:org/kuali/coeus/propdev/impl/core/ProposalHierachyPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/docperm/ProposalPermissionsDialog.xml</value>
-
+                <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalDataOverrideDialog.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/docperm/ProposalPermissionsPage.xml</value>
                 <!--  PD Budget -->
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetShared.xml</value>

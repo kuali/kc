@@ -605,8 +605,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     public InstitutionalProposal getInstitutionalProposal(String devProposalNumber) {
         Map<String, Object> values = new HashMap<String, Object>();
         values.put("devProposalNumber", devProposalNumber);
-        Collection<ProposalAdminDetails> proposalAdminDetails = getDataObjectService().findMatching(ProposalAdminDetails.class,
-                QueryByCriteria.Builder.andAttributes(values).build()).getResults();
+        Collection<ProposalAdminDetails> proposalAdminDetails = getBusinessObjectService().findMatching(ProposalAdminDetails.class,values);
 
         for (Iterator iter = proposalAdminDetails.iterator(); iter.hasNext();) {
             ProposalAdminDetails pad = (ProposalAdminDetails) iter.next();
