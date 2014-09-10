@@ -190,6 +190,11 @@ public abstract class ProposalDevelopmentControllerBase {
          if (StringUtils.equalsIgnoreCase(form.getPageId(), Constants.PROP_DEV_PERMISSIONS_PAGE)) {
              saveDocumentPermissions(form);
          }
+
+         if (StringUtils.equalsIgnoreCase(form.getPageId(), Constants.CREDIT_ALLOCATION_PAGE)) {
+             ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateCreditSplits(form);
+         }
+
          preSave(proposalDevelopmentDocument);
 
          proposalDevelopmentService.initializeUnitOrganizationLocation(

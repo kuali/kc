@@ -164,6 +164,7 @@ public interface Constants {
     
     // Key Personnel Mojo
     public static final String KEY_PERSONNEL_PAGE = "PropDev-PersonnelPage";
+    public static final String CREDIT_ALLOCATION_PAGE = "PropDev-CreditAllocationPage";
     public static final String PROPOSAL_PERSON_INVESTIGATOR = "investigator";
     public static final String KEY_PERSONNEL_PANEL_ANCHOR = "PropDev-PersonnelPage-Section";
     public static final String KEY_PERSONNEL_PANEL_NAME = "Key Personnel";
