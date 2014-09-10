@@ -104,12 +104,6 @@
     <property name="label" value="Attachment File" />
     <property name="shortLabel" value="Attachment" />
     <property name="maxLength" value="0" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="0"/>
