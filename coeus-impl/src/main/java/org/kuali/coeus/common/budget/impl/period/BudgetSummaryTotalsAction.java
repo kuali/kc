@@ -122,8 +122,7 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
 
     private Budget getBudget(ActionForm form) {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        Budget budget = budgetForm.getBudget();
         return budget;
     }
     

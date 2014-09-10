@@ -476,16 +476,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
 
     @Override
-    public void saveBudgetFinalVersionStatus(BudgetDocument budgetDocument) {
-        getProposalBudgetStatusService().saveBudgetFinalVersionStatus(this);
-    }
-
-    @Override
-    public void processAfterRetrieveForBudget(BudgetDocument budgetDocument) {
-        getProposalBudgetStatusService().loadBudgetStatusByProposalDocumentNumber(((DevelopmentProposal) budgetDocument.getBudget().getBudgetParent()).getProposalNumber());
-    }
-
-    @Override
     public String getTaskGroupName() {
         return TaskGroupName.PROPOSAL_BUDGET;
     }

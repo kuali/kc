@@ -131,16 +131,12 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
         Budget budgetToOpen = pdDoc.getBudgetDocumentVersion(getSelectedLine(request));
         DocumentService documentService = getDocumentService();
-        BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
-        String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
-        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
-        if(parentDocument==null){
-            budgetDocument.refreshReferenceObject("parentDocument");
-        }
-        this.checkProjectStartEndDateWarning(budgetDocument);
-        
-        Budget budget = budgetDocument.getBudget();
-        Collection<BudgetRate> allPropRates = budgetService.getSavedBudgetRates(budget);
+        String routeHeaderId = budgetToOpen.getBudgetId().toString();
+        BudgetParentDocument parentDocument = budgetToOpen.getBudgetParent().getDocument();
+
+        this.checkProjectStartEndDateWarning(budgetToOpen);
+
+        Collection<BudgetRate> allPropRates = budgetService.getSavedBudgetRates(budgetToOpen);
         
         if (budgetService.checkActivityTypeChange(allPropRates, pdDoc.getDevelopmentProposal().getActivityTypeCode())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
@@ -164,14 +160,12 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
      * This method checks if the budget periods exceeds the project start/end dates
      * 
      */
-    public void checkProjectStartEndDateWarning(BudgetDocument budgetDocument) {
-        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
+    public void checkProjectStartEndDateWarning(Budget budget) {
+        BudgetParentDocument parentDocument = budget.getBudgetParent().getDocument();
         if(parentDocument==null){
           return;
         }
-     
-        Budget aBudget = budgetDocument.getBudget();
-        List<BudgetPeriod> aList = aBudget.getBudgetPeriods();
+        List<BudgetPeriod> aList = budget.getBudgetPeriods();
         
         if(parentDocument != null){
             Date parentStartDate = parentDocument.getBudgetParent().getRequestedStartDateInitial();
@@ -201,13 +195,11 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     private ActionForward synchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, boolean confirm) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
-        Budget budgetDocumentToOpen = pdDoc.getBudgetDocumentVersion(getSelectedLine(request));
-        DocumentService documentService = getDocumentService();
-        BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocumentToOpen.getDocumentNumber());
-        String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
+        Budget budget = pdDoc.getDevelopmentProposal().getBudgets().get(getSelectedLine(request));
+        String routeHeaderId = budget.getBudgetId().toString();
         String forward = buildForwardUrl(routeHeaderId);
         if (confirm) {
-            budgetDocument.getBudget().setActivityTypeCode(pdDoc.getDevelopmentProposal().getActivityTypeCode());
+            budget.setActivityTypeCode(pdDoc.getDevelopmentProposal().getActivityTypeCode());
             forward = forward.replace("budgetParameters.do?", "budgetParameters.do?syncBudgetRate=Y&");
         }
         if (pdForm.isAuditActivated()) {
@@ -283,7 +275,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
                 for (Budget budgetVersion: pdDoc.getDevelopmentProposal().getBudgets()) {
 
                         String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
-                                BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+                                Budget.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
                         budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
                 }
             }

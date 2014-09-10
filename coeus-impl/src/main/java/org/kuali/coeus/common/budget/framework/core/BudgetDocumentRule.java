@@ -95,6 +95,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         boolean valid = true;
         
         BudgetDocument budgetDocument = (BudgetDocument) document;
+        Budget budget = budgetDocument.getBudget();
         
         GlobalVariables.getMessageMap().addToErrorPath("document");        
         GlobalVariables.getMessageMap().addToErrorPath("parentDocument");
@@ -107,11 +108,11 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         GlobalVariables.getMessageMap().removeFromErrorPath("parentDocument");
         
         GlobalVariables.getMessageMap().addToErrorPath("budget"); 
-        valid &= processBudgetPersonnelBusinessRules(budgetDocument);
+        valid &= processBudgetPersonnelBusinessRules(budget);
         
-        valid &= processBudgetExpenseBusinessRules(budgetDocument);
+        valid &= processBudgetExpenseBusinessRules(budget);
         
-        valid &= processBudgetPersonnelBudgetBusinessRules(budgetDocument);
+        valid &= processBudgetPersonnelBudgetBusinessRules(budget);
         
         valid &= processBudgetRatesBusinessRule(budgetDocument);
         
@@ -283,8 +284,8 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
      * @param budgetDocument
      * @return
      */
-    protected boolean processBudgetPersonnelBusinessRules(BudgetDocument budgetDocument) {
-        return new BudgetPersonnelRule().processBudgetPersonnelBusinessRules(budgetDocument);
+    protected boolean processBudgetPersonnelBusinessRules(Budget budget) {
+        return new BudgetPersonnelRule().processBudgetPersonnelBusinessRules(budget);
     }
     
     /**
@@ -293,12 +294,12 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
      * @param budgetDocument
      * @return
      */
-    protected boolean processBudgetExpenseBusinessRules(BudgetDocument budgetDocument) {
+    protected boolean processBudgetExpenseBusinessRules(Budget budget) {
         boolean valid = true;
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
         
-        List<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
+        List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         int i=0;
         int j=0;
         for(BudgetPeriod budgetPeriod: budgetPeriods){
@@ -332,12 +333,12 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
      * @param budgetDocument
      * @return
      */
-    protected boolean processBudgetPersonnelBudgetBusinessRules(BudgetDocument budgetDocument) {
+    protected boolean processBudgetPersonnelBudgetBusinessRules(Budget budget) {
         boolean valid = true;
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
         
-        List<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
+        List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         int i=0;
         int j=0;
         int k=0;

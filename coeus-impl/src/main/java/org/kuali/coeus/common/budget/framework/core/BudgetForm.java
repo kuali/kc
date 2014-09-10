@@ -36,6 +36,7 @@ import org.kuali.coeus.common.framework.costshare.CostShareFunctions;
 import org.kuali.coeus.common.framework.costshare.CostShareService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularSummary;
@@ -981,7 +982,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }
     
     public boolean isSyncableBudget() throws ProposalHierarchyException {
-        BudgetDocument<DevelopmentProposal> budget = 
+        ProposalDevelopmentBudgetExt budget = 
                 getProposalHierarchyService().getSyncableBudget((DevelopmentProposal) this.getBudgetDocument().getBudget().getBudgetParent());
         if (budget != null
                 && StringUtils.equals(budget.getDocumentNumber(), getBudgetDocument().getDocumentNumber())) {
@@ -989,5 +990,9 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         } else {
             return false;
         }
-    }    
+    }
+    
+    public Budget getBudget() {
+    	return this.getBudgetDocument().getBudget();
+    }
 }

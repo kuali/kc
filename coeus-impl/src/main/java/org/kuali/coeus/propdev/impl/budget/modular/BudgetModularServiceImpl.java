@@ -117,7 +117,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                 
                 budgetCalculationService.calculateBudgetLineItem(budget, budgetLineItem);
                 Collection<String> consortiumFnaCostElements = this.parameterService.getParameterValuesAsString(
-                        BudgetDocument.class, Constants.PARAMETER_FNA_COST_ELEMENTS);
+                        Budget.class, Constants.PARAMETER_FNA_COST_ELEMENTS);
                 
                 //is cost direct or indirect? Add cost to correct variable.
                 if (consortiumFnaCostElements.contains(budgetLineItem.getCostElement())) {
@@ -129,7 +129,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                 for (BudgetRateAndBase budgetRateAndBase: budgetLineItem.getBudgetRateAndBaseList()) {
                     budgetRateAndBase.refreshReferenceObject(RATE_CLASS_PROPERTY_NAME);
                     String fnaRateClassType = this.parameterService.getParameterValueAsString(
-                            BudgetDocument.class, Constants.PARAMETER_FNA_RATE_CLASS_TYPE);
+                            Budget.class, Constants.PARAMETER_FNA_RATE_CLASS_TYPE);
                   
                     if (budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(fnaRateClassType)) {
                         BudgetModularIdc budgetModularIdc = new BudgetModularIdc();

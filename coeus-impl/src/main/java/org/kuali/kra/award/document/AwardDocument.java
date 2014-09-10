@@ -369,18 +369,6 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Award
     	this.budgetDocumentVersions = budgetDocumentVersions;
     }
 
-    @Override
-    public void saveBudgetFinalVersionStatus(BudgetDocument budgetDocument) {
-
-        
-    }
-
-    @Override
-    public void processAfterRetrieveForBudget(BudgetDocument budgetDocument) {
-
-        
-    }
-
     public String getDocumentKey() {
         return PermissionableKeys.AWARD_KEY;
     }

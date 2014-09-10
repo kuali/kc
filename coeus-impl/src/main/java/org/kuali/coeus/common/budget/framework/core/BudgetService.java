@@ -52,7 +52,7 @@ public interface BudgetService<T extends BudgetParent>  {
      */
     public boolean ValidInflationCeRate(BudgetLineItemBase budgetLineItem);
     
-    public String getActivityTypeForBudget(BudgetDocument<T> budgetDocument);
+    public String getActivityTypeForBudget(Budget budget);
     
     /**
      * This method returns the applicable Object Codes (Cost Elements) for a given Budget Person 

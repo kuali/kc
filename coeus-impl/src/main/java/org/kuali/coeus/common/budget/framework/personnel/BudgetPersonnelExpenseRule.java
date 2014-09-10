@@ -16,6 +16,7 @@
 package org.kuali.coeus.common.budget.framework.personnel;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -64,7 +65,7 @@ public class BudgetPersonnelExpenseRule {
         return valid;
     }
     
-    public boolean processCheckDuplicateBudgetPersonnel(BudgetDocument budgetDocument, int budgetPeriodIndex, int budgetLineItemIndex) {
+    public boolean processCheckDuplicateBudgetPersonnel(Budget budget, int budgetPeriodIndex, int budgetLineItemIndex) {
         boolean valid=true;
         MessageMap errorMap = GlobalVariables.getMessageMap();
         
@@ -72,7 +73,7 @@ public class BudgetPersonnelExpenseRule {
         int l=0;
         Map<String, String> errorCombinations = new HashMap<String, String>();
         
-        BudgetPeriod selectedBudgetPeriod = budgetDocument.getBudget().getBudgetPeriod(budgetPeriodIndex);
+        BudgetPeriod selectedBudgetPeriod = budget.getBudgetPeriod(budgetPeriodIndex);
         BudgetLineItem selectedBudgetLineItem = selectedBudgetPeriod.getBudgetLineItem(budgetLineItemIndex);
 
         for(BudgetPersonnelDetails personnelDetails : selectedBudgetLineItem.getBudgetPersonnelDetailsList()) {
@@ -98,9 +99,9 @@ public class BudgetPersonnelExpenseRule {
         return valid;
     }
     
-    public boolean processSaveCheckDuplicateBudgetPersonnel(BudgetDocument budgetDocument) {
+    public boolean processSaveCheckDuplicateBudgetPersonnel(Budget budget) {
         boolean valid = true;
-        List<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
+        List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         List<BudgetLineItem> budgetLineItems;
         int i=0;
         int j=0;
@@ -110,7 +111,7 @@ public class BudgetPersonnelExpenseRule {
             budgetLineItems = budgetPeriod.getBudgetLineItems();
             for(BudgetLineItem budgetLineItem: budgetLineItems){
                 if (budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals("P")) {
-                    valid &= processCheckDuplicateBudgetPersonnel(budgetDocument, i, j);
+                    valid &= processCheckDuplicateBudgetPersonnel(budget, i, j);
                 }
                 j++;
             }

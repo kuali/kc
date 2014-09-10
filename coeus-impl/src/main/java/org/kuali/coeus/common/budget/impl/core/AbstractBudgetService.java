@@ -58,6 +58,7 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.document.DocumentBase;
 import org.kuali.rice.krad.rules.rule.event.DocumentAuditEvent;
 import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -129,7 +130,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
 
     /**
      * Runs business rules on the given name of a {@link BudgetVersionOverview} instance and {@link ProposalDevelopmentDocument} instance to 
-     * determine if it is ok to add a {@link BudgetVersionOverview} instance to a {@link BudgetDocument} instance. If the business rules fail, 
+     * determine if it is ok to add a {@link BudgetVersionOverview} instance to a {@link Budget} instance. If the business rules fail, 
      * this should be false and there will be errors in the error map.<br/>
      *
      * <p>Takes care of all the setup and calling of the {@link KualiRuleService}. Uses the {@link org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent}.</p>
@@ -201,7 +202,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
                 Method[] methods = object.getClass().getMethods();
                 for (Method method : methods) {
                     if (method.getName().equals(methodName)) {
-                        if (!(object instanceof BudgetDocument)) {
+                        if (!(object instanceof DocumentBase)) {
                               try {
                                 if(clazz.equals(Long.class))
                                     method.invoke(object, (Long) propertyValue);  
@@ -287,12 +288,8 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
 
     @SuppressWarnings("unchecked")
     @Override
-    public String getActivityTypeForBudget(BudgetDocument<T> budgetDocument) {
-        Budget budget = budgetDocument.getBudget();
-        BudgetParent budgetParent = budgetDocument.getBudget().getBudgetParent().getDocument().getBudgetParent();
-        if(budgetParent==null){
-            budgetDocument.refreshReferenceObject("parentDocument");
-        }
+    public String getActivityTypeForBudget(Budget budget) {
+        BudgetParent budgetParent = budget.getBudgetParent().getDocument().getBudgetParent();
         Map<String,Object> qMap = new HashMap<String,Object>();
         qMap.put("budgetId",budget.getBudgetId());
         List<BudgetRate> allPropRates = (List)businessObjectService.findMatching(
@@ -325,7 +322,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
         List<ValidCeJobCode> validCostElements = null;
 
         String jobCodeValidationEnabledInd = this.parameterService.getParameterValueAsString(
-                BudgetDocument.class, Constants.BUDGET_JOBCODE_VALIDATION_ENABLED);
+                Budget.class, Constants.BUDGET_JOBCODE_VALIDATION_ENABLED);
         
         if(StringUtils.isNotEmpty(jobCodeValidationEnabledInd) && jobCodeValidationEnabledInd.equals("Y")) { 
             Map fieldValues = new HashMap();
@@ -415,7 +412,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
         boolean finalAndCompleteBudgetVersionFound = false;
         boolean budgetVersionsExists = false;
         List<AuditError> auditErrors = new ArrayList<AuditError>();
-        String budgetStatusCompleteCode = this.parameterService.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        String budgetStatusCompleteCode = this.parameterService.getParameterValueAsString(Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
         for (Budget budgetVersion : parentDocument.getBudgetParent().getBudgets()) {
             budgetVersionsExists = true;
             if (budgetVersion.isFinalVersionFlag()) {
@@ -445,7 +442,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
         boolean valid = true;
         for (Budget budgetVersion : budgetParentDocument.getBudgetParent().getBudgets()) {
             
-            String budgetStatusCompleteCode = this.parameterService.getParameterValueAsString(BudgetDocument.class,
+            String budgetStatusCompleteCode = this.parameterService.getParameterValueAsString(Budget.class,
                     Constants.BUDGET_STATUS_COMPLETE_CODE);
             // if status is complete and version is not final, then business rule will take care of it
             if (budgetVersion.isFinalVersionFlag() && budgetVersion.getBudgetStatus() != null
@@ -751,11 +748,11 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     }
     
     protected boolean isBudgetFormulatedCostEnabled() {
-        String formulatedCostEnabled = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.FORMULATED_COST_ENABLED);
+        String formulatedCostEnabled = getParameterService().getParameterValueAsString(Budget.class, Constants.FORMULATED_COST_ENABLED);
         return (formulatedCostEnabled!=null && formulatedCostEnabled.equalsIgnoreCase("Y"))?true:false;
     }
     protected List<String> getFormulatedCostElements() {
-        String formulatedCEsValue = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.FORMULATED_COST_ELEMENTS);
+        String formulatedCEsValue = getParameterService().getParameterValueAsString(Budget.class, Constants.FORMULATED_COST_ELEMENTS);
         String[] formulatedCEs = formulatedCEsValue==null?new String[0]:formulatedCEsValue.split(",");
         return Arrays.asList(formulatedCEs);
     }
@@ -764,7 +761,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     public void setBudgetStatuses(BudgetParentDocument<T> parentDocument) {
         
         String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
-                BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+                Budget.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
         
         for (Budget budgetVersion: parentDocument.getBudgetParent().getBudgets()) {
             if (budgetVersion.isFinalVersionFlag()) {

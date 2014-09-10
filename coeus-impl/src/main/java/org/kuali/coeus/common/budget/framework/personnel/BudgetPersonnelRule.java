@@ -169,18 +169,18 @@ public class BudgetPersonnelRule {
                 person.getPersonSequenceNumber().toString());
     }
     
-    public boolean processBudgetPersonnelBusinessRules(BudgetDocument budgetDocument) {
+    public boolean processBudgetPersonnelBusinessRules(Budget budget) {
         boolean valid = true;
         
         MessageMap messageMap = GlobalVariables.getMessageMap();
         
-        List<BudgetPerson> budgetPersons = budgetDocument.getBudget().getBudgetPersons();
+        List<BudgetPerson> budgetPersons = budget.getBudgetPersons();
         for (int i = 0; i < budgetPersons.size(); i++) {
             BudgetPerson budgetPerson = budgetPersons.get(i);
             for (int j = i + 1; j < budgetPersons.size(); j++) {
                 BudgetPerson budgetPersonCompare = budgetPersons.get(j);
                 if (budgetPerson.isDuplicatePerson(budgetPersonCompare)) {
-                    BudgetParent budgetParent = budgetDocument.getBudget().getBudgetParent().getDocument().getBudgetParent();
+                    BudgetParent budgetParent = budget.getBudgetParent().getDocument().getBudgetParent();
                     if (budgetParent instanceof DevelopmentProposal && ((DevelopmentProposal)budgetParent).isParent()) {
                         // not an error - ProposalHierarchy parents are allowed to have duplicate BudgetPersons
                     }
@@ -206,8 +206,8 @@ public class BudgetPersonnelRule {
      * @throws NullPointerException if the budgetDocument is null
      * @throws IllegalArgumentException if the viewBudgetPeriod < 1
      */
-    public boolean processCheckForJobCodeChange(final BudgetDocument budgetDocument, final int viewBudgetPeriod) {
-        if (budgetDocument == null) {
+    public boolean processCheckForJobCodeChange(final Budget budget, final int viewBudgetPeriod) {
+        if (budget == null) {
             throw new NullPointerException("the budgetDocument is null");
         }
         
@@ -218,17 +218,17 @@ public class BudgetPersonnelRule {
         boolean valid = true;
         
         GlobalVariables.getMessageMap().addToErrorPath("document");
-        valid &= this.processBudgetPersonnelBusinessRules(budgetDocument);
+        valid &= this.processBudgetPersonnelBusinessRules(budget);
         
         if(valid) {
-            final BudgetPeriod selectedBudgetPeriod = budgetDocument.getBudget().getBudgetPeriod(viewBudgetPeriod - 1);
+            final BudgetPeriod selectedBudgetPeriod = budget.getBudgetPeriod(viewBudgetPeriod - 1);
             
             final Collection<Integer> budgetPersonSequences
                 = this.getBudgetPersonSequencesFromPersonnelDetails(selectedBudgetPeriod.getBudgetLineItems());
             
             if (CollectionUtils.isNotEmpty(budgetPersonSequences)) {
                 int i = 0;
-                List<BudgetPerson> budgetPersons = budgetDocument.getBudget().getBudgetPersons();
+                List<BudgetPerson> budgetPersons = budget.getBudgetPersons();
                 for (BudgetPerson person : budgetPersons) {
                     if (budgetPersonSequences.contains(person.getPersonSequenceNumber())) {
                         if(CollectionUtils.isNotEmpty(this.getMappedCostElements(person))) {
@@ -337,7 +337,7 @@ public class BudgetPersonnelRule {
     }
     
     @SuppressWarnings("unchecked")
-    private List<ValidCeJobCode> getApplicableCostElements(BudgetDocument budgetDocument, BudgetPersonnelDetails newBudgetPersonnelDetails, boolean save) {
+    private List<ValidCeJobCode> getApplicableCostElements(Budget budget, BudgetPersonnelDetails newBudgetPersonnelDetails, boolean save) {
         List<ValidCeJobCode> validCostElements = null;
     
         if (save) {
@@ -348,7 +348,7 @@ public class BudgetPersonnelRule {
             
             if(StringUtils.isNotEmpty(jobCodeValidationEnabledInd) && jobCodeValidationEnabledInd.equals("Y")) { 
 
-                List<BudgetPerson> budgetPersons = budgetDocument.getBudget().getBudgetPersons();
+                List<BudgetPerson> budgetPersons = budget.getBudgetPersons();
                 for (BudgetPerson tmpBudgetPerson : budgetPersons) {
                     if(tmpBudgetPerson.getPersonSequenceNumber().intValue() == newBudgetPersonnelDetails.getPersonSequenceNumber().intValue()) {
                         budgetPerson = tmpBudgetPerson;
@@ -362,18 +362,18 @@ public class BudgetPersonnelRule {
             }
             
         } else {
-            validCostElements = this.budgetService.getApplicableCostElements(budgetDocument.getBudget().getBudgetId(), 
+            validCostElements = this.budgetService.getApplicableCostElements(budget.getBudgetId(), 
                         newBudgetPersonnelDetails.getPersonSequenceNumber().toString());
         }
          
         return validCostElements;
     }
     
-    public boolean processCheckJobCodeObjectCodeCombo(BudgetDocument budgetDocument, BudgetPersonnelDetails newBudgetPersonnelDetails, boolean save) {
+    public boolean processCheckJobCodeObjectCodeCombo(Budget budget, BudgetPersonnelDetails newBudgetPersonnelDetails, boolean save) {
         List<ValidCeJobCode> validCostElements = null;
         boolean isValid = false;
         
-        validCostElements = getApplicableCostElements(budgetDocument, newBudgetPersonnelDetails, save);
+        validCostElements = getApplicableCostElements(budget, newBudgetPersonnelDetails, save);
         
         if(CollectionUtils.isEmpty(validCostElements)) {
             isValid = true;

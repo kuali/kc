@@ -23,6 +23,7 @@ import org.apache.commons.lang.builder.CompareToBuilder;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.version.AwardBudgetVersionCollection;
+import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
@@ -56,9 +57,8 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTra
         return null;
     }
     
-    public void updateDocumentDescriptions(List<? extends Budget> budgetVersionOverviews) {
-        BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
-        for (Budget budgetVersion : budgetVersionOverviews) {
+    public void updateDocumentDescriptions(List<? extends Budget> budgets) {
+        for (Budget budgetVersion : budgets) {
             if (budgetVersion.isNameUpdatable() && !StringUtils.isBlank(budgetVersion.getName())) {
                 budgetVersion.setNameUpdatable(false);
             }
@@ -102,10 +102,6 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTra
     public abstract Permissionable getBudgetPermissionable();
 
     public abstract boolean isComplete();
-
-    public abstract void saveBudgetFinalVersionStatus(BudgetDocument budgetDocument);
-
-    public abstract void processAfterRetrieveForBudget(BudgetDocument budgetDocument);
 
     public abstract String getTaskGroupName();
 

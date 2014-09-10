@@ -277,11 +277,9 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     public String costElementVersionLimit(DevelopmentProposal developmentProposal, String versionNumber, String costElementName, String limit) {
         Long versionNumberLong = Long.parseLong(versionNumber);
         float limitLong = Float.parseFloat(limit);
-        for (Budget bdv : developmentProposal.getBudgets()) {
-            if (bdv.getVersionNumber().equals(versionNumberLong)) {
+        for (Budget budget : developmentProposal.getBudgets()) {
+            if (budget.getVersionNumber().equals(versionNumberLong)) {
                 try {
-                    BudgetDocument budgetDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(bdv.getDocumentNumber());
-                    Budget budget = budgetDocument.getBudget();
                     if (budget.getVersionNumber().equals(versionNumberLong)) {
                         for (BudgetPeriod period : budget.getBudgetPeriods()) {
                             float costElementTotal = 0;

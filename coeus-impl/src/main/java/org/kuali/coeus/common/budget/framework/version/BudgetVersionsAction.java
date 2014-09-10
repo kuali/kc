@@ -114,18 +114,17 @@ public class BudgetVersionsAction extends BudgetAction {
 
         final ActionForward forward = super.docHandler(mapping, form, request, response);
         final BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
-        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
-        BudgetParent budgetParent = budgetDocument.getBudget().getBudgetParent();
+        Budget budget = budgetForm.getBudget();
+        BudgetParentDocument parentDocument = budget.getBudgetParent().getDocument();
+        BudgetParent budgetParent = budget.getBudgetParent();
         budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetParent.getBudgets()));
         setBudgetStatuses(budgetParent);
         AwardBudgetService awardBudgetService = KcServiceLocator.getService(AwardBudgetService.class);
         BudgetRatesService budgetService = KcServiceLocator.getService(BudgetRatesService.class);
         Collection<BudgetRate> savedBudgetRates = budgetService.getSavedBudgetRates(budget);
         Collection<BudgetRate> allPropRates = budgetService.getSavedBudgetRates(budget);
-        if (isAwardBudget(budgetDocument)) {
-            Award award = (Award) budgetDocument.getBudget().getBudgetParent().getDocument().getBudgetParent();
+        if (isAwardBudget(budget)) {
+            Award award = (Award) budget.getBudgetParent().getDocument().getBudgetParent();
             if (awardBudgetService.checkRateChange(savedBudgetRates, award)) {
                 return confirm(
                         syncAwardBudgetRateConfirmationQuestion(mapping, form, request, response,
@@ -160,11 +159,8 @@ public class BudgetVersionsAction extends BudgetAction {
      */
     public ActionForward addBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
-        
-        //Need some work
-        BudgetParent budgetParent = budgetDocument.getBudget().getBudgetParent();
+        Budget budget = budgetForm.getBudget();
+        BudgetParentDocument parentDocument = budget.getBudgetParent().getDocument();
         
         
         getBudgetService().addBudgetVersion(parentDocument, budgetForm.getNewBudgetVersionName(), Collections.EMPTY_MAP);

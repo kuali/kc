@@ -41,6 +41,7 @@ import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.bo.*;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
@@ -721,7 +722,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     protected void fixBudgetVersions(ProposalDevelopmentDocument doc) {
         if (doc.getDevelopmentProposal().getBudgets().size() > 0) {
             String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
-                    BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+                    Budget.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
             
             doc.getDevelopmentProposal().setBudgetStatus(budgetStatusIncompleteCode);
         }

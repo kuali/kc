@@ -78,13 +78,13 @@ public class PropDevBudgetSubAwardServiceTest {
         }
         final ParameterService parmService = context.mock(ParameterService.class);
         context.checking(new Expectations(){{
-            one(parmService).getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_DIRECT_LT_25K_PARAM);
+            one(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_DIRECT_LT_25K_PARAM);
             will(returnValue(directLt));
-            one(parmService).getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_DIRECT_GT_25K_PARAM);
+            one(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_DIRECT_GT_25K_PARAM);
             will(returnValue(directGt));
-            one(parmService).getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_F_AND_A_LT_25K_PARAM);
+            one(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_F_AND_A_LT_25K_PARAM);
             will(returnValue(indirectLt));
-            one(parmService).getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_F_AND_A_GT_25K_PARAM);
+            one(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_F_AND_A_GT_25K_PARAM);
             will(returnValue(indirectGt));   
         }});
         service.setParameterService(parmService);

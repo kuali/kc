@@ -971,9 +971,9 @@ public class NIHResearchAndRelatedXmlStream extends
             boolean isNih = getSponsorHierarchyService().isSponsorNihOsc(developmentProposal.getSponsorCode()) || getSponsorHierarchyService().isSponsorNihMultiplePi(developmentProposal.getSponsorCode());
             String mappingName = isNih?"NIH_PRINTING":"NSF_PRINTING";
 
-            String fnaGt25KParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, "SUBCONTRACTOR_F_AND_A_GT_25K");
-            String fnaLt25KParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, "SUBCONTRACTOR_F_AND_A_LT_25K");
-            String fnaBroadParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, "BROAD_F_AND_A");
+            String fnaGt25KParamValue = getParameterService().getParameterValueAsString(Budget.class, "SUBCONTRACTOR_F_AND_A_GT_25K");
+            String fnaLt25KParamValue = getParameterService().getParameterValueAsString(Budget.class, "SUBCONTRACTOR_F_AND_A_LT_25K");
+            String fnaBroadParamValue = getParameterService().getParameterValueAsString(Budget.class, "BROAD_F_AND_A");
             Map<String, String> categoryMap = new HashMap<String, String>();
             categoryMap.put(KEY_TARGET_CATEGORY_CODE, "04");
             categoryMap.put(KEY_MAPPING_NAME, mappingName);

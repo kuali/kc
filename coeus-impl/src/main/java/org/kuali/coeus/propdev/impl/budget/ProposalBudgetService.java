@@ -24,7 +24,7 @@ public interface ProposalBudgetService extends BudgetCommonService<DevelopmentPr
 
     /**
      *
-     * This method returns the final version of {@link org.kuali.coeus.common.budget.framework.core.BudgetDocument} for a given {@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}
+     * This method returns the final version of {@link org.kuali.coeus.common.budget.framework.core.Budget} for a given {@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}
      *
      * @param parentDocument The parent document that has the budget.
      * @return parentDocument final version of budget corresponding to the parentDocument object.

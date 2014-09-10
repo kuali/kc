@@ -35,8 +35,6 @@ public class RRBudgetV1_3GeneratorTest extends
 	@Override
 	protected void prepareData(ProposalDevelopmentDocument document)
 			throws Exception {
-		BudgetDocument budgetDocument = (BudgetDocument) KRADServiceLocatorWeb
-				.getDocumentService().getNewDocument("BudgetDocument");
 
 		Organization organization = new Organization();
 		organization.setOrganizationName("University");
@@ -105,8 +103,6 @@ public class RRBudgetV1_3GeneratorTest extends
 		proposalDevelopmentBudgetExt
 				.setName("test Document Description");
 		proposalDevelopmentBudgetExt.setOnOffCampusFlag("Y");
-		proposalDevelopmentBudgetExt.setDocumentNumber(budgetDocument
-				.getDocumentNumber());
 		proposalDevelopmentBudgetExt.setStartDate(new Date(new Long(
 				"1183316613046")));
 		proposalDevelopmentBudgetExt.setEndDate(new Date(new Long(

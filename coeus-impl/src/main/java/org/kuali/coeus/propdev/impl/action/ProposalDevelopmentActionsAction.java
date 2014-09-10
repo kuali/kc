@@ -57,6 +57,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.editable.BudgetChangedData;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
@@ -88,6 +89,7 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -1158,23 +1160,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      */
     private String getForwardToBudgetUrl(ActionForm form) {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
-        BudgetDocument budgetDocument = null;
-        String forward = null;
-        try {
-            for (Budget budgetVersion: pdDoc.getDevelopmentProposal().getBudgets()) {
-                if (budgetVersion.isFinalVersionFlag()) {
-                    DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
-                    budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetVersion.getDocumentNumber());
-                }
-            }
-            String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
-            forward = buildForwardUrl(routeHeaderId);
-        } catch (Exception e) {
-            LOG.info("forward to budgetsummary "+e.getStackTrace());
-        }
-        return forward;
-
+        return buildForwardUrl(pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getFinalBudget().getBudgetId().toString());
     }
 
     public ActionForward linkChildToHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -1501,26 +1487,17 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ActionForward addProposalBudgetChangedData(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        BudgetDocument budgetDocument = null;
         BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
         KcPersistenceStructureService kraPersistenceStructureService = KcServiceLocator
                 .getService(KcPersistenceStructureService.class);
+        DataObjectService doService = KcServiceLocator.getService(DataObjectService.class);
 
         ActionForward forward = mapping.findForward("basic");
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDocument = pdForm.getProposalDevelopmentDocument();
-        Map budgetMap = new HashMap();
-        budgetMap.put("parentDocumentKey", pdDocument.getDocumentNumber());
         BudgetChangedData newBudgetChangedData = pdForm.getNewBudgetChangedData();
         newBudgetChangedData.setProposalNumber(pdDocument.getDevelopmentProposal().getProposalNumber());
-
-        Collection<BudgetDocument> budgetDocuments = boService.findMatching(BudgetDocument.class, budgetMap);
-        for (BudgetDocument document : budgetDocuments) {
-            if (document.getBudget().getFinalVersionFlag()) {
-                budgetDocument = document;
-                break;
-            }
-        }
+        ProposalDevelopmentBudgetExt finalBudget = pdDocument.getDevelopmentProposal().getFinalBudget();
 
         newBudgetChangedData.setChangeNumber(getBudgetNextChangeNumber(boService, newBudgetChangedData.getProposalNumber(),
                 newBudgetChangedData.getColumnName()));
@@ -1546,15 +1523,12 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         if (getKualiRuleService().applyRules(
                 new BudgetDataOverrideEvent(pdForm.getProposalDevelopmentDocument(), newBudgetChangedData))) {
             boService.save(newBudgetChangedData);
-            BudgetVersionOverview budgetVersionWrapper = createProposalBudgetWrapper(budgetDocument);
             Map<String, String> columnToAttributesMap = kraPersistenceStructureService
                     .getDBColumnToObjectAttributeMap(BudgetVersionOverview.class);
             String proposalAttributeToPersist = columnToAttributesMap.get(newBudgetChangedData.getColumnName());
-            ObjectUtils.setObjectProperty(budgetVersionWrapper, proposalAttributeToPersist, newBudgetChangedData.getChangedValue());
-            ObjectUtils.setObjectProperty(budgetDocument.getBudget(), proposalAttributeToPersist,
+            ObjectUtils.setObjectProperty(finalBudget, proposalAttributeToPersist,
                     newBudgetChangedData.getChangedValue());
-            boService.save(budgetVersionWrapper);
-            budgetDocument.setVersionNumber(budgetVersionWrapper.getVersionNumber());
+            doService.save(finalBudget);
             pdForm.setNewBudgetChangedData(new BudgetChangedData());
             growProposalBudgetChangedHistory(pdDocument, newBudgetChangedData);
 
@@ -1573,38 +1547,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         }
 
         changeHistory.get(newBudgetChangedData.getEditableColumn().getColumnLabel()).add(0, newBudgetChangedData);
-    }
-    
-    private BudgetVersionOverview createProposalBudgetWrapper(BudgetDocument budgetDocument) throws Exception {
-        BudgetVersionOverview budgetVersionWrapper = new BudgetVersionOverview();
-        PersistenceStructureService persistentStructureService = KcServiceLocator.getService(PersistenceStructureService.class);
-        List<String> fieldsToUpdate = (List<String>) persistentStructureService.listFieldNames(BudgetVersionOverview.class);
-        for (String field : fieldsToUpdate) {
-            boolean noSuchFieldPD = false;
-            boolean noSuchFieldBO = false;
-            Object tempVal = null;
-
-            try {
-                tempVal = ObjectUtils.getPropertyValue(budgetDocument, field);
-            }
-            catch (Exception e) {
-                noSuchFieldPD = true;
-            }
-
-            try {
-                tempVal = ObjectUtils.getPropertyValue(budgetDocument.getBudget(), field);
-            }
-            catch (Exception e) {
-                noSuchFieldBO = true;
-            }
-
-            if (tempVal == null && noSuchFieldPD && noSuchFieldBO) {
-                LOG.warn("Could not find property " + field + " in BudgettDocument or Budget bo.");
-            }
-
-            ObjectUtils.setObjectProperty(budgetVersionWrapper, field, (tempVal != null) ? tempVal : null);
-        }
-        return budgetVersionWrapper;
     }
 
     private int getBudgetNextChangeNumber(BusinessObjectService boService, String proposalNumber, String columnName) {

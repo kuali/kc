@@ -19,6 +19,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.query.QueryList;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -50,13 +51,13 @@ public class BudgetExpenseRule {
         return valid;
     }
 
-    public boolean processApplyToLaterPeriodsWithPersonnelDetails(BudgetDocument budgetDocument, BudgetPeriod currentBudgetPeriod,
+    public boolean processApplyToLaterPeriodsWithPersonnelDetails(Budget budget, BudgetPeriod currentBudgetPeriod,
             BudgetLineItem currentBudgetLineItem, int selectedLineItem) {
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
 
 
-        List<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
+        List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         BudgetLineItem prevBudgetLineItem = currentBudgetLineItem;
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             if (budgetPeriod.getBudgetPeriod() <= currentBudgetPeriod.getBudgetPeriod())
@@ -101,9 +102,9 @@ public class BudgetExpenseRule {
      * @param budgetDocument the BudgetDocument
      * @return true if the dates are valid, false otherwise
      */
-    public boolean processCheckLineItemDates(BudgetDocument budgetDocument) {
+    public boolean processCheckLineItemDates(Budget budget) {
         boolean valid = true;
-        List<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
+        List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         int numLineItems = 0;
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             numLineItems = budgetPeriod.getBudgetLineItems().size();

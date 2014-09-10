@@ -201,7 +201,7 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
      * @return
      */
     private boolean isBudgetComplete(Budget budget) {
-		String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+		String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
 		return StringUtils.equals(budgetStatusCompleteCode, budget.getBudgetStatus());
     }
 

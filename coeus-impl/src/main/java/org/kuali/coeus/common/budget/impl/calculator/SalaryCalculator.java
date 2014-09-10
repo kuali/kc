@@ -494,7 +494,7 @@ public class SalaryCalculator {
     }
 
     private boolean isAnniversarySalaryDateEnabled() {
-        return getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.ENABLE_SALARY_INFLATION_ANNIV_DATE)
+        return getParameterService().getParameterValueAsString(Budget.class, Constants.ENABLE_SALARY_INFLATION_ANNIV_DATE)
                 .equals(STRING_1);
     }
 

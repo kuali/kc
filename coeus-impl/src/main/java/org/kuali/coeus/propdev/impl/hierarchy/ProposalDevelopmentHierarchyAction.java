@@ -98,14 +98,14 @@ public class ProposalDevelopmentHierarchyAction extends ProposalDevelopmentActio
                 }
                 else {
                     String budgetStatusIncompleteCode = this.getParameterService().getParameterValueAsString(
-                            BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+                            Budget.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
                     budget.setBudgetStatus(budgetStatusIncompleteCode);
                     
                 }
             }
         }
         pdForm.setBudgetToSummarize(budget);
-        pdForm.setProposalHierarchyIndirectObjectCode(getParameterService().getParameterValueAsString(BudgetDocument.class, "proposalHierarchySubProjectIndirectCostElement"));
+        pdForm.setProposalHierarchyIndirectObjectCode(getParameterService().getParameterValueAsString(Budget.class, "proposalHierarchySubProjectIndirectCostElement"));
 
         return mapping.findForward(FORWARD_BUDGET_SUMMARY);
     }

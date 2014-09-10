@@ -22,6 +22,7 @@ import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.personnel.HierarchyPersonnelSummary;
 import org.kuali.kra.infrastructure.Constants;
@@ -293,7 +294,7 @@ public class ProposalHierarcyActionHelper {
     }
 
     private boolean hasCompleteBudget(DevelopmentProposal proposal) {
-        String completeCode = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        String completeCode = getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
         getProposalBudgetStatusService().loadBudgetStatus(proposal);
         return StringUtils.equalsIgnoreCase(proposal.getBudgetStatus(), completeCode);
     }
@@ -376,7 +377,7 @@ public class ProposalHierarcyActionHelper {
     
     private boolean hasCompleteBudget(ProposalDevelopmentDocument pdDoc) {
         boolean retval = false;
-        String completeCode = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        String completeCode = getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
 
         for (ProposalDevelopmentBudgetExt version : pdDoc.getDevelopmentProposal().getBudgets()) {
             if (!(version.getBudgetStatus() == null ) && version.getBudgetStatus().equalsIgnoreCase(completeCode)) {

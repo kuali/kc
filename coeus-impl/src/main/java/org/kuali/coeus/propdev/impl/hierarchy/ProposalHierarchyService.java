@@ -182,7 +182,7 @@ public interface ProposalHierarchyService {
      * @return
      * @throws ProposalHierarchyException
      */
-    public BudgetDocument<DevelopmentProposal> getSyncableBudget(DevelopmentProposal childProposal) throws ProposalHierarchyException;
+    public ProposalDevelopmentBudgetExt getSyncableBudget(DevelopmentProposal childProposal) throws ProposalHierarchyException;
     
     public HierarchyProposalSummary getProposalSummary(String proposalNumber) throws ProposalHierarchyException; 
 }

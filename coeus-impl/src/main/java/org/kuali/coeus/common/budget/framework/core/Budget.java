@@ -62,7 +62,10 @@ import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetNumberOfMonthsService;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -75,6 +78,8 @@ import java.util.*;
 /**
  * This class represent Budget BO
  */
+@NAMESPACE(namespace = Constants.MODULE_NAMESPACE_BUDGET)
+@COMPONENT(component = ParameterConstants.DOCUMENT_COMPONENT)
 @Entity
 @Table(name = "BUDGET")
 @Inheritance(strategy=InheritanceType.JOINED)
@@ -995,11 +1000,11 @@ public class Budget extends AbstractBudget implements BudgetContract {
      * @return
      */
     public Date loadFiscalYearStart() {
-        return createDateFromString(getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR));
+        return createDateFromString(getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_CURRENT_FISCAL_YEAR));
     }
 
     public boolean getSalaryInflationEnabled() {
-        return getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.ENABLE_SALARY_INFLATION_ANNIV_DATE).equals(PARAM_VALUE_ENABLED);
+        return getParameterService().getParameterValueAsString(Budget.class, Constants.ENABLE_SALARY_INFLATION_ANNIV_DATE).equals(PARAM_VALUE_ENABLED);
     }
 
     /**
@@ -1149,10 +1154,10 @@ public class Budget extends AbstractBudget implements BudgetContract {
      */
     protected Boolean getBooleanValue(String parmName) {
         String parmValue;
-        if (!getParameterService().parameterExists(BudgetDocument.class, parmName)) {
+        if (!getParameterService().parameterExists(Budget.class, parmName)) {
             parmValue = FALSE_FLAG;
         } else {
-            parmValue = getParameterService().getParameterValueAsString(BudgetDocument.class, parmName);
+            parmValue = getParameterService().getParameterValueAsString(Budget.class, parmName);
         }
         return parmValue.equalsIgnoreCase(TRUE_FLAG);
     }
@@ -1706,7 +1711,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
     }
 
     public boolean isCostSharingSubmissionEnabled() {
-        return getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.ENABLE_COST_SHARE_SUBMIT).equals(PARAM_VALUE_ENABLED);
+        return getParameterService().getParameterValueAsString(Budget.class, Constants.ENABLE_COST_SHARE_SUBMIT).equals(PARAM_VALUE_ENABLED);
     }
 
     public String getSummaryNumberOfMonths() {

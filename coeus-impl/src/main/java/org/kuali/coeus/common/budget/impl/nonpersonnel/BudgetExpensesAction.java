@@ -150,15 +150,14 @@ public class BudgetExpensesAction extends BudgetAction {
      */
     public ActionForward addBudgetFormulatedCost(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        Budget budget = budgetForm.getBudget();
         BudgetFormulatedCostDetail newBudgetFormulatedCost = budgetForm.getNewBudgetFormulatedCost();
         int lineItemNumber = getImagePropertyValue(request, ".budgetLineItemNumber",".");
         int budgetPeriod = getImagePropertyValue(request, ".budgetPeriod",".budgetLineItemNumber");
         if(new BudgetExpenseRule().processBudgetFormulatedCostValidations(newBudgetFormulatedCost,budgetPeriod,lineItemNumber,"newBudgetFormulatedCost")){
             BudgetPeriod budgetPeriodBO = budget.getBudgetPeriod(budgetPeriod-1);
             BudgetLineItem budgetLineItem = budgetPeriodBO.getBudgetLineItem(lineItemNumber);
-            newBudgetFormulatedCost.setFormulatedNumber(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_FORMULATED_NUMBER));
+            newBudgetFormulatedCost.setFormulatedNumber(budget.getHackedDocumentNextValue(Constants.BUDGET_FORMULATED_NUMBER));
             newBudgetFormulatedCost.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
             calculateBudgetFormulatedCost(newBudgetFormulatedCost);
             budgetLineItem.getBudgetFormulatedCosts().add(newBudgetFormulatedCost);
@@ -214,8 +213,7 @@ public class BudgetExpensesAction extends BudgetAction {
      */
     public ActionForward deleteBudgetFormulatedCost(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        Budget budget = budgetForm.getBudget();
         int selectedLine = getSelectedLine(request);
         int lineItemNumber = getImagePropertyValue(request, ".budgetLineItemNumber",".");
         int budgetPeriod = getImagePropertyValue(request, ".budgetPeriod",".budgetLineItemNumber");
@@ -359,7 +357,7 @@ public class BudgetExpensesAction extends BudgetAction {
             }
         }
         
-        if (new BudgetExpenseRule().processCheckLineItemDates(budgetForm.getBudgetDocument())) {
+        if (new BudgetExpenseRule().processCheckLineItemDates(budget)) {
             ActionForward actionForward = super.save(mapping, form, request, response);
             budget.setBudgetLineItemDeleted(false);
             return actionForward;
@@ -481,7 +479,7 @@ public class BudgetExpensesAction extends BudgetAction {
         int sltdLineItem = getSelectedLine(request);
         int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
         BudgetExpenseRule budgetExpenseRule = new BudgetExpenseRule();
-        if (budgetExpenseRule.processApplyToLaterPeriodsWithPersonnelDetails(budgetForm.getBudgetDocument(), 
+        if (budgetExpenseRule.processApplyToLaterPeriodsWithPersonnelDetails(budget, 
                     budget.getBudgetPeriod(sltdBudgetPeriod), budget.getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItem(sltdLineItem), sltdLineItem) &&
             budgetExpenseRule.processCheckLineItemDates(budget.getBudgetPeriod(sltdBudgetPeriod), sltdLineItem)) {
             getCalculationService().applyToLaterPeriods(budget, budget.getBudgetPeriod(sltdBudgetPeriod), budget.getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItem(sltdLineItem));
@@ -500,7 +498,7 @@ public class BudgetExpensesAction extends BudgetAction {
                 calculateAndUpdateFormulatedCost(budgetLineItem);
             }
         }
-        if (new BudgetExpenseRule().processCheckLineItemDates(budgetForm.getBudgetDocument())) {
+        if (new BudgetExpenseRule().processCheckLineItemDates(budget)) {
             if(forceCalculation){
                 recalculateBudgetPeriod(budgetForm, budget, budgetPeriod);
             }else{

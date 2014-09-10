@@ -48,10 +48,9 @@ public class BudgetModularBudgetAction extends BudgetAction {
     
     public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();        
+        Budget budget = budgetForm.getBudget();        
         BudgetModularIdc newBudgetModularIdc = budgetForm.getNewBudgetModularIdc();
-        newBudgetModularIdc.setRateNumber(budgetDocument.getHackedDocumentNextValue("rateNumber"));
+        newBudgetModularIdc.setRateNumber(budget.getHackedDocumentNextValue("rateNumber"));
         newBudgetModularIdc.calculateFundsRequested();
         BudgetModular budgetModular = budget.getBudgetPeriods().get(budgetForm.getModularSelectedPeriod() - 1).getBudgetModular();
         budgetModular.addNewBudgetModularIdc(newBudgetModularIdc);

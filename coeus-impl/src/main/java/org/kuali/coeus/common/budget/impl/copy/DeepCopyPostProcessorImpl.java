@@ -82,50 +82,6 @@ public class DeepCopyPostProcessorImpl implements DeepCopyPostProcessor {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public void fixProperty(Object object, String methodName, Class clazz, Object propertyValue, Map<String, Object> objectMap){
-        if(ObjectUtils.isNotNull(object)) {
-            if (object instanceof PersistableBusinessObject) {
-                PersistableBusinessObject objectWId = (PersistableBusinessObject) object;
-                if (objectMap.get(objectWId.getObjectId()) != null) return;
-                objectMap.put(((PersistableBusinessObject) object).getObjectId(), object);
-                
-                Method[] methods = object.getClass().getMethods();
-                for (Method method : methods) {
-                    if (method.getName().equals(methodName)) {
-                        if (!(object instanceof BudgetDocument)) {
-                              try {
-                                if(clazz.equals(Long.class))
-                                    method.invoke(object, (Long) propertyValue);  
-                                else 
-                                    method.invoke(object, (Integer) propertyValue);
-                               } catch (Throwable e) { }  
-                        }
-                    } else if (isPropertyGetterMethod(method, methods)) {
-                        Object value = null;
-                        try {
-                            value = method.invoke(object);
-                        } catch (Throwable e) {
-                            //We don't need to propagate this exception
-                        }
-                        
-                        if(value != null) {
-                            if (value instanceof Collection) {
-                                Collection<Object> c = (Collection<Object>) value;
-                                Iterator<Object> iter = c.iterator();
-                                while (iter.hasNext()) {
-                                    Object entry = iter.next();
-                                    fixProperty(entry, methodName, clazz, propertyValue, objectMap);
-                                }
-                            } else {
-                                fixProperty(value, methodName, clazz, propertyValue, objectMap);
-                            }   
-                        }
-                    }
-                }
-            }
-        }
-    }
     /**
      * Is the given method a getter method for a property?  Must conform to
      * the following:

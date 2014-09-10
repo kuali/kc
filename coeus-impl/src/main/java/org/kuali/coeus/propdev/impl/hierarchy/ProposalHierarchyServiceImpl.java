@@ -480,8 +480,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             List<PropScienceKeyword> oldKeywords = getOldKeywords(hierarchyProposal, childProposal);
             ProposalPerson principalInvestigator = hierarchyProposal.getPrincipalInvestigator();
             ProposalDevelopmentBudgetExt hierarchyBudget = getHierarchyBudget(hierarchyProposal);
-            BudgetDocument<DevelopmentProposal> childBudgetDocument = getSyncableBudget(childProposal);
-            ProposalDevelopmentBudgetExt childBudget = (ProposalDevelopmentBudgetExt) childBudgetDocument.getBudget();
+            ProposalDevelopmentBudgetExt childBudget = getSyncableBudget(childProposal);
             ObjectUtils.materializeAllSubObjects(hierarchyBudget);
             ObjectUtils.materializeAllSubObjects(childBudget);
             childProposal.setHierarchyLastSyncHashCode(computeHierarchyHashCode(childProposal));
@@ -518,8 +517,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         List<PropScienceKeyword> oldKeywords = getOldKeywords(hierarchyProposal, childProposal);
         ProposalPerson principalInvestigator = hierarchyProposal.getPrincipalInvestigator();
         ProposalDevelopmentBudgetExt hierarchyBudget = getHierarchyBudget(hierarchyProposal);
-        BudgetDocument<DevelopmentProposal> childBudgetDocument = getSyncableBudget(childProposal);
-        ProposalDevelopmentBudgetExt childBudget = (ProposalDevelopmentBudgetExt) childBudgetDocument.getBudget();
+        ProposalDevelopmentBudgetExt childBudget = getSyncableBudget(childProposal);
         ObjectUtils.materializeAllSubObjects(hierarchyBudget);
         ObjectUtils.materializeAllSubObjects(childBudget);
         childProposal.setHierarchyLastSyncHashCode(computeHierarchyHashCode(childProposal));
@@ -538,9 +536,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     
     protected boolean synchronizeChildProposalBudget(DevelopmentProposal hierarchyProposal, ProposalDevelopmentBudgetExt budget, DevelopmentProposal childProposal) throws ProposalHierarchyException {
     	ProposalDevelopmentBudgetExt hierarchyBudget = getHierarchyBudget(hierarchyProposal);
-        BudgetDocument<DevelopmentProposal> childBudgetDocument = getSyncableBudget(childProposal);
-        if (!StringUtils.equals(childBudgetDocument.getDocumentNumber(), budget.getDocumentNumber())) {
-            budget = (ProposalDevelopmentBudgetExt) childBudgetDocument.getBudget();
+        ProposalDevelopmentBudgetExt childBudget = getSyncableBudget(childProposal);
+        if (budget.getBudgetId().equals(childBudget.getBudgetId())) {
+        	budget = childBudget;
         }
         ObjectUtils.materializeAllSubObjects(hierarchyBudget);
         ObjectUtils.materializeAllSubObjects(budget);
@@ -872,8 +870,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 else { // subproject budget
                     Map<String, String> primaryKeys;
                     CostElement costElement;
-                    String directCostElement = parameterService.getParameterValueAsString(BudgetDocument.class, PARAMETER_NAME_DIRECT_COST_ELEMENT);
-                    String indirectCostElement = parameterService.getParameterValueAsString(BudgetDocument.class, PARAMETER_NAME_INDIRECT_COST_ELEMENT);
+                    String directCostElement = parameterService.getParameterValueAsString(Budget.class, PARAMETER_NAME_DIRECT_COST_ELEMENT);
+                    String indirectCostElement = parameterService.getParameterValueAsString(Budget.class, PARAMETER_NAME_INDIRECT_COST_ELEMENT);
                     
                     if (childPeriod.getTotalIndirectCost().isNonZero()) {
                         primaryKeys = new HashMap<String, String>();
@@ -1091,16 +1089,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
     }
     
-    protected List<BudgetDocument<DevelopmentProposal>> getHierarchyBudgets(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
-        List<BudgetDocument<DevelopmentProposal>> hierarchyBudgets = new ArrayList<BudgetDocument<DevelopmentProposal>>();
-        
-        try {
-            for (Budget budgetVersion : hierarchyProposal.getProposalDocument().getDevelopmentProposal().getBudgets()) {
-                String budgetDocumentNumber = budgetVersion.getDocumentNumber();
-                hierarchyBudgets.add((BudgetDocument<DevelopmentProposal>) documentService.getByDocumentHeaderId(budgetDocumentNumber));
-            }
-        } catch (WorkflowException e) {
-            throw new ProposalHierarchyException(e);
+    protected List<ProposalDevelopmentBudgetExt> getHierarchyBudgets(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
+        List<ProposalDevelopmentBudgetExt> hierarchyBudgets = new ArrayList<>();
+        for (ProposalDevelopmentBudgetExt budgetVersion : hierarchyProposal.getProposalDocument().getDevelopmentProposal().getBudgets()) {
+            hierarchyBudgets.add(budgetVersion);
         }
     
         return hierarchyBudgets;
@@ -1114,28 +1106,18 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     	}
     }
  
-    public BudgetDocument<DevelopmentProposal> getSyncableBudget(DevelopmentProposal childProposal) throws ProposalHierarchyException {
-        String budgetDocumentNumber = null;
-        for (Budget version : childProposal.getProposalDocument().getDevelopmentProposal().getBudgets()) {
-            budgetDocumentNumber = version.getDocumentNumber();
+    public ProposalDevelopmentBudgetExt getSyncableBudget(DevelopmentProposal childProposal) throws ProposalHierarchyException {
+        for (ProposalDevelopmentBudgetExt version : childProposal.getProposalDocument().getDevelopmentProposal().getBudgets()) {
             if (version.isFinalVersionFlag()) {
-                break;
+                return version;
             }
         }
-        BudgetDocument<DevelopmentProposal> budgetDocument = null;
-        try {
-            budgetDocument = (BudgetDocument<DevelopmentProposal>) documentService.getByDocumentHeaderId(budgetDocumentNumber);
-        }
-        catch (WorkflowException e) {
-            throw new ProposalHierarchyException(e);
-        }
-        return budgetDocument;
+        return null;
     }
     
     protected void initializeBudget (DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) throws ProposalHierarchyException {
     	ProposalDevelopmentBudgetExt parentBudget = getHierarchyBudget(hierarchyProposal);
-        BudgetDocument<DevelopmentProposal> childBudgetDocument = getSyncableBudget(childProposal); 
-        Budget childBudget = childBudgetDocument.getBudget();
+        Budget childBudget = getSyncableBudget(childProposal);
         BudgetPeriod parentPeriod, childPeriod;
         for (int i=0; i < childBudget.getBudgetPeriods().size(); i++) {
             parentPeriod = parentBudget.getBudgetPeriod(i);
@@ -1160,8 +1142,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     public ProposalHierarchyErrorDto validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal,
             DevelopmentProposal childProposal, boolean allowEndDateChange) throws ProposalHierarchyException {
     	ProposalDevelopmentBudgetExt parentBudget = getHierarchyBudget(hierarchyProposal);
-        BudgetDocument<DevelopmentProposal> childBudgetDocument = getSyncableBudget(childProposal); 
-        Budget childBudget = childBudgetDocument.getBudget();
+    	Budget childBudget = getSyncableBudget(childProposal);
 
         ProposalHierarchyErrorDto retval = null;
         // check that child budget starts on one of the budget period starts
@@ -1710,7 +1691,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     
     public boolean allChildBudgetsAreComplete(String parentProposalNumber) {
         boolean retval = true;
-        String completeCode = parameterService.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        String completeCode = parameterService.getParameterValueAsString(Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
         for (ProposalBudgetStatus status : proposalHierarchyDao.getHierarchyChildProposalBudgetStatuses(parentProposalNumber)) {
             if (!StringUtils.equalsIgnoreCase(completeCode, status.getBudgetStatusCode())) {
                 retval = false;
@@ -1741,8 +1722,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             
             DevelopmentProposal childProposal = getDevelopmentProposal(proposalNumber);
             List<Budget> hierarchyBudgets = new ArrayList<Budget>();
-            for (BudgetDocument<DevelopmentProposal> hierarchyBudgetDocument : getHierarchyBudgets(childProposal)) {
-                hierarchyBudgets.add(hierarchyBudgetDocument.getBudget());
+            for (ProposalDevelopmentBudgetExt hierarchyBudget : getHierarchyBudgets(childProposal)) {
+                hierarchyBudgets.add(hierarchyBudget);
             }
             Collections.sort(hierarchyBudgets);
             
@@ -1788,9 +1769,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         summary.setProposalNumber(proposalNumber);
         DevelopmentProposal childProposal = getDevelopmentProposal(proposalNumber);
         summary.setSynced(isSynchronized(childProposal));
-        BudgetDocument budgetDoc = getSyncableBudget(childProposal);
-        summary.setSyncableBudgetDocumentNumber(budgetDoc.getDocumentNumber());
-        summary.setBudgetSynced(isBudgetSynchronized(childProposal, (ProposalDevelopmentBudgetExt) budgetDoc.getBudget()));
+        ProposalDevelopmentBudgetExt budget = getSyncableBudget(childProposal);
+        summary.setBudgetSynced(isBudgetSynchronized(childProposal, budget));
         return summary;
     }
 

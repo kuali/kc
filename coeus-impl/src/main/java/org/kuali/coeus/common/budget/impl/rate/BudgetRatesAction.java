@@ -50,8 +50,7 @@ public class BudgetRatesAction extends BudgetAction {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        Budget budget = budgetForm.getBudget();
         // Temporary fix to resolve budget form NULL issue
         if(KNSGlobalVariables.getKualiForm() == null) {
             KNSGlobalVariables.setKualiForm((KualiForm)form);
@@ -100,8 +99,7 @@ public class BudgetRatesAction extends BudgetAction {
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_RESET_RATES.equals(question)) {
             BudgetForm budgetForm = (BudgetForm) form;
-            BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-            Budget budget = budgetDocument.getBudget();
+            Budget budget = budgetForm.getBudget();
             RateClassType rateClassT = budget.getRateClassTypes().get(getSelectedLine(request));
             String rateClassType = rateClassT.getCode();
             budget.getBudgetRatesService().resetBudgetRatesForRateClassType(rateClassType, budget);
@@ -141,8 +139,7 @@ public class BudgetRatesAction extends BudgetAction {
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_SYNC_RATES.equals(question)) {
             BudgetForm budgetForm = (BudgetForm) form;
-            BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-            Budget budget = budgetDocument.getBudget();
+            Budget budget = budgetForm.getBudget();
             RateClassType rateClassT = budget.getRateClassTypes().get(getSelectedLine(request));
             String rateClassType = rateClassT.getCode();
             getBudgetRatesService().syncBudgetRatesForRateClassType(rateClassType, budget);
@@ -190,15 +187,14 @@ public class BudgetRatesAction extends BudgetAction {
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_SYNC_ALL_RATES.equals(question)) {
             BudgetForm budgetForm = (BudgetForm) form;
-            BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-            Budget budget = budgetDocument.getBudget();
+            Budget budget = budgetForm.getBudget();
 
             //Rates-Refresh Scenario-4
             budget.setRateClassTypesReloaded(true);
             budget.getBudgetRatesService().syncAllBudgetRates(budget);
             
             budget.setRateSynced(true);
-            BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
+            BudgetParentDocument parentDocument = budget.getBudgetParent().getDocument();
             if (!budget.getActivityTypeCode().equals(parentDocument.getBudgetParent().getActivityTypeCode())) {
                 budget.setActivityTypeCode(parentDocument.getBudgetParent().getActivityTypeCode());
             }
@@ -238,8 +234,7 @@ public class BudgetRatesAction extends BudgetAction {
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_RESET_ALL_RATES.equals(question)) {
             BudgetForm budgetForm = (BudgetForm) form;
-            BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-            Budget budget = budgetDocument.getBudget();
+            Budget budget = budgetForm.getBudget();
             getBudgetRatesService().resetAllBudgetRates(budget);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -257,8 +252,7 @@ public class BudgetRatesAction extends BudgetAction {
     public ActionForward updateRatesView(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        Budget budget = budgetForm.getBudget();
         getBudgetRatesService().viewLocation(budgetForm.getViewLocation(),budgetForm.getViewBudgetPeriod(), budget);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

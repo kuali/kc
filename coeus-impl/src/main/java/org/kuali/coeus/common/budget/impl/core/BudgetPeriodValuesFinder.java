@@ -62,10 +62,6 @@ public class BudgetPeriodValuesFinder extends FormViewAwareUifKeyValuesFinderBas
             }
         }
         
-        if(KeyValues == null) {
-            KeyValues = keyValueFinderService.getKeyValues(BudgetPeriod.class, "budgetPeriod", "label");            
-        }
-        
         return KeyValues; 
     }
     private List<KeyValue> buildKeyValues(List<BudgetPeriod> budgetPeriods) {

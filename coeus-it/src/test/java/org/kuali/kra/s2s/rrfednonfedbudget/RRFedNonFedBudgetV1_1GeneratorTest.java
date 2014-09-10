@@ -35,8 +35,6 @@ public class RRFedNonFedBudgetV1_1GeneratorTest extends
 	@Override
 	protected void prepareData(ProposalDevelopmentDocument document)
 			throws Exception {
-		BudgetDocument budgetDocument = (BudgetDocument) KRADServiceLocatorWeb
-				.getDocumentService().getNewDocument("BudgetDocument");
 
 		Organization organization = new Organization();
 		organization.setOrganizationName("University");
@@ -101,11 +99,9 @@ public class RRFedNonFedBudgetV1_1GeneratorTest extends
 		proposalDevelopmentBudgetExt.setFinalVersionFlag(true);
 		proposalDevelopmentBudgetExt.setBudgetStatus("1");
 		proposalDevelopmentBudgetExt.setBudgetId(1L);
-//		proposalDevelopmentBudgetExt
-//				.setDocumentDescription("test Document Description");
+		proposalDevelopmentBudgetExt
+				.setName("test Document Description");
 		proposalDevelopmentBudgetExt.setOnOffCampusFlag("Y");
-		proposalDevelopmentBudgetExt.setDocumentNumber(budgetDocument
-				.getDocumentNumber());
 		proposalDevelopmentBudgetExt.setStartDate(new Date(new Long(
 				"1183316613046")));
 		proposalDevelopmentBudgetExt.setEndDate(new Date(new Long(

@@ -30,6 +30,7 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelRule;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -97,7 +98,7 @@ public class BudgetPersonnelRuleTest {
     public void testProcessCheckForJobCodeChangeInvalidPeriod() {
         BudgetPersonnelRule rule = new BudgetPersonnelRule(context.mock(BusinessObjectService.class),
             context.mock(ParameterService.class), context.mock(BudgetService.class));
-        rule.processCheckForJobCodeChange(new BudgetDocument(), 0);
+        rule.processCheckForJobCodeChange(new ProposalDevelopmentBudgetExt(), 0);
     }
     
     /**
@@ -116,11 +117,10 @@ public class BudgetPersonnelRuleTest {
                 will(returnValue(Collections.emptyList()));
             }});
         
-        BudgetDocument doc = getBudgetDoc();
+        Budget budget = getBudget();
+        budget.getBudgetPerson(0).setJobCode(null);
         
-        doc.getBudget().getBudgetPerson(0).setJobCode(null);
-        
-        rule.processCheckForJobCodeChange(doc, 1);
+        rule.processCheckForJobCodeChange(budget, 1);
         
         context.assertIsSatisfied();
         Assert.assertEquals(1, GlobalVariables.getMessageMap().getErrorMessages().size());
@@ -144,10 +144,10 @@ public class BudgetPersonnelRuleTest {
                 will(returnValue(Collections.emptyList()));
             }});
         
-        BudgetDocument doc = getBudgetDoc();
-        doc.getBudget().getBudgetPerson(0).setJobCode("Foo");
+        Budget budget = getBudget();
+        budget.getBudgetPerson(0).setJobCode("Foo");
         
-        rule.processCheckForJobCodeChange(doc, 1);
+        rule.processCheckForJobCodeChange(budget, 1);
         
         context.assertIsSatisfied();
         Assert.assertEquals(0, GlobalVariables.getMessageMap().getErrorMessages().size());
@@ -157,9 +157,8 @@ public class BudgetPersonnelRuleTest {
      * Gets a budget doc with the minimum fields set to execute the current set of tests.
      * @return the BudgetDocument
      */
-    private BudgetDocument getBudgetDoc() {
-        BudgetDocument bdoc = new BudgetDocument();
-        Budget budget = bdoc.getBudget();
+    private Budget getBudget() {
+    	ProposalDevelopmentBudgetExt budget = new ProposalDevelopmentBudgetExt();
         
         List<BudgetPeriod> periods = new ArrayList<BudgetPeriod>();
         BudgetPeriod period = new BudgetPeriod();
@@ -202,6 +201,6 @@ public class BudgetPersonnelRuleTest {
         budget.setBudgetPeriods(periods);
         budget.setBudgetPersons(persons);
         budget.setBudgetVersionNumber(1);
-        return bdoc;
+        return budget;
     }
 }

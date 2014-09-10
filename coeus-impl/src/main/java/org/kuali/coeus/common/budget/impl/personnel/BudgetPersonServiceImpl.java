@@ -218,14 +218,14 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         
         if (ObjectUtils.isNull(budgetPerson.getCalculationBase())) {
             budgetPerson.setCalculationBase(new ScaleTwoDecimal(this.parameterService.getParameterValueAsString(
-                    BudgetDocument.class, Constants.BUDGET_PERSON_DEFAULT_CALCULATION_BASE)));
+                    Budget.class, Constants.BUDGET_PERSON_DEFAULT_CALCULATION_BASE)));
         }
         
         
         
         if (StringUtils.isBlank(budgetPerson.getAppointmentTypeCode())) {
             budgetPerson.setAppointmentTypeCode(this.parameterService.getParameterValueAsString(
-                    BudgetDocument.class, Constants.BUDGET_PERSON_DEFAULT_APPOINTMENT_TYPE));
+                    Budget.class, Constants.BUDGET_PERSON_DEFAULT_APPOINTMENT_TYPE));
         }
   	    refreshPersonAppointmentType(budgetPerson);
     }

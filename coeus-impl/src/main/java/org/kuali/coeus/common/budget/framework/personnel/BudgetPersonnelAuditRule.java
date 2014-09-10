@@ -46,7 +46,7 @@ public class BudgetPersonnelAuditRule extends KcTransactionalDocumentRuleBase im
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         BudgetDocument budgetDocument = (BudgetDocument) document;
         Budget budget = ((BudgetDocument) document).getBudget();
-        BudgetParent budgetParent = budgetDocument.getBudget().getBudgetParent().getDocument().getBudgetParent();
+        BudgetParent budgetParent = budget.getBudgetParent().getDocument().getBudgetParent();
         for (BudgetPerson budgetPerson: budget.getBudgetPersons()) {
             if (budgetPerson.getRolodexId() != null) {
                 ContactRole role = budgetParent.getProposalNonEmployeeRole(budgetPerson.getRolodexId());
