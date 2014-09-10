@@ -36,6 +36,7 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
+import org.kuali.coeus.common.view.wizard.framework.WizardResultsDto;
 import org.kuali.coeus.common.notification.impl.NotificationContext;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.common.notification.impl.bo.NotificationType;
@@ -94,8 +95,8 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     private RolodexService rolodexService;
     private ParameterService parameterService;
     private IdentityService identityService;
-    private KcEmailService kcEmailService;    
-    
+    private KcEmailService kcEmailService;
+
     @Override
     public NotificationType getNotificationType(NotificationContext context) {
         return getNotificationType(context.getModuleCode(), context.getActionTypeCode());
@@ -592,6 +593,30 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             sendNotification(context, notification, notificationTypeRecipients);
             notification.persistOwningObject(object);
         }
+    }
+
+    public List<NotificationTypeRecipient> addRecipient(List<Object> results) {
+        List<NotificationTypeRecipient> recipients = new ArrayList<NotificationTypeRecipient>();
+        for (Object object : results) {
+            WizardResultsDto result = (WizardResultsDto) object;
+            NotificationTypeRecipient recipient = new NotificationTypeRecipient();
+            if (result.isSelected() == true){
+                if (result.getKcPerson() != null) {
+                    recipient.setPersonId(result.getKcPerson().getPersonId());
+                    recipient.setFullName(result.getKcPerson().getFullName());
+                } else if (result.getRolodex() != null) {
+                    recipient.setRolodexId(result.getRolodex().getRolodexId().toString());
+                    recipient.setFullName(result.getRolodex().getFullName());
+                } else if (result.getRole() != null) {
+                    recipient.setRoleName(result.getRole().getName());
+                    recipient.setFullName(result.getRole().getName());
+                } else {
+                    continue;
+                }
+                recipients.add(recipient);
+            }
+        }
+        return recipients;
     }
 
     public BusinessObjectService getBusinessObjectService() {

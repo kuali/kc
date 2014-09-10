@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="Kc-Wizard" parent="Kc-Wizard-parentBean" />
+    <bean id="Kc-Wizard-parentBean" abstract="true"
+          parent="Uif-DialogGroup" class="org.kuali.coeus.org.kuali.rice.krad.uif.container.WizardGroup"
+          p:resetDataOnRefresh="true"
+          p:retrieveViaAjax="true">
+        <property name="header">
+            <bean parent="Uif-DialogHeader" p:headerText="Add Personnel" />
+        </property>
+        <property name="layoutManager">
+            <bean parent="Uif-VerticalBoxLayout"/>
+        </property>
+    </bean>
+
+    <bean id="Kc-Wizard-EmployeeInputFields" abstract="true" parent="Kc-Wizard-EmployeeInputFields-parentBean"/>
+    <bean id="Kc-Wizard-EmployeeInputFields-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+        <property name="items">
+            <list>
+                <bean parent="Kc-Wizard-PersonInputField"
+                      p:propertyName="lookupFieldValues['lastName']" p:order="20"
+                      p:dictionaryAttributeName="lastName" />
+                <bean parent="Kc-Wizard-PersonInputField"
+                      p:propertyName="lookupFieldValues['firstName']" p:order="30"
+                      p:dictionaryAttributeName="firstName" />
+                <bean parent="Kc-Wizard-PersonInputField"
+                      p:propertyName="lookupFieldValues['userName']" p:order="40"
+                      p:dictionaryAttributeName="userName" />
+                <bean parent="Kc-Wizard-PersonInputField"
+                      p:propertyName="lookupFieldValues['emailAddress']" p:order="50"
+                      p:dictionaryAttributeName="emailAddress" />
+                <bean parent="Kc-Wizard-PersonInputField"
+                      p:propertyName="lookupFieldValues['officePhone']" p:order="60"
+                      p:dictionaryAttributeName="officePhone" />
+                <bean parent="Kc-Wizard-PersonInputField"
+                      p:propertyName="lookupFieldValues['organizationIdentifier']"
+                      p:order="70" p:dictionaryAttributeName="organizationIdentifier" />
+                <bean parent="Kc-Wizard-PersonInputField"
+                      p:propertyName="lookupFieldValues['campusCode']" p:order="80"
+                      p:dictionaryAttributeName="campusCode" />
+                <bean parent="Kc-Wizard-ActiveField" p:order="90" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-Wizard-NonEmployeeInputFields" parent="Kc-Wizard-NonEmployeeInputFields-parentBean" />
+    <bean id="Kc-Wizard-NonEmployeeInputFields-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+        <property name="items">
+            <list>
+                <bean parent="Kc-Wizard-RolodexInputField"
+                      p:propertyName="lookupFieldValues['firstName']"
+                      p:dictionaryAttributeName="firstName" p:order="10" />
+                <bean parent="Kc-Wizard-RolodexInputField"
+                      p:propertyName="lookupFieldValues['middleName']"
+                      p:dictionaryAttributeName="middleName" p:order="20" />
+                <bean parent="Kc-Wizard-RolodexInputField"
+                      p:propertyName="lookupFieldValues['lastName']"
+                      p:dictionaryAttributeName="lastName" p:order="30" />
+                <bean parent="Kc-Wizard-RolodexInputField"
+                      p:propertyName="lookupFieldValues['emailAddress']"
+                      p:dictionaryAttributeName="emailAddress" p:order="40" />
+                <bean parent="Kc-Wizard-RolodexInputField"
+                      p:propertyName="lookupFieldValues['phoneNumber']"
+                      p:dictionaryAttributeName="phoneNumber" p:order="50" />
+                <bean parent="Kc-Wizard-RolodexInputField"
+                      p:propertyName="lookupFieldValues['organization']"
+                      p:dictionaryAttributeName="organization" p:order="60" />
+                <bean parent="Kc-Wizard-RolodexInputField"
+                      p:propertyName="lookupFieldValues['title']"
+                      p:dictionaryAttributeName="title" p:order="70" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-Wizard-RoleInputFields" parent="Kc-Wizard-RoleInputFields-parentBean"/>
+    <bean id="Kc-Wizard-RoleInputFields-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+        <property name="items">
+            <list>
+                <bean parent="Kc-Wizard-RoleInputField"
+                      p:propertyName="lookupFieldValues['id']" p:order="20"
+                      p:dictionaryAttributeName="id" />
+                <bean parent="Kc-Wizard-RoleInputField"
+                      p:propertyName="lookupFieldValues['name']" p:order="30"
+                      p:dictionaryAttributeName="name" />
+                <bean parent="Kc-Wizard-RoleInputField"
+                      p:propertyName="lookupFieldValues['kimTypeId']" p:order="40"
+                      p:dictionaryAttributeName="kimTypeId" />
+                <bean parent="Kc-Wizard-RoleInputField"
+                      p:propertyName="lookupFieldValues['namespaceCode']" p:order="50"
+                      p:dictionaryAttributeName="namespaceCode" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-Wizard-RoleInputField" parent="Kc-Wizard-RoleInputField-parentBean" />
+    <bean id="Kc-Wizard-RoleInputField-parentBean"
+          abstract="true" parent="Uif-InputField" p:fieldLabel.renderColon="false"
+          p:dictionaryObjectEntry="org.kuali.rice.kim.impl.role.RoleBo" />
+
+    <bean id="Kc-Wizard-PersonInputField" parent="Kc-Wizard-PersonInputField-parentBean" />
+    <bean id="Kc-Wizard-PersonInputField-parentBean"
+          abstract="true" parent="Uif-InputField" p:fieldLabel.renderColon="false"
+          p:dictionaryObjectEntry="org.kuali.coeus.common.framework.person.KcPerson" />
+
+    <bean id="Kc-Wizard-RolodexInputField" parent="Kc-Wizard-RolodexInputField-parentBean" />
+    <bean id="Kc-Wizard-RolodexInputField-parentBean"
+          abstract="true" parent="Uif-InputField" p:fieldLabel.renderColon="false"
+          p:dictionaryObjectEntry="org.kuali.coeus.common.framework.rolodex.Rolodex" />
+
+    <bean id="Kc-Wizard-ActiveField" parent="Kc-Wizard-ActiveField-parentBean" />
+    <bean id="Kc-Wizard-ActiveField-parentBean" parent="Kc-Wizard-PersonInputField"
+          p:propertyName="lookupFieldValues['active']"
+          p:dictionaryAttributeName="active">
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes" />
+                        <bean parent="Uif-KeyLabelPair" p:key="N" p:value="No" />
+                        <bean parent="Uif-KeyLabelPair" p:key="" p:value="Both" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="Kc-Wizard-Results" parent="Kc-Wizard-Results-parentBean" />
+    <bean id="Kc-Wizard-Results-parentBean"
+          abstract="true" parent="Uif-TableCollectionSection" p:headerText="Search Results"
+          p:collectionObjectClass="org.kuali.coeus.common.view.wizard.framework.WizardResultsDto"
+          p:propertyName="results" p:additionalCssClasses="kc-personnel-table"
+          p:renderAddLine="false" p:renderLineActions="false"
+          p:layoutManager.renderSequenceField="false"
+          p:renderInactiveToggleButton="false">
+        <property name="layoutManager.richTable.templateOptions">
+            <map>
+                <entry key="bAutoWidth" value="false" />
+                <entry key="sDom" value="tip" />
+                <entry key="bRetrieve" value="true" />
+                <entry key="sPaginationType" value="full_numbers" />
+                <entry key="aaSorting" value="[[1,'asc']]" />
+                <entry key="aoColumnDefs"
+                       value="[{'sWidth' : '20px', 'bSortable':false, 'aTargets' : [0]}]" />
+            </map>
+        </property>
+    </bean>
+
+
+    <bean id="Kc-Wizard-PersonnelResults" parent="Kc-Wizard-PersonnelResults-parentBean" />
+    <bean id="Kc-Wizard-PersonnelResults-parentBean" abstract="true" parent="Kc-Wizard-Results">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="kcPerson.fullName"
+                      p:label="Full Name" p:order="20" />
+                <bean parent="Uif-DataField" p:propertyName="kcPerson.userName"
+                      p:label="User ID" p:order="30" />
+                <bean parent="Uif-DataField" p:propertyName="kcPerson.emailAddress"
+                      p:label="Email Address" p:order="40" />
+                <bean parent="Uif-MessageField" p:messageText="@{#line.kcPerson.unit != null ? #line.kcPerson.unit.unitNumber:''}"
+                      p:label="Unit Number" p:order="50" />
+                <bean parent="Uif-MessageField" p:messageText="@{#line.kcPerson.unit != null ? #line.kcPerson.unit.unitName:''}"
+                      p:label="Unit Name" p:order="60" />
+                <bean parent="Uif-DataField" p:propertyName="kcPerson.contactOrganizationName"
+                      p:label="Organization" p:order="70" />
+                <bean parent="Uif-DataField" p:propertyName="kcPerson.city"
+                      p:label="City" p:order="80" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-Wizard-RolodexResults" parent="Kc-Wizard-RolodexResults-parentBean" />
+    <bean id="Kc-Wizard-RolodexResults-parentBean" abstract="true" parent="Kc-Wizard-Results">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="rolodex.fullName"
+                      p:label="Full Name" p:order="20" />
+                <bean parent="Uif-MessageField"
+                      p:label="User ID" p:order="30" />
+                <bean parent="Uif-DataField" p:propertyName="rolodex.emailAddress"
+                      p:label="Email Address" p:order="40" />
+                <bean parent="Uif-MessageField" p:messageText="@{#line.rolodex.unit != null ? #line.rolodex.unit.unitNumber:''}"
+                      p:label="Unit Number" p:order="50" />
+                <bean parent="Uif-MessageField" p:messageText="@{#line.rolodex.unit != null ? #line.rolodex.unit.unitName:''}"
+                      p:label="Unit Name" p:order="60" />
+                <bean parent="Uif-DataField" p:propertyName="rolodex.organization"
+                      p:label="Organization" p:order="70" />
+                <bean parent="Uif-DataField" p:propertyName="rolodex.city"
+                      p:label="City" p:order="80" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Kc-Wizard-RoleResults" parent="Kc-Wizard-RoleResults-parentBean" />
+    <bean id="Kc-Wizard-RoleResults-parentBean" abstract="true" parent="Kc-Wizard-Results"
+          p:headerText="Role Search Results"
+          p:showInactiveLines="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="selected"
+                      p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:propertyName="role.kimRoleType.name"
+                      p:label="Role Type Name" p:order="20" />
+                <bean parent="Uif-DataField" p:propertyName="role.namespaceCode"
+                      p:label="Namespace" p:order="30" />
+                <bean parent="Uif-DataField" p:propertyName="role.name"
+                      p:label="Role Name" p:order="40" />
+                <bean parent="Uif-DataField" p:propertyName="role.description"
+                      p:label="Description" p:order="50" />
+            </list>
+        </property>
+    </bean>
+</beans>

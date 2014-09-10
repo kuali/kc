@@ -16,18 +16,15 @@
 package org.kuali.coeus.propdev.impl.person;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.view.wizard.framework.WizardControllerService;
+import org.kuali.coeus.common.view.wizard.framework.WizardResultsDto;
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
-import org.kuali.kra.infrastructure.PersonTypeConstants;
-import org.kuali.rice.kns.lookup.LookupableHelperService;
-import org.kuali.rice.krad.service.LookupService;
+import org.kuali.coeus.common.framework.person.PersonTypeConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
@@ -49,31 +46,34 @@ import java.util.*;
 @Controller
 public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentControllerBase {
 
-	@Autowired
-	@Qualifier("kcPersonLookupableHelperService")
-    private LookupableHelperService kcPersonLookupableHelperService;
-	
+    @Autowired
+    @Qualifier("wizardControllerService")
+    private WizardControllerService wizardControllerService;
+
     @Autowired
     @Qualifier("keyPersonnelService")
 	private KeyPersonnelService keyPersonnelService;
-
-    @Autowired
-    @Qualifier("lookupService")
-    private LookupService lookupService;
 
     @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-PersonnelPage"})
     public ModelAndView navigateToPersonnel(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
-        propDevForm.getAddKeyPersonHelper().setPersonType(PersonTypeConstants.EMPLOYEE.getCode());
+        propDevForm.getAddKeyPersonHelper().setLineType(PersonTypeConstants.EMPLOYEE.getCode());
         for (ProposalPerson person : propDevForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
             //workaround for the document associated with the OJB retrived dev prop not having a workflow doc.
             person.setDevelopmentProposal(propDevForm.getProposalDevelopmentDocument().getDevelopmentProposal());
             person.getQuestionnaireHelper().populateAnswers();
         }
         return getNavigationControllerService().navigate(form);
-    } 
-    
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=prepareAddPersonDialog"})
+    public ModelAndView prepareAddPersonDialog(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
+        form.getAddKeyPersonHelper().getParameterMap().put("personRole","");
+        form.getAddKeyPersonHelper().getParameterMap().put("keyPersonProjectRole","");
+        return getModelAndViewService().showDialog("PropDev-PersonnelPage-Wizard",true,form);
+    }
+
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigateToPersonError"})
     public ModelAndView navigateToPersonError(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         form.setAjaxReturnType("update-page");
@@ -93,50 +93,44 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
    public ModelAndView performPersonnelSearch(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        form.getAddKeyPersonHelper().getResults().clear();
-       for (Map.Entry<String, String> entry : form.getAddKeyPersonHelper().getLookupFieldValues().entrySet()) {
-			if (entry.getValue() == null) {
-				entry.setValue("");
-			}
-       }
-       if (StringUtils.equals(form.getAddKeyPersonHelper().getPersonType(), PersonTypeConstants.EMPLOYEE.getCode())) {
-          List<KcPerson> results = (List<KcPerson>) getKcPersonLookupableHelperService().getSearchResults(form.getAddKeyPersonHelper().getLookupFieldValues());
-          for (KcPerson person: results) {
-              if (!personAlreadyExists(person.getPersonId(),form.getDevelopmentProposal().getProposalPersons())){
-                  ProposalPerson newPerson = new ProposalPerson();
-                  newPerson.setPersonId(person.getPersonId());
-                  newPerson.setFullName(person.getFullName());
-                  newPerson.setUserName(person.getUserName());
-                  newPerson.setHomeUnitRef(person.getUnit());
-                  form.getAddKeyPersonHelper().getResults().add(newPerson);
-              }
-          }
-       } else {
-           Collection<Rolodex> results = getLookupService().findCollectionBySearchHelper(Rolodex.class, form.getAddKeyPersonHelper().getLookupFieldValues(), Collections.EMPTY_LIST, false, 100);
-           for (Rolodex rolodex : results) {
-               if (!personAlreadyExists(rolodex.getRolodexId().toString(),form.getDevelopmentProposal().getProposalPersons())){
-               ProposalPerson newPerson = new ProposalPerson();
-               newPerson.setRolodexId(rolodex.getRolodexId());
-               newPerson.setFullName(rolodex.getFullName());
-               newPerson.setHomeUnitRef(rolodex.getUnit());
-               form.getAddKeyPersonHelper().getResults().add(newPerson);
-               }
+       List<Object> results = new ArrayList<Object>();
+
+       for (Object object : getWizardControllerService().performWizardSearch(form.getAddKeyPersonHelper().getLookupFieldValues(),form.getAddKeyPersonHelper().getLineType())) {
+           WizardResultsDto wizardResult = (WizardResultsDto) object;
+           String personId = wizardResult.getKcPerson() != null ? wizardResult.getKcPerson().getPersonId() : wizardResult.getRolodex().getRolodexId().toString();
+           if (!personAlreadyExists(personId,form.getDevelopmentProposal().getProposalPersons())) {
+               results.add(object);
            }
        }
+
+       form.getAddKeyPersonHelper().setResults(results);
        return getRefreshControllerService().refresh(form);
    }
 
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addPerson")
    public ModelAndView addPerson(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
-       ProposalPerson newProposalPerson = null;
-       for (ProposalPerson person : form.getAddKeyPersonHelper().getResults()) {
-           if (person.isSelected()) {
-               newProposalPerson = person;
+       ProposalPerson newProposalPerson = new ProposalPerson();
+       for (Object object : form.getAddKeyPersonHelper().getResults()) {
+           WizardResultsDto wizardResult = (WizardResultsDto) object;
+           if (wizardResult.isSelected() == true) {
+               if (wizardResult.getKcPerson() != null) {
+                   newProposalPerson.setPersonId(wizardResult.getKcPerson().getPersonId());
+                   newProposalPerson.setFullName(wizardResult.getKcPerson().getFullName());
+                   newProposalPerson.setUserName(wizardResult.getKcPerson().getUserName());
+               } else if (wizardResult.getRolodex() != null) {
+                   newProposalPerson.setRolodexId(wizardResult.getRolodex().getRolodexId());
+                   newProposalPerson.setFullName(wizardResult.getRolodex().getFullName());
+
+               }
                break;
            }
        }
-       newProposalPerson.setProposalPersonRoleId(form.getAddKeyPersonHelper().getPersonRole());
-       newProposalPerson.setProjectRole(form.getAddKeyPersonHelper().getKeyPersonProjectRole());
+
+       newProposalPerson.setProposalPersonRoleId((String)form.getAddKeyPersonHelper().getParameter("personRole"));
+       if (form.getAddKeyPersonHelper().getParameterMap().containsKey("keyPersonProjectRole")) {
+        newProposalPerson.setProjectRole((String)form.getAddKeyPersonHelper().getParameter("keyPersonProjectRole"));
+       }
        getKeyPersonnelService().addProposalPerson(newProposalPerson, form.getProposalDevelopmentDocument());
        Collections.sort(form.getDevelopmentProposal().getProposalPersons(), new ProposalPersonComparator());
        form.getAddKeyPersonHelper().reset();
@@ -262,14 +256,6 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         return false;
     }
 
-    protected LookupableHelperService getKcPersonLookupableHelperService() {
-        return kcPersonLookupableHelperService;
-    }
-    
-    public void setKcPersonLookupableHelperService(LookupableHelperService kcPersonLookupableHelperService) {
-        this.kcPersonLookupableHelperService = kcPersonLookupableHelperService;
-    }
-
     protected KeyPersonnelService getKeyPersonnelService() {
         return keyPersonnelService;
     }
@@ -286,11 +272,11 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 	    }
 	}
 
-    public LookupService getLookupService() {
-        return lookupService;
+    public WizardControllerService getWizardControllerService() {
+        return wizardControllerService;
     }
 
-    public void setLookupService(LookupService lookupService) {
-        this.lookupService = lookupService;
+    public void setWizardControllerService(WizardControllerService wizardControllerService) {
+        this.wizardControllerService = wizardControllerService;
     }
 }

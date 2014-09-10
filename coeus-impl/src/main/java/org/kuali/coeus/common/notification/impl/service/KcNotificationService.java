@@ -132,5 +132,9 @@ public interface KcNotificationService {
      * @param notificationRecipients
      */
     void sendNotification(String contextName, String subject, String message, Collection<NotificationRecipient.Builder> notificationRecipients);
-    
+
+
+    public List<NotificationTypeRecipient> addRecipient(List<Object> results);
+
+
 }

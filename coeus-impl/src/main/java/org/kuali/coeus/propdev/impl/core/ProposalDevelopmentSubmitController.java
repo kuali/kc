@@ -1,12 +1,19 @@
 package org.kuali.coeus.propdev.impl.core;
 
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.view.wizard.framework.WizardControllerService;
+import org.kuali.coeus.common.notification.impl.bo.KcNotification;
+import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
+import org.kuali.coeus.common.notification.impl.rule.event.SendNotificationEvent;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
+import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
+import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
@@ -15,6 +22,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +40,19 @@ public class ProposalDevelopmentSubmitController extends
     @Autowired
     @Qualifier("auditHelper")
     private AuditHelper auditHelper;
-    
+
+    @Autowired
+    @Qualifier("kcNotificationService")
+    private KcNotificationService kcNotificationService;
+
+    @Autowired
+    @Qualifier("kualiRuleService")
+    private KualiRuleService kualiRuleService;
+
+    @Autowired
+    @Qualifier("wizardControllerService")
+    private WizardControllerService wizardControllerService;
+
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
@@ -80,6 +100,10 @@ public class ProposalDevelopmentSubmitController extends
         ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).populateCreditSplits(form);
         ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).populateQuestionnaires(form);
         getDataObjectService().wrap(form.getDevelopmentProposal()).fetchRelationship("deadlineTypeRef");
+        ProposalDevelopmentNotificationRenderer renderer = new ProposalDevelopmentNotificationRenderer(form.getDevelopmentProposal());
+        ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(form.getDevelopmentProposal(), null, "Ad-Hoc Notification", renderer);
+
+        form.getNotificationHelper().initializeDefaultValues(context);
         return getNavigationControllerService().navigate(form);
    }
   
@@ -142,7 +166,55 @@ public class ProposalDevelopmentSubmitController extends
 	  getGlobalVariableService().getMessageMap().clearErrorMessages();
       return isValid;
   }
-   
+
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareNotificationWizard")
+    public ModelAndView prepareNotificationWizard(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
+        String step = "";
+        if (form.getNotificationHelper().getNotificationRecipients().isEmpty()) {
+            step = "0";
+        } else {
+            step = "2";
+        }
+        form.getActionParameters().put("Kc-SendNotification-Wizard.step",step);
+        return getRefreshControllerService().refresh(form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addRecipients")
+    public ModelAndView addRecipients(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
+        form.getNotificationHelper().getNotificationRecipients().addAll(getKcNotificationService().addRecipient(form.getAddRecipientHelper().getResults()));
+        return getRefreshControllerService().refresh(form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=performRecipientSearch")
+    public ModelAndView performRecipientSearch(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+        form.getAddRecipientHelper().getResults().clear();
+        form.getAddRecipientHelper().setResults(getWizardControllerService().performWizardSearch(form.getAddRecipientHelper().getLookupFieldValues(), form.getAddRecipientHelper().getLineType()));
+        return getRefreshControllerService().refresh(form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendNotifications")
+    public ModelAndView sendNotifications(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
+        ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
+        KcNotification notification = form.getNotificationHelper().getNotification();
+        List<NotificationTypeRecipient> notificationRecipients = form.getNotificationHelper().getNotificationRecipients();
+
+        if (getKualiRuleService().applyRules(new SendNotificationEvent(document, notification, notificationRecipients))) {
+            form.getNotificationHelper().sendNotification();
+        }
+
+        ProposalDevelopmentNotificationRenderer renderer = new ProposalDevelopmentNotificationRenderer(form.getDevelopmentProposal());
+        ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(form.getDevelopmentProposal(), null, "Ad-Hoc Notification", renderer);
+
+        form.getNotificationHelper().initializeDefaultValues(context);
+        form.getAddRecipientHelper().reset();
+        return getRefreshControllerService().refresh(form);
+    }
+
+
+
+
   public GlobalVariableService getGlobalVariableService() {
       return globalVariableService;
   }
@@ -158,5 +230,28 @@ public class ProposalDevelopmentSubmitController extends
   public void setConfigurationService(ConfigurationService configurationService) {
 	  this.configurationService = configurationService;
   }
-   
+
+    public KcNotificationService getKcNotificationService() {
+        return kcNotificationService;
+    }
+
+    public void setKcNotificationService(KcNotificationService kcNotificationService) {
+        this.kcNotificationService = kcNotificationService;
+    }
+
+    public KualiRuleService getKualiRuleService() {
+        return kualiRuleService;
+    }
+
+    public void setKualiRuleService(KualiRuleService kualiRuleService) {
+        this.kualiRuleService = kualiRuleService;
+    }
+
+    public WizardControllerService getWizardControllerService() {
+        return wizardControllerService;
+    }
+
+    public void setWizardControllerService(WizardControllerService wizardControllerService) {
+        this.wizardControllerService = wizardControllerService;
+    }
 }

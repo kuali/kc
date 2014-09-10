@@ -44,7 +44,7 @@
 		p:actionParameters="PropDev-PersonnelPage-Wizard.step:0" p:iconClass="icon-user"
             p:render="@{!#parent.readOnly}"/>
 
-	<bean id="PropDev-PersonnelPage-Wizard" parent="PropDev-Personnel-Wizard"
+	<bean id="PropDev-PersonnelPage-Wizard" parent="Kc-Wizard"
 		p:fieldBindingObjectPath="addKeyPersonHelper">
 		<property name="items">
 			<list>
@@ -86,10 +86,10 @@
                         <bean parent="Uif-VerticalRadioControl">
                             <property name="options">
                                 <list>
-                                    <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.kra.infrastructure.PersonTypeConstants).EMPLOYEE.code}"
-                                          p:value="#{T(org.kuali.kra.infrastructure.PersonTypeConstants).EMPLOYEE.description}" />
-                                    <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.kra.infrastructure.PersonTypeConstants).NONEMPLOYEE.code}"
-                                          p:value="#{T(org.kuali.kra.infrastructure.PersonTypeConstants).NONEMPLOYEE.description}" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).EMPLOYEE.code}"
+                                          p:value="#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).EMPLOYEE.description}" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).NONEMPLOYEE.code}"
+                                          p:value="#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).NONEMPLOYEE.description}" />
                                 </list>
                             </property>
                         </bean>
@@ -114,19 +114,23 @@
 		abstract="true" parent="PropDev-PersonnelPage-WizardButton"
 		p:actionLabel="Go back" />
 
-	<bean id="PropDev-PersonnelPage-EmployeeInputFields" parent="PropDev-EmployeeInputFields"
-          p:progressiveRender="@{#fp.addKeyPersonHelper.personType == '#{T(org.kuali.kra.infrastructure.PersonTypeConstants).EMPLOYEE.code}'}" />
+	<bean id="PropDev-PersonnelPage-EmployeeInputFields" parent="Kc-Wizard-EmployeeInputFields"
+          p:progressiveRender="@{#fp.addKeyPersonHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).EMPLOYEE.code}'}" />
 
-    <bean id="PropDev-PersonnelPage-NonEmployeeInputFields" parent="PropDev-Personnel-NonEmployeeInputFields-parentBean"
-          p:progressiveRender="@{#fp.addKeyPersonHelper.personType == '#{T(org.kuali.kra.infrastructure.PersonTypeConstants).NONEMPLOYEE.code}'}" />
+    <bean id="PropDev-PersonnelPage-NonEmployeeInputFields" parent="Kc-Wizard-NonEmployeeInputFields"
+          p:progressiveRender="@{#fp.addKeyPersonHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).NONEMPLOYEE.code}'}" />
 
 	<bean id="PropDev-PersonnelPage-WizardPage2" parent="PropDev-PersonnelPage-WizardPage2-parentBean" />
 	<bean id="PropDev-PersonnelPage-WizardPage2-parentBean" abstract="true"
 		parent="Uif-CssGridGroup">
 		<property name="items">
 			<list>
-				<bean parent="PropDev-PersonnelPage-WizardPage2-Results"
-					p:order="10" />
+				<bean parent="PropDev-PersonnelPage-WizardPage2-PersonnelResults"
+                      p:progressiveRender="@{#fp.addKeyPersonHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).EMPLOYEE.code}'}"
+					  p:order="10" />
+                <bean parent="PropDev-PersonnelPage-WizardPage2-RolodexResults"
+                      p:progressiveRender="@{#fp.addKeyPersonHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).NONEMPLOYEE.code}'}"
+                      p:order="20" />
 			</list>
 		</property>
 		<property name="footer">
@@ -144,8 +148,27 @@
 		</property>
 	</bean>
 
-    <bean id="PropDev-PersonnelPage-WizardPage2-Results" parent="PropDev-ProjectPersonnel-Search-Result-Details"
-          p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson">
+    <bean id="PropDev-PersonnelPage-WizardPage2-PersonnelResults" parent="Kc-Wizard-PersonnelResults">
+        <property name="items">
+            <list merge="true">
+                <bean parent="Uif-InputField" p:propertyName="selected"
+                      p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="" />
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="onClickScript" value="Kc.PropDev.Personnel.unselectCollectionRadioButtons(this, &quot;input[name$='selected']&quot;);" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-PersonnelPage-WizardPage2-RolodexResults" parent="Kc-Wizard-RolodexResults">
         <property name="items">
             <list merge="true">
                 <bean parent="Uif-InputField" p:propertyName="selected"
@@ -171,7 +194,8 @@
 		<property name="items">
 			<list>
 				<bean id="PropDev-PersonnelPage-WizardPage3-personRoleRadio" parent="Uif-InputField" p:required="true"
-					p:propertyName="personRole" p:label="Assign a role"
+					p:propertyName="parameterMap['personRole']"
+                    p:label="Assign a role"
 					p:order="10" p:onDocumentReadyScript="Kc.PropDev.Personnel.selectFirstRadio('#PropDev-PersonnelPage-WizardPage3-personRoleRadio');">
 					<property name="control">
 						<bean parent="Uif-VerticalRadioControl" />
@@ -182,10 +206,10 @@
 					</property>
 				</bean>
 				<bean parent="Uif-InputField"
-					p:propertyName="keyPersonProjectRole"
+                      p:propertyName="parameterMap['keyPersonProjectRole']"
 					p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.person.ProposalPerson"
 					p:dictionaryAttributeName="projectRole" p:required="true"
-					p:label="Key Person's role will be" p:progressiveRender="@{#fp.personRole == '#{T(org.kuali.coeus.common.framework.person.PropAwardPersonRole).KEY_PERSON_CODE}'}"
+					p:label="Key Person's role will be" p:progressiveRender="@{#fp.parameterMap['personRole'] == '#{T(org.kuali.coeus.common.framework.person.PropAwardPersonRole).KEY_PERSON_CODE}'}"
 					p:order="30" />
 			</list>
 		</property>

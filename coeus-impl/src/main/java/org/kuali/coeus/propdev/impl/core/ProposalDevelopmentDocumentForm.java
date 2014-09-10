@@ -18,12 +18,14 @@ package org.kuali.coeus.propdev.impl.core;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.medusa.MedusaNode;
 import org.kuali.coeus.common.framework.medusa.MedusaService;
+import org.kuali.coeus.common.notification.impl.NotificationHelper;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
 import org.kuali.coeus.propdev.impl.budget.core.AddBudgetDto;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataGroupDto;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.docperm.ProposalDevelopmentPermissionsHelper;
+import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
@@ -31,7 +33,6 @@ import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
 import org.kuali.coeus.propdev.impl.location.OrganizationAddWizardHelper;
-import org.kuali.coeus.propdev.impl.person.KeyPersonnelAddWizardHelper;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -56,7 +57,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private SpecialReviewHelper specialReviewHelper;
     private ProposalDevelopmentQuestionnaireHelper questionnaireHelper;
     private ProposalDevelopmentS2sQuestionnaireHelper s2sQuestionnaireHelper;
-    private KeyPersonnelAddWizardHelper addKeyPersonHelper;
+    private AddLineHelper addKeyPersonHelper;
+    private AddLineHelper addRecipientHelper;
     private S2sOpportunity newS2sOpportunity;
     private ProposalDevelopmentPermissionsHelper permissionsHelper;
     private transient MedusaService medusaService;
@@ -79,6 +81,9 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     @SessionTransient
     private Tree<Object, String> medusaTree;
     
+    private NotificationHelper<ProposalDevelopmentNotificationContext> notificationHelper;
+
+
     public ProposalPersonQuestionnaireHelper getProposalPersonQuestionnaireHelper() {
         return proposalPersonQuestionnaireHelper;
     }
@@ -99,7 +104,9 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
         s2sQuestionnaireHelper = new ProposalDevelopmentS2sQuestionnaireHelper(this);
 
-        addKeyPersonHelper = new KeyPersonnelAddWizardHelper();
+        addKeyPersonHelper = new AddLineHelper();
+
+        addRecipientHelper = new AddLineHelper();
         
         newS2sOpportunity = new S2sOpportunity();
 
@@ -120,6 +127,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         addOrganizationHelper = new OrganizationAddWizardHelper();
 
         customDataGroups = new ArrayList<ProposalDevelopmentCustomDataGroupDto>();
+
+        notificationHelper = new NotificationHelper<>();
     }
 
     public int findIndexOfPageId(List<Action> actions) {
@@ -183,12 +192,20 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         this.questionnaireHelper = questionnaireHelper;
     }
 
-    public KeyPersonnelAddWizardHelper getAddKeyPersonHelper() {
+    public AddLineHelper getAddKeyPersonHelper() {
         return addKeyPersonHelper;
     }
 
-    public void setAddKeyPersonHelper(KeyPersonnelAddWizardHelper addKeyPersonHelper) {
+    public void setAddKeyPersonHelper(AddLineHelper addKeyPersonHelper) {
         this.addKeyPersonHelper = addKeyPersonHelper;
+    }
+
+    public AddLineHelper getAddRecipientHelper() {
+        return addRecipientHelper;
+    }
+
+    public void setAddRecipientHelper(AddLineHelper addRecipientHelper) {
+        this.addRecipientHelper = addRecipientHelper;
     }
 
     public S2sOpportunity getNewS2sOpportunity() {
@@ -328,6 +345,13 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 		this.copyBudgetDto = copyBudgetDto;
 	}
 
+    public NotificationHelper<ProposalDevelopmentNotificationContext> getNotificationHelper() {
+        return notificationHelper;
+    }
+
+    public void setNotificationHelper(NotificationHelper<ProposalDevelopmentNotificationContext> notificationHelper) {
+        this.notificationHelper = notificationHelper;
+    }
 	public String getNewHierarchyBudgetTypeCode() {
 		return newHierarchyBudgetTypeCode;
 	}

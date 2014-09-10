@@ -1,10 +1,7 @@
 package org.kuali.coeus.propdev.impl.budget.person;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -13,13 +10,11 @@ import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonSalaryDetai
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelBudgetService;
 import org.kuali.coeus.common.budget.framework.personnel.TbnPerson;
-import org.kuali.coeus.common.framework.person.KcPerson;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.view.wizard.framework.WizardControllerService;
+import org.kuali.coeus.common.view.wizard.framework.WizardResultsDto;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetControllerBase;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
-import org.kuali.kra.infrastructure.PersonTypeConstants;
-import org.kuali.rice.kns.lookup.LookupableHelperService;
-import org.kuali.rice.krad.service.LookupService;
+import org.kuali.coeus.common.framework.person.PersonTypeConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,13 +27,9 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/proposalBudget")
 public class ProposalBudgetProjectPersonnelController extends ProposalBudgetControllerBase {
 
-	@Autowired
-	@Qualifier("kcPersonLookupableHelperService")
-    private LookupableHelperService kcPersonLookupableHelperService;
-
-	@Autowired
-    @Qualifier("lookupService")
-    private LookupService lookupService;
+    @Autowired
+    @Qualifier("wizardControllerService")
+    private WizardControllerService wizardControllerService;
 
 	@Autowired
 	@Qualifier("budgetPersonService")
@@ -53,30 +44,13 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	@RequestMapping(params="methodToCall=searchProjectPersonnel")
 	public ModelAndView searchProjectPersonnel(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
        form.getAddProjectPersonnelHelper().getResults().clear();
-       for (Map.Entry<String, String> entry : form.getAddProjectPersonnelHelper().getLookupFieldValues().entrySet()) {
-			if (entry.getValue() == null) {
-				entry.setValue("");
-			}
-       }
-       if (StringUtils.equals(form.getAddProjectPersonnelHelper().getPersonType(), PersonTypeConstants.EMPLOYEE.getCode())) {
-          List<KcPerson> results = (List<KcPerson>) getKcPersonLookupableHelperService().getSearchResults(form.getAddProjectPersonnelHelper().getLookupFieldValues());
-          for (KcPerson person: results) {
-        	  BudgetPerson newPerson = new BudgetPerson(person);
-              form.getAddProjectPersonnelHelper().getResults().add(newPerson);
-          }
-       } else if (StringUtils.equals(form.getAddProjectPersonnelHelper().getPersonType(), PersonTypeConstants.NONEMPLOYEE.getCode())) {
-           Collection<Rolodex> results = getLookupService().findCollectionBySearchHelper(Rolodex.class, form.getAddProjectPersonnelHelper().getLookupFieldValues(), Collections.EMPTY_LIST, false, 100);
-           for (Rolodex rolodex : results) {
-         	  BudgetPerson newPerson = new BudgetPerson(rolodex);
-               form.getAddProjectPersonnelHelper().getResults().add(newPerson);
-           }
-       }
+       form.getAddProjectPersonnelHelper().setResults(getWizardControllerService().performWizardSearch(form.getAddProjectPersonnelHelper().getLookupFieldValues(),form.getAddProjectPersonnelHelper().getLineType()));
        return getModelAndViewService().getModelAndView(form);
 	}
 
 	@RequestMapping(params="methodToCall=addProjectPersonnel")
 	public ModelAndView addProjectPersonnel(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
-	   if(StringUtils.equals(form.getAddProjectPersonnelHelper().getPersonType(), PersonTypeConstants.TBN.getCode())) {
+	   if(StringUtils.equals(form.getAddProjectPersonnelHelper().getLineType(), PersonTypeConstants.TBN.getCode())) {
 	       for (TbnPerson person : form.getAddProjectPersonnelHelper().getTbnPersons()) {
 		       for (int index=0 ; index < person.getQuantity();  index++) {
 		    	   BudgetPerson newPerson = new BudgetPerson(person);
@@ -84,9 +58,21 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		       }
 	       }
 	   }else {
-	       for (BudgetPerson person : form.getAddProjectPersonnelHelper().getResults()) {
-	           if (person.isSelected()) {
-	    	       getBudgetPersonService().addBudgetPerson(form.getBudget(), person);
+	       for (Object object : form.getAddProjectPersonnelHelper().getResults()) {
+               WizardResultsDto wizardResult = (WizardResultsDto) object;
+               BudgetPerson newBudgetPerson = new BudgetPerson();
+	           if (wizardResult.isSelected() == true) {
+                   if (wizardResult.isSelected() == true) {
+                       if (wizardResult.getKcPerson() != null) {
+                           newBudgetPerson.setPersonId(wizardResult.getKcPerson().getPersonId());
+                           newBudgetPerson.setPersonName(wizardResult.getKcPerson().getFullName());
+                           newBudgetPerson.setUserName(wizardResult.getKcPerson().getUserName());
+                       } else if (wizardResult.getRolodex() != null) {
+                           newBudgetPerson.setRolodexId(wizardResult.getRolodex().getRolodexId());
+                           newBudgetPerson.setPersonName(wizardResult.getRolodex().getFullName());
+                       }
+                       getBudgetPersonService().addBudgetPerson(form.getBudget(), newBudgetPerson);
+                   }
 	           }
 	       }
 	   }
@@ -129,25 +115,16 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	    getBudgetPersonService().synchBudgetPersonsToProposal(form.getBudget());
 	    return getModelAndViewService().getModelAndView(form);
 	}
-	
-	public LookupableHelperService getKcPersonLookupableHelperService() {
-		return kcPersonLookupableHelperService;
-	}
 
-	public void setKcPersonLookupableHelperService(
-			LookupableHelperService kcPersonLookupableHelperService) {
-		this.kcPersonLookupableHelperService = kcPersonLookupableHelperService;
-	}
+    public WizardControllerService getWizardControllerService() {
+        return wizardControllerService;
+    }
 
-	public LookupService getLookupService() {
-		return lookupService;
-	}
+    public void setWizardControllerService(WizardControllerService wizardControllerService) {
+        this.wizardControllerService = wizardControllerService;
+    }
 
-	public void setLookupService(LookupService lookupService) {
-		this.lookupService = lookupService;
-	}
-
-	public BudgetPersonService getBudgetPersonService() {
+    public BudgetPersonService getBudgetPersonService() {
 		return budgetPersonService;
 	}
 

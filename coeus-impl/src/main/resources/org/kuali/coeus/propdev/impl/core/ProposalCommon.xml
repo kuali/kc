@@ -76,114 +76,6 @@
         </property>
     </bean>
 
-    <bean id="PropDev-Personnel-Wizard" parent="PropDev-Personnel-Wizard-parentBean" />
-    <bean id="PropDev-Personnel-Wizard-parentBean" abstract="true"
-          parent="Uif-DialogGroup" class="org.kuali.coeus.org.kuali.rice.krad.uif.container.WizardGroup"
-          p:resetDataOnRefresh="true"
-          p:retrieveViaAjax="true">
-        <property name="header">
-            <bean parent="Uif-DialogHeader" p:headerText="Add Personnel" />
-        </property>
-        <property name="layoutManager">
-            <bean parent="Uif-VerticalBoxLayout"/>
-        </property>
-    </bean>
-
-    <bean id="PropDev-EmployeeInputFields" abstract="true" parent="PropDev-EmployeeInputFields-parentBean"/>
-    <bean id="PropDev-EmployeeInputFields-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
-        <property name="items">
-            <list>
-                <bean parent="PropDev-PersonInputField"
-                      p:propertyName="lookupFieldValues['lastName']" p:order="20"
-                      p:dictionaryAttributeName="lastName" />
-                <bean parent="PropDev-PersonInputField"
-                      p:propertyName="lookupFieldValues['firstName']" p:order="30"
-                      p:dictionaryAttributeName="firstName" />
-                <bean parent="PropDev-PersonInputField"
-                      p:propertyName="lookupFieldValues['userName']" p:order="40"
-                      p:dictionaryAttributeName="userName" />
-                <bean parent="PropDev-PersonInputField"
-                      p:propertyName="lookupFieldValues['emailAddress']" p:order="50"
-                      p:dictionaryAttributeName="emailAddress" />
-                <bean parent="PropDev-PersonInputField"
-                      p:propertyName="lookupFieldValues['officePhone']" p:order="60"
-                      p:dictionaryAttributeName="officePhone" />
-                <bean parent="PropDev-PersonInputField"
-                      p:propertyName="lookupFieldValues['organizationIdentifier']"
-                      p:order="70" p:dictionaryAttributeName="organizationIdentifier" />
-                <bean parent="PropDev-PersonInputField"
-                      p:propertyName="lookupFieldValues['campusCode']" p:order="80"
-                      p:dictionaryAttributeName="campusCode" />
-                <bean parent="PropDev-PersonInputField-Active" p:order="90" />
-            </list>
-        </property>
-    </bean>
-
-    <bean id="PropDev-Personnel-NonEmployeeInputFields" parent="PropDev-Personnel-NonEmployeeInputFields-parentBean" />
-    <bean id="PropDev-Personnel-NonEmployeeInputFields-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
-        <property name="items">
-            <list>
-                <bean parent="PropDev-Rolodex-InputField"
-                      p:propertyName="lookupFieldValues['firstName']"
-                      p:dictionaryAttributeName="firstName" p:order="10" />
-                <bean parent="PropDev-Rolodex-InputField"
-                      p:propertyName="lookupFieldValues['middleName']"
-                      p:dictionaryAttributeName="middleName" p:order="20" />
-                <bean parent="PropDev-Rolodex-InputField"
-                      p:propertyName="lookupFieldValues['lastName']"
-                      p:dictionaryAttributeName="lastName" p:order="30" />
-                <bean parent="PropDev-Rolodex-InputField"
-                      p:propertyName="lookupFieldValues['emailAddress']"
-                      p:dictionaryAttributeName="emailAddress" p:order="40" />
-                <bean parent="PropDev-Rolodex-InputField"
-                      p:propertyName="lookupFieldValues['phoneNumber']"
-                      p:dictionaryAttributeName="phoneNumber" p:order="50" />
-                <bean parent="PropDev-Rolodex-InputField"
-                      p:propertyName="lookupFieldValues['organization']"
-                      p:dictionaryAttributeName="organization" p:order="60" />
-                <bean parent="PropDev-Rolodex-InputField"
-                      p:propertyName="lookupFieldValues['title']"
-                      p:dictionaryAttributeName="title" p:order="70" />
-            </list>
-        </property>
-    </bean>
-
-    <bean id="PropDev-Personnel-TypeSelection-InputField" parent="PropDev-Personnel-TypeSelection-InputField-parentBean" />
-    <bean id="PropDev-Personnel-TypeSelection-InputField-parentBean" abstract="true"
-          parent="Uif-InputField" p:propertyName="personType" p:order="10"
-          p:label="Search for" p:defaultValue="E" p:fieldLabel.renderColon="false">
-        <property name="control">
-            <bean parent="Uif-DropdownControl"/>
-        </property>
-    </bean>
-
-    <bean id="PropDev-PersonInputField" parent="PropDev-PersonInputField-parentBean" />
-    <bean id="PropDev-PersonInputField-parentBean"
-          abstract="true" parent="Uif-InputField" p:fieldLabel.renderColon="false"
-          p:dictionaryObjectEntry="org.kuali.coeus.common.framework.person.KcPerson" />
-
-    <bean id="PropDev-Rolodex-InputField" parent="PropDev-Rolodex-InputField-parentBean" />
-    <bean id="PropDev-Rolodex-InputField-parentBean"
-          abstract="true" parent="Uif-InputField" p:fieldLabel.renderColon="false"
-          p:dictionaryObjectEntry="org.kuali.coeus.common.framework.rolodex.Rolodex" />
-
-    <bean id="PropDev-PersonInputField-Active" parent="ProPropDev-PersonInputField-Active-parentBean" />
-    <bean id="ProPropDev-PersonInputField-Active-parentBean" parent="PropDev-PersonInputField"
-          p:propertyName="lookupFieldValues['active']"
-          p:dictionaryAttributeName="active">
-        <property name="control">
-            <bean parent="Uif-HorizontalRadioControl">
-                <property name="options">
-                    <list>
-                        <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes" />
-                        <bean parent="Uif-KeyLabelPair" p:key="N" p:value="No" />
-                        <bean parent="Uif-KeyLabelPair" p:key="" p:value="Both" />
-                    </list>
-                </property>
-            </bean>
-        </property>
-    </bean>
-
     <bean id="PropBudget-ProjectPersonnelPage-SearchResults" parent="PropBudget-ProjectPersonnelPage-SearchResults-parentBean" />
     <bean id="PropBudget-ProjectPersonnelPage-SearchResults-parentBean" abstract="true"
           parent="Uif-CssGridGroup">
@@ -211,40 +103,12 @@
         </property>
     </bean>
 
-    <bean id="PropDev-ProjectPersonnel-Search-Result-Details" parent="PropDev-ProjectPersonnel-Search-Result-Details-parentBean" />
-    <bean id="PropDev-ProjectPersonnel-Search-Result-Details-parentBean"
-          abstract="true" parent="Uif-TableCollectionSection" p:headerText="Search Results"
-          p:propertyName="results" p:additionalCssClasses="kc-personnel-table"
-          p:renderAddLine="false" p:renderLineActions="false"
-          p:layoutManager.renderSequenceField="false">
-        <property name="layoutManager.richTable.templateOptions">
-            <map>
-                <entry key="bAutoWidth" value="false" />
-                <entry key="sDom" value="tip" />
-                <entry key="bRetrieve" value="true" />
-                <entry key="sPaginationType" value="full_numbers" />
-                <entry key="aaSorting" value="[[1,'asc']]" />
-                <entry key="aoColumnDefs"
-                       value="[{'sWidth' : '20px', 'bSortable':false, 'aTargets' : [0]}]" />
-            </map>
-        </property>
-        <property name="items">
-            <list>
-				<bean parent="Uif-DataField" p:propertyName="personName"
-					p:label="Full Name" p:order="20" />
-				<bean parent="Uif-DataField" p:propertyName="userName"
-					p:label="User ID" p:order="30" />
-				<bean parent="Uif-DataField" p:propertyName="emailAddress"
-					p:label="Email Address" p:order="40" />
-				<bean parent="Uif-DataField" p:propertyName="unit.unitNumber"
-					p:label="Unit Number" p:order="50" />
-				<bean parent="Uif-DataField" p:propertyName="unit.unitName"
-					p:label="Unit Name" p:order="60" />
-				<bean parent="Uif-DataField" p:propertyName="organization"
-					p:label="Organization" p:order="70" />
-				<bean parent="Uif-DataField" p:propertyName="city"
-					p:label="City" p:order="80" />
-            </list>
+    <bean id="PropDev-Personnel-TypeSelection-InputField" parent="PropDev-Personnel-TypeSelection-InputField-parentBean" />
+    <bean id="PropDev-Personnel-TypeSelection-InputField-parentBean" abstract="true"
+          parent="Uif-InputField" p:propertyName="lineType" p:order="10"
+          p:label="Search for" p:defaultValue="E" p:fieldLabel.renderColon="false">
+        <property name="control">
+            <bean parent="Uif-DropdownControl"/>
         </property>
     </bean>
 </beans>
