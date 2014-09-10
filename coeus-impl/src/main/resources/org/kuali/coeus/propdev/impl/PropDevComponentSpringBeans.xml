@@ -534,11 +534,13 @@
         <property name="labelAttributeName" value="description"/>
     </bean>
 
-    <bean id="s2sSubmissionTypeValueFinder" class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.coeus.propdev.impl.s2s.S2sSubmissionType"/>
+    <bean id="s2sSubmissionTypeValueFinder" class="org.kuali.coeus.sys.framework.keyvalue.DataObjectValuesFinder">
+        <property name="dataObjectClass" value="org.kuali.coeus.propdev.impl.s2s.S2sSubmissionType"/>
         <property name="includeKeyInDescription" value="false"/>
         <property name="keyAttributeName" value="code"/>
         <property name="labelAttributeName" value="description"/>
+        <property name="addBlankOption" value="false"/>
+
     </bean>
 
     <bean id="s2sRevisionTypeValueFinder" class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
