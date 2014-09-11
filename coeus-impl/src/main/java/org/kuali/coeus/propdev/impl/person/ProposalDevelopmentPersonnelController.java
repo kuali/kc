@@ -148,15 +148,6 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         return mv;
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=save", "pageId=PropDev-CreditAllocationPage"})
-    public ModelAndView creditAllocationSave(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-                                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ModelAndView retVal = super.save(form, result, request, response);
-        getKeyPersonnelService().populateDocument(form.getProposalDevelopmentDocument());
-        return retVal;
-    }
-
-
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=deleteLine", "pageId=PropDev-PersonnelPage"})
     public ModelAndView deletePerson(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
         @RequestParam("actionParameters[" + UifParameters.SELECTED_COLLECTION_PATH + "]") String selectedCollectionPath,
