@@ -56,7 +56,6 @@
                 <bean parent="Uif-InputField" class="org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataField"
                       p:fieldLabel.labelText="@{#line.customAttribute ne null ? #line.customAttribute.label : &quot;Custom Attribute&quot;}"
                       p:propertyName="value">
-
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="false" />
                     </property>
