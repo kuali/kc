@@ -123,6 +123,7 @@ public class ProposalBudgetForm extends UifFormBase {
         return budgetPeriodIncomeTotalSummary;
     }
 
-
-
+    public boolean isUnrecoveredFandAEditFormVisible() {
+        return budget != null && budget.isUnrecoveredFandAApplicable() && budget.isUnrecoveredFandAAvailable();
+    }
 }
