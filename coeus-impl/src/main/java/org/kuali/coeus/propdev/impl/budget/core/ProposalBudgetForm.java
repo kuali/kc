@@ -27,7 +27,6 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
     private AddBudgetDto copyBudgetDto;
     private List<BudgetPeriodIncomeTotal>budgetPeriodIncomeTotalSummary;
 
-
     public void initialize() {
     	editableBudgetLineItems = new HashMap<String,List<String>>();
     	addProjectPersonnelHelper = new AddProjectPersonnelHelper();
@@ -127,4 +126,5 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
     public boolean isUnrecoveredFandAEditFormVisible() {
         return budget != null && budget.isUnrecoveredFandAApplicable() && budget.isUnrecoveredFandAAvailable();
     }
+
 }
