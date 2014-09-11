@@ -17,13 +17,15 @@
           parent="PropBudget-Page" p:fieldBindingObjectPath="budget">
         <property name="items">
             <list>
-				<ref bean="PropBudget-UnrecoveredFandAPage-Group" />
-			</list>
-		</property>
+                <bean id="PropBudget-UnrecoveredFandAPage-Group" parent="PropBudget-UnrecoveredFandAPage-Group-parentBean"
+                      p:render="@{#this.isUnrecoveredFandAEditFormVisible()}" />
+                <bean parent="Uif-Message"
+                      p:messageText="Unrecovered F&amp;A doesn't apply or is not available"
+                      p:render="@{!#this.isUnrecoveredFandAEditFormVisible()}" />
+            </list>
+        </property>
 	</bean>
 
-	<bean id="PropBudget-UnrecoveredFandAPage-Group"
-		parent="PropBudget-UnrecoveredFandAPage-Group-parentBean" />
 	<bean id="PropBudget-UnrecoveredFandAPage-Group-parentBean"
 		parent="Uif-TableCollectionSection"
 		p:propertyName="budgetUnrecoveredFandAs"
@@ -33,7 +35,7 @@
         p:addWithDialog="true" >
         <property name="addWithDialogAction">
             <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Unrecovered F&amp;A"
-                  p:iconClass="icon-plus" />
+                  p:iconClass="icon-plus"/>
         </property>
 		<property name="header.lowerGroup">
 			<bean parent="Uif-HeaderLowerGroup">
