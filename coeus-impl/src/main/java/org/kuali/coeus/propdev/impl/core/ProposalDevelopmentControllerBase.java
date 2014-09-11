@@ -20,6 +20,7 @@ import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentService;
+import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.docperm.ProposalDevelopmentPermissionsHelper;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
@@ -390,6 +391,24 @@ public abstract class ProposalDevelopmentControllerBase {
             }
             return null;
         }
+    }
+
+    public boolean proposalValidToRoute(ProposalDevelopmentDocumentForm form) {
+        boolean isValid = true;
+        form.setAuditActivated(true);
+        List<ProposalDevelopmentDataValidationItem> dataValidationItems = ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService())
+                .populateDataValidation(form,form.getView().getViewIndex());
+        if(dataValidationItems != null && dataValidationItems.size() > 0 ) {
+            for(ProposalDevelopmentDataValidationItem validationItem : dataValidationItems) {
+                if (StringUtils.equalsIgnoreCase(validationItem.getSeverity(), Constants.AUDIT_ERRORS)) {
+                    isValid = false;
+                    form.setDataValidationItems(dataValidationItems);
+                    break;
+                }
+            }
+        }
+        getGlobalVariableService().getMessageMap().clearErrorMessages();
+        return isValid;
     }
 
     protected ScienceKeyword getScienceKeyword(Object element) {
