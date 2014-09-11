@@ -676,6 +676,10 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return getBudgetProjectIncomes().get(index);
     }
 
+    public void setBudgetUnrecoveredFandAs(List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs) {
+        this.budgetUnrecoveredFandAs = budgetUnrecoveredFandAs;
+    }
+
     public void setBudgetProjectIncomes(List<BudgetProjectIncome> budgetProjectIncomes) {
         this.budgetProjectIncomes = budgetProjectIncomes;
     }
@@ -749,7 +753,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
      * @param budgetProjectIncome
      */
     public void add(BudgetProjectIncome budgetProjectIncome) {
-
 
         if (budgetProjectIncome != null) {
             budgetProjectIncome.setBudgetId(getBudgetId());

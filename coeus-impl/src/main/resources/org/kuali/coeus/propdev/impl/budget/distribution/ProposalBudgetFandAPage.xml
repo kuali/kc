@@ -25,12 +25,16 @@
 	<bean id="PropBudget-UnrecoveredFandAPage-Group"
 		parent="PropBudget-UnrecoveredFandAPage-Group-parentBean" />
 	<bean id="PropBudget-UnrecoveredFandAPage-Group-parentBean"
-		parent="Uif-TableCollectionSection" p:renderAddLine="true"
+		parent="Uif-TableCollectionSection"
 		p:propertyName="budgetUnrecoveredFandAs"
 		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA"
 		p:headerText="Unrecovered F&amp;A"
 		p:layoutManager.renderSequenceField="true"
-        p:addWithDialog="false" >
+        p:addWithDialog="true" >
+        <property name="addWithDialogAction">
+            <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Unrecovered F&amp;A"
+                  p:iconClass="icon-plus" />
+        </property>
 		<property name="header.lowerGroup">
 			<bean parent="Uif-HeaderLowerGroup">
 				<property name="items">
@@ -62,26 +66,44 @@
 		</property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="fiscalYear"
+				<bean parent="Uif-InputField" p:propertyName="fiscalYear" p:fieldLabel.renderColon="false"
+                    p:readOnly="@{!#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"
 					p:order="10"/>
 				<bean parent="Uif-InputField" p:propertyName="applicableRate"
-					p:order="20" />
+                    p:readOnly="@{!#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"
+                    p:order="20" />
 				<bean parent="Uif-InputField" p:propertyName="onCampusFlag"
-					p:order="30" p:label="On Campus" />
+                    p:readOnly="@{!#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"
+                    p:order="30" p:label="On Campus" >
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="N" p:value="No"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
 				<bean parent="Uif-InputField" p:propertyName="sourceAccount"
-					p:order="40" />
-				<bean parent="Uif-InputField" p:propertyName="amount" p:order="50" />
+                    p:readOnly="@{!#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"
+                    p:order="40" />
+				<bean parent="Uif-InputField" p:propertyName="amount"
+                    p:readOnly="@{!#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"
+                    p:order="50" />
 			</list>
 		</property>
 		<property name="lineActions">
 			<list>
-				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="cancelEdit"
-					p:hidden="true" p:actionLabel="cancel" p:order="10" />
-				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="editLine"
-					p:hidden="false" p:actionLabel="Edit" p:order="20" />
-				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="saveLine"
-					p:hidden="true" p:actionLabel="Save" p:order="30" />
-				<bean parent="Uif-DeleteLineAction-IconOnly" p:order="40"
+                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="saveLine"
+                    p:render="@{#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" p:actionLabel="Save" p:order="10" />
+                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="editLineItem"
+					p:render="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" p:actionLabel="Edit" p:order="20" />
+				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="cancelEditLineItem"
+                    p:render="@{#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" p:actionLabel="cancel" p:order="30" />
+                <bean parent="Uif-DeleteLineAction-IconOnly"
+                    p:render="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" p:order="40"
 					p:iconClass="icon-trash" />
 			</list>
 		</property>
@@ -89,7 +111,7 @@
 			<list>
 				<bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="amount"
 					p:totalField.fieldLabel.labelText="Total Allocated"/>
-				<bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="amount" 
+				<bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="amount"
 					p:totalField.fieldLabel.labelText="Total Unallocated"/>
 			</list>
 		</property>

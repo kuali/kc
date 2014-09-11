@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -67,6 +68,14 @@ public class ProposalBudgetViewHelperServiceImpl extends ViewHelperServiceImpl {
                 budgetProjectIncome.setBudgetId(((ProposalBudgetForm) model).getBudget().getBudgetId());
                 budgetProjectIncome.setDocumentComponentId(((ProposalBudgetForm) model).getBudget().getHackedDocumentNextValue(budgetProjectIncome.getDocumentComponentIdKey()));
                 budgetProjectIncome.setBudgetPeriodId(((ProposalBudgetForm) model).getBudget().getBudgetPeriodId(budgetProjectIncome));
+            }
+        }
+
+        if (addLine instanceof BudgetUnrecoveredFandA) {
+            BudgetUnrecoveredFandA budgetUnrecoveredFandA = (BudgetUnrecoveredFandA) addLine;
+            if (budgetUnrecoveredFandA != null) {
+                budgetUnrecoveredFandA.setBudgetId(((ProposalBudgetForm) model).getBudget().getBudgetId());
+                budgetUnrecoveredFandA.setDocumentComponentId(((ProposalBudgetForm) model).getBudget().getHackedDocumentNextValue(budgetUnrecoveredFandA.getDocumentComponentIdKey()));
             }
         }
     }

@@ -394,10 +394,9 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         for (final BudgetPeriod budgetPeriod : document.getBudgetPeriods()) {
             lineItemsAmount = lineItemsAmount.add(budgetPeriod.getSumUnderreoveryAmountFromLineItems());
         }
-
         return lineItemsAmount.isPositive()
             || document.getSumUnderreoveryAmountFromPeriods().isPositive();
-        } 
+    }
         
     /**
      * Checks if a positive Total CostSharing Amount exists in a line item or in a budget period.
