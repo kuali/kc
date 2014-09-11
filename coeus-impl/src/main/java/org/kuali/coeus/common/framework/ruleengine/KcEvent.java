@@ -5,20 +5,13 @@ package org.kuali.coeus.common.framework.ruleengine;
  * KcEventMethod methods. Eventname is required as this is the key
  * to determine what rules to execute.
  */
-public class KcEvent {
+public interface KcEvent {
 
-	private String eventName;
-	
-	public KcEvent(String eventName) {
-		this.eventName = eventName;
-	}
-
-	public String getEventName() {
-		return eventName;
-	}
-
-	public void setEventName(String eventName) {
-		this.eventName = eventName;
-	}
-	
+	/**
+	 * The events name that will be used to register rules and
+	 * later determine which rules to be run. Should be namespaced in
+	 * some fashion to avoid conflicts. Similar to KC-PD:saveDocument or
+	 * KC-B:addPeriod
+	 */
+	public String getEventName();
 }

@@ -14,7 +14,9 @@ public interface KcBusinessRulesEngine {
 	 * @param event
 	 * @return
 	 */
-	public boolean applyRules(KcEvent event);
+	public Boolean applyRules(KcEvent event);
+	
+	public KcEventResult applyRulesWithResult(KcEvent event);
 	
 	/**
 	 * A class with methods annotated with KcEventMethod and accepting a KcEvent will
@@ -29,7 +31,7 @@ public interface KcBusinessRulesEngine {
 	 * @param rule
 	 * @param method
 	 */
-	public void registerEvent(KcEvent event, Object rule, Method method);
+	public void registerEvent(KcEventBase event, Object rule, Method method);
 	
 	/**
 	 * Register the rule method with the eventName provided.
