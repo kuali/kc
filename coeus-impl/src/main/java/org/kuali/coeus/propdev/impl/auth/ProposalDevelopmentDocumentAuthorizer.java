@@ -18,7 +18,9 @@ package org.kuali.coeus.propdev.impl.auth;
 import org.kuali.coeus.common.framework.auth.KcKradTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
@@ -37,6 +39,7 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -394,6 +397,16 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     @Override
     public boolean canRecall(Document document, Person user) {
         return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument)document, TaskName.RECALL_PROPOSAL);
+    }
+
+    public boolean hasCertificationPermissions(ProposalDevelopmentDocument document, ProposalPerson proposalPerson, Person user){
+        if (getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, ProposalDevelopmentConstants.Parameters.KEY_PERSON_CERTIFICATION_SELF_CERTIFY_ONLY)) {
+            boolean isKeyPersonnel = proposalPerson.getPerson().getPersonId().equals(user.getPrincipalId());
+            boolean canCertify = getKcAuthorizationService().hasPermission(user.getPrincipalId(), document, PermissionConstants.CERTIFY);
+
+            return isKeyPersonnel || canCertify;
+        }
+        return true;
     }
 
 	public KcAuthorizationService getKcAuthorizationService() {
