@@ -608,7 +608,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
                     recipient.setRolodexId(result.getRolodex().getRolodexId().toString());
                     recipient.setFullName(result.getRolodex().getFullName());
                 } else if (result.getRole() != null) {
-                    recipient.setRoleName(result.getRole().getName());
+                    recipient.setRoleName(result.getRole().getNamespaceCode() + ":" + result.getRole().getName());
                     recipient.setFullName(result.getRole().getName());
                 } else {
                     continue;
