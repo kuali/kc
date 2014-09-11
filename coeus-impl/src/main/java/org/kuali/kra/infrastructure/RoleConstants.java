@@ -21,7 +21,7 @@ package org.kuali.kra.infrastructure;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public interface RoleConstants {
-    
+
     // Role Types
     
     public static final String PROPOSAL_ROLE_TYPE = Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;

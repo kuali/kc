@@ -39,7 +39,7 @@ public class ProtocolAuthorizationServiceImplTest extends KcIntegrationTestBase 
     private void initializeProposalUsers(ProposalDevelopmentDocument doc) {
         // Assign the creator of the proposal to the AGGREGATOR role.
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        kraAuthService.addRole(userId, RoleConstants.AGGREGATOR, doc);
+        kraAuthService.addDocumentLevelRole(userId, RoleConstants.AGGREGATOR, doc);
     }
 
     private ProposalDevelopmentDocument createProposal(String documentDescription, String leadUnitNumber) throws Exception {
@@ -79,14 +79,14 @@ public class ProtocolAuthorizationServiceImplTest extends KcIntegrationTestBase 
         ProposalDevelopmentDocument doc = createProposal("Proposal-8", "000001");
 
         PrincipalContract userChew = identityManagementService.getPrincipalByPrincipalName("chew");
-        kraAuthService.addRole(userChew.getPrincipalId(), RoleConstants.NARRATIVE_WRITER, doc);
-        kraAuthService.addRole(userChew.getPrincipalId(), RoleConstants.BUDGET_CREATOR, doc);
+        kraAuthService.addDocumentLevelRole(userChew.getPrincipalId(), RoleConstants.NARRATIVE_WRITER, doc);
+        kraAuthService.addDocumentLevelRole(userChew.getPrincipalId(), RoleConstants.BUDGET_CREATOR, doc);
 
         PrincipalContract userMajors = identityManagementService.getPrincipalByPrincipalName("majors");
-        kraAuthService.addRole(userMajors.getPrincipalId(), RoleConstants.VIEWER, doc);
+        kraAuthService.addDocumentLevelRole(userMajors.getPrincipalId(), RoleConstants.VIEWER, doc);
 
         PrincipalContract userWoods = identityManagementService.getPrincipalByPrincipalName("woods");
-        kraAuthService.addRole(userWoods.getPrincipalId(), RoleConstants.AGGREGATOR, doc);
+        kraAuthService.addDocumentLevelRole(userWoods.getPrincipalId(), RoleConstants.AGGREGATOR, doc);
 
         List<RolePersons> rolePersonsList = protocolAuthorizationService.getAllRolePersons(doc);
         assertEquals(5, rolePersonsList.size());

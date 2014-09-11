@@ -21,12 +21,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -85,7 +83,7 @@ public class ProposalDevelopmentPermissionsHelper {
 		// Add persons into the ProposalUserRolesList for each of the roles.
 		Collection<Role> roles = getKimProposalRoles();
 		for (Role role : roles) {
-	        List<String> personIds = getKcAuthorizationService().getPrincipalsInRole(getProposalDevelopmentDocument(), role.getName());
+	        List<String> personIds = getKcAuthorizationService().getPrincipalsInRole(role.getName(), getProposalDevelopmentDocument());
 	        for (String personId : personIds) {
                 KcPerson person = getKcPersonService().getKcPersonByPersonId(personId);
 	        	if (person != null) {

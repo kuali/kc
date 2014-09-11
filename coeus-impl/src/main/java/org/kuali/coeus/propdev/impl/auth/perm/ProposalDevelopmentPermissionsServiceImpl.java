@@ -71,7 +71,7 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
     public void deleteProposalUser(ProposalUserRoles proposalUser, ProposalDevelopmentDocument doc) {
         List<String> roleNames = proposalUser.getRoleNames();
         for (String roleName :roleNames) {
-            kraAuthorizationService.removeRole(getPersonId(proposalUser.getUsername()), roleName, doc); 
+            kraAuthorizationService.removeDocumentLevelRole(getPersonId(proposalUser.getUsername()), roleName, doc);
         }
     }
     
@@ -85,7 +85,7 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
         
         List<String> roleNames = proposalUser.getRoleNames();
         for (String roleName :roleNames) {
-            kraAuthorizationService.addRole(getPersonId(proposalUser.getUsername()), roleName, doc);
+            kraAuthorizationService.addDocumentLevelRole(getPersonId(proposalUser.getUsername()), roleName, doc);
         }
     }
 

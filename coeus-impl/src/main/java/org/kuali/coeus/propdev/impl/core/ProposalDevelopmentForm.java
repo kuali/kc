@@ -956,7 +956,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private void addPersons(List<ProposalUserRoles> propUserRolesList, String roleName) {
     	ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
         
-        List<String> users = getKcAuthorizationService().getPrincipalsInRole(doc, roleName);
+        List<String> users = getKcAuthorizationService().getPrincipalsInRole(roleName, doc);
         List<KcPerson> persons = new ArrayList<>();
         for(String userId : users) {
             KcPerson person = getKcPersonService().getKcPersonByPersonId(userId);

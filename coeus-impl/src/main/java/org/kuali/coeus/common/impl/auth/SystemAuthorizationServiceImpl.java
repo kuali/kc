@@ -98,10 +98,7 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
     @Override
     public boolean hasRole(String userId, String namespace, String roleName) {
         Role role = roleManagementService.getRoleByNamespaceCodeAndName(namespace, roleName);
-        if(role != null) {
-            return roleManagementService.principalHasRole(userId, Collections.singletonList(role.getId()), null);
-        }
-        return false;
+        return role != null && roleManagementService.principalHasRole(userId, Collections.singletonList(role.getId()), null);
     }
     
     @Override
@@ -118,5 +115,22 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
 
     public KimType getKimTypeInfoForRole(Role role) {
         return getKimTypeInfoService().getKimType(role.getKimTypeId());
+    }
+
+    @Override
+    public List<Role> getRolesByType(String roleNamespaceCode, String typeName, String typeNamespace) {
+        final List<Role> roles = getRoles(roleNamespaceCode);
+        return filterByType(roles, typeName, typeNamespace);
+    }
+
+    protected List<Role> filterByType(List<Role> roles, String typeName, String typeNamespace) {
+        List<Role> filtered = new ArrayList<>();
+        for (Role r : roles) {
+            KimType type = getKimTypeInfoForRole(r);
+            if (type.getNamespaceCode().equals(typeNamespace) && type.getName().equals(typeName)) {
+                filtered.add(r);
+            }
+        }
+        return filtered;
     }
 }

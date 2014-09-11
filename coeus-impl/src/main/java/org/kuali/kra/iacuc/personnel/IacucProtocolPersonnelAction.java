@@ -359,8 +359,8 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
                 if (protocolPerson.getPersonId() != null) {
                     // Assign the PI the AGGREGATOR role.
                     KcAuthorizationService kraAuthService = getKraAuthorizationService();
-                    kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.IACUC_PROTOCOL_AGGREGATOR, protocol);
-                    kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);
+                    kraAuthService.addDocumentLevelRole(protocolPerson.getPersonId(), RoleConstants.IACUC_PROTOCOL_AGGREGATOR, protocol);
+                    kraAuthService.addDocumentLevelRole(protocolPerson.getPersonId(), RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);
                     protocolForm.getPermissionsHelper().resetUserStates();
                 }
             }
@@ -370,7 +370,7 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
                 if (protocolPerson.getPersonId() != null) {
                     // Assign the Other Role To Viewer the AGGREGATOR role.
                     KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
-                    kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.IACUC_PROTOCOL_VIEWER, protocol);
+                    kraAuthService.addDocumentLevelRole(protocolPerson.getPersonId(), RoleConstants.IACUC_PROTOCOL_VIEWER, protocol);
                     protocolForm.getPermissionsHelper().resetUserStates();
                 }
             }

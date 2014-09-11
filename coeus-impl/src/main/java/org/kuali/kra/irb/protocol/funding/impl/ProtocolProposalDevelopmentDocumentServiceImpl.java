@@ -140,7 +140,7 @@ public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolP
     protected void initializeAuthorization(ProposalDevelopmentDocument document) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
-        kraAuthService.addRole(userId, RoleConstants.AGGREGATOR, document);
+        kraAuthService.addDocumentLevelRole(userId, RoleConstants.AGGREGATOR, document);
     }
 
 

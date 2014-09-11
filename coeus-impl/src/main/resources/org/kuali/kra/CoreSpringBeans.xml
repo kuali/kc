@@ -1440,6 +1440,7 @@
 
     <bean id="protocolAuthorizationService" class="org.kuali.kra.protocol.ProtocolAuthorizationServiceImpl">
         <property name="kcAuthorizationService" ref="kcAuthorizationService" />
+        <property name="identityService" ref="identityService" />
     </bean>
 
     <!-- Application Task Authorizers -->

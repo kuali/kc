@@ -50,7 +50,7 @@ public class ProtocolPrintPermissionUtils extends PermissionsHelperBase {
     protected List<KcPerson> getPersonsInRole(String roleName) {
         KcAuthorizationService kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
         KcPersonService kcPersonService = KcServiceLocator.getService(KcPersonService.class);
-        List<String> users = kraAuthorizationService.getPrincipalsInRole(getProtocol(), roleName);
+        List<String> users = kraAuthorizationService.getPrincipalsInRole(roleName, getProtocol());
 
         final List<KcPerson> persons = new ArrayList<KcPerson>();
         for(String userId : users) {

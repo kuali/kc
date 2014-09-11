@@ -60,13 +60,13 @@ public class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase
     @Override
     protected void addUserToRoleInDatabase(Document document, String userId, String roleName) {
         ProtocolDocumentBase protocolDocument = (ProtocolDocumentBase) document;
-        getKraAuthorizationService().addRole(userId, roleName, protocolDocument.getProtocol());
+        getKraAuthorizationService().addDocumentLevelRole(userId, roleName, protocolDocument.getProtocol());
     }
     
     @Override
     protected void removeUserFromRoleInDatabase(Document document, String userId, String roleName) {
         ProtocolDocumentBase protocolDocument = (ProtocolDocumentBase) document;
-        getKraAuthorizationService().removeRole(userId, roleName, protocolDocument.getProtocol());
+        getKraAuthorizationService().removeDocumentLevelRole(userId, roleName, protocolDocument.getProtocol());
     }
     
     /**

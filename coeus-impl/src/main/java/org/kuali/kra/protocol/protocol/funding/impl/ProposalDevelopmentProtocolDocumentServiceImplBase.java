@@ -138,12 +138,12 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<T exten
      */
     protected void initializeAuthorization(ProtocolDocumentBase protocolDocument) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        kraAuthorizationService.addRole(userId, getProtocolAggregatorHook(), protocolDocument.getProtocol());
-        kraAuthorizationService.addRole(userId, getProtocolApproverHook(), protocolDocument.getProtocol());
+        kraAuthorizationService.addDocumentLevelRole(userId, getProtocolAggregatorHook(), protocolDocument.getProtocol());
+        kraAuthorizationService.addDocumentLevelRole(userId, getProtocolApproverHook(), protocolDocument.getProtocol());
 
         List<Role> roles = systemAuthorizationService.getRoles(getProtocolRoleTypeHook());
         for (Role role : roles) {
-            List<String> users = kraAuthorizationService.getPrincipalsInRole(protocolDocument.getProtocol(), role.getName());
+            List<String> users = kraAuthorizationService.getPrincipalsInRole(role.getName(), protocolDocument.getProtocol());
             List<KcPerson> persons = new ArrayList<KcPerson>();
             for(String uid : users) {
                 KcPerson person = kcPersonService.getKcPersonByPersonId(uid);
@@ -154,7 +154,7 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<T exten
 
             for (KcPerson person : persons) {
                 if (!StringUtils.equals(person.getPersonId(), userId)) {
-                    kraAuthorizationService.addRole(person.getPersonId(), role.getName(), protocolDocument.getProtocol()); 
+                    kraAuthorizationService.addDocumentLevelRole(person.getPersonId(), role.getName(), protocolDocument.getProtocol());
                 }
             }
         }

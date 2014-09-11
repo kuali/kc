@@ -23,33 +23,33 @@ import java.util.List;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public interface KcAuthorizationService {
+    
+    /**
+     * Add a user to a role within an Permissionable. The passed in role must be a document
+     * level type.
+     * @param userId the user's userId
+     * @param roleName the name of the Role
+     * @param permissionable the Permissionable
+     */
+    public void addDocumentLevelRole(String userId, String roleName, Permissionable permissionable);
+    
+    /**
+     * Remove a user from a role within a Permissionable. The passed in role must be a document
+     * level type.
+     * @param userId the user's userId
+     * @param roleName the name of the Role
+     * @param permissionable the Permissionable
+     */
+    public void removeDocumentLevelRole(String userId, String roleName, Permissionable permissionable);
 
     /**
-     * Get the list of usernames of people who have the given role with respect to
-     * the given Permissionable.
-     * @param permissionable the Permissionable
-     * @param roleName the name of the Role
-     * @return the list of usernames 
-     */
-    public List<String> getUserNames(Permissionable permissionable, String roleName);
-    
-    /**
-     * Add a user to a role within an Permissionable.  Standard roles for
-     * Permissionable are Aggregator and Viewer.
+     * Remove a user from a role within a Permissionable. The passed in role must be a document
+     * level type.
      * @param userId the user's userId
      * @param roleName the name of the Role
      * @param permissionable the Permissionable
      */
-    public void addRole(String userId, String roleName, Permissionable permissionable);
-    
-    /**
-     * Remove a user from a role within a Permissionable. Standard roles for
-     * Permissionable are Aggregator and Viewer.
-     * @param userId the user's userId
-     * @param roleName the name of the Role
-     * @param permissionable the Permissionable
-     */
-    public void removeRole(String userId, String roleName, Permissionable permissionable);
+    public boolean hasDocumentLevelRole(String userId, String roleName, Permissionable permissionable);
     
     /**
      * Does the user have the given permission for the given Permissionable?
@@ -60,28 +60,12 @@ public interface KcAuthorizationService {
      */
     public boolean hasPermission(String userId, Permissionable permissionable, String permissionName);
 
-    /**
-     * Does the user have the given role for the given Permissionable?
-     * @param userId the user's userId
-     * @param permissionable the Permissionable
-     * @param roleName the name of the Role
-     * @return true if the user has the role; otherwise false
-     */
-    public boolean hasRole(String userId, Permissionable permissionable, String roleName);
-    
-    /**
-     * Get the roles for this user in the Permissionable.
-     * @param userId the user's userId
-     * @param permissionable the Permissionable
-     * @return the list of role names this person has in the Permissionable
-     */
-    public List<String> getRoles(String userId, Permissionable permissionable);
     
     /**
      * Get the list of principal ids in a specific role for a given permissionable.
-     * @param permissionable the Permissionable
      * @param roleName the name of the role
+     * @param permissionable the Permissionable
      * @return the list of principal ids in the role for the permissionable
      */
-    public List<String> getPrincipalsInRole(Permissionable permissionable, String roleName);
+    public List<String> getPrincipalsInRole(String roleName, Permissionable permissionable);
 }

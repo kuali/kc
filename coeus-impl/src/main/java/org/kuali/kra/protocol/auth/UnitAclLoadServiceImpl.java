@@ -59,7 +59,7 @@ public class UnitAclLoadServiceImpl implements UnitAclLoadService {
                 if (StringUtils.isEmpty(roleIdMap.get(key))) {
                     Role role = roleManagementService.getRole(kraRoleTemplate.getRoleId());
                     roleIdMap.put(key, role.getName());
-                    kraAuthorizationService.addRole(personId, role.getName(), permissionable); 
+                    kraAuthorizationService.addDocumentLevelRole(personId, role.getName(), permissionable);
                 }
             }
         }

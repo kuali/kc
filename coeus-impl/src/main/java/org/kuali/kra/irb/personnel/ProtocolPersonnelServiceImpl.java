@@ -62,7 +62,7 @@ public class ProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImplBa
                 if (newPrincipalInvestigator.getPersonId() != null) {
                     personEditableService.populateContactFieldsFromPersonId(newPrincipalInvestigator);
                     KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
-                    kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.PROTOCOL_APPROVER, protocol);
+                    kraAuthService.addDocumentLevelRole(newPrincipalInvestigator.getPersonId(), RoleConstants.PROTOCOL_APPROVER, protocol);
                 } else {
                     personEditableService.populateContactFieldsFromRolodexId(newPrincipalInvestigator);
                 }

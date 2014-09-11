@@ -45,6 +45,8 @@ public interface SystemAuthorizationService {
     
     public KimType getKimTypeInfoForRole(Role role);
 
+    public List<Role> getRolesByType(String roleNamespaceCode, String typeName, String typeNamespace);
+
     public boolean hasRole(String userId, String namespace, String roleName);
     
 }

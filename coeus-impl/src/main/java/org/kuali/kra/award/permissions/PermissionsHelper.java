@@ -112,7 +112,7 @@ public class PermissionsHelper extends PermissionsHelperBase {
     protected List<KcPerson> getPersonsInRole(String roleName) {
         KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
         KcPersonService kcPersonService = KcServiceLocator.getService(KcPersonService.class);
-        List<String> users = kraAuthService.getPrincipalsInRole(getAward(), roleName);
+        List<String> users = kraAuthService.getPrincipalsInRole(roleName, getAward());
 
         final List<KcPerson> persons = new ArrayList<KcPerson>();
         for(String userId : users) {

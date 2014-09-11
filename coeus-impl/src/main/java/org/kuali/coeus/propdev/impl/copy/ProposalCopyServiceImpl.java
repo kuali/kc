@@ -838,7 +838,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     protected void initializeAuthorization(ProposalDevelopmentDocument doc) {
         String userId = globalVariableService.getUserSession().getPrincipalId();
-        getKcAuthorizationService().addRole(userId, RoleConstants.AGGREGATOR, doc);
+        getKcAuthorizationService().addDocumentLevelRole(userId, RoleConstants.AGGREGATOR, doc);
     }
     
     /**
