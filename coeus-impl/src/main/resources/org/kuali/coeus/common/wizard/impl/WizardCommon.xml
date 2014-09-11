@@ -17,6 +17,7 @@
           parent="Uif-DialogGroup" class="org.kuali.coeus.org.kuali.rice.krad.uif.container.WizardGroup"
           p:resetDataOnRefresh="true"
           p:retrieveViaAjax="true">
+        <property name="dialogCssClass" value="modal-lg"/>
         <property name="header">
             <bean parent="Uif-DialogHeader" p:headerText="Add Personnel" />
         </property>
@@ -36,7 +37,7 @@
                       p:propertyName="lookupFieldValues['firstName']" p:order="30"
                       p:dictionaryAttributeName="firstName" />
                 <bean parent="Kc-Wizard-PersonInputField"
-                      p:propertyName="lookupFieldValues['userName']" p:order="40"
+                      p:propertyName="lookupFieldValues['principalName']" p:order="40"
                       p:dictionaryAttributeName="userName" />
                 <bean parent="Kc-Wizard-PersonInputField"
                       p:propertyName="lookupFieldValues['emailAddress']" p:order="50"
@@ -45,7 +46,7 @@
                       p:propertyName="lookupFieldValues['officePhone']" p:order="60"
                       p:dictionaryAttributeName="officePhone" />
                 <bean parent="Kc-Wizard-PersonInputField"
-                      p:propertyName="lookupFieldValues['organizationIdentifier']"
+                      p:propertyName="lookupFieldValues['primaryDepartmentCode']"
                       p:order="70" p:dictionaryAttributeName="organizationIdentifier" />
                 <bean parent="Kc-Wizard-PersonInputField"
                       p:propertyName="lookupFieldValues['campusCode']" p:order="80"
