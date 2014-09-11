@@ -112,25 +112,10 @@
 	</bean>
 
 <bean id="DevelopmentProposal-opportunityIdForGG" parent="DevelopmentProposal-opportunityIdForGG-parentBean" />
-  <bean id="DevelopmentProposal-opportunityIdForGG-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="DevelopmentProposal-opportunityIdForGG-parentBean" abstract="true" parent="S2sOpportunity-opportunityId">
 		<property name="name" value="opportunityIdForGG" />
-		<property name="forceUppercase" value="false" />
 		<property name="label" value="Grants.gov Opportunity" />
 		<property name="shortLabel" value="Grants.gov Opportunity" />
-		<property name="maxLength" value="50" />
-		<property name="validationPattern">
-			<bean parent="RegexValidationPattern"
-            p:pattern="[0-9A-Za-z\-]" p:validationErrorMessageKey="error.s2sopportunity.opportunityId.wrong.format"/>
-		</property>
-    <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
-    </property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="40" />
-		</property>
-    <property name="controlField">
-      <bean p:size="40" parent="Uif-TextControl"/>
-    </property>
 		<property name="summary" value="Grants.gov Opportunity" />
     <property name="description" value="Grants.gov Opportunity"/>
 	</bean>
