@@ -22,90 +22,105 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.common.framework.org.Organization;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRuleBase;
+import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
+import org.kuali.coeus.common.framework.ruleengine.KcEventResult;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BudgetSubAwardsRule {
+@KcBusinessRule("budgetSubAwardsRule")
+public class BudgetSubAwardsRule extends KcBusinessRuleBase {
 
     private static final Log LOG = LogFactory.getLog(BudgetSubAwardsRule.class);
     public static final String SUBAWARD_ORG_NAME_FIELD_NAME = ".organizationName";
-    
-    private BudgetSubAwards budgetSubAwards;
+
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
     
-    
-    public BudgetSubAwardsRule(BudgetSubAwards budgetSubAwards) {
-        this.budgetSubAwards = budgetSubAwards;
+    @Autowired
+    @Qualifier("kcAttachmentService")
+    private KcAttachmentService kcAttachmentService;
+
+    @KcEventMethod(events={BudgetSubAwardsEvent.EVENT_NAME})
+    public KcEventResult processNonXFDAttachment(BudgetSubAwardsEvent event) {
+    	KcEventResult result = new KcEventResult();
+        verifyNonXFDAttachment(event, result);
+        event.getBudgetSubAwards().setNewSubAwardFileError(!result.getSuccess());
+        verifyOrganizationName(event, result);
+        return result;
     }
     
-    public boolean processNonXFDAttachment() {
-        boolean nonXFD = verifyNonXFDAttachment();
-        budgetSubAwards.setNewSubAwardFileError(!nonXFD);
-        return verifyOrganizationName() && nonXFD;
+    @KcEventMethod(events={BudgetSubAwardsEvent.EVENT_NAME})
+    public KcEventResult processXFDAttachment(BudgetSubAwardsEvent event) {
+    	KcEventResult result = new KcEventResult();
+        verifyXFDAttachment(event, result);
+        event.getBudgetSubAwards().setNewSubAwardFileError(result.getSuccess());
+        verifyOrganizationName(event, result);
+        return result;
     }
     
-    public boolean processXFDAttachment() {
-        boolean xfd = verifyXFDAttachment();
-        budgetSubAwards.setNewSubAwardFileError(!xfd);
-        return verifyOrganizationName() && xfd;
-    }
-    
-    public boolean checkSpecialCharacters(String text){
-        if(getKcAttachmentService().getSpecialCharacter(text)) {
+    @KcEventMethod(events={BudgetSubAwardsEvent.EVENT_NAME})
+    public boolean checkSpecialCharacters(BudgetSubAwardsEvent event){
+        if(getKcAttachmentService().getSpecialCharacter(event.getBudgetSubAwards().getSubAwardXmlFileData().toString())) {
             GlobalVariables.getMessageMap().putWarning(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_SPECIAL_CHARECTOR);
             return true;
         }
         return false;
     }
     
-    protected boolean verifyOrganizationName(){
+    protected void verifyOrganizationName(BudgetSubAwardsEvent event, KcEventResult result){
         boolean success = true;
-        if (StringUtils.isBlank(budgetSubAwards.getOrganizationName())) {
+        if (StringUtils.isBlank(event.getBudgetSubAwards().getOrganizationName())) {
             GlobalVariables.getMessageMap().putError(SUBAWARD_ORG_NAME_FIELD_NAME, Constants.SUBAWARD_ORG_NAME_REQUIERED);
             success = false;
         } else {
             Map params = new HashMap();
-            params.put("organizationName", budgetSubAwards.getOrganizationName());
+            params.put("organizationName", event.getBudgetSubAwards().getOrganizationName());
             Organization dbOrganization = this.getBusinessObjectService().findByPrimaryKey(Organization.class, params);
-            if (dbOrganization == null || !StringUtils.equals(dbOrganization.getOrganizationName(), budgetSubAwards.getOrganizationName())) {
+            if (dbOrganization == null || !StringUtils.equals(dbOrganization.getOrganizationName(), event.getBudgetSubAwards().getOrganizationName())) {
                 GlobalVariables.getMessageMap().putError(SUBAWARD_ORG_NAME_FIELD_NAME, Constants.SUBAWARD_ORG_NAME_INVALID);
                 success = false;
             }
         }
-        return success;
     }
     
-    protected boolean verifyNonXFDAttachment() {
-        boolean success = true;
-        FormFile newBudgetSubAwardFile = budgetSubAwards.getNewSubAwardFile();
-        try {
-            if (ArrayUtils.isEmpty(newBudgetSubAwardFile.getFileData())) {
-                GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
-                success = false;
-            }
-        } catch(FileNotFoundException fnfe) {
-            LOG.error(fnfe.getMessage(), fnfe);
-            GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
-            success = false;
-        } catch(IOException ioe) {
-            LOG.error(ioe.getMessage(), ioe);
-            GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
-            success = false;
+    protected void verifyNonXFDAttachment(BudgetSubAwardsEvent event, KcEventResult result) {
+        FormFile newBudgetSubAwardFile = event.getBudgetSubAwards().getNewSubAwardFile();
+        if (newBudgetSubAwardFile == null) {
+            result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
+            result.setSuccess(false);
+        } else {
+	        try {
+	            if (ArrayUtils.isEmpty(newBudgetSubAwardFile.getFileData())) {
+	            	result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
+	                result.setSuccess(false);
+	            }
+	        } catch(FileNotFoundException fnfe) {
+	            LOG.error(fnfe.getMessage(), fnfe);
+	            result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
+	            result.setSuccess(false);
+	        } catch(IOException ioe) {
+	            LOG.error(ioe.getMessage(), ioe);
+	            result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
+	            result.setSuccess(false);
+	        }
         }
-        return success;
     }
     
-    protected boolean verifyXFDAttachment() {
-        boolean success = verifyNonXFDAttachment();
-        if (success) {
-            FormFile subAwardFile = budgetSubAwards.getNewSubAwardFile();
+    protected void verifyXFDAttachment(BudgetSubAwardsEvent event, KcEventResult result) {
+        verifyNonXFDAttachment(event, result);
+        if (result.getSuccess()) {
+            FormFile subAwardFile = event.getBudgetSubAwards().getNewSubAwardFile();
             String contentType = subAwardFile.getContentType();
             byte[] subAwardData = null;
             try {
@@ -120,25 +135,29 @@ public class BudgetSubAwardsRule {
                 //should never happen as this would be caught in verifyNonXFDAttachment
             }
             if(subAwardData==null || subAwardData.length==0 || !contentType.equals(Constants.PDF_REPORT_CONTENT_TYPE)){
-                GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
-                success = false;
+            	result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
+            	result.setSuccess(false);
             } else {
-                if(budgetSubAwards.getBudgetSubAwardFiles().isEmpty() || budgetSubAwards.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData()==null){
-                    success = false;
+                if(event.getBudgetSubAwards().getBudgetSubAwardFiles().isEmpty() || event.getBudgetSubAwards().getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData()==null){
+                	result.setSuccess(false);
                 }
             }
         }
-        return success;
     }
     
-    private BusinessObjectService getBusinessObjectService() {
-        if (businessObjectService == null) {
-            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-        }
+    protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
-    public KcAttachmentService getKcAttachmentService() {
-        return KcServiceLocator.getService(KcAttachmentService.class);
-    } 
+    protected KcAttachmentService getKcAttachmentService() {
+        return kcAttachmentService;
+    }
+
+	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+		this.businessObjectService = businessObjectService;
+	}
+
+	public void setKcAttachmentService(KcAttachmentService kcAttachmentService) {
+		this.kcAttachmentService = kcAttachmentService;
+	} 
 }

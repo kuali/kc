@@ -5,7 +5,7 @@ import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 
 public class SyncModularBudgetKcEvent extends KcEventBase {
 
-	public static final String RULE_NAME = "syncModularBudget";
+	public static final String RULE_NAME = "KC-B:syncModularBudget";
 	private ProposalDevelopmentBudgetExt budget;
 	
 	public SyncModularBudgetKcEvent(ProposalDevelopmentBudgetExt budget) {
