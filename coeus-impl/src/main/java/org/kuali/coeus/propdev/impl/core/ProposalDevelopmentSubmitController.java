@@ -81,7 +81,7 @@ public class ProposalDevelopmentSubmitController extends
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=submitForReview")
     public  ModelAndView submitForReview(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)throws Exception {
         
- 	   if(proposalValidToSubmit(form)) {
+ 	   if(proposalValidToRoute(form)) {
  		  return getTransactionalDocumentControllerService().route(form);
 	   }
 	   else {
@@ -118,7 +118,7 @@ public class ProposalDevelopmentSubmitController extends
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=blanketApprove")
    public  ModelAndView blanketApprove(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
        
-	   if(proposalValidToSubmit(form)) {
+	   if(proposalValidToRoute(form)) {
 		   return getTransactionalDocumentControllerService().blanketApprove(form);
 	   }
 	   else {
@@ -147,26 +147,7 @@ public class ProposalDevelopmentSubmitController extends
 	   String applicationUrl = getConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY);
 	   form.setReturnLocation(applicationUrl);
 	   return   getTransactionalDocumentControllerService().disapprove(form);
-   } 
-   
-  boolean proposalValidToSubmit(ProposalDevelopmentDocumentForm form) {
-	  boolean isValid = true;
-	  form.setAuditActivated(true);
-	  List<ProposalDevelopmentDataValidationItem> dataValidationItems = ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService())
-			  															.populateDataValidation(form,form.getView().getViewIndex());
-	  if(dataValidationItems != null && dataValidationItems.size() > 0 ) {
-		  for(ProposalDevelopmentDataValidationItem validationItem : dataValidationItems) {
-			  if (StringUtils.equalsIgnoreCase(validationItem.getSeverity(), Constants.AUDIT_ERRORS)) {
-				  isValid = false;
-				  form.setDataValidationItems(dataValidationItems);
-	              break;
-	          }
-		  }
-	  }
-	  getGlobalVariableService().getMessageMap().clearErrorMessages();
-      return isValid;
-  }
-
+   }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareNotificationWizard")
     public ModelAndView prepareNotificationWizard(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {

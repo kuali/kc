@@ -62,6 +62,7 @@
                 <ref bean="PropDev-PermissionsPage"/>
 				<ref bean="PropDev-SupplementalPage"/>
 				<ref bean="PropDev-SubmitPage" />
+                <ref bean="PropDev-SuperUserActionsPage" />
 			</list>
 		</property>
 		<property name="dialogs">
@@ -90,6 +91,10 @@
                 <bean parent="PropDev-NavigationMenu-Access" p:order="80" />
 				<bean parent="PropDev-NavigationMenu-CustomData" p:order="90" />
 				<bean parent="PropDev-NavigationMenu-Submit" p:order="100" />
+                <bean parent="PropDev-NavigationMenu-SuperUserActions" p:order="110"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SUPER_USER_TAKE_ACTION]
+                                    or #actionFlags[#Constants.KUALI_ACTION_CAN_SUPER_USER_APPROVE]
+                                    or #actionFlags[#Constants.KUALI_ACTION_CAN_SUPER_USER_DISAPPROVE]}" />
 			</list>
 		</property>
 	</bean>
@@ -164,6 +169,10 @@
 	<bean id="PropDev-NavigationMenu-Submit-parentBean" parent="Uif-NavigationActionLink"
 		p:navigateToPageId="PropDev-SubmitPage" p:actionLabel="Summary/Submit"
 		p:iconClass="icon-signout" />
+    <bean id="PropDev-NavigationMenu-SuperUserActions" parent="PropDev-NavigationMenu-SuperUserActions-parentBean" />
+    <bean id="PropDev-NavigationMenu-SuperUserActions-parentBean" parent="Uif-MenuAction"
+          p:navigateToPageId="PropDev-SuperUserActionsPage" p:actionLabel="Super User Actions"
+          p:iconClass="icon-user4" />
 
 	<bean id="PropDev-DocumentHeader" parent="PropDev-DocumentHeader-parentBean" />
 	<bean id="PropDev-DocumentHeader-parentBean" abstract="true"
