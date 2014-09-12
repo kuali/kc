@@ -16,6 +16,12 @@ public interface KcBusinessRulesEngine {
 	 */
 	public Boolean applyRules(KcEvent event);
 	
+	/**
+	 * Similar to {@link #applyRules(KcEvent)} but returns a single KcEventResult containing
+	 * the success of all associated rules and all messages and audit results.
+	 * @param event
+	 * @return
+	 */
 	public KcEventResult applyRulesWithResult(KcEvent event);
 	
 	/**

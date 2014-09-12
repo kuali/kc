@@ -32,11 +32,14 @@ public class KcBusinessRulesEngineImpl implements KcBusinessRulesEngine {
 		KcEventResult result = runApplicableRules(event);
 		mergeMapOfLists(globalVariableService.getMessageMap().getErrorMessages(), result.getMessageMap().getErrorMessages());
 		mergeMapOfLists(globalVariableService.getMessageMap().getWarningMessages(), result.getMessageMap().getWarningMessages());
-		mergeMapOfLists(globalVariableService.getMessageMap().getWarningMessages(), result.getMessageMap().getWarningMessages());
+		mergeMapOfLists(globalVariableService.getMessageMap().getInfoMessages(), result.getMessageMap().getInfoMessages());
 		mergeAuditMap(globalVariableService.getAuditErrorMap(), result.getAuditMap());
 		return result.getSuccess();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public KcEventResult applyRulesWithResult(KcEvent event) {
 		return runApplicableRules(event);
@@ -77,7 +80,7 @@ public class KcBusinessRulesEngineImpl implements KcBusinessRulesEngine {
 		
 		mergeMapOfLists(mergedResult.getMessageMap().getErrorMessages(), result.getMessageMap().getErrorMessages());
 		mergeMapOfLists(mergedResult.getMessageMap().getWarningMessages(), result.getMessageMap().getWarningMessages());
-		mergeMapOfLists(mergedResult.getMessageMap().getWarningMessages(), result.getMessageMap().getWarningMessages());
+		mergeMapOfLists(mergedResult.getMessageMap().getInfoMessages(), result.getMessageMap().getInfoMessages());
 		
 		mergeAuditMap(mergedResult.getAuditMap(), result.getAuditMap());
 	}
