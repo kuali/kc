@@ -271,7 +271,10 @@
                         <bean parent="Uif-Inquiry" p:render="false"/>
                     </property>
                 </bean>
-                <bean parent="PropDev-AttachmentPage-EditField" p:propertyName="abstractDetails" p:order="30"/>
+                <bean parent="Uif-InputField" p:propertyName="abstractDetails" p:order="30"
+                      p:render="@{#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.replaceLineBreaks(#line.abstractDetails)}" p:fieldLabel.labelText="Abstract Details" p:order="40"
+                p:render="@{!#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
             </list>
         </property>
     </bean>
