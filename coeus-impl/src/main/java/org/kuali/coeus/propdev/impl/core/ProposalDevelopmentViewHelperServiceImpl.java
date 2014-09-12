@@ -30,6 +30,7 @@ import org.apache.log4j.Logger;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
@@ -167,6 +168,17 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
                     .getDocumentNextValue(Constants.PROP_PERSON_BIO_NUMBER));
         } else if (addLine instanceof ProposalPersonDegree) {
 			((ProposalPersonDegree)addLine).setDegreeSequenceNumber(document.getDocumentNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
+            try {
+            ((ProposalPersonDegree)addLine).setProposalPerson((ProposalPerson)PropertyUtils.getNestedProperty(form.getDevelopmentProposal(),StringUtils.replace(collectionPath,".proposalPersonDegrees","")));
+            } catch (Exception e) {
+                throw new RuntimeException("proposal person cannot be retrieved from development proposal",e);
+            }
+        } else if (addLine instanceof ProposalPersonUnit) {
+            try {
+                ((ProposalPersonUnit)addLine).setProposalPerson((ProposalPerson)PropertyUtils.getNestedProperty(form.getDevelopmentProposal(),StringUtils.replace(collectionPath,".units","")));
+            } catch (Exception e) {
+                throw new RuntimeException("proposal person cannot be retrieved from development proposal",e);
+            }
         } else if (addLine instanceof ProposalAbstract) {
             ProposalAbstract proposalAbstract = (ProposalAbstract) addLine;
             proposalAbstract.setProposalNumber(proposal.getProposalNumber());
