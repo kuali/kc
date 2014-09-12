@@ -27,6 +27,7 @@ import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardFiles;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
+import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardsEvent;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardsRule;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.validation.AuditHelper.ValidationState;
@@ -48,6 +49,7 @@ import org.kuali.kra.budget.external.budget.BudgetAdjustmentClient;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.common.budget.framework.print.BudgetPrintService;
 import org.kuali.coeus.propdev.impl.budget.subaward.PropDevBudgetSubAwardService;
@@ -86,7 +88,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     private PropDevBudgetSubAwardService propDevBudgetSubAwardService;
     private static final Log LOG = LogFactory.getLog(BudgetActionsAction.class);
     private BudgetAdjustmentClient budgetAdjustmentClient = null;
-
+    private KcBusinessRulesEngine kcBusinessRulesEngine;
     
 
 
@@ -287,13 +289,12 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     
     protected boolean updateSubAwardBudgetDetails(Budget budget, BudgetSubAwards subAward) throws Exception {
         List<String[]> errorMessages = new ArrayList<String[]>();
-        BudgetSubAwardsRule rule = new BudgetSubAwardsRule(subAward);
-        boolean success = true;
+        boolean success = getKcBusinessRulesEngine().applyRules(new BudgetSubAwardsEvent(subAward));
         if (subAward.getNewSubAwardFile().getFileData().length == 0) {
             success = false;
-            }
-        if (rule.processXFDAttachment()) {
-            success = getPropDevBudgetSubAwardService().updateSubAwardBudgetDetails(budget, subAward, errorMessages);
+        }
+        if (success) {
+            success &= getPropDevBudgetSubAwardService().updateSubAwardBudgetDetails(budget, subAward, errorMessages);
         }
         if (!errorMessages.isEmpty()) {
             for (String[] message : errorMessages) {
@@ -308,7 +309,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
                 }
             }
         }
-        if (success && errorMessages.isEmpty() && rule.processNonXFDAttachment()) {
+        if (success && errorMessages.isEmpty()) {
             GlobalVariables.getMessageMap().putInfo(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_DETAILS_UPDATED);
         }
         return success;
@@ -324,19 +325,12 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             getPropDevBudgetSubAwardService().populateBudgetSubAwardFiles(budget, subAward, fileName, fileData);
         }
         boolean success = updateSubAwardBudgetDetails(budget, subAward);
-        BudgetSubAwardsRule rule = new BudgetSubAwardsRule(subAward);
-        success &= rule.processXFDAttachment();
         if (success) {
-            if (rule.checkSpecialCharacters(subAward.getSubAwardXmlFileData().toString())) {
-                subAward.getBudgetSubAwardFiles().get(0).setSubAwardXmlFileData(KcServiceLocator.getService(KcAttachmentService.class).
-                        checkAndReplaceSpecialCharacters(subAward.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData().toString()));
-                subAward.setSubAwardXmlFileData(subAward.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData());
-            }
+            subAward.getBudgetSubAwardFiles().get(0).setSubAwardXmlFileData(KcServiceLocator.getService(KcAttachmentService.class).
+                    checkAndReplaceSpecialCharacters(subAward.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData().toString()));
+            subAward.setSubAwardXmlFileData(subAward.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData());
         }
         GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
-        if(rule.processNonXFDAttachment()){
-             success = rule.processNonXFDAttachment();
-        }
         return success;
     }
 
@@ -756,5 +750,16 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
         return mapping.findForward(Constants.BUDGET_VERSIONS_PAGE);
     }
+
+	public KcBusinessRulesEngine getKcBusinessRulesEngine() {
+		if (kcBusinessRulesEngine == null) {
+			kcBusinessRulesEngine = KcServiceLocator.getService(KcBusinessRulesEngine.class);
+		}
+		return kcBusinessRulesEngine;
+	}
+
+	public void setKcBusinessRulesEngine(KcBusinessRulesEngine kcBusinessRulesEngine) {
+		this.kcBusinessRulesEngine = kcBusinessRulesEngine;
+	}
     
 }

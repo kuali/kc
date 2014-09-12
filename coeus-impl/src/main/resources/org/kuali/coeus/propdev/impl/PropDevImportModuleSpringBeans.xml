@@ -82,6 +82,7 @@
     <bean id="kcFileControllerService" parent="grlImporter" p:serviceName="kcFileControllerService"/>
     <bean id="kcNotificationService" parent="grlImporter" p:serviceName="kcNotificationService"/>
     <bean id="wizardControllerService" parent="grlImporter" p:serviceName="wizardControllerService"/>
+    <bean id="kcBusinessRulesEngine" parent="grlImporter" p:serviceName="kcBusinessRulesEngine"/>
     
     <!-- IRB -->
 
