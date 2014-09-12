@@ -133,6 +133,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
        //Reset Opportunity Title and Opportunity ID in the Sponsor & Program Information section
        proposal.setProgramAnnouncementTitle("");
        proposal.setProgramAnnouncementNumber("");
+       proposal.setOpportunityIdForGG("");
        return getRefreshControllerService().refresh(form);
    }
 
