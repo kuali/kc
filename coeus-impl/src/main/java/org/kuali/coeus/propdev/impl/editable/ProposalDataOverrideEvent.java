@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.editable;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
@@ -24,7 +25,7 @@ public class ProposalDataOverrideEvent extends KcDocumentEventBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDataOverrideEvent.class);
     
     private ProposalChangedData proposalChangedData;
-    
+    private DevelopmentProposal developmentProposal;
     /**
      * Constructs an CopyProposalEvent.
      * 
@@ -34,6 +35,7 @@ public class ProposalDataOverrideEvent extends KcDocumentEventBase {
     public ProposalDataOverrideEvent(ProposalDevelopmentDocument document, ProposalChangedData proposalChangedData) {
         super("Override Proposal Data " + getDocumentId(document), "", document);
         this.proposalChangedData = proposalChangedData;
+        this.developmentProposal = document.getDevelopmentProposal();
         logEvent();
     }
     
@@ -64,5 +66,13 @@ public class ProposalDataOverrideEvent extends KcDocumentEventBase {
 
     public void setProposalChangedData(ProposalChangedData proposalChangedData) {
         this.proposalChangedData = proposalChangedData;
+    }
+
+    public DevelopmentProposal getDevelopmentProposal() {
+        return developmentProposal;
+    }
+
+    public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
+        this.developmentProposal = developmentProposal;
     }
 }

@@ -56,8 +56,7 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Create Override" p:methodToCall="createOverride"
-                              p:actionParameters="Kc-SendNotification-Wizard.step:2"
-                              p:ajaxSubmit="false" p:successCallback="dismissDialog('PropDev-DataOverride-Dialog');"/>
+                              p:successCallback="dismissDialog('PropDev-DataOverride-Dialog');"/>
                     </list>
                 </property>
             </bean>

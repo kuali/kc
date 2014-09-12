@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.editable;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
@@ -56,12 +57,13 @@ public class ProposalDevelopmentDataOverrideRule extends KcTransactionalDocument
 
     public boolean processProposalDataOverrideRules(ProposalDataOverrideEvent proposalDataOverrideEvent) {
         ProposalChangedData proposalOverriddenData = proposalDataOverrideEvent.getProposalChangedData();
+        DevelopmentProposal developmentProposal = proposalDataOverrideEvent.getDevelopmentProposal();
         boolean valid = true;
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KNSServiceLocator.getDataDictionaryService();
         
         String overriddenValue = proposalOverriddenData.getChangedValue();
         KcPersistenceStructureService kraPersistenceStructureService = KcServiceLocator.getService(KcPersistenceStructureService.class);
-        Map<String, String> columnToAttributesMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(ProposalOverview.class);
+        Map<String, String> columnToAttributesMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(DevelopmentProposal.class);
         String overriddenName = dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, columnToAttributesMap.get(proposalOverriddenData.getColumnName()));
         Boolean isRequiredField = dataDictionaryService.isAttributeRequired(DevelopmentProposal.class, columnToAttributesMap.get(proposalOverriddenData.getColumnName()));
         
@@ -71,7 +73,7 @@ public class ProposalDevelopmentDataOverrideRule extends KcTransactionalDocument
         }
         
         if(proposalOverriddenData != null && StringUtils.isNotEmpty(proposalOverriddenData.getChangedValue())) {
-            valid &= validateAttributeFormat(proposalOverriddenData, dataDictionaryService);
+            valid &= validateAttributeFormat(proposalOverriddenData, developmentProposal, dataDictionaryService);
         }
         
         if (isRequiredField && StringUtils.isEmpty(overriddenValue)){
@@ -100,7 +102,7 @@ public class ProposalDevelopmentDataOverrideRule extends KcTransactionalDocument
      * @param dataDictionaryService
      * @return boolean
      */
-    private boolean validateAttributeFormat(ProposalChangedData proposalOverriddenData, DataDictionaryService dataDictionaryService) {
+    private boolean validateAttributeFormat(ProposalChangedData proposalOverriddenData, DevelopmentProposal developmentProposal, DataDictionaryService dataDictionaryService) {
         ProposalDevelopmentService proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
         DateTimeService dateTimeService = CoreApiServiceLocator.getDateTimeService();
         
@@ -162,16 +164,20 @@ public class ProposalDevelopmentDataOverrideRule extends KcTransactionalDocument
             return false;
         }
 
-        Object currentValue = proposalDevelopmentService.getProposalFieldValueFromDBColumnName(proposalOverriddenData.getProposalNumber(), proposalOverriddenData.getColumnName());
-        String currentValueStr = (currentValue != null) ? currentValue.toString() : "";
-        if(DATE.equalsIgnoreCase( proposalOverriddenData.getEditableColumn().getDataType()) && currentValue != null) {
-                currentValueStr = dateTimeService.toString((Date) currentValue, "MM/dd/yyyy");
-        }
-        
-        if(StringUtils.isNotEmpty(currentValueStr) && currentValueStr.equalsIgnoreCase(overriddenValue)) {
-            GlobalVariables.getMessageMap().putError(Constants.PROPOSALDATA_CHANGED_VAL_KEY, KeyConstants.PROPOSAL_DATA_OVERRIDE_SAME_VALUE, 
-                    new String[] { proposalOverriddenData.getEditableColumn().getColumnLabel(), (proposalOverriddenData.getDisplayValue() != null) ? proposalOverriddenData.getDisplayValue() : overriddenValue});
-            return false;
+        try {
+            Object currentValue = PropertyUtils.getNestedProperty(developmentProposal,proposalOverriddenData.getAttributeName());
+            String currentValueStr = (currentValue != null) ? currentValue.toString() : "";
+            if(DATE.equalsIgnoreCase( proposalOverriddenData.getEditableColumn().getDataType()) && currentValue != null) {
+                    currentValueStr = dateTimeService.toString((Date) currentValue, "MM/dd/yyyy");
+            }
+
+            if(StringUtils.isNotEmpty(currentValueStr) && currentValueStr.equalsIgnoreCase(overriddenValue)) {
+                GlobalVariables.getMessageMap().putError(Constants.PROPOSALDATA_CHANGED_VAL_KEY, KeyConstants.PROPOSAL_DATA_OVERRIDE_SAME_VALUE,
+                        new String[] { proposalOverriddenData.getEditableColumn().getColumnLabel(), (proposalOverriddenData.getDisplayValue() != null) ? proposalOverriddenData.getDisplayValue() : overriddenValue});
+                return false;
+            }
+        }catch (Exception e) {
+            throw new RuntimeException("Error retrieving " + proposalOverriddenData.getAttributeName() + " from the proposal", e);
         }
         
         return true;

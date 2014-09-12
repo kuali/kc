@@ -43,12 +43,8 @@ public interface ProposalDevelopmentService {
      * @return A Map in the form of Unit Number, Unit Name representing the units for which the userId passed in has the Proposal Aggregator role.
      */
     public List<Unit> getDefaultModifyProposalUnitsForUser(String userId);
-
-    public String populateProposalEditableFieldMetaDataForAjaxCall(String proposalNumber, String editableFieldDBColumn);
     
     public String populateBudgetEditableFieldMetaDataForAjaxCall(String proposalNumber, String documentNumber, String editableFieldDBColumn);
-    
-    public Object getProposalFieldValueFromDBColumnName(String proposalNumber, String dbColumnName) ;
     
     public Object getBudgetFieldValueFromDBColumnName(String documentNumber, String dbColumnName);
     
@@ -120,16 +116,6 @@ public interface ProposalDevelopmentService {
      * @param document
      */
     public void loadDocument(ProposalDevelopmentDocument document);
-    
-    /**
-     * This method produces a list of strings containg the methodToCall to be registered for each of the 
-     * ProposalColumnsToAlter lookup buttons that can be rendered on the Proposal Data Override tab. The execute method in this class
-     * puts this list into the form.  The Proposal Data Override tag file then calls registerEditableProperty on each when rendering the tab.
-     * 
-     * @param proposalNumber The proposal number for which we are generating the list for.
-     * @return Possible editable properties that can be called from the page.
-     */
-    public List<String> constructColumnsToAlterLookupMTCs(String proposalNumber);
     
     public void sortS2sForms(DevelopmentProposal proposal);
 

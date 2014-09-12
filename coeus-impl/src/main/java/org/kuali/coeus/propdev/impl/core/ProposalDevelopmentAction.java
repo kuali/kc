@@ -318,7 +318,6 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if( KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
             KcServiceLocator.getService(AuditHelper.class).auditConditionally(proposalDevelopmentForm);
         }
-        proposalDevelopmentForm.setProposalDataOverrideMethodToCalls(getProposalDevelopmentService().constructColumnsToAlterLookupMTCs(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber()));
         getProposalDevelopmentService().sortS2sForms(document.getDevelopmentProposal());    
                 
         if(document.getDevelopmentProposal().getS2sOpportunity()!=null && document.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms()!=null){
