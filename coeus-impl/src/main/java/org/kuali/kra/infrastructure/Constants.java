@@ -36,6 +36,7 @@ public interface Constants {
 
     public static final String KEY_PERSON_ROLE = "KP";
     public static final String PRINCIPAL_INVESTIGATOR_ROLE = "PI";
+    public static final String MULTI_PI_ROLE ="MPI";
     public static final String CO_INVESTIGATOR_ROLE = "COI";
     public static final String MULTIPLE_VALUE = "multipleValues";
     public static final String KEYWORD_PANEL_DISPLAY = "proposaldevelopment.displayKeywordPanel";

@@ -192,7 +192,9 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         {   
             proposalPerson.setDivision(ROLODEX_PERSON);
         } 
-        if (proposalPerson.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE) || proposalPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE)) {
+        if (proposalPerson.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE)  ||
+            proposalPerson.getProposalPersonRoleId().equals(MULTI_PI_ROLE) ||
+            proposalPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE)) {
             if (isNotBlank(proposalPerson.getHomeUnit()) && isValidHomeUnit(proposalPerson, proposalPerson.getHomeUnit())){
                 addUnitToPerson(proposalPerson,createProposalPersonUnit(proposalPerson.getHomeUnit(), proposalPerson));
             }
@@ -565,13 +567,15 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                 }
             }
 
-            ProposalCreditSplitListDto unitTotalLine = new ProposalCreditSplitListDto();
-            unitTotalLine.setDescription("Unit Total:");
-            unitTotalLine.setLineType("unit-total");
-            for (Map.Entry<String,ProposalUnitCreditSplit> entry : totalUnitSplits.entrySet()) {
-                unitTotalLine.getCreditSplits().add(0,entry.getValue());
+            if (totalUnitSplits.size() > 0) {
+                ProposalCreditSplitListDto unitTotalLine = new ProposalCreditSplitListDto();
+                unitTotalLine.setDescription("Unit Total:");
+                unitTotalLine.setLineType("unit-total");
+                for (Map.Entry<String,ProposalUnitCreditSplit> entry : totalUnitSplits.entrySet()) {
+                    unitTotalLine.getCreditSplits().add(0,entry.getValue());
+                }
+                creditSplitListItems.add(unitTotalLine);
             }
-            creditSplitListItems.add(unitTotalLine);
         }
 
         if (CollectionUtils.isNotEmpty(investigators)) {
