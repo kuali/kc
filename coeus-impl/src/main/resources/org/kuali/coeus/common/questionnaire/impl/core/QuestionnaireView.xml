@@ -117,7 +117,7 @@
 		<entry key="1" value="Questionnaire-YesNoControl" />
 		<entry key="2" value="Questionnaire-YesNoNaControl" />
 		<entry key="3" value="Uif-TextControl" />
-		<entry key="4" value="Uif-DateControlOnFocus" />
+		<entry key="4" value="Questionnaire-DateControl" />
 		<entry key="5" value="Uif-TextControl" />
 		<entry key="6" value="Uif-TextControl" />
 	</util:map>
@@ -131,7 +131,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="Questionnaire-YesNoNaControl" parent="Questionnaire-YesNoControl-parentBean" />
+	<bean id="Questionnaire-YesNoNaControl" parent="Questionnaire-YesNoNaControl-parentBean" />
 	<bean id="Questionnaire-YesNoNaControl-parentBean" abstract="true"
 		parent="Uif-VerticalRadioControl">
 		<property name="options">
@@ -150,4 +150,7 @@
 	<bean id="Questionnaire-QuickFinder-parentBean" abstract="true"
 		parent="Uif-QuickFinder">
 	</bean>
+    <bean id="Questionnaire-DateControl" parent="Questionnaire-DateControl-parentBean"/>
+    <bean id="Questionnaire-DateControl-parentBean" abstract="true" parent="Uif-DateControlOnFocus"
+          p:watermarkText="mm/dd/yyyy"/>
 </beans>

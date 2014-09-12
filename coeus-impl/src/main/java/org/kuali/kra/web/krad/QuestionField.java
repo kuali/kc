@@ -20,7 +20,9 @@ import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.coeus.common.impl.custom.arg.ArgValueLookupValuesFinder;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.krad.datadictionary.validation.constraint.NumericPatternConstraint;
 import org.kuali.rice.krad.uif.control.Control;
+import org.kuali.rice.krad.uif.control.TextControlBase;
 import org.kuali.rice.krad.uif.field.InputFieldBase;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.LifecycleElement;
@@ -47,6 +49,12 @@ public class QuestionField extends InputFieldBase {
         setControl((Control) ComponentFactory.getNewComponentInstance(getControlMappings().get(answer.getQuestion().getQuestionTypeId().toString())));
         getControl().getCssClasses().add("answer");
 
+        if (getControl() instanceof TextControlBase) {
+            ((TextControlBase)getControl()).setMaxLength(answer.getQuestion().getAnswerMaxLength());
+        }
+        if (answer.getQuestion().getQuestionTypeId().equals(Constants.QUESTION_RESPONSE_TYPE_NUMBER)) {
+            this.setValidCharactersConstraint(new NumericPatternConstraint());
+        }
         if (answer.getQuestion().getQuestionTypeId().equals(Constants.QUESTION_RESPONSE_TYPE_LOOKUP) && answer.getQuestion().getLookupClass().equals(ArgValueLookup.class.getName())) {
             setControl((Control) ComponentFactory.getNewComponentInstance("Uif-DropdownControl"));
             ArgValueLookupValuesFinder valuesFinder = new ArgValueLookupValuesFinder();
