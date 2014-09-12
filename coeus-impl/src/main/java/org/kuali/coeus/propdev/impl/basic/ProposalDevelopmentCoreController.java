@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_RECALCULATE_BUDGET_CONFIRMATION;
+
 @SuppressWarnings("deprecation")
 @Controller
 public class ProposalDevelopmentCoreController extends ProposalDevelopmentControllerBase {
@@ -240,5 +242,17 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
     	
     }
 
-    
+    @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=closeProposal")
+    public ModelAndView closeProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        DialogResponse dialogResponse = form.getDialogResponse("PropDev-Close-Dialog");
+        if(dialogResponse == null) {
+            return getModelAndViewService().showDialog("PropDev-Close-Dialog", true, form);
+        }else if (dialogResponse.getResponse().equals("yes")){
+            super.save(form);
+            return getNavigationControllerService().returnToHub(form);
+        } else if (dialogResponse.getResponse().equals("no")) {
+            return getNavigationControllerService().returnToHub(form);
+        }
+        return getModelAndViewService().getModelAndView(form);
+    }
 }
