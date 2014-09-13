@@ -15,31 +15,25 @@
  */
 package org.kuali.coeus.common.budget.impl.distribution;
 
-import org.kuali.coeus.common.budget.framework.core.BudgetDocumentContainer;
-import org.kuali.coeus.common.budget.framework.distribution.AddBudgetCostShareEvent;
-import org.kuali.coeus.common.budget.framework.distribution.AddBudgetCostShareRule;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
-import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShareAllocationRule;
 import org.kuali.coeus.common.framework.costshare.CostShareRuleResearchDocumentBase;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
+import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
  * This class ProcessDefinitionDefinitiones Budget Project Income rules.
  */
-public class BudgetCostShareRuleImpl extends CostShareRuleResearchDocumentBase implements AddBudgetCostShareRule, BudgetCostShareAllocationRule {
+@KcBusinessRule("budgetCostShareRule")
+public class BudgetCostShareRule extends CostShareRuleResearchDocumentBase {
 
     private static final String ADD_ERROR_KEY = "error.custom";
-
-
-    public BudgetCostShareRuleImpl() {
-    }
-
-    @Override
+    
+    @KcEventMethod(events = {AddBudgetCostShareEvent.EVENT_NAME})
     public boolean processAddBudgetCostShareBusinessRules(AddBudgetCostShareEvent budgetCostShareEvent) {
-        boolean retVal = !areDuplicatesPresent(budgetCostShareEvent.getBudgetCostShare());
+        boolean retVal = !areDuplicatesPresent(budgetCostShareEvent.getBudget(), budgetCostShareEvent.getBudgetCostShare());
         retVal &= validateProjectPeriod(budgetCostShareEvent);
         return retVal;
     }
@@ -51,23 +45,16 @@ public class BudgetCostShareRuleImpl extends CostShareRuleResearchDocumentBase i
      * @param testBudgetCostShare
      * @return
      */
-    private boolean areDuplicatesPresent(BudgetCostShare testBudgetCostShare) {
+    protected boolean areDuplicatesPresent(Budget budget, BudgetCostShare testBudgetCostShare) {
         boolean duplicate = false;
 
         if (testBudgetCostShare == null) {
             return duplicate;
         }
-
-        KualiForm form = KNSGlobalVariables.getKualiForm();
-        if (form instanceof BudgetDocumentContainer) {
-            BudgetDocumentContainer budgetContainerForm = (BudgetDocumentContainer) form;
-
-            for (BudgetCostShare budgetCostShare : budgetContainerForm.getBudgetDocument().getBudget()
-                    .getBudgetCostShares()) {
-                duplicate = checkForDuplicateFields(testBudgetCostShare, budgetCostShare);
-                if (duplicate) {
-                    break;
-                }
+        for (BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
+            duplicate = checkForDuplicateFields(testBudgetCostShare, budgetCostShare);
+            if (duplicate) {
+                break;
             }
         }
         return duplicate;
@@ -91,20 +78,9 @@ public class BudgetCostShareRuleImpl extends CostShareRuleResearchDocumentBase i
         return duplicate;
     }
 
-    @Override
-    public boolean processBudgetCostShareAllocationBusinessRules(BudgetCostShareAllocationEvent budgetCostShareEvent) {
-        boolean unallocatedCostSharingExists = budgetCostShareEvent.getBudgetDocument().getBudget().getUnallocatedCostSharing()
-                .isNonZero();
-        if (unallocatedCostSharingExists) {
-            GlobalVariables.getMessageMap().putError("document.budgetCostShare*", ADD_ERROR_KEY,
-                    "Cost share allocation doesn't total available cost sharing");
-        }
-        return unallocatedCostSharingExists;
-    }
-
     private boolean validateProjectPeriod(AddBudgetCostShareEvent budgetCostShareEvent) {
         String projectPeriodField = "newBudgetCostShare.projectPeriod";
-        int numberOfProjectPeriods = budgetCostShareEvent.getBudgetDocument().getBudget().getBudgetPeriods().size();
+        int numberOfProjectPeriods = budgetCostShareEvent.getBudget().getBudgetPeriods().size();
         return this.validateProjectPeriod(budgetCostShareEvent.getBudgetCostShare().getProjectPeriod(), projectPeriodField, numberOfProjectPeriods);
     }
 }

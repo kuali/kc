@@ -32,6 +32,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.budget.framework.core.BudgetVersionFormBase;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -51,6 +52,8 @@ import java.util.List;
  */
 public class BudgetActionBase extends KcTransactionalDocumentActionBase {
     
+	private KcBusinessRulesEngine kcBusinessRulesEngine;
+	
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -165,5 +168,13 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
             }
         }
         request.setAttribute(KRADConstants.PESSIMISTIC_LOCK_MESSAGES, lockMessages);
-    }  
+    }
+
+	public KcBusinessRulesEngine getKcBusinessRulesEngine() {
+		return kcBusinessRulesEngine;
+	}
+
+	public void setKcBusinessRulesEngine(KcBusinessRulesEngine kcBusinessRulesEngine) {
+		this.kcBusinessRulesEngine = kcBusinessRulesEngine;
+	}  
 }

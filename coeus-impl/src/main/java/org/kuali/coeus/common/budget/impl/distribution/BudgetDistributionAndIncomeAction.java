@@ -21,7 +21,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.budget.framework.core.BudgetAction;
-import org.kuali.coeus.common.budget.framework.distribution.AddBudgetCostShareEvent;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.income.AddBudgetProjectIncomeEvent;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetDistributionService;
@@ -78,7 +77,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form; 
         Budget budget = budgetForm.getBudgetDocument().getBudget();
         BudgetCostShare budgetCostShare = budgetForm.getNewBudgetCostShare();
-        boolean passed = getKualiRuleService().applyRules(createAddRuleEvent(budgetForm, budgetCostShare));
+        boolean passed = getKcBusinessRulesEngine().applyRules(new AddBudgetCostShareEvent(budget, budgetCostShare));
         
         if(passed) {
             setCostShareAddRowDefaults(budget, budgetCostShare);
@@ -237,17 +236,6 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      */
     protected KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
-    }
-    
-    /**
-     * Factory method
-     * @param budgetForm
-     * @param budgetCostShare
-     * @return
-     */
-    private AddBudgetCostShareEvent createAddRuleEvent(BudgetForm budgetForm, BudgetCostShare budgetCostShare) {
-        return new AddBudgetCostShareEvent("Add BudgetCostShare Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(),
-                budgetCostShare, budgetForm.getBudgetDocument());
     }
     
     /**

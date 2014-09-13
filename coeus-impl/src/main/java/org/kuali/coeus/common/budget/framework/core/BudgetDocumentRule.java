@@ -22,7 +22,8 @@ import org.kuali.coeus.common.budget.framework.income.AddBudgetProjectIncomeEven
 import org.kuali.coeus.common.budget.framework.income.AddBudgetProjectIncomeRule;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncomeRuleImpl;
-import org.kuali.coeus.common.budget.impl.distribution.BudgetCostShareRuleImpl;
+import org.kuali.coeus.common.budget.impl.distribution.AddBudgetCostShareEvent;
+import org.kuali.coeus.common.budget.impl.distribution.BudgetCostShareRule;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandAAuditRule;
 import org.kuali.coeus.common.framework.custom.KcDocumentBaseAuditRule;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -55,13 +56,13 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implements AddBudgetPeriodRule, AddBudgetCostShareRule, AddBudgetProjectIncomeRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule, GenerateBudgetPeriodRule, DocumentAuditRule, SyncModularBudgetRule {
+public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implements AddBudgetPeriodRule, AddBudgetProjectIncomeRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule, GenerateBudgetPeriodRule, DocumentAuditRule, SyncModularBudgetRule {
 
     /** 
-     * @see org.kuali.coeus.common.budget.framework.distribution.AddBudgetCostShareRule#processAddBudgetCostShareBusinessRules(org.kuali.coeus.common.budget.framework.distribution.AddBudgetCostShareEvent)
+     * @see org.kuali.coeus.common.budget.framework.distribution.AddBudgetCostShareRule#processAddBudgetCostShareBusinessRules(org.kuali.coeus.common.budget.impl.distribution.AddBudgetCostShareEvent)
      */
     public boolean processAddBudgetCostShareBusinessRules(AddBudgetCostShareEvent addBudgetCostShareEvent) {
-        return new BudgetCostShareRuleImpl().processAddBudgetCostShareBusinessRules(addBudgetCostShareEvent);
+        return new BudgetCostShareRule().processAddBudgetCostShareBusinessRules(addBudgetCostShareEvent);
     }
     
     @Override
