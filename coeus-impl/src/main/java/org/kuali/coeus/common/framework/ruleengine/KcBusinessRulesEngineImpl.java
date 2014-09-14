@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Service("kcBusinessRulesEngine")
 public class KcBusinessRulesEngineImpl implements KcBusinessRulesEngine {
 	
-	private Map<String, List<RuleMethod>> rules = new HashMap<>();
+	private Map<Class<?>, List<RuleMethod>> rules = new HashMap<>();
 	
 	@Autowired
 	@Qualifier("globalVariableService")
@@ -28,7 +28,7 @@ public class KcBusinessRulesEngineImpl implements KcBusinessRulesEngine {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Boolean applyRules(KcEvent event) {
+	public Boolean applyRules(Object event) {
 		KcEventResult result = runApplicableRules(event);
 		mergeMapOfLists(globalVariableService.getMessageMap().getErrorMessages(), result.getMessageMap().getErrorMessages());
 		mergeMapOfLists(globalVariableService.getMessageMap().getWarningMessages(), result.getMessageMap().getWarningMessages());
@@ -41,15 +41,16 @@ public class KcBusinessRulesEngineImpl implements KcBusinessRulesEngine {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public KcEventResult applyRulesWithResult(KcEvent event) {
+	public KcEventResult applyRulesWithResult(Object event) {
 		return runApplicableRules(event);
 	}
 	
-	protected KcEventResult runApplicableRules(KcEvent event) {
+	protected KcEventResult runApplicableRules(Object event) {
 		List<KcEventResult> results = new ArrayList<>();
 		Boolean result = true;
-		if (rules.containsKey(event.getEventName()) && !rules.get(event.getEventName()).isEmpty()) {
-			for (RuleMethod ruleMethod : rules.get(event.getEventName())) {
+		List<RuleMethod> applicableRules = getApplicableRules(event.getClass());
+		if (!applicableRules.isEmpty()) {
+			for (RuleMethod ruleMethod : applicableRules) {
 				try {
 					if (KcEventResult.class.isAssignableFrom(ruleMethod.method.getReturnType())) {
 						results.add((KcEventResult) ruleMethod.method.invoke(ruleMethod.rule, event));
@@ -65,6 +66,15 @@ public class KcBusinessRulesEngineImpl implements KcBusinessRulesEngine {
 			throw new RuntimeException("Kc business rule event called but no events registered to handle event.");
 		}
 		return mergeResults(result, results);
+	}
+	
+	protected List<RuleMethod> getApplicableRules(Class<?> eventClass) {
+		List<RuleMethod> result = new ArrayList<>();
+		if (eventClass.getSuperclass() != null && eventClass.getSuperclass() != Object.class) {
+			result.addAll(getApplicableRules(eventClass.getSuperclass()));
+		}
+		result.addAll(rules.get(eventClass));
+		return result;
 	}
 	
 	protected KcEventResult mergeResults(Boolean result, List<KcEventResult> results) {
@@ -117,9 +127,7 @@ public class KcBusinessRulesEngineImpl implements KcBusinessRulesEngine {
 		for (final Method curMethod : ruleClass.getMethods()) {
 			KcEventMethod methodAnnotation = curMethod.getAnnotation(KcEventMethod.class);
 			if (methodAnnotation != null) {
-				for (final String eventName : methodAnnotation.events()) {
-					registerEvent(eventName, businessRuleClass, curMethod);
-				}
+				registerEvent(businessRuleClass, curMethod);
 			}
 		}
 	}
@@ -128,43 +136,38 @@ public class KcBusinessRulesEngineImpl implements KcBusinessRulesEngine {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void registerEvent(KcEventBase event, Object rule, Method method) {
-		registerEvent(event.getEventName(), rule, method);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void registerEvent(String eventName, Object rule, Method method) {
-		if (StringUtils.isBlank(eventName)) {
-			throw new IllegalArgumentException("eventName is blank");
-		}
+	public void registerEvent(Object rule, Method method) {
 		if (rule == null) {
 			throw new IllegalArgumentException("rule is null");
 		}
 		if (method == null) {
 			throw new IllegalArgumentException("method is null");
 		}
-		if (method.getParameterTypes().length != 1 || !KcEvent.class.isAssignableFrom(method.getParameterTypes()[0])) {
-			throw new IllegalArgumentException(rule.getClass().getSimpleName() + "." + method.getName() + " cannot be registered with the KcBusinessRulesEngines as its arguments are not a single KcEvent.");
+		if (method.getParameterTypes().length != 1) {
+			throw new IllegalArgumentException(rule.getClass().getSimpleName() + "." + method.getName() + " cannot be registered with the KcBusinessRulesEngines as it does not take a single argument.");
 		}
 		if (!Boolean.class.isAssignableFrom(method.getReturnType()) && !boolean.class.isAssignableFrom(method.getReturnType()) && !KcEventResult.class.isAssignableFrom(method.getReturnType())) {
 			throw new IllegalArgumentException(rule.getClass().getSimpleName() + "." + method.getName() + " cannot be registered with the KcBusinessRuleEngine as its return value is not boolean or KcEventResult type.");
 		}
 		
-		if (rules.get(eventName) == null) {
-			rules.put(eventName, new ArrayList<RuleMethod>());
-		}
-		rules.get(eventName).add(new RuleMethod(rule, method));
-		
+		registerEvent(method.getParameterTypes()[0], rule, method);
 	}
 	
-	public Map<String, List<RuleMethod>> getRules() {
+	protected void registerEvent(Class<?> event, Object rule, Method method) {
+		if (rules.get(event) == null) {
+			rules.put(event, new ArrayList<RuleMethod>());
+		}
+		rules.get(event).add(new RuleMethod(rule, method));
+		if (event.getSuperclass() != null && event.getSuperclass() != Object.class) {
+			registerEvent(event.getSuperclass(), rule, method);
+		}
+	}
+	
+	public Map<Class<?>, List<RuleMethod>> getRules() {
 		return rules;
 	}
 
-	public void setRules(Map<String, List<RuleMethod>> rules) {
+	public void setRules(Map<Class<?>, List<RuleMethod>> rules) {
 		this.rules = rules;
 	}
 	
