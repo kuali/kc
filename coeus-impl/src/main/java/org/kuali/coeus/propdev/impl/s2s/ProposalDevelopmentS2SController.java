@@ -28,6 +28,7 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -63,6 +64,10 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
     @Qualifier("formPrintService")
     private FormPrintService formPrintService;
 
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
+
     private static final String ERROR_NO_GRANTS_GOV_FORM_SELECTED = "error.proposalDevelopment.no.grants.gov.form.selected";
 
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=refresh", "refreshCaller=S2sOpportunity-LookupView"})
@@ -72,8 +77,15 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
        DevelopmentProposal proposal = document.getDevelopmentProposal();
        if(form.getNewS2sOpportunity() != null 
                && StringUtils.isNotEmpty(form.getNewS2sOpportunity().getOpportunityId())) {
+
            proposal.setS2sOpportunity(form.getNewS2sOpportunity());
            proposal.getS2sOpportunity().setDevelopmentProposal(proposal);
+
+           //Set default S2S Submission Type
+           if (StringUtils.isBlank(form.getNewS2sOpportunity().getS2sSubmissionTypeCode())){
+               String defaultS2sSubmissionTypeCode = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.S2S_SUBMISSIONTYPE_APPLICATION);
+               proposal.getS2sOpportunity().setS2sSubmissionTypeCode(defaultS2sSubmissionTypeCode);
+           }
 
            //Set Opportunity Title and Opportunity ID in the Sponsor & Program Information section
            proposal.setProgramAnnouncementTitle(form.getNewS2sOpportunity().getOpportunityTitle());
@@ -240,5 +252,13 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
     public void setFormPrintService(FormPrintService formPrintService) {
         this.formPrintService = formPrintService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }
