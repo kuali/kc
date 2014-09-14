@@ -2,8 +2,15 @@ var Kc = Kc || {};
 Kc.Questionnaire = Kc.Questionnaire || {};
 Kc.Questionnaire.Answer = Kc.Questionnaire.Answer || {};
 (function(namespace, $) {
-	namespace.questionnaireDateFormat = "%m/%e/%Y";  
+    namespace.questionnaireDateFormat = "%m/%e/%Y";
 
+    namespace.initQuestions = function(){
+        $(".uif-documentPage").find(".question").each(function(){
+           $(this).on('change',function(e){
+               namespace.answerChanged(this);
+           });
+        });
+    };
     /*
      * function that handles answer change.   It will check whether to hide or show the affected descendant answers.
      * Notes : 1. check the siblings (of "input") of 'div[class^=Qresponsediv]', this input id contains answer header and question answer index
@@ -15,7 +22,11 @@ Kc.Questionnaire.Answer = Kc.Questionnaire.Answer || {};
 		var questionnairePanel = $(questionWrapper).parents('section.questionnaireContent');
 		var answer = $(questionWrapper).find('input.answer:first');
 		var parentQuestionId = $(questionWrapper).data('kc-questionid');
-		
+
+        if (answer.size() == 0) {
+            answer = questionWrapper.find("select");
+        }
+
         $(questionnairePanel).find("div[data-kc-question-parentid='"+parentQuestionId+"']").each(function() {
     		var condition = eval($(this).data('kc-question-condition'));
     		if ($(questionWrapper).is(':visible') && namespace.isConditionMatchAnswers(answer, condition)) {
@@ -87,10 +98,13 @@ Kc.Questionnaire.Answer = Kc.Questionnaire.Answer || {};
        var answerValue = $(answer).val();
        if ($(answer).is(':radio')) {
     	   answerValue = $(answer).parent().find(':checked').val();
-    	   if (answerValue === undefined) {
-    		   answerValue = "";
-    	   }
        }
+        if ($(answer).is('select')) {
+            answerValue = $(answer).find(':selected').val();
+        }
+        if (answerValue === undefined) {
+            answerValue = "";
+        }
 		var isMatched = false;
         if (condition == 1) {
           // contains text value
