@@ -16,11 +16,15 @@
 package org.kuali.coeus.common.framework.costshare;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocumentRule;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRuleBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.util.AuditError;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
@@ -30,6 +34,10 @@ import java.util.List;
  */
 public abstract class CostShareRuleResearchDocumentBase extends BudgetParentDocumentRule {
 
+	@Autowired
+	@Qualifier("errorReporter")
+	protected ErrorReporter errorReporter;
+	
     private CostShareService costShareService;
     
     /**
@@ -40,7 +48,7 @@ public abstract class CostShareRuleResearchDocumentBase extends BudgetParentDocu
      * @param numberOfProjectPeriods
      * @return
      */
-    public boolean validateProjectPeriod(Object projectPeriod, String projectPeriodField, int numberOfProjectPeriods) {
+    protected boolean validateProjectPeriod(Object projectPeriod, String projectPeriodField, int numberOfProjectPeriods) {
         boolean valid = true;
         if (projectPeriod != null) {
             try {
@@ -118,5 +126,18 @@ public abstract class CostShareRuleResearchDocumentBase extends BudgetParentDocu
         return retVal;
         
     }
+
+	public ErrorReporter getErrorReporter() {
+		return errorReporter;
+	}
+
+	public void setErrorReporter(ErrorReporter errorReporter) {
+		this.errorReporter = errorReporter;
+	}
+
+	public void reportError(String propertyName, String errorKey,
+			String... errorParams) {
+		errorReporter.reportError(propertyName, errorKey, errorParams);
+	}
 
 }

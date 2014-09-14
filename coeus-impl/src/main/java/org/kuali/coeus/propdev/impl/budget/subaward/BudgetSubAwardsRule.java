@@ -38,7 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @KcBusinessRule("budgetSubAwardsRule")
-public class BudgetSubAwardsRule extends KcBusinessRuleBase {
+public class BudgetSubAwardsRule  {
 
     private static final Log LOG = LogFactory.getLog(BudgetSubAwardsRule.class);
     public static final String SUBAWARD_ORG_NAME_FIELD_NAME = ".organizationName";

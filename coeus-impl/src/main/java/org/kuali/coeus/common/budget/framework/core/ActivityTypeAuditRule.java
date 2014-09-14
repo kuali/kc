@@ -19,6 +19,10 @@ import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
+import org.kuali.coeus.common.budget.impl.core.BudgetAuditEvent;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRuleBase;
+import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -35,16 +39,18 @@ import java.util.List;
  * 
  * This class to check whether activity type has been changed for PD or Award, and budget is not sync'ed.  
  */
-public class ActivityTypeAuditRule  implements DocumentAuditRule{
+@KcBusinessRule("activityTypeAuditRule")
+public class ActivityTypeAuditRule {
 
-    @Override
-    public boolean processRunAuditBusinessRules(Document document) {
+	@KcEventMethod(events = {BudgetAuditEvent.EVENT_NAME})
+    public boolean processRunAuditBusinessRules(BudgetAuditEvent event) {
         boolean valid = true;
+        
+        Budget budget = event.getBudget();
 
-        BudgetDocument budgetDocument = (BudgetDocument)document;
         List<AuditError> auditErrors = new ArrayList<AuditError>();
-        if (isActivityTypeChanged(budgetDocument)) {
-            if (budgetDocument.getBudget().getBudgetParent().getDocument() instanceof AwardDocument) {
+        if (isActivityTypeChanged(budget)) {
+            if (budget.getBudgetParent().getDocument() instanceof AwardDocument) {
                 auditErrors.add(new AuditError(Constants.ACTIVITY_TYPE_KEY.replace("developmentProposalList", "awardList"),
                     KeyConstants.WARNING_ACTIVITY_TYPE_CHANGED, Constants.MAPPING_AWARD_HOME_PAGE + "." + "detailsDate"));
             } else {
@@ -58,10 +64,10 @@ public class ActivityTypeAuditRule  implements DocumentAuditRule{
         return valid;
     }
 
-    private boolean isActivityTypeChanged(BudgetDocument budgetDocument) {
-        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
+    private boolean isActivityTypeChanged(Budget budget) {
+        BudgetParentDocument parentDocument = budget.getBudgetParent().getDocument();
         boolean syncRate = false;
-        Collection<BudgetRate> allBudgetRates = getBudgetRatesService().getSavedBudgetRates(budgetDocument.getBudget());
+        Collection<BudgetRate> allBudgetRates = getBudgetRatesService().getSavedBudgetRates(budget);
         syncRate = getBudgetRatesService().checkActivityTypeChange(allBudgetRates,
                                     parentDocument.getBudgetParent().getActivityTypeCode());
         return syncRate;

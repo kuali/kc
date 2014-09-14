@@ -18,7 +18,10 @@ package org.kuali.coeus.common.budget.framework.distribution;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.Budget.FiscalYearSummary;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.coeus.common.budget.impl.core.BudgetAuditEvent;
 import org.kuali.coeus.common.framework.costshare.CostShareRuleResearchDocumentBase;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
+import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -35,12 +38,13 @@ import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
  * 
  * This class handels the budget cost share rules.
  */
-public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase implements DocumentAuditRule {
+@KcBusinessRule("budgetCostShareAuditRule")
+public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase {
     public static final String BUDGET_COST_SHARE_ERROR_KEY = "budgetCostShareAuditErrors";
     
-    @Override
-    public boolean processRunAuditBusinessRules(Document document) {
-        Budget budget = ((BudgetDocument) document).getBudget();
+    @KcEventMethod(events = BudgetAuditEvent.EVENT_NAME)
+    public boolean processCostShareAuditRules(BudgetAuditEvent event) {
+        Budget budget = event.getBudget();
 
         // Returns if cost sharing is not applicable
         if (!budget.isCostSharingApplicable()) {

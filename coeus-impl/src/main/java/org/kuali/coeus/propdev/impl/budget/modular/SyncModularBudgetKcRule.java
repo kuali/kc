@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 @KcBusinessRule("syncModularBudgetRule")
-public class SyncModularBudgetKcRule extends KcBusinessRuleBase {
+public class SyncModularBudgetKcRule {
 
     @Autowired
     @Qualifier("globalVariableService")

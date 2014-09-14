@@ -20,6 +20,10 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.coeus.common.budget.impl.core.BudgetAuditEvent;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRuleBase;
+import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -33,15 +37,17 @@ import java.util.List;
 
 import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
 
-public class BudgetUnrecoveredFandAAuditRule implements DocumentAuditRule {
+@KcBusinessRule("budgetUnrecoveredFandAAuditRule")
+public class BudgetUnrecoveredFandAAuditRule {
     public static final String BUDGET_UNRECOVERED_F_AND_A_ERROR_KEY = "budgetUnrecoveredFandAAuditErrors";
     public static final String BUDGET_UNRECOVERED_F_AND_A_WARNING_KEY = "budgetUnrecoveredFandAAuditWarnings";
     
     String[] params = { "Unrecovered F and A" };
     private static final int YEAR_CONSTANT = 1900;
 
-    public boolean processRunAuditBusinessRules(Document document) {
-        Budget budget = ((BudgetDocument)document).getBudget();
+    @KcEventMethod(events = {BudgetAuditEvent.EVENT_NAME})
+    public boolean processRunAuditBusinessRules(BudgetAuditEvent event) {
+    	Budget budget = event.getBudget();
         if (getAuditErrorMap().containsKey(BUDGET_UNRECOVERED_F_AND_A_ERROR_KEY)) {
             List auditErrors = ((AuditCluster) getAuditErrorMap().get(BUDGET_UNRECOVERED_F_AND_A_ERROR_KEY)).getAuditErrorList();
             auditErrors.clear();
@@ -77,7 +83,7 @@ public class BudgetUnrecoveredFandAAuditRule implements DocumentAuditRule {
         
         int i=0;
         int j=0;
-        BudgetParent budgetParent = ((BudgetDocument) document).getBudget().getBudgetParent();
+        BudgetParent budgetParent = budget.getBudgetParent();
         Date projectStartDate = budgetParent.getRequestedStartDateInitial();
         Date projectEndDate = budgetParent.getRequestedEndDateInitial();
 

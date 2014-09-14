@@ -127,7 +127,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form; 
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetUnrecoveredFandA budgetUnrecoveredFandA = budgetForm.getNewBudgetUnrecoveredFandA();
-        boolean passed = getKualiRuleService().applyRules(createRuleEvent(budgetForm, budgetUnrecoveredFandA));
+        boolean passed = getKcBusinessRulesEngine().applyRules(createRuleEvent(budgetForm, budgetUnrecoveredFandA));
         
         if(passed) {
             setUnrecoveredFandAAddRowDefaults(budgetDocument, budgetUnrecoveredFandA);
@@ -255,7 +255,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @return
      */
     private AddBudgetUnrecoveredFandAEvent createRuleEvent(BudgetForm budgetForm, BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
-        return new AddBudgetUnrecoveredFandAEvent("Add BudgetUnrecoveredFandA Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), budgetUnrecoveredFandA);
+        return new AddBudgetUnrecoveredFandAEvent(budgetForm.getBudget(), budgetUnrecoveredFandA);
     }
     
     /**

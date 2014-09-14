@@ -107,6 +107,9 @@
             </list>
         </property>
     </bean>
+    
+    <!-- Load Business Rules for this module -->
+    <bean id="propDevKcBusinessRulesHandler" class="org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesHandler"/>
 
     <!-- Proposal Development Services -->
 

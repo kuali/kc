@@ -3,6 +3,7 @@ package org.kuali.coeus.common.framework.ruleengine;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContextAware;
 
 /**
  * By implementing InitializingBean, classes extending from this will
@@ -16,7 +17,7 @@ public abstract class KcBusinessRuleBase implements InitializingBean {
 	
     @Override
     public void afterPropertiesSet() throws Exception {
-        kcBusinessRulesEngine.registerBusinessRuleClass(this);
+        //kcBusinessRulesEngine.registerBusinessRuleClass(this);
     }
 
 	protected KcBusinessRulesEngine getKcBusinessRulesEngine() {
@@ -27,3 +28,4 @@ public abstract class KcBusinessRuleBase implements InitializingBean {
 		this.kcBusinessRulesEngine = kcBusinessRulesEngine;
 	}
 }
+

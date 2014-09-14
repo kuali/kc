@@ -15,43 +15,34 @@
  */
 package org.kuali.coeus.common.budget.impl.distribution;
 
-import org.kuali.coeus.common.budget.framework.distribution.AddBudgetUnrecoveredFandARule;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
-import org.kuali.coeus.common.budget.framework.distribution.BudgetValidationUnrecoveredFandARule;
 import org.kuali.coeus.common.budget.impl.core.ValidationHelper;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocumentContainer;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
+import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
 /**
  * ProcessDefinitionDefinitiones Budget Project Income rules
  */
-public class BudgetUnrecoveredFandARuleImpl implements AddBudgetUnrecoveredFandARule, BudgetValidationUnrecoveredFandARule {
+@KcBusinessRule("budgetUnrecoveredFandARule")
+public class BudgetUnrecoveredFandARuleImpl {
 
 private static final String ADD_ERROR_KEY = "error.custom";
     
     /**
      * Provides general validation support
      */
+	@Autowired
+	@Qualifier("validationHelper")
     private ValidationHelper validationHelper;
-    
-
-    public BudgetUnrecoveredFandARuleImpl() {
-        validationHelper = new ValidationHelper();
-    }
-    
-    @Override
-    public boolean processAddBudgetUnrecoveredFandABusinessRules(AddBudgetUnrecoveredFandAEvent budgetUnrecoveredFandAEvent) {
-        return !areDuplicatesPresent(budgetUnrecoveredFandAEvent.getBudgetUnrecoveredFandA());
-    }
-
-    @Override
-    public boolean processBudgetValidationUnrecoveredFandABusinessRules(BudgetValidationUnrecoveredFandAEvent budgetUnrecoveredFandAEvent) {
-        return areRequiredRulesSatisfied(budgetUnrecoveredFandAEvent.getBudgetUnrecoveredFandA());
-    }
 
     /**
      * This method ensures that an added BudgetCostShare won't duplicate another. A duplicate record would have the same source account, share amount, 
@@ -59,39 +50,25 @@ private static final String ADD_ERROR_KEY = "error.custom";
      * @param testBudgetUnrecoveredFandA
      * @return
      */
-    private boolean areDuplicatesPresent(BudgetUnrecoveredFandA testBudgetUnrecoveredFandA) {
+	@KcEventMethod(events = {AddBudgetUnrecoveredFandAEvent.EVENT_NAME})
+    public boolean processAddBudgetUnrecoveredFandABusinessRules(AddBudgetUnrecoveredFandAEvent event) {
+        return !areDuplicatesPresent(event.getBudget(), event.getBudgetUnrecoveredFandA());
+    }
+
+    private boolean areDuplicatesPresent(Budget budget, BudgetUnrecoveredFandA testBudgetUnrecoveredFandA) {
         boolean duplicate = false;
         
         if(testBudgetUnrecoveredFandA == null) {
             return duplicate;
         }
-        
-        KualiForm form = KNSGlobalVariables.getKualiForm();
-        if(form instanceof BudgetDocumentContainer) {
-            BudgetDocumentContainer budgetContainerForm = (BudgetDocumentContainer) form;
-            List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs = budgetContainerForm.getBudgetDocument().getBudget().getBudgetUnrecoveredFandAs();
-            for(BudgetUnrecoveredFandA budgetUnrecoveredFandA: budgetUnrecoveredFandAs) {
-                duplicate = checkForDuplicateFields(testBudgetUnrecoveredFandA, budgetUnrecoveredFandA);
-                if(duplicate) { break; }
-            }            
+    
+        List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs = budget.getBudgetUnrecoveredFandAs();
+        for(BudgetUnrecoveredFandA budgetUnrecoveredFandA: budgetUnrecoveredFandAs) {
+            duplicate = checkForDuplicateFields(testBudgetUnrecoveredFandA, budgetUnrecoveredFandA);
+            if(duplicate) { break; }
         }
 
         return duplicate;
-    }
-    
-    /**
-     * This method checks each required field, tracking validation state
-     * @param budgetUnrecoveredFandA The Budget Cost Share
-     * @return Validation state; true if all required fields are not null, and if String, not empty
-     */
-    private boolean areRequiredRulesSatisfied(BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
-        boolean valid = validationHelper.checkRequiredField(budgetUnrecoveredFandA.getFiscalYear(), "budgetUnrecoveredFandA.fiscalYear", "Fiscal Year");
-        valid &= validationHelper.checkRequiredField(budgetUnrecoveredFandA.getAmount(), "budgetUnrecoveredFandA.amount", "Amount");
-        valid &= validationHelper.checkRequiredField(budgetUnrecoveredFandA.getOnCampusFlag(), "budgetUnrecoveredFandA.campus", "Campus");
-        valid &= validationHelper.checkRequiredField(budgetUnrecoveredFandA.getApplicableRate(), "budgetUnrecoveredFandA.applicableRate", "ApplicableRate");
-        valid &= validationHelper.checkRequiredField(budgetUnrecoveredFandA.getSourceAccount(), "budgetUnrecoveredFandA.sourceAccount", "Source Account");
-        
-        return valid;
     }
     
     /** 
@@ -107,4 +84,12 @@ private static final String ADD_ERROR_KEY = "error.custom";
         }
         return duplicate;
     }
+
+	public ValidationHelper getValidationHelper() {
+		return validationHelper;
+	}
+
+	public void setValidationHelper(ValidationHelper validationHelper) {
+		this.validationHelper = validationHelper;
+	}
 }
