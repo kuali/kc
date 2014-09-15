@@ -16,6 +16,7 @@
 
 package org.kuali.coeus.propdev.impl.budget.distribution;
 
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetDistributionService;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetControllerBase;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
@@ -43,6 +44,16 @@ public class ProposalBudgetUnrecoveredFandAController extends ProposalBudgetCont
     public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         getBudgetDistributionService().initializeUnrecoveredFandACollectionDefaults(form.getBudget());
         return super.navigate(form);
+    }
+
+    @MethodAccessible
+    @RequestMapping(value = "/proposalBudget", params={"methodToCall=resetUnrecoveredFandA"})
+    public ModelAndView resetUnrecoveredFandAToDefault (@ModelAttribute("KualiForm") ProposalBudgetForm form)
+            throws Exception{
+        Budget budget = form.getBudget();
+        budget.getBudgetUnrecoveredFandAs().clear();
+        budgetDistributionService.initializeUnrecoveredFandACollectionDefaults(budget);
+        return getRefreshControllerService().refresh(form);
     }
 
     public BudgetDistributionService getBudgetDistributionService() {
