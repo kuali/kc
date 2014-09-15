@@ -84,7 +84,7 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
                     role = roleManagementService.getRole(proposalRoleTemplate.getRoleId());
                     roleIdMap.put(proposalRoleTemplate.getRoleId(), role.getName());
                 }
-                kraAuthorizationService.addRole(personId, roleIdMap.get(proposalRoleTemplate.getRoleId()), doc); 
+                kraAuthorizationService.addDocumentLevelRole(personId, roleIdMap.get(proposalRoleTemplate.getRoleId()), doc);
             }
         }
     }
@@ -99,20 +99,21 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
     protected String getCreator(ProposalDevelopmentDocument doc) {
         return globalVariableService.getUserSession().getPrincipalId();
     }
-    
+
     /**
      * Create the original set of Proposal Users for a new Proposal Development Document.
      * The creator the proposal is assigned to the AGGREGATOR role.
      */
+    @Override
      public void initializeProposalUsers(ProposalDevelopmentDocument doc) {
          // Assign the creator of the proposal to the AGGREGATOR role.
          String userId = getCreator(doc);
-         if (!kraAuthorizationService.hasRole(userId, doc, RoleConstants.AGGREGATOR))
-             kraAuthorizationService.addRole(userId, RoleConstants.AGGREGATOR, doc);
-         
+         if (!kraAuthorizationService.hasDocumentLevelRole(userId, RoleConstants.AGGREGATOR, doc))
+             kraAuthorizationService.addDocumentLevelRole(userId, RoleConstants.AGGREGATOR, doc);
+
          // Add the users defined in the role templates for the proposal's lead unit
          addUsers(doc);
-     }     
+    }
     
     /**
      * Get the role templates for the proposal.  The retrieved role templates correspond

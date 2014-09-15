@@ -117,8 +117,8 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
 
         try {
             KcServiceLocator.getService(DocumentService.class).saveDocument(document);
-            if(!kraAuthService.hasRole(userId, document, RoleConstants.AGGREGATOR)) {
-                kraAuthService.addRole(userId, RoleConstants.AGGREGATOR, document);
+            if(!kraAuthService.hasDocumentLevelRole(userId, RoleConstants.AGGREGATOR, document)) {
+                kraAuthService.addDocumentLevelRole(userId, RoleConstants.AGGREGATOR, document);
             }
             ProposalRoleTemplateService proposalRoleTemplateService = KcServiceLocator.getService(ProposalRoleTemplateService.class);
             proposalRoleTemplateService.addUsers(document);

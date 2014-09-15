@@ -23,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
@@ -33,7 +34,6 @@ import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.validation.AuditHelper.ValidationState;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.*;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyBean;
@@ -533,8 +533,9 @@ public class AwardAction extends BudgetParentActionBase {
     protected void createInitialAwardUsers(Award award) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
-        if (!kraAuthService.hasRole(userId, KraAuthorizationConstants.KC_AWARD_NAMESPACE, AwardRoleConstants.AWARD_MODIFIER.getAwardRole())) {
-            kraAuthService.addRole(userId, AwardRoleConstants.AWARD_MODIFIER.getAwardRole(), award); 
+        SystemAuthorizationService systemAuthorizationService = KcServiceLocator.getService(SystemAuthorizationService.class);
+        if (!systemAuthorizationService.hasRole(userId, award.getNamespace(), AwardRoleConstants.AWARD_MODIFIER.getAwardRole())) {
+            kraAuthService.addDocumentLevelRole(userId, AwardRoleConstants.AWARD_MODIFIER.getAwardRole(), award);
         }
     }
 

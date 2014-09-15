@@ -76,7 +76,6 @@ import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
@@ -255,7 +254,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         
         // add aggregator to the document
         String userId = globalVariableService.getUserSession().getPrincipalId();
-        kcAuthorizationService.addRole(userId, RoleConstants.AGGREGATOR, newDoc);
+        kcAuthorizationService.addDocumentLevelRole(userId, RoleConstants.AGGREGATOR, newDoc);
 
         initializeBudget(hierarchy, initialChild);
 

@@ -508,7 +508,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 
                 ProposalDevelopmentDocument copiedDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
                 getProposalRoleTemplateService().initializeProposalUsers(copiedDocument);//add in any default permissions
-                copiedDocument.getDevelopmentProposal().setS2sAppSubmission(new ArrayList<S2sAppSubmission>());            
+                copiedDocument.getDevelopmentProposal().setS2sAppSubmission(new ArrayList<S2sAppSubmission>());
                 for(S2sAppSubmission s2sAppSubmissionListValue:s2sAppSubmissionProposalList) {
                           copiedDocument.getDevelopmentProposal().setPrevGrantsGovTrackingID(s2sAppSubmissionListValue.getGgTrackingId());
                 }

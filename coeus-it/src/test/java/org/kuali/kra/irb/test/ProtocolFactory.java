@@ -82,11 +82,11 @@ public class ProtocolFactory {
         
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
         KcAuthorizationService kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
-        if(!kraAuthorizationService.hasRole(principalId, protocolDocument.getProtocol(), RoleConstants.PROTOCOL_AGGREGATOR)) {
-            kraAuthorizationService.addRole(principalId, RoleConstants.PROTOCOL_AGGREGATOR, protocolDocument.getProtocol());
+        if(!kraAuthorizationService.hasDocumentLevelRole(principalId, RoleConstants.PROTOCOL_AGGREGATOR, protocolDocument.getProtocol())) {
+            kraAuthorizationService.addDocumentLevelRole(principalId, RoleConstants.PROTOCOL_AGGREGATOR, protocolDocument.getProtocol());
         }
-        if(!kraAuthorizationService.hasRole(principalId, protocolDocument.getProtocol(), RoleConstants.PROTOCOL_APPROVER)) {
-            kraAuthorizationService.addRole(principalId, RoleConstants.PROTOCOL_APPROVER, protocolDocument.getProtocol());
+        if(!kraAuthorizationService.hasDocumentLevelRole(principalId, RoleConstants.PROTOCOL_APPROVER, protocolDocument.getProtocol())) {
+            kraAuthorizationService.addDocumentLevelRole(principalId, RoleConstants.PROTOCOL_APPROVER, protocolDocument.getProtocol());
         }
 
         return (ProtocolDocument) documentService.saveDocument(protocolDocument);

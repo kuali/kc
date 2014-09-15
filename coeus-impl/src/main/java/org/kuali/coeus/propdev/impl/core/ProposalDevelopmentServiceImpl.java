@@ -666,7 +666,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             return true;
         }
         KcAuthorizationService proposalAuthService = getKcAuthorizationService();
-        List<String> users = proposalAuthService.getPrincipalsInRole(document, RoleConstants.AGGREGATOR);
+        List<String> users = proposalAuthService.getPrincipalsInRole(RoleConstants.AGGREGATOR, document);
 
         for (String user : users) {
             if(globalVariableService.getUserSession().getPrincipalId().equals(user)){

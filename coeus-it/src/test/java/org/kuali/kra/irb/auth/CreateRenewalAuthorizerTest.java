@@ -51,6 +51,7 @@ public class CreateRenewalAuthorizerTest extends ProtocolAuthorizerTestBase {
     protected ProtocolAuthorizer createProtocolAuthorizer(ProtocolDocument protocolDocument, boolean hasPermission, boolean isActionAllowed, boolean isInWorkflow) {
         ProtocolAuthorizer authorizer = new CreateRenewalAuthorizer();
         authorizer.setKraAuthorizationService(buildKraAuthorizationService(protocolDocument, PermissionConstants.CREATE_RENEWAL, hasPermission, RoleConstants.IRB_ADMINISTRATOR, true));
+        authorizer.setSystemAuthorizationService(buildSystemAuthorizationService(protocolDocument, PermissionConstants.CREATE_RENEWAL, hasPermission, RoleConstants.IRB_ADMINISTRATOR, true));
         authorizer.setProtocolActionService(buildProtocolActionService(ProtocolActionType.RENEWAL_CREATED, protocolDocument, isActionAllowed));
         return authorizer;
     }

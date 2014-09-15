@@ -841,7 +841,7 @@ public class IacucActionHelper extends ActionHelperBase {
     }
 
     public boolean isIacucAdmin() {
-        return getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IACUC_ADMINISTRATOR);
+        return getSystemAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IACUC_ADMINISTRATOR);
     }
 
     /**

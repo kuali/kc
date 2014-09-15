@@ -269,7 +269,7 @@ public class IacucProtocolForm extends ProtocolFormBase {
             String principalId = GlobalVariables.getUserSession().getPrincipalId();
             ProtocolSubmissionBase submission = getProtocolDocument().getProtocol().getProtocolSubmission();
             boolean isUserOnlineReviewer = onlineReviewService.isProtocolReviewer(principalId, false, submission);
-            boolean isUserIacucAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", "IACUC Administrator"); 
+            boolean isUserIacucAdmin = getSystemAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", "IACUC Administrator");
             onlineReviewTabEnabled = (isUserOnlineReviewer || isUserIacucAdmin) 
                     && onlineReviewService.isProtocolInStateToBeReviewed((IacucProtocol)getProtocolDocument().getProtocol());
         }

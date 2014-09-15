@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.protocol.auth;
 
+import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizerBase;
@@ -32,6 +33,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public abstract class ProtocolAuthorizerBase extends TaskAuthorizerBase {
     
     protected KcAuthorizationService kraAuthorizationService;
+
+    protected SystemAuthorizationService systemAuthorizationService;
     private ProtocolActionService protocolActionService;
     
     /**
@@ -110,7 +113,7 @@ public abstract class ProtocolAuthorizerBase extends TaskAuthorizerBase {
     }
 
     protected boolean isAdmin(String userId, String namespace, String role) {
-        return kraAuthorizationService.hasRole(userId, namespace, role);
+        return systemAuthorizationService.hasRole(userId, namespace, role);
     }
     
     protected boolean isRequestForSuspension(ProtocolSubmissionBase submission, String submissionType) {
@@ -120,4 +123,11 @@ public abstract class ProtocolAuthorizerBase extends TaskAuthorizerBase {
         return false;
     }
 
+    public SystemAuthorizationService getSystemAuthorizationService() {
+        return systemAuthorizationService;
+    }
+
+    public void setSystemAuthorizationService(SystemAuthorizationService systemAuthorizationService) {
+        this.systemAuthorizationService = systemAuthorizationService;
+    }
 }

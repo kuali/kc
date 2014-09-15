@@ -25,6 +25,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,7 +114,7 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
         assertFalse(rule.processDeleteProposalUserBusinessRules(document, proposalUserRolesList, 0));
-        assertError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY, KeyConstants.ERROR_LAST_AGGREGATOR);
+        assertError(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_LAST_AGGREGATOR);
     }
     
     /**
@@ -143,7 +144,7 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
         editRoles.addRoleName(RoleConstants.AGGREGATOR);
         editRoles.addRoleName(RoleConstants.NARRATIVE_WRITER);
         assertFalse(rule.processEditProposalUserRolesBusinessRules(document, proposalUserRolesList, editRoles));
-        assertError(Constants.EDIT_ROLES_PROPERTY_KEY, KeyConstants.ERROR_AGGREGATOR_INCLUSIVE);
+        assertError(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_AGGREGATOR_INCLUSIVE);
     }
 
 
@@ -201,7 +202,9 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
      * @param errorKey
      */
     private void assertError(String propertyKey, String errorKey) {
-        List errors = GlobalVariables.getMessageMap().getMessages(propertyKey);
+        MessageMap messages = GlobalVariables.getMessageMap();
+
+        List errors = messages.getMessages(propertyKey);
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
         

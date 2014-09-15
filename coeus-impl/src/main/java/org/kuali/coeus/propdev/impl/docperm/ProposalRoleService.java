@@ -21,11 +21,6 @@ import org.kuali.rice.kim.api.role.Role;
 import java.util.List;
 
 public interface ProposalRoleService {
-
-    public List<Role> getRoles();
-    
     public List<Role> getRolesForDisplay();
-
-    public List<ProposalUserRoles> getUserRoles(ProposalDevelopmentDocument document);
 
 }

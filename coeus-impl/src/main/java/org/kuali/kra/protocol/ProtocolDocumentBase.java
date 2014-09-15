@@ -58,8 +58,6 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
 
     private static final Log LOG = LogFactory.getLog(ProtocolDocumentBase.class);
 
-    private static final String AMENDMENT_KEY = "A";
-    private static final String RENEWAL_KEY = "R";
     @SuppressWarnings("unused")
     private static final String OLR_DOC_ID_PARAM = "&olrDocId=";
 
@@ -149,15 +147,6 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
         }
         managedLists.add(protocolList);
         return managedLists;
-    }
-    
-
-    
-    @Override
-    protected List<RolePersons> getAllRolePersons() {
-        ProtocolAuthorizationService protocolAuthorizationService =
-               (ProtocolAuthorizationService) KcServiceLocator.getService(ProtocolAuthorizationService.class);
-        return protocolAuthorizationService.getAllRolePersons(getProtocol());
     }
     
     

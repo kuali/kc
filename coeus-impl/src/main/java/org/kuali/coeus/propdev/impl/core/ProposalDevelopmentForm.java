@@ -20,6 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -220,6 +221,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
     private transient ProposalRoleService proposalRoleService;
     private transient KcAuthorizationService kcAuthorizationService;
+    private transient SystemAuthorizationService systemAuthorizationService;
     private transient KcWorkflowService kcWorkflowService;
     private transient UnitService unitService;
     private transient TaskAuthorizationService taskAuthorizationService;
@@ -260,7 +262,13 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 			kcAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
 		return kcAuthorizationService;
 	}
-	
+
+    protected SystemAuthorizationService getSystemAuthorizationService() {
+        if (systemAuthorizationService == null)
+            systemAuthorizationService = KcServiceLocator.getService(SystemAuthorizationService.class);
+        return systemAuthorizationService;
+    }
+
 	protected KcWorkflowService getKcWorkflowService(){
 		if (kcWorkflowService == null )
 			kcWorkflowService = KcServiceLocator.getService(KcWorkflowService.class);
@@ -948,7 +956,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private void addPersons(List<ProposalUserRoles> propUserRolesList, String roleName) {
     	ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
         
-        List<String> users = getKcAuthorizationService().getPrincipalsInRole(doc, roleName);
+        List<String> users = getKcAuthorizationService().getPrincipalsInRole(roleName, doc);
         List<KcPerson> persons = new ArrayList<>();
         for(String userId : users) {
             KcPerson person = getKcPersonService().getKcPersonByPersonId(userId);
@@ -1222,7 +1230,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         boolean canModify = getKcAuthorizationService().hasPermission(userId, this.getProposalDevelopmentDocument(), PermissionConstants.MODIFY_PROPOSAL);
         if (canModify) { result = false; }
         
-        if(getKcAuthorizationService().hasRole(userId, RoleConstants.KC_ADMIN_NAMESPACE, RoleConstants.OSP_ADMINISTRATOR)) {
+        if(getSystemAuthorizationService().hasRole(userId, RoleConstants.KC_ADMIN_NAMESPACE, RoleConstants.OSP_ADMINISTRATOR)) {
             result =  false;
         }
         
@@ -1701,7 +1709,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
      /**
       * Sets the GrantsGovSubmitFlag attribute value.
-      * @param GrantsGovSubmitFlag The GrantsGovSubmitFlag to set.
+      * @param grantsGovSubmitFlag The GrantsGovSubmitFlag to set.
       */
      public void setGrantsGovSubmitFlag(boolean grantsGovSubmitFlag) {
          this.grantsGovSubmitFlag = grantsGovSubmitFlag;
@@ -1715,7 +1723,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      }
      /**
       * Sets the SaveXmlPermission attribute value.
-      * @param SaveXmlPermission The SaveXmlPermission to set.
+      * @param saveXmlPermission The SaveXmlPermission to set.
       */
      public void setSaveXmlPermission(boolean saveXmlPermission) {
          this.saveXmlPermission = saveXmlPermission;
@@ -1729,7 +1737,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      }
      /**
       * Sets the GrantsGovSelectFlag attribute value.
-      * @param GrantsGovSelectFlag The GrantsGovSelectFlag to set.
+      * @param grantsGovSelectFlag The GrantsGovSelectFlag to set.
       */
      public void setGrantsGovSelectFlag(boolean grantsGovSelectFlag) {
          this.grantsGovSelectFlag = grantsGovSelectFlag;

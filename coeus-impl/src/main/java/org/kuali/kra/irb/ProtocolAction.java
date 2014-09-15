@@ -351,8 +351,8 @@ public abstract class ProtocolAction extends ProtocolActionBase {
     @Override
     protected void initialDocumentSaveAddRolesHook(String userId, ProtocolBase protocol) {
         KcAuthorizationService kraAuthService = getKraAuthorizationService();
-        kraAuthService.addRole(userId, RoleConstants.PROTOCOL_AGGREGATOR, protocol);
-        kraAuthService.addRole(userId, RoleConstants.PROTOCOL_APPROVER, protocol); 
+        kraAuthService.addDocumentLevelRole(userId, RoleConstants.PROTOCOL_AGGREGATOR, protocol);
+        kraAuthService.addDocumentLevelRole(userId, RoleConstants.PROTOCOL_APPROVER, protocol);
         
     }
 

@@ -19,7 +19,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
-import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -78,15 +78,16 @@ public abstract class ProtocolOnlineReviewRedirectActionBase extends KcTransacti
         ProtocolSubmissionBase submission = protocol.getProtocolSubmission();
         boolean isUserOnlineReviewer = getProtocolOnlineReviewService().isProtocolReviewer(principalId, false, submission);
         boolean isProtocolInStateToBeReviewed = getProtocolOnlineReviewService().isProtocolInStateToBeReviewed(protocol);
-        boolean isUserAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", getAdminRoleName()); 
+        boolean isUserAdmin = getSystemAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", getAdminRoleName());
         return isProtocolInStateToBeReviewed && (isUserOnlineReviewer || isUserAdmin);
     }
     
     protected String getAdminRoleName() {
         return "IRB Administrator";
     }
-    private KcAuthorizationService getKraAuthorizationService() {
-        return KcServiceLocator.getService(KcAuthorizationService.class);
+
+    private SystemAuthorizationService getSystemAuthorizationService() {
+        return KcServiceLocator.getService(SystemAuthorizationService.class);
     }
 
     private ProtocolOnlineReviewService getProtocolOnlineReviewService() {

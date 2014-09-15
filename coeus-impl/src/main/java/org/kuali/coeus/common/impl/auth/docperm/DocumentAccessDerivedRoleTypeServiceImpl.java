@@ -61,6 +61,11 @@ public class DocumentAccessDerivedRoleTypeServiceImpl extends DerivedRoleTypeSer
     }
 
     @Override
+    protected boolean isCheckRequiredAttributes() {
+        return true;
+    }
+
+    @Override
     public boolean dynamicRoleMembership(String namespaceCode, String roleName) {
         return true;
     }

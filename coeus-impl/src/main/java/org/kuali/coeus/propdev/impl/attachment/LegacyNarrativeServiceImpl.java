@@ -183,7 +183,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         List<KcPerson> allPersons = new ArrayList<KcPerson>();
 
         for (Role proposalRole : proposalRoles) {
-            List<String> users = kcAuthorizationService.getPrincipalsInRole(proposalDevelopmentDocument, proposalRole.getName());
+            List<String> users = kcAuthorizationService.getPrincipalsInRole(proposalRole.getName(), proposalDevelopmentDocument);
 
             List<KcPerson> persons = new ArrayList<KcPerson>();
             for(String userId : users) {

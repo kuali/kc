@@ -20,7 +20,7 @@ import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeScheduleTaskBase;
 import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeTaskBase;
-import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -79,7 +79,7 @@ public abstract class MeetingHelperBase implements Serializable {
 
     private static final String MESSAGE_COMMITTEESCHEDULE_AGENDASENT = "message.committeeSchedule.agendaSent";
     private static final String MESSAGE_COMMITTEESCHEDULE_MINUTESSENT = "message.committeeSchedule.minutesSent";
-    private transient KcAuthorizationService kraAuthorizationService;
+    private transient SystemAuthorizationService systemAuthorizationService;
 
     public MeetingHelperBase(MeetingFormBase form) {
         this.form = form;
@@ -517,12 +517,12 @@ public abstract class MeetingHelperBase implements Serializable {
     }
     
     
-    protected KcAuthorizationService getKraAuthorizationService() {
-        if (this.kraAuthorizationService == null) {
-            this.kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
+    protected SystemAuthorizationService getSystemAuthorizationService() {
+        if (this.systemAuthorizationService == null) {
+            this.systemAuthorizationService = KcServiceLocator.getService(SystemAuthorizationService.class);
         }
         
-        return this.kraAuthorizationService;
+        return this.systemAuthorizationService;
     }
     
     public abstract boolean isAdmin();

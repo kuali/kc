@@ -28,41 +28,24 @@ public class KraAuthorizationServiceMock implements KcAuthorizationService {
         this.hasPermission = hasPermission;
     }
     @Override
-    public void addRole(String username, String roleName, Permissionable permissionable) {
+    public void addDocumentLevelRole(String username, String roleName, Permissionable permissionable) {
      
     }
     @Override
-    public List<String> getPrincipalsInRole(Permissionable permissionable, String roleName) {
+    public List<String> getPrincipalsInRole(String roleName, Permissionable permissionable) {
         return null;
     }
-    @Override
-    public List<String> getRoles(String username, Permissionable permissionable) {
-        return null;
-    }
-    @Override
-    public List<String> getUserNames(Permissionable permissionable, String roleName) {
-        return null;
-    }
+
     @Override
     public boolean hasPermission(String username, Permissionable permissionable, String permissionName) {
         return hasPermission;
     }
     @Override
-    public boolean hasRole(String username, Permissionable permissionable, String roleName) {
+    public boolean hasDocumentLevelRole(String username, String roleName, Permissionable permissionable) {
         return false;
     }
     @Override
-    public void removeRole(String username, String roleName, Permissionable permissionable) {
+    public void removeDocumentLevelRole(String username, String roleName, Permissionable permissionable) {
         
     }
-    @Override
-    public boolean hasRole(String userId, String namespace, String roleName) {
-        return false;
-    }
-
-    @Override
-    public boolean hasPermission(String userId, Permissionable permissionable, String permissionNamespace, String permissionName) {
-        return hasPermission;
-    }
-    
 }

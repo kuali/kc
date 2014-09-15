@@ -17,10 +17,10 @@ package org.kuali.kra.protocol;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsForm;
-import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -327,8 +327,8 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
         this.protocolNotificationHelper = notificationHelper;
     }
 
-    public KcAuthorizationService getKraAuthorizationService() {
-        return KcServiceLocator.getService(KcAuthorizationService.class);
+    public SystemAuthorizationService getSystemAuthorizationService() {
+        return KcServiceLocator.getService(SystemAuthorizationService.class);
     }
 
     public List<ExtraButton> getExtraActionsButtons() {

@@ -122,7 +122,6 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
         boolean isValid = true;
         KcWorkflowService kraWorkflowService = getKcWorkflowService();
         String username = editRoles.getUsername();
-        int index = proposalUserRolesList.indexOf(editRoles);
 
         if (isRemovingModifyNarrativePermission(proposalUserRolesList, editRoles)) {
             isValid &= !testForLastModifier(username, document.getDevelopmentProposal().getNarratives(), Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, "Proposal Attachment");

@@ -18,17 +18,17 @@ package org.kuali.coeus.common.impl.auth.perm;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.common.framework.auth.docperm.DocumentAccess;
+import org.kuali.coeus.common.framework.auth.docperm.DocumentAccessConstants;
 import org.kuali.coeus.common.framework.auth.perm.DocumentLevelPermissionable;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.type.KimType;
+import org.kuali.rice.kim.api.type.KimTypeInfoService;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -55,10 +55,6 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
     private RoleService roleManagementService;
 
     @Autowired
-    @Qualifier("identityService")
-    private IdentityService identityManagementService;
-
-    @Autowired
     @Qualifier("permissionService")
     private PermissionService permissionService;
 
@@ -66,26 +62,24 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
 
-    @Override
-    public List<String> getUserNames(Permissionable permissionable, String roleName) {
-        List<String> userNames = new ArrayList<String>();
-        final Map<String, String> qualifiedRoleAttributes = createStandardQualifiers(permissionable);
-        Collection<String> users = roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), roleName,new HashMap<String,String>(qualifiedRoleAttributes));
-        for(String userId: users) {
-            PrincipalContract principal = identityManagementService.getPrincipal(userId);
-            if(principal != null) {
-                userNames.add(principal.getPrincipalName());
-            }
+    @Autowired
+    @Qualifier("kimTypeInfoService")
+    private KimTypeInfoService kimTypeInfoService;
+
+    protected String toDocumentLevelRoleName(String roleName) {
+
+        if (!roleName.endsWith(" Document Level")) {
+            return roleName + " Document Level";
         }
-        return userNames;
+        return roleName;
     }
 
     @Override
-    public void addRole(String userId, String roleName, Permissionable permissionable) {
+    public void addDocumentLevelRole(String userId, String roleName, Permissionable permissionable) {
         if (permissionable instanceof DocumentLevelPermissionable) {
             validateDocumentLevelArguments(((DocumentLevelPermissionable) permissionable).getDocumentNumber(), userId, roleName, permissionable.getNamespace());
             dataObjectService.save(new DocumentAccess(((DocumentLevelPermissionable) permissionable).getDocumentNumber(),
-                    userId, roleName, permissionable.getNamespace()));
+                    userId, toDocumentLevelRoleName(roleName), permissionable.getNamespace()));
         } else {
             final Map<String, String> qualifiedRoleAttributes = createStandardQualifiers(permissionable);
             roleManagementService.assignPrincipalToRole(userId, permissionable.getNamespace(), roleName, new HashMap<String, String>(qualifiedRoleAttributes));
@@ -93,19 +87,32 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
     }
 
     @Override
-    public void removeRole(String userId, String roleName, Permissionable permissionable) {
+    public void removeDocumentLevelRole(String userId, String roleName, Permissionable permissionable) {
         if (permissionable instanceof DocumentLevelPermissionable) {
             validateDocumentLevelArguments(((DocumentLevelPermissionable) permissionable).getDocumentNumber(), userId, roleName, permissionable.getNamespace());
             dataObjectService.deleteMatching(DocumentAccess.class, QueryByCriteria.Builder.fromPredicates(
                 equal("documentNumber", ((DocumentLevelPermissionable) permissionable).getDocumentNumber()),
                 equal("principalId", userId),
-                equal("roleName", roleName),
+                equal("roleName", toDocumentLevelRoleName(roleName)),
                 equal("namespaceCode", permissionable.getNamespace())
             ));
         } else {
             final Map<String, String> qualifiedRoleAttributes = createStandardQualifiers(permissionable);
             roleManagementService.removePrincipalFromRole(userId, permissionable.getNamespace(), roleName, new HashMap<String, String>(qualifiedRoleAttributes));
         }
+    }
+
+    @Override
+    public boolean hasDocumentLevelRole(String userId, String roleName, Permissionable permissionable) {
+        String updatedRoleName = roleName;
+        if (permissionable instanceof DocumentLevelPermissionable) {
+            validateDocumentLevelArguments(((DocumentLevelPermissionable) permissionable).getDocumentNumber(), userId, roleName, permissionable.getNamespace());
+            updatedRoleName = toDocumentLevelRoleName(roleName);
+        }
+
+        final Map<String, String> qualifiedRoleAttributes = createStandardQualifiers(permissionable);
+        Role role = roleManagementService.getRoleByNamespaceCodeAndName(permissionable.getNamespace(), updatedRoleName);
+        return role != null && roleManagementService.principalHasRole(userId, Collections.singletonList(role.getId()), qualifiedRoleAttributes);
     }
 
     protected void validateDocumentLevelArguments(String documentNumber, String principalId, String roleName, String namespaceCode) {
@@ -124,6 +131,16 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
         if (StringUtils.isBlank(namespaceCode)) {
             throw new IllegalArgumentException("namespaceCode is blank");
         }
+
+        Role role = roleManagementService.getRoleByNamespaceCodeAndName(namespaceCode, toDocumentLevelRoleName(roleName));
+        if (role == null) {
+            throw new IllegalStateException("role not found with namespace: " + namespaceCode + " and name " + toDocumentLevelRoleName(roleName));
+        }
+
+        final KimType type = kimTypeInfoService.getKimType(role.getKimTypeId());
+        if (!type.getName().equals(DocumentAccessConstants.DOC_LEVEL_KIM_TYPE_NAME) || !type.getNamespaceCode().equals(DocumentAccessConstants.DOC_LEVEL_KIM_TYPE_NAMESPACE)) {
+            throw new IllegalArgumentException("role not document level type with namespace: " + namespaceCode + " and name " + toDocumentLevelRoleName(roleName));
+        }
     }
 
     @Override
@@ -131,8 +148,7 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
         return hasPermission(userId, permissionable, permissionable.getNamespace(), permissionName);
     }
 
-    @Override
-    public boolean hasPermission(String userId, Permissionable permissionable, String permissionNamespace, String permissionName) {
+    protected boolean hasPermission(String userId, Permissionable permissionable, String permissionNamespace, String permissionName) {
         boolean userHasPermission = false;
         final Map<String, String> qualifiedRoleAttributes = createStandardQualifiers(permissionable);
         permissionable.populateAdditionalQualifiedRoleAttributes(qualifiedRoleAttributes);
@@ -149,54 +165,17 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
     }
 
     @Override
-    public boolean hasRole(String userId, Permissionable permissionable, String roleName) {
-        final Map<String, String> qualifiedRoleAttributes = createStandardQualifiers(permissionable);
-        Role role = roleManagementService.getRoleByNamespaceCodeAndName(permissionable.getNamespace(), roleName);
-        if(role != null) {
-            return roleManagementService.principalHasRole(userId, Collections.singletonList(role.getId()),new HashMap<String,String>(qualifiedRoleAttributes));
-        }
-        return false;
-    }
+    public List<String> getPrincipalsInRole(String roleName, Permissionable permissionable) {
+        Set<String> principals = new HashSet<>();
 
-    @Override
-    public List<String> getRoles(String userId, Permissionable permissionable) {
-        Set<String> roleNames = new HashSet<String>();
-        String documentNumber = permissionable.getDocumentNumberForPermission();
-        final Map<String, String> qualifiedRoleAttrs = createStandardQualifiers(permissionable);
-        if (documentNumber != null) {
-            List<String> roleIds = new ArrayList<String>();
-            Map<String, String> roleNameIdMap = new HashMap<String, String>();
-            for(String role : permissionable.getRoleNames()) {
-                String roleId = roleManagementService.getRoleIdByNamespaceCodeAndName(permissionable.getNamespace(), role);
-                roleNameIdMap.put(roleId, role);
-                roleIds.add(roleId);
-            }
-            List<RoleMembership> membershipInfoList = roleManagementService.getRoleMembers(roleIds,new HashMap<String,String>(qualifiedRoleAttrs));
-            for(RoleMembership memberShipInfo : membershipInfoList) {
-                if(memberShipInfo.getMemberId().equalsIgnoreCase(userId)) {
-                    roleNames.add(roleNameIdMap.get(memberShipInfo.getRoleId()));
-                }
+        if (permissionable != null && StringUtils.isNotBlank(roleName)) {
+            principals.addAll(roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), roleName, createStandardQualifiers(permissionable)));
+            if (permissionable instanceof DocumentLevelPermissionable) {
+                principals.addAll(roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), toDocumentLevelRoleName(roleName), createStandardQualifiers(permissionable)));
             }
         }
-        
-        return new ArrayList<String>(roleNames); 
-    }
 
-    @Override
-    public List<String> getPrincipalsInRole(Permissionable permissionable, String roleName) {
-        if(permissionable != null && StringUtils.isNotBlank(roleName)) {
-            return new ArrayList<String>(roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), roleName, createStandardQualifiers(permissionable)));
-        } 
-        return new ArrayList<String>();
-    }
-
-    @Override
-    public boolean hasRole(String userId, String namespace, String roleName) {
-        Role role = roleManagementService.getRoleByNamespaceCodeAndName(namespace, roleName);
-        if(role != null) {
-            return roleManagementService.principalHasRole(userId, Collections.singletonList(role.getId()), null);
-        }
-        return false;
+        return new ArrayList<>(principals);
     }
 
     protected  Map<String, String> createStandardQualifiers(Permissionable permissionable) {
@@ -220,10 +199,6 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
         this.roleManagementService = roleManagementService;
     }
 
-    public void setIdentityManagementService(IdentityService identityManagementService) {
-        this.identityManagementService = identityManagementService;
-    }
-
     public void setPermissionService(PermissionService permissionService) {
         this.permissionService = permissionService;
     }
@@ -232,7 +207,31 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
         return roleManagementService;
     }
 
-    public IdentityService getIdentityService() {
-        return identityManagementService;
+    public UnitAuthorizationService getUnitAuthorizationService() {
+        return unitAuthorizationService;
+    }
+
+    public RoleService getRoleManagementService() {
+        return roleManagementService;
+    }
+
+    public PermissionService getPermissionService() {
+        return permissionService;
+    }
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
+
+    public KimTypeInfoService getKimTypeInfoService() {
+        return kimTypeInfoService;
+    }
+
+    public void setKimTypeInfoService(KimTypeInfoService kimTypeInfoService) {
+        this.kimTypeInfoService = kimTypeInfoService;
     }
 }

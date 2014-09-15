@@ -150,22 +150,22 @@ public abstract class ProposalDevelopmentControllerBase {
         UifFormBase form =  getKcCommonControllerService().initForm(this.createInitialForm(request), request, response);
         return form;
     }
-
+     
     /**
      * Create the original set of Proposal Users for a new Proposal Development Document.
      * The creator the proposal is assigned to the AGGREGATOR role.
      */
      protected void initializeProposalUsers(ProposalDevelopmentDocument doc) {
-         
+
          // Assign the creator of the proposal to the AGGREGATOR role.
          String userId = GlobalVariables.getUserSession().getPrincipalId();
-         if (!kraAuthorizationService.hasRole(userId, doc, RoleConstants.AGGREGATOR))
-             kraAuthorizationService.addRole(userId, RoleConstants.AGGREGATOR, doc);
-         
+         if (!kraAuthorizationService.hasDocumentLevelRole(userId, RoleConstants.AGGREGATOR, doc))
+             kraAuthorizationService.addDocumentLevelRole(userId, RoleConstants.AGGREGATOR, doc);
+
          // Add the users defined in the role templates for the proposal's lead unit
          proposalRoleTemplateService.addUsers(doc);
      }
-     
+
      protected void initialSave(ProposalDevelopmentDocument proposalDevelopmentDocument) {
          preSave(proposalDevelopmentDocument);
          proposalDevelopmentService.initializeUnitOrganizationLocation(
@@ -246,7 +246,7 @@ public abstract class ProposalDevelopmentControllerBase {
              view = getModelAndViewService().getModelAndView(form);
          }
          initializeProposalUsers(proposalDevelopmentDocument);
-         
+
          return view;
      }
      

@@ -149,7 +149,7 @@ public class BudgetServiceTest extends KcIntegrationTestBase {
         PersonService personService = getService(PersonService.class);
         Person user = personService.getPersonByPrincipalName("quickstart");
         
-        getService(KcAuthorizationService.class).addRole(user.getPrincipalId(), RoleConstants.AGGREGATOR, pdDocument);
+        getService(KcAuthorizationService.class).addDocumentLevelRole(user.getPrincipalId(), RoleConstants.AGGREGATOR, pdDocument);
         
         return pdDocument;
     }

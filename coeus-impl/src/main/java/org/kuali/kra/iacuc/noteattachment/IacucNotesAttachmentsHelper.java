@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
-import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -43,7 +43,7 @@ public class IacucNotesAttachmentsHelper extends NotesAttachmentsHelperBase {
     public IacucNotesAttachmentsHelper(ProtocolFormBase form) {
         super(form, (ProtocolAttachmentService) KcServiceLocator.getService("iacucProtocolAttachmentService"),
                 KcServiceLocator.getService(TaskAuthorizationService.class),
-                KcServiceLocator.getService(KcAuthorizationService.class),
+                KcServiceLocator.getService(SystemAuthorizationService.class),
                 KcServiceLocator.getService(DateTimeService.class),
                 (ProtocolNotepadService) KcServiceLocator.getService("iacucProtocolNotepadService"),
                 KcServiceLocator.getService(ParameterService.class),
@@ -90,7 +90,7 @@ public class IacucNotesAttachmentsHelper extends NotesAttachmentsHelperBase {
 
     @Override
     public boolean isProtocolAdmin() {
-      return this.kraAuthorizationService.hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IACUC_ADMINISTRATOR);
+      return this.systemAuthorizationService.hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IACUC_ADMINISTRATOR);
     }
 
     @Override

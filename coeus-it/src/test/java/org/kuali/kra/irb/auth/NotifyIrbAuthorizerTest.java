@@ -51,6 +51,7 @@ public class NotifyIrbAuthorizerTest extends ProtocolAuthorizerTestBase {
     protected ProtocolAuthorizer createProtocolAuthorizer(ProtocolDocument protocolDocument, boolean hasPermission, boolean isActionAllowed, boolean isInWorkflow) {
         ProtocolAuthorizer authorizer = new NotifyIrbAuthorizer();
         authorizer.setKraAuthorizationService(buildKraAuthorizationService(protocolDocument, PermissionConstants.SUBMIT_PROTOCOL, hasPermission, RoleConstants.IRB_ADMINISTRATOR, true));
+        authorizer.setSystemAuthorizationService(buildSystemAuthorizationService(protocolDocument, PermissionConstants.SUBMIT_PROTOCOL, hasPermission, RoleConstants.IRB_ADMINISTRATOR, true));
         authorizer.setProtocolActionService(buildProtocolActionService(ProtocolActionType.NOTIFY_IRB, protocolDocument, isActionAllowed));
         return authorizer;
     }

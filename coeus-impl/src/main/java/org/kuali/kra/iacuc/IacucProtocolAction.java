@@ -149,8 +149,8 @@ public class IacucProtocolAction extends ProtocolActionBase {
     @Override
     protected void initialDocumentSaveAddRolesHook(String userId, ProtocolBase protocol) {
         KcAuthorizationService kraAuthService = getKraAuthorizationService();
-        kraAuthService.addRole(userId, RoleConstants.IACUC_PROTOCOL_AGGREGATOR, protocol);
-        kraAuthService.addRole(userId, RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);         
+        kraAuthService.addDocumentLevelRole(userId, RoleConstants.IACUC_PROTOCOL_AGGREGATOR, protocol);
+        kraAuthService.addDocumentLevelRole(userId, RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);
     }
 
     @Override

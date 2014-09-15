@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -93,6 +94,12 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
         }
         return roleNames;
     }
+
+    @Override
+    public boolean hasRole(String userId, String namespace, String roleName) {
+        Role role = roleManagementService.getRoleByNamespaceCodeAndName(namespace, roleName);
+        return role != null && roleManagementService.principalHasRole(userId, Collections.singletonList(role.getId()), null);
+    }
     
     @Override
     @SuppressWarnings("unchecked")
@@ -108,5 +115,22 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
 
     public KimType getKimTypeInfoForRole(Role role) {
         return getKimTypeInfoService().getKimType(role.getKimTypeId());
+    }
+
+    @Override
+    public List<Role> getRolesByType(String roleNamespaceCode, String typeName, String typeNamespace) {
+        final List<Role> roles = getRoles(roleNamespaceCode);
+        return filterByType(roles, typeName, typeNamespace);
+    }
+
+    protected List<Role> filterByType(List<Role> roles, String typeName, String typeNamespace) {
+        List<Role> filtered = new ArrayList<>();
+        for (Role r : roles) {
+            KimType type = getKimTypeInfoForRole(r);
+            if (type.getNamespaceCode().equals(typeNamespace) && type.getName().equals(typeName)) {
+                filtered.add(r);
+            }
+        }
+        return filtered;
     }
 }

@@ -37,9 +37,9 @@ import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase
 import org.kuali.coeus.common.committee.impl.meeting.ProtocolVoteAbstaineeBase;
 import org.kuali.coeus.common.committee.impl.meeting.ProtocolVoteRecusedBase;
 import org.kuali.coeus.common.committee.impl.service.CommitteeScheduleServiceBase;
+import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.controller.DocHandlerService;
 import org.kuali.coeus.sys.framework.keyvalue.KeyValueComparator;
@@ -294,7 +294,7 @@ public abstract class ActionHelperBase implements Serializable {
     @SuppressWarnings("rawtypes")
     protected transient CommitteeScheduleServiceBase committeeScheduleService;
     protected transient KcPersonService kcPersonService;
-    protected transient KcAuthorizationService kraAuthorizationService;
+    protected transient SystemAuthorizationService systemAuthorizationService;
     protected transient BusinessObjectService businessObjectService;
     protected transient FollowupActionService<?> followupActionService;
         
@@ -2534,14 +2534,13 @@ public abstract class ActionHelperBase implements Serializable {
         this.protocolCorrespondence = protocolCorrespondence;
     }
 
-    protected KcAuthorizationService getKraAuthorizationService() {
-        if (this.kraAuthorizationService == null) {
-            this.kraAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
+    protected SystemAuthorizationService getSystemAuthorizationService() {
+        if (this.systemAuthorizationService == null) {
+            this.systemAuthorizationService = KcServiceLocator.getService(SystemAuthorizationService.class);
         }
-        
-        return this.kraAuthorizationService;
-    }
 
+        return this.systemAuthorizationService;
+    }
     
     protected abstract ProtocolModuleQuestionnaireBeanBase getNewProtocolModuleQuestionnaireBeanInstanceHook(ProtocolBase protocol);
     

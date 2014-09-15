@@ -354,7 +354,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
                 if (protocolPerson.getPersonId() != null) {
                     // Assign the PI the AGGREGATOR role.
                     KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
-                    kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_APPROVER, protocol);
+                    kraAuthService.addDocumentLevelRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_APPROVER, protocol);
                     protocolForm.getPermissionsHelper().resetUserStates();
                     
                 }
@@ -365,7 +365,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
                 if (protocolPerson.getPersonId() != null) {
                     // Assign the Other Role To Viewer the AGGREGATOR role.
                     KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
-                    kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_VIEWER, protocol);                    
+                    kraAuthService.addDocumentLevelRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_VIEWER, protocol);
                     protocolForm.getPermissionsHelper().resetUserStates();
                 }
             }

@@ -65,9 +65,9 @@ public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceI
                 if (newPrincipalInvestigator.getPersonId() != null) {
                     personEditableService.populateContactFieldsFromPersonId(newPrincipalInvestigator);
                     KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
-                    kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_AGGREGATOR,
+                    kraAuthService.addDocumentLevelRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_AGGREGATOR,
                             protocol);
-                    kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);
+                    kraAuthService.addDocumentLevelRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);
                 }
                 else {
                     personEditableService.populateContactFieldsFromRolodexId(newPrincipalInvestigator);

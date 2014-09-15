@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
-import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -50,7 +50,7 @@ public abstract class NotesAttachmentsHelperBase {
     
     protected final ProtocolAttachmentService notesService;
     protected final TaskAuthorizationService authService;
-    protected final KcAuthorizationService kraAuthorizationService;
+    protected final SystemAuthorizationService systemAuthorizationService;
     protected final DateTimeService dateTimeService;
     protected final ProtocolNotepadService protocolNotepadService;
     protected final ParameterService parameterService;
@@ -84,7 +84,7 @@ public abstract class NotesAttachmentsHelperBase {
     protected NotesAttachmentsHelperBase(final ProtocolFormBase form,
                            final ProtocolAttachmentService notesService,
                            final TaskAuthorizationService authService,
-                           final KcAuthorizationService kraAuthorizationService,
+                           final SystemAuthorizationService systemAuthorizationService,
                            final DateTimeService dateTimeService,
                            final ProtocolNotepadService protocolNotepadService,
                            final ParameterService parameterService,
@@ -102,7 +102,7 @@ public abstract class NotesAttachmentsHelperBase {
             throw new IllegalArgumentException("the authService was null");
         }
         
-        if (kraAuthorizationService == null) {
+        if (systemAuthorizationService == null) {
             throw new IllegalArgumentException("the kraAuthorizationService was null");
         }
         
@@ -125,7 +125,7 @@ public abstract class NotesAttachmentsHelperBase {
         this.form = form;
         this.notesService = notesService;
         this.authService = authService;
-        this.kraAuthorizationService = kraAuthorizationService;
+        this.systemAuthorizationService = systemAuthorizationService;
         this.dateTimeService = dateTimeService;
         this.protocolNotepadService = protocolNotepadService;
         this.parameterService = parameterService;

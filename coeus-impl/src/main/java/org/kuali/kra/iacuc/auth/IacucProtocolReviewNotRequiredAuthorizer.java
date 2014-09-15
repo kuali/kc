@@ -24,7 +24,7 @@ public class IacucProtocolReviewNotRequiredAuthorizer extends IacucProtocolAutho
 
     @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
-        return kraAuthorizationService.hasRole(userId, NAMESPACE, RoleConstants.IACUC_ADMINISTRATOR) &&
+        return systemAuthorizationService.hasRole(userId, NAMESPACE, RoleConstants.IACUC_ADMINISTRATOR) &&
                canExecuteAction(task.getProtocol(), IacucProtocolActionType.IACUC_REVIEW_NOT_REQUIRED); 
         }
 
