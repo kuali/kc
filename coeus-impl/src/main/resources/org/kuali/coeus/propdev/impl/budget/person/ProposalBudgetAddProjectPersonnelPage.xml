@@ -79,10 +79,10 @@
 		parent="Uif-CssGridGroup">
 		<property name="items">
 			<list>
-				<bean parent="PropBudget-ProjectPersonnelPage-PersonnelResults"
+				<bean parent="Kc-Wizard-PersonnelResults"
                       p:progressiveRender="@{#fp.addProjectPersonnelHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).EMPLOYEE.code}'}"
 					  p:order="10" />
-                <bean parent="PropBudget-ProjectPersonnelPage-RolodexResults"
+                <bean parent="Kc-Wizard-RolodexResults"
                       p:progressiveRender="@{#fp.addProjectPersonnelHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).NONEMPLOYEE.code}'}"
                       p:order="20" />
 			</list>
@@ -102,32 +102,6 @@
 					</list>
 				</property>
 			</bean>
-		</property>
-	</bean>
-
-	<bean id="PropBudget-ProjectPersonnelPage-PersonnelResults" parent="Kc-Wizard-PersonnelResults">
-		<property name="items">
-			<list merge="true">
-				<bean parent="Uif-InputField" p:propertyName="selected"
-					p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
-					<property name="control">
-						<bean parent="Uif-CheckboxControl"/>
-					</property>
-				</bean>
-			</list>
-		</property>
-	</bean>
-
-    <bean id="PropBudget-ProjectPersonnelPage-RolodexResults" parent="Kc-Wizard-RolodexResults">
-        <property name="items">
-            <list merge="true">
-                <bean parent="Uif-InputField" p:propertyName="selected"
-                      p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
-                    </property>
-                </bean>
-            </list>
         </property>
     </bean>
 

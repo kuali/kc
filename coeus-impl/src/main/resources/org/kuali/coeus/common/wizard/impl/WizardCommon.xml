@@ -51,7 +51,6 @@
                 <bean parent="Kc-Wizard-PersonInputField"
                       p:propertyName="lookupFieldValues['campusCode']" p:order="80"
                       p:dictionaryAttributeName="campusCode" />
-                <bean parent="Kc-Wizard-ActiveField" p:order="90" />
             </list>
         </property>
     </bean>
@@ -94,13 +93,15 @@
                       p:dictionaryAttributeName="id" />
                 <bean parent="Kc-Wizard-RoleInputField"
                       p:propertyName="lookupFieldValues['name']" p:order="30"
-                      p:dictionaryAttributeName="name" />
+                      p:dictionaryAttributeName="name"
+                      p:required="false"/>
                 <bean parent="Kc-Wizard-RoleInputField"
                       p:propertyName="lookupFieldValues['kimTypeId']" p:order="40"
                       p:dictionaryAttributeName="kimTypeId" />
                 <bean parent="Kc-Wizard-RoleInputField"
                       p:propertyName="lookupFieldValues['namespaceCode']" p:order="50"
-                      p:dictionaryAttributeName="namespaceCode" />
+                      p:dictionaryAttributeName="namespaceCode"
+                      p:required="false"/>
             </list>
         </property>
     </bean>
@@ -119,23 +120,6 @@
     <bean id="Kc-Wizard-RolodexInputField-parentBean"
           abstract="true" parent="Uif-InputField" p:fieldLabel.renderColon="false"
           p:dictionaryObjectEntry="org.kuali.coeus.common.framework.rolodex.Rolodex" />
-
-    <bean id="Kc-Wizard-ActiveField" parent="Kc-Wizard-ActiveField-parentBean" />
-    <bean id="Kc-Wizard-ActiveField-parentBean" parent="Kc-Wizard-PersonInputField"
-          p:propertyName="lookupFieldValues['active']"
-          p:dictionaryAttributeName="active">
-        <property name="control">
-            <bean parent="Uif-HorizontalRadioControl">
-                <property name="options">
-                    <list>
-                        <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes" />
-                        <bean parent="Uif-KeyLabelPair" p:key="N" p:value="No" />
-                        <bean parent="Uif-KeyLabelPair" p:key="" p:value="Both" />
-                    </list>
-                </property>
-            </bean>
-        </property>
-    </bean>
 
     <bean id="Kc-Wizard-Results" parent="Kc-Wizard-Results-parentBean" />
     <bean id="Kc-Wizard-Results-parentBean"
@@ -163,6 +147,12 @@
     <bean id="Kc-Wizard-PersonnelResults-parentBean" abstract="true" parent="Kc-Wizard-Results">
         <property name="items">
             <list>
+                <bean parent="Uif-InputField" p:propertyName="selected" p:cssClasses="one_required"
+                      p:label="" p:readOnly="false" p:order="10">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
                 <bean parent="Uif-DataField" p:propertyName="kcPerson.fullName"
                       p:label="Full Name" p:order="20" />
                 <bean parent="Uif-DataField" p:propertyName="kcPerson.userName"
@@ -185,16 +175,18 @@
     <bean id="Kc-Wizard-RolodexResults-parentBean" abstract="true" parent="Kc-Wizard-Results">
         <property name="items">
             <list>
+                <bean parent="Uif-InputField" p:propertyName="selected"
+                      p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
                 <bean parent="Uif-DataField" p:propertyName="rolodex.fullName"
                       p:label="Full Name" p:order="20" />
                 <bean parent="Uif-MessageField"
                       p:label="User ID" p:order="30" />
                 <bean parent="Uif-DataField" p:propertyName="rolodex.emailAddress"
                       p:label="Email Address" p:order="40" />
-                <bean parent="Uif-MessageField" p:messageText="@{#line.rolodex.unit != null ? #line.rolodex.unit.unitNumber:''}"
-                      p:label="Unit Number" p:order="50" />
-                <bean parent="Uif-MessageField" p:messageText="@{#line.rolodex.unit != null ? #line.rolodex.unit.unitName:''}"
-                      p:label="Unit Name" p:order="60" />
                 <bean parent="Uif-DataField" p:propertyName="rolodex.organization"
                       p:label="Organization" p:order="70" />
                 <bean parent="Uif-DataField" p:propertyName="rolodex.city"

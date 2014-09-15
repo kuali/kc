@@ -28,9 +28,9 @@
     </bean>
 
     <bean id="Kc-SendNotification-WizardPage1" parent="Kc-SendNotification-WizardPage1-parentBean" />
-    <bean id="Kc-SendNotification-WizardPage1-parentBean" abstract="true"
-          parent="Uif-VerticalBoxSubSection"
-          p:fieldBindingObjectPath="addRecipientHelper">
+    <bean id="Kc-SendNotification-WizardPage1-parentBean" abstract="true" parent="Uif-VerticalBoxSubSection"
+          p:fieldBindingObjectPath="addRecipientHelper"
+          p:instructionalText="Search for notification recipients">
         <property name="items">
             <list>
                 <bean parent="Kc-SendNotification-TypeSelection" p:order="10" />
@@ -43,7 +43,7 @@
             <bean parent="Uif-DialogFooter">
                 <property name="items">
                     <list>
-                        <bean parent="Kc-SendNotification-WizardButton-Continue"
+                        <bean parent="Kc-SendNotification-WizardButton" p:actionLabel="Search for Recipients"
                               p:methodToCall="performRecipientSearch" p:actionParameters="Kc-SendNotification-Wizard.step:1"
                               p:order="10" />
                     </list>
@@ -89,11 +89,6 @@
           parent="Uif-PrimaryActionButton" p:refreshId="Kc-SendNotification-Wizard"
           p:methodToCall="refresh" p:actionParameters="Kc-SendNotification-Wizard.step:1" />
 
-    <bean id="Kc-SendNotification-WizardButton-Continue" parent="Kc-SendNotification-WizardButton-Continue-parentBean" />
-    <bean id="Kc-SendNotification-WizardButton-Continue-parentBean"
-          abstract="true" parent="Kc-SendNotification-WizardButton"
-          p:actionLabel="Continue..."/>
-
     <bean id="Kc-SendNotification-WizardButton-Back" parent="Kc-SendNotification-WizardButton-Back-parentBean" />
     <bean id="Kc-SendNotification-WizardButton-Back-parentBean"
           abstract="true" parent="Kc-SendNotification-WizardButton"
@@ -108,10 +103,10 @@
                 <bean parent="Kc-Wizard-RoleResults"
                       p:progressiveRender="@{#empty(#fp.addRecipientHelper.lineType)}"
                       p:order="10" />
-                <bean parent="Kc-SendNotification-PersonnelResults"
+                <bean parent="Kc-Wizard-PersonnelResults"
                       p:progressiveRender="@{#fp.addRecipientHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).EMPLOYEE.code}'}"
                       p:order="20" />
-                <bean parent="Kc-SendNotification-RolodexResults"
+                <bean parent="Kc-Wizard-RolodexResults"
                       p:progressiveRender="@{#fp.addRecipientHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).NONEMPLOYEE.code}'}"
                       p:order="30" />
             </list>
@@ -122,38 +117,12 @@
                     <list>
                         <bean parent="Kc-SendNotification-WizardButton-Back"
                               p:actionParameters="Kc-SendNotification-Wizard.step:0" p:order="10" />
-                        <bean parent="Kc-SendNotification-WizardButton-Continue"
+                        <bean parent="Kc-SendNotification-WizardButton" p:actionLabel="Add Recipients"
                               p:methodToCall="addRecipients"
                               p:actionParameters="Kc-SendNotification-Wizard.step:2" p:order="20" />
                     </list>
                 </property>
             </bean>
-        </property>
-    </bean>
-
-    <bean id="Kc-SendNotification-PersonnelResults" parent="Kc-Wizard-PersonnelResults">
-        <property name="items">
-            <list merge="true">
-                <bean parent="Uif-InputField" p:propertyName="selected"
-                      p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="Kc-SendNotification-RolodexResults" parent="Kc-Wizard-RolodexResults">
-        <property name="items">
-            <list merge="true">
-                <bean parent="Uif-InputField" p:propertyName="selected"
-                      p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
-                    </property>
-                </bean>
-            </list>
         </property>
     </bean>
 
