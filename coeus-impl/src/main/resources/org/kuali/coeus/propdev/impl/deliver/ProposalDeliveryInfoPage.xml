@@ -53,7 +53,7 @@
 		parent="PropDev-DeliveryInfoPag-MailingNameAddressField-parentBean" />
 	<bean id="PropDev-DeliveryInfoPag-MailingNameAddressField-parentBean"
 		abstract="true" parent="Uif-CssGridFieldGroup" p:label="Submission Name &amp; Address"
-		p:required="true" p:colSpan="2">
+		p:required="false" p:colSpan="2">
 		<property name="items">
 			<list>
 				<bean parent="PropDev-DeliveryInfoPage-MailingAddressDetails"
