@@ -18,7 +18,7 @@
 		parent="Uif-TransactionalDocumentView" p:headerText="Proposal Development Document"
 		p:formClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm"
 		p:documentClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument"
-		p:authorizer="#{#getService('kcKradTransactionalDocumentViewAuthorizerBase')}"
+		p:authorizer="#{#getService('proposalDevelopmentDocumentViewAuthorizer')}"
 		p:presentationController="#{#getService('proposalDevelopmentDocumentViewPresentationController')}"
 		p:viewHelperService="#{#getService('proposalDevelopmentViewHelperService')}"
 		p:stickyApplicationHeader="true" p:stickyFooter="true"
@@ -71,6 +71,7 @@
 				<ref bean="PropDev-BudgetPage-NewBudgetDialog"/>
 				<ref bean="PropDev-BudgetPage-CopyBudgetDialog"/>
                 <ref bean="PropDev-PermissionsDialog"/>
+                <ref bean="PropDev-DataOverride-Dialog"/>
 			</list>
 		</property>
 	</bean>
@@ -178,7 +179,8 @@
 	<bean id="PropDev-DocumentHeader-parentBean" abstract="true"
 		parent="Uif-ViewHeader" p:headerText="Proposal: #@{document.developmentProposal.proposalNumber}"
 		p:areaTitleText="Proposal Development"
-		p:supportTitleText="PI: [em]@{document.developmentProposal.principalInvestigatorName == null ? 'Not yet assigned' : document.developmentProposal.principalInvestigatorName}[/em]">
+		p:supportTitleText="PI: [em]@{document.developmentProposal.principalInvestigatorName == null ? 'Not yet assigned' : document.developmentProposal.principalInvestigatorName}[/em]"
+            p:onDocumentReadyScript="Kc.PropDev.setHeaderHeight();">
 		<property name="rightGroup">
 			<bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="uif-documentInfo">
 				<property name="items">
@@ -233,9 +235,12 @@
                         <bean parent="Uif-ActionLink" p:actionLabel="Access"
                               p:iconClass="icon-lock" p:order="60" p:actionScript="showDialog('PropDev-PermissionsDialog');" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Budget Versions" p:actionScript="showDialog('PropDev-BudgetVersions-Dialog');"
-							p:iconClass="icon-money" p:order="70" />							
-                        
-					</list>
+							p:iconClass="icon-money" p:order="70" />
+                        <bean parent="Uif-ActionLink" p:actionLabel="Data Override" p:actionScript="retrieveComponent('PropDev-DataOverride-Dialog');showDialog('PropDev-DataOverride-Dialog');"
+                              p:render="@{#editModes['#{T(org.kuali.kra.infrastructure.TaskName).SHOW_ALTER_PROPOSAL_DATA}'] and
+                             #editModes['#{T(org.kuali.kra.infrastructure.TaskName).ALTER_PROPOSAL_DATA}']}"
+                              p:iconClass="icon-pencil" p:order="80" />
+                    </list>
 				</property>
 			</bean>
 		</property>

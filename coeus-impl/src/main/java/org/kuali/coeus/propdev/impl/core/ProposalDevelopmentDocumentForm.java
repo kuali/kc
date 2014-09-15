@@ -25,6 +25,7 @@ import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataGroupDto
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.docperm.ProposalDevelopmentPermissionsHelper;
+import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
@@ -77,7 +78,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private String newHierarchyBudgetTypeCode;
  	private String newHierarchyChildProposalNumber;
     private String newHierarchyProposalNumber;
-    
+    private ProposalChangedData newProposalChangedData;
+
     @SessionTransient
     private Tree<Object, String> medusaTree;
     
@@ -129,6 +131,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         customDataGroups = new ArrayList<ProposalDevelopmentCustomDataGroupDto>();
 
         notificationHelper = new NotificationHelper<>();
+
+        newProposalChangedData = new ProposalChangedData();
     }
 
     public int findIndexOfPageId(List<Action> actions) {
@@ -325,6 +329,15 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     public void setS2sQuestionnaireHelper(ProposalDevelopmentS2sQuestionnaireHelper s2sQuestionnaireHelper) {
         this.s2sQuestionnaireHelper = s2sQuestionnaireHelper;
+    }
+
+
+    public ProposalChangedData getNewProposalChangedData() {
+        return newProposalChangedData;
+    }
+
+    public void setNewProposalChangedData(ProposalChangedData newProposalChangedData) {
+        this.newProposalChangedData = newProposalChangedData;
     }
 
     @Override

@@ -27,8 +27,6 @@ import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.budget.CostShareInfoDO;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatus;
-import org.kuali.coeus.propdev.impl.editable.ProposalColumnsToAlter;
-import org.kuali.coeus.propdev.impl.editable.ProposalOverview;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.CoPiInfoDO;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -252,26 +250,12 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         this.unitAuthorizationService = unitAuthService;
     }
 
-    public String populateProposalEditableFieldMetaDataForAjaxCall(String proposalNumber, String editableFieldDBColumn) {
-        if (isAuthorizedToAccess(proposalNumber)) {
-            if (StringUtils.isNotBlank(proposalNumber) && proposalNumber.contains(Constants.COLON)) {
-                proposalNumber = StringUtils.split(proposalNumber, Constants.COLON)[0];
-            }
-            return populateProposalEditableFieldMetaData(proposalNumber, editableFieldDBColumn);
-        }
-        return StringUtils.EMPTY;
-    }
     public String populateBudgetEditableFieldMetaDataForAjaxCall(String proposalNumber, String documentNumber, String editableFieldDBColumn) {
         if (isAuthorizedToAccess(proposalNumber) && StringUtils.isNotBlank(documentNumber) && StringUtils.isNotBlank(editableFieldDBColumn)) {
             return populateBudgetEditableFieldMetaData(documentNumber, editableFieldDBColumn);
         }
         return StringUtils.EMPTY;
         
-    }
-
-    protected ProposalOverview getProposalOverview(String proposalNumber) {
-        ProposalOverview currentProposal = getDataObjectService().find(ProposalOverview.class, proposalNumber);
-        return currentProposal;
     }
     
     protected BudgetVersionOverview getBudgetVersionOverview(String documentNumber) {
@@ -353,19 +337,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         }
         return displayValue;
     }
-
-    public Object getProposalFieldValueFromDBColumnName(String proposalNumber, String dbColumnName) {
-        Object fieldValue = null;
-        Map<String, String> fieldMap = getKcPersistenceStructureService().getDBColumnToObjectAttributeMap(ProposalOverview.class);
-        String proposalAttributeName = fieldMap.get(dbColumnName);
-        if (StringUtils.isNotEmpty(proposalAttributeName)) {
-            ProposalOverview currentProposal = getProposalOverview(proposalNumber);
-            if (currentProposal != null) {
-                fieldValue = ObjectUtils.getPropertyValue(currentProposal, proposalAttributeName);
-            }
-        }
-        return fieldValue;
-    }
     
     public Object getBudgetFieldValueFromDBColumnName(String documentNumber, String dbColumnName) {
         Object fieldValue = null;        
@@ -381,43 +352,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
              
     }
 
-    protected String populateProposalEditableFieldMetaData(String proposalNumber, String editableFieldDBColumn) {
-        String returnValue = "";
-        if (globalVariableService.getMessageMap() != null) {
-            globalVariableService.getMessageMap().clearErrorMessages();
-        }
-
-        Object fieldValue = getProposalFieldValueFromDBColumnName(proposalNumber, editableFieldDBColumn);
-        Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put("columnName", editableFieldDBColumn);
-        ProposalColumnsToAlter editableColumn  = (ProposalColumnsToAlter)getDataObjectService().findMatching(ProposalColumnsToAlter.class,
-                QueryByCriteria.Builder.andAttributes(primaryKeys).build()).getResults();
-
-        if (editableColumn.getHasLookup()) {
-            returnValue = getDataOverrideLookupDisplayReturnValue(editableColumn.getLookupClass())
-                    + ","
-                    + editableColumn.getLookupReturn()
-                    + ","
-                    + getDataOverrideLookupDisplayDisplayValue(editableColumn.getLookupClass(),
-                            (fieldValue != null ? fieldValue.toString() : ""), editableColumn.getLookupReturn());
-        }
-        else if (fieldValue != null && editableColumn.getDataType().equalsIgnoreCase("DATE")) {
-            returnValue = ",," + getDateTimeService().toString((Date) fieldValue, "MM/dd/yyyy");
-        }
-        else if (fieldValue != null) {
-            returnValue = ",," + fieldValue.toString();
-        }
-        else {
-            returnValue = ",,";
-        }
-
-        returnValue += "," + editableColumn.getDataType();
-        returnValue += "," + editableColumn.getHasLookup();
-        returnValue += "," + editableColumn.getLookupClass();
-
-        return returnValue;
-    }
- 
     @SuppressWarnings("unchecked")
 
     public KcPersistenceStructureService getKcPersistenceStructureService() {
@@ -605,8 +539,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     public InstitutionalProposal getInstitutionalProposal(String devProposalNumber) {
         Map<String, Object> values = new HashMap<String, Object>();
         values.put("devProposalNumber", devProposalNumber);
-        Collection<ProposalAdminDetails> proposalAdminDetails = getDataObjectService().findMatching(ProposalAdminDetails.class,
-                QueryByCriteria.Builder.andAttributes(values).build()).getResults();
+        Collection<ProposalAdminDetails> proposalAdminDetails = getBusinessObjectService().findMatching(ProposalAdminDetails.class,values);
 
         for (Iterator iter = proposalAdminDetails.iterator(); iter.hasNext();) {
             ProposalAdminDetails pad = (ProposalAdminDetails) iter.next();
@@ -829,29 +762,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         getKeyPersonnelService().populateDocument(document);
         getBudgetService().setBudgetStatuses(document);
     }
-    
-    /** 
-     * @see org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService#constructColumnsToAlterLookupMTCs(java.lang.String)
-     */
-    public List<String> constructColumnsToAlterLookupMTCs(String proposalNumber) {
-        Map<String,Object> filterMap = new HashMap<String,Object>();
-        Collection<ProposalColumnsToAlter> proposalColumnsToAlterCollection =
-                getDataObjectService().findMatching(ProposalColumnsToAlter.class,
-                        QueryByCriteria.Builder.andAttributes(filterMap).build()).getResults();
-        List<String> mtcReturn = new ArrayList<String>();
-        
-        for( ProposalColumnsToAlter pcta : proposalColumnsToAlterCollection ) {
-            if( pcta.getHasLookup() ) {
-                Map<String, Object> primaryKeys = new HashMap<String, Object>();
-                primaryKeys.put("columnName", pcta.getColumnName());
-                Object fieldValue = this.getProposalFieldValueFromDBColumnName(proposalNumber, pcta.getColumnName());
-                String displayAttributeName = pcta.getLookupReturn();
-                String displayLookupReturnValue = this.getDataOverrideLookupDisplayReturnValue(pcta.getLookupClass());
-                mtcReturn.add("methodToCall.performLookup.(!!"+pcta.getLookupClass()+"!!).((("+displayLookupReturnValue+":newProposalChangedData.changedValue,"+displayAttributeName+":newProposalChangedData.displayValue))).((``)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchorProposalDataOverride");
-            }
-        }
-        return mtcReturn;
-    }  
 
     private class S2sOppFormsComparator implements Comparator<S2sOppForms> {
         public int compare(S2sOppForms s2sOppForms1, S2sOppForms s2sOppForms2) {

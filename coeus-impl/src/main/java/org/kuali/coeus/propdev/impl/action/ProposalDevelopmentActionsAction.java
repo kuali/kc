@@ -32,8 +32,6 @@ import org.kuali.coeus.propdev.impl.copy.CopyProposalEvent;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyService;
 import org.kuali.coeus.propdev.impl.core.*;
-import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
-import org.kuali.coeus.propdev.impl.editable.ProposalOverview;
 import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.propdev.impl.state.ProposalStateService;
@@ -65,7 +63,6 @@ import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.coeus.propdev.impl.budget.editable.BudgetDataOverrideEvent;
-import org.kuali.coeus.propdev.impl.editable.ProposalDataOverrideEvent;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.s2sgen.api.core.S2SException;
@@ -326,129 +323,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     
     protected GroupService getGroupService() {
         return KimApiServiceLocator.getGroupService();
-    }
-    
-    /**
-     * Updates an Editable Proposal Field and 
-     * adds it to the Proposal Change History
-     * 
-     * @param mapping the Struct's Action Mapping.
-     * @param form the Proposal Development Form.
-     * @param request the HTTP request.
-     * @param response the HTTP response
-     * @return the next web page to display
-     * @throws Exception
-     */
-    public ActionForward addProposalChangedData(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
-        KcPersistenceStructureService kraPersistenceStructureService = KcServiceLocator.getService(KcPersistenceStructureService.class);
-
-        ActionForward forward = mapping.findForward("basic");
-        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument pdDocument = pdForm.getProposalDevelopmentDocument();
-        ProposalChangedData newProposalChangedData = pdForm.getNewProposalChangedData();
-        
-        newProposalChangedData.setProposalNumber(pdDocument.getDevelopmentProposal().getProposalNumber());
-        newProposalChangedData.setChangeNumber(getNextChangeNumber(boService, newProposalChangedData.getProposalNumber(), newProposalChangedData.getColumnName()));
-        if(StringUtils.isEmpty(newProposalChangedData.getDisplayValue()) && StringUtils.isNotEmpty(newProposalChangedData.getChangedValue())) {
-            newProposalChangedData.setDisplayValue(newProposalChangedData.getChangedValue());
-        }
-        
-        String tmpLookupReturnPk = "";
-        if(newProposalChangedData.getEditableColumn() != null) {
-            tmpLookupReturnPk = newProposalChangedData.getEditableColumn().getLookupPkReturn();
-        }
-        
-        newProposalChangedData.refreshReferenceObject("editableColumn");
-        newProposalChangedData.getEditableColumn().setLookupPkReturn(tmpLookupReturnPk);
-        
-        if(newProposalChangedData.getEditableColumn() != null) {
-            if(!newProposalChangedData.getEditableColumn().getHasLookup()) {
-                newProposalChangedData.setDisplayValue(newProposalChangedData.getChangedValue());
-            }
-        }
-            
-        if(getKualiRuleService().applyRules(new ProposalDataOverrideEvent(pdForm.getProposalDevelopmentDocument(), newProposalChangedData))){
-            boService.save(newProposalChangedData);
-        
-            ProposalOverview proposalWrapper = createProposalWrapper(pdDocument);
-            Map<String, String> columnToAttributesMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(ProposalOverview.class);
-            String proposalAttributeToPersist = columnToAttributesMap.get(newProposalChangedData.getColumnName());
-            ObjectUtils.setObjectProperty(proposalWrapper, proposalAttributeToPersist, newProposalChangedData.getChangedValue());
-            ObjectUtils.setObjectProperty(pdDocument.getDevelopmentProposal(), proposalAttributeToPersist, newProposalChangedData.getChangedValue());
-            
-            boService.save(proposalWrapper);
-            pdForm.getProposalDevelopmentDocument().setVersionNumber(proposalWrapper.getVersionNumber());
-            
-            pdForm.setNewProposalChangedData(new ProposalChangedData());
-            growProposalChangedHistory(pdDocument, newProposalChangedData);
-            
-            ProposalDevelopmentNotificationContext context = 
-                new ProposalDevelopmentNotificationContext(pdDocument.getDevelopmentProposal(), "103", "Proposal Data Override");
-            ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setProposalChangedData(newProposalChangedData);
-            if (pdForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-                pdForm.getNotificationHelper().initializeDefaultValues(context);
-                forward = mapping.findForward("notificationEditor");
-            } else {
-                getNotificationService().sendNotification(context);                
-        }
-        
-    }
-    
-        return forward;
-    }
-    
-    private void growProposalChangedHistory(ProposalDevelopmentDocument pdDocument, ProposalChangedData newProposalChangedData) {
-        Map<String, List<ProposalChangedData>> changeHistory = pdDocument.getDevelopmentProposal().getProposalChangeHistory();
-        if(changeHistory.get(newProposalChangedData.getEditableColumn().getColumnLabel()) == null) {
-            changeHistory.put(newProposalChangedData.getEditableColumn().getColumnLabel(), new ArrayList<ProposalChangedData>());
-        } 
-        
-        changeHistory.get(newProposalChangedData.getEditableColumn().getColumnLabel()).add(0, newProposalChangedData);
-    }
-    
-    private ProposalOverview createProposalWrapper(ProposalDevelopmentDocument pdDocument) throws Exception {
-        ProposalOverview proposalWrapper = new ProposalOverview();
-        PersistenceStructureService persistentStructureService = KcServiceLocator.getService(PersistenceStructureService.class);
-        List<String> fieldsToUpdate = (List<String>) persistentStructureService.listFieldNames(ProposalOverview.class);
-        for(String field: fieldsToUpdate) {
-            boolean noSuchFieldPD = false;
-            boolean noSuchFieldBO = false;
-            Object tempVal = null;
-            
-            try {
-                tempVal = ObjectUtils.getPropertyValue(pdDocument, field);
-            } catch ( Exception e ) {
-                noSuchFieldPD = true;
-            }
-            
-            try {
-                tempVal = ObjectUtils.getPropertyValue(pdDocument.getDevelopmentProposal(), field);
-            } catch ( Exception e ) {
-                noSuchFieldBO = true;
-            }
-
-            if( tempVal == null && noSuchFieldPD && noSuchFieldBO ) {
-                LOG.warn("Could not find property " + field + " in ProposalDevelopmentDocument or DevelopmnentProposal bo.");
-            }
-            
-            ObjectUtils.setObjectProperty(proposalWrapper, field, (tempVal != null) ? tempVal : null);
-        }
-        return proposalWrapper;
-    } 
-    
-    private int getNextChangeNumber(BusinessObjectService boService, String proposalNumber, String columnName) {
-        int changeNumber = 0;
-        Map<String, Object> keyMap = new HashMap<String, Object>();
-        keyMap.put("proposalNumber", proposalNumber);
-        keyMap.put("columnName", columnName);
-        List<ProposalChangedData> changedDataList = (List<ProposalChangedData>) boService.findMatchingOrderBy(ProposalChangedData.class, keyMap, "changeNumber", true);
-        if(CollectionUtils.isNotEmpty(changedDataList)) {
-            changeNumber = ((ProposalChangedData) changedDataList.get(changedDataList.size()-1)).getChangeNumber();
-        }
-        
-        return ++changeNumber;
     }
 
     /**

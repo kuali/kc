@@ -23,4 +23,7 @@ Kc.PropDev = Kc.PropDev || {};
         var liParents = $("a[data-menuname='" + pageId + index +"']").parents("li");
         liParents.addClass(kradVariables.ACTIVE_CLASS);
     }
+    namespace.setHeaderHeight = function() {
+        $("#PropDev-DefaultView_header").height($("#PropDev-DefaultView_headerRightGroup").height());
+    }
 })(Kc.PropDev, jQuery);

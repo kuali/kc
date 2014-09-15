@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational
+	Community License, Version 2.0 (the "License"); you may not use this file
+	except in compliance with the License. You may obtain a copy of the License
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable
+	law or agreed to in writing, software distributed under the License is distributed
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+	express or implied. See the License for the specific language governing permissions
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="PropDev-DataOverride-Dialog" parent="PropDev-DataOverride-Dialog-parentBean" />
+    <bean id="PropDev-DataOverride-Dialog-parentBean" abstract="true" parent="Uif-DialogGroup">
+        <property name="header">
+            <bean parent="Uif-DialogHeader" p:headerText="Data Override"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-TabGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="PropDev-DataOverride-Override"/>
+                            <bean parent="PropDev-DataOverride-History"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-DialogFooter"/>
+        </property>
+    </bean>
+
+    <bean id="PropDev-DataOverride-Override" parent="PropDev-DataOverride-Override-parentBean"/>
+    <bean id="PropDev-DataOverride-Override-parentBean" abstract="true" parent="Uif-CssGridSection-1FieldLabelColumn"
+          p:header.headerText="Override">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="newProposalChangedData.columnName" p:order="10"
+                        p:enableAutoQuickfinder="false" p:readOnly="false"
+                        p:onChangeScript="ajaxSubmitForm('prepareDataOverride');"/>
+                <bean parent="PropDev-DataOverride-DevelopmentProposalInput" p:propertyName="newProposalChangedData.oldDisplayValue" p:order="20"
+                      p:fieldLabel.labelText="Current Value"
+                      p:refreshWhenChangedPropertyNames="newProposalChangedData.columnName"/>
+                <bean parent="PropDev-DataOverride-DevelopmentProposalInput" p:propertyName="newProposalChangedData.changedValue" p:order="30"
+                      p:refreshWhenChangedPropertyNames="newProposalChangedData.columnName" p:readOnly="false"
+                      p:fieldLabel.labelText="New Value"/>
+                <bean parent="Uif-InputField" p:propertyName="newProposalChangedData.comments" p:order="40" p:readOnly="false"/>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Create Override" p:methodToCall="createOverride"
+                              p:successCallback="dismissDialog('PropDev-DataOverride-Dialog');"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="PropDev-DataOverride-History" parent="PropDev-DataOverride-History-parentBean"/>
+    <bean id="PropDev-DataOverride-History-parentBean" abstract="true" parent="Uif-VerticalBoxSection"
+          p:header.headerText="History">
+        <property name="items">
+            <list>
+                <bean parent="Uif-FieldGroupBase" p:order="10">
+                    <property name="group">
+                        <bean parent="PropDev-DataOverride-History-Collection"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-DataOverride-History-Collection" parent="PropDev-DataOverride-History-Collection-parentBean"/>
+    <bean id="PropDev-DataOverride-History-Collection-parentBean" abstract="true" parent="Uif-TableCollectionGroup"
+          p:collectionObjectClass="org.kuali.coeus.propdev.impl.editable.ProposalChangedData"
+          p:propertyName="developmentProposal.proposalChangedDataList" p:layoutManager.richTable.render="false"
+          p:renderAddLine="false" p:renderLineActions="false" p:layoutManager.renderSequenceField="false">
+            <property name="items">
+                <list>
+                    <bean parent="Uif-DataField" p:propertyName="updateTimestamp"
+                          p:fieldLabel.labelText="Date" p:order="10"/>
+                    <bean parent="Uif-MessageField" p:messageText="@{#line.attributeName}"
+                          p:fieldLabel.labelText="Field" p:order="20"/>
+                    <bean parent="PropDev-DataOverride-DevelopmentProposalInput" p:propertyName="oldDisplayValue" p:order="30"
+                          p:fieldLabel.labelText="Old"
+                          p:inCollection="true"
+                          p:dictionaryAttributeName="@{#lp.attributeName}"/>
+                    <bean parent="PropDev-DataOverride-DevelopmentProposalInput" p:propertyName="displayValue" p:order="40"
+                          p:fieldLabel.labelText="New"
+                          p:inCollection="true"
+                          p:dictionaryAttributeName="@{#lp.attributeName}"/>
+                    <bean parent="Uif-DataField" p:propertyName="comments" p:order="50"/>
+                </list>
+            </property>
+        <property name="layoutManager.libraryCssClasses">
+            <list>
+                <value>table</value>
+                <value>table-condensed</value>
+            </list>
+        </property>
+        <property name="layoutManager.cssClasses">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="PropDev-DataOverride-DevelopmentProposalInput" parent="PropDev-DataOverride-DevelopmentProposalInput-parentBean" />
+    <bean id="PropDev-DataOverride-DevelopmentProposalInput-parentBean" abstract="true" parent="Uif-InputField"
+          class="org.kuali.coeus.propdev.impl.dataovveride.DataOverrideInputField" p:readOnly="true" />
+
+
+</beans>

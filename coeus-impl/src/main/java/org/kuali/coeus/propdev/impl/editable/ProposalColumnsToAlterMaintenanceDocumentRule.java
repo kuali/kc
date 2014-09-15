@@ -100,7 +100,7 @@ public class ProposalColumnsToAlterMaintenanceDocumentRule extends MaintenanceDo
         ProposalColumnsToAlter newEditableProposalField = (ProposalColumnsToAlter) maintenanceDocument.getNewMaintainableObject().getDataObject();
         KcPersistenceStructureService kraPersistenceStructureService = KcServiceLocator.getService(KcPersistenceStructureService.class);
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KNSServiceLocator.getDataDictionaryService();
-        Map<String, String> fieldMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(ProposalOverview.class);
+        Map<String, String> fieldMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(DevelopmentProposal.class);
         DataDictionaryEntry entry = dataDictionaryService.getDataDictionary().getDictionaryObjectEntry(ProposalDevelopmentDocument.class.getName());
         
         boolean returnFlag = true;
