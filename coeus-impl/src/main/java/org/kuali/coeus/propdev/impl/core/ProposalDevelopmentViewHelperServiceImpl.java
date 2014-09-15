@@ -602,4 +602,8 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         }
         return "label-info";
     }
+
+    public String replaceLineBreaks(String string) {
+        return StringUtils.replace(string,"\n","[br]");
+    }
 }
