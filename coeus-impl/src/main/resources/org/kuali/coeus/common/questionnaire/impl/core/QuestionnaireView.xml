@@ -49,7 +49,8 @@
 	<bean id="Questionnaire-QuestionsGroup-parentBean" abstract="true"
 		parent="Uif-ListCollectionGroup" p:collectionObjectClass="org.kuali.coeus.common.questionnaire.framework.question.QuestionDTO"
 		p:propertyName="questions" p:renderAddLine="false"
-		p:renderLineActions="false" p:additionalCssClasses="questionnaireContent">
+		p:renderLineActions="false" p:additionalCssClasses="questionnaireContent"
+        p:onDocumentReadyScript="Kc.Questionnaire.Answer.initQuestions()">
 		<property name="subCollections">
 			<list>
 				<bean parent="Questionnaire-SubCollection" p:order="10" />
@@ -99,7 +100,7 @@
 	<bean id="Questionnaire-InputField-parentBean" abstract="true"
 		class="org.kuali.kra.web.krad.QuestionField" parent="Uif-InputField"
 		p:propertyName="answer" p:useSuggest="false" p:fieldLabel.render="false"
-		p:additionalCssClasses="question" p:onChangeScript="Kc.Questionnaire.Answer.answerChanged(this);">
+		p:additionalCssClasses="question">
 		<property name="controlMappings">
 			<bean parent="Questionnaire-ControlMappings" />
 		</property>
