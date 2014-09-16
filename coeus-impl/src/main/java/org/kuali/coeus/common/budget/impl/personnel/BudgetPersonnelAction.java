@@ -21,6 +21,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.budget.framework.personnel.*;
+import org.kuali.coeus.common.budget.impl.core.SaveBudgetEvent;
 import org.kuali.coeus.common.budget.impl.nonpersonnel.BudgetExpenseRule;
 import org.kuali.coeus.common.budget.impl.nonpersonnel.BudgetExpensesAction;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -120,8 +121,6 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         Budget budget = budgetForm.getBudget();
         DictionaryValidationService dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();
 
-        BudgetPersonnelRule budgetPersonnelRule = new BudgetPersonnelRule();
-        
         Integer budgetCategoryTypeIndex = Integer.parseInt(getBudgetCategoryTypeIndex(request));
         BudgetLineItem newBudgetLineItem = budgetForm.getNewBudgetLineItems().get(budgetCategoryTypeIndex);
         BudgetPersonnelDetails budgetPersonDetails = budgetForm.getNewBudgetPersonnelDetails();
@@ -129,34 +128,23 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         budgetPersonDetails.setPeriodTypeCode(this.getParameterService().getParameterValueAsString(
                 Budget.class, Constants.BUDGET_PERSON_DETAILS_DEFAULT_PERIODTYPE));
         budgetPersonDetails.setCostElement(newBudgetLineItem.getCostElement());
-        
-        String groupErrorKey = "";
-        if(StringUtils.isNotEmpty(newBudgetLineItem.getGroupName())) {
-            groupErrorKey = "newBudgetLineItems[" + budgetCategoryTypeIndex + "].costElement" ;
-        }
-        if(StringUtils.isEmpty(newBudgetLineItem.getGroupName())) {
-            newBudgetLineItem.setGroupName(budgetForm.getNewGroupName());
-            groupErrorKey = "newGroupName";
-        }
-        
+
+	    String groupErrorKey = "";
+	    if(StringUtils.isNotEmpty(newBudgetLineItem.getGroupName())) {
+	        groupErrorKey = "newBudgetLineItems[" + budgetCategoryTypeIndex + "].costElement" ;
+	    }
+	    if(StringUtils.isEmpty(newBudgetLineItem.getGroupName())) {
+	    	newBudgetLineItem.setGroupName(budgetForm.getNewGroupName());
+	        groupErrorKey = "newGroupName";
+	    }
+
         //if the group name is empty or still the default group name(JS error?) then set the group name to the empty string.
         if(StringUtils.isEmpty(newBudgetLineItem.getGroupName()) || StringUtils.equals(newBudgetLineItem.getGroupName(), DEFAULT_GROUP_NAME)) {
             newBudgetLineItem.setGroupName(EMPTY_GROUP_NAME);  
         }
-        
-        dictionaryValidationService.validateAttributeFormat(BudgetLineItem.class.getSimpleName(), "groupName", newBudgetLineItem.getGroupName(), groupErrorKey);
-        
-        if(budgetForm.getViewBudgetPeriod() == null || StringUtils.equalsIgnoreCase(budgetForm.getViewBudgetPeriod().toString(), "0")){
-            GlobalVariables.getMessageMap().putError("viewBudgetPeriod", KeyConstants.ERROR_BUDGET_PERIOD_NOT_SELECTED);
-        }
-        else if(newBudgetLineItem.getCostElement() == null || StringUtils.equalsIgnoreCase(newBudgetLineItem.getCostElement(), "")){
-            GlobalVariables.getMessageMap().putError("newBudgetLineItems[" + budgetCategoryTypeIndex + "].costElement", KeyConstants.ERROR_COST_ELEMENT_NOT_SELECTED);
-        }else if(budgetPersonDetails.getPersonSequenceNumber() == null){
-            GlobalVariables.getMessageMap().putError("newBudgetPersonnelDetails.personSequenceNumber", KeyConstants.ERROR_BUDGET_PERSONNEL_NOT_SELECTED);
-        } else if(!budgetPersonnelRule.processCheckJobCodeObjectCodeCombo(budget, budgetPersonDetails, false)) {
-            GlobalVariables.getMessageMap().putError("newBudgetLineItems[" + budgetCategoryTypeIndex + "].costElement", KeyConstants.ERROR_JOBCODE_COST_ELEMENT_COMBO_INVALID);
-        }
-        else{
+
+        if (getKcBusinessRulesEngine().applyRules(new AddPersonnelBudgetEvent(budget, budget.getBudgetPeriod(budgetForm.getViewBudgetPeriod()),
+        		newBudgetLineItem, budgetPersonDetails, groupErrorKey))) {
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
             primaryKeys.put("budgetId", budget.getBudgetId());
             primaryKeys.put("budgetPeriod", budgetForm.getViewBudgetPeriod().toString());
@@ -186,13 +174,11 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
                                 (StringUtils.equals(newBudgetLineItem.getGroupName(), budgetLineItem.getGroupName()) ||
                                         (StringUtils.isEmpty(newBudgetLineItem.getGroupName()) && StringUtils.isEmpty(budgetLineItem.getGroupName())))) { 
                             //Existing ObjCode / Group Name combo - add the new Person to the Line Item's Person List
-                            if(budgetPersonDetails.getPersonSequenceNumber().intValue() != -1) {
-                                //This is NOT a Summary entry
-                                BudgetPersonnelExpenseRule budgetPersonnelExpenseRule = new BudgetPersonnelExpenseRule();
-                                if(budgetPersonnelExpenseRule.processCheckPersonAddBusinessRules(budgetLineItem)) {
-                                    addBudgetPersonnelDetails(budgetForm, budgetPeriod, budgetLineItem, budgetPersonDetails);
-                                }  
-                            } else if(! new BudgetPersonnelExpenseRule().processCheckSummaryAddBusinessRules(budgetLineItem)) {
+                        	if (getKcBusinessRulesEngine().applyRules(new AddPersonnelLineItemBudgetEvent(budget, "newBudgetPersonnelDetails", budgetLineItem))) {
+                        		if(budgetPersonDetails.getPersonSequenceNumber().intValue() != -1) {
+                        			addBudgetPersonnelDetails(budgetForm, budgetPeriod, budgetLineItem, budgetPersonDetails);
+                        		}
+                            } else {
                                 existingCeGroupCombo = true;
                                 break;
                             }
@@ -499,69 +485,20 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
                 budgetPeriod.getBudgetLineItems().remove(lineItemIndex.intValue());
             }
         }
-        
-        BudgetPersonnelRule personnelRule = new BudgetPersonnelRule();
-        if (personnelRule.processCheckBaseSalaryFormat(budgetForm.getBudgetDocument()) && personnelRule.processCheckForJobCodeChange(budget, budgetForm.getViewBudgetPeriod())) {
-            BudgetPersonService budgetPersonService = KcServiceLocator.getService(BudgetPersonService.class);
-            budgetPersonService.populateBudgetPersonDefaultDataIfEmpty(budget);
-            
-            if(budgetPersonnelDetailsCheck(budget) && new BudgetPersonnelExpenseRule().processSaveCheckDuplicateBudgetPersonnel(budget)) {
-                if (budgetForm.isAuditActivated()) {
-                    forward = super.save(mapping, form, request, response);
-                } else {
-                    super.save(mapping, form, request, response);
-                }
-            }
+
+        BudgetPersonService budgetPersonService = KcServiceLocator.getService(BudgetPersonService.class);
+        budgetPersonService.populateBudgetPersonDefaultDataIfEmpty(budget);
+
+        if (getKcBusinessRulesEngine().applyRules(new BudgetSavePersonnelEvent(budget, budget.getBudgetPeriod(budgetForm.getViewBudgetPeriod())))) {
+            if (budgetForm.isAuditActivated()) {
+                forward = super.save(mapping, form, request, response);
+            } else {
+                super.save(mapping, form, request, response);
+            }        	
         }
         
         return forward;
-    }
-
-    private boolean budgetPersonnelDetailsCheck(Budget budget, int budgetPeriodIndex, int budgetLineItemIndex) {
-        boolean valid = true;
-        boolean validJobCodeCECombo = false;
-        BudgetPersonnelRule budgetPersonnelRule = new BudgetPersonnelRule();
-        
-        BudgetPeriod selectedBudgetPeriod = budget.getBudgetPeriod(budgetPeriodIndex);
-        BudgetLineItem selectedBudgetLineItem = selectedBudgetPeriod.getBudgetLineItem(budgetLineItemIndex);
-        
-        int k=0;
-        for(BudgetPersonnelDetails budgetPersonnelDetails : selectedBudgetLineItem.getBudgetPersonnelDetailsList()) {
-            valid &= !(personnelDetailsCheck(budget, budgetPeriodIndex, budgetLineItemIndex, k));
-            
-            validJobCodeCECombo = budgetPersonnelRule.processCheckJobCodeObjectCodeCombo(budget, budgetPersonnelDetails, true);
-            if(!validJobCodeCECombo)  {
-                GlobalVariables.getMessageMap().putError("document.budgetPeriod[" + budgetPeriodIndex   +"].budgetLineItem[" + budgetLineItemIndex + "].budgetPersonnelDetailsList[" + k + "].personSequenceNumber", KeyConstants.ERROR_SAVE_JOBCODE_COST_ELEMENT_COMBO_INVALID);
-            }
-            valid &= validJobCodeCECombo;
-            k++;
-        }
-        
-        return valid;
-    }
-
-    private boolean budgetPersonnelDetailsCheck(Budget budget) {
-          boolean valid = true;
-          List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
-          List<BudgetLineItem> budgetLineItems;
-          int i=0;
-          int j=0;
-          
-          for(BudgetPeriod budgetPeriod: budgetPeriods){
-              j=0;
-              budgetLineItems = budgetPeriod.getBudgetLineItems();
-              for(BudgetLineItem budgetLineItem: budgetLineItems){
-                  if (budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals("P")) {
-                      valid &= budgetPersonnelDetailsCheck(budget, i, j);
-                  }
-                  j++;
-              }
-              i++;
-          }
-          
-          return valid;
-    }
-    
+    }    
         
     /**
      * 
@@ -577,7 +514,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
             HttpServletResponse response) throws Exception {
         BudgetDocument budgetDocument = ((BudgetForm) form).getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
-        if (!new BudgetPersonnelRule().processCheckExistBudgetPersonnelDetailsBusinessRules(budgetDocument, budget.getBudgetPerson(getLineToDelete(request)))) {
+        if (!getKcBusinessRulesEngine().applyRules(new DeleteBudgetPersonEvent(budget, budget.getBudgetPerson(getLineToDelete(request))))) {
             return mapping.findForward(MAPPING_BASIC);
         } else {
             return confirm(buildDeleteBudgetPersonConfirmationQuestion(mapping, form, request, response), CONFIRM_DELETE_BUDGET_PERSON, "");
@@ -836,7 +773,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         int selectedBudgetLineItemIndex = getSelectedLine(request);   
         BudgetLineItem selectedBudgetLineItem = budget.getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItem(selectedBudgetLineItemIndex);
         
-        if (new BudgetExpenseRule().processCheckLineItemDates(budget)) {
+        if (getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget))) {
             updatePersonnelBudgetRate(selectedBudgetLineItem);
             getCalculationService().calculateBudgetLineItem(budget, selectedBudgetLineItem); 
             recalculateBudgetPeriod(budgetForm, budget, budget.getBudgetPeriod(selectedBudgetPeriodIndex));
@@ -862,11 +799,9 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         int sltdLineItem = getSelectedLine(request);
         int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
         BudgetExpenseRule budgetExpenseRule = new BudgetExpenseRule();
-        if (budgetExpenseRule.processApplyToLaterPeriodsWithPersonnelDetails(budget, budget.getBudgetPeriod(sltdBudgetPeriod), budget.getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItem(sltdLineItem), sltdLineItem) &&
-                budgetExpenseRule.processCheckLineItemDates(budget.getBudgetPeriod(sltdBudgetPeriod), sltdLineItem) && 
-                budgetPersonnelDetailsCheck(budget, sltdBudgetPeriod, sltdLineItem) && 
-                new BudgetPersonnelExpenseRule().processCheckDuplicateBudgetPersonnel(budget, sltdBudgetPeriod, sltdLineItem)
-                ) {
+        if (getKcBusinessRulesEngine().applyRules(new PersonnelApplyToPeriodsBudgetEvent(budget, 
+        		"document.budget.budgetPeriod[" + sltdBudgetPeriod + "].budgetLineItem[" + sltdLineItem + "]", budget.getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItem(sltdLineItem), 
+        		budget.getBudgetPeriod(sltdBudgetPeriod)))) {
             getCalculationService().applyToLaterPeriods(budget, budget.getBudgetPeriod(sltdBudgetPeriod), budget.getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItem(sltdLineItem));
         }
         return mapping.findForward(Constants.MAPPING_BASIC);

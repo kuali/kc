@@ -14,42 +14,15 @@
  * limitations under the License.
  */
 package org.kuali.coeus.common.budget.framework.period;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public class GenerateBudgetPeriodEvent extends BudgetPeriodEventBase {
-    /**
-     * Constructs an GenerateBudgetPeriodEvent with the given errorPathPrefix, document, and budgetPeriod.
-     * 
-     * @param errorPathPrefix
-     * @param budgetDocument
-     * @param budgetPeriod
-     */
-    public GenerateBudgetPeriodEvent(String errorPathPrefix, BudgetDocument document) {
-        super("saving budget period to document " + getDocumentId(document), errorPathPrefix, document);
-    }
 
-    /**
-     * Constructs an GenerateBudgetPeriodEvent with the given errorPathPrefix, document, and budgetPeriod.
-     * 
-     * @param errorPathPrefix
-     * @param document
-     * @param budgetPeriod
-     */
-    public GenerateBudgetPeriodEvent(String errorPathPrefix, Document document) {
-        this(errorPathPrefix, (BudgetDocument) document);
-    }
-
-    @Override
-    public Class getRuleInterfaceClass() {
-        return GenerateBudgetPeriodRule.class;
-    }
-
-    @Override
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((GenerateBudgetPeriodRule) rule).processGenerateBudgetPeriodBusinessRules(this);
-    }
-    
+	public GenerateBudgetPeriodEvent(Budget budget, BudgetPeriod budgetPeriod) {
+		super(budget, budgetPeriod);
+	}
 }
 

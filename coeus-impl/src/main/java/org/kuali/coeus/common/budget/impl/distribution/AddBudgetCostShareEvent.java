@@ -17,16 +17,13 @@ package org.kuali.coeus.common.budget.impl.distribution;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
-import org.kuali.coeus.common.framework.ruleengine.KcEventBase;
 
-public class AddBudgetCostShareEvent extends KcEventBase {
-    
-    public static final String EVENT_NAME = "KC-B:addBudgetCostShare";
+public class AddBudgetCostShareEvent {
+
     private BudgetCostShare budgetCostShare;
     private Budget budget;
     
     public AddBudgetCostShareEvent(Budget budget, BudgetCostShare budgetCostShare) {
-    	super(EVENT_NAME);
     	this.budget = budget;
         this.budgetCostShare = budgetCostShare;
     }

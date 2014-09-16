@@ -15,6 +15,8 @@
  */
 package org.kuali.coeus.common.budget.framework.personnel;
 
+import java.util.List;
+
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonContract;
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelDetailsContract;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -77,5 +79,24 @@ public interface BudgetPersonService {
      * @return
      */
     public PersonRolodex getBudgetPersonRolodex(Budget budget, BudgetPersonContract budgetPerson);
+    
+    /**
+     * This method returns the applicable Object Codes (Cost Elements) for a given Budget Person 
+     * based on his Job Code
+     * @param budgetId
+     * @param personSequenceNumber
+     * @return List of Cost Elements
+     */
+    public List<ValidCeJobCode> getApplicableCostElements(Long budgetId, String personSequenceNumber);
+    
+    /**
+     * 
+     * This method returns the applicable Object Codes (Cost Elements) for a given Budget Person, converted to string separated by ",".
+     * @param budgetId
+     * @param personSequenceNumber
+     * @param budgetCategoryTypeCode
+     * @return List of Cost Elements
+     */
+    public String getApplicableCostElementsForAjaxCall(Long budgetId, String personSequenceNumber, String budgetCategoryTypeCode);    
 
 }

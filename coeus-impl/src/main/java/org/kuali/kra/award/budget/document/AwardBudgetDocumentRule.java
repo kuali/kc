@@ -15,16 +15,11 @@
  */
 package org.kuali.kra.award.budget.document;
 
-import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocumentRule;
 
 /**
  * This class is for handling all rules related to AwardBudgetDocument.
  */
 public class AwardBudgetDocumentRule extends BudgetDocumentRule {
-    @Override
-    protected boolean processRunAuditBudgetVersionRule(Budget budget) {
-        return true;
-    }
     
 }

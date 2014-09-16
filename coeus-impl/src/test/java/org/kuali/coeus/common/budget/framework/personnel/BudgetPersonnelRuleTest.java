@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.rules;
+package org.kuali.coeus.common.budget.framework.personnel;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -28,8 +28,10 @@ import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelRule;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetSavePersonnelEvent;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -46,10 +48,19 @@ import java.util.List;
 public class BudgetPersonnelRuleTest {
 
     private Mockery context;
+    private BudgetPersonnelRule rule;
     
     @Before
     public void setupJMock() {
         context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
+    }
+    
+    @Before 
+    public void setup() {
+    	rule = new BudgetPersonnelRule();
+    	rule.setBoService(context.mock(BusinessObjectService.class));
+    	rule.setParamService(context.mock(ParameterService.class));
+    	rule.setBudgetPersonService(context.mock(BudgetPersonService.class));
     }
     
     @Before
@@ -58,47 +69,19 @@ public class BudgetPersonnelRuleTest {
     }
     
     /**
-     * Test instantiating with null BusinessObjectService.
-     */
-    @Test(expected = NullPointerException.class)
-    public void testNullBusinessObjectService() {
-        new BudgetPersonnelRule(null, context.mock(ParameterService.class), context.mock(BudgetService.class));
-    }
-    
-    /**
-     * Test instantiating with null ConfigurationService.
-     */
-    @Test(expected = NullPointerException.class)
-    public void testNullKualiConfigurationService() {
-        new BudgetPersonnelRule(context.mock(BusinessObjectService.class), null, context.mock(BudgetService.class));
-    }
-    
-    /**
-     * Test instantiating with null BudgetService.
-     */
-    @Test(expected = NullPointerException.class)
-    public void testNullBudgetService() {
-        new BudgetPersonnelRule(context.mock(BusinessObjectService.class), context.mock(ParameterService.class), null);
-    }
-    
-    /**
      * Tests calling processCheckForJobCodeChange with a null document.
      */
     @Test(expected = NullPointerException.class)
     public void testProcessCheckForJobCodeChangeNullDoc() {
-        BudgetPersonnelRule rule = new BudgetPersonnelRule(context.mock(BusinessObjectService.class),
-            context.mock(ParameterService.class), context.mock(BudgetService.class));
-        rule.processCheckForJobCodeChange(null, 1);
+        rule.processCheckForJobCodeChange(new BudgetSavePersonnelEvent(null, null));
     }
     
     /**
      * Tests calling processCheckForJobCodeChange with a invalid period number.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testProcessCheckForJobCodeChangeInvalidPeriod() {
-        BudgetPersonnelRule rule = new BudgetPersonnelRule(context.mock(BusinessObjectService.class),
-            context.mock(ParameterService.class), context.mock(BudgetService.class));
-        rule.processCheckForJobCodeChange(new ProposalDevelopmentBudgetExt(), 0);
+        rule.processCheckForJobCodeChange(new BudgetSavePersonnelEvent(getBudget(), null));
     }
     
     /**
@@ -106,22 +89,17 @@ public class BudgetPersonnelRuleTest {
      */
     @Test
     public void testJobCodeNullDetails() {
-        final BudgetService budgetService = context.mock(BudgetService.class);
-        
-        BudgetPersonnelRule rule = new BudgetPersonnelRule(context.mock(BusinessObjectService.class),
-            context.mock(ParameterService.class), budgetService);
-        
-        context.checking(new Expectations() {
-            {   
-                oneOf(budgetService).getApplicableCostElements(1L, "1");
-                will(returnValue(Collections.emptyList()));
-            }});
-        
         Budget budget = getBudget();
         budget.getBudgetPerson(0).setJobCode(null);
         
-        rule.processCheckForJobCodeChange(budget, 1);
+        context.checking(new Expectations() {
+            {   
+                oneOf(rule.getBudgetPersonService()).getApplicableCostElements(1L, "1");
+                will(returnValue(Collections.emptyList()));
+            }});
         
+        rule.processCheckForJobCodeChange(new BudgetSavePersonnelEvent(budget, budget.getBudgetPeriod(0)));
+
         context.assertIsSatisfied();
         Assert.assertEquals(1, GlobalVariables.getMessageMap().getErrorMessages().size());
         Assert.assertTrue(GlobalVariables.getMessageMap().getErrorMessages().containsKey("document.budgetPersons[0].jobCode"));
@@ -133,22 +111,17 @@ public class BudgetPersonnelRuleTest {
      */
     @Test
     public void testJobCodeNullNoDetails() {
-        final BudgetService budgetService = context.mock(BudgetService.class);
-        
-        BudgetPersonnelRule rule = new BudgetPersonnelRule(context.mock(BusinessObjectService.class),
-            context.mock(ParameterService.class), budgetService);
-        
-        context.checking(new Expectations() {
-            {   
-                oneOf(budgetService).getApplicableCostElements(1L, "1");
-                will(returnValue(Collections.emptyList()));
-            }});
-        
         Budget budget = getBudget();
         budget.getBudgetPerson(0).setJobCode("Foo");
         
-        rule.processCheckForJobCodeChange(budget, 1);
+        context.checking(new Expectations() {
+            {   
+                oneOf(rule.getBudgetPersonService()).getApplicableCostElements(1L, "1");
+                will(returnValue(Collections.emptyList()));
+            }});
         
+        rule.processCheckForJobCodeChange(new BudgetSavePersonnelEvent(budget, budget.getBudgetPeriod(0)));
+
         context.assertIsSatisfied();
         Assert.assertEquals(0, GlobalVariables.getMessageMap().getErrorMessages().size());
     }

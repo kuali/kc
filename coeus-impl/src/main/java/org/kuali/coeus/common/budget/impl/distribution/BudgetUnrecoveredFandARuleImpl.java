@@ -50,7 +50,7 @@ private static final String ADD_ERROR_KEY = "error.custom";
      * @param testBudgetUnrecoveredFandA
      * @return
      */
-	@KcEventMethod(events = {AddBudgetUnrecoveredFandAEvent.EVENT_NAME})
+	@KcEventMethod
     public boolean processAddBudgetUnrecoveredFandABusinessRules(AddBudgetUnrecoveredFandAEvent event) {
         return !areDuplicatesPresent(event.getBudget(), event.getBudgetUnrecoveredFandA());
     }

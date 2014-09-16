@@ -50,7 +50,7 @@ public class BudgetParentDocumentRule extends KcTransactionalDocumentRuleBase {
                 }
             }
 
-            final String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+            final String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
 
             if (budgetStatusCompleteCode.equalsIgnoreCase(budgetVersion.getBudgetStatus())) {
                 if (!budgetVersion.isFinalVersionFlag()) {

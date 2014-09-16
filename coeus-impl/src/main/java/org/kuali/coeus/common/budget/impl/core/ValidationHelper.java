@@ -18,6 +18,8 @@ package org.kuali.coeus.common.budget.impl.core;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -28,8 +30,10 @@ import org.springframework.util.StringUtils;
 public class ValidationHelper {
     private static final String REQUIRED_ERROR_KEY = "error.required";
     
+    @Autowired
+    @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
-    
+
     /**
      * This method checks a required Object field value and registers an error if the 
      * field value is null, or if a String, if field value is empty 
@@ -69,7 +73,7 @@ public class ValidationHelper {
         return success;
     }
 
-	public GlobalVariableService getGlobalVariableService() {
+	protected GlobalVariableService getGlobalVariableService() {
 		return globalVariableService;
 	}
 

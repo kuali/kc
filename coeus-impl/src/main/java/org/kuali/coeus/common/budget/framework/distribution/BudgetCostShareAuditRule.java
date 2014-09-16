@@ -42,7 +42,7 @@ import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
 public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase {
     public static final String BUDGET_COST_SHARE_ERROR_KEY = "budgetCostShareAuditErrors";
     
-    @KcEventMethod(events = BudgetAuditEvent.EVENT_NAME)
+    @KcEventMethod
     public boolean processCostShareAuditRules(BudgetAuditEvent event) {
         Budget budget = event.getBudget();
 

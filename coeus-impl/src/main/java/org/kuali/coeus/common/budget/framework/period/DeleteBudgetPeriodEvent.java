@@ -14,42 +14,15 @@
  * limitations under the License.
  */
 package org.kuali.coeus.common.budget.framework.period;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public class DeleteBudgetPeriodEvent extends BudgetPeriodEventBase {
-    /**
-     * Constructs an DeleteBudgetPeriodEvent with the given errorPathPrefix, document, and budgetPeriod.
-     * 
-     * @param errorPathPrefix
-     * @param budgetDocument
-     * @param budgetPeriod
-     */
-    public DeleteBudgetPeriodEvent(String errorPathPrefix, BudgetDocument document, int budgetPeriodNumber) {
-        super("deleting budget period to document " + getDocumentId(document), errorPathPrefix, document, budgetPeriodNumber);
-    }
 
-    /**
-     * Constructs an DeleteBudgetPeriodEvent with the given errorPathPrefix, document, and budgetPeriod.
-     * 
-     * @param errorPathPrefix
-     * @param document
-     * @param budgetPeriod
-     */
-    public DeleteBudgetPeriodEvent(String errorPathPrefix, Document document, int budgetPeriodNumber) {
-        this(errorPathPrefix, (BudgetDocument) document, budgetPeriodNumber);
-    }
-
-    @Override
-    public Class getRuleInterfaceClass() {
-        return DeleteBudgetPeriodRule.class;
-    }
-
-    @Override
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((DeleteBudgetPeriodRule) rule).processDeleteBudgetPeriodBusinessRules(this);
-    }
-    
+	protected DeleteBudgetPeriodEvent(Budget budget, BudgetPeriod budgetPeriod) {
+		super(budget, budgetPeriod);
+	}
 }
 

@@ -41,5 +41,6 @@
     <bean id="krmsCacheAdminService" parent="grlImporter" p:serviceName="krmsCacheAdminService" />
     <bean id="errorReporter" parent="grlImporter" p:serviceName="errorReporter"/>
     <bean id="globalVariableService" parent="grlImporter" p:serviceName="globalVariableService" />
+    <bean id="dictionaryValidationService" parent="grlImporter" p:serviceName="dictionaryValidationService"/>
 
 </beans>

@@ -30,11 +30,11 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.AddBudgetPeriodEvent;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.period.GenerateBudgetPeriodEvent;
-import org.kuali.coeus.common.budget.framework.period.SaveBudgetPeriodEvent;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.budget.framework.core.BudgetForm;
+import org.kuali.coeus.common.budget.impl.core.SaveBudgetEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.document.Document;
@@ -91,8 +91,7 @@ public class BudgetSummaryAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudget();
 
-        boolean rulePassed = getKualiRuleService().applyRules(
-                new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
         if (!StringUtils.equalsIgnoreCase(budget.getOhRateClassCode(), budgetForm.getOhRateClassCodePrevValue())
                 || !StringUtils.equalsIgnoreCase(budget.getUrRateClassCode(), budgetForm.getUrRateClassCodePrevValue())) {
             if (isBudgetPeriodDateChanged(budget) && isLineItemErrorOnly()) {
@@ -143,8 +142,7 @@ public class BudgetSummaryAction extends BudgetAction {
             reconcileFinalBudgetFlags(budgetForm);
             setBudgetStatuses(budget.getBudgetParent());
         }
-        boolean rulePassed = getKualiRuleService().applyRules(
-                new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
         if (rulePassed) {
             // update campus flag if budget level flag is changed
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
@@ -170,8 +168,7 @@ public class BudgetSummaryAction extends BudgetAction {
             setBudgetStatuses(budget.getBudgetParent());
         }
         budget.getBudgetSummaryService().adjustStartEndDatesForLineItems(budget);
-        boolean rulePassed = getKualiRuleService().applyRules(
-                new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
         if (rulePassed) {
             // update campus flag if budget level flag is changed
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
@@ -204,8 +201,7 @@ public class BudgetSummaryAction extends BudgetAction {
         Budget budget = budgetForm.getBudget();
         BudgetPeriod newBudgetPeriod = budgetForm.getNewBudgetPeriod();
         // List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
-        if (getKualiRuleService().applyRules(
-                new AddBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), newBudgetPeriod))) {
+        if (getKcBusinessRulesEngine().applyRules(new AddBudgetPeriodEvent(budget, newBudgetPeriod))) {
             budget.getBudgetSummaryService().addBudgetPeriod(budget, newBudgetPeriod);
             /* set new period and calculate all periods */
             budgetForm.setNewBudgetPeriod(budget.getNewBudgetPeriod());
@@ -290,8 +286,8 @@ public class BudgetSummaryAction extends BudgetAction {
     public ActionForward generateAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        boolean rulePassed = getKualiRuleService().applyRules(
-                new GenerateBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(
+                new GenerateBudgetPeriodEvent(budgetForm.getBudget(), budgetForm.getNewBudgetPeriod()));
         Budget budget = budgetForm.getBudget();
         if (rulePassed) {
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())

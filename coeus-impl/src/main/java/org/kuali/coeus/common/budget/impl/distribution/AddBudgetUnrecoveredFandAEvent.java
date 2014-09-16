@@ -20,13 +20,11 @@ import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFan
 import org.kuali.coeus.common.budget.impl.core.BudgetEventBase;
 
 public class AddBudgetUnrecoveredFandAEvent extends BudgetEventBase {
-    
-	public static final String EVENT_NAME = "KC-B:addBudgetUnrecoveredFandA";
 	
     private BudgetUnrecoveredFandA budgetUnrecoveredFandA;
     
     public AddBudgetUnrecoveredFandAEvent(Budget budget, BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
-        super(budget, EVENT_NAME);
+        super(budget);
         this.budgetUnrecoveredFandA = budgetUnrecoveredFandA;
     }
 

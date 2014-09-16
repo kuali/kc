@@ -31,7 +31,7 @@ public class BudgetCostShareRule extends CostShareRuleResearchDocumentBase {
 
     private static final String ADD_ERROR_KEY = "error.custom";
     
-    @KcEventMethod(events = {AddBudgetCostShareEvent.EVENT_NAME})
+    @KcEventMethod
     public boolean processAddBudgetCostShareBusinessRules(AddBudgetCostShareEvent budgetCostShareEvent) {
         boolean retVal = !areDuplicatesPresent(budgetCostShareEvent.getBudget(), budgetCostShareEvent.getBudgetCostShare());
         retVal &= validateProjectPeriod(budgetCostShareEvent);

@@ -20,7 +20,7 @@ public class SyncModularBudgetKcRule {
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
 	
-	@KcEventMethod(events = {SyncModularBudgetKcEvent.RULE_NAME})
+	@KcEventMethod
 	public Boolean processSyncModularBusinessRules(SyncModularBudgetKcEvent event) {
         Boolean valid = true;
         List budgetPeriods = event.getBudget().getBudgetPeriods();

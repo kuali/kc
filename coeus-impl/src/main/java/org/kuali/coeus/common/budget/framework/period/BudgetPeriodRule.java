@@ -26,6 +26,9 @@ import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
+import org.kuali.coeus.common.budget.impl.core.SaveBudgetEvent;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
+import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -37,21 +40,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements AddBudgetPeriodRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule {
+@KcBusinessRule("budgetPeriodRule")
+public class BudgetPeriodRule {
     private static final Log LOG = LogFactory.getLog(BudgetPeriodRule.class);
 
     private static final String NEW_BUDGET_PERIOD = "newBudgetPeriod";
     private static final String BUDGET_SUMMARY = "budgetParameters";
-    private Date projectStartDate;
-    private Date projectEndDate;
-    private String[] errorParameter;
-    private BudgetDocument budgetDocument;
     private ParameterService parameterService;
-    @Override
-    public boolean processAddBudgetPeriodBusinessRules(AddBudgetPeriodEvent addBudgetPeriodEvent) {
-        this.budgetDocument = (BudgetDocument) addBudgetPeriodEvent.getDocument();
-        Budget budget = budgetDocument.getBudget();
-        BudgetPeriod newBudgetPeriod = addBudgetPeriodEvent.getBudgetPeriod();
+    
+    @KcEventMethod
+    public boolean processAddBudgetPeriodBusinessRules(AddBudgetPeriodEvent event) {
+        Budget budget = event.getBudget();
+        BudgetPeriod newBudgetPeriod = event.getBudgetPeriod();
         
         boolean rulePassed = true;
 
@@ -66,30 +66,29 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
         return rulePassed;
     }
 
-    public boolean processSaveBudgetPeriodBusinessRules(SaveBudgetPeriodEvent saveBudgetPeriodEvent) {
-        this.budgetDocument = (BudgetDocument) saveBudgetPeriodEvent.getDocument();
-        Budget budget = budgetDocument.getBudget();
-        BudgetPeriod newBudgetPeriod = saveBudgetPeriodEvent.getBudgetPeriod();
+    @KcEventMethod
+    public boolean processSaveBudgetPeriodBusinessRules(SaveBudgetEvent event) {
+        Budget budget = event.getBudget();
         boolean rulePassed = true;
 
-        if (!isValidBudgetPeriod(budget, newBudgetPeriod)) {
+        if (!isValidBudgetPeriod(budget, null)) {
             rulePassed = false;
         }else if(!isValidBudgetPeriodBoundaries(budget)){
             rulePassed = false;
         }else if(!isBudgetStatusValid(budget)) {
             rulePassed = false;
         } 
-        if (!Boolean.valueOf(((BudgetDocument)saveBudgetPeriodEvent.getDocument()).getProposalBudgetFlag())) {
+        if (budget.isProposalBudget()) {
             rulePassed &= isValidBudgetPeriodCostLimit(budget);
         }
 
         return rulePassed;
     }
 
-    public boolean processGenerateBudgetPeriodBusinessRules(GenerateBudgetPeriodEvent generateBudgetPeriodEvent) {
-        this.budgetDocument = (BudgetDocument) generateBudgetPeriodEvent.getDocument();
-        Budget document = budgetDocument.getBudget();
-        BudgetPeriod newBudgetPeriod = generateBudgetPeriodEvent.getBudgetPeriod();
+    @KcEventMethod
+    public boolean processGenerateBudgetPeriodBusinessRules(GenerateBudgetPeriodEvent event) {
+        Budget document = event.getBudget();
+        BudgetPeriod newBudgetPeriod = event.getBudgetPeriod();
         MessageMap errorMap = GlobalVariables.getMessageMap();
         boolean rulePassed = true;
         int budgetPeriodNumber = 0;
@@ -122,18 +121,17 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
                 errorMap.addToErrorPath(NEW_BUDGET_PERIOD);
                 rulePassed = false;
                 errorParam = errorParam.substring(0, errorParam.length()-2);
-                setErrorParameter(new String[] { errorParam });
-                saveErrors("ERROR_GENERATE_PERIOD", errorMap);
+                saveErrors("ERROR_GENERATE_PERIOD", errorMap, errorParam);
             }
         }
         errorMap.removeFromErrorPath(NEW_BUDGET_PERIOD);
         return rulePassed;
     }
 
-    public boolean processDeleteBudgetPeriodBusinessRules(DeleteBudgetPeriodEvent deleteBudgetPeriodEvent) {
-        this.budgetDocument = (BudgetDocument) deleteBudgetPeriodEvent.getDocument();
-        Budget budget = budgetDocument.getBudget();
-        int budgetPeriodNumber = deleteBudgetPeriodEvent.getBudgetPeriodNumber();
+    @KcEventMethod
+    public boolean processDeleteBudgetPeriodBusinessRules(DeleteBudgetPeriodEvent event) {
+        Budget budget = event.getBudget();
+        int budgetPeriodNumber = event.getBudgetPeriodNumber();
         MessageMap errorMap = GlobalVariables.getMessageMap();
         boolean rulePassed = true;
 
@@ -149,7 +147,7 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
     private boolean isBudgetStatusValid(Budget budget) {
         MessageMap errorMap = GlobalVariables.getMessageMap();
         boolean statusValid = true;
-        String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
         String budgetStatus = budget.getBudgetStatus();
         boolean finalVersionFlag = budget.getFinalVersionFlag();
         errorMap.addToErrorPath(BUDGET_SUMMARY);
@@ -168,7 +166,6 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
         MessageMap errorMap = GlobalVariables.getMessageMap();
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
             String[] dateParams = {budgetPeriod.getBudgetPeriod()+""};
-            setErrorParameter(dateParams);
             /* get all line items for each budget period */
             Collection<BudgetLineItem> periodLineItems = new ArrayList();
             Collection<BudgetPersonnelDetails> periodPersonnelDetails = new ArrayList();
@@ -185,7 +182,7 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
                     (periodLineItem.getStartDate().after(budgetPeriod.getEndDate())) || 
                     (periodLineItem.getEndDate().after(budgetPeriod.getEndDate())) ||
                     (periodLineItem.getEndDate().before(budgetPeriod.getStartDate()))){
-                        saveErrors("ERROR_LINE_ITEM_DATE_DOESNOTMATCH", errorMap);
+                        saveErrors("ERROR_LINE_ITEM_DATE_DOESNOTMATCH", errorMap, dateParams);
                         validBoundaries = false;
                         break;
                     }
@@ -198,7 +195,7 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
                                 (periodPersonnelDetail.getStartDate().after(budgetPeriod.getEndDate())) || 
                                 (periodPersonnelDetail.getEndDate().after(budgetPeriod.getEndDate())) ||
                                 (periodPersonnelDetail.getEndDate().before(budgetPeriod.getStartDate()))){
-                                    saveErrors("ERROR_LINE_ITEM_DATE_DOESNOTMATCH", errorMap);
+                                    saveErrors("ERROR_LINE_ITEM_DATE_DOESNOTMATCH", errorMap, dateParams);
                                     validBoundaries = false;
                                     break BUDGET_LINEITEM_LOOP;
                                 }
@@ -266,7 +263,7 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
                 String dateCompareValue = null;
                 /* check first record */
                 if(previousPeriodStartDate == null) {
-                    validDateBefore = projectStartDate;
+                    validDateBefore = budget.getStartDate();
                 }else {
                     validDateBefore = previousPeriodEndDate;
                 }
@@ -274,14 +271,13 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
                 int periodNum = index;
                 String[] newPeriodDateParams = {periodNum+"", periodNum+1+""};
                 String invalidErrorMessage = null;
-                setErrorParameter(newPeriodDateParams);
                 if(index == 0 || index == totalBudgetPeriods) {
                     invalidErrorMessage = "ERROR_NEW_PERIOD_INVALID";
                 }else {
                     invalidErrorMessage = "ERROR_NEW_PERIOD_VALID";
                 }
                 if((newPeriodStartDate.compareTo(periodStartDate) == 0) || (newPeriodEndDate.compareTo(periodEndDate) == 0)) {
-                    saveErrors(invalidErrorMessage, errorMap);
+                    saveErrors(invalidErrorMessage, errorMap, newPeriodDateParams);
                     validNewBudgetPeriod = false;
                     break;
                 }else if(newPeriodStartDate.before(periodStartDate) || (index == totalBudgetPeriods && newPeriodStartDate.after(periodEndDate))) {     
@@ -294,11 +290,11 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
                         }
                     }
                     /* check new budget period */
-                    if(newPeriodStartDate.before(getProjectStartDate())) {
+                    if(newPeriodStartDate.before(budget.getStartDate())) {
                         dateCompareValue = "ERROR_PERIOD_START_BEFORE_PROJECT_START"; 
-                    }else if (newPeriodStartDate.after(getProjectEndDate())) {
+                    }else if (newPeriodStartDate.after(budget.getEndDate())) {
                         dateCompareValue = "ERROR_NEW_PERIOD_START_AFTER_PROJECT_END"; 
-                    }else if (newPeriodEndDate.after(getProjectEndDate())) {
+                    }else if (newPeriodEndDate.after(budget.getEndDate())) {
                         dateCompareValue = "ERROR_NEW_PERIOD_END_DATE"; 
                     }else if(newPeriodStartDate.before(validDateBefore)) {
                         dateCompareValue = invalidErrorMessage; 
@@ -310,7 +306,7 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
                         }
                     }
                     if(dateCompareValue != null) {
-                        saveErrors(dateCompareValue, errorMap);
+                        saveErrors(dateCompareValue, errorMap, newPeriodDateParams);
                         validNewBudgetPeriod = false;
                     }else {
                         newBudgetPeriod.setBudgetPeriod(periodNum+1);
@@ -328,8 +324,6 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
 
     /* check existing budget periods */
     private boolean isValidBudgetPeriod(Budget budget, BudgetPeriod newBudgetPeriod) {
-        setProjectStartDate(budget.getStartDate());
-        setProjectEndDate(budget.getEndDate());
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         boolean validBudgetPeriod = true;
         Date previousPeriodStartDate = null;
@@ -347,16 +341,15 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
             Date validDateBefore;
             boolean isDateNull = false;
             String[] dateParams = {index+1+""};
-            setErrorParameter(dateParams);
             /* check for changes - start date is null */
             if(periodStartDate == null) {
-                saveErrors("ERROR_PERIOD_START_REQUIRED", errorMap);
+                saveErrors("ERROR_PERIOD_START_REQUIRED", errorMap, dateParams);
                 validBudgetPeriod = false;
                 isDateNull = true;
             }
             /* check for changes - end date is null */
             if(periodEndDate == null) {
-                saveErrors("ERROR_PERIOD_END_REQUIRED", errorMap);
+                saveErrors("ERROR_PERIOD_END_REQUIRED", errorMap, dateParams);
                 validBudgetPeriod = false;
                 isDateNull = true;
             }
@@ -364,13 +357,13 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
             if(!isDateNull){
                 /* check first record */
                 if(previousPeriodStartDate == null) {
-                    validDateBefore = projectStartDate;
+                    validDateBefore = budget.getStartDate();
                 }else {
                     validDateBefore = previousPeriodEndDate;
                 }
-                String dateCompareValue = compareDate(periodStartDate, periodEndDate, previousPeriodEndDate);
+                String dateCompareValue = compareDate(budget, periodStartDate, periodEndDate, previousPeriodEndDate);
                 if(dateCompareValue != null) {
-                    saveErrors(dateCompareValue, errorMap);
+                    saveErrors(dateCompareValue, errorMap, dateParams);
                     validBudgetPeriod = false;
                 }
                 errorMap.removeFromErrorPath("document.budgetPeriods[" + index + "]");
@@ -387,30 +380,30 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
         return validBudgetPeriod;
     }
     
-    private void saveErrors(String errorValue, MessageMap errorMap) {
+    private void saveErrors(String errorValue, MessageMap errorMap, String...parameters) {
         BudgetSummaryErrorConstants budgetSummaryErrorConstants =  BudgetSummaryErrorConstants.valueOf(errorValue);
         String errorKey = budgetSummaryErrorConstants.errorKey();
         String errorProperty = budgetSummaryErrorConstants.errorProperty();
-        errorMap.putError(errorProperty, errorKey, getErrorParameter());
+        errorMap.putError(errorProperty, errorKey, parameters);
     }
     
-    private String compareDate(Date periodStartDate, Date periodEndDate, Date previousPeriodEndDate) {
+    private String compareDate(Budget budget, Date periodStartDate, Date periodEndDate, Date previousPeriodEndDate) {
         String returnErrorValue = null;
-        LOG.info("prd st dt " + periodStartDate.getTime() + periodEndDate.getTime() + getProjectStartDate().getTime()
-                + getProjectEndDate().getTime());
-        Date budgetEndDate = new Date(this.budgetDocument.getBudget().getBudgetEndDate().getTime());
-        Date budgetStartDate = new Date(this.budgetDocument.getBudget().getBudgetStartDate().getTime());
+        LOG.info("prd st dt " + periodStartDate.getTime() + periodEndDate.getTime() + budget.getStartDate().getTime()
+                + budget.getEndDate().getTime());
+        Date budgetEndDate = new Date(budget.getBudgetEndDate().getTime());
+        Date budgetStartDate = new Date(budget.getBudgetStartDate().getTime());
         if (periodStartDate.after(budgetEndDate)) {
-            LOG.info("ERROR_PERIOD_START_AFTER_PROJECT_END" + periodStartDate + getProjectEndDate());
+            LOG.info("ERROR_PERIOD_START_AFTER_PROJECT_END" + periodStartDate + budget.getEndDate());
             returnErrorValue = "ERROR_PERIOD_START_AFTER_PROJECT_END";
         } else if (periodStartDate.before(budgetStartDate)) {
-            LOG.info("ERROR_PERIOD_START_BEFORE_PROJECT_START" + periodStartDate + getProjectStartDate());
+            LOG.info("ERROR_PERIOD_START_BEFORE_PROJECT_START" + periodStartDate + budget.getStartDate());
             returnErrorValue = "ERROR_PERIOD_START_BEFORE_PROJECT_START";
-        } else if (periodEndDate.before(getProjectStartDate())) {
-            LOG.info("ERROR_PERIOD_END_BEFORE_PROJECT_START" + periodEndDate + getProjectStartDate());
+        } else if (periodEndDate.before(budget.getStartDate())) {
+            LOG.info("ERROR_PERIOD_END_BEFORE_PROJECT_START" + periodEndDate + budget.getStartDate());
             returnErrorValue = "ERROR_PERIOD_END_BEFORE_PROJECT_START";
         } else if (periodEndDate.after(budgetEndDate)) {
-            LOG.info("ERROR_PERIOD_END_AFTER_PROJECT_END" + periodEndDate + getProjectEndDate());
+            LOG.info("ERROR_PERIOD_END_AFTER_PROJECT_END" + periodEndDate + budget.getEndDate());
             returnErrorValue = "ERROR_PERIOD_END_AFTER_PROJECT_END";
         } else if (periodStartDate.after(periodEndDate)) {
             LOG.info("ERROR_PERIOD_START_AFTER_PERIOD_END" + periodStartDate + periodEndDate);
@@ -427,30 +420,6 @@ public class BudgetPeriodRule extends KcTransactionalDocumentRuleBase implements
 
     private BudgetSummaryService getBudgetSummaryService() {
         return KcServiceLocator.getService(BudgetSummaryService.class);
-    }
-
-    private void setProjectStartDate(Date projectStartDate) {
-        this.projectStartDate = projectStartDate;
-    }
-    
-    private Date getProjectStartDate() {
-        return projectStartDate;
-    }
-
-    private Date getProjectEndDate() {
-        return projectEndDate;
-    }
-
-    private void setProjectEndDate(Date projectEndDate) {
-        this.projectEndDate = projectEndDate;
-    }
-
-    public String[] getErrorParameter() {
-        return errorParameter;
-    }
-
-    public void setErrorParameter(String[] errorParameter) {
-        this.errorParameter = errorParameter;
     }
     
     private boolean isValidToInsert(Budget budget, BudgetPeriod newBudgetPeriod) {

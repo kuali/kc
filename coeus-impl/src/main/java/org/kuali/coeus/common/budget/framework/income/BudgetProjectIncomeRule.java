@@ -17,23 +17,20 @@ package org.kuali.coeus.common.budget.framework.income;
 
 
 import org.kuali.coeus.common.budget.impl.core.ValidationHelper;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
+import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
-/**
- * ProcessDefinitionDefinitiones Budget Project Income rules
- */
-public class BudgetProjectIncomeRuleImpl implements AddBudgetProjectIncomeRule {
+@KcBusinessRule
+public class BudgetProjectIncomeRule {
 
-    /**
-     * Provides general validation support
-     */
+	@Autowired
+	@Qualifier("validationHelper")
     private ValidationHelper validationHelper;
-    
 
-    public BudgetProjectIncomeRuleImpl() {
-        validationHelper = new ValidationHelper();
-    }
     
-    @Override
+    @KcEventMethod
     public boolean processAddBudgetProjectIncomeBusinessRules(AddBudgetProjectIncomeEvent addBudgetIncomeEvent) {
         BudgetProjectIncome projectIncome = addBudgetIncomeEvent.getBudgetProjectIncome();
         return areRequiredRulesSatisfied(projectIncome) && isProjectIncomeAmountValid(projectIncome);
@@ -55,5 +52,13 @@ public class BudgetProjectIncomeRuleImpl implements AddBudgetProjectIncomeRule {
         
         return valid;
     }
+
+	protected ValidationHelper getValidationHelper() {
+		return validationHelper;
+	}
+
+	public void setValidationHelper(ValidationHelper validationHelper) {
+		this.validationHelper = validationHelper;
+	}
 
 }

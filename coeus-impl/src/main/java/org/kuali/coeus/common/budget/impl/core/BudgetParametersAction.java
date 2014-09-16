@@ -31,7 +31,6 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.AddBudgetPeriodEvent;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.period.GenerateBudgetPeriodEvent;
-import org.kuali.coeus.common.budget.framework.period.SaveBudgetPeriodEvent;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
@@ -94,7 +93,7 @@ public class BudgetParametersAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudget();
         
-        boolean rulePassed = getKualiRuleService().applyRules(new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
         
         if (isRateTypeChanged(budgetForm)) {
             if (isBudgetPeriodDateChanged(budget) && isLineItemErrorOnly()) {
@@ -200,8 +199,7 @@ public class BudgetParametersAction extends BudgetAction {
             reconcileFinalBudgetFlags(budgetForm);
             setBudgetStatuses(budget.getBudgetParent());
         }
-        boolean rulePassed = getKualiRuleService().applyRules(
-            new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
         if (rulePassed) {
             // update campus flag if budget level flag is changed
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
@@ -234,8 +232,7 @@ public class BudgetParametersAction extends BudgetAction {
             setBudgetStatuses(budget.getBudgetParent());
         }
         getBudgetSummaryService().adjustStartEndDatesForLineItems(budget);
-        boolean rulePassed = getKualiRuleService().applyRules(
-                new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
         if (rulePassed) {
             // update campus flag if budget level flag is changed
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
@@ -267,8 +264,7 @@ public class BudgetParametersAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetPeriod newBudgetPeriod = budgetForm.getNewBudgetPeriod();
         Budget budget = budgetForm.getBudget();
-        if (getKualiRuleService().applyRules(
-                new AddBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), newBudgetPeriod))) {
+        if (getKcBusinessRulesEngine().applyRules(new AddBudgetPeriodEvent(budget, newBudgetPeriod))) {
             getBudgetSummaryService().addBudgetPeriod(budget, newBudgetPeriod);
             /* set new period and calculate all periods */
             budgetForm.setNewBudgetPeriod(budget.getNewBudgetPeriod());
@@ -356,8 +352,8 @@ public class BudgetParametersAction extends BudgetAction {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
         BudgetForm budgetForm = (BudgetForm) form;
-        boolean rulePassed = getKualiRuleService().applyRules(
-                new GenerateBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(
+                new GenerateBudgetPeriodEvent(budgetForm.getBudget(), budgetForm.getNewBudgetPeriod()));
         if (rulePassed) {
             if (isRateTypeChanged(budgetForm)) {
                 return confirm(buildRecalculateBudgetConfirmationQuestion(mapping, form, request, response), 

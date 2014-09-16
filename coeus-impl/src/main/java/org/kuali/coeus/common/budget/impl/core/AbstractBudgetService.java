@@ -314,88 +314,6 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
         
     }
 
-
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<ValidCeJobCode> getApplicableCostElements(Long budgetId, String personSequenceNumber) {
-        List<ValidCeJobCode> validCostElements = null;
-
-        String jobCodeValidationEnabledInd = this.parameterService.getParameterValueAsString(
-                Budget.class, Constants.BUDGET_JOBCODE_VALIDATION_ENABLED);
-        
-        if(StringUtils.isNotEmpty(jobCodeValidationEnabledInd) && jobCodeValidationEnabledInd.equals("Y")) { 
-            Map fieldValues = new HashMap();
-            fieldValues.put("budgetId", budgetId);
-            fieldValues.put("personSequenceNumber", personSequenceNumber);
-            BudgetPerson budgetPerson = (BudgetPerson) businessObjectService.findByPrimaryKey(BudgetPerson.class, fieldValues);
-            
-            fieldValues.clear();
-            if(budgetPerson != null && StringUtils.isNotEmpty(budgetPerson.getJobCode())) {
-                fieldValues.put("jobCode", budgetPerson.getJobCode().toUpperCase());
-                validCostElements = (List<ValidCeJobCode>) businessObjectService.findMatching(ValidCeJobCode.class, fieldValues);
-            }
-        }
-        
-        return validCostElements;
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    public String getApplicableCostElementsForAjaxCall(Long budgetId,String personSequenceNumber, 
-            String budgetCategoryTypeCode) {
-        
-        String resultStr = "";
-        
-        if(isAuthorizedToAccess(budgetCategoryTypeCode)){
-            if (StringUtils.isNotBlank(budgetCategoryTypeCode) && budgetCategoryTypeCode.contains(Constants.COLON)) {
-                budgetCategoryTypeCode = StringUtils.split(budgetCategoryTypeCode, Constants.COLON)[0];
-            }
-
-            List<ValidCeJobCode> validCostElements = getApplicableCostElements(budgetId, personSequenceNumber);
-
-            if(CollectionUtils.isNotEmpty(validCostElements)) {
-                for (ValidCeJobCode validCE : validCostElements) {
-                    Map fieldValues = new HashMap();
-                    fieldValues.put("costElement", validCE.getCostElement());
-                    CostElement costElement = (CostElement) businessObjectService.findByPrimaryKey(CostElement.class, fieldValues);
-                    resultStr += "," + validCE.getCostElement() + ";" + costElement.getDescription();
-                }
-                resultStr += ",ceLookup;false";
-            } else {
-                CostElementValuesFinder ceValuesFinder = new CostElementValuesFinder();
-                ceValuesFinder.setBudgetCategoryTypeCode(budgetCategoryTypeCode);
-                List<KeyValue> allPersonnelCostElements = ceValuesFinder.getKeyValues();
-                for (KeyValue keyValue : allPersonnelCostElements) {
-                    if(StringUtils.isNotEmpty(keyValue.getKey().toString())) {
-                        resultStr += "," + keyValue.getKey() + ";" + keyValue.getValue();
-                    }
-                }
-                resultStr += ",ceLookup;true";
-            }
-        }
-        
-        return resultStr;
-    }
-
-    @Override
-    public String getBudgetExpensePanelName(BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem) {
-        StringBuffer panelName = new StringBuffer();
-        if(budgetLineItem.getBudgetCategory() == null) {
-            budgetLineItem.refreshReferenceObject("budgetCategory");
-        }
-        
-        if(budgetLineItem.getBudgetCategory() != null && budgetLineItem.getBudgetCategory().getBudgetCategoryType() == null) {
-            budgetLineItem.getBudgetCategory().refreshReferenceObject("budgetCategoryType");
-        }
-        
-        if(budgetLineItem.getBudgetCategory() != null && budgetLineItem.getBudgetCategory().getBudgetCategoryType() != null) {
-            panelName.append(budgetLineItem.getBudgetCategory().getBudgetCategoryType().getDescription());
-        }
-        
-        return panelName.toString();
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public Collection<BudgetRate> getSavedProposalRates(Budget budgetToOpen) {
@@ -661,41 +579,6 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
      */
     public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
         this.budgetSummaryService = budgetSummaryService;
-    }
-    
-    /*
-     * a utility method to check if dwr/ajax call really has authorization
-     * 'updateProtocolFundingSource' also accessed by non ajax call
-     */
-    
-    private boolean isAuthorizedToAccess(String budgetCategoryTypeCode) {
-        boolean isAuthorized = true;
-        if(budgetCategoryTypeCode.contains(Constants.COLON)){
-            if (globalVariableService.getUserSession() != null) {
-                // jquery/ajax in rice 2.0
-                String[] invalues = StringUtils.split(budgetCategoryTypeCode, Constants.COLON);
-                String docFormKey = invalues[1];
-                if (StringUtils.isBlank(docFormKey)) {
-                    isAuthorized = false;
-                } else {
-                    Object formObj = globalVariableService.getUserSession().retrieveObject(docFormKey);
-                    if (formObj == null || !(formObj instanceof BudgetForm)) {
-                        isAuthorized = false;
-                    } else {
-                        Map<String, String> editModes = ((BudgetForm)formObj).getEditingMode();
-                        isAuthorized = BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.FULL_ENTRY))
-                        || BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.VIEW_ONLY))
-                        || BooleanUtils.toBoolean(editModes.get("modifyBudgtes"))
-                        || BooleanUtils.toBoolean(editModes.get("viewBudgets"))
-                        || BooleanUtils.toBoolean(editModes.get("addBudget"));
-                    }
-                }
-
-            } else {
-                LOG.info("dwr/ajax does not have session ");
-            }
-        }
-        return isAuthorized;
     }
 
     @Override

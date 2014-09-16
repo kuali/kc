@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.budget.external.budget.service;
 
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.external.HashMapElement;
 import org.kuali.kra.infrastructure.Constants;
 
@@ -29,5 +31,4 @@ import java.util.List;
 public interface BudgetCategoryService {
 
     List<BudgetCategoryDTO> lookupBudgetCategories(@WebParam(name = "searchCriteria") List<HashMapElement> criteria);
-    
 }

@@ -53,34 +53,6 @@ public interface BudgetService<T extends BudgetParent>  {
     public boolean ValidInflationCeRate(BudgetLineItemBase budgetLineItem);
     
     public String getActivityTypeForBudget(Budget budget);
-    
-    /**
-     * This method returns the applicable Object Codes (Cost Elements) for a given Budget Person 
-     * based on his Job Code
-     * @param budgetId
-     * @param personSequenceNumber
-     * @return List of Cost Elements
-     */
-    public List<ValidCeJobCode> getApplicableCostElements(Long budgetId, String personSequenceNumber);
-    
-    /**
-     * 
-     * This method returns the applicable Object Codes (Cost Elements) for a given Budget Person, converted to string separated by ",".
-     * @param budgetId
-     * @param personSequenceNumber
-     * @param budgetCategoryTypeCode
-     * @return List of Cost Elements
-     */
-    public String getApplicableCostElementsForAjaxCall(Long budgetId, String personSequenceNumber, String budgetCategoryTypeCode);
-
-    /**
-     * 
-     * This method returns the Non-Personnel Panel Name (based on the variables).
-     * @param budgetPeriod
-     * @param budgetLineItem
-     * @return Non-Personnel Panel Name for the passed in Line Item
-     */
-    public String getBudgetExpensePanelName(BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
 
     public Collection<BudgetRate> getSavedProposalRates(Budget budgetToOpen);
 

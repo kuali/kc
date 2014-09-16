@@ -15,11 +15,10 @@
  */
 package org.kuali.coeus.common.budget.framework.period;
 
-import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.impl.core.BudgetEventBase;
 
-public abstract class BudgetPeriodEventBase extends KcDocumentEventBase implements BudgetPeriodEvent {
+public abstract class BudgetPeriodEventBase extends BudgetEventBase {
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
     .getLog(BudgetPeriodEventBase.class);
@@ -27,25 +26,9 @@ public abstract class BudgetPeriodEventBase extends KcDocumentEventBase implemen
     private BudgetPeriod budgetPeriod;
     private int budgetPeriodNumber;
 
-    protected BudgetPeriodEventBase(String description, String errorPathPrefix, BudgetDocument document,
-            BudgetPeriod budgetPeriod) {
-        super(description, errorPathPrefix, document);
-
+    protected BudgetPeriodEventBase(Budget budget, BudgetPeriod budgetPeriod) {
+    	super(budget);
         this.budgetPeriod = budgetPeriod;
-        logEvent();
-    }
-
-    protected BudgetPeriodEventBase(String description, String errorPathPrefix, BudgetDocument document,
-            int budgetPeriodNumber) {
-        super(description, errorPathPrefix, document);
-
-        this.budgetPeriodNumber = budgetPeriodNumber;
-        logEvent();
-    }
-
-    protected BudgetPeriodEventBase(String description, String errorPathPrefix, BudgetDocument document) {
-        super(description, errorPathPrefix, document);
-        logEvent();
     }
 
     /**
@@ -60,29 +43,6 @@ public abstract class BudgetPeriodEventBase extends KcDocumentEventBase implemen
      */
     public int getBudgetPeriodNumber() {
         return budgetPeriodNumber;
-    }
-
-    @Override
-    public void validate() {
-        super.validate();
-    }
-
-    /**
-     * Logs the event type and some information about the associated budget period
-     */
-    protected void logEvent() {
-        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
-        logMessage.append(" with ");
-
-        //vary logging detail as needed
-        if (getBudgetPeriod() == null) {
-            logMessage.append("null budgetPeriod");
-        }
-        else {
-            logMessage.append(getBudgetPeriod().toString());
-        }
-
-        LOG.debug(logMessage);
     }
 }
 

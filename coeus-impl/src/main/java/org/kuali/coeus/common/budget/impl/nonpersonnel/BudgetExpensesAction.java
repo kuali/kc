@@ -25,17 +25,21 @@ import org.kuali.coeus.common.budget.framework.core.BudgetAction;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetSaveEvent;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetExpenseService;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetFormulatedCostDetail;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.print.BudgetPrintType;
 import org.kuali.coeus.common.budget.framework.core.BudgetForm;
+import org.kuali.kra.budget.external.budget.service.BudgetCategoryService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.budget.framework.print.BudgetPrintService;
+import org.kuali.coeus.common.budget.impl.core.SaveBudgetEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -47,6 +51,8 @@ import java.util.*;
 
 public class BudgetExpensesAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetExpensesAction.class);
+    
+    private BudgetExpenseService budgetExpenseService;
     
     public ActionForward updateBudgetPeriodView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {                
         calculateCurrentBudgetPeriod((BudgetForm) form,false);
@@ -91,6 +97,7 @@ public class BudgetExpensesAction extends BudgetAction {
         Budget budget = budgetDocument.getBudget();
         
         BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
+        BudgetCategoryService budgetCategoryService = KcServiceLocator.getService(BudgetCategoryService.class);
         
         if(budgetForm.getViewBudgetPeriod() == null || StringUtils.equalsIgnoreCase(budgetForm.getViewBudgetPeriod().toString(), "0")){
             GlobalVariables.getMessageMap().putError("viewBudgetPeriod", KeyConstants.ERROR_BUDGET_PERIOD_NOT_SELECTED);
@@ -121,7 +128,7 @@ public class BudgetExpensesAction extends BudgetAction {
             BudgetLineItem newLineItemToAdd = budgetPeriod.getNewBudgetLineItem();
             budgetForm.getNewBudgetLineItems().set(budgetCategoryTypeIndex, newLineItemToAdd);
             
-            populateTabState(budgetForm, budgetService.getBudgetExpensePanelName(budgetPeriod, newBudgetLineItem));
+            populateTabState(budgetForm, getBudgetExpenseService().getBudgetExpensePanelName(budgetPeriod, newBudgetLineItem));
         }  
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -153,7 +160,7 @@ public class BudgetExpensesAction extends BudgetAction {
         BudgetFormulatedCostDetail newBudgetFormulatedCost = budgetForm.getNewBudgetFormulatedCost();
         int lineItemNumber = getImagePropertyValue(request, ".budgetLineItemNumber",".");
         int budgetPeriod = getImagePropertyValue(request, ".budgetPeriod",".budgetLineItemNumber");
-        if(new BudgetExpenseRule().processBudgetFormulatedCostValidations(newBudgetFormulatedCost,budgetPeriod,lineItemNumber,"newBudgetFormulatedCost")){
+        if (getKcBusinessRulesEngine().applyRules(new AddFormulatedCostBudgetEvent(budget, "newBudgetFormulatedCost", newBudgetFormulatedCost))) {
             BudgetPeriod budgetPeriodBO = budget.getBudgetPeriod(budgetPeriod-1);
             BudgetLineItem budgetLineItem = budgetPeriodBO.getBudgetLineItem(lineItemNumber);
             newBudgetFormulatedCost.setFormulatedNumber(budget.getHackedDocumentNextValue(Constants.BUDGET_FORMULATED_NUMBER));
@@ -238,15 +245,16 @@ public class BudgetExpensesAction extends BudgetAction {
         int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
         int sltdBudgetLineItem = getLineToDelete(request);
         BudgetPeriod budgetPeriod = budget.getBudgetPeriod(sltdBudgetPeriod);
-        BudgetLineItem budgetLineItem = budgetPeriod.getBudgetLineItems().get(sltdBudgetLineItem);     
-        BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
+        BudgetLineItem budgetLineItem = budgetPeriod.getBudgetLineItems().get(sltdBudgetLineItem);   
+        BudgetCategoryService budgetCategoryService = KcServiceLocator.getService(BudgetCategoryService.class);
         
-        if (new BudgetExpenseRule().processCheckExistBudgetPersonnelDetailsBusinessRules(budgetForm.getBudgetDocument(), 
-                    budget.getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItems().get(getLineToDelete(request)), getLineToDelete(request))) {
+        if (getKcBusinessRulesEngine().applyRules(new DeleteBudgetLineItemEvent(budget, 
+        		"document.budgetPeriod[" + (budgetLineItem.getBudgetPeriod() - 1) + "].budgetLineItem[" + sltdBudgetLineItem + "]",
+        		budgetLineItem))) {
             budgetPeriod.getBudgetLineItems().remove(sltdBudgetLineItem);        
             recalculateBudgetPeriod(budgetForm, budget, budget.getBudgetPeriod(sltdBudgetPeriod));
             
-            populateTabState(budgetForm, budgetService.getBudgetExpensePanelName(budgetPeriod, budgetLineItem));
+            populateTabState(budgetForm, getBudgetExpenseService().getBudgetExpensePanelName(budgetPeriod, budgetLineItem));
         }
         return mapping.findForward("basic");
     }
@@ -347,37 +355,18 @@ public class BudgetExpensesAction extends BudgetAction {
                     budgetLineItem.refreshReferenceObject("costElementBO");
                     budgetLineItem.setBudgetCategoryCode(budgetLineItem.getCostElementBO().getBudgetCategoryCode());
                 }
-                if(processBudgetFormulatedCostValidations(budgetLineItem,budgetPeriodIndex,lineItemNumber)){
-                    calculateAndUpdateFormulatedCost(budgetLineItem);
-                }else{
-                    return mapping.findForward(Constants.MAPPING_BASIC);
-                }
+                calculateAndUpdateFormulatedCost(budgetLineItem);
                 getCalculationService().updatePersonnelBudgetRate(budgetLineItem);
             }
         }
-        
-        if (new BudgetExpenseRule().processCheckLineItemDates(budget)) {
+                    
+        if (getKcBusinessRulesEngine().applyRules(new BudgetSaveEvent(budget))) {
             ActionForward actionForward = super.save(mapping, form, request, response);
             budget.setBudgetLineItemDeleted(false);
             return actionForward;
         } else {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
-    }
-
-
-    private boolean processBudgetFormulatedCostValidations(BudgetLineItem budgetLineItem, int budgetPeriodIndex,
-            int lineItemNumber) {
-        List<BudgetFormulatedCostDetail> budgetFormulatedCosts = budgetLineItem.getBudgetFormulatedCosts();
-        boolean valid = true;
-        int index = -1;
-        String errorKey = "document.budget.budgetPeriod[" + budgetPeriodIndex + "].budgetLineItem["+ lineItemNumber + "].";
-        for (BudgetFormulatedCostDetail budgetFormulatedCostDetail : budgetFormulatedCosts) {
-            
-            valid = valid&new BudgetExpenseRule().processBudgetFormulatedCostValidations(
-                    budgetFormulatedCostDetail,budgetPeriodIndex,lineItemNumber,errorKey+"budgetFormulatedCosts["+(++index)+"]");
-        }
-        return valid;
     }
 
 
@@ -406,7 +395,9 @@ public class BudgetExpensesAction extends BudgetAction {
         int sltdLineItem = getSelectedLine(request);
         int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
         BudgetPeriod budgetPeriod = budget.getBudgetPeriod(sltdBudgetPeriod);
-        if (new BudgetExpenseRule().processCheckLineItemDates(budgetPeriod, sltdLineItem)) {
+        if (getKcBusinessRulesEngine().applyRules(new ApplyToPeriodsBudgetEvent(budget, 
+        		"document.budgetPeriod[" + sltdBudgetPeriod + "].budgetLineItem[" + sltdLineItem + "]", 
+        		budgetPeriod.getBudgetLineItem(sltdBudgetPeriod), budgetPeriod))) {
             getCalculationService().syncToPeriodCostLimit(budget, budget.getBudgetPeriod(sltdBudgetPeriod), 
                     budget.getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItem(sltdLineItem));
         }
@@ -428,7 +419,9 @@ public class BudgetExpensesAction extends BudgetAction {
         int sltdLineItem = getSelectedLine(request);
         int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
         BudgetPeriod budgetPeriod = budget.getBudgetPeriod(sltdBudgetPeriod);
-        if (new BudgetExpenseRule().processCheckLineItemDates(budgetPeriod, sltdLineItem)) {
+        if (getKcBusinessRulesEngine().applyRules(new ApplyToPeriodsBudgetEvent(budget, 
+        		"document.budgetPeriod[" + sltdBudgetPeriod + "].budgetLineItem[" + sltdLineItem + "]", 
+        		budgetPeriod.getBudgetLineItem(sltdBudgetPeriod), budgetPeriod))) {
             getCalculationService().syncToPeriodDirectCostLimit(budget, budget.getBudgetPeriod(sltdBudgetPeriod), 
                     budget.getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItem(sltdLineItem));
         }
@@ -477,10 +470,10 @@ public class BudgetExpensesAction extends BudgetAction {
         Budget budget = budgetForm.getBudgetDocument().getBudget();        
         int sltdLineItem = getSelectedLine(request);
         int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
-        BudgetExpenseRule budgetExpenseRule = new BudgetExpenseRule();
-        if (budgetExpenseRule.processApplyToLaterPeriodsWithPersonnelDetails(budget, 
-                    budget.getBudgetPeriod(sltdBudgetPeriod), budget.getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItem(sltdLineItem), sltdLineItem) &&
-            budgetExpenseRule.processCheckLineItemDates(budget.getBudgetPeriod(sltdBudgetPeriod), sltdLineItem)) {
+        BudgetPeriod budgetPeriod = budget.getBudgetPeriod(sltdBudgetPeriod);
+        if (getKcBusinessRulesEngine().applyRules(new ApplyToPeriodsBudgetEvent(budget, 
+        		"document.budgetPeriod[" + sltdBudgetPeriod + "].budgetLineItem[" + sltdLineItem + "]", 
+        		budgetPeriod.getBudgetLineItem(sltdBudgetPeriod), budgetPeriod))) {
             getCalculationService().applyToLaterPeriods(budget, budget.getBudgetPeriod(sltdBudgetPeriod), budget.getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItem(sltdLineItem));
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -497,7 +490,7 @@ public class BudgetExpensesAction extends BudgetAction {
                 calculateAndUpdateFormulatedCost(budgetLineItem);
             }
         }
-        if (new BudgetExpenseRule().processCheckLineItemDates(budget)) {
+        if (getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget))) {
             if(forceCalculation){
                 recalculateBudgetPeriod(budgetForm, budget, budgetPeriod);
             }else{
@@ -506,4 +499,16 @@ public class BudgetExpensesAction extends BudgetAction {
         }
 
     }
+
+	public BudgetExpenseService getBudgetExpenseService() {
+		if (budgetExpenseService == null) {
+			budgetExpenseService = KcServiceLocator.getService(BudgetExpenseService.class);
+		}
+		return budgetExpenseService;
+	}
+
+
+	public void setBudgetExpenseService(BudgetExpenseService budgetExpenseService) {
+		this.budgetExpenseService = budgetExpenseService;
+	}
 }

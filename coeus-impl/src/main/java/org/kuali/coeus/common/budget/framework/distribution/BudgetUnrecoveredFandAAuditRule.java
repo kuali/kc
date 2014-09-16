@@ -45,7 +45,8 @@ public class BudgetUnrecoveredFandAAuditRule {
     String[] params = { "Unrecovered F and A" };
     private static final int YEAR_CONSTANT = 1900;
 
-    @KcEventMethod(events = {BudgetAuditEvent.EVENT_NAME})
+    // Proposal Budget only event possibly
+    @KcEventMethod
     public boolean processRunAuditBusinessRules(BudgetAuditEvent event) {
     	Budget budget = event.getBudget();
         if (getAuditErrorMap().containsKey(BUDGET_UNRECOVERED_F_AND_A_ERROR_KEY)) {

@@ -55,7 +55,7 @@ public class BudgetSubAwardsRule  {
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
 
-    @KcEventMethod(events={BudgetSubAwardsEvent.EVENT_NAME})
+    @KcEventMethod
     public KcEventResult processNonXFDAttachment(BudgetSubAwardsEvent event) {
     	KcEventResult result = new KcEventResult();
         verifyNonXFDAttachment(event, result);
@@ -64,7 +64,7 @@ public class BudgetSubAwardsRule  {
         return result;
     }
     
-    @KcEventMethod(events={BudgetSubAwardsEvent.EVENT_NAME})
+    @KcEventMethod
     public KcEventResult processXFDAttachment(BudgetSubAwardsEvent event) {
     	KcEventResult result = new KcEventResult();
         verifyXFDAttachment(event, result);
@@ -73,7 +73,7 @@ public class BudgetSubAwardsRule  {
         return result;
     }
     
-    @KcEventMethod(events={BudgetSubAwardsEvent.EVENT_NAME})
+    @KcEventMethod
     public boolean checkSpecialCharacters(BudgetSubAwardsEvent event){
         if(getKcAttachmentService().getSpecialCharacter(event.getBudgetSubAwards().getSubAwardXmlFileData().toString())) {
             globalVariableService.getMessageMap().putWarning(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_SPECIAL_CHARECTOR);

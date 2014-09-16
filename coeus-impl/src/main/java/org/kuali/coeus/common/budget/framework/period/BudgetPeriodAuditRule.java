@@ -15,36 +15,47 @@
  */
 package org.kuali.coeus.common.budget.framework.period;
 
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.coeus.common.budget.impl.core.BudgetAuditEvent;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
+import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.sql.Date;
 
-public class BudgetPeriodAuditRule extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
+@KcBusinessRule("budgetPeriodAuditRule")
+public class BudgetPeriodAuditRule {
 
     private static final String BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY = "budgetPeriodProjectDateAuditErrors";
     private static final String BUDGET_PERIOD_DATE_AUDIT_WARNING_KEY = "budgetPeriodProjectDateAuditWarnings";
 
+    @Autowired
+    @Qualifier("errorReporter")
+    private ErrorReporter errorReporter;
+    
     /**
      * Executes audit rules for budget periods.
      * @param document the budget document
      * @return true if valid false if not
      * @throws NullPointerException if the document is null
      */
-    @Override
-    public boolean processRunAuditBusinessRules(final Document document) {
-        if (document == null) {
-            throw new NullPointerException("the document is null");
+    @KcEventMethod
+    public boolean processRunAuditBusinessRules(BudgetAuditEvent event) {
+        if (event == null || event.getBudget() == null) {
+            throw new NullPointerException("the budget is null");
         }
         
-        final BudgetDocument budgetDocument = (BudgetDocument) document;
-        return this.validatePeriodDates(budgetDocument);
+        return this.validatePeriodDates(event.getBudget());
     }
     
     /**
@@ -53,15 +64,14 @@ public class BudgetPeriodAuditRule extends KcTransactionalDocumentRuleBase imple
      * @param budgetDocument the budget document
      * @return true if valid false if not
      */
-    private boolean validatePeriodDates(final BudgetDocument budgetDocument) {
-        assert budgetDocument != null : "the document is null";
+    private boolean validatePeriodDates(final Budget budget) {
         boolean retval = true;
-        BudgetParent budgetParent = budgetDocument.getBudget().getBudgetParent().getDocument().getBudgetParent();
+        BudgetParent budgetParent = budget.getBudgetParent().getDocument().getBudgetParent();
         final Date projectStartDate = budgetParent.getRequestedStartDateInitial();
         final Date projectEndDate = budgetParent.getRequestedEndDateInitial();
         
         int i = 0;
-        for (final BudgetPeriod budgetPeriod : budgetDocument.getBudget().getBudgetPeriods()) {
+        for (final BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
             Date budgetPeriodStartDate = budgetPeriod.getStartDate();
             Date budgetPeriodEndDate = budgetPeriod.getEndDate();
             if (budgetPeriodStartDate != null && budgetPeriodStartDate.before(projectStartDate)) {
@@ -83,7 +93,7 @@ public class BudgetPeriodAuditRule extends KcTransactionalDocumentRuleBase imple
                     Constants.BUDGET_PERIOD_PAGE + "." + Constants.BUDGET_PERIOD_PANEL_ANCHOR, new String[] {Integer.toString(i + 1)}));
             }
             
-            if (i == budgetDocument.getBudget().getBudgetPeriods().size() - 1 && (budgetPeriodEndDate != null && budgetPeriodEndDate.before(projectEndDate))) {
+            if (i == budget.getBudgetPeriods().size() - 1 && (budgetPeriodEndDate != null && budgetPeriodEndDate.before(projectEndDate))) {
                 this.addBudgetPeriodDateAuditWarning(new AuditError("document.budgetPeriods[" + i + "].endDate",
                     KeyConstants.AUDIT_WARNING_BUDGETPERIOD_END_BEFORE_PROJECT_END_DATE,
                     Constants.BUDGET_PERIOD_PAGE + "." + Constants.BUDGET_PERIOD_PANEL_ANCHOR, new String[] {Integer.toString(i + 1)}));
@@ -100,7 +110,7 @@ public class BudgetPeriodAuditRule extends KcTransactionalDocumentRuleBase imple
     private void addBudgetPeriodDateAuditWarning(final AuditError warning) {
         assert warning != null : "the warning is null";
 
-        this.addAuditError(warning, BUDGET_PERIOD_DATE_AUDIT_WARNING_KEY, Constants.BUDGET_PERIOD_PANEL_NAME, Constants.AUDIT_WARNINGS);
+        errorReporter.reportAuditError(warning, BUDGET_PERIOD_DATE_AUDIT_WARNING_KEY, Constants.BUDGET_PERIOD_PANEL_NAME, Constants.AUDIT_WARNINGS);
     }
     
     /**
@@ -110,6 +120,14 @@ public class BudgetPeriodAuditRule extends KcTransactionalDocumentRuleBase imple
     private void addBudgetPeriodDateAuditError(final AuditError error) {
         assert error != null : "the error is null";
 
-        this.addAuditError(error, BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY, Constants.BUDGET_PERIOD_PANEL_NAME, Constants.AUDIT_ERRORS);
+        errorReporter.reportAuditError(error, BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY, Constants.BUDGET_PERIOD_PANEL_NAME, Constants.AUDIT_ERRORS);
     }
+
+	public ErrorReporter getErrorReporter() {
+		return errorReporter;
+	}
+
+	public void setErrorReporter(ErrorReporter errorReporter) {
+		this.errorReporter = errorReporter;
+	}
 }

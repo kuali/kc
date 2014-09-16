@@ -42,7 +42,7 @@ import java.util.List;
 @KcBusinessRule("activityTypeAuditRule")
 public class ActivityTypeAuditRule {
 
-	@KcEventMethod(events = {BudgetAuditEvent.EVENT_NAME})
+	@KcEventMethod
     public boolean processRunAuditBusinessRules(BudgetAuditEvent event) {
         boolean valid = true;
         

@@ -103,7 +103,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
     public ActionForward addProjectIncome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetProjectIncome budgetProjectIncome = budgetForm.getNewBudgetProjectIncome();
-        boolean passed = getKualiRuleService().applyRules(createRuleEvent(budgetForm, budgetProjectIncome));
+        boolean passed = getKcBusinessRulesEngine().applyRules(createRuleEvent(budgetForm, budgetProjectIncome));
         
         if(passed) {
             budgetForm.getBudgetDocument().getBudget().add(budgetProjectIncome);
@@ -245,7 +245,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @return
      */
     private AddBudgetProjectIncomeEvent createRuleEvent(BudgetForm budgetForm, BudgetProjectIncome budgetProjectIncome) {
-        return new AddBudgetProjectIncomeEvent("Add BudgetProjectIncome Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), budgetProjectIncome);
+        return new AddBudgetProjectIncomeEvent(budgetForm.getBudget(), budgetProjectIncome);
     }
     
     /**

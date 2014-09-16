@@ -17,27 +17,35 @@ package org.kuali.coeus.common.budget.framework.personnel;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
+import org.kuali.coeus.common.budget.framework.core.BudgetSaveEvent;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.coeus.common.budget.impl.core.SaveBudgetEvent;
+import org.kuali.coeus.common.budget.impl.nonpersonnel.ApplyToPeriodsBudgetEvent;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
+import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.datadictionary.validation.ErrorLevel;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.*;
 
-/**
- * Business Rules for the BudgetPersonnel panel. 
- */
+@KcBusinessRule("budgetPersonnelRule")
 public class BudgetPersonnelRule {
 
     private static final String BUDGET_PERSONS_FIELD_NAME_START = "budgetPersons[";
@@ -45,51 +53,22 @@ public class BudgetPersonnelRule {
     private static final String BUDGET_PERSONS_FIELD_NAME_PERSON_NUMBER = "].personNumber";
     private static final String BUDGET_PERSONS_FIELD_NAME_CALC_BASE = "].calculationBase";
     
-    private final BusinessObjectService boService;
-    private final ParameterService paramService;
-    private final BudgetService budgetService;
+    @Autowired
+    @Qualifier("businessObjectService")
+    private BusinessObjectService boService;
     
-    /**
-     * Creates a new BudgetPersonnelRule setting the required services using the
-     * {@link org.kuali.coeus.sys.framework.service.KcServiceLocator KcServiceLocator}.
-     */
-    public BudgetPersonnelRule() {
-        this(KcServiceLocator.getService(BusinessObjectService.class),
-            KcServiceLocator.getService(ParameterService.class),
-            KcServiceLocator.getService(BudgetService.class));
-    }
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService paramService;
     
-    /**
-     * Creates a new BudgetPersonnelRule setting the required services.
-     * <p>
-     * Default access for easy unit testing.
-     * </p>
-     * @param boService the BusinessObjectService
-     * @param paramService the ParameterService
-     * @param budgetService the BudgetService
-     * @throws NullPointerException if any of the services are null.
-     */
-    public BudgetPersonnelRule(final BusinessObjectService boService,
-        final ParameterService paramService,
-        final BudgetService budgetService) {
-        
-        if (boService == null) {
-            throw new NullPointerException("the boService is null");
-        }
-        
-        if (paramService == null) {
-            throw new NullPointerException("the paramService is null");
-        }
-        
-        if (budgetService == null) {
-            throw new NullPointerException("the budgetService is null");
-        }
-        
-        this.boService = boService;
-        this.paramService = paramService;
-        this.budgetService = budgetService;
-    }
-
+    @Autowired
+    @Qualifier("budgetPersonService")
+    private  BudgetPersonService budgetPersonService;
+    
+    @Autowired
+    @Qualifier("dictionaryValidationService")
+    private DictionaryValidationService dictionaryValidationService;
+    
     /**
      * 
      * This method to check the 'selected' person to delete is not associate with budget personnel details
@@ -97,20 +76,17 @@ public class BudgetPersonnelRule {
      * @param budgetPerson
      * @return
      */
-    public boolean processCheckExistBudgetPersonnelDetailsBusinessRules(BudgetDocument budgetDocument, BudgetPerson budgetPerson) {
+    @KcEventMethod
+    public boolean processCheckExistBudgetPersonnelDetailsBusinessRules(DeleteBudgetPersonEvent event) {
         boolean valid = true;
-        final Map<String, Object> qMap = new HashMap<String, Object>();
-        qMap.put("budgetId", budgetDocument.getBudget().getBudgetId());
-        qMap.put("personId", budgetPerson.getPersonId());
-        qMap.put("personSequenceNumber", budgetPerson.getPersonSequenceNumber());
-
+        
         // User  may delete person before the deleted detail is persisted
-        if (isPersonDetailsFound (budgetDocument.getBudget(), budgetPerson)) {
+        if (isPersonDetailsFound (event.getBudget(), event.getBudgetPerson())) {
         //if (CollectionUtils.isNotEmpty(this.boService.findMatching(BudgetPersonnelDetails.class, qMap))) {
                 // just try to make sure key is on budget personnel tab
                 final MessageMap messageMap = GlobalVariables.getMessageMap();
                 messageMap.putError(BUDGET_PERSONS_FIELD_NAME_START + "0" + BUDGET_PERSONS_FIELD_NAME_PERSON_NUMBER,
-                    KeyConstants.ERROR_DELETE_PERSON_WITH_PERSONNEL_DETAIL, budgetPerson.getPersonName());
+                    KeyConstants.ERROR_DELETE_PERSON_WITH_PERSONNEL_DETAIL, event.getBudgetPerson().getPersonName());
                 valid = false;
         }
                     
@@ -142,12 +118,13 @@ public class BudgetPersonnelRule {
         
     }
 
-    public boolean processCheckBaseSalaryFormat(BudgetDocument budgetDocument) {
+    @KcEventMethod
+    public boolean processCheckBaseSalaryFormat(BudgetSaveEvent event) {
         boolean valid = true;
         
         MessageMap messageMap = GlobalVariables.getMessageMap();
         int i = 0;
-        List<BudgetPerson> budgetPersons = budgetDocument.getBudget().getBudgetPersons();
+        List<BudgetPerson> budgetPersons = event.getBudget().getBudgetPersons();
         for (BudgetPerson budgetPerson : budgetPersons) {
             if (budgetPerson.getCalculationBase() == null) {
                 messageMap.putError(BUDGET_PERSONS_FIELD_NAME_START + i + BUDGET_PERSONS_FIELD_NAME_CALC_BASE,
@@ -165,22 +142,23 @@ public class BudgetPersonnelRule {
     }
 
     private Collection<ValidCeJobCode> getMappedCostElements(BudgetPerson person) {
-        return this.budgetService.getApplicableCostElements(person.getBudgetId(), 
+        return budgetPersonService.getApplicableCostElements(person.getBudgetId(), 
                 person.getPersonSequenceNumber().toString());
     }
     
-    public boolean processBudgetPersonnelBusinessRules(Budget budget) {
+    @KcEventMethod
+    public boolean processBudgetPersonnelBusinessRules(BudgetSaveEvent event) {
         boolean valid = true;
         
         MessageMap messageMap = GlobalVariables.getMessageMap();
         
-        List<BudgetPerson> budgetPersons = budget.getBudgetPersons();
+        List<BudgetPerson> budgetPersons = event.getBudget().getBudgetPersons();
         for (int i = 0; i < budgetPersons.size(); i++) {
             BudgetPerson budgetPerson = budgetPersons.get(i);
             for (int j = i + 1; j < budgetPersons.size(); j++) {
                 BudgetPerson budgetPersonCompare = budgetPersons.get(j);
                 if (budgetPerson.isDuplicatePerson(budgetPersonCompare)) {
-                    BudgetParent budgetParent = budget.getBudgetParent().getDocument().getBudgetParent();
+                    BudgetParent budgetParent = event.getBudget().getBudgetParent().getDocument().getBudgetParent();
                     if (budgetParent instanceof DevelopmentProposal && ((DevelopmentProposal)budgetParent).isParent()) {
                         // not an error - ProposalHierarchy parents are allowed to have duplicate BudgetPersons
                     }
@@ -206,45 +184,75 @@ public class BudgetPersonnelRule {
      * @throws NullPointerException if the budgetDocument is null
      * @throws IllegalArgumentException if the viewBudgetPeriod < 1
      */
-    public boolean processCheckForJobCodeChange(final Budget budget, final int viewBudgetPeriod) {
-        if (budget == null) {
+    @KcEventMethod
+    public boolean processCheckForJobCodeChange(BudgetSavePersonnelEvent event) {
+        if (event.getBudget() == null) {
             throw new NullPointerException("the budgetDocument is null");
         }
         
-        if (viewBudgetPeriod < 1) {
-            throw new IllegalArgumentException("this viewBudgetPeriod: " + viewBudgetPeriod + " is invalid");
+        if (event.getCurrentBudgetPeriod() == null) {
+            throw new NullPointerException("the currentBudgetPeriod is invalid");
         }
         
         boolean valid = true;
         
         GlobalVariables.getMessageMap().addToErrorPath("document");
-        valid &= this.processBudgetPersonnelBusinessRules(budget);
+
+        final BudgetPeriod selectedBudgetPeriod = event.getCurrentBudgetPeriod();
         
-        if(valid) {
-            final BudgetPeriod selectedBudgetPeriod = budget.getBudgetPeriod(viewBudgetPeriod - 1);
-            
-            final Collection<Integer> budgetPersonSequences
-                = this.getBudgetPersonSequencesFromPersonnelDetails(selectedBudgetPeriod.getBudgetLineItems());
-            
-            if (CollectionUtils.isNotEmpty(budgetPersonSequences)) {
-                int i = 0;
-                List<BudgetPerson> budgetPersons = budget.getBudgetPersons();
-                for (BudgetPerson person : budgetPersons) {
-                    if (budgetPersonSequences.contains(person.getPersonSequenceNumber())) {
-                        if(CollectionUtils.isNotEmpty(this.getMappedCostElements(person))) {
-                            valid &= this.validateJobCodeChange(i, person);
-                        } else {
-                            valid &= this.validateJobCodeValue(i, person);
-                            this.updateJobCodeOnDetailsFromPerson(selectedBudgetPeriod.getBudgetLineItems(), person);
-                        }
+        final Collection<Integer> budgetPersonSequences
+            = this.getBudgetPersonSequencesFromPersonnelDetails(selectedBudgetPeriod.getBudgetLineItems());
+        
+        if (CollectionUtils.isNotEmpty(budgetPersonSequences)) {
+            int i = 0;
+            List<BudgetPerson> budgetPersons = event.getBudget().getBudgetPersons();
+            for (BudgetPerson person : budgetPersons) {
+                if (budgetPersonSequences.contains(person.getPersonSequenceNumber())) {
+                    if(CollectionUtils.isNotEmpty(this.getMappedCostElements(person))) {
+                        valid &= this.validateJobCodeChange(i, person);
+                    } else {
+                        valid &= this.validateJobCodeValue(i, person);
+                        this.updateJobCodeOnDetailsFromPerson(selectedBudgetPeriod.getBudgetLineItems(), person);
                     }
-                    i++;
                 }
+                i++;
             }
         }
         
         GlobalVariables.getMessageMap().removeFromErrorPath("document");
         return valid;
+    }
+    
+    @KcEventMethod
+    public boolean addPersonnelCheck(AddPersonnelBudgetEvent event) {
+    	boolean result = true;
+    	Budget budget = event.getBudget();
+    	BudgetPeriod budgetPeriod = event.getBudgetPeriod();
+	    BudgetLineItem newBudgetLineItem = event.getBudgetLineItem();
+	    BudgetPersonnelDetails budgetPersonDetails = event.getBudgetPersonnelDetails();
+	    String errorKey = event.getErrorKey();
+	    
+	    if (dictionaryValidationService.validate(newBudgetLineItem).getErrorLevel() == ErrorLevel.ERROR) {
+	    	result = false;
+	    }
+	    
+	    if(budgetPeriod == null){
+	        GlobalVariables.getMessageMap().putError("viewBudgetPeriod", KeyConstants.ERROR_BUDGET_PERIOD_NOT_SELECTED);
+	        result = false;
+	    }
+	    if(newBudgetLineItem.getCostElement() == null || StringUtils.equalsIgnoreCase(newBudgetLineItem.getCostElement(), "")){
+	        GlobalVariables.getMessageMap().putError(errorKey, KeyConstants.ERROR_COST_ELEMENT_NOT_SELECTED);
+	        result = false;
+	    }
+	    if(budgetPersonDetails.getPersonSequenceNumber() == null){
+	        GlobalVariables.getMessageMap().putError("newBudgetPersonnelDetails.personSequenceNumber", KeyConstants.ERROR_BUDGET_PERSONNEL_NOT_SELECTED);
+	        result = false;
+	    } 
+	    if(!processCheckJobCodeObjectCodeCombo(budget, budgetPersonDetails, false)) {
+	        GlobalVariables.getMessageMap().putError(errorKey, KeyConstants.ERROR_JOBCODE_COST_ELEMENT_COMBO_INVALID);
+	        result = false;
+	    }
+	    return result;
     }
     
     /**
@@ -260,8 +268,6 @@ public class BudgetPersonnelRule {
         boolean valid = true;
         
         final Map<String, Object> queryMap = new HashMap<String, Object>();
-//        queryMap.put("proposalNumber", person.getProposalNumber());
-//        queryMap.put("budgetVersionNumber", person.getBudgetVersionNumber());
         queryMap.put("budgetId", person.getBudgetId());
         queryMap.put("personSequenceNumber", person.getPersonSequenceNumber());
         final BudgetPerson personCopy = (BudgetPerson) this.boService.findByPrimaryKey(BudgetPerson.class, queryMap);
@@ -341,7 +347,7 @@ public class BudgetPersonnelRule {
         List<ValidCeJobCode> validCostElements = null;
     
         if (save) {
-            String jobCodeValidationEnabledInd = this.paramService.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_JOBCODE_VALIDATION_ENABLED);
+            String jobCodeValidationEnabledInd = this.paramService.getParameterValueAsString(Budget.class, Constants.BUDGET_JOBCODE_VALIDATION_ENABLED);
             
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             BudgetPerson budgetPerson = null;
@@ -362,14 +368,14 @@ public class BudgetPersonnelRule {
             }
             
         } else {
-            validCostElements = this.budgetService.getApplicableCostElements(budget.getBudgetId(), 
+            validCostElements = budgetPersonService.getApplicableCostElements(budget.getBudgetId(), 
                         newBudgetPersonnelDetails.getPersonSequenceNumber().toString());
         }
          
         return validCostElements;
     }
     
-    public boolean processCheckJobCodeObjectCodeCombo(Budget budget, BudgetPersonnelDetails newBudgetPersonnelDetails, boolean save) {
+    protected boolean processCheckJobCodeObjectCodeCombo(Budget budget, BudgetPersonnelDetails newBudgetPersonnelDetails, boolean save) {
         List<ValidCeJobCode> validCostElements = null;
         boolean isValid = false;
         
@@ -388,4 +394,150 @@ public class BudgetPersonnelRule {
 
         return isValid;
     }
+    
+    @KcEventMethod
+    public boolean budgetPersonnelDetailsCheck(ApplyToPeriodsBudgetEvent event) {
+    	return budgetPersonnelDetailsCheck(event.getBudget(), event.getBudgetLineItem(), event.getErrorPath());
+    }
+    
+    private boolean budgetPersonnelDetailsCheck(Budget budget, BudgetLineItem budgetLineItem, String errorPath) {
+        boolean valid = true;
+        boolean validJobCodeCECombo = false;
+        
+        int k=0;
+        for(BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
+        	String detailsErrorPath = errorPath + ".budgetPersonnelDetailsList[" + k + "]";
+            valid &= !(personnelDetailsCheck(budget, budgetLineItem, budgetPersonnelDetails, detailsErrorPath));
+            
+            validJobCodeCECombo = processCheckJobCodeObjectCodeCombo(budget, budgetPersonnelDetails, true);
+            if(!validJobCodeCECombo)  {
+                GlobalVariables.getMessageMap().putError(detailsErrorPath + ".personSequenceNumber", KeyConstants.ERROR_SAVE_JOBCODE_COST_ELEMENT_COMBO_INVALID);
+            }
+            valid &= validJobCodeCECombo;
+            k++;
+        }
+        
+        return valid;
+    }
+
+    @KcEventMethod
+    public boolean budgetPersonnelDetailsCheck(SaveBudgetEvent event) {
+          boolean valid = true;
+          List<BudgetPeriod> budgetPeriods = event.getBudget().getBudgetPeriods();
+          List<BudgetLineItem> budgetLineItems;
+          int i=0;
+          int j=0;
+          
+          for(BudgetPeriod budgetPeriod: budgetPeriods){
+              j=0;
+              budgetLineItems = budgetPeriod.getBudgetLineItems();
+              for(BudgetLineItem budgetLineItem: budgetLineItems){
+                  if (budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals("P")) {
+                      valid &= budgetPersonnelDetailsCheck(event.getBudget(), budgetLineItem, event.getErrorPath() + "budgetPeriod[" + i + "].budgetLineItems[" + j + "]");
+                  }
+                  j++;
+              }
+              i++;
+          }
+          
+          return valid;
+    }
+    
+    private boolean personnelDetailsCheck(Budget budget, BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails, String errorPath) {
+        boolean errorFound = false;
+        GlobalVariables.getMessageMap().addToErrorPath(errorPath);
+        
+        if(StringUtils.isEmpty(budgetPersonnelDetails.getPeriodTypeCode())) { 
+            GlobalVariables.getMessageMap().putError("periodTypeCode", KeyConstants.ERROR_REQUIRED_PERIOD_TYPE);
+            errorFound=true;
+        }
+        
+        if(budgetPersonnelDetails.getPercentEffort().isGreaterThan(new ScaleTwoDecimal(100))){
+            GlobalVariables.getMessageMap().putError("percentEffort", KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_EFFORT_FIELD);
+            errorFound=true;
+        }
+        if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(new ScaleTwoDecimal(100))){
+            GlobalVariables.getMessageMap().putError("percentCharged", KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_CHARGED_FIELD);
+            errorFound=true;
+        }
+        if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(budgetPersonnelDetails.getPercentEffort())){
+            GlobalVariables.getMessageMap().putError("percentCharged", KeyConstants.ERROR_PERCENT_EFFORT_LESS_THAN_PERCENT_CHARGED);
+            errorFound=true;
+        }
+        errorFound = errorFound || personnelDatesCheck(budgetLineItem, budgetPersonnelDetails, errorPath);
+        
+        GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
+        return errorFound;
+    }
+
+    private boolean personnelDatesCheck(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails, String errorPath) {
+        boolean errorFound = false;
+        
+        if(budgetPersonnelDetails.getStartDate() == null) {
+            GlobalVariables.getMessageMap().putError("startDate", RiceKeyConstants.ERROR_REQUIRED, new String[] { "Start Date (Start Date)" });
+            errorFound=true;
+        }
+        if(budgetPersonnelDetails.getEndDate() == null) {
+            GlobalVariables.getMessageMap().putError("endDate", RiceKeyConstants.ERROR_REQUIRED, new String[] { "End Date (End Date)" });
+            errorFound=true;
+        }
+        
+        if(!errorFound) {
+            if(budgetPersonnelDetails.getEndDate().compareTo(budgetPersonnelDetails.getStartDate()) < 0) {
+                GlobalVariables.getMessageMap().putError("endDate", KeyConstants.ERROR_PERSONNEL_DETAIL_DATES);
+                errorFound=true;
+            }
+            if(budgetLineItem.getEndDate().compareTo(budgetPersonnelDetails.getEndDate()) < 0) {
+                GlobalVariables.getMessageMap().putError("endDate", KeyConstants.ERROR_PERSONNEL_DETAIL_END_DATE, new String[] {"can not be after", "end date"});
+                errorFound=true;
+            }
+            if(budgetLineItem.getStartDate().compareTo(budgetPersonnelDetails.getEndDate()) > 0) {
+                GlobalVariables.getMessageMap().putError("endDate", KeyConstants.ERROR_PERSONNEL_DETAIL_END_DATE, new String[] {"can not be before", "start date"});
+                errorFound=true;
+            }
+            if(budgetLineItem.getStartDate().compareTo(budgetPersonnelDetails.getStartDate()) > 0) {
+                GlobalVariables.getMessageMap().putError("startDate", KeyConstants.ERROR_PERSONNEL_DETAIL_START_DATE, new String[] {"can not be before", "start date"});
+                errorFound=true;
+            }
+            if(budgetLineItem.getEndDate().compareTo(budgetPersonnelDetails.getStartDate()) < 0) {
+                GlobalVariables.getMessageMap().putError("startDate", KeyConstants.ERROR_PERSONNEL_DETAIL_START_DATE, new String[] {"can not be after", "end date"});
+                errorFound=true;
+            }
+        }
+        
+        return errorFound;
+    }    
+
+	protected BudgetPersonService getBudgetPersonService() {
+		return budgetPersonService;
+	}
+
+	protected BusinessObjectService getBoService() {
+		return boService;
+	}
+
+	protected ParameterService getParamService() {
+		return paramService;
+	}
+
+	protected DictionaryValidationService getDictionaryValidationService() {
+		return dictionaryValidationService;
+	}
+
+	public void setBoService(BusinessObjectService boService) {
+		this.boService = boService;
+	}
+
+	public void setParamService(ParameterService paramService) {
+		this.paramService = paramService;
+	}
+
+	public void setBudgetPersonService(BudgetPersonService budgetPersonService) {
+		this.budgetPersonService = budgetPersonService;
+	}
+
+	public void setDictionaryValidationService(
+			DictionaryValidationService dictionaryValidationService) {
+		this.dictionaryValidationService = dictionaryValidationService;
+	}
 }
