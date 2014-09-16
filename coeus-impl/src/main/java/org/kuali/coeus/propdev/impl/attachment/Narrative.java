@@ -34,7 +34,6 @@ import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.file.FileMeta;
 import org.springframework.web.multipart.MultipartFile;
@@ -481,12 +480,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
      * @return the current document or null if not found
      */
     private ProposalDevelopmentDocument getDocument() {
-        ProposalDevelopmentDocument doc = null;
-        ProposalDevelopmentForm form = (ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm();
-        if (form != null) {
-            doc = form.getProposalDevelopmentDocument();
-        }
-        return doc;
+        return getDevelopmentProposal().getProposalDocument();
     }
 
     /**
