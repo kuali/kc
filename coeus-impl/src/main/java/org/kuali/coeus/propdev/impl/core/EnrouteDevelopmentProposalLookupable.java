@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Component("enrouteDevelopmentProposalLookupable")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class EnrouteDevelopmentProposalLookupable extends LookupableImpl {
+public class EnrouteDevelopmentProposalLookupable extends PropDevLookupableHelperServiceImpl {
 
 	private static final long serialVersionUID = 1L;
 	
