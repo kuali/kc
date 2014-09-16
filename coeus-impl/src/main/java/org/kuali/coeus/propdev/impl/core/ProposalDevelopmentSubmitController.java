@@ -73,11 +73,6 @@ public class ProposalDevelopmentSubmitController extends
             return getNavigationControllerService().returnToHub(form);
         }
     }
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveAndExit")
-    public  ModelAndView saveAndExit(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)throws Exception{	
-   		save(form,result,request,response);
-   		return getNavigationControllerService().returnToHub(form);
-	}
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=submitForReview")
     public  ModelAndView submitForReview(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)throws Exception {
         
