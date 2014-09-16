@@ -1,0 +1,43 @@
+
+.uif-lineItemGroup {
+    background-color: #f5f5f5;
+    border-bottom: 2px solid #d5d5d5;
+    font-size: 1.5em;
+}
+
+.uif-lineItem1 {
+    background-color: #f5f5f5;
+}
+
+.uif-lineItem1 td {
+    font-weight: bold;
+}
+
+.uif-lineItem2 th {
+    padding-left: 1em !important;
+    font-weight: normal;
+}
+
+.uif-lineItem2 td {
+    background-color: #f5f5f5;
+}
+
+.uif-lineItem3 > th {
+    font-weight: normal;
+    padding-left: 2em !important;
+}
+
+.uif-lineItem3 td {
+    color: #999999;
+}
+.uif-groupSubTotal th {
+    font-weight: normal;
+}
+
+.uif-groupSubTotal td {
+    font-weight: bold;
+}
+
+.uif-lineItem1 .uif-lineItem-disclosure {
+    color: black;
+}

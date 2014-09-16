@@ -1,0 +1,41 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="Kc-LineItemTable" abstract="true" parent="Kc-LineItemTable-parentBean"/>
+    <bean id="Kc-LineItemTable-parentBean" abstract="true"
+          class="org.kuali.coeus.common.view.lineitemtable.impl.LineItemTable" parent="Uif-GroupBase">
+        <property name="template" value="/krad/WEB-INF/ftl/components/group/lineItemTable.ftl"/>
+        <property name="templateName" value="uif_lineItemTable"/>
+        <property name="header">
+            <bean parent="Uif-HeaderThree">
+                <property name="rightGroup">
+                    <bean parent="Uif-HeaderRightGroup">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-Action" p:iconClass="icon-arrow-left" p:disabled="true"
+                                      p:actionLabel="Prev" p:actionScript="Kc.LineItemTable.prevPeriod(this)"></bean>
+                                <bean parent="Uif-Action" p:iconClass="icon-arrow-right" p:actionLabel="Next"
+                                      p:actionScript="Kc.LineItemTable.nextPeriod(this)"></bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        <property name="cssClasses">
+            <list>
+                <value>uif-lineItemTable</value>
+            </list>
+        </property>
+        <property name="bindingInfo">
+            <ref bean="Uif-BindingInfo"/>
+        </property>
+        <property name="numPeriodColumns" value="5"/>
+        <property name="renderRowTotalColumn" value="true"/>
+        <property name="renderDisclosureLinks" value="true"/>
+        <property name="renderOpened" value="false"/>
+    </bean>
+
+</beans>

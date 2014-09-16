@@ -50,8 +50,16 @@
 			<bean parent="Uif-AddWithDialogAction" p:actionLabel="Add compliance entry" p:iconClass="icon-plus" p:render="@{!#parent.readOnly}"/>
 		</property>
         <property name="addLineDialog">
-            <bean parent="Uif-AddLineDialog"
-                  p:refreshWhenChangedPropertyNames="newCollectionLines['document.developmentProposal.propSpecialReviews'].specialReviewTypeCode,newCollectionLines['document.developmentProposal.propSpecialReviews'].approvalTypeCode"/>
+            <bean parent="Uif-AddLineDialog" p:headerText="Add New Protocol"
+                  p:refreshWhenChangedPropertyNames="newCollectionLines['document.developmentProposal.propSpecialReviews'].specialReviewTypeCode,newCollectionLines['document.developmentProposal.propSpecialReviews'].approvalTypeCode">
+                <property name="footer.items">
+                    <list>
+                        <bean parent="PropDev-CompliancePage-CreateProtocolButton"/>
+                        <bean parent="Uif-AddLineAction" p:actionLabel="Add Entry"/>
+                        <bean parent="Uif-CancelAction"/>
+                    </list>
+                </property>
+            </bean>
         </property>
 		<property name="items">
 			<list>
@@ -65,14 +73,7 @@
 						<bean parent="Uif-InputField" p:propertyName="comments" p:order="80" />
 			</list>
 		</property>
-		<property name="addLineActions">
-			<list>
-				<bean parent="PropDev-CompliancePage-CreateProtocolButton"/>
-				<bean parent="Uif-AddLineAction" p:actionLabel="Add Entry"/>
-				<bean parent="Uif-CancelAction"/>
-  			</list>
-  		</property>
-  		<property name="addLineLabel.messageText" value="Add New Protocol"/>
+
   		<property name="lineActions">
 			<list/>
 		</property>
@@ -109,9 +110,9 @@
 	<bean id="PropDev-CompliancePage-CreateProtocolButton-parentBean" abstract="true"
 		parent="Uif-PrimaryActionButton-Small" p:actionLabel="Create Protocol"
 		p:methodToCall="createProtocol"	p:iconClass="icon-ok"
-		p:render="@{#lp.linkedToProtocol or (#empty(#lp.protocolNumber) and (#lp.approvalTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType).NOT_YET_APPLIED}' and
-				((#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).HUMAN_SUBJECTS}' and specialReviewHelper.IsIrbProtocolLinkingEnabled) or 
-				(#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).ANIMAL_USAGE}' and specialReviewHelper.IsIacucProtocolLinkingEnabled))))}"/>
+		p:render="@{newCollectionLines['document.developmentProposal.propSpecialReviews'].linkedToProtocol or (#empty(newCollectionLines['document.developmentProposal.propSpecialReviews'].protocolNumber) and (newCollectionLines['document.developmentProposal.propSpecialReviews'].approvalTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType).NOT_YET_APPLIED}' and
+				((newCollectionLines['document.developmentProposal.propSpecialReviews'].specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).HUMAN_SUBJECTS}' and specialReviewHelper.IsIrbProtocolLinkingEnabled) or
+				(newCollectionLines['document.developmentProposal.propSpecialReviews'].specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).ANIMAL_USAGE}' and specialReviewHelper.IsIacucProtocolLinkingEnabled))))}"/>
 
 	<bean id="PropDev-CompliancePage-ExemptionTypeCodes" parent="PropDev-CompliancePage-ExemptionTypeCodes-parentBean"/>
 	<bean id="PropDev-CompliancePage-ExemptionTypeCodes-parentBean" abstract="true" parent="Uif-InputField"
