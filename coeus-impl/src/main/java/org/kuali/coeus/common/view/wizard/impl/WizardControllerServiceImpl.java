@@ -53,6 +53,7 @@ public class WizardControllerServiceImpl implements WizardControllerService {
     protected List<Object> preparePersonResults(Map<String,String> searchCriteria) {
         List<Object> results = new ArrayList<Object>();
         getKcPersonService().modifyFieldValues(searchCriteria);
+        searchCriteria.put("active","Y");
         List<Person> persons = getPersonService().findPeople(filterCriteria(searchCriteria));
         List<KcPerson> kcPersons = getKcPersonService().createKcPersonsFromPeople(persons);
         for (KcPerson person: kcPersons) {
