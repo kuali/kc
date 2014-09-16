@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.web.krad.dto;
+package org.kuali.coeus.common.view.lineitemtable.framework;
 
 import java.util.ArrayList;
 import java.util.List;

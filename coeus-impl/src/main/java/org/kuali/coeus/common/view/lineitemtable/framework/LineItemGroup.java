@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.web.krad.dto;
+package org.kuali.coeus.common.view.lineitemtable.framework;
 
 /**
  * A group which contains lineItemObjects, representing a grouping (or heading) within the table.
@@ -57,7 +57,7 @@ public class LineItemGroup extends LineItem {
     }
 
     /**
-     * @see org.kuali.kra.web.krad.dto.LineItemGroup#isCalculateGroupSubTotal()
+     * @see LineItemGroup#isCalculateGroupSubTotal()
      */
     public void setCalculateGroupSubTotal(boolean calculateGroupSubTotal) {
         this.calculateGroupSubTotal = calculateGroupSubTotal;

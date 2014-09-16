@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.web.krad.group;
+package org.kuali.coeus.common.view.lineitemtable.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -23,6 +23,7 @@ import java.util.List;
 /**
  * LineItemRow used by the LineItemTable to create the UI, its values are set by LineItemTable component code.
  *
+ * @author Kuali Coeus
  */
 public class LineItemRow {
     private String id;

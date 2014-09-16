@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.web.krad.group;
+package org.kuali.coeus.common.view.lineitemtable.impl;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.web.krad.dto.LineItem;
-import org.kuali.kra.web.krad.dto.LineItemGroup;
-import org.kuali.kra.web.krad.dto.LineItemObject;
-import org.kuali.kra.web.krad.dto.Period;
+import org.kuali.coeus.common.view.lineitemtable.framework.LineItem;
+import org.kuali.coeus.common.view.lineitemtable.framework.LineItemGroup;
+import org.kuali.coeus.common.view.lineitemtable.framework.LineItemObject;
+import org.kuali.coeus.common.view.lineitemtable.framework.Period;
 import org.kuali.rice.krad.datadictionary.parse.BeanTag;
 import org.kuali.rice.krad.datadictionary.parse.BeanTagAttribute;
 import org.kuali.rice.krad.uif.component.BindingInfo;
@@ -84,7 +84,7 @@ public class LineItemTable extends GroupBase implements DataBinding {
     public void performFinalize(Object model, LifecycleElement parent) {
         super.performFinalize(model, parent);
 
-        this.setOnDocumentReadyScript("setupLineItemTable(jQuery('#" + this.getId() + "'));");
+        this.setOnDocumentReadyScript("Kc.LineItemTable.setupLineItemTable(jQuery('#" + this.getId() + "'));");
         lineIndex = 0;
 
         try {
@@ -319,7 +319,7 @@ public class LineItemTable extends GroupBase implements DataBinding {
      * The property name of the LineItemTable, this property MUST be a list of Period objects.
      *
      * @return the propertyName for binding
-     * @see org.kuali.kra.web.krad.dto.Period
+     * @see org.kuali.coeus.common.view.lineitemtable.framework.Period
      */
     @BeanTagAttribute
     public String getPropertyName() {
