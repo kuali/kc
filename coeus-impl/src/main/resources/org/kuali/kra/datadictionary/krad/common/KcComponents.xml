@@ -73,4 +73,40 @@
   <bean id="Kc-InlineEdit-InputField" parent="Kc-InlineEdit-InputField-parentBean"/>
   <bean id="Kc-InlineEdit-InputField-parentBean" abstract="true" parent="Uif-InputField"
   	p:additionalCssClasses="uif-inline"/>
+
+    <bean id="Uif-LineItemTable" abstract="true" parent="Uif-LineItemTable-parentBean"/>
+    <bean id="Uif-LineItemTable-parentBean" abstract="true"
+          class="org.kuali.rice.krad.uif.container.LineItemTable" parent="Uif-GroupBase">
+        <property name="template" value="/krad/WEB-INF/ftl/components/group/lineItemTable.ftl"/>
+        <property name="templateName" value="uif_lineItemTable"/>
+        <property name="header">
+            <bean parent="Uif-HeaderThree">
+                <property name="rightGroup">
+                    <bean parent="Uif-HeaderRightGroup">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-Action" p:iconClass="icon-arrow-left" p:disabled="true"
+                                      p:actionLabel="Prev" p:actionScript="prevPeriod(this)"></bean>
+                                <bean parent="Uif-Action" p:iconClass="icon-arrow-right" p:actionLabel="Next"
+                                      p:actionScript="nextPeriod(this)"></bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        <property name="cssClasses">
+            <list>
+                <value>uif-lineItemTable</value>
+            </list>
+        </property>
+        <property name="bindingInfo">
+            <ref bean="Uif-BindingInfo"/>
+        </property>
+        <property name="numPeriodColumns" value="5"/>
+        <property name="renderRowTotalColumn" value="true"/>
+        <property name="renderDisclosureLinks" value="true"/>
+        <property name="renderOpened" value="false"/>
+    </bean>
+
 </beans>
