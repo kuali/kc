@@ -32,7 +32,7 @@
 		p:addWithDialog="true" p:layoutManager.renderSequenceField="true">
 		<property name="addWithDialogAction">
 			<bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Cost Sharing"
-                p:render="@{!#parent.readOnly}"
+                		p:render="@{!#parent.readOnly}"
 				p:iconClass="icon-plus" />
 		</property>
 		<property name="header.lowerGroup">
