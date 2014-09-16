@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
@@ -213,6 +214,9 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
        propDevForm.initialize();
        propDevForm.getCustomDataHelper().prepareCustomData();
+       if (CollectionUtils.isNotEmpty(propDevForm.getDevelopmentProposal().getProposalChangedDataList())) {
+        getGlobalVariableService().getMessageMap().putInfoForSectionId("PropDev-DetailsPage","info.dataoverride.occured");
+       }
        return modelAndView;
    }
 
