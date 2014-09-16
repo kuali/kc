@@ -868,7 +868,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             String versionNumber = createInstitutionalProposalVersion(
                     proposalDevelopmentForm.getInstitutionalProposalToVersion(),
                     proposalDevelopmentDocument.getDevelopmentProposal(),
-                    proposalDevelopmentDocument.getFinalBudgetForThisProposal());
+                    proposalDevelopmentDocument.getDevelopmentProposal().getFinalBudget());
             KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED, 
                     versionNumber,
                     proposalDevelopmentForm.getInstitutionalProposalToVersion());
@@ -878,7 +878,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             persistSpecialReviewProtocolFundingSourceLink(institutionalProposalId, isIPProtocolLinkingEnabled);
         } else {
             String proposalNumber = createInstitutionalProposal(
-                    proposalDevelopmentDocument.getDevelopmentProposal(), proposalDevelopmentDocument.getFinalBudgetForThisProposal());
+                    proposalDevelopmentDocument.getDevelopmentProposal(), proposalDevelopmentDocument.getDevelopmentProposal().getFinalBudget());
             KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_CREATED, proposalNumber);
             
             Long institutionalProposalId = getActiveProposalId(proposalNumber);
@@ -1301,7 +1301,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 String versionNumber = createInstitutionalProposalVersion(
                         instProp.getProposalNumber(),
                         pdDoc.getDevelopmentProposal(),
-                        pdDoc.getFinalBudgetForThisProposal());
+                        pdDoc.getDevelopmentProposal().getFinalBudget());
                 GlobalVariables.getUserSession().removeObject(InstitutionalProposalDocumentAuthorizer.ALLOW_INIT_FOR_DISAPPROVED_PD_SESSION_KEY);
                 KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED, 
                         versionNumber,

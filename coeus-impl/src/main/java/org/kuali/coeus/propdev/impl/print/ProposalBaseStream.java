@@ -63,13 +63,7 @@ public abstract class ProposalBaseStream implements XmlStream {
 	 */
 	protected Budget getBudget(
 			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		Budget budget = null;
-		try {
-			budget = KcServiceLocator.getService(ProposalBudgetService.class).getFinalBudgetVersion(proposalDevelopmentDocument);
-		} catch (WorkflowException e) {
-			e.printStackTrace();
-		}
-		return budget;
+		return proposalDevelopmentDocument.getDevelopmentProposal().getFinalBudget();
 	}
 
 

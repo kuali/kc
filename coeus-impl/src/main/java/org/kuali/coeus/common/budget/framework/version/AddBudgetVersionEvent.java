@@ -15,96 +15,23 @@
  */
 package org.kuali.coeus.common.budget.framework.version;
 
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rules.rule.BusinessRule;
-import org.kuali.rice.krad.rules.rule.event.RuleEventBase;
 
-import static org.apache.commons.lang3.StringUtils.substringAfterLast;
-import static org.kuali.kra.infrastructure.Constants.EMPTY_STRING;
-
-public class AddBudgetVersionEvent extends RuleEventBase {
+public class AddBudgetVersionEvent {
 
     private static final Log LOG = LogFactory.getLog(AddBudgetVersionEvent.class);
 
     private String versionName;
     private BudgetParent budgetParent;
+    private String errorPath;
 
-    /**
-     * Convenience constructor for {@link #AddBudgetVersionEvent(String, Document, String)}
-     *
-     * @param document {@link ProposalDevelopmentDocument} instance the version is to be added to
-     * @param versionName
-     */
-    public AddBudgetVersionEvent(BudgetParent budgetParent, String versionName) {
-        this(EMPTY_STRING, budgetParent, versionName);
+    public AddBudgetVersionEvent(String errorPath, BudgetParent budgetParent, String versionName) {
+    	this.budgetParent = budgetParent;
+    	this.versionName = versionName;
+    	this.errorPath = errorPath;
     }
-
-    /**
-     * Instantiate the event describing that a Budget Version is to be added
-     * 
-     * @param errorPathPrefix
-     * @param document {@link ProposalDevelopmentDocument} instance the version is to be added to
-     * @param versionName
-     */
-    public AddBudgetVersionEvent(String errorPathPrefix, BudgetParent budgetParent, String versionName) {
-        super("adding budget version to document " + budgetParent.getParentNumber(), errorPathPrefix);
-        this.versionName = versionName;
-        this.budgetParent = budgetParent;
-        logEvent();
-    }
-
-    @Override
-    public Class<AddBudgetVersionRule> getRuleInterfaceClass() {
-        return AddBudgetVersionRule.class;
-    }
-
-    public String getVersionName() {
-        return versionName;
-    }
-
-    public void setVersionName(String name) {
-        this.versionName = name;
-    }
-
-    /**
-     * Logs the event type and some information about the associated budget period. Only logs if 
-     * DEBUG is enabled in Log4j
-     */
-    protected void logEvent() {
-        if (!LOG.isDebugEnabled()) {
-            return;
-        }
-
-        StringBuffer logMessage = new StringBuffer(substringAfterLast(this.getClass().getName(), "."));
-        logMessage.append(" with ").append(versionName).append(" versionName");
-
-
-        LOG.debug(logMessage);
-    }
-
-    @Override
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        try {
-            return getRuleInterfaceClass().cast(rule).processAddBudgetVersionName(this);
-        }
-        catch (Exception cce) {
-            return false;
-        }
-    }
-
-	@Override
-	public void validate() {
-		if (getBudgetParent() != null) {
-			throw new IllegalArgumentException("invalid (null) event document");
-		}
-	}
 
 	public BudgetParent getBudgetParent() {
 		return budgetParent;
@@ -112,6 +39,22 @@ public class AddBudgetVersionEvent extends RuleEventBase {
 
 	public void setBudgetParent(BudgetParent budgetParent) {
 		this.budgetParent = budgetParent;
+	}
+
+	public String getErrorPath() {
+		return errorPath;
+	}
+
+	public void setErrorPath(String errorPath) {
+		this.errorPath = errorPath;
+	}
+
+	public String getVersionName() {
+		return versionName;
+	}
+
+	public void setVersionName(String versionName) {
+		this.versionName = versionName;
 	}
 }
 

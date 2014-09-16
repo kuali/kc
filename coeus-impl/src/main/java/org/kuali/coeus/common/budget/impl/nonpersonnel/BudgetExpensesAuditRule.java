@@ -13,18 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.framework.nonpersonnel;
+package org.kuali.coeus.common.budget.impl.nonpersonnel;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetAuditEvent;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetExpenseService;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
-import org.kuali.coeus.common.budget.impl.core.BudgetAuditEvent;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
 import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
-import org.kuali.kra.budget.external.budget.service.BudgetCategoryService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @KcBusinessRule("budgetExpensesAuditRule")
-public abstract class BudgetExpensesAuditRule {
+public class BudgetExpensesAuditRule {
 
 	@Autowired
 	@Qualifier("budgetExpenseService")

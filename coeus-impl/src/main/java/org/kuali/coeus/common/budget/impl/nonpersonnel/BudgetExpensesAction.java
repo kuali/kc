@@ -28,18 +28,18 @@ import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetSaveEvent;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.core.SaveBudgetEvent;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.ApplyToPeriodsBudgetEvent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetExpenseService;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetFormulatedCostDetail;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.print.BudgetPrintType;
 import org.kuali.coeus.common.budget.framework.core.BudgetForm;
-import org.kuali.kra.budget.external.budget.service.BudgetCategoryService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.budget.framework.print.BudgetPrintService;
-import org.kuali.coeus.common.budget.impl.core.SaveBudgetEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -97,7 +97,6 @@ public class BudgetExpensesAction extends BudgetAction {
         Budget budget = budgetDocument.getBudget();
         
         BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
-        BudgetCategoryService budgetCategoryService = KcServiceLocator.getService(BudgetCategoryService.class);
         
         if(budgetForm.getViewBudgetPeriod() == null || StringUtils.equalsIgnoreCase(budgetForm.getViewBudgetPeriod().toString(), "0")){
             GlobalVariables.getMessageMap().putError("viewBudgetPeriod", KeyConstants.ERROR_BUDGET_PERIOD_NOT_SELECTED);
@@ -245,8 +244,7 @@ public class BudgetExpensesAction extends BudgetAction {
         int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
         int sltdBudgetLineItem = getLineToDelete(request);
         BudgetPeriod budgetPeriod = budget.getBudgetPeriod(sltdBudgetPeriod);
-        BudgetLineItem budgetLineItem = budgetPeriod.getBudgetLineItems().get(sltdBudgetLineItem);   
-        BudgetCategoryService budgetCategoryService = KcServiceLocator.getService(BudgetCategoryService.class);
+        BudgetLineItem budgetLineItem = budgetPeriod.getBudgetLineItems().get(sltdBudgetLineItem);
         
         if (getKcBusinessRulesEngine().applyRules(new DeleteBudgetLineItemEvent(budget, 
         		"document.budgetPeriod[" + (budgetLineItem.getBudgetPeriod() - 1) + "].budgetLineItem[" + sltdBudgetLineItem + "]",

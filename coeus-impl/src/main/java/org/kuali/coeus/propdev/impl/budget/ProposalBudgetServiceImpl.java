@@ -20,17 +20,20 @@ import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionRule;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionRule;
 import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
-import org.kuali.coeus.common.budget.impl.version.BudgetVersionRule;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.budget.core.ProposalAddBudgetVersionEvent;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.coeus.propdev.impl.budget.subaward.PropDevBudgetSubAwardService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -65,10 +68,6 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     @Autowired
     @Qualifier("propDevBudgetSubAwardService")
     private PropDevBudgetSubAwardService propDevBudgetSubAwardService;
-    
-    @Autowired
-    @Qualifier("proposalBudgetVersionRule")
-    private AddBudgetVersionRule addBudgetVersionRule;
 
     @Autowired
     @Qualifier("budgetPersonService")
@@ -92,12 +91,7 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         budget.setModularBudgetFlag(this.parameterService.getParameterValueAsBoolean(Budget.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
         budget.setBudgetStatus(this.parameterService.getParameterValueAsString(Budget.class, budgetParent.getDefaultBudgetStatusParameter()));
         budget.setModularBudgetFlag((Boolean) options.get("modularBudgetFlag"));
-        boolean success;
-		try {
-			success = getAddBudgetVersionRule().processAddBudgetVersion(new AddBudgetVersionEvent("addBudgetDto", parentDocument.getBudgetParent(), budgetName));
-		} catch (WorkflowException e) {
-			throw new RuntimeException(e);
-		}
+		boolean success = isBudgetVersionNameValid(budgetParent, budgetName);
         if(!success)
             return null;
 
@@ -106,6 +100,11 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         budget.getRateClassTypes();
         getBudgetPersonService().synchBudgetPersonsToProposal(budget);
         return saveBudget(budget);
+    }
+    
+    @Override
+    public boolean isBudgetVersionNameValid(BudgetParent parent, String name) {
+    	return getKcBusinessRulesEngine().applyRules(new ProposalAddBudgetVersionEvent("addBudgetDto", parent, name));
     }
 
     @Override
@@ -213,14 +212,6 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         this.propDevBudgetSubAwardService = propDevBudgetSubAwardService;
     }
 
-	public AddBudgetVersionRule getAddBudgetVersionRule() {
-		return addBudgetVersionRule;
-	}
-
-	public void setAddBudgetVersionRule(AddBudgetVersionRule addBudgetVersionRule) {
-		this.addBudgetVersionRule = addBudgetVersionRule;
-	}
-	
 	public BudgetPersonService getBudgetPersonService() {
 		return budgetPersonService;
 	}

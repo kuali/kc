@@ -257,7 +257,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             final String copiedName = budget.getName();
             budget.setName("copied placeholder");
             LOG.debug("validating " + copiedName);
-            valid = getBudgetService().isBudgetVersionNameValid(pdForm.getProposalDevelopmentDocument(), copiedName);
+            valid = getBudgetService().isBudgetVersionNameValid(pdDoc.getBudgetParent(), copiedName);
             budget.setName(copiedName);
             pdForm.setSaveAfterCopy(!valid);
         }

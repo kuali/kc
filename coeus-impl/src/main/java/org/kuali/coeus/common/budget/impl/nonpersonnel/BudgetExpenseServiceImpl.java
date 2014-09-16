@@ -10,7 +10,6 @@ public class BudgetExpenseServiceImpl implements BudgetExpenseService {
 
     @Override
     public String getBudgetExpensePanelName(BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem) {
-        StringBuffer panelName = new StringBuffer();
         if(budgetLineItem.getBudgetCategory() == null) {
             budgetLineItem.refreshReferenceObject("budgetCategory");
         }
@@ -20,9 +19,9 @@ public class BudgetExpenseServiceImpl implements BudgetExpenseService {
         }
         
         if(budgetLineItem.getBudgetCategory() != null && budgetLineItem.getBudgetCategory().getBudgetCategoryType() != null) {
-            panelName.append(budgetLineItem.getBudgetCategory().getBudgetCategoryType().getDescription());
+            return budgetLineItem.getBudgetCategory().getBudgetCategoryType().getDescription();
         }
         
-        return panelName.toString();
+        return "";
     }	
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.impl.version;
+package org.kuali.coeus.common.budget.framework.version;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -41,9 +41,7 @@ import static org.springframework.util.StringUtils.hasText;
  * so it does not use or require an event.
  * 
  **/
-@Component("budgetVersionRule")
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public abstract class BudgetVersionRule  implements AddBudgetVersionRule {
+public abstract class BudgetVersionRule {
 
     private static final Log LOG = LogFactory.getLog(BudgetVersionRule.class);
 
@@ -53,7 +51,7 @@ public abstract class BudgetVersionRule  implements AddBudgetVersionRule {
      * @param document is a {@link BudgetDocument} instance that the {@link BudgetVersionOverview} is getting added to
      * @returns true if it passed, false if it failed
      */
-    public boolean processAddBudgetVersionName(AddBudgetVersionEvent event) {
+    protected boolean processAddBudgetVersionName(AddBudgetVersionEvent event) {
         boolean retval = true;
 
         if (!isNameValid(event.getVersionName())) {
@@ -89,7 +87,7 @@ public abstract class BudgetVersionRule  implements AddBudgetVersionRule {
      * @param versionName is the name of the {@link BudgetVersionOverview} to look for
      * @returns true if it found <code>versionName</code> inside <code>document</code>, false otherwise
      */
-    private boolean containsVersionName(List<? extends Budget> existingBudgets, String versionName) {
+    protected boolean containsVersionName(List<? extends Budget> existingBudgets, String versionName) {
         for (Budget version : existingBudgets) {            
             LOG.info("Comparing " + version.getName() + " to " + versionName);
             if (version.getName().equals(versionName)) {
@@ -103,12 +101,12 @@ public abstract class BudgetVersionRule  implements AddBudgetVersionRule {
     	BudgetParent budgetParent = event.getBudgetParent();
         boolean success = true;
         if(budgetParent.getRequestedStartDateInitial()==null){
-            GlobalVariables.getMessageMap().putError(event.getErrorPathPrefix(), 
+            GlobalVariables.getMessageMap().putError(event.getErrorPath(), 
                     KeyConstants.ERROR_BUDGET_START_DATE_MISSING, "Name");
             success &= false;
         }
         if(budgetParent.getRequestedEndDateInitial()==null){
-            GlobalVariables.getMessageMap().putError(event.getErrorPathPrefix(), 
+            GlobalVariables.getMessageMap().putError(event.getErrorPath(), 
                     KeyConstants.ERROR_BUDGET_END_DATE_MISSING, "Name");
             success &= false;
         }

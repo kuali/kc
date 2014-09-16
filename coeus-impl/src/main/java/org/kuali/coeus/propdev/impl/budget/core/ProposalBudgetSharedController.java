@@ -7,6 +7,7 @@ import java.util.Properties;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionRule;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
@@ -28,10 +29,6 @@ public class ProposalBudgetSharedController {
 	@Autowired
 	@Qualifier("proposalBudgetService")
     private BudgetService budgetService;
-	
-    @Autowired
-    @Qualifier("proposalBudgetVersionRule")
-    private AddBudgetVersionRule addBudgetVersionRule;
     
     @Autowired
     @Qualifier("modelAndViewService")
@@ -40,12 +37,16 @@ public class ProposalBudgetSharedController {
     @Autowired
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
+    
+    @Autowired
+    @Qualifier("kcBusinessRulesEngine")
+    private KcBusinessRulesEngine kcBusinessRulesEngine;    
 
     public ModelAndView addBudget(String budgetName, Boolean summaryBudget, Boolean modularBudget, DevelopmentProposal developmentProposal, UifFormBase form) throws Exception {
 		ProposalDevelopmentBudgetExt budget = null;
 		Map<String, Object> options = new HashMap<String, Object>();
 		options.put("modularBudgetFlag", modularBudget != null ? modularBudget : Boolean.FALSE);
-		if (new AddBudgetVersionEvent("addBudgetDto", developmentProposal, budgetName).invokeRuleMethod(getAddBudgetVersionRule())) {
+		if (kcBusinessRulesEngine.applyRules(new AddBudgetVersionEvent("addBudgetDto", developmentProposal, budgetName))) {
 			budget = (ProposalDevelopmentBudgetExt) getBudgetService().addBudgetVersion(developmentProposal.getDocument(), budgetName, options);	
 		}
         if (budget != null) {
@@ -64,7 +65,7 @@ public class ProposalBudgetSharedController {
 
 	public ModelAndView copyBudget(String budgetName, Long originalBudgetId, DevelopmentProposal developmentProposal, UifFormBase form) throws Exception {
 		ProposalDevelopmentBudgetExt budget = null;
-		if (new AddBudgetVersionEvent("copyBudgetDto", developmentProposal, budgetName).invokeRuleMethod(getAddBudgetVersionRule())) {
+		if (kcBusinessRulesEngine.applyRules(new AddBudgetVersionEvent("copyBudgetDto", developmentProposal, budgetName))) {
 			ProposalDevelopmentBudgetExt originalBudget = getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.forAttribute("budgetId", originalBudgetId).build());
 			budget = (ProposalDevelopmentBudgetExt) getBudgetService().copyBudgetVersion(originalBudget, false);
 		}
@@ -90,14 +91,6 @@ public class ProposalBudgetSharedController {
 		this.budgetService = budgetService;
 	}
 
-	public AddBudgetVersionRule getAddBudgetVersionRule() {
-		return addBudgetVersionRule;
-	}
-
-	public void setAddBudgetVersionRule(AddBudgetVersionRule addBudgetVersionRule) {
-		this.addBudgetVersionRule = addBudgetVersionRule;
-	}
-
 	public ModelAndViewService getModelAndViewService() {
 		return modelAndViewService;
 	}
@@ -112,5 +105,13 @@ public class ProposalBudgetSharedController {
 
 	public void setDataObjectService(DataObjectService dataObjectService) {
 		this.dataObjectService = dataObjectService;
+	}
+
+	public KcBusinessRulesEngine getKcBusinessRulesEngine() {
+		return kcBusinessRulesEngine;
+	}
+
+	public void setKcBusinessRulesEngine(KcBusinessRulesEngine kcBusinessRulesEngine) {
+		this.kcBusinessRulesEngine = kcBusinessRulesEngine;
 	}
 }

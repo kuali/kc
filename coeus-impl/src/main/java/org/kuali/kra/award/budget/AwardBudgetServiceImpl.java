@@ -50,6 +50,7 @@ import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionRule;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionRule;
 import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -57,6 +58,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.coeus.propdev.impl.budget.core.ProposalAddBudgetVersionEvent;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -84,7 +86,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     private AwardBudgetCalculationService awardBudgetCalculationService;
     private VersionHistoryService versionHistoryService;
     private AwardService awardService;
-    private AddBudgetVersionRule addBudgetVersionRule;
+    private BudgetVersionRule addBudgetVersionRule;
 
     @Override
     public void post(AwardBudgetDocument awardBudgetDocument) {
@@ -276,8 +278,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     protected AwardBudgetDocument createNewBudgetDocument(String documentDescription, AwardDocument parentDocument,boolean rebudget)
             throws WorkflowException {
         boolean success = new AwardBudgetVersionRule().processAddBudgetVersion(
-                new AddBudgetVersionEvent(BUDGET_VERSION_ERROR_PREFIX,
-                        parentDocument.getBudgetParent(), documentDescription));
+                new AddBudgetVersionEvent(BUDGET_VERSION_ERROR_PREFIX, parentDocument.getBudgetParent(), documentDescription));
         if (!success) {
             return null;
         }
@@ -960,6 +961,16 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         }
         return changeFlag;
     }
+    
+    @Override
+    public boolean isBudgetVersionNameValid(BudgetParent parent, String name) {
+    	try {
+			return getAddBudgetVersionRule().processAddBudgetVersion(new AddBudgetVersionEvent(BUDGET_VERSION_ERROR_PREFIX, parent, name));
+		} catch (WorkflowException e) {
+			LOG.error(e);
+			return false;
+		}
+    }
 
     protected AwardService getAwardService() {
         return awardService;
@@ -969,14 +980,14 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         this.awardService = awardService;
     }
 
-	public AddBudgetVersionRule getAddBudgetVersionRule() {
+	public BudgetVersionRule getAddBudgetVersionRule() {
 		if (addBudgetVersionRule == null) {
 			addBudgetVersionRule = new AwardBudgetVersionRule();
 		}
 		return addBudgetVersionRule;
 	}
 
-	public void setAddBudgetVersionRule(AddBudgetVersionRule addBudgetVersionRule) {
+	public void setAddBudgetVersionRule(BudgetVersionRule addBudgetVersionRule) {
 		this.addBudgetVersionRule = addBudgetVersionRule;
 	}
 

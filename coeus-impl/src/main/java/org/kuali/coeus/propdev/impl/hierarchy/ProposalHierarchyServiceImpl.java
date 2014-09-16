@@ -1107,12 +1107,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
  
     public ProposalDevelopmentBudgetExt getSyncableBudget(DevelopmentProposal childProposal) throws ProposalHierarchyException {
-        for (ProposalDevelopmentBudgetExt version : childProposal.getProposalDocument().getDevelopmentProposal().getBudgets()) {
-            if (version.isFinalVersionFlag()) {
-                return version;
-            }
-        }
-        return null;
+    	return childProposal.getFinalBudget();
     }
     
     protected void initializeBudget (DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) throws ProposalHierarchyException {

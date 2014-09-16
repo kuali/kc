@@ -97,7 +97,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
     
-	        if (isBudgetComplete(proposalDoc)) {
+	        if (isBudgetComplete(developmentProposal)) {
 	            if (editModes.contains("addBudget")) {
 	                editModes.add("modifyCompletedBudgets");
 	            }
@@ -357,16 +357,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         return super.canAcknowledge(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_ACKNOWLEDGE_ACTION);
     }
     
-    protected boolean isBudgetComplete(BudgetParentDocument parentDocument) {
-        if (!parentDocument.isComplete()) {
-            return false;
-        }
-        for (Budget budget: parentDocument.getBudgetParent().getBudgets()) {
-            if (budget.isFinalVersionFlag()) {
-                return true;
-            }
-        }
-        return false;
+    protected boolean isBudgetComplete(DevelopmentProposal developmentProposal) {
+    	return developmentProposal.getFinalBudget() != null;
     }
     
     @Override

@@ -1,7 +1,7 @@
 package org.kuali.coeus.common.budget.framework.personnel;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.impl.core.BudgetEventBase;
+import org.kuali.coeus.common.budget.framework.core.BudgetEventBase;
 
 public class DeleteBudgetPersonEvent extends BudgetEventBase {
 

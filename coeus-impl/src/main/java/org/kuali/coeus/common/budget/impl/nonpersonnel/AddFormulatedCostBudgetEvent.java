@@ -1,8 +1,8 @@
 package org.kuali.coeus.common.budget.impl.nonpersonnel;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetEventBase;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetFormulatedCostDetail;
-import org.kuali.coeus.common.budget.impl.core.BudgetEventBase;
 
 public class AddFormulatedCostBudgetEvent extends BudgetEventBase {
 

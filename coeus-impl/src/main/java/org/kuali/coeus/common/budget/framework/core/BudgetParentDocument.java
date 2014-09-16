@@ -16,14 +16,11 @@
 package org.kuali.coeus.common.budget.framework.core;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.common.framework.auth.task.Task;
-import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.budget.framework.version.AwardBudgetVersionCollection;
-import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
@@ -46,15 +43,6 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTra
      */
     protected ParameterService getParameterService() {
         return KcServiceLocator.getService(ParameterService.class);
-    }
-
-    public Budget getFinalBudgetVersion() {
-        for (Budget version : getBudgetParent().getBudgets()) {
-            if (version.isFinalVersionFlag()) {
-                return version;
-            }
-        }
-        return null;
     }
     
     public void updateDocumentDescriptions(List<? extends Budget> budgets) {
@@ -91,7 +79,6 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTra
     }
 
     public void updateBudgetDescriptions(List<? extends AbstractBudget> budgetVersions) {
-        BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
         for (AbstractBudget budgetVersion : budgetVersions) {
             if (budgetVersion.isNameUpdatable() && !StringUtils.isBlank(budgetVersion.getName())) {
                 budgetVersion.setNameUpdatable(false);

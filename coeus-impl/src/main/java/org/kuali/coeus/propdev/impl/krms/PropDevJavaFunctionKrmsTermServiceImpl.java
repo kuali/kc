@@ -337,12 +337,10 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
      */
     @Override
     public String budgetSubawardOrganizationnameRule(DevelopmentProposal developmentProposal) {
-        for (Budget budget : developmentProposal.getBudgets()) {
-            if (budget.isFinalVersionFlag()) {
-                for (BudgetSubAwards bsa : budget.getBudgetSubAwards()) {
-                    if (StringUtils.equals(FALSE, specialCharacterRule(bsa.getOrganizationName()))) {
-                        return FALSE;
-                    }
+    	if (developmentProposal.getFinalBudget() != null) {
+            for (BudgetSubAwards bsa : developmentProposal.getFinalBudget().getBudgetSubAwards()) {
+                if (StringUtils.equals(FALSE, specialCharacterRule(bsa.getOrganizationName()))) {
+                    return FALSE;
                 }
             }
         }
@@ -558,7 +556,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
 
     @Override
     public String mtdcDeviation(DevelopmentProposal developmentProposal) {
-        if (mtdcDeviationInBudget(developmentProposal.getProposalDocument().getFinalBudgetForThisProposal())) {
+        if (mtdcDeviationInBudget(developmentProposal.getFinalBudget())) {
             return TRUE;
         } else {
             return FALSE;
@@ -703,7 +701,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     public String s2sModularBudgetRule(DevelopmentProposal developmentProposal) {
         List<String> allowedForms = Arrays.asList(new String[]{"PHS398 Modular Budget V1-1", "PHS398 Modular Budget V1-2"});
         boolean s2sProp = (developmentProposal.getS2sOpportunity() != null);
-        Budget finalBudgetVersion = developmentProposal.getProposalDocument().getFinalBudgetForThisProposal();
+        Budget finalBudgetVersion = developmentProposal.getFinalBudget();
         if (s2sProp && finalBudgetVersion != null && finalBudgetVersion.getModularBudgetFlag()) {
             int matchingForms = 0;
             for (S2sOppForms form : developmentProposal.getS2sOppForms()) {

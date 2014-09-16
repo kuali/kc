@@ -23,7 +23,6 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
-import org.kuali.coeus.common.framework.ruleengine.KcBusinessRuleBase;
 import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.coeus.common.framework.ruleengine.KcEventResult;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;

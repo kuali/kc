@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.budget.framework.period;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.impl.core.BudgetEventBase;
+import org.kuali.coeus.common.budget.framework.core.BudgetEventBase;
 
 public abstract class BudgetPeriodEventBase extends BudgetEventBase {
 

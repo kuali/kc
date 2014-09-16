@@ -967,7 +967,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     protected void copyBudget(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest, String budgetVersions) throws Exception {
         if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_FINAL_VERSION)) {
-        	ProposalDevelopmentBudgetExt finalBudgetVersion = (ProposalDevelopmentBudgetExt) src.getFinalBudgetVersion();
+        	ProposalDevelopmentBudgetExt finalBudgetVersion = (ProposalDevelopmentBudgetExt) src.getDevelopmentProposal().getFinalBudget();
             if (finalBudgetVersion != null) {
                 copyAndFinalizeBudgetVersion(finalBudgetVersion, dest, 1,
                         StringUtils.equals(src.getDevelopmentProposal().getHierarchyStatus(), HierarchyStatusConstants.Parent.code()));

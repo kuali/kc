@@ -59,16 +59,7 @@ public class CopyBudgetVersionsValuesFinder extends FormViewAwareUifKeyValuesFin
      * @return true if present false if not.
      */
     boolean finalVersionPresent() {
-        
-        final ProposalDevelopmentDocument document = this.getDocument();
-        if (document != null) {
-            for (final Budget overview : document.getDevelopmentProposal().getBudgets()) {
-                if (overview.isFinalVersionFlag()) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    	return getDocument().getDevelopmentProposal().getFinalBudget() != null;
     }
 
     @Override

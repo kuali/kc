@@ -139,10 +139,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     @OneToOne(mappedBy = "proposalDocument", cascade = CascadeType.ALL)
     private DevelopmentProposal developmentProposal;
 
-//    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-//    @JoinColumn(name = "PARENT_DOCUMENT_KEY", referencedColumnName = "DOCUMENT_NUMBER")
-//    private List<BudgetDocumentVersion> budgetDocumentVersions;
-
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = true, updatable = true)
     private List<CustomAttributeDocValue> customDataList;
@@ -161,7 +157,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         DevelopmentProposal newProposal = new DevelopmentProposal();
         newProposal.setProposalDocument(this);
         developmentProposal = newProposal;
-//        budgetDocumentVersions = new ArrayList<BudgetDocumentVersion>();
         customDataList = new ArrayList<CustomAttributeDocValue>();
     }
     @Override
@@ -319,7 +314,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 }
             }
             if (isLastSubmitterApprovalAction(event.getActionTaken()) && shouldAutogenerateInstitutionalProposal()) {
-            	String proposalNumber = getInstitutionalProposalService().createInstitutionalProposal(this.getDevelopmentProposal(), this.getFinalBudgetForThisProposal());
+            	String proposalNumber = getInstitutionalProposalService().createInstitutionalProposal(this.getDevelopmentProposal(), this.getDevelopmentProposal().getFinalBudget());
                 this.setInstitutionalProposalNumber(proposalNumber);
             }
         }
@@ -345,13 +340,9 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         return KcServiceLocator.getService(DateTimeService.class);
     }
 
-    public Budget getFinalBudgetForThisProposal() {
-        return getFinalBudgetVersion();
-    }
-
     public String getFinalrateClassCode() {
         String retVal = "";
-        Budget finalBudget = getFinalBudgetForThisProposal();
+        Budget finalBudget = getDevelopmentProposal().getFinalBudget();
         if (finalBudget != null && finalBudget.getRateClass().getCode() != null) {
             retVal = finalBudget.getRateClass().getCode();
         }
@@ -445,25 +436,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         managedLists.addAll(getDevelopmentProposal().buildListOfDeletionAwareLists());
         return managedLists;
     }
-
-//    /**
-//     * Sets the budgetDocumentVersions attribute value.
-//     * @param budgetDocumentVersions The budgetDocumentVersions to set.
-//     */
-//    @Override
-//    public void setBudgetDocumentVersions(List<? extends Budget> budgetDocumentVersions) {
-//    	if (budgetDocumentVersions == null) {
-//    		getDevelopmentProposal().setBudgets(null);
-//    	} else {
-//    		getDevelopmentProposal().setBudgets((List<ProposalDevelopmentBudgetExt>) budgetDocumentVersions);
-//    	}
-//    }
-//
-//
-//    @Override
-//    public List<ProposalDevelopmentBudgetExt> getBudgetDocumentVersions() {
-//    	return getDevelopmentProposal().getBudgets();
-//    }
 
     @Override
     public Task getParentAuthZTask(String taskName) {
@@ -590,12 +562,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public void setProposalDeleted(boolean proposalDeleted) {
         this.proposalDeleted = proposalDeleted;
     }
-
-//    public void refreshBudgetDocumentVersions() {
-//        final List<BudgetDocumentVersion> v = new ArrayList<BudgetDocumentVersion>(getDataObjectService().findMatching(BudgetDocumentVersion.class,
-//                QueryByCriteria.Builder.andAttributes(Collections.singletonMap("parentDocumentKey",documentNumber)).build()).getResults());
-//        budgetDocumentVersions = v;
-//    }
 
     public void populateContextQualifiers(Map<String, String> qualifiers) {
         qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);

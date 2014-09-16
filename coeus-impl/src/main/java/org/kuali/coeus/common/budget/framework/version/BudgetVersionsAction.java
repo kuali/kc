@@ -98,7 +98,7 @@ public class BudgetVersionsAction extends BudgetAction {
             String copiedName = copiedBudget.getName();
             copiedBudget.setName("copied placeholder");
             LOG.debug("validating " + copiedName);
-            boolean valid = getBudgetService().isBudgetVersionNameValid(parentDocument, copiedName);
+            boolean valid = getBudgetService().isBudgetVersionNameValid(budgetParent, copiedName);
             copiedBudget.setName(copiedName);
             budgetForm.setSaveAfterCopy(!valid);
             if (!valid) {
@@ -363,7 +363,7 @@ public class BudgetVersionsAction extends BudgetAction {
             String copiedName = copiedOverview.getName();
             copiedOverview.setName("copied placeholder");
             LOG.debug("validating " + copiedName);
-            valid = getBudgetService().isBudgetVersionNameValid(parentDocument, copiedName);
+            valid = getBudgetService().isBudgetVersionNameValid(parentDocument.getBudgetParent(), copiedName);
             copiedOverview.setName(copiedName);
             budgetForm.setSaveAfterCopy(!valid);
         }

@@ -16,11 +16,7 @@
 package org.kuali.coeus.common.budget.impl.core;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.*;
-import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
-import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionRule;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -34,28 +30,22 @@ import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonSalaryDetails;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
-import org.kuali.coeus.common.budget.framework.personnel.ValidCeJobCode;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.rate.ValidCeRateType;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
-import org.kuali.coeus.common.budget.framework.core.BudgetForm;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
-import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.DocumentBase;
@@ -105,6 +95,10 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
+    
+    @Autowired
+    @Qualifier("kcBusinessRulesEngine")
+    private KcBusinessRulesEngine kcBusinessRulesEngine;
 
     /**
      * Service method for adding a {@link BudgetVersionOverview} to a {@link ProposalDevelopmentDocument}. If a 
@@ -116,7 +110,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
      */
     @Override
     public Budget addBudgetVersion(BudgetParentDocument budgetParentDocument, String versionName, Map options) {
-        if (!isBudgetVersionNameValid(budgetParentDocument, versionName)) {
+        if (!isBudgetVersionNameValid(budgetParentDocument.getBudgetParent(), versionName)) {
             LOG.debug("Buffered Version not Valid");
             return null;
         }
@@ -139,11 +133,8 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
      * @param name of the pseudo-{@link BudgetVersionOverview} instance to validate
      * @returns true if the rules passed, false otherwise
      */
-    @Override
-    public boolean isBudgetVersionNameValid(BudgetParentDocument document,  String name) {
-        LOG.debug("Invoking budgetrule getBudgetVersionRule()");
-        return new AddBudgetVersionEvent(document.getBudgetParent(), name).invokeRuleMethod(getAddBudgetVersionRule());
-    }
+    public abstract boolean isBudgetVersionNameValid(BudgetParent parent, String name);
+    
     /**
      * Retrieve injected <code>{@link PessimisticLockService}</code> singleton
      * 
@@ -161,13 +152,6 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     public void setPessimisticLockService(PessimisticLockService pessimisticLockService) {
         this.pessimisticLockService = pessimisticLockService;
     }
-    /**
-     * Retrieve injected <code>{@link org.kuali.coeus.common.budget.framework.version.AddBudgetVersionRule}</code> singleton
-     * 
-     * @return AddBudgetVersionRule
-     */
-    public abstract AddBudgetVersionRule getAddBudgetVersionRule();
-
     
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
@@ -692,4 +676,12 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
     }
+
+	protected KcBusinessRulesEngine getKcBusinessRulesEngine() {
+		return kcBusinessRulesEngine;
+	}
+
+	public void setKcBusinessRulesEngine(KcBusinessRulesEngine kcBusinessRulesEngine) {
+		this.kcBusinessRulesEngine = kcBusinessRulesEngine;
+	}
 }

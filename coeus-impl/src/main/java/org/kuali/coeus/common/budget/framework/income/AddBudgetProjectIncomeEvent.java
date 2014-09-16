@@ -16,7 +16,7 @@
 package org.kuali.coeus.common.budget.framework.income;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.impl.core.BudgetEventBase;
+import org.kuali.coeus.common.budget.framework.core.BudgetEventBase;
 
 public class AddBudgetProjectIncomeEvent extends BudgetEventBase {
 

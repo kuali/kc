@@ -15,18 +15,13 @@
  */
 package org.kuali.coeus.common.budget.framework.core;
 
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.common.budget.framework.personnel.ValidCeJobCode;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
-import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -72,7 +67,7 @@ public interface BudgetService<T extends BudgetParent>  {
      * @param versionName to check
      * @return true for valid false otherwie
      */
-    public boolean isBudgetVersionNameValid(BudgetParentDocument<T> document, String versionName);
+    public boolean isBudgetVersionNameValid(BudgetParent parent, String versionName);
 
     /**
      * 

@@ -283,14 +283,7 @@ public class ProposalHierarcyActionHelper {
     }
     
     private boolean hasFinalBudget(DevelopmentProposal proposal) {
-        boolean retval = false;
-        for (ProposalDevelopmentBudgetExt version : proposal.getBudgets()) {
-            if (version.isFinalVersionFlag()) {
-                retval = true;
-                break;
-            }
-        }
-        return retval;
+    	return proposal.getFinalBudget() != null;
     }
 
     private boolean hasCompleteBudget(DevelopmentProposal proposal) {

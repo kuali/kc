@@ -16,8 +16,8 @@
 package org.kuali.coeus.common.budget.impl.distribution;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetEventBase;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
-import org.kuali.coeus.common.budget.impl.core.BudgetEventBase;
 
 public class AddBudgetUnrecoveredFandAEvent extends BudgetEventBase {
 	

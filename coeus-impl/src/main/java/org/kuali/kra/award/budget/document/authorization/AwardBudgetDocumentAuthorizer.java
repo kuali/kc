@@ -169,9 +169,8 @@ public class AwardBudgetDocumentAuthorizer  extends KcTransactionalDocumentAutho
      * @return true if has permission; otherwise false
      */
     private boolean canExecuteParentDocumentTask(String userId, BudgetParentDocument doc, String taskName) {
-        Task task = doc.getParentAuthZTask(taskName);       
-        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthenticationService.isAuthorized(userId, task);
+        Task task = doc.getParentAuthZTask(taskName);
+        return getTaskAuthorizationService().isAuthorized(userId, task);
     }
     
     @Override

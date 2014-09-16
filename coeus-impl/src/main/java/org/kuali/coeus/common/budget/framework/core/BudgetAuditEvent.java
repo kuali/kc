@@ -1,6 +1,5 @@
-package org.kuali.coeus.common.budget.impl.core;
+package org.kuali.coeus.common.budget.framework.core;
 
-import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.framework.ruleengine.KcEventBase;
 
 public class BudgetAuditEvent extends KcEventBase {

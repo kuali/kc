@@ -185,16 +185,7 @@ public class ProposalBudgetDataOverrideRule extends KcTransactionalDocumentRuleB
         documentMap.put("proposalNumber", budgetOverriddenData.getProposalNumber());
         DevelopmentProposal developmentProposal = boService.findByPrimaryKey(DevelopmentProposal.class, documentMap);
         
-        Map budgetMap = new HashMap();
-        budgetMap.put("parentDocumentKey", developmentProposal.getProposalNumber());
-        Budget finalBudget = null;
-        Collection<Budget> budgets = boService.findMatching(Budget.class, budgetMap);
-        for (Budget budget : budgets) {
-            if (budget.getFinalVersionFlag()) {
-            	finalBudget = budget;
-                break;
-            }
-        }
+        Budget finalBudget = developmentProposal.getFinalBudget();
         
         Object currentValue = proposalDevelopmentService.getBudgetFieldValueFromDBColumnName(
         		finalBudget.getParentDocumentKey(), budgetOverriddenData.getColumnName());

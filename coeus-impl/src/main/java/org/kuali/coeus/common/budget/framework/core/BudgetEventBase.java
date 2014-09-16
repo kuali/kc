@@ -1,6 +1,5 @@
-package org.kuali.coeus.common.budget.impl.core;
+package org.kuali.coeus.common.budget.framework.core;
 
-import org.kuali.coeus.common.budget.framework.core.Budget;
 
 public class BudgetEventBase {
 

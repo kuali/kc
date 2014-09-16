@@ -91,7 +91,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
             final String copiedName = copiedOverview.getName();
             copiedOverview.setName("copied placeholder");
             LOG.debug("validating " + copiedName);
-            boolean valid = getBudgetService().isBudgetVersionNameValid(awardForm.getAwardDocument(), copiedName);
+            boolean valid = getBudgetService().isBudgetVersionNameValid(awardForm.getAwardDocument().getAward(), copiedName);
             copiedOverview.setName(copiedName);
             awardForm.setSaveAfterCopy(!valid);
             if (!valid) {

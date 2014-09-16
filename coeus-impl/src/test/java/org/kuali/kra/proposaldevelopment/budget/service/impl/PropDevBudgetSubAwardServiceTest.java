@@ -28,6 +28,7 @@ import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.subaward.PropDevPropDevBudgetSubAwardServiceImpl;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
@@ -298,8 +299,8 @@ public class PropDevBudgetSubAwardServiceTest {
 			
 		}
 		@Override
-		public AddBudgetVersionRule getAddBudgetVersionRule() {
-			return null;
+		public boolean isBudgetVersionNameValid(BudgetParent parent, String name) {
+			return true;
 		}
     }
 }
