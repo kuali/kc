@@ -49,7 +49,7 @@
 				<bean id="PropBudget-PersonnelPeriodsPage" parent="PropBudget-UnderDevelopmentPage" />
 				<bean id="PropBudget-NonPersonnel" parent="PropBudget-UnderDevelopmentPage" />
 				<bean id="PropBudget-SubawardsPage" parent="PropBudget-UnderDevelopmentPage" />
-				<bean id="PropBudget-CostSharingPage" parent="PropBudget-UnderDevelopmentPage" />
+				<ref bean="PropBudget-CostSharingPage" />
                 <ref bean="PropBudget-UnrecoveredFandAPage" />
                 <ref bean="PropBudget-ProjectIncomePage" />
 				<bean id="PropBudget-ModularPage" parent="PropBudget-UnderDevelopmentPage" />
