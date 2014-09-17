@@ -34,16 +34,6 @@ public abstract class ProtocolSpecialReviewServiceImplBase implements ProtocolSp
 
     private transient ProtocolFinderDao protocolFinderDao;
 
-    public DevelopmentProposal getPropososalDevelopment(String proposalNumber) {
-        final String PROPOSAL_NUMBER = "PROPOSAL_NUMBER";
-        DevelopmentProposal dp = null;
-        if (proposalNumber != null) {
-            Map<String, String> key = new HashMap<String, String>();
-            key.put(PROPOSAL_NUMBER, proposalNumber);
-            dp = KcServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(DevelopmentProposal.class, key);
-        }
-        return dp;
-    }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override

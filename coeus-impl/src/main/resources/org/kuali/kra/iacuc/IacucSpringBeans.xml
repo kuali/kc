@@ -1199,7 +1199,8 @@
     </bean> 
 
     <bean id="iacucProtocolSpecialReviewService" class="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewServiceImpl">
-   		<property name="protocolFinderDao" ref="iacucProtocolFinderDao" />    
+   		<property name="protocolFinderDao" ref="iacucProtocolFinderDao" />
+        <property name="dataObjectService" ref="dataObjectService" />
  	</bean> 
  	
  	<bean id="iacucBatchCorrespondenceDetailAuthorizationService" class="org.kuali.kra.iacuc.correspondence.IacucBatchCorrespondenceDetailAuthorizationServiceImpl">
