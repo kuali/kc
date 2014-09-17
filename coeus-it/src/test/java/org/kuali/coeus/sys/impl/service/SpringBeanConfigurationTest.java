@@ -4,7 +4,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.KeyValue;
 import org.apache.commons.collections4.Predicate;
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Assert;
@@ -33,7 +32,19 @@ public class SpringBeanConfigurationTest extends KcIntegrationTestBase {
     private static final Log LOG = LogFactory.getLog(SpringBeanConfigurationTest.class);
 
     private static final Collection<String> IGNORE_PATTERN = new ArrayList<String>() {{
-        add("org.springframework.aop");
+        add("^org.springframework.aop.*");
+
+        //rice failures ignores these for now
+        add("^kualiMaintainable$");
+        add("^messageService$");
+        add("^lookupableHelperService$");
+
+        //bittronix beans mess up our ci environment
+        add("riceDataSourceBitronixXa");
+        add("dataSourceBitronixXa");
+        add("btmConfig");
+        add("transactionManagerBitronix");
+
     }};
 
     private Collection<SpringResourceLoader> springResourceLoaders;
@@ -81,14 +92,12 @@ public class SpringBeanConfigurationTest extends KcIntegrationTestBase {
      * @param ignoreCreationException whether to ignore exception that occurs when creating a bean
      */
     private void toEachSpringBean(VoidFunction function, boolean ignoreCreationException) {
-      /*  Map<QName, List<KeyValue<String, Exception>>> failedBeans = new HashMap<>();
+        Map<QName, List<KeyValue<String, Exception>>> failedBeans = new HashMap<>();
 
         for (SpringResourceLoader r : springResourceLoaders) {
             ApplicationContext context = r.getContext();
                 for (String name : context.getBeanDefinitionNames()) {
-                    // There are probably other beans that should not be instantiated as well, but this
-                    // causes issues for sure but starting up the bitronixTransactionManager is an issue for sure
-                    // Rice jta spring file and a bunch of other files are suspect and should not be instantiated
+                if (process(name)) {
                         try {
                             function.r(context, name);
                         } catch (BeanIsAbstractException e) {
@@ -107,16 +116,17 @@ public class SpringBeanConfigurationTest extends KcIntegrationTestBase {
                             }
                             rlFailures.add(new DefaultKeyValue<String, Exception>(name, e));
                             failedBeans.put(r.getName(), rlFailures);
+                    }
                         }
                 }
         }
 
-        Assert.assertTrue("the following beans failed to retrieve " + failedBeans, failedBeans.isEmpty());*/
+        Assert.assertTrue("the following beans failed to retrieve " + failedBeans, failedBeans.isEmpty());
     }
 
     private boolean process(String name) {
         for (String pattern : IGNORE_PATTERN) {
-            if (name.contains(pattern)) {
+            if (name.matches(pattern)) {
                 return false;
             }
         }
