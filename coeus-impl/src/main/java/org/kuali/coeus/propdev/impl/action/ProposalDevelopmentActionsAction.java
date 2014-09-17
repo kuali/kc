@@ -372,13 +372,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
                 List<S2sAppSubmission> s2sAppSubmissionProposalList = (List<S2sAppSubmission>) businessObjectService.findMatching(S2sAppSubmission.class, keyMap);
                 
-                String newDocId = proposalCopyService.copyProposal(doc, criteria);
+                ProposalDevelopmentDocument newDoc = proposalCopyService.copyProposal(doc, criteria);
                 KcServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getPerson());
                 
                 // Switch over to the new proposal development document and
                 // go to the Proposal web page.
                 
-                proposalDevelopmentForm.setDocId(newDocId);
+                proposalDevelopmentForm.setDocId(newDoc.getDocumentNumber());
                 this.loadDocument(proposalDevelopmentForm);  
                 
                 ProposalDevelopmentDocument copiedDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();

@@ -15,13 +15,12 @@
  */
 package org.kuali.coeus.propdev.impl.basic;
 
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
@@ -29,9 +28,11 @@ import org.kuali.coeus.propdev.impl.copy.ProposalCopyService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -47,11 +48,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 public class ProposalDevelopmentHomeController extends ProposalDevelopmentControllerBase {
@@ -72,6 +68,14 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    @Qualifier("proposalCopyService")
    private ProposalCopyService proposalCopyService;
 
+    @Autowired
+    @Qualifier("documentTypeService")
+    private DocumentTypeService documentTypeService;
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
+
    @MethodAccessible
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createProposal")
    public ModelAndView createProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
@@ -90,44 +94,28 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    public ModelAndView copy(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
+       ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
+       ProposalCopyService proposalCopyService = getProposalCopyService();
+       getPessimisticLockService().releaseAllLocksForUser(proposalDevelopmentDocument.getPessimisticLocks(), getGlobalVariableService().getUserSession().getPerson());
+       ProposalCopyCriteria proposalCopyCriteria = form.getProposalCopyCriteria();
+       ProposalDevelopmentDocument newDoc = proposalCopyService.copyProposal(proposalDevelopmentDocument, proposalCopyCriteria);
 
-        ProposalCopyService proposalCopyService = getProposalCopyService();
-        if (proposalCopyService != null) {
-            Map<String, Object> keyMap = new HashMap<String, Object>();
-            if (proposalDevelopmentDocument != null) {
-                String proposalNumber = proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber();
-                keyMap.put("proposalNumber", proposalNumber);
-            }
-            List<S2sAppSubmission> s2sAppSubmissionProposalList =
-                    getDataObjectService().findMatching(S2sAppSubmission.class,
-                            QueryByCriteria.Builder.andAttributes(keyMap).build()).getResults();
-
-            getPessimisticLockService().releaseAllLocksForUser(proposalDevelopmentDocument.getPessimisticLocks(), GlobalVariables.getUserSession().getPerson());
-
-            ProposalCopyCriteria proposalCopyCriteria = null;
-            proposalCopyCriteria = form.getProposalCopyCriteria();
-
-            String newDocNum = null;
-
-            newDocNum = proposalCopyService.copyProposal(proposalDevelopmentDocument, proposalCopyCriteria);
-            form.setDocId(newDocNum);
-
-            ProposalDevelopmentDocument copiedDocument = form.getProposalDevelopmentDocument();
-            getProposalRoleTemplateService().initializeProposalUsers(copiedDocument);//add in any default permissions
-            copiedDocument.getDevelopmentProposal().setS2sAppSubmission(new ArrayList<S2sAppSubmission>());
-            for (S2sAppSubmission s2sAppSubmissionListValue : s2sAppSubmissionProposalList) {
-                copiedDocument.getDevelopmentProposal().setPrevGrantsGovTrackingID(s2sAppSubmissionListValue.getGgTrackingId());
-            }
-
-            getDocumentService().saveDocument(copiedDocument);
-
-            form.initialize();
-            form.getView().setReadOnly(false);
-        }
-       return this.getTransactionalDocumentControllerService().reload(form);
-
+       return returnToDocument(form, newDoc.getDocumentNumber());
    }
+
+    protected  ModelAndView returnToDocument(ProposalDevelopmentDocumentForm form, String newDocNum) {
+        DocumentType docType = getDocumentTypeService().getDocumentTypeByName(form.getDocTypeName());
+        String docHandlerUrl = docType.getResolvedDocumentHandlerUrl();
+        Properties props = new Properties();
+        props.put(KewApiConstants.COMMAND_PARAMETER, KewApiConstants.DOCSEARCH_COMMAND);
+        props.put(KewApiConstants.DOCUMENT_ID_PARAMETER, newDocNum);
+        if (StringUtils.isNotBlank(form.getReturnFormKey())) {
+            props.put(UifParameters.FORM_KEY, form.getReturnFormKey());
+        }
+
+        return getModelAndViewService().performRedirect(form, docHandlerUrl, props);
+    }
+
    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=save")
    public ModelAndView save(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
        return super.save(form);
@@ -214,9 +202,6 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
        propDevForm.initialize();
        propDevForm.getCustomDataHelper().prepareCustomData();
-       if (CollectionUtils.isNotEmpty(propDevForm.getDevelopmentProposal().getProposalChangedDataList())) {
-        getGlobalVariableService().getMessageMap().putInfoForSectionId("PropDev-DetailsPage","info.dataoverride.occured");
-       }
        return modelAndView;
    }
 
@@ -266,6 +251,22 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 
     public ProposalCopyService getProposalCopyService() {
         return proposalCopyService;
+    }
+
+    public DocumentTypeService getDocumentTypeService() {
+        return documentTypeService;
+    }
+
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
     }
 
 }

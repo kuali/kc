@@ -220,11 +220,13 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
         List<AnswerHeader> newAnswerHeaders = new ArrayList<AnswerHeader>();
         List<String> questionnaireIds = getAssociateedQuestionnaireIds(destModuleQuestionnaireBean);
-        for (AnswerHeader answerHeader : retrieveAnswerHeaders(srcModuleQuestionnaireBean)) {
+        List<AnswerHeader> srcModuleAnswerHeaders = retrieveAnswerHeaders(srcModuleQuestionnaireBean);
+        for (AnswerHeader answerHeader : srcModuleAnswerHeaders) {
             if (questionnaireIds.contains(answerHeader.getQuestionnaire().getQuestionnaireSeqId())) {
                 AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(answerHeader);
                 copiedAnswerHeader.setNewModuleQuestionnaireBeanReferenceData(destModuleQuestionnaireBean);
                 copiedAnswerHeader.setId(null);
+                copiedAnswerHeader.setModuleItemKey(destModuleQuestionnaireBean.getModuleItemKey());
                 for (Answer answer : copiedAnswerHeader.getAnswers()) {
                     answer.setId(null);
                 }
