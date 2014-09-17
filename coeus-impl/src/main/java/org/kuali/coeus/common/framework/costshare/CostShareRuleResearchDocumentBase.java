@@ -35,7 +35,7 @@ public abstract class CostShareRuleResearchDocumentBase extends BudgetParentDocu
 
 	@Autowired
 	@Qualifier("errorReporter")
-	protected ErrorReporter errorReporter;
+	private ErrorReporter errorReporter;
 	
     private CostShareService costShareService;
     
@@ -127,6 +127,9 @@ public abstract class CostShareRuleResearchDocumentBase extends BudgetParentDocu
     }
 
 	public ErrorReporter getErrorReporter() {
+		if (errorReporter == null) {
+			errorReporter = KcServiceLocator.getService(ErrorReporter.class);
+		}
 		return errorReporter;
 	}
 
@@ -136,7 +139,7 @@ public abstract class CostShareRuleResearchDocumentBase extends BudgetParentDocu
 
 	public void reportError(String propertyName, String errorKey,
 			String... errorParams) {
-		errorReporter.reportError(propertyName, errorKey, errorParams);
+		getErrorReporter().reportError(propertyName, errorKey, errorParams);
 	}
 
 }
