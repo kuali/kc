@@ -43,26 +43,30 @@ public class DocumentAccessDerivedRoleTypeServiceImpl extends DerivedRoleTypeSer
         validateRequiredAttributesAgainstReceived(qualification);
 
         final String documentNumber = qualification.get(KcKimAttributes.DOCUMENT_NUMBER);
-        final Collection<DocumentAccess> accesses = dataObjectService.findMatching(DocumentAccess.class, QueryByCriteria.Builder.fromPredicates(
-                equal("documentNumber", documentNumber),
-                equal("roleName", roleName),
-                equal("namespaceCode", namespaceCode)
-        )).getResults();
 
-        final String roleId = roleService.getRoleIdByNamespaceCodeAndName(namespaceCode, roleName);
-        final List<RoleMembership> memberships = new ArrayList<>();
-        if (StringUtils.isNotBlank(roleId)) {
-            for (DocumentAccess access : accesses) {
-                memberships.add(RoleMembership.Builder.create(roleId, null, access.getPrincipalId(), MemberType.PRINCIPAL, Collections.singletonMap("documentNumber", documentNumber)).build());
+        if (StringUtils.isNotBlank(documentNumber)) {
+            final Collection<DocumentAccess> accesses = dataObjectService.findMatching(DocumentAccess.class, QueryByCriteria.Builder.fromPredicates(
+                    equal("documentNumber", documentNumber),
+                    equal("roleName", roleName),
+                    equal("namespaceCode", namespaceCode)
+            )).getResults();
+
+            final String roleId = roleService.getRoleIdByNamespaceCodeAndName(namespaceCode, roleName);
+            final List<RoleMembership> memberships = new ArrayList<>();
+            if (StringUtils.isNotBlank(roleId)) {
+                for (DocumentAccess access : accesses) {
+                    memberships.add(RoleMembership.Builder.create(roleId, null, access.getPrincipalId(), MemberType.PRINCIPAL, Collections.singletonMap("documentNumber", documentNumber)).build());
+                }
             }
-        }
 
-        return memberships;
+            return memberships;
+        }
+        return Collections.emptyList();
     }
 
     @Override
     protected boolean isCheckRequiredAttributes() {
-        return true;
+        return false;
     }
 
     @Override
