@@ -193,3 +193,7 @@ input[type="checkbox"] {
 .transparentField .form-control {
 	background-color: transparent;
 }
+
+.uif-actionBar .dataOverride {
+    color: orange;
+}

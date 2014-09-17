@@ -239,7 +239,8 @@
                         <bean parent="Uif-ActionLink" p:actionLabel="Data Override" p:actionScript="retrieveComponent('PropDev-DataOverride-Dialog');showDialog('PropDev-DataOverride-Dialog');"
                               p:render="@{#editModes['#{T(org.kuali.kra.infrastructure.TaskName).SHOW_ALTER_PROPOSAL_DATA}'] and
                              #editModes['#{T(org.kuali.kra.infrastructure.TaskName).ALTER_PROPOSAL_DATA}']}"
-                              p:iconClass="icon-pencil" p:order="80" />
+                              p:iconClass="icon-pencil2 @{!#emptyList(document.developmentProposal.proposalChangedDataList)?'dataOverride':''}"
+                              p:order="80" />
                     </list>
 				</property>
 			</bean>
