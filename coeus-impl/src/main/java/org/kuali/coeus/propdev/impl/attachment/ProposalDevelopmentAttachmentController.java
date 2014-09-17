@@ -15,17 +15,17 @@
  */
 package org.kuali.coeus.propdev.impl.attachment;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -80,6 +80,13 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveAttachment")
     public ModelAndView saveAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ModelAndView modelAndView = getCollectionControllerService().saveLine(form);
+
+        if (getGlobalVariableService().getMessageMap().hasErrors()){
+            return getRefreshControllerService().refresh(form);
+        }
+
         final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
 
@@ -87,7 +94,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             form.getEditableCollectionLines().get(selectedCollectionPath).remove(selectedLine);
         }
 
-        return getCollectionControllerService().saveLine(form);
+        return modelAndView;
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addAttachment")
@@ -95,15 +102,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
         final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
 
-        if(form.getEditableCollectionLines().containsKey(selectedCollectionPath)) {
-            List<String> indexes = new ArrayList<String>();
-            for (String index : form.getEditableCollectionLines().get(selectedCollectionPath)) {
-                Integer newIndex= Integer.parseInt(index) + 1;
-                indexes.add(newIndex.toString());
-            }
-            form.getEditableCollectionLines().get(selectedCollectionPath).clear();
-            form.getEditableCollectionLines().get(selectedCollectionPath).addAll(indexes);
-        }
+        addEditableCollectionLine(form, selectedCollectionPath);
         return getCollectionControllerService().addLine(form);
     }
 
@@ -112,21 +111,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
                                           MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
         final String selectedCollectionPath = request.getParameter("bindingPath");
 
-        if(form.getEditableCollectionLines().containsKey(selectedCollectionPath)) {
-            List<String> indexes = new ArrayList<String>();
-            indexes.add("0");
-            for (String index : form.getEditableCollectionLines().get(selectedCollectionPath)) {
-                Integer newIndex= Integer.parseInt(index) + 1;
-                indexes.add(newIndex.toString());
-            }
-            form.getEditableCollectionLines().get(selectedCollectionPath).clear();
-            form.getEditableCollectionLines().get(selectedCollectionPath).addAll(indexes);
-        } else {
-            List<String> newKeyList = new ArrayList<String>();
-            newKeyList.add("0");
-            form.getEditableCollectionLines().put(selectedCollectionPath,newKeyList);
-        }
-
+        addEditableCollectionLine(form, selectedCollectionPath);
         return getFileControllerService().addFileUploadLine(form);
     }
 
@@ -193,8 +178,18 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     public ModelAndView addNarrative(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getNarrative();
         initializeNarrative(narrative, form.getProposalDevelopmentDocument());
-        form.getDevelopmentProposal().getNarratives().add(narrative);
+        form.getDevelopmentProposal().getNarratives().add(0,narrative);
         form.getProposalDevelopmentAttachmentHelper().reset();
+
+        String collectionPath = ProposalDevelopmentConstants.PropertyConstants.NARRATIVES;
+        if (!((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).validateNarrativeRequiredFields(narrative, collectionPath + "[0]",false)){
+            addEditableCollectionLine(form, collectionPath);
+        }
+        else if(form.getEditableCollectionLines().containsKey(collectionPath)
+                && form.getEditableCollectionLines().get(collectionPath).size() > 0) {
+            updateEditableCollectionLines(form, collectionPath);
+        }
+
         return getRefreshControllerService().refresh(form);
     }
 
@@ -203,8 +198,17 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getInstituteAttachment();
         initializeNarrative(narrative,form.getProposalDevelopmentDocument());
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
-        form.getDevelopmentProposal().getInstituteAttachments().add(narrative);
+        form.getDevelopmentProposal().getInstituteAttachments().add(0,narrative);
         form.getProposalDevelopmentAttachmentHelper().reset();
+
+        String collectionPath = ProposalDevelopmentConstants.PropertyConstants.INSTITUTE_ATTACHMENTS;
+        if (!((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).validateNarrativeRequiredFields(narrative, collectionPath + "[0]",false)){
+            addEditableCollectionLine(form, collectionPath);
+        }
+        else if(form.getEditableCollectionLines().containsKey(collectionPath)
+                && form.getEditableCollectionLines().get(collectionPath).size() > 0) {
+            updateEditableCollectionLines(form, collectionPath);
+        }
         return getRefreshControllerService().refresh(form);
     }
 
@@ -233,8 +237,18 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         } catch (Exception e) {
             LOG.info("No File Attached");
         }
-        form.getDevelopmentProposal().getPropPersonBios().add(biography);
+        form.getDevelopmentProposal().getPropPersonBios().add(0,biography);
         form.getProposalDevelopmentAttachmentHelper().reset();
+
+        String collectionPath = ProposalDevelopmentConstants.PropertyConstants.PERSONNEL_BIOS;
+        if (!((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).validateProposalPersonBiographyRequiredFields(biography, collectionPath + "[0]",false)){
+            addEditableCollectionLine(form, collectionPath);
+        }
+        else if(form.getEditableCollectionLines().containsKey(collectionPath)
+                && form.getEditableCollectionLines().get(collectionPath).size() > 0) {
+            updateEditableCollectionLines(form, collectionPath);
+        }
+
         return getRefreshControllerService().refresh(form);
     }
 
@@ -286,4 +300,5 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     public void setKcFileControllerService(FileControllerService kcFileControllerService) {
         this.kcFileControllerService = kcFileControllerService;
     }
+
 }

@@ -282,6 +282,28 @@ public abstract class ProposalDevelopmentControllerBase {
         }
     }
 
+    public void addEditableCollectionLine(ProposalDevelopmentDocumentForm form, String selectedCollectionPath){
+        if(form.getEditableCollectionLines().containsKey(selectedCollectionPath)) {
+            updateEditableCollectionLines(form, selectedCollectionPath);
+        } else {
+            List<String> newKeyList = new ArrayList<String>();
+            newKeyList.add("0");
+            form.getEditableCollectionLines().put(selectedCollectionPath,newKeyList);
+        }
+
+    }
+
+    public void updateEditableCollectionLines(ProposalDevelopmentDocumentForm form, String selectedCollectionPath){
+        List<String> indexes = new ArrayList<String>();
+        indexes.add("0");
+        for (String index : form.getEditableCollectionLines().get(selectedCollectionPath)) {
+            Integer newIndex= Integer.parseInt(index) + 1;
+            indexes.add(newIndex.toString());
+        }
+        form.getEditableCollectionLines().get(selectedCollectionPath).clear();
+        form.getEditableCollectionLines().get(selectedCollectionPath).addAll(indexes);
+    }
+
     protected KcAuthorizationService getKraAuthorizationService() {
         return kraAuthorizationService;
     }

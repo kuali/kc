@@ -31,6 +31,7 @@ import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsServ
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
+import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
@@ -148,8 +149,8 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
     @Autowired
     @Qualifier("kcWorkflowService")
-    private KcWorkflowService kcWorkflowService; 
-    
+    private KcWorkflowService kcWorkflowService;
+
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
@@ -263,6 +264,23 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             ProposalUserRoles newProposalUserRoles = (ProposalUserRoles) newLine;
             isValid = getProposalDevelopmentPermissionsService().validateAddPermissions(document, form.getPermissionsHelper().getWorkingUserRoles(),newProposalUserRoles);
         }
+        else if (newLine instanceof Narrative) {
+            Narrative narrative = (Narrative) newLine;
+            String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+            if (StringUtils.isNotBlank(selectedLine)){
+                String collectionPathWithIndex = collectionPath + "[" + selectedLine + "]";
+                isValid = validateNarrativeRequiredFields(narrative,collectionPathWithIndex,true);
+            }
+        }
+        else if (newLine instanceof ProposalPersonBiography) {
+            ProposalPersonBiography biography = (ProposalPersonBiography) newLine;
+            String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+            if (StringUtils.isNotBlank(selectedLine)){
+                String collectionPathWithIndex = collectionPath + "[" + selectedLine + "]";
+                isValid = validateProposalPersonBiographyRequiredFields(biography,collectionPathWithIndex,true);
+            }
+
+        }
         return isValid;
     }
 
@@ -304,6 +322,18 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         return isValid;
     }
 
+    @Override
+    public void processAfterDeleteLine(ViewModel model, String collectionId, String collectionPath, int lineIndex) {
+        ProposalDevelopmentDocumentForm proposalDevelopmentDocumentForm = (ProposalDevelopmentDocumentForm) model;
+        if (proposalDevelopmentDocumentForm.getEditableCollectionLines().containsKey(collectionPath)) {
+            for (String index : proposalDevelopmentDocumentForm.getEditableCollectionLines().get(collectionPath)) {
+                if (index.equals(String.valueOf(lineIndex))) {
+                    proposalDevelopmentDocumentForm.getEditableCollectionLines().get(collectionPath).remove(index);
+                    break;
+                }
+            }
+        }
+    }
 
     public static class SponsorSuggestResult {
         private Sponsor sponsor;
@@ -349,6 +379,41 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             return getDateTimeService().toDateString(new Date(uploadDate.getTime())) + " " + getDateTimeService().toTimeString(new Time(uploadDate.getTime()));
         }
         return StringUtils.EMPTY;
+    }
+
+
+    public boolean validateProposalPersonBiographyRequiredFields(ProposalPersonBiography biography, String collectionPath, boolean showErrors){
+        boolean success = true;
+        if (StringUtils.isBlank(biography.getProposalPersonNumberString())){
+            if (showErrors) {
+                getGlobalVariableService().getMessageMap().putError(collectionPath + ".proposalPersonNumberString", UifConstants.Messages.VALIDATION_MSG_KEY_PREFIX + "required");
+            }
+            success = false;
+        }
+        if (StringUtils.isBlank(biography.getDocumentTypeCode())){
+            if (showErrors) {
+                getGlobalVariableService().getMessageMap().putError(collectionPath + ".documentTypeCode", UifConstants.Messages.VALIDATION_MSG_KEY_PREFIX + "required");
+            }
+            success = false;
+        }
+        return success;
+    }
+
+    public boolean validateNarrativeRequiredFields(Narrative narrative, String collectionPath, boolean showErrors){
+        boolean success = true;
+        if (StringUtils.isBlank(narrative.getNarrativeTypeCode())){
+            if (showErrors) {
+                getGlobalVariableService().getMessageMap().putError(collectionPath + ".narrativeTypeCode", UifConstants.Messages.VALIDATION_MSG_KEY_PREFIX + "required");
+            }
+            success = false;
+        }
+        if (StringUtils.isBlank(narrative.getModuleStatusCode())){
+            if (showErrors) {
+                getGlobalVariableService().getMessageMap().putError(collectionPath + ".moduleStatusCode", UifConstants.Messages.VALIDATION_MSG_KEY_PREFIX + "required");
+            }
+            success = false;
+        }
+        return success;
     }
 
     protected LegacyNarrativeService getNarrativeService() {
