@@ -96,12 +96,6 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTra
 
     public abstract ExtraButton configureReturnToParentTopButton();
 
-    public List<HeaderNavigation> getBudgetHeaderNavigatorList() {
-        DataDictionaryService dataDictionaryService = (DataDictionaryService) KcServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-        KNSDocumentEntry docEntry = (KNSDocumentEntry) dataDictionaryService.getDataDictionary().getDocumentEntry(BudgetDocument.class.getName());
-        return docEntry.getHeaderNavigationList();
-    }
-
     public abstract T getBudgetParent();
 
 }

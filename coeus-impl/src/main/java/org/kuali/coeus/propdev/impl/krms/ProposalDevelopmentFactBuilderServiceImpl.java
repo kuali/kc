@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.krms;
 
+import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
@@ -59,7 +60,7 @@ public class ProposalDevelopmentFactBuilderServiceImpl extends KcKrmsFactBuilder
         }
     }
     
-    public void addFacts(Facts.Builder factsBuilder, KcTransactionalDocumentBase document) {
+    public void addFacts(Facts.Builder factsBuilder, KrmsRulesContext document) {
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)document;
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
         addBudgetFacts(factsBuilder,proposalDevelopmentDocument);

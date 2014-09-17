@@ -84,10 +84,6 @@ public class BudgetVersionsAction extends BudgetAction {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetParent budgetParent = budgetDocument.getBudget().getBudgetParent();
         BudgetParentDocument parentDocument = budgetParent.getDocument();
-        if (TOGGLE_TAB.equals(budgetForm.getMethodToCall())) {
-            final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
-            tdcValidator.validateGeneratingWarnings(parentDocument);
-        }
    
         //when this is an award budget even though the budget cannot be saved a budget can still
         //be copied. By doing this here we make sure that it will still save
@@ -141,9 +137,6 @@ public class BudgetVersionsAction extends BudgetAction {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_NO_RATES_ATTEMPT_SYNCH), CONFIRM_SYNCH_BUDGET_RATE_BUDGET_DOCUMENT, NO_SYNCH_BUDGET_RATE_BUDGET_DOCUMENT);
 	        }
-	    	
-        final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
-        tdcValidator.validateGeneratingWarnings(parentDocument);
 
         return forward;
     }

@@ -15,15 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.core;
 
-/**
- * This interface was created primarily to allow easy mocking of BudgetForm to remove Spring context dependency imposed by KualiDocumentFormBase  
- */
-public interface BudgetDocumentContainer {
+public interface BudgetContainer {
 
-    /** 
-     * This method returns a BudgetDocument
-     * @return The BudgetDocument
-     */
-    public BudgetDocument getBudgetDocument();
-  
+    public Budget getBudget();
 }

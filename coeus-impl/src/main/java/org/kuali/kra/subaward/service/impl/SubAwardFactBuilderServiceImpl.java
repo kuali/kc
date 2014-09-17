@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.subaward.service.impl;
 
-import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.coeus.common.impl.krms.KcKrmsFactBuilderServiceHelper;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.document.SubAwardDocument;
@@ -39,7 +39,7 @@ public class SubAwardFactBuilderServiceImpl extends KcKrmsFactBuilderServiceHelp
         }
     }
     
-    public void addFacts(Facts.Builder factsBuilder, KcTransactionalDocumentBase document) {
+    public void addFacts(Facts.Builder factsBuilder, KrmsRulesContext document) {
         SubAwardDocument subAwardDocument = (SubAwardDocument)document;
         SubAward subAward = subAwardDocument.getSubAward();
         addSubAwardFacts(factsBuilder,subAward);

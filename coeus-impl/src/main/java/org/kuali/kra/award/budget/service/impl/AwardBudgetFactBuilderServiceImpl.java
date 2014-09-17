@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.award.budget.service.impl;
 
-import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.coeus.common.impl.krms.KcKrmsFactBuilderServiceHelper;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
@@ -40,7 +40,7 @@ public class AwardBudgetFactBuilderServiceImpl extends KcKrmsFactBuilderServiceH
         }
     }
     
-    public void addFacts(Facts.Builder factsBuilder, KcTransactionalDocumentBase document) {
+    public void addFacts(Facts.Builder factsBuilder, KrmsRulesContext document) {
         AwardBudgetDocument budgetDocument = (AwardBudgetDocument)document;
         AwardBudgetExt budget = (AwardBudgetExt)budgetDocument.getBudget();
         addBudgetFacts(factsBuilder,budget);

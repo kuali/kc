@@ -15,13 +15,11 @@
  */
 package org.kuali.coeus.propdev.impl.budget;
 
-import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.coeus.common.impl.krms.KcKrmsFactBuilderServiceHelper;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krms.api.engine.Facts;
 import org.kuali.rice.krms.api.engine.Facts.Builder;
@@ -37,18 +35,11 @@ public class PropDevBudgetFactBuilderServiceImpl extends KcKrmsFactBuilderServic
     private DocumentService documentService;
     
     public void addFacts(Facts.Builder factsBuilder, String docContent) {
-        String documentNumber = getElementValue(docContent, "//documentNumber");
-        try {
-            BudgetDocument budgetDocument = (BudgetDocument)getDocumentService().getByDocumentHeaderId(documentNumber);
-            addFacts(factsBuilder, budgetDocument);
-        }catch (WorkflowException e) {
-            throw new RuntimeException(e);
-        }
+    	throw new UnsupportedOperationException();
     }
     
-    public void addFacts(Facts.Builder factsBuilder, KcTransactionalDocumentBase document) {
-        BudgetDocument budgetDocument = (BudgetDocument)document;
-        Budget budget = budgetDocument.getBudget();
+    public void addFacts(Facts.Builder factsBuilder, KrmsRulesContext context) {
+        Budget budget = (Budget) context;
         addBudgetFacts(factsBuilder,budget);
     }
     

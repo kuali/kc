@@ -746,8 +746,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         final String headerTabCall = getHeaderTabDispatch(request);
         if(StringUtils.isEmpty(headerTabCall)) {
             budgetForm.getDocument().refreshPessimisticLocks();
-        }  
-        final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
+        }
         return mapping.findForward(Constants.BUDGET_VERSIONS_PAGE);
     }
 

@@ -52,7 +52,6 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.RateClassType;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentActionBase;
-import org.kuali.coeus.common.budget.framework.core.BudgetTDCValidator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
@@ -415,14 +414,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         List<ProposalDevelopmentBudgetExt> budgets = developmentProposal.getBudgets();
 		proposalDevelopmentForm.setFinalBudgetVersion(getFinalBudgetVersion(budgets));
         setBudgetStatuses(doc);
-        
-        //if not on budget page
-        if ("ProposalDevelopmentBudgetVersionsAction".equals(proposalDevelopmentForm.getActionName())) {
-            GlobalVariables.getMessageMap().addToErrorPath(KRADConstants.DOCUMENT_PROPERTY_NAME + ".proposal");
 
-            final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
-            tdcValidator.validateGeneratingErrorsAndWarnings(doc);
-        }
         if (budgets != null && !budgets.isEmpty()) {
             for (Budget budget : budgets) {
                 if (!budget.getFinalVersionFlag()) {
@@ -574,9 +566,6 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         List<ProposalDevelopmentBudgetExt> budgets = pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getBudgets();
 		pdForm.setFinalBudgetVersion(getFinalBudgetVersion(budgets));
         getBudgetService().setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
-        
-        final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
-        tdcValidator.validateGeneratingWarnings(pdForm.getProposalDevelopmentDocument());
         
         return mapping.findForward(Constants.PD_BUDGET_VERSIONS_PAGE);
     }

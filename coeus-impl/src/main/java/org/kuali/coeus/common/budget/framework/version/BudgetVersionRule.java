@@ -48,7 +48,7 @@ public abstract class BudgetVersionRule {
     /**
      * Entry method for the business rule
      *
-     * @param document is a {@link BudgetDocument} instance that the {@link BudgetVersionOverview} is getting added to
+     * @param document is a {@link Budget} instance that the {@link BudgetVersionOverview} is getting added to
      * @returns true if it passed, false if it failed
      */
     protected boolean processAddBudgetVersionName(AddBudgetVersionEvent event) {

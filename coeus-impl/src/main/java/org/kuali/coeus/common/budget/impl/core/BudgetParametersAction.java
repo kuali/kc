@@ -127,8 +127,6 @@ public class BudgetParametersAction extends BudgetAction {
                 if (budget instanceof ProposalDevelopmentBudgetExt) {
                     valid = isValidToComplete(budget.getBudgetParent().getDocument());
                     int errorSize = GlobalVariables.getMessageMap().getErrorMessages().size();
-                    final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
-                    tdcValidator.validateGeneratingErrorsAndWarnings(budget.getBudgetParent().getDocument());
                     if (GlobalVariables.getMessageMap().getErrorMessages().size() > errorSize) {
                         valid = false;
                     }

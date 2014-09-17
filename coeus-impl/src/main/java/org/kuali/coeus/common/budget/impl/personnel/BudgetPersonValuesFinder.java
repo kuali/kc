@@ -17,22 +17,21 @@ package org.kuali.coeus.common.budget.impl.personnel;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
-import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.core.BudgetContainer;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Finds the available set of supported Narrative Statuses.  See
@@ -40,7 +39,7 @@ import java.util.Map;
  * 
  * @author KRADEV team
  */
-public class BudgetPersonValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
+public class BudgetPersonValuesFinder extends UifKeyValuesFinderBase {
     
     /**
      * Constructs the list of Budget Persons.  Each entry
@@ -54,19 +53,13 @@ public class BudgetPersonValuesFinder extends FormViewAwareUifKeyValuesFinderBas
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        List<KeyValue> KeyValues = null;
-        BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
-        Document doc = getDocument();
-        if (doc instanceof BudgetDocument) {
-            BudgetDocument budgetDocument = (BudgetDocument) doc;
-            Budget budget = budgetDocument.getBudget();
-            Map queryMap = new HashMap();
-            queryMap.put("budgetId", budget.getBudgetId());
-            List<BudgetPerson> budgetPersons = (List<BudgetPerson>) boService.findMatching(BudgetPerson.class, queryMap);
-
-            KeyValues = buildKeyValues(budgetPersons);
-        }
-        return KeyValues; 
+        BudgetContainer form = (BudgetContainer) KNSGlobalVariables.getKualiForm();
+    	Budget budget = form.getBudget();
+        return buildKeyValues(budget.getBudgetPersons());
+    }
+    
+    public List<KeyValue> getKeyValues(ModelAndView model) {
+    	return buildKeyValues(((BudgetContainer) model).getBudget().getBudgetPersons());
     }
     
     private List<KeyValue> buildKeyValues(List<BudgetPerson> budgetPersons) {

@@ -20,7 +20,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocumentContainer;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -102,7 +101,7 @@ public abstract class AddBudgetDistributionAndIncomeTest {
      * This class simply stores a budget document
      */
     @SuppressWarnings("serial")
-    private class MockBudgetForm extends KualiForm implements BudgetDocumentContainer {
+    private class MockBudgetForm extends KualiForm {
         private BudgetDocument document;
         
         public MockBudgetForm(BudgetDocument document) {

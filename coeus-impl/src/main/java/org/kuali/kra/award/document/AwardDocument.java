@@ -441,18 +441,6 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Award
     private ConfigurationService lookupKualiConfigurationService() {
         return CoreApiServiceLocator.getKualiConfigurationService();
     }
-    
-    @Override
-    public List<HeaderNavigation> getBudgetHeaderNavigatorList() {
-        List<HeaderNavigation> budgetHeaderList= super.getBudgetHeaderNavigatorList();
-        List<HeaderNavigation> awardBudgetHeaderList = new ArrayList<HeaderNavigation>();
-        for (HeaderNavigation headerNavigation : budgetHeaderList){
-            if(!headerNavigation.getHeaderTabNavigateTo().equals("modularBudget")){
-                awardBudgetHeaderList.add(headerNavigation);
-            }
-        }
-        return awardBudgetHeaderList;   
-    }
 
     @Override
     public Award getBudgetParent() {

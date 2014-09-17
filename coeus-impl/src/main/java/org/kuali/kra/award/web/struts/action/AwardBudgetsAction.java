@@ -41,7 +41,6 @@ import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
-import org.kuali.coeus.common.budget.framework.core.BudgetTDCValidator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.budget.framework.copy.CopyPeriodsQuestion;
@@ -343,9 +342,6 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         final AwardForm awardForm = (AwardForm) form;
         awardForm.setFinalBudgetVersion(getFinalBudgetVersion(awardForm.getAwardDocument().getAward().getBudgets()));
         setBudgetStatuses(awardForm.getAwardDocument());
-        
-        final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
-        tdcValidator.validateGeneratingWarnings(awardForm.getAwardDocument());
         return forward;
     }
     

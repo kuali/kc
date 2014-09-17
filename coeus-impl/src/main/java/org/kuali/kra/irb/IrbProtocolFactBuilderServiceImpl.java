@@ -16,8 +16,8 @@
 package org.kuali.kra.irb;
 
 
+import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.coeus.common.framework.module.CoeusModule;
-import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.coeus.common.impl.krms.KcKrmsFactBuilderServiceHelper;
@@ -39,8 +39,8 @@ public class IrbProtocolFactBuilderServiceImpl extends KcKrmsFactBuilderServiceH
         }
     }
 
-    public void addFacts(Facts.Builder factsBuilder, KcTransactionalDocumentBase researchDocument) {
-        ProtocolDocument  protocolDocument = (ProtocolDocument)researchDocument;
+    public void addFacts(Facts.Builder factsBuilder, KrmsRulesContext document) {
+        ProtocolDocument  protocolDocument = (ProtocolDocument)document;
         Protocol protocol = protocolDocument.getProtocol();
         addObjectMembersAsFacts(factsBuilder,protocol,KcKrmsConstants.IrbProtocol.IRB_PROTOCOL_CONTEXT_ID,Constants.MODULE_NAMESPACE_PROTOCOL);
         factsBuilder.addFact(KcKrmsConstants.IrbProtocol.IRB_PROTOCOL, protocol);

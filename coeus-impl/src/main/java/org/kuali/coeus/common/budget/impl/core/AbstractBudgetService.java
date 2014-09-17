@@ -24,6 +24,7 @@ import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.api.rate.RateClassType;
 import org.kuali.coeus.common.budget.framework.query.operator.Equals;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
+import org.kuali.coeus.common.budget.framework.core.BudgetAuditEvent;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
@@ -379,10 +380,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
 
     @SuppressWarnings("unchecked")
     protected boolean applyAuditRuleForBudgetDocument(Budget budgetVersion) throws Exception {
-        DocumentService documentService = getDocumentService();
-        BudgetDocument<T> budgetDocument = (BudgetDocument<T>) documentService.getByDocumentHeaderId(budgetVersion.getDocumentNumber());
-        return getKualiRuleService().applyRules(new DocumentAuditEvent(budgetDocument));
-
+        return getKcBusinessRulesEngine().applyRules(new BudgetAuditEvent(budgetVersion));
     }
 
     /**

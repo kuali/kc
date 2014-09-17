@@ -16,8 +16,8 @@
 package org.kuali.kra.iacuc;
 
 
+import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.coeus.common.framework.module.CoeusModule;
-import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.coeus.common.impl.krms.KcKrmsFactBuilderServiceHelper;
@@ -39,8 +39,8 @@ public class IacucProtocolFactBuilderServiceImpl extends KcKrmsFactBuilderServic
         }
     }
 
-    public void addFacts(Facts.Builder factsBuilder, KcTransactionalDocumentBase researchDocument) {
-        IacucProtocolDocument  protocolDocument = (IacucProtocolDocument)researchDocument;
+    public void addFacts(Facts.Builder factsBuilder, KrmsRulesContext document) {
+        IacucProtocolDocument  protocolDocument = (IacucProtocolDocument)document;
         IacucProtocol protocol = protocolDocument.getIacucProtocol();
         addObjectMembersAsFacts(factsBuilder,protocol,KcKrmsConstants.IacucProtocol.IACUC_PROTOCOL_CONTEXT_ID,Constants.MODULE_NAMESPACE_IACUC);
         factsBuilder.addFact(KcKrmsConstants.IacucProtocol.IACUC_PROTOCOL, protocol);

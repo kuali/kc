@@ -207,16 +207,6 @@ public class BudgetAction extends BudgetActionBase {
         ActionForward forward = super.save(mapping, form, request, response);
         BudgetForm savedBudgetForm = (BudgetForm) form;
         BudgetDocument savedBudgetDoc = savedBudgetForm.getBudgetDocument();
-               
-
-        final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
-        if (budgetForm.toBudgetVersionsPage()
-            || "BudgetVersionsAction".equals(budgetForm.getActionName())) {
-            GlobalVariables.getMessageMap().addToErrorPath(KRADConstants.DOCUMENT_PROPERTY_NAME + ".proposal");
-            tdcValidator.validateGeneratingErrorsAndWarnings(budgetDoc.getBudget().getBudgetParent().getDocument());
-        } else {
-            tdcValidator.validateGeneratingWarnings(budgetDoc.getBudget().getBudgetParent().getDocument());
-        }
 
         if (budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated()) {
             forward = mapping.findForward("budgetActions");
@@ -255,9 +245,6 @@ public class BudgetAction extends BudgetActionBase {
 
         budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetParent.getBudgets()));
         setBudgetStatuses(budgetParent);
-
-        final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
-        tdcValidator.validateGeneratingWarnings(budgetDocument.getBudget().getBudgetParent().getDocument());
 
         populateBudgetPrintForms(budgetDocument.getBudget());
     }
