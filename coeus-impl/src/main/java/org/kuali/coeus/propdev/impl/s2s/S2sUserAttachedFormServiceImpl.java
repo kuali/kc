@@ -46,6 +46,7 @@ import org.kuali.coeus.s2sgen.api.core.S2SException;
 import org.kuali.coeus.s2sgen.api.generate.FormMappingInfo;
 import org.kuali.coeus.s2sgen.api.generate.FormMappingService;
 import org.kuali.coeus.s2sgen.api.core.AuditError;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -79,6 +80,10 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
     @Autowired
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
     @Autowired
     @Qualifier("formMappingService")
@@ -340,23 +345,28 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
             Node hashValue = hashValueNodes.item(i);
             ((Element)hashValue).setAttribute("xmlns:glob", "http://apply.grants.gov/system/Global-V1.0");
         }
-        if(!validateForm(developmentProposal))
-            return null;
         S2sUserAttachedForm newUserAttachedForm = cloneUserAttachedForm(userAttachedForm);
         newUserAttachedForm.setNamespace(namespaceUri);
         newUserAttachedForm.setFormName(formname);
-        updateAttachmentNodes(doc,newUserAttachedForm,attachments);
+        updateAttachmentNodes(doc, newUserAttachedForm, attachments);
         formXML = docToString(doc);
-        
+
         S2sUserAttachedFormFile newUserAttachedFormFile = new S2sUserAttachedFormFile();
         newUserAttachedFormFile.setXmlFile(formXML);
+        if(!validateUserAttachedFormFile(newUserAttachedFormFile))
+            return null;
+
+
+        newUserAttachedForm = getDataObjectService().save(newUserAttachedForm);
+
         newUserAttachedFormFile.setFormFile(userAttachedForm.getNewFormFileBytes());
-        newUserAttachedFormFile.setS2sUserAttachedFormId(userAttachedForm.getId());
+        newUserAttachedFormFile.setS2sUserAttachedFormId(newUserAttachedForm.getId());
         newUserAttachedFormFile.setUpdateUser(userAttachedForm.getUpdateUser());
         newUserAttachedForm.getS2sUserAttachedFormFileList().add(newUserAttachedFormFile);
         return newUserAttachedForm;
         
     }
+
     public synchronized static Document node2Dom(org.w3c.dom.Node n) throws Exception{
             javax.xml.transform.TransformerFactory tf = javax.xml.transform.TransformerFactory.newInstance();
             javax.xml.transform.Transformer xf = tf.newTransformer();
@@ -380,8 +390,8 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         }
     }   
 
-    private boolean validateForm(ProposalDevelopmentDocument developmentProposal) throws Exception{
-        FormValidationResult result = formGeneratorService.validateForms(developmentProposal);
+    private boolean validateUserAttachedFormFile(S2sUserAttachedFormFile userAttachedFormFile) throws Exception{
+        FormValidationResult result = formGeneratorService.validateUserAttachedFormFile(userAttachedFormFile);
         if(!result.isValid()) {
             setValidationErrorMessage(result);
             return false;
@@ -555,5 +565,13 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
 
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
+    }
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
 }

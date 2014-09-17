@@ -303,9 +303,6 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
         S2sUserAttachedForm newS2sUserAttachedForm = proposalDevelopmentForm.getNewS2sUserAttachedForm();
-        FormFile userAttachedFormFile = newS2sUserAttachedForm.getNewFormFile();
-        newS2sUserAttachedForm.setNewFormFileBytes(userAttachedFormFile.getFileData());
-        newS2sUserAttachedForm.setFormFileName(userAttachedFormFile.getFileName());
         newS2sUserAttachedForm.setProposalNumber(developmentProposal.getProposalNumber());
         List<S2sUserAttachedForm> userAttachedForms = new ArrayList<S2sUserAttachedForm>();
         try{

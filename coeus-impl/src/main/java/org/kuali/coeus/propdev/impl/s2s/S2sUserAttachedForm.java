@@ -20,6 +20,7 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormContract;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,12 +69,12 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase impleme
     private transient boolean edit = false;
     
     @Transient
-    private transient FormFile newFormFile;
+    private transient MultipartFile newFormFile;
 
     @Transient
     private transient byte[] newFormFileBytes;
-        
-    public S2sUserAttachedForm() { 
+
+    public S2sUserAttachedForm() {
         s2sUserAttachedFormAtts = new ArrayList<S2sUserAttachedFormAtt>();
         s2sUserAttachedFormFileList = new ArrayList<S2sUserAttachedFormFile>();
     }
@@ -151,7 +152,7 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase impleme
      * Gets the newFormFile attribute. 
      * @return Returns the newFormFile.
      */
-    public FormFile getNewFormFile() {
+    public MultipartFile getNewFormFile() {
         return newFormFile;
     }
 
@@ -159,7 +160,7 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase impleme
      * Sets the newFormFile attribute value.
      * @param newFormFile The newFormFile to set.
      */
-    public void setNewFormFile(FormFile newFormFile) {
+    public void setNewFormFile(MultipartFile newFormFile) {
         this.newFormFile = newFormFile;
     }
 
