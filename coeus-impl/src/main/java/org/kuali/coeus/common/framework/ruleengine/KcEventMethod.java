@@ -15,8 +15,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface KcEventMethod {
-	/**
-	 * A list of events that the declared method will respond too.
-	 */
-	String[] events() default {};
+
 }

@@ -32,7 +32,6 @@ import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationServi
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.kra.budget.external.budget.BudgetAdjustmentClient;
 import org.kuali.kra.budget.external.budget.BudgetAdjustmentServiceHelper;
 import org.kuali.kra.budget.external.budget.FinancialObjectCodeMapping;
@@ -407,20 +406,14 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
      * @param statuses
      * @return
      */
-    protected AwardBudgetExt getNewestBudgetByStatus(AwardDocument awardDocument, List<String> statuses) { 
-        AwardBudgetVersionOverviewExt budgetVersion = null;
-        List<AwardBudgetDocumentVersion> awardBudgetDocuments = awardDocument.getBudgetDocumentVersions();
-        for (BudgetDocumentVersion version : awardBudgetDocuments) {
-            AwardBudgetVersionOverviewExt curVersion = (AwardBudgetVersionOverviewExt) version.getBudgetVersionOverview();
+    protected AwardBudgetExt getNewestBudgetByStatus(AwardDocument awardDocument, List<String> statuses) {
+    	AwardBudgetExt result = null;
+        for (AwardBudgetExt curVersion : awardDocument.getAward().getBudgets()) {
             if (statuses.contains(curVersion.getAwardBudgetStatusCode())) {
-                if (budgetVersion == null || curVersion.getBudgetVersionNumber() > budgetVersion.getBudgetVersionNumber()) {
-                    budgetVersion = curVersion;
+                if (result == null || curVersion.getBudgetVersionNumber() > result.getBudgetVersionNumber()) {
+                	result = curVersion;
                 }
             }
-        }
-        AwardBudgetExt result = null;
-        if (budgetVersion != null) {
-            result = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, budgetVersion.getBudgetId());
         }
         if (result == null) {
             result = new AwardBudgetExt();

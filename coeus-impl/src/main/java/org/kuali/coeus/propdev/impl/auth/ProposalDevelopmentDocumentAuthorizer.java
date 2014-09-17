@@ -17,6 +17,7 @@ package org.kuali.coeus.propdev.impl.auth;
 
 import org.kuali.coeus.common.framework.auth.KcKradTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
@@ -25,8 +26,8 @@ import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
@@ -65,7 +66,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         Set<String> editModes = new HashSet<String>();
          
         ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) document;
-        String proposalNbr = proposalDoc.getDevelopmentProposal().getProposalNumber();
+        DevelopmentProposal developmentProposal = proposalDoc.getDevelopmentProposal();
+		String proposalNbr = developmentProposal.getProposalNumber();
         
         // The getEditMode() method is invoked when a proposal is accessed for creation and when it
         // is accessed for modification.  New proposals under creation don't have a proposal number.
@@ -95,7 +97,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
     
-	        if (isBudgetComplete(proposalDoc)) {
+	        if (isBudgetComplete(developmentProposal)) {
 	            if (editModes.contains("addBudget")) {
 	                editModes.add("modifyCompletedBudgets");
 	            }
@@ -355,16 +357,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         return super.canAcknowledge(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_ACKNOWLEDGE_ACTION);
     }
     
-    protected boolean isBudgetComplete(BudgetParentDocument parentDocument) {
-        if (!parentDocument.isComplete()) {
-            return false;
-        }
-        for (BudgetDocumentVersion budgetVersion: parentDocument.getBudgetDocumentVersions()) {
-            if (budgetVersion.getBudgetVersionOverview().isFinalVersionFlag()) {
-                return true;
-            }
-        }
-        return false;
+    protected boolean isBudgetComplete(DevelopmentProposal developmentProposal) {
+    	return developmentProposal.getFinalBudget() != null;
     }
     
     @Override

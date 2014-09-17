@@ -18,108 +18,59 @@ package org.kuali.coeus.common.budget.framework.core;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.distribution.*;
 import org.kuali.coeus.common.budget.framework.period.*;
-import org.kuali.coeus.common.budget.framework.income.AddBudgetProjectIncomeEvent;
-import org.kuali.coeus.common.budget.framework.income.AddBudgetProjectIncomeRule;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
-import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncomeRuleImpl;
-import org.kuali.coeus.common.budget.impl.distribution.BudgetCostShareRuleImpl;
-import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandAAuditRule;
-import org.kuali.coeus.common.framework.custom.KcDocumentBaseAuditRule;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgeCostTotalAuditRule;
 import org.kuali.kra.award.budget.AwardBudgetBudgetTypeAuditRule;
 import org.kuali.kra.award.budget.AwardBudgetCostLimitAuditRule;
-import org.kuali.kra.award.budget.document.AwardBudgetDocument;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetExpensesAuditRule;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelAuditRule;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelRule;
 import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
-import org.kuali.coeus.common.budget.framework.rate.BudgetRateAuditRule;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.framework.costshare.CostShareRuleResearchDocumentBase;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
+import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.propdev.impl.budget.modular.SyncModularBudgetRule;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implements AddBudgetPeriodRule, AddBudgetCostShareRule, AddBudgetProjectIncomeRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule, GenerateBudgetPeriodRule, DocumentAuditRule, SyncModularBudgetRule {
+@KcBusinessRule("budgetDocumentRule")
+public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase {
 
-    /** 
-     * @see org.kuali.coeus.common.budget.framework.distribution.AddBudgetCostShareRule#processAddBudgetCostShareBusinessRules(org.kuali.coeus.common.budget.framework.distribution.AddBudgetCostShareEvent)
-     */
-    public boolean processAddBudgetCostShareBusinessRules(AddBudgetCostShareEvent addBudgetCostShareEvent) {
-        return new BudgetCostShareRuleImpl().processAddBudgetCostShareBusinessRules(addBudgetCostShareEvent);
-    }
-    
-    @Override
-    public boolean processAddBudgetPeriodBusinessRules(AddBudgetPeriodEvent addBudgetPeriodEvent) {
-        return new BudgetPeriodRule().processAddBudgetPeriodBusinessRules(addBudgetPeriodEvent);    
-    }
-
-    @Override
-    public boolean processAddBudgetProjectIncomeBusinessRules(AddBudgetProjectIncomeEvent addBudgetIncomeEvent) {
-        return new BudgetProjectIncomeRuleImpl().processAddBudgetProjectIncomeBusinessRules(addBudgetIncomeEvent);
-    }
-    
-    public boolean processSaveBudgetPeriodBusinessRules(SaveBudgetPeriodEvent saveBudgetPeriodEvent) {
-        return new BudgetPeriodRule().processSaveBudgetPeriodBusinessRules(saveBudgetPeriodEvent);    
-    }
-    
-    public boolean processDeleteBudgetPeriodBusinessRules(DeleteBudgetPeriodEvent deleteBudgetPeriodEvent) {
-        return new BudgetPeriodRule().processDeleteBudgetPeriodBusinessRules(deleteBudgetPeriodEvent);
-    }
-
-    public boolean processGenerateBudgetPeriodBusinessRules(GenerateBudgetPeriodEvent generateBudgetPeriodEvent) {
-        return new BudgetPeriodRule().processGenerateBudgetPeriodBusinessRules(generateBudgetPeriodEvent);    
-    }
-    
-    @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        if (!(document instanceof BudgetDocument)) {
-            return false;
-        }
-
+	@Autowired
+	@Qualifier("kcBusinessRulesEngine")
+	private KcBusinessRulesEngine kcBusinessRulesEngine;
+	
+	protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+		return getKcBusinessRulesEngine().applyRules(new BudgetSaveEvent(((BudgetDocument)document).getBudget()));
+	}
+	
+    @KcEventMethod
+    public boolean processCustomSaveDocumentBusinessRules(BudgetSaveEvent event) {
         boolean valid = true;
-        
-        BudgetDocument budgetDocument = (BudgetDocument) document;
+
+        Budget budget = event.getBudget();
         
         GlobalVariables.getMessageMap().addToErrorPath("document");        
         GlobalVariables.getMessageMap().addToErrorPath("parentDocument");
-        if (ObjectUtils.isNull(budgetDocument.getBudget().getBudgetParent().getDocument())) {
-            budgetDocument.refreshReferenceObject("parentDocument");
-        }
-        if(Boolean.valueOf(budgetDocument.getBudget().getBudgetParent().getDocument().getProposalBudgetFlag())){
-            valid &= processBudgetVersionsBusinessRule(budgetDocument.getBudget().getBudgetParent().getDocument(), true);
+        if(Boolean.valueOf(budget.getBudgetParent().getDocument().getProposalBudgetFlag())){
+            valid &= processBudgetVersionsBusinessRule(budget.getBudgetParent().getDocument(), true);
         } 
         GlobalVariables.getMessageMap().removeFromErrorPath("parentDocument");
-        
-        GlobalVariables.getMessageMap().addToErrorPath("budget"); 
-        valid &= processBudgetPersonnelBusinessRules(budgetDocument);
-        
-        valid &= processBudgetExpenseBusinessRules(budgetDocument);
-        
-        valid &= processBudgetPersonnelBudgetBusinessRules(budgetDocument);
-        
-        valid &= processBudgetRatesBusinessRule(budgetDocument);
-        
-        valid &= processBudgetProjectIncomeBusinessRule(budgetDocument);
 
-        GlobalVariables.getMessageMap().removeFromErrorPath("budget");
-        GlobalVariables.getMessageMap().removeFromErrorPath("document");
         
         
         return valid;
@@ -132,11 +83,13 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
     * @param budgetDocument
     * @return
     */
-    protected boolean processBudgetProjectIncomeBusinessRule(BudgetDocument budgetDocument) {
+    @KcEventMethod
+    public boolean processBudgetProjectIncomeBusinessRule(BudgetSaveEvent event) {
         boolean valid = true;
+        Budget budget = event.getBudget();
         MessageMap errorMap = GlobalVariables.getMessageMap();
         int i = 0;
-        for (BudgetCostShare budgetCostShare : budgetDocument.getBudget().getBudgetCostShares()) {
+        for (BudgetCostShare budgetCostShare : budget.getBudgetCostShares()) {
             String errorPath = "budgetCostShare[" + i + "]";
             errorMap.addToErrorPath(errorPath);
             if(budgetCostShare.getSharePercentage()!=null && (budgetCostShare.getSharePercentage().isLessThan(new ScaleTwoDecimal(0)) ||
@@ -145,9 +98,9 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
                 valid = false;
             }
             //check for duplicate fiscal year and source accounts on all unchecked cost shares
-            if (i < budgetDocument.getBudget().getBudgetCostShareCount()) {
-                for (int j = i+1; j < budgetDocument.getBudget().getBudgetCostShareCount(); j++) {
-                    BudgetCostShare tmpCostShare = budgetDocument.getBudget().getBudgetCostShare(j);
+            if (i < budget.getBudgetCostShareCount()) {
+                for (int j = i+1; j < budget.getBudgetCostShareCount(); j++) {
+                    BudgetCostShare tmpCostShare = budget.getBudgetCostShare(j);
                     int thisFiscalYear = budgetCostShare.getProjectPeriod() == null ? Integer.MIN_VALUE : budgetCostShare.getProjectPeriod();
                     int otherFiscalYear = tmpCostShare.getProjectPeriod() == null ? Integer.MIN_VALUE : tmpCostShare.getProjectPeriod();
                     if (thisFiscalYear == otherFiscalYear
@@ -162,7 +115,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
             
             //validate project period stuff            
             String currentField = "document.budget.budgetCostShare[" + i + "].projectPeriod";
-            int numberOfProjectPeriods = budgetDocument.getBudget().getBudgetPeriods().size();
+            int numberOfProjectPeriods = budget.getBudgetPeriods().size();
             boolean validationCheck = this.validateProjectPeriod(budgetCostShare.getProjectPeriod(), currentField, numberOfProjectPeriods);            
             valid &= validationCheck;
             
@@ -171,7 +124,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         }
         //check project income for values that are not greater than 0
         i = 0;
-        for (BudgetProjectIncome budgetProjectIncome : budgetDocument.getBudget().getBudgetProjectIncomes()) {
+        for (BudgetProjectIncome budgetProjectIncome : budget.getBudgetProjectIncomes()) {
             String errorPath = "budgetProjectIncomes[" + i + "]";
             errorMap.addToErrorPath(errorPath);
             if (budgetProjectIncome.getProjectIncome() == null || !budgetProjectIncome.getProjectIncome().isGreaterThan(new ScaleTwoDecimal(0.00))) {
@@ -192,14 +145,15 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
     * @param budgetDocument
     * @return
     */
-    protected boolean processBudgetRatesBusinessRule(BudgetDocument budgetDocument) {
+    @KcEventMethod
+    public boolean processBudgetRatesBusinessRule(BudgetSaveEvent event) {
         boolean valid = true;
         final int APPLICABLE_RATE_LENGTH_EXCEEDED = 1;
         final int APPLICABLE_RATE_NEGATIVE = -1;
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
         int i = 0;
-        for (BudgetRate budgetRate : budgetDocument.getBudget().getBudgetRates()) {
+        for (BudgetRate budgetRate : event.getBudget().getBudgetRates()) {
             String rateClassType = budgetRate.getRateClass().getRateClassType().getDescription();
             String errorPath = "budgetProposalRate[" + rateClassType + "][" + i + "]";
             errorMap.addToErrorPath(errorPath);
@@ -228,7 +182,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         }
 
         i = 0;
-        for (BudgetLaRate budgetLaRate : budgetDocument.getBudget().getBudgetLaRates()) {
+        for (BudgetLaRate budgetLaRate : event.getBudget().getBudgetLaRates()) {
             String rateClassType = "";
             if (ObjectUtils.isNotNull(budgetLaRate.getRateClass()) && ObjectUtils.isNotNull(budgetLaRate.getRateClass().getRateClassType())) {
                 rateClassType = budgetLaRate.getRateClass().getRateClassType().getDescription();
@@ -278,15 +232,6 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         }            
         return rateValue;
     }
-    /**
-     * This method checks business rules related to Budget Personnel functionality
-     * 
-     * @param budgetDocument
-     * @return
-     */
-    protected boolean processBudgetPersonnelBusinessRules(BudgetDocument budgetDocument) {
-        return new BudgetPersonnelRule().processBudgetPersonnelBusinessRules(budgetDocument);
-    }
     
     /**
      * This method checks business rules related to Budget Expenses functionality
@@ -294,12 +239,13 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
      * @param budgetDocument
      * @return
      */
-    protected boolean processBudgetExpenseBusinessRules(BudgetDocument budgetDocument) {
+    @KcEventMethod
+    public boolean processBudgetExpenseBusinessRules(BudgetSaveEvent event) {
         boolean valid = true;
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
         
-        List<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
+        List<BudgetPeriod> budgetPeriods = event.getBudget().getBudgetPeriods();
         int i=0;
         int j=0;
         for(BudgetPeriod budgetPeriod: budgetPeriods){
@@ -333,12 +279,13 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
      * @param budgetDocument
      * @return
      */
-    protected boolean processBudgetPersonnelBudgetBusinessRules(BudgetDocument budgetDocument) {
+    @KcEventMethod
+    public boolean processBudgetPersonnelBudgetBusinessRules(BudgetSaveEvent event) {
         boolean valid = true;
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
         
-        List<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
+        List<BudgetPeriod> budgetPeriods = event.getBudget().getBudgetPeriods();
         int i=0;
         int j=0;
         int k=0;
@@ -374,57 +321,36 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         return valid;
     }
     
-    @Override
+
     public boolean processRunAuditBusinessRules(Document document) {
         boolean retval = true;
         
-        retval &= new KcDocumentBaseAuditRule().processRunAuditBusinessRules(document);
-
-        retval &= new BudgetPeriodAuditRule().processRunAuditBusinessRules(document);
-        
-        retval &= new BudgetExpensesAuditRule().processRunAuditBusinessRules(document);
-        
-        retval &= new BudgetPersonnelAuditRule().processRunPersonnelAuditBusinessRules(document);
-
-        retval &= new BudgetRateAuditRule().processRunAuditBusinessRules(document);
-        
-        // Skipping D and I audits for Awards Budgets since we've temporarily removed the Award D&I tab
-        if (!(document instanceof AwardBudgetDocument)) {
-        
-            retval &= new BudgetUnrecoveredFandAAuditRule().processRunAuditBusinessRules(document);
-        
-            retval &= new BudgetCostShareAuditRule().processRunAuditBusinessRules(document);
-
-        }
-        
-        retval &= new ActivityTypeAuditRule().processRunAuditBusinessRules(document);
+        retval &= getKcBusinessRulesEngine().applyRules(new BudgetAuditEvent(((BudgetDocument) document).getBudget()));
 
         if (!((BudgetDocument)document).getBudget().isProposalBudget()){
             retval &= new AwardBudgetBudgetTypeAuditRule().processRunAuditBusinessRules(document);
             retval &= new AwardBudgeCostTotalAuditRule().processRunAuditBusinessRules(document);
             retval &= new AwardBudgetCostLimitAuditRule().processRunAuditBusinessRules(document);
         }
-        if (retval) {
-            processRunAuditBudgetVersionRule(((BudgetDocument) document).getBudget().getBudgetParent().getDocument());
-        }
         
         return retval;
     }
-    
-    protected boolean processRunAuditBudgetVersionRule(BudgetParentDocument parentDocument) {
+
+    @KcEventMethod
+    public boolean processRunAuditBudgetVersionRule(BudgetAuditEvent event) {
         // audit check for budgetversion with final status
         boolean finalAndCompleteBudgetVersionFound = false;
         boolean budgetVersionsExists = false;
         boolean retval = true;
+        Budget budget = event.getBudget();
         
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(
-                BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
-        for (BudgetDocumentVersion budgetDocumentVersion : parentDocument.getBudgetDocumentVersions()) {
-            BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview(); 
-            budgetVersionsExists = true;
+                Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        budgetVersionsExists = !budget.getBudgetParent().getBudgets().isEmpty();
+        for (Budget budgetVersion : budget.getBudgetParent().getBudgets()) {
             if (budgetVersion.isFinalVersionFlag()) {
-                BudgetParent budgetParent =parentDocument.getBudgetParent(); 
+                BudgetParent budgetParent =budget.getBudgetParent();
                 if (budgetParent.getBudgetStatus()!= null 
                         && budgetParent.getBudgetStatus().equals(budgetStatusCompleteCode)) {
                     finalAndCompleteBudgetVersionFound = true;
@@ -441,35 +367,17 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
 
         return retval;
     }
-    
-    public boolean processSyncModularBusinessRules(Document document) {
-        if (!(document instanceof BudgetDocument)) {
-            return false;
-        }
-        
-        boolean valid = true;
-        
-        BudgetDocument budgetDocument = (BudgetDocument) document;
-        
-        GlobalVariables.getMessageMap().addToErrorPath("document");
-        
-        List budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
-        if (ObjectUtils.isNotNull(budgetPeriods) || budgetPeriods.size() >= 1) {
-            BudgetPeriod period1 = (BudgetPeriod) budgetPeriods.get(0);
-            if (ObjectUtils.isNull(period1.getBudgetLineItems()) || period1.getBudgetLineItems().isEmpty()) {
-                valid = false;
-            }
-        } else {
-            valid = false;
-        }
-        
-        if (!valid) {
-            GlobalVariables.getMessageMap().putError("modularBudget", KeyConstants.ERROR_NO_DETAILED_BUDGET);
-        }
-        
-        GlobalVariables.getMessageMap().removeFromErrorPath("document");
-        
-        return valid;
-    }
+
+	public KcBusinessRulesEngine getKcBusinessRulesEngine() {
+		//for when the rule is loaded via the DD, particularly in AwardBudget
+		if (kcBusinessRulesEngine == null) {
+			kcBusinessRulesEngine = KcServiceLocator.getService(KcBusinessRulesEngine.class);
+		}
+		return kcBusinessRulesEngine;
+	}
+
+	public void setKcBusinessRulesEngine(KcBusinessRulesEngine kcBusinessRulesEngine) {
+		this.kcBusinessRulesEngine = kcBusinessRulesEngine;
+	}
 
 }

@@ -15,27 +15,11 @@
  */
 package org.kuali.coeus.common.budget.impl.rate;
 
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.coeus.common.budget.impl.core.BudgetPeriodValuesFinder;
 
-import java.util.ArrayList;
-import java.util.List;
+public class BudgetRatesBudgetPeriodValuesFinder  extends BudgetPeriodValuesFinder {
 
-public class BudgetRatesBudgetPeriodValuesFinder  extends UifKeyValuesFinderBase {
-
-    @Override
-    public List<KeyValue> getKeyValues() {
-        BudgetRatesService budgetRatesService = KcServiceLocator.getService(BudgetRatesService.class);
-        List<BudgetPeriod> budgetPeriods = budgetRatesService.getBudgetPeriods();
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "View All"));
-        for(BudgetPeriod budgetPeriod: budgetPeriods) {
-            keyValues.add(new ConcreteKeyValue(budgetPeriod.getBudgetPeriod().toString(), budgetPeriod.getLabel()));
-        }
-        return keyValues;
-    }
+	public BudgetRatesBudgetPeriodValuesFinder() {
+		super("View All");
+	}
 }

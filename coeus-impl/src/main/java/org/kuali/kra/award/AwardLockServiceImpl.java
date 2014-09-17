@@ -18,9 +18,10 @@ package org.kuali.kra.award;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.lock.ProposalLockService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
+import org.kuali.kra.krms.KcKrmsConstants.AwardBudget;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
@@ -110,11 +111,10 @@ public class AwardLockServiceImpl extends PessimisticLockServiceImpl implements 
     protected PessimisticLock createNewPessimisticLock(Document document, Map editMode, Person user) {
         if (document.useCustomLockDescriptors()) {
             String lockDescriptor = document.getCustomLockDescriptor(user);
-            AwardDocument pdDocument = (AwardDocument) document;
+            AwardDocument awardDocument = (AwardDocument) document;
             if(StringUtils.isNotEmpty(lockDescriptor) && lockDescriptor.contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
-                List<AwardBudgetDocumentVersion> awardBudgetDocuments = pdDocument.getBudgetDocumentVersions();
-                for(BudgetDocumentVersion budgetOverview: awardBudgetDocuments) {
-                    generateNewLock(budgetOverview.getDocumentNumber(), lockDescriptor, user);
+                for(AwardBudgetExt budget : awardDocument.getAward().getBudgets()) {
+                    generateNewLock(budget.getDocumentNumber(), lockDescriptor, user);
                 }  
             }
             return generateNewLock(document.getDocumentNumber(), lockDescriptor, user);

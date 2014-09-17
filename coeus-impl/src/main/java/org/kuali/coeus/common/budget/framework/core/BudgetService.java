@@ -15,18 +15,13 @@
  */
 package org.kuali.coeus.common.budget.framework.core;
 
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.common.budget.framework.personnel.ValidCeJobCode;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
-import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,8 +40,6 @@ public interface BudgetService<T extends BudgetParent>  {
      */
     public Budget addBudgetVersion(BudgetParentDocument<T> budgetParent, String versionName, Map<String, Object> options);
     
-    public void updateDocumentDescription(BudgetVersionOverview budgetVersion);
-    
     /**
      * check if this line item CE has inflation rate
      * @param budgetLineItem
@@ -54,37 +47,9 @@ public interface BudgetService<T extends BudgetParent>  {
      */
     public boolean ValidInflationCeRate(BudgetLineItemBase budgetLineItem);
     
-    public String getActivityTypeForBudget(BudgetDocument<T> budgetDocument);
-    
-    /**
-     * This method returns the applicable Object Codes (Cost Elements) for a given Budget Person 
-     * based on his Job Code
-     * @param budgetId
-     * @param personSequenceNumber
-     * @return List of Cost Elements
-     */
-    public List<ValidCeJobCode> getApplicableCostElements(Long budgetId, String personSequenceNumber);
-    
-    /**
-     * 
-     * This method returns the applicable Object Codes (Cost Elements) for a given Budget Person, converted to string separated by ",".
-     * @param budgetId
-     * @param personSequenceNumber
-     * @param budgetCategoryTypeCode
-     * @return List of Cost Elements
-     */
-    public String getApplicableCostElementsForAjaxCall(Long budgetId, String personSequenceNumber, String budgetCategoryTypeCode);
+    public String getActivityTypeForBudget(Budget budget);
 
-    /**
-     * 
-     * This method returns the Non-Personnel Panel Name (based on the variables).
-     * @param budgetPeriod
-     * @param budgetLineItem
-     * @return Non-Personnel Panel Name for the passed in Line Item
-     */
-    public String getBudgetExpensePanelName(BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
-
-    public Collection<BudgetRate> getSavedProposalRates(BudgetVersionOverview budgetToOpen);
+    public Collection<BudgetRate> getSavedProposalRates(Budget budgetToOpen);
 
     /**
      * 
@@ -102,7 +67,7 @@ public interface BudgetService<T extends BudgetParent>  {
      * @param versionName to check
      * @return true for valid false otherwie
      */
-    public boolean isBudgetVersionNameValid(BudgetParentDocument<T> document, String versionName);
+    public boolean isBudgetVersionNameValid(BudgetParent parent, String versionName);
 
     /**
      * 

@@ -14,45 +14,27 @@
  * limitations under the License.
  */
 package org.kuali.coeus.common.budget.impl.distribution;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.common.budget.framework.distribution.AddBudgetUnrecoveredFandARule;
-import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
-import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public class AddBudgetUnrecoveredFandAEvent extends KcDocumentEventBase {
-    private static final Log LOG = LogFactory.getLog(AddBudgetUnrecoveredFandAEvent.class);
-    
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetEventBase;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
+
+public class AddBudgetUnrecoveredFandAEvent extends BudgetEventBase {
+	
     private BudgetUnrecoveredFandA budgetUnrecoveredFandA;
     
-    public AddBudgetUnrecoveredFandAEvent(String description, String errorPathPrefix, Document document, BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
-        super(description, errorPathPrefix, document);
+    public AddBudgetUnrecoveredFandAEvent(Budget budget, BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
+        super(budget);
         this.budgetUnrecoveredFandA = budgetUnrecoveredFandA;
-    }
-
-    @Override
-    protected void logEvent() {
-        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
-        logMessage.append(" with ");
-
-        //vary logging detail as needed
-        String msg = (budgetUnrecoveredFandA == null) ? "null budgetUnrecoveredFandA" : budgetUnrecoveredFandA.toString();
-        LOG.debug(msg);
-    }
-
-    public Class<AddBudgetUnrecoveredFandARule> getRuleInterfaceClass() {
-        return AddBudgetUnrecoveredFandARule.class;
-    }
-
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddBudgetUnrecoveredFandARule) rule).processAddBudgetUnrecoveredFandABusinessRules(this);
     }
 
     public BudgetUnrecoveredFandA getBudgetUnrecoveredFandA() {
         return budgetUnrecoveredFandA;
     }
+
+	public void setBudgetUnrecoveredFandA(
+			BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
+		this.budgetUnrecoveredFandA = budgetUnrecoveredFandA;
+	}
 
 }

@@ -16,9 +16,11 @@
 package org.kuali.kra.award.budget.document.authorization;
 
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
-import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocumentAuthorizer;
+import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.common.framework.auth.task.Task;
+import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
@@ -28,7 +30,7 @@ import org.kuali.rice.krad.document.Document;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AwardBudgetDocumentAuthorizer  extends BudgetDocumentAuthorizer {
+public class AwardBudgetDocumentAuthorizer  extends KcTransactionalDocumentAuthorizerBase {
 
     @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
@@ -77,6 +79,11 @@ public class AwardBudgetDocumentAuthorizer  extends BudgetDocumentAuthorizer {
         AwardBudgetTask task = new AwardBudgetTask(taskName, doc);
         return getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), task);
     }
+    
+    @Override
+    public boolean canInitiate(String documentTypeName, Person user) {
+        return true;
+    }
 
     @Override
     public boolean canEdit(Document document, Person user) {
@@ -109,7 +116,6 @@ public class AwardBudgetDocumentAuthorizer  extends BudgetDocumentAuthorizer {
     public boolean canRoute(Document document, Person user) {
         return canExecuteAwardBudgetTask(user, (AwardBudgetDocument) document, TaskName.SUBMIT_TO_WORKFLOW);
     }
-    
 
     
     @Override
@@ -117,4 +123,63 @@ public class AwardBudgetDocumentAuthorizer  extends BudgetDocumentAuthorizer {
         WorkflowDocument workflow = document.getDocumentHeader().getWorkflowDocument();
         return super.canCancel(document)&&canEdit(document) && !workflow.isEnroute() ; 
     }
+    
+    /**
+     * Set the permissions to be used during the creation of the web pages.  
+     * The JSP files can access the editModeMap (editingMode) to determine what
+     * to display to the user.  For example, a JSP file may contain the following:
+     * 
+     *     <kra:section permission="modifyProposal">
+     *         .
+     *         .
+     *         .
+     *     </kra:section>
+     * 
+     * In the above example, the contents are only rendered if the user is allowed
+     * to modify the proposal.  Note that permissions are always signified as 
+     * either TRUE or FALSE.
+     * 
+     * @param username the user's unique username
+     * @param doc the Proposal Development Document
+     * @param editModeMap the edit mode map
+     */
+    protected void setPermissions(String userId, BudgetParentDocument doc, Set<String> editModes) {
+        if (canExecuteParentDocumentTask(userId, doc, TaskName.ADD_BUDGET)) {
+            editModes.add("addBudget");
+        }
+        
+        if (canExecuteParentDocumentTask(userId, doc, TaskName.OPEN_BUDGETS)) {
+            editModes.add("openBudgets");
+        }
+        
+        if (canExecuteParentDocumentTask(userId, doc, TaskName.MODIFY_BUDGET)) {
+            editModes.add("modifyProposalBudget");
+        }
+        
+        if (canExecuteParentDocumentTask(userId, doc, TaskName.PRINT_PROPOSAL)) {
+            editModes.add("printProposal");
+        }
+    }
+    
+    /**
+     * Can the user execute the given proposal task?
+     * @param username the user's username
+     * @param doc the proposal development document
+     * @param taskName the name of the task
+     * @return true if has permission; otherwise false
+     */
+    private boolean canExecuteParentDocumentTask(String userId, BudgetParentDocument doc, String taskName) {
+        Task task = doc.getParentAuthZTask(taskName);
+        return getTaskAuthorizationService().isAuthorized(userId, task);
+    }
+    
+    @Override
+    public boolean canSendNoteFyi(Document document, Person user) {
+        return false;
+    }
+    
+    @Override
+    public boolean canFyi(Document document, Person user) {
+        return false;
+    }    
 }

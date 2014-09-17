@@ -24,6 +24,7 @@ import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.state.ProposalStateService;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.common.framework.auth.task.Task;
@@ -33,7 +34,6 @@ import org.kuali.kra.bo.RolePersons;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -140,10 +140,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     private DevelopmentProposal developmentProposal;
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "PARENT_DOCUMENT_KEY", referencedColumnName = "DOCUMENT_NUMBER")
-    private List<BudgetDocumentVersion> budgetDocumentVersions;
-
-    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = true, updatable = true)
     private List<CustomAttributeDocValue> customDataList;
 
@@ -161,7 +157,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         DevelopmentProposal newProposal = new DevelopmentProposal();
         newProposal.setProposalDocument(this);
         developmentProposal = newProposal;
-        budgetDocumentVersions = new ArrayList<BudgetDocumentVersion>();
         customDataList = new ArrayList<CustomAttributeDocValue>();
     }
     @Override
@@ -319,7 +314,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 }
             }
             if (isLastSubmitterApprovalAction(event.getActionTaken()) && shouldAutogenerateInstitutionalProposal()) {
-            	String proposalNumber = getInstitutionalProposalService().createInstitutionalProposal(this.getDevelopmentProposal(), this.getFinalBudgetForThisProposal());
+            	String proposalNumber = getInstitutionalProposalService().createInstitutionalProposal(this.getDevelopmentProposal(), this.getDevelopmentProposal().getFinalBudget());
                 this.setInstitutionalProposalNumber(proposalNumber);
             }
         }
@@ -345,17 +340,9 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         return KcServiceLocator.getService(DateTimeService.class);
     }
 
-    public Budget getFinalBudgetForThisProposal() {
-        BudgetDocumentVersion budgetDocumentVersion = this.getFinalBudgetVersion();
-        if (budgetDocumentVersion != null) {
-            return budgetDocumentVersion.getFinalBudget();
-        }
-        return null;
-    }
-
     public String getFinalrateClassCode() {
         String retVal = "";
-        Budget finalBudget = getFinalBudgetForThisProposal();
+        Budget finalBudget = getDevelopmentProposal().getFinalBudget();
         if (finalBudget != null && finalBudget.getRateClass().getCode() != null) {
             retVal = finalBudget.getRateClass().getCode();
         }
@@ -393,8 +380,9 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
         if (!isProposalDeleted()) {
             getProposalBudgetStatusService().saveBudgetFinalVersionStatus(this);
-            if (getBudgetDocumentVersions() != null) {
-                updateDocumentDescriptions(getBudgetDocumentVersions());
+            List<? extends Budget> versions = getBudgetParent().getBudgets();
+            if (versions != null) {
+                updateBudgetDescriptions(versions);
             }
         }
     }
@@ -449,19 +437,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         return managedLists;
     }
 
-    /**
-     * Sets the budgetDocumentVersions attribute value.
-     * @param budgetDocumentVersions The budgetDocumentVersions to set.
-     */
-    public void setBudgetDocumentVersions(List<BudgetDocumentVersion> budgetDocumentVersions) {
-        this.budgetDocumentVersions = budgetDocumentVersions;
-    }
-
-
-    public List<BudgetDocumentVersion> getBudgetDocumentVersions() {
-        return budgetDocumentVersions;
-    }
-
     @Override
     public Task getParentAuthZTask(String taskName) {
         return new ProposalTask(taskName, this);
@@ -470,16 +445,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     @Override
     public boolean isComplete() {
         return getDevelopmentProposal().isProposalComplete();
-    }
-
-    @Override
-    public void saveBudgetFinalVersionStatus(BudgetDocument budgetDocument) {
-        getProposalBudgetStatusService().saveBudgetFinalVersionStatus(this);
-    }
-
-    @Override
-    public void processAfterRetrieveForBudget(BudgetDocument budgetDocument) {
-        getProposalBudgetStatusService().loadBudgetStatusByProposalDocumentNumber(((DevelopmentProposal) budgetDocument.getBudget().getBudgetParent()).getProposalNumber());
     }
 
     @Override
@@ -596,12 +561,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     public void setProposalDeleted(boolean proposalDeleted) {
         this.proposalDeleted = proposalDeleted;
-    }
-
-    public void refreshBudgetDocumentVersions() {
-        final List<BudgetDocumentVersion> v = new ArrayList<BudgetDocumentVersion>(getDataObjectService().findMatching(BudgetDocumentVersion.class,
-                QueryByCriteria.Builder.andAttributes(Collections.singletonMap("parentDocumentKey",documentNumber)).build()).getResults());
-        budgetDocumentVersions = v;
     }
 
     public void populateContextQualifiers(Map<String, String> qualifiers) {

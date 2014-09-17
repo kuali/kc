@@ -20,17 +20,22 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.core.BudgetForm;
+import org.kuali.kra.award.budget.AwardBudgetForm;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.*;
 
-public class GroupNameValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
+public class GroupNameValuesFinder extends UifKeyValuesFinderBase {
     
     /**
      * Constructs the list of existing Group Names.  
@@ -41,57 +46,46 @@ public class GroupNameValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
      */
     @Override
     public List<KeyValue> getKeyValues() {
+        AwardBudgetForm budgetForm = (AwardBudgetForm) KNSGlobalVariables.getKualiForm();
+        AwardBudgetDocument budgetDocument = (AwardBudgetDocument) budgetForm.getBudgetDocument();
+        
+        return getKeyValues(budgetDocument.getBudget(), budgetForm.getViewBudgetPeriod() == null ? 1 : budgetForm.getViewBudgetPeriod()); 
+    }
+    
+    protected List<KeyValue> getKeyValues(Budget budget, Integer budgetPeriodNumber) {
         KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
         List<KeyValue> keyValues = new ArrayList<KeyValue>();        
         keyValues.add(new ConcreteKeyValue("", "select"));
 
         Set<String> distinctGroupNames = new HashSet<String>();
-
-        BudgetForm budgetForm = (BudgetForm) getFormOrView();
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         
-        Map fieldValues = new HashMap();
-        fieldValues.put("budgetId", budgetDocument.getBudget().getBudgetId());
-        
-        int budgetPeriodNumber = -1;
-        if(budgetForm.getViewBudgetPeriod() == null)
-            budgetPeriodNumber = 1;
-        else 
-            budgetPeriodNumber = budgetForm.getViewBudgetPeriod();
-        
-        fieldValues.put("budgetPeriod", budgetPeriodNumber);
-        
-        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-        List<BudgetPeriod> budgetPeriods = (List<BudgetPeriod>) businessObjectService.findMatching(BudgetPeriod.class, fieldValues);
-        BudgetPeriod budgetPeriod = null;
-        if(CollectionUtils.isNotEmpty(budgetPeriods)) {
-            budgetPeriod = budgetPeriods.get(0);
+        BudgetPeriod curPeriod = null;
+        for (BudgetPeriod period : budget.getBudgetPeriods()) {
+        	if (period.getBudgetPeriod().equals(budgetPeriodNumber)) {
+        		curPeriod = period;
+        	}
         }
-        
-        fieldValues.remove("budgetPeriod");
-        fieldValues.put("budgetPeriodId", budgetPeriod.getBudgetPeriodId());
-        List<BudgetLineItem> budgetLineItems = (List<BudgetLineItem>) keyValuesService.findMatching(BudgetLineItem.class, fieldValues);
-        
-        boolean distinct = false;
-        for (BudgetLineItem budgetLineItem : budgetLineItems) {
-             if(StringUtils.isNotEmpty(budgetLineItem.getGroupName())) {
-                 distinct = distinctGroupNames.add(budgetLineItem.getGroupName());
-                 if(distinct) {
-                     keyValues.add(new ConcreteKeyValue(budgetLineItem.getGroupName(), budgetLineItem.getGroupName()));
-                 }
-             }
-        }       
-        
-        for (BudgetLineItem newBudgetLineItem : budgetDocument.getBudget().getBudgetPeriod(budgetPeriodNumber-1).getBudgetLineItems()) {
-            if(StringUtils.isNotEmpty(newBudgetLineItem.getGroupName())) {
-                distinct = distinctGroupNames.add(newBudgetLineItem.getGroupName());
-                if(distinct) {
-                    keyValues.add(new ConcreteKeyValue(newBudgetLineItem.getGroupName(), newBudgetLineItem.getGroupName()));
-                }
-            }
-        }    
+        if (curPeriod != null) {        
+	        boolean distinct = false;
+	        for (BudgetLineItem budgetLineItem : curPeriod.getBudgetLineItems()) {
+	             if(StringUtils.isNotEmpty(budgetLineItem.getGroupName())) {
+	                 distinct = distinctGroupNames.add(budgetLineItem.getGroupName());
+	                 if(distinct) {
+	                     keyValues.add(new ConcreteKeyValue(budgetLineItem.getGroupName(), budgetLineItem.getGroupName()));
+	                 }
+	             }
+	        }       
+	        
+	        for (BudgetLineItem newBudgetLineItem : budget.getBudgetPeriod(budgetPeriodNumber-1).getBudgetLineItems()) {
+	            if(StringUtils.isNotEmpty(newBudgetLineItem.getGroupName())) {
+	                distinct = distinctGroupNames.add(newBudgetLineItem.getGroupName());
+	                if(distinct) {
+	                    keyValues.add(new ConcreteKeyValue(newBudgetLineItem.getGroupName(), newBudgetLineItem.getGroupName()));
+	                }
+	            }
+	        }
+        }
 
-        
         return keyValues;
     }
 

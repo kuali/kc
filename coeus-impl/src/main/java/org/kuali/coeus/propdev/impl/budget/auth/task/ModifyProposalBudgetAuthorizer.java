@@ -19,6 +19,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.auth.task.BudgetTask;
 import org.kuali.coeus.common.budget.framework.auth.task.BudgetAuthorizer;
@@ -37,8 +38,8 @@ public class ModifyProposalBudgetAuthorizer extends BudgetAuthorizer {
 
     public boolean isAuthorized(String userId, BudgetTask task) {
         KcDocumentRejectionService documentRejectionService = KcServiceLocator.getService(KcDocumentRejectionService.class);
-        BudgetDocument budgetDocument = task.getBudgetDocument();
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)budgetDocument.getBudget().getBudgetParent().getDocument();
+        Budget budget = task.getBudget();
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)budget.getBudgetParent().getDocument();
         boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(doc.getDocumentNumber());
         
         return (!kraWorkflowService.isInWorkflow(doc) || rejectedDocument) &&

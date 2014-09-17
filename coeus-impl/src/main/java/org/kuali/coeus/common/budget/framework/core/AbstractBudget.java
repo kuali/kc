@@ -103,7 +103,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
     private RateClass rateClass;
 
     @Transient
-    private boolean descriptionUpdatable;
+    private boolean nameUpdatable;
 
     @Column(name="BUDGET_NAME")
     private String name;
@@ -113,9 +113,6 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
 
     @Transient
     private String printBudgetCommentFlag;
-
-    @Transient
-    private String documentDescription;
 
     public Integer getBudgetVersionNumber() {
         return budgetVersionNumber;
@@ -256,33 +253,13 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
     public ScaleTwoDecimal getUnderrecoveryAmount() {
         return underrecoveryAmount == null ? new ScaleTwoDecimal(0) : underrecoveryAmount;
     }
-
-    public String getDocumentDescription() {
-        return documentDescription;
-    }
-
-    public void setDocumentDescription(String documentDescription) {
-        this.documentDescription = documentDescription;
-    }
-
+    
     public String getComments() {
         return comments;
     }
 
     public void setComments(String comments) {
         this.comments = comments;
-    }
-
-    public boolean isDescriptionUpdatable() {
-        return descriptionUpdatable;
-    }
-
-    public String getDescriptionUpdatable() {
-        return descriptionUpdatable ? "Yes" : "No";
-    }
-
-    public void setDescriptionUpdatable(boolean descriptionUpdatable) {
-        this.descriptionUpdatable = descriptionUpdatable;
     }
 
     public int compareTo(AbstractBudget otherVersion) {
@@ -330,8 +307,6 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         result = prime * result + ((budgetVersionNumber == null) ? 0 : budgetVersionNumber.hashCode());
         result = prime * result + ((comments == null) ? 0 : comments.hashCode());
         result = prime * result + ((costSharingAmount == null) ? 0 : costSharingAmount.hashCode());
-        result = prime * result + (descriptionUpdatable ? 1231 : 1237);
-        result = prime * result + ((documentDescription == null) ? 0 : documentDescription.hashCode());
         result = prime * result + ((documentNumber == null) ? 0 : documentNumber.hashCode());
         result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
         result = prime * result + (finalVersionFlag ? 1231 : 1237);
@@ -385,13 +360,6 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
             if (other.costSharingAmount != null)
                 return false;
         } else if (!costSharingAmount.equals(other.costSharingAmount))
-            return false;
-        if (descriptionUpdatable != other.descriptionUpdatable)
-            return false;
-        if (documentDescription == null) {
-            if (other.documentDescription != null)
-                return false;
-        } else if (!documentDescription.equals(other.documentDescription))
             return false;
         if (documentNumber == null) {
             if (other.documentNumber != null)
@@ -509,4 +477,12 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
     public void setUrRateClass(RateClass urRateClass) {
         this.urRateClass = urRateClass;
     }
+
+	public boolean isNameUpdatable() {
+		return nameUpdatable;
+	}
+
+	public void setNameUpdatable(boolean nameUpdatable) {
+		this.nameUpdatable = nameUpdatable;
+	}
 }

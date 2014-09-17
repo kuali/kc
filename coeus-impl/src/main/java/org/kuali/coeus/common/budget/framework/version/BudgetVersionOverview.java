@@ -29,15 +29,5 @@ import javax.persistence.*;
 @Table(name = "BUDGET")
 public class BudgetVersionOverview extends AbstractBudget {
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "DOCUMENT_NUMBER", referencedColumnName = "DOCUMENT_NUMBER", insertable = false, updatable = false)
-    private BudgetDocumentVersion budgetDocumentVersion;
 
-    public BudgetDocumentVersion getBudgetDocumentVersion() {
-        return budgetDocumentVersion;
-    }
-
-    public void setBudgetDocumentVersion(BudgetDocumentVersion budgetDocumentVersion) {
-        this.budgetDocumentVersion = budgetDocumentVersion;
-    }
 }

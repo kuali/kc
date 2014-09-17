@@ -23,7 +23,6 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
-import org.kuali.coeus.common.framework.ruleengine.KcBusinessRuleBase;
 import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.coeus.common.framework.ruleengine.KcEventResult;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
@@ -38,7 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @KcBusinessRule("budgetSubAwardsRule")
-public class BudgetSubAwardsRule extends KcBusinessRuleBase {
+public class BudgetSubAwardsRule  {
 
     private static final Log LOG = LogFactory.getLog(BudgetSubAwardsRule.class);
     public static final String SUBAWARD_ORG_NAME_FIELD_NAME = ".organizationName";
@@ -55,7 +54,7 @@ public class BudgetSubAwardsRule extends KcBusinessRuleBase {
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
 
-    @KcEventMethod(events={BudgetSubAwardsEvent.EVENT_NAME})
+    @KcEventMethod
     public KcEventResult processNonXFDAttachment(BudgetSubAwardsEvent event) {
     	KcEventResult result = new KcEventResult();
         verifyNonXFDAttachment(event, result);
@@ -64,7 +63,7 @@ public class BudgetSubAwardsRule extends KcBusinessRuleBase {
         return result;
     }
     
-    @KcEventMethod(events={BudgetSubAwardsEvent.EVENT_NAME})
+    @KcEventMethod
     public KcEventResult processXFDAttachment(BudgetSubAwardsEvent event) {
     	KcEventResult result = new KcEventResult();
         verifyXFDAttachment(event, result);
@@ -73,7 +72,7 @@ public class BudgetSubAwardsRule extends KcBusinessRuleBase {
         return result;
     }
     
-    @KcEventMethod(events={BudgetSubAwardsEvent.EVENT_NAME})
+    @KcEventMethod
     public boolean checkSpecialCharacters(BudgetSubAwardsEvent event){
         if(getKcAttachmentService().getSpecialCharacter(event.getBudgetSubAwards().getSubAwardXmlFileData().toString())) {
             globalVariableService.getMessageMap().putWarning(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_SPECIAL_CHARECTOR);

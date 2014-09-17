@@ -41,10 +41,10 @@ import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.bo.*;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -69,6 +69,7 @@ import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswer
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.*;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -200,6 +201,11 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
+	
+	@Autowired
+	@Qualifier("dataObjectService")
+	private DataObjectService dataObjectService;
+	    
 
     /**
      * Each property in the document that can be copied is represented
@@ -714,9 +720,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param doc the proposal development document
      */
     protected void fixBudgetVersions(ProposalDevelopmentDocument doc) {
-        if (doc.getBudgetDocumentVersions().size() > 0) {
+        if (doc.getDevelopmentProposal().getBudgets().size() > 0) {
             String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
-                    BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+                    Budget.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
             
             doc.getDevelopmentProposal().setBudgetStatus(budgetStatusIncompleteCode);
         }
@@ -961,24 +967,23 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     protected void copyBudget(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest, String budgetVersions) throws Exception {
         if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_FINAL_VERSION)) {
-            BudgetDocumentVersion finalBudgetVersion = src.getFinalBudgetVersion();
+        	ProposalDevelopmentBudgetExt finalBudgetVersion = (ProposalDevelopmentBudgetExt) src.getDevelopmentProposal().getFinalBudget();
             if (finalBudgetVersion != null) {
-                copyAndFinalizeBudgetVersion(finalBudgetVersion.getDocumentNumber(), dest, 1,
+                copyAndFinalizeBudgetVersion(finalBudgetVersion, dest, 1,
                         StringUtils.equals(src.getDevelopmentProposal().getHierarchyStatus(), HierarchyStatusConstants.Parent.code()));
             }
         } else if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_ALL_VERSIONS)) {
             int i = 1;
-            for (BudgetDocumentVersion budgetDocumentVersion: src.getBudgetDocumentVersions()) {
-                copyAndFinalizeBudgetVersion(budgetDocumentVersion.getDocumentNumber(), dest, i++,
+            for (ProposalDevelopmentBudgetExt budgetVersion: src.getDevelopmentProposal().getBudgets()) {
+                copyAndFinalizeBudgetVersion(budgetVersion, dest, i++,
                         StringUtils.equals(src.getDevelopmentProposal().getHierarchyStatus(), HierarchyStatusConstants.Parent.code()));
             }
         }
         
     }
     
-    protected void copyAndFinalizeBudgetVersion(String documentNumber, ProposalDevelopmentDocument dest, int budgetVersionNumber, boolean resetRates) throws Exception {
-        BudgetDocument budgetDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
-        List<BudgetSubAwards> budgetSubAwards = budgetDocument.getBudget().getBudgetSubAwards();
+    protected void copyAndFinalizeBudgetVersion(ProposalDevelopmentBudgetExt budget, ProposalDevelopmentDocument dest, int budgetVersionNumber, boolean resetRates) throws Exception {
+        List<BudgetSubAwards> budgetSubAwards = budget.getBudgetSubAwards();
         for (BudgetSubAwards budgetSubAward : budgetSubAwards) {
             List<BudgetSubAwardFiles> budgetSubAwardFiles = budgetSubAward.getBudgetSubAwardFiles();
             if(budgetSubAwardFiles==null || budgetSubAwardFiles.isEmpty()){
@@ -990,44 +995,30 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             }
         }
 
-        
-        budgetDocument.toCopy();
-        budgetDocument.setVersionNumber(null);
-        if(budgetDocument.getBudget() == null) return;
-        budgetDocument.getBudget().setBudgetVersionNumber(budgetVersionNumber);
+        budget.setBudgetVersionNumber(budgetVersionNumber);
         Map<String, Object> objectMap = new HashMap<String, Object>();
-        fixNumericProperty(budgetDocument, "setBudgetId", Long.class, null, objectMap);
+        fixNumericProperty(budget, "setBudgetId", Long.class, null, objectMap);
         objectMap.clear();
-        fixNumericProperty(budgetDocument, "setBudgetPeriodId", Long.class, null, objectMap);
+        fixNumericProperty(budget, "setBudgetPeriodId", Long.class, null, objectMap);
         objectMap.clear();
-        fixNumericProperty(budgetDocument, "setBudgetLineItemId", Long.class, null, objectMap);
+        fixNumericProperty(budget, "setBudgetLineItemId", Long.class, null, objectMap);
         objectMap.clear();
-        fixNumericProperty(budgetDocument, "setBudgetLineItemCalculatedAmountId", Long.class, null, objectMap);
+        fixNumericProperty(budget, "setBudgetLineItemCalculatedAmountId", Long.class, null, objectMap);
         objectMap.clear();
-        fixNumericProperty(budgetDocument, "setBudgetPersonnelLineItemId", Long.class, null, objectMap);
+        fixNumericProperty(budget, "setBudgetPersonnelLineItemId", Long.class, null, objectMap);
         objectMap.clear();
-        fixNumericProperty(budgetDocument, "setBudgetPersonnelCalculatedAmountId", Long.class, null, objectMap);
+        fixNumericProperty(budget, "setBudgetPersonnelCalculatedAmountId", Long.class, null, objectMap);
         objectMap.clear();
-        fixNumericProperty(budgetDocument, "setBudgetPersonnelRateAndBaseId", Long.class, null, objectMap);
+        fixNumericProperty(budget, "setBudgetPersonnelRateAndBaseId", Long.class, null, objectMap);
         objectMap.clear();
-        fixNumericProperty(budgetDocument, "setBudgetRateAndBaseId", Long.class, null, objectMap);
+        fixNumericProperty(budget, "setBudgetRateAndBaseId", Long.class, null, objectMap);
         objectMap.clear();
-        fixNumericProperty(budgetDocument, "setId", Long.class, null, objectMap);
+        fixNumericProperty(budget, "setId", Long.class, null, objectMap);
         objectMap.clear();
-        fixNumericProperty(budgetDocument, "setVersionNumber", Integer.class, null, objectMap);
+        fixNumericProperty(budget, "setVersionNumber", Integer.class, null, objectMap);
         objectMap.clear();
-
-        //Temporary workaround for fixing budget notes OptimisticLockException due to auto-added copy notes
-        fixNumericProperty(budgetDocument, "setNoteIdentifier", Long.class, null, objectMap);
-        objectMap.clear();
-        for(Note note : budgetDocument.getNotes()) {
-            note.setObjectId(null);
-        }
-        //Temporary workaround ends here
         
-        ObjectUtils.materializeAllSubObjects(budgetDocument.getBudget()); 
-
-        ProposalDevelopmentBudgetExt budget = (ProposalDevelopmentBudgetExt) budgetDocument.getBudget();
+        ObjectUtils.materializeAllSubObjects(budget); 
         
         budget.setFinalVersionFlag(false);
         budget.setDevelopmentProposal(dest.getDevelopmentProposal());
@@ -1063,14 +1054,12 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
         
         budget.setBudgetProjectIncomes(srcProjectIncomeList);
-        getBudgetSummaryService().calculateBudget(budgetDocument.getBudget());
+        getBudgetSummaryService().calculateBudget(budget);
         if (resetRates) {
-            budgetDocument.getBudget().getBudgetRates().clear();
-            budgetDocument.getBudget().getBudgetLaRates().clear();
+            budget.getBudgetRates().clear();
+            budget.getBudgetLaRates().clear();
         }
-        budgetDocument = (BudgetDocument) getDocumentService().saveDocument(budgetDocument);
-        getDocumentService().routeDocument(budgetDocument, "Route to Final", new ArrayList());
-        budgetDocument.getBudget().getBudgetParent().getDocument().refreshBudgetDocumentVersions();
+        getDataObjectService().save(budget);
     }
     
     /**
@@ -1300,4 +1289,11 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
     }
+	public DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
 }

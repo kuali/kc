@@ -34,9 +34,7 @@ public class ViewProposalBudgetAuthorizer extends BudgetAuthorizer {
 
     @Override
     public boolean isAuthorized(String userId, BudgetTask task) {
-        
-        BudgetDocument budgetDocument = task.getBudgetDocument();
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) budgetDocument.getBudget().getBudgetParent().getDocument();
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) task.getBudget().getBudgetParent().getDocument();
         
         return hasParentPermission(userId, doc, PermissionConstants.VIEW_BUDGET) 
             || kraWorkflowService.hasWorkflowPermission(userId, doc);

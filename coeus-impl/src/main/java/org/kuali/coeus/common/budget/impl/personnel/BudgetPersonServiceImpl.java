@@ -15,23 +15,32 @@
  */
 package org.kuali.coeus.common.budget.impl.personnel;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonContract;
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelDetailsContract;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.common.budget.framework.personnel.ValidCeJobCode;
 import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.attr.PersonAppointment;
 import org.kuali.coeus.propdev.api.person.ProposalPersonContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.core.CostElement;
+import org.kuali.coeus.common.budget.impl.core.CostElementValuesFinder;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -63,6 +72,9 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
 	@Autowired
 	@Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
+	@Autowired
+	@Qualifier("globalVariableService")
+	private GlobalVariableService globalVariableService;
     
     
     @Override
@@ -218,14 +230,14 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         
         if (ObjectUtils.isNull(budgetPerson.getCalculationBase())) {
             budgetPerson.setCalculationBase(new ScaleTwoDecimal(this.parameterService.getParameterValueAsString(
-                    BudgetDocument.class, Constants.BUDGET_PERSON_DEFAULT_CALCULATION_BASE)));
+                    Budget.class, Constants.BUDGET_PERSON_DEFAULT_CALCULATION_BASE)));
         }
         
         
         
         if (StringUtils.isBlank(budgetPerson.getAppointmentTypeCode())) {
             budgetPerson.setAppointmentTypeCode(this.parameterService.getParameterValueAsString(
-                    BudgetDocument.class, Constants.BUDGET_PERSON_DEFAULT_APPOINTMENT_TYPE));
+                    Budget.class, Constants.BUDGET_PERSON_DEFAULT_APPOINTMENT_TYPE));
         }
   	    refreshPersonAppointmentType(budgetPerson);
     }
@@ -328,5 +340,108 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         }
         return personRolodex;
     }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<ValidCeJobCode> getApplicableCostElements(Long budgetId, String personSequenceNumber) {
+        List<ValidCeJobCode> validCostElements = null;
+
+        String jobCodeValidationEnabledInd = this.parameterService.getParameterValueAsString(
+                Budget.class, Constants.BUDGET_JOBCODE_VALIDATION_ENABLED);
+        
+        if(StringUtils.isNotEmpty(jobCodeValidationEnabledInd) && jobCodeValidationEnabledInd.equals("Y")) { 
+            Map fieldValues = new HashMap();
+            fieldValues.put("budgetId", budgetId);
+            fieldValues.put("personSequenceNumber", personSequenceNumber);
+            BudgetPerson budgetPerson = (BudgetPerson) businessObjectService.findByPrimaryKey(BudgetPerson.class, fieldValues);
+            
+            fieldValues.clear();
+            if(budgetPerson != null && StringUtils.isNotEmpty(budgetPerson.getJobCode())) {
+                fieldValues.put("jobCode", budgetPerson.getJobCode().toUpperCase());
+                validCostElements = (List<ValidCeJobCode>) businessObjectService.findMatching(ValidCeJobCode.class, fieldValues);
+            }
+        }
+        
+        return validCostElements;
+    } 
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public String getApplicableCostElementsForAjaxCall(Long budgetId,String personSequenceNumber, 
+            String budgetCategoryTypeCode) {
+        
+        String resultStr = "";
+        
+        if(isAuthorizedToAccess(budgetCategoryTypeCode)){
+            if (StringUtils.isNotBlank(budgetCategoryTypeCode) && budgetCategoryTypeCode.contains(Constants.COLON)) {
+                budgetCategoryTypeCode = StringUtils.split(budgetCategoryTypeCode, Constants.COLON)[0];
+            }
+
+            List<ValidCeJobCode> validCostElements = getApplicableCostElements(budgetId, personSequenceNumber);
+
+            if(CollectionUtils.isNotEmpty(validCostElements)) {
+                for (ValidCeJobCode validCE : validCostElements) {
+                    Map fieldValues = new HashMap();
+                    fieldValues.put("costElement", validCE.getCostElement());
+                    CostElement costElement = (CostElement) businessObjectService.findByPrimaryKey(CostElement.class, fieldValues);
+                    resultStr += "," + validCE.getCostElement() + ";" + costElement.getDescription();
+                }
+                resultStr += ",ceLookup;false";
+            } else {
+                CostElementValuesFinder ceValuesFinder = new CostElementValuesFinder();
+                ceValuesFinder.setBudgetCategoryTypeCode(budgetCategoryTypeCode);
+                List<KeyValue> allPersonnelCostElements = ceValuesFinder.getKeyValues();
+                for (KeyValue keyValue : allPersonnelCostElements) {
+                    if(StringUtils.isNotEmpty(keyValue.getKey().toString())) {
+                        resultStr += "," + keyValue.getKey() + ";" + keyValue.getValue();
+                    }
+                }
+                resultStr += ",ceLookup;true";
+            }
+        }
+        
+        return resultStr;
+    } 
+    
+    /*
+     * a utility method to check if dwr/ajax call really has authorization
+     * 'updateProtocolFundingSource' also accessed by non ajax call
+     */
+    
+    private boolean isAuthorizedToAccess(String budgetCategoryTypeCode) {
+        boolean isAuthorized = true;
+        if(budgetCategoryTypeCode.contains(Constants.COLON)){
+            if (globalVariableService.getUserSession() != null) {
+                // jquery/ajax in rice 2.0
+                String[] invalues = StringUtils.split(budgetCategoryTypeCode, Constants.COLON);
+                String docFormKey = invalues[1];
+                if (StringUtils.isBlank(docFormKey)) {
+                    isAuthorized = false;
+                } else {
+                    Object formObj = globalVariableService.getUserSession().retrieveObject(docFormKey);
+                    if (formObj == null || !(formObj instanceof BudgetForm)) {
+                        isAuthorized = false;
+                    } else {
+                        Map<String, String> editModes = ((BudgetForm)formObj).getEditingMode();
+                        isAuthorized = BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.FULL_ENTRY))
+                        || BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.VIEW_ONLY))
+                        || BooleanUtils.toBoolean(editModes.get("modifyBudgtes"))
+                        || BooleanUtils.toBoolean(editModes.get("viewBudgets"))
+                        || BooleanUtils.toBoolean(editModes.get("addBudget"));
+                    }
+                }
+
+            }
+        }
+        return isAuthorized;
+    }
+
+	protected GlobalVariableService getGlobalVariableService() {
+		return globalVariableService;
+	}
+
+	public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+		this.globalVariableService = globalVariableService;
+	}    
 
 }

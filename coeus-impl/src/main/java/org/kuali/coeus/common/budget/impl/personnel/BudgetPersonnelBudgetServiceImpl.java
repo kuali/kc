@@ -70,7 +70,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
     private ParameterService parameterService;
 
     @Override
-    public void addBudgetPersonnelDetails(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails) {
+    public void addBudgetPersonnelDetails(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails) {
         try {
             ConvertUtils.register(new SqlDateConverter(null), java.sql.Date.class);
             ConvertUtils.register(new SqlTimestampConverter(null), java.sql.Timestamp.class);
@@ -84,7 +84,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
          * Need to solve the document next value refresh issue
          */
         
-        newBudgetPersonnelDetails.setPersonNumber(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
+        newBudgetPersonnelDetails.setPersonNumber(budget.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
         newBudgetPersonnelDetails.setPersonSequenceNumber(newBudgetPersonnelDetails.getPersonSequenceNumber());
         BudgetPerson budgetPerson = budgetPersonService.findBudgetPerson(newBudgetPersonnelDetails);
         if(budgetPerson != null) {
@@ -92,7 +92,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
             newBudgetPersonnelDetails.setJobCode(budgetPerson.getJobCode());
             newBudgetPersonnelDetails.setBudgetPerson(budgetPerson);
         }
-        newBudgetPersonnelDetails.setSequenceNumber(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
+        newBudgetPersonnelDetails.setSequenceNumber(budget.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
         //budgetCalculationService.populateCalculatedAmount(budget, newBudgetPersonnelDetails);
         newBudgetPersonnelDetails.refreshNonUpdateableReferences();
         budgetLineItem.getBudgetPersonnelDetailsList().add(newBudgetPersonnelDetails);

@@ -20,10 +20,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.framework.income.AddBudgetProjectIncomeEvent;
-import org.kuali.coeus.common.budget.framework.income.AddBudgetProjectIncomeRule;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
-import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncomeRuleImpl;
+import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncomeRule;
+import org.kuali.coeus.common.budget.impl.core.ValidationHelper;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.impl.gv.GlobalVariableServiceImpl;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -34,7 +35,7 @@ import java.util.Properties;
 public class AddBudgetProjectIncomeRuleTest {
     private static final ScaleTwoDecimal PROJECT_INCOME_AMOUNT = new ScaleTwoDecimal(100.00);
     private static final int BUDGET_PERIOD_NO = 1;
-    private AddBudgetProjectIncomeRule addBudgetProjectIncomeRule;
+    private BudgetProjectIncomeRule addBudgetProjectIncomeRule;
     private BudgetProjectIncome budgetProjectIncome;
     private AddBudgetProjectIncomeEvent addBudgetIncomeEvent;
     
@@ -99,8 +100,12 @@ public class AddBudgetProjectIncomeRuleTest {
     public void setUp() {
         GlobalVariables.setMessageMap(new MessageMap());
         budgetProjectIncome = new BudgetProjectIncome();
-        addBudgetIncomeEvent = new AddBudgetProjectIncomeEvent(null, null, null, budgetProjectIncome);
-        addBudgetProjectIncomeRule = new BudgetProjectIncomeRuleImpl();
+        addBudgetIncomeEvent = new AddBudgetProjectIncomeEvent(null, budgetProjectIncome);
+        addBudgetProjectIncomeRule = new BudgetProjectIncomeRule();
+        ValidationHelper helper = new ValidationHelper();
+        helper.setGlobalVariableService(new GlobalVariableServiceImpl());
+        addBudgetProjectIncomeRule.setValidationHelper(helper);
+        
     }
     
     @After

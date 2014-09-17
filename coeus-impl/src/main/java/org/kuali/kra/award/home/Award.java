@@ -1871,6 +1871,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         syncChanges = new ArrayList<AwardSyncChange>();
         syncStatuses = new ArrayList<AwardSyncStatus>();
         subAwardList = new ArrayList<SubAward>();
+        budgets = new ArrayList<AwardBudgetExt>();
     }
 
     public void initializeAwardAmountInfoObjects() {

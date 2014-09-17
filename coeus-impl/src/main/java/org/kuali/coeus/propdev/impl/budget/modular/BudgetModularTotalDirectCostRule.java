@@ -15,14 +15,16 @@
  */
 package org.kuali.coeus.propdev.impl.budget.modular;
 
+import org.kuali.coeus.propdev.impl.core.ProposalAuditEvent;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
+import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
@@ -33,6 +35,8 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.Collection;
 import java.util.List;
@@ -60,53 +64,12 @@ import java.util.Set;
  * See {@link #getErrorMessages() getErrorMessages()}
  * </p>
  */
-public final class BudgetModularTotalDirectCostRule {
-
-    private final DocumentService documentService;
-    private final ConfigurationService configService;
-    private final ParameterService paramService;
-    private final String budgetStatusCompleteCode;
-    private final String tdcWarning;
-
-    public BudgetModularTotalDirectCostRule() {
-        this(CoreApiServiceLocator.getKualiConfigurationService(), KRADServiceLocatorWeb.getDocumentService(),
-                CoreFrameworkServiceLocator.getParameterService());
-    }
-
-
-    /**
-     * Sets the services that this rule uses.  This constructor is provided for easier unit testing.
-     *
-     * @param configService the config service
-     * @param documentService the document service
-     * @throws NullPointerException if the configService or documentService service is null
-     */
-    BudgetModularTotalDirectCostRule(final ConfigurationService configService,
-        final DocumentService documentService, final ParameterService paramService) {
-
-        if (configService == null) {
-            throw new NullPointerException("the configService is null");
-        }
-
-        if (documentService == null) {
-            throw new NullPointerException("the documentService is null");
-        }
-        
-        if (paramService == null) {
-            throw new NullPointerException("the paramService is null");
-        }
-
-        this.documentService = documentService;
-        this.configService = configService;
-        this.paramService = paramService;
-
-        this.budgetStatusCompleteCode = this.paramService.getParameterValueAsString(
-            BudgetDocument.class,
-            Constants.BUDGET_STATUS_COMPLETE_CODE);
-
-        this.tdcWarning = this.configService.getPropertyValueAsString(
-            KeyConstants.WARNING_BUDGET_VERSION_MODULAR_INVALID_TDC);
-    }
+@KcBusinessRule("budgetModularTotalDirectCostRule")
+public class BudgetModularTotalDirectCostRule {
+	
+	@Autowired
+	@Qualifier("parameterService")
+    private ParameterService paramService;
 
     /**
      * Validates the total direct cost (tdc) for each budget version.
@@ -131,46 +94,20 @@ public final class BudgetModularTotalDirectCostRule {
      *
      * @throws NullPointerException if the pdDocument or warningMessages are null.
      */
-    public boolean validateTotalDirectCost(final BudgetParentDocument parentDocument,
-        final boolean reportErrors, Set<String> warningMessages) {
-
-        if (parentDocument == null) {
-            throw new NullPointerException("the document is null");
-        }
-
-        if (warningMessages == null) {
-            throw new NullPointerException("the warningMessages is null");
-        }
-
+	@KcEventMethod
+    public boolean validateTotalDirectCost(ProposalAuditEvent event) {
         boolean passed = true;
 
-        final List<BudgetDocumentVersion> budgetDocumentOverviews = parentDocument.getBudgetDocumentVersions();
+        final List<? extends Budget> budgets = event.getProposalDevelopmentDocument().getDevelopmentProposal().getBudgets();
 
-        for (int i = 0; i < budgetDocumentOverviews.size(); i++) {
-            final BudgetDocumentVersion budgetDocumentOverview = budgetDocumentOverviews.get(i);
-            BudgetVersionOverview budgetOverview = budgetDocumentOverview.getBudgetVersionOverview();
+        for (int i = 0; i < budgets.size(); i++) {
+            final Budget budget = budgets.get(i);
 
-            if (this.budgetStatusCompleteCode.equalsIgnoreCase(
-                budgetOverview.getBudgetStatus())) {
-
-                final BudgetDocument budgetDocument = this.getBudgetDocument(
-                    budgetOverview.getDocumentNumber());
-                updateDocumentBudget(budgetDocument, budgetOverview);
-                passed &= this.checkTotalDirectCost(budgetDocument, i, reportErrors, warningMessages);
+            if (getBudgetStatusCompleteCode().equals(budget.getBudgetStatus())) {
+                passed &= this.checkTotalDirectCost(budget, i);
             }
         }
         return passed;
-    }
-
-    /* 
-     * The budgetdocument.budget may not have complete data match with version
-     */
-    private void updateDocumentBudget(BudgetDocument budgetDocument, BudgetVersionOverview version) {
-        Budget budget = budgetDocument.getBudget();
-        
-        budget.setFinalVersionFlag(version.isFinalVersionFlag());
-        budget.setBudgetStatus(version.getBudgetStatus());
-        budget.setModularBudgetFlag(version.getModularBudgetFlag());
     }
 
     /**
@@ -184,18 +121,17 @@ public final class BudgetModularTotalDirectCostRule {
      * @param warningMessages container to place warning messages.
      * @return true if no errors false if errors
      */
-    private boolean checkTotalDirectCost(final BudgetDocument budgetDocument,
-        final int currentIndex, final boolean reportErrors, Set<String> warningMessages) {
+    private boolean checkTotalDirectCost(final Budget budget,
+        final int currentIndex) {
 
-        assert budgetDocument != null : "the budget overview was null";
+        assert budget != null : "the budget overview was null";
         assert currentIndex >= 0 : "the current index was not valid, index: " + currentIndex;
-        assert warningMessages != null : "the warningMessages is null";
 
-        if (Boolean.FALSE.equals(budgetDocument.getBudget().getModularBudgetFlag())) {
+        if (Boolean.FALSE.equals(budget.getModularBudgetFlag())) {
             return true;
         }
 
-        final Collection<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
+        final Collection<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
 
         if (budgetPeriods != null) {
 
@@ -211,14 +147,16 @@ public final class BudgetModularTotalDirectCostRule {
                         if (tdc.isPositive()) {
                             positiveCount++;
                         } else {
-                            warningMessages.add(this.tdcWarning);
+                        	GlobalVariables.getMessageMap().putWarning("budgetVersionOverview[" + currentIndex + "].budgetStatus", 
+                        			KeyConstants.WARNING_BUDGET_VERSION_MODULAR_INVALID_TDC);
                         }
                     } else {
-                        warningMessages.add(this.tdcWarning);
+                    	GlobalVariables.getMessageMap().putWarning("budgetVersionOverview[" + currentIndex + "].budgetStatus", 
+                    			KeyConstants.WARNING_BUDGET_VERSION_MODULAR_INVALID_TDC);
                     }
                 }
             }
-            if (positiveCount == 0 && reportErrors) {
+            if (positiveCount == 0) {
                 GlobalVariables.getMessageMap().putError("budgetVersionOverview[" + currentIndex + "].budgetStatus",
                     KeyConstants.ERROR_BUDGET_STATUS_COMPLETE_WHEN_NOT_MODULER);
                 return false;
@@ -226,26 +164,18 @@ public final class BudgetModularTotalDirectCostRule {
         }
         return true;
     }
-
-    /**
-     * Retrieves a budget document from a document number through the
-     * {@link DocumentService DocumentService}.
-     *
-     * @param docNumber the document number
-     *
-     * @return the budget document
-     * @throws RuntimeException if a problem occurs getting the BudgetDocument
-     * once an exception hierarchy has been created
-     */
-    private BudgetDocument getBudgetDocument(final String docNumber) {
-
-        assert docNumber != null : "docNumber is null";
-        assert docNumber.trim().length() > 0 : "docNumber whitespace or empty";
-
-        try {
-            return (BudgetDocument) this.documentService.getByDocumentHeaderId(docNumber);
-        } catch (final WorkflowException e) {
-            throw new RuntimeException("Error getting document by header id, document number [" + docNumber + "]", e);
-        }
+    
+    protected String getBudgetStatusCompleteCode() {
+	    return paramService.getParameterValueAsString(
+	            Budget.class,
+	            Constants.BUDGET_STATUS_COMPLETE_CODE);
     }
+
+	protected ParameterService getParamService() {
+		return paramService;
+	}
+
+	public void setParamService(ParameterService paramService) {
+		this.paramService = paramService;
+	}
 }

@@ -58,7 +58,7 @@ public class RRSubAwardBudget5_30V1_2GeneratorTest extends
 		proposalDevelopmentBudgetExt.setBudgetStatus("1");
 		proposalDevelopmentBudgetExt.setBudgetId(1L);
 		proposalDevelopmentBudgetExt
-				.setDocumentDescription("test Document Description");
+				.setName("test Document Description");
 		proposalDevelopmentBudgetExt.setOnOffCampusFlag("Y");
 		proposalDevelopmentBudgetExt.setStartDate(new Date(new Long(
 				"1183316613046")));
@@ -149,8 +149,6 @@ public class RRSubAwardBudget5_30V1_2GeneratorTest extends
 
 	public void prepareDatas(ProposalDevelopmentDocument document)
 			throws Exception {
-		BudgetDocument budgetDocument = (BudgetDocument) KRADServiceLocatorWeb
-				.getDocumentService().getNewDocument("BudgetDocument");
 
 		Organization organization = new Organization();
 		organization.setOrganizationName("University");
@@ -209,10 +207,8 @@ public class RRSubAwardBudget5_30V1_2GeneratorTest extends
 		proposalDevelopmentBudgetExt.setBudgetStatus("1");
 		proposalDevelopmentBudgetExt.setBudgetId(1L);
 		proposalDevelopmentBudgetExt
-				.setDocumentDescription("test Document Description");
+				.setName("test Document Description");
 		proposalDevelopmentBudgetExt.setOnOffCampusFlag("Y");
-		proposalDevelopmentBudgetExt.setDocumentNumber(budgetDocument
-				.getDocumentNumber());
 		proposalDevelopmentBudgetExt.setStartDate(new Date(new Long(
 				"1183316613046")));
 		proposalDevelopmentBudgetExt.setEndDate(new Date(new Long(

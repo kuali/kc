@@ -548,6 +548,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         budgetChangeHistory = new TreeMap<String, List<BudgetChangedData>>();
         hierarchyStatus = HierarchyStatusConstants.None.code();
         hierarchyStatusName = HierarchyStatusConstants.None.description();
+        budgets = new ArrayList<ProposalDevelopmentBudgetExt>();
         initProposalSites();
     }
 
@@ -1777,7 +1778,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     }
 
     public boolean isProposalComplete() {
-        String budgetStatusCompleteCode = this.getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        String budgetStatusCompleteCode = this.getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
         if (this.getBudgetStatus() != null && budgetStatusCompleteCode != null && this.getBudgetStatus().equals(budgetStatusCompleteCode)) {
             return true;
         }

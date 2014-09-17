@@ -26,6 +26,7 @@ import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.framework.costshare.CostShareService;
 import org.kuali.kra.costshare.CostShareServiceTest;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
@@ -35,14 +36,14 @@ import org.kuali.rice.krad.service.DocumentService;
 import static org.junit.Assert.*;
 public class BudgetDocumentRuleTest extends KcIntegrationTestBase {
 
-    BudgetDocument<DevelopmentProposal> budgetDoc;
+    ProposalDevelopmentBudgetExt budget;
     BudgetDocumentRule budgetDocRule;
     DocumentService docService;
     
     @Before
     public void setUp() throws Exception {
         docService = KcServiceLocator.getService(DocumentService.class);
-        budgetDoc = (BudgetDocument)docService.getNewDocument(BudgetDocument.class);
+        budget = new ProposalDevelopmentBudgetExt();
         budgetDocRule = new BudgetDocumentRule();
     }
 
@@ -64,55 +65,56 @@ public class BudgetDocumentRuleTest extends KcIntegrationTestBase {
         CostShareService costShareService = KcServiceLocator.getService(CostShareService.class);
         costShareService.getCostShareLabel();
         budgetDocRule.setCostShareService(costShareService);
-        
-        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
+        BudgetSaveEvent saveEvent = new BudgetSaveEvent(budget);
+        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(saveEvent));
         for (int i = 0; i < 5; i++) {
             BudgetCostShare tempCostShare = new BudgetCostShare();
             Integer projectPeriod = 2010+(i+1);
             tempCostShare.setProjectPeriod(projectPeriod);
             tempCostShare.setShareAmount(new ScaleTwoDecimal(10000.00));
-            budgetDoc.getBudget().getBudgetCostShares().add(tempCostShare);
+            budget.getBudgetCostShares().add(tempCostShare);
         }
-        assertEquals(5, budgetDoc.getBudget().getBudgetCostShares().size());
+        assertEquals(5, budget.getBudgetCostShares().size());
         
         BudgetPeriod budgetPeriod = new BudgetPeriod();
-        budgetDoc.getBudget().add(budgetPeriod);
+        budget.add(budgetPeriod);
         
-        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
+        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(saveEvent));
         
-        budgetDoc.getBudget().getBudgetCostShares().get(0).setProjectPeriod(null);
-        assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
+        budget.getBudgetCostShares().get(0).setProjectPeriod(null);
+        assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(saveEvent));
         
-        budgetDoc.getBudget().getBudgetCostShares().get(0).setProjectPeriod(1984);
-        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
+        budget.getBudgetCostShares().get(0).setProjectPeriod(1984);
+        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(saveEvent));
         
-        budgetDoc.getBudget().getBudgetCostShares().get(1).setSourceAccount("abcd1234");
-        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
+        budget.getBudgetCostShares().get(1).setSourceAccount("abcd1234");
+        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(saveEvent));
         
-        budgetDoc.getBudget().getBudgetCostShares().get(0).setProjectPeriod(2010);
-        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
+        budget.getBudgetCostShares().get(0).setProjectPeriod(2010);
+        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(saveEvent));
         
-        budgetDoc.getBudget().getBudgetCostShares().get(1).setProjectPeriod(2010);
-        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
+        budget.getBudgetCostShares().get(1).setProjectPeriod(2010);
+        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(saveEvent));
         
-        budgetDoc.getBudget().getBudgetCostShares().get(1).setSourceAccount(null);
-        assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
+        budget.getBudgetCostShares().get(1).setSourceAccount(null);
+        assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(saveEvent));
         
         
-        budgetDoc.getBudget().getBudgetCostShares().clear();
+        budget.getBudgetCostShares().clear();
     }
     
     @Test
     public void testProjectIncomeValidation() {
-        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
+    	BudgetSaveEvent saveEvent = new BudgetSaveEvent(budget);
+        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(saveEvent));
         BudgetProjectIncome projectIncome = new BudgetProjectIncome();
         projectIncome.setProjectIncome(new ScaleTwoDecimal(5.00));
-        budgetDoc.getBudget().getBudgetProjectIncomes().add(projectIncome);
-        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
-        budgetDoc.getBudget().getBudgetProjectIncome(0).setProjectIncome(new ScaleTwoDecimal(0.00));
-        assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
-        budgetDoc.getBudget().getBudgetProjectIncome(0).setProjectIncome(null);
-        assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(budgetDoc));
+        budget.getBudgetProjectIncomes().add(projectIncome);
+        assertTrue(budgetDocRule.processBudgetProjectIncomeBusinessRule(saveEvent));
+        budget.getBudgetProjectIncome(0).setProjectIncome(new ScaleTwoDecimal(0.00));
+        assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(saveEvent));
+        budget.getBudgetProjectIncome(0).setProjectIncome(null);
+        assertFalse(budgetDocRule.processBudgetProjectIncomeBusinessRule(saveEvent));
     }
 
 }

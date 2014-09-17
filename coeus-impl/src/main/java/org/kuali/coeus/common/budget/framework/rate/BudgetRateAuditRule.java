@@ -15,31 +15,40 @@
  */
 package org.kuali.coeus.common.budget.framework.rate;
 
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+import org.kuali.coeus.common.budget.framework.core.BudgetAuditEvent;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
+import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
-public class BudgetRateAuditRule  extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
-    private static final String BUDGET_RATE_AUDIT_WARNING_KEY = "budgetRateAuditWarnings";
+@KcBusinessRule("budgetRateAuditRule")
+public class BudgetRateAuditRule {
 
+	@Autowired
+	@Qualifier("budgetRatesService")
+	private BudgetRatesService budgetRatesService;
+	
     /**
      * 
      * This method is to validate budget period start/end date against project start/end date if
      * project start/end date have been adjusted.
      */
-    public boolean processRunAuditBusinessRules(Document document) {
-        BudgetDocument budgetDocument = (BudgetDocument) document;
+	@KcEventMethod
+    public boolean processRunAuditBusinessRules(BudgetAuditEvent event) {
         boolean retval = true;
-        //budgetDocument.getRateClassTypes(); // to load instituterates & institutelarate lists
-        if (KcServiceLocator.getService(BudgetRatesService.class).isOutOfSyncForRateAudit(budgetDocument.getBudget())) {
+        if (budgetRatesService.isOutOfSyncForRateAudit(event.getBudget())) {
             retval = false;
         }
-        
         return retval;
-
     }
+
+	protected BudgetRatesService getBudgetRatesService() {
+		return budgetRatesService;
+	}
+
+	public void setBudgetRatesService(BudgetRatesService budgetRatesService) {
+		this.budgetRatesService = budgetRatesService;
+	}
 
 }
 

@@ -16,37 +16,37 @@
 package org.kuali.coeus.common.budget.framework.personnel;
 
 import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
+import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetAuditEvent;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.common.framework.custom.KcDocumentBaseAuditRule;
-import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BudgetPersonnelAuditRule extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
+@KcBusinessRule("budgetPersonnelAuditRule")
+public class BudgetPersonnelAuditRule {
 
-    
-    public boolean processRunPersonnelAuditBusinessRules(Document document) {
+	@Autowired
+	@Qualifier("globalVariableService")
+	private GlobalVariableService globalVariableService;
+	
+    @KcEventMethod
+    public boolean processRunPersonnelAuditBusinessRules(BudgetAuditEvent event) {
         boolean valid = true;
         
-        if (!(document instanceof BudgetDocument)) {
-            return false;
-        }
-        
         List<AuditError> auditErrors = new ArrayList<AuditError>();
-        BudgetDocument budgetDocument = (BudgetDocument) document;
-        Budget budget = ((BudgetDocument) document).getBudget();
-        BudgetParent budgetParent = budgetDocument.getBudget().getBudgetParent().getDocument().getBudgetParent();
+        Budget budget = event.getBudget();
+        BudgetParent budgetParent = budget.getBudgetParent().getDocument().getBudgetParent();
         for (BudgetPerson budgetPerson: budget.getBudgetPersons()) {
             if (budgetPerson.getRolodexId() != null) {
                 ContactRole role = budgetParent.getProposalNonEmployeeRole(budgetPerson.getRolodexId());
@@ -71,15 +71,18 @@ public class BudgetPersonnelAuditRule extends KcTransactionalDocumentRuleBase im
         }
         
         if (auditErrors.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put("budgetPersonnelAuditWarnings", new AuditCluster(Constants.BUDGET_PERSONNEL_PAGE, auditErrors, Constants.AUDIT_WARNINGS));
+        	globalVariableService.getAuditErrorMap().put("budgetPersonnelAuditWarnings", new AuditCluster(Constants.BUDGET_PERSONNEL_PAGE, auditErrors, Constants.AUDIT_WARNINGS));
         }
         
         return valid;
     }
 
+	protected GlobalVariableService getGlobalVariableService() {
+		return globalVariableService;
+	}
 
-    @Override
-    public boolean processRunAuditBusinessRules(Document document) {
-        return new KcDocumentBaseAuditRule().processRunAuditBusinessRules(document);
-    }
+
+	public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+		this.globalVariableService = globalVariableService;
+	}
 }

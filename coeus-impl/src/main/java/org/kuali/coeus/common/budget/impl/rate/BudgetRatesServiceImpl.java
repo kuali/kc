@@ -227,15 +227,6 @@ public abstract class BudgetRatesServiceImpl<T extends BudgetParent> implements 
         }
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<BudgetPeriod> getBudgetPeriods(){
-        BudgetForm budgetForm = (BudgetForm) KNSGlobalVariables.getKualiForm();
-        BudgetDocument<T> budgetDocument  = budgetForm.getBudgetDocument();
-        List<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
-        return budgetPeriods;
-    }
-
     /**
      * Sets the businessObjectService attribute value.
      * @param businessObjectService The businessObjectService to set.

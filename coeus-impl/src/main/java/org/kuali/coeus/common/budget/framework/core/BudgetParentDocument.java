@@ -16,13 +16,11 @@
 package org.kuali.coeus.common.budget.framework.core;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.common.framework.auth.task.Task;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionCollection;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
@@ -32,11 +30,12 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
 
 import javax.persistence.MappedSuperclass;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
-public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTransactionalDocumentBase implements BudgetVersionCollection, BudgetDocumentTypeChecker, Permissionable {
+public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTransactionalDocumentBase implements BudgetDocumentTypeChecker, Permissionable {
 
     /**
      * Looks up and returns the ParameterService.
@@ -45,23 +44,11 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTra
     protected ParameterService getParameterService() {
         return KcServiceLocator.getService(ParameterService.class);
     }
-
-    public BudgetDocumentVersion getFinalBudgetVersion() {
-        for (BudgetDocumentVersion version : getBudgetDocumentVersions()) {
-            if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
-                return version;
-            }
-        }
-        return null;
-    }
-
-    public void updateDocumentDescriptions(List<BudgetDocumentVersion> budgetVersionOverviews) {
-        BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
-        for (BudgetDocumentVersion budgetDocumentVersion : budgetVersionOverviews) {
-            BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
-            if (budgetVersion.isDescriptionUpdatable() && !StringUtils.isBlank(budgetVersion.getDocumentDescription())) {
-                budgetService.updateDocumentDescription(budgetVersion);
-                budgetVersion.setDescriptionUpdatable(false);
+    
+    public void updateDocumentDescriptions(List<? extends Budget> budgets) {
+        for (Budget budgetVersion : budgets) {
+            if (budgetVersion.isNameUpdatable() && !StringUtils.isBlank(budgetVersion.getName())) {
+                budgetVersion.setNameUpdatable(false);
             }
         }
     }
@@ -73,38 +60,41 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTra
      * @return Integer
      */
     public Integer getNextBudgetVersionNumber() {
-        List<BudgetDocumentVersion> versions = getBudgetDocumentVersions();
+        List<? extends Budget> versions = getBudgetParent().getBudgets();
         if (versions.isEmpty()) {
             return 1;
         }
-        Collections.sort(versions);
-        BudgetDocumentVersion lastVersion = versions.get(versions.size() - 1);
-        return lastVersion.getBudgetVersionOverview().getBudgetVersionNumber() + 1;
+        Collections.sort(versions, new Comparator<Budget>(){
+			@Override
+			public int compare(Budget o1, Budget o2) {
+				return new CompareToBuilder().append(o1.getBudgetVersionNumber(), o2.getBudgetVersionNumber()).toComparison() * -1;
+			}
+        });
+        Budget lastVersion = versions.get(0);
+        return lastVersion.getBudgetVersionNumber() + 1;
     }
 
-    public BudgetDocumentVersion getBudgetDocumentVersion(int selectedLine) {
-        return getBudgetDocumentVersions().get(selectedLine);
+    public Budget getBudgetDocumentVersion(int selectedLine) {
+        return getBudgetParent().getBudgets().get(selectedLine);
     }
 
+    public void updateBudgetDescriptions(List<? extends AbstractBudget> budgetVersions) {
+        for (AbstractBudget budgetVersion : budgetVersions) {
+            if (budgetVersion.isNameUpdatable() && !StringUtils.isBlank(budgetVersion.getName())) {
+                budgetVersion.setNameUpdatable(false);
+            }
+        }
+    }
+    
     public abstract Permissionable getBudgetPermissionable();
 
     public abstract boolean isComplete();
-
-    public abstract void saveBudgetFinalVersionStatus(BudgetDocument budgetDocument);
-
-    public abstract void processAfterRetrieveForBudget(BudgetDocument budgetDocument);
 
     public abstract String getTaskGroupName();
 
     public abstract Task getParentAuthZTask(String taskName);
 
     public abstract ExtraButton configureReturnToParentTopButton();
-
-    public List<HeaderNavigation> getBudgetHeaderNavigatorList() {
-        DataDictionaryService dataDictionaryService = (DataDictionaryService) KcServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-        KNSDocumentEntry docEntry = (KNSDocumentEntry) dataDictionaryService.getDataDictionary().getDocumentEntry(BudgetDocument.class.getName());
-        return docEntry.getHeaderNavigationList();
-    }
 
     public abstract T getBudgetParent();
 

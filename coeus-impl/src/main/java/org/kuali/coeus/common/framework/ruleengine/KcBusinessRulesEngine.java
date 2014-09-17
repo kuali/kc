@@ -9,35 +9,27 @@ import java.lang.reflect.Method;
 public interface KcBusinessRulesEngine {
 
 	/**
-	 * Using KcEvent.eventName, applyRules determines and executes all registered rule methods and returns
+	 * Using the events class type, applyRules determines and executes all registered rule methods and returns
 	 * a single boolean result which is the ANDing of all method return values.
 	 * @param event
 	 * @return
 	 */
-	public Boolean applyRules(KcEvent event);
+	public Boolean applyRules(Object event);
 	
 	/**
-	 * Similar to {@link #applyRules(KcEvent)} but returns a single KcEventResult containing
+	 * Similar to {@link #applyRules(Object)} but returns a single KcEventResult containing
 	 * the success of all associated rules and all messages and audit results.
 	 * @param event
 	 * @return
 	 */
-	public KcEventResult applyRulesWithResult(KcEvent event);
+	public KcEventResult applyRulesWithResult(Object event);
 	
 	/**
 	 * A class with methods annotated with KcEventMethod and accepting a KcEvent will
 	 * be automatically registered with this engine.
 	 * @param businessRuleClass
 	 */
-	public void registerBusinessRuleClass(Object businessRuleClass);
-	
-	/**
-	 * Registers the rule method with the associated event.eventName
-	 * @param event
-	 * @param rule
-	 * @param method
-	 */
-	public void registerEvent(KcEventBase event, Object rule, Method method);
+	public void registerBusinessRuleClass(String ruleName, Object businessRuleClass);
 	
 	/**
 	 * Register the rule method with the eventName provided.
@@ -45,5 +37,5 @@ public interface KcBusinessRulesEngine {
 	 * @param rule
 	 * @param method
 	 */
-	public void registerEvent(String eventName, Object rule, Method method);
+	public void registerEvent(String ruleName, Object rule, Method method);
 }

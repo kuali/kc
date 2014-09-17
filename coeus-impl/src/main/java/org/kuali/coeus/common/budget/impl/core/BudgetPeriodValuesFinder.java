@@ -19,8 +19,8 @@ import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.keyvalue.KeyValueFinderService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.document.Document;
@@ -50,20 +50,27 @@ public class BudgetPeriodValuesFinder extends FormViewAwareUifKeyValuesFinderBas
      * is always &lt;"", "select:"&gt;.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    
+    private String selectAllOption;
+    
+    public BudgetPeriodValuesFinder() {
+    	this("Select");
+    }
+    
+    public BudgetPeriodValuesFinder(String selectAllOption) {
+    	this.selectAllOption = selectAllOption;
+    }
+    
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> KeyValues = null;
 
         Document doc = getDocument();
-        if(doc instanceof BudgetDocument) {
-            List<BudgetPeriod> budgetPeriods = ((BudgetDocument)doc).getBudget().getBudgetPeriods();
+        if(doc instanceof AwardBudgetDocument) {
+            List<BudgetPeriod> budgetPeriods = ((AwardBudgetDocument)doc).getBudget().getBudgetPeriods();
             if (budgetPeriods.size() > 0) {
                 KeyValues = buildKeyValues(budgetPeriods);
             }
-        }
-        
-        if(KeyValues == null) {
-            KeyValues = keyValueFinderService.getKeyValues(BudgetPeriod.class, "budgetPeriod", "label");            
         }
         
         return KeyValues; 
@@ -85,6 +92,12 @@ public class BudgetPeriodValuesFinder extends FormViewAwareUifKeyValuesFinderBas
             keyValues = buildKeyValues(budgetPeriods);
         }
         return keyValues;
-
     }
+    
+	public String getSelectAllOption() {
+		return selectAllOption;
+	}
+	public void setSelectAllOption(String selectAllOption) {
+		this.selectAllOption = selectAllOption;
+	}
 }

@@ -27,6 +27,7 @@ import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.budget.CostShareInfoDO;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatus;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.CoPiInfoDO;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -41,9 +42,6 @@ import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -252,19 +250,17 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     public String populateBudgetEditableFieldMetaDataForAjaxCall(String proposalNumber, String documentNumber, String editableFieldDBColumn) {
         if (isAuthorizedToAccess(proposalNumber) && StringUtils.isNotBlank(documentNumber) && StringUtils.isNotBlank(editableFieldDBColumn)) {
-            return populateBudgetEditableFieldMetaData(documentNumber, editableFieldDBColumn);
+            return populateBudgetEditableFieldMetaData(proposalNumber, editableFieldDBColumn);
         }
         return StringUtils.EMPTY;
         
     }
     
-    protected BudgetVersionOverview getBudgetVersionOverview(String documentNumber) {
-        BudgetVersionOverview currentBudget=null;
-        Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put("documentNumber", documentNumber);
-        Collection<BudgetVersionOverview> currentBudgets = getDataObjectService().findMatching(BudgetVersionOverview.class,
-                QueryByCriteria.Builder.andAttributes(primaryKeys).build()).getResults();
-        for (BudgetVersionOverview budgetVersionOverview:currentBudgets) {
+    protected ProposalDevelopmentBudgetExt getBudgetVersionOverview(String proposalNumber) {
+    	ProposalDevelopmentBudgetExt currentBudget = null;
+        Collection<ProposalDevelopmentBudgetExt> currentBudgets = getDataObjectService().findMatching(ProposalDevelopmentBudgetExt.class,
+                QueryByCriteria.Builder.forAttribute("PROPOSAL_NUMBER", proposalNumber).build()).getResults();
+        for (ProposalDevelopmentBudgetExt budgetVersionOverview:currentBudgets) {
             if (budgetVersionOverview.isFinalVersionFlag()) {
                 currentBudget = budgetVersionOverview;
                 break;
@@ -338,12 +334,12 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return displayValue;
     }
     
-    public Object getBudgetFieldValueFromDBColumnName(String documentNumber, String dbColumnName) {
+    public Object getBudgetFieldValueFromDBColumnName(String proposalNumber, String dbColumnName) {
         Object fieldValue = null;        
-        Map<String, String> fieldMap = getKcPersistenceStructureService().getDBColumnToObjectAttributeMap(BudgetVersionOverview.class);
+        Map<String, String> fieldMap = getKcPersistenceStructureService().getDBColumnToObjectAttributeMap(Budget.class);
         String budgetAttributeName = fieldMap.get(dbColumnName);
         if (StringUtils.isNotEmpty(budgetAttributeName)) {
-            BudgetVersionOverview currentBudget = getBudgetVersionOverview(documentNumber);            
+            Budget currentBudget = getBudgetVersionOverview(proposalNumber);            
             if (currentBudget != null) {
                 fieldValue = ObjectUtils.getPropertyValue(currentBudget, budgetAttributeName);
             }
@@ -397,10 +393,10 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     @Override
     public ProposalDevelopmentDocument deleteProposal(ProposalDevelopmentDocument proposalDocument) throws WorkflowException {
-        ListIterator<BudgetDocumentVersion> iter = proposalDocument.getBudgetDocumentVersions().listIterator();
+        ListIterator<ProposalDevelopmentBudgetExt> iter = proposalDocument.getDevelopmentProposal().getBudgets().listIterator();
         while (iter.hasNext()) {
-            BudgetDocumentVersion budgetVersion = iter.next();
-            deleteProposalBudget(budgetVersion.getDocumentNumber(), proposalDocument);
+            Budget budgetVersion = iter.next();
+        	getDataObjectService().delete(budgetVersion);
             iter.remove();
         }
         // remove budget statuses as they are not referenced via ojb, but there is a
@@ -409,28 +405,12 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         keyValues.put("proposalNumber", proposalDocument.getDevelopmentProposal().getProposalNumber());
         getDataObjectService().deleteMatching(ProposalBudgetStatus.class, QueryByCriteria.Builder.andAttributes(keyValues).build());
         proposalDocument.setDevelopmentProposal(null);
-        proposalDocument.setBudgetDocumentVersions(null);
         proposalDocument.setProposalDeleted(true);
 
         // because the devproplist was cleared above the dev prop and associated BOs will be
         // deleted upon save
         proposalDocument = (ProposalDevelopmentDocument)getDocumentService().saveDocument(proposalDocument);
         return (ProposalDevelopmentDocument) getDocumentService().cancelDocument(proposalDocument, "Delete Proposal");
-    }
-
-    protected void deleteProposalBudget(String budgetDocumentNumber, ProposalDevelopmentDocument parentDocument) {
-        try {
-            BudgetDocument<DevelopmentProposal> document = (BudgetDocument<DevelopmentProposal>) getDocumentService().getByDocumentHeaderId(budgetDocumentNumber);
-            document.setBudget(null);
-            // make sure the budget points to this instance of the pdd as other deleted budgets
-            // must be removed so they don't fail document validation.
-            document.setBudgetDeleted(true);
-            document = (BudgetDocument<DevelopmentProposal>) getDocumentService().saveDocument(document);
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
     protected DocumentService getDocumentService() {
@@ -477,25 +457,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     public Budget getFinalBudget(DevelopmentProposal proposal) {
-        List<BudgetDocumentVersion> budgetDocuments = proposal.getProposalDocument().getBudgetDocumentVersions();
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        Budget budget = null;
-
-        if (budgetDocuments != null && budgetDocuments.size() > 0) {
-            for (BudgetDocumentVersion budgetDocument : budgetDocuments) {
-                fieldValues.clear();
-                fieldValues.put("document_number", budgetDocument.getDocumentNumber());
-                List<Budget> budgets =getDataObjectService().findMatching(Budget.class,
-                                QueryByCriteria.Builder.andAttributes(fieldValues).build()).getResults();
-                budget = budgets.get(0);
-                // break out if we find the final budget
-                if (budget.getFinalVersionFlag()) {
-                    break;
-                }
-            }
-        }
-
-        return budget;
+    	return proposal.getFinalBudget();
     }
 
     public List<CoPiInfoDO> getCoPiPiInfo(DevelopmentProposal proposal) {
@@ -548,13 +510,13 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return null;
     }
     protected String populateBudgetEditableFieldMetaData(
-            String documentNumber, String editableFieldDBColumn) {
+            String proposalNumber, String editableFieldDBColumn) {
         String returnValue  = "";
 
         if (globalVariableService.getMessageMap() != null) {
             globalVariableService.getMessageMap().clearErrorMessages();
         }      
-        Object fieldValue = getBudgetFieldValueFromDBColumnName(documentNumber, editableFieldDBColumn);
+        Object fieldValue = getBudgetFieldValueFromDBColumnName(proposalNumber, editableFieldDBColumn);
         
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put("columnName", editableFieldDBColumn);
@@ -645,34 +607,32 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             
             //For Budget and Narrative Lock regions, this is the only way in which a Proposal Document might get updated
             if (region != null && updatedDocCopy != null) {
-                if (region != ProposalLockingRegion.BUDGET) {
-                    pdDocument.setBudgetDocumentVersions(updatedDocCopy.getBudgetDocumentVersions());
-                    pdDocument.getDevelopmentProposal().setBudgetStatus(updatedDocCopy.getDevelopmentProposal().getBudgetStatus());
+                DevelopmentProposal developmentProposal = pdDocument.getDevelopmentProposal();
+				if (region != ProposalLockingRegion.BUDGET) {
+					developmentProposal.setBudgets(updatedDocCopy.getDevelopmentProposal().getBudgets());
                 } else {
                     //in case other parts of the document have been saved since we have saved,
                     //we save off possibly changed parts and reload the rest of the document
-                    List<BudgetDocumentVersion> newVersions = pdDocument.getBudgetDocumentVersions();
-                    String budgetStatus = pdDocument.getDevelopmentProposal().getBudgetStatus();
+                    List<ProposalDevelopmentBudgetExt> newVersions = developmentProposal.getBudgets();
                     
                     pdDocument = updatedDocCopy;
                     loadDocument(pdDocument);
                     
-                    pdDocument.setBudgetDocumentVersions(newVersions);
-                    pdDocument.getDevelopmentProposal().setBudgetStatus(budgetStatus);                  
+                    developmentProposal.setBudgets(newVersions);
                 }
                 if (region != ProposalLockingRegion.ATTACHMENTS) {
-                    pdDocument.getDevelopmentProposal().setNarratives(updatedDocCopy.getDevelopmentProposal().getNarratives());
-                    pdDocument.getDevelopmentProposal().setInstituteAttachments(updatedDocCopy.getDevelopmentProposal().getInstituteAttachments());
-                    pdDocument.getDevelopmentProposal().setProposalAbstracts(updatedDocCopy.getDevelopmentProposal().getProposalAbstracts());
-                    pdDocument.getDevelopmentProposal().setPropPersonBios(updatedDocCopy.getDevelopmentProposal().getPropPersonBios());
+                    developmentProposal.setNarratives(updatedDocCopy.getDevelopmentProposal().getNarratives());
+                    developmentProposal.setInstituteAttachments(updatedDocCopy.getDevelopmentProposal().getInstituteAttachments());
+                    developmentProposal.setProposalAbstracts(updatedDocCopy.getDevelopmentProposal().getProposalAbstracts());
+                    developmentProposal.setPropPersonBios(updatedDocCopy.getDevelopmentProposal().getPropPersonBios());
                     removePersonnelAttachmentForDeletedPerson(pdDocument);
                } else {
                    //in case other parts of the document have been saved since we have saved,
                    //we save off possibly changed parts and reload the rest of the document
-                   List<Narrative> newNarratives = pdDocument.getDevelopmentProposal().getNarratives();
-                   List<Narrative> instituteAttachments = pdDocument.getDevelopmentProposal().getInstituteAttachments();
-                   List<ProposalAbstract> newAbstracts = pdDocument.getDevelopmentProposal().getProposalAbstracts();
-                   List<ProposalPersonBiography> newBiographies = pdDocument.getDevelopmentProposal().getPropPersonBios();
+                   List<Narrative> newNarratives = developmentProposal.getNarratives();
+                   List<Narrative> instituteAttachments = developmentProposal.getInstituteAttachments();
+                   List<ProposalAbstract> newAbstracts = developmentProposal.getProposalAbstracts();
+                   List<ProposalPersonBiography> newBiographies = developmentProposal.getPropPersonBios();
     
                    pdDocument = updatedDocCopy;
                    loadDocument(pdDocument);
@@ -687,10 +647,10 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
                         }
                     }
                    //now re-add narratives that could include changes and can't be modified otherwise
-                   pdDocument.getDevelopmentProposal().setNarratives(newNarrativesCopy);
-                   pdDocument.getDevelopmentProposal().setInstituteAttachments(instituteAttachments);
-                   pdDocument.getDevelopmentProposal().setProposalAbstracts(newAbstracts);
-                   pdDocument.getDevelopmentProposal().setPropPersonBios(newBiographies);
+                   developmentProposal.setNarratives(newNarrativesCopy);
+                   developmentProposal.setInstituteAttachments(instituteAttachments);
+                   developmentProposal.setProposalAbstracts(newAbstracts);
+                   developmentProposal.setPropPersonBios(newBiographies);
     
                }
             }
@@ -709,15 +669,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
                 DocumentNextvalue updatedDocumentNextvalue = updatedDocCopy.getDocumentNextvalueBo(documentNextValue.getPropertyName());
                 if(updatedDocumentNextvalue != null) {
                     documentNextValue.setVersionNumber(updatedDocumentNextvalue.getVersionNumber());
-                }
-            }   
-            //fix budget document version's document headers
-            for (int i = 0; i < pdDocument.getBudgetDocumentVersions().size(); i++) {
-                BudgetDocumentVersion curVersion = pdDocument.getBudgetDocumentVersion(i);
-                BudgetDocumentVersion otherVersion = updatedDocCopy.getBudgetDocumentVersion(i);
-                otherVersion.refreshReferenceObject("documentHeader");
-                if (curVersion != null && otherVersion != null) {
-                    curVersion.getDocumentHeader().setVersionNumber(otherVersion.getDocumentHeader().getVersionNumber());
                 }
             }
         }

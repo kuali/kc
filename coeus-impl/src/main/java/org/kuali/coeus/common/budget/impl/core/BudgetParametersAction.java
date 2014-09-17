@@ -20,7 +20,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.budget.framework.core.*;
-import org.kuali.coeus.common.budget.framework.core.BudgetAction;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
@@ -31,10 +31,8 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.AddBudgetPeriodEvent;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.period.GenerateBudgetPeriodEvent;
-import org.kuali.coeus.common.budget.framework.period.SaveBudgetPeriodEvent;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -69,8 +67,7 @@ public class BudgetParametersAction extends BudgetAction {
             throws Exception {
         ActionForward forward = super.execute(mapping, form, request, response);
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        Budget budget = budgetForm.getBudget();
         updateTotalCost(budget);
         getBudgetSummaryService().setupOldStartEndDate(budget, false);
         if (StringUtils.isNotBlank(budgetForm.getSyncBudgetRate()) && budgetForm.getSyncBudgetRate().equals("Y")) {
@@ -94,10 +91,9 @@ public class BudgetParametersAction extends BudgetAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        Budget budget = budgetForm.getBudget();
         
-        boolean rulePassed = getKualiRuleService().applyRules(new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
         
         if (isRateTypeChanged(budgetForm)) {
             if (isBudgetPeriodDateChanged(budget) && isLineItemErrorOnly()) {
@@ -110,7 +106,7 @@ public class BudgetParametersAction extends BudgetAction {
             }
         } else {
             // This whole else block is mostly the same as saveAfterQuestion, so why not use saveAfterQuestion here?
-            updateThisBudgetVersion(budgetDocument);
+            updateThisBudgetVersion(budget);
             if (budgetForm.isUpdateFinalVersion()) {
                 reconcileFinalBudgetFlags(budgetForm);
                 setBudgetStatuses(budget.getBudgetParent());
@@ -128,17 +124,15 @@ public class BudgetParametersAction extends BudgetAction {
                                                                                                    budget.getOnOffCampusFlag());
                 }
                 boolean valid = true;
-                if (Boolean.valueOf(budgetDocument.getProposalBudgetFlag())) {
-                    valid = isValidToComplete(budgetDocument.getBudget().getBudgetParent().getDocument());
+                if (budget instanceof ProposalDevelopmentBudgetExt) {
+                    valid = isValidToComplete(budget.getBudgetParent().getDocument());
                     int errorSize = GlobalVariables.getMessageMap().getErrorMessages().size();
-                    final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
-                    tdcValidator.validateGeneratingErrorsAndWarnings(budgetDocument.getBudget().getBudgetParent().getDocument());
                     if (GlobalVariables.getMessageMap().getErrorMessages().size() > errorSize) {
                         valid = false;
                     }
                 }
                 if (budget.getFinalVersionFlag() && valid) {
-                    budgetDocument.getBudget().getBudgetParent().getDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
+                    budget.getBudgetParent().getDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
                 }
                 if (valid) {
                     updateBudgetPeriodDbVersion(budget);
@@ -178,10 +172,8 @@ public class BudgetParametersAction extends BudgetAction {
      * @return
      */
     private boolean isRateTypeChanged(BudgetForm budgetForm) {
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
-        BudgetDocument originalBudgetDocument = (BudgetDocument) KcServiceLocator.getService(BusinessObjectService.class).retrieve(budgetDocument);
-        Budget originalBudget = originalBudgetDocument.getBudget();
+        Budget budget = budgetForm.getBudget();
+        Budget originalBudget = (Budget) KcServiceLocator.getService(BusinessObjectService.class).retrieve(budget);
         
         return (!StringUtils.equalsIgnoreCase(originalBudget.getOhRateClassCode(), budget.getOhRateClassCode())
             || !StringUtils.equalsIgnoreCase(originalBudget.getUrRateClassCode(), budget.getUrRateClassCode()));
@@ -190,24 +182,22 @@ public class BudgetParametersAction extends BudgetAction {
     public ActionForward saveAfterQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                            HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        Budget budget = budgetForm.getBudget();
 
         // The following 3 lines are needed so the rate type is correctly propagated to the Personnel tab if
         // the rate type was changed after a validation error occured. We might want to consider getting rid of
         // ohRateClassCodePrevValue urRateClassCodePrevValue altogether in favor of using the BusinessObjectService
         // as below.
-        BudgetDocument originalBudgetDocument = (BudgetDocument) KcServiceLocator.getService(BusinessObjectService.class).retrieve(budgetDocument);
-        budgetForm.setOhRateClassCodePrevValue(originalBudgetDocument.getBudget().getOhRateClassCode());
-        budgetForm.setUrRateClassCodePrevValue(originalBudgetDocument.getBudget().getUrRateClassCode());
+        Budget originalBudget = (Budget) KcServiceLocator.getService(BusinessObjectService.class).retrieve(budget);
+        budgetForm.setOhRateClassCodePrevValue(originalBudget.getOhRateClassCode());
+        budgetForm.setUrRateClassCodePrevValue(originalBudget.getUrRateClassCode());
         
-        updateThisBudgetVersion(budgetDocument);
+        updateThisBudgetVersion(budget);
         if (budgetForm.isUpdateFinalVersion()) {
             reconcileFinalBudgetFlags(budgetForm);
             setBudgetStatuses(budget.getBudgetParent());
         }
-        boolean rulePassed = getKualiRuleService().applyRules(
-            new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetDocument));
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
         if (rulePassed) {
             // update campus flag if budget level flag is changed
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
@@ -216,7 +206,7 @@ public class BudgetParametersAction extends BudgetAction {
                                                                                                budget.getOnOffCampusFlag());
             }
             if (budget.getFinalVersionFlag()) {
-                budgetDocument.getBudget().getBudgetParent().getDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
+                budget.getBudgetParent().getDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
             }
             updateBudgetPeriodDbVersion(budget);
             return super.save(mapping, form, request, response);
@@ -227,22 +217,20 @@ public class BudgetParametersAction extends BudgetAction {
     public ActionForward confirmSaveSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        Budget budget = budgetForm.getBudget();
         if (isRateTypeChanged(budgetForm)) {
-            BudgetDocument originalBudgetDocument = (BudgetDocument) KcServiceLocator.getService(BusinessObjectService.class)
-                    .retrieve(budgetDocument);
-            budgetForm.setOhRateClassCodePrevValue(originalBudgetDocument.getBudget().getOhRateClassCode());
-            budgetForm.setUrRateClassCodePrevValue(originalBudgetDocument.getBudget().getUrRateClassCode());
+            Budget originalBudget = (Budget) KcServiceLocator.getService(BusinessObjectService.class)
+                    .retrieve(budget);
+            budgetForm.setOhRateClassCodePrevValue(originalBudget.getOhRateClassCode());
+            budgetForm.setUrRateClassCodePrevValue(originalBudget.getUrRateClassCode());
         }
-        updateThisBudgetVersion(budgetDocument);
+        updateThisBudgetVersion(budget);
         if (budgetForm.isUpdateFinalVersion()) {
             reconcileFinalBudgetFlags(budgetForm);
             setBudgetStatuses(budget.getBudgetParent());
         }
         getBudgetSummaryService().adjustStartEndDatesForLineItems(budget);
-        boolean rulePassed = getKualiRuleService().applyRules(
-                new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
         if (rulePassed) {
             // update campus flag if budget level flag is changed
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
@@ -251,7 +239,7 @@ public class BudgetParametersAction extends BudgetAction {
                         budget.getOnOffCampusFlag());
             }
             if (budget.getFinalVersionFlag()) {
-                budgetDocument.getBudget().getBudgetParent().getDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
+                budget.getBudgetParent().getDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
             }
             updateBudgetPeriodDbVersion(budget);
             return super.save(mapping, form, request, response);
@@ -273,10 +261,8 @@ public class BudgetParametersAction extends BudgetAction {
             HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetPeriod newBudgetPeriod = budgetForm.getNewBudgetPeriod();
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
-        if (getKualiRuleService().applyRules(
-                new AddBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), newBudgetPeriod))) {
+        Budget budget = budgetForm.getBudget();
+        if (getKcBusinessRulesEngine().applyRules(new AddBudgetPeriodEvent(budget, newBudgetPeriod))) {
             getBudgetSummaryService().addBudgetPeriod(budget, newBudgetPeriod);
             /* set new period and calculate all periods */
             budgetForm.setNewBudgetPeriod(budget.getNewBudgetPeriod());
@@ -297,8 +283,7 @@ public class BudgetParametersAction extends BudgetAction {
     public ActionForward deleteBudgetPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        Budget budget = budgetForm.getBudget();
         int delPeriod = getLineToDelete(request);
         int viewPeriod = 0;
         if (budgetForm.getViewBudgetPeriod() != null) {
@@ -322,8 +307,7 @@ public class BudgetParametersAction extends BudgetAction {
     public ActionForward confirmDeleteBudgetPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        Budget budget = budgetForm.getBudget();
         int delPeriod = getLineToDelete(request);
         getBudgetSummaryService().deleteBudgetPeriod(budget, delPeriod);
             /* calculate all periods */
@@ -345,8 +329,7 @@ public class BudgetParametersAction extends BudgetAction {
             HttpServletResponse response) throws Exception {
         /* calculate all periods */
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        Budget budget = budgetForm.getBudget();
         getBudgetSummaryService().calculateBudget(budget);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -367,8 +350,8 @@ public class BudgetParametersAction extends BudgetAction {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
         BudgetForm budgetForm = (BudgetForm) form;
-        boolean rulePassed = getKualiRuleService().applyRules(
-                new GenerateBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(
+                new GenerateBudgetPeriodEvent(budgetForm.getBudget(), budgetForm.getNewBudgetPeriod()));
         if (rulePassed) {
             if (isRateTypeChanged(budgetForm)) {
                 return confirm(buildRecalculateBudgetConfirmationQuestion(mapping, form, request, response), 
@@ -399,8 +382,7 @@ public class BudgetParametersAction extends BudgetAction {
     public ActionForward questionCalculateAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        Budget budget = budgetForm.getBudget();
 
         if (!StringUtils.equalsIgnoreCase(budget.getOhRateClassCode(), budgetForm.getOhRateClassCodePrevValue())
                 || !StringUtils.equalsIgnoreCase(budget.getUrRateClassCode(), budgetForm.getUrRateClassCodePrevValue())) {
@@ -433,8 +415,7 @@ public class BudgetParametersAction extends BudgetAction {
     public ActionForward calculateAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        Budget budget = budgetForm.getBudget();
 
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_RECALCULATE_BUDGET_KEY.equals(question)) {
@@ -452,8 +433,7 @@ public class BudgetParametersAction extends BudgetAction {
     public ActionForward doNothing(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        Budget budget = budgetForm.getBudget();
         budget.setOhRateClassCode(budgetForm.getOhRateClassCodePrevValue());
         budget.setUrRateClassCode(budgetForm.getUrRateClassCodePrevValue());
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -481,13 +461,10 @@ public class BudgetParametersAction extends BudgetAction {
     }
 
     private void reconcileFinalBudgetFlags(BudgetForm budgetForm) {
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
-        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
+        Budget budget = budgetForm.getBudget();
         if (budget.getFinalVersionFlag()) {
             // This version has been marked as final - update other versions.
-            for (BudgetDocumentVersion documentVersion : parentDocument.getBudgetDocumentVersions()) {
-                BudgetVersionOverview version = documentVersion.getBudgetVersionOverview();
+            for (Budget version : budget.getBudgetParent().getBudgets()) {
                 if (!budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
                     version.setFinalVersionFlag(false);
                 }
@@ -545,12 +522,9 @@ public class BudgetParametersAction extends BudgetAction {
 
     }
 
-    private void updateThisBudgetVersion(BudgetDocument budgetDocument) {
-        Budget budget = budgetDocument.getBudget();
-        BudgetParentDocument proposal = budgetDocument.getBudget().getBudgetParent().getDocument();
+    private void updateThisBudgetVersion(Budget budget) {
         
-        for (BudgetDocumentVersion documentVersion : proposal.getBudgetDocumentVersions()) {
-            BudgetVersionOverview version = documentVersion.getBudgetVersionOverview();
+        for (Budget version : budget.getBudgetParent().getBudgets()) {
             if (budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
                 version.setFinalVersionFlag(budget.getFinalVersionFlag());
                 version.setBudgetStatus(budget.getBudgetStatus());
@@ -563,8 +537,7 @@ public class BudgetParametersAction extends BudgetAction {
     public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        Budget budget = budgetForm.getBudget();
 
         if (!StringUtils.equalsIgnoreCase(budget.getOhRateClassCode(), budgetForm.getOhRateClassCodePrevValue())
                 || !StringUtils.equalsIgnoreCase(budget.getUrRateClassCode(), budgetForm.getUrRateClassCodePrevValue())) {
@@ -672,8 +645,7 @@ public class BudgetParametersAction extends BudgetAction {
             HttpServletResponse response) throws Exception {
         /* calculate all periods */
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        Budget budget = budgetForm.getBudget();
         String warningMessage = getBudgetSummaryService().defaultWarningMessage(budget);
         
         if (StringUtils.isNotBlank(warningMessage)) {
@@ -695,8 +667,7 @@ public class BudgetParametersAction extends BudgetAction {
     public ActionForward confirmDefaultBudgetPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        Budget budget = budgetForm.getBudget();
         getBudgetSummaryService().defaultBudgetPeriods(budget);
         getBudgetSummaryService().adjustStartEndDatesForLineItems(budget);
         return mapping.findForward(Constants.MAPPING_BASIC);

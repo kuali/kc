@@ -22,6 +22,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -154,11 +155,9 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
                 boolean attachmentNotExists = true;            
                 try {
                 String budgetCostElement = getParameterService().getParameterValueAsString("KC-GEN","A","POST_DOCTORAL_COSTELEMENT");                        
-                    BudgetDocument bdDoc = getProposalBudgetService().getFinalBudgetVersion(
-                            proposalDevelopmentDocument); 
-                    if(bdDoc != null && bdDoc.getBudget() != null 
-                            && bdDoc.getBudget().getBudgetPeriods() != null){
-                        for (BudgetPeriod budgetPeriod : bdDoc.getBudget().getBudgetPeriods()){                   
+                    Budget budget = getProposalBudgetService().getFinalBudgetVersion(proposalDevelopmentDocument); 
+                    if(budget != null && budget.getBudgetPeriods() != null){
+                        for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()){                   
                             for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()){
                                 if(budgetLineItem.getCostElement().equals(budgetCostElement)){                       
                                     for (Narrative narrative : developmentProposal.getNarratives()) { 

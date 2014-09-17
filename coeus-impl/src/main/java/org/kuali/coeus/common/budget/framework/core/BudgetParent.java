@@ -15,14 +15,10 @@
  */
 package org.kuali.coeus.common.budget.framework.core;
 
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.framework.type.ActivityType;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
-import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
-import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 
 import java.sql.Date;
 import java.util.List;
@@ -56,9 +52,9 @@ public interface BudgetParent {
 	
 	public BudgetParentDocument<? extends BudgetParent> getDocument();
 	
-	public List<? extends Budget> getBudgetVersionOverviews();
+	public List<? extends AbstractBudget> getBudgetVersionOverviews();
+	public List<? extends Budget> getBudgets();
 	public Budget getNewBudget();
 	public Integer getNextBudgetVersionNumber();
-
 	
 }

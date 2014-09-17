@@ -24,6 +24,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetContainer;
 import org.kuali.coeus.common.budget.framework.auth.task.BudgetTask;
 import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
@@ -40,7 +41,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class AwardBudgetForm extends BudgetForm {
+public class AwardBudgetForm extends BudgetForm implements BudgetContainer {
 
     private static final long serialVersionUID = 9001767909548738932L;
     private String awardInMultipleNodeHierarchy;
@@ -100,10 +101,10 @@ public class AwardBudgetForm extends BudgetForm {
             addExtraButton("methodToCall.postAwardBudget", postAwardBudgetImage, "Post Budget");
         }
         
-        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new BudgetTask("awardBudget", "rejectBudget", doc))) {
+        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new BudgetTask("awardBudget", "rejectBudget", doc.getAwardBudget()))) {
             addExtraButton("methodToCall.reject", configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_reject.gif", "Reject");
         }
-        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new BudgetTask("awardBudget", "cancelBudget", doc))) {
+        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new BudgetTask("awardBudget", "cancelBudget", doc.getAwardBudget()))) {
             addExtraButton("methodToCall.cancel", configurationService.getPropertyValueAsString(krImageURL) + "buttonsmall_cancel.gif", "Cancel");
         }
         

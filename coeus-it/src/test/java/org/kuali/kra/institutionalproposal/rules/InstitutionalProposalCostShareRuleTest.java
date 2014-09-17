@@ -20,6 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
 import org.kuali.coeus.common.framework.costshare.CostShareService;
 import org.kuali.kra.costshare.CostShareServiceTest;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
@@ -42,6 +43,7 @@ public class InstitutionalProposalCostShareRuleTest extends KcIntegrationTestBas
     @Before
     public void setUp() throws Exception {
         institutionalProposalAddCostShareRule = new InstitutionalProposalAddCostShareRuleImpl();
+        institutionalProposalAddCostShareRule.setErrorReporter(new ErrorReporterImpl());
         institutionalProposalCostShare = new InstitutionalProposalCostShare();
         institutionalProposalCostShare.setCostSharePercentage(new ScaleTwoDecimal(PERCENTAGE));
         institutionalProposalCostShare.setProjectPeriod(TEST_FISCAL_YEAR);

@@ -26,7 +26,6 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
@@ -417,6 +416,6 @@ public class AwardBudgetExt extends Budget {
 
     public java.util.Date getBudgetEndDate() {
         return getAward().getAwardAmountInfos().get(getAward().getAwardAmountInfos().size() - 1).getObligationExpirationDate();
-    }    
+    }
 	
 }

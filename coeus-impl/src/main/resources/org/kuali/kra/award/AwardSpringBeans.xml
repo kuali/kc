@@ -195,6 +195,10 @@
         <property name="serviceName" value="versionHistoryLookupDao" />
     </bean>
     
+    <bean id="kcBusinessRulesEngine" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kcBusinessRulesEngine" />
+    </bean>
+    
     <bean id="parentLookupableHelperService" abstract="true">
         <property name="persistenceStructureService" ref="persistenceStructureService" />
         <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />

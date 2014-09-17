@@ -159,10 +159,10 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     
     public void generateSubAwardLineItems(BudgetSubAwards subAward, Budget budget) {
         ScaleTwoDecimal amountChargeFA = new ScaleTwoDecimal(25000);
-        String directLtCostElement = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_DIRECT_LT_25K_PARAM);
-        String directGtCostElement = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_DIRECT_GT_25K_PARAM);
-        String inDirectLtCostElement = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_F_AND_A_LT_25K_PARAM);
-        String inDirectGtCostElement = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_F_AND_A_GT_25K_PARAM);
+        String directLtCostElement = getParameterService().getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_DIRECT_LT_25K_PARAM);
+        String directGtCostElement = getParameterService().getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_DIRECT_GT_25K_PARAM);
+        String inDirectLtCostElement = getParameterService().getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_F_AND_A_LT_25K_PARAM);
+        String inDirectGtCostElement = getParameterService().getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_F_AND_A_GT_25K_PARAM);
         for (BudgetSubAwardPeriodDetail detail : subAward.getBudgetSubAwardPeriodDetails()) {
             BudgetPeriod budgetPeriod = findBudgetPeriod(detail, budget);
             List<BudgetLineItem> currentLineItems = findSubAwardLineItems(budgetPeriod, subAward.getSubAwardNumber());

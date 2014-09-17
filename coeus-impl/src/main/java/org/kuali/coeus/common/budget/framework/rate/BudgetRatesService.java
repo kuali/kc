@@ -51,7 +51,6 @@ public interface BudgetRatesService <T extends BudgetParent>{
     public void syncAllBudgetRates(Budget budget);
     public void resetAllBudgetRates(Budget budget);
     public void viewLocation(String viewLocation, Integer budgetPeriod, Budget budget);
-    public List<BudgetPeriod> getBudgetPeriods();
 
     public boolean isOutOfSyncForRateAudit(Budget budget);
 

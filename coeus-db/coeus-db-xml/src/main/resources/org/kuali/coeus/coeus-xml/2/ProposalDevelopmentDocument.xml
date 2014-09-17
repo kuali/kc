@@ -227,7 +227,7 @@
 					<validation required="false" />
 					<fieldEvaluation>
 						<xpathexpression>
-							wf:xstreamsafe('//document/developmentProposal/ownedByUnitNumber')= 'IN-CARD' and wf:xstreamsafe("//budgetDocumentVersions/budgetVersionOverview/org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview/totalCost/value") &gt;= wf:ruledata('totalCost')
+							wf:xstreamsafe('//document/developmentProposal/ownedByUnitNumber')= 'IN-CARD' and wf:xstreamsafe("//document/developmentProposal/finalBudget/totalCost/value") &gt;= wf:ruledata('totalCost')
 						</xpathexpression>
 					</fieldEvaluation>
 				</fieldDef>

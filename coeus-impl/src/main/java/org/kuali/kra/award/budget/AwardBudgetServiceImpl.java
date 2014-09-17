@@ -49,8 +49,8 @@ import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionRule;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionRule;
 import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -58,6 +58,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.coeus.propdev.impl.budget.core.ProposalAddBudgetVersionEvent;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -85,7 +86,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     private AwardBudgetCalculationService awardBudgetCalculationService;
     private VersionHistoryService versionHistoryService;
     private AwardService awardService;
-    private AddBudgetVersionRule addBudgetVersionRule;
+    private BudgetVersionRule addBudgetVersionRule;
 
     @Override
     public void post(AwardBudgetDocument awardBudgetDocument) {
@@ -98,10 +99,11 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
      */
     @SuppressWarnings("unchecked")
     protected AwardBudgetDocument copyBudgetVersion(AwardBudgetDocument budgetDocument, boolean onlyOnePeriod) throws WorkflowException {
-        String parentDocumentNumber = budgetDocument.getBudget().getBudgetParent().getDocument().getDocumentNumber();
+        AwardDocument awardDocument = (AwardDocument)budgetDocument.getBudget().getBudgetParent().getDocument();
+		String parentDocumentNumber = awardDocument.getDocumentNumber();
         budgetDocument.toCopy();
-        budgetDocument.getBudget().getBudgetParent().getDocument().getDocumentHeader().setDocumentNumber(parentDocumentNumber);
-        budgetDocument.getBudget().getBudgetParent().getDocument().setDocumentNumber(parentDocumentNumber);
+        awardDocument.getDocumentHeader().setDocumentNumber(parentDocumentNumber);
+        awardDocument.setDocumentNumber(parentDocumentNumber);
         if(budgetDocument.getBudget() == null) {
             throw new RuntimeException("Not able to find any Budget Version associated with this document");
         }
@@ -110,7 +112,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         budgetDocument.setBudget(copiedBudget);
         budgetDocument = (AwardBudgetDocument) documentService.saveDocument(budgetDocument);
         budgetDocument = (AwardBudgetDocument) saveBudgetDocument(budgetDocument, false);
-        budgetDocument.getBudget().getBudgetParent().getDocument().refreshBudgetDocumentVersions();
+        AwardDocument savedAwardDocument = (AwardDocument)budgetDocument.getBudget().getBudgetParent().getDocument();
+        savedAwardDocument.refreshBudgetDocumentVersions();
     	return budgetDocument;
     }    
 
@@ -262,11 +265,11 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     public BudgetDocument<Award> getNewBudgetVersionDocument(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription, Map<String, Object> options)
     throws WorkflowException {
         
-        if (checkForOutstandingBudgets(parentBudgetDocument)) {
+        AwardDocument parentDocument = (AwardDocument)parentBudgetDocument;
+        if (checkForOutstandingBudgets(parentDocument)) {
             return null;
         }
         
-        AwardDocument parentDocument = (AwardDocument)parentBudgetDocument;
         AwardBudgetDocument awardBudgetDocument = createNewBudgetDocument(documentDescription, parentDocument,false);
 
         return awardBudgetDocument;
@@ -275,8 +278,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     protected AwardBudgetDocument createNewBudgetDocument(String documentDescription, AwardDocument parentDocument,boolean rebudget)
             throws WorkflowException {
         boolean success = new AwardBudgetVersionRule().processAddBudgetVersion(
-                new AddBudgetVersionEvent(BUDGET_VERSION_ERROR_PREFIX,
-                        parentDocument.getBudgetParent(), documentDescription));
+                new AddBudgetVersionEvent(BUDGET_VERSION_ERROR_PREFIX, parentDocument.getBudgetParent(), documentDescription));
         if (!success) {
             return null;
         }
@@ -410,27 +412,19 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     }
 
     protected AwardBudgetExt getLatestPostedBudget(AwardDocument awardDocument) {
-        List<BudgetDocumentVersion> documentVersions = awardDocument.getBudgetDocumentVersions();
-        QueryList<AwardBudgetVersionOverviewExt> awardBudgetVersionOverviews = new QueryList<AwardBudgetVersionOverviewExt>();
-        for (BudgetDocumentVersion budgetDocumentVersion : documentVersions) {
-            awardBudgetVersionOverviews.add((AwardBudgetVersionOverviewExt)budgetDocumentVersion.getBudgetVersionOverview());
+        List<AwardBudgetDocumentVersion> documentVersions = awardDocument.getBudgetDocumentVersions();
+        QueryList<AwardBudgetExt> awardBudgetVersionOverviews = new QueryList<>();
+        for (AwardBudgetExt budget : awardDocument.getAward().getBudgets()) {
+            awardBudgetVersionOverviews.add(budget);
         }
         
         Equals eqPostedStatus = new Equals("awardBudgetStatusCode",getAwardPostedStatusCode()); 
-        QueryList<AwardBudgetVersionOverviewExt> postedVersions = awardBudgetVersionOverviews.filter(eqPostedStatus);
-        AwardBudgetExt postedBudget = null;
+        QueryList<AwardBudgetExt> postedVersions = awardBudgetVersionOverviews.filter(eqPostedStatus);
         if(!postedVersions.isEmpty()){
             postedVersions.sort("budgetVersionNumber",false);
-            AwardBudgetVersionOverviewExt postedVersion = postedVersions.get(0);
-            try {
-                AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument)documentService.getByDocumentHeaderId(postedVersion.getDocumentNumber());
-                postedBudget = awardBudgetDocument.getAwardBudget();
-            }
-            catch (WorkflowException e) {
-                LOG.error(e.getMessage(), e);
-            }
+            return postedVersions.get(0);
         }
-        return postedBudget;
+        return null;
     }
 
     @Override
@@ -451,11 +445,9 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
      * @return
      */
     protected ScaleTwoDecimal getPostedTotalAmount(AwardDocument awardDocument) {
-        List<BudgetDocumentVersion> documentVersions = awardDocument.getBudgetDocumentVersions();
         String postedStatusCode = getAwardPostedStatusCode();
         ScaleTwoDecimal postedTotalAmount = ScaleTwoDecimal.ZERO;
-        for (BudgetDocumentVersion budgetDocumentVersion : documentVersions) {
-            AwardBudgetVersionOverviewExt budget = (AwardBudgetVersionOverviewExt)budgetDocumentVersion.getBudgetVersionOverview();
+        for (AwardBudgetExt budget : awardDocument.getAward().getBudgets()) {
             if(budget.getAwardBudgetStatusCode().equals(postedStatusCode)){
                 postedTotalAmount = postedTotalAmount.add(budget.getTotalCost());
             }
@@ -469,10 +461,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
      */
     protected boolean isPostedBudgetExist(AwardDocument awardDocument) {
         boolean exist = false;
-        List<BudgetDocumentVersion> documentVersions = awardDocument.getBudgetDocumentVersions();
         String postedStatusCode = getAwardPostedStatusCode();
-        for (BudgetDocumentVersion budgetDocumentVersion : documentVersions) {
-            AwardBudgetVersionOverviewExt budget = (AwardBudgetVersionOverviewExt)budgetDocumentVersion.getBudgetVersionOverview();
+        for (AwardBudgetExt budget : awardDocument.getAward().getBudgets()) {
             if(budget.getAwardBudgetStatusCode().equals(postedStatusCode)){
                 exist = true;
                 break;
@@ -486,7 +476,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     }
 
     protected BudgetVersionOverview getLastBudgetVersion(AwardDocument award) {
-        List<BudgetDocumentVersion> awardBudgetDocumentVersions = award.getBudgetDocumentVersions();
+        List<AwardBudgetDocumentVersion> awardBudgetDocumentVersions = award.getBudgetDocumentVersions();
         BudgetVersionOverview budgetVersionOverview = null;
         int versionSize = awardBudgetDocumentVersions.size();
         if(versionSize>0){
@@ -643,23 +633,15 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                                                                                         "instProposalId",instProp.getProposalId());
                         for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
                             String developmentProposalNumber = proposalAdminDetail.getDevProposalNumber();
-                            DevelopmentProposal proposalDevelopmentDocument = businessObjectService.findBySinglePrimaryKey(
-                                                                                    DevelopmentProposal.class, developmentProposalNumber);
-                            List<BudgetDocumentVersion> budgetDocumentVersions =  
-                                findObjectsWithSingleKey(BudgetDocumentVersion.class, 
-                                        "parentDocumentKey", proposalDevelopmentDocument.getProposalDocument().getDocumentNumber());
-                            for (BudgetDocumentVersion budgetDocumentVersion : budgetDocumentVersions) {
-                                Budget budget = getBusinessObjectService().findBySinglePrimaryKey(ProposalDevelopmentBudgetExt.class, 
-                                                                                budgetDocumentVersion.getBudgetVersionOverview().getBudgetId());
-                                if (budget.isFinalVersionFlag()) {
-                                    //if this result set is being used by @see org.kuali.kra.lookup.BudgetPeriodLookupableHelperServiceImpl
-                                    //we need to populate these additional fields so always populate them.
-                                    for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-                                        budgetPeriod.setInstitutionalProposalNumber(instProp.getProposalNumber());
-                                        budgetPeriod.setInstitutionalProposalVersion(instProp.getSequenceNumber());
-                                        budgetPeriods.add(budgetPeriod);
-                                    }
-                                }
+                            DevelopmentProposal proposalDevelopment = 
+                            		businessObjectService.findBySinglePrimaryKey(DevelopmentProposal.class, developmentProposalNumber);
+                            ProposalDevelopmentBudgetExt budget = proposalDevelopment.getFinalBudget();
+                            //if this result set is being used by @see org.kuali.kra.lookup.BudgetPeriodLookupableHelperServiceImpl
+                            //we need to populate these additional fields so always populate them.
+                            for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+                                budgetPeriod.setInstitutionalProposalNumber(instProp.getProposalNumber());
+                                budgetPeriod.setInstitutionalProposalVersion(instProp.getSequenceNumber());
+                                budgetPeriods.add(budgetPeriod);
                             }
                         }
                     }
@@ -670,18 +652,17 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     }
     
 
-    public boolean checkForOutstandingBudgets(BudgetParentDocument parentDoc) {
+    public boolean checkForOutstandingBudgets(AwardDocument parentDoc) {
         boolean result = false;
         
-        for (BudgetDocumentVersion budgetVersion : parentDoc.getBudgetDocumentVersions()) {
-            BudgetVersionOverview version = budgetVersion.getBudgetVersionOverview();
-            AwardBudgetExt awardBudget = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, version.getBudgetId());
+        for (AwardBudgetDocumentVersion version : parentDoc.getBudgetDocumentVersions()) {
+            AwardBudgetExt awardBudget = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, version.getBudgetVersionOverview().getBudgetId());
             if (!(StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getPostedBudgetStatus())
                     || StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getRejectedBudgetStatus())
                     || StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getCancelledBudgetStatus()))) {
                 result = true;
                 GlobalVariables.getMessageMap().putError(BUDGET_VERSION_ERROR_PREFIX, 
-                        KeyConstants.ERROR_AWARD_UNFINALIZED_BUDGET_EXISTS, awardBudget.getDocumentDescription());
+                        KeyConstants.ERROR_AWARD_UNFINALIZED_BUDGET_EXISTS, awardBudget.getName());
             }
         }
         
@@ -736,35 +717,31 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     }         
     
     protected AwardBudgetExt getNewestBudgetByStatus(AwardDocument awardDocument, List<String> statuses) { 
-        AwardBudgetVersionOverviewExt budgetVersion = null;
+        AwardBudgetExt result = null;
         List<AwardBudgetDocumentVersion> awardBudgetDocuments = awardDocument.getBudgetDocumentVersions();
-        for (BudgetDocumentVersion version : awardBudgetDocuments) {
-            AwardBudgetVersionOverviewExt curVersion = (AwardBudgetVersionOverviewExt) version.getBudgetVersionOverview();
-            if (statuses.contains(curVersion.getAwardBudgetStatusCode())) {
-                if (budgetVersion == null || curVersion.getBudgetVersionNumber() > budgetVersion.getBudgetVersionNumber()) {
-                    budgetVersion = curVersion;
+        for (AwardBudgetExt version : awardDocument.getAward().getBudgets()) {
+            if (statuses.contains(version.getAwardBudgetStatusCode())) {
+                if (result == null || version.getBudgetVersionNumber() > result.getBudgetVersionNumber()) {
+                    result = version;
                 }
             }
         }
-        AwardBudgetExt result = null;
-        if (budgetVersion != null) {
-            result = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, budgetVersion.getBudgetId());
-        }
+
         if (result == null) {
             result = new AwardBudgetExt();
         }
         return result;        
     }
     
-    public List<BudgetDocumentVersion> getAllBudgetsForAward(AwardDocument awardDocument) {
-        HashSet<BudgetDocumentVersion> result = new HashSet<BudgetDocumentVersion>();
+    public List<AwardBudgetDocumentVersion> getAllBudgetsForAward(AwardDocument awardDocument) {
+        HashSet<AwardBudgetDocumentVersion> result = new HashSet<AwardBudgetDocumentVersion>();
         List<VersionHistory> versions = getVersionHistoryService().loadVersionHistory(Award.class, awardDocument.getAward().getAwardNumber());
         for (VersionHistory version : versions) {
             if (version.getSequenceOwnerSequenceNumber() <= awardDocument.getAward().getSequenceNumber() && !(version.getSequenceOwner() == null) && !(((Award) version.getSequenceOwner()).getAwardDocument() == null)) {
                 result.addAll(((Award) version.getSequenceOwner()).getAwardDocument().getActualBudgetDocumentVersions());
             }
         }
-        List<BudgetDocumentVersion> listResult = new ArrayList<BudgetDocumentVersion>(result);
+        List<AwardBudgetDocumentVersion> listResult = new ArrayList<AwardBudgetDocumentVersion>(result);
         Collections.sort(listResult);
         return listResult;
     }
@@ -944,7 +921,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 
     @Override
     public boolean validateAddingNewBudget(BudgetParentDocument<Award> parentDocument) {
-        return !checkForOutstandingBudgets(parentDocument);
+    	AwardDocument awardDocument = (AwardDocument)parentDocument;
+        return !checkForOutstandingBudgets(awardDocument);
     }
     public boolean checkRateChange(Collection<BudgetRate> savedBudgetRates,Award award){
         award.refreshReferenceObject("awardFandaRate");
@@ -983,6 +961,16 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         }
         return changeFlag;
     }
+    
+    @Override
+    public boolean isBudgetVersionNameValid(BudgetParent parent, String name) {
+    	try {
+			return getAddBudgetVersionRule().processAddBudgetVersion(new AddBudgetVersionEvent(BUDGET_VERSION_ERROR_PREFIX, parent, name));
+		} catch (WorkflowException e) {
+			LOG.error(e);
+			return false;
+		}
+    }
 
     protected AwardService getAwardService() {
         return awardService;
@@ -992,16 +980,15 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         this.awardService = awardService;
     }
 
-	public AddBudgetVersionRule getAddBudgetVersionRule() {
+	public BudgetVersionRule getAddBudgetVersionRule() {
 		if (addBudgetVersionRule == null) {
 			addBudgetVersionRule = new AwardBudgetVersionRule();
 		}
 		return addBudgetVersionRule;
 	}
 
-	public void setAddBudgetVersionRule(AddBudgetVersionRule addBudgetVersionRule) {
+	public void setAddBudgetVersionRule(BudgetVersionRule addBudgetVersionRule) {
 		this.addBudgetVersionRule = addBudgetVersionRule;
 	}
-
 
 }

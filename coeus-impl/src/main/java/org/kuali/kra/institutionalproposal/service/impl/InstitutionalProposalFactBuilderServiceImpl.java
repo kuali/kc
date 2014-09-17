@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.institutionalproposal.service.impl;
 
+import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.coeus.common.framework.module.CoeusModule;
-import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -40,7 +40,7 @@ public class InstitutionalProposalFactBuilderServiceImpl extends KcKrmsFactBuild
         }
     }
     
-    public void addFacts(Facts.Builder factsBuilder, KcTransactionalDocumentBase document) {
+    public void addFacts(Facts.Builder factsBuilder, KrmsRulesContext document) {
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument)document;
         InstitutionalProposal institutionalProposal = institutionalProposalDocument.getInstitutionalProposal();
         addProposalFacts(factsBuilder,institutionalProposal);

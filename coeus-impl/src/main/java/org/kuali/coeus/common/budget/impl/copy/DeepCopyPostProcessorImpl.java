@@ -20,15 +20,12 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyPostProcessor;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -80,74 +77,6 @@ public class DeepCopyPostProcessorImpl implements DeepCopyPostProcessor {
         if(klass != null && !klass.equals(KcPersistableBusinessObjectBase.class) ) {
             findAllFields(klass, allFields);
         }
-    }
-
-    @SuppressWarnings("unchecked")
-    public void fixProperty(Object object, String methodName, Class clazz, Object propertyValue, Map<String, Object> objectMap){
-        if(ObjectUtils.isNotNull(object)) {
-            if (object instanceof PersistableBusinessObject) {
-                PersistableBusinessObject objectWId = (PersistableBusinessObject) object;
-                if (objectMap.get(objectWId.getObjectId()) != null) return;
-                objectMap.put(((PersistableBusinessObject) object).getObjectId(), object);
-                
-                Method[] methods = object.getClass().getMethods();
-                for (Method method : methods) {
-                    if (method.getName().equals(methodName)) {
-                        if (!(object instanceof BudgetDocument)) {
-                              try {
-                                if(clazz.equals(Long.class))
-                                    method.invoke(object, (Long) propertyValue);  
-                                else 
-                                    method.invoke(object, (Integer) propertyValue);
-                               } catch (Throwable e) { }  
-                        }
-                    } else if (isPropertyGetterMethod(method, methods)) {
-                        Object value = null;
-                        try {
-                            value = method.invoke(object);
-                        } catch (Throwable e) {
-                            //We don't need to propagate this exception
-                        }
-                        
-                        if(value != null) {
-                            if (value instanceof Collection) {
-                                Collection<Object> c = (Collection<Object>) value;
-                                Iterator<Object> iter = c.iterator();
-                                while (iter.hasNext()) {
-                                    Object entry = iter.next();
-                                    fixProperty(entry, methodName, clazz, propertyValue, objectMap);
-                                }
-                            } else {
-                                fixProperty(value, methodName, clazz, propertyValue, objectMap);
-                            }   
-                        }
-                    }
-                }
-            }
-        }
-    }
-    /**
-     * Is the given method a getter method for a property?  Must conform to
-     * the following:
-     * <ol>
-     * <li>Must start with the <b>get</b></li>
-     * <li>Must have a corresponding setter method</li>
-     * <li>Must have zero arguments.</li>
-     * </ol>
-     * @param method the method to check
-     * @param methods the other methods in the object
-     * @return true if it is property getter method; otherwise false
-     */
-    private boolean isPropertyGetterMethod(Method method, Method methods[]) {
-        if (method.getName().startsWith("get") && method.getParameterTypes().length == 0) {
-            String setterName = method.getName().replaceFirst("get", "set");
-            for (Method m : methods) {
-                if (m.getName().equals(setterName)) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
     
 }

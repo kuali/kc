@@ -29,6 +29,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService;
+import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt;
 import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
@@ -45,9 +46,11 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
+import org.kuali.coeus.common.budget.framework.version.AwardBudgetVersionCollection;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
@@ -92,7 +95,7 @@ import java.util.*;
  */
 @NAMESPACE(namespace=Constants.PARAMETER_MODULE_AWARD)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public class AwardDocument extends BudgetParentDocument<Award> implements  Copyable, SessionDocument, KrmsRulesContext {
+public class AwardDocument extends BudgetParentDocument<Award> implements  AwardBudgetVersionCollection,Copyable, SessionDocument, KrmsRulesContext {
     private static final Log LOG = LogFactory.getLog(AwardDocument.class);
     
     public static final String PLACEHOLDER_DOC_DESCRIPTION = "*****PLACEHOLDER*****";
@@ -105,8 +108,8 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     private static final String ALTERNATE_OPEN_TAB = "Parameters";
     
     private List<Award> awardList;
-    private List<BudgetDocumentVersion> actualBudgetDocumentVersions;
-    private List<BudgetDocumentVersion> budgetDocumentVersions;
+    private List<AwardBudgetDocumentVersion> actualBudgetDocumentVersions;
+    private List<AwardBudgetDocumentVersion> budgetDocumentVersions;
     
     private static final String RETURN_TO_AWARD_ALT_TEXT = "return to award";
     private static final String RETURN_TO_AWARD_METHOD_TO_CALL = "methodToCall.returnToAward";
@@ -278,8 +281,8 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     protected void init() {
         awardList = new ArrayList<Award>();
         awardList.add(new Award());
-        budgetDocumentVersions = new ArrayList<BudgetDocumentVersion>();
-        actualBudgetDocumentVersions = new ArrayList<BudgetDocumentVersion>();
+        budgetDocumentVersions = new ArrayList<AwardBudgetDocumentVersion>();
+        actualBudgetDocumentVersions = new ArrayList<AwardBudgetDocumentVersion>();
     }
     
     @Override
@@ -289,7 +292,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
             this.setVersionNumber(new Long(0));
         }
         if (getBudgetDocumentVersions() != null) {
-            updateDocumentDescriptions(getBudgetDocumentVersions());
+            updateDocumentDescriptions(getAward().getBudgets());
         }
         Award award = getAward();
         if(!award.getProjectPersons().isEmpty()) {
@@ -300,8 +303,8 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         }
             
     }
-    
-    void removeKeyPersonRoleForNoneKeyPerson() {
+
+	void removeKeyPersonRoleForNoneKeyPerson() {
         for ( AwardPerson person : this.getAward().getProjectPersons() ) {
             if ( !StringUtils.equalsIgnoreCase(person.getContactRole().getRoleCode(), ContactRole.KEY_PERSON_CODE) &&
                     StringUtils.isNotEmpty(person.getKeyPersonRole()) ) {
@@ -354,27 +357,16 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         return KcServiceLocator.getService(AwardSyncService.class);
     }
 
-     public List getBudgetDocumentVersions() {
+     public List<AwardBudgetDocumentVersion> getBudgetDocumentVersions() {
         if (budgetDocumentVersions == null || budgetDocumentVersions.isEmpty()) {
             budgetDocumentVersions = KcServiceLocator.getService(AwardBudgetService.class).getAllBudgetsForAward(this);
         }
         return budgetDocumentVersions;
     }
 
-    public void setBudgetDocumentVersions(List<BudgetDocumentVersion> budgetDocumentVersions) {
-        this.budgetDocumentVersions = budgetDocumentVersions;
-    }
-
     @Override
-    public void saveBudgetFinalVersionStatus(BudgetDocument budgetDocument) {
-
-        
-    }
-
-    @Override
-    public void processAfterRetrieveForBudget(BudgetDocument budgetDocument) {
-
-        
+    public void setBudgetDocumentVersions(List<AwardBudgetDocumentVersion> budgetDocumentVersions) {
+    	this.budgetDocumentVersions = budgetDocumentVersions;
     }
 
     public String getDocumentKey() {
@@ -448,18 +440,6 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
 
     private ConfigurationService lookupKualiConfigurationService() {
         return CoreApiServiceLocator.getKualiConfigurationService();
-    }
-    
-    @Override
-    public List<HeaderNavigation> getBudgetHeaderNavigatorList() {
-        List<HeaderNavigation> budgetHeaderList= super.getBudgetHeaderNavigatorList();
-        List<HeaderNavigation> awardBudgetHeaderList = new ArrayList<HeaderNavigation>();
-        for (HeaderNavigation headerNavigation : budgetHeaderList){
-            if(!headerNavigation.getHeaderTabNavigateTo().equals("modularBudget")){
-                awardBudgetHeaderList.add(headerNavigation);
-            }
-        }
-        return awardBudgetHeaderList;   
     }
 
     @Override
@@ -611,11 +591,11 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         return isComplete;
     }
 
-    public List<BudgetDocumentVersion> getActualBudgetDocumentVersions() {
+    public List<AwardBudgetDocumentVersion> getActualBudgetDocumentVersions() {
         return actualBudgetDocumentVersions;
     }
 
-    public void setActualBudgetDocumentVersions(List<BudgetDocumentVersion> actualBudgetDocumentVersions) {
+    public void setActualBudgetDocumentVersions(List<AwardBudgetDocumentVersion> actualBudgetDocumentVersions) {
         this.actualBudgetDocumentVersions = actualBudgetDocumentVersions;
     }
 

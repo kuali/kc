@@ -147,11 +147,11 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
     }
 
     private String getDefaultEBRateClassCode() {
-        return getParameterService().getParameterValueAsString(BudgetDocument.class, AWARD_EB_RATE_CLASS_CODE);
+        return getParameterService().getParameterValueAsString(Budget.class, AWARD_EB_RATE_CLASS_CODE);
     }
 
     private String getDefaultEBRateTypeCode() {
-        return getParameterService().getParameterValueAsString(BudgetDocument.class, AWARD_EB_RATE_TYPE_CODE);
+        return getParameterService().getParameterValueAsString(Budget.class, AWARD_EB_RATE_TYPE_CODE);
     }
 
     private InstituteRate createAwardFnAInstitueRate(AwardFandaRate awardFnARate,Award award, Collection<InstituteRate> instituteRates) {

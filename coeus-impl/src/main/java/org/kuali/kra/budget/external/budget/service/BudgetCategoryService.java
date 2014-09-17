@@ -29,5 +29,4 @@ import java.util.List;
 public interface BudgetCategoryService {
 
     List<BudgetCategoryDTO> lookupBudgetCategories(@WebParam(name = "searchCriteria") List<HashMapElement> criteria);
-    
 }

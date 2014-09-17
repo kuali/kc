@@ -28,6 +28,7 @@ import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.subaward.PropDevPropDevBudgetSubAwardServiceImpl;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
@@ -78,13 +79,13 @@ public class PropDevBudgetSubAwardServiceTest {
         }
         final ParameterService parmService = context.mock(ParameterService.class);
         context.checking(new Expectations(){{
-            one(parmService).getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_DIRECT_LT_25K_PARAM);
+            one(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_DIRECT_LT_25K_PARAM);
             will(returnValue(directLt));
-            one(parmService).getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_DIRECT_GT_25K_PARAM);
+            one(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_DIRECT_GT_25K_PARAM);
             will(returnValue(directGt));
-            one(parmService).getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_F_AND_A_LT_25K_PARAM);
+            one(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_F_AND_A_LT_25K_PARAM);
             will(returnValue(indirectLt));
-            one(parmService).getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_F_AND_A_GT_25K_PARAM);
+            one(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_F_AND_A_GT_25K_PARAM);
             will(returnValue(indirectGt));   
         }});
         service.setParameterService(parmService);
@@ -298,8 +299,8 @@ public class PropDevBudgetSubAwardServiceTest {
 			
 		}
 		@Override
-		public AddBudgetVersionRule getAddBudgetVersionRule() {
-			return null;
+		public boolean isBudgetVersionNameValid(BudgetParent parent, String name) {
+			return true;
 		}
     }
 }

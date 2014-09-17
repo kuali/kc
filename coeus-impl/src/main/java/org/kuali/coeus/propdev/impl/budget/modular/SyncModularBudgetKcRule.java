@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
-import org.kuali.coeus.common.framework.ruleengine.KcBusinessRuleBase;
 import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -14,13 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 @KcBusinessRule("syncModularBudgetRule")
-public class SyncModularBudgetKcRule extends KcBusinessRuleBase {
+public class SyncModularBudgetKcRule {
 
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
 	
-	@KcEventMethod(events = {SyncModularBudgetKcEvent.RULE_NAME})
+	@KcEventMethod
 	public Boolean processSyncModularBusinessRules(SyncModularBudgetKcEvent event) {
         Boolean valid = true;
         List budgetPeriods = event.getBudget().getBudgetPeriods();

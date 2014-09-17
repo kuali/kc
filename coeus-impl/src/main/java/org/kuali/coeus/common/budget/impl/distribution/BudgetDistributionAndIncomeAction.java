@@ -21,7 +21,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.budget.framework.core.BudgetAction;
-import org.kuali.coeus.common.budget.framework.distribution.AddBudgetCostShareEvent;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.income.AddBudgetProjectIncomeEvent;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetDistributionService;
@@ -78,7 +77,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form; 
         Budget budget = budgetForm.getBudgetDocument().getBudget();
         BudgetCostShare budgetCostShare = budgetForm.getNewBudgetCostShare();
-        boolean passed = getKualiRuleService().applyRules(createAddRuleEvent(budgetForm, budgetCostShare));
+        boolean passed = getKcBusinessRulesEngine().applyRules(new AddBudgetCostShareEvent(budget, budgetCostShare));
         
         if(passed) {
             setCostShareAddRowDefaults(budget, budgetCostShare);
@@ -104,7 +103,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
     public ActionForward addProjectIncome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetProjectIncome budgetProjectIncome = budgetForm.getNewBudgetProjectIncome();
-        boolean passed = getKualiRuleService().applyRules(createRuleEvent(budgetForm, budgetProjectIncome));
+        boolean passed = getKcBusinessRulesEngine().applyRules(createRuleEvent(budgetForm, budgetProjectIncome));
         
         if(passed) {
             budgetForm.getBudgetDocument().getBudget().add(budgetProjectIncome);
@@ -128,7 +127,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form; 
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetUnrecoveredFandA budgetUnrecoveredFandA = budgetForm.getNewBudgetUnrecoveredFandA();
-        boolean passed = getKualiRuleService().applyRules(createRuleEvent(budgetForm, budgetUnrecoveredFandA));
+        boolean passed = getKcBusinessRulesEngine().applyRules(createRuleEvent(budgetForm, budgetUnrecoveredFandA));
         
         if(passed) {
             setUnrecoveredFandAAddRowDefaults(budgetDocument, budgetUnrecoveredFandA);
@@ -242,22 +241,11 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
     /**
      * Factory method
      * @param budgetForm
-     * @param budgetCostShare
-     * @return
-     */
-    private AddBudgetCostShareEvent createAddRuleEvent(BudgetForm budgetForm, BudgetCostShare budgetCostShare) {
-        return new AddBudgetCostShareEvent("Add BudgetCostShare Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(),
-                budgetCostShare, budgetForm.getBudgetDocument());
-    }
-    
-    /**
-     * Factory method
-     * @param budgetForm
      * @param budgetProjectIncome
      * @return
      */
     private AddBudgetProjectIncomeEvent createRuleEvent(BudgetForm budgetForm, BudgetProjectIncome budgetProjectIncome) {
-        return new AddBudgetProjectIncomeEvent("Add BudgetProjectIncome Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), budgetProjectIncome);
+        return new AddBudgetProjectIncomeEvent(budgetForm.getBudget(), budgetProjectIncome);
     }
     
     /**
@@ -267,7 +255,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @return
      */
     private AddBudgetUnrecoveredFandAEvent createRuleEvent(BudgetForm budgetForm, BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
-        return new AddBudgetUnrecoveredFandAEvent("Add BudgetUnrecoveredFandA Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), budgetUnrecoveredFandA);
+        return new AddBudgetUnrecoveredFandAEvent(budgetForm.getBudget(), budgetUnrecoveredFandA);
     }
     
     /**

@@ -14,42 +14,15 @@
  * limitations under the License.
  */
 package org.kuali.coeus.common.budget.framework.period;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public class AddBudgetPeriodEvent extends BudgetPeriodEventBase {
-    /**
-     * Constructs an AddBudgetPeriodEvent with the given errorPathPrefix, document, and budgetPeriod.
-     * 
-     * @param errorPathPrefix
-     * @param budgetDocument
-     * @param budgetPeriod
-     */
-    public AddBudgetPeriodEvent(String errorPathPrefix, BudgetDocument document, BudgetPeriod budgetPeriod) {
-        super("adding budget period to document " + getDocumentId(document), errorPathPrefix, document, budgetPeriod);
-    }
 
-    /**
-     * Constructs an AddBudgetPeriodEvent with the given errorPathPrefix, document, and budgetPeriod.
-     * 
-     * @param errorPathPrefix
-     * @param document
-     * @param budgetPeriod
-     */
-    public AddBudgetPeriodEvent(String errorPathPrefix, Document document, BudgetPeriod budgetPeriod) {
-        this(errorPathPrefix, (BudgetDocument) document, budgetPeriod);
-    }
+	public AddBudgetPeriodEvent(Budget budget, BudgetPeriod budgetPeriod) {
+		super(budget, budgetPeriod);
+	}
 
-    @Override
-    public Class getRuleInterfaceClass() {
-        return AddBudgetPeriodRule.class;
-    }
-
-    @Override
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddBudgetPeriodRule) rule).processAddBudgetPeriodBusinessRules(this);
-    }
-    
 }
-

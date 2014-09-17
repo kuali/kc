@@ -22,9 +22,9 @@ import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.personnel.HierarchyPersonnelSummary;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -226,12 +226,11 @@ public class ProposalHierarcyActionHelper {
     
     private boolean validateChildCandidate(DevelopmentProposal proposal) {
         boolean valid = true;
-        proposal.getProposalDocument().refreshBudgetDocumentVersions();
         if (proposal.isInHierarchy()) {
             GlobalVariables.getMessageMap().putError(FIELD_CHILD_NUMBER, ERROR_LINK_ALREADY_MEMBER, new String[0]);
             return false;
         }
-        if (proposal.getProposalDocument().getBudgetDocumentVersions().isEmpty()) {
+        if (proposal.getBudgets().isEmpty()) {
             GlobalVariables.getMessageMap().putError(FIELD_CHILD_NUMBER, ERROR_LINK_NO_BUDGET_VERSION, new String[0]);
             valid = false;
         }
@@ -284,18 +283,11 @@ public class ProposalHierarcyActionHelper {
     }
     
     private boolean hasFinalBudget(DevelopmentProposal proposal) {
-        boolean retval = false;
-        for (BudgetDocumentVersion version : proposal.getProposalDocument().getBudgetDocumentVersions()) {
-            if (version.getBudgetVersionOverview().isFinalVersionFlag()) {
-                retval = true;
-                break;
-            }
-        }
-        return retval;
+    	return proposal.getFinalBudget() != null;
     }
 
     private boolean hasCompleteBudget(DevelopmentProposal proposal) {
-        String completeCode = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        String completeCode = getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
         getProposalBudgetStatusService().loadBudgetStatus(proposal);
         return StringUtils.equalsIgnoreCase(proposal.getBudgetStatus(), completeCode);
     }
@@ -378,10 +370,10 @@ public class ProposalHierarcyActionHelper {
     
     private boolean hasCompleteBudget(ProposalDevelopmentDocument pdDoc) {
         boolean retval = false;
-        String completeCode = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        String completeCode = getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
 
-        for (BudgetDocumentVersion version : pdDoc.getBudgetDocumentVersions()) {
-            if (!(version.getBudgetVersionOverview().getBudgetStatus() == null ) && version.getBudgetVersionOverview().getBudgetStatus().equalsIgnoreCase(completeCode)) {
+        for (ProposalDevelopmentBudgetExt version : pdDoc.getDevelopmentProposal().getBudgets()) {
+            if (!(version.getBudgetStatus() == null ) && version.getBudgetStatus().equalsIgnoreCase(completeCode)) {
                 retval = true;
                 break;
             }

@@ -40,7 +40,6 @@ import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.AppointmentType;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.impl.krms.KcKrmsJavaFunctionTermServiceBase;
@@ -278,11 +277,9 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     public String costElementVersionLimit(DevelopmentProposal developmentProposal, String versionNumber, String costElementName, String limit) {
         Long versionNumberLong = Long.parseLong(versionNumber);
         float limitLong = Float.parseFloat(limit);
-        for (BudgetDocumentVersion bdv : developmentProposal.getProposalDocument().getBudgetDocumentVersions()) {
-            if (bdv.getVersionNumber().equals(versionNumberLong)) {
+        for (Budget budget : developmentProposal.getBudgets()) {
+            if (budget.getVersionNumber().equals(versionNumberLong)) {
                 try {
-                    BudgetDocument budgetDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(bdv.getDocumentNumber());
-                    Budget budget = budgetDocument.getBudget();
                     if (budget.getVersionNumber().equals(versionNumberLong)) {
                         for (BudgetPeriod period : budget.getBudgetPeriods()) {
                             float costElementTotal = 0;
@@ -340,19 +337,11 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
      */
     @Override
     public String budgetSubawardOrganizationnameRule(DevelopmentProposal developmentProposal) {
-        for (BudgetDocumentVersion bdv : developmentProposal.getProposalDocument().getBudgetDocumentVersions()) {
-            try {
-                BudgetDocument budgetDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(bdv.getDocumentNumber());
-                Budget budget = budgetDocument.getBudget();
-                if (budget.isFinalVersionFlag()) {
-                    for (BudgetSubAwards bsa : budget.getBudgetSubAwards()) {
-                        if (StringUtils.equals(FALSE, specialCharacterRule(bsa.getOrganizationName()))) {
-                            return FALSE;
-                        }
-                    }
+    	if (developmentProposal.getFinalBudget() != null) {
+            for (BudgetSubAwards bsa : developmentProposal.getFinalBudget().getBudgetSubAwards()) {
+                if (StringUtils.equals(FALSE, specialCharacterRule(bsa.getOrganizationName()))) {
+                    return FALSE;
                 }
-            } catch (Exception e) {
-                //lets just ignor and return false.
             }
         }
         return TRUE;
@@ -529,10 +518,10 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
 
     @Override
     public String costElement(DevelopmentProposal developmentProposal, String costElement) {
-        for (BudgetDocumentVersion budgetVersion : developmentProposal.getProposalDocument().getBudgetDocumentVersions()) {
-            Map<String, Object> values = new HashMap<>();
+        for (Budget budgetVersion : developmentProposal.getBudgets()) {
+            Map<String, Object> values = new HashMap<String, Object>();
             values.put("costElement", costElement);
-            values.put("budgetId", budgetVersion.getBudgetVersionOverview().getBudgetId());
+            values.put("budgetId", budgetVersion.getBudgetId());
             List<BudgetLineItem> matchingLineItems = 
                 (List<BudgetLineItem>) getBusinessObjectService().findMatching(BudgetLineItem.class, values);
             if (matchingLineItems != null && !matchingLineItems.isEmpty()) {
@@ -567,7 +556,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
 
     @Override
     public String mtdcDeviation(DevelopmentProposal developmentProposal) {
-        if (mtdcDeviationInBudget(developmentProposal.getProposalDocument().getFinalBudgetForThisProposal())) {
+        if (mtdcDeviationInBudget(developmentProposal.getFinalBudget())) {
             return TRUE;
         } else {
             return FALSE;
@@ -585,9 +574,9 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     
     protected Budget getBudgetVersion(DevelopmentProposal developmentProposal, String versionNumber) {
         Integer versionNumberLong = Integer.valueOf(versionNumber);
-        for (BudgetDocumentVersion bdv : developmentProposal.getProposalDocument().getBudgetDocumentVersions()) {
-            if (bdv.getBudgetVersionOverview().getBudgetVersionNumber().equals(versionNumberLong)) {
-                return getBusinessObjectService().findBySinglePrimaryKey(Budget.class, bdv.getBudgetVersionOverview().getBudgetId());
+        for (Budget bdv : developmentProposal.getBudgets()) {
+            if (bdv.getBudgetVersionNumber().equals(versionNumberLong)) {
+            	return bdv;
             }
         }
         return null;
@@ -712,7 +701,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     public String s2sModularBudgetRule(DevelopmentProposal developmentProposal) {
         List<String> allowedForms = Arrays.asList(new String[]{"PHS398 Modular Budget V1-1", "PHS398 Modular Budget V1-2"});
         boolean s2sProp = (developmentProposal.getS2sOpportunity() != null);
-        Budget finalBudgetVersion = developmentProposal.getProposalDocument().getFinalBudgetForThisProposal();
+        Budget finalBudgetVersion = developmentProposal.getFinalBudget();
         if (s2sProp && finalBudgetVersion != null && finalBudgetVersion.getModularBudgetFlag()) {
             int matchingForms = 0;
             for (S2sOppForms form : developmentProposal.getS2sOppForms()) {
@@ -834,20 +823,12 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     @Override
     public String costElementInVersion(DevelopmentProposal developmentProposal, String versionNumber, String costElement) {
         Long versionNumberLong = Long.parseLong(versionNumber);
-        for (BudgetDocumentVersion bdv : developmentProposal.getProposalDocument().getBudgetDocumentVersions()) {
-            if (bdv.getVersionNumber().equals(versionNumberLong)) {
-                try {
-                    BudgetDocument budgetDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(bdv.getDocumentNumber());
-                    Budget budget = budgetDocument.getBudget();
-                    if (budget.getVersionNumber().equals(versionNumberLong)) {
-                        for (BudgetPeriod period : budget.getBudgetPeriods()) {
-                            if (!period.getBudgetLineItems().isEmpty()) {
-                                return TRUE;
-                            }
-                        }
+        for (Budget budget : developmentProposal.getBudgets()) {
+            if (budget.getVersionNumber().equals(versionNumberLong)) {
+                for (BudgetPeriod period : budget.getBudgetPeriods()) {
+                    if (!period.getBudgetLineItems().isEmpty()) {
+                        return TRUE;
                     }
-                } catch (Exception e) {
-                    //lets just ignor and return false.
                 }
             }
         }

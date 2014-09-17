@@ -20,8 +20,10 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetService;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.coeus.common.budget.framework.core.BudgetContainer;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.impl.core.BudgetPeriodValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -31,6 +33,7 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,17 +61,14 @@ public class BudgetExpensePeriodValuesFinder extends BudgetPeriodValuesFinder {
         List<KeyValue> KeyValues = null;
         
         Object formOrView = getFormOrView();
-        if (formOrView instanceof KualiDocumentFormBase) {
-            Document doc = ((KualiDocumentFormBase) formOrView).getDocument();
-            if(doc instanceof BudgetDocument) {
-                List<BudgetPeriod> budgetPeriods = ((BudgetDocument)doc).getBudget().getBudgetPeriods();
-                if (budgetPeriods.size() > 0) {
-                    KeyValues = buildKeyValues(budgetPeriods);
-                }
+        if (formOrView instanceof BudgetContainer) {
+            List<BudgetPeriod> budgetPeriods = ((BudgetContainer) formOrView).getBudget().getBudgetPeriods();
+            if (budgetPeriods.size() > 0) {
+                KeyValues = buildKeyValues(budgetPeriods);
             }
         } else if (formOrView instanceof MultipleValueLookupForm) {
             try {
-                BudgetDocument doc = (BudgetDocument) getDocumentService().getByDocumentHeaderId(((MultipleValueLookupForm) formOrView).getDocNum());
+                AwardBudgetDocument doc = (AwardBudgetDocument) getDocumentService().getByDocumentHeaderId(((MultipleValueLookupForm) formOrView).getDocNum());
                 List<BudgetPeriod> budgetPeriods = getAwardBudgetService().findBudgetPeriodsFromLinkedProposal(((Award) doc.getBudget().getBudgetParent()).getAwardNumber());
                 if (budgetPeriods.size() > 0) {
                     KeyValues = buildKeyValuesForPeriodSearch(budgetPeriods);
@@ -84,6 +84,10 @@ public class BudgetExpensePeriodValuesFinder extends BudgetPeriodValuesFinder {
         } else {
             return new ArrayList<KeyValue>();
         }
+    }
+    
+    public List<KeyValue> getKeyValues(ModelAndView model) {
+    	return buildKeyValues(((BudgetContainer) model).getBudget().getBudgetPeriods());
     }
     
     private List<KeyValue> buildKeyValues(List<BudgetPeriod> budgetPeriods) {

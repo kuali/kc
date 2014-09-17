@@ -20,7 +20,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
-import org.kuali.coeus.common.budget.impl.version.BudgetVersionRule;
+import org.kuali.coeus.common.budget.framework.version.BudgetVersionRule;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -48,17 +48,17 @@ public class AwardBudgetVersionRule extends BudgetVersionRule {
         boolean success = true;
         Award award = (Award) event.getBudgetParent();
         if(!award.getObligatedDistributableTotal().isPositive()){
-            GlobalVariables.getMessageMap().putError(event.getErrorPathPrefix(), 
+            GlobalVariables.getMessageMap().putError(event.getErrorPath(), 
                   KeyConstants.ERROR_BUDGET_OBLIGATED_AMOUNT_INVALID, "Name");
             success &= false;
         }
         if(award.getRequestedStartDateInitial() == null){
-            GlobalVariables.getMessageMap().putError(event.getErrorPathPrefix(), 
+            GlobalVariables.getMessageMap().putError(event.getErrorPath(), 
                     KeyConstants.ERROR_AWARD_BUDGET_START_DATE_MISSING);
             success &= false;
         }
         if(award.getRequestedEndDateInitial() == null){
-            GlobalVariables.getMessageMap().putError(event.getErrorPathPrefix(), 
+            GlobalVariables.getMessageMap().putError(event.getErrorPath(), 
                     KeyConstants.ERROR_AWARD_BUDGET_END_DATE_MISSING);
             success &= false;
         }
@@ -109,7 +109,7 @@ public class AwardBudgetVersionRule extends BudgetVersionRule {
         }
 
         if(!anyAwardVersionFinal && !anyTimeAndMoneyDocumentsFinal) {
-            GlobalVariables.getMessageMap().putError(event.getErrorPathPrefix(), KeyConstants.ERROR_AWARD_OR_MONEY_DOC_NOT_FINAL);
+            GlobalVariables.getMessageMap().putError(event.getErrorPath(), KeyConstants.ERROR_AWARD_OR_MONEY_DOC_NOT_FINAL);
             success &= false;
         }
         

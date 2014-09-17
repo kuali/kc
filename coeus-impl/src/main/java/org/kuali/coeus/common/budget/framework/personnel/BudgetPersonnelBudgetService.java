@@ -23,7 +23,7 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import java.util.List;
 
 public interface BudgetPersonnelBudgetService {
-    public void addBudgetPersonnelDetails(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudegtPersonnelDetails);
+    public void addBudgetPersonnelDetails(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudegtPersonnelDetails);
     public void calculateBudgetPersonnelBudget(Budget budget, BudgetLineItem selectedBudgetLineItem,
             BudgetPersonnelDetails budgetPersonnelDetails,  int lineNumber);
     public void deleteBudgetPersonnelDetails(Budget budget, int selectedBudgetPeriodIndex,

@@ -16,6 +16,7 @@
 package org.kuali.coeus.common.budget.framework.auth.task;
 
 import org.kuali.coeus.common.framework.auth.task.Task;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 
 /**
@@ -25,7 +26,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
  */
 public final class BudgetTask extends Task {
     
-    private BudgetDocument budgetDocument;
+    private Budget budget;
     
     /**
      * Constructs a BudgetTask.
@@ -33,15 +34,15 @@ public final class BudgetTask extends Task {
      * @param taskGroupName the name of the task group
      * @param budgetDocument the Budget Document
      */
-    public BudgetTask(String taskGroupName, String taskName, BudgetDocument budgetDocument) {
+    public BudgetTask(String taskGroupName, String taskName, Budget budget) {
         super(taskGroupName,taskName);
-        this.budgetDocument = budgetDocument;
+        this.budget = budget;
     }    
     /**
      * Get the Budget Document.
      * @return the Budget Document
      */
-    public BudgetDocument getBudgetDocument() {
-        return budgetDocument;
+    public Budget getBudget() {
+        return budget;
     }
 }

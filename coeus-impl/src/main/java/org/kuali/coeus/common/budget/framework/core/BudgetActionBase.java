@@ -29,10 +29,10 @@ import org.kuali.coeus.common.budget.framework.core.BudgetCommonServiceFactory;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.budget.framework.core.BudgetVersionFormBase;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -52,6 +52,8 @@ import java.util.List;
  */
 public class BudgetActionBase extends KcTransactionalDocumentActionBase {
     
+	private KcBusinessRulesEngine kcBusinessRulesEngine;
+	
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -72,10 +74,10 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
      * @param budgetVersions
      * @return
      */
-    protected Integer getFinalBudgetVersion(List<BudgetDocumentVersion> budgetVersions) {
-        for (BudgetDocumentVersion budgetVersion: budgetVersions) {
-            if (budgetVersion.getBudgetVersionOverview().isFinalVersionFlag()) {
-                return budgetVersion.getBudgetVersionOverview().getBudgetVersionNumber();
+    protected Integer getFinalBudgetVersion(List<? extends AbstractBudget> budgetVersions) {
+        for (AbstractBudget budgetVersion: budgetVersions) {
+            if (budgetVersion.isFinalVersionFlag()) {
+                return budgetVersion.getBudgetVersionNumber();
             }
         }
         return null;
@@ -86,10 +88,10 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
      * 
      * @param parentDocument
      */
-    protected void setBudgetParentStatus(BudgetParentDocument parentDocument) {
-        for (BudgetDocumentVersion budgetVersion: parentDocument.getBudgetDocumentVersions()) {
-            if (budgetVersion.getBudgetVersionOverview().isFinalVersionFlag()) {
-                parentDocument.getBudgetParent().setBudgetStatus(budgetVersion.getBudgetVersionOverview().getBudgetStatus());
+    protected void setBudgetParentStatus(BudgetParent budgetParent) {
+        for (AbstractBudget budgetVersion: budgetParent.getBudgets()) {
+            if (budgetVersion.isFinalVersionFlag()) {
+                budgetParent.setBudgetStatus(budgetVersion.getBudgetStatus());
                 return;
             }
         }
@@ -129,16 +131,8 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
         Budget budget = budgetDocToCopy.getBudget();
         BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budget.getBudgetParent());
         Budget newBudget = budgetService.copyBudgetVersion(budget, copyPeriodOneOnly);
-        budgetParentDocument.refreshBudgetDocumentVersions();
-        List<BudgetDocumentVersion> budgetVersions = budgetParentDocument.getBudgetDocumentVersions();
-        for (BudgetDocumentVersion budgetDocumentVersion : budgetVersions) {
-            BudgetVersionOverview versionOverview = budgetDocumentVersion.getBudgetVersionOverview();
-            if(versionOverview.getBudgetVersionNumber().intValue()==budget.getBudgetVersionNumber().intValue()){
-                versionOverview.setDescriptionUpdatable(true);
-                versionOverview.setDocumentDescription(budgetToCopy.getDocumentDescription() + " " 
-                                                        + budgetToCopy.getBudgetVersionNumber() + " copy");
-            }
-        }
+        newBudget.setNameUpdatable(true);
+        newBudget.setName(budgetToCopy.getName() + " " + budgetToCopy.getBudgetVersionNumber() + " copy");
     }
     /**
      * 
@@ -174,5 +168,13 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
             }
         }
         request.setAttribute(KRADConstants.PESSIMISTIC_LOCK_MESSAGES, lockMessages);
-    }  
+    }
+
+	public KcBusinessRulesEngine getKcBusinessRulesEngine() {
+		return kcBusinessRulesEngine;
+	}
+
+	public void setKcBusinessRulesEngine(KcBusinessRulesEngine kcBusinessRulesEngine) {
+		this.kcBusinessRulesEngine = kcBusinessRulesEngine;
+	}  
 }

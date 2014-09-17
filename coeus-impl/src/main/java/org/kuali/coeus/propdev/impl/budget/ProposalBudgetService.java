@@ -15,24 +15,20 @@
  */
 package org.kuali.coeus.propdev.impl.budget;
 
-import java.util.Map;
-
 import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
-import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface ProposalBudgetService extends BudgetCommonService<DevelopmentProposal> {
 
     /**
      *
-     * This method returns the final version of {@link org.kuali.coeus.common.budget.framework.core.BudgetDocument} for a given {@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}
+     * This method returns the final version of {@link org.kuali.coeus.common.budget.framework.core.Budget} for a given {@link org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument}
      *
      * @param parentDocument The parent document that has the budget.
      * @return parentDocument final version of budget corresponding to the parentDocument object.
      * @throws org.kuali.rice.kew.api.exception.WorkflowException
      */
-    public BudgetDocument<DevelopmentProposal> getFinalBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument) throws WorkflowException;
+    public ProposalDevelopmentBudgetExt getFinalBudgetVersion(ProposalDevelopmentDocument parentDocument) throws WorkflowException;
 }

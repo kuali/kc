@@ -19,7 +19,7 @@ import org.apache.struts.action.ActionForm;
 import org.kuali.coeus.common.budget.framework.auth.task.BudgetTask;
 import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.coeus.common.framework.auth.task.WebTaskFactoryBase;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.kra.infrastructure.TaskGroupName;
@@ -36,12 +36,12 @@ public class ProposalBudgetTaskFactory extends WebTaskFactoryBase {
     @Override
     public Task createTask(ActionForm form, HttpServletRequest request) {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument(); 
+        Budget budget = budgetForm.getBudgetDocument().getBudget();
+        BudgetParentDocument parentDocument = budget.getBudgetParent().getDocument(); 
         if(parentDocument!=null ){
-            taskGroupName = budgetDocument.getBudget().getBudgetParent().getDocument().getTaskGroupName();
+            taskGroupName = budget.getBudgetParent().getDocument().getTaskGroupName();
         }
-        return new BudgetTask(getTaskName(), getTaskGroupName(),budgetDocument);
+        return new BudgetTask(getTaskName(), getTaskGroupName(),budget);
     }
 
     @Override

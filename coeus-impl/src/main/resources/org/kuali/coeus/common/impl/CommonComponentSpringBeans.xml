@@ -25,6 +25,10 @@
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportRiceKradSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/common/impl/CommonImportRiceSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/common/impl/CommonImportModuleSpringBeans.xml"/>
+    
+    <!-- Load Business Rules for this module -->
+    <bean id="commonKcBusinessRulesHandler" class="org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesHandler"/>
+    
 
     <util:set id="taskAuthorizerGroupNames">
         <value>applicationTaskAuthorizers</value>

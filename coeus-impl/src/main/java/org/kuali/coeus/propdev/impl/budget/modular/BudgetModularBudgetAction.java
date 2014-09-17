@@ -18,6 +18,7 @@ package org.kuali.coeus.propdev.impl.budget.modular;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -48,10 +49,9 @@ public class BudgetModularBudgetAction extends BudgetAction {
     
     public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();        
+        Budget budget = budgetForm.getBudget();        
         BudgetModularIdc newBudgetModularIdc = budgetForm.getNewBudgetModularIdc();
-        newBudgetModularIdc.setRateNumber(budgetDocument.getHackedDocumentNextValue("rateNumber"));
+        newBudgetModularIdc.setRateNumber(budget.getHackedDocumentNextValue("rateNumber"));
         newBudgetModularIdc.calculateFundsRequested();
         BudgetModular budgetModular = budget.getBudgetPeriods().get(budgetForm.getModularSelectedPeriod() - 1).getBudgetModular();
         budgetModular.addNewBudgetModularIdc(newBudgetModularIdc);
@@ -79,7 +79,7 @@ public class BudgetModularBudgetAction extends BudgetAction {
     }
     
     public ActionForward sync(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        boolean passed = getKualiRuleService().applyRules(createSyncModularBudgetEvent(((BudgetForm)form).getBudgetDocument()));
+        boolean passed = getKcBusinessRulesEngine().applyRules(new SyncModularBudgetKcEvent((ProposalDevelopmentBudgetExt) ((BudgetForm) form).getBudget()));
         if (passed) {
             return confirm(buildSyncBudgetModularConfirmationQuestion(mapping, form, request, response), CONFIRM_SYNC_BUDGET_MODULAR, "");
         }
@@ -140,10 +140,6 @@ public class BudgetModularBudgetAction extends BudgetAction {
         budgetModularService.generateModularPeriod(budgetPeriod);
         // Also update project totals
         budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budget));
-    }
-    
-    protected SyncModularBudgetEvent createSyncModularBudgetEvent(BudgetDocument budgetDocument) {
-        return new SyncModularBudgetEvent("SyncModularBudgetEvent", Constants.EMPTY_STRING, budgetDocument);
     }
     
     /**

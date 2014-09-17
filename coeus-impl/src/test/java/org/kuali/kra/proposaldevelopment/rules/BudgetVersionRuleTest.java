@@ -18,51 +18,52 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionCollection;
-import org.kuali.coeus.common.budget.impl.version.BudgetVersionRule;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.coeus.propdev.impl.budget.core.ProposalAddBudgetVersionEvent;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetVersionRule;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.document.DocumentBase;
+import org.kuali.coeus.sys.impl.gv.GlobalVariableServiceImpl;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
  *
- * @see org.kuali.coeus.common.budget.impl.version.BudgetVersionRule
+ * @see org.kuali.coeus.common.budget.framework.version.BudgetVersionRule
  */
 public class BudgetVersionRuleTest {
     private static final String VERSION_NAME = "test version";
     private static final String DEFAULT_BUD_VER_NAME = "Default Budget Name";
 
     private DevelopmentProposal proposal;
-    
+    private ProposalBudgetVersionRule versionRule;
 
     @Before
     public void setUp() throws Exception {
         proposal = new DevelopmentProposal();
         proposal.setBudgets(new ArrayList<ProposalDevelopmentBudgetExt>());
+        proposal.setRequestedStartDateInitial(new java.sql.Date(new Date().getDate()));
+        proposal.setRequestedEndDateInitial(new java.sql.Date(new Date().getDate()));
+        versionRule = new ProposalBudgetVersionRule();
+        versionRule.setGlobalVariableService(new GlobalVariableServiceImpl());
     }
         
     @Test
-    public void testExistingBudgetVersion() {
+    public void testExistingBudgetVersion() throws WorkflowException {
         addNewBudgetVersion(proposal, VERSION_NAME);
         
-        boolean ruleStatus = new AddBudgetVersionEvent("", proposal, VERSION_NAME).invokeRuleMethod(new ProposalBudgetVersionRule());
+        boolean ruleStatus = versionRule.processAddBudgetVersion(new ProposalAddBudgetVersionEvent("addBudgetDto", proposal, VERSION_NAME));
         assertFalse(ruleStatus);
     }
 
     @Test
-    public void testNewBudgetVersion() {
-        boolean ruleStatus = new AddBudgetVersionEvent("", proposal, VERSION_NAME).invokeRuleMethod(new ProposalBudgetVersionRule());
+    public void testNewBudgetVersion() throws WorkflowException {
+        boolean ruleStatus = versionRule.processAddBudgetVersion(new ProposalAddBudgetVersionEvent("addBudgetDto", proposal, VERSION_NAME));
 
         assertTrue(ruleStatus);
     }
@@ -74,7 +75,7 @@ public class BudgetVersionRuleTest {
      */
     @Test
     public void testOK() throws Exception {
-        assertTrue(new AddBudgetVersionEvent("", proposal, DEFAULT_BUD_VER_NAME).invokeRuleMethod(new ProposalBudgetVersionRule()));
+        assertTrue(versionRule.processAddBudgetVersion(new ProposalAddBudgetVersionEvent("addBudgetDto", proposal, DEFAULT_BUD_VER_NAME)));
     }
     
     /**
@@ -84,7 +85,7 @@ public class BudgetVersionRuleTest {
      */
     @Test
     public void testNegativeNullName() throws Exception {
-        assertFalse(new AddBudgetVersionEvent("", proposal, (String)null).invokeRuleMethod(new ProposalBudgetVersionRule()));
+        assertFalse(versionRule.processAddBudgetVersion(new ProposalAddBudgetVersionEvent("addBudgetDto", proposal, null)));
     }
     
     /**
@@ -94,7 +95,7 @@ public class BudgetVersionRuleTest {
      */
     @Test
     public void testNegativeEmptyName() throws Exception {
-        assertFalse(new AddBudgetVersionEvent("", proposal, "").invokeRuleMethod(new ProposalBudgetVersionRule()));
+        assertFalse(versionRule.processAddBudgetVersion(new ProposalAddBudgetVersionEvent("addBudgetDto", proposal, "")));
     }
     
     /**
@@ -108,6 +109,5 @@ public class BudgetVersionRuleTest {
     	budget.setName(name);
         proposal.getBudgets().add(budget);
     }
-
 }
 

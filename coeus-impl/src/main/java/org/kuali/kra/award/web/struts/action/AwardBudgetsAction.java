@@ -27,6 +27,7 @@ import org.kuali.coeus.sys.framework.validation.AuditHelper.ValidationState;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
@@ -39,9 +40,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
-import org.kuali.coeus.common.budget.framework.core.BudgetTDCValidator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.budget.framework.copy.CopyPeriodsQuestion;
@@ -85,19 +84,19 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         //since the award budget versions panel is usually(always??) only usable when the award is
         //read only we need to make sure to perform post budget copy stuff here
         if (!StringUtils.equals(awardForm.getMethodToCall(), "save") && awardForm.isSaveAfterCopy()) {
-            final List<BudgetDocumentVersion> overviews = awardForm.getAwardDocument().getBudgetDocumentVersions();
-            final BudgetDocumentVersion copiedDocumentOverview = overviews.get(overviews.size() - 1);
+            final List<AwardBudgetDocumentVersion> overviews = awardForm.getAwardDocument().getBudgetDocumentVersions();
+            final AwardBudgetDocumentVersion copiedDocumentOverview = overviews.get(overviews.size() - 1);
             BudgetVersionOverview copiedOverview = copiedDocumentOverview.getBudgetVersionOverview();
-            final String copiedName = copiedOverview.getDocumentDescription();
-            copiedOverview.setDocumentDescription("copied placeholder");
+            final String copiedName = copiedOverview.getName();
+            copiedOverview.setName("copied placeholder");
             LOG.debug("validating " + copiedName);
-            boolean valid = getBudgetService().isBudgetVersionNameValid(awardForm.getAwardDocument(), copiedName);
-            copiedOverview.setDocumentDescription(copiedName);
+            boolean valid = getBudgetService().isBudgetVersionNameValid(awardForm.getAwardDocument().getAward(), copiedName);
+            copiedOverview.setName(copiedName);
             awardForm.setSaveAfterCopy(!valid);
             if (!valid) {
                 return mapping.findForward(Constants.MAPPING_BASIC);
             } else {
-                awardForm.getAwardDocument().updateDocumentDescriptions(awardForm.getAwardDocument().getBudgetDocumentVersions());
+                awardForm.getAwardDocument().updateBudgetDescriptions(awardForm.getAwardDocument().getAward().getBudgets());
             }
         }
         
@@ -175,8 +174,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         
         AwardDocument awardDocument = awardForm.getAwardDocument();
         awardDocument.refreshBudgetDocumentVersions();
-        BudgetDocumentVersion budgetDocumentToOpen = awardDocument.getBudgetDocumentVersion(getSelectedLine(request));
-        BudgetVersionOverview budgetToOpen = budgetDocumentToOpen.getBudgetVersionOverview();
+        Budget budgetToOpen = awardDocument.getBudgetDocumentVersion(getSelectedLine(request));
         Collection<BudgetRate> allBudgetRates = budgetService.getSavedProposalRates(budgetToOpen);
         Award newestAward = getAwardBudgetService().getActiveOrNewestAward(awardDocument.getAward().getAwardNumber());
         newestAward.refreshReferenceObject("awardFandaRate");
@@ -231,9 +229,9 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
     private ActionForward synchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, boolean confirm) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDoc = awardForm.getAwardDocument();
-        BudgetDocumentVersion budgetDocumentToOpen = awardDoc.getBudgetDocumentVersion(getSelectedLine(request));
+        Budget budgetToOpen = awardDoc.getBudgetDocumentVersion(getSelectedLine(request));
         DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
-        BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocumentToOpen.getDocumentNumber());
+        BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
         String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
         String forward = buildForwardUrl(routeHeaderId);
         if (confirm) {
@@ -261,7 +259,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
      */
     public ActionForward copyBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm pdForm = (AwardForm) form;
-        BudgetVersionOverview versionToCopy = getSelectedVersion(pdForm, request);
+        Budget versionToCopy = getSelectedVersion(pdForm, request);
         if (!getAwardBudgetService().validateAddingNewBudget(pdForm.getAwardDocument())) {
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
@@ -288,17 +286,6 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         final AwardForm awardForm = (AwardForm) form;
         // check audit rules. If there is error, then budget can't have complete status
         boolean valid = true;
-        if (awardForm.isSaveAfterCopy()) {
-            final List<BudgetDocumentVersion> overviews = awardForm.getAwardDocument().getBudgetDocumentVersions();
-            final BudgetDocumentVersion copiedDocumentOverview = overviews.get(overviews.size() - 1);
-            BudgetVersionOverview copiedOverview = copiedDocumentOverview.getBudgetVersionOverview();
-            final String copiedName = copiedOverview.getDocumentDescription();
-            copiedOverview.setDocumentDescription("copied placeholder");
-            LOG.debug("validating " + copiedName);
-            valid = getBudgetService().isBudgetVersionNameValid(awardForm.getAwardDocument(), copiedName);
-            copiedOverview.setDocumentDescription(copiedName);
-            awardForm.setSaveAfterCopy(!valid);
-        }
 
         if (awardForm.isAuditActivated()) {
             valid &= getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(awardForm.getAwardDocument());
@@ -338,10 +325,8 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         }
         
         AwardDocument document = awardForm.getAwardDocument();
-        if(document != null && CollectionUtils.isNotEmpty(document.getBudgetDocumentVersions())) {
-            List<AwardBudgetDocumentVersion> awardBudgetDocuments = document.getBudgetDocumentVersions();
-            for(BudgetDocumentVersion budgetDocumentVersion : awardBudgetDocuments) {
-                BudgetVersionOverview budget = budgetDocumentVersion.getBudgetVersionOverview();
+        if(document != null && CollectionUtils.isNotEmpty(document.getAward().getBudgets())) {
+            for(AwardBudgetExt budget : document.getAward().getBudgets()) {
                 if(budget.isFinalVersionFlag()) {
                     return budget.getBudgetVersionNumber().intValue();
                 }
@@ -355,11 +340,8 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final ActionForward forward = super.reload(mapping, form, request, response);
         final AwardForm awardForm = (AwardForm) form;
-        awardForm.setFinalBudgetVersion(getFinalBudgetVersion(awardForm.getAwardDocument().getBudgetDocumentVersions()));
+        awardForm.setFinalBudgetVersion(getFinalBudgetVersion(awardForm.getAwardDocument().getAward().getBudgets()));
         setBudgetStatuses(awardForm.getAwardDocument());
-        
-        final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
-        tdcValidator.validateGeneratingWarnings(awardForm.getAwardDocument());
         return forward;
     }
     
@@ -383,14 +365,14 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    private BudgetVersionOverview getSelectedVersion(AwardForm proposalDevelopmentForm, HttpServletRequest request) {
-        return proposalDevelopmentForm.getAwardDocument().getBudgetDocumentVersion(getSelectedLine(request)).getBudgetVersionOverview();
+    private Budget getSelectedVersion(AwardForm proposalDevelopmentForm, HttpServletRequest request) {
+        return proposalDevelopmentForm.getAwardDocument().getBudgetDocumentVersion(getSelectedLine(request));
     }
     
     private void copyBudget(ActionForm form, HttpServletRequest request, boolean copyPeriodOneOnly) throws WorkflowException {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDoc = awardForm.getAwardDocument();
-        BudgetVersionOverview budgetToCopy = getSelectedVersion(awardForm, request);
+        Budget budgetToCopy = getSelectedVersion(awardForm, request);
         copyBudget(awardDoc.getBudgetParent(), budgetToCopy, copyPeriodOneOnly);
     }
     

@@ -2,7 +2,6 @@ package org.kuali.coeus.common.budget.framework.core;
 
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -39,8 +38,7 @@ public class BudgetParentDocumentRule extends KcTransactionalDocumentRuleBase {
         final DictionaryValidationService dictionaryValidationService = getKnsDictionaryValidationService();
 
         int index = 0;
-        for (BudgetDocumentVersion budgetDocumentVersion: budgetParentDocument.getBudgetDocumentVersions()) {
-            BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
+        for (Budget budgetVersion: budgetParentDocument.getBudgetParent().getBudgets()) {
             if (runDatactionaryValidation) {
                 dictionaryValidationService.validateBusinessObject(budgetVersion, true);
             }
@@ -52,7 +50,7 @@ public class BudgetParentDocumentRule extends KcTransactionalDocumentRuleBase {
                 }
             }
 
-            final String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+            final String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
 
             if (budgetStatusCompleteCode.equalsIgnoreCase(budgetVersion.getBudgetStatus())) {
                 if (!budgetVersion.isFinalVersionFlag()) {

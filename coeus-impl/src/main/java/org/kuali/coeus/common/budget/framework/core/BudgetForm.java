@@ -31,12 +31,12 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.HierarchyPersonnelSummary;
-import org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.framework.costshare.CostShareFunctions;
 import org.kuali.coeus.common.framework.costshare.CostShareService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularSummary;
@@ -726,16 +726,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         String budgetVersionNumber = Constants.EMPTY_STRING;
         if (budgetDocument != null && parentDocument != null) {
             Budget budget = budgetDocument.getBudget();
-            List<BudgetDocumentVersion> budgetDocumentVersions = parentDocument.getBudgetDocumentVersions();
-            for (BudgetDocumentVersion budgetDocumentVersion: budgetDocumentVersions) {
-                BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
-                if (budgetVersion!=null && budgetVersion.getBudgetVersionNumber()!=null && 
-                        budgetVersion.getBudgetVersionNumber().intValue() == budget.getBudgetVersionNumber().intValue()) {
-                    budgetName = budgetVersion.getDocumentDescription();
-                    break;
-                }
-            }
-            
+            budgetName = budget.getName();
             if (budget.getBudgetVersionNumber() != null) {
                 budgetVersionNumber = Integer.toString(budget.getBudgetVersionNumber());
             }
@@ -991,7 +982,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }
     
     public boolean isSyncableBudget() throws ProposalHierarchyException {
-        BudgetDocument<DevelopmentProposal> budget = 
+        ProposalDevelopmentBudgetExt budget = 
                 getProposalHierarchyService().getSyncableBudget((DevelopmentProposal) this.getBudgetDocument().getBudget().getBudgetParent());
         if (budget != null
                 && StringUtils.equals(budget.getDocumentNumber(), getBudgetDocument().getDocumentNumber())) {
@@ -999,5 +990,9 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         } else {
             return false;
         }
-    }    
+    }
+    
+    public Budget getBudget() {
+    	return this.getBudgetDocument().getBudget();
+    }
 }

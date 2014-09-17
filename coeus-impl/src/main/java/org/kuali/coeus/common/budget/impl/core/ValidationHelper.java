@@ -16,15 +16,24 @@
 package org.kuali.coeus.common.budget.impl.core;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 /**
  * This class provides validation support
  */
+@Component("validationHelper")
 public class ValidationHelper {
     private static final String REQUIRED_ERROR_KEY = "error.required";
     
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
+
     /**
      * This method checks a required Object field value and registers an error if the 
      * field value is null, or if a String, if field value is empty 
@@ -36,7 +45,7 @@ public class ValidationHelper {
     public boolean checkRequiredField(Object fieldValue, String errorProperty, String... errorParms) {
         boolean isEmpty = isEmpty(fieldValue);
         if(isEmpty) {
-            GlobalVariables.getMessageMap().putError(errorProperty, REQUIRED_ERROR_KEY, errorParms);
+        	globalVariableService.getMessageMap().putError(errorProperty, REQUIRED_ERROR_KEY, errorParms);
         }
         
         return !isEmpty; 
@@ -59,8 +68,16 @@ public class ValidationHelper {
     public boolean checkValuePositive(ScaleTwoDecimal projectIncome, String errorProperty, String errorKey, String... parms) {
         boolean success = projectIncome.isPositive(); 
         if(!success) {
-            GlobalVariables.getMessageMap().putError(errorProperty, errorKey, parms);
+        	globalVariableService.getMessageMap().putError(errorProperty, errorKey, parms);
         }
         return success;
     }
+
+	protected GlobalVariableService getGlobalVariableService() {
+		return globalVariableService;
+	}
+
+	public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+		this.globalVariableService = globalVariableService;
+	}
 }

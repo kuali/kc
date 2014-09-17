@@ -16,41 +16,6 @@
 <descriptor-repository version="1.0">
 
     <!-- Budget tables -->
-    
-    <!--<class-descriptor class="org.kuali.coeus.common.budget.framework.core.BudgetDocument" table="BUDGET_DOCUMENT">			
-		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />		
-		<field-descriptor name="parentDocumentKey" column="PARENT_DOCUMENT_KEY" jdbc-type="VARCHAR"/>
-		<field-descriptor name="parentDocumentTypeCode" column="PARENT_DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="budgetDeleted" column="BUDGET_DELETED" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" jdbc-type="VARCHAR"/>
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>		
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<reference-descriptor name="parentDocument" class-ref="org.kuali.coeus.common.budget.framework.core.BudgetParentDocument" 
-							auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="parentDocumentKey"/>
-	    </reference-descriptor>
-    	<collection-descriptor name="budgets" proxy="false" element-class-ref="org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        	<inverse-foreignkey field-ref="documentNumber" />
-    	</collection-descriptor>
-   		<collection-descriptor name="documentNextvalues" element-class-ref="org.kuali.kra.bo.DocumentNextvalue" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="documentKey" /> 
-		</collection-descriptor>
-
-	</class-descriptor> -->
-    <class-descriptor class="org.kuali.coeus.common.budget.framework.version.BudgetDocumentVersion" table="BUDGET_DOCUMENT">
-		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />		
-		<field-descriptor name="parentDocumentKey" column="PARENT_DOCUMENT_KEY" jdbc-type="VARCHAR"/>
-		<field-descriptor name="parentDocumentTypeCode" column="PARENT_DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>		
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-        <reference-descriptor name="budgetVersionOverview" class-ref="org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview"
-                              auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="documentNumber"/>
-        </reference-descriptor>
-	</class-descriptor>
 <!-- Factory definitions start -->
 	<class-descriptor class="org.kuali.coeus.common.budget.framework.core.BudgetParentDocument">
 	    <extent-class class-ref="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument"/>
@@ -134,9 +99,6 @@
 			<inverse-foreignkey field-ref="budgetId"/>
 		</collection-descriptor>
 
-        <reference-descriptor name="budgetDocument" class-ref="org.kuali.coeus.common.budget.framework.core.BudgetDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="documentNumber" />
-        </reference-descriptor>
 		<reference-descriptor name="rateClass" class-ref="org.kuali.coeus.common.budget.framework.rate.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="ohRateClassCode"/> 
 		</reference-descriptor> 
@@ -1111,7 +1073,7 @@
 		<reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="awardId"/>
 		</reference-descriptor>
-		
+
 		<collection-descriptor name="budgetPeriods" proxy="true" element-class-ref="org.kuali.kra.award.budget.AwardBudgetPeriodExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="budgetPeriod" sort="ASC" /> 
 			<inverse-foreignkey field-ref="budgetId"/>
