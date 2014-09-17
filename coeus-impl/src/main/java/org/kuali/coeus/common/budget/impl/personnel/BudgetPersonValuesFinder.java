@@ -26,12 +26,23 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import org.kuali.rice.krad.data.DataObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Finds the available set of supported Narrative Statuses.  See
@@ -39,8 +50,12 @@ import java.util.List;
  * 
  * @author KRADEV team
  */
+@Component("budgetPersonValuesFinder")
 public class BudgetPersonValuesFinder extends UifKeyValuesFinderBase {
     
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
     /**
      * Constructs the list of Budget Persons.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
@@ -58,32 +73,40 @@ public class BudgetPersonValuesFinder extends UifKeyValuesFinderBase {
         return buildKeyValues(budget.getBudgetPersons());
     }
     
-    public List<KeyValue> getKeyValues(ModelAndView model) {
+    public List<KeyValue> getKeyValues(ViewModel model) {
+    	setAddBlankOption(false);
     	return buildKeyValues(((BudgetContainer) model).getBudget().getBudgetPersons());
     }
-    
-    private List<KeyValue> buildKeyValues(List<BudgetPerson> budgetPersons) {
-        List<KeyValue> KeyValues = new ArrayList<KeyValue>();
-        KeyValues.add(new ConcreteKeyValue("", "Select"));
-        List <BudgetPerson> dupBudgetPersons = (List <BudgetPerson>)ObjectUtils.deepCopy((Serializable)budgetPersons);
-        for(BudgetPerson budgetPerson: budgetPersons) {
-            if (StringUtils.isNotBlank(budgetPerson.getJobCode()) && StringUtils.isNotBlank(budgetPerson.getAppointmentTypeCode()) && budgetPerson.getCalculationBase().isGreaterEqual(ScaleTwoDecimal.ZERO) && budgetPerson.getEffectiveDate() != null) {
-                boolean duplicatePerson = false;
-                for (BudgetPerson dupBudgetPerson : dupBudgetPersons) {
-                    if (((dupBudgetPerson.getPersonId() != null && dupBudgetPerson.getPersonId().equals(budgetPerson.getPersonId())) || (dupBudgetPerson.getRolodexId() != null && dupBudgetPerson.getRolodexId().equals(budgetPerson.getRolodexId())) )
-                            && dupBudgetPerson.getEffectiveDate().before(budgetPerson.getEffectiveDate())
-                            && dupBudgetPerson.getJobCode().equals(budgetPerson.getJobCode())) {
-                        duplicatePerson = true;
-                    }
-                    
-                }
-                if (!duplicatePerson) {
-                  KeyValues.add(new ConcreteKeyValue(budgetPerson.getPersonSequenceNumber().toString(), budgetPerson.getPersonName() + " - " + budgetPerson.getJobCode()));
-                }
-            }
-        }
-        KeyValues.add(new ConcreteKeyValue("-1", "Summary"));
-        return KeyValues;
 
+    private List<KeyValue> buildKeyValues(List<BudgetPerson> budgetPersons) {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "Select"));
+        Set<String> distinctKeys = new HashSet<String>();
+    	for(BudgetPerson budgetPerson : budgetPersons) {
+    		boolean duplicatePerson = false;
+            if (StringUtils.isNotBlank(budgetPerson.getJobCode()) && StringUtils.isNotBlank(budgetPerson.getAppointmentTypeCode()) && budgetPerson.getCalculationBase().isGreaterEqual(ScaleTwoDecimal.ZERO) && budgetPerson.getEffectiveDate() != null) {
+            	duplicatePerson = !distinctKeys.add(getPersonUniqueKey(budgetPerson));
+            }
+            if (!duplicatePerson) {
+            	keyValues.add(new ConcreteKeyValue(budgetPerson.getPersonSequenceNumber().toString(), budgetPerson.getPersonName()));
+            }
+    	}
+        return keyValues;
     }
+    
+    private String getPersonUniqueKey(BudgetPerson budgetPerson) {
+    	StringBuffer uniqueKey = new StringBuffer();
+    	uniqueKey.append(budgetPerson.getPersonRolodexTbnId());
+    	uniqueKey.append(budgetPerson.getJobCode());
+    	uniqueKey.append(budgetPerson.getEffectiveDate());
+    	return uniqueKey.toString();
+    }
+
+	public DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
 }

@@ -17,7 +17,6 @@ package org.kuali.coeus.common.budget.framework.personnel;
 
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelCalculatedAmountContract;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.AbstractBudgetCalculatedAmount;
-
 import javax.persistence.*;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
@@ -38,11 +37,11 @@ public class BudgetPersonnelCalculatedAmount extends AbstractBudgetCalculatedAmo
     @Column(name = "BUDGET_PERSONNEL_CAL_AMTS_ID")
     private Long budgetPersonnelCalculatedAmountId;
 
-    @Column(name = "BUDGET_PERSONNEL_DETAILS_ID")
+    @Column(name = "BUDGET_PERSONNEL_DETAILS_ID", insertable = false, updatable = false)
     private Long budgetPersonnelLineItemId;
     
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_PERSONNEL_DETAILS_ID", referencedColumnName = "BUDGET_PERSONNEL_DETAILS_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "BUDGET_PERSONNEL_DETAILS_ID", referencedColumnName = "BUDGET_PERSONNEL_DETAILS_ID")
     private BudgetPersonnelDetails budgetPersonnelLineItem;
 
     @Override
@@ -80,4 +79,9 @@ public class BudgetPersonnelCalculatedAmount extends AbstractBudgetCalculatedAmo
 			BudgetPersonnelDetails budgetPersonnelLineItem) {
 		this.budgetPersonnelLineItem = budgetPersonnelLineItem;
 	}
+
+	public Long getBudgetLineItemId() {
+        return getBudgetPersonnelLineItem().getBudgetLineItemId();
+    }
+
 }

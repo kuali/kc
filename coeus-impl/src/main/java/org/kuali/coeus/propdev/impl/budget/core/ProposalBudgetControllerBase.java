@@ -13,6 +13,7 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
 import org.kuali.coeus.sys.framework.model.ScaleTwoDecimalEditor;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.TransactionalDocumentControllerService;
@@ -76,6 +77,10 @@ public abstract class ProposalBudgetControllerBase {
     @Qualifier("budgetCalculationService")
     private BudgetCalculationService budgetCalculationService;
 
+	@Autowired
+    @Qualifier("kualiConfigurationService")
+    private ConfigurationService kualiConfigurationService;
+	
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalBudgetForm();
     }
@@ -201,4 +206,14 @@ public abstract class ProposalBudgetControllerBase {
     public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
         this.budgetCalculationService = budgetCalculationService;
     }
+
+    public ConfigurationService getKualiConfigurationService() {
+		return kualiConfigurationService;
+	}
+
+	public void setKualiConfigurationService(
+			ConfigurationService kualiConfigurationService) {
+		this.kualiConfigurationService = kualiConfigurationService;
+	}
+
 }

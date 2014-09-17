@@ -23,7 +23,7 @@ import java.util.List;
 
 public interface BudgetSummaryService {
 
-    public void generateBudgetPeriods(Budget budget,List<BudgetPeriod> budgetPeriods);
+    public List<BudgetPeriod> generateBudgetPeriods(Budget budget);
     public void addBudgetPeriod(Budget budget, BudgetPeriod newBudgetPeriod);
     public void deleteBudgetPeriod(Budget budget, int delPeriod);
     public boolean budgetLineItemExists(Budget budget, Integer budgetPeriod);

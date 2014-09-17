@@ -369,6 +369,9 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
     }
 
     public String getRole() {
+		if(getPersonRolodex() != null) {
+			this.role = getPersonRolodex().getContactRole().getRoleDescription();
+		}
         return role;
     }
 

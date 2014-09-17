@@ -22,6 +22,7 @@ import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationServi
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
 import org.kuali.coeus.common.budget.framework.core.BudgetCommonServiceFactory;
+import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyPostProcessor;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
@@ -160,7 +161,8 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     }
 
     @Override
-    public void generateBudgetPeriods(Budget budget,List<BudgetPeriod> budgetPeriods) {
+    public List<BudgetPeriod> generateBudgetPeriods(Budget budget) {
+    	List<BudgetPeriod> budgetPeriods = new ArrayList<BudgetPeriod>();
         Date projectStartDate = budget.getStartDate();
         Date projectEndDate = budget.getEndDate();
         boolean budgetPeriodExists = true;
@@ -193,13 +195,13 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
             periodStartDate = nextPeriodStartDate;
             budgetPeriodNum++;
         }
+        return budgetPeriods;
     }
 
     @Override
     public void defaultBudgetPeriods(Budget budget) {
         //get a list of default periods to match the current periods to
-        List<BudgetPeriod> newPeriods = new ArrayList<BudgetPeriod>();
-        generateBudgetPeriods(budget,newPeriods);
+        List<BudgetPeriod> newPeriods = generateBudgetPeriods(budget);
         
         //remove any existing periods beyond the number of default periods
         while (budget.getBudgetPeriods().size() > newPeriods.size()) {
@@ -348,7 +350,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
             /* update line items */
             if (budgetPeriod.getBudgetLineItems() != null) {
                 for(BudgetLineItem periodLineItem: budgetPeriod.getBudgetLineItems()) {
-                    if (onOffCampusFlag.equalsIgnoreCase(Constants.DEFALUT_CAMUS_FLAG)) {
+                    if (onOffCampusFlag.equalsIgnoreCase(BudgetConstants.DEFAULT_CAMPUS_FLAG)) {
                         if (periodLineItem.getCostElementBO() == null) {
                             periodLineItem.refreshReferenceObject("costElementBO");
                         }
@@ -357,7 +359,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                         periodLineItem.setOnOffCampusFlag(onOffCampusFlag.equalsIgnoreCase(Constants.ON_CAMUS_FLAG));                 
                     }
                     for(BudgetPersonnelDetails periodPersonnelDetail: periodLineItem.getBudgetPersonnelDetailsList()) {
-                        if (onOffCampusFlag.equalsIgnoreCase(Constants.DEFALUT_CAMUS_FLAG)) {
+                        if (onOffCampusFlag.equalsIgnoreCase(BudgetConstants.DEFAULT_CAMPUS_FLAG)) {
                             if (periodLineItem.getCostElementBO() == null) {
                                 periodLineItem.refreshReferenceObject("costElementBO");
                             }
@@ -677,11 +679,9 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
 
     @Override
     public String defaultWarningMessage(Budget budget) {
-        List<BudgetPeriod> budgetPeriods = new ArrayList<BudgetPeriod>();
+        List<BudgetPeriod> budgetPeriods = generateBudgetPeriods(budget);
         boolean dateChanged = false;
         boolean deletePeriodWithLineItem = false;
-        
-        generateBudgetPeriods(budget,budgetPeriods);
         
         for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
             if (budgetPeriod.getBudgetPeriod() <= budgetPeriods.size()) {

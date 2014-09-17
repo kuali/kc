@@ -153,6 +153,9 @@ public class Budget extends AbstractBudget implements BudgetContract {
     @OneToMany(mappedBy="budget", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetPeriod> budgetPeriods;
 
+    @OneToMany(mappedBy="budget", cascade = { CascadeType.REFRESH })
+    private List<BudgetPersonnelDetails> budgetPersonnelDetails;
+    
     @Transient
     private Date summaryPeriodStartDate;
 
@@ -468,9 +471,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
     @Override
     public List<BudgetPeriod> getBudgetPeriods() {
-        if (budgetPeriods.isEmpty() && getStartDate() != null) {
-            getBudgetSummaryService().generateBudgetPeriods(this, budgetPeriods);
-        }
         return budgetPeriods;
     }
 
@@ -1749,6 +1749,15 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
 	public void setViewOnly(Boolean viewOnly) {
 		this.viewOnly = viewOnly;
+	}
+	
+	public List<BudgetPersonnelDetails> getBudgetPersonnelDetails() {
+		return budgetPersonnelDetails;
+	}
+
+	public void setBudgetPersonnelDetails(
+			List<BudgetPersonnelDetails> budgetPersonnelDetails) {
+		this.budgetPersonnelDetails = budgetPersonnelDetails;
 	}
 
 }

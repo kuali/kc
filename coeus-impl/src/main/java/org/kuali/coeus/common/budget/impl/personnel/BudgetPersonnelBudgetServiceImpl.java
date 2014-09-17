@@ -19,6 +19,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.SqlDateConverter;
 import org.apache.commons.beanutils.converters.SqlTimestampConverter;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.framework.personnel.*;
@@ -27,13 +28,16 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetFormulatedCostDetail;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemBase;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +48,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -69,6 +75,10 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
     @Qualifier("parameterService")
     private ParameterService parameterService;
 
+    @Autowired
+	@Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
+
     @Override
     public void addBudgetPersonnelDetails(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails) {
         try {
@@ -93,7 +103,6 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
             newBudgetPersonnelDetails.setBudgetPerson(budgetPerson);
         }
         newBudgetPersonnelDetails.setSequenceNumber(budget.getNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
-        //budgetCalculationService.populateCalculatedAmount(budget, newBudgetPersonnelDetails);
         newBudgetPersonnelDetails.refreshNonUpdateableReferences();
         budgetLineItem.getBudgetPersonnelDetailsList().add(newBudgetPersonnelDetails);
     }
@@ -165,15 +174,18 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
     }
 
     protected void copyLineItemToPersonnelDetails(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails) {
-//        budgetPersonnelDetails.setProposalNumber(budgetLineItem.getProposalNumber());
-//        budgetPersonnelDetails.setBudgetVersionNumber(budgetLineItem.getBudgetVersionNumber());
         budgetPersonnelDetails.setBudgetId(budgetLineItem.getBudgetId());
         budgetPersonnelDetails.setBudgetPeriod(budgetLineItem.getBudgetPeriod());
+        budgetPersonnelDetails.setBudgetPeriodId(budgetLineItem.getBudgetPeriodId());
+        budgetPersonnelDetails.setBudgetPeriodId(budgetLineItem.getBudgetPeriodId());
         budgetPersonnelDetails.setLineItemNumber(budgetLineItem.getLineItemNumber());
         budgetPersonnelDetails.setCostElement(budgetLineItem.getCostElement());
         budgetPersonnelDetails.setCostElementBO(budgetLineItem.getCostElementBO());
         budgetPersonnelDetails.setApplyInRateFlag(budgetLineItem.getApplyInRateFlag());
         budgetPersonnelDetails.setOnOffCampusFlag(budgetLineItem.getOnOffCampusFlag());
+        budgetPersonnelDetails.setStartDate(budgetLineItem.getStartDate());
+        budgetPersonnelDetails.setEndDate(budgetLineItem.getEndDate());
+        budgetPersonnelDetails.setBudgetLineItem(budgetLineItem);
     }
 
     public void deleteBudgetPersonnelDetails(Budget budget, int selectedBudgetPeriodIndex,
@@ -256,4 +268,154 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
+    
+    public void addBudgetPersonnelToPeriod(BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetail) {
+    	Budget budget = budgetPeriod.getBudget();
+    	BudgetLineItem groupedBudgetLineItem = getExistingBudgetLineItemBasedOnCostElementAndGroup(budgetPeriod, newBudgetLineItem);
+    	if(groupedBudgetLineItem == null) {
+    		groupedBudgetLineItem = newBudgetLineItem;
+    		setNewBudgetLineItemAttributes(budgetPeriod, groupedBudgetLineItem);
+            budgetPeriod.getBudgetLineItems().add(groupedBudgetLineItem);
+    	}
+    	addPersonnelToPeriod(budgetPeriod, groupedBudgetLineItem, newBudgetPersonnelDetail);
+    	groupedBudgetLineItem.setQuantity(getLineItemQuantity(newBudgetLineItem));
+    	getBudgetCalculationService().updatePersonnelBudgetRate(groupedBudgetLineItem);
+        budget.getBudgetPersonnelDetails().add(newBudgetPersonnelDetail);
+    }
+    
+    /**
+     * This method is to find existing line item that is grouped by cost element and group name
+     * @param budgetPeriod
+     * @param newBudgetLineItem
+     * @return
+     */
+    protected BudgetLineItem getExistingBudgetLineItemBasedOnCostElementAndGroup(BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem){
+    	String newLineItemKey = getLineItemGroupKey(newBudgetLineItem);
+    	for(BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+        	String existingLineItemKey = getLineItemGroupKey(budgetLineItem);
+        	if(newLineItemKey.equalsIgnoreCase(existingLineItemKey)) {
+        		return budgetLineItem;
+        	}
+    	}
+    	return null;
+    }
+    
+    protected String getLineItemGroupKey(BudgetLineItem budgetLineItem) {
+    	if(StringUtils.isEmpty(budgetLineItem.getGroupName())) {
+        	return budgetLineItem.getCostElement();
+    	}else {
+        	return budgetLineItem.getCostElement().concat(budgetLineItem.getGroupName());
+    	}
+    }
+    
+    protected void setNewBudgetLineItemAttributes(BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem) {
+    	Budget budget = budgetPeriod.getBudget();
+    	refreshBudgetLineItemReferences(newBudgetLineItem);
+    	Integer lineItemNumber = budget.getNextValue(Constants.BUDGET_LINEITEM_NUMBER);
+    	newBudgetLineItem.setBudgetId(budget.getBudgetId());
+        newBudgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
+        newBudgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
+        newBudgetLineItem.setBudgetCategoryCode(newBudgetLineItem.getCostElementBO().getBudgetCategoryCode());
+        newBudgetLineItem.setStartDate(budgetPeriod.getStartDate());
+        newBudgetLineItem.setEndDate(budgetPeriod.getEndDate());
+        newBudgetLineItem.setBudgetId(budgetPeriod.getBudgetId());
+        newBudgetLineItem.setLineItemNumber(lineItemNumber);
+        newBudgetLineItem.setLineItemSequence(lineItemNumber);
+        newBudgetLineItem.setApplyInRateFlag(true);
+    	
+        String onOffCampusFlag = budget.getOnOffCampusFlag();
+        if (onOffCampusFlag.equalsIgnoreCase(BudgetConstants.DEFAULT_CAMPUS_FLAG)) {
+            newBudgetLineItem.setOnOffCampusFlag(newBudgetLineItem.getCostElementBO().getOnOffCampusFlag()); 
+        } else {
+            newBudgetLineItem.setOnOffCampusFlag(onOffCampusFlag.equalsIgnoreCase(Constants.ON_CAMUS_FLAG));                 
+        }
+    }
+    
+    private void refreshBudgetLineItemReferences(BudgetLineItem newBudgetLineItem) {
+		if(StringUtils.isNotEmpty(newBudgetLineItem.getCostElement())) {
+			getDataObjectService().wrap(newBudgetLineItem).fetchRelationship("costElementBO");
+		}
+		if(StringUtils.isNotEmpty(newBudgetLineItem.getBudgetCategoryCode())) {
+			getDataObjectService().wrap(newBudgetLineItem).fetchRelationship("budgetCategory");
+		}
+    }
+    
+    private Integer getLineItemQuantity(BudgetLineItem personnelLineItem) {
+        HashSet<String> uniqueBudgetPersonnelCount = new HashSet<String>();
+        Integer quantity = 0;
+        for (BudgetPersonnelDetails budgetPersonnelDetails : personnelLineItem.getBudgetPersonnelDetailsList()) {
+            if(!uniqueBudgetPersonnelCount.contains(budgetPersonnelDetails.getPersonId())){
+                uniqueBudgetPersonnelCount.add(budgetPersonnelDetails.getPersonId());
+                quantity++;
+            }
+        }    
+        return quantity;
+    }
+    
+    protected void addPersonnelToPeriod(BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetail) {
+    	Budget budget = budgetPeriod.getBudget();
+        copyLineItemToPersonnelDetails(budgetLineItem, newBudgetPersonnelDetail);
+        newBudgetPersonnelDetail.setPersonNumber(budget.getNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
+        refreshBudgetPersonnelLineItemReferences(newBudgetPersonnelDetail);
+        BudgetPerson budgetPerson = newBudgetPersonnelDetail.getBudgetPerson();
+        if(budgetPerson != null) {
+        	newBudgetPersonnelDetail.setPersonId(budgetPerson.getPersonRolodexTbnId());
+        	newBudgetPersonnelDetail.setJobCode(budgetPerson.getJobCode());
+        }
+        newBudgetPersonnelDetail.setSequenceNumber(budget.getNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
+        budgetLineItem.getBudgetPersonnelDetailsList().add(newBudgetPersonnelDetail);
+    }
+
+    private void refreshBudgetPersonnelLineItemReferences(BudgetPersonnelDetails newBudgetPersonnelDetail) {
+		if(newBudgetPersonnelDetail.getBudgetId() != null && newBudgetPersonnelDetail.getPersonSequenceNumber() != null) {
+			getDataObjectService().wrap(newBudgetPersonnelDetail).fetchRelationship("budgetPerson");
+		}
+		if(newBudgetPersonnelDetail.getPeriodTypeCode() != null) {
+			getDataObjectService().wrap(newBudgetPersonnelDetail).fetchRelationship("budgetPeriodType");
+		}
+    }
+    
+    public void calculateCurrentBudgetPeriod(BudgetPeriod budgetPeriod) {
+        for(BudgetLineItem budgetLineItem:budgetPeriod.getBudgetLineItems()){
+            getBudgetCalculationService().updatePersonnelBudgetRate(budgetLineItem);
+            if(budgetLineItem.getFormulatedCostElementFlag()){
+                calculateAndUpdateFormulatedCost(budgetLineItem);
+            }
+        }
+    }
+    
+    private void calculateAndUpdateFormulatedCost(BudgetLineItem budgetLineItem) {
+        if(budgetLineItem.getFormulatedCostElementFlag()){
+            ScaleTwoDecimal formulatedCostTotal = getFormulatedCostsTotal(budgetLineItem);
+            if(formulatedCostTotal!=null){
+                budgetLineItem.setLineItemCost(formulatedCostTotal);
+            }
+        }
+    }
+
+    private ScaleTwoDecimal getFormulatedCostsTotal(BudgetLineItem budgetLineItem) {
+        List<BudgetFormulatedCostDetail> budgetFormulatedCosts = budgetLineItem.getBudgetFormulatedCosts();
+        ScaleTwoDecimal formulatedExpenses = ScaleTwoDecimal.ZERO;
+        for (BudgetFormulatedCostDetail budgetFormulatedCostDetail : budgetFormulatedCosts) {
+            calculateBudgetFormulatedCost(budgetFormulatedCostDetail);
+            formulatedExpenses = formulatedExpenses.add(budgetFormulatedCostDetail.getCalculatedExpenses());
+        }
+        return formulatedExpenses;
+    }
+    
+    private void calculateBudgetFormulatedCost( BudgetFormulatedCostDetail budgetFormulatedCost) {
+    	ScaleTwoDecimal unitCost = budgetFormulatedCost.getUnitCost();
+    	ScaleTwoDecimal count = new ScaleTwoDecimal(budgetFormulatedCost.getCount());
+    	ScaleTwoDecimal frequency = new ScaleTwoDecimal(budgetFormulatedCost.getFrequency());
+    	ScaleTwoDecimal calculatedExpense = unitCost.multiply(count).multiply(frequency);
+        budgetFormulatedCost.setCalculatedExpenses(calculatedExpense);
+    }
+    
+	public DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
 }

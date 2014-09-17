@@ -38,7 +38,7 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
     @Column(name = "BUDGET_PERSONNEL_CAL_AMTS_ID")
     private Long budgetPersonnelCalculatedAmountId;
 
-    @Column(name = "BUDGET_PERSONNEL_DETAILS_ID")
+    @Column(name = "BUDGET_PERSONNEL_DETAILS_ID", insertable = false, updatable = false)
     private Long budgetPersonnelLineItemId;
 
     @Column(name = "PERSON_ID")
@@ -52,7 +52,7 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
     private ScaleTwoDecimal salaryRequested;
     
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_PERSONNEL_DETAILS_ID", referencedColumnName = "BUDGET_PERSONNEL_DETAILS_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "BUDGET_PERSONNEL_DETAILS_ID", referencedColumnName = "BUDGET_PERSONNEL_DETAILS_ID")
     private BudgetPersonnelDetails budgetPersonnelLineItem;
 
     /**

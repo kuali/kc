@@ -16,26 +16,31 @@
 package org.kuali.coeus.common.budget.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component("costElementValuesFinder")
 public class CostElementValuesFinder extends UifKeyValuesFinderBase {
     
+	@Autowired
+    @Qualifier("dataObjectService")
+	DataObjectService dataObjectService;
     private String budgetCategoryTypeCode;
     
     /**
-     * Constructs the list of Budget Periods.  Each entry
+     * Constructs the list of COST ELEMENT.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
      * status code and the "value" is the textual description that is viewed
-     * by a user.  The list is obtained from the BudgetDocument if any are defined there. 
-     * Otherwise, it is obtained from a lookup of the BUDGET_PERIOD database table
+     * by a user.  
      * via the "KeyValueFinderService".
      * 
      * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
@@ -44,10 +49,9 @@ public class CostElementValuesFinder extends UifKeyValuesFinderBase {
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        KeyValuesService keyValuesService = KcServiceLocator.getService("keyValuesService");
         List<KeyValue> keyValues = new ArrayList<KeyValue>();        
-        Collection<CostElement> costElements= keyValuesService.findAll(CostElement.class);
-        Collection<BudgetCategory> budgetCategoryCodes = keyValuesService.findAll(BudgetCategory.class);
+        List<CostElement> costElements = (List<CostElement>)getDataObjectService().findAll(CostElement.class).getResults();
+        List<BudgetCategory> budgetCategoryCodes = (List<BudgetCategory>)getDataObjectService().findAll(BudgetCategory.class).getResults();
 
         for (CostElement costElement : costElements) {
             for(BudgetCategory budgetCategory : budgetCategoryCodes){
@@ -78,4 +82,12 @@ public class CostElementValuesFinder extends UifKeyValuesFinderBase {
             return o1.getValue().compareToIgnoreCase(o2.getValue());
         }        
     }
+
+	public DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
 }

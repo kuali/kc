@@ -48,9 +48,9 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase implements Bud
     @Column(name = "BUDGET_PERIOD_NUMBER")
     private Long budgetPeriodId;
 
-    @Column(name = "BUDGET_ID")
+    @Column(name = "BUDGET_ID", insertable = false, updatable = false)
     private Long budgetId;
-
+    
     @Column(name = "BUDGET_PERIOD")
     private Integer budgetPeriod;
 
@@ -88,7 +88,7 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase implements Bud
     @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal underrecoveryAmount;
 
-    @OneToMany(mappedBy = "budgetPeriodBO")
+    @OneToMany(mappedBy="budgetPeriodBO", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetLineItem> budgetLineItems;
 
     @Column(name = "NUM_PARTICIPANTS")
@@ -103,7 +103,7 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase implements Bud
     private BudgetModular budgetModular;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private Budget budget;
 
     // expences total for 'totals' page  
@@ -137,11 +137,7 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase implements Bud
 
     @Override
     public Long getBudgetId() {
-        return budgetId;
-    }
-
-    public void setBudgetId(Long budgetId) {
-        this.budgetId = budgetId;
+        return getBudget().getBudgetId();
     }
 
     /**
@@ -520,4 +516,8 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase implements Bud
     public void setNumberOfParticipants(Integer numberOfParticipants) {
         this.numberOfParticipants = numberOfParticipants;
     }
+
+	public void setBudgetId(Long budgetId) {
+		this.budgetId = budgetId;
+	}
 }

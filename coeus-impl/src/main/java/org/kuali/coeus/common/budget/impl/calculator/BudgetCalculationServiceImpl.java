@@ -869,16 +869,11 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
     @Override
     public void updatePersonnelBudgetRate(BudgetLineItem budgetLineItem){
-        int j = 0; 
         for(BudgetPersonnelDetails budgetPersonnelDetails: budgetLineItem.getBudgetPersonnelDetailsList()){
-            if(budgetPersonnelDetails.getCostElement()==null){
-                budgetPersonnelDetails.setCostElement(budgetLineItem.getCostElement());
-                budgetPersonnelDetails.setCostElementBO(budgetLineItem.getCostElementBO());
-            }
-            j=0;
+            budgetPersonnelDetails.setApplyInRateFlag(budgetLineItem.getApplyInRateFlag());
+            budgetPersonnelDetails.setOnOffCampusFlag(budgetLineItem.getOnOffCampusFlag());
             for(BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount:budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts()){
                 Boolean updatedApplyRateFlag = null;
-                
                 for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmout : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                     if(budgetLineItemCalculatedAmout.getRateClassCode().equalsIgnoreCase(budgetPersonnelCalculatedAmount.getRateClassCode()) && 
                             budgetLineItemCalculatedAmout.getRateTypeCode().equalsIgnoreCase(budgetPersonnelCalculatedAmount.getRateTypeCode())) {
@@ -886,7 +881,6 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                     }
                 }
                 budgetPersonnelCalculatedAmount.setApplyRateFlag(updatedApplyRateFlag);                        
-                j++;
             }
         }
     }

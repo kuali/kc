@@ -36,9 +36,9 @@ public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase 
     @Column(name = "BUD_FORMULATED_COST_DETAIL_ID")
     private Long budgetFormulatedCostDetailId;
 
-    @Column(name = "BUDGET_DETAILS_ID")
+    @Column(name = "BUDGET_DETAILS_ID", insertable = false, updatable = false)
     private Long budgetLineItemId;
-
+    
     @Column(name = "FORMULATED_NUMBER")
     private Integer formulatedNumber;
 
@@ -63,6 +63,10 @@ public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase 
     @JoinColumn(name = "FORMULATED_TYPE_CODE", referencedColumnName = "FORMULATED_TYPE_CODE", insertable = false, updatable = false)
     private FormulatedType formulatedType;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "BUDGET_DETAILS_ID")
+    private BudgetLineItem budgetLineItem;
+
     @Transient
     private transient int budgetLineItemNumber;
 
@@ -80,11 +84,7 @@ public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase 
 
     @Override
     public Long getBudgetLineItemId() {
-        return budgetLineItemId;
-    }
-
-    public void setBudgetLineItemId(Long budgetLineItemId) {
-        this.budgetLineItemId = budgetLineItemId;
+        return getBudgetLineItem().getBudgetLineItemId();
     }
 
     @Override
@@ -164,5 +164,17 @@ public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase 
     public void setBudgetPeriod(int budgetPeriod) {
         this.budgetPeriod = budgetPeriod;
     }
+
+	public BudgetLineItem getBudgetLineItem() {
+		return budgetLineItem;
+	}
+
+	public void setBudgetLineItem(BudgetLineItem budgetLineItem) {
+		this.budgetLineItem = budgetLineItem;
+	}
+
+	public void setBudgetLineItemId(Long budgetLineItemId) {
+		this.budgetLineItemId = budgetLineItemId;
+	}
 
 }

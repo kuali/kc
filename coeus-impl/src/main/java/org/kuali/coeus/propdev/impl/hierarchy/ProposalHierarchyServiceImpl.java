@@ -854,7 +854,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                             
                             for (BudgetPersonnelCalculatedAmount calAmt : details.getBudgetPersonnelCalculatedAmounts()) {
                                 calAmt.setBudgetPersonnelCalculatedAmountId(null);
-                                calAmt.setBudgetLineItemId(null);
+                                calAmt.setBudgetPersonnelLineItemId(null);
                                 calAmt.setBudgetId(budgetId);
 
                                 calAmt.setBudgetPeriod(budgetPeriod);

@@ -37,4 +37,16 @@ public interface BudgetPersonnelBudgetService {
      * @param person {@link BudgetPerson} we're looking for
      */
     public void deleteBudgetPersonnelDetailsForPerson(Budget budget, BudgetPerson person);
+    
+    /**
+     * This method is to assign budget personnel to specific period.
+     * Find existing line item based on group key and add personnel details to it.
+     * If line item does not exist, add it to budget period line item list. 
+     * @param budgetPeriod
+     * @param newBudgetLineItem
+     * @param newBudgetPersonnelDetail
+     */
+    public void addBudgetPersonnelToPeriod(BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetail);
+    
+    public void calculateCurrentBudgetPeriod(BudgetPeriod budgetPeriod);
 }
