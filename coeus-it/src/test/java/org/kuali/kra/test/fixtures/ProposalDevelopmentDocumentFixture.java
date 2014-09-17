@@ -21,7 +21,6 @@ import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.sql.Date;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
@@ -42,13 +41,7 @@ public enum ProposalDevelopmentDocumentFixture {
     private String activityTypeCode;
     private String proposalTypeCode;
     private String ownedByUnit;
-    
-    /**
-     * Default construction of a <code>{@link ProposalDevelopmentDocument}</code>
-     * @throws ParseException 
-     * 
-     * @throws Exception
-     */
+
     private ProposalDevelopmentDocumentFixture() {
         this("KeyPersonnelAuditRuleTest test", "005889", "Project title", "08/14/2007", "08/21/2007", "1", "1", "000001");
     }
@@ -64,19 +57,6 @@ public enum ProposalDevelopmentDocumentFixture {
         this.ownedByUnit      = ownedByUnit;
     }
 
-    /**
-     * 
-     * Constructs a KeyPersonnelAuditRuleTest.java.
-     * @param description
-     * @param sponsorCode
-     * @param title
-     * @param requestedStartDateInitial
-     * @param requestedEndDateInitial
-     * @param activityTypeCode
-     * @param proposalTypeCode
-     * @param ownedByUnit
-     * @throws Exception
-     */
     public ProposalDevelopmentDocument getDocument() {
         ProposalDevelopmentDocument retval = null;
         try {
@@ -100,7 +80,7 @@ public enum ProposalDevelopmentDocumentFixture {
      * @param sponsorCode String Sponsor code for the document
      * @param title String title of document
      * @param requestedStartDateInitial String start date
-     * @param requestedEndDateInitila String end date
+     * @param requestedEndDateInitial String end date
      * @param activityTypeCode String activity type code
      * @param proposalTypeCode String proposal type code
      * @param ownedByUnit String owned by unit

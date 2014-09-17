@@ -28,6 +28,7 @@ import org.kuali.coeus.propdev.impl.attachment.institute.*;
 import org.kuali.coeus.propdev.impl.abstrct.AbstractsRule;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.basic.ProposalDevelopmentProposalRequiredFieldsAuditRule;
+import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.sponsor.ProposalDevelopmentSponsorProgramInformationAuditRule;
 import org.kuali.coeus.propdev.impl.budget.editable.BudgetDataOverrideEvent;
 import org.kuali.coeus.propdev.impl.budget.editable.BudgetDataOverrideRule;
@@ -99,7 +100,7 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
 
     private SponsorService sponsorService;
     private DataDictionaryService dataDictionaryService;
-    private BudgetService budgetService;
+    private ProposalBudgetService budgetService;
     private SubmissionInfoService submissionInfoService;
 
     protected DataDictionaryService getDataDictionaryService (){
@@ -107,9 +108,9 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
             dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
         return dataDictionaryService;
     }
-    protected BudgetService getBudgetService (){
+    protected ProposalBudgetService getBudgetService (){
         if (budgetService ==null)
-            budgetService = KcServiceLocator.getService(BudgetService.class);
+            budgetService = KcServiceLocator.getService(ProposalBudgetService.class);
         return budgetService;
     }
 
