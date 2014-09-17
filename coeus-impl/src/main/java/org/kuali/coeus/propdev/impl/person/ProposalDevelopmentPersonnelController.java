@@ -56,7 +56,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 
     @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-PersonnelPage"})
-    public ModelAndView navigateToPersonnel(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView navigateToPersonnel(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
         propDevForm.getAddKeyPersonHelper().setLineType(PersonTypeConstants.EMPLOYEE.getCode());
         for (ProposalPerson person : propDevForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
@@ -64,7 +64,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
             person.setDevelopmentProposal(propDevForm.getProposalDevelopmentDocument().getDevelopmentProposal());
             person.getQuestionnaireHelper().populateAnswers();
         }
-        return getNavigationControllerService().navigate(form);
+        return super.navigate(form, result, request, response);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=prepareAddPersonDialog"})
@@ -75,7 +75,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     }
 
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigateToPersonError"})
-    public ModelAndView navigateToPersonError(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView navigateToPersonError(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         form.setAjaxReturnType("update-page");
     	return navigateToPersonnel(form, result, request, response);
     } 

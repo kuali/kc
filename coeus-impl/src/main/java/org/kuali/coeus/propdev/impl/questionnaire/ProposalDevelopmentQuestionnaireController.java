@@ -55,9 +55,9 @@ public class ProposalDevelopmentQuestionnaireController extends ProposalDevelopm
 
     @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-QuestionnairePage"})
-    public ModelAndView navigateToQuestionnaire(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView navigateToQuestionnaire(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).populateQuestionnaires(form);
-        return getNavigationControllerService().navigate(form);
+        return super.navigate(form,result,request,response);
     }
 
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveQuestionnaire")
