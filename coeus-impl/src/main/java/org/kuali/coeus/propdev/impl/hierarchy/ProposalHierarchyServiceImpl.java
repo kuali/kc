@@ -61,6 +61,7 @@ import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -72,6 +73,7 @@ import org.kuali.rice.kns.service.SessionDocumentService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -97,9 +99,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     
     private static final Log LOG = LogFactory.getLog(ProposalHierarchyServiceImpl.class);
 
-   @Autowired
-   @Qualifier("businessObjectService")
-   private BusinessObjectService businessObjectService;
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
     @Autowired
     @Qualifier("documentService")
     private DocumentService documentService;
@@ -157,9 +159,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     //Setters for dependency injection
     public void setIdentityService(IdentityService identityService) {
         this.identityService = identityService;
-    }
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
@@ -308,12 +307,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
         removeChildElements(hierarchyProposal, hierarchyBudget, childProposal.getProposalNumber());
 
-        getBusinessObjectService().save(hierarchyBudget);
+        dataObjectService.save(hierarchyBudget);
         
         if (isLast) {
             try {
                 LOG.info(String.format("***Child (#%s) was last child, cancelling Parent (#%s)", childProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()));
-                businessObjectService.save(childProposal);
+                dataObjectService.save(childProposal);
                 Document doc = documentService.getByDocumentHeaderId(hierarchyProposal.getProposalDocument().getDocumentNumber());
                 documentService.cancelDocument(doc, "Removed last child from Proposal Hierarchy");
             }
@@ -332,7 +331,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 }
             }
             hierarchyProposal.setHierarchyOriginatingChildProposalNumber(lowestProposalNumber);
-            businessObjectService.save(childProposal);
+            dataObjectService.save(childProposal);
             synchronizeAllChildren(hierarchyProposal);
         }
         LOG.info(String.format("***Removing Child (#%s) from Parent (#%s) complete", childProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()));
@@ -491,7 +490,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             synchronizeSpecialReviews(hierarchyProposal, childProposal);
             synchronizeNarratives(hierarchyProposal, childProposal);
             synchronizePersons(hierarchyProposal, childProposal, principalInvestigator);
-            businessObjectService.save(childProposal);
+            dataObjectService.save(childProposal);
             
             synchronizeBudget(hierarchyProposal, childProposal, hierarchyBudget, childBudget);
             changed = true;
@@ -523,12 +522,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         childProposal.setHierarchyLastSyncHashCode(computeHierarchyHashCode(childProposal));
         
         removeChildElements(hierarchyProposal, hierarchyBudget, childProposal.getProposalNumber());
-        getBusinessObjectService().save(hierarchyBudget);
+        dataObjectService.save(hierarchyBudget);
         synchronizeKeywords(hierarchyProposal, childProposal, oldKeywords);
         synchronizeSpecialReviews(hierarchyProposal, childProposal);
         synchronizeNarratives(hierarchyProposal, childProposal);
         synchronizePersonsAndAggregate(hierarchyProposal, childProposal, principalInvestigator);
-        businessObjectService.save(childProposal);
+        dataObjectService.save(childProposal);
         
         synchronizeBudget(hierarchyProposal, childProposal, hierarchyBudget, childBudget);
         return true;
@@ -544,7 +543,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         ObjectUtils.materializeAllSubObjects(budget);
         
         removeChildBudgetElements(hierarchyProposal, hierarchyBudget, childProposal.getProposalNumber());
-        getBusinessObjectService().save(hierarchyBudget);
+        dataObjectService.save(hierarchyBudget);
         
         
         synchronizeBudget(hierarchyProposal, childProposal, hierarchyBudget, budget);
@@ -616,7 +615,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 Map<String,String> primaryKey = new HashMap<String,String>();            
                 primaryKey.put("proposalNumber", narrative.getProposalNumber());
                 primaryKey.put("moduleNumber", narrative.getModuleNumber() + "");
-                NarrativeAttachment attachment = (NarrativeAttachment) businessObjectService.findByPrimaryKey(NarrativeAttachment.class, primaryKey);
+                NarrativeAttachment attachment = (NarrativeAttachment) dataObjectService.findUnique(NarrativeAttachment.class, QueryByCriteria.Builder.andAttributes(primaryKey).build());
                 narrative.setNarrativeAttachment(attachment);
                 
                 Narrative newNarrative = (Narrative) ObjectUtils.deepCopy(narrative);
@@ -706,14 +705,14 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         if (childProposal.getRequestedEndDateInitial().after(hierarchyProposal.getRequestedEndDateInitial())) {
             hierarchyProposal.setRequestedEndDateInitial(childProposal.getRequestedEndDateInitial());
         }
-        getBusinessObjectService().save(hierarchyBudget);
+        dataObjectService.save(hierarchyBudget);
         LOG.info(String.format("***Completed Hierarchy Budget Sync for Parent %s and Child %s", 
                 hierarchyProposal.getProposalNumber(), childProposal.getProposalNumber()));
         
         childBudget.setHierarchyLastSyncHashCode(computeHierarchyHashCode(childBudget));
         childProposal.setLastSyncedBudgetDocumentNumber(childBudget.getDocumentNumber());
-        businessObjectService.save(childBudget);
-        businessObjectService.save(childProposal);
+        dataObjectService.save(childBudget);
+        dataObjectService.save(childProposal);
     }
     
 
@@ -761,7 +760,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                     files.setBudgetId(parentBudget.getBudgetId());
                     files.setVersionNumber(null);
                 }
-                businessObjectService.save(newSubAwards);
+                dataObjectService.save(newSubAwards);
                 parentBudget.getBudgetSubAwards().add(newSubAwards);
             }
             
@@ -786,7 +785,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                     newCostShare.setVersionNumber(null);
                     newCostShare.setHierarchyProposalNumber(childProposalNumber);
                     newCostShare.setHiddenInHierarchy(true);
-                    businessObjectService.save(newCostShare);
+                    dataObjectService.save(newCostShare);
                 }
             }
             
@@ -800,7 +799,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                     newUnrecoveredFandA.setVersionNumber(null);
                     newUnrecoveredFandA.setHierarchyProposalNumber(childProposalNumber);
                     newUnrecoveredFandA.setHiddenInHierarchy(true);
-                    businessObjectService.save(newUnrecoveredFandA);
+                    dataObjectService.save(newUnrecoveredFandA);
                 }
             }
 
@@ -874,9 +873,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                     String indirectCostElement = parameterService.getParameterValueAsString(Budget.class, PARAMETER_NAME_INDIRECT_COST_ELEMENT);
                     
                     if (childPeriod.getTotalIndirectCost().isNonZero()) {
-                        primaryKeys = new HashMap<String, String>();
-                        primaryKeys.put("costElement", indirectCostElement);
-                        costElement = (CostElement)businessObjectService.findByPrimaryKey(CostElement.class, primaryKeys);
+                        costElement = (CostElement)dataObjectService.findUnique(CostElement.class, QueryByCriteria.Builder.forAttribute("costElement", indirectCostElement).build());
                         parentLineItem = parentBudget.getNewBudgetLineItem();
                         parentLineItem.setLineItemDescription(childProposalNumber);
                         parentLineItem.setStartDate(parentPeriod.getStartDate());
@@ -898,9 +895,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         parentPeriod.getBudgetLineItems().add(parentLineItem);
                     }
                     if (childPeriod.getTotalDirectCost().isNonZero()) {
-                        primaryKeys = new HashMap<String, String>();
-                        primaryKeys.put("costElement", directCostElement);
-                        costElement = (CostElement)businessObjectService.findByPrimaryKey(CostElement.class, primaryKeys);
+                        costElement = (CostElement)dataObjectService.findUnique(CostElement.class, QueryByCriteria.Builder.forAttribute("costElement", directCostElement).build());
                         parentLineItem = parentBudget.getNewBudgetLineItem();
                         parentLineItem.setLineItemDescription(childProposalNumber);
                         parentLineItem.setStartDate(parentPeriod.getStartDate());
@@ -989,8 +984,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("hiddenInHierarchy", true);
         fieldValues.put("budgetId", hierarchyBudget.getBudgetId());
-        Collection<BudgetCostShare> hiddenCostShares = businessObjectService.findMatching(BudgetCostShare.class, fieldValues);
-        Collection<BudgetUnrecoveredFandA> hiddenUnrecoveredFandAs = businessObjectService.findMatching(BudgetUnrecoveredFandA.class, fieldValues);
+        Collection<BudgetCostShare> hiddenCostShares = dataObjectService.findMatching(BudgetCostShare.class, QueryByCriteria.Builder.andAttributes(fieldValues).build()).getResults();
+        Collection<BudgetUnrecoveredFandA> hiddenUnrecoveredFandAs = dataObjectService.findMatching(BudgetUnrecoveredFandA.class, QueryByCriteria.Builder.andAttributes(fieldValues).build()).getResults();
         Map<Integer,BudgetCostShare> newCostShares = new HashMap<Integer, BudgetCostShare>();
         Map<Integer,BudgetUnrecoveredFandA> newUnrecoveredFandAs = new HashMap<Integer, BudgetUnrecoveredFandA>();
         BudgetCostShare newCostShare;
@@ -1045,7 +1040,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         budgetCalculationService.calculateBudget(hierarchyBudget);
         budgetCalculationService.calculateBudgetSummaryTotals(hierarchyBudget);
         KNSGlobalVariables.setKualiForm(oldForm);
-        getBusinessObjectService().save(hierarchyBudget);
+        dataObjectService.save(hierarchyBudget);
     }
 
     protected DevelopmentProposal getHierarchy(String hierarchyProposalNumber) throws ProposalHierarchyException {
@@ -1058,7 +1053,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     public DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
         Map<String, String> pk = new HashMap<String, String>();
         pk.put("proposalNumber", proposalNumber);
-        return (DevelopmentProposal) (businessObjectService.findByPrimaryKey(DevelopmentProposal.class, pk));
+        return (DevelopmentProposal) (dataObjectService.findUnique(DevelopmentProposal.class, QueryByCriteria.Builder.forAttribute("proposalNumber", proposalNumber).build()));
     }
     
     protected boolean isSynchronized(DevelopmentProposal childProposal) throws ProposalHierarchyException {
@@ -1131,7 +1126,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         parentBudget.setOhRateClassCode(childBudget.getOhRateClassCode());
         parentBudget.setOhRateTypeCode(childBudget.getOhRateTypeCode());
         parentBudget.setUrRateClassCode(childBudget.getUrRateClassCode());
-        getBusinessObjectService().save(parentBudget);
+        dataObjectService.save(parentBudget);
     }
     
     public ProposalHierarchyErrorDto validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal,
@@ -1213,7 +1208,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         List<Narrative> narratives = parentProposal.getNarratives();
         for (int i=narratives.size()-1; i>=0; i--) {
             if (StringUtils.equals(childProposalNumber, narratives.get(i).getHierarchyProposalNumber())) {
-                businessObjectService.delete(narratives.remove(i));
+                dataObjectService.delete(narratives.remove(i));
             }
         }
         
@@ -1235,10 +1230,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             }
         }
 
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("hierarchyProposalNumber", childProposalNumber);
-        businessObjectService.deleteMatching(BudgetCostShare.class, fieldValues);
-        businessObjectService.deleteMatching(BudgetUnrecoveredFandA.class, fieldValues);
+        QueryByCriteria query = QueryByCriteria.Builder.forAttribute("hierarchyProposalNumber", childProposalNumber).build();
+        dataObjectService.deleteMatching(BudgetCostShare.class, query);
+        dataObjectService.deleteMatching(BudgetUnrecoveredFandA.class, query);
 
         BudgetPersonnelBudgetService budgetPersonnelBudgetService = getBudgetPersonnelBudgetService();
         List<BudgetPeriod> periods = parentBudget.getBudgetPeriods();
@@ -1292,8 +1286,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     protected void finalizeHierarchySync(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
-        businessObjectService.save(hierarchyProposal.getProposalDocument().getDocumentNextvalues());
-        businessObjectService.save(hierarchyProposal);
+        dataObjectService.save(hierarchyProposal.getProposalDocument().getDocumentNextvalues());
+        dataObjectService.save(hierarchyProposal);
     }
         
     protected void copyInitialAttachments(DevelopmentProposal srcProposal, DevelopmentProposal destProposal) {
@@ -1340,7 +1334,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         Map<String,String> primaryKey = new HashMap<String,String>();
         primaryKey.put("proposalNumber", narrative.getProposalNumber());
         primaryKey.put("moduleNumber", narrative.getModuleNumber()+"");
-        NarrativeAttachment attachment = (NarrativeAttachment)businessObjectService.findByPrimaryKey(NarrativeAttachment.class, primaryKey);
+        NarrativeAttachment attachment = (NarrativeAttachment)dataObjectService.findUnique(NarrativeAttachment.class, QueryByCriteria.Builder.andAttributes(primaryKey).build());
         narrative.setNarrativeAttachment(attachment);
     }
     
@@ -1349,7 +1343,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         primaryKey.put("proposalNumber", bio.getProposalNumber());
         primaryKey.put("biographyNumber", bio.getBiographyNumber()+"");
         primaryKey.put("proposalPersonNumber", bio.getProposalPersonNumber()+"");
-        ProposalPersonBiographyAttachment attachment = (ProposalPersonBiographyAttachment)businessObjectService.findByPrimaryKey(ProposalPersonBiographyAttachment.class, primaryKey);
+        ProposalPersonBiographyAttachment attachment = (ProposalPersonBiographyAttachment)dataObjectService.findUnique(ProposalPersonBiographyAttachment.class, QueryByCriteria.Builder.andAttributes(primaryKey).build());
         bio.setPersonnelAttachment(attachment);
     }
 
@@ -1519,9 +1513,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             narrative.setComments(reason);
             narrative.setNarrativeFile(rejectFile);
             narrative.setNarrativeTypeCode(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.REJECT_NARRATIVE_TYPE_CODE_PARAM));
-            Map keys = new HashMap();
-            keys.put("NARRATIVE_STATUS_CODE", "C");
-            NarrativeStatus status = (NarrativeStatus) this.businessObjectService.findByPrimaryKey(NarrativeStatus.class, keys);
+            NarrativeStatus status = (NarrativeStatus) dataObjectService.findUnique(NarrativeStatus.class, QueryByCriteria.Builder.forAttribute("code", "C").build());
             narrative.setNarrativeStatus(status);
             narrative.setModuleStatusCode(status.getCode());
             narrative.setModuleTitle("Proposal rejection attachment.");
@@ -1529,7 +1521,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             narrative.setPhoneNumber(globalVariableService.getUserSession().getPerson().getPhoneNumber());
             narrative.setEmailAddress(globalVariableService.getUserSession().getPerson().getEmailAddress());
             pDoc.getDevelopmentProposal().addInstituteAttachment(narrative);
-            this.businessObjectService.save(pDoc);
+            dataObjectService.save(pDoc);
         }
         
     }
@@ -1792,9 +1784,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     protected KcDocumentRejectionService getKcDocumentRejectionService() {
         return kcDocumentRejectionService;
     }
-    protected BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
     protected DocumentService getDocumentService() {
         return documentService;
     }
@@ -1871,5 +1860,11 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private boolean hasFinalBudget(DevelopmentProposal proposal) {
     	return proposal.getFinalBudget() != null;
     }
+	protected DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
 
 }

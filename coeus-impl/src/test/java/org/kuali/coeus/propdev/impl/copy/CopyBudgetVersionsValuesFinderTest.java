@@ -48,13 +48,13 @@ public class CopyBudgetVersionsValuesFinderTest {
                 List<ProposalDevelopmentBudgetExt> overviews = new ArrayList<ProposalDevelopmentBudgetExt>();
                 overviews.add(new ProposalDevelopmentBudgetExt());
                 ProposalDevelopmentBudgetExt o = new ProposalDevelopmentBudgetExt();
-                o.setFinalVersionFlag(true);
                 overviews.add(o);
                 
                 ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
                 DevelopmentProposal devProp = new DevelopmentProposal();
                 devProp.setBudgets(overviews);
                 document.setDevelopmentProposal(devProp);
+                devProp.setFinalBudget(o);
                 
                 return document;
             }  

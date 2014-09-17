@@ -19,8 +19,8 @@ public class KcBusinessRulesHandler implements ApplicationContextAware, Initiali
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		Map<String, Object> businessRules = applicationContext.getBeansWithAnnotation(KcBusinessRule.class);
-		for (Object rule : businessRules.values()) {
-			kcBusinessRulesEngine.registerBusinessRuleClass(rule);
+		for (Map.Entry<String, Object> entry : businessRules.entrySet()) {
+			kcBusinessRulesEngine.registerBusinessRuleClass(entry.getKey(), entry.getValue());
 		}
 	}
 

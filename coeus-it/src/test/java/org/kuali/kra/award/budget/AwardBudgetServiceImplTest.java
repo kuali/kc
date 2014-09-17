@@ -108,6 +108,10 @@ public class AwardBudgetServiceImplTest extends KcIntegrationTestBase {
                 DevelopmentProposal temp = new DevelopmentProposal();
                 ProposalDevelopmentDocument doc = new ProposalDevelopmentDocument();
                 doc.setDocumentNumber(devPropDocNumber);
+                ProposalDevelopmentBudgetExt temp2 = new ProposalDevelopmentBudgetExt();
+                temp2.add(new BudgetPeriod());
+                temp2.add(new BudgetPeriod());
+                temp.setFinalBudget(temp2);
                 temp.setProposalDocument(doc);
                 return (T) temp;
             } else if (clazz == ProposalDevelopmentBudgetExt.class) {

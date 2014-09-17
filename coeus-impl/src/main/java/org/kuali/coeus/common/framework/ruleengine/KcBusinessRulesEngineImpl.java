@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.krad.util.ErrorMessage;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 @Service("kcBusinessRulesEngine")
 public class KcBusinessRulesEngineImpl implements KcBusinessRulesEngine {
+	
+	private static final Log LOG = LogFactory.getLog(KcBusinessRulesEngineImpl.class);
 	
 	private Map<Class<?>, List<RuleMethod>> rules = new HashMap<>();
 	
@@ -119,7 +122,7 @@ public class KcBusinessRulesEngineImpl implements KcBusinessRulesEngine {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void registerBusinessRuleClass(Object businessRuleClass) {
+	public void registerBusinessRuleClass(String ruleName, Object businessRuleClass) {
 		if (businessRuleClass == null) {
 			throw new IllegalArgumentException("businessRuleClass is null");
 		}
@@ -127,7 +130,7 @@ public class KcBusinessRulesEngineImpl implements KcBusinessRulesEngine {
 		for (final Method curMethod : ruleClass.getMethods()) {
 			KcEventMethod methodAnnotation = curMethod.getAnnotation(KcEventMethod.class);
 			if (methodAnnotation != null) {
-				registerEvent(businessRuleClass, curMethod);
+				registerEvent(ruleName, businessRuleClass, curMethod);
 			}
 		}
 	}
@@ -136,7 +139,7 @@ public class KcBusinessRulesEngineImpl implements KcBusinessRulesEngine {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void registerEvent(Object rule, Method method) {
+	public void registerEvent(String ruleName, Object rule, Method method) {
 		if (rule == null) {
 			throw new IllegalArgumentException("rule is null");
 		}
@@ -151,6 +154,7 @@ public class KcBusinessRulesEngineImpl implements KcBusinessRulesEngine {
 		}
 		
 		registerEvent(method.getParameterTypes()[0], rule, method);
+		LOG.info("Rule handler with " + ruleName + " name has registered a rule method: " + method.getName() + "(" + method.getParameterTypes()[0].getSimpleName() + ")");
 	}
 	
 	protected void registerEvent(Class<?> event, Object rule, Method method) {

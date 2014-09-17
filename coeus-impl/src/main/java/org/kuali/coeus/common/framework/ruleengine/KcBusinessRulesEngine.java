@@ -29,7 +29,7 @@ public interface KcBusinessRulesEngine {
 	 * be automatically registered with this engine.
 	 * @param businessRuleClass
 	 */
-	public void registerBusinessRuleClass(Object businessRuleClass);
+	public void registerBusinessRuleClass(String ruleName, Object businessRuleClass);
 	
 	/**
 	 * Register the rule method with the eventName provided.
@@ -37,5 +37,5 @@ public interface KcBusinessRulesEngine {
 	 * @param rule
 	 * @param method
 	 */
-	public void registerEvent(Object rule, Method method);
+	public void registerEvent(String ruleName, Object rule, Method method);
 }
