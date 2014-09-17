@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,7 +22,7 @@ public class KcBusinessRulesEngineImpl implements KcBusinessRulesEngine {
 	
 	private static final Log LOG = LogFactory.getLog(KcBusinessRulesEngineImpl.class);
 	
-	private Map<Class<?>, List<RuleMethod>> rules = new HashMap<>();
+	private Map<Class<?>, List<RuleMethod>> rules = new ConcurrentHashMap<>();
 	
 	@Autowired
 	@Qualifier("globalVariableService")
@@ -72,12 +73,16 @@ public class KcBusinessRulesEngineImpl implements KcBusinessRulesEngine {
 	}
 	
 	protected List<RuleMethod> getApplicableRules(Class<?> eventClass) {
-		List<RuleMethod> result = new ArrayList<>();
-		if (eventClass.getSuperclass() != null && eventClass.getSuperclass() != Object.class) {
-			result.addAll(getApplicableRules(eventClass.getSuperclass()));
+		Class<?> currentEventClass = eventClass;
+		List<RuleMethod> applicableRules = new ArrayList<>();
+		while (currentEventClass != null && currentEventClass != Object.class) {
+			List<RuleMethod> currentClassRules = rules.get(currentEventClass);
+			if (currentClassRules != null) {
+				applicableRules.addAll(rules.get(currentEventClass));
+			}
+			currentEventClass = currentEventClass.getSuperclass();
 		}
-		result.addAll(rules.get(eventClass));
-		return result;
+		return applicableRules;
 	}
 	
 	protected KcEventResult mergeResults(Boolean result, List<KcEventResult> results) {
@@ -162,9 +167,6 @@ public class KcBusinessRulesEngineImpl implements KcBusinessRulesEngine {
 			rules.put(event, new ArrayList<RuleMethod>());
 		}
 		rules.get(event).add(new RuleMethod(rule, method));
-		if (event.getSuperclass() != null && event.getSuperclass() != Object.class) {
-			registerEvent(event.getSuperclass(), rule, method);
-		}
 	}
 	
 	public Map<Class<?>, List<RuleMethod>> getRules() {

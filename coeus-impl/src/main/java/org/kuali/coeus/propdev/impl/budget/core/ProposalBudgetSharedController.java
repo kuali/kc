@@ -46,7 +46,7 @@ public class ProposalBudgetSharedController {
 		ProposalDevelopmentBudgetExt budget = null;
 		Map<String, Object> options = new HashMap<String, Object>();
 		options.put("modularBudgetFlag", modularBudget != null ? modularBudget : Boolean.FALSE);
-		if (kcBusinessRulesEngine.applyRules(new AddBudgetVersionEvent("addBudgetDto", developmentProposal, budgetName))) {
+		if (kcBusinessRulesEngine.applyRules(new ProposalAddBudgetVersionEvent("addBudgetDto", developmentProposal, budgetName))) {
 			budget = (ProposalDevelopmentBudgetExt) getBudgetService().addBudgetVersion(developmentProposal.getDocument(), budgetName, options);	
 		}
         if (budget != null) {
@@ -65,7 +65,7 @@ public class ProposalBudgetSharedController {
 
 	public ModelAndView copyBudget(String budgetName, Long originalBudgetId, DevelopmentProposal developmentProposal, UifFormBase form) throws Exception {
 		ProposalDevelopmentBudgetExt budget = null;
-		if (kcBusinessRulesEngine.applyRules(new AddBudgetVersionEvent("copyBudgetDto", developmentProposal, budgetName))) {
+		if (kcBusinessRulesEngine.applyRules(new ProposalAddBudgetVersionEvent("copyBudgetDto", developmentProposal, budgetName))) {
 			ProposalDevelopmentBudgetExt originalBudget = getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.forAttribute("budgetId", originalBudgetId).build());
 			budget = (ProposalDevelopmentBudgetExt) getBudgetService().copyBudgetVersion(originalBudget, false);
 		}
