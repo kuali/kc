@@ -82,6 +82,7 @@
                         <bean parent="Uif-DropdownControl">
                             <property name="options">
                                 <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="" p:value="Select"/>
                                     <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes"/>
                                     <bean parent="Uif-KeyLabelPair" p:key="N" p:value="No"/>
                                 </list>
@@ -110,15 +111,25 @@
 					p:iconClass="icon-trash" />
 			</list>
 		</property>
+        <property name="dataAttributes">
+            <map>
+                <entry key="total_unrecovered" value="@{#this.getBudget().getAvailableUnrecoveredFandA()}"/>
+            </map>
+        </property>
 		<property name="layoutManager.columnCalculations">
 			<list>
 				<bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="amount"
 					p:totalField.fieldLabel.labelText="Total Allocated"/>
-				<bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="amount"
-					p:totalField.fieldLabel.labelText="Total Unallocated"/>
+                <bean parent="Uif-ColumnCalculationInfo" p:calculationFunctionName="Kc.PropDev.Budget.totalUnallocatedFandA"
+                      p:calculateOnKeyUp="true"
+                      p:propertyName="amount" p:showPageTotal="false">
+                    <property name="totalField.fieldLabel.labelText" value="Total Unallocated"/>
+                </bean>
 			</list>
 		</property>
-		<property name="footer">
+        <property name="layoutManager.showPageTotal" value="false"/>
+
+        <property name="footer">
 			<bean parent="Uif-FooterBase">
 				<property name="items">
 					<list>
