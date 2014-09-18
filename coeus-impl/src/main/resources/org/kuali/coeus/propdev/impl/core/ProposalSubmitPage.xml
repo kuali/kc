@@ -31,8 +31,8 @@
                      </map>
               </property>
        </bean>				
-                <bean parent="PropDev-SubmitPage-SummaryTabGroup"  p:render="@{#ViewHelper.isCreditSplitEnabled()}" p:order="20"/>
-                <bean parent="PropDev-SubmitPage-NoCreditAllocation-SummaryTabGroup"  p:render="@{!#ViewHelper.isCreditSplitEnabled() }" p:order="30"/>
+                <bean parent="PropDev-SubmitPage-SummaryTabGroup"  p:order="20"/>
+               
 			</list>
 		</property>
 		<property name="header">
@@ -104,34 +104,18 @@
           p:promptText="Are you sure you want to delete this proposal?"/>
 
     <bean id="PropDev-SubmitPage-SummaryTabGroup" parent="PropDev-SubmitPage-SummaryTabGroup-parentBean" />
-    <bean id="PropDev-SubmitPage-SummaryTabGroup-parentBean" abstract="true"
-          parent="PropDev-SubmitPage-NoCreditAllocation-SummaryTabGroup">
+    <bean id="PropDev-SubmitPage-SummaryTabGroup-parentBean" abstract="true" parent="Uif-TabGroup">
         <property name="items">
             <list>
              <bean parent="PropDev-SubmitPage-ProposalSummary" p:order="10" />
                 <bean parent="PropDev-SubmitPage-Personnel" p:order="20" />
-                <bean parent="PropDev-SubmitPage-CreditAllocation" p:readOnly="true" p:order="30" />
-                <bean parent="PropDev-SubmitPage-Questionnaire" p:order="40" />
+                <bean parent="PropDev-SubmitPage-CreditAllocation" p:readOnly="true" p:render="@{#ViewHelper.isCreditSplitEnabled()}" p:order="30" />
+                <bean parent="PropDev-SubmitPage-Questionnaire" p:render="@{#ViewHelper.isSummaryQuestionsPanelEnabled()}" p:order="40" />
                 <bean parent="PropDev-SubmitPage-SupplementalInfo" p:order="50" />
                 
             </list>
         </property>
     </bean>
-
-    <bean id="PropDev-SubmitPage-NoCreditAllocation-SummaryTabGroup" parent="PropDev-SubmitPage-NoCreditAllocation-SummaryTabGroup-parentBean" />
-    <bean id="PropDev-SubmitPage-NoCreditAllocation-SummaryTabGroup-parentBean" abstract="true"
-          parent="Uif-TabGroup">
-        <property name="items">
-            <list>
-                <bean parent="PropDev-SubmitPage-ProposalSummary" p:order="10" />
-                <bean parent="PropDev-SubmitPage-Personnel" p:order="20" />
-                <bean parent="PropDev-SubmitPage-Questionnaire" p:order="40" />
-                <bean parent="PropDev-SubmitPage-SupplementalInfo" p:order="50" />
-            </list>
-        </property>
-    </bean>
-
-
 
     <bean id="PropDev-SubmitPage-ProposalSummary" parent="PropDev-SubmitPage-ProposalSummary-parentBean" />
     <bean id="PropDev-SubmitPage-ProposalSummary-parentBean" abstract="true"
