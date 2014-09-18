@@ -1,28 +1,28 @@
 var Kc = Kc || {};
 Kc.LineItemTable = Kc.LineItemTable || {};
-(function(namespace, jQuery) {
+(function(namespace, $) {
     /**
      * Setup the lineItem table's click handler for disclosures
      *
-     * @param $lineItemTable the table jQuery object
+     * @param $lineItemTable the table $ object
      */
     namespace.setupLineItemTable = function($lineItemTable) {
         $lineItemTable.on("click", ".uif-lineItem-disclosure", function(){
-            var $link = jQuery(this);
+            var $link = $(this);
             var $lineItemRow = $link.closest("tr");
 
             var id = $lineItemRow.attr("id");
-            var $children = jQuery("[data-parent_row='" + id + "']");
+            var $children = $("[data-parent_row='" + id + "']");
 
             // Hide or reopen children if they wer open previously
             if ($children.is(":visible")) {
-                Kc.LineItemTable.hideSubItems($children);
+                namespace.hideSubItems($children);
                 $children.hide(400);
                 $lineItemRow.data("open", false);
             }
             else {
                 $children.show(400);
-                Kc.LineItemTable.showSubItems($children);
+                namespace.showSubItems($children);
                 $lineItemRow.data("open", true);
             }
         });
@@ -35,11 +35,11 @@ Kc.LineItemTable = Kc.LineItemTable || {};
      */
     namespace.hideSubItems = function($items) {
         $items.each(function(){
-            var id = jQuery(this).attr("id");
-            var $children = jQuery("[data-parent_row='" + id + "']");
+            var id = $(this).attr("id");
+            var $children = $("[data-parent_row='" + id + "']");
 
             if ($children.length) {
-                Kc.LineItemTable.hideSubItems($children);
+                namespace.hideSubItems($children);
             }
             $children.hide(400);
         });
@@ -52,12 +52,12 @@ Kc.LineItemTable = Kc.LineItemTable || {};
      */
     namespace.showSubItems = function($items) {
         $items.each(function(){
-            var id = jQuery(this).attr("id");
-            var $children = jQuery("[data-parent_row='" + id + "']");
+            var id = $(this).attr("id");
+            var $children = $("[data-parent_row='" + id + "']");
 
-            if (jQuery(this).data("open")) {
+            if ($(this).data("open")) {
                 if ($children.length) {
-                    Kc.LineItemTable.showSubItems($children);
+                    namespace.showSubItems($children);
                 }
                 $children.show(400);
             }
@@ -71,15 +71,15 @@ Kc.LineItemTable = Kc.LineItemTable || {};
      */
     namespace.prevPeriod = function(button) {
         // When when scrolling to a previous period make sure next button is enabled
-        var nextButton = jQuery(button).next();
+        var nextButton = $(button).next();
         nextButton.prop('disabled', false);
         nextButton.removeClass("disabled");
 
         // Find the id of the table by using the parent header for this button
-        var tableId = jQuery(button).closest("header").data("header_for") + "_table";
+        var tableId = $(button).closest("header").data("header_for") + "_table";
 
         // Period columns represented by the th in thead
-        var columns = jQuery("#" + tableId + " thead tr").find(":not(:first-child, .uif-lineItem-rowTotal)");
+        var columns = $("#" + tableId + " thead tr").find(":not(:first-child, .uif-lineItem-rowTotal)");
 
         // The last visible column of periods is the one that will be hidden
         var hideColumn = columns.filter(":visible:last");
@@ -93,12 +93,12 @@ Kc.LineItemTable = Kc.LineItemTable || {};
 
         // Disable the previous button if the first column (index 0) of periods is currently showing
         if (columns.eq(0).is(":visible")) {
-            jQuery(button).prop('disabled', true);
+            $(button).prop('disabled', true);
         }
 
         // Iterate over each row and hide the columns we are hiding by index, and show the columns we are showing by index
-        jQuery("#" + tableId + " tbody tr").each(function(){
-            var columns = jQuery(this).find(":not(:first-child, .uif-lineItem-rowTotal)");
+        $("#" + tableId + " tbody tr").each(function(){
+            var columns = $(this).find(":not(:first-child, .uif-lineItem-rowTotal)");
             columns.eq(hideIndex).hide();
             columns.eq(showIndex).show();
         });
@@ -111,15 +111,15 @@ Kc.LineItemTable = Kc.LineItemTable || {};
      */
     namespace.nextPeriod = function (button) {
         // When when scrolling to a next period make sure previous button is enabled
-        var prevButton = jQuery(button).prev();
+        var prevButton = $(button).prev();
         prevButton.prop('disabled', false);
         prevButton.removeClass("disabled");
 
         // Find the id of the table by using the parent header for this button
-        var tableId = jQuery(button).closest("header").data("header_for") + "_table";
+        var tableId = $(button).closest("header").data("header_for") + "_table";
 
         // Period columns represented by the th in thead
-        var columns = jQuery("#" + tableId + " thead tr").find(":not(:first-child, .uif-lineItem-rowTotal)");
+        var columns = $("#" + tableId + " thead tr").find(":not(:first-child, .uif-lineItem-rowTotal)");
 
         // Hide the first visible column
         var hideColumn = columns.filter(":visible:first");
@@ -133,12 +133,12 @@ Kc.LineItemTable = Kc.LineItemTable || {};
 
         // Disable the previous button if the first column (index 0) of periods is currently showing
         if (showColumn.nextAll(":hidden").length === 0) {
-            jQuery(button).prop('disabled', true);
+            $(button).prop('disabled', true);
         }
 
         // Iterate over each row and hide and show the columns by index discovered above
-        jQuery("#" + tableId + " tbody tr").each(function(){
-            var columns = jQuery(this).find(":not(:first-child, .uif-lineItem-rowTotal)");
+        $("#" + tableId + " tbody tr").each(function(){
+            var columns = $(this).find(":not(:first-child, .uif-lineItem-rowTotal)");
             columns.eq(hideIndex).hide();
             columns.eq(showIndex).show();
         });
