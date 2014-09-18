@@ -147,12 +147,6 @@
     <bean id="Kc-Wizard-PersonnelResults-parentBean" abstract="true" parent="Kc-Wizard-Results">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="selected" p:cssClasses="one_required"
-                      p:label="" p:readOnly="false" p:order="10">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
-                    </property>
-                </bean>
                 <bean parent="Uif-DataField" p:propertyName="kcPerson.fullName"
                       p:label="Full Name" p:order="20" />
                 <bean parent="Uif-DataField" p:propertyName="kcPerson.userName"
@@ -175,12 +169,6 @@
     <bean id="Kc-Wizard-RolodexResults-parentBean" abstract="true" parent="Kc-Wizard-Results">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="selected"
-                      p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
-                    </property>
-                </bean>
                 <bean parent="Uif-DataField" p:propertyName="rolodex.fullName"
                       p:label="Full Name" p:order="20" />
                 <bean parent="Uif-MessageField"
@@ -201,12 +189,6 @@
           p:showInactiveLines="true">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="selected"
-                      p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
-                    </property>
-                </bean>
                 <bean parent="Uif-DataField" p:propertyName="role.kimRoleType.name"
                       p:label="Role Type Name" p:order="20" />
                 <bean parent="Uif-DataField" p:propertyName="role.namespaceCode"

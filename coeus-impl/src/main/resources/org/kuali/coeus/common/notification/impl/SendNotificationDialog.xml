@@ -102,13 +102,46 @@
             <list>
                 <bean parent="Kc-Wizard-RoleResults"
                       p:progressiveRender="@{#empty(#fp.addRecipientHelper.lineType)}"
-                      p:order="10" />
+                      p:order="10" >
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-InputField" p:propertyName="selected"
+                                  p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
                 <bean parent="Kc-Wizard-PersonnelResults"
                       p:progressiveRender="@{#fp.addRecipientHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).EMPLOYEE.code}'}"
-                      p:order="20" />
+                      p:order="20" >
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-InputField" p:propertyName="selected"
+                                  p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    </bean>
                 <bean parent="Kc-Wizard-RolodexResults"
                       p:progressiveRender="@{#fp.addRecipientHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).NONEMPLOYEE.code}'}"
-                      p:order="30" />
+                      p:order="30" >
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-InputField" p:propertyName="selected"
+                                  p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="footer">
