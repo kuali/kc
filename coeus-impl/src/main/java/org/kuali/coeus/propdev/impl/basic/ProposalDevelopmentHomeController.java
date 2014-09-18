@@ -20,6 +20,7 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
@@ -32,11 +33,11 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -202,6 +203,13 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
        propDevForm.initialize();
        propDevForm.getCustomDataHelper().prepareCustomData();
+       if (CollectionUtils.isNotEmpty(propDevForm.getDevelopmentProposal().getProposalChangedDataList())) {
+        getGlobalVariableService().getMessageMap().putInfoForSectionId("PropDev-DetailsPage","info.dataoverride.occured");
+       }
+       if (propDevForm.getDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
+           ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).prepareSummaryPage(propDevForm);
+           propDevForm.getView().setEntryPageId("PropDev-SubmitPage");
+       }
        return modelAndView;
    }
 
