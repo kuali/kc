@@ -204,7 +204,7 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
         calendar = Calendar.getInstance();
         calendar.setTime(budget.getEndDate());
         budgetMaster.setENDDATE(calendar);
-        budgetMaster.setFINALVERSIONFLAG(getFlag(budget.getFinalVersionFlag()));
+        budgetMaster.setFINALVERSIONFLAG(getFlag(true));
         budgetMaster.setMODULARBUDGETFLAG(getFlag(budget.getModularBudgetFlag()));
         budgetMaster.setOHRATECLASSCODE(getCode(budget.getOhRateClassCode()));
         budgetMaster.setOHRATETYPECODE(getCode(budget.getOhRateTypeCode()));

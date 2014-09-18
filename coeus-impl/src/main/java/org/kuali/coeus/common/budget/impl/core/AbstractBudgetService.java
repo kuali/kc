@@ -307,77 +307,6 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
         return businessObjectService.findMatching(BudgetRate.class, qMap);
     }
 
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public boolean validateBudgetAuditRule(BudgetParentDocument<T> parentDocument) throws Exception {
-        boolean valid = true;
-        boolean finalAndCompleteBudgetVersionFound = false;
-        boolean budgetVersionsExists = false;
-        List<AuditError> auditErrors = new ArrayList<AuditError>();
-        String budgetStatusCompleteCode = this.parameterService.getParameterValueAsString(Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
-        for (Budget budgetVersion : parentDocument.getBudgetParent().getBudgets()) {
-            budgetVersionsExists = true;
-            if (budgetVersion.isFinalVersionFlag()) {
-                valid &= applyAuditRuleForBudgetDocument(budgetVersion);
-                if (parentDocument.getBudgetParent().getBudgetStatus() != null 
-                        && parentDocument.getBudgetParent().getBudgetStatus().equals(budgetStatusCompleteCode)) {
-                    finalAndCompleteBudgetVersionFound = true;
-                } else {
-                    finalAndCompleteBudgetVersionFound = false;
-                }
-            }
-        }
-        if (budgetVersionsExists && !finalAndCompleteBudgetVersionFound) {
-            auditErrors.add(new AuditError("document.budgetDocumentVersion[0].budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.PD_BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
-            valid &= false;
-        }
-        if (auditErrors.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put("budgetVersionErrors", new AuditCluster(Constants.BUDGET_VERSION_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
-        }
-
-        return valid;
-    }
-
-    @Override
-    public boolean validateBudgetAuditRuleBeforeSaveBudgetVersion(BudgetParentDocument<T> budgetParentDocument)
-            throws Exception {
-        boolean valid = true;
-        for (Budget budgetVersion : budgetParentDocument.getBudgetParent().getBudgets()) {
-            
-            String budgetStatusCompleteCode = this.parameterService.getParameterValueAsString(Budget.class,
-                    Constants.BUDGET_STATUS_COMPLETE_CODE);
-            // if status is complete and version is not final, then business rule will take care of it
-            if (budgetVersion.isFinalVersionFlag() && budgetVersion.getBudgetStatus() != null
-                    && budgetVersion.getBudgetStatus().equals(budgetStatusCompleteCode)) {
-                valid &= applyAuditRuleForBudgetDocument(budgetVersion);
-            }
-            if (!valid) {
-                break;
-            }
-        }
-
-        if (!valid) {
-            // audit warnings are OK.  only audit errors prevent to change to complete status.
-            valid = true;
-            for (Object key : KNSGlobalVariables.getAuditErrorMap().keySet()) {
-                AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(key);
-                if (auditCluster.getCategory().equals(Constants.AUDIT_ERRORS)) {
-                    valid = false;
-                    break;
-                }
-            }
-        }
-        
-        //if the budget is considered valid, then any resulting audit errors or warnings do not matter
-        //for the purposes of checking if the budget is valid to save.
-        if (valid) {
-            KNSGlobalVariables.getAuditErrorMap().clear();
-        }
-
-        return valid;
-    }
-
     @SuppressWarnings("unchecked")
     protected boolean applyAuditRuleForBudgetDocument(Budget budgetVersion) throws Exception {
         return getKcBusinessRulesEngine().applyRules(new BudgetAuditEvent(budgetVersion));
@@ -621,23 +550,6 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
         String[] formulatedCEs = formulatedCEsValue==null?new String[0]:formulatedCEsValue.split(",");
         return Arrays.asList(formulatedCEs);
     }
-    
-    @Override
-    public void setBudgetStatuses(BudgetParentDocument<T> parentDocument) {
-        
-        String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
-                Budget.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
-        
-        for (Budget budgetVersion: parentDocument.getBudgetParent().getBudgets()) {
-            if (budgetVersion.isFinalVersionFlag()) {
-                budgetVersion.setBudgetStatus(parentDocument.getBudgetParent().getBudgetStatus());
-            }
-            else {
-                budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
-            }
-        }
-    }
-
 
     protected DocumentService getDocumentService() {
         return documentService;

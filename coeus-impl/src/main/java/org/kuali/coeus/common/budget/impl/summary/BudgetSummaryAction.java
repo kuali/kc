@@ -105,10 +105,6 @@ public class BudgetSummaryAction extends BudgetAction {
             }
         }
         else {
-            if (budgetForm.isUpdateFinalVersion()) {
-                reconcileFinalBudgetFlags(budgetForm);
-                setBudgetStatuses(budget.getBudgetParent());
-            }
 
             if (isBudgetPeriodDateChanged(budget) && isLineItemErrorOnly()) {
                 GlobalVariables.setMessageMap(new MessageMap());
@@ -122,9 +118,6 @@ public class BudgetSummaryAction extends BudgetAction {
                     KcServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
                             budget.getOnOffCampusFlag());
                 }
-                if (budget.getFinalVersionFlag()) {
-                    budget.getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
-                }
                 updateBudgetPeriodDbVersion(budget);
                 return super.save(mapping, form, request, response);
             }
@@ -137,11 +130,7 @@ public class BudgetSummaryAction extends BudgetAction {
             HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudget();
-
-        if (budgetForm.isUpdateFinalVersion()) {
-            reconcileFinalBudgetFlags(budgetForm);
-            setBudgetStatuses(budget.getBudgetParent());
-        }
+        
         boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
         if (rulePassed) {
             // update campus flag if budget level flag is changed
@@ -149,9 +138,6 @@ public class BudgetSummaryAction extends BudgetAction {
                     || !budget.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
                 KcServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
                         budget.getOnOffCampusFlag());
-            }
-            if (budget.getFinalVersionFlag()) {
-                budget.getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
             }
             updateBudgetPeriodDbVersion(budget);
             return super.save(mapping, form, request, response);
@@ -163,10 +149,6 @@ public class BudgetSummaryAction extends BudgetAction {
             HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudget();
-        if (budgetForm.isUpdateFinalVersion()) {
-            reconcileFinalBudgetFlags(budgetForm);
-            setBudgetStatuses(budget.getBudgetParent());
-        }
         budget.getBudgetSummaryService().adjustStartEndDatesForLineItems(budget);
         boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
         if (rulePassed) {
@@ -175,9 +157,6 @@ public class BudgetSummaryAction extends BudgetAction {
                     || !budget.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
                 KcServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
                         budget.getOnOffCampusFlag());
-            }
-            if (budget.getFinalVersionFlag()) {
-                budget.getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
             }
             updateBudgetPeriodDbVersion(budget);
             return super.save(mapping, form, request, response);
@@ -381,21 +360,6 @@ public class BudgetSummaryAction extends BudgetAction {
     @Override
     protected KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
-    }
-
-    private void reconcileFinalBudgetFlags(BudgetForm budgetForm) {
-        Budget budget = budgetForm.getBudget();
-        if (budget.getFinalVersionFlag()) {
-            // This version has been marked as final - update other versions.
-            for (AbstractBudget version : budget.getBudgetParent().getBudgetVersionOverviews()) {
-                if (!budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
-                    version.setFinalVersionFlag(false);
-                }
-            }
-        }
-        else {
-            budgetForm.setFinalBudgetVersion(null);
-        }
     }
 
     /**

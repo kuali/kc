@@ -17,7 +17,9 @@ public class BudgetSubAwardsRuleTest extends KcIntegrationTestBase {
 	
 	@Test
 	public void testRunningBudgetSubAwardsRule() {
-		kcBusinessRuleEngine.applyRules(new BudgetSubAwardsEvent(new BudgetSubAwards()));
+		BudgetSubAwards subAward = new BudgetSubAwards();
+		subAward.setSubAwardXmlFileData("");
+		kcBusinessRuleEngine.applyRules(new BudgetSubAwardsEvent(subAward));
 	}
 
 	public KcBusinessRulesEngine getKcBusinessRuleEngine() {

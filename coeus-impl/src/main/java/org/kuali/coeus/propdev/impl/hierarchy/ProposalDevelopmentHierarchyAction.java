@@ -90,18 +90,6 @@ public class ProposalDevelopmentHierarchyAction extends ProposalDevelopmentActio
             budget = (Budget)getBusinessObjectService().findByPrimaryKey(ProposalDevelopmentBudgetExt.class, primaryKeys);
             if (budget != null) {
                 getBudgetCalculationService().calculateBudgetSummaryTotals(budget);
-
-                if (budget.getFinalVersionFlag() != null && Boolean.TRUE.equals(budget.getFinalVersionFlag())) {
-                    DevelopmentProposal proposal = (DevelopmentProposal)budget.getBudgetParent();
-                    getProposalBudgetStatusService().loadBudgetStatus(proposal);
-                    budget.setBudgetStatus(proposal.getBudgetStatus());
-                }
-                else {
-                    String budgetStatusIncompleteCode = this.getParameterService().getParameterValueAsString(
-                            Budget.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
-                    budget.setBudgetStatus(budgetStatusIncompleteCode);
-                    
-                }
             }
         }
         pdForm.setBudgetToSummarize(budget);

@@ -122,8 +122,6 @@ public class BudgetAction extends BudgetActionBase {
             getBudgetRatesService().syncParentDocumentRates(budget);
             getBudgetCommonService(budget.getBudgetParent()).recalculateBudget(budget);
         }
-        
-        reconcileBudgetStatus(budgetForm);
         if ("Personnel".equals(budgetForm.getActivePanelName())) {
             forward = personnel(mapping, budgetForm, request, response);
         }
@@ -242,10 +240,6 @@ public class BudgetAction extends BudgetActionBase {
         final BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetParent budgetParent = budgetDocument.getBudget().getBudgetParent();
-
-        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetParent.getBudgets()));
-        setBudgetStatuses(budgetParent);
-
         populateBudgetPrintForms(budgetDocument.getBudget());
     }
     
@@ -253,13 +247,10 @@ public class BudgetAction extends BudgetActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetParent budgetParent = budgetDocument.getBudget().getBudgetParent();
-        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetParent.getBudgets()));
-        setBudgetStatuses(budgetParent);
         return mapping.findForward(Constants.BUDGET_VERSIONS_PAGE);
     }
 
     public ActionForward parameters(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        reconcileBudgetStatus((BudgetForm) form);
         BudgetDocument budgetDocument = ((BudgetForm)form).getBudgetDocument();
 
         getBudgetSummaryService().setupOldStartEndDate(budgetDocument.getBudget(),false);
@@ -562,22 +553,6 @@ public class BudgetAction extends BudgetActionBase {
                 if (person != null) { budgetPerson.setRole(person.getInvestigatorRoleDescription()); }
             }
         }
-    }
-    
-    protected void reconcileBudgetStatus(BudgetForm budgetForm) {
-        Budget budget = budgetForm.getBudget();
-        BudgetParent budgetParent = budget.getBudgetParent().getDocument().getBudgetParent();
-        if (budgetParent instanceof DevelopmentProposal) {
-            DevelopmentProposal proposal = (DevelopmentProposal)budgetParent;
-            KcServiceLocator.getService(ProposalBudgetStatusService.class).loadBudgetStatus(proposal);
-        }
-        if (budget.getFinalVersionFlag() != null && Boolean.TRUE.equals(budget.getFinalVersionFlag())) {
-            budget.setBudgetStatus(budgetParent.getBudgetStatus());
-        } else {
-            String budgetStatusIncompleteCode = this.getParameterService().getParameterValueAsString(
-                    Budget.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
-            budget.setBudgetStatus(budgetStatusIncompleteCode);
-        }        
     }
 
     /**

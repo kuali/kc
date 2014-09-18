@@ -64,7 +64,7 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
     @Override
     public Set<String> getEditModes(View view, ViewModel model, Person user, Set<String> editModes) {
     	ProposalBudgetForm form = (ProposalBudgetForm) model;
-        Budget budget = form.getBudget();
+        ProposalDevelopmentBudgetExt budget = form.getBudget();
         ProposalDevelopmentDocument parentDocument = (ProposalDevelopmentDocument) budget.getBudgetParent().getDocument();
         String userId = user.getPrincipalId(); 
         
@@ -198,7 +198,7 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
     /**
      * Is the Budget in the final state?
      */
-    protected boolean isBudgetComplete(Budget budget) {
+    protected boolean isBudgetComplete(ProposalDevelopmentBudgetExt budget) {
 		String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
 		return StringUtils.equals(budgetStatusCompleteCode, budget.getBudgetStatus());
     }

@@ -57,24 +57,6 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase {
 	protected boolean processCustomSaveDocumentBusinessRules(Document document) {
 		return getKcBusinessRulesEngine().applyRules(new BudgetSaveEvent(((BudgetDocument)document).getBudget()));
 	}
-	
-    @KcEventMethod
-    public boolean processCustomSaveDocumentBusinessRules(BudgetSaveEvent event) {
-        boolean valid = true;
-
-        Budget budget = event.getBudget();
-        
-        GlobalVariables.getMessageMap().addToErrorPath("document");        
-        GlobalVariables.getMessageMap().addToErrorPath("parentDocument");
-        if(Boolean.valueOf(budget.getBudgetParent().getDocument().getProposalBudgetFlag())){
-            valid &= processBudgetVersionsBusinessRule(budget.getBudgetParent().getDocument(), true);
-        } 
-        GlobalVariables.getMessageMap().removeFromErrorPath("parentDocument");
-
-        
-        
-        return valid;
-    }
 
     /**
     *
@@ -333,38 +315,6 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase {
             retval &= new AwardBudgetCostLimitAuditRule().processRunAuditBusinessRules(document);
         }
         
-        return retval;
-    }
-
-    @KcEventMethod
-    public boolean processRunAuditBudgetVersionRule(BudgetAuditEvent event) {
-        // audit check for budgetversion with final status
-        boolean finalAndCompleteBudgetVersionFound = false;
-        boolean budgetVersionsExists = false;
-        boolean retval = true;
-        Budget budget = event.getBudget();
-        
-        List<AuditError> auditErrors = new ArrayList<AuditError>();
-        String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(
-                Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
-        budgetVersionsExists = !budget.getBudgetParent().getBudgets().isEmpty();
-        for (Budget budgetVersion : budget.getBudgetParent().getBudgets()) {
-            if (budgetVersion.isFinalVersionFlag()) {
-                BudgetParent budgetParent =budget.getBudgetParent();
-                if (budgetParent.getBudgetStatus()!= null 
-                        && budgetParent.getBudgetStatus().equals(budgetStatusCompleteCode)) {
-                    finalAndCompleteBudgetVersionFound = true;
-                }
-            }
-        }
-        if (budgetVersionsExists && !finalAndCompleteBudgetVersionFound) {
-            auditErrors.add(new AuditError("document.parentBudget.budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.PD_BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
-            retval = false;
-        }
-        if (auditErrors.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put("budgetVersionErrors", new AuditCluster(Constants.BUDGET_VERSION_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
-        }
-
         return retval;
     }
 

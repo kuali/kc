@@ -54,7 +54,6 @@ public class RRSubAwardBudget5_30V1_2GeneratorTest extends
 		proposalDevelopmentBudgetExt.setBudgetVersionNumber(1);
 		proposalDevelopmentBudgetExt.setDevelopmentProposal(document
 				.getDevelopmentProposal());
-		proposalDevelopmentBudgetExt.setFinalVersionFlag(true);
 		proposalDevelopmentBudgetExt.setBudgetStatus("1");
 		proposalDevelopmentBudgetExt.setBudgetId(1L);
 		proposalDevelopmentBudgetExt
@@ -108,6 +107,7 @@ public class RRSubAwardBudget5_30V1_2GeneratorTest extends
 		proposalDevelopmentBudgetExtList.add(proposalDevelopmentBudgetExt);
 		document.getDevelopmentProposal().setBudgets(
 				proposalDevelopmentBudgetExtList);
+		document.getDevelopmentProposal().setFinalBudget(proposalDevelopmentBudgetExt);
 	}
 
 	private ProposalDevelopmentDocument initializeDocument() throws Exception {
@@ -203,7 +203,6 @@ public class RRSubAwardBudget5_30V1_2GeneratorTest extends
 
 		ProposalDevelopmentBudgetExt proposalDevelopmentBudgetExt = new ProposalDevelopmentBudgetExt();
 		proposalDevelopmentBudgetExt.setBudgetVersionNumber(1);
-		proposalDevelopmentBudgetExt.setFinalVersionFlag(true);
 		proposalDevelopmentBudgetExt.setBudgetStatus("1");
 		proposalDevelopmentBudgetExt.setBudgetId(1L);
 		proposalDevelopmentBudgetExt
@@ -221,6 +220,7 @@ public class RRSubAwardBudget5_30V1_2GeneratorTest extends
 		proposalDevelopmentBudgetExtList.add(proposalDevelopmentBudgetExt);
 		document.getDevelopmentProposal().setBudgets(
 				proposalDevelopmentBudgetExtList);
+		document.getDevelopmentProposal().setFinalBudget(proposalDevelopmentBudgetExt);
 	}
 
 	protected void setFormObject(Forms forms, XmlObject formObject) {

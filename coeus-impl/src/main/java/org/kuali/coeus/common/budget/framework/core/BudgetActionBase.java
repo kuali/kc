@@ -69,55 +69,6 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
     protected static final String QUESTION_TEXT = "A new version of the budget will be created based on version ";
     
     /**
-     * This method looks at the list of budgetVersions for the final version, then returns the version number.
-     * 
-     * @param budgetVersions
-     * @return
-     */
-    protected Integer getFinalBudgetVersion(List<? extends AbstractBudget> budgetVersions) {
-        for (AbstractBudget budgetVersion: budgetVersions) {
-            if (budgetVersion.isFinalVersionFlag()) {
-                return budgetVersion.getBudgetVersionNumber();
-            }
-        }
-        return null;
-    }
-    
-    /**
-     * This method sets the proposal budget status to the status of the final budget version.  If there is no final version, do nothing.
-     * 
-     * @param parentDocument
-     */
-    protected void setBudgetParentStatus(BudgetParent budgetParent) {
-        for (AbstractBudget budgetVersion: budgetParent.getBudgets()) {
-            if (budgetVersion.isFinalVersionFlag()) {
-                budgetParent.setBudgetStatus(budgetVersion.getBudgetStatus());
-                return;
-            }
-        }
-    }
-    
-    /**
-     * This method sets the budget status of the 'final' budget version (if it exists) to the proposal budget status
-     * as indicated in the proposal development document.
-     * 
-     * @param proposalDevelopmentDocument
-     */
-    protected void setBudgetStatuses(BudgetParent budgetParent) {
-        
-        for (AbstractBudget budgetVersion: budgetParent.getBudgetVersionOverviews()) {
-            if (budgetVersion.isFinalVersionFlag()) {
-                budgetVersion.setBudgetStatus(budgetParent.getBudgetStatus());
-            }
-            else {
-                String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
-                        BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
-                budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
-            }
-        }
-    }
-    
-    /**
      * Copy the given budget version and add it to the given proposal.
      * 
      * @param budgetParentDocument

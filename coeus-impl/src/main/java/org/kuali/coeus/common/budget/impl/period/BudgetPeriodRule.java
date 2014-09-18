@@ -78,9 +78,7 @@ public class BudgetPeriodRule {
             rulePassed = false;
         }else if(!isValidBudgetPeriodBoundaries(budget)){
             rulePassed = false;
-        }else if(!isBudgetStatusValid(budget)) {
-            rulePassed = false;
-        } 
+        }
         if (budget.isProposalBudget()) {
             rulePassed &= isValidBudgetPeriodCostLimit(budget);
         }
@@ -145,22 +143,6 @@ public class BudgetPeriodRule {
             errorMap.removeFromErrorPath("document.budgetPeriods[" + budgetPeriodNumber + "]");
         }
         return rulePassed;
-    }
-
-    private boolean isBudgetStatusValid(Budget budget) {
-        MessageMap errorMap = GlobalVariables.getMessageMap();
-        boolean statusValid = true;
-        String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
-        String budgetStatus = budget.getBudgetStatus();
-        boolean finalVersionFlag = budget.getFinalVersionFlag();
-        errorMap.addToErrorPath(BUDGET_SUMMARY);
-        if (budgetStatus!= null 
-                && budgetStatus.equals(budgetStatusCompleteCode) 
-                && !finalVersionFlag) {
-            errorMap.putError("document.proposal.budgetStatus", KeyConstants.ERROR_NO_FINAL_BUDGET);
-        }
-        errorMap.removeFromErrorPath(BUDGET_SUMMARY);
-        return true;
     }
     
     private boolean isValidBudgetPeriodBoundaries(Budget budget) {

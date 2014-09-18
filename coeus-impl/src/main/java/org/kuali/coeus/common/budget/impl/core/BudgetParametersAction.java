@@ -34,6 +34,7 @@ import org.kuali.coeus.common.budget.framework.period.GenerateBudgetPeriodEvent;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.lookup.LookupResultsService;
@@ -106,11 +107,6 @@ public class BudgetParametersAction extends BudgetAction {
             }
         } else {
             // This whole else block is mostly the same as saveAfterQuestion, so why not use saveAfterQuestion here?
-            updateThisBudgetVersion(budget);
-            if (budgetForm.isUpdateFinalVersion()) {
-                reconcileFinalBudgetFlags(budgetForm);
-                setBudgetStatuses(budget.getBudgetParent());
-            }
             if (isBudgetPeriodDateChanged(budget) && isLineItemErrorOnly()) {
                 GlobalVariables.setMessageMap(new MessageMap());
                 return confirm(buildSaveBudgetSummaryConfirmationQuestion(mapping, form, request, response,
@@ -125,22 +121,16 @@ public class BudgetParametersAction extends BudgetAction {
                 }
                 boolean valid = true;
                 if (budget instanceof ProposalDevelopmentBudgetExt) {
-                    valid = isValidToComplete(budget.getBudgetParent().getDocument());
+                    valid = isValidToComplete(budget);
                     int errorSize = GlobalVariables.getMessageMap().getErrorMessages().size();
                     if (GlobalVariables.getMessageMap().getErrorMessages().size() > errorSize) {
                         valid = false;
                     }
                 }
-                if (budget.getFinalVersionFlag() && valid) {
-                    budget.getBudgetParent().getDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
-                }
                 if (valid) {
                     updateBudgetPeriodDbVersion(budget);
                     return super.save(mapping, form, request, response);
                 } else {
-                    String budgetStatusIncompleteCode = this.getParameterService().getParameterValueAsString(
-                            BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
-                    budget.setBudgetStatus(budgetStatusIncompleteCode);
 
                     if (form instanceof AwardBudgetForm) {
                         KcServiceLocator.getService(AuditHelper.class).setAuditMode(mapping, (AwardBudgetForm) form, true);
@@ -156,8 +146,8 @@ public class BudgetParametersAction extends BudgetAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    private boolean isValidToComplete(BudgetParentDocument document) throws Exception {
-        boolean valid = KcServiceLocator.getService(BudgetService.class).validateBudgetAuditRuleBeforeSaveBudgetVersion(document);
+    private boolean isValidToComplete(Budget budget) throws Exception {
+        boolean valid = KcServiceLocator.getService(KcBusinessRulesEngine.class).applyRules(new BudgetAuditEvent(budget));
 
         if (!valid) {
             GlobalVariables.getMessageMap().putError("document.budgetDocumentVersion[" + 0 + "].budgetVersionOverview.budgetStatus",
@@ -191,12 +181,7 @@ public class BudgetParametersAction extends BudgetAction {
         Budget originalBudget = (Budget) KcServiceLocator.getService(BusinessObjectService.class).retrieve(budget);
         budgetForm.setOhRateClassCodePrevValue(originalBudget.getOhRateClassCode());
         budgetForm.setUrRateClassCodePrevValue(originalBudget.getUrRateClassCode());
-        
-        updateThisBudgetVersion(budget);
-        if (budgetForm.isUpdateFinalVersion()) {
-            reconcileFinalBudgetFlags(budgetForm);
-            setBudgetStatuses(budget.getBudgetParent());
-        }
+
         boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
         if (rulePassed) {
             // update campus flag if budget level flag is changed
@@ -204,9 +189,6 @@ public class BudgetParametersAction extends BudgetAction {
                 || !budget.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
                 KcServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
                                                                                                budget.getOnOffCampusFlag());
-            }
-            if (budget.getFinalVersionFlag()) {
-                budget.getBudgetParent().getDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
             }
             updateBudgetPeriodDbVersion(budget);
             return super.save(mapping, form, request, response);
@@ -224,11 +206,6 @@ public class BudgetParametersAction extends BudgetAction {
             budgetForm.setOhRateClassCodePrevValue(originalBudget.getOhRateClassCode());
             budgetForm.setUrRateClassCodePrevValue(originalBudget.getUrRateClassCode());
         }
-        updateThisBudgetVersion(budget);
-        if (budgetForm.isUpdateFinalVersion()) {
-            reconcileFinalBudgetFlags(budgetForm);
-            setBudgetStatuses(budget.getBudgetParent());
-        }
         getBudgetSummaryService().adjustStartEndDatesForLineItems(budget);
         boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
         if (rulePassed) {
@@ -237,9 +214,6 @@ public class BudgetParametersAction extends BudgetAction {
                     || !budget.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
                 KcServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budget,
                         budget.getOnOffCampusFlag());
-            }
-            if (budget.getFinalVersionFlag()) {
-                budget.getBudgetParent().getDocument().getBudgetParent().setBudgetStatus(budget.getBudgetStatus());
             }
             updateBudgetPeriodDbVersion(budget);
             return super.save(mapping, form, request, response);
@@ -460,21 +434,6 @@ public class BudgetParametersAction extends BudgetAction {
         return getService(KualiRuleService.class);
     }
 
-    private void reconcileFinalBudgetFlags(BudgetForm budgetForm) {
-        Budget budget = budgetForm.getBudget();
-        if (budget.getFinalVersionFlag()) {
-            // This version has been marked as final - update other versions.
-            for (Budget version : budget.getBudgetParent().getBudgets()) {
-                if (!budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
-                    version.setFinalVersionFlag(false);
-                }
-            }
-        }
-        else {
-            budgetForm.setFinalBudgetVersion(null);
-        }
-    }
-
     /**
      * 
      * This method to set the DB version# for budget periods. To eliminate optimistic locking problem. newly adjusted period has no
@@ -520,17 +479,6 @@ public class BudgetParametersAction extends BudgetAction {
         budget.setTotalIndirectCost(totalIndirectCost);
         budget.setTotalCost(totalCost);
 
-    }
-
-    private void updateThisBudgetVersion(Budget budget) {
-        
-        for (Budget version : budget.getBudgetParent().getBudgets()) {
-            if (budget.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
-                version.setFinalVersionFlag(budget.getFinalVersionFlag());
-                version.setBudgetStatus(budget.getBudgetStatus());
-                version.setModularBudgetFlag(budget.getModularBudgetFlag());
-            }
-        }
     }
 
     @Override
