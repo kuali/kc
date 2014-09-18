@@ -55,8 +55,8 @@
                 <property name="footer.items">
                     <list>
                         <bean parent="PropDev-CompliancePage-CreateProtocolButton"/>
-                        <bean parent="Uif-AddLineAction" p:actionLabel="Add Entry"/>
-                        <bean parent="Uif-CancelAction"/>
+                        <bean parent="Uif-AddLineAction-Dialog" p:actionLabel="Add Entry"/>
+                        <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" />
                     </list>
                 </property>
             </bean>
@@ -110,6 +110,7 @@
 	<bean id="PropDev-CompliancePage-CreateProtocolButton-parentBean" abstract="true"
 		parent="Uif-PrimaryActionButton-Small" p:actionLabel="Create Protocol"
 		p:methodToCall="createProtocol"	p:iconClass="icon-ok"
+		p:dialogDismissOption="REQUEST"
 		p:render="@{newCollectionLines['document.developmentProposal.propSpecialReviews'].linkedToProtocol or (#empty(newCollectionLines['document.developmentProposal.propSpecialReviews'].protocolNumber) and (newCollectionLines['document.developmentProposal.propSpecialReviews'].approvalTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType).NOT_YET_APPLIED}' and
 				((newCollectionLines['document.developmentProposal.propSpecialReviews'].specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).HUMAN_SUBJECTS}' and specialReviewHelper.IsIrbProtocolLinkingEnabled) or
 				(newCollectionLines['document.developmentProposal.propSpecialReviews'].specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).ANIMAL_USAGE}' and specialReviewHelper.IsIacucProtocolLinkingEnabled))))}"/>
