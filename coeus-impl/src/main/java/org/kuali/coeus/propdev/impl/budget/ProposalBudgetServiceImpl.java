@@ -72,7 +72,6 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         DevelopmentProposal budgetParent = parentDocument.getBudgetParent();
         ProposalDevelopmentBudgetExt budget = new ProposalDevelopmentBudgetExt();
 
-        budget.setParentDocumentTypeCode(ProposalDevelopmentBudgetExt.PARENT_BUDGET_TYPE_CODE);
         budget.setDevelopmentProposal(budgetParent);
         
         budget.setBudgetVersionNumber(budgetVersionNumber);
