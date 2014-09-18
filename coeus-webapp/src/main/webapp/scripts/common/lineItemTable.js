@@ -4,7 +4,7 @@ Kc.LineItemTable = Kc.LineItemTable || {};
     /**
      * Setup the lineItem table's click handler for disclosures
      *
-     * @param $lineItemTable the table $ object
+     * @param $lineItemTable the table jQuery object
      */
     namespace.setupLineItemTable = function($lineItemTable) {
         $lineItemTable.on("click", ".uif-lineItem-disclosure", function(){
