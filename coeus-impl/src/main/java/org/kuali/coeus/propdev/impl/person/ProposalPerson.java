@@ -38,8 +38,7 @@ import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
-import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitNameInfo;
-import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitable;
+import org.kuali.coeus.propdev.impl.person.creditsplit.NamedCreditSplitable;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
@@ -68,7 +67,7 @@ import java.util.List;
 @Entity
 @Table(name = "EPS_PROP_PERSON")
 @IdClass(ProposalPerson.ProposalPersonId.class)
-public class ProposalPerson extends KcPersistableBusinessObjectBase implements CreditSplitable, PersonRolodex, PersonEditable, AbstractProjectPerson, ProposalPersonContract, HierarchyMaintainable, MutableInactivatable {
+public class ProposalPerson extends KcPersistableBusinessObjectBase implements NamedCreditSplitable, PersonRolodex, PersonEditable, AbstractProjectPerson, ProposalPersonContract, HierarchyMaintainable, MutableInactivatable {
 
     private static final long serialVersionUID = -4110005875629288373L;
 
@@ -427,9 +426,13 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements C
         setSimpleName(StringUtils.remove(getSimpleName(), '.'));
     }
 
-    @CreditSplitNameInfo
     public String getFullName() {
         return this.fullName;
+    }
+
+    @Override
+    public String getCreditSplitName() {
+        return getFullName();
     }
 
     public Date getSalaryAnniversaryDate() {
