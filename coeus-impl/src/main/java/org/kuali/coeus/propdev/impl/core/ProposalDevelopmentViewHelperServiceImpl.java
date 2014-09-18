@@ -29,9 +29,10 @@ import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanati
 import org.apache.log4j.Logger;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
+import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
+import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
-import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
@@ -675,6 +676,16 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
     public String replaceLineBreaks(String string) {
         return StringUtils.replace(string,"\n","[br]");
+    }
+
+    public void prepareSummaryPage(ProposalDevelopmentDocumentForm form) {
+      populateCreditSplits(form);
+        populateQuestionnaires(form);
+        getDataObjectService().wrap(form.getDevelopmentProposal()).fetchRelationship("deadlineTypeRef");
+        ProposalDevelopmentNotificationRenderer renderer = new ProposalDevelopmentNotificationRenderer(form.getDevelopmentProposal());
+        ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(form.getDevelopmentProposal(), null, "Ad-Hoc Notification", renderer);
+
+        form.getNotificationHelper().initializeDefaultValues(context);
     }
     public ProposalDevelopmentService getProposalDevelopmentService() {
 		return proposalDevelopmentService;

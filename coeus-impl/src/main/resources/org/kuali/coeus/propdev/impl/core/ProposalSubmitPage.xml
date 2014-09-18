@@ -45,24 +45,27 @@
 					<bean  p:actionLabel="Submit for Review" parent="Uif-PrimaryActionButton" p:methodToCall="submitForReview"  p:order="10" 
 						p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
 
+                    <bean parent="Uif-PrimaryActionButton" p:actionLabel="Approve" p:methodToCall="approve" p:order="20"
+                          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
+
                     <bean parent="Uif-LinkField" p:linkText="View Route Log"
-                          p:href="@{#ConfigProperties['application.url']}/kew/RouteLog.do?documentId=@{document.developmentProposal.proposalDocument.documentNumber}"  p:order="20"
+                          p:href="@{#ConfigProperties['application.url']}/kew/RouteLog.do?documentId=@{document.developmentProposal.proposalDocument.documentNumber}"  p:order="30"
                     p:link.openInDialog="true" />
                     
-                    <bean parent="Uif-RecallAction" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RECALL]}"  p:order="30">
+                    <bean parent="Uif-RecallAction" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RECALL]}"  p:order="40">
               			<property name="confirmationDialog">
              				<bean id="ConfirmRecallDialog" parent="Uif-DialogGroup-OkCancelExpl" p:promptText="Reason for recall?"/>
             			</property>
            			</bean>
            			
            			<bean parent="Uif-SecondaryActionButton" p:methodToCall="disapprove" p:actionLabel="Disapprove"
-			              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}" p:order="40">
+			              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}" p:order="50">
 			          <property name="confirmationDialog">
 			          		<bean id="DisapproveExplanationDialog" parent="Uif-DialogGroup-OkCancelExpl" p:promptText="Reason for disapprove?"/>
 			          </property>
 			        </bean>
 			        
-			   		<bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel proposal" p:methodToCall="cancelProposal" p:order="50" 
+			   		<bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel proposal" p:methodToCall="cancelProposal" p:order="60"
 						p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}">
 					 	<property name="confirmationDialog">
 			          		<bean id="ProposalCancelDialog" parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to cancel ?"/>
@@ -71,14 +74,14 @@
 
 					<bean parent="Uif-Space"/><bean parent="Uif-Space"/>
 					 
-					 <bean parent="Uif-SecondaryActionButton" p:actionLabel="Delete Proposal" p:methodToCall="deleteProposal" p:order="80" 
+					 <bean parent="Uif-SecondaryActionButton" p:actionLabel="Delete Proposal" p:methodToCall="deleteProposal" p:order="70"
 					 	p:render="@{#actionFlags[#{deleteDocument}]}">
 					 	<property name="confirmationDialog">
 			          		<bean id="ProposalDeleteDialog" parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to delete ?"/>
 			          	</property>
 					 </bean>						
 						
-					<bean parent="Uif-DropdownToggleMenu" p:toggleText="More Actions"  p:align="right" p:order="90">
+					<bean parent="Uif-DropdownToggleMenu" p:toggleText="More Actions"  p:align="right" p:order="80">
 					  <property name="menuItems">
 					    <list>
 					      <bean parent="Uif-MenuAction" p:actionLabel="Send Notifications" p:order="10" p:refreshId="Kc-SendNotification-Wizard" p:methodToCall="prepareNotificationWizard"
@@ -87,7 +90,7 @@
 					      <bean parent="Uif-MenuAction" p:actionLabel="Reload proposal"  p:methodToCall="reload" p:order="20"  
 					      	p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}"/>		
 					      				 
-					      <bean parent="Uif-MenuAction" p:actionLabel="Blanket Approve" p:methodToCall="blanketApprove" p:order="50" 
+					      <bean parent="Uif-MenuAction" p:actionLabel="Blanket Approve" p:methodToCall="blanketApprove" p:order="30"
 					      		p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
 						  <bean parent="Uif-MenuDivider"/>
 					      
