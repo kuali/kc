@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-public class ProposalBudgetUnrecoveredFandAController extends ProposalBudgetControllerBase {
+public class ProposalBudgetDistributionController extends ProposalBudgetControllerBase {
 
     @Autowired
     @Qualifier("budgetDistributionService")
@@ -41,7 +41,7 @@ public class ProposalBudgetUnrecoveredFandAController extends ProposalBudgetCont
 
     @MethodAccessible
     @RequestMapping(value = "/proposalBudget", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-UnrecoveredFandAPage"})
-    public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+    public ModelAndView navigateToFandA(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         getBudgetDistributionService().initializeUnrecoveredFandACollectionDefaults(form.getBudget());
         return super.navigate(form);
     }
@@ -53,6 +53,23 @@ public class ProposalBudgetUnrecoveredFandAController extends ProposalBudgetCont
         Budget budget = form.getBudget();
         budget.getBudgetUnrecoveredFandAs().clear();
         budgetDistributionService.initializeUnrecoveredFandACollectionDefaults(budget);
+        return getRefreshControllerService().refresh(form);
+    }
+
+    @MethodAccessible
+    @RequestMapping(value = "/proposalBudget", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-CostSharingPage"})
+    public ModelAndView navigateToCostShare(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+        getBudgetDistributionService().initializeCostSharingCollectionDefaults(form.getBudget());
+        return super.navigate(form);
+    }
+
+    @MethodAccessible
+    @RequestMapping(value = "/proposalBudget", params={"methodToCall=resetCostSharing"})
+    public ModelAndView resetCostSharingToDefault (@ModelAttribute("KualiForm") ProposalBudgetForm form)
+            throws Exception{
+        Budget budget = form.getBudget();
+        budget.getBudgetCostShares().clear();
+        budgetDistributionService.initializeCostSharingCollectionDefaults(budget);
         return getRefreshControllerService().refresh(form);
     }
 

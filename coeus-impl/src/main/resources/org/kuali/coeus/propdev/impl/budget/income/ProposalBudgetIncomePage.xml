@@ -35,6 +35,7 @@
             p:addWithDialog="true" p:layoutManager.renderSequenceField="false">
     <property name="addWithDialogAction">
         <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Income"
+              p:render="@{!#parent.readOnly}"
               p:iconClass="icon-plus" />
     </property>
        <property name="items">

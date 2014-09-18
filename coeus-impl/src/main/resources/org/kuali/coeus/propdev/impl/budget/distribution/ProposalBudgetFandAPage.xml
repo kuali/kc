@@ -35,6 +35,7 @@
         p:addWithDialog="true" >
         <property name="addWithDialogAction">
             <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Unrecovered F&amp;A"
+                  p:render="@{!#parent.readOnly}"
                   p:iconClass="icon-plus"/>
         </property>
 		<property name="header.lowerGroup">

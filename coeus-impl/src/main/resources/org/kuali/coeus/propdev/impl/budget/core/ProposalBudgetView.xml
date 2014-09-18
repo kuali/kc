@@ -121,7 +121,7 @@
 	<bean id="PropBudget-NavigationMenu-ProjectIncome" parent="PropBudget-NavigationMenu-ProjectIncome-parentBean" />
 	<bean id="PropBudget-NavigationMenu-ProjectIncome-parentBean"
 		abstract="true" parent="Uif-NavigationActionLink" p:navigateToPageId="PropBudget-ProjectIncomePage"
-		p:actionLabel="ProjectIncome" p:iconClass="icon-money" />
+		p:actionLabel="Project Income" p:iconClass="icon-money" />
 	<bean id="PropBudget-NavigationMenu-Modular" parent="PropBudget-NavigationMenu-Modular-parentBean" />
 	<bean id="PropBudget-NavigationMenu-Modular-parentBean" parent="Uif-NavigationActionLink"
 		p:navigateToPageId="PropBudget-ModularPage" p:actionLabel="Modular"
