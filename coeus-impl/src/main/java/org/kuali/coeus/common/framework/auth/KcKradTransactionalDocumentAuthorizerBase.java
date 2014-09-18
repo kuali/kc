@@ -26,7 +26,6 @@ import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.document.TransactionalDocumentAuthorizer;
 import org.kuali.rice.krad.document.TransactionalDocumentAuthorizerBase;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -58,7 +57,10 @@ public abstract class KcKradTransactionalDocumentAuthorizerBase extends Transact
     
     public static final String PRE_ROUTING_ROUTE_NAME = "PreRoute";
 
-    
+    public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
+        return currentEditModes;
+    }
+
     /**
      * Get the document actions.  This method can be overridden by a subclass, but that is
      * not usually done.  Rather, the subclass should override the necessary "can" methods.

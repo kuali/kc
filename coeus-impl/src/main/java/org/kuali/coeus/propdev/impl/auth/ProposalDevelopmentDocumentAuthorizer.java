@@ -22,14 +22,11 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
-import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
@@ -39,9 +36,6 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.uif.view.ViewModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.HashSet;
 import java.util.List;
@@ -65,6 +59,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         return taskAuthenticationService;
     }
 
+    @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
          
@@ -399,7 +394,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument)document, TaskName.RECALL_PROPOSAL);
     }
 
-    public boolean hasCertificationPermissions(ProposalDevelopmentDocument document, ProposalPerson proposalPerson, Person user){
+    public boolean hasCertificationPermissions(ProposalDevelopmentDocument document, Person user, ProposalPerson proposalPerson){
         if (getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, ProposalDevelopmentConstants.Parameters.KEY_PERSON_CERTIFICATION_SELF_CERTIFY_ONLY)) {
             boolean isKeyPersonnel = proposalPerson.getPerson().getPersonId().equals(user.getPrincipalId());
             boolean canCertify = getKcAuthorizationService().hasPermission(user.getPrincipalId(), document, PermissionConstants.CERTIFY);
