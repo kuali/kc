@@ -75,13 +75,13 @@ public class ProposalDevelopmentResubmissionAction extends ProposalDevelopmentAc
         }
         else {
             String originalProposalId = doc.getDevelopmentProposal().getProposalNumber();
-            String newDocId = proposalCopyService.copyProposal(doc, criteria);
+            ProposalDevelopmentDocument newDoc = proposalCopyService.copyProposal(doc, criteria);
             getPessimisticLockService().releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getPerson());
             DocumentService docService = KRADServiceLocatorWeb.getDocumentService();
             // Switch over to the new proposal development document and
             // go to the Proposal web page.
             
-            proposalDevelopmentForm.setDocId(newDocId);
+            proposalDevelopmentForm.setDocId(newDoc.getDocumentNumber());
             this.loadDocument(proposalDevelopmentForm);
             ProposalDevelopmentDocument copiedDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
             copiedDocument.getDevelopmentProposal().setS2sAppSubmission(new ArrayList<S2sAppSubmission>());

@@ -30,9 +30,9 @@ public interface ProposalCopyService {
      * 
      * @param doc the proposal development document to copy.
      * @param criteria the user-specified criteria that controls various copy operations.
-     * @return the document number of the new document that is saved in the database; 
+     * @return the new document that is saved in the database;
      *         otherwise null if an error occurred, e.g. the user didn't have permission to copy the document
      * @throws Exception if anything really bad happens
      */
-    public String copyProposal(ProposalDevelopmentDocument doc, ProposalCopyCriteria criteria) throws Exception;
+    public ProposalDevelopmentDocument copyProposal(ProposalDevelopmentDocument doc, ProposalCopyCriteria criteria);
 }

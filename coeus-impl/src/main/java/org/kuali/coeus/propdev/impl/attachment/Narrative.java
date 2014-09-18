@@ -418,9 +418,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
      * @return true if the user can view the attachment; otherwise false
      */
     public boolean getDownloadAttachment(String userId) {
-        if (getNarrativeUserRights().isEmpty()) {
-            refreshReferenceObject("narrativeUserRights");
-        }
         TaskAuthorizationService taskAuthorizationService = getTaskAuthorizationService();
         return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.DOWNLOAD_NARRATIVE, getDocument(), this));
     }
@@ -430,9 +427,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
      * @return true if the user can replace the attachment; otherwise false
      */
     public boolean getReplaceAttachment(String userId) {
-        if (getNarrativeUserRights().isEmpty()) {
-            refreshReferenceObject("narrativeUserRights");
-        }
         TaskAuthorizationService taskAuthorizationService = getTaskAuthorizationService();
         return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.REPLACE_NARRATIVE, getDocument(), this));
     }
@@ -442,9 +436,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
      * @return true if the user can delete the attachment; otherwise false
      */
     public boolean getDeleteAttachment(String userId) {
-        if (getNarrativeUserRights().isEmpty()) {
-            refreshReferenceObject("narrativeUserRights");
-        }
         TaskAuthorizationService taskAuthorizationService = getTaskAuthorizationService();
         return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.DELETE_NARRATIVE, getDocument(), this));
     }
@@ -454,9 +445,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
      * @return true if the user can modify the status of attachments; otherwise false
      */
     public boolean getModifyAttachmentStatus(String userId) {
-        if (getNarrativeUserRights().isEmpty()) {
-            refreshReferenceObject("narrativeUserRights");
-        }
         TaskAuthorizationService taskAuthorizatioNService = getTaskAuthorizationService();
         return taskAuthorizatioNService.isAuthorized(userId, new NarrativeTask(TaskName.MODIFY_NARRATIVE_STATUS, getDocument(), this));
     }
@@ -466,9 +454,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
      * @return true if the user can modify the user rights; otherwise false
      */
     public boolean getModifyNarrativeRights(String userId) {
-        if (getNarrativeUserRights().isEmpty()) {
-            refreshReferenceObject("narrativeUserRights");
-        }
         TaskAuthorizationService taskAuthorizationService = getTaskAuthorizationService();
         return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.MODIFY_NARRATIVE_RIGHTS, getDocument(), this));
     }
