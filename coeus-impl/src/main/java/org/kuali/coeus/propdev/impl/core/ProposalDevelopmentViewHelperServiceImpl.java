@@ -152,11 +152,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Qualifier("kcWorkflowService")
     private KcWorkflowService kcWorkflowService;
 
-    
     @Autowired
     @Qualifier("proposalDevelopmentService")
     private ProposalDevelopmentService proposalDevelopmentService;
-
+	
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
@@ -678,6 +677,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         return StringUtils.replace(string,"\n","[br]");
     }
 
+
     public void prepareSummaryPage(ProposalDevelopmentDocumentForm form) {
       populateCreditSplits(form);
         populateQuestionnaires(form);
@@ -699,4 +699,9 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 		return "Y".equalsIgnoreCase(getProposalDevelopmentService().getProposalDevelopmentParameters().get(ProposalDevelopmentService.SUMMARY_QUESTIONS_INDICATOR).getValue());
 		
 	}
+
+    public boolean isSummaryAttachmentsPanelEnabled() {
+    	return "Y".equalsIgnoreCase(getProposalDevelopmentService().getProposalDevelopmentParameters().get(ProposalDevelopmentService.SUMMARY_ATTACHMENTS_INDICATOR).getValue());
+    }
+
 }

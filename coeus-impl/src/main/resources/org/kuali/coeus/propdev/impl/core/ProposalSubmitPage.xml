@@ -32,7 +32,6 @@
               </property>
        </bean>				
                 <bean parent="PropDev-SubmitPage-SummaryTabGroup"  p:order="20"/>
-               
 			</list>
 		</property>
 		<property name="header">
@@ -118,11 +117,10 @@
                 <bean parent="PropDev-SubmitPage-CreditAllocation" p:readOnly="true" p:render="@{#ViewHelper.isCreditSplitEnabled()}" p:order="30" />
                 <bean parent="PropDev-SubmitPage-Questionnaire" p:render="@{#ViewHelper.isSummaryQuestionsPanelEnabled()}" p:order="40" />
                 <bean parent="PropDev-SubmitPage-SupplementalInfo" p:order="50" />
-                
+                <bean parent="PropDev-SubmitPage-Attachments" p:render="@{#ViewHelper.isSummaryAttachmentsPanelEnabled()}" p:order="60" />
             </list>
         </property>
     </bean>
-
     <bean id="PropDev-SubmitPage-ProposalSummary" parent="PropDev-SubmitPage-ProposalSummary-parentBean" />
     <bean id="PropDev-SubmitPage-ProposalSummary-parentBean" abstract="true"
           parent="Uif-GridCondensedSection" p:headerText="Proposal Summary" p:fieldBindingObjectPath="document.developmentProposal">
@@ -260,7 +258,10 @@
     <bean id="PropDev-SubmitPage-Questionnaire" parent="PropDev-SubmitPage-Questionnaire-parentBean" />
     <bean id="PropDev-SubmitPage-Questionnaire-parentBean" abstract="true"
           parent="PropDev-QuestionnairePage-Section" p:readOnly="true"/>
-
+		
+    <bean id="PropDev-SubmitPage-Attachments" parent="PropDev-SubmitPage-Attachments-parentBean" />
+    <bean id="PropDev-SubmitPage-Attachments-parentBean" abstract="true"
+          parent="PropDev-AttachmentsPage-Section" p:readOnly="true"/>
 
     <bean id="PropDev-SubmitPage-SupplementalInfo" parent="PropDev-SubmitPage-SupplementalInfo-parentBean" />
     <bean id="PropDev-SubmitPage-SupplementalInfo-parentBean" abstract="true"
