@@ -31,6 +31,7 @@ import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDt
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
+import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
 import org.kuali.coeus.propdev.impl.location.OrganizationAddWizardHelper;
@@ -78,6 +79,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private String newHierarchyBudgetTypeCode;
  	private String newHierarchyChildProposalNumber;
     private String newHierarchyProposalNumber;
+    private S2sUserAttachedForm s2sUserAttachedForm;
+
     private ProposalChangedData newProposalChangedData;
 
     @SessionTransient
@@ -131,6 +134,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         customDataGroups = new ArrayList<ProposalDevelopmentCustomDataGroupDto>();
 
         notificationHelper = new NotificationHelper<>();
+
+        s2sUserAttachedForm = new S2sUserAttachedForm();
 
         newProposalChangedData = new ProposalChangedData();
     }
@@ -389,4 +394,12 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 	public void setNewHierarchyProposalNumber(String newHierarchyProposalNumber) {
 		this.newHierarchyProposalNumber = newHierarchyProposalNumber;
 	}
+
+    public S2sUserAttachedForm getS2sUserAttachedForm() {
+        return s2sUserAttachedForm;
+    }
+
+    public void setS2sUserAttachedForm(S2sUserAttachedForm s2sUserAttachedForm) {
+        this.s2sUserAttachedForm = s2sUserAttachedForm;
+    }
 }

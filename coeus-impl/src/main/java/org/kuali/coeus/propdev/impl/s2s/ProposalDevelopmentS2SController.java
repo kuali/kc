@@ -17,26 +17,27 @@ package org.kuali.coeus.propdev.impl.s2s;
 
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormFileContract;
+import org.kuali.coeus.propdev.api.s2s.UserAttachedFormService;
+import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
+import org.kuali.coeus.s2sgen.api.core.S2SException;
 import org.kuali.coeus.s2sgen.api.print.FormPrintResult;
 import org.kuali.coeus.s2sgen.api.print.FormPrintService;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.KRADUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,12 +50,22 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 @Controller
 public class ProposalDevelopmentS2SController extends ProposalDevelopmentControllerBase {
+    private static final String CONTENT_TYPE_XML = "text/xml";
+    private static final String CONTENT_TYPE_PDF = "application/pdf";
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentS2SController.class);
 
     @Autowired
     @Qualifier("s2sSubmissionService")
     private S2sSubmissionService s2sSubmissionService;
+
+    @Autowired
+    @Qualifier("s2sUserAttachedFormService")
+    private S2sUserAttachedFormService s2sUserAttachedFormService;
+
+    @Autowired
+    @Qualifier("userAttachedFormService")
+    private UserAttachedFormService userAttachedFormService;
 
     @Autowired
     @Qualifier("globalVariableService")
@@ -194,7 +205,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
                         new String[]{error.getMessageKey()}));
             }
             if (!auditErrors.isEmpty()) {
-                KNSGlobalVariables.getAuditErrorMap().put(
+                getGlobalVariableService().getAuditErrorMap().put(
                         "grantsGovAuditErrors",
                         new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL,
                                 auditErrors, Constants.GRANTSGOV_ERRORS)
@@ -214,10 +225,10 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
     protected boolean copyAuditErrorsToPage(String auditClusterCategory, String errorkey) {
         boolean auditClusterFound = false;
-        Iterator<String> iter = KNSGlobalVariables.getAuditErrorMap().keySet().iterator();
+        Iterator<String> iter = getGlobalVariableService().getAuditErrorMap().keySet().iterator();
         while (iter.hasNext()) {
             String errorKey = (String) iter.next();
-            AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(errorKey);
+            AuditCluster auditCluster = getGlobalVariableService().getAuditErrorMap().get(errorKey);
             if(auditClusterCategory == null || StringUtils.equalsIgnoreCase(auditCluster.getCategory(), auditClusterCategory)){
                 auditClusterFound = true;
                 for (Object error : auditCluster.getAuditErrorList()) {
@@ -228,6 +239,85 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
             }
         }
         return auditClusterFound;
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=addUserAttachedForm"})
+    public ModelAndView addUserAttachedForm(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)
+            throws Exception {
+        S2sUserAttachedForm s2sUserAttachedForm = form.getS2sUserAttachedForm();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
+
+        MultipartFile userAttachedFormFile = s2sUserAttachedForm.getNewFormFile();
+
+        s2sUserAttachedForm.setNewFormFileBytes(userAttachedFormFile.getBytes());
+        s2sUserAttachedForm.setFormFileName(userAttachedFormFile.getOriginalFilename());
+        s2sUserAttachedForm.setProposalNumber(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber());
+        try{
+            List<S2sUserAttachedForm> userAttachedForms = getS2sUserAttachedFormService().extractNSaveUserAttachedForms(proposalDevelopmentDocument,s2sUserAttachedForm);
+            proposalDevelopmentDocument.getDevelopmentProposal().getS2sUserAttachedForms().addAll(userAttachedForms);
+            form.setS2sUserAttachedForm(new S2sUserAttachedForm());
+        }catch(S2SException ex){
+            LOG.error(ex.getMessage(),ex);
+            if(ex.getTabErrorKey()!=null){
+                if(getGlobalVariableService().getMessageMap().getErrorMessagesForProperty(ex.getTabErrorKey())==null){
+                    getGlobalVariableService().getMessageMap().putError(ex.getTabErrorKey(), ex.getErrorKey(),ex.getParams());
+                }
+            }else{
+                getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
+            }
+        }
+
+       return super.save(form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=viewUserAttachedFormXML"})
+    public ModelAndView viewUserAttachedFormXML( ProposalDevelopmentDocumentForm form, HttpServletResponse response,
+        @RequestParam("selectedLine") String selectedLine) throws Exception {
+
+        DevelopmentProposal developmentProposal = form.getDevelopmentProposal();
+        List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
+        S2sUserAttachedForm selectedForm = s2sAttachedForms.get(Integer.parseInt(selectedLine));
+
+        S2sUserAttachedFormFileContract userAttachedFormFile = getUserAttachedFormService().findUserAttachedFormFile(selectedForm);
+        if(userAttachedFormFile!=null){
+            streamToResponse(userAttachedFormFile.getXmlFile().getBytes(), selectedForm.getFormName()+".xml", CONTENT_TYPE_XML, response);
+        }else{
+            return getModelAndViewService().getModelAndView(form);
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=viewUserAttachedFormPDF"})
+    public ModelAndView viewUserAttachedFormPDF( ProposalDevelopmentDocumentForm form, HttpServletResponse response,
+                                                 @RequestParam("selectedLine") String selectedLine) throws Exception {
+        DevelopmentProposal developmentProposal = form.getDevelopmentProposal();
+        List<S2sUserAttachedForm> s2sAttachedForms = developmentProposal.getS2sUserAttachedForms();
+        S2sUserAttachedForm selectedForm = s2sAttachedForms.get(Integer.parseInt(selectedLine));
+        S2sUserAttachedFormFileContract userAttachedFormFile = getUserAttachedFormService().findUserAttachedFormFile(selectedForm);
+        if(userAttachedFormFile!=null){
+            streamToResponse(userAttachedFormFile.getFormFile(), selectedForm.getFormFileName(), CONTENT_TYPE_PDF, response);
+        }else{
+            return getModelAndViewService().getModelAndView(form);
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=deleteUserAttachedForm"})
+    public ModelAndView deleteUserAttachedForm( ProposalDevelopmentDocumentForm form, HttpServletResponse response,
+                                                 @RequestParam("selectedLine") String selectedLine) throws Exception {
+        S2sUserAttachedForm deleteForm = form.getDevelopmentProposal().getS2sUserAttachedForms().remove(Integer.parseInt(selectedLine));
+        getDataObjectService().delete(deleteForm);
+        getS2sUserAttachedFormService().resetFormAvailability(form.getProposalDevelopmentDocument(), deleteForm.getNamespace());
+        return getModelAndViewService().getModelAndView(form);
+    }
+
+    protected void streamToResponse(byte[] fileContents, String fileName, String fileContentType, HttpServletResponse response) throws Exception {
+
+        long size = fileContents.length;
+        try (ByteArrayInputStream inputStream = new ByteArrayInputStream(fileContents)) {
+            KRADUtils.addAttachmentToResponse(response, inputStream, fileContentType, fileName, size);
+            response.flushBuffer();
+        }
     }
 
     public S2sSubmissionService getS2sSubmissionService() {
@@ -261,4 +351,21 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
+
+    public S2sUserAttachedFormService getS2sUserAttachedFormService() {
+        return s2sUserAttachedFormService;
+    }
+
+    public void setS2sUserAttachedFormService(S2sUserAttachedFormService s2sUserAttachedFormService) {
+        this.s2sUserAttachedFormService = s2sUserAttachedFormService;
+    }
+
+    public UserAttachedFormService getUserAttachedFormService() {
+        return userAttachedFormService;
+    }
+
+    public void setUserAttachedFormService(UserAttachedFormService userAttachedFormService) {
+        this.userAttachedFormService = userAttachedFormService;
+    }
 }
+

@@ -57,13 +57,13 @@
 	<bean id="PropDev-OpportunityPage-Info" parent="PropDev-OpportunityPage-Info-parentBean" />
 	<bean id="PropDev-OpportunityPage-Info-parentBean" abstract="true"
 		parent="Uif-TabSection"
-		p:render="@{document.developmentProposal.s2sOpportunity?.opportunityId != null}"
-		p:fieldBindingObjectPath="document.developmentProposal.s2sOpportunity">
+		p:render="@{document.developmentProposal.s2sOpportunity?.opportunityId != null}">
 		<property name="items">
 			<list>
 				<ref bean="PropDev-OpportunityPage-General" />
 				<ref bean="PropDev-OpportunityPage-Forms" />
 				<ref bean="PropDev-OpportunityPage-SubmissionDetails" />
+                <ref bean="PropDev-OpportunityPage-UserAttachedForms" />
 			</list>
 		</property>
 		<property name="footer">
@@ -96,7 +96,8 @@
 	<bean id="PropDev-OpportunityPage-General-parentBean" abstract="true"
 		parent="Uif-GridSection" p:headerText="Opportunity"
 		p:layoutManager.libraryCssClasses="table,table-condensed"
-		p:layoutManager.cssClasses="" p:layoutManager.applyDefaultCellWidths="false">
+		p:layoutManager.cssClasses="" p:layoutManager.applyDefaultCellWidths="false"
+        p:fieldBindingObjectPath="document.developmentProposal.s2sOpportunity">
 		<property name="items">
 			<list>
 				<bean parent="Uif-DataField" p:propertyName="opportunityId"
@@ -150,7 +151,7 @@
 	<bean id="PropDev-OpportunityPage-Forms" parent="PropDev-OpportunityPage-Forms-parentBean" />
 	<bean id="PropDev-OpportunityPage-Forms-parentBean" abstract="true"
 		parent="Uif-TableCollectionSection" p:headerText="Forms"
-		p:propertyName="s2sOppForms" p:collectionObjectClass="org.kuali.coeus.propdev.impl.s2s.S2sOppForms"
+		p:propertyName="document.developmentProposal.s2sOpportunity.s2sOppForms" p:collectionObjectClass="org.kuali.coeus.propdev.impl.s2s.S2sOppForms"
 		p:renderAddLine="false" p:layoutManager.renderSequenceField="false"
 		p:renderLineActions="false" p:layoutManager.richTable.render="false">
 		<property name="items">
@@ -181,7 +182,7 @@
                     </property>
                 </bean>
 				<bean parent="Uif-MessageField" p:fieldLabel.labelText="Description"
-					p:messageText="@{#lp.available ? 'Available' : 'Unavailable'}" />
+					p:messageText="@{#lp.available ? #lp.userAttachedForm ? 'User Attached From' : 'Available' : 'Unavailable'}" />
 				<bean parent="Uif-InputField" p:propertyName="selectToPrint"
 					p:fieldLabel.labelText="[0]" >
                     <property name="control">
@@ -234,5 +235,106 @@
 	<bean id="PropDev-OpportunityPage-SubmissionDetails" parent="PropDev-OpportunityPage-SubmissionDetails-parentBean" />
 	<bean id="PropDev-OpportunityPage-SubmissionDetails-parentBean"
 		abstract="true" parent="Uif-GridSection" p:headerText="Submission Details" />
+
+
+    <bean id="PropDev-OpportunityPage-UserAttachedForms" parent="PropDev-OpportunityPage-UserAttachedForms-parentBean"/>
+    <bean id="PropDev-OpportunityPage-UserAttachedForms-parentBean" abstract="true" parent="Uif-VerticalBoxSection"
+          p:headerText="User Attached Forms">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Add User Attached Form" p:order="10"
+                      p:actionScript="showDialog('PropDev-OpportunityPage-AddUserAttachedForm');" p:iconClass="icon-plus"/>
+                <bean parent="PropDev-OpportunityPage-UserAttachedForms-Collection" p:order="20"/>
+            </list>
+        </property>
+          </bean>
+
+    <bean id="PropDev-OpportunityPage-UserAttachedForms-Collection" parent="PropDev-OpportunityPage-UserAttachedForms-Collection-parentBean"/>
+    <bean id="PropDev-OpportunityPage-UserAttachedForms-Collection-parentBean" abstract="true" parent="Uif-TableCollectionSection"
+          p:propertyName="document.developmentProposal.s2sUserAttachedForms" p:collectionObjectClass="org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm"
+          p:layoutManager.renderSequenceField="false"
+          p:layoutManager.richTable.render="false" p:renderAddLine="false">
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-DropdownToggleMenu" p:toggleText="Actions"  p:align="right" p:order="20">
+                    <property name="menuItems">
+                        <list>
+                            <bean parent="Uif-MenuAction" p:actionLabel="View XML" p:style="float:left" p:order="10">
+                                <property name="actionUrl">
+                                    <bean parent="Uif-Url" p:href="?methodToCall=viewUserAttachedFormXML&amp;formKey=@{formKey}&amp;selectedLine=@{#index}"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MenuAction" p:actionLabel="View PDF" p:style="float:left" p:order="20">
+                                <property name="actionUrl">
+                                    <bean parent="Uif-Url" p:href="?methodToCall=viewUserAttachedFormPDF&amp;formKey=@{formKey}&amp;selectedLine=@{#index}"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MenuAction" p:actionLabel="Edit" p:style="float:left" p:order="30"
+                                    p:methodToCall="editCollectionLine"
+                                    p:hidden="@{#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
+                            <bean parent="Uif-MenuAction" p:actionLabel="Save" p:style="float:left" p:order="40"
+                                  p:methodToCall="saveAttachment"
+                                  p:hidden="@{!#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-DeleteLineAction" p:actionLabel="" p:methodToCall="deleteUserAttachedForm"
+                      p:iconClass="icon-trash" p:order="30" p:render="@{!#parent.readOnly}"
+                      p:additionalSubmitData="selectedLine:@{#index}">
+                    <property name="confirmationDialog">
+                        <bean parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to delete @{#lp.formName}?"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="description" p:order="10"
+                      p:readOnly="@{!#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"
+                      p:fieldLabel.labelText="Description"/>
+                <bean parent="Uif-DataField" p:propertyName="namespace" p:order="20"
+                      p:fieldLabel.labelText="Namespace"/>
+                <bean parent="Uif-DataField" p:propertyName="formName" p:order="30"
+                      p:fieldLabel.labelText="Form Name" />
+                <bean parent="Uif-DataField" p:propertyName="formFileName" p:order="40"/>
+            </list>
+        </property>
+        <property name="layoutManager.libraryCssClasses">
+            <list>
+                <value>table</value>
+                <value>table-condensed</value>
+            </list>
+        </property>
+        <property name="layoutManager.cssClasses">
+            <null/>
+        </property>
+    </bean>
+
+
+    <bean id="PropDev-OpportunityPage-AddUserAttachedForm" parent="PropDev-OpportunityPage-AddUserAttachedForm-parentBean"/>
+    <bean id="PropDev-OpportunityPage-AddUserAttachedForm-parentBean" abstract="true" parent="Uif-DialogGroup"
+          p:fieldBindingObjectPath="s2sUserAttachedForm"
+            p:headerText="Add User Attached Form">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="description" p:order="10"
+                      p:required="true" p:fieldLabel.labelText="Description"/>
+                <bean parent="Uif-InputField" p:propertyName="newFormFile" p:order="20"
+                      p:required="true" p:fieldLabel.labelText="File">
+                    <property name="control">
+                        <bean parent="Uif-FileControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer.items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Add" p:order="10"
+                      p:methodToCall="addUserAttachedForm" p:dialogDismissOption="REQUEST"
+                      p:performClientSideValidation="true"/>
+            </list>
+        </property>
+    </bean>
+
 
 </beans>
