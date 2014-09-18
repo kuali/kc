@@ -18,15 +18,9 @@ package org.kuali.coeus.propdev.impl.person.creditsplit;
 import java.lang.annotation.*;
 
 /**
- * Method metadata for {@link org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit} instances to determine the <code>name</code> property of a {@link org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit}. Attach the
- * <code>@CreditSplitNameInfo</code> annotation to a property method of a {@link org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit} implementation to declare it as the
- * <code>name</code> property
- * 
+ * Method interface for {@link org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit} instances to determine the <code>name</code>
+ * accessor of a {@link org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit}.
  */
-@Documented
-@Target({ ElementType.METHOD })
-@Retention(RetentionPolicy.RUNTIME)
-@Inherited
-public @interface CreditSplitNameInfo {
-
+public interface NamedCreditSplitable extends CreditSplitable {
+    String getCreditSplitName();
 }

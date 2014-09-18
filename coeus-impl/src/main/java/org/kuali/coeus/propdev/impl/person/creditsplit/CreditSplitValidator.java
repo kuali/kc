@@ -24,7 +24,6 @@ import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 
-import java.lang.reflect.Method;
 import java.util.*;
 
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
@@ -337,28 +336,15 @@ public class CreditSplitValidator {
     
     /**
      * Discover the name of a {@link CreditSplitable}. Not all {@link CreditSplitable} instances will have a <code>name</code> property. Even if they
-     * did, it's not likely for all the properties to be called <code>name</code>. {@link CreditSplitable} relies on a property to be annotated
-     * as being the name of the {@link CreditSplitable}. This checks for that annotation and returns the name. 
-     * 
-     * 
-     * @param splitable 
+     * did, it's not likely for all the properties to be called <code>name</code>. {@link CreditSplitable} relies on a subinterface called
+     * {@link NamedCreditSplitable} to retrieve the name.
+     *
+     * @param splitable the splittable instance
      * @return <code>null</code> if the name could not be found or if the value of the name is also <code>null</code>; otherwise, the name is returned.
      */
-    private String getCreditSplitableName(CreditSplitable splitable) {
-        
-        for (Method method : splitable.getClass().getMethods()) {
-            if (method.isAnnotationPresent(CreditSplitNameInfo.class)) {
-                LOG.info("Found method name " + method.getName());
-                try {
-                    return (String) method.invoke(splitable, null);
-                } 
-                catch (Exception e) {
-                    LOG.warn("Could not find the name property for the credit splitable object of class " + splitable.getClass().getName()
-                            + ". Make sure the " + CreditSplitNameInfo.class.getSimpleName() + " annotation is declared on the name property of "
-                                + splitable.getClass().getSimpleName());
-
-                }
-            }
+    protected String getCreditSplitableName(CreditSplitable splitable) {
+        if (splitable instanceof  NamedCreditSplitable) {
+            return ((NamedCreditSplitable) splitable).getCreditSplitName();
         }
         
         return null;
