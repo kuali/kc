@@ -40,10 +40,6 @@
         <property name="serviceName" value="budgetRatesService" />
     </bean>
     
-    <bean id="budgetVersionRule" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="budgetVersionRule" />
-    </bean> 
-    
     <bean id="pessimisticLockService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="pessimisticLockService" />
     </bean>  

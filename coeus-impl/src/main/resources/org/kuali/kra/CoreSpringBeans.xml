@@ -1057,10 +1057,6 @@
     <bean id="kualiConfigurationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kualiConfigurationService" />
     </bean>
-    
-    <bean id="kualiGroupService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="kualiGroupService" />
-    </bean>
 
     <bean id="globalVariableService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="globalVariableService" />
@@ -1180,10 +1176,6 @@
 
     <bean id="enDocumentTypeService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="enDocumentTypeService" />
-    </bean>
-
-    <bean id="uifControllerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="uifControllerService" />
     </bean>
 
     <bean id="transactionalDocumentControllerService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
