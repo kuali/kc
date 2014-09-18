@@ -1151,7 +1151,8 @@
     </bean> 
 
     <bean id="protocolSpecialReviewService" class="org.kuali.kra.irb.specialreview.ProtocolSpecialReviewServiceImpl">
-   		<property name="protocolFinderDao" ref="protocolFinderDao" />    
+   		<property name="protocolFinderDao" ref="protocolFinderDao" />
+        <property name="dataObjectService" ref="dataObjectService" />
  	</bean>
  	
  	<bean id="protocolQuestionnairePrintingService"
