@@ -57,7 +57,6 @@ import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetNextValue;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetNumberOfMonthsService;
@@ -125,7 +124,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     @OrderBy("budgetPeriodNumber")
-    private List<BudgetProjectIncome> budgetProjectIncomes;    
+    private List<BudgetProjectIncome> budgetProjectIncomes;
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")

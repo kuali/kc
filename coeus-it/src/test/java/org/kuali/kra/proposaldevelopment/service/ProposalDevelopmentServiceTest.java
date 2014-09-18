@@ -19,14 +19,13 @@ import java.util.Collections;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.test.fixtures.ProposalDevelopmentDocumentFixture;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
@@ -40,13 +39,13 @@ import static org.junit.Assert.assertTrue;
 public class ProposalDevelopmentServiceTest extends KcIntegrationTestBase {
     
     private ProposalDevelopmentService proposalDevelopmentService;
-    private BudgetService budgetService;
+    private BudgetService<DevelopmentProposal> budgetService;
     private ProposalDevelopmentDocument document;
 
     @Before
     public void setUp() throws Exception {
         proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
-        budgetService = KcServiceLocator.getService(BudgetService.class);
+        budgetService = KcServiceLocator.getService(ProposalBudgetService.class);
         document = ProposalDevelopmentDocumentFixture.NORMAL_DOCUMENT.getDocument();
         document.getDevelopmentProposal().setPrimeSponsorCode("000120");
         document.getDevelopmentProposal().setSponsorCode("000120");
@@ -65,10 +64,11 @@ public class ProposalDevelopmentServiceTest extends KcIntegrationTestBase {
         assertTrue(document.getDevelopmentProposal() == null);
     }
     
-    @Test @Ignore("KCINFR-996")
+    @Test
     public void testDeleteProposalWithBudget() throws WorkflowException {
-        Budget budget1 = budgetService.addBudgetVersion(document, "Ver1", Collections.EMPTY_MAP);
-        Budget budget2 = budgetService.addBudgetVersion(document, "Ver2 With Long Name", Collections.EMPTY_MAP);
+        document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
+        Budget budget1 = budgetService.addBudgetVersion(document, "Ver1", Collections.<String, Object>emptyMap());
+        Budget budget2 = budgetService.addBudgetVersion(document, "Ver2 With Long Name", Collections.<String, Object>emptyMap());
         document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
         document = proposalDevelopmentService.deleteProposal(document);
         document = (ProposalDevelopmentDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());

@@ -34,13 +34,13 @@ import org.kuali.kra.bo.NextValueBase;
 @Entity
 @Table(name = "EPS_PROPOSAL_BUDGET_EXT")
 @PrimaryKeyJoinColumn(name="BUDGET_ID", referencedColumnName="BUDGET_ID")
-@DiscriminatorValue("PRDV")
+@DiscriminatorValue(ProposalDevelopmentBudgetExt.PARENT_BUDGET_TYPE_CODE)
 public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDevelopmentBudgetExtContract {
-	
-	private static final String BUDGET_COMPLETE = "1";
 
     private static final long serialVersionUID = 8234453927894053540L;
     private static final String BUDGET_PERSON_GROUP_PD = "From Proposal Development";
+    public static final String PARENT_BUDGET_TYPE_CODE = "PRDV";
+    private static final String BUDGET_COMPLETE = "1";
 
     @Id
     @ManyToOne(cascade = { CascadeType.REFRESH })

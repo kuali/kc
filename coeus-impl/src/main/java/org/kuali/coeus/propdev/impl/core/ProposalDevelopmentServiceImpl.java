@@ -16,10 +16,13 @@
 package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Transformer;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
@@ -74,6 +77,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 
 @Component("proposalDevelopmentService")
@@ -393,24 +397,43 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     @Override
     public ProposalDevelopmentDocument deleteProposal(ProposalDevelopmentDocument proposalDocument) throws WorkflowException {
-        ListIterator<ProposalDevelopmentBudgetExt> iter = proposalDocument.getDevelopmentProposal().getBudgets().listIterator();
-        while (iter.hasNext()) {
-            Budget budgetVersion = iter.next();
-        	getDataObjectService().delete(budgetVersion);
-            iter.remove();
-        }
-        // remove budget statuses as they are not referenced via ojb, but there is a
-        // database constraint that requires removing these first
-        Map<String, Object> keyValues = new HashMap<String, Object>();
-        keyValues.put("proposalNumber", proposalDocument.getDevelopmentProposal().getProposalNumber());
-        getDataObjectService().deleteMatching(ProposalBudgetStatus.class, QueryByCriteria.Builder.andAttributes(keyValues).build());
+
+        final DevelopmentProposal developmentProposal = proposalDocument.getDevelopmentProposal();
+        final String proposalNumber = developmentProposal.getProposalNumber();
+
+        cleanupBudgetRates(developmentProposal);
+        getDataObjectService().deleteMatching(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("developmentProposal.proposalNumber", proposalNumber)).build());
+        developmentProposal.setBudgets(new ArrayList<ProposalDevelopmentBudgetExt>());
+        developmentProposal.setFinalBudget(null);
+
+        getDataObjectService().deleteMatching(ProposalBudgetStatus.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("proposalNumber", proposalNumber)).build());
         proposalDocument.setDevelopmentProposal(null);
         proposalDocument.setProposalDeleted(true);
 
-        // because the devproplist was cleared above the dev prop and associated BOs will be
-        // deleted upon save
         proposalDocument = (ProposalDevelopmentDocument)getDocumentService().saveDocument(proposalDocument);
         return (ProposalDevelopmentDocument) getDocumentService().cancelDocument(proposalDocument, "Delete Proposal");
+    }
+
+    /**
+     * BudgetRate and BudgetLaRate will not cascade delete for some reason.  Manually cleaning them up here to avoid
+     * a constraint violation normally JPA's orphanRemoval should automatically take care of these deletes
+     */
+    protected void cleanupBudgetRates(DevelopmentProposal developmentProposal) {
+        final Collection<Long> budgetIds = CollectionUtils.collect(developmentProposal.getBudgets(), new Transformer<ProposalDevelopmentBudgetExt, Long>() {
+            @Override
+            public Long transform(ProposalDevelopmentBudgetExt input) {
+                return input.getBudgetId();
+            }
+        });
+        //this should be in the budgets list but including it just to be safe
+        if (developmentProposal.getFinalBudget() != null) {
+            budgetIds.add(developmentProposal.getFinalBudget().getBudgetId());
+        }
+
+        if (!budgetIds.isEmpty()) {
+            getDataObjectService().deleteMatching(BudgetRate.class, QueryByCriteria.Builder.fromPredicates(in("budgetId", budgetIds)));
+            getDataObjectService().deleteMatching(BudgetLaRate.class, QueryByCriteria.Builder.fromPredicates(in("budgetId", budgetIds)));
+        }
     }
 
     protected DocumentService getDocumentService() {
