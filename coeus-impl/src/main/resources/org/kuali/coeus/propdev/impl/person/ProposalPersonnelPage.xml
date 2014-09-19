@@ -526,7 +526,7 @@
 
 	<bean id="PropDev-PersonnelPage-Questionnaire" parent="PropDev-PersonnelPage-Questionnaire-parentBean" />
 	<bean id="PropDev-PersonnelPage-Questionnaire-parentBean"
-		abstract="true" parent="Uif-CssGridSection"
+		abstract="true" parent="Uif-CssGridSection" p:id="personnelQuestionnaire"
         p:render="@{#line.questionnaireHelper.answerHeaders != null and #line.questionnaireHelper.answerHeaders.size() > 0}"
 		p:headerText="@{(#line.questionnaireHelper.answerHeaders != null and #line.questionnaireHelper.answerHeaders.size() > 0 and #line.questionnaireHelper.answerHeaders[0].label != null) ? #line.questionnaireHelper.answerHeaders[0].label : 'None'}">
 		<property name="items">
