@@ -8,14 +8,16 @@ RiceContrib.MultiSelect = RiceContrib.MultiSelect || {};
 				var template = $(this).data('template');
 				var defaultSettings = {
 					selectedTextFormat : "count > 5",
-					liveSearch : $(this).attr('multiple') ? true : false,
+					liveSearch : $(this).attr('multiple') ? true : false
 				};
 				
 				$(this).selectpicker($.extend({}, defaultSettings, template));
 			}
 		});
-		$("[data-role='View']").on(kradVariables.EVENTS.UPDATE_CONTENT, namespace.init);
 	};
 })(RiceContrib.MultiSelect, jQuery);
 
-jQuery(document).ready(function() { RiceContrib.MultiSelect.init(); });
+jQuery(document).ready(function() {
+    RiceContrib.MultiSelect.init();
+    jQuery("[data-role='View']").on(kradVariables.EVENTS.UPDATE_CONTENT, RiceContrib.MultiSelect.init);
+});
