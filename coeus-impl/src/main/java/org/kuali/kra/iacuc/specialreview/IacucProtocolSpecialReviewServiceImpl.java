@@ -17,19 +17,14 @@ package org.kuali.kra.iacuc.specialreview;
 
 import org.kuali.coeus.common.framework.compliance.core.SpecialReview;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.specialreview.impl.ProtocolSpecialReviewServiceImplBase;
-import org.kuali.rice.krad.data.DataObjectService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class IacucProtocolSpecialReviewServiceImpl extends ProtocolSpecialReviewServiceImplBase 
     implements IacucProtocolSpecialReviewService {
-
-
-    private DataObjectService dataObjectService;
 
     @SuppressWarnings("rawtypes")
     @Override
@@ -46,20 +41,4 @@ public class IacucProtocolSpecialReviewServiceImpl extends ProtocolSpecialReview
 
     }
 
-    public DevelopmentProposal getPropososalDevelopment(String proposalNumber) {
-        DevelopmentProposal dp = null;
-        if (proposalNumber != null) {
-                dp = getDataObjectService().find(DevelopmentProposal.class, proposalNumber);
-        }
-        return dp;
-    }
-
-    public void setDataObjectService(DataObjectService dataObjectService) {
-        this.dataObjectService = dataObjectService;
-    }
-
-    public DataObjectService getDataObjectService() {
-        return dataObjectService;
-    }
-    
 }
