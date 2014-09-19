@@ -5,6 +5,7 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.view.wizard.framework.WizardControllerService;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
@@ -18,11 +19,20 @@ import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kew.api.action.RoutingReportCriteria;
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
+import org.kuali.rice.kew.api.document.DocumentDetail;
+import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
+import org.kuali.rice.krad.web.form.DialogResponse;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -58,6 +68,18 @@ public class ProposalDevelopmentSubmitController extends
     @Autowired
     @Qualifier("kualiConfigurationService")
     private ConfigurationService configurationService;
+
+    @Autowired
+    @Qualifier("kradWorkflowDocumentService")
+    private WorkflowDocumentService kradWorkflowDocumentService;
+
+    @Autowired
+    @Qualifier("workflowDocumentActionsService")
+    protected WorkflowDocumentActionsService workflowDocumentActionsService;
+
+    @Autowired
+    @Qualifier("groupService")
+    private GroupService groupService;
 
     @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=deleteProposal")
     public ModelAndView deleteProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
@@ -183,13 +205,94 @@ public class ProposalDevelopmentSubmitController extends
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=approve")
     public ModelAndView approve(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         form.setAuditActivated(true);
+
         if (!proposalValidToRoute(form)) {
             getGlobalVariableService().getMessageMap().putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION);
             return getModelAndViewService().getModelAndView(form);
         }
 
+        WorkflowDocument workflowDoc = form.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument();
+        if (canGenerateRequestsInFuture(workflowDoc, getGlobalVariableService().getUserSession().getPrincipalId())) {
+            DialogResponse dialogResponse = form.getDialogResponse("PropDev-SubmitPage-ReceiveFutureRequests");
+            if(dialogResponse == null) {
+                return getModelAndViewService().showDialog("PropDev-SubmitPage-ReceiveFutureRequests", true, form);
+            }else if (dialogResponse.getResponseAsBoolean()){
+                form.getWorkflowDocument().setReceiveFutureRequests();
+            } else {
+                form.getWorkflowDocument().setDoNotReceiveFutureRequests();
+            }
+        }
+
         getTransactionalDocumentControllerService().performWorkflowAction(form, UifConstants.WorkflowAction.APPROVE);
         return getModelAndViewService().getModelAndView(form);
+    }
+
+    private boolean canGenerateRequestsInFuture(WorkflowDocument workflowDoc, String principalId) throws Exception {
+        RoutingReportCriteria.Builder reportCriteriaBuilder = RoutingReportCriteria.Builder.createByDocumentId(workflowDoc.getDocumentId());
+        reportCriteriaBuilder.setTargetPrincipalIds(Collections.singletonList(principalId));
+
+        String currentRouteNodeNames = getKradWorkflowDocumentService().getCurrentRouteNodeNames(workflowDoc);
+
+        return (hasAskedToNotReceiveFutureRequests(workflowDoc, principalId) && canGenerateMultipleApprovalRequests(reportCriteriaBuilder.build(), principalId, currentRouteNodeNames ));
+    }
+
+    private boolean hasAskedToNotReceiveFutureRequests(WorkflowDocument workflowDoc, String principalId) {
+        boolean receiveFutureRequests = false;
+        boolean doNotReceiveFutureRequests = false;
+
+        Map<String, String> variables = workflowDoc.getVariables();
+
+           for (Map.Entry<String,String> entry : variables.entrySet()) {
+                String variableKey = entry.getKey();
+                String variableValue = entry.getValue();
+                if (variableKey.startsWith(KewApiConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
+                        && variableValue.toUpperCase().equals(KewApiConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
+                        && variableKey.contains(principalId)) {
+                    receiveFutureRequests = true;
+                    break;
+                }
+                else if (variableKey.startsWith(KewApiConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
+                        && variableValue.toUpperCase().equals(KewApiConstants.DONT_RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
+                        && variableKey.contains(principalId)) {
+                    doNotReceiveFutureRequests = true;
+                    break;
+                }
+           }
+
+        return (receiveFutureRequests == false && doNotReceiveFutureRequests == false);
+    }
+
+    private boolean canGenerateMultipleApprovalRequests(RoutingReportCriteria reportCriteria, String loggedInPrincipalId, String currentRouteNodeNames ) throws Exception {
+        int approvalRequestsCount = 0;
+
+        DocumentDetail results1 = getWorkflowDocumentActionsService().executeSimulation(reportCriteria);
+        for(ActionRequest actionRequest : results1.getActionRequests() ){
+            if(actionRequest.isPending() && actionRequest.getActionRequested().getCode().equalsIgnoreCase(KewApiConstants.ACTION_REQUEST_APPROVE_REQ) &&
+                    recipientMatchesUser(actionRequest, loggedInPrincipalId) && !StringUtils.contains( currentRouteNodeNames,actionRequest.getNodeName()) ) {
+                approvalRequestsCount+=1;
+            }
+        }
+
+        return (approvalRequestsCount > 0);
+    }
+
+    private boolean recipientMatchesUser(ActionRequest actionRequest, String loggedInPrincipalId) {
+        if(actionRequest != null && loggedInPrincipalId != null ) {
+            List<ActionRequest> actionRequests =  Collections.singletonList(actionRequest);
+            if(actionRequest.isRoleRequest()) {
+                actionRequests = actionRequest.getChildRequests();
+            }
+            for( ActionRequest cActionRequest : actionRequests ) {
+                String recipientUser = cActionRequest.getPrincipalId();
+                if( ( recipientUser != null && recipientUser.equals(loggedInPrincipalId) )
+                        || (StringUtils.isNotBlank(cActionRequest.getGroupId())
+                        && getGroupService().isMemberOfGroup(loggedInPrincipalId, cActionRequest.getGroupId() ))) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
   public GlobalVariableService getGlobalVariableService() {
@@ -230,5 +333,29 @@ public class ProposalDevelopmentSubmitController extends
 
     public void setWizardControllerService(WizardControllerService wizardControllerService) {
         this.wizardControllerService = wizardControllerService;
+    }
+
+    public WorkflowDocumentService getKradWorkflowDocumentService() {
+        return kradWorkflowDocumentService;
+    }
+
+    public void setKradWorkflowDocumentService(WorkflowDocumentService kradWorkflowDocumentService) {
+        this.kradWorkflowDocumentService = kradWorkflowDocumentService;
+    }
+
+    public WorkflowDocumentActionsService getWorkflowDocumentActionsService() {
+        return workflowDocumentActionsService;
+    }
+
+    public void setWorkflowDocumentActionsService(WorkflowDocumentActionsService workflowDocumentActionsService) {
+        this.workflowDocumentActionsService = workflowDocumentActionsService;
+    }
+
+    public GroupService getGroupService() {
+        return groupService;
+    }
+
+    public void setGroupService(GroupService groupService) {
+        this.groupService = groupService;
     }
 }
