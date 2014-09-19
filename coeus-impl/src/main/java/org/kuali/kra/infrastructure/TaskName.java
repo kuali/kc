@@ -31,7 +31,6 @@ public interface TaskName {
     /*
      * Proposal Tasks.
      */
-    public static final String MODIFY_PROPOSAL = "modifyProposal";
     public static final String VIEW_PROPOSAL = "viewProposal";
     public static final String PRINT_PROPOSAL = "printProposal";
     public static final String SUBMIT_TO_SPONSOR = "submitToSponsor";

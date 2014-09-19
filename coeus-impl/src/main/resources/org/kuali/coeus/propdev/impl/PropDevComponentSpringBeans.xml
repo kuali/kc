@@ -161,11 +161,6 @@
         <property name="groupName" value="proposal" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.coeus.propdev.impl.core.ModifyProposalAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="modifyProposal" />
-                    <property name="requiresWritableDoc" value="true" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
-                </bean>
                 <bean class="org.kuali.coeus.propdev.impl.core.ViewProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="viewProposal" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
@@ -311,18 +306,6 @@
         </property>
     </bean>
 
-    <bean id="proposalDevelopmentWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction" />
-        <property name="mappings">
-            <map>
-                <entry key="save">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="modifyProposal" />
-                    </bean>
-                </entry>
-            </map>
-        </property>
-    </bean>
 
     <bean id="proposalGrantsGovWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
         <property name="classname" value="org.kuali.coeus.propdev.impl.s2s.ProposalDevelopmentGrantsGovAction" />
@@ -331,34 +314,6 @@
                 <entry key="printForms">
                     <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
                         <property name="taskName" value="printProposal" />
-                    </bean>
-                </entry>
-            </map>
-        </property>
-    </bean>
-
-    <bean id="proposalKeyPersonnelWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.coeus.propdev.impl.person.ProposalDevelopmentKeyPersonnelAction" />
-        <property name="mappings">
-            <map>
-                <entry key="addCertificationQuestion">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="modifyProposal" />
-                    </bean>
-                </entry>
-                <entry key="removeCertificationQuestion">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="modifyProposal" />
-                    </bean>
-                </entry>
-                <entry key="addUnitDetails">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="modifyProposal" />
-                    </bean>
-                </entry>
-                <entry key="removeUnitDetails">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="modifyProposal" />
                     </bean>
                 </entry>
             </map>
@@ -861,6 +816,6 @@
         		<entry key="rateClassTypeCode" value="O"/>
         	</map>
         </property>
-    </bean>        
-    
+    </bean>
+
 </beans>

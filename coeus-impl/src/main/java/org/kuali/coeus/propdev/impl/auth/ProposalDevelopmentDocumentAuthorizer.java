@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.auth;
 
 import org.kuali.coeus.common.framework.auth.KcKradTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
@@ -27,6 +28,9 @@ import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
@@ -52,12 +56,12 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     private TaskAuthorizationService taskAuthenticationService;
     
     private KcAuthorizationService kcAuthorizationService;
-    
-    protected  TaskAuthorizationService getTaskAuthenticationService (){
-        if (taskAuthenticationService == null)
-            taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthenticationService;
-    }
+
+    private UnitAuthorizationService unitAuthorizationService;
+
+    private KcWorkflowService kcWorkflowService;
+
+    private KcDocumentRejectionService kcDocumentRejectionService;
 
     @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
@@ -293,15 +297,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     
     @Override
     public boolean canEdit(Document document, Person user) {
-        ProposalDevelopmentDocument proposalDocument = (ProposalDevelopmentDocument) document;
-        String proposalStateTypeCode = "";
-        if (proposalDocument.getDevelopmentProposal().getProposalState() != null){
-            proposalStateTypeCode = proposalDocument.getDevelopmentProposal().getProposalState().getCode();
-        }
-        if(proposalStateTypeCode.equalsIgnoreCase(ProposalState.CANCELED) || proposalStateTypeCode.equalsIgnoreCase(ProposalState.DISAPPROVED)){
-            return false;
-        } 
-        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.MODIFY_PROPOSAL);
+        return isAuthorizedToModify(document, user);
     }
     
     @Override
@@ -404,9 +400,48 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         return true;
     }
 
+    protected boolean isAuthorizedToModify(Document document, Person user) {
+
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+        final DevelopmentProposal proposal = pdDocument.getDevelopmentProposal();
+
+        if (!isEditableState(proposal.getProposalStateTypeCode())) {
+            return false;
+        }
+
+        final String proposalNbr = proposal.getProposalNumber();
+
+        final boolean hasPermission;
+        if (proposalNbr == null) {
+            String unitNumber = proposal.getOwnedByUnitNumber();
+
+            // If the unit number is not specified, we will let the save operation continue because it
+            // will fail with an error.  But if the user tries to save a proposal for a wrong unit, then
+            // we will indicate that the user does not have permission to do that.
+            hasPermission = (unitNumber != null && getUnitAuthorizationService().hasPermission(user.getPrincipalId(), unitNumber, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL)
+                    || unitNumber == null);
+        } else {
+            /*
+             * After the initial save, the proposal can only be modified if it is not in workflow
+             * and the user has the require permission.
+             */
+            final boolean hasBeenRejected = getKcDocumentRejectionService().isDocumentOnInitialNode(document);
+            hasPermission = !pdDocument.isViewOnly() &&
+                    getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_PROPOSAL) &&
+                    (!getKcWorkflowService().isInWorkflow(document) || hasBeenRejected) &&
+                    !proposal.getSubmitFlag();
+        }
+        return hasPermission;
+    }
+
+    protected boolean isEditableState(String propsalState) {
+        return !ProposalState.CANCELED.equals(propsalState) && !ProposalState.DISAPPROVED.equals(propsalState);
+    }
+
 	public KcAuthorizationService getKcAuthorizationService() {
-		if(kcAuthorizationService == null) 
-			kcAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
+		if (kcAuthorizationService == null) {
+            kcAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
+        }
 		return kcAuthorizationService;
 	}
 
@@ -414,4 +449,47 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
 		this.kcAuthorizationService = kcAuthorizationService;
 	}
 
+    protected  TaskAuthorizationService getTaskAuthenticationService (){
+        if (taskAuthenticationService == null) {
+            taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
+        }
+        return taskAuthenticationService;
+    }
+
+    public void setTaskAuthenticationService(TaskAuthorizationService taskAuthenticationService) {
+        this.taskAuthenticationService = taskAuthenticationService;
+    }
+
+    public UnitAuthorizationService getUnitAuthorizationService() {
+        if (unitAuthorizationService == null) {
+            unitAuthorizationService = KcServiceLocator.getService(UnitAuthorizationService.class);
+        }
+        return unitAuthorizationService;
+    }
+
+    public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
+        this.unitAuthorizationService = unitAuthorizationService;
+    }
+
+    public KcWorkflowService getKcWorkflowService() {
+        if (kcWorkflowService == null) {
+            kcWorkflowService = KcServiceLocator.getService(KcWorkflowService.class);
+        }
+        return kcWorkflowService;
+    }
+
+    public void setKcWorkflowService(KcWorkflowService kcWorkflowService) {
+        this.kcWorkflowService = kcWorkflowService;
+    }
+
+    public KcDocumentRejectionService getKcDocumentRejectionService() {
+        if (kcDocumentRejectionService == null) {
+            kcDocumentRejectionService = KcServiceLocator.getService(KcDocumentRejectionService.class);
+        }
+        return kcDocumentRejectionService;
+    }
+
+    public void setKcDocumentRejectionService(KcDocumentRejectionService kcDocumentRejectionService) {
+        this.kcDocumentRejectionService = kcDocumentRejectionService;
+    }
 }
