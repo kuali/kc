@@ -73,4 +73,5 @@
   <bean id="Kc-InlineEdit-InputField" parent="Kc-InlineEdit-InputField-parentBean"/>
   <bean id="Kc-InlineEdit-InputField-parentBean" abstract="true" parent="Uif-InputField"
   	p:additionalCssClasses="uif-inline"/>
+
 </beans>
