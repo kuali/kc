@@ -109,7 +109,7 @@
           p:promptText="Do you want to recieve future approval requests?"/>
 
     <bean id="PropDev-SubmitPage-SummaryTabGroup" parent="PropDev-SubmitPage-SummaryTabGroup-parentBean" />
-    <bean id="PropDev-SubmitPage-SummaryTabGroup-parentBean" abstract="true" parent="Uif-TabGroup">
+<bean id="PropDev-SubmitPage-SummaryTabGroup-parentBean" abstract="true" parent="Uif-TabGroup">
         <property name="items">
             <list>
              <bean parent="PropDev-SubmitPage-ProposalSummary" p:order="10" />
@@ -118,10 +118,12 @@
                 <bean parent="PropDev-SubmitPage-Questionnaire" p:render="@{#ViewHelper.isSummaryQuestionsPanelEnabled()}" p:order="40" />
                 <bean parent="PropDev-SubmitPage-SupplementalInfo" p:order="50" />
                 <bean parent="PropDev-SubmitPage-Attachments" p:render="@{#ViewHelper.isSummaryAttachmentsPanelEnabled()}" p:order="60" />
+                <bean parent="PropDev-SubmitPage-Keyword"  p:render="@{#ViewHelper.isSummaryKeywordsPanelEnabled()}" p:order="70" />
             </list>
         </property>
     </bean>
-    <bean id="PropDev-SubmitPage-ProposalSummary" parent="PropDev-SubmitPage-ProposalSummary-parentBean" />
+
+   <bean id="PropDev-SubmitPage-ProposalSummary" parent="PropDev-SubmitPage-ProposalSummary-parentBean" />
     <bean id="PropDev-SubmitPage-ProposalSummary-parentBean" abstract="true"
           parent="Uif-GridCondensedSection" p:headerText="Proposal Summary" p:fieldBindingObjectPath="document.developmentProposal">
         <property name="items">
@@ -216,8 +218,6 @@
         </property>
     </bean>
 
-
-
     <bean id="PropDev-SubmitPage-UnitCollectionGroup" parent="PropDev-SubmitPage-UnitCollectionGroup-parentBean"/>
     <bean id="PropDev-SubmitPage-UnitCollectionGroup-parentBean" abstract="true" parent="Uif-VerticalBoxGroup">
         <property name="items">
@@ -263,6 +263,20 @@
     <bean id="PropDev-SubmitPage-Attachments-parentBean" abstract="true"
           parent="PropDev-AttachmentsPage-Section" p:readOnly="true"/>
 
+   <bean id="PropDev-SubmitPage-Keyword" parent="PropDev-SubmitPage-Keyword-parentBean" />
+    <bean id="PropDev-SubmitPage-Keyword-parentBean" abstract="true" parent="Uif-TableCollectionSection"
+		p:headerText="Keywords" p:propertyName="document.developmentProposal.propScienceKeywords"
+		p:collectionObjectClass="org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword"
+		p:renderAddLine="false" p:layoutManager.renderSequenceField="false"
+		p:renderLineActions="false" p:pageSize="100"
+		p:layoutManager.richTable.disableTableSort="true"
+		p:layoutManager.richTable.showExportOption="false" p:readOnly="true">
+		<property name="items">
+			<list>
+			<bean parent="Uif-DataField" p:propertyName="scienceKeyword.description" p:order="10" />
+			</list>
+		</property>
+	</bean>
     <bean id="PropDev-SubmitPage-SupplementalInfo" parent="PropDev-SubmitPage-SupplementalInfo-parentBean" />
     <bean id="PropDev-SubmitPage-SupplementalInfo-parentBean" abstract="true"
           parent="Uif-TableCollectionSection"
