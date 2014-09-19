@@ -24,6 +24,7 @@ import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
@@ -33,8 +34,9 @@ import java.util.Map;
 public abstract class ProtocolSpecialReviewServiceImplBase implements ProtocolSpecialReviewService {
 
     private transient ProtocolFinderDao protocolFinderDao;
+    private DataObjectService dataObjectService;
 
-    
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void populateSpecialReview(SpecialReview specialReview) {
@@ -84,6 +86,23 @@ public abstract class ProtocolSpecialReviewServiceImplBase implements ProtocolSp
             specialReview.setLinkedToProtocol(true);
         }
     
+    }
+
+    // injected by spring
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public DevelopmentProposal getPropososalDevelopment(String proposalNumber) {
+        DevelopmentProposal dp = null;
+        if (proposalNumber != null) {
+            dp = getDataObjectService().find(DevelopmentProposal.class, proposalNumber);
+        }
+        return dp;
     }
 
     public ProtocolFinderDao getProtocolFinderDao() {
