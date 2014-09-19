@@ -28,19 +28,18 @@
 
     <bean id="grlImporter" abstract="true" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
 
-    <bean id="protocolFinderDao" parent="grlImporter" p:serviceName="protocolFinderDao" p:singleton="false" />
-    <bean id="iacucProtocolFinderDao" parent="grlImporter" p:serviceName="iacucProtocolFinderDao" />
-    <bean id="awardBudgetService" parent="grlImporter" p:serviceName="awardBudgetService" />
-    <bean id="awardAmountInfoService" parent="grlImporter" p:serviceName="awardAmountInfoService" />
-    <!-- making singleton false to prevent caching and avoid an NPE,
-         eventually the negotiation service will be part of common and this wont be needed -->
-    <bean id="negotiationService" parent="grlImporter" p:serviceName="negotiationService" p:singleton="false"/>
-    <bean id="subAwardService" parent="grlImporter" p:serviceName="subAwardService" />
-    <bean id="awardService" parent="grlImporter" p:serviceName="awardService" p:singleton="false"/>
-    <bean id="institutionalProposalService" parent="grlImporter" p:serviceName="institutionalProposalService" p:singleton="false"/>
     <bean id="krmsCacheAdminService" parent="grlImporter" p:serviceName="krmsCacheAdminService" />
     <bean id="errorReporter" parent="grlImporter" p:serviceName="errorReporter"/>
     <bean id="globalVariableService" parent="grlImporter" p:serviceName="globalVariableService" />
     <bean id="dictionaryValidationService" parent="grlImporter" p:serviceName="dictionaryValidationService"/>
 
+    <!-- making singleton false to prevent caching and avoid an NPE, this indicates a dependency issue across modules -->
+    <bean id="awardAmountInfoService" parent="grlImporter" p:serviceName="awardAmountInfoService" p:singleton="false" />
+    <bean id="negotiationService" parent="grlImporter" p:serviceName="negotiationService" p:singleton="false"/>
+    <bean id="subAwardService" parent="grlImporter" p:serviceName="subAwardService" p:singleton="false" />
+    <bean id="awardService" parent="grlImporter" p:serviceName="awardService" p:singleton="false"/>
+    <bean id="institutionalProposalService" parent="grlImporter" p:serviceName="institutionalProposalService" p:singleton="false"/>
+    <bean id="protocolFinderDao" parent="grlImporter" p:serviceName="protocolFinderDao" p:singleton="false" />
+    <bean id="iacucProtocolFinderDao" parent="grlImporter" p:serviceName="iacucProtocolFinderDao" p:singleton="false"/>
+    <bean id="awardBudgetService" parent="grlImporter" p:serviceName="awardBudgetService" p:singleton="false" />
 </beans>
