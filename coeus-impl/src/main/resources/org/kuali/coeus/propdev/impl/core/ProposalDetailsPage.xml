@@ -114,7 +114,6 @@
 				<bean parent="PropDev-DetailsPage-ProjectDatesField" 
 					p:order="40" />
 				<bean parent="Uif-InputField" p:propertyName="title"
-					p:helperText="Give this proposal a title. Be detailed but concise."
 					p:order="50" />
 				<bean parent="PropDev-DetailsPage-SponsorField" 
 					p:order="60" />
@@ -157,8 +156,7 @@
 		parent="PropDev-DetailsPage-SponsorField-Defaults-parentBean" />
 	<bean id="PropDev-DetailsPage-SponsorField-Defaults-parentBean"
 		abstract="true" parent="Uif-InputField"
-		p:additionalCssClasses="transparentField"
-        p:helperText="Type your sponsor name in the field and select from the provided options, enter your sponsor code if known, or click on the search icon for more search options.">
+		p:additionalCssClasses="transparentField">
         <property name="quickfinder">
 			<bean parent="Uif-QuickFinder" p:returnByScript="true"
 				p:hideCriteriaOnSearch="true" />
@@ -196,7 +194,6 @@
 	<bean id="PropDev-DetailsPage-CurrentAwardNumberField" parent="PropDev-DetailsPage-CurrentAwardNumberField-parentBean" />
 	<bean id="PropDev-DetailsPage-CurrentAwardNumberField-parentBean"
 		abstract="true" parent="Uif-InputField" p:propertyName="currentAwardNumber"
-		p:helperText="Enter the award ID for this proposal."
 		p:progressiveRender="@{#fp.proposalTypeCode != '1'}">
 		<property name="quickfinder">
 			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kra.award.home.Award"
@@ -220,7 +217,6 @@
 	<bean id="PropDev-DetailsPage-ContinuedFromField" parent="PropDev-DetailsPage-ContinuedFromField-parentBean" />
 	<bean id="PropDev-DetailsPage-ContinuedFromField-parentBean"
 		abstract="true" parent="Uif-InputField" p:propertyName="continuedFrom"
-		p:helperText="Enter the original institutional ID for this proposal."
 		p:progressiveRender="@{#fp.proposalTypeCode != '1'}">
 		<property name="quickfinder">
 			<bean parent="Uif-QuickFinder"
