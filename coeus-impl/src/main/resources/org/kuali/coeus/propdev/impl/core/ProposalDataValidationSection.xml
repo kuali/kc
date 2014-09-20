@@ -25,7 +25,8 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
     <bean id="PropDev-DataValidationSection" parent="PropDev-DataValidationSection-parentBean"/>
-    <bean id="PropDev-DataValidationSection-parentBean" parent="Uif-DialogGroup" p:resetDataOnRefresh="true">
+    <bean id="PropDev-DataValidationSection-parentBean" parent="Uif-DialogGroup" p:resetDataOnRefresh="true"
+            p:dialogCssClass="modal-lg">
         <property name="header">
             <bean parent="Uif-DialogHeader" p:headerText="Data Validation">
                 <property name="rightGroup">
