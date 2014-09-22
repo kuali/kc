@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 @Service("kcKradTransactionalDocumentViewAuthorizerBase")
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class KcKradTransactionalDocumentViewAuthorizerBase extends TransactionalDocumentViewAuthorizerBase implements KcKradTransactionalDocumentViewAuthorizer {
 
 	private static final long serialVersionUID = 1L;
