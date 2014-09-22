@@ -15,6 +15,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,10 @@ public class SubmissionInfoServiceImpl implements SubmissionInfoService {
     @Autowired
     @Qualifier("sponsorHierarchyService")
     private SponsorHierarchyService sponsorHierarchyService;
+
+    @Autowired
+    @Qualifier("legacyDataAdapter")
+    private LegacyDataAdapter legacyDataAdapter;
 
 
     @Override
@@ -186,8 +191,7 @@ public class SubmissionInfoServiceImpl implements SubmissionInfoService {
         else if (StringUtils.isNotEmpty(continuedFromProposalNumber)) {
             HashMap<String, String> valueMap = new HashMap<String, String>();
             valueMap.put("proposalNumber", continuedFromProposalNumber);
-            List<InstitutionalProposal> proposals = getDataObjectService().findMatching(InstitutionalProposal.class,
-                    QueryByCriteria.Builder.andAttributes(valueMap).build()).getResults();
+            List<InstitutionalProposal> proposals = (List<InstitutionalProposal>) getLegacyDataAdapter().findMatching(InstitutionalProposal.class,valueMap);
             if (proposals != null && !proposals.isEmpty()) {
                 ip = proposals.get(0);
             }
@@ -330,5 +334,11 @@ public class SubmissionInfoServiceImpl implements SubmissionInfoService {
         this.sponsorHierarchyService = sponsorHierarchyService;
     }
 
+    public LegacyDataAdapter getLegacyDataAdapter() {
+        return legacyDataAdapter;
+    }
 
+    public void setLegacyDataAdapter(LegacyDataAdapter legacyDataAdapter) {
+        this.legacyDataAdapter = legacyDataAdapter;
+    }
 }
