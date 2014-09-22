@@ -32,7 +32,6 @@ public interface TaskName {
      */
     public static final String ADD_BUDGET = "addBudget";
     public static final String OPEN_BUDGETS = "openBudgets";
-    public static final String MODIFY_PROPOSAL_ROLES = "modifyProposalRoles";
     public static final String ADD_NARRATIVE = "addNarrative";
     public static final String CERTIFY = "certify";
     public static final String ALTER_PROPOSAL_DATA = "alterProposalData";

@@ -157,7 +157,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             editModes.add("modifyProposalBudget");
         }
                 
-        if (canExecuteTask(userId, doc, TaskName.MODIFY_PROPOSAL_ROLES)) {
+        if (isAuthorizedToModifyProposalRoles(doc, user)) {
             editModes.add("modifyPermissions");
         }
                 
@@ -386,6 +386,46 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             return isKeyPersonnel || canCertify;
         }
         return true;
+    }
+
+    protected boolean isAuthorizedToModifyProposalRoles(Document document, Person user) {
+        return (hasFullAuthorization(document, user) || hasAddViewerAuthorization(document, user));
+    }
+
+    /**
+     * This method checks if the user has full (pre-workflow/pre-submission) proposal access maintenance rights
+     * @param user the user requesting access
+     * @param document the document object
+     * @return true if the user has full (pre-workflow/pre-submission) proposal access maintenance rights
+     */
+    protected boolean hasFullAuthorization(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+        return !pdDocument.isViewOnly()
+                && getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MAINTAIN_PROPOSAL_ACCESS)
+                && !getKcWorkflowService().isInWorkflow(pdDocument)
+                && !pdDocument.getDevelopmentProposal().getSubmitFlag();
+    }
+
+    /**
+     * This method checks if the user has rights to add proposal viewers.
+     * @param user the user requesting access
+     * @param document the document object
+     */
+    protected boolean hasAddViewerAuthorization (Document document, Person user) {
+        boolean hasPermission = false;
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+
+        if (getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.ADD_PROPOSAL_VIEWER)
+                && getKcWorkflowService().isInWorkflow(pdDocument)) {
+            // once workflowed (OSP Administrator and Aggregator have ADD_PROPOSAL_VIEWER permission)
+            hasPermission = true;
+        } else if (getKcWorkflowService().hasWorkflowPermission(user.getPrincipalId(), pdDocument)
+                && getKcWorkflowService().isEnRoute(pdDocument)) {
+            // Approvers (users in workflow) have permission while EnRoute
+            hasPermission = true;
+        }
+
+        return hasPermission;
     }
 
     protected boolean isAuthorizedToCreate(Document document, Person user) {

@@ -191,11 +191,6 @@
                     <property name="kcWorkflowService" ref="kcWorkflowService" />
                     <property name="proposalHierarchyService" ref="proposalHierarchyService" />
                 </bean>
-                <bean class="org.kuali.coeus.propdev.impl.docperm.ModifyProposalPermissionsAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="modifyProposalRoles" />
-                    <property name="requiresWritableDoc" value="true" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
-                </bean>
                 <bean class="org.kuali.coeus.propdev.impl.action.ProposalHierarchyChildWorkflowActionAuthorizer"
                       parent="parentProposalAuthorizer">
                     <property name="taskName" value="hierarchyChildWorkflowAction" />
@@ -374,29 +369,6 @@
                 <entry key="copyBudgetVersion">
                     <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
                         <property name="taskName" value="addBudget" />
-                    </bean>
-                </entry>
-            </map>
-        </property>
-    </bean>
-
-    <bean id="proposalPermissionsWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.coeus.propdev.impl.docperm.ProposalDevelopmentPermissionsAction" />
-        <property name="mappings">
-            <map>
-                <entry key="addProposalUser">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="modifyProposalRoles" />
-                    </bean>
-                </entry>
-                <entry key="deleteProposalUser">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="modifyProposalRoles" />
-                    </bean>
-                </entry>
-                <entry key="setEditRoles">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="modifyProposalRoles" />
                     </bean>
                 </entry>
             </map>
