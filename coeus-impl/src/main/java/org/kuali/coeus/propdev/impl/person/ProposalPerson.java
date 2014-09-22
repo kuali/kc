@@ -1646,6 +1646,9 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
     }
 
 	public ProposalPersonQuestionnaireHelper getQuestionnaireHelper() {
+        if (questionnaireHelper != null && questionnaireHelper.getAnswerHeaders() == null){
+            questionnaireHelper.populateAnswers();
+        }
 		return questionnaireHelper;
 	}
 

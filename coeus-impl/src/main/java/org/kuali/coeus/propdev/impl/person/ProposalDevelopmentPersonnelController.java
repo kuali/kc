@@ -85,7 +85,6 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     		HttpServletRequest request, HttpServletResponse response) throws Exception {
     	ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
     	ModelAndView mv = super.save(form);
-    	refreshPersonCertificaitonAnswerHeaders(pdForm);
     	return mv;
     }
 
@@ -134,7 +133,6 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        getKeyPersonnelService().addProposalPerson(newProposalPerson, form.getProposalDevelopmentDocument());
        Collections.sort(form.getDevelopmentProposal().getProposalPersons(), new ProposalPersonComparator());
        form.getAddKeyPersonHelper().reset();
-       refreshPersonCertificaitonAnswerHeaders(form);
        return getRefreshControllerService().refresh(form);
    }
 
@@ -254,14 +252,6 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     public void setKeyPersonnelService(KeyPersonnelService keyPersonnelService) {
         this.keyPersonnelService = keyPersonnelService;
     }
-   
-    public void refreshPersonCertificaitonAnswerHeaders(ProposalDevelopmentDocumentForm pdForm) {
-		for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
-			ProposalPersonQuestionnaireHelper qh = new ProposalPersonQuestionnaireHelper(person);
-			qh.populateAnswers();
-			person.setQuestionnaireHelper(qh);
-	    }
-	}
 
     public WizardControllerService getWizardControllerService() {
         return wizardControllerService;
