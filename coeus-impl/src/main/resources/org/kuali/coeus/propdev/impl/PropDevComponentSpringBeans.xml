@@ -176,15 +176,6 @@
                     <property name="permission" value="Certify" />
                     <property name="requiresWritableDoc" value="true" />
                 </bean>
-                <bean class="org.kuali.coeus.propdev.impl.action.ProposalHierarchyChildWorkflowActionAuthorizer"
-                      parent="parentProposalAuthorizer">
-                    <property name="taskName" value="hierarchyChildWorkflowAction" />
-                </bean>
-                <bean class="org.kuali.coeus.propdev.impl.action.ProposalHierarchyChildWorkflowActionAuthorizer"
-                      parent="parentProposalAuthorizer">
-                    <property name="taskName" value="hierarchyChildAcknowledgeAction" />
-                    <property name="proposalHierarchyService" ref="proposalHierarchyService" />
-                </bean>
                 <bean class="org.kuali.coeus.propdev.impl.action.RejectProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="rejectProposal" />
                     <property name="requiresWritableDoc" value="true" />
@@ -369,34 +360,9 @@
                         <property name="taskName" value="submitToWorkflow" />
                     </bean>
                 </entry>
-                <entry key="approve">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="hierarchyChildWorkflowAction" />
-                    </bean>
-                </entry>
                 <entry key="reject">
                     <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
                         <property name="taskName" value="rejectProposal" />
-                    </bean>
-                </entry>
-                <entry key="disapprove">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="hierarchyChildWorkflowAction" />
-                    </bean>
-                </entry>
-                <entry key="blanketApprove">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="hierarchyChildWorkflowAction" />
-                    </bean>
-                </entry>
-                <entry key="acknowledge">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="hierarchyChildAcknowledgeAction" />
-                    </bean>
-                </entry>
-                <entry key="fyi">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="hierarchyChildWorkflowAction" />
                     </bean>
                 </entry>
             </map>

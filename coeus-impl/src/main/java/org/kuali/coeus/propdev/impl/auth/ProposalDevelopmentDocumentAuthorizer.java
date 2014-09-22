@@ -314,12 +314,12 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     
     @Override
     public boolean canRoute(Document document, Person user) {
-        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.SUBMIT_TO_WORKFLOW) && canExecuteProposalTask(user.getPrincipalName(), (ProposalDevelopmentDocument) document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
+        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.SUBMIT_TO_WORKFLOW) && isAuthorizedToHierarchyChildWorkflowAction(document, user);
     }
     
     @Override
     public boolean canAnnotate(Document document, Person user) {
-        return canRoute(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
+        return canRoute(document, user) && isAuthorizedToHierarchyChildWorkflowAction(document, user);
     }
     
     @Override
@@ -329,22 +329,22 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     
     @Override
     public boolean canApprove( Document document, Person user ) {
-        return super.canApprove(document,user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
+        return super.canApprove(document,user) && isAuthorizedToHierarchyChildWorkflowAction(document, user);
     }
     
     @Override
     public boolean canDisapprove( Document document, Person user ) {
-        return super.canDisapprove(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
+        return super.canDisapprove(document, user) && isAuthorizedToHierarchyChildWorkflowAction(document, user);
     }
     
     @Override
     public boolean canBlanketApprove( Document document, Person user ) {
-        return super.canBlanketApprove(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
+        return super.canBlanketApprove(document, user) && isAuthorizedToHierarchyChildWorkflowAction(document, user);
     }
     
     @Override
     public boolean canAcknowledge( Document document, Person user ) {
-        return super.canAcknowledge(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_ACKNOWLEDGE_ACTION);
+        return super.canAcknowledge(document, user) && isAuthorizedToHierarchyChildAckWorkflowAction(document, user);
     }
     
     protected boolean isBudgetComplete(DevelopmentProposal developmentProposal) {
@@ -373,7 +373,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
 
     @Override
     public boolean canFyi( Document document, Person user ) {
-        return super.canFyi(document, user) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
+        return super.canFyi(document, user) && isAuthorizedToHierarchyChildWorkflowAction(document, user);
     }
 
     @Override
@@ -394,6 +394,44 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             return isKeyPersonnel || canCertify;
         }
         return true;
+    }
+
+    public boolean isAuthorizedToHierarchyChildWorkflowAction(Document document, Person user) {
+        boolean authorized = true;
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+
+        if(pdDocument.getDevelopmentProposal().isChild() ) {
+            try {
+                final WorkflowDocument parentWDoc  = getProposalHierarchyService().getParentWorkflowDocument(pdDocument);
+                    if(!parentWDoc.isInitiated()) {
+                        authorized = false;
+                    }
+            } catch (ProposalHierarchyException e) {
+                LOG.error( String.format( "Could not find parent workflow document for proposal document number:%s, which claims to be a child. Returning false.", pdDocument.getDocumentHeader().getDocumentNumber()), e);
+                authorized = false;
+            }
+        }
+
+        return authorized;
+    }
+
+    public boolean isAuthorizedToHierarchyChildAckWorkflowAction(Document document, Person user) {
+        boolean authorized = true;
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+
+        if(pdDocument.getDevelopmentProposal().isChild() ) {
+            try {
+                WorkflowDocument parentWDoc  = getProposalHierarchyService().getParentWorkflowDocument(pdDocument);
+                if((!parentWDoc.isAcknowledgeRequested()) || parentWDoc.isInitiated()) {
+                    authorized = false;
+                }
+            } catch (ProposalHierarchyException e) {
+                LOG.error( String.format( "Could not find parent workflow document for proposal document number:%s, which claims to be a child. Returning false.", pdDocument.getDocumentHeader().getDocumentNumber()),e);
+                authorized = false;
+            }
+        }
+
+        return authorized;
     }
 
     protected boolean isAuthorizedToMaintainProposalHierarchy(Document document, Person user) {

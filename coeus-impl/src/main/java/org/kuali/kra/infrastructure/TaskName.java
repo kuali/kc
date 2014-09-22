@@ -35,8 +35,6 @@ public interface TaskName {
     public static final String ADD_NARRATIVE = "addNarrative";
     public static final String CERTIFY = "certify";
     public static final String SUBMIT_TO_WORKFLOW = "submitToWorkflow";
-    public static final String PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION="hierarchyChildWorkflowAction";
-    public static final String PROPOSAL_HIERARCHY_CHILD_ACKNOWLEDGE_ACTION="proposal.hierarchyChildAcknowledgeAction";
     public static final String PROPOSAL_ADD_NOTE_ATTACHMENT = "proposalAddNoteAttachment";
     public static final String ANSWER_PROPOSAL_QUESTIONNAIRE = "answerProposalQuestionnaire";
     public static final String DELETE_PROPOSAL = "deleteProposal";
