@@ -50,7 +50,9 @@
 			<bean parent="Uif-HeaderRightGroup">
 				<property name="items">
 					<list>
-						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="View Summary" p:order="10" />
+						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="View Summary"
+                              p:actionScript="showDialog('PropBudget-CostSharing-Summary')"
+                              p:order="10" />
 					</list>
 				</property>
 			</bean>
@@ -115,4 +117,54 @@
 			</bean>
 		</property>
 	</bean>
+
+    <bean id="PropBudget-CostSharing-Summary" parent="PropBudget-CostSharing-Summary-parentBean" />
+      <bean id="PropBudget-CostSharing-Summary-parentBean"
+              abstract="true" parent="Uif-DialogGroup" p:headerText="Cost Sharing Summary By Period">
+              <property name="items">
+                      <list>
+                              <ref bean="PropBudget-CostSharing-SummaryTable" />
+                      </list>
+              </property>
+              <property name="footer">
+                      <bean parent="Uif-FooterBase">
+                              <property name="items">
+                                      <list>
+                                          <bean parent="Uif-DialogDismissButton" p:actionLabel="Close"
+                                                p:order="10" />
+                                      </list>
+                              </property>
+                      </bean>
+              </property>
+      </bean>
+
+      <bean id="PropBudget-CostSharing-SummaryTable" parent="PropBudget-CostSharing-SummaryTable-parentBean" />
+      <bean id="PropBudget-CostSharing-SummaryTable-parentBean"
+              abstract="true" parent="Uif-TableCollectionSection" p:renderAddLine="false"
+              p:propertyName="budget.fiscalYearCostShareTotals"
+              p:collectionObjectClass="org.kuali.coeus.common.budget.framework.core.Budget.FiscalYearSummary"
+              p:renderLineActions="false" p:layoutManager.renderSequenceField="false">
+              <property name="layoutManager.richTable.templateOptions">
+                      <map>
+                              <entry key="sDom" value="tip" />
+                              <entry key="bRetrieve" value="true" />
+                              <entry key="bPaginate" value="false" />
+                              <entry key="bInfo" value="false" />
+                      </map>
+              </property>
+              <property name="items">
+                      <list>
+                          <bean parent="Uif-MessageField" p:messageText="Period:@{#line.assignedBudgetPeriod.budgetPeriod}:@{#line.assignedBudgetPeriod.dateRangeLabel}" p:fieldLabel.labelText="Period" p:order="10" />
+                          <bean parent="Uif-DataField-condensedTable" p:propertyName="costShare"
+                                      p:order="20" p:label="Amount" />
+                      </list>
+              </property>
+              <property name="layoutManager.columnCalculations">
+                      <list>
+                              <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="costShare" />
+                      </list>
+              </property>
+              <property name="layoutManager.showPageTotal" value="false"/>
+      </bean>
+
 </beans>
