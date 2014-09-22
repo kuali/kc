@@ -383,6 +383,9 @@ public abstract class ProposalDevelopmentControllerBase {
             for (AnswerHeader answerHeader : pdForm.getQuestionnaireHelper().getAnswerHeaders()) {
                 getLegacyDataAdapter().save(answerHeader);
             }
+            for (AnswerHeader answerHeader : pdForm.getS2sQuestionnaireHelper().getAnswerHeaders()) {
+                getLegacyDataAdapter().save(answerHeader);
+            }
         }
 	}
 
