@@ -166,11 +166,6 @@
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
                     <property name="unitAuthorizationService" ref="unitAuthorizationService" />
                 </bean>
-                <bean class="org.kuali.coeus.propdev.impl.auth.task.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="maintainProposalHierarchy" />
-                    <property name="permission" value="Maintain ProposalHierarchy" />
-                    <property name="requiresWritableDoc" value="true" />
-                </bean>
                 <bean class="org.kuali.coeus.propdev.impl.core.SubmitToWorkflowAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="submitToWorkflow" />
                     <property name="requiresWritableDoc" value="true" />
@@ -651,9 +646,6 @@
                     <property name="taskName" value="modifyProposalBudgetRates" />
                     <property name="requiresWritableDoc" value="true" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
-                </bean>
-                <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ProposalHierarchyBudgetAuthorizer" parent="parentBudgetAuthorizer">
-                    <property name="taskName" value="maintainProposalHierarchy" />
                 </bean>
                 <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ViewProposalBudgetPersonSalaryAuthorizer" parent="parentBudgetAuthorizer">
                     <property name="taskName" value="viewPropPersonInstSalaries" />

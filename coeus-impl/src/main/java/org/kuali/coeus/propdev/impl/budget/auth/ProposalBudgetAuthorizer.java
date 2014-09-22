@@ -92,7 +92,7 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
             editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
         }
         
-        if (canExecuteBudgetTask(userId, budget, TaskName.MAINTAIN_PROPOSAL_HIERARCHY)) {
+        if (isAuthorizedToMaintainProposalHierarchy(parentDocument, user)) {
             editModes.add("maintainProposalHierarchy");
         }
         
@@ -201,6 +201,11 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
     protected boolean isBudgetComplete(Budget budget) {
 		String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
 		return StringUtils.equals(budgetStatusCompleteCode, budget.getBudgetStatus());
+    }
+
+    protected boolean isAuthorizedToMaintainProposalHierarchy(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+        return !pdDocument.isViewOnly() && getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MAINTAIN_PROPOSAL_HIERARCHY);
     }
 
     protected boolean isAuthorizedToPrintProposal(Document document, Person user) {

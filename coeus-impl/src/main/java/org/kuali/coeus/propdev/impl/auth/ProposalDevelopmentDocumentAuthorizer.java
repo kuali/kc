@@ -196,7 +196,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         if (isAuthorizedToSubmitToSponsor(doc, user)) {
             editModes.add("submitToSponsor");
         }
-        if (canExecuteTask(userId, doc, TaskName.MAINTAIN_PROPOSAL_HIERARCHY)) {
+        if (isAuthorizedToMaintainProposalHierarchy(doc, user)) {
             editModes.add("maintainProposalHierarchy");
         }
         
@@ -394,6 +394,11 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             return isKeyPersonnel || canCertify;
         }
         return true;
+    }
+
+    protected boolean isAuthorizedToMaintainProposalHierarchy(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+        return getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MAINTAIN_PROPOSAL_HIERARCHY);
     }
 
     protected boolean isAuthorizedToAlterProposalData(Document document, Person user) {
