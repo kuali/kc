@@ -111,7 +111,7 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.iacuc.IacucProcedureCategoryCustomData" table="IACUC_PROC_CAT_CUSTOM_DATA">
-		<field-descriptor name="id" column="ID" jdbc-type="INTEGER" primarykey="true"  sequence-name="SEQ_IACUC_PROC_CAT_CUST_DAT_ID" autoincrement="true" />
+		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true"  sequence-name="SEQ_IACUC_PROC_CAT_CUST_DAT_ID" autoincrement="true" />
 		<field-descriptor name="procedureCategoryCode" column="PROCEDURE_CATEGORY_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="dataLength" column="DATA_LENGTH" jdbc-type="INTEGER"/>
 		<field-descriptor name="dataTypeCode" column="DATA_TYPE_CODE" jdbc-type="VARCHAR"/>
