@@ -15,8 +15,6 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="topTab" required="true" type="java.lang.Boolean" description="is this the top tab on the page" %>
-<c:set var="permissionsUserAttributes" value="${DataDictionary.PermissionsUser.attributes}" />
-<c:set var="modifyPermissions" value="${KualiForm.disclosureActionHelper.maintainReviewers}" />
 <c:set var="usageSectionId" value="<%=org.kuali.kra.infrastructure.Constants.COI_NOTEPAD_DISCLOSURE_REVIEWER_SECTION_ID%>" />
 <c:if test="${topTab == true}">
 	<%--instead of using kul:tabTop tag just define the workarea div - this gets around an unbalanced tag problem when using conditional tags --%>
