@@ -91,7 +91,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
                 setPermissions(userId, proposalDoc, editModes);
             }
-            else if (canExecuteProposalTask(userId, proposalDoc, TaskName.VIEW_PROPOSAL)) {
+            else if (isAuthorizedToView(document, user)) {
                 editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
                 setPermissions(userId, proposalDoc, editModes);
             }
@@ -280,7 +280,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         if (proposalDocument.getDevelopmentProposal().getProposalNumber() == null) {
             return canCreateProposal(user);
         }
-        return canExecuteProposalTask(user.getPrincipalId(), proposalDocument, TaskName.VIEW_PROPOSAL);
+        return isAuthorizedToView(document, user);
     }
     
     /**
@@ -372,7 +372,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     
     @Override
     public boolean canViewNoteAttachment(Document document, String attachmentTypeCode, Person user) {
-        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.VIEW_PROPOSAL);
+        return isAuthorizedToView(document, user);
     }
 
     @Override
@@ -398,6 +398,12 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             return isKeyPersonnel || canCertify;
         }
         return true;
+    }
+
+    protected boolean isAuthorizedToView(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+        return getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.VIEW_PROPOSAL)
+                || getKcWorkflowService().hasWorkflowPermission(user.getPrincipalId(), pdDocument);
     }
 
     protected boolean isAuthorizedToModify(Document document, Person user) {

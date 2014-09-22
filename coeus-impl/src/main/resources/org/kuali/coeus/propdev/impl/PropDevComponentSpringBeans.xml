@@ -161,10 +161,6 @@
         <property name="groupName" value="proposal" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.coeus.propdev.impl.core.ViewProposalAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="viewProposal" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
-                </bean>
                 <bean class="org.kuali.coeus.propdev.impl.core.AddNoteProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="proposalAddNoteAttachment" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
