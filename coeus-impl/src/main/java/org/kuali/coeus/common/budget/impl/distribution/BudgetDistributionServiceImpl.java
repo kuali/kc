@@ -64,9 +64,8 @@ public class BudgetDistributionServiceImpl implements BudgetDistributionService 
 
 
     protected boolean isBudgetFinalAndComplete(Budget budget) {
-        String budgetStatusCompleteValue = this.parameterService.getParameterValueAsString(
-                Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
-        return (budget.getFinalVersionFlag() && budgetStatusCompleteValue.equals(budget.getBudgetStatus()));
+    	//returning false as PD budget has moved and final and compelte are only applicable to PD
+    	return false;
     }
     
     @Override

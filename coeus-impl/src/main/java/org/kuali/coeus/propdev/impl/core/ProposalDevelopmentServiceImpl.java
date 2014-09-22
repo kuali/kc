@@ -261,16 +261,12 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
     
     protected ProposalDevelopmentBudgetExt getBudgetVersionOverview(String proposalNumber) {
-    	ProposalDevelopmentBudgetExt currentBudget = null;
-        Collection<ProposalDevelopmentBudgetExt> currentBudgets = getDataObjectService().findMatching(ProposalDevelopmentBudgetExt.class,
-                QueryByCriteria.Builder.forAttribute("PROPOSAL_NUMBER", proposalNumber).build()).getResults();
-        for (ProposalDevelopmentBudgetExt budgetVersionOverview:currentBudgets) {
-            if (budgetVersionOverview.isFinalVersionFlag()) {
-                currentBudget = budgetVersionOverview;
-                break;
-            }
+        DevelopmentProposal proposal = getDataObjectService().findUnique(DevelopmentProposal.class,
+                QueryByCriteria.Builder.forAttribute("PROPOSAL_NUMBER", proposalNumber).build());
+        if (proposal != null) {
+        	return proposal.getFinalBudget();
         }
-        return currentBudget;
+        return null;
     }
 
     public String getDataOverrideLookupDisplayReturnValue(String lookupClassName) {
@@ -734,7 +730,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     @Override
     public void loadDocument(ProposalDevelopmentDocument document) {
         getKeyPersonnelService().populateDocument(document);
-        getBudgetService().setBudgetStatuses(document);
     }
 
     private class S2sOppFormsComparator implements Comparator<S2sOppForms> {

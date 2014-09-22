@@ -119,7 +119,6 @@ public class AwardBudgetServiceImplTest extends KcIntegrationTestBase {
                 ProposalDevelopmentBudgetExt temp = new ProposalDevelopmentBudgetExt();
                 temp.add(new BudgetPeriod());
                 temp.add(new BudgetPeriod());
-                temp.setFinalVersionFlag(true);
                 return (T) temp;
             } else {
                 return null;

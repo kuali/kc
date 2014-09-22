@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.budget.modular;
 
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.ProposalAuditEvent;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -98,12 +99,13 @@ public class BudgetModularTotalDirectCostRule {
     public boolean validateTotalDirectCost(ProposalAuditEvent event) {
         boolean passed = true;
 
-        final List<? extends Budget> budgets = event.getProposalDevelopmentDocument().getDevelopmentProposal().getBudgets();
+        final List<ProposalDevelopmentBudgetExt> budgets = 
+        		event.getProposalDevelopmentDocument().getDevelopmentProposal().getBudgets();
 
         for (int i = 0; i < budgets.size(); i++) {
-            final Budget budget = budgets.get(i);
+            final ProposalDevelopmentBudgetExt budget = budgets.get(i);
 
-            if (getBudgetStatusCompleteCode().equals(budget.getBudgetStatus())) {
+            if (budget.isBudgetComplete()) {
                 passed &= this.checkTotalDirectCost(budget, i);
             }
         }

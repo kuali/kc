@@ -412,16 +412,11 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         developmentProposal.updateProposalNumbers();
 
         List<ProposalDevelopmentBudgetExt> budgets = developmentProposal.getBudgets();
-		proposalDevelopmentForm.setFinalBudgetVersion(getFinalBudgetVersion(budgets));
-        setBudgetStatuses(doc);
-
         if (budgets != null && !budgets.isEmpty()) {
             for (Budget budget : budgets) {
-                if (!budget.getFinalVersionFlag()) {
-                    budget.setStartDate(developmentProposal.getRequestedStartDateInitial());
-                    budget.setEndDate(developmentProposal.getRequestedEndDateInitial());
-                    this.getBusinessObjectService().save(budget);
-                }
+                budget.setStartDate(developmentProposal.getRequestedStartDateInitial());
+                budget.setEndDate(developmentProposal.getRequestedEndDateInitial());
+                this.getBusinessObjectService().save(budget);
             }
         }
 
@@ -563,9 +558,6 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if(StringUtils.isEmpty(headerTabCall)) {
             pdForm.getDocument().refreshPessimisticLocks();
         }        
-        List<ProposalDevelopmentBudgetExt> budgets = pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getBudgets();
-		pdForm.setFinalBudgetVersion(getFinalBudgetVersion(budgets));
-        getBudgetService().setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
         
         return mapping.findForward(Constants.PD_BUDGET_VERSIONS_PAGE);
     }
@@ -885,21 +877,19 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();   
         getKeyPersonnelService().populateDocument(pdform.getProposalDevelopmentDocument());
-        Budget budget = getProposalBudgetService() .getFinalBudgetVersion(document);
+        Budget budget = getProposalBudgetService().getFinalBudgetVersion(document);
         if(budget != null) {
-            if(budget.getFinalVersionFlag()){
-                final Map<String, Object> fieldValues = new HashMap<String, Object>();
-                fieldValues.put("budgetId", budget.getBudgetId()); 
-                List<BudgetPeriod> budgetPeriods = (List<BudgetPeriod>) getBusinessObjectService().findMatching(BudgetPeriod.class, fieldValues);
-                budget.setBudgetPeriods(budgetPeriods);
-                Collection<BudgetRate> rates = businessObjectService.findMatching(BudgetRate.class, fieldValues);   
-                if(!CollectionUtils.isEmpty(rates)) {
-                    List<RateClassType> rateClassTypes =   (List<RateClassType>) getBusinessObjectService().findAll(RateClassType.class);
-                    budget.setRateClassTypes(rateClassTypes);
-                    pdform.setBudgetToSummarize(budget);
-                }
-                pdform.setBudgetToSummarize(budget);  
-            } 
+            final Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("budgetId", budget.getBudgetId()); 
+            List<BudgetPeriod> budgetPeriods = (List<BudgetPeriod>) getBusinessObjectService().findMatching(BudgetPeriod.class, fieldValues);
+            budget.setBudgetPeriods(budgetPeriods);
+            Collection<BudgetRate> rates = businessObjectService.findMatching(BudgetRate.class, fieldValues);   
+            if(!CollectionUtils.isEmpty(rates)) {
+                List<RateClassType> rateClassTypes =   (List<RateClassType>) getBusinessObjectService().findAll(RateClassType.class);
+                budget.setRateClassTypes(rateClassTypes);
+                pdform.setBudgetToSummarize(budget);
+            }
+            pdform.setBudgetToSummarize(budget);  
             if(budget.getBudgetPrintForms().isEmpty()){
                 getBudgetPrintService().populateBudgetPrintForms(budget);
             }

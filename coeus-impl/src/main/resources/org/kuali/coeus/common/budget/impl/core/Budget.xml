@@ -14,7 +14,6 @@
       <list>
         <ref bean="Budget-costSharingAmount"/>
         <ref bean="Budget-endDate"/>
-        <ref bean="Budget-finalVersionFlag"/>
         <ref bean="Budget-modularBudgetFlag"/>
         <ref bean="Budget-ohRateClassCode"/>
         <ref bean="Budget-ohRateTypeCode"/>
@@ -55,15 +54,6 @@
     <property name="shortLabel" value="Project End Dt"/>
     <property name="summary" value="Project End Date"/>
     <property name="description" value="Project End Date"/>
-  </bean>
-
-  <bean id="Budget-finalVersionFlag" parent="Budget-finalVersionFlag-parentBean"/>
-  <bean id="Budget-finalVersionFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
-    <property name="name" value="finalVersionFlag"/>
-    <property name="label" value="Submit"/>
-    <property name="shortLabel" value="Final"/>
-    <property name="summary" value="Budget To Submit"/>
-    <property name="description" value="Budget To Submit"/>
   </bean>
 
   <bean id="Budget-modularBudgetFlag" parent="Budget-modularBudgetFlag-parentBean"/>
@@ -345,7 +335,6 @@
 		  <list>
 	        <bean p:attributeName="costSharingAmount" parent="FieldDefinition" />
 	        <bean p:attributeName="endDate" parent="FieldDefinition" />
-	        <bean p:attributeName="finalVersionFlag" parent="FieldDefinition" />
 	        <bean p:attributeName="modularBudgetFlag" parent="FieldDefinition" />
 	        <bean p:attributeName="ohRateClassCode" parent="FieldDefinition" />
 	        <bean p:attributeName="ohRateTypeCode" parent="FieldDefinition" />
@@ -369,7 +358,6 @@
 		  <list>
 	        <bean p:attributeName="costSharingAmount" parent="FieldDefinition" />
 	        <bean p:attributeName="endDate" parent="FieldDefinition" />
-	        <bean p:attributeName="finalVersionFlag" parent="FieldDefinition" />
 	        <bean p:attributeName="modularBudgetFlag" parent="FieldDefinition" />
 	        <bean p:attributeName="ohRateClassCode" parent="FieldDefinition" />
 	        <bean p:attributeName="ohRateTypeCode" parent="FieldDefinition" />
@@ -399,7 +387,6 @@
       <list>
         <bean p:propertyName="costSharingAmount" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="endDate" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="finalVersionFlag" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="modularBudgetFlag" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="ohRateClassCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="ohRateTypeCode" parent="Uif-LookupCriteriaInputField"/>
@@ -423,7 +410,6 @@
       <list>
         <bean p:propertyName="costSharingAmount" parent="Uif-DataField"/>
         <bean p:propertyName="endDate" parent="Uif-DataField"/>
-        <bean p:propertyName="finalVersionFlag" parent="Uif-DataField"/>
         <bean p:propertyName="modularBudgetFlag" parent="Uif-DataField"/>
         <bean p:propertyName="ohRateClassCode" parent="Uif-DataField"/>
         <bean p:propertyName="ohRateTypeCode" parent="Uif-DataField"/>

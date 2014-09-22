@@ -26,11 +26,8 @@ import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetNextValue;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.bo.NextValueBase;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
-/**
- * This class is just to hold the ProposalDevelopmentBudget. We should move PD Budget stuffs to this class later. 
- * Right now this is being used to represent extension class for Budget in repository.
- */
 @Entity
 @Table(name = "EPS_PROPOSAL_BUDGET_EXT")
 @PrimaryKeyJoinColumn(name="BUDGET_ID", referencedColumnName="BUDGET_ID")

@@ -26,10 +26,8 @@ public class PHS398ModularBudgetV1_2GeneratorTest extends
 		ProposalDevelopmentBudgetExt budget = new ProposalDevelopmentBudgetExt();
 		budget.setBudgetId(new Long("000001"));
 		budget.setBudgetStatus("1");
-		budget.setFinalVersionFlag(true);
 		budget.setStartDate(new Date(new Long("1183316613046")));
 		budget.setEndDate(new Date(new Long("1214852613046")));
-		budget.setFinalVersionFlag(true);
 		budget.setOnOffCampusFlag("Y");
 		budget.setOhRateClassCode("1");
 		budget.setUrRateClassCode("1");
@@ -42,5 +40,6 @@ public class PHS398ModularBudgetV1_2GeneratorTest extends
 		List<ProposalDevelopmentBudgetExt> budgets = new ArrayList<>();
 		budgets.add(budget);
 		document.getDevelopmentProposal().setBudgets(budgets);
+		document.getDevelopmentProposal().setFinalBudget(budget);
 	}
 }

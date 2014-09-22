@@ -257,10 +257,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         budgetSubAwards = new ArrayList<BudgetSubAwards>();
         setOnOffCampusFlag("D");
     }
-    @Override
-    public Boolean getFinalVersionFlag() {
-        return isFinalVersionFlag();
-    }
 
     /**
      * Looks up and returns the ParameterService.

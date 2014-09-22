@@ -96,7 +96,6 @@ public class RRBudget10V1_3GeneratorTest extends
 		ProposalDevelopmentBudgetExt proposalDevelopmentBudgetExt = new ProposalDevelopmentBudgetExt();
         proposalDevelopmentBudgetExt.setDevelopmentProposal(document.getDevelopmentProposal());
         proposalDevelopmentBudgetExt.setBudgetVersionNumber(1);
-		proposalDevelopmentBudgetExt.setFinalVersionFlag(true);
 		proposalDevelopmentBudgetExt.setBudgetStatus("1");
 		proposalDevelopmentBudgetExt.setBudgetId(1L);
 		proposalDevelopmentBudgetExt
@@ -113,5 +112,6 @@ public class RRBudget10V1_3GeneratorTest extends
 		List<ProposalDevelopmentBudgetExt> proposalDevelopmentBudgetExtList = new ArrayList<ProposalDevelopmentBudgetExt>();
 		proposalDevelopmentBudgetExtList.add(proposalDevelopmentBudgetExt);
 		document.getDevelopmentProposal().setBudgets(proposalDevelopmentBudgetExtList);	
+		document.getDevelopmentProposal().setFinalBudget(proposalDevelopmentBudgetExt);
 	}
 }

@@ -851,10 +851,7 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 	 * is true else it return sponsorCost as No Final Budget
 	 */
 	private String getSponsorCost(Budget budget) {
-		String sponsorCost = SPONSOR_COST_WHEN_FINAL_VERSION_FLAG_FALSE;
-		if (budget.getFinalVersionFlag()) {
-			sponsorCost = budget.getTotalCost().toString();
-		}
+		String sponsorCost = budget.getTotalCost().toString();
 		return sponsorCost;
 	}
 

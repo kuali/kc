@@ -43,47 +43,6 @@ public class BudgetParentActionBase extends KcTransactionalDocumentActionBase {
     private BudgetRatesService budgetRatesService;
     
     /**
-     * This method looks at the list of budgetVersions for the final version, then returns the version number.
-     * 
-     * @param budgetVersions
-     * @return
-     */
-    protected Integer getFinalBudgetVersion(List<? extends Budget> budgetVersions) {
-        for (Budget budgetVersion: budgetVersions) {
-            if (budgetVersion.isFinalVersionFlag()) {
-                return budgetVersion.getBudgetVersionNumber();
-            }
-        }
-        return null;
-    }
-    
-    /**
-     * This method sets the proposal budget status to the status of the final budget version.  If there is no final version, do nothing.
-     * 
-     * @param parentDocument
-     */
-    protected void setBudgetParentStatus(BudgetParent budgetParent) {
-        for (Budget budgetVersion: budgetParent.getBudgets()) {
-            if (budgetVersion.isFinalVersionFlag()) {
-                budgetParent.setBudgetStatus(budgetVersion.getBudgetStatus());
-                return;
-            }
-        }
-    }
-    
-    /**
-     * This method sets the budget status of the 'final' budget version (if it exists) to the proposal budget status
-     * as indicated in the proposal development document.
-     * 
-     * @param parentDocument
-     * @deprecated use BudgetService.setBudgetStatuses
-     */
-    @Deprecated
-    protected void setBudgetStatuses(BudgetParentDocument parentDocument) {
-        getBudgetService().setBudgetStatuses(parentDocument);
-    }
-    
-    /**
      * Copy the given budget version and add it to the given proposal.
      * 
      * @param budgetParentDocument

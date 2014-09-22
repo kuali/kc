@@ -38,10 +38,6 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
     @Column(name = "START_DATE")
     private Date startDate;
 
-    @Column(name = "FINAL_VERSION_FLAG")
-    @Convert(converter = BooleanYNConverter.class)
-    private Boolean finalVersionFlag = Boolean.FALSE;
-
     @Column(name = "OH_RATE_TYPE_CODE")
     private String ohRateTypeCode;
 
@@ -109,9 +105,6 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
     private String name;
 
     @Transient
-    private String budgetStatus;
-
-    @Transient
     private String printBudgetCommentFlag;
 
     public Integer getBudgetVersionNumber() {
@@ -128,18 +121,6 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
 
     public void setCostSharingAmount(ScaleTwoDecimal costSharingAmount) {
         this.costSharingAmount = costSharingAmount;
-    }
-
-    public Boolean getFinalVersionFlag() {
-        return isFinalVersionFlag();
-    }
-
-    public Boolean isFinalVersionFlag() {
-        return finalVersionFlag;
-    }
-
-    public void setFinalVersionFlag(Boolean finalVersionFlag) {
-        this.finalVersionFlag = finalVersionFlag;
     }
 
     public String getOhRateTypeCode() {
@@ -208,14 +189,6 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getBudgetStatus() {
-        return budgetStatus;
-    }
-
-    public void setBudgetStatus(String budgetStatus) {
-        this.budgetStatus = budgetStatus;
     }
 
     public Date getEndDate() {
@@ -303,13 +276,11 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
         final int prime = 31;
         int result = 1;
         result = prime * result + ((budgetId == null) ? 0 : budgetId.hashCode());
-        result = prime * result + ((budgetStatus == null) ? 0 : budgetStatus.hashCode());
         result = prime * result + ((budgetVersionNumber == null) ? 0 : budgetVersionNumber.hashCode());
         result = prime * result + ((comments == null) ? 0 : comments.hashCode());
         result = prime * result + ((costSharingAmount == null) ? 0 : costSharingAmount.hashCode());
         result = prime * result + ((documentNumber == null) ? 0 : documentNumber.hashCode());
         result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
-        result = prime * result + (finalVersionFlag ? 1231 : 1237);
         result = prime * result + ((modularBudgetFlag == null) ? 0 : modularBudgetFlag.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((ohRateClassCode == null) ? 0 : ohRateClassCode.hashCode());
@@ -341,11 +312,6 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
                 return false;
         } else if (!budgetId.equals(other.budgetId))
             return false;
-        if (budgetStatus == null) {
-            if (other.budgetStatus != null)
-                return false;
-        } else if (!budgetStatus.equals(other.budgetStatus))
-            return false;
         if (budgetVersionNumber == null) {
             if (other.budgetVersionNumber != null)
                 return false;
@@ -370,8 +336,6 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
             if (other.endDate != null)
                 return false;
         } else if (!endDate.equals(other.endDate))
-            return false;
-        if (finalVersionFlag != other.finalVersionFlag)
             return false;
         if (modularBudgetFlag == null) {
             if (other.modularBudgetFlag != null)

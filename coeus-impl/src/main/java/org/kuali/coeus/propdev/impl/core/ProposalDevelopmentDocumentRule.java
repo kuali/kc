@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.custom.KcDocumentBaseAuditRule;
 import org.kuali.coeus.common.framework.custom.SaveCustomDataEvent;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.coeus.common.framework.ynq.YnqGroupName;
 import org.kuali.coeus.common.impl.custom.CustomDataRule;
 import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
@@ -61,16 +62,21 @@ import org.kuali.coeus.propdev.impl.ynq.ProposalDevelopmentYnqAuditRule;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
+import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.DateUtils;
-import org.kuali.coeus.common.budget.framework.core.BudgetService;
-import org.kuali.coeus.common.budget.framework.core.BudgetParentDocumentRule;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
@@ -78,6 +84,7 @@ import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -89,7 +96,7 @@ import java.util.List;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 
-public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule implements AddCongressionalDistrictRule, AddKeyPersonRule, AddNarrativeRule, ReplaceNarrativeRule, SaveNarrativesRule, AddInstituteAttachmentRule, ReplaceInstituteAttachmentRule, AddPersonnelAttachmentRule, ReplacePersonnelAttachmentRule, AddProposalSiteRule, KcBusinessRule, SaveProposalSitesRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, DeleteCongressionalDistrictRule, PermissionsRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule, ResubmissionPromptRule, BudgetDataOverrideRule, DocumentAuditRule {
+public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRuleBase implements AddCongressionalDistrictRule, AddKeyPersonRule, AddNarrativeRule, ReplaceNarrativeRule, SaveNarrativesRule, AddInstituteAttachmentRule, ReplaceInstituteAttachmentRule, AddPersonnelAttachmentRule, ReplacePersonnelAttachmentRule, AddProposalSiteRule, KcBusinessRule, SaveProposalSitesRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, DeleteCongressionalDistrictRule, PermissionsRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule, ResubmissionPromptRule, BudgetDataOverrideRule, DocumentAuditRule {
 
     @SuppressWarnings("unused")
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentDocumentRule.class); 
@@ -102,6 +109,8 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
     private DataDictionaryService dataDictionaryService;
     private ProposalBudgetService budgetService;
     private SubmissionInfoService submissionInfoService;
+    private ParameterService parameterService;
+    private KcBusinessRulesEngine kcBusinessRulesEngine;
 
     protected DataDictionaryService getDataDictionaryService (){
         if (dataDictionaryService == null)
@@ -123,6 +132,11 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
         if (submissionInfoService == null)
             submissionInfoService = KcServiceLocator.getService(SubmissionInfoService.class);
         return submissionInfoService;
+    }
+    protected KcBusinessRulesEngine getKcBusinessRulesEngine (){
+        if (kcBusinessRulesEngine == null)
+        	kcBusinessRulesEngine = KcServiceLocator.getService(KcBusinessRulesEngine.class);
+        return kcBusinessRulesEngine;
     }
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -151,7 +165,6 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
             valid &= processProposalRequiredFieldsBusinessRule(proposalDevelopmentDocument);
 
             valid &= processProposalYNQBusinessRule(proposalDevelopmentDocument, false);
-            valid &= processBudgetVersionsBusinessRule(proposalDevelopmentDocument, false);
             valid &= processProposalGrantsGovBusinessRule(proposalDevelopmentDocument);
             valid &= processSponsorProgramBusinessRule(proposalDevelopmentDocument);
             valid &= processKeywordBusinessRule(proposalDevelopmentDocument);
@@ -461,12 +474,33 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
         retval &= new ProposalDevelopmentQuestionnaireAuditRule().processRunAuditBusinessRules(proposalDevelopmentDocument);
         
         // audit check for budgetversion with final status
-        try {
-            retval &= getBudgetService().validateBudgetAuditRule((ProposalDevelopmentDocument)document);
-        } catch (Exception ex) {
-            throw new RuntimeException("Validate Budget Audit rules encountered exception", ex);
-        }
+        retval &= processRunAuditBudgetVersionRule(proposalDevelopmentDocument.getDevelopmentProposal());
        
+        return retval;
+    }
+    
+    public boolean processRunAuditBudgetVersionRule(DevelopmentProposal proposal) {
+        // audit check for budgetversion with final status
+        boolean finalAndCompleteBudgetVersionFound = false;
+        boolean budgetVersionsExists = false;
+        boolean retval = true;
+        
+        List<AuditError> auditErrors = new ArrayList<AuditError>();
+        String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(
+                Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        budgetVersionsExists = !proposal.getBudgets().isEmpty();
+        if (proposal.getFinalBudget() != null &&
+        		!StringUtils.equals(budgetStatusCompleteCode, proposal.getFinalBudget().getBudgetStatus())) {
+            finalAndCompleteBudgetVersionFound = true;
+        }
+        if (budgetVersionsExists && !finalAndCompleteBudgetVersionFound) {
+            auditErrors.add(new AuditError("document.parentBudget.budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.PD_BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
+            retval = false;
+        }
+        if (auditErrors.size() > 0) {
+            KNSGlobalVariables.getAuditErrorMap().put("budgetVersionErrors", new AuditCluster(Constants.BUDGET_VERSION_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
+        }
+
         return retval;
     }
 
@@ -577,11 +611,35 @@ public class ProposalDevelopmentDocumentRule extends BudgetParentDocumentRule im
     public boolean processCustomDataRule(ProposalDevelopmentDocument document) {
         return new CustomDataRule().processRules(new SaveCustomDataEvent(document));
     }
+    
+    protected boolean processBudgetVersionsBusinessRule(
+            final DevelopmentProposal proposal) {
+        if (proposal == null) {
+            throw new NullPointerException("the parentDocument is null.");
+        }
+
+        if (proposal.getFinalBudget() != null && !proposal.getFinalBudget().isBudgetComplete()) {
+        	GlobalVariables.getMessageMap().putError("PropDev-BudgetPage",
+        			KeyConstants.ERROR_NO_FINAL_BUDGET);
+        	return false;
+        }
+        return true;
+
+    }    
 
     public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;
         retVal = event.getRule().processRules(event);
         return retVal;
     }
+	public ParameterService getParameterService() {
+		if (parameterService == null) {
+			parameterService = KcServiceLocator.getService(ParameterService.class);
+		}
+		return parameterService;
+	}
+	public void setParameterService(ParameterService parameterService) {
+		this.parameterService = parameterService;
+	}
     
 }

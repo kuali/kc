@@ -257,28 +257,6 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             pdForm.setSaveAfterCopy(!valid);
         }
 
-        // A Budget cannot be marked 'Complete' if there are outstanding Audit Errors
-        valid &= getBudgetService().validateBudgetAuditRuleBeforeSaveBudgetVersion(pdForm.getProposalDevelopmentDocument());
-
-        if (!valid) {
-            // set up error message to go to validate panel
-            final int errorBudgetVersion = this.getTentativeFinalBudgetVersion(pdForm);
-            if (errorBudgetVersion != -1) {
-                GlobalVariables.getMessageMap().putError(
-                        "document.budgetDocumentVersion[" + (errorBudgetVersion - 1) + "].budgetVersionOverview.budgetStatus",
-                        KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
-                for (Budget budgetVersion: pdDoc.getDevelopmentProposal().getBudgets()) {
-
-                        String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
-                                Budget.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
-                        budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
-                }
-            }
-            return mapping.findForward(Constants.MAPPING_BASIC);
-        }
-
-        this.setBudgetParentStatus(pdForm.getProposalDevelopmentDocument().getDevelopmentProposal());
-        // this.setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
         final ActionForward forward = super.save(mapping, form, request, response);
 
         // Need to facilitate releasing the Budget locks if user is redirected to Actions page
@@ -294,37 +272,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         }
 
         return forward;
-    }
-    
-    
-    private int getTentativeFinalBudgetVersion(ProposalDevelopmentForm pdForm) {
-        if(pdForm.getFinalBudgetVersion() != null) {
-            return pdForm.getFinalBudgetVersion().intValue();
-        }
-        
-        ProposalDevelopmentDocument document = pdForm.getProposalDevelopmentDocument();
-        int i = 1;
-        List<ProposalDevelopmentBudgetExt> budgets = document.getDevelopmentProposal().getBudgets();
-		if(document != null && CollectionUtils.isNotEmpty(budgets)) {
-            for(Budget budget : budgets) {
-                if(budget.isFinalVersionFlag()) {
-                    return i;
-                }
-                i++;
-            }
-        }
-        
-        return -1;
     }   
-    
-    @Override
-    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final ActionForward forward = super.reload(mapping, form, request, response);
-        final ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getProposalDevelopmentDocument().getBudgetParent().getBudgets()));
-        setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
-        return forward;
-    }
     
     public ActionForward copyBudgetPeriodOne(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 

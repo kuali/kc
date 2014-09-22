@@ -34,7 +34,6 @@ public abstract class BudgetVersionFormBase extends KcTransactionalDocumentFormB
     
     private static final long serialVersionUID = -7013211193142134599L;
     private String newBudgetVersionName;
-    private Integer finalBudgetVersion;
     private boolean auditActivated;
     private String activePanelName;
     private boolean saveAfterCopy;
@@ -68,12 +67,7 @@ public abstract class BudgetVersionFormBase extends KcTransactionalDocumentFormB
     }
     
     // Getters and setters
-    public Integer getFinalBudgetVersion() {
-        return finalBudgetVersion;
-    }
-    public void setFinalBudgetVersion(Integer finalBudgetVersion) {
-        this.finalBudgetVersion = finalBudgetVersion;
-    }
+
     public String getNewBudgetVersionName() {
         return newBudgetVersionName;
     }

@@ -52,15 +52,6 @@ public interface BudgetService<T extends BudgetParent>  {
     public Collection<BudgetRate> getSavedProposalRates(Budget budgetToOpen);
 
     /**
-     * 
-     * This method to check the audit rule when try to save 'budgetversion' and with 'complete' status.
-     * @param proposalDevelopmentDocument
-     * @return
-     * @throws Exception
-     */
-    public boolean validateBudgetAuditRuleBeforeSaveBudgetVersion(BudgetParentDocument<T> proposalDevelopmentDocument) throws Exception;
-
-    /**
      * Determine if the names of a {@link BudgetVersionOverview} instances in the given {@link  ProposalDevelopmentDocument} instance is valid
      *
      * @param document {@link ProposalDevelopmentDocument} instance to get {@link BudgetVersionOverview} instances from
@@ -68,15 +59,6 @@ public interface BudgetService<T extends BudgetParent>  {
      * @return true for valid false otherwie
      */
     public boolean isBudgetVersionNameValid(BudgetParent parent, String versionName);
-
-    /**
-     * 
-     * This method to invoke audit rule check for budget if status is final only
-     * This is called by PD's turnon validation
-     * @param parentDocument
-     * @return
-     */
-    public boolean validateBudgetAuditRule(BudgetParentDocument<T> parentDocument) throws Exception;
 
     /**
      * Returns a new finalized BudgetDocument with the data from the given BudgetDocument copied over.
@@ -90,13 +72,5 @@ public interface BudgetService<T extends BudgetParent>  {
     public String populateBudgetPersonSalaryDetailsInPeriods(String budgetId, String personSequenceNumber, String personId);
     
     public void populateNewBudgetLineItem(BudgetLineItem newBudgetLineItem, BudgetPeriod budgetPeriod);
-    
-    /**
-     * This method sets the budget status of the 'final' budget version (if it exists) to the proposal budget status
-     * as indicated in the proposal development document.
-     * 
-     * @param parentDocument
-     */
-    public void setBudgetStatuses(BudgetParentDocument<T> parentDocument);
 
 }
