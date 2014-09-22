@@ -25,7 +25,6 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
-import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
@@ -76,9 +75,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         // For a new proposal, we have to know if the user has the permission to create a proposal.
         // For a current proposal, we have to know if the user the permission to modify or view the proposal.
         
-        String userId = user.getPrincipalId();
         if (proposalNbr == null) {
-            if (canCreateProposal(user)) {
+            if (isAuthorizedToCreate(document, user)) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
                 setPermissions(user, proposalDoc, editModes);
             } 
@@ -280,21 +278,9 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     public boolean canOpen(Document document, Person user) {
         ProposalDevelopmentDocument proposalDocument = (ProposalDevelopmentDocument) document;
         if (proposalDocument.getDevelopmentProposal().getProposalNumber() == null) {
-            return canCreateProposal(user);
+            return isAuthorizedToCreate(document, user);
         }
         return isAuthorizedToView(document, user);
-    }
-    
-    /**
-     * Does the user have permission to create a proposal.  Use the Unit Authorization Service to determine
-     * if the user has the CREATE_PROPOSAL permission in any unit.
-     * @param user the user
-     * @return true if the user has the CREATE_PROPOSAL permission in at least one unit; otherwise false
-     */
-    private boolean canCreateProposal(Person user) {
-        ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROPOSAL);       
-        TaskAuthorizationService taskAuthenticationService = getTaskAuthenticationService();
-        return taskAuthenticationService.isAuthorized(user.getPrincipalId(), task);
     }
     
     @Override
@@ -400,6 +386,10 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             return isKeyPersonnel || canCertify;
         }
         return true;
+    }
+
+    protected boolean isAuthorizedToCreate(Document document, Person user) {
+        return getUnitAuthorizationService().hasPermission(user.getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL);
     }
 
     protected boolean isAuthorizedToSubmitToSponsor(Document document, Person user) {

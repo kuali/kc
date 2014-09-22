@@ -16,10 +16,8 @@
 package org.kuali.kra.irb.auth;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
-import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
@@ -39,12 +37,8 @@ public class CreateProposalDevelopmentProtocolAuthorizer extends ProtocolAuthori
         return ( canCreateProposal() && hasProposalRequiredFields(protocol)); 
     }
 
-    private boolean canCreateProposal()
-    {
-        ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROPOSAL);       
-        TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
-        boolean canCreateProposal = taskAuthenticationService.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
-        return canCreateProposal;
+    private boolean canCreateProposal() {
+        return hasUnitPermission(GlobalVariables.getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL);
     }
         
     private boolean hasProposalRequiredFields(Protocol protocol)
@@ -87,5 +81,5 @@ public class CreateProposalDevelopmentProtocolAuthorizer extends ProtocolAuthori
         
         return validProposalRequiredFields;
     }
-    
+
 }

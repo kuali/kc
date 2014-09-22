@@ -39,8 +39,6 @@ import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
-import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -50,7 +48,6 @@ import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleService;
 import org.kuali.coeus.common.framework.medusa.MedusaBean;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
@@ -189,8 +186,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     private List<String> BudgetDataOverrideMethodToCalls;
     
-    private boolean canCreateProposal;
-    
     private boolean viewFundingSource;
     
     private ProposalDevelopmentRejectionBean proposalDevelopmentRejectionBean;
@@ -220,7 +215,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private transient SystemAuthorizationService systemAuthorizationService;
     private transient KcWorkflowService kcWorkflowService;
     private transient UnitService unitService;
-    private transient TaskAuthorizationService taskAuthorizationService;
     private transient DocumentDictionaryService documentDictionaryService;
     private transient ProposalDevelopmentService proposalDevelopmentService;
     
@@ -277,12 +271,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 		 return unitService;
 	 }
 	 
-	 protected TaskAuthorizationService getTaskAuthorizationService (){
-		 if (taskAuthorizationService == null)
-			 taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
-		 return taskAuthorizationService;
-	 }
-	 
 	 protected DocumentDictionaryService getDocumentDictionaryService() {
 	        if (documentDictionaryService == null) {
 	        	documentDictionaryService = KRADServiceLocatorWeb.getDocumentDictionaryService();
@@ -321,12 +309,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         setHierarchyProposalSummaries(new ArrayList<HierarchyProposalSummary>());
         medusaBean = new MedusaBean();
         reportHelperBean = new ReportHelperBean(this);
-        canCreateProposal = isAuthorizedToCreateProposal();
         setProposalDevelopmentRejectionBean(new ProposalDevelopmentRejectionBean());
         setNotificationHelper(new NotificationHelper());
-        //setQuestionnaireHelper(new ProposalDevelopmentQuestionnaireHelper(this));
-        //setS2sQuestionnaireHelper(new ProposalDevelopmentS2sQuestionnaireHelper(this));
-        
+
         proposalPersonQuestionnaireHelpers = new ArrayList<ProposalPersonQuestionnaireHelper>();
         for (ProposalPerson person : this.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
             ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(person);
@@ -1682,24 +1667,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      public void setGrantsGovSelectFlag(boolean grantsGovSelectFlag) {
          this.grantsGovSelectFlag = grantsGovSelectFlag;
      }
-
-    /**
-     * 
-     * This method is to be used whether user can copy proposal.  The copy tab will work even after PD is submitted.
-     * @return
-     */
-    private boolean isAuthorizedToCreateProposal() {
-        ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROPOSAL);       
-        return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
-    }
-
-    public boolean isCanCreateProposal() {
-        return canCreateProposal;
-    }
-
-    public void setCanCreateProposal(boolean canCreateProposal) {
-        this.canCreateProposal = canCreateProposal;
-    }
 
     public boolean getViewFundingSource() {
         return viewFundingSource;

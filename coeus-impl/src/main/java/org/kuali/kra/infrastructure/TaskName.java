@@ -23,7 +23,6 @@ public interface TaskName {
     /*
      * Application Tasks.
      */
-    public static final String CREATE_PROPOSAL = "createProposal";
     public static final String CREATE_PROTOCOL = "createProtocol";
     public static final String CREATE_AWARD = "createAward";
     public static final String CREATE_TAMD = "createTimeAndMoney";
