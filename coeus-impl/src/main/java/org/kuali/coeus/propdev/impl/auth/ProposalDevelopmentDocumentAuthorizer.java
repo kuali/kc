@@ -353,7 +353,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     
     @Override
     public boolean canAddNoteAttachment(Document document, String attachmentTypeCode, Person user) {
-        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.PROPOSAL_ADD_NOTE_ATTACHMENT);
+        return isAuthorizedToAddNote(document, user);
     }
     
     @Override
@@ -544,6 +544,23 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
                 || getKcWorkflowService().hasWorkflowPermission(user.getPrincipalId(), pdDocument);
     }
 
+    protected boolean isAuthorizedToAddNote(Document document, Person user) {
+
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+
+        String proposalNbr = pdDocument.getDevelopmentProposal().getProposalNumber();
+
+        final boolean hasPermission;
+        if (proposalNbr == null) {
+            hasPermission = hasPermissionByOwnedByUnit(document, user);
+        } else {
+
+            hasPermission = getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.VIEW_PROPOSAL)
+                    || getKcWorkflowService().hasWorkflowPermission(user.getPrincipalId(), document);
+        }
+        return hasPermission;
+    }
+
     protected boolean isAuthorizedToModify(Document document, Person user) {
 
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
@@ -557,13 +574,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
 
         final boolean hasPermission;
         if (proposalNbr == null) {
-            String unitNumber = proposal.getOwnedByUnitNumber();
-
-            // If the unit number is not specified, we will let the save operation continue because it
-            // will fail with an error.  But if the user tries to save a proposal for a wrong unit, then
-            // we will indicate that the user does not have permission to do that.
-            hasPermission = (unitNumber != null && getUnitAuthorizationService().hasPermission(user.getPrincipalId(), unitNumber, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL)
-                    || unitNumber == null);
+            hasPermission = hasPermissionByOwnedByUnit(document, user);
         } else {
             /*
              * After the initial save, the proposal can only be modified if it is not in workflow
@@ -576,6 +587,19 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
                     !proposal.getSubmitFlag();
         }
         return hasPermission;
+    }
+
+    protected boolean hasPermissionByOwnedByUnit(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+        final DevelopmentProposal proposal = pdDocument.getDevelopmentProposal();
+
+        String unitNumber = proposal.getOwnedByUnitNumber();
+
+        // If the unit number is not specified, we will let the save operation continue because it
+        // will fail with an error.  But if the user tries to save a proposal for a wrong unit, then
+        // we will indicate that the user does not have permission to do that.
+        return (unitNumber != null && getUnitAuthorizationService().hasPermission(user.getPrincipalId(), unitNumber, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL)
+                || unitNumber == null);
     }
 
     protected boolean isEditableState(String propsalState) {
