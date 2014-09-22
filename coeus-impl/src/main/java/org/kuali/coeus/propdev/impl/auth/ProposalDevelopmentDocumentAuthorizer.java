@@ -187,7 +187,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             editModes.add("showAlterProposalData");
         }
                 
-        if (canExecuteTask(userId, doc, TaskName.SUBMIT_TO_SPONSOR)) {
+        if (isAuthorizedToSubmitToSponsor(doc, user)) {
             editModes.add("submitToSponsor");
         }
         if (canExecuteTask(userId, doc, TaskName.MAINTAIN_PROPOSAL_HIERARCHY)) {
@@ -400,6 +400,12 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             return isKeyPersonnel || canCertify;
         }
         return true;
+    }
+
+    protected boolean isAuthorizedToSubmitToSponsor(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+        return getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.SUBMIT_TO_SPONSOR) &&
+                !pdDocument.getDevelopmentProposal().isChild();
     }
 
     protected boolean isAuthorizedToPrint(Document document, Person user) {

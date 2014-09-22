@@ -64,7 +64,6 @@ import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.budget.editable.BudgetChangedData;
-import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyProposalSummary;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
@@ -79,8 +78,6 @@ import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
 import org.kuali.coeus.common.budget.framework.core.BudgetVersionFormBase;
 import org.kuali.coeus.common.framework.custom.CustomDataDocumentForm;
-import org.kuali.rice.core.api.CoreApiServiceLocator;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -97,7 +94,6 @@ import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
-import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -1129,53 +1125,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public List<Narrative> getNarratives() {
         return this.narratives;
     }
-
-//    public boolean isReject() {
-//        return reject;
-//    }
-//
-//    public void setReject(boolean reject) {
-//        this.reject = reject;
-//    }
-    
-    public List<ExtraButton> getExtraActionsButtons() {
-        // clear out the extra buttons array
-        extraButtons.clear();
-        ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
-        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
-
-        
-        ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
-        if( getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("submitToSponsor",doc ))) {       
-            if ( isCanSubmitToSponsor() ) {
-                String submitToGrantsGovImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_submittosponsor.gif";
-                addExtraButton("methodToCall.submitToSponsor", submitToGrantsGovImage, "Submit To Sponsor");
-            }
-            if(isCanSubmitToGrantsGov()) {
-              if(doc.getDevelopmentProposal().getS2sOpportunity() != null 
-                      && doc.getDevelopmentProposal().getS2sAppSubmission().size() == 0 ){ 
-                     String grantsGovSubmitImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_submittos2s.gif";
-                     addExtraButton("methodToCall.submitToGrantsGov", grantsGovSubmitImage, "Submit To S2S");
-              }
-            }
-        }
-        //check to see if they are authorized to reject the document
-        
-        if( getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("rejectProposal",doc))) {
-            String resubmissionImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_reject.gif";
-            addExtraButton("methodToCall.reject", resubmissionImage, "Reject");
-        }
-        
-        if (getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("deleteProposal", doc))) {
-            String deleteProposalImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_deleteproposal.gif";
-            addExtraButton("methodToCall.deleteProposal", deleteProposalImage, "Delete Proposal");
-        }
-        
-        String sendNotificationImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_send_notification.gif";
-        addExtraButton("methodToCall.sendNotification", sendNotificationImage, "Send Notification");
-        
-        return extraButtons;
-    }
     
     /**
      * Overridden to force business logic even after validation failures. In this case we want to force the enabling of credit split.
@@ -1515,15 +1464,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             if (tab.getHeaderTabNavigateTo().equals("grantsGov")) {
                 tab.setDisabled(disableGrantsGov);
             }
-//            if (showHierarchy || !tab.getHeaderTabNavigateTo().equals("hierarchy")) {
-//                if (tab.getHeaderTabNavigateTo().equals("customData")) {
-//                    if (!this.getProposalDevelopmentDocument().getCustomAttributeDocuments().isEmpty()) {
-//                        newTabs.add(tab);
-//                    }
-//                } else {
-//                    newTabs.add(tab);
-//                }
-//            }
             if((showHierarchy || !tab.getHeaderTabNavigateTo().equals("hierarchy"))) 
             {
                 if (!tab.getHeaderTabNavigateTo().toUpperCase().equals("APPROVERVIEW") || showProposalSummary || canPerformWorkflowAction()) 
