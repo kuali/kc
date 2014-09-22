@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.auth;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.auth.KcKradTransactionalDocumentAuthorizerBase;
@@ -204,10 +205,12 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             editModes.add("rejectProposal");
         }
         
-        setNarrativePermissions(userId, doc, editModes);
+        setNarrativePermissions(user, doc, editModes);
     } 
     
-    private void setNarrativePermissions(String userId, ProposalDevelopmentDocument doc, Set<String> editModes) {
+    private void setNarrativePermissions(Person user, ProposalDevelopmentDocument doc, Set<String> editModes) {
+        final String userId = user.getPrincipalId();
+
         List<Narrative> narratives = doc.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
             String prefix = "proposalAttachment." + narrative.getModuleNumber() + ".";
@@ -247,7 +250,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         
 
         int i = 0;
-        boolean canReplace = getTaskAuthorizationService().isAuthorized(userId, new ProposalTask(TaskName.REPLACE_PERSONNEL_ATTACHMENT, doc));
+        boolean canReplace = isAuthorizedToReplacePersonnelAttachement(doc, user);
         for (ProposalPersonBiography ppb : doc.getDevelopmentProposal().getPropPersonBios()) {
             ppb.setPositionNumber(i);
             String prefix = "biographyAttachments." + ppb.getPositionNumber() + ".";
@@ -396,26 +399,39 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         return true;
     }
 
-    public boolean isAuthorizedToRecallProposal(Document document, Person user) {
+    public boolean isAuthorizedToReplacePersonnelAttachement(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+        boolean result = false;
+        if (pdDocument.getDevelopmentProposal().getProposalState() != null) {
+            boolean hasPerm = getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE);
+            boolean isInProgress = StringUtils.equalsIgnoreCase(pdDocument.getDevelopmentProposal().getProposalState().getDescription(), "In Progress");
+            boolean isApprovalPending = StringUtils.equalsIgnoreCase(pdDocument.getDevelopmentProposal().getProposalState().getDescription(), "Approval Pending");
+            boolean isRevisionRequested = StringUtils.equalsIgnoreCase(pdDocument.getDevelopmentProposal().getProposalState().getDescription(), "Revisions Requested");
+            result = hasPerm && (isInProgress || isApprovalPending || isRevisionRequested);
+        }
+        return result;
+    }
+
+    protected boolean isAuthorizedToRecallProposal(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
         return pdDocument.getDocumentHeader().hasWorkflowDocument() && pdDocument.getDocumentHeader().getWorkflowDocument().isEnroute()
                 && getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.RECALL_DOCUMENT);
     }
 
-    public boolean isAuthorizedToRejectProposal(Document document, Person user) {
+    protected boolean isAuthorizedToRejectProposal(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
         WorkflowDocument workDoc = pdDocument.getDocumentHeader().getWorkflowDocument();
         return (!workDoc.isCompletionRequested()) && (! getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument)) && (workDoc.isApprovalRequested()) && (workDoc.isEnroute());
     }
 
-    public boolean isAuthorizedToSubmitToWorkflow(Document document, Person user) {
+    protected boolean isAuthorizedToSubmitToWorkflow(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
         return !getKcWorkflowService().isInWorkflow(pdDocument) &&
                 getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.SUBMIT_PROPOSAL) &&
                 !pdDocument.getDevelopmentProposal().isChild();
     }
 
-    public boolean isAuthorizedToHierarchyChildWorkflowAction(Document document, Person user) {
+    protected boolean isAuthorizedToHierarchyChildWorkflowAction(Document document, Person user) {
         boolean authorized = true;
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
 
@@ -434,7 +450,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         return authorized;
     }
 
-    public boolean isAuthorizedToHierarchyChildAckWorkflowAction(Document document, Person user) {
+    protected boolean isAuthorizedToHierarchyChildAckWorkflowAction(Document document, Person user) {
         boolean authorized = true;
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
 

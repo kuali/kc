@@ -34,8 +34,7 @@ public interface TaskName {
     public static final String OPEN_BUDGETS = "openBudgets";
     public static final String ADD_NARRATIVE = "addNarrative";
     public static final String CERTIFY = "certify";
-    public static final String REPLACE_PERSONNEL_ATTACHMENT = "replacePersonnelAttachmentAuthorizer";
-    
+
     /*
      * Narrative Tasks.
      */

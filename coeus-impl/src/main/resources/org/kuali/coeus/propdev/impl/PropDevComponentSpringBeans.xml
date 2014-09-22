@@ -166,10 +166,6 @@
                     <property name="permission" value="Certify" />
                     <property name="requiresWritableDoc" value="true" />
                 </bean>
-                <bean class="org.kuali.coeus.propdev.impl.person.attachment.PersonnelAttachmentReplaceAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="replacePersonnelAttachmentAuthorizer" />
-                    <property name="requiresWritableDoc" value="true" />
-                </bean>
 
                 <!-- Narrative -->
 
