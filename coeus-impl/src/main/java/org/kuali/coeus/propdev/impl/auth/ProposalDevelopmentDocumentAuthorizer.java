@@ -15,12 +15,16 @@
  */
 package org.kuali.coeus.propdev.impl.auth;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.auth.KcKradTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
+import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
@@ -52,6 +56,8 @@ import java.util.Set;
  */
 public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDocumentAuthorizerBase {
 
+    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentDocumentAuthorizer.class);
+
     private TaskAuthorizationService taskAuthenticationService;
     
     private KcAuthorizationService kcAuthorizationService;
@@ -61,6 +67,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     private KcWorkflowService kcWorkflowService;
 
     private KcDocumentRejectionService kcDocumentRejectionService;
+
+    private ProposalHierarchyService proposalHierarchyService;
 
     @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
@@ -177,11 +185,11 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             editModes.add("printProposal");
         }
                 
-        if (canExecuteTask(userId, doc, TaskName.ALTER_PROPOSAL_DATA)) {
+        if (isAuthorizedToAlterProposalData(doc, user)) {
             editModes.add("alterProposalData");
         }
                 
-        if (canExecuteTask(userId, doc, TaskName.SHOW_ALTER_PROPOSAL_DATA)) {
+        if (isAuthorizedToShowAlterProposalData(doc, user)) {
             editModes.add("showAlterProposalData");
         }
                 
@@ -306,7 +314,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     
     @Override
     public boolean canRoute(Document document, Person user) {
-        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.SUBMIT_TO_WORKFLOW) && canExecuteProposalTask( user.getPrincipalName(), (ProposalDevelopmentDocument)document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
+        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.SUBMIT_TO_WORKFLOW) && canExecuteProposalTask(user.getPrincipalName(), (ProposalDevelopmentDocument) document, TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION);
     }
     
     @Override
@@ -386,6 +394,31 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             return isKeyPersonnel || canCertify;
         }
         return true;
+    }
+
+    protected boolean isAuthorizedToAlterProposalData(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+        //standard is authorized calculation without taking child status into account.
+        boolean ret = getKcWorkflowService().isEnRoute(pdDocument) &&
+                !pdDocument.getDevelopmentProposal().getSubmitFlag() &&
+                getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.ALTER_PROPOSAL_DATA);
+
+        //check to see if the parent is enroute, if so deny the edit attempt.
+        if(pdDocument.getDevelopmentProposal().isChild() ) {
+            try {
+                if (getProposalHierarchyService().getParentWorkflowDocument(pdDocument).isEnroute()) {
+                    ret = false;
+                }
+            } catch (ProposalHierarchyException e) {
+                LOG.error(String.format( "Exception looking up parent of DevelopmentProposal %s, authorizer is going to deny edit access to this child.", pdDocument.getDevelopmentProposal().getProposalNumber()), e);
+                ret = false;
+            }
+        }
+        return ret;
+    }
+
+    protected boolean isAuthorizedToShowAlterProposalData(Document document, Person user) {
+        return getKcWorkflowService().isInWorkflow(document);
     }
 
     protected boolean isAuthorizedToModifyProposalRoles(Document document, Person user) {
@@ -540,5 +573,16 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
 
     public void setKcDocumentRejectionService(KcDocumentRejectionService kcDocumentRejectionService) {
         this.kcDocumentRejectionService = kcDocumentRejectionService;
+    }
+
+    protected ProposalHierarchyService getProposalHierarchyService (){
+        if (kcDocumentRejectionService == null) {
+            proposalHierarchyService = KcServiceLocator.getService(ProposalHierarchyService.class);
+        }
+        return proposalHierarchyService;
+    }
+
+    public void setProposalHierarchyService (ProposalHierarchyService proposalHierarchyService){
+        this.proposalHierarchyService = proposalHierarchyService;
     }
 }

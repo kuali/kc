@@ -181,16 +181,6 @@
                     <property name="permission" value="Certify" />
                     <property name="requiresWritableDoc" value="true" />
                 </bean>
-                <bean class="org.kuali.coeus.propdev.impl.editable.ShowAlterProposalDataAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="showAlterProposalData" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
-                </bean>
-                <bean class="org.kuali.coeus.propdev.impl.editable.AlterProposalDataAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="alterProposalData" />
-                    <property name="requiresWritableDoc" value="true" />
-                    <property name="kcWorkflowService" ref="kcWorkflowService" />
-                    <property name="proposalHierarchyService" ref="proposalHierarchyService" />
-                </bean>
                 <bean class="org.kuali.coeus.propdev.impl.action.ProposalHierarchyChildWorkflowActionAuthorizer"
                       parent="parentProposalAuthorizer">
                     <property name="taskName" value="hierarchyChildWorkflowAction" />
