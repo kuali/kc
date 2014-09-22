@@ -23,7 +23,6 @@ public interface TaskName {
     /*
      * Application Tasks.
      */
-    public static final String CREATE_PROPOSAL = "createProposal";
     public static final String CREATE_PROTOCOL = "createProtocol";
     public static final String CREATE_AWARD = "createAward";
     public static final String CREATE_TAMD = "createTimeAndMoney";
@@ -31,27 +30,13 @@ public interface TaskName {
     /*
      * Proposal Tasks.
      */
-    public static final String MODIFY_PROPOSAL = "modifyProposal";
-    public static final String VIEW_PROPOSAL = "viewProposal";
-    public static final String PRINT_PROPOSAL = "printProposal";
-    public static final String SUBMIT_TO_SPONSOR = "submitToSponsor";
     public static final String ADD_BUDGET = "addBudget";
     public static final String OPEN_BUDGETS = "openBudgets";
-    public static final String MODIFY_PROPOSAL_ROLES = "modifyProposalRoles";
     public static final String ADD_NARRATIVE = "addNarrative";
     public static final String CERTIFY = "certify";
-    public static final String ALTER_PROPOSAL_DATA = "alterProposalData";
-    public static final String SHOW_ALTER_PROPOSAL_DATA = "showAlterProposalData";
-    public static final String SUBMIT_TO_WORKFLOW = "submitToWorkflow";
-    public static final String MAINTAIN_PROPOSAL_HIERARCHY = "maintainProposalHierarchy";
-    public static final String PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION="hierarchyChildWorkflowAction";
-    public static final String PROPOSAL_HIERARCHY_CHILD_ACKNOWLEDGE_ACTION="proposal.hierarchyChildAcknowledgeAction";
     public static final String PROPOSAL_ADD_NOTE_ATTACHMENT = "proposalAddNoteAttachment";
     public static final String ANSWER_PROPOSAL_QUESTIONNAIRE = "answerProposalQuestionnaire";
-    public static final String DELETE_PROPOSAL = "deleteProposal";
     public static final String REPLACE_PERSONNEL_ATTACHMENT = "replacePersonnelAttachmentAuthorizer";
-    public static final String REJECT_PROPOSAL = "rejectProposal";
-    public static final String RECALL_PROPOSAL = "recallProposal";
     
     /*
      * Narrative Tasks.
@@ -213,12 +198,16 @@ public interface TaskName {
     public static final String MODIFY_TIME_AND_MONEY = "modifyTimeAndMoney";
     public static final String VIEW_TIME_AND_MONEY = "viewTimeAndMoney";
     public static final String MODIFY_TIME_AND_MONEY_ROLES = "modifyTimeAndMoneyRoles";
-    
+
+    /*
+     * Award Tasks
+     */
     public static final String ANSWER_PROTOCOL_QUESTIONNAIRE = "answerProtocolQuestionnaire";
     public static final String APPROVE_AWARD_BUDGET = "approveAwardBudget";
     public static final String DISAPPROVE_AWARD_BUDGET = "disapproveAwardBudget";
     public static final String POST_AWARD_BUDGET = "postAwardBudget";
     public static final String TOGGLE_AWARD_BUDGET_STATUS = "toggleAwardBudgetStatus";
+    public static final String SUBMIT_TO_WORKFLOW = "submitToWorkflow";
 
     /*
      * COI tasks

@@ -56,14 +56,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public abstract class ProposalDevelopmentControllerBase {
 
@@ -270,18 +268,7 @@ public abstract class ProposalDevelopmentControllerBase {
      protected ModelAndView navigate(ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	return save(form);
      }
-
-    public void saveAnswerHeaders(ProposalDevelopmentDocumentForm pdForm) {
-        for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
-            if (person.getQuestionnaireHelper() != null && person.getQuestionnaireHelper().getAnswerHeaders() != null
-                    && !person.getQuestionnaireHelper().getAnswerHeaders().isEmpty()) {
-                for (AnswerHeader answerHeader : person.getQuestionnaireHelper().getAnswerHeaders()) {
-                    getLegacyDataAdapter().save(answerHeader);
-                }
-            }
-        }
-    }
-
+    
     public void addEditableCollectionLine(ProposalDevelopmentDocumentForm form, String selectedCollectionPath){
         if(form.getEditableCollectionLines().containsKey(selectedCollectionPath)) {
             updateEditableCollectionLines(form, selectedCollectionPath);
@@ -303,7 +290,7 @@ public abstract class ProposalDevelopmentControllerBase {
         form.getEditableCollectionLines().get(selectedCollectionPath).clear();
         form.getEditableCollectionLines().get(selectedCollectionPath).addAll(indexes);
     }
-
+    
     protected KcAuthorizationService getKraAuthorizationService() {
         return kraAuthorizationService;
     }

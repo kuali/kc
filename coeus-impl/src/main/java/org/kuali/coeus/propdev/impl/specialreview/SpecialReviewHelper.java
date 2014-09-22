@@ -20,7 +20,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewHelperBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
-import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
 import java.util.ArrayList;
@@ -84,10 +83,6 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
     @Override
     public boolean isCanCreateIacucProtocol() {
         return getProposalDevelopmentSpecialReviewService().canCreateIacucProtocol(getProposalDevelopmentDocument());
-    }
-
-    private TaskAuthorizationService getTaskAuthorizationService() {
-        return KcServiceLocator.getService(TaskAuthorizationService.class);
     }
 
     public void populatePropSpecialReviewApproverView(String summarySpecialReview)

@@ -1375,10 +1375,6 @@
 		p:localServiceName="pastApproversDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
           
-
-    
-
-    
     <bean id="researchAreaReferencesDao" class="org.kuali.kra.dao.ojb.ResearchAreaReferencesDaoOjb" parent="platformAwareDao" />
     
     <bean id="researchAreasService" class="org.kuali.kra.irb.service.impl.ResearchAreasServiceImpl">
@@ -1444,9 +1440,6 @@
         <property name="groupName" value="application" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.coeus.propdev.impl.core.CreateProposalAuthorizer" parent="parentAuthorizer">
-                    <property name="taskName" value="createProposal" />
-                </bean>
                 <bean class="org.kuali.kra.irb.authorizer.CreateProtocolAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="createProtocol" />
                 </bean>

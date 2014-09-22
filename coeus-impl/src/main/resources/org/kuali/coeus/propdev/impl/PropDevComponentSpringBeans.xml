@@ -161,80 +161,20 @@
         <property name="groupName" value="proposal" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.coeus.propdev.impl.core.ModifyProposalAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="modifyProposal" />
-                    <property name="requiresWritableDoc" value="true" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
-                </bean>
-                <bean class="org.kuali.coeus.propdev.impl.core.ViewProposalAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="viewProposal" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
-                </bean>
                 <bean class="org.kuali.coeus.propdev.impl.core.AddNoteProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="proposalAddNoteAttachment" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
                     <property name="unitAuthorizationService" ref="unitAuthorizationService" />
                 </bean>
                 <bean class="org.kuali.coeus.propdev.impl.auth.task.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="maintainProposalHierarchy" />
-                    <property name="permission" value="Maintain ProposalHierarchy" />
-                    <property name="requiresWritableDoc" value="true" />
-                </bean>
-                <bean class="org.kuali.coeus.propdev.impl.auth.task.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="printProposal" />
-                    <property name="permission" value="Print Proposal" />
-                </bean>
-                <bean class="org.kuali.coeus.propdev.impl.action.SubmitToSponsorAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="submitToSponsor" />
-                    <property name="requiresWritableDoc" value="true" />
-                </bean>
-                <bean class="org.kuali.coeus.propdev.impl.core.SubmitToWorkflowAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="submitToWorkflow" />
-                    <property name="requiresWritableDoc" value="true" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
-                </bean>
-                <bean class="org.kuali.coeus.propdev.impl.auth.task.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="certify" />
                     <property name="permission" value="Certify" />
-                    <property name="requiresWritableDoc" value="true" />
-                </bean>
-                <bean class="org.kuali.coeus.propdev.impl.editable.ShowAlterProposalDataAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="showAlterProposalData" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
-                </bean>
-                <bean class="org.kuali.coeus.propdev.impl.editable.AlterProposalDataAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="alterProposalData" />
-                    <property name="requiresWritableDoc" value="true" />
-                    <property name="kcWorkflowService" ref="kcWorkflowService" />
-                    <property name="proposalHierarchyService" ref="proposalHierarchyService" />
-                </bean>
-                <bean class="org.kuali.coeus.propdev.impl.docperm.ModifyProposalPermissionsAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="modifyProposalRoles" />
-                    <property name="requiresWritableDoc" value="true" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
-                </bean>
-                <bean class="org.kuali.coeus.propdev.impl.action.ProposalHierarchyChildWorkflowActionAuthorizer"
-                      parent="parentProposalAuthorizer">
-                    <property name="taskName" value="hierarchyChildWorkflowAction" />
-                </bean>
-                <bean class="org.kuali.coeus.propdev.impl.action.ProposalHierarchyChildWorkflowActionAuthorizer"
-                      parent="parentProposalAuthorizer">
-                    <property name="taskName" value="hierarchyChildAcknowledgeAction" />
-                    <property name="proposalHierarchyService" ref="proposalHierarchyService" />
-                </bean>
-                <bean class="org.kuali.coeus.propdev.impl.action.RejectProposalAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="rejectProposal" />
                     <property name="requiresWritableDoc" value="true" />
                 </bean>
                 <bean class="org.kuali.coeus.propdev.impl.questionnaire.AnswerProposalQuestionnaireAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="answerProposalQuestionnaire" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
                     <property name="kcDocumentRejectionService" ref="kcDocumentRejectionService" />
-                </bean>
-                <bean class="org.kuali.coeus.propdev.impl.action.DeleteProposalAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="deleteProposal" />
-                    <property name="requiresWritableDoc" value="true" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
                 <bean class="org.kuali.coeus.propdev.impl.person.attachment.PersonnelAttachmentReplaceAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="replacePersonnelAttachmentAuthorizer" />
@@ -275,9 +215,6 @@
                 <bean class="org.kuali.kra.iacuc.authorizer.CreateIacucProtocolFromProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="createIacucProtocolFromProposal" />
                 </bean>
-                <bean class="org.kuali.coeus.propdev.impl.core.RecallAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="recallProposal" />
-                </bean>
             </list>
         </property>
     </bean>
@@ -308,60 +245,6 @@
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
             </list>
-        </property>
-    </bean>
-
-    <bean id="proposalDevelopmentWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentAction" />
-        <property name="mappings">
-            <map>
-                <entry key="save">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="modifyProposal" />
-                    </bean>
-                </entry>
-            </map>
-        </property>
-    </bean>
-
-    <bean id="proposalGrantsGovWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.coeus.propdev.impl.s2s.ProposalDevelopmentGrantsGovAction" />
-        <property name="mappings">
-            <map>
-                <entry key="printForms">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="printProposal" />
-                    </bean>
-                </entry>
-            </map>
-        </property>
-    </bean>
-
-    <bean id="proposalKeyPersonnelWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.coeus.propdev.impl.person.ProposalDevelopmentKeyPersonnelAction" />
-        <property name="mappings">
-            <map>
-                <entry key="addCertificationQuestion">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="modifyProposal" />
-                    </bean>
-                </entry>
-                <entry key="removeCertificationQuestion">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="modifyProposal" />
-                    </bean>
-                </entry>
-                <entry key="addUnitDetails">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="modifyProposal" />
-                    </bean>
-                </entry>
-                <entry key="removeUnitDetails">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="modifyProposal" />
-                    </bean>
-                </entry>
-            </map>
         </property>
     </bean>
 
@@ -445,87 +328,6 @@
                 <entry key="copyBudgetVersion">
                     <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
                         <property name="taskName" value="addBudget" />
-                    </bean>
-                </entry>
-            </map>
-        </property>
-    </bean>
-
-    <bean id="proposalPermissionsWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.coeus.propdev.impl.docperm.ProposalDevelopmentPermissionsAction" />
-        <property name="mappings">
-            <map>
-                <entry key="addProposalUser">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="modifyProposalRoles" />
-                    </bean>
-                </entry>
-                <entry key="deleteProposalUser">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="modifyProposalRoles" />
-                    </bean>
-                </entry>
-                <entry key="setEditRoles">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="modifyProposalRoles" />
-                    </bean>
-                </entry>
-            </map>
-        </property>
-    </bean>
-
-    <bean id="proposalActionsWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.coeus.propdev.impl.action.ProposalDevelopmentActionsAction" />
-        <property name="mappings">
-            <map>
-                <entry key="printForms">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="printProposal" />
-                    </bean>
-                </entry>
-                <entry key="route">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="submitToWorkflow" />
-                    </bean>
-                </entry>
-                <entry key="submitToSponsor">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="submitToSponsor" />
-                    </bean>
-                </entry>
-                <entry key="resubmit">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="submitToSponsor" />
-                    </bean>
-                </entry>
-                <entry key="approve">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="hierarchyChildWorkflowAction" />
-                    </bean>
-                </entry>
-                <entry key="reject">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="rejectProposal" />
-                    </bean>
-                </entry>
-                <entry key="disapprove">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="hierarchyChildWorkflowAction" />
-                    </bean>
-                </entry>
-                <entry key="blanketApprove">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="hierarchyChildWorkflowAction" />
-                    </bean>
-                </entry>
-                <entry key="acknowledge">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="hierarchyChildAcknowledgeAction" />
-                    </bean>
-                </entry>
-                <entry key="fyi">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="hierarchyChildWorkflowAction" />
                     </bean>
                 </entry>
             </map>
@@ -776,9 +578,6 @@
                     <property name="requiresWritableDoc" value="true" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
                 </bean>
-                <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ProposalHierarchyBudgetAuthorizer" parent="parentBudgetAuthorizer">
-                    <property name="taskName" value="maintainProposalHierarchy" />
-                </bean>
                 <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ViewProposalBudgetPersonSalaryAuthorizer" parent="parentBudgetAuthorizer">
                     <property name="taskName" value="viewPropPersonInstSalaries" />
                     <property name="requiresWritableDoc" value="true" />
@@ -823,19 +622,6 @@
             </map>
         </property>
     </bean>
-
-    <bean id="budgetActionsWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.coeus.common.budget.framework.core.BudgetActionsAction" />
-        <property name="mappings">
-            <map>
-                <entry key="printBudgetForm">
-                    <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.BudgetProposalTaskFactory">
-                        <property name="taskName" value="printProposal" />
-                    </bean>
-                </entry>
-            </map>
-        </property>
-    </bean>
     
     <bean id="exemptionTypeValuesFinder" class="org.kuali.coeus.sys.framework.keyvalue.DataObjectValuesFinder">
         <property name="dataObjectClass" value="org.kuali.coeus.common.framework.compliance.exemption.ExemptionType"/>
@@ -861,6 +647,6 @@
         		<entry key="rateClassTypeCode" value="O"/>
         	</map>
         </property>
-    </bean>        
-    
+    </bean>
+
 </beans>
