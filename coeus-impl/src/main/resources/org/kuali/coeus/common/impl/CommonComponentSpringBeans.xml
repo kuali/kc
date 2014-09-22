@@ -50,11 +50,8 @@
     </util:set>
 
     <util:set id="webAuthorizerNames">
-        <value>proposalDevelopmentWebAuthorizer</value>
-        <value>proposalKeyPersonnelWebAuthorizer</value>
         <value>proposalAbstractsAttachmentsWebAuthorizer</value>
         <value>proposalBudgetVersionsWebAuthorizer</value>
-        <value>proposalActionsWebAuthorizer</value>
         <value>budgetWebAuthorizer</value>
         <value>budgetVersionsWebAuthorizer</value>
         <value>awardBudgetsWebAuthorizer</value>

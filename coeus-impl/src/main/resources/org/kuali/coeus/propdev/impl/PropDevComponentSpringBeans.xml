@@ -171,10 +171,6 @@
                     <property name="permission" value="Certify" />
                     <property name="requiresWritableDoc" value="true" />
                 </bean>
-                <bean class="org.kuali.coeus.propdev.impl.action.RejectProposalAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="rejectProposal" />
-                    <property name="requiresWritableDoc" value="true" />
-                </bean>
                 <bean class="org.kuali.coeus.propdev.impl.questionnaire.AnswerProposalQuestionnaireAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="answerProposalQuestionnaire" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
@@ -340,19 +336,6 @@
                 <entry key="copyBudgetVersion">
                     <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
                         <property name="taskName" value="addBudget" />
-                    </bean>
-                </entry>
-            </map>
-        </property>
-    </bean>
-
-    <bean id="proposalActionsWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.coeus.propdev.impl.action.ProposalDevelopmentActionsAction" />
-        <property name="mappings">
-            <map>
-                <entry key="reject">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="rejectProposal" />
                     </bean>
                 </entry>
             </map>

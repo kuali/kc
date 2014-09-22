@@ -38,7 +38,6 @@ public interface TaskName {
     public static final String ANSWER_PROPOSAL_QUESTIONNAIRE = "answerProposalQuestionnaire";
     public static final String DELETE_PROPOSAL = "deleteProposal";
     public static final String REPLACE_PERSONNEL_ATTACHMENT = "replacePersonnelAttachmentAuthorizer";
-    public static final String REJECT_PROPOSAL = "rejectProposal";
     public static final String RECALL_PROPOSAL = "recallProposal";
     
     /*

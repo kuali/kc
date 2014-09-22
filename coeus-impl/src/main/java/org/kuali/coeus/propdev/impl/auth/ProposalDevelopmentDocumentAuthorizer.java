@@ -200,8 +200,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             editModes.add("maintainProposalHierarchy");
         }
         
-        if (canExecuteTask(userId, doc, TaskName.REJECT_PROPOSAL)) {
-            editModes.add(TaskName.REJECT_PROPOSAL);
+        if (isAuthorizedToRejectProposal(doc, user)) {
+            editModes.add("rejectProposal");
         }
         
         setNarrativePermissions(userId, doc, editModes);
@@ -394,6 +394,12 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             return isKeyPersonnel || canCertify;
         }
         return true;
+    }
+
+    public boolean isAuthorizedToRejectProposal(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+        WorkflowDocument workDoc = pdDocument.getDocumentHeader().getWorkflowDocument();
+        return (!workDoc.isCompletionRequested()) && (! getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument)) && (workDoc.isApprovalRequested()) && (workDoc.isEnroute());
     }
 
     public boolean isAuthorizedToSubmitToWorkflow(Document document, Person user) {

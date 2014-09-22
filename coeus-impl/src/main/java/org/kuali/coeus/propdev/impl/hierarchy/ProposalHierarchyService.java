@@ -56,11 +56,6 @@ public interface ProposalHierarchyService {
     
     public static final String PROPOSAL_DEVELOPMENT_DOCUMENT_TYPE = "ProposalDevelopmentDocument";
     
-//    public static final String REJECT_PROPOSAL_REASON_PREFIX = "Proposal rejected" + KRADConstants.BLANK_SPACE;
-//    public static final String REJECT_PROPOSAL_HIERARCHY_CHILD_REASON_PREFIX = "Proposal Hierarchy child rejected when parent rejected" + KRADConstants.BLANK_SPACE;
-//    public static final String APPLICATION_STATUS_PARENT_ENROUTE = "message.proposalDevelopment.workflow.applicationStatus.parentEnroute";
-//   
-    
     
     /**
      * This method takes a proposal, creates a Hierarchy
