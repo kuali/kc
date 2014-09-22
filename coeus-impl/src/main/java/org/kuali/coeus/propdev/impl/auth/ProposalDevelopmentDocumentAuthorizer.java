@@ -314,7 +314,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     
     @Override
     public boolean canRoute(Document document, Person user) {
-        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.SUBMIT_TO_WORKFLOW) && isAuthorizedToHierarchyChildWorkflowAction(document, user);
+        return isAuthorizedToSubmitToWorkflow(document, user) && isAuthorizedToHierarchyChildWorkflowAction(document, user);
     }
     
     @Override
@@ -394,6 +394,13 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             return isKeyPersonnel || canCertify;
         }
         return true;
+    }
+
+    public boolean isAuthorizedToSubmitToWorkflow(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+        return !getKcWorkflowService().isInWorkflow(pdDocument) &&
+                getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.SUBMIT_PROPOSAL) &&
+                !pdDocument.getDevelopmentProposal().isChild();
     }
 
     public boolean isAuthorizedToHierarchyChildWorkflowAction(Document document, Person user) {

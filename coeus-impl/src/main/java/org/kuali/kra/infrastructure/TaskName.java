@@ -34,7 +34,6 @@ public interface TaskName {
     public static final String OPEN_BUDGETS = "openBudgets";
     public static final String ADD_NARRATIVE = "addNarrative";
     public static final String CERTIFY = "certify";
-    public static final String SUBMIT_TO_WORKFLOW = "submitToWorkflow";
     public static final String PROPOSAL_ADD_NOTE_ATTACHMENT = "proposalAddNoteAttachment";
     public static final String ANSWER_PROPOSAL_QUESTIONNAIRE = "answerProposalQuestionnaire";
     public static final String DELETE_PROPOSAL = "deleteProposal";
@@ -202,12 +201,16 @@ public interface TaskName {
     public static final String MODIFY_TIME_AND_MONEY = "modifyTimeAndMoney";
     public static final String VIEW_TIME_AND_MONEY = "viewTimeAndMoney";
     public static final String MODIFY_TIME_AND_MONEY_ROLES = "modifyTimeAndMoneyRoles";
-    
+
+    /*
+     * Award Tasks
+     */
     public static final String ANSWER_PROTOCOL_QUESTIONNAIRE = "answerProtocolQuestionnaire";
     public static final String APPROVE_AWARD_BUDGET = "approveAwardBudget";
     public static final String DISAPPROVE_AWARD_BUDGET = "disapproveAwardBudget";
     public static final String POST_AWARD_BUDGET = "postAwardBudget";
     public static final String TOGGLE_AWARD_BUDGET_STATUS = "toggleAwardBudgetStatus";
+    public static final String SUBMIT_TO_WORKFLOW = "submitToWorkflow";
 
     /*
      * COI tasks
