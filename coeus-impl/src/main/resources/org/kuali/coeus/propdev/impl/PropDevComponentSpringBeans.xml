@@ -215,9 +215,6 @@
                 <bean class="org.kuali.kra.iacuc.authorizer.CreateIacucProtocolFromProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="createIacucProtocolFromProposal" />
                 </bean>
-                <bean class="org.kuali.coeus.propdev.impl.core.RecallAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="recallProposal" />
-                </bean>
             </list>
         </property>
     </bean>
