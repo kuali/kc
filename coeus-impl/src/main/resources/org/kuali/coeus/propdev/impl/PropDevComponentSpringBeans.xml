@@ -176,11 +176,6 @@
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
                     <property name="kcDocumentRejectionService" ref="kcDocumentRejectionService" />
                 </bean>
-                <bean class="org.kuali.coeus.propdev.impl.action.DeleteProposalAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="deleteProposal" />
-                    <property name="requiresWritableDoc" value="true" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
-                </bean>
                 <bean class="org.kuali.coeus.propdev.impl.person.attachment.PersonnelAttachmentReplaceAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="replacePersonnelAttachmentAuthorizer" />
                     <property name="requiresWritableDoc" value="true" />
