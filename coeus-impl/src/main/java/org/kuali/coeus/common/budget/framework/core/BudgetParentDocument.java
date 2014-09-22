@@ -39,14 +39,6 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTra
     protected ParameterService getParameterService() {
         return KcServiceLocator.getService(ParameterService.class);
     }
-    
-    public void updateDocumentDescriptions(List<? extends Budget> budgets) {
-        for (Budget budgetVersion : budgets) {
-            if (budgetVersion.isNameUpdatable() && !StringUtils.isBlank(budgetVersion.getName())) {
-                budgetVersion.setNameUpdatable(false);
-            }
-        }
-    }
 
     /**
      * This method gets the next budget version number for this proposal. We can't use documentNextVersionNumber because that

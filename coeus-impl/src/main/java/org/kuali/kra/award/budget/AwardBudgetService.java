@@ -95,9 +95,9 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * @param limitSummary
      * @param awardDocument
      */
-    void populateBudgetLimitSummary(BudgetLimitSummaryHelper limitSummary, AwardDocument awardDocument);
+    void populateBudgetLimitSummary(BudgetLimitSummaryHelper limitSummary, Award award);
     
-    List<AwardBudgetDocumentVersion> getAllBudgetsForAward(AwardDocument awardDocument);
+    List<AwardBudgetExt> getAllBudgetsForAward(Award award);
 
     /**
      * 
@@ -105,7 +105,7 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * @param awardDocument
      * @return
      */
-    ScaleTwoDecimal getTotalCostLimit(AwardDocument awardDocument);
+    ScaleTwoDecimal getTotalCostLimit(Award award);
     
     /**
      * Populates the budget limits from the award. This includes total cost limit and
@@ -113,7 +113,7 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * @param awardBudgetDocument
      * @param parentDocument
      */
-    void setBudgetLimits(AwardBudgetDocument awardBudgetDocument, AwardDocument parentDocument); 
+    void setBudgetLimits(AwardBudgetDocument awardBudgetDocument, Award award); 
     
     /**
      * Returns the active award or if none exist, the newest non-cancelled award.
@@ -130,7 +130,7 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * @return true if any unfinalized budgets are found
      * @throws WorkflowException
      */
-    boolean checkForOutstandingBudgets(AwardDocument parentDoc);
+    boolean checkForOutstandingBudgets(Award award);
     
     /**
      * 

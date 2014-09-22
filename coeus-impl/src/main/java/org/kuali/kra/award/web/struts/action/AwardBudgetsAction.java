@@ -84,14 +84,13 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         //since the award budget versions panel is usually(always??) only usable when the award is
         //read only we need to make sure to perform post budget copy stuff here
         if (!StringUtils.equals(awardForm.getMethodToCall(), "save") && awardForm.isSaveAfterCopy()) {
-            final List<AwardBudgetDocumentVersion> overviews = awardForm.getAwardDocument().getBudgetDocumentVersions();
-            final AwardBudgetDocumentVersion copiedDocumentOverview = overviews.get(overviews.size() - 1);
-            BudgetVersionOverview copiedOverview = copiedDocumentOverview.getBudgetVersionOverview();
-            final String copiedName = copiedOverview.getName();
-            copiedOverview.setName("copied placeholder");
+            final List<AwardBudgetExt> overviews = awardForm.getAwardDocument().getBudgetDocumentVersions();
+            final AwardBudgetExt copiedBudget = overviews.get(overviews.size() - 1);
+            final String copiedName = copiedBudget.getName();
+            copiedBudget.setName("copied placeholder");
             LOG.debug("validating " + copiedName);
             boolean valid = getBudgetService().isBudgetVersionNameValid(awardForm.getAwardDocument().getAward(), copiedName);
-            copiedOverview.setName(copiedName);
+            copiedBudget.setName(copiedName);
             awardForm.setSaveAfterCopy(!valid);
             if (!valid) {
                 return mapping.findForward(Constants.MAPPING_BASIC);
@@ -102,7 +101,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         
         request.setAttribute("rateClassMap", getBudgetRatesService().getBudgetRateClassMap("O"));
         ActionForward ac = super.execute(mapping, form, request, response);
-        getAwardBudgetService().populateBudgetLimitSummary(awardForm.getBudgetLimitSummary(), awardForm.getAwardDocument());
+        getAwardBudgetService().populateBudgetLimitSummary(awardForm.getBudgetLimitSummary(), awardForm.getAwardDocument().getAward());
         return ac;
     }
 

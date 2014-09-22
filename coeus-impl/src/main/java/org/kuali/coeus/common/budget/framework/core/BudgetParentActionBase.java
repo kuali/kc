@@ -58,7 +58,7 @@ public class BudgetParentActionBase extends KcTransactionalDocumentActionBase {
 
         BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budgetParent);
         Budget newBudget = budgetService.copyBudgetVersion(budget, copyPeriodOneOnly);
-        List<? extends AbstractBudget> budgetVersions = budgetParent.getBudgetVersionOverviews();
+        List<? extends AbstractBudget> budgetVersions = budgetParent.getBudgets();
         for (AbstractBudget versionOverview : budgetVersions) {
             if(versionOverview.getBudgetVersionNumber().intValue()==budget.getBudgetVersionNumber().intValue()){
                 versionOverview.setNameUpdatable(true);

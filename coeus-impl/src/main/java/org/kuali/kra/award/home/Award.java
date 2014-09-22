@@ -44,6 +44,7 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncStatus;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetLimit;
+import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardPerson;
@@ -3419,19 +3420,22 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 		return new AwardBudgetExt();
 	}
     private List<AwardBudgetExt> budgets;
-
-    public List<AwardBudgetExt> getBudgetVersionOverviews() {
-		return budgets;
-	}
-
-	public void setBudgetVersionOverviews(
-			List<AwardBudgetExt> budgetVersionOverviews) {
-		this.budgets = budgetVersionOverviews;
-	}
+    private List<AwardBudgetExt> allAwardBudgets;
 
 	@Override
 	public Integer getNextBudgetVersionNumber() {
 		return getAwardDocument().getNextBudgetVersionNumber();
+	}
+
+	public List<AwardBudgetExt> getAllAwardBudgets() {
+		if (allAwardBudgets == null || allAwardBudgets.isEmpty()) {
+			allAwardBudgets = KcServiceLocator.getService(AwardBudgetService.class).getAllBudgetsForAward(this);
+		}
+		return allAwardBudgets;
+	}
+
+	public void setAllAwardBudgets(List<AwardBudgetExt> budgets) {
+		this.allAwardBudgets = budgets;
 	}
 
 	public List<AwardBudgetExt> getBudgets() {
@@ -3441,6 +3445,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 	public void setBudgets(List<AwardBudgetExt> budgets) {
 		this.budgets = budgets;
 	}
+	
 
 	
 }

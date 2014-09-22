@@ -174,7 +174,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 
     @Override
     public AwardBudgetDocument rebudget(AwardDocument awardDocument,String documentDescription) throws WorkflowException{
-        AwardBudgetDocument rebudgetDocument = createNewBudgetDocument(documentDescription, awardDocument, true);
+        AwardBudgetDocument rebudgetDocument = createNewBudgetDocument(documentDescription, awardDocument.getAward(), true);
         return rebudgetDocument;
     }
 
@@ -264,27 +264,27 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     throws WorkflowException {
         
         AwardDocument parentDocument = (AwardDocument)parentBudgetDocument;
-        if (checkForOutstandingBudgets(parentDocument)) {
+        if (checkForOutstandingBudgets(parentDocument.getAward())) {
             return null;
         }
         
-        AwardBudgetDocument awardBudgetDocument = createNewBudgetDocument(documentDescription, parentDocument,false);
+        AwardBudgetDocument awardBudgetDocument = createNewBudgetDocument(documentDescription, parentDocument.getAward(),false);
 
         return awardBudgetDocument;
     }
 
-    protected AwardBudgetDocument createNewBudgetDocument(String documentDescription, AwardDocument parentDocument,boolean rebudget)
+    protected AwardBudgetDocument createNewBudgetDocument(String documentDescription, Award award,boolean rebudget)
             throws WorkflowException {
         boolean success = new AwardBudgetVersionRule().processAddBudgetVersion(
-                new AddBudgetVersionEvent(BUDGET_VERSION_ERROR_PREFIX, parentDocument.getBudgetParent(), documentDescription));
+                new AddBudgetVersionEvent(BUDGET_VERSION_ERROR_PREFIX, award, documentDescription));
         if (!success) {
             return null;
         }
-        Integer budgetVersionNumber = parentDocument.getNextBudgetVersionNumber();
+        Integer budgetVersionNumber = award.getNextBudgetVersionNumber();
         AwardBudgetDocument awardBudgetDocument;
-        if (isPostedBudgetExist(parentDocument)) {
-            ScaleTwoDecimal obligatedChangeAmount = getTotalCostLimit(parentDocument);
-            AwardBudgetExt previousPostedBudget = getLatestPostedBudget(parentDocument);
+        if (isPostedBudgetExist(award)) {
+            ScaleTwoDecimal obligatedChangeAmount = getTotalCostLimit(award);
+            AwardBudgetExt previousPostedBudget = getLatestPostedBudget(award);
             BudgetDocument<Award> postedBudgetDocument = (AwardBudgetDocument) previousPostedBudget.getBudgetDocument();
             awardBudgetDocument =  (AwardBudgetDocument) copyBudgetVersion(postedBudgetDocument);
             copyObligatedAmountToLineItems(awardBudgetDocument,obligatedChangeAmount);
@@ -297,17 +297,16 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         AwardBudgetExt awardBudget = awardBudgetDocument.getAwardBudget();
         awardBudget.setBudgetVersionNumber(budgetVersionNumber);
         awardBudget.setBudgetDocument(awardBudgetDocument);
-        awardBudget.setAward(parentDocument.getAward());
-        awardBudget.setAwardId(parentDocument.getAward().getAwardId());
-        BudgetVersionOverview lastBudgetVersion = getLastBudgetVersion(parentDocument);
+        awardBudget.setAward(award);
+        awardBudget.setAwardId(award.getAwardId());
+        AwardBudgetExt lastBudgetVersion = getLastBudgetVersion(award);
         awardBudget.setOnOffCampusFlag(lastBudgetVersion == null ? Constants.DEFALUT_CAMUS_FLAG : lastBudgetVersion.getOnOffCampusFlag());
         if (awardBudgetDocument.getDocumentHeader() != null && awardBudgetDocument.getDocumentHeader().hasWorkflowDocument()) {
             awardBudget.setBudgetInitiator(awardBudgetDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
         }
         
-        BudgetParent budgetParent = parentDocument.getBudgetParent();
-        awardBudget.setStartDate(budgetParent.getRequestedStartDateInitial());
-        awardBudget.setEndDate(budgetParent.getRequestedEndDateInitial());
+        awardBudget.setStartDate(award.getRequestedStartDateInitial());
+        awardBudget.setEndDate(award.getRequestedEndDateInitial());
         if(awardBudget.getOhRatesNonEditable()){
             awardBudget.setOhRateClassCode(getAwardParameterValue(Constants.AWARD_BUDGET_DEFAULT_FNA_RATE_CLASS_CODE));
             awardBudget.setUrRateClassCode(getAwardParameterValue( Constants.AWARD_BUDGET_DEFAULT_UNDERRECOVERY_RATE_CLASS_CODE));
@@ -322,8 +321,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         // this should be null so the budget can be posted again to the financial system.
         awardBudget.setBudgetAdjustmentDocumentNumber("");
         awardBudget.setRateClassTypesReloaded(true);
-        setBudgetLimits(awardBudgetDocument, parentDocument);
-        if (isPostedBudgetExist(parentDocument)) {
+        setBudgetLimits(awardBudgetDocument, award);
+        if (isPostedBudgetExist(award)) {
             if (awardBudget.getTotalCostLimit().equals(ScaleTwoDecimal.ZERO)) {
                 rebudget = true;
             }
@@ -331,7 +330,6 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         recalculateBudget(awardBudgetDocument.getBudget());
         saveBudgetDocument(awardBudgetDocument,rebudget);
         awardBudgetDocument = (AwardBudgetDocument) documentService.getByDocumentHeaderId(awardBudgetDocument.getDocumentNumber());
-        parentDocument.refreshBudgetDocumentVersions();
 
         return awardBudgetDocument;
     }
@@ -344,12 +342,12 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         return parameterService.getParameterValueAsString(AwardBudgetDocument.class, parameter);
     }
     
-    public void setBudgetLimits(AwardBudgetDocument awardBudgetDocument, AwardDocument parentDocument) {
+    public void setBudgetLimits(AwardBudgetDocument awardBudgetDocument, Award award) {
         AwardBudgetExt awardBudget = awardBudgetDocument.getAwardBudget();
-        awardBudget.setTotalCostLimit(getTotalCostLimit(parentDocument));
-        awardBudget.setObligatedTotal(new ScaleTwoDecimal(parentDocument.getAward().getBudgetTotalCostLimit().bigDecimalValue()));
+        awardBudget.setTotalCostLimit(getTotalCostLimit(award));
+        awardBudget.setObligatedTotal(new ScaleTwoDecimal(award.getBudgetTotalCostLimit().bigDecimalValue()));
         awardBudget.getAwardBudgetLimits().clear();
-        for (AwardBudgetLimit limit : parentDocument.getAward().getAwardBudgetLimits()) {
+        for (AwardBudgetLimit limit : award.getAwardBudgetLimits()) {
             awardBudget.getAwardBudgetLimits().add(new AwardBudgetLimit(limit));
         }
     }
@@ -409,15 +407,14 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 //        getBudgetSummaryService().calculateBudget(newAwardBudgetFromPosted);
     }
 
-    protected AwardBudgetExt getLatestPostedBudget(AwardDocument awardDocument) {
-        List<AwardBudgetDocumentVersion> documentVersions = awardDocument.getBudgetDocumentVersions();
-        QueryList<AwardBudgetExt> awardBudgetVersionOverviews = new QueryList<>();
-        for (AwardBudgetExt budget : awardDocument.getAward().getBudgets()) {
-            awardBudgetVersionOverviews.add(budget);
+    protected AwardBudgetExt getLatestPostedBudget(Award award) {
+        QueryList<AwardBudgetExt> budgets = new QueryList<>();
+        for (AwardBudgetExt budget : award.getBudgets()) {
+        	budgets.add(budget);
         }
         
         Equals eqPostedStatus = new Equals("awardBudgetStatusCode",getAwardPostedStatusCode()); 
-        QueryList<AwardBudgetExt> postedVersions = awardBudgetVersionOverviews.filter(eqPostedStatus);
+        QueryList<AwardBudgetExt> postedVersions = budgets.filter(eqPostedStatus);
         if(!postedVersions.isEmpty()){
             postedVersions.sort("budgetVersionNumber",false);
             return postedVersions.get(0);
@@ -426,10 +423,10 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     }
 
     @Override
-    public ScaleTwoDecimal getTotalCostLimit(AwardDocument awardDocument) {
-        ScaleTwoDecimal obligatedTotal = awardDocument.getAward().getObligatedDistributableTotal();
-        ScaleTwoDecimal costLimit = awardDocument.getAward().getTotalCostBudgetLimit();
-        ScaleTwoDecimal postedTotalAmount = getPostedTotalAmount(awardDocument);
+    public ScaleTwoDecimal getTotalCostLimit(Award award) {
+        ScaleTwoDecimal obligatedTotal = award.getObligatedDistributableTotal();
+        ScaleTwoDecimal costLimit = award.getTotalCostBudgetLimit();
+        ScaleTwoDecimal postedTotalAmount = getPostedTotalAmount(award);
         if (costLimit == null || costLimit.isGreaterEqual(obligatedTotal)) {
             return new ScaleTwoDecimal(obligatedTotal.bigDecimalValue()).subtract(postedTotalAmount);
         } else {
@@ -442,10 +439,10 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
      * @param awardDocument
      * @return
      */
-    protected ScaleTwoDecimal getPostedTotalAmount(AwardDocument awardDocument) {
+    protected ScaleTwoDecimal getPostedTotalAmount(Award award) {
         String postedStatusCode = getAwardPostedStatusCode();
         ScaleTwoDecimal postedTotalAmount = ScaleTwoDecimal.ZERO;
-        for (AwardBudgetExt budget : awardDocument.getAward().getBudgets()) {
+        for (AwardBudgetExt budget : award.getBudgets()) {
             if(budget.getAwardBudgetStatusCode().equals(postedStatusCode)){
                 postedTotalAmount = postedTotalAmount.add(budget.getTotalCost());
             }
@@ -457,10 +454,10 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
      * A utility method to check whther a budget has been posted for this award, then it can be 
      * used as one of the condition to set rebudget type.
      */
-    protected boolean isPostedBudgetExist(AwardDocument awardDocument) {
+    protected boolean isPostedBudgetExist(Award award) {
         boolean exist = false;
         String postedStatusCode = getAwardPostedStatusCode();
-        for (AwardBudgetExt budget : awardDocument.getAward().getBudgets()) {
+        for (AwardBudgetExt budget : award.getBudgets()) {
             if(budget.getAwardBudgetStatusCode().equals(postedStatusCode)){
                 exist = true;
                 break;
@@ -473,14 +470,14 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         return this.parameterService.getParameterValueAsString(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_POSTED);
     }
 
-    protected BudgetVersionOverview getLastBudgetVersion(AwardDocument award) {
-        List<AwardBudgetDocumentVersion> awardBudgetDocumentVersions = award.getBudgetDocumentVersions();
-        BudgetVersionOverview budgetVersionOverview = null;
+    protected AwardBudgetExt getLastBudgetVersion(Award award) {
+        List<AwardBudgetExt> awardBudgetDocumentVersions = award.getBudgets();
+        AwardBudgetExt latestBudget = null;
         int versionSize = awardBudgetDocumentVersions.size();
         if(versionSize>0){
-            budgetVersionOverview = awardBudgetDocumentVersions.get(versionSize-1).getBudgetVersionOverview();
+        	latestBudget = awardBudgetDocumentVersions.get(versionSize-1);
         }
-        return budgetVersionOverview;
+        return latestBudget;
     }
 
     protected AwardBudgetDocument saveBudgetDocument(AwardBudgetDocument awardBudgetDocument,boolean rebudget) throws WorkflowException {
@@ -565,7 +562,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     	AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument)budgetDocument;
         ((AwardBudgetExt) budgetDocument.getBudget()).getAwardBudgetLimits().clear();
         BudgetDocument newBudgetDocument = copyBudgetVersion(awardBudgetDocument, onlyOnePeriod);
-        setBudgetLimits((AwardBudgetDocument) newBudgetDocument, (AwardDocument) newBudgetDocument.getBudget().getBudgetParent().getDocument());
+        setBudgetLimits((AwardBudgetDocument) newBudgetDocument, (Award) newBudgetDocument.getBudget().getBudgetParent());
         return newBudgetDocument;        
     }
 	@Override
@@ -650,11 +647,10 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     }
     
 
-    public boolean checkForOutstandingBudgets(AwardDocument parentDoc) {
+    public boolean checkForOutstandingBudgets(Award award) {
         boolean result = false;
         
-        for (AwardBudgetDocumentVersion version : parentDoc.getBudgetDocumentVersions()) {
-            AwardBudgetExt awardBudget = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, version.getBudgetVersionOverview().getBudgetId());
+        for (AwardBudgetExt awardBudget : award.getBudgets()) {
             if (!(StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getPostedBudgetStatus())
                     || StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getRejectedBudgetStatus())
                     || StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getCancelledBudgetStatus()))) {
@@ -678,15 +674,15 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     }
     
     @Override
-    public void populateBudgetLimitSummary(BudgetLimitSummaryHelper summary, AwardDocument awardDocument) {
+    public void populateBudgetLimitSummary(BudgetLimitSummaryHelper summary, Award award) {
         
-        AwardBudgetExt currentBudget = getCurrentBudget(awardDocument);
+        AwardBudgetExt currentBudget = getCurrentBudget(award);
         if (summary.getCurrentBudget() == null 
                 || !ObjectUtils.equals(summary.getCurrentBudget(), currentBudget)) {
             getAwardBudgetCalculationService().calculateBudgetSummaryTotals(currentBudget, false);
             summary.setCurrentBudget(currentBudget);
         }
-        AwardBudgetExt prevBudget = getPreviousBudget(awardDocument);
+        AwardBudgetExt prevBudget = getPreviousBudget(award);
         if (summary.getPreviousBudget() == null
                 || !ObjectUtils.equals(summary.getPreviousBudget(), prevBudget)) {
             getAwardBudgetCalculationService().calculateBudgetSummaryTotals(prevBudget, true);
@@ -700,8 +696,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
      * @param awardDocument
      * @return
      */
-    protected AwardBudgetExt getCurrentBudget(AwardDocument awardDocument) {
-        return getNewestBudgetByStatus(awardDocument, 
+    protected AwardBudgetExt getCurrentBudget(Award award) {
+        return getNewestBudgetByStatus(award, 
                 Arrays.asList(new String[]{Constants.BUDGET_STATUS_CODE_IN_PROGRESS, Constants.BUDGET_STATUS_CODE_SUBMITTED, Constants.BUDGET_STATUS_CODE_TO_BE_POSTED}));
     }
     
@@ -710,14 +706,13 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
      * @param awardDocument
      * @return
      */
-    protected AwardBudgetExt getPreviousBudget(AwardDocument awardDocument) {
-        return getNewestBudgetByStatus(awardDocument, Arrays.asList(new String[]{getPostedBudgetStatus()}));
+    protected AwardBudgetExt getPreviousBudget(Award award) {
+        return getNewestBudgetByStatus(award, Arrays.asList(new String[]{getPostedBudgetStatus()}));
     }         
     
-    protected AwardBudgetExt getNewestBudgetByStatus(AwardDocument awardDocument, List<String> statuses) { 
+    protected AwardBudgetExt getNewestBudgetByStatus(Award award, List<String> statuses) { 
         AwardBudgetExt result = null;
-        List<AwardBudgetDocumentVersion> awardBudgetDocuments = awardDocument.getBudgetDocumentVersions();
-        for (AwardBudgetExt version : awardDocument.getAward().getBudgets()) {
+        for (AwardBudgetExt version : award.getBudgets()) {
             if (statuses.contains(version.getAwardBudgetStatusCode())) {
                 if (result == null || version.getBudgetVersionNumber() > result.getBudgetVersionNumber()) {
                     result = version;
@@ -731,15 +726,15 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         return result;        
     }
     
-    public List<AwardBudgetDocumentVersion> getAllBudgetsForAward(AwardDocument awardDocument) {
-        HashSet<AwardBudgetDocumentVersion> result = new HashSet<AwardBudgetDocumentVersion>();
-        List<VersionHistory> versions = getVersionHistoryService().loadVersionHistory(Award.class, awardDocument.getAward().getAwardNumber());
+    public List<AwardBudgetExt> getAllBudgetsForAward(Award award) {
+        HashSet<AwardBudgetExt> result = new HashSet<>();
+        List<VersionHistory> versions = getVersionHistoryService().loadVersionHistory(Award.class, award.getAwardNumber());
         for (VersionHistory version : versions) {
-            if (version.getSequenceOwnerSequenceNumber() <= awardDocument.getAward().getSequenceNumber() && !(version.getSequenceOwner() == null) && !(((Award) version.getSequenceOwner()).getAwardDocument() == null)) {
-                result.addAll(((Award) version.getSequenceOwner()).getAwardDocument().getActualBudgetDocumentVersions());
+            if (version.getSequenceOwnerSequenceNumber() <= award.getSequenceNumber() && !(version.getSequenceOwner() == null) && !(((Award) version.getSequenceOwner()).getAwardDocument() == null)) {
+                result.addAll(((Award) version.getSequenceOwner()).getBudgets());
             }
         }
-        List<AwardBudgetDocumentVersion> listResult = new ArrayList<AwardBudgetDocumentVersion>(result);
+        List<AwardBudgetExt> listResult = new ArrayList<AwardBudgetExt>(result);
         Collections.sort(listResult);
         return listResult;
     }
@@ -920,7 +915,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     @Override
     public boolean validateAddingNewBudget(BudgetParentDocument<Award> parentDocument) {
     	AwardDocument awardDocument = (AwardDocument)parentDocument;
-        return !checkForOutstandingBudgets(awardDocument);
+        return !checkForOutstandingBudgets(awardDocument.getAward());
     }
     public boolean checkRateChange(Collection<BudgetRate> savedBudgetRates,Award award){
         award.refreshReferenceObject("awardFandaRate");

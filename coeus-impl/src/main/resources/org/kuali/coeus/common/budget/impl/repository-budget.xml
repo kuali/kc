@@ -1013,9 +1013,7 @@
 	</class-descriptor>
 	 
     <class-descriptor class="org.kuali.kra.award.budget.document.AwardBudgetDocument" table="BUDGET_DOCUMENT" >			
-		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />		
-		<field-descriptor name="parentDocumentKey" column="PARENT_DOCUMENT_KEY" jdbc-type="VARCHAR"/>
-		<field-descriptor name="parentDocumentTypeCode" column="PARENT_DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>		
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
@@ -1038,8 +1036,6 @@
 	</class-descriptor>
     <class-descriptor class="org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion" table="BUDGET_DOCUMENT">			
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />		
-		<field-descriptor name="parentDocumentKey" column="PARENT_DOCUMENT_KEY" jdbc-type="VARCHAR"/>
-		<field-descriptor name="parentDocumentTypeCode" column="PARENT_DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>		
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />

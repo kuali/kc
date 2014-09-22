@@ -418,7 +418,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             throws Exception {
         AwardBudgetDocument awardBudgetDocument = ((AwardBudgetForm) form).getAwardBudgetDocument();
         Award currentAward = getAwardBudgetService().getActiveOrNewestAward(((AwardDocument) awardBudgetDocument.getBudget().getBudgetParent().getDocument()).getAward().getAwardNumber());
-        ScaleTwoDecimal newCostLimit = getAwardBudgetService().getTotalCostLimit(currentAward.getAwardDocument());
+        ScaleTwoDecimal newCostLimit = getAwardBudgetService().getTotalCostLimit(currentAward);
         if (!newCostLimit.equals(awardBudgetDocument.getBudget().getTotalCostLimit())
                 || !limitsMatch(currentAward.getAwardBudgetLimits(), awardBudgetDocument.getAwardBudget().getAwardBudgetLimits())) {
             Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
@@ -430,7 +430,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
                         KeyConstants.QUESTION_TOTALCOSTLIMIT_CHANGED), 
                         methodToCall, methodToCall);
             } else if(UPDATE_COST_LIMITS_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                getAwardBudgetService().setBudgetLimits(awardBudgetDocument, currentAward.getAwardDocument());
+                getAwardBudgetService().setBudgetLimits(awardBudgetDocument, currentAward);
                 return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
             } else {
                 //do nothing and continue with route
