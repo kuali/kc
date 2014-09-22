@@ -51,7 +51,6 @@
 
     <util:set id="webAuthorizerNames">
         <value>proposalDevelopmentWebAuthorizer</value>
-        <value>proposalGrantsGovWebAuthorizer</value>
         <value>proposalKeyPersonnelWebAuthorizer</value>
         <value>proposalAbstractsAttachmentsWebAuthorizer</value>
         <value>proposalBudgetVersionsWebAuthorizer</value>
@@ -59,7 +58,6 @@
         <value>proposalActionsWebAuthorizer</value>
         <value>budgetWebAuthorizer</value>
         <value>budgetVersionsWebAuthorizer</value>
-        <value>budgetActionsWebAuthorizer</value>
         <value>awardBudgetsWebAuthorizer</value>
     </util:set>
 

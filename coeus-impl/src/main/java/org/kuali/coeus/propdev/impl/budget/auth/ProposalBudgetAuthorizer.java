@@ -18,23 +18,20 @@ package org.kuali.coeus.propdev.impl.budget.auth;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.auth.task.BudgetTask;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
-import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.ViewAuthorizerBase;
@@ -43,7 +40,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -60,7 +56,11 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
 	@Autowired
 	@Qualifier("taskAuthorizationService")
 	private TaskAuthorizationService taskAuthorizationService;
-	
+
+    @Autowired
+    @Qualifier("kcAuthorizationService")
+    private KcAuthorizationService kcAuthorizationService;
+
     @Override
     public Set<String> getEditModes(View view, ViewModel model, Person user, Set<String> editModes) {
     	ProposalBudgetForm form = (ProposalBudgetForm) model;
@@ -70,7 +70,7 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
         
         if (canExecuteBudgetTask(userId, budget, TaskName.VIEW_SALARIES )) {
             editModes.add(TaskName.VIEW_SALARIES); 
-            setPermissions(userId, parentDocument, editModes);
+            setPermissions(user, parentDocument, editModes);
         }
       
         if (canExecuteBudgetTask(userId, budget, TaskName.MODIFY_BUDGET)) {
@@ -80,13 +80,13 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
             if (canExecuteBudgetTask(userId, budget, TaskName.MODIFY_PROPOSAL_RATE)) {
                 editModes.add("modifyProposalBudgetRates");
             }
-            setPermissions(userId, parentDocument, editModes);
+            setPermissions(user, parentDocument, editModes);
         }
         else if (canExecuteBudgetTask(userId, budget, TaskName.VIEW_BUDGET)) {
             editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
             editModes.add("viewBudgets");
             
-            setPermissions(userId, parentDocument, editModes);
+            setPermissions(user, parentDocument, editModes);
         }
         else {
             editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
@@ -122,11 +122,13 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
      * to modify the proposal.  Note that permissions are always signified as 
      * either TRUE or FALSE.
      * 
-     * @param username the user's unique username
+     * @param user the user
      * @param doc the Proposal Development Document
-     * @param editModeMap the edit mode map
+     * @param editModes the edit mode map
      */
-    protected void setPermissions(String userId, BudgetParentDocument doc, Set<String> editModes) {
+    protected void setPermissions(Person user, BudgetParentDocument doc, Set<String> editModes) {
+        String userId = user.getPrincipalId();
+
         if (canExecuteParentDocumentTask(userId, doc, TaskName.ADD_BUDGET)) {
             editModes.add("addBudget");
         }
@@ -139,14 +141,14 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
             editModes.add("modifyProposalBudget");
         }
         
-        if (canExecuteParentDocumentTask(userId, doc, TaskName.PRINT_PROPOSAL)) {
+        if (isAuthorizedToPrintProposal(doc, user)) {
             editModes.add("printProposal");
         }
     }
     
     /**
      * Can the user execute the given proposal task?
-     * @param username the user's username
+     * @param userId the user's unique user id
      * @param doc the proposal development document
      * @param taskName the name of the task
      * @return true if has permission; otherwise false
@@ -158,9 +160,8 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
 
     /**
      * Can the user execute the given budget task?
-     * @param username the user's username
-     * @param doc the proposal development document
-     * @param budgetDocument the budget document
+     * @param userId the user's unique user id
+     * @param budget the budget
      * @param taskName the name of the task
      * @return true if has permission; otherwise false
      */
@@ -196,13 +197,15 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
 
     /**
      * Is the Budget in the final state?
-     * @param parentDocument
-     * @param budgetDocument
-     * @return
      */
-    private boolean isBudgetComplete(Budget budget) {
+    protected boolean isBudgetComplete(Budget budget) {
 		String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
 		return StringUtils.equals(budgetStatusCompleteCode, budget.getBudgetStatus());
+    }
+
+    protected boolean isAuthorizedToPrintProposal(Document document, Person user) {
+        final BudgetParentDocument bpDocument = ((BudgetParentDocument) document);
+        return getKcAuthorizationService().hasPermission(user.getPrincipalId(), bpDocument, PermissionConstants.PRINT_PROPOSAL);
     }
 
 	public ParameterService getParameterService() {
@@ -221,4 +224,12 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
 			TaskAuthorizationService taskAuthorizationService) {
 		this.taskAuthorizationService = taskAuthorizationService;
 	}
+
+    public KcAuthorizationService getKcAuthorizationService() {
+        return kcAuthorizationService;
+    }
+
+    public void setKcAuthorizationService(KcAuthorizationService kcAuthorizationService) {
+        this.kcAuthorizationService = kcAuthorizationService;
+    }
 }

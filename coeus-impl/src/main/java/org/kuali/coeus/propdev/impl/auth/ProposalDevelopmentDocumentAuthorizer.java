@@ -80,7 +80,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         if (proposalNbr == null) {
             if (canCreateProposal(user)) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
-                setPermissions(userId, proposalDoc, editModes);
+                setPermissions(user, proposalDoc, editModes);
             } 
             else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
@@ -89,11 +89,11 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         else {
             if (canEdit(document, user)) {  
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
-                setPermissions(userId, proposalDoc, editModes);
+                setPermissions(user, proposalDoc, editModes);
             }
             else if (isAuthorizedToView(document, user)) {
                 editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
-                setPermissions(userId, proposalDoc, editModes);
+                setPermissions(user, proposalDoc, editModes);
             }
             else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
@@ -136,11 +136,13 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
      * to modify the proposal.  Note that permissions are always signified as 
      * either TRUE or FALSE.
      * 
-     * @param userId the user's unique username
+     * @param user the user
      * @param doc the Proposal Development Document
      * @param editModes the edit mode map
      */
-    private void setPermissions(String userId, ProposalDevelopmentDocument doc, Set<String> editModes) {
+    private void setPermissions(Person user, ProposalDevelopmentDocument doc, Set<String> editModes) {
+        final String userId = user.getPrincipalId();
+
         if (editModes.contains(AuthorizationConstants.EditMode.FULL_ENTRY)) {
             editModes.add("modifyProposal");
         }
@@ -173,7 +175,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             editModes.add("modifyNarrativeStatus");
         }
                 
-        if (canExecuteTask(userId, doc, TaskName.PRINT_PROPOSAL)) {
+        if (isAuthorizedToPrint(doc, user)) {
             editModes.add("printProposal");
         }
                 
@@ -398,6 +400,11 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             return isKeyPersonnel || canCertify;
         }
         return true;
+    }
+
+    protected boolean isAuthorizedToPrint(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+        return getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.PRINT_PROPOSAL);
     }
 
     protected boolean isAuthorizedToView(Document document, Person user) {

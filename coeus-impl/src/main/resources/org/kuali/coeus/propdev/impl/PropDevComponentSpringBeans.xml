@@ -171,10 +171,6 @@
                     <property name="permission" value="Maintain ProposalHierarchy" />
                     <property name="requiresWritableDoc" value="true" />
                 </bean>
-                <bean class="org.kuali.coeus.propdev.impl.auth.task.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="printProposal" />
-                    <property name="permission" value="Print Proposal" />
-                </bean>
                 <bean class="org.kuali.coeus.propdev.impl.action.SubmitToSponsorAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="submitToSponsor" />
                     <property name="requiresWritableDoc" value="true" />
@@ -302,20 +298,6 @@
         </property>
     </bean>
 
-
-    <bean id="proposalGrantsGovWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.coeus.propdev.impl.s2s.ProposalDevelopmentGrantsGovAction" />
-        <property name="mappings">
-            <map>
-                <entry key="printForms">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="printProposal" />
-                    </bean>
-                </entry>
-            </map>
-        </property>
-    </bean>
-
     <bean id="proposalAbstractsAttachmentsWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
         <property name="classname" value="org.kuali.coeus.propdev.impl.abstrct.ProposalDevelopmentAbstractsAttachmentsAction" />
         <property name="mappings">
@@ -429,11 +411,6 @@
         <property name="classname" value="org.kuali.coeus.propdev.impl.action.ProposalDevelopmentActionsAction" />
         <property name="mappings">
             <map>
-                <entry key="printForms">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="printProposal" />
-                    </bean>
-                </entry>
                 <entry key="route">
                     <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
                         <property name="taskName" value="submitToWorkflow" />
@@ -769,19 +746,6 @@
                 <entry key="copyBudgetVersion">
                     <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.BudgetProposalTaskFactory">
                         <property name="taskName" value="addBudget" />
-                    </bean>
-                </entry>
-            </map>
-        </property>
-    </bean>
-
-    <bean id="budgetActionsWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.coeus.common.budget.framework.core.BudgetActionsAction" />
-        <property name="mappings">
-            <map>
-                <entry key="printBudgetForm">
-                    <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.BudgetProposalTaskFactory">
-                        <property name="taskName" value="printProposal" />
                     </bean>
                 </entry>
             </map>
