@@ -19,10 +19,17 @@ import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireHelperBase;
 import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ProposalDevelopmentQuestionnaireHelper extends QuestionnaireHelperBase {
 
@@ -30,7 +37,11 @@ public class ProposalDevelopmentQuestionnaireHelper extends QuestionnaireHelperB
 
     private ProposalDevelopmentDocumentForm proposalDevelopmentDocumentForm;
     private ProposalDevelopmentDocument document;
-    
+
+    private transient KcWorkflowService kcWorkflowService;
+
+    private transient KcDocumentRejectionService kcDocumentRejectionService;
+
     public ProposalDevelopmentQuestionnaireHelper(ProposalDevelopmentDocumentForm form) {
         this.proposalDevelopmentDocumentForm = form;
         this.document = form.getProposalDevelopmentDocument();
@@ -79,8 +90,7 @@ public class ProposalDevelopmentQuestionnaireHelper extends QuestionnaireHelperB
      * authorization check.
      */
     private void initializePermissions(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        ProposalTask task = new ProposalTask(TaskName.ANSWER_PROPOSAL_QUESTIONNAIRE, proposalDevelopmentDocument);
-        setAnswerQuestionnaire(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
+        setAnswerQuestionnaire(isAuthorizedToAnswerProposalQuestionnaire(proposalDevelopmentDocument, GlobalVariables.getUserSession().getPerson()));
     }
 
     protected ProposalDevelopmentDocument getDocument() {
@@ -91,5 +101,45 @@ public class ProposalDevelopmentQuestionnaireHelper extends QuestionnaireHelperB
         this.document = document;
     }
 
-    
+    protected boolean isAuthorizedToAnswerProposalQuestionnaire(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+
+        boolean hasBeenRejected= getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument);
+        return !pdDocument.isViewOnly()
+                && !isPessimisticLocked(pdDocument)
+                && (!getKcWorkflowService().isInWorkflow(pdDocument) || hasBeenRejected);
+    }
+
+    protected boolean isPessimisticLocked(Document document) {
+        boolean isLocked = false;
+        for (PessimisticLock lock : document.getPessimisticLocks()) {
+            // if lock is owned by current user, do not display message for it
+            if (!lock.isOwnedByUser(GlobalVariables.getUserSession().getPerson())) {
+                isLocked = true;
+            }
+        }
+        return isLocked;
+    }
+
+    public KcWorkflowService getKcWorkflowService() {
+        if (kcWorkflowService == null) {
+            kcWorkflowService = KcServiceLocator.getService(KcWorkflowService.class);
+        }
+        return kcWorkflowService;
+    }
+
+    public void setKcWorkflowService(KcWorkflowService kcWorkflowService) {
+        this.kcWorkflowService = kcWorkflowService;
+    }
+
+    public KcDocumentRejectionService getKcDocumentRejectionService() {
+        if (kcDocumentRejectionService == null) {
+            kcDocumentRejectionService = KcServiceLocator.getService(KcDocumentRejectionService.class);
+        }
+        return kcDocumentRejectionService;
+    }
+
+    public void setKcDocumentRejectionService(KcDocumentRejectionService kcDocumentRejectionService) {
+        this.kcDocumentRejectionService = kcDocumentRejectionService;
+    }
 }

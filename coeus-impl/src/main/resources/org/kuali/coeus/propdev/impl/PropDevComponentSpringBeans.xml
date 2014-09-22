@@ -166,11 +166,6 @@
                     <property name="permission" value="Certify" />
                     <property name="requiresWritableDoc" value="true" />
                 </bean>
-                <bean class="org.kuali.coeus.propdev.impl.questionnaire.AnswerProposalQuestionnaireAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="answerProposalQuestionnaire" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
-                    <property name="kcDocumentRejectionService" ref="kcDocumentRejectionService" />
-                </bean>
                 <bean class="org.kuali.coeus.propdev.impl.person.attachment.PersonnelAttachmentReplaceAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="replacePersonnelAttachmentAuthorizer" />
                     <property name="requiresWritableDoc" value="true" />
