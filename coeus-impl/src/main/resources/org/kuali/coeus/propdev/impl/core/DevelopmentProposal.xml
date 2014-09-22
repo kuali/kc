@@ -1116,7 +1116,7 @@
 		<property name="summary" value="The Prev Grants.Gov Tracking ID for this Proposal." />
     <property name="description" value="Prev Grants.Gov Tracking ID "/>
 	</bean>
-	
+
 	<!-- Business Object Lookup Definition -->
 	<bean id="DevelopmentProposal-lookupDefinition" parent="DevelopmentProposal-lookupDefinition-parentBean" />
   <bean id="DevelopmentProposal-LookupView" parent="DevelopmentProposal-LookupView-parentBean"/>
@@ -1184,35 +1184,88 @@
       <list>
         <bean p:propertyName="proposalNumber" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="proposalTypeCode" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="proposalStateTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="proposalStateTypeCode" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="title" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="proposalPerson" parent="Uif-LookupCriteriaInputField" p:fieldLabel.labelText="Proposal Person"/>
+        <bean p:propertyName="principalInvestigatorName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="aggregator" parent="Uif-LookupCriteriaInputField" p:fieldLabel.labelText="Aggregator">
+            <property name="quickfinder">
+                <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
+                      p:fieldConversions="principalName:aggregator"/>
+            </property>
+            <property name="inquiry">
+                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
+                      p:inquiryParameters="aggregator:principalName"/>
+            </property>
+        </bean>
         <bean p:propertyName="deadlineDate" parent="Uif-LookupCriteriaInputField"  p:ranged="true"/>
-        <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="sponsor.sponsorName" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="ownedByUnitNumber" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="ownedByUnit.unitName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField">
+          <property name="inquiry">
+              <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.sponsor.Sponsor"
+                    p:inquiryParameters="sponsorCode:sponsorCode"/>
+          </property>
+        </bean>
+        <bean p:propertyName="sponsor.sponsorName" parent="Uif-LookupCriteriaInputField">
+            <property name="inquiry">
+                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.sponsor.Sponsor"
+                      p:inquiryParameters="sponsorCode:sponsorCode"/>
+            </property>
+        </bean>
+        <bean p:propertyName="ownedByUnitNumber" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField">
+            <property name="inquiry">
+                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
+                      p:inquiryParameters="ownedByUnitNumber:unitNumber"/>
+            </property>
+        </bean>
+        <bean p:propertyName="ownedByUnit.unitName" parent="Uif-LookupCriteriaInputField">
+            <property name="inquiry">
+                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
+                      p:inquiryParameters="ownedByUnit.unitName:unitName"/>
+            </property>
+        </bean>
         <bean p:propertyName="currentAwardNumber" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="opportunityIdForGG" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="hierarchyStatus" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="proposalDocument.documentNumber" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
         <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
-        <bean p:propertyName="proposalType.description" parent="Uif-DataField"/>
-        <bean p:propertyName="proposalState.description" parent="Uif-DataField"/>
+        <bean p:propertyName="proposalType.description" parent="Uif-DataField">
+          <property name="inquiry">
+                       <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.type.ProposalType"
+                        p:inquiryParameters="proposalType.code:code"/>
+          </property>
+        </bean>
+        <bean p:propertyName="proposalState.description" parent="Uif-DataField">
+            <property name="inquiry">
+                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.propdev.impl.state.ProposalState"
+                      p:inquiryParameters="proposalType.code:code"/>
+            </property>
+        </bean>
         <bean p:propertyName="title" parent="Uif-DataField"/>
-        <bean p:propertyName="sponsorCode" parent="Uif-DataField"/>
-        <bean p:propertyName="sponsor.sponsorName" parent="Uif-DataField"/>
+        <bean p:propertyName="sponsor.sponsorName" parent="Uif-DataField">
+            <property name="inquiry">
+                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.sponsor.Sponsor"
+                      p:inquiryParameters="sponsor.sponsorCode:sponsorCode"/>
+            </property>
+        </bean>
         <bean p:propertyName="principalInvestigatorName" parent="Uif-DataField"/>
-        <bean p:propertyName="ownedByUnitNumber" parent="Uif-DataField"/>
-        <bean p:propertyName="ownedByUnit.unitName" parent="Uif-DataField"/>
+        <bean p:propertyName="ownedByUnitNumber" parent="Uif-DataField">
+            <property name="inquiry">
+                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
+                      p:inquiryParameters="ownedByUnitNumber:unitNumber"/>
+            </property>
+        </bean>
+        <bean p:propertyName="ownedByUnit.unitName" parent="Uif-DataField">
+            <property name="inquiry">
+                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
+                      p:inquiryParameters="ownedByUnitNumber:unitNumber"/>
+            </property>
+        </bean>
         <bean p:propertyName="deadlineDate" parent="Uif-DataField"/>
-        <bean p:propertyName="currentAwardNumber" parent="Uif-DataField"/>
         <bean p:propertyName="opportunityIdForGG" parent="Uif-DataField"/>
         <bean p:propertyName="hierarchyStatusName" parent="Uif-DataField"/>
-        <bean p:propertyName="proposalDocument.documentNumber" parent="Uif-DataField"/>
       </list>
     </property>
     <property name="resultsGroup">
