@@ -80,7 +80,8 @@
 	</c:if>
     
     <kra:section permission="approveCoiDisclosure">
-        <kra-coi:coiAdministratorActions />
+        <kra-coi:coiAdministratorActions topTab="${onTopTab}" />
+        <c:set var="onTopTab" value="false" />
     </kra:section>
     
 	<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="${onTopTab}"
